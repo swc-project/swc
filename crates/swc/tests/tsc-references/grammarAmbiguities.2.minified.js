@@ -1,1 +1,2 @@
 //// [grammarAmbiguities.ts]
+ // Should error

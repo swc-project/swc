@@ -152,7 +152,10 @@ where
         // A leading Byte Order Mark (BOM) causes the character encoding argument to be
         // ignored and will itself be skipped.
         if lexer.input.is_at_start() && lexer.input.cur() == Some('\u{feff}') {
-            lexer.input.bump();
+            unsafe {
+                // Safety: We know that the current character is '\u{feff}'.
+                lexer.input.bump();
+            }
         }
 
         lexer
@@ -240,13 +243,19 @@ where
         self.cur_pos = self.input.cur_pos();
 
         if self.cur.is_some() {
-            self.input.bump();
+            unsafe {
+                // Safety: self.cur is Some()
+                self.input.bump();
+            }
         }
     }
 
     #[inline(always)]
     fn reconsume(&mut self) {
-        self.input.reset_to(self.cur_pos);
+        unsafe {
+            // Safety: self.cur_pos is valid position because we got it from self.input
+            self.input.reset_to(self.cur_pos);
+        }
     }
 
     #[inline(always)]
@@ -401,7 +410,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -466,7 +478,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -497,7 +512,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -795,7 +813,10 @@ where
             sub_buf.push('\r');
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -826,7 +847,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -955,7 +979,10 @@ where
             sub_buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
 
                 sub_buf.push('\n');
             }
@@ -1022,8 +1049,10 @@ where
             buf.push(c);
 
             if self.input.cur() == Some('\n') {
-                self.input.bump();
-
+                unsafe {
+                    // Safety: cur() is Some('\n')
+                    self.input.bump();
+                }
                 buf.push('\n');
             }
 
@@ -2861,7 +2890,10 @@ where
                     lexer.state = State::BogusComment;
                     lexer.cur_pos = cur_pos;
                     // We don't validate input here because we reset position
-                    lexer.input.reset_to(cur_pos);
+                    unsafe {
+                        // Safety: We reset position to the previous one
+                        lexer.input.reset_to(cur_pos);
+                    }
                 };
 
                 // If the next few characters are:
@@ -3536,7 +3568,11 @@ where
                             _ => {
                                 buf.clear();
                                 self.cur_pos = cur_pos;
-                                self.input.reset_to(cur_pos);
+                                unsafe {
+                                    // Safety: We got cur_pos from self.input.cur_pos() above, so
+                                    // it's a valid position.
+                                    self.input.reset_to(cur_pos);
+                                }
                                 self.emit_error(
                                     ErrorKind::InvalidCharacterSequenceAfterDoctypeName,
                                 );
@@ -4393,10 +4429,16 @@ where
 
                 if entity.is_some() {
                     self.cur_pos = entity_cur_pos.unwrap();
-                    self.input.reset_to(entity_cur_pos.unwrap());
+                    unsafe {
+                        // Safety: We got entity_cur_pos from the input, so it's valid
+                        self.input.reset_to(entity_cur_pos.unwrap());
+                    }
                 } else {
                     self.cur_pos = initial_cur_pos;
-                    self.input.reset_to(initial_cur_pos);
+                    unsafe {
+                        // Safety: We got initial_cur_pos from the input, so it's valid
+                        self.input.reset_to(initial_cur_pos);
+                    }
                 }
 
                 let is_last_semicolon = self.temporary_buffer.ends_with(';');
@@ -4814,7 +4856,10 @@ where
     #[inline(always)]
     fn skip_whitespaces(&mut self, c: char) {
         if c == '\r' && self.input.cur() == Some('\n') {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() is Some
+                self.input.bump();
+            }
         }
     }
 }

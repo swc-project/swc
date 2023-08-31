@@ -116,9 +116,17 @@ impl PluginModuleCacheInner {
             if let Some(fs_cache_store) = &mut self.fs_cache_store {
                 let module_bytes_hash = Hash::generate(&raw_module_bytes);
                 let store = new_store();
-                let module = Module::new(&store, raw_module_bytes.clone())
-                    .context("Cannot compile plugin binary")?;
-                fs_cache_store.store(module_bytes_hash, &module)?;
+
+                let module =
+                    if let Ok(module) = unsafe { fs_cache_store.load(&store, module_bytes_hash) } {
+                        tracing::debug!("Build WASM from cache: {key}");
+                        module
+                    } else {
+                        let module = Module::new(&store, raw_module_bytes.clone())
+                            .context("Cannot compile plugin binary")?;
+                        fs_cache_store.store(module_bytes_hash, &module)?;
+                        module
+                    };
 
                 // Store hash to load from fs_cache_store later.
                 self.fs_cache_hash_store

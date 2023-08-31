@@ -1,9 +1,3 @@
 //// [file.tsx]
-var my, q;
-!function(my) {
-    var div;
-    my.div = div;
-}(my || (my = {})), my.div, my.other, function(q) {
-    var mine = my;
-    mine.div, mine.non;
-}(q || (q = {}));
+var my, q, div, mine;
+(my || (my = {})).div = div, my.div, my.other, q || (q = {}), (mine = my).div, mine.non;

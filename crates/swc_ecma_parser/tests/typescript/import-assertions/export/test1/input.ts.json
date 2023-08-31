@@ -46,7 +46,7 @@
         "raw": "'./foo.js'"
       },
       "typeOnly": false,
-      "asserts": {
+      "with": {
         "type": "ObjectExpression",
         "span": {
           "start": 39,

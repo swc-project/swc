@@ -125,7 +125,7 @@
         "raw": "\"./types.d.ts\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -167,7 +167,7 @@
         "raw": "\"./types.d.ts\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

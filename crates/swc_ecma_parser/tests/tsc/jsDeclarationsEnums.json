@@ -136,7 +136,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsEnumDeclaration",
@@ -199,7 +199,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",
@@ -270,7 +270,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -312,7 +312,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

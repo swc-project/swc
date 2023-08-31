@@ -1262,9 +1262,9 @@
                         cursor = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now = Date.now(), vMovement = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column, !cursorMovedTime || vMovement || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor1 = dragCursor, now1 = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, nearestXOffset = Math.min((offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor1 = dragCursor, now1 = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), nearestXOffset = Math.min((offsets = {
                             x: {
-                                left: x - (editorRect = editor.renderer.scroller.getBoundingClientRect()).left,
+                                left: x - editorRect.left,
                                 right: editorRect.right - x
                             },
                             y: {
@@ -4662,9 +4662,9 @@
                         var length = this.getLength();
                         void 0 === row ? row = length : row < 0 ? row = 0 : row >= length && (row = length - 1, column = void 0);
                         var line = this.getLine(row);
-                        return void 0 == column && (column = line.length), column = Math.min(Math.max(column, 0), line.length), {
+                        return void 0 == column && (column = line.length), {
                             row: row,
-                            column: column
+                            column: column = Math.min(Math.max(column, 0), line.length)
                         };
                     }, this.clonePos = function(pos) {
                         return {
@@ -6486,7 +6486,7 @@
                             var last, m, line = session.getLine(row);
                             for(re.lastIndex = startIndex; m = re.exec(line);){
                                 var length = m[0].length;
-                                if (last = m.index, callback(row, last, row, last + length)) return !0;
+                                if (callback(row, last = m.index, row, last + length)) return !0;
                                 if (!length && (re.lastIndex = last += 1, last >= line.length)) return !1;
                             }
                         };

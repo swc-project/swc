@@ -80,7 +80,7 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -100,7 +100,7 @@
         "raw": "'./b'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -142,7 +142,7 @@
         "raw": "'./c'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

@@ -7,7 +7,7 @@ Promise.all(assignAll).then((e = r(function*(e) {
             insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${r.id}', now());`;
         });
     }
-}), function(n) {
+}), function(r) {
     return e.apply(this, arguments);
 }));
 export const listOfUser = function(e) {

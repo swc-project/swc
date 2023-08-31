@@ -1,0 +1,24 @@
+{
+    "module": {
+        "type": "es6"
+    },
+    "jsc": {
+        "baseUrl": ".",
+        "target": "es2020",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "importMeta": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        },
+        "keepClassNames": true,
+        "paths": {
+            "@my/pkg": [
+                "libs/pkg/src/index.ts"
+            ],
+        }
+    }
+}

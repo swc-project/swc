@@ -385,7 +385,7 @@ function formatFullYear(d, p) {
 }
 function formatFullYearISO(d, p) {
     var day = d.getDay();
-    return d = day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d), pad(d.getFullYear() % 10000, p, 4);
+    return pad((d = day >= 4 || 0 === day ? timeThursday(d) : timeThursday.ceil(d)).getFullYear() % 10000, p, 4);
 }
 function formatZone(d) {
     var z = d.getTimezoneOffset();
@@ -449,7 +449,7 @@ function formatUTCFullYear(d, p) {
 }
 function formatUTCFullYearISO(d, p) {
     var day = d.getUTCDay();
-    return d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d), pad(d.getUTCFullYear() % 10000, p, 4);
+    return pad((d = day >= 4 || 0 === day ? utcThursday(d) : utcThursday.ceil(d)).getUTCFullYear() % 10000, p, 4);
 }
 function formatUTCZone() {
     return "+0000";

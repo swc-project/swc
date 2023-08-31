@@ -1,12 +1,12 @@
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { ClassName } from "./some-file";
 export default {
-    field: /*#__PURE__*/ function(ClassName1) {
+    field: /*#__PURE__*/ function(ClassName) {
         "use strict";
-        _inherits(ClassName2, ClassName1);
-        function ClassName2() {
-            return ClassName1.call(this);
+        _inherits(ClassName1, ClassName);
+        function ClassName1() {
+            return ClassName.call(this);
         }
-        return ClassName2;
+        return ClassName1;
     }(ClassName)
 };

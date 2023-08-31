@@ -86,10 +86,6 @@ impl<I: Tokens> Parser<I> {
         self.input().take_errors()
     }
 
-    pub(crate) fn target(&self) -> EsVersion {
-        self.input.target()
-    }
-
     pub fn parse_script(&mut self) -> PResult<Script> {
         trace_cur!(self, parse_script);
 

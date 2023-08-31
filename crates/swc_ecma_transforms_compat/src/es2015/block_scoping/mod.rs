@@ -1,11 +1,13 @@
 use std::mem::take;
 
-use ahash::AHashSet;
 use indexmap::IndexMap;
 use smallvec::SmallVec;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    chain, collections::AHashMap, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP,
+    chain,
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -160,7 +162,7 @@ impl BlockScoping {
                 has_return: false,
                 has_yield: false,
                 label: IndexMap::new(),
-                inner_label: AHashSet::new(),
+                inner_label: AHashSet::default(),
                 mutated,
                 in_switch_case: false,
                 in_nested_loop: false,
@@ -429,13 +431,6 @@ impl VisitMut for BlockScoping {
         self.handle_capture_of_vars(&mut node.body);
     }
 
-    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
-        self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
-
-        node.test.visit_mut_with(self);
-        self.handle_capture_of_vars(&mut node.body);
-    }
-
     fn visit_mut_for_in_stmt(&mut self, node: &mut ForInStmt) {
         let blockifyed = self.blockify_for_stmt_body(&mut node.body);
         let lexical_var = if let ForHead::VarDecl(decl) = &node.left {
@@ -542,6 +537,14 @@ impl VisitMut for BlockScoping {
         self.visit_mut_stmt_like(n);
     }
 
+    fn visit_mut_switch_case(&mut self, n: &mut SwitchCase) {
+        let old_vars = self.vars.take();
+
+        n.visit_mut_children_with(self);
+
+        self.vars = old_vars;
+    }
+
     fn visit_mut_var_decl(&mut self, var: &mut VarDecl) {
         let old = self.var_decl_kind;
         self.var_decl_kind = var.kind;
@@ -566,6 +569,13 @@ impl VisitMut for BlockScoping {
                 var.init = Some(undefined(var.span()))
             }
         }
+    }
+
+    fn visit_mut_while_stmt(&mut self, node: &mut WhileStmt) {
+        self.visit_mut_with_scope(ScopeKind::new_loop(), &mut node.body);
+
+        node.test.visit_mut_with(self);
+        self.handle_capture_of_vars(&mut node.body);
     }
 }
 

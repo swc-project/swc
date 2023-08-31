@@ -40,7 +40,7 @@ impl VisitMut for ExportNamespaceFrom {
                     specifiers,
                     src: Some(src),
                     type_only: false,
-                    asserts,
+                    with,
                 })) if specifiers.iter().any(|s| s.is_namespace()) => {
                     let mut origin_specifiers = vec![];
 
@@ -79,7 +79,7 @@ impl VisitMut for ExportNamespaceFrom {
                         specifiers: import_specifiers,
                         src: src.clone(),
                         type_only: false,
-                        asserts: asserts.clone(),
+                        with: with.clone(),
                     })));
 
                     stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
@@ -88,7 +88,7 @@ impl VisitMut for ExportNamespaceFrom {
                             specifiers: export_specifiers,
                             src: None,
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         },
                     )));
 
@@ -99,7 +99,7 @@ impl VisitMut for ExportNamespaceFrom {
                                 specifiers: origin_specifiers,
                                 src: Some(src),
                                 type_only: false,
-                                asserts,
+                                with,
                             },
                         )));
                     }

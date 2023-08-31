@@ -47,13 +47,13 @@ Object.defineProperty(exports, "__esModule", {
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 class D {
     method() {
-        Promise.resolve().then(()=>_interop_require_wildcard._(require("./0"))), this.myModule.then((Zero)=>{
+        Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0"))), this.myModule.then((Zero)=>{
             console.log(Zero.foo());
         }, async (err)=>{
-            console.log(err), console.log((await Promise.resolve().then(()=>_interop_require_wildcard._(require("./1")))).backup());
+            console.log(err), console.log((await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./1")))).backup());
         });
     }
     constructor(){
-        this.myModule = Promise.resolve().then(()=>_interop_require_wildcard._(require("./0")));
+        this.myModule = Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./0")));
     }
 }

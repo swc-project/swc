@@ -84,7 +84,7 @@ pub struct ImportDecl {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub asserts: Option<Box<ObjectLit>>,
+    pub with: Option<Box<ObjectLit>>,
 }
 
 impl Take for ImportDecl {
@@ -94,7 +94,7 @@ impl Take for ImportDecl {
             specifiers: Take::dummy(),
             src: Take::dummy(),
             type_only: Default::default(),
-            asserts: Take::dummy(),
+            with: Take::dummy(),
         }
     }
 }
@@ -113,7 +113,7 @@ pub struct ExportAll {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub asserts: Option<Box<ObjectLit>>,
+    pub with: Option<Box<ObjectLit>>,
 }
 
 impl Take for ExportAll {
@@ -122,7 +122,7 @@ impl Take for ExportAll {
             span: DUMMY_SP,
             src: Take::dummy(),
             type_only: Default::default(),
-            asserts: Take::dummy(),
+            with: Take::dummy(),
         }
     }
 }
@@ -144,7 +144,7 @@ pub struct NamedExport {
     pub type_only: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub asserts: Option<Box<ObjectLit>>,
+    pub with: Option<Box<ObjectLit>>,
 }
 
 impl Take for NamedExport {
@@ -154,7 +154,7 @@ impl Take for NamedExport {
             specifiers: Take::dummy(),
             src: Take::dummy(),
             type_only: Default::default(),
-            asserts: Take::dummy(),
+            with: Take::dummy(),
         }
     }
 }

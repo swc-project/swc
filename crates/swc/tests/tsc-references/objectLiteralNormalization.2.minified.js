@@ -1,4 +1,5 @@
 //// [objectLiteralNormalization.ts]
+// Object literals in unions are normalized upon widening
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 var a1 = {
@@ -33,6 +34,7 @@ var b2 = _object_spread_props(_object_spread({}, b1), {
     z: 55
 });
 _object_spread({}, b2), opts;
+// Normalization applies to nested properties
 var d1 = {
     kind: "a",
     pos: {

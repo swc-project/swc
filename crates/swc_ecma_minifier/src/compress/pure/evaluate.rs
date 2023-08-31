@@ -103,14 +103,18 @@ impl Pure<'_> {
 
                             if let Value::Known(end) = end {
                                 let end = end.floor() as usize;
+                                let end = end.min(arr.elems.len());
+
+                                if start >= end {
+                                    return;
+                                }
+
                                 self.changed = true;
                                 report_change!(
                                     "evaluate: Reducing array.slice({}, {}) call",
                                     start,
                                     end
                                 );
-                                let end = end.min(arr.elems.len());
-
                                 if start >= arr.elems.len() {
                                     *e = Expr::Array(ArrayLit {
                                         span: *span,

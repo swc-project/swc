@@ -66,6 +66,10 @@ impl Mode for Eval {
     fn force_str_for_tpl(&self) -> bool {
         true
     }
+
+    fn should_be_very_correct(&self) -> bool {
+        false
+    }
 }
 
 impl Evaluator {
@@ -77,7 +81,6 @@ impl Evaluator {
             let data = self.data.clone();
             //
             self.module.visit_mut_with(&mut compressor(
-                &Default::default(),
                 marks,
                 &CompressOptions {
                     hoist_props: true,

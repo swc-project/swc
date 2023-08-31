@@ -4,7 +4,7 @@ use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
 use swc_atoms::js_word;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     sync::Lrc,
     util::take::Take,
     SourceMap, Spanned, SyntaxContext,
@@ -501,11 +501,11 @@ impl Visit for InitializerFinder {
 /// But we care about modifications.
 #[derive(Default)]
 struct RequirementCalculator {
-    required_ids: IndexSet<(Id, Required), ahash::RandomState>,
+    required_ids: IndexSet<(Id, Required), ARandomState>,
     /// While bundling, there can be two bindings with same name and syntax
     /// context, in case of wrapped es modules. We exclude them from dependency
     /// graph.
-    excluded: IndexSet<Id, ahash::RandomState>,
+    excluded: IndexSet<Id, ARandomState>,
 
     in_weak: bool,
     in_var_decl: bool,

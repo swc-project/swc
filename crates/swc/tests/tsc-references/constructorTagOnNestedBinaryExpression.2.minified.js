@@ -1,4 +1,5 @@
 //// [constructorTagOnNestedBinaryExpression.js]
-a = b = function() {
+// Fixes #35021
+/** @constructor */ a = b = function() {
     console.log(this);
 };

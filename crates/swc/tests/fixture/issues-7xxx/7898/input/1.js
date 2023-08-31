@@ -1,0 +1,3 @@
+info({
+    ...(this?.$current?.$getBase() || {}),
+});

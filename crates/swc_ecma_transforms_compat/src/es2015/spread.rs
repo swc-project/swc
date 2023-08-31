@@ -251,12 +251,45 @@ impl Spread {
             };
         }
 
-        // shorthand [].concat(arr1, arr2) shoule be used under loose mode
+        // Shorthand [].concat(arr1, arr2) should be used under loose mode.
+        // Array.prototype.concat has the lovely feature by which arrays passed
+        // to it are depth-1 flattened. This effectively implements the loose
+        // spread. But if any arrays that are not being spread are present, they
+        // will be incorrectly flattened. The solution is to wrap every
+        // contiguous slice of non-spread args in an array, which will protect
+        // array args from being flattened.
         if self.c.loose {
             let mut arg_list = vec![];
+            let mut current_elems = vec![];
             for arg in args.flatten() {
                 let expr = arg.expr;
-                arg_list.push(expr.as_arg());
+                match arg.spread {
+                    Some(_) => {
+                        if !current_elems.is_empty() {
+                            arg_list.push(
+                                ArrayLit {
+                                    span: DUMMY_SP,
+                                    elems: current_elems,
+                                }
+                                .as_arg(),
+                            );
+                            current_elems = vec![];
+                        }
+                        arg_list.push(expr.as_arg());
+                    }
+                    None => {
+                        current_elems.push(Some(expr.as_arg()));
+                    }
+                }
+            }
+            if !current_elems.is_empty() {
+                arg_list.push(
+                    ArrayLit {
+                        span: DUMMY_SP,
+                        elems: current_elems,
+                    }
+                    .as_arg(),
+                );
             }
 
             return Expr::Call(CallExpr {

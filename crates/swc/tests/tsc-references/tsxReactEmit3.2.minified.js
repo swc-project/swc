@@ -1,2 +1,2 @@
 //// [test.tsx]
-Foo, Bar, Bar, Bar, Bar;
+/*#__PURE__*/ Foo, Bar, Bar, Bar, Bar;

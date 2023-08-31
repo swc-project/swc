@@ -1,0 +1,65 @@
+/* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
+@scope (.a) {
+    @container (width > 0px) {
+        :scope {
+            z-index: 1;
+        }
+
+        .b {
+            background-color: green;
+        }
+    }
+}
+
+@scope (.a) {
+    /* The theme layer wins over the base layer. Note that @layer statements
+     are allowed here, but aren't affected by the enclosing @scope. */
+    @layer base,
+    theme;
+
+    @layer theme {
+        :scope {
+            z-index: 1;
+        }
+
+        .b {
+            background-color: green;
+        }
+    }
+}
+
+@scope (.a) {
+    @media (width > 0px) {
+        :scope {
+            z-index: 1;
+        }
+
+        .b {
+            background-color: green;
+        }
+    }
+}
+
+@scope (.a) {
+    @starting-style {
+        :scope {
+            width: 100px;
+        }
+
+        .b {
+            width: 100px;
+        }
+    }
+}
+
+@scope (.a) {
+    @supports (width:0px) {
+        :scope {
+            z-index: 1;
+        }
+
+        .b {
+            background-color: green;
+        }
+    }
+}

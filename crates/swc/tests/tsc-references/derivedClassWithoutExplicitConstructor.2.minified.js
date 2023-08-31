@@ -26,3 +26,4 @@ var D = function(Base2) {
     _class_call_check(this, Base2), this.a = x;
 });
 new D(), new D(new Date());
+ // ok

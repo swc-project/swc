@@ -1,8 +1,8 @@
 //// [renderer.d.ts]
 export { };
 //// [reacty.tsx]
-import * as React from "./renderer";
-React.Fragment;
+/** @jsx React.createElement */ import * as React from "./renderer";
+/*#__PURE__*/ React.Fragment;
 //// [index.tsx]
-import { dom } from "./renderer";
-React.Fragment;
+/** @jsx dom */ import { dom } from "./renderer";
+/*#__PURE__*/ React.Fragment;

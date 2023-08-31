@@ -1,4 +1,5 @@
 //// [optionalChainingInference.ts]
+// https://github.com/microsoft/TypeScript/issues/34579
 var _su, _su1, _su2, _fnu, _su3, _osu, _osu1, _ofnu, b1 = {
     value: null === (_su = su) || void 0 === _su ? void 0 : _su.length
 };

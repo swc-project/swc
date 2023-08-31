@@ -1,20 +1,8 @@
 //// [TwoInternalModulesThatMergeEachWithExportedModulesOfTheSameName.ts]
-var A, X;
+var A, X, A1, x, B, x1, X1, Y, X2, Z;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-!function(A) {
-    var x;
-    (A.B || (A.B = {})).x = x;
-}(A || (A = {})), function(A) {
-    var B, x;
-    (B || (B = {})).x = x;
-}(A || (A = {})), A.B.x, function(X) {
-    var Y;
-    ((Y = X.Y || (X.Y = {})).Z || (Y.Z = {})).Line = function Line() {
-        _class_call_check(this, Line);
-    };
-}(X || (X = {})), function(X) {
-    var Z;
-    X.Y || (X.Y = {}), (Z || (Z = {})).Line = function Line() {
-        _class_call_check(this, Line);
-    };
-}(X || (X = {}));
+((A1 = A || (A = {})).B || (A1.B = {})).x = x, A || (A = {}), (B || (B = {})).x = x1, A.B.x, ((Y = (X1 = X || (X = {})).Y || (X1.Y = {})).Z || (Y.Z = {})).Line = function Line() {
+    _class_call_check(this, Line);
+}, (X2 = X || (X = {})).Y || (X2.Y = {}), (Z || (Z = {})).Line = function Line() {
+    _class_call_check(this, Line);
+};

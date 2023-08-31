@@ -1584,29 +1584,6 @@
                 var tr = view.state.tr.setSelection(selection);
                 "pointer" == origin && tr.setMeta("pointer", !0), view.dispatch(tr);
             }
-            function handleDoubleClick(view, pos, inside, event) {
-                return runHandlerOnContext(view, "handleDoubleClickOn", pos, inside, event) || view.someProp("handleDoubleClick", function(f) {
-                    return f(view, pos, event);
-                });
-            }
-            function handleTripleClick(view, pos, inside, event) {
-                return runHandlerOnContext(view, "handleTripleClickOn", pos, inside, event) || view.someProp("handleTripleClick", function(f) {
-                    return f(view, pos, event);
-                }) || function(view, inside, event) {
-                    if (0 != event.button) return !1;
-                    var doc = view.state.doc;
-                    if (-1 == inside) return !!doc.inlineContent && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, 0, doc.content.size), "pointer"), !0);
-                    for(var $pos = doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
-                        var node = i > $pos.depth ? $pos.nodeAfter : $pos.node(i), nodePos = $pos.before(i);
-                        if (node.inlineContent) updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, nodePos + 1, nodePos + 1 + node.content.size), "pointer");
-                        else {
-                            if (!prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) continue;
-                            updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(doc, nodePos), "pointer");
-                        }
-                        return !0;
-                    }
-                }(view, inside, event);
-            }
             editHandlers.keydown = function(view, event) {
                 if (view.shiftKey = 16 == event.keyCode || event.shiftKey, !inOrNearComposition(view, event)) {
                     if (229 != event.keyCode && view.domObserver.forceFlush(), view.lastKeyCode = event.keyCode, view.lastKeyCodeTime = Date.now(), !result.ios || 13 != event.keyCode || event.ctrlKey || event.altKey || event.metaKey) {
@@ -1663,7 +1640,28 @@
                     type: type
                 };
                 var pos = view.posAtCoords(eventCoords(event));
-                pos && ("singleClick" == type ? (view.mouseDown && view.mouseDown.done(), view.mouseDown = new MouseDown(view, pos, event, flushed)) : ("doubleClick" == type ? handleDoubleClick : handleTripleClick)(view, pos.pos, pos.inside, event) ? event.preventDefault() : setSelectionOrigin(view, "pointer"));
+                pos && ("singleClick" == type ? (view.mouseDown && view.mouseDown.done(), view.mouseDown = new MouseDown(view, pos, event, flushed)) : ("doubleClick" == type ? function(view, pos, inside, event) {
+                    return runHandlerOnContext(view, "handleDoubleClickOn", pos, inside, event) || view.someProp("handleDoubleClick", function(f) {
+                        return f(view, pos, event);
+                    });
+                } : function(view, pos, inside, event) {
+                    return runHandlerOnContext(view, "handleTripleClickOn", pos, inside, event) || view.someProp("handleTripleClick", function(f) {
+                        return f(view, pos, event);
+                    }) || function(view, inside, event) {
+                        if (0 != event.button) return !1;
+                        var doc = view.state.doc;
+                        if (-1 == inside) return !!doc.inlineContent && (updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, 0, doc.content.size), "pointer"), !0);
+                        for(var $pos = doc.resolve(inside), i = $pos.depth + 1; i > 0; i--){
+                            var node = i > $pos.depth ? $pos.nodeAfter : $pos.node(i), nodePos = $pos.before(i);
+                            if (node.inlineContent) updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection.create(doc, nodePos + 1, nodePos + 1 + node.content.size), "pointer");
+                            else {
+                                if (!prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) continue;
+                                updateSelection(view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.create(doc, nodePos), "pointer");
+                            }
+                            return !0;
+                        }
+                    }(view, inside, event);
+                })(view, pos.pos, pos.inside, event) ? event.preventDefault() : setSelectionOrigin(view, "pointer"));
             };
             var MouseDown = function(view, pos, event, flushed) {
                 var targetNode, targetPos, this$1 = this;
@@ -2652,7 +2650,7 @@
                 return pos;
             }, EditorView.prototype.endOfTextblock = function(dir, state) {
                 var view, state1, sel, $pos;
-                return view = this, cachedState == (state1 = state || this.state) && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
+                return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
                         var nearest = view.docView.nearestDesc(dom, !0);
                         if (!nearest) break;

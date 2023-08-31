@@ -1,4 +1,4 @@
-import { _ as e } from "@swc/helpers/_/_async_to_generator";
+/* globals __webpack_hash__ */ import { _ as e } from "@swc/helpers/_/_async_to_generator";
 import { _ as t } from "@swc/helpers/_/_ts_generator";
 import { displayContent as a } from "./fouc";
 import n from "./on-demand-entries-client";
@@ -9,7 +9,9 @@ var s = o.assetPrefix, i = o.page;
 s = s || "";
 var _ = null, u = __webpack_hash__, d = s + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
 function p() {
-    return (p = e(function() {
+    return (p = // This function reads code updates on the fly and hard
+    // reloads the page when it has changed.
+    e(function() {
         var e, a;
         return t(this, function(t) {
             switch(t.label){
@@ -53,17 +55,17 @@ function p() {
         });
     })).apply(this, arguments);
 }
-r(function(o) {
-    if ("\uD83D\uDC93" !== o.data) try {
-        var s = JSON.parse(o.data);
-        if ("sync" === s.action || "built" === s.action) {
-            if (!s.hash) return;
-            _ = s.hash, function() {
+r(function(e) {
+    if ("\uD83D\uDC93" !== e.data) try {
+        var t = JSON.parse(e.data);
+        if ("sync" === t.action || "built" === t.action) {
+            if (!t.hash) return;
+            _ = t.hash, function() {
                 p.apply(this, arguments);
             }();
-        } else "reloadPage" === s.action && document.location.reload(!0);
-    } catch (e) {
-        console.warn("Invalid HMR message: " + o.data + "\n" + e);
+        } else "reloadPage" === t.action && document.location.reload(!0);
+    } catch (t) {
+        console.warn("Invalid HMR message: " + e.data + "\n" + t);
     }
 }), c({
     assetPrefix: s,

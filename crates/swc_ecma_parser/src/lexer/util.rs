@@ -69,7 +69,10 @@ impl<'a> Lexer<'a> {
 
     #[inline(always)]
     pub(super) fn bump(&mut self) {
-        self.input.bump()
+        unsafe {
+            // Safety: Actually this is not safe but this is an internal method.
+            self.input.bump()
+        }
     }
 
     #[inline(always)]
@@ -246,7 +249,10 @@ impl<'a> Lexer<'a> {
         let end = self.cur_pos();
 
         if let Some(comments) = self.comments_buffer.as_mut() {
-            let s = self.input.slice(slice_start, end);
+            let s = unsafe {
+                // Safety: We know that the start and the end are valid
+                self.input.slice(slice_start, end)
+            };
             let cmt = Comment {
                 kind: CommentKind::Line,
                 span: Span::new(start, end, SyntaxContext::empty()),
@@ -264,7 +270,10 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        self.input.reset_to(end);
+        unsafe {
+            // Safety: We got end from self.input
+            self.input.reset_to(end);
+        }
     }
 
     /// Expects current char to be '/' and next char to be '*'.
@@ -302,7 +311,10 @@ impl<'a> Lexer<'a> {
                 }
 
                 if let Some(comments) = self.comments_buffer.as_mut() {
-                    let src = self.input.slice(slice_start, end);
+                    let src = unsafe {
+                        // Safety: We got slice_start and end from self.input so those are valid.
+                        self.input.slice(slice_start, end)
+                    };
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
                         kind: CommentKind::Block,

@@ -1,1 +1,4 @@
 //// [callOfPropertylessConstructorFunction.js]
+/**
+ * @constructor
+ */ 

@@ -30,6 +30,10 @@ impl Optimizer<'_> {
                                     e.op == op!("===") || e.op == op!("=="),
                                 ));
                                 e.right.take();
+
+                                self.changed = true;
+                                report_change!("Evaluate comparing to self");
+
                                 return;
                             }
                             _ => {}

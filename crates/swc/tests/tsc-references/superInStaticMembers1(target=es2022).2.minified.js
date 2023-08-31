@@ -9,30 +9,27 @@ export default class {
 //// [locals.ts]
 class C extends B {
     static{
+        let Reflect// collision (es2015-es2021 only)
+        , Reflect1// collision (es2015-es2021 only)
+        ;
         this._ = [
             void super.w(),
             (()=>{
                 var { Reflect } = {
                     Reflect: null
-                };
+                }; // collision (es2015-es2021 only)
                 super.w();
             })(),
             (()=>{
                 var [Reflect] = [
                     null
-                ];
+                ]; // collision (es2015-es2021 only)
                 super.w();
             })(),
             void super.w(),
             void super.w(),
-            (()=>{
-                let Reflect;
-                Reflect || (Reflect = {}), super.w();
-            })(),
-            (()=>{
-                let Reflect;
-                Reflect || (Reflect = {}), super.w();
-            })(),
+            void (Reflect || (Reflect = {}), super.w()),
+            void (Reflect1 || (Reflect1 = {}), super.w()),
             void super.w(),
             void super.w(),
             void super.w(),
@@ -42,13 +39,13 @@ class C extends B {
     static{
         var { Reflect } = {
             Reflect: null
-        };
+        }; // collision (es2015-es2021 only)
         super.w();
     }
     static{
         var [Reflect] = [
             null
-        ];
+        ]; // collision (es2015-es2021 only)
         super.w();
     }
     static{
@@ -61,11 +58,13 @@ class C extends B {
         super.w();
     }
     static{
-        let Reflect;
+        let Reflect// collision (es2015-es2021 only)
+        ;
         Reflect || (Reflect = {}), super.w();
     }
     static{
-        let Reflect;
+        let Reflect// collision (es2015-es2021 only)
+        ;
         Reflect || (Reflect = {}), super.w();
     }
     static{
@@ -92,7 +91,7 @@ export { };
 //// [varInContainingScopeStaticField2.ts]
 var { Reflect } = {
     Reflect: null
-};
+}; // collision (es2015-es2021 only)
 class C extends B {
     static{
         this._ = super.w();
@@ -102,7 +101,7 @@ export { };
 //// [varInContainingScopeStaticField3.ts]
 var [Reflect] = [
     null
-];
+]; // collision (es2015-es2021 only)
 class C extends B {
     static{
         this._ = super.w();
@@ -119,7 +118,7 @@ export { };
 //// [varInContainingScopeStaticBlock2.ts]
 var { Reflect } = {
     Reflect: null
-};
+}; // collision (es2015-es2021 only)
 class C extends B {
     static{
         super.w();
@@ -129,7 +128,7 @@ export { };
 //// [varInContainingScopeStaticBlock3.ts]
 var [Reflect] = [
     null
-];
+]; // collision (es2015-es2021 only)
 class C extends B {
     static{
         super.w();
@@ -179,7 +178,8 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticField.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 Reflect || (Reflect = {});
 class C extends B {
     static{
@@ -188,7 +188,8 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 Reflect || (Reflect = {});
 class C extends B {
     static{
@@ -197,7 +198,8 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 Reflect || (Reflect = {});
 class C extends B {
     static{
@@ -206,7 +208,8 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect;
+var Reflect// collision (es2015-es2021 only)
+;
 Reflect || (Reflect = {});
 class C extends B {
     static{

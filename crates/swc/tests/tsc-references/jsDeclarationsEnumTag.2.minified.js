@@ -1,15 +1,15 @@
 //// [index.js]
-export var Target = {
+/** @enum {string} */ export var Target = {
     START: "start",
     MIDDLE: "middle",
     END: "end",
-    OK_I_GUESS: 2
+    /** @type {number} */ OK_I_GUESS: 2
 };
-export var Second = {
+/** @enum number */ export var Second = {
     OK: 1,
-    FINE: 2
+    /** @type {number} */ FINE: 2
 };
-export var Fs = {
+/** @enum {function(number): number} */ export var Fs = {
     ADD1: function(n) {
         return n + 1;
     },
@@ -20,9 +20,14 @@ export var Fs = {
         return n - 1;
     }
 };
-export function consume(t, s, f) {
+/**
+ * @param {Target} t
+ * @param {Second} s
+ * @param {Fs} f
+ */ export function consume(t, s, f) {
     Target.START;
 }
-export function ff(s) {
-    return Target[s] ? Target[s] : null;
+/** @param {string} s */ export function ff(s) {
+    return(// element access with arbitrary string is an error only with noImplicitAny
+    Target[s] ? Target[s] : null);
 }

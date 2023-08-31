@@ -122,12 +122,6 @@ impl<'a, I: Tokens> Parser<I> {
         trace_cur!(self, parse_stmt_internal);
 
         if top_level && is!(self, "await") {
-            let valid = self.target() >= EsVersion::Es2017;
-
-            if !valid {
-                self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwait);
-            }
-
             self.state.found_module_item = true;
             if !self.ctx().can_be_module {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
@@ -822,7 +816,7 @@ impl<'a, I: Tokens> Parser<I> {
             decls.push(self.parse_var_declarator(false, VarDeclKind::Var)?);
         }
 
-        if !self.syntax().using_decl() {
+        if !self.syntax().explicit_resource_management() {
             self.emit_err(span!(self, start), SyntaxError::UsingDeclNotEnabled);
         }
 
@@ -1278,7 +1272,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let init = self.include_in_expr(false).parse_for_head_prefix()?;
 
-        let is_using_decl = self.input.syntax().using_decl()
+        let is_using_decl = self.input.syntax().explicit_resource_management()
             && match *init {
                 Expr::Ident(Ident {
                     sym: js_word!("using"),
@@ -2440,7 +2434,7 @@ export default function waitUntil(callback, options = {}) {
         test_parser(
             src,
             Syntax::Es(EsConfig {
-                import_assertions: true,
+                import_attributes: true,
                 ..Default::default()
             }),
             |p| p.parse_expr(),

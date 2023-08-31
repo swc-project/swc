@@ -6,7 +6,7 @@ function ExpandoDecl(n) {
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
 }, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl(101).length;
-var Ns, ExpandoExpr = function(n) {
+var Ns, ExpandoNamespace, Ns1, ExpandoExpr = function(n) {
     return n.toString();
 };
 ExpandoExpr.prop = {
@@ -24,24 +24,24 @@ function ExpandoMerge(n) {
 }
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
-}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), function(Ns) {
-    var ExpandoNamespace = function() {};
-    ExpandoNamespace.p6 = 42, Ns.foo = function() {
-        return ExpandoNamespace;
-    };
-}(Ns || (Ns = {}));
+}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), Ns = Ns1 || (Ns1 = {}), (ExpandoNamespace = function() {}).p6 = 42, Ns.foo = function() {
+    return ExpandoNamespace;
+};
+// Should not work in Typescript -- must be const
 var ExpandoExpr2 = function(n) {
     return n.toString();
 };
 ExpandoExpr2.prop = 2, ExpandoExpr2.m = function(n) {
     return n + 1;
 }, ExpandoExpr2.prop, ExpandoExpr2.m(12), ExpandoExpr2(101).length;
+// Should not work in typescript -- classes already have statics
 var ExpandoClass = function ExpandoClass() {
     _class_call_check(this, ExpandoClass), this.n = 1001;
 };
 ExpandoClass.prop = 2, ExpandoClass.m = function(n) {
     return n + 1;
 }, ExpandoClass.prop, ExpandoClass.m(12), new ExpandoClass().n;
+// Class expressions shouldn't work in typescript either
 var ExpandoExpr3 = function ExpandoExpr3() {
     _class_call_check(this, ExpandoExpr3), this.n = 10001;
 };

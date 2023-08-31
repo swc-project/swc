@@ -3,6 +3,7 @@ function getFalsyPrimitive(x) {
     if ("string" === x) return "";
     if ("number" === x) return 0;
     if ("boolean" === x) return !1;
+    // Should be unreachable.
     throw "Invalid value";
 }
 Consts1 || (Consts1 = {}), getFalsyPrimitive("string"), getFalsyPrimitive("number"), getFalsyPrimitive("boolean");

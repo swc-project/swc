@@ -1,6 +1,12 @@
 //// [checkJsdocSatisfiesTag6.ts]
 //// [/a.js]
-var a = {
+/**
+ * @typedef {Object} Point2d
+ * @property {number} x
+ * @property {number} y
+ */ // Undesirable behavior today with type annotation
+var a = /** @satisfies {Partial<Point2d>} */ {
     x: 10
 };
+// Should OK
 console.log(a.x.toFixed()), a.y;

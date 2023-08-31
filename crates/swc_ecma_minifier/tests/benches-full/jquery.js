@@ -968,9 +968,9 @@
                 return !!locked;
             },
             fireWith: function(context, args) {
-                return locked || (args = args || [], args = [
+                return locked || (args = [
                     context,
-                    args.slice ? args.slice() : args
+                    (args = args || []).slice ? args.slice() : args
                 ], queue.push(args), firing || fire()), this;
             },
             fire: function() {
@@ -2348,7 +2348,7 @@
             if ((classes = classesToArray(value)).length) {
                 for(; elem = this[i++];)if (curValue = getClass(elem), cur = 1 === elem.nodeType && " " + stripAndCollapse(curValue) + " ") {
                     for(j = 0; clazz = classes[j++];)0 > cur.indexOf(" " + clazz + " ") && (cur += clazz + " ");
-                    finalValue = stripAndCollapse(cur), curValue !== finalValue && elem.setAttribute("class", finalValue);
+                    curValue !== (finalValue = stripAndCollapse(cur)) && elem.setAttribute("class", finalValue);
                 }
             }
             return this;
@@ -2362,7 +2362,7 @@
             if ((classes = classesToArray(value)).length) {
                 for(; elem = this[i++];)if (curValue = getClass(elem), cur = 1 === elem.nodeType && " " + stripAndCollapse(curValue) + " ") {
                     for(j = 0; clazz = classes[j++];)for(; cur.indexOf(" " + clazz + " ") > -1;)cur = cur.replace(" " + clazz + " ", " ");
-                    finalValue = stripAndCollapse(cur), curValue !== finalValue && elem.setAttribute("class", finalValue);
+                    curValue !== (finalValue = stripAndCollapse(cur)) && elem.setAttribute("class", finalValue);
                 }
             }
             return this;

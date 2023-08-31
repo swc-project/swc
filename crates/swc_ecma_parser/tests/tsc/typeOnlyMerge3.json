@@ -71,7 +71,7 @@
       ],
       "source": null,
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -113,7 +113,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsModuleDeclaration",
@@ -226,7 +226,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -268,7 +268,7 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

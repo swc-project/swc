@@ -1,9 +1,6 @@
 //// [typeGuardsInFunctionAndModuleBlock.ts]
-var m, m1;
-!function(m) {
-    var x, m2;
-    m2 || (m2 = {}), "string" == typeof x || x.toString();
-}(m || (m = {})), function(m1) {
-    var x, m2, m21;
-    (m21 = m2 || (m2 = {})).m3 || (m21.m3 = {}), "string" == typeof x || x.toString();
-}(m1 || (m1 = {}));
+// typeguards are scoped in function/module block
+var m, m1, x, m2, x1, m21, m22;
+m || (m = {}), m2 || (m2 = {}), "string" == typeof x || x.toString() // boolean
+, m1 || (m1 = {}), (m22 = m21 || (m21 = {})).m3 || (m22.m3 = {}), "string" == typeof x1 || x1.toString() // boolean
+;

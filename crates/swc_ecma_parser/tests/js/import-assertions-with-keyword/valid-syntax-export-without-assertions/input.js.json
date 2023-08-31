@@ -1,0 +1,53 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 32,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 10,
+            "end": 13,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 21,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "foo.json",
+        "raw": "\"foo.json\""
+      },
+      "typeOnly": false,
+      "with": null
+    }
+  ],
+  "interpreter": null
+}

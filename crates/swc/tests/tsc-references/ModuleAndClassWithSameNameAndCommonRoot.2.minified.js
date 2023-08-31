@@ -1,9 +1,6 @@
 //// [module.ts]
-var X;
-!function(X) {
-    var Y, Point;
-    (Point = (Y = X.Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
-}(X || (X = {}));
+var X, X1, Y, Point;
+(Point = (Y = (X1 = X || (X = {})).Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
 //// [classPoint.ts]
 var X, X1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
@@ -13,6 +10,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 //// [simple.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A || (A = {})).Instance = new A();
+// duplicate identifier
 var A = function A() {
     _class_call_check(this, A);
 };

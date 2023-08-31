@@ -1,1 +1,2 @@
 //// [objectLiteralShorthandPropertiesAssignmentError.ts]
+ // error

@@ -4,6 +4,7 @@ define([
 ], function(require, _ts_decorate) {
     "use strict";
     function es5ClassCompat(target) {
+        ///@ts-expect-error
         function _() {
             return Reflect.construct(target, arguments, this.constructor);
         }

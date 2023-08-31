@@ -1,7 +1,7 @@
 use indexmap::IndexSet;
 use preset_env_base::{version::should_enable, Versions};
 use swc_atoms::js_word;
-use swc_common::DUMMY_SP;
+use swc_common::{collections::ARandomState, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -11,7 +11,7 @@ use super::builtin::BUILTINS;
 pub struct Entry {
     is_any_target: bool,
     target: Versions,
-    pub imports: IndexSet<&'static str, ahash::RandomState>,
+    pub imports: IndexSet<&'static str, ARandomState>,
 }
 
 impl Entry {

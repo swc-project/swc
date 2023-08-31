@@ -324,6 +324,9 @@ where
                     n
                 )
             }
+            AtRulePrelude::ScopePrelude(n) => {
+                emit!(self, n);
+            }
         }
     }
 
@@ -2456,6 +2459,23 @@ where
             PseudoElementSelectorChildren::Ident(n) => emit!(self, n),
             PseudoElementSelectorChildren::CompoundSelector(n) => emit!(self, n),
             PseudoElementSelectorChildren::CustomHighlightName(n) => emit!(self, n),
+        }
+    }
+
+    #[emitter]
+    fn emit_scope_range(&mut self, n: &ScopeRange) -> Result {
+        if let Some(start) = &n.scope_start {
+            formatting_space!(self);
+            write_raw!(self, "(");
+            emit!(self, start);
+            write_raw!(self, ")");
+        }
+        if let Some(end) = &n.scope_end {
+            write_raw!(self, " to");
+            space!(self);
+            write_raw!(self, "(");
+            emit!(self, end);
+            write_raw!(self, ")");
         }
     }
 

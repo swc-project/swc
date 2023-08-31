@@ -197,7 +197,7 @@
         "raw": "\"./mod.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -279,7 +279,7 @@
         "raw": "\"./mod.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

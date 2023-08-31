@@ -86,7 +86,7 @@ macro_rules! add_import_to {
                 span: DUMMY_SP,
                 specifiers: vec![s],
                 src: Box::new(src),
-                asserts: Default::default(),
+                with: Default::default(),
                 type_only: Default::default(),
             })))
         }

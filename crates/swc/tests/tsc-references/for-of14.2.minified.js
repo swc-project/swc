@@ -5,3 +5,4 @@ for (v of new class {
         return "";
     }
 });
+ // Should fail because the iterator is not iterable

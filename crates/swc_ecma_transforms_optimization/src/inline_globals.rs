@@ -4,9 +4,8 @@ use swc_common::{
     sync::Lrc,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_transforms_macros::parallel;
-use swc_ecma_utils::{collect_decls, NodeIgnoringSpan};
+use swc_ecma_transforms_base::perf::{ParVisitMut, Parallel};
+use swc_ecma_utils::{collect_decls, parallel::cpu_count, NodeIgnoringSpan};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// The key will be compared using [EqIgnoreSpan::eq_ignore_span], and matched
@@ -63,7 +62,6 @@ impl Parallel for InlineGlobals {
     fn merge(&mut self, _: Self) {}
 }
 
-#[parallel]
 impl VisitMut for InlineGlobals {
     noop_visit_mut_type!();
 
@@ -207,6 +205,22 @@ impl VisitMut for InlineGlobals {
         self.bindings = Lrc::new(collect_decls(&*script));
 
         script.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_mut_par(cpu_count() * 8, n);
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.visit_mut_par(cpu_count() * 8, n);
     }
 }
 

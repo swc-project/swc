@@ -629,6 +629,12 @@ impl Take for AssignExpr {
     }
 }
 
+impl AssignExpr {
+    pub fn is_simple_assign(&self) -> bool {
+        self.op == op!("=") && self.left.as_ident().is_some()
+    }
+}
+
 // Custom deserializer to convert `PatOrExpr::Pat(Box<Pat::Ident>)`
 // to `PatOrExpr::Expr(Box<Expr::Ident>)` when `op` is not `=`.
 // Same logic as parser:

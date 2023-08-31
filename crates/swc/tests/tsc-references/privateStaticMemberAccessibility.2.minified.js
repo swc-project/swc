@@ -12,7 +12,9 @@ var Base = function Base() {
         var _this;
         return _class_call_check(this, Derived), _this = _super.apply(this, arguments), _this.bing = function() {
             return Base.foo;
-        }, _this;
+        } // error
+        , _this;
     }
     return Derived;
-})(Base).bar = Base.foo;
+})(Base).bar = Base.foo // error
+;

@@ -365,7 +365,7 @@ impl<C: Comments> ClassProperties<C> {
                                             .into()],
                                             src: None,
                                             type_only: false,
-                                            asserts: None,
+                                            with: None,
                                         },
                                     )) {
                                         Ok(t) => t,

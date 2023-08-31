@@ -33,12 +33,18 @@ impl<'a> Lexer<'a> {
                     //
                     if cur_pos == self.state.start {
                         if cur == '<' && self.state.is_expr_allowed {
-                            self.input.bump();
+                            unsafe {
+                                // Safety: cur() was Some('<')
+                                self.input.bump();
+                            }
                             return Ok(Token::JSXTagStart).map(Some);
                         }
                         return self.read_token();
                     }
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
+                    out.push_str(unsafe {
+                        // Safety: We already checked for the range
+                        self.input.slice(chunk_start, cur_pos)
+                    });
 
                     return Ok(Token::JSXText {
                         raw: Atom::new(out),
@@ -52,7 +58,10 @@ impl<'a> Lexer<'a> {
                             candidate_list: vec!["`{'>'}`", "`&gt;`"],
                         },
                     );
-                    self.input.bump()
+                    unsafe {
+                        // Safety: cur() was Some('>')
+                        self.input.bump()
+                    }
                 }
                 '}' => {
                     self.emit_error(
@@ -61,10 +70,16 @@ impl<'a> Lexer<'a> {
                             candidate_list: vec!["`{'}'}`", "`&rbrace;`"],
                         },
                     );
-                    self.input.bump()
+                    unsafe {
+                        // Safety: cur() was Some('}')
+                        self.input.bump()
+                    }
                 }
                 '&' => {
-                    out.push_str(self.input.slice(chunk_start, cur_pos));
+                    out.push_str(unsafe {
+                        // Safety: We already checked for the range
+                        self.input.slice(chunk_start, cur_pos)
+                    });
 
                     let jsx_entity = self.read_jsx_entity()?;
 
@@ -74,14 +89,20 @@ impl<'a> Lexer<'a> {
 
                 _ => {
                     if cur.is_line_terminator() {
-                        out.push_str(self.input.slice(chunk_start, cur_pos));
+                        out.push_str(unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        });
                         match self.read_jsx_new_line(true)? {
                             Either::Left(s) => out.push_str(s),
                             Either::Right(c) => out.push(c),
                         }
                         chunk_start = cur_pos;
                     } else {
-                        self.input.bump()
+                        unsafe {
+                            // Safety: cur() was Some(c)
+                            self.input.bump()
+                        }
                     }
                 }
             }
@@ -113,7 +134,10 @@ impl<'a> Lexer<'a> {
 
         let c = self.input.cur();
         debug_assert_eq!(c, Some('&'));
-        self.input.bump();
+        unsafe {
+            // Safety: cur() was Some('&')
+            self.input.bump();
+        }
 
         let start_pos = self.input.cur_pos();
 
@@ -122,7 +146,10 @@ impl<'a> Lexer<'a> {
                 Some(c) => c,
                 None => break,
             };
-            self.input.bump();
+            unsafe {
+                // Safety: cur() was Some(c)
+                self.input.bump();
+            }
 
             if c == ';' {
                 if let Some(stripped) = s.strip_prefix('#') {
@@ -147,7 +174,10 @@ impl<'a> Lexer<'a> {
             s.push(c)
         }
 
-        self.input.reset_to(start_pos);
+        unsafe {
+            // Safety: start_pos is a valid position because we got it from self.input
+            self.input.reset_to(start_pos);
+        }
 
         Ok(('&', "&".to_string()))
     }
@@ -159,10 +189,16 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.syntax.jsx());
 
         let ch = self.input.cur().unwrap();
-        self.input.bump();
+        unsafe {
+            // Safety: cur() was Some(ch)
+            self.input.bump();
+        }
 
         let out = if ch == '\r' && self.input.cur() == Some('\n') {
-            self.input.bump();
+            unsafe {
+                // Safety: cur() was Some('\n')
+                self.input.bump();
+            }
             Either::Left(if normalize_crlf { "\n" } else { "\r\n" })
         } else {
             Either::Right(ch)
@@ -181,7 +217,10 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
-        self.input.bump(); // `quote`
+        unsafe {
+            // Safety: cur() was Some(quote)
+            self.input.bump(); // `quote`
+        }
 
         let mut out = String::new();
         let mut chunk_start = self.input.cur_pos();
@@ -199,7 +238,10 @@ impl<'a> Lexer<'a> {
             let cur_pos = self.input.cur_pos();
 
             if ch == '\\' {
-                let value = self.input.slice(chunk_start, cur_pos);
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input.slice(chunk_start, cur_pos)
+                };
 
                 out.push_str(value);
                 out.push('\\');
@@ -218,7 +260,10 @@ impl<'a> Lexer<'a> {
             }
 
             if ch == '&' {
-                let value = self.input.slice(chunk_start, cur_pos);
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input.slice(chunk_start, cur_pos)
+                };
 
                 out.push_str(value);
                 raw.push_str(value);
@@ -230,7 +275,10 @@ impl<'a> Lexer<'a> {
 
                 chunk_start = self.input.cur_pos();
             } else if ch.is_line_terminator() {
-                let value = self.input.slice(chunk_start, cur_pos);
+                let value = unsafe {
+                    // Safety: We already checked for the range
+                    self.input.slice(chunk_start, cur_pos)
+                };
 
                 out.push_str(value);
                 raw.push_str(value);
@@ -248,12 +296,18 @@ impl<'a> Lexer<'a> {
 
                 chunk_start = cur_pos + BytePos(ch.len_utf8() as _);
             } else {
-                self.input.bump();
+                unsafe {
+                    // Safety: cur() was Some(ch)
+                    self.input.bump();
+                }
             }
         }
 
         let cur_pos = self.input.cur_pos();
-        let value = self.input.slice(chunk_start, cur_pos);
+        let value = unsafe {
+            // Safety: We already checked for the range
+            self.input.slice(chunk_start, cur_pos)
+        };
 
         out.push_str(value);
         raw.push_str(value);
@@ -261,7 +315,10 @@ impl<'a> Lexer<'a> {
         // it might be at the end of the file when
         // the string literal is unterminated
         if self.input.peek_ahead().is_some() {
-            self.input.bump();
+            unsafe {
+                // Safety: We called peek_ahead() which means cur() was Some
+                self.input.bump();
+            }
         }
 
         raw.push(quote);

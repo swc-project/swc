@@ -1,0 +1,33 @@
+{
+    "name": "@swc/types",
+    "version": "0.1.4",
+    "description": "Typings for the swc project.",
+    "sideEffects": false,
+    "scripts": {
+        "build": "tsc",
+        "prepublishOnly": "yarn build",
+        "prepack": "yarn build"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "keywords": [
+        "swc",
+        "types"
+    ],
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "homepage": "https://swc.rs",
+    "packageManager": "yarn@3.2.3",
+    "devDependencies": {
+        "typescript": "^5.2.2"
+    }
+}

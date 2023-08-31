@@ -36,7 +36,6 @@
 #![allow(clippy::only_used_in_recursion)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
-#![feature(box_patterns)]
 
 use once_cell::sync::Lazy;
 use swc_common::{comments::Comments, pass::Repeated, sync::Lrc, SourceMap, SyntaxContext};
@@ -61,7 +60,7 @@ use crate::{
         postcompress::postcompress_optimizer,
         precompress::precompress_optimizer,
     },
-    program_data::ModuleInfo,
+    // program_data::ModuleInfo,
     timing::Timings,
     util::base54::CharFreq,
 };
@@ -123,46 +122,6 @@ pub fn optimize(
         }
     }
 
-    let module_info = match &n {
-        Program::Script(_) => ModuleInfo::default(),
-        Program::Module(m) => ModuleInfo {
-            blackbox_imports: m
-                .body
-                .iter()
-                .filter_map(|v| v.as_module_decl())
-                .filter_map(|v| match v {
-                    ModuleDecl::Import(i) => Some(i),
-                    _ => None,
-                })
-                .filter(|i| !i.src.value.starts_with("@swc/helpers"))
-                .flat_map(|v| v.specifiers.iter())
-                .map(|v| match v {
-                    ImportSpecifier::Named(v) => v.local.to_id(),
-                    ImportSpecifier::Default(v) => v.local.to_id(),
-                    ImportSpecifier::Namespace(v) => v.local.to_id(),
-                })
-                .collect(),
-            // exports: m
-            //     .body
-            //     .iter()
-            //     .filter_map(|v| v.as_module_decl())
-            //     .filter_map(|v| match v {
-            //         ModuleDecl::ExportNamed(i) if i.src.is_none() => Some(i),
-            //         _ => None,
-            //     })
-            //     .flat_map(|v| v.specifiers.iter())
-            //     .filter_map(|v| match v {
-            //         ExportSpecifier::Named(v) => Some(v),
-            //         _ => None,
-            //     })
-            //     .filter_map(|v| match &v.orig {
-            //         ModuleExportName::Ident(i) => Some(i.to_id()),
-            //         ModuleExportName::Str(_) => None,
-            //     })
-            //     .collect(),
-        },
-    };
-
     if let Some(_options) = &options.compress {
         let _timer = timer!("precompress");
 
@@ -220,7 +179,7 @@ pub fn optimize(
         {
             let _timer = timer!("compress ast");
 
-            n.visit_mut_with(&mut compressor(&module_info, marks, options, &Minification))
+            n.visit_mut_with(&mut compressor(marks, options, &Minification))
         }
 
         // Again, we don't need to validate ast
@@ -283,7 +242,7 @@ pub fn optimize(
         ));
 
         if let Some(property_mangle_options) = &mangle.props {
-            mangle_properties(&mut n, &module_info, property_mangle_options.clone(), chars);
+            mangle_properties(&mut n, property_mangle_options.clone(), chars);
         }
     }
 

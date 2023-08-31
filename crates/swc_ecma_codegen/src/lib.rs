@@ -308,11 +308,11 @@ where
 
         emit!(n.src);
 
-        if let Some(asserts) = &n.asserts {
+        if let Some(with) = &n.with {
             formatting_space!();
-            keyword!("assert");
+            keyword!("with");
             formatting_space!();
-            emit!(asserts);
+            emit!(with);
         }
 
         semi!();
@@ -451,11 +451,11 @@ where
             formatting_space!();
             emit!(src);
 
-            if let Some(asserts) = &node.asserts {
+            if let Some(with) = &node.with {
                 formatting_space!();
-                keyword!("assert");
+                keyword!("with");
                 formatting_space!();
-                emit!(asserts);
+                emit!(with);
             }
         }
         semi!();
@@ -477,11 +477,11 @@ where
         formatting_space!();
         emit!(node.src);
 
-        if let Some(asserts) = &node.asserts {
+        if let Some(with) = &node.with {
             formatting_space!();
-            keyword!("assert");
+            keyword!("with");
             formatting_space!();
-            emit!(asserts);
+            emit!(with);
         }
 
         semi!();
@@ -1619,8 +1619,24 @@ where
 
     #[emitter]
     fn emit_prop_name(&mut self, node: &PropName) -> Result {
-        match *node {
-            PropName::Ident(ref n) => emit!(n),
+        match node {
+            PropName::Ident(ident) => {
+                if self.cfg.ascii_only && !ident.sym.is_ascii() {
+                    punct!("\"");
+                    self.wr.write_symbol(
+                        DUMMY_SP,
+                        &get_ascii_only_ident(
+                            &handle_invalid_unicodes(&ident.sym),
+                            self.cfg.target,
+                        ),
+                    )?;
+                    punct!("\"");
+
+                    return Ok(());
+                }
+
+                emit!(ident)
+            }
             PropName::Str(ref n) => emit!(n),
             PropName::Num(ref n) => emit!(n),
             PropName::BigInt(ref n) => emit!(n),
@@ -1879,12 +1895,23 @@ where
         }
 
         if let Some(ref arg) = node.arg {
-            if !node.delegate && arg.starts_with_alpha_num() {
+            let need_paren = node
+                .arg
+                .as_deref()
+                .map(|expr| self.has_leading_comment(expr))
+                .unwrap_or(false);
+            if need_paren {
+                punct!("(")
+            } else if !node.delegate && arg.starts_with_alpha_num() {
                 space!()
             } else {
                 formatting_space!()
             }
+
             emit!(node.arg);
+            if need_paren {
+                punct!(")")
+            }
         }
     }
 
@@ -3786,6 +3813,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
                             inner_iter.next();
                             next = inner_iter.peek();
+                        } else if next != Some(&'D') && next != Some(&'d') {
+                            buf.push('\\');
                         }
 
                         if let Some(c @ 'D' | c @ 'd') = next {
@@ -3832,8 +3861,10 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                     iter.next();
                                 }
                             }
-                        } else {
+                        } else if is_curly {
                             buf.push_str("\\\\");
+                        } else {
+                            buf.push('\\');
                         }
                     }
                     _ => {

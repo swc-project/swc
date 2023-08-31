@@ -1,6 +1,7 @@
 //// [thisTypeInFunctions2.ts]
 extend1({
     init: function() {
+        // this.mine
         this.willDestroy;
     },
     mine: 12,

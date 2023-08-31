@@ -1,7 +1,13 @@
 //// [checkJsdocSatisfiesTag4.ts]
 //// [/a.js]
-export default {};
+/**
+ * @typedef {Object} Foo
+ * @property {number} a
+ */ export default /** @satisfies {Foo} */ {};
 //// [/b.js]
-export default {
+/**
+ * @typedef {Object} Foo
+ * @property {number} a
+ */ export default /** @satisfies {Foo} */ {
     a: 1
 };

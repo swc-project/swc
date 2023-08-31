@@ -4,14 +4,15 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A = function A() {
     _class_call_check(this, A);
-}, K = function(_B1) {
+}, // extends can call B
+K = function(_B1) {
     _inherits(K, _B1);
     var _super = _create_super(K);
     function K() {
         return _class_call_check(this, K), _super.apply(this, arguments);
     }
     return K;
-}(function(A) {
+}(/*#__PURE__*/ function(A) {
     _inherits(_class, A);
     var _super = _create_super(_class);
     function _class() {
@@ -26,7 +27,7 @@ var A = function A() {
     }
     return C;
 }(new function B2() {
-    _class_call_check(this, B2), this.anon = function(A) {
+    _class_call_check(this, B2), this.anon = /*#__PURE__*/ function(A) {
         _inherits(_class, A);
         var _super = _create_super(_class);
         function _class() {
@@ -41,12 +42,12 @@ var A = function A() {
         return _class_call_check(this, S), _super.apply(this, arguments);
     }
     return S;
-}(function(A) {
+}(/*#__PURE__*/ function(A) {
     _inherits(Inner, A);
     var _super = _create_super(Inner);
     function Inner() {
         return _class_call_check(this, Inner), _super.apply(this, arguments);
     }
     return Inner;
-}(A)), c = new C(), k = new K(), s = new S();
+}(A)), /*#__PURE__*/ c = new C(), k = new K(), s = new S();
 c.genericVar = 12, k.genericVar = 12, s.genericVar = 12;

@@ -1,4 +1,6 @@
 //// [mod.js]
-module.exports = function() {}, module.exports();
+module.exports = function() {}, module.exports() // should be callable
+;
 //// [npm.js]
-require("./mod")();
+require("./mod")() // should be callable from here too
+;

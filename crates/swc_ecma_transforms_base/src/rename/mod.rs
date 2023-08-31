@@ -187,7 +187,7 @@ macro_rules! unit {
     ($name:ident, $T:ty) => {
         /// Only called if `eval` exists
         fn $name(&mut self, n: &mut $T) {
-            if contains_eval(n, true) {
+            if !self.config.ignore_eval && contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
                 let map = self.get_map(n, false, false, false);
@@ -199,7 +199,7 @@ macro_rules! unit {
     ($name:ident, $T:ty, true) => {
         /// Only called if `eval` exists
         fn $name(&mut self, n: &mut $T) {
-            if contains_eval(n, true) {
+            if !self.config.ignore_eval && contains_eval(n, true) {
                 n.visit_mut_children_with(self);
             } else {
                 let map = self.get_map(n, true, false, false);
@@ -239,7 +239,7 @@ where
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = self.renamer.preserved_ids_for_module(m);
 
-        let has_eval = contains_eval(m, true);
+        let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 
         self.unresolved = self.get_unresolved(m, has_eval);
 
@@ -276,7 +276,7 @@ where
     fn visit_mut_script(&mut self, m: &mut Script) {
         self.preserved = self.renamer.preserved_ids_for_script(m);
 
-        let has_eval = contains_eval(m, true);
+        let has_eval = !self.config.ignore_eval && contains_eval(m, true);
 
         self.unresolved = self.get_unresolved(m, has_eval);
 

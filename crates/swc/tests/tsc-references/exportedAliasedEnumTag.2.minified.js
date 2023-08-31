@@ -1,4 +1,4 @@
 //// [exportedAliasedEnumTag.js]
-(module.exports = {}).Type = {
+/** @enum */ (module.exports = {}).Type = {
     BEFORE: "before"
 };

@@ -8,3 +8,4 @@ f1(function(x) {
 }), s(function(a) {
     return a.init();
 });
+ // x is any, should have been {}

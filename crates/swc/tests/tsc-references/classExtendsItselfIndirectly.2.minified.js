@@ -23,7 +23,8 @@ var E = function(D) {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-}(E))), E2 = function(D2) {
+} // error
+(E))), E2 = function(D2) {
     _inherits(E2, D2);
     var _super = _create_super(E2);
     function E2() {
@@ -44,4 +45,5 @@ var E = function(D) {
         return _class_call_check(this, C2), _super.apply(this, arguments);
     }
     return C2;
-}(E2)));
+} // error
+(E2)));

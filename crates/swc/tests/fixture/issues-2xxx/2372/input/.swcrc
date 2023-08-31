@@ -10,8 +10,7 @@
                 "dynamicImport": true,
                 "syntax": "typescript",
                 "tsx": false
-            },
-            "target": "es2015"
+            }
         },
         "module": {
             "type": "commonjs"
@@ -29,8 +28,7 @@
             "parser": {
                 "dynamicImport": true,
                 "syntax": "ecmascript"
-            },
-            "target": "es2015"
+            }
         },
         "module": {
             "type": "commonjs"

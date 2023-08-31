@@ -44,7 +44,7 @@
         "raw": "\"node:path\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",

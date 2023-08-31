@@ -1,1 +1,4 @@
 //// [foo.js]
+/**
+ * @constructor
+ */ 

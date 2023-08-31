@@ -1,6 +1,4 @@
 //// [twoInterfacesDifferentRootModule.ts]
-var M2;
-!function(M2) {
-    var a, b;
-    a.foo, a.bar, b.foo, b.bar;
-}(M2 || (M2 = {}));
+// two interfaces with different root modules should not merge
+var M2, a, b;
+M2 || (M2 = {}), a.foo, a.bar, b.foo, b.bar;

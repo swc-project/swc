@@ -1,2 +1,4 @@
 //// [exportDefaultExpressionComments.ts]
-export default null;
+/**
+ * JSDoc Comments
+ */ export default null;

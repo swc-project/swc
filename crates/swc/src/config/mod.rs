@@ -10,7 +10,7 @@ use std::{
     usize,
 };
 
-use anyhow::{bail, Error};
+use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
 use either::Either;
 use indexmap::IndexMap;
@@ -24,7 +24,7 @@ use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
 use swc_common::{
     chain,
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
     plugin::metadata::TransformPluginMetadataContext,
@@ -57,7 +57,10 @@ use swc_ecma_transforms::{
     modules::{path::NodeImportResolver, rewriter::import_rewriter},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
-    proposals::{decorators, export_default_from, import_assertions},
+    proposals::{
+        decorators, explicit_resource_management::explicit_resource_management,
+        export_default_from, import_assertions,
+    },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
     typescript::{self, TsEnumConfig, TsImportExportAssignConfig},
@@ -324,7 +327,7 @@ impl Options {
         config: Option<Config>,
         comments: Option<&'a SingleThreadedComments>,
         custom_before_pass: impl FnOnce(&Program) -> P,
-    ) -> Result<BuiltInput<impl 'a + swc_ecma_visit::Fold>, Error>
+    ) -> Result<BuiltInput<Box<dyn 'a + Fold>>, Error>
     where
         P: 'a + swc_ecma_visit::Fold,
     {
@@ -372,6 +375,10 @@ impl Options {
 
         let unresolved_mark = self.unresolved_mark.unwrap_or_else(Mark::new);
         let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
+
+        if target.is_some() && cfg.env.is_some() {
+            bail!("`env` and `jsc.target` cannot be used together");
+        }
 
         let es_version = target.unwrap_or_default();
 
@@ -523,7 +530,7 @@ impl Options {
                 .as_ref()
                 .map(|v| match v.format.comments.clone().into_inner() {
                     Some(v) => v,
-                    None => BoolOr::Bool(false),
+                    None => BoolOr::Bool(true),
                 })
                 .unwrap_or_else(|| {
                     BoolOr::Data(if cfg.minify.into_bool() {
@@ -692,17 +699,17 @@ impl Options {
                     // target.
                     init_plugin_module_cache_once(true, &experimental.cache_root);
 
+                    let mut inner_cache = PLUGIN_MODULE_CACHE
+                        .inner
+                        .get()
+                        .expect("Cache should be available")
+                        .lock();
+
                     // Populate cache to the plugin modules if not loaded
                     for plugin_config in plugins.iter() {
                         let plugin_name = &plugin_config.0;
 
-                        if !PLUGIN_MODULE_CACHE
-                            .inner
-                            .get()
-                            .unwrap()
-                            .lock()
-                            .contains(&plugin_name)
-                        {
+                        if !inner_cache.contains(&plugin_name) {
                             let resolved_path = plugin_resolver.resolve(
                                 &FileName::Real(PathBuf::from(&plugin_name)),
                                 &plugin_name,
@@ -714,12 +721,8 @@ impl Options {
                                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
                             };
 
-                            let mut inner_cache = PLUGIN_MODULE_CACHE
-                                .inner
-                                .get()
-                                .expect("Cache should be available")
-                                .lock();
                             inner_cache.store_bytes_from_path(&path, &plugin_name)?;
+                            tracing::debug!("Initialized WASM plugin {plugin_name}");
                         }
                     }
                 }
@@ -759,88 +762,99 @@ impl Options {
             noop()
         };
 
-        let pass = chain!(
-            lint_to_fold(swc_ecma_lints::rules::all(LintParams {
-                program: &program,
-                lint_config: &lints,
-                top_level_ctxt,
-                unresolved_ctxt,
-                es_version,
-                source_map: cm.clone(),
-            })),
-            // Decorators may use type information
-            Optional::new(
-                match transform.decorator_version.unwrap_or_default() {
-                    DecoratorVersion::V202112 => {
-                        Either::Left(decorators(decorators::Config {
-                            legacy: transform.legacy_decorator.into_bool(),
-                            emit_metadata: transform.decorator_metadata.into_bool(),
-                            use_define_for_class_fields: !assumptions.set_public_class_fields,
-                        }))
-                    }
-                    DecoratorVersion::V202203 => {
-                        Either::Right(
+        let pass: Box<dyn Fold> = if experimental
+            .disable_builtin_transforms_for_internal_testing
+            .into_bool()
+        {
+            Box::new(plugin_transforms)
+        } else {
+            Box::new(chain!(
+                lint_to_fold(swc_ecma_lints::rules::all(LintParams {
+                    program: &program,
+                    lint_config: &lints,
+                    top_level_ctxt,
+                    unresolved_ctxt,
+                    es_version,
+                    source_map: cm.clone(),
+                })),
+                // Decorators may use type information
+                Optional::new(
+                    match transform.decorator_version.unwrap_or_default() {
+                        DecoratorVersion::V202112 => {
+                            Either::Left(decorators(decorators::Config {
+                                legacy: transform.legacy_decorator.into_bool(),
+                                emit_metadata: transform.decorator_metadata.into_bool(),
+                                use_define_for_class_fields: !assumptions.set_public_class_fields,
+                            }))
+                        }
+                        DecoratorVersion::V202203 => {
+                            Either::Right(
                             swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
                         )
-                    }
-                },
-                syntax.decorators()
-            ),
-            // The transform strips import assertions, so it's only enabled if
-            // keep_import_assertions is false.
-            Optional::new(import_assertions(), !keep_import_assertions),
-            Optional::new(
-                typescript::strip_with_jsx::<Option<&dyn Comments>>(
-                    cm.clone(),
-                    typescript::Config {
-                        pragma: Some(
-                            transform
-                                .react
-                                .pragma
-                                .clone()
-                                .unwrap_or_else(default_pragma)
-                        ),
-                        pragma_frag: Some(
-                            transform
-                                .react
-                                .pragma_frag
-                                .clone()
-                                .unwrap_or_else(default_pragma_frag)
-                        ),
-                        ts_enum_config: TsEnumConfig {
-                            treat_const_enum_as_enum: transform
-                                .treat_const_enum_as_enum
-                                .into_bool(),
-                            ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
-                        },
-                        import_export_assign_config,
-                        ..Default::default()
+                        }
                     },
-                    comments.map(|v| v as _),
-                    top_level_mark
+                    syntax.decorators()
                 ),
-                syntax.typescript()
-            ),
-            plugin_transforms,
-            custom_before_pass(&program),
-            // handle jsx
-            Optional::new(
-                react::react::<&dyn Comments>(
-                    cm.clone(),
-                    comments.map(|v| v as _),
-                    transform.react,
-                    top_level_mark,
-                    unresolved_mark
+                Optional::new(
+                    explicit_resource_management(),
+                    syntax.explicit_resource_management()
                 ),
-                syntax.jsx()
-            ),
-            pass,
-            Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
-            Optional::new(
-                dropped_comments_preserver(comments.cloned()),
-                preserve_all_comments
-            ),
-        );
+                // The transform strips import assertions, so it's only enabled if
+                // keep_import_assertions is false.
+                Optional::new(import_assertions(), !keep_import_assertions),
+                Optional::new(
+                    typescript::strip_with_jsx::<Option<&dyn Comments>>(
+                        cm.clone(),
+                        typescript::Config {
+                            pragma: Some(
+                                transform
+                                    .react
+                                    .pragma
+                                    .clone()
+                                    .unwrap_or_else(default_pragma)
+                            ),
+                            pragma_frag: Some(
+                                transform
+                                    .react
+                                    .pragma_frag
+                                    .clone()
+                                    .unwrap_or_else(default_pragma_frag)
+                            ),
+                            ts_enum_config: TsEnumConfig {
+                                treat_const_enum_as_enum: transform
+                                    .treat_const_enum_as_enum
+                                    .into_bool(),
+                                ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
+                            },
+                            import_export_assign_config,
+                            ..Default::default()
+                        },
+                        comments.map(|v| v as _),
+                        top_level_mark
+                    ),
+                    syntax.typescript()
+                ),
+                plugin_transforms,
+                custom_before_pass(&program),
+                // handle jsx
+                Optional::new(
+                    react::react::<&dyn Comments>(
+                        cm.clone(),
+                        comments.map(|v| v as _),
+                        transform.react,
+                        top_level_mark,
+                        unresolved_mark
+                    ),
+                    syntax.jsx()
+                ),
+                pass,
+                Optional::new(jest::jest(), transform.hidden.jest.into_bool()),
+                Optional::new(
+                    dropped_comments_preserver(comments.cloned()),
+                    preserve_all_comments
+                ),
+            ))
+        };
 
         Ok(BuiltInput {
             program,
@@ -863,7 +877,7 @@ impl Options {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
 pub enum RootMode {
     #[serde(rename = "root")]
     Root,
@@ -1067,7 +1081,7 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub mangle: BoolOrDataConfig<MangleOptions>,
 
-    #[serde(default)]
+    #[serde(default, alias = "output")]
     pub format: JsMinifyFormatOptions,
 
     #[serde(default)]
@@ -1454,6 +1468,9 @@ pub struct JscExperimental {
     /// and will not be considered as breaking changes.
     #[serde(default)]
     pub cache_root: Option<String>,
+
+    #[serde(default)]
+    pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
@@ -1497,7 +1514,7 @@ impl Default for ErrorFormat {
 }
 
 /// `paths` section of `tsconfig.json`.
-pub type Paths = IndexMap<String, Vec<String>, ahash::RandomState>;
+pub type Paths = IndexMap<String, Vec<String>, ARandomState>;
 pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -1746,7 +1763,7 @@ pub struct ErrorConfig {
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct GlobalPassOption {
     #[serde(default)]
-    pub vars: IndexMap<JsWord, JsWord, ahash::RandomState>,
+    pub vars: IndexMap<JsWord, JsWord, ARandomState>,
     #[serde(default)]
     pub envs: GlobalInliningPassEnvs,
 
@@ -1826,7 +1843,7 @@ impl GlobalPassOption {
         } else {
             match &self.envs {
                 GlobalInliningPassEnvs::List(env_list) => {
-                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ahash::RandomState>> =
+                    static CACHE: Lazy<DashMap<Vec<String>, ValuesMap, ARandomState>> =
                         Lazy::new(Default::default);
 
                     let cache_key = env_list.iter().cloned().collect::<Vec<_>>();
@@ -1847,9 +1864,8 @@ impl GlobalPassOption {
                 }
 
                 GlobalInliningPassEnvs::Map(map) => {
-                    static CACHE: Lazy<
-                        DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>,
-                    > = Lazy::new(Default::default);
+                    static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ARandomState>> =
+                        Lazy::new(Default::default);
 
                     let cache_key = self
                         .vars
@@ -1873,7 +1889,7 @@ impl GlobalPassOption {
         };
 
         let global_exprs = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ahash::RandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, GlobalExprMap, ARandomState>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1904,7 +1920,7 @@ impl GlobalPassOption {
         };
 
         let global_map = {
-            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ahash::RandomState>> =
+            static CACHE: Lazy<DashMap<Vec<(JsWord, JsWord)>, ValuesMap, ARandomState>> =
                 Lazy::new(Default::default);
 
             let cache_key = self
@@ -1942,9 +1958,23 @@ fn default_env_name() -> String {
     }
 }
 
-fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ahash::RandomState>> =
+fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
+
+    // On Windows, we need to normalize path as UNC path.
+    if cfg!(target_os = "windows") {
+        base_url = base_url
+            .canonicalize()
+            .with_context(|| {
+                format!(
+                    "failed to canonicalize jsc.baseUrl(`{}`)\nThis is required on Windows \
+                     because of UNC path.",
+                    base_url.display()
+                )
+            })
+            .unwrap();
+    }
 
     if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
         return Box::new((*cached).clone());
@@ -1952,13 +1982,13 @@ fn build_resolver(base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResol
 
     let r = {
         let r = TsConfigResolver::new(
-            NodeModulesResolver::new(Default::default(), Default::default(), true),
+            NodeModulesResolver::without_node_modules(Default::default(), Default::default(), true),
             base_url.clone(),
             paths.clone(),
         );
         let r = CachingResolver::new(40, r);
 
-        let r = NodeImportResolver::new(r);
+        let r = NodeImportResolver::with_base_dir(r, Some(base_url.clone()));
         Arc::new(r)
     };
 

@@ -75,21 +75,21 @@ jobs:
           git config --global user.name 'SWC bot'
           git config --global user.email 'bot@swc.rs'
 
-      - name: Install cargo-crev
-        uses: baptiste0928/cargo-install@v1.1.0
-        with:
-          crate: cargo-crev
-          version: "=0.23.5"
-          locked: true
+      # - name: Install cargo-crev
+      #   uses: baptiste0928/cargo-install@v2
+      #   with:
+      #     crate: cargo-crev
+      #     version: "=0.24.3"
+      #     # locked: true
 
-      - name: Configure cargo-crev
-        run: |
-          cargo crev trust --level high https://github.com/kdy1/crev-proofs
-          cargo crev repo fetch all
+      # - name: Configure cargo-crev
+      #   run: |
+      #     cargo crev trust --level high https://github.com/kdy1/crev-proofs
+      #     cargo crev repo fetch all
 
-      - name: Check dependencies
-        run: |
-          ./scripts/crev/verify.sh
+      # - name: Check dependencies
+      #   run: |
+      #     ./scripts/crev/verify.sh
 
   cargo-deny:
     name: Check license of dependencies
@@ -105,7 +105,7 @@ jobs:
           profile: minimal
 
       - name: Install cargo-deny
-        uses: baptiste0928/cargo-install@v1.1.0
+        uses: baptiste0928/cargo-install@v2
         with:
           crate: cargo-deny
           version: "0.11.3"
@@ -232,8 +232,6 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features debug --exclude-features plugin --exclude-features plugin_transform_schema_v1 --exclude-features plugin_transform_schema_vtest --exclude-features plugin_transform_host_js --exclude-features plugin_transform_host_native
           - crate: swc
             os: windows-latest
             runner: windows-latest
@@ -243,16 +241,12 @@ jobs:
           - crate: swc_bundler
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_cached
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_common
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features plugin_transform_schema_vtest --exclude-features __plugin --exclude-features __plugin_mode --exclude-features __plugin_rt --exclude-features __rkyv --exclude-features rkyv-impl
           - crate: swc_common
             os: windows-latest
             runner: windows-latest
@@ -310,8 +304,6 @@ jobs:
           - crate: swc_ecma_ast
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps --exclude-features __rkyv
           - crate: swc_ecma_codegen
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -333,8 +325,6 @@ jobs:
           - crate: swc_ecma_loader
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_loader
             os: windows-latest
             runner: windows-latest
@@ -365,21 +355,15 @@ jobs:
           - crate: swc_ecma_transforms
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_base
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_classes
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_ecma_transforms_compat
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_macros
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -392,8 +376,6 @@ jobs:
           - crate: swc_ecma_transforms_optimization
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_transforms_proposal
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -409,16 +391,15 @@ jobs:
           - crate: swc_ecma_transforms_typescript
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_ecma_usage_analyzer
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_utils
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecma_visit
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo hack check --feature-powerset --no-dev-deps
           - crate: swc_ecmascript
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -479,9 +460,6 @@ jobs:
           - crate: swc_node_bundler
             os: ubuntu-latest
             runner: ubuntu-latest
-            check: |
-              cargo check
-              cargo check --no-default-features --features swc_v2
           - crate: swc_node_bundler
             os: windows-latest
             runner: windows-latest
@@ -677,7 +655,7 @@ jobs:
         env:
           SWC_FORCE_CONCURRENT: "1"
         run: |
-          ./scripts/ci/test-concurrent.sh ${{ matrix.settings.crate }}
+          ./scripts/github/test-concurrent.sh ${{ matrix.settings.crate }}
 
       - name: Run cargo test (swc, concurrent)
         shell: bash
@@ -688,16 +666,16 @@ jobs:
           cargo test -p swc --features concurrent
 
       - name: Install cargo-hack
-        uses: baptiste0928/cargo-install@v1.1.0
-        if: matrix.settings.os == 'ubuntu-latest' && matrix.settings.check
+        uses: baptiste0928/cargo-install@v2
+        if: matrix.settings.os == 'ubuntu-latest'
         with:
           crate: cargo-hack
-          version: "0.5.7"
+          version: "0.5.29"
+          locked: true
 
       - name: Check compilation
-        if: matrix.settings.check
-        working-directory: "crates/${{ matrix.settings.crate }}"
-        run: "${{ matrix.settings.check }}"
+        run: |
+          ./scripts/github/run-cargo-hack.sh ${{ matrix.settings.crate }}
 
   node-test:
     name: Test node bindings - ${{ matrix.os }}

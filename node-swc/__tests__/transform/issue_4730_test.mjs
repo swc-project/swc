@@ -1,5 +1,5 @@
 import swc from "../../..";
-import { dirname, join } from "path";
+import { dirname, join, resolve } from "path";
 import { platform } from "os";
 import { fileURLToPath } from "url";
 
@@ -21,6 +21,7 @@ it("should work", async () => {
                 dynamicImport: true,
             },
             target: "es2020",
+            baseUrl: resolve("."),
             paths: {
                 "@print/a": [join(dir, "./packages/a/src/index.ts")],
                 "@print/b": [join(dir, "./packages/b/src/index.ts")],
@@ -37,9 +38,9 @@ it("should work", async () => {
             value: true
         });
         const _interop_require_wildcard = require(\\"@swc/helpers/_/_interop_require_wildcard\\");
-        const _b = require(\\"../packages/b/src/index\\");
+        const _b = require(\\"../packages/b/src\\");
         async function display() {
-            const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require(\\"../packages/a/src/index\\"))).then((c)=>c.displayA);
+            const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require(\\"../packages/a/src\\"))).then((c)=>c.displayA);
             console.log(displayA());
             console.log((0, _b.displayB)());
         }

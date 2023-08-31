@@ -46,7 +46,7 @@
         "raw": "'./b'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -88,7 +88,7 @@
       ],
       "source": null,
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -130,7 +130,7 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -172,7 +172,7 @@
       ],
       "source": null,
       "typeOnly": true,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

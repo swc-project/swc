@@ -1,2 +1,2 @@
 //// [bug26693.js]
-export { };
+/** @typedef {module:locale} hi */ export { };

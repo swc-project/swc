@@ -1,2 +1,3 @@
 //// [comparisonOperatorWithNumberOperand.ts]
-t1;
+// repro #52036
+t1; // error

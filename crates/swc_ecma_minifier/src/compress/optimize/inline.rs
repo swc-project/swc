@@ -98,9 +98,7 @@ impl Optimizer<'_> {
             //
             // TODO: Allow `length` in usage.accessed_props
             if usage.declared
-                && !usage.reassigned()
-                && !usage.mutated
-                && !usage.has_property_mutation
+                && !usage.mutated()
                 && usage.accessed_props.is_empty()
                 && !usage.is_infected()
                 && is_inline_enabled
@@ -153,7 +151,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !usage.reassigned() {
+            if !usage.reassigned {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) => {
                         self.typeofs.insert(ident.to_id(), js_word!("function"));
@@ -165,7 +163,7 @@ impl Optimizer<'_> {
                 }
             }
 
-            if !usage.mutated {
+            if !usage.mutated() {
                 self.mode.store(ident.to_id(), &*init);
             }
 
@@ -177,7 +175,8 @@ impl Optimizer<'_> {
             // new variant is added for multi inline, think carefully
             if is_inline_enabled
                 && usage.declared_count == 1
-                && usage.can_inline_var()
+                && usage.assign_count == 0
+                && (!usage.has_property_mutation || !usage.reassigned)
                 && match init {
                     Expr::Ident(Ident {
                         sym: js_word!("eval"),
@@ -188,7 +187,7 @@ impl Optimizer<'_> {
                         if !usage.assigned_fn_local {
                             false
                         } else if let Some(u) = self.data.vars.get(&id.to_id()) {
-                            let mut should_inline = !u.reassigned() && u.declared;
+                            let mut should_inline = !u.reassigned && u.declared;
 
                             should_inline &=
                                 // Function declarations are hoisted
@@ -238,16 +237,42 @@ impl Optimizer<'_> {
                             && !(usage.has_property_mutation
                                 || usage.executed_multiple_time
                                 || usage.used_as_arg && ref_count > 1)
+                            && ref_count - 1 <= usage.callee_count
                     }
                     _ => false,
                 }
             {
                 self.mode.store(id.clone(), &*init);
 
-                let usage_count = usage.usage_count;
+                let VarUsageInfo {
+                    used_as_arg,
+                    used_as_ref,
+                    indexed_with_dynamic_key,
+                    usage_count,
+                    has_property_access,
+                    has_property_mutation,
+                    used_above_decl,
+                    executed_multiple_time,
+                    used_in_cond,
+                    used_recursively,
+                    no_side_effect_for_member_access,
+                    ..
+                } = *usage;
                 let mut inc_usage = || {
                     if let Expr::Ident(i) = &*init {
                         if let Some(u) = self.data.vars.get_mut(&i.to_id()) {
+                            u.used_as_arg |= used_as_arg;
+                            u.used_as_ref |= used_as_ref;
+                            u.indexed_with_dynamic_key |= indexed_with_dynamic_key;
+                            u.has_property_access |= has_property_access;
+                            u.has_property_mutation |= has_property_mutation;
+                            u.used_above_decl |= used_above_decl;
+                            u.executed_multiple_time |= executed_multiple_time;
+                            u.used_in_cond |= used_in_cond;
+                            u.used_recursively |= used_recursively;
+
+                            u.no_side_effect_for_member_access &= no_side_effect_for_member_access;
+
                             u.ref_count += ref_count;
                             u.usage_count += usage_count;
                         }
@@ -296,8 +321,8 @@ impl Optimizer<'_> {
                 && is_inline_enabled
                 && usage.declared
                 && may_remove
-                && !usage.reassigned()
-                && (usage.can_inline_var() || usage.is_mutated_only_by_one_call())
+                && !usage.reassigned
+                && usage.assign_count == 0
                 && ref_count == 1
             {
                 match init {
@@ -345,7 +370,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned() {
+                                if v_usage.reassigned {
                                     return;
                                 }
                             } else {
@@ -362,7 +387,7 @@ impl Optimizer<'_> {
                                 continue;
                             }
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned() {
+                                if v_usage.reassigned {
                                     return;
                                 }
                             } else {
@@ -374,7 +399,7 @@ impl Optimizer<'_> {
                     Expr::Object(..) if self.options.pristine_globals => {
                         for id in idents_used_by_ignoring_nested(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned() {
+                                if v_usage.reassigned {
                                     return;
                                 }
                             }
@@ -387,7 +412,7 @@ impl Optimizer<'_> {
                         }
 
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
-                            if init_usage.reassigned() || !init_usage.declared {
+                            if init_usage.reassigned || !init_usage.declared {
                                 return;
                             }
                         }
@@ -396,7 +421,7 @@ impl Optimizer<'_> {
                     _ => {
                         for id in idents_used_by(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned() || v_usage.has_property_mutation {
+                                if v_usage.reassigned || v_usage.has_property_mutation {
                                     return;
                                 }
                             }
@@ -508,7 +533,7 @@ impl Optimizer<'_> {
         }
 
         if let Some(usage) = self.data.vars.get(&i.to_id()) {
-            if !usage.reassigned() {
+            if !usage.reassigned {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
@@ -575,10 +600,10 @@ impl Optimizer<'_> {
                 return;
             }
 
-            if usage.reassigned() || usage.inline_prevented {
+            if usage.reassigned || usage.inline_prevented {
                 log_abort!(
                     "inline: [x] reassigned = {}, inline_prevented = {}",
-                    usage.reassigned(),
+                    usage.reassigned,
                     usage.inline_prevented
                 );
                 return;

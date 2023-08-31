@@ -28,7 +28,8 @@ pub(crate) fn name_mangler(
             swc_ecma_transforms_base::hygiene::Config {
                 keep_class_names: options.keep_class_names,
                 safari_10: options.safari10,
-                top_level_mark
+                top_level_mark,
+                ignore_eval: options.eval,
             },
             ManglingRenamer { chars, preserved }
         )

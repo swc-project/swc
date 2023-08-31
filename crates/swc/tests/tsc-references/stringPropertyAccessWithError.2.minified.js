@@ -1,1 +1,2 @@
 //// [stringPropertyAccessWithError.ts]
+ // error

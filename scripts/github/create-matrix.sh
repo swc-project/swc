@@ -27,17 +27,6 @@ do
         echo "  runner: ubuntu-latest"
     fi
 
-    if echo $json_str | jq -e ".check.\"$crate\"" > /dev/null; then
-        echo "  check: |"
-
-        check_commands=$(echo $json_str | jq -e -r ".check.\"$crate\" | .[]")
-
-        while IFS= read -r line; do
-            echo "    $line"
-        done <<< "$check_commands"
-    fi
-
-    
     if echo $json_str | jq -e "select(.os.macos | index(\"$crate\"))" > /dev/null; then
         echo "- crate: $crate"
         echo "  os: macos-latest"

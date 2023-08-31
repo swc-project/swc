@@ -1,8 +1,8 @@
 export const obj = {
     fireWith: function(context, args) {
-        return args = args || [], args = [
+        return args = [
             context,
-            args.slice ? args.slice() : args
+            (args = args || []).slice ? args.slice() : args
         ], list && (!fired || stack) && (firing ? stack.push(args) : fire(args)), this;
     }
 };

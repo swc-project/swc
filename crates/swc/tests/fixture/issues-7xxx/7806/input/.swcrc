@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "module": {
+        "type": "commonjs"
+    },
+    "jsc": {
+        "target": "es2021",
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "decoratorMetadata": true,
+            "useDefineForClassFields": false
+        },
+        "keepClassNames": true,
+        "baseUrl": ".",
+        "paths": {
+            "@utils/*": [
+                "src/utils/*"
+            ],
+        }
+    },
+}

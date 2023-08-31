@@ -8,3 +8,4 @@ var D = function D() {
     _class_call_check(this, D), this.x = 2, this.y = null;
 };
 new D(), new D(null);
+ // error

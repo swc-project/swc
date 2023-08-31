@@ -4,6 +4,6 @@ Outer.Inner = class {
     messages() {
         return [];
     }
-}, Outer.i;
+}, /** @type {!Outer.Inner} */ Outer.i;
 //// [b.js]
 Outer.i.messages();

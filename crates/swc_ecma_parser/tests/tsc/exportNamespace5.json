@@ -126,7 +126,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -168,7 +168,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -259,7 +259,7 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",
@@ -513,7 +513,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportAllDeclaration",
@@ -533,7 +533,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -615,7 +615,7 @@
         "raw": "\"./d\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

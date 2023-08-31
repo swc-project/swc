@@ -52,17 +52,17 @@ export default function createInstantSearchManager(param) {
         }).sort(sortIndexWidgetsFirst).reduce(function(indices, widget) {
             var indexId = isMultiIndexContext(widget) ? widget.props.indexContextValue.targetedIndex : widget.props.indexId, widgets = indices[indexId] || [];
             return swcHelpers.objectSpread({}, indices, swcHelpers.defineProperty({}, indexId, widgets.concat(widget)));
-        }, {}), derivedParameters = Object.keys(derivedIndices).map(function(indexId) {
-            return {
-                parameters: derivedIndices[indexId].reduce(function(res, widget) {
-                    return widget.getSearchParameters(res);
-                }, sharedParameters),
-                indexId: indexId
-            };
-        });
+        }, {});
         return {
             mainParameters: mainParameters,
-            derivedParameters: derivedParameters
+            derivedParameters: Object.keys(derivedIndices).map(function(indexId) {
+                return {
+                    parameters: derivedIndices[indexId].reduce(function(res, widget) {
+                        return widget.getSearchParameters(res);
+                    }, sharedParameters),
+                    indexId: indexId
+                };
+            })
         };
     }, search = function() {
         if (!skip) {

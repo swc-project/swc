@@ -209,7 +209,7 @@
         "raw": "\"./Foo.js\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ClassDeclaration",

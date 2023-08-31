@@ -1,4 +1,5 @@
 //// [intersectionReductionStrict.ts]
+// Repro from #31663
 var Tag1, Tag2;
 ab.kind, x, ({
     a: "foo",

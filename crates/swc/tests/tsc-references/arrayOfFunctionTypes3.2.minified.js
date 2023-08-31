@@ -1,4 +1,5 @@
 //// [arrayOfFunctionTypes3.ts]
+// valid uses of arrays of function types
 var a, a2, b2, c2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 [
@@ -13,3 +14,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     b2,
     c2
 ][0])("");
+ // any not string

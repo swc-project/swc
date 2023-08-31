@@ -1954,6 +1954,17 @@
                 display: "flex",
                 zIndex: "modal",
                 justifyContent: "center"
+            }, baseStyleDialog$1 = function(props) {
+                var isFullHeight = props.isFullHeight;
+                return sizes_501602a9_esm_extends({}, isFullHeight && {
+                    height: "100vh"
+                }, {
+                    zIndex: "modal",
+                    maxH: "100vh",
+                    bg: mode("white", "gray.700")(props),
+                    color: "inherit",
+                    boxShadow: mode("lg", "dark-lg")(props)
+                });
             }, baseStyleHeader$2 = {
                 px: 6,
                 py: 4,
@@ -1984,15 +1995,7 @@
                     return {
                         overlay: baseStyleOverlay$1,
                         dialogContainer: baseStyleDialogContainer$1,
-                        dialog: sizes_501602a9_esm_extends({}, props.isFullHeight && {
-                            height: "100vh"
-                        }, {
-                            zIndex: "modal",
-                            maxH: "100vh",
-                            bg: mode("white", "gray.700")(props),
-                            color: "inherit",
-                            boxShadow: mode("lg", "dark-lg")(props)
-                        }),
+                        dialog: baseStyleDialog$1(props),
                         header: baseStyleHeader$2,
                         closeButton: baseStyleCloseButton$3,
                         body: baseStyleBody$2,
@@ -2676,6 +2679,26 @@
                 sizes: sizes$8,
                 variants: Input.variants,
                 defaultProps: Input.defaultProps
+            }, baseStyleContainer$1 = function(props) {
+                var orientation = props.orientation;
+                return sizes_501602a9_esm_extends({
+                    display: "inline-block",
+                    position: "relative",
+                    cursor: "pointer",
+                    _disabled: {
+                        opacity: 0.6,
+                        cursor: "default",
+                        pointerEvents: "none"
+                    }
+                }, orient({
+                    orientation: orientation,
+                    vertical: {
+                        h: "100%"
+                    },
+                    horizontal: {
+                        w: "100%"
+                    }
+                }));
             }, baseStyleFilledTrack = function(props) {
                 var c = props.colorScheme;
                 return {
@@ -2740,24 +2763,7 @@
                 },
                 baseStyle: function(props) {
                     return {
-                        container: sizes_501602a9_esm_extends({
-                            display: "inline-block",
-                            position: "relative",
-                            cursor: "pointer",
-                            _disabled: {
-                                opacity: 0.6,
-                                cursor: "default",
-                                pointerEvents: "none"
-                            }
-                        }, orient({
-                            orientation: props.orientation,
-                            vertical: {
-                                h: "100%"
-                            },
-                            horizontal: {
-                                w: "100%"
-                            }
-                        })),
+                        container: baseStyleContainer$1(props),
                         track: {
                             overflow: "hidden",
                             borderRadius: "sm",
@@ -3359,19 +3365,19 @@
                 sm: null != (_Input$sizes$sm$field = Input.sizes.sm.field) ? _Input$sizes$sm$field : {},
                 md: null != (_Input$sizes$md$field = Input.sizes.md.field) ? _Input$sizes$md$field : {},
                 lg: null != (_Input$sizes$lg$field = Input.sizes.lg.field) ? _Input$sizes$lg$field : {}
-            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), foundations = sizes_501602a9_esm_extends({
-                breakpoints: ((0, chakra_ui_utils_esm.ZK)({
-                    condition: !0,
-                    message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
-                }), chakra_ui_theme_tools_esm_extends({
-                    base: "0em"
-                }, {
-                    sm: "30em",
-                    md: "48em",
-                    lg: "62em",
-                    xl: "80em",
-                    "2xl": "96em"
-                })),
+            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), breakpoints = ((0, chakra_ui_utils_esm.ZK)({
+                condition: !0,
+                message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
+            }), chakra_ui_theme_tools_esm_extends({
+                base: "0em"
+            }, {
+                sm: "30em",
+                md: "48em",
+                lg: "62em",
+                xl: "80em",
+                "2xl": "96em"
+            })), foundations = sizes_501602a9_esm_extends({
+                breakpoints: breakpoints,
                 zIndices: {
                     hide: -1,
                     auto: "auto",
@@ -4299,9 +4305,9 @@
                     __css: styles.title
                 }));
             }), AlertDescription = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
-                var descriptionStyles = chakra_ui_alert_esm_extends({
+                var styles = useStyles(), descriptionStyles = chakra_ui_alert_esm_extends({
                     display: "inline"
-                }, useStyles().description);
+                }, styles.description);
                 return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
                 }, props, {

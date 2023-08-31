@@ -250,7 +250,7 @@ where
                             specifiers: vec![],
                             src: Box::new(src.clone()),
                             type_only: false,
-                            asserts: None,
+                            with: None,
                         };
 
                         if self.top_level {
@@ -657,7 +657,7 @@ where
                             .collect(),
                         src: Box::new(src),
                         type_only: false,
-                        asserts: None,
+                        with: None,
                     };
 
                     // if self.top_level {

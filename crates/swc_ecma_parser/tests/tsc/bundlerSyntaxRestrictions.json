@@ -468,7 +468,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExpressionStatement",
@@ -631,7 +631,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "TsImportEqualsDeclaration",
@@ -698,7 +698,7 @@
       "specifiers": [],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

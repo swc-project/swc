@@ -20,7 +20,7 @@ var as = 100;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _t1 = require("@swc/helpers/_/_interop_require_wildcard")._(require("./t1"));
+var _t1 = /*#__PURE__*/ require("@swc/helpers/_/_interop_require_wildcard")._(require("./t1"));
 _t1.as, _t1.return;
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {

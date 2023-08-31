@@ -1,4 +1,5 @@
 //// [discriminatedUnionInference.ts]
+// Repro from #28862
 foo({
     kind: "a",
     data: 42
@@ -9,3 +10,4 @@ foo({
         2
     ]
 });
+ // number

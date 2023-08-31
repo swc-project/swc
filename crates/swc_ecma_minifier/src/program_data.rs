@@ -1,13 +1,10 @@
-use std::{
-    collections::{hash_map::Entry, HashSet},
-    hash::BuildHasherDefault,
-};
+use std::collections::hash_map::Entry;
 
 use indexmap::IndexSet;
-use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
+use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     SyntaxContext,
 };
 use swc_ecma_ast::*;
@@ -22,7 +19,7 @@ use swc_ecma_usage_analyzer::{
 };
 use swc_ecma_visit::VisitWith;
 
-pub(crate) fn analyze<N>(n: &N, _module_info: &ModuleInfo, marks: Option<Marks>) -> ProgramData
+pub(crate) fn analyze<N>(n: &N, marks: Option<Marks>) -> ProgramData
 where
     N: VisitWith<UsageAnalyzer<ProgramData>>,
 {
@@ -38,7 +35,7 @@ pub(crate) struct ProgramData {
 
     pub(crate) scopes: FxHashMap<SyntaxContext, ScopeData>,
 
-    initialized_vars: IndexSet<Id, ahash::RandomState>,
+    initialized_vars: IndexSet<Id, ARandomState>,
 }
 
 #[derive(Debug, Default, Clone)]
@@ -46,15 +43,6 @@ pub(crate) struct ScopeData {
     pub(crate) has_with_stmt: bool,
     pub(crate) has_eval_call: bool,
     pub(crate) used_arguments: bool,
-}
-
-#[derive(Debug, Default)]
-pub(crate) struct ModuleInfo {
-    /// Imported identifiers which should be treated as a black box.
-    ///
-    /// Imports from `@swc/helpers` are excluded as helpers are not modified by
-    /// accessing/calling other modules.
-    pub(crate) blackbox_imports: AHashSet<Id>,
 }
 
 #[derive(Debug, Clone)]
@@ -77,7 +65,6 @@ pub(crate) struct VarUsageInfo {
     pub(crate) declared_as_for_init: bool,
 
     pub(crate) assign_count: u32,
-    pub(crate) mutation_by_call_count: u32,
 
     /// The number of direct and indirect reference to this identifier.
     /// ## Things to note
@@ -86,9 +73,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) usage_count: u32,
 
     /// The variable itself is assigned after reference.
-    reassigned: bool,
-    /// The variable itself or a property of it is modified.
-    pub(crate) mutated: bool,
+    pub(crate) reassigned: bool,
 
     pub(crate) has_property_access: bool,
     pub(crate) has_property_mutation: bool,
@@ -151,10 +136,8 @@ impl Default for VarUsageInfo {
             declared_as_fn_expr: Default::default(),
             declared_as_for_init: Default::default(),
             assign_count: Default::default(),
-            mutation_by_call_count: Default::default(),
             usage_count: Default::default(),
             reassigned: Default::default(),
-            mutated: Default::default(),
             has_property_access: Default::default(),
             has_property_mutation: Default::default(),
             exported: Default::default(),
@@ -182,30 +165,22 @@ impl Default for VarUsageInfo {
 }
 
 impl VarUsageInfo {
-    pub(crate) fn is_mutated_only_by_one_call(&self) -> bool {
-        self.assign_count == 0 && self.mutation_by_call_count == 1
-    }
-
     pub(crate) fn is_infected(&self) -> bool {
         !self.infects_to.is_empty()
     }
 
-    pub(crate) fn reassigned(&self) -> bool {
-        self.reassigned
-            || (u32::from(self.var_initialized)
-                + u32::from(self.declared_as_catch_param)
-                + u32::from(self.declared_as_fn_param)
-                + self.assign_count)
-                > 1
-    }
-
-    pub(crate) fn can_inline_var(&self) -> bool {
-        !self.mutated || (self.assign_count == 0 && !self.reassigned())
+    /// The variable itself or a property of it is modified.
+    pub(crate) fn mutated(&self) -> bool {
+        self.assign_count > 0 || self.has_property_mutation
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
         self.callee_count > 0
             || !self.executed_multiple_time && (self.is_fn_local || !self.used_in_non_child_fn)
+    }
+
+    fn initialized(&self) -> bool {
+        self.var_initialized || self.declared_as_fn_param || self.declared_as_catch_param
     }
 }
 
@@ -247,6 +222,8 @@ impl Storage for ProgramData {
                         || (var_info.var_initialized && !e.get().var_initialized);
 
                     if var_info.var_initialized {
+                        // If it is inited in some other child scope and also inited in current
+                        // scope
                         if e.get().var_initialized || e.get().ref_count > 0 {
                             e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true;
@@ -259,6 +236,8 @@ impl Storage for ProgramData {
                         // If it is inited in some other child scope, but referenced in
                         // current child scope
                         if !inited && e.get().var_initialized && var_info.ref_count > 0 {
+                            e.get_mut().var_initialized = false;
+                            e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true
                         }
                     }
@@ -267,7 +246,11 @@ impl Storage for ProgramData {
 
                     e.get_mut().reassigned |= var_info.reassigned;
 
-                    e.get_mut().mutated |= var_info.mutated;
+                    if var_info.assign_count > 0 {
+                        if e.get().initialized() {
+                            e.get_mut().reassigned = true
+                        }
+                    }
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().has_property_mutation |= var_info.has_property_mutation;
@@ -287,7 +270,6 @@ impl Storage for ProgramData {
                     e.get_mut().executed_multiple_time |= var_info.executed_multiple_time;
                     e.get_mut().used_in_cond |= var_info.used_in_cond;
                     e.get_mut().assign_count += var_info.assign_count;
-                    e.get_mut().mutation_by_call_count += var_info.mutation_by_call_count;
                     e.get_mut().usage_count += var_info.usage_count;
 
                     e.get_mut().infects_to.extend(var_info.infects_to);
@@ -326,7 +308,7 @@ impl Storage for ProgramData {
                             }
                         }
                         ScopeKind::Block => {
-                            if var_info.used_in_non_child_fn {
+                            if e.get().used_in_non_child_fn {
                                 e.get_mut().is_fn_local = false;
                                 e.get_mut().used_in_non_child_fn = true;
                             }
@@ -366,13 +348,13 @@ impl Storage for ProgramData {
         let v = self.vars.entry(i.to_id()).or_default();
         v.is_top_level |= ctx.is_top_level;
 
-        if has_init && (v.declared || v.var_initialized) {
+        // assigned or declared before this declaration
+        if has_init && (v.declared || v.var_initialized || v.assign_count > 0) {
             #[cfg(feature = "debug")]
             {
                 tracing::trace!("declare_decl(`{}`): Already declared", i);
             }
 
-            v.mutated = true;
             v.reassigned = true;
             v.assign_count += 1;
         }
@@ -408,7 +390,7 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutattion(&mut self, id: Id, ctx: Ctx) {
+    fn mark_property_mutation(&mut self, id: Id, ctx: Ctx) {
         let e = self.vars.entry(id).or_default();
         e.has_property_mutation = true;
 
@@ -494,14 +476,6 @@ impl VarDataLike for VarUsageInfo {
         *self.accessed_props.entry(name).or_default() += 1;
     }
 
-    fn mark_mutated(&mut self) {
-        self.mutated = true;
-    }
-
-    fn mark_reassigned(&mut self) {
-        self.reassigned = true;
-    }
-
     fn mark_used_as_ref(&mut self) {
         self.used_as_ref = true;
     }
@@ -536,70 +510,6 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
-    #[allow(clippy::single_range_in_vec_init)]
-    pub(crate) fn expand_infected(
-        &self,
-        module_info: &ModuleInfo,
-        ids: FxHashSet<Access>,
-        max_num: usize,
-    ) -> Option<FxHashSet<Access>> {
-        let init =
-            HashSet::with_capacity_and_hasher(max_num, BuildHasherDefault::<FxHasher>::default());
-        ids.into_iter()
-            .try_fold(init, |mut res, id| {
-                let mut ids = Vec::with_capacity(max_num);
-                ids.push(id);
-                let mut ranges = vec![0..1usize];
-                loop {
-                    let range = ranges.remove(0);
-                    for index in range {
-                        let iid = ids.get(index).unwrap();
-
-                        // Abort on imported variables, because we can't analyze them
-                        if module_info.blackbox_imports.contains(&iid.0) {
-                            return Err(());
-                        }
-                        if !res.insert(iid.clone()) {
-                            continue;
-                        }
-                        if res.len() >= max_num {
-                            return Err(());
-                        }
-                        if let Some(info) = self.vars.get(&iid.0) {
-                            let infects = &info.infects_to;
-                            if !infects.is_empty() {
-                                let old_len = ids.len();
-
-                                // This is not a call, so effects from call can be skipped
-                                let can_skip_non_call = matches!(iid.1, AccessKind::Reference)
-                                    || (info.declared_count == 1
-                                        && info.declared_as_fn_decl
-                                        && !info.reassigned());
-
-                                if can_skip_non_call {
-                                    ids.extend(
-                                        infects
-                                            .iter()
-                                            .filter(|(_, kind)| *kind != AccessKind::Call)
-                                            .cloned(),
-                                    );
-                                } else {
-                                    ids.extend_from_slice(infects.as_slice());
-                                }
-                                let new_len = ids.len();
-                                ranges.push(old_len..new_len);
-                            }
-                        }
-                    }
-                    if ranges.is_empty() {
-                        break;
-                    }
-                }
-                Ok(res)
-            })
-            .ok()
-    }
-
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
@@ -688,46 +598,45 @@ impl ProgramData {
 
         let call_may_mutate = ctx.in_call_arg_of == Some(CalleeKind::Unknown);
 
-        // Passing object as a argument is possibly modification.
-        e.mutated |= is_modify || (call_may_mutate && ctx.is_exact_arg);
-
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
         if is_modify && ctx.is_exact_reassignment {
             if is_first {
+                if e.assign_count > 0 || e.initialized() {
+                    e.reassigned = true
+                }
+
                 e.assign_count += 1;
+
+                if !ctx.is_op_assign {
+                    if e.ref_count == 1
+                        && ctx.in_assign_lhs
+                        && e.var_kind != Some(VarDeclKind::Const)
+                        && !inited
+                    {
+                        self.initialized_vars.insert(i.clone());
+                        e.assign_count -= 1;
+                        e.var_initialized = true;
+                    } else {
+                        e.reassigned = true
+                    }
+                }
             }
 
             if ctx.is_op_assign {
                 e.usage_count += 1;
-            } else if is_first {
-                if e.ref_count == 1
-                    && ctx.in_assign_lhs
-                    && e.var_kind != Some(VarDeclKind::Const)
-                    && !inited
-                {
-                    self.initialized_vars.insert(i.clone());
-                    e.assign_count -= 1;
-                    e.var_initialized = true;
-                } else {
-                    e.reassigned = true
-                }
             }
 
             for other in e.infects_to.clone() {
                 self.report(other.0, ctx, true, dejavu)
             }
         } else {
-            if call_may_mutate && ctx.is_exact_arg {
-                e.mutation_by_call_count += 1;
-            }
-
             e.usage_count += 1;
         }
 
         if call_may_mutate && ctx.is_exact_arg {
-            self.mark_property_mutattion(i, ctx)
+            self.mark_property_mutation(i, ctx)
         }
     }
 }

@@ -1,4 +1,5 @@
 //// [intersectionReduction.ts]
+// Repro from #31663
 var Tag1, Tag2;
 ab.kind, x, f10(a1), f10(a2), ({
     a: "foo",

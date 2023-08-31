@@ -2,4 +2,6 @@
 var x = {
     m: !0
 };
-checkTruths(x), checkM(x), console.log(x.z), x.m;
+// Should be OK
+checkTruths(x), // Should be OK
+checkM(x), console.log(x.z), x.m;

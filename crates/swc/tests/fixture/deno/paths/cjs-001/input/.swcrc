@@ -1,7 +1,11 @@
 {
     "jsc": {
+        "baseUrl": ".",
         "paths": {
-            "*": ["src/*", "src2/*"]
+            "*": [
+                "src/*",
+                "src2/*"
+            ]
         }
     },
     "module": {

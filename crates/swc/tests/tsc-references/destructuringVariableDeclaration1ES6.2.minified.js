@@ -1,4 +1,6 @@
 //// [destructuringVariableDeclaration1ES6.ts]
+// The type T associated with a destructuring variable declaration is determined as follows:
+//      If the declaration includes a type annotation, T is that type.
 var { a1, a2 } = {
     a1: 10,
     a2: "world"

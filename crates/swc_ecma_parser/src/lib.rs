@@ -175,11 +175,11 @@ impl Syntax {
         }
     }
 
-    pub fn import_assertions(self) -> bool {
+    pub fn import_attributes(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
-                import_assertions, ..
-            }) => import_assertions,
+                import_attributes, ..
+            }) => import_attributes,
             Syntax::Typescript(_) => true,
         }
     }
@@ -282,9 +282,12 @@ impl Syntax {
         }
     }
 
-    fn using_decl(&self) -> bool {
+    pub fn explicit_resource_management(&self) -> bool {
         match self {
-            Syntax::Es(EsConfig { using_decl, .. }) => *using_decl,
+            Syntax::Es(EsConfig {
+                explicit_resource_management: using_decl,
+                ..
+            }) => *using_decl,
             Syntax::Typescript(_) => true,
         }
     }
@@ -341,8 +344,8 @@ pub struct EsConfig {
     pub export_default_from: bool,
 
     /// Stage 3.
-    #[serde(default)]
-    pub import_assertions: bool,
+    #[serde(default, alias = "importAssertions")]
+    pub import_attributes: bool,
 
     #[serde(default, rename = "allowSuperOutsideMethod")]
     pub allow_super_outside_method: bool,
@@ -354,7 +357,7 @@ pub struct EsConfig {
     pub auto_accessors: bool,
 
     #[serde(default)]
-    pub using_decl: bool,
+    pub explicit_resource_management: bool,
 }
 
 /// Syntactic context.
@@ -490,13 +493,16 @@ expose!(parse_file_as_script, Script, |p| { p.parse_script() });
 expose!(parse_file_as_program, Program, |p| { p.parse_program() });
 
 #[inline(always)]
-#[cfg(any(target_arch = "wasm32", target_arch = "arm"))]
+#[cfg(any(target_arch = "wasm32", target_arch = "arm", not(feature = "stacker")))]
 fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
     callback()
 }
 
 #[inline(always)]
-#[cfg(not(any(target_arch = "wasm32", target_arch = "arm")))]
+#[cfg(all(
+    not(any(target_arch = "wasm32", target_arch = "arm")),
+    feature = "stacker"
+))]
 fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
     stacker::maybe_grow(red_zone, stack_size, callback)
 }

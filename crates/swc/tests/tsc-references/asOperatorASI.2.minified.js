@@ -12,3 +12,4 @@ function _templateObject() {
 as(_templateObject()), as(function Foo() {
     _class_call_check(this, Foo);
 });
+ // should emit

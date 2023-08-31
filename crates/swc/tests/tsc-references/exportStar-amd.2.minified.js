@@ -94,5 +94,5 @@ define([
 ], function(require, exports, _interop_require_wildcard, _t4) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), (_t4 = _interop_require_wildcard._(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
+    }), (_t4 = /*#__PURE__*/ _interop_require_wildcard._(_t4)).default, _t4.x, _t4.y, _t4.z, _t4.foo;
 });

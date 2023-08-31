@@ -41,7 +41,7 @@ pub enum ImportAssertion {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
-pub enum ImportAssertions {
+pub enum ImportAttributes {
     /// There was no import assertions object literal.
     None,
     /// The set of assertion keys could not be statically analyzed.
@@ -51,16 +51,16 @@ pub enum ImportAssertions {
     Known(HashMap<String, ImportAssertion>),
 }
 
-impl Default for ImportAssertions {
+impl Default for ImportAttributes {
     fn default() -> Self {
-        ImportAssertions::None
+        ImportAttributes::None
     }
 }
 
-impl ImportAssertions {
+impl ImportAttributes {
     pub fn get(&self, key: &str) -> Option<&String> {
         match self {
-            ImportAssertions::Known(map) => match map.get(key) {
+            ImportAttributes::Known(map) => match map.get(key) {
                 Some(ImportAssertion::Known(value)) => Some(value),
                 _ => None,
             },
@@ -84,7 +84,7 @@ pub struct DependencyDescriptor {
     /// The span of the specifier.
     pub specifier_span: Span,
     /// Import assertions for this dependency.
-    pub import_assertions: ImportAssertions,
+    pub import_attributes: ImportAttributes,
 }
 
 struct DependencyCollector<'a> {
@@ -110,7 +110,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         } else {
             DependencyKind::Import
         };
-        let import_assertions = parse_import_assertions(node.asserts.as_deref());
+        let import_attributes = parse_import_attributes(node.with.as_deref());
         self.items.push(DependencyDescriptor {
             kind,
             is_dynamic: false,
@@ -118,7 +118,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.src.span,
-            import_assertions,
+            import_attributes,
         });
     }
 
@@ -131,7 +131,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             } else {
                 DependencyKind::Export
             };
-            let import_assertions = parse_import_assertions(node.asserts.as_deref());
+            let import_attributes = parse_import_attributes(node.with.as_deref());
             self.items.push(DependencyDescriptor {
                 kind,
                 is_dynamic: false,
@@ -139,7 +139,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 span: node.span,
                 specifier,
                 specifier_span: src.span,
-                import_assertions,
+                import_attributes,
             });
         }
     }
@@ -152,7 +152,7 @@ impl<'a> Visit for DependencyCollector<'a> {
         } else {
             DependencyKind::Export
         };
-        let import_assertions = parse_import_assertions(node.asserts.as_deref());
+        let import_attributes = parse_import_attributes(node.with.as_deref());
         self.items.push(DependencyDescriptor {
             kind,
             is_dynamic: false,
@@ -160,7 +160,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.src.span,
-            import_assertions,
+            import_attributes,
         });
     }
 
@@ -175,8 +175,9 @@ impl<'a> Visit for DependencyCollector<'a> {
             span: node.span,
             specifier,
             specifier_span: node.arg.span,
-            import_assertions: Default::default(),
+            import_attributes: Default::default(),
         });
+        node.visit_children_with(self);
     }
 
     fn visit_module_items(&mut self, items: &[ast::ModuleItem]) {
@@ -230,7 +231,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                     span: node.span,
                     specifier,
                     specifier_span: str_.span,
-                    import_assertions: dynamic_import_assertions,
+                    import_attributes: dynamic_import_assertions,
                 });
             }
         }
@@ -259,7 +260,7 @@ impl<'a> Visit for DependencyCollector<'a> {
                 span: node.span,
                 specifier,
                 specifier_span: expr.span,
-                import_assertions: Default::default(),
+                import_attributes: Default::default(),
             });
         }
     }
@@ -268,13 +269,13 @@ impl<'a> Visit for DependencyCollector<'a> {
 /// Parses import assertions into a hashmap. According to proposal the values
 /// can only be strings (https://github.com/tc39/proposal-import-assertions#should-more-than-just-strings-be-supported-as-attribute-values)
 /// and thus non-string values are skipped.
-fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> ImportAssertions {
-    let asserts = match asserts {
-        Some(asserts) => asserts,
-        None => return ImportAssertions::None,
+fn parse_import_attributes(attrs: Option<&ast::ObjectLit>) -> ImportAttributes {
+    let attrs = match attrs {
+        Some(with) => with,
+        None => return ImportAttributes::None,
     };
     let mut import_assertions = HashMap::new();
-    for prop in asserts.props.iter() {
+    for prop in attrs.props.iter() {
         if let ast::PropOrSpread::Prop(prop) = prop {
             if let ast::Prop::KeyValue(key_value) = &**prop {
                 let maybe_key = match &key_value.key {
@@ -292,23 +293,23 @@ fn parse_import_assertions(asserts: Option<&ast::ObjectLit>) -> ImportAssertions
             }
         }
     }
-    ImportAssertions::Known(import_assertions)
+    ImportAttributes::Known(import_assertions)
 }
 
 /// Parses import assertions from the second arg of a dynamic import.
-fn parse_dynamic_import_assertions(arg: Option<&ast::ExprOrSpread>) -> ImportAssertions {
+fn parse_dynamic_import_assertions(arg: Option<&ast::ExprOrSpread>) -> ImportAttributes {
     let arg = match arg {
         Some(arg) => arg,
-        None => return ImportAssertions::None,
+        None => return ImportAttributes::None,
     };
 
     if arg.spread.is_some() {
-        return ImportAssertions::Unknown;
+        return ImportAttributes::Unknown;
     }
 
     let object_lit = match &*arg.expr {
         ast::Expr::Object(object_lit) => object_lit,
-        _ => return ImportAssertions::Unknown,
+        _ => return ImportAttributes::Unknown,
     };
 
     let mut assertions_map = HashMap::new();
@@ -317,37 +318,37 @@ fn parse_dynamic_import_assertions(arg: Option<&ast::ExprOrSpread>) -> ImportAss
     for prop in object_lit.props.iter() {
         let prop = match prop {
             ast::PropOrSpread::Prop(prop) => prop,
-            _ => return ImportAssertions::Unknown,
+            _ => return ImportAttributes::Unknown,
         };
         let key_value = match &**prop {
             ast::Prop::KeyValue(key_value) => key_value,
-            _ => return ImportAssertions::Unknown,
+            _ => return ImportAttributes::Unknown,
         };
         let key = match &key_value.key {
             ast::PropName::Str(key) => key.value.to_string(),
             ast::PropName::Ident(ident) => ident.sym.to_string(),
-            _ => return ImportAssertions::Unknown,
+            _ => return ImportAttributes::Unknown,
         };
-        if key == "assert" {
+        if key == "assert" || key == "with" {
             had_assert_key = true;
             let assertions_lit = match &*key_value.value {
                 ast::Expr::Object(assertions_lit) => assertions_lit,
-                _ => return ImportAssertions::Unknown,
+                _ => return ImportAttributes::Unknown,
             };
 
             for prop in assertions_lit.props.iter() {
                 let prop = match prop {
                     ast::PropOrSpread::Prop(prop) => prop,
-                    _ => return ImportAssertions::Unknown,
+                    _ => return ImportAttributes::Unknown,
                 };
                 let key_value = match &**prop {
                     ast::Prop::KeyValue(key_value) => key_value,
-                    _ => return ImportAssertions::Unknown,
+                    _ => return ImportAttributes::Unknown,
                 };
                 let key = match &key_value.key {
                     ast::PropName::Str(key) => key.value.to_string(),
                     ast::PropName::Ident(ident) => ident.sym.to_string(),
-                    _ => return ImportAssertions::Unknown,
+                    _ => return ImportAttributes::Unknown,
                 };
                 if let ast::Expr::Lit(value_lit) = &*key_value.value {
                     assertions_map.insert(
@@ -366,9 +367,9 @@ fn parse_dynamic_import_assertions(arg: Option<&ast::ExprOrSpread>) -> ImportAss
     }
 
     if had_assert_key {
-        ImportAssertions::Known(assertions_map)
+        ImportAttributes::Known(assertions_map)
     } else {
-        ImportAssertions::None
+        ImportAttributes::None
     }
 }
 
@@ -477,7 +478,7 @@ try {
                     span: Span::new(BytePos(1), BytePos(34), Default::default()),
                     specifier: JsWord::from("./test.ts"),
                     specifier_span: Span::new(BytePos(22), BytePos(33), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -490,7 +491,7 @@ try {
                     span: Span::new(BytePos(48), BytePos(86), Default::default()),
                     specifier: JsWord::from("./foo.d.ts"),
                     specifier_span: Span::new(BytePos(73), BytePos(85), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -503,7 +504,7 @@ try {
                     span: Span::new(BytePos(115), BytePos(149), Default::default()),
                     specifier: JsWord::from("./buzz.ts"),
                     specifier_span: Span::new(BytePos(137), BytePos(148), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportType,
@@ -523,7 +524,7 @@ try {
                     span: Span::new(BytePos(181), BytePos(221), Default::default()),
                     specifier: JsWord::from("./fizz.d.ts"),
                     specifier_span: Span::new(BytePos(207), BytePos(220), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -532,7 +533,7 @@ try {
                     span: Span::new(BytePos(239), BytePos(254), Default::default()),
                     specifier: JsWord::from("path"),
                     specifier_span: Span::new(BytePos(247), BytePos(253), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -541,7 +542,7 @@ try {
                     span: Span::new(BytePos(274), BytePos(293), Default::default()),
                     specifier: JsWord::from("./foo1.ts"),
                     specifier_span: Span::new(BytePos(281), BytePos(292), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -550,7 +551,7 @@ try {
                     span: Span::new(BytePos(324), BytePos(342), Default::default()),
                     specifier: JsWord::from("./foo.ts"),
                     specifier_span: Span::new(BytePos(331), BytePos(341), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -559,7 +560,7 @@ try {
                     span: Span::new(BytePos(395), BytePos(418), Default::default()),
                     specifier: JsWord::from("some_package"),
                     specifier_span: Span::new(BytePos(403), BytePos(417), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportEquals,
@@ -568,7 +569,7 @@ try {
                     span: Span::new(BytePos(449), BytePos(491), Default::default()),
                     specifier: JsWord::from("some_package_foo"),
                     specifier_span: Span::new(BytePos(471), BytePos(489), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ImportType,
@@ -577,7 +578,7 @@ try {
                     span: Span::new(BytePos(492), BytePos(547), Default::default()),
                     specifier: JsWord::from("some_package_foo_type"),
                     specifier_span: Span::new(BytePos(522), BytePos(545), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::ExportEquals,
@@ -586,7 +587,7 @@ try {
                     span: Span::new(BytePos(548), BytePos(597), Default::default()),
                     specifier: JsWord::from("some_package_bar"),
                     specifier_span: Span::new(BytePos(577), BytePos(595), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -595,7 +596,7 @@ try {
                     span: Span::new(BytePos(612), BytePos(651), Default::default()),
                     specifier: JsWord::from("some_package_resolve"),
                     specifier_span: Span::new(BytePos(628), BytePos(650), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Require,
@@ -604,7 +605,7 @@ try {
                     span: Span::new(BytePos(676), BytePos(719), Default::default()),
                     specifier: JsWord::from("some_package_resolve_foo"),
                     specifier_span: Span::new(BytePos(692), BytePos(718), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
             ]
         );
@@ -630,7 +631,7 @@ const d9 = await import("./d9.json", { assert: { type: "json", ...bar } });
 const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad" } });
       "#;
         let (module, comments) = helper("test.ts", source).unwrap();
-        let expected_assertions1 = ImportAssertions::Known({
+        let expected_assertions1 = ImportAttributes::Known({
             let mut map = HashMap::new();
             map.insert(
                 "type".to_string(),
@@ -638,7 +639,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
             );
             map
         });
-        let expected_assertions2 = ImportAssertions::Known({
+        let expected_assertions2 = ImportAttributes::Known({
             let mut map = HashMap::new();
             map.insert(
                 "type".to_string(),
@@ -646,7 +647,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
             );
             map
         });
-        let dynamic_expected_assertions2 = ImportAssertions::Known({
+        let dynamic_expected_assertions2 = ImportAttributes::Known({
             let mut map = HashMap::new();
             map.insert(
                 "type".to_string(),
@@ -666,7 +667,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(1), BytePos(66), Default::default()),
                     specifier: JsWord::from("./test.ts"),
                     specifier_span: Span::new(BytePos(22), BytePos(33), Default::default()),
-                    import_assertions: expected_assertions1.clone(),
+                    import_attributes: expected_assertions1.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -675,7 +676,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(67), BytePos(125), Default::default()),
                     specifier: JsWord::from("./test.ts"),
                     specifier_span: Span::new(BytePos(81), BytePos(92), Default::default()),
-                    import_assertions: expected_assertions1,
+                    import_attributes: expected_assertions1,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Export,
@@ -684,7 +685,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(126), BytePos(186), Default::default()),
                     specifier: JsWord::from("./test.json"),
                     specifier_span: Span::new(BytePos(146), BytePos(159), Default::default()),
-                    import_assertions: expected_assertions2.clone(),
+                    import_attributes: expected_assertions2.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -693,7 +694,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(187), BytePos(240), Default::default()),
                     specifier: JsWord::from("./foo.json"),
                     specifier_span: Span::new(BytePos(203), BytePos(215), Default::default()),
-                    import_assertions: expected_assertions2,
+                    import_attributes: expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -702,7 +703,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(260), BytePos(313), Default::default()),
                     specifier: JsWord::from("./fizz.json"),
                     specifier_span: Span::new(BytePos(267), BytePos(280), Default::default()),
-                    import_assertions: dynamic_expected_assertions2.clone(),
+                    import_attributes: dynamic_expected_assertions2.clone(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -711,7 +712,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(334), BytePos(387), Default::default()),
                     specifier: JsWord::from("./buzz.json"),
                     specifier_span: Span::new(BytePos(341), BytePos(354), Default::default()),
-                    import_assertions: dynamic_expected_assertions2,
+                    import_attributes: dynamic_expected_assertions2,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -720,7 +721,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(406), BytePos(425), Default::default()),
                     specifier: JsWord::from("./d1.json"),
                     specifier_span: Span::new(BytePos(413), BytePos(424), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -729,7 +730,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(444), BytePos(467), Default::default()),
                     specifier: JsWord::from("./d2.json"),
                     specifier_span: Span::new(BytePos(451), BytePos(462), Default::default()),
-                    import_assertions: Default::default(),
+                    import_attributes: Default::default(),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -738,7 +739,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(486), BytePos(510), Default::default()),
                     specifier: JsWord::from("./d3.json"),
                     specifier_span: Span::new(BytePos(493), BytePos(504), Default::default()),
-                    import_assertions: ImportAssertions::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -747,7 +748,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(529), BytePos(564), Default::default()),
                     specifier: JsWord::from("./d4.json"),
                     specifier_span: Span::new(BytePos(536), BytePos(547), Default::default()),
-                    import_assertions: ImportAssertions::Known(HashMap::new()),
+                    import_attributes: ImportAttributes::Known(HashMap::new()),
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -756,7 +757,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(583), BytePos(619), Default::default()),
                     specifier: JsWord::from("./d5.json"),
                     specifier_span: Span::new(BytePos(590), BytePos(601), Default::default()),
-                    import_assertions: ImportAssertions::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -765,7 +766,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(638), BytePos(681), Default::default()),
                     specifier: JsWord::from("./d6.json"),
                     specifier_span: Span::new(BytePos(645), BytePos(656), Default::default()),
-                    import_assertions: ImportAssertions::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -774,7 +775,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(700), BytePos(754), Default::default()),
                     specifier: JsWord::from("./d7.json"),
                     specifier_span: Span::new(BytePos(707), BytePos(718), Default::default()),
-                    import_assertions: ImportAssertions::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -783,7 +784,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(773), BytePos(819), Default::default()),
                     specifier: JsWord::from("./d8.json"),
                     specifier_span: Span::new(BytePos(780), BytePos(791), Default::default()),
-                    import_assertions: ImportAssertions::Known({
+                    import_attributes: ImportAttributes::Known({
                         let mut map = HashMap::new();
                         map.insert("type".to_string(), ImportAssertion::Unknown);
                         map
@@ -796,7 +797,7 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(838), BytePos(895), Default::default()),
                     specifier: JsWord::from("./d9.json"),
                     specifier_span: Span::new(BytePos(845), BytePos(856), Default::default()),
-                    import_assertions: ImportAssertions::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
                 DependencyDescriptor {
                     kind: DependencyKind::Import,
@@ -805,8 +806,51 @@ const d10 = await import("./d10.json", { assert: { type: "json", ["type"]: "bad"
                     span: Span::new(BytePos(915), BytePos(982), Default::default()),
                     specifier: JsWord::from("./d10.json"),
                     specifier_span: Span::new(BytePos(922), BytePos(934), Default::default()),
-                    import_assertions: ImportAssertions::Unknown,
+                    import_attributes: ImportAttributes::Unknown,
                 },
+            ]
+        );
+    }
+
+    #[test]
+    fn ts_import_object_lit_property() {
+        let source = r#"
+export declare const SomeValue: typeof Core & import("./a.d.ts").Constructor<{
+    paginate: import("./b.d.ts").PaginateInterface;
+} & import("./c.d.ts").RestEndpointMethods>;
+"#;
+        let (module, comments) = helper("test.ts", source).unwrap();
+        let dependencies = analyze_dependencies(&module, &comments);
+        assert_eq!(
+            dependencies,
+            vec![
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(48), BytePos(176), Default::default()),
+                    specifier: JsWord::from("./a.d.ts"),
+                    specifier_span: Span::new(BytePos(55), BytePos(65), Default::default()),
+                    import_attributes: ImportAttributes::None,
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(95), BytePos(131), Default::default()),
+                    specifier: JsWord::from("./b.d.ts"),
+                    specifier_span: Span::new(BytePos(102), BytePos(112), Default::default()),
+                    import_attributes: ImportAttributes::None,
+                },
+                DependencyDescriptor {
+                    kind: DependencyKind::ImportType,
+                    is_dynamic: false,
+                    leading_comments: Vec::new(),
+                    span: Span::new(BytePos(137), BytePos(175), Default::default()),
+                    specifier: JsWord::from("./c.d.ts"),
+                    specifier_span: Span::new(BytePos(144), BytePos(154), Default::default()),
+                    import_attributes: ImportAttributes::None,
+                }
             ]
         );
     }

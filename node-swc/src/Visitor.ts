@@ -173,7 +173,7 @@ import {
   WhileStatement,
   WithStatement,
   YieldExpression,
-} from "./types";
+} from "@swc/types";
 
 export class Visitor {
   visitProgram(n: Program): Program {

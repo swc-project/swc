@@ -56,7 +56,7 @@ fn init_helpers() -> Arc<PathBuf> {
             .unwrap()
             .to_path_buf();
 
-        let helper_dir = project_root.join("packages").join("swc-helpers");
+        let helper_dir = project_root.join("packages").join("helpers");
 
         if env::var("SKIP_HELPERS").unwrap_or_default() == "1" {
             return Arc::new(helper_dir);
@@ -102,7 +102,7 @@ fn init_helpers() -> Arc<PathBuf> {
                 .arg("install")
                 .arg("--no-save")
                 .arg("--no-package-lock")
-                .arg("./packages/swc-helpers");
+                .arg("./packages/helpers");
             let status = cmd
                 .status()
                 .expect("failed to install helper package from root");

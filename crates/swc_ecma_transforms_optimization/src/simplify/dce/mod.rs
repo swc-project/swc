@@ -5,7 +5,7 @@ use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     pass::{CompilerPass, Repeated},
     util::take::Take,
     Mark, SyntaxContext, DUMMY_SP,
@@ -113,7 +113,7 @@ struct Data {
     /// Entrypoints.
     entries: FxHashSet<u32>,
 
-    graph_ix: IndexSet<Id, ahash::RandomState>,
+    graph_ix: IndexSet<Id, ARandomState>,
 }
 
 impl Data {

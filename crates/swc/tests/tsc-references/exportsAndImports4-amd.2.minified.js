@@ -27,7 +27,7 @@ define([
     Object.defineProperty(exports, "__esModule", {
         value: !0
     });
-    var _t11 = _interop_require_wildcard._(_t1);
+    var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
     _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;
 });
 //// [t3.ts]
@@ -70,6 +70,6 @@ define([
             return _t11.default;
         }
     });
-    var _t11 = _interop_require_wildcard._(_t1);
+    var _t11 = /*#__PURE__*/ _interop_require_wildcard._(_t1);
     _t1.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default, _t11.default;
 });

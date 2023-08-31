@@ -641,6 +641,13 @@ define!({
         LayerPrelude(LayerPrelude),
         ContainerPrelude(ContainerCondition),
         CustomMediaPrelude(CustomMediaQuery),
+        ScopePrelude(ScopeRange),
+    }
+
+    pub struct ScopeRange {
+        pub span: Span,
+        pub scope_start: Option<ForgivingSelectorList>,
+        pub scope_end: Option<ForgivingSelectorList>,
     }
 
     pub struct ListOfComponentValues {

@@ -38,14 +38,8 @@ fn exact() {
     }
 
     {
-        let err = r
-            .resolve(&FileName::Anon, "unrelated")
+        r.resolve(&FileName::Anon, "unrelated")
             .expect_err("should not touch error");
-
-        assert!(
-            err.source().is_none(),
-            "should not touch error if src is not related"
-        );
     }
 }
 

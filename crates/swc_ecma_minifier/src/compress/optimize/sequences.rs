@@ -1127,25 +1127,6 @@ impl Optimizer<'_> {
                         Mergable::Drop => return false,
                     }
 
-                    // We can't proceed if the rhs (a.id = b.right) is
-                    // initialized with an initializer
-                    // (a.right) which has a side effect for pc (b.left)
-                    //
-                    // ```js
-                    // 
-                    //  function f(x) {
-                    //      pc = 200;
-                    //      return 100;
-                    //  }
-                    //  function x() {
-                    //      var t = f();
-                    //      pc += t;
-                    //      return pc;
-                    //  }
-                    //  var pc = 0;
-                    //  console.log(x());
-                    // ```
-                    //
                     let ids_used_by_a_init = match a {
                         Mergable::Var(a) => a.init.as_ref().map(|init| {
                             collect_infects_from(
@@ -1158,25 +1139,14 @@ impl Optimizer<'_> {
                             )
                         }),
                         Mergable::Expr(a) => match a {
-                            Expr::Assign(AssignExpr {
-                                left,
-                                right,
-                                op: op!("="),
-                                ..
-                            }) => {
-                                if left.as_ident().is_some() {
-                                    Some(collect_infects_from(
-                                        right,
-                                        AliasConfig {
-                                            marks: Some(self.marks),
-                                            ignore_nested: true,
-                                            need_all: true,
-                                        },
-                                    ))
-                                } else {
-                                    None
-                                }
-                            }
+                            Expr::Assign(a) if a.is_simple_assign() => Some(collect_infects_from(
+                                &a.right,
+                                AliasConfig {
+                                    marks: Some(self.marks),
+                                    ignore_nested: true,
+                                    need_all: true,
+                                },
+                            )),
 
                             _ => None,
                         },
@@ -1193,20 +1163,16 @@ impl Optimizer<'_> {
                         Mergable::Drop => return false,
                     };
 
-                    if let Some(ids_used_by_a_init) = ids_used_by_a_init {
-                        let deps =
-                            self.data
-                                .expand_infected(self.module_info, ids_used_by_a_init, 64);
-
-                        let deps = match deps {
-                            Some(v) => v,
-                            _ => return false,
-                        };
+                    if let Some(deps) = ids_used_by_a_init {
                         if deps.contains(&(e.to_id(), AccessKind::Reference))
                             || deps.contains(&(e.to_id(), AccessKind::Call))
                         {
                             return false;
                         }
+                    }
+
+                    if !self.assignee_skippable_for_seq(a, e) {
+                        return false;
                     }
                 }
 
@@ -1490,6 +1456,43 @@ impl Optimizer<'_> {
         }
     }
 
+    fn assignee_skippable_for_seq(&self, a: &Mergable, assignee: &Ident) -> bool {
+        let usgae = if let Some(usage) = self.data.vars.get(&assignee.to_id()) {
+            usage
+        } else {
+            return false;
+        };
+        match a {
+            Mergable::Expr(a) => {
+                let has_side_effect = match a {
+                    Expr::Assign(a) if a.is_simple_assign() => {
+                        a.right.may_have_side_effects(&self.expr_ctx)
+                    }
+                    _ => a.may_have_side_effects(&self.expr_ctx),
+                };
+                if has_side_effect && !usgae.is_fn_local && (usgae.exported || usgae.reassigned) {
+                    log_abort!("a (expr) has side effect");
+                    return false;
+                }
+            }
+            Mergable::Var(a) => {
+                if let Some(init) = &a.init {
+                    if init.may_have_side_effects(&self.expr_ctx)
+                        && !usgae.is_fn_local
+                        && (usgae.exported || usgae.reassigned)
+                    {
+                        log_abort!("a (var) init has side effect");
+                        return false;
+                    }
+                }
+            }
+            Mergable::FnDecl(_) => (),
+            Mergable::Drop => return false,
+        }
+
+        true
+    }
+
     /// Returns true if something is modified.
     ///
     /// Returns [Err] iff we should stop checking.
@@ -1685,12 +1688,8 @@ impl Optimizer<'_> {
                             return Ok(true);
                         }
 
-                        match &**b_left {
-                            Expr::Ident(..) => {}
-
-                            _ => {
-                                return Ok(false);
-                            }
+                        if !b_left.is_ident() {
+                            return Ok(false);
                         }
                     }
                     PatOrExpr::Pat(b_left) => match &mut **b_left {
@@ -1700,17 +1699,14 @@ impl Optimizer<'_> {
                                 return Ok(true);
                             }
 
-                            match &**b_left {
-                                Expr::Ident(..) => {}
-                                _ => {
-                                    return Ok(false);
-                                }
+                            if !b_left.is_ident() {
+                                return Ok(false);
                             }
                         }
-                        Pat::Ident(..) => {}
+                        Pat::Ident(_) => (),
                         _ => return Ok(false),
                     },
-                }
+                };
 
                 if self.should_not_check_rhs_of_assign(a, b)? {
                     return Ok(false);
@@ -1726,9 +1722,10 @@ impl Optimizer<'_> {
                 }
 
                 let b_left = b_assign.left.as_ident();
-                let b_left = match b_left {
-                    Some(v) => v.clone(),
-                    None => return Ok(false),
+                let b_left = if let Some(v) = b_left {
+                    v.clone()
+                } else {
+                    return Ok(false);
                 };
 
                 if !self.is_skippable_for_seq(Some(a), &Expr::Ident(b_left.clone())) {
@@ -2032,9 +2029,11 @@ impl Optimizer<'_> {
                             pat_usage: Default::default(),
                             target: a_id,
                             in_lhs: false,
+                            abort: false,
+                            in_abort: false,
                         };
                         b.visit_with(&mut v);
-                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                             log_abort!(
                                 "sequences: Aborting merging of an update expression because of \
                                  usage counts ({}, ref = {}, pat = {})",
@@ -2104,9 +2103,11 @@ impl Optimizer<'_> {
                             pat_usage: Default::default(),
                             target: a_id,
                             in_lhs: false,
+                            abort: false,
+                            in_abort: false,
                         };
                         b.visit_with(&mut v);
-                        if v.expr_usage != 1 || v.pat_usage != 0 {
+                        if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                             log_abort!(
                                 "sequences: Aborting merging of an update expression because of \
                                  usage counts ({}, ref = {}, pat = {})",
@@ -2210,7 +2211,11 @@ impl Optimizer<'_> {
                             }
 
                             // We can remove this variable same as unused pass
-                            if !usage.reassigned() && usage.usage_count == 1 && usage.declared {
+                            if !usage.reassigned
+                                && usage.usage_count == 1
+                                && usage.declared
+                                && !usage.used_recursively
+                            {
                                 can_remove = true;
                             }
                         } else {
@@ -2235,7 +2240,7 @@ impl Optimizer<'_> {
                         _ => false,
                     };
 
-                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                    if usage.ref_count != 1 || usage.reassigned || !usage.is_fn_local {
                         if is_lit {
                             can_take_init = false
                         } else {
@@ -2267,7 +2272,7 @@ impl Optimizer<'_> {
 
             Mergable::FnDecl(a) => {
                 if let Some(usage) = self.data.vars.get(&a.ident.to_id()) {
-                    if usage.ref_count != 1 || usage.reassigned() || !usage.is_fn_local {
+                    if usage.ref_count != 1 || usage.reassigned || !usage.is_fn_local {
                         return Ok(false);
                     }
 
@@ -2427,9 +2432,11 @@ impl Optimizer<'_> {
                 pat_usage: Default::default(),
                 target: &left_id,
                 in_lhs: false,
+                abort: false,
+                in_abort: false,
             };
             b.visit_with(&mut v);
-            if v.expr_usage != 1 || v.pat_usage != 0 {
+            if v.expr_usage != 1 || v.pat_usage != 0 || v.abort {
                 log_abort!(
                     "sequences: Aborting because of usage counts ({}{:?}, ref = {}, pat = {})",
                     left_id.sym,
@@ -2494,8 +2501,11 @@ struct UsageCounter<'a> {
     expr_usage: usize,
     pat_usage: usize,
 
+    abort: bool,
+
     target: &'a Ident,
     in_lhs: bool,
+    in_abort: bool,
 }
 
 impl Visit for UsageCounter<'_> {
@@ -2503,6 +2513,11 @@ impl Visit for UsageCounter<'_> {
 
     fn visit_ident(&mut self, i: &Ident) {
         if self.target.sym == i.sym && self.target.span.ctxt == i.span.ctxt {
+            if self.in_abort {
+                self.abort = true;
+                return;
+            }
+
             if self.in_lhs {
                 self.pat_usage += 1;
             } else {
@@ -2520,6 +2535,27 @@ impl Visit for UsageCounter<'_> {
             c.expr.visit_with(self);
             self.in_lhs = old;
         }
+    }
+
+    fn visit_update_expr(&mut self, e: &UpdateExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
+    }
+
+    fn visit_await_expr(&mut self, e: &AwaitExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
+    }
+
+    fn visit_yield_expr(&mut self, e: &YieldExpr) {
+        let old_in_abort = self.in_abort;
+        self.in_abort = true;
+        e.visit_children_with(self);
+        self.in_abort = old_in_abort;
     }
 
     fn visit_pat(&mut self, p: &Pat) {

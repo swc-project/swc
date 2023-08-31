@@ -5,7 +5,9 @@ use swc_ecma_visit::Fold;
 pub use self::object_rest_spread::object_rest_spread;
 use crate::regexp::{self, regexp};
 
+mod object_rest;
 pub mod object_rest_spread;
+mod object_spread;
 
 pub fn es2018(c: Config) -> impl Fold {
     chain!(

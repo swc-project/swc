@@ -27,18 +27,16 @@ pub(super) struct Analyzer {
 }
 
 impl Analyzer {
-    fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool, is_import: bool) {
+    fn add_decl(&mut self, id: Id, belong_to_fn_scope: bool) {
         if belong_to_fn_scope {
             match self.scope.kind {
                 ScopeKind::Fn => {
-                    self.scope
-                        .add_decl(&id, self.has_eval, self.top_level_mark, is_import);
+                    self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
                 }
                 ScopeKind::Block => self.hoisted_vars.push(id),
             }
         } else {
-            self.scope
-                .add_decl(&id, self.has_eval, self.top_level_mark, is_import);
+            self.scope.add_decl(&id, self.has_eval, self.top_level_mark);
         }
     }
 
@@ -79,7 +77,7 @@ impl Analyzer {
                     ScopeKind::Fn => {
                         v.hoisted_vars
                             .into_iter()
-                            .for_each(|id| self.add_decl(id, true, false));
+                            .for_each(|id| self.add_decl(id, true));
                     }
                     ScopeKind::Block => {
                         self.hoisted_vars.extend(v.hoisted_vars);
@@ -129,7 +127,7 @@ impl Visit for Analyzer {
         p.visit_children_with(self);
 
         if self.is_pat_decl {
-            self.add_decl(p.key.to_id(), self.var_belong_to_fn_scope, false)
+            self.add_decl(p.key.to_id(), self.var_belong_to_fn_scope)
         } else {
             self.add_usage(p.key.to_id())
         }
@@ -188,7 +186,7 @@ impl Visit for Analyzer {
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {
-        self.add_decl(c.ident.to_id(), false, false);
+        self.add_decl(c.ident.to_id(), false);
 
         c.class.visit_with(self);
     }
@@ -196,7 +194,7 @@ impl Visit for Analyzer {
     fn visit_class_expr(&mut self, c: &ClassExpr) {
         self.with_fn_scope(|v| {
             if let Some(id) = &c.ident {
-                v.add_decl(id.to_id(), false, false);
+                v.add_decl(id.to_id(), false);
             }
 
             c.class.visit_with(v);
@@ -225,7 +223,7 @@ impl Visit for Analyzer {
         match d {
             DefaultDecl::Class(c) => {
                 if let Some(id) = &c.ident {
-                    self.add_decl(id.to_id(), false, false);
+                    self.add_decl(id.to_id(), false);
                 }
 
                 self.with_fn_scope(|v| {
@@ -234,7 +232,7 @@ impl Visit for Analyzer {
             }
             DefaultDecl::Fn(f) => {
                 if let Some(id) = &f.ident {
-                    self.add_decl(id.to_id(), true, false);
+                    self.add_decl(id.to_id(), true);
                 }
 
                 f.function.visit_with(self)
@@ -266,7 +264,7 @@ impl Visit for Analyzer {
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
-        self.add_decl(f.ident.to_id(), true, false);
+        self.add_decl(f.ident.to_id(), true);
 
         // https://github.com/swc-project/swc/issues/6819
         let has_rest = f.function.params.iter().any(|p| p.pat.is_rest());
@@ -290,7 +288,7 @@ impl Visit for Analyzer {
     fn visit_fn_expr(&mut self, f: &FnExpr) {
         if let Some(id) = &f.ident {
             self.with_fn_scope(|v| {
-                v.add_decl(id.to_id(), true, false);
+                v.add_decl(id.to_id(), true);
                 v.with_fn_scope(|v| {
                     // https://github.com/swc-project/swc/issues/6819
                     if f.function.params.iter().any(|p| p.pat.is_rest()) {
@@ -351,15 +349,15 @@ impl Visit for Analyzer {
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
-        self.add_decl(n.local.to_id(), true, true);
+        self.add_decl(n.local.to_id(), true);
     }
 
     fn visit_import_named_specifier(&mut self, n: &ImportNamedSpecifier) {
-        self.add_decl(n.local.to_id(), true, true);
+        self.add_decl(n.local.to_id(), true);
     }
 
     fn visit_import_star_as_specifier(&mut self, n: &ImportStarAsSpecifier) {
-        self.add_decl(n.local.to_id(), true, true);
+        self.add_decl(n.local.to_id(), true);
     }
 
     fn visit_member_expr(&mut self, e: &MemberExpr) {
@@ -406,7 +404,7 @@ impl Visit for Analyzer {
 
         if let Pat::Ident(i) = e {
             if self.is_pat_decl {
-                self.add_decl(i.to_id(), self.var_belong_to_fn_scope, false)
+                self.add_decl(i.to_id(), self.var_belong_to_fn_scope)
             } else {
                 self.add_usage(i.to_id())
             }

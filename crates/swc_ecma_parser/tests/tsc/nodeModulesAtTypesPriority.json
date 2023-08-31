@@ -319,7 +319,7 @@
         "raw": "\"react\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -361,7 +361,7 @@
         "raw": "\"redux\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     }
   ],
   "interpreter": null

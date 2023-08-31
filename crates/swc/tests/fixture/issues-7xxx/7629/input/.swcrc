@@ -4,7 +4,6 @@
             "syntax": "typescript",
             "tsx": false
         },
-        "target": "es2018",
         "loose": false,
         "minify": {
             "compress": false,

@@ -1,17 +1,13 @@
 //// [ExportFunctionWithAccessibleTypesInParameterAndReturnTypeAnnotation.ts]
-var A;
+var A, A1, Line;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-!function(A) {
-    A.Point = function Point() {
-        _class_call_check(this, Point);
-    };
-    var Line = function Line(start, end) {
-        _class_call_check(this, Line), this.start = start, this.end = end;
-    };
-    A.Line = Line, A.fromOrigin = function(p) {
-        return new Line({
-            x: 0,
-            y: 0
-        }, p);
-    };
-}(A || (A = {}));
+(A1 = A || (A = {})).Point = function Point() {
+    _class_call_check(this, Point);
+}, Line = function Line(start, end) {
+    _class_call_check(this, Line), this.start = start, this.end = end;
+}, A1.Line = Line, A1.fromOrigin = function(p) {
+    return new Line({
+        x: 0,
+        y: 0
+    }, p);
+};

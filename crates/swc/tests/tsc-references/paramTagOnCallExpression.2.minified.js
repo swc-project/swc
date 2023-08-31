@@ -1,3 +1,4 @@
 //// [decls.d.ts]
 //// [a.js]
-exports.inherits = factory("inherits");
+// from util
+/** @param {function} ctor - A big long explanation follows */ exports.inherits = factory("inherits");

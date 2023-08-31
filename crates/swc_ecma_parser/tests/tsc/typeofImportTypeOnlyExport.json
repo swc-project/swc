@@ -46,7 +46,7 @@
         "raw": "'./lit.js'"
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",
@@ -165,7 +165,7 @@
       ],
       "source": null,
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDeclaration",

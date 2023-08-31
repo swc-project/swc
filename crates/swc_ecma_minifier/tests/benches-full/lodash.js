@@ -140,10 +140,6 @@
         for(var index = -1, length = null == array ? 0 : array.length; ++index < length && !1 !== iteratee(array[index], index, array););
         return array;
     }
-    function arrayEachRight(array, iteratee) {
-        for(var length = null == array ? 0 : array.length; length-- && !1 !== iteratee(array[length], length, array););
-        return array;
-    }
     function arrayEvery(array, predicate) {
         for(var index = -1, length = null == array ? 0 : array.length; ++index < length;)if (!predicate(array[index], index, array)) return !1;
         return !0;
@@ -580,12 +576,6 @@
         function arraySample(array) {
             var length = array.length;
             return length ? array[baseRandom(0, length - 1)] : undefined;
-        }
-        function arraySampleSize(array, n) {
-            return shuffleSelf(copyArray(array), baseClamp(n, 0, array.length));
-        }
-        function arrayShuffle(array) {
-            return shuffleSelf(copyArray(array));
         }
         function assignMergeValue(object, key, value) {
             (undefined === value || eq(object[key], value)) && (undefined !== value || key in object) || baseAssignValue(object, key, value);
@@ -1113,13 +1103,6 @@
         function baseRest(func, start) {
             return setToString(overRest(func, start, identity), func + '');
         }
-        function baseSample(collection) {
-            return arraySample(values(collection));
-        }
-        function baseSampleSize(collection, n) {
-            var array = values(collection);
-            return shuffleSelf(array, baseClamp(n, 0, array.length));
-        }
         function baseSet(object, path, value, customizer) {
             if (!isObject(object)) return object;
             path = castPath(path, object);
@@ -1144,9 +1127,6 @@
                 writable: !0
             });
         } : identity;
-        function baseShuffle(collection) {
-            return shuffleSelf(values(collection));
-        }
         function baseSlice(array, start, end) {
             var index = -1, length = array.length;
             start < 0 && (start = -start > length ? 0 : length + start), (end = end > length ? length : end) < 0 && (end += length), length = start > end ? 0 : end - start >>> 0, start >>>= 0;
@@ -1349,8 +1329,8 @@
         }
         function createCaseFirst(methodName) {
             return function(string) {
-                var strSymbols = hasUnicode(string = toString(string)) ? stringToArray(string) : undefined, trailing = strSymbols ? castSlice(strSymbols, 1).join('') : string.slice(1);
-                return (strSymbols ? strSymbols[0] : string.charAt(0))[methodName]() + trailing;
+                var strSymbols = hasUnicode(string = toString(string)) ? stringToArray(string) : undefined, chr = strSymbols ? strSymbols[0] : string.charAt(0), trailing = strSymbols ? castSlice(strSymbols, 1).join('') : string.slice(1);
+                return chr[methodName]() + trailing;
             };
         }
         function createCompounder(callback) {
@@ -1724,8 +1704,8 @@
         });
         var isMaskable = coreJsData ? isFunction : stubFalse;
         function isPrototype(value) {
-            var Ctor = value && value.constructor, proto = 'function' == typeof Ctor && Ctor.prototype || objectProto;
-            return value === proto;
+            var Ctor = value && value.constructor;
+            return value === ('function' == typeof Ctor && Ctor.prototype || objectProto);
         }
         function matchesStrictComparable(key, srcValue) {
             return function(object) {
@@ -1928,7 +1908,10 @@
             return (isArray(collection) ? arrayEach : baseEach)(collection, getIteratee(iteratee, 3));
         }
         function forEachRight(collection, iteratee) {
-            return (isArray(collection) ? arrayEachRight : baseEachRight)(collection, getIteratee(iteratee, 3));
+            return (isArray(collection) ? function(array, iteratee) {
+                for(var length = null == array ? 0 : array.length; length-- && !1 !== iteratee(array[length], length, array););
+                return array;
+            } : baseEachRight)(collection, getIteratee(iteratee, 3));
         }
         var groupBy = createAggregator(function(result, value, key) {
             hasOwnProperty.call(result, key) ? result[key].push(value) : baseAssignValue(result, key, [
@@ -2413,7 +2396,7 @@
             });
         }, lodash.conforms = function(source) {
             var source1, props;
-            return source1 = baseClone(source, 1), props = keys(source1), function(object) {
+            return props = keys(source1 = baseClone(source, 1)), function(object) {
                 return baseConformsTo(object, source1, props);
             };
         }, lodash.constant = constant, lodash.countBy = countBy, lodash.create = function(prototype, properties) {
@@ -2521,13 +2504,22 @@
             if ('function' != typeof func) throw new TypeError(FUNC_ERROR_TEXT);
             return baseRest(func, start = undefined === start ? start : toInteger(start));
         }, lodash.reverse = reverse, lodash.sampleSize = function(collection, n, guard) {
-            return n = (guard ? isIterateeCall(collection, n, guard) : undefined === n) ? 1 : toInteger(n), (isArray(collection) ? arraySampleSize : baseSampleSize)(collection, n);
+            return n = (guard ? isIterateeCall(collection, n, guard) : undefined === n) ? 1 : toInteger(n), (isArray(collection) ? function(array, n) {
+                return shuffleSelf(copyArray(array), baseClamp(n, 0, array.length));
+            } : function(collection, n) {
+                var array = values(collection);
+                return shuffleSelf(array, baseClamp(n, 0, array.length));
+            })(collection, n);
         }, lodash.set = function(object, path, value) {
             return null == object ? object : baseSet(object, path, value);
         }, lodash.setWith = function(object, path, value, customizer) {
             return customizer = 'function' == typeof customizer ? customizer : undefined, null == object ? object : baseSet(object, path, value, customizer);
         }, lodash.shuffle = function(collection) {
-            return (isArray(collection) ? arrayShuffle : baseShuffle)(collection);
+            return (isArray(collection) ? function(array) {
+                return shuffleSelf(copyArray(array));
+            } : function(collection) {
+                return shuffleSelf(values(collection));
+            })(collection);
         }, lodash.slice = function(array, start, end) {
             var length = null == array ? 0 : array.length;
             return length ? (end && 'number' != typeof end && isIterateeCall(array, start, end) ? (start = 0, end = length) : (start = null == start ? 0 : toInteger(start), end = undefined === end ? length : toInteger(end)), baseSlice(array, start, end)) : [];
@@ -2769,7 +2761,9 @@
             }
             return object;
         }, lodash.round = round, lodash.runInContext = runInContext, lodash.sample = function(collection) {
-            return (isArray(collection) ? arraySample : baseSample)(collection);
+            return (isArray(collection) ? arraySample : function(collection) {
+                return arraySample(values(collection));
+            })(collection);
         }, lodash.size = function(collection) {
             if (null == collection) return 0;
             if (isArrayLike(collection)) return isString(collection) ? stringSize(collection) : collection.length;

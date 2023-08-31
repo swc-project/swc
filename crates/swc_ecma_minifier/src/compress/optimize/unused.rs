@@ -1,8 +1,10 @@
+use rustc_hash::FxHashSet;
 use swc_atoms::{js_word, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{contains_ident_ref, ExprExt};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
 #[cfg(feature = "debug")]
@@ -148,7 +150,7 @@ impl Optimizer<'_> {
         if let Some(v) = self.data.vars.get(&i.to_id()).cloned() {
             if v.ref_count == 0
                 && v.usage_count == 0
-                && !v.reassigned()
+                && !v.reassigned
                 && !v.has_property_mutation
                 && !v.declared_as_catch_param
             {
@@ -213,10 +215,7 @@ impl Optimizer<'_> {
                         return true;
                     }
 
-                    if !usage.mutated
-                        && !usage.reassigned()
-                        && usage.no_side_effect_for_member_access
-                    {
+                    if !usage.mutated() && usage.no_side_effect_for_member_access {
                         return false;
                     }
                 }
@@ -785,11 +784,17 @@ impl Optimizer<'_> {
             return None;
         }
 
+        let properties_used_via_this = {
+            let mut v = ThisPropertyVisitor::default();
+            obj.visit_with(&mut v);
+            v.properties
+        };
+
         let should_preserve_property = |sym: &JsWord| {
             if let "toString" = &**sym {
                 return true;
             }
-            !usage.accessed_props.contains_key(sym)
+            !usage.accessed_props.contains_key(sym) && !properties_used_via_this.contains(sym)
         };
         let should_preserve = |key: &PropName| match key {
             PropName::Ident(k) => should_preserve_property(&k.sym),
@@ -822,5 +827,36 @@ impl Optimizer<'_> {
         }
 
         None
+    }
+}
+
+#[derive(Default)]
+struct ThisPropertyVisitor {
+    properties: FxHashSet<JsWord>,
+
+    should_abort: bool,
+}
+
+impl Visit for ThisPropertyVisitor {
+    noop_visit_type!();
+
+    fn visit_member_expr(&mut self, e: &MemberExpr) {
+        if self.should_abort {
+            return;
+        }
+
+        e.visit_children_with(self);
+
+        if let Expr::This(..) = &*e.obj {
+            match &e.prop {
+                MemberProp::Ident(p) => {
+                    self.properties.insert(p.sym.clone());
+                }
+                MemberProp::Computed(_) => {
+                    self.should_abort = true;
+                }
+                _ => {}
+            }
+        }
     }
 }

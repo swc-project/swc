@@ -84,7 +84,7 @@ fn run(src: &str) {
                         keep_private_props: false,
                         ie8: false,
                         safari10: false,
-                        reserved: Default::default(),
+                        ..Default::default()
                     }),
                     wrap: false,
                     enclose: false,

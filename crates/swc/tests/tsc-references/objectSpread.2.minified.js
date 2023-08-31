@@ -39,12 +39,14 @@ _object_spread_props(_object_spread({}, o), {
 }), {
     c: 7
 }).a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
-var c = new (function() {
+var /*#__PURE__*/ c = new (// methods are not enumerable
+function() {
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
     return C.prototype.m = function() {}, C;
 }())();
+// generic spreads
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {
         id: "id"

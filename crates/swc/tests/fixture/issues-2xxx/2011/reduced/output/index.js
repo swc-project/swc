@@ -1,5 +1,5 @@
 var n;
-module.exports = ((n = function() {
+module.exports = ((n = /*#__PURE__*/ function() {
     function n() {}
     return n.prototype.it = function() {
         this.bb = new n.MyA();

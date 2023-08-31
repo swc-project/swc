@@ -67,7 +67,6 @@ pub enum SyntaxError {
     GetterParam,
     SetterParam,
 
-    TopLevelAwait,
     TopLevelAwaitInScript,
 
     LegacyDecimal,
@@ -299,9 +298,6 @@ impl SyntaxError {
             SyntaxError::PrivateNameInInterface => {
                 "private names are not allowed in interface".into()
             }
-            SyntaxError::TopLevelAwait => "top level await requires target to es2017 or higher \
-                                           and topLevelAwait:true for ecmascript"
-                .into(),
             SyntaxError::TopLevelAwaitInScript => {
                 "top level await is only allowed in module".into()
             }

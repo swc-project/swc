@@ -112,7 +112,7 @@
         "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -152,7 +152,7 @@
         "raw": "\"./anotherModule\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

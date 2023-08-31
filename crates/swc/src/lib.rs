@@ -140,7 +140,6 @@ use swc_common::{
     BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_config::merge::Merge;
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
 use swc_ecma_loader::resolvers::{
@@ -194,7 +193,7 @@ pub mod resolver {
         preserve_symlinks: bool,
     ) -> CachingResolver<TsConfigResolver<NodeModulesResolver>> {
         let r = TsConfigResolver::new(
-            NodeModulesResolver::new(target_env, alias, preserve_symlinks),
+            NodeModulesResolver::without_node_modules(target_env, alias, preserve_symlinks),
             base_url,
             paths,
         );
@@ -734,7 +733,7 @@ impl Compiler {
         }
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(skip_all)]
     pub fn read_config(&self, opts: &Options, name: &FileName) -> Result<Option<Config>, Error> {
         static CUR_DIR: Lazy<PathBuf> = Lazy::new(|| {
             if cfg!(target_arch = "wasm32") {
@@ -755,67 +754,73 @@ impl Compiler {
 
             let root = root.as_ref().unwrap_or(&CUR_DIR);
 
-            let config_file = match config_file {
-                Some(ConfigFile::Str(ref s)) => Some(load_swcrc(Path::new(&s))?),
+            let swcrc_path = match config_file {
+                Some(ConfigFile::Str(s)) => Some(PathBuf::from(s.clone())),
+                _ => {
+                    if *swcrc {
+                        if let FileName::Real(ref path) = name {
+                            find_swcrc(path, root, *root_mode)
+                        } else {
+                            None
+                        }
+                    } else {
+                        None
+                    }
+                }
+            };
+
+            let config_file = match swcrc_path.as_deref() {
+                Some(s) => Some(load_swcrc(s)?),
+                _ => None,
+            };
+            let filename_path = match name {
+                FileName::Real(p) => Some(&**p),
                 _ => None,
             };
 
-            if let FileName::Real(ref path) = name {
-                if *swcrc {
-                    let mut parent = path.parent();
-                    while let Some(dir) = parent {
-                        let swcrc = dir.join(".swcrc");
+            if let Some(filename_path) = filename_path {
+                if let Some(config) = config_file {
+                    let dir = swcrc_path
+                        .as_deref()
+                        .and_then(|p| p.parent())
+                        .expect(".swcrc path should have parent dir");
 
-                        if swcrc.exists() {
-                            let config = load_swcrc(&swcrc)?;
+                    let mut config = config
+                        .into_config(Some(filename_path))
+                        .context("failed to process config file")?;
 
-                            let mut config = config
-                                .into_config(Some(path))
-                                .context("failed to process config file")?;
-
-                            if let Some(config_file) = config_file {
-                                config.merge(config_file.into_config(Some(path))?)
-                            }
-
-                            if let Some(c) = &mut config {
-                                if c.jsc.base_url != PathBuf::new() {
-                                    let joined = dir.join(&c.jsc.base_url);
-                                    c.jsc.base_url = if cfg!(target_os = "windows")
-                                        && c.jsc.base_url.as_os_str() == "."
-                                    {
-                                        dir.canonicalize().with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nDir: {}\n(Used logic for windows)",
-                                                dir.display(),
-                                            )
-                                        })?
-                                    } else {
-                                        joined.canonicalize().with_context(|| {
-                                            format!(
-                                                "failed to canonicalize base url using the path \
-                                                 of .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
-                                                joined.display(),
-                                                dir.display(),
-                                                c.jsc.base_url.display()
-                                            )
-                                        })?
-                                    };
-                                }
-                            }
-
-                            return Ok(config);
+                    if let Some(c) = &mut config {
+                        if c.jsc.base_url != PathBuf::new() {
+                            let joined = dir.join(&c.jsc.base_url);
+                            c.jsc.base_url = if cfg!(target_os = "windows")
+                                && c.jsc.base_url.as_os_str() == "."
+                            {
+                                dir.canonicalize().with_context(|| {
+                                    format!(
+                                        "failed to canonicalize base url using the path of \
+                                         .swcrc\nDir: {}\n(Used logic for windows)",
+                                        dir.display(),
+                                    )
+                                })?
+                            } else {
+                                joined.canonicalize().with_context(|| {
+                                    format!(
+                                        "failed to canonicalize base url using the path of \
+                                         .swcrc\nPath: {}\nDir: {}\nbaseUrl: {}",
+                                        joined.display(),
+                                        dir.display(),
+                                        c.jsc.base_url.display()
+                                    )
+                                })?
+                            };
                         }
-
-                        if dir == root && *root_mode == RootMode::Root {
-                            break;
-                        }
-                        parent = dir.parent();
                     }
+
+                    return Ok(config);
                 }
 
                 let config_file = config_file.unwrap_or_default();
-                let config = config_file.into_config(Some(path))?;
+                let config = config_file.into_config(Some(filename_path))?;
 
                 return Ok(config);
             }
@@ -832,7 +837,7 @@ impl Compiler {
                 }
             }
         })
-        .with_context(|| format!("failed to read swcrc file ({})", name))
+        .with_context(|| format!("failed to read .swcrc file for input file at `{}`", name))
     }
 
     /// This method returns [None] if a file should be skipped.
@@ -840,7 +845,7 @@ impl Compiler {
     /// This method handles merging of config.
     ///
     /// This method does **not** parse module.
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(skip_all)]
     pub fn parse_js_as_input<'a, P>(
         &'a self,
         fm: Lrc<SourceFile>,
@@ -903,7 +908,7 @@ impl Compiler {
         })
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(skip_all)]
     pub fn transform(
         &self,
         handler: &Handler,
@@ -931,7 +936,7 @@ impl Compiler {
     ///
     /// This means, you can use `noop_visit_type`, `noop_fold_type` and
     /// `noop_visit_mut_type` in your visitor to reduce the binary size.
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(skip_all)]
     pub fn process_js_with_custom_pass<P1, P2>(
         &self,
         fm: Arc<SourceFile>,
@@ -992,11 +997,11 @@ impl Compiler {
                 None
             };
 
-            self.process_js_inner(handler, orig.as_ref(), config)
+            self.apply_transforms(handler, orig.as_ref(), config)
         })
     }
 
-    #[tracing::instrument(level = "info", skip(self, handler, opts))]
+    #[tracing::instrument(skip(self, handler, opts))]
     pub fn process_js_file(
         &self,
         fm: Arc<SourceFile>,
@@ -1014,7 +1019,7 @@ impl Compiler {
         )
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(skip_all)]
     pub fn minify(
         &self,
         fm: Arc<SourceFile>,
@@ -1105,7 +1110,7 @@ impl Compiler {
                         jsx: true,
                         decorators: true,
                         decorators_before_export: true,
-                        import_assertions: true,
+                        import_attributes: true,
                         ..Default::default()
                     }),
                     IsModule::Bool(true),
@@ -1181,7 +1186,7 @@ impl Compiler {
     /// You can use custom pass with this method.
     ///
     /// There exists a [PassBuilder] to help building custom passes.
-    #[tracing::instrument(level = "info", skip_all)]
+    #[tracing::instrument(skip_all)]
     pub fn process_js(
         &self,
         handler: &Handler,
@@ -1202,8 +1207,8 @@ impl Compiler {
         )
     }
 
-    #[tracing::instrument(level = "info", skip_all)]
-    fn process_js_inner(
+    #[tracing::instrument(name = "swc::Compiler::apply_transforms", skip_all)]
+    fn apply_transforms(
         &self,
         handler: &Handler,
         orig: Option<&sourcemap::SourceMap>,
@@ -1258,7 +1263,25 @@ impl Compiler {
     }
 }
 
-#[tracing::instrument(level = "info", skip_all)]
+fn find_swcrc(path: &Path, root: &Path, root_mode: RootMode) -> Option<PathBuf> {
+    let mut parent = path.parent();
+    while let Some(dir) = parent {
+        let swcrc = dir.join(".swcrc");
+
+        if swcrc.exists() {
+            return Some(swcrc);
+        }
+
+        if dir == root && root_mode == RootMode::Root {
+            break;
+        }
+        parent = dir.parent();
+    }
+
+    None
+}
+
+#[tracing::instrument(skip_all)]
 fn load_swcrc(path: &Path) -> Result<Rc, Error> {
     let content = read_to_string(path).context("failed to read config (.swcrc) file")?;
 

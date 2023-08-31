@@ -47,7 +47,6 @@ impl Optimizer<'_> {
 
             // We only handle identifiers on lhs for now.
             if let Some(lhs) = assign.left.as_ident() {
-                //
                 if self
                     .data
                     .vars

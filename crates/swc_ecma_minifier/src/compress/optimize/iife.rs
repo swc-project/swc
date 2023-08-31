@@ -181,7 +181,7 @@ impl Optimizer<'_> {
                 match &mut **param {
                     Pat::Ident(param) => {
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
-                            if usage.reassigned() {
+                            if usage.reassigned {
                                 continue;
                             }
                             if usage.ref_count != 1 {
@@ -222,7 +222,7 @@ impl Optimizer<'_> {
                     Pat::Rest(rest_pat) => {
                         if let Pat::Ident(param_id) = &*rest_pat.arg {
                             if let Some(usage) = self.data.vars.get(&param_id.to_id()) {
-                                if usage.reassigned()
+                                if usage.reassigned
                                     || usage.ref_count != 1
                                     || !usage.has_property_access
                                 {
@@ -464,7 +464,7 @@ impl Optimizer<'_> {
                     return;
                 }
 
-                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                if !self.may_add_ident() {
                     match &*f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
                             let has_decl =
@@ -583,7 +583,7 @@ impl Optimizer<'_> {
             Expr::Fn(f) => {
                 trace_op!("iife: Expr::Fn(..)");
 
-                if self.ctx.in_top_level() && !self.ctx.in_call_arg && self.options.negate_iife {
+                if !self.may_add_ident() {
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
                     if has_decl {
@@ -635,7 +635,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                trace_op!("iife: Empry function");
+                trace_op!("iife: Empty function");
 
                 let body = f.function.body.as_mut().unwrap();
                 if body.stmts.is_empty() && call.args.is_empty() {
@@ -724,7 +724,7 @@ impl Optimizer<'_> {
         // Abort on eval.
         // See https://github.com/swc-project/swc/pull/6478
         //
-        // We completetly abort on eval, because we cannot know whether a variable in
+        // We completely abort on eval, because we cannot know whether a variable in
         // upper scope will be afftected by eval.
         // https://github.com/swc-project/swc/issues/6628
         if self.data.top.has_eval_call {
@@ -869,9 +869,20 @@ impl Optimizer<'_> {
                         let ids: Vec<Id> = find_pat_ids(&decl.name);
 
                         for id in ids {
-                            remap
-                                .entry(id)
+                            let ctx = remap
+                                .entry(id.clone())
                                 .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
+
+                            // [is_skippable_for_seq] would check fn scope
+                            if let Some(usage) = self.data.vars.get(&id) {
+                                let mut usage = usage.clone();
+                                // as we turn var declaration into assignment
+                                // we need to maintain correct var usage
+                                if decl.init.is_some() {
+                                    usage.ref_count += 1;
+                                }
+                                self.data.vars.insert((id.0, *ctx), usage);
+                            }
                         }
                     }
                 }
@@ -895,7 +906,7 @@ impl Optimizer<'_> {
             if let Some(arg) = arg {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     if usage.ref_count == 1
-                        && !usage.reassigned()
+                        && !usage.reassigned
                         && !usage.has_property_mutation
                         && matches!(
                             &*arg,
@@ -1077,11 +1088,14 @@ impl Optimizer<'_> {
 
             Expr::Arrow(ArrowExpr {
                 params,
-                body: box BlockStmtOrExpr::Expr(body),
+                body,
                 is_async: false,
                 is_generator: false,
                 ..
-            }) => params.iter().all(|p| p.is_ident()) && self.can_be_inlined_for_iife(body),
+            }) if body.is_expr() => {
+                params.iter().all(|p| p.is_ident())
+                    && self.can_be_inlined_for_iife(body.as_expr().unwrap())
+            }
 
             _ => false,
         }

@@ -22,11 +22,10 @@ import { A } from "./a";
 console.log(A, void 0);
 //// [/e.ts]
 export { };
+ // noUnusedLocals error only
 //// [/f.ts]
 import { C } from "./a";
-C.One;
-var c = C.Two, d = C.Two;
-console.log(c, d);
+C.One, console.log(C.Two, C.Two);
 //// [/g.ts]
 console.log(void 0, void 0);
 export { };
@@ -75,3 +74,4 @@ export { };
 //!  3 | 
 //!    `----
 //// [/j.ts]
+// Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

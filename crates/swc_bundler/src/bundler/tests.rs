@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 use anyhow::Error;
 use indexmap::IndexMap;
-use swc_common::{sync::Lrc, FileName, SourceMap, Span, GLOBALS};
+use swc_common::{collections::ARandomState, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::drop_span;
@@ -19,7 +19,7 @@ pub(crate) struct Tester<'a> {
 
 pub struct Loader {
     cm: Lrc<SourceMap>,
-    files: IndexMap<String, String, ahash::RandomState>,
+    files: IndexMap<String, String, ARandomState>,
 }
 
 impl Load for Loader {
@@ -108,7 +108,7 @@ pub(crate) fn suite() -> TestBuilder {
 
 #[derive(Default)]
 pub(crate) struct TestBuilder {
-    files: IndexMap<String, String, ahash::RandomState>,
+    files: IndexMap<String, String, ARandomState>,
 }
 
 impl TestBuilder {

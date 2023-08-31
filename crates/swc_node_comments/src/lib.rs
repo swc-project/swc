@@ -5,11 +5,12 @@ use std::sync::Arc;
 use dashmap::DashMap;
 use swc_atoms::atom;
 use swc_common::{
+    collections::ARandomState,
     comments::{Comment, CommentKind, Comments},
     BytePos, DUMMY_SP,
 };
 
-type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ahash::RandomState>>;
+type CommentMap = Arc<DashMap<BytePos, Vec<Comment>, ARandomState>>;
 
 /// Multi-threaded implementation of [Comments]
 #[derive(Clone, Default)]

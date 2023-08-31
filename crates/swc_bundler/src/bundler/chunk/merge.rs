@@ -5,7 +5,7 @@ use indexmap::IndexSet;
 use petgraph::EdgeDirection;
 use swc_atoms::js_word;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     sync::Lock,
     FileName, SyntaxContext, DUMMY_SP,
 };
@@ -138,7 +138,7 @@ where
         graph: &ModuleGraph,
         start: ModuleId,
         dejavu: &mut AHashSet<ModuleId>,
-    ) -> IndexSet<ModuleId, ahash::RandomState> {
+    ) -> IndexSet<ModuleId, ARandomState> {
         let mut set = IndexSet::default();
 
         for dep in graph.neighbors_directed(start, Outgoing) {
@@ -768,7 +768,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                asserts: None,
+                                with: None,
                             },
                         )));
                     }
@@ -816,7 +816,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                asserts: None,
+                                with: None,
                             },
                         )));
                     }
@@ -883,7 +883,7 @@ where
                                             .collect(),
                                         src: None,
                                         type_only: false,
-                                        asserts: None,
+                                        with: None,
                                     }));
                                 extra.push(export);
                                 continue;
@@ -925,7 +925,7 @@ where
                                 specifiers: vec![specifier],
                                 src: None,
                                 type_only: false,
-                                asserts: None,
+                                with: None,
                             },
                         )));
                     }
@@ -1140,7 +1140,7 @@ where
                                                                 span: ns.span,
                                                                 specifiers: vec![specifier],
                                                                 src: None,
-                                                                asserts: None,
+                                                                with: None,
                                                                 type_only: false,
                                                             }),
                                                         ));

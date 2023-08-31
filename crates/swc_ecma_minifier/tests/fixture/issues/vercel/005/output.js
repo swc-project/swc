@@ -60,7 +60,7 @@ export default function(value, options) {
         const message = "object" == typeof error && null !== error && "message" in error ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
         throw Error(message);
     }
-};
+}
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? "s" : ""}`;
 }

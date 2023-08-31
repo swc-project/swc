@@ -493,5 +493,16 @@
   ],
   "3.30": [
     "web.url.can-parse"
+  ],
+  "3.31": [
+    "es.string.is-well-formed",
+    "es.string.to-well-formed",
+    "esnext.function.metadata",
+    "esnext.object.group-by",
+    "esnext.promise.with-resolvers",
+    "esnext.symbol.is-registered-symbol",
+    "esnext.symbol.is-well-known-symbol",
+    "web.url-search-params.delete",
+    "web.url-search-params.has"
   ]
 }

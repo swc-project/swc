@@ -7331,7 +7331,10 @@
             }, filterChangedSidxMappings = function(master, oldSidxMapping) {
                 var mediaGroupSidx = compareSidxEntry(master.playlists, oldSidxMapping);
                 return forEachMediaGroup(master, function(properties, mediaType, groupKey, labelKey) {
-                    properties.playlists && properties.playlists.length && (mediaGroupSidx = mergeOptions(mediaGroupSidx, compareSidxEntry(properties.playlists, oldSidxMapping)));
+                    if (properties.playlists && properties.playlists.length) {
+                        var playlists = properties.playlists;
+                        mediaGroupSidx = mergeOptions(mediaGroupSidx, compareSidxEntry(playlists, oldSidxMapping));
+                    }
                 }), mediaGroupSidx;
             }, DashPlaylistLoader = function(_EventTarget) {
                 function DashPlaylistLoader(srcUrlOrPlaylist, vhs, options, masterPlaylistLoader) {
@@ -11400,27 +11403,27 @@
                         segment.key
                     ];
                     segment.map && !segment.map.bytes && segment.map.key && segment.map.key.resolvedUri === segment.key.resolvedUri && objects.push(segment.map.key);
-                    var keyRequestOptions = videojs.mergeOptions(xhrOptions, {
+                    var keyXhr = xhr(videojs.mergeOptions(xhrOptions, {
                         uri: segment.key.resolvedUri,
                         responseType: "arraybuffer"
-                    }), keyXhr = xhr(keyRequestOptions, handleKeyResponse(segment, objects, finishProcessingFn));
+                    }), handleKeyResponse(segment, objects, finishProcessingFn));
                     activeXhrs.push(keyXhr);
                 }
                 if (segment.map && !segment.map.bytes) {
                     if (segment.map.key && (!segment.key || segment.key.resolvedUri !== segment.map.key.resolvedUri)) {
-                        var mapKeyRequestOptions = videojs.mergeOptions(xhrOptions, {
+                        var mapKeyXhr = xhr(videojs.mergeOptions(xhrOptions, {
                             uri: segment.map.key.resolvedUri,
                             responseType: "arraybuffer"
-                        }), mapKeyXhr = xhr(mapKeyRequestOptions, handleKeyResponse(segment, [
+                        }), handleKeyResponse(segment, [
                             segment.map.key
                         ], finishProcessingFn));
                         activeXhrs.push(mapKeyXhr);
                     }
-                    var initSegmentOptions = videojs.mergeOptions(xhrOptions, {
+                    var initSegmentXhr = xhr(videojs.mergeOptions(xhrOptions, {
                         uri: segment.map.resolvedUri,
                         responseType: "arraybuffer",
                         headers: segmentXhrHeaders(segment.map)
-                    }), initSegmentXhr = xhr(initSegmentOptions, handleInitSegmentResponse({
+                    }), handleInitSegmentResponse({
                         segment: segment,
                         finishProcessingFn: finishProcessingFn
                     }));

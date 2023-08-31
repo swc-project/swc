@@ -16,8 +16,12 @@
             }
         },
         "paths": {
-            "@moduleA/*": ["modules/01-moduleA/*"],
-            "@moduleB/*": ["modules/03-moduleB/*"]
+            "@moduleA/*": [
+                "modules/01-moduleA/*"
+            ],
+            "@moduleB/*": [
+                "modules/02-moduleB/*"
+            ]
         }
     },
     "module": {

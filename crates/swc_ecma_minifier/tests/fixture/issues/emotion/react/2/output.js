@@ -1,4 +1,4 @@
-var cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, unitless_browser_esm = {
+var cache, cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, unitless_browser_esm = {
     animationIterationCount: 1,
     borderImageOutset: 1,
     borderImageSlice: 1,
@@ -128,13 +128,8 @@ export function serializeStyles(args, registered, mergedProps) {
 function isProcessableValue(value) {
     return null != value && "boolean" != typeof value;
 }
-var processStyleName = function(fn) {
-    var cache = Object.create(null);
-    return function(arg) {
-        return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
-    };
-}(function(styleName) {
-    return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+var processStyleName = (cache = Object.create(null), function(arg) {
+    return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
 }), processStyleValue = function(key, value) {
     switch(key){
         case "animation":

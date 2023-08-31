@@ -5,7 +5,9 @@ export class A {
     }
 }
 export class B {
-    set x(_arg) {}
+    /**
+     * @param {number} _arg
+     */ set x(_arg) {}
 }
 export class C {
     get x() {
@@ -21,11 +23,15 @@ Object.defineProperty(D.prototype, "x", {
 export class E {
 }
 Object.defineProperty(E.prototype, "x", {
-    set (_arg) {}
+    /**
+     * @param {number} _arg
+     */ set (_arg) {}
 });
 export class F {
 }
 Object.defineProperty(F.prototype, "x", {
     get: ()=>12,
-    set (_arg) {}
+    /**
+     * @param {number} _arg
+     */ set (_arg) {}
 });

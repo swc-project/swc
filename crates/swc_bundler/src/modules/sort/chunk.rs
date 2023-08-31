@@ -2,7 +2,11 @@ use std::{collections::VecDeque, iter::from_fn, mem::take, time::Instant};
 
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::Outgoing;
-use swc_common::{collections::AHashSet, sync::Lrc, SourceMap, SyntaxContext};
+use swc_common::{
+    collections::{AHashSet, ARandomState},
+    sync::Lrc,
+    SourceMap, SyntaxContext,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::prepend_stmts;
 
@@ -133,7 +137,7 @@ fn cycles_for(
     cycles: &[Vec<ModuleId>],
     id: ModuleId,
     checked: &mut Vec<ModuleId>,
-) -> IndexSet<ModuleId, ahash::RandomState> {
+) -> IndexSet<ModuleId, ARandomState> {
     checked.push(id);
     let mut v = cycles
         .iter()

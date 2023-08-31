@@ -4675,7 +4675,7 @@
                         return sortValues(arcs[i], arcs[j]);
                     }) : null != sort && index.sort(function(i, j) {
                         return sort(data[i], data[j]);
-                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)v = arcs[j = index[i]], a1 = a0 + (v > 0 ? v * k : 0) + pa, arcs[j] = {
+                    }), i = 0, k = sum ? (da - n * pa) / sum : 0; i < n; ++i, a0 = a1)a1 = a0 + ((v = arcs[j = index[i]]) > 0 ? v * k : 0) + pa, arcs[j] = {
                         data: data[j],
                         index: i,
                         value: v,
@@ -6864,7 +6864,7 @@
                     for(var _i = 0, _n2 = hull.length; _i < _n2; ++_i)hullIndex[hull[_i]] = _i;
                     hull.length <= 2 && hull.length > 0 && (this.triangles = new Int32Array(3).fill(-1), this.halfedges = new Int32Array(3).fill(-1), this.triangles[0] = hull[0], this.triangles[1] = hull[1], this.triangles[2] = hull[1], inedges[hull[0]] = 1, 2 === hull.length && (inedges[hull[1]] = 0));
                 }, _proto.neighbors = function(i) {
-                    var results = [], hull = this.hull, _hullIndex = this._hullIndex, halfedges = this.halfedges, triangles = this.triangles, e0 = this.inedges[i];
+                    var results = [], inedges = this.inedges, hull = this.hull, _hullIndex = this._hullIndex, halfedges = this.halfedges, triangles = this.triangles, e0 = inedges[i];
                     if (-1 === e0) return results;
                     var e = e0, p0 = -1;
                     do {
@@ -6881,8 +6881,8 @@
                     for(var c, i0 = i; (c = this._step(i, x, y)) >= 0 && c !== i && c !== i0;)i = c;
                     return c;
                 }, _proto._step = function(i, x, y) {
-                    var points = this.points;
-                    if (-1 === this.inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
+                    var inedges = this.inedges, points = this.points;
+                    if (-1 === inedges[i] || !points.length) return (i + 1) % (points.length >> 1);
                     for(var c = i, dc = Math.pow(x - points[2 * i], 2) + Math.pow(y - points[2 * i + 1], 2), _iterator = this.neighbors(i), _isArray = Array.isArray(_iterator), _i2 = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;){
                         if (_isArray) {
                             if (_i2 >= _iterator.length) break;
@@ -12503,10 +12503,10 @@
                                             SMALL_NUMBER
                                         ], _range = toRange(targetProps, _currentDomain), oppositeHandle = "min" === targetProps.activeHandle ? "max" : "min", handle = targetProps.activeHandle && "both" === getActiveHandle(targetProps, position, _range) ? oppositeHandle : targetProps.activeHandle;
                                         if (handle) {
-                                            var rangeMax = "x" === dimension ? Math.max.apply(Math, _toConsumableArray(_range)) : Math.min.apply(Math, _toConsumableArray(_range)), rangeMin = "x" === dimension ? Math.min.apply(Math, _toConsumableArray(_range)) : Math.max.apply(Math, _toConsumableArray(_range)), min = "max" === handle ? rangeMin : position, max = "min" === handle ? rangeMax : position;
+                                            var rangeMax = "x" === dimension ? Math.max.apply(Math, _toConsumableArray(_range)) : Math.min.apply(Math, _toConsumableArray(_range)), rangeMin = "x" === dimension ? Math.min.apply(Math, _toConsumableArray(_range)) : Math.max.apply(Math, _toConsumableArray(_range));
                                             _currentDomain = toDomain(targetProps, [
-                                                min,
-                                                max
+                                                "max" === handle ? rangeMin : position,
+                                                "min" === handle ? rangeMax : position
                                             ]);
                                         } else _currentDomain = toDomain(targetProps, [
                                             targetProps.startPosition,
@@ -12837,12 +12837,12 @@
                     computedType: type || "labels",
                     candleWidth: candleWidth,
                     orientation: orientation
-                }), yValue = _calculatePlotValues.yValue, xValue = _calculatePlotValues.xValue, dx = _calculatePlotValues.dx, dy = _calculatePlotValues.dy, labelProps = {
+                }), labelProps = {
                     style: labelStyle,
-                    y: yValue,
-                    x: xValue,
-                    dx: dx,
-                    dy: dy,
+                    y: _calculatePlotValues.yValue,
+                    x: _calculatePlotValues.xValue,
+                    dx: _calculatePlotValues.dx,
+                    dy: _calculatePlotValues.dy,
                     text: text,
                     index: index,
                     scale: scale,
@@ -13437,9 +13437,9 @@
                 return childComponents.map(function(child, index) {
                     var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild, role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
-                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, (axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
                         child1
-                    ]), axisChild.length > 0 ? (axisChild[0], domain = calculatedProps1.domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
+                    ])).length > 0 ? (axisChild[0], domain = calculatedProps1.domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
                         stringMap: stringMap,
                         horizontal: calculatedProps1.horizontal,
                         categories: categories,
@@ -18379,8 +18379,8 @@
                                     return react__WEBPACK_IMPORTED_MODULE_6___default.a.cloneElement(c, nestedChildProps);
                                 }), _childNames = nestedChildren.map(function(c, i) {
                                     return "".concat(childName, "-").concat(i);
-                                }), nestedResults = traverseChildren(nestedChildren, _childNames, child);
-                                memo = combine(memo, nestedResults);
+                                });
+                                memo = combine(memo, traverseChildren(nestedChildren, _childNames, child));
                             } else {
                                 var result = iteratee(child, childName, parent);
                                 result && (memo = combine(memo, result));
@@ -18467,8 +18467,8 @@
                             x: x,
                             y: y
                         };
-                        var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0, {
-                            x: padding * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
+                        var polarPadding = (style = props.style, degrees = getDegrees(props, datum), labelStyle = style.labels || {}, {
+                            x: (padding = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.evaluateProp(labelStyle.padding, props) || 0) * Math.cos(angle = _helpers__WEBPACK_IMPORTED_MODULE_1__.default.degreesToRadians(degrees)),
                             y: -padding * Math.sin(angle)
                         });
                         return {
@@ -18485,7 +18485,7 @@
                             dx: padding.x,
                             dy: padding.y
                         };
-                    }(props, datum3), dx = _getOffset.dx, dy = _getOffset.dy, labelProps = {
+                    }(props, datum3), labelProps = {
                         angle: angle,
                         data: data,
                         datum: datum3,
@@ -18499,8 +18499,8 @@
                         verticalAnchor: verticalAnchor,
                         x: x,
                         y: y,
-                        dx: dx,
-                        dy: dy,
+                        dx: _getOffset.dx,
+                        dy: _getOffset.dy,
                         width: width,
                         height: height,
                         style: style1.labels
@@ -23707,7 +23707,9 @@
                 return data.reduce(function(childProps, datum, index) {
                     var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({}, props, {
                         scale: scale
-                    }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y, errorX = getErrors(props, datum = formatDataFromDomain(datum, domain), "x"), errorY = getErrors(props, datum, "y"), dataProps = {
+                    }), datum), x = _Helpers$scalePoint.x, y = _Helpers$scalePoint.y;
+                    datum = formatDataFromDomain(datum, domain);
+                    var errorX = getErrors(props, datum, "x"), errorY = getErrors(props, datum, "y"), dataProps = {
                         borderWidth: borderWidth,
                         data: data,
                         datum: datum,
@@ -25623,7 +25625,7 @@
                 }, gutterOffset = {
                     x: gutter && "object" == typeof gutter && gutter.left || 0,
                     y: rowGutter && "object" == typeof rowGutter && rowGutter.top || 0
-                }, _getDimensions = getDimensions(props, fallbackProps), height = _getDimensions.height, width = _getDimensions.width, borderProps = getBorderProps(props, height, width), titleProps = getTitleProps(props, borderProps), initialProps = {
+                }, _getDimensions = getDimensions(props, fallbackProps), borderProps = getBorderProps(props, _getDimensions.height, _getDimensions.width), titleProps = getTitleProps(props, borderProps), initialProps = {
                     parent: {
                         data: data,
                         standalone: standalone,
@@ -28468,13 +28470,13 @@
                     return dataset.filter(function(datum) {
                         return null !== datum._x && null !== datum._y;
                     });
-                }), fillInMissingData = props1.fillInMissingData, xMap = filterNullChildData.reduce(function(prev, dataset) {
+                }), (fillInMissingData = props1.fillInMissingData, xMap = filterNullChildData.reduce(function(prev, dataset) {
                     return dataset.forEach(function(datum) {
                         prev[datum._x instanceof Date ? datum._x.getTime() : datum._x] = !0;
                     }), prev;
                 }, {}), xKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_1___default()(xMap).map(function(k) {
                     return +k;
-                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), (datasets = filterNullChildData.map(function(dataset) {
+                }), xArr = lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default()(xKeys), datasets = filterNullChildData.map(function(dataset) {
                     var indexOffset = 0, isDate = dataset[0] && dataset[0]._x instanceof Date;
                     return xArr.map(function(x, index) {
                         x = +x;

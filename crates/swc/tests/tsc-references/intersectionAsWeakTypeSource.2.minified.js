@@ -4,4 +4,5 @@ create({
         view: 0,
         styleMedia: "???"
     }
-}).first;
+}).first // error, first is a branded number
+;

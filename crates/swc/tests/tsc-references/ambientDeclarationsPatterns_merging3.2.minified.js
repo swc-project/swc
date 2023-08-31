@@ -1,4 +1,5 @@
 //// [types.ts]
 //// [test.ts]
-ohno.a;
+ohno.a // oh no
+;
 export { };

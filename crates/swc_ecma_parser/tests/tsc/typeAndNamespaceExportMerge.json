@@ -218,7 +218,7 @@
         "raw": "\"./constants\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -260,7 +260,7 @@
         "raw": "\"./drink\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "VariableDeclaration",

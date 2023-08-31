@@ -15,8 +15,10 @@ export { X } from "./a";
 //// [/c.ts]
 import { A, B as C, X } from "./b";
 new A(), new C(), new X();
+ // Ok
 //// [/d.ts]
 export * from "./a";
 //// [/e.ts]
 import { A, B, X } from "./d";
 new A(), new B(), new X();
+ // Ok

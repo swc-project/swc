@@ -1,4 +1,5 @@
 //// [argumentExpressionContextualTyping.ts]
+// In a typed function call, argument expressions are contextually typed by their corresponding parameter types.
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 function foo(param) {
@@ -44,3 +45,4 @@ foo({
         e: 3
     }
 });
+ // Error because x has an array type namely (string|number)[]

@@ -1,9 +1,9 @@
 //// [type.js]
-//// [value.js]
+/** @typedef {import("./mod1").TestEnum} TE */ /** @type {TE} */ //// [value.js]
 import { TestEnum } from "./mod1";
-TestEnum.ADD;
+/** @type {TestEnum} */ TestEnum.ADD;
 //// [mod1.js]
-export var TestEnum = {
+/** @enum {string} */ export var TestEnum = {
     ADD: "add",
     REMOVE: "remove"
 };

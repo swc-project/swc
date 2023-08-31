@@ -146,4 +146,8 @@ macro_rules! tok {
     (">") => {
         swc_css_ast::Token::Delim { value: '>' }
     };
+
+    ("to") => {
+        swc_css_ast::Token::Ident { value: js_word!("to"), .. }
+    };
 }

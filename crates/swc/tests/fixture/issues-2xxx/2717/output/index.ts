@@ -1,24 +1,24 @@
 import { _ as e } from "@swc/helpers/_/_ts_generator";
 import { takeLatest as t, select as r } from "redux-saga/effects";
 import { CHANGE_THEME as o, CHANGE_THEME_CUSTOM_PALETTE as s, CHANGE_THEME_SWITCH_MODE as a } from "core/actions/changeTheme";
-export var selectThemeObject = function(n) {
-    return n.theme;
+export var selectThemeObject = function(e) {
+    return e.theme;
 };
-export function saveTheme(n) {
-    var c, i, m;
+export function saveTheme(t) {
+    var o, s, n;
     return e(this, function(e) {
         switch(e.label){
             case 0:
-                return c = n.type, [
+                return o = t.type, [
                     4,
                     r(selectThemeObject)
                 ];
             case 1:
-                return i = e.sent(), window.localStorage.setItem("theme", JSON.stringify({
-                    theme: i.theme,
-                    mode: i.mode,
-                    palette: i.palette
-                })), c === a && (m = window.document.querySelector("body")) && (m.classList.add("light" === i.mode ? "light" : "dark"), m.classList.remove("light" === i.mode ? "dark" : "light")), [
+                return s = e.sent(), window.localStorage.setItem("theme", JSON.stringify({
+                    theme: s.theme,
+                    mode: s.mode,
+                    palette: s.palette
+                })), o === a && (n = window.document.querySelector("body")) && (n.classList.add("light" === s.mode ? "light" : "dark"), n.classList.remove("light" === s.mode ? "dark" : "light")), [
                     2
                 ];
         }

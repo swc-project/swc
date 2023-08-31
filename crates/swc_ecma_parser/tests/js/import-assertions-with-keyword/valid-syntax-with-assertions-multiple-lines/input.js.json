@@ -1,0 +1,64 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 33,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 33,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 8,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "x",
+        "raw": "\"x\""
+      },
+      "typeOnly": false,
+      "with": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 17,
+          "end": 33,
+          "ctxt": 0
+        },
+        "properties": [
+          {
+            "type": "KeyValueProperty",
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 19,
+                "end": 23,
+                "ctxt": 0
+              },
+              "value": "type",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 25,
+                "end": 31,
+                "ctxt": 0
+              },
+              "value": "json",
+              "raw": "\"json\""
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

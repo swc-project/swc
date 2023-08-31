@@ -1,4 +1,5 @@
 //// [controlFlowAssignmentPatternOrder.ts]
+// https://github.com/microsoft/TypeScript/pull/41094#issuecomment-716044363
 {
     let b, a = 0;
     [{ 1: b } = [
@@ -33,7 +34,8 @@
             9
         ]
     ];
-}{
+}// same as above but on left of a binary expression
+{
     let b, a = 0;
     [{ 1: b } = [
         9,
@@ -67,7 +69,8 @@
             9
         ]
     ], f();
-}{
+}// same as above but on right of a binary expression
+{
     let b, a = 0;
     f(), [{ 1: b } = [
         9,

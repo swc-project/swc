@@ -31,7 +31,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::CompressOptions,
-    program_data::{ModuleInfo, ProgramData},
+    program_data::ProgramData,
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
@@ -59,7 +59,6 @@ mod util;
 pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
-    module_info: &'a ModuleInfo,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
     debug_infinite_loop: bool,
@@ -83,7 +82,6 @@ pub(super) fn optimizer<'a>(
         },
         changed: false,
         options,
-        module_info,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
@@ -118,7 +116,6 @@ struct Ctx {
 
     /// `true` only for [Callee::Expr].
     is_callee: bool,
-    in_call_arg: bool,
 
     var_kind: Option<VarDeclKind>,
 
@@ -200,8 +197,6 @@ struct Optimizer<'a> {
 
     changed: bool,
     options: &'a CompressOptions,
-    module_info: &'a ModuleInfo,
-
     /// Statements prepended to the current statement.
     prepend_stmts: SynthesizedStmts,
     /// Statements appended to the current statement.
@@ -323,6 +318,10 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
+        if self.ctx.is_exported {
+            return false;
+        }
+
         if id.span.ctxt != self.marks.top_level_ctxt {
             return true;
         }
@@ -644,17 +643,17 @@ impl Optimizer<'_> {
         }
     }
 
-    fn remove_invalid(&mut self, e: &mut Expr) {
+    fn remove_invalid_bin(&mut self, e: &mut Expr) {
         if let Expr::Bin(BinExpr { left, right, .. }) = e {
-            self.remove_invalid(left);
-            self.remove_invalid(right);
+            self.remove_invalid_bin(left);
+            self.remove_invalid_bin(right);
 
             if left.is_invalid() {
                 *e = *right.take();
-                self.remove_invalid(e);
+                self.remove_invalid_bin(e);
             } else if right.is_invalid() {
                 *e = *left.take();
-                self.remove_invalid(e);
+                self.remove_invalid_bin(e);
             }
         }
     }
@@ -847,7 +846,7 @@ impl Optimizer<'_> {
                 if let Expr::Ident(callee) = &**callee {
                     if self.options.reduce_vars && self.options.side_effects {
                         if let Some(usage) = self.data.vars.get(&callee.to_id()) {
-                            if !usage.reassigned() && usage.pure_fn {
+                            if !usage.reassigned && usage.pure_fn {
                                 self.changed = true;
                                 report_change!("Reducing function call to a variable");
 
@@ -1615,7 +1614,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                in_call_arg: true,
                 is_this_aware_callee: false,
                 is_lhs_of_assign: false,
                 is_exact_lhs_of_assign: false,
@@ -1796,7 +1794,7 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
-        self.remove_invalid(e);
+        self.remove_invalid_bin(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
@@ -2298,7 +2296,6 @@ impl VisitMut for Optimizer<'_> {
 
         {
             let ctx = Ctx {
-                in_call_arg: true,
                 is_exact_lhs_of_assign: false,
                 is_lhs_of_assign: false,
                 ..self.ctx

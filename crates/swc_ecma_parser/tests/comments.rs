@@ -29,7 +29,7 @@ fn test(input: PathBuf) {
                     decorators: true,
                     decorators_before_export: false,
                     export_default_from: true,
-                    import_assertions: true,
+                    import_attributes: true,
                     ..Default::default()
                 }),
                 "ts" | "tsx" => Syntax::Typescript(TsConfig {

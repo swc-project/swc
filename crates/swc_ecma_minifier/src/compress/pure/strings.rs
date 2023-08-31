@@ -240,7 +240,7 @@ impl Pure<'_> {
         let mut quasis = vec![];
         let mut exprs = vec![];
         let mut cur_raw = String::new();
-        let mut cur_cooked = String::new();
+        let mut cur_cooked = Some(String::new());
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
@@ -249,7 +249,13 @@ impl Pure<'_> {
 
                 cur_raw.push_str(&q.raw);
                 if let Some(cooked) = q.cooked {
-                    cur_cooked.push_str(&cooked);
+                    if let Some(cur_cooked) = &mut cur_cooked {
+                        cur_cooked.push_str(&cooked);
+                    }
+                } else {
+                    // If cooked is None, it means that the template literal contains invalid escape
+                    // sequences.
+                    cur_cooked = None;
                 }
             } else {
                 let i = i / 2;
@@ -258,15 +264,18 @@ impl Pure<'_> {
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
                         cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
-                        cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                        if let Some(cur_cooked) = &mut cur_cooked {
+                            cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                        }
                     }
                     _ => {
                         quasis.push(TplElement {
                             span: DUMMY_SP,
                             tail: true,
-                            cooked: Some(Atom::from(&*cur_cooked)),
+                            cooked: cur_cooked.take().map(From::from),
                             raw: take(&mut cur_raw).into(),
                         });
+                        cur_cooked = Some(String::new());
 
                         exprs.push(e);
                     }
@@ -279,7 +288,7 @@ impl Pure<'_> {
         quasis.push(TplElement {
             span: DUMMY_SP,
             tail: true,
-            cooked: None,
+            cooked: cur_cooked.map(From::from),
             raw: cur_raw.into(),
         });
 

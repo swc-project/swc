@@ -217,7 +217,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -297,7 +297,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -348,7 +348,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -381,7 +381,7 @@
       ],
       "source": null,
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -432,7 +432,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -483,7 +483,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -534,7 +534,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportNamedDeclaration",
@@ -576,7 +576,7 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ImportDeclaration",
@@ -618,7 +618,7 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDefaultExpression",
@@ -757,7 +757,7 @@
         "raw": "\"./main5\""
       },
       "typeOnly": true,
-      "asserts": null
+      "with": null
     },
     {
       "type": "ExportDefaultExpression",

@@ -40,7 +40,7 @@ impl Optimizer<'_> {
 
                 let usage = self.data.vars.get(&obj.to_id())?;
 
-                if usage.reassigned() {
+                if usage.reassigned {
                     return None;
                 }
 

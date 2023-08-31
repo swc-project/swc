@@ -1,21 +1,18 @@
 use indexmap::IndexSet;
 use preset_env_base::version::{should_enable, Version};
 use swc_atoms::{js_word, JsWord};
-use swc_common::DUMMY_SP;
+use swc_common::{collections::ARandomState, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
-use super::data::{BUILTINS, MODULES_BY_VERSION};
-use crate::{
-    corejs3::{
-        compat::DATA as CORE_JS_COMPAT_DATA,
-        data::{
-            COMMON_ITERATORS, INSTANCE_PROPERTIES, POSSIBLE_GLOBAL_OBJECTS, PROMISE_DEPENDENCIES,
-            REGEXP_DEPENDENCIES, STATIC_PROPERTIES,
-        },
+use super::{
+    builtin::{
+        BUILT_INS, COMMON_ITERATORS, INSTANCE_PROPERTIES, PROMISE_DEPENDENCIES, STATIC_PROPERTIES,
     },
-    util::DataMapExt,
-    Versions,
+    data::{MODULES_BY_VERSION, POSSIBLE_GLOBAL_OBJECTS},
+};
+use crate::{
+    corejs3::compat::DATA as CORE_JS_COMPAT_DATA, util::CoreJSPolyfillDescriptor, Versions,
 };
 
 pub(crate) struct UsageVisitor {
@@ -23,7 +20,7 @@ pub(crate) struct UsageVisitor {
     is_any_target: bool,
     target: Versions,
     corejs_version: Version,
-    pub required: IndexSet<&'static str, ahash::RandomState>,
+    pub required: IndexSet<&'static str, ARandomState>,
 }
 
 impl UsageVisitor {
@@ -56,8 +53,16 @@ impl UsageVisitor {
         }
     }
 
+    fn add(&mut self, desc: &CoreJSPolyfillDescriptor) {
+        let deps = desc.global;
+
+        // TODO: Exclude based on object
+
+        self.may_inject_global(deps)
+    }
+
     /// Add imports
-    fn add(&mut self, features: &[&'static str]) {
+    fn may_inject_global(&mut self, features: &[&'static str]) {
         let UsageVisitor {
             shipped_proposals,
             is_any_target,
@@ -90,7 +95,7 @@ impl UsageVisitor {
     }
 
     fn add_builtin(&mut self, built_in: &str) {
-        if let Some(features) = BUILTINS.get_data(built_in) {
+        if let Some(features) = BUILT_INS.get(built_in) {
             self.add(features)
         }
     }
@@ -113,15 +118,15 @@ impl UsageVisitor {
                 self.add_builtin(prop);
             }
 
-            if let Some(map) = STATIC_PROPERTIES.get_data(obj) {
-                if let Some(features) = map.get_data(prop) {
+            if let Some(map) = STATIC_PROPERTIES.get(&**obj) {
+                if let Some(features) = map.get(&**prop) {
                     self.add(features);
                     return;
                 }
             }
         }
 
-        if let Some(features) = INSTANCE_PROPERTIES.get_data(prop) {
+        if let Some(features) = INSTANCE_PROPERTIES.get(&**prop) {
             self.add(features);
         }
     }
@@ -155,7 +160,7 @@ impl Visit for UsageVisitor {
     fn visit_array_pat(&mut self, p: &ArrayPat) {
         p.visit_children_with(self);
 
-        self.add(COMMON_ITERATORS)
+        self.may_inject_global(COMMON_ITERATORS)
     }
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
@@ -185,16 +190,9 @@ impl Visit for UsageVisitor {
     fn visit_call_expr(&mut self, e: &CallExpr) {
         e.visit_children_with(self);
 
-        match &e.callee {
-            Callee::Import(_) => self.add(PROMISE_DEPENDENCIES),
-            Callee::Expr(expr) => match **expr {
-                Expr::Ident(ref ident) if ident.sym == js_word!("RegExp") => {
-                    self.add(REGEXP_DEPENDENCIES)
-                }
-                _ => {}
-            },
-            _ => {}
-        };
+        if let Callee::Import(_) = &e.callee {
+            self.may_inject_global(PROMISE_DEPENDENCIES)
+        }
     }
 
     fn visit_expr(&mut self, e: &Expr) {
@@ -209,7 +207,7 @@ impl Visit for UsageVisitor {
     fn visit_expr_or_spread(&mut self, e: &ExprOrSpread) {
         e.visit_children_with(self);
         if e.spread.is_some() {
-            self.add(COMMON_ITERATORS)
+            self.may_inject_global(COMMON_ITERATORS)
         }
     }
 
@@ -217,14 +215,14 @@ impl Visit for UsageVisitor {
     fn visit_for_of_stmt(&mut self, s: &ForOfStmt) {
         s.visit_children_with(self);
 
-        self.add(COMMON_ITERATORS)
+        self.may_inject_global(COMMON_ITERATORS)
     }
 
     fn visit_function(&mut self, f: &Function) {
         f.visit_children_with(self);
 
         if f.is_async {
-            self.add(PROMISE_DEPENDENCIES)
+            self.may_inject_global(PROMISE_DEPENDENCIES)
         }
     }
 
@@ -262,14 +260,12 @@ impl Visit for UsageVisitor {
         }
     }
 
-    // TODO: https://github.com/babel/babel/blob/00758308/packages/babel-preset-env/src/polyfills/corejs3/usage-plugin.js#L198-L206
-
     /// `yield*`
     fn visit_yield_expr(&mut self, e: &YieldExpr) {
         e.visit_children_with(self);
 
         if e.delegate {
-            self.add(COMMON_ITERATORS)
+            self.may_inject_global(COMMON_ITERATORS)
         }
     }
 }

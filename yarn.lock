@@ -2564,9 +2564,10 @@ __metadata:
     "@swc/core-win32-x64-msvc": 1.2.146
     "@swc/helpers": ^0.5.0
     "@swc/plugin-jest": latest
+    "@swc/types": ^0.1.4
     "@taplo/cli": ^0.3.2
     "@types/jest": ^28.1.4
-    "@types/node": ^14.14.41
+    "@types/node": ^20.5.0
     "@types/terser": ^3.12.0
     acorn: ^8.6.0
     acorn-jsx: ^5.3.2
@@ -2643,6 +2644,13 @@ __metadata:
   version: 1.5.67
   resolution: "@swc/plugin-jest@npm:1.5.67"
   checksum: 8487ed76b8912c0c9f66e85a5bc2621edac79b54f506f0f5b39b5c4aa24316369261da59b4506f115e8ff29655f2372bf36614509850533b716a72217306efe2
+  languageName: node
+  linkType: hard
+
+"@swc/types@npm:^0.1.4":
+  version: 0.1.4
+  resolution: "@swc/types@npm:0.1.4"
+  checksum: 9b09de7dca8e4b19bfb43f9e332c771855158cb761d26000807fe858447ecbc5342a6c257b26d9aa5497f7138fc58913693e2bee222e5042e0e8f57c2979ae66
   languageName: node
   linkType: hard
 
@@ -2785,10 +2793,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^14.14.41":
-  version: 14.18.48
-  resolution: "@types/node@npm:14.18.48"
-  checksum: bc410153cd12b5f5218c2c2a5ab4a65e8dc99ebffe98261a30e9d4beb8f9a0e4ee48c41b850f8cb80da6ed1024e42bba8dee1592869aa5b1826ddb7c29ad6899
+"@types/node@npm:^20.5.0":
+  version: 20.5.0
+  resolution: "@types/node@npm:20.5.0"
+  checksum: 659bc5fc93b5c02bd88ca4bfae4f6b9dc307d45884d1dd9d69df85819a9943cdc00cd3c87eec3048866df6a67f52297f74d170e47a44f61edb3e8f770d94e85e
   languageName: node
   linkType: hard
 

@@ -18,7 +18,7 @@ use path_clean::PathClean;
 use pathdiff::diff_paths;
 use serde::Deserialize;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
+    collections::{AHashMap, AHashSet, ARandomState},
     FileName,
 };
 use tracing::{debug, trace, Level};
@@ -33,7 +33,7 @@ static PACKAGE: &str = "package.json";
 /// directory containing the package.json file which is important
 /// to ensure we only apply these `browser` rules to modules in
 /// the owning package.
-static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ahash::RandomState>> =
+static BROWSER_CACHE: Lazy<DashMap<PathBuf, BrowserCache, ARandomState>> =
     Lazy::new(Default::default);
 
 #[derive(Debug, Default)]
@@ -103,6 +103,7 @@ pub struct NodeModulesResolver {
     alias: AHashMap<String, String>,
     // if true do not resolve symlink
     preserve_symlinks: bool,
+    ignore_node_modules: bool,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
@@ -118,6 +119,21 @@ impl NodeModulesResolver {
             target_env,
             alias,
             preserve_symlinks,
+            ignore_node_modules: false,
+        }
+    }
+
+    /// Create a node modules resolver which does not care about `node_modules`
+    pub fn without_node_modules(
+        target_env: TargetEnv,
+        alias: AHashMap<String, String>,
+        preserve_symlinks: bool,
+    ) -> Self {
+        Self {
+            target_env,
+            alias,
+            preserve_symlinks,
+            ignore_node_modules: true,
         }
     }
 
@@ -369,6 +385,10 @@ impl NodeModulesResolver {
         base_dir: &Path,
         target: &str,
     ) -> Result<Option<PathBuf>, Error> {
+        if self.ignore_node_modules {
+            return Ok(None);
+        }
+
         let absolute_path = to_absolute_path(base_dir)?;
         let mut path = Some(&*absolute_path);
         while let Some(dir) = path {
@@ -394,7 +414,7 @@ impl NodeModulesResolver {
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
         debug!(
-            "Resolve {} from {:#?} for {:#?}",
+            "Resolving {} from {:#?} for {:#?}",
             target, base, self.target_env
         );
 

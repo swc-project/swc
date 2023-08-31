@@ -709,7 +709,7 @@
                     function _trace(current, color, label, edgelabel) {
                         var i, y, x;
                         for(i = 0; i < 7; i++){
-                            if (y = current.cy + searchDirections[current.dir][0], x = current.cx + searchDirections[current.dir][1], imageData[pos = y * width + x] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
+                            if (imageData[pos = (y = current.cy + searchDirections[current.dir][0]) * width + (x = current.cx + searchDirections[current.dir][1])] === color && (0 === labelData[pos] || labelData[pos] === label)) return labelData[pos] = label, current.cy = y, current.cx = x, !0;
                             0 === labelData[pos] && (labelData[pos] = edgelabel), current.dir = (current.dir + 1) % 8;
                         }
                         return !1;
@@ -1201,8 +1201,8 @@
         function(module1, exports1) {
             var objectProto = Object.prototype;
             module1.exports = function(value) {
-                var Ctor = value && value.constructor, proto = "function" == typeof Ctor && Ctor.prototype || objectProto;
-                return value === proto;
+                var Ctor = value && value.constructor;
+                return value === ("function" == typeof Ctor && Ctor.prototype || objectProto);
             };
         },
         function(module1, exports1, __webpack_require__) {
