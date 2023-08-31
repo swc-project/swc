@@ -11,7 +11,7 @@
             "syntax": "typescript",
             "dynamicImport": true
         },
-        "transforms": {
+        "transform": {
             "hidden": {
                 "jest": true
             }
