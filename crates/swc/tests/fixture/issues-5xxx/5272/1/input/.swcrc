@@ -10,6 +10,11 @@
         "parser": {
             "syntax": "typescript",
             "dynamicImport": true
+        },
+        "transforms": {
+            "hidden": {
+                "jest": true
+            }
         }
-    }
+    },
 }
