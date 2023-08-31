@@ -673,7 +673,12 @@ impl<'a> Lexer<'a> {
                 self.state.content_tag_template = ContentTagState::Ending;
                 let slice_end = self.cur_pos();
                 return Ok(ContentTagContent {
-                    value: self.input.slice(start, slice_end).into(),
+                    value: unsafe {
+                        // safety: we know start and slice_end are valid cursor
+                        // positions because that's where we got them from
+                        self.input.slice(start, slice_end)
+                    }
+                    .into(),
                 });
             }
             self.bump();
