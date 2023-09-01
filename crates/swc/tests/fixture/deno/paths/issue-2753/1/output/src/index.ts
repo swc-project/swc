@@ -1,2 +1,2 @@
-import test from "./utils/index.js";
+import test from "./utils";
 test();
