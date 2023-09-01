@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 require("./core/module/moduleFile");
-require("./core/utils/index.js");
+require("./core/utils");
 require("./core/utilFile");
-require("./utils/index.js");
+require("./utils");
 console.log("SUCCESS");
