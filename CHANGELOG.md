@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/module)** Revert #7901 (#7906) ([85d6e9b](https://github.com/swc-project/swc/commit/85d6e9be07af7bb788594b21a986636657d86f03))
+
 ## [1.3.82] - 2023-09-01
 
 ### Bug Fixes
