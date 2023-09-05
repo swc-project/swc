@@ -47,6 +47,7 @@ impl Default for Runtime {
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Eq, PartialEq, Merge)]
 #[serde(rename_all = "camelCase")]
 #[serde(deny_unknown_fields)]
+#[non_exhaustive]
 pub struct Options {
     /// If this is `true`, swc will behave just like babel 8 with
     /// `BABEL_8_BREAKING: true`.

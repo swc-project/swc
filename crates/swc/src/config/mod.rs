@@ -1648,6 +1648,7 @@ impl ModuleConfig {
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct TransformConfig {
     #[serde(default)]
     pub react: react::Options,
@@ -1693,6 +1694,7 @@ pub enum DecoratorVersion {
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct HiddenTransformConfig {
     #[serde(default)]
     pub jest: BoolConfig<false>,
@@ -1700,6 +1702,7 @@ pub struct HiddenTransformConfig {
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct ConstModulesConfig {
     #[serde(default)]
     pub globals: FxHashMap<JsWord, FxHashMap<JsWord, String>>,
@@ -1707,6 +1710,7 @@ pub struct ConstModulesConfig {
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct OptimizerConfig {
     #[serde(default)]
     pub globals: Option<GlobalPassOption>,
@@ -1733,6 +1737,7 @@ impl Default for SimplifyOption {
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct SimplifyJsonOption {
     #[serde(default = "default_preserve_imports_with_side_effects")]
     pub preserve_imports_with_side_effects: bool,
@@ -1744,6 +1749,7 @@ fn default_preserve_imports_with_side_effects() -> bool {
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct JsonifyOption {
     #[serde(default = "default_jsonify_min_cost")]
     pub min_cost: usize,
@@ -1755,12 +1761,14 @@ fn default_jsonify_min_cost() -> usize {
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize, Merge)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct ErrorConfig {
     pub filename: BoolConfig<true>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct GlobalPassOption {
     #[serde(default)]
     pub vars: IndexMap<JsWord, JsWord, ARandomState>,
