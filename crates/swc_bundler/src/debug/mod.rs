@@ -19,10 +19,7 @@ pub(crate) fn print_hygiene(event: &str, cm: &Lrc<SourceMap>, t: &Module) {
 
     writeln!(w, "==================== @ {} ====================", event).unwrap();
     Emitter {
-        cfg: swc_ecma_codegen::Config {
-            minify: false,
-            ..Default::default()
-        },
+        cfg: swc_ecma_codegen::Config::default(),
         cm: cm.clone(),
         comments: None,
         wr: Box::new(JsWriter::new(cm.clone(), "\n", &mut w, None)),

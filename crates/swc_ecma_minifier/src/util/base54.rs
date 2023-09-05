@@ -227,12 +227,9 @@ impl CharFreq {
 
         {
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    target: EsVersion::latest(),
-                    ascii_only: false,
-                    minify: true,
-                    ..Default::default()
-                },
+                cfg: swc_ecma_codegen::Config::default()
+                    .with_target(EsVersion::latest())
+                    .with_minify(true),
                 cm,
                 comments: None,
                 wr: &mut freq,

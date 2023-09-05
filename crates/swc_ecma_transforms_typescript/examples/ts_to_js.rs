@@ -80,10 +80,7 @@ fn main() {
         let mut buf = vec![];
         {
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify: false,
-                    ..Default::default()
-                },
+                cfg: swc_ecma_codegen::Config::default(),
                 cm: cm.clone(),
                 comments: Some(&comments),
                 wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
