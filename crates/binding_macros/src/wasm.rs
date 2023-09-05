@@ -256,7 +256,7 @@ macro_rules! build_print_sync {
                         None,
                         opts.config.emit_source_map_columns.into_bool(),
                         Default::default(),
-                        swc_ecma_codegen::Config::default()
+                        swc_core::ecma::codegen::Config::default()
                             .with_target(opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020))
                             .with_minify(opts.config.minify.into())
                     ),"failed to print code")?;
