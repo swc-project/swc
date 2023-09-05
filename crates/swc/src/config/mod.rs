@@ -1520,6 +1520,7 @@ pub(crate) type CompiledPaths = Vec<(String, Vec<String>)>;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 #[serde(tag = "type")]
+#[non_exhaustive]
 pub enum ModuleConfig {
     #[serde(rename = "commonjs")]
     CommonJs(modules::common_js::Config),
