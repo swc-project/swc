@@ -873,6 +873,9 @@ impl Options {
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
             output: JscOutputConfig { charset, preamble },
+            emit_asserts_for_import_attributes: experimental
+                .emit_asserts_for_import_attributes
+                .into_bool(),
         })
     }
 }
@@ -1354,6 +1357,7 @@ impl Config {
 }
 
 /// One `BuiltConfig` per a directory with swcrc
+#[non_exhaustive]
 pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub program: Program,
     pub pass: P,
@@ -1377,6 +1381,37 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub emit_source_map_columns: bool,
 
     pub output: JscOutputConfig,
+    pub emit_asserts_for_import_attributes: bool,
+}
+
+impl<P> BuiltInput<P>
+where
+    P: swc_ecma_visit::Fold,
+{
+    pub fn with_pass<N>(self, map: impl FnOnce(P) -> N) -> BuiltInput<N>
+    where
+        N: swc_ecma_visit::Fold,
+    {
+        BuiltInput {
+            program: self.program,
+            pass: map(self.pass),
+            syntax: self.syntax,
+            target: self.target,
+            minify: self.minify,
+            external_helpers: self.external_helpers,
+            source_maps: self.source_maps,
+            input_source_map: self.input_source_map,
+            is_module: self.is_module,
+            output_path: self.output_path,
+            source_file_name: self.source_file_name,
+            preserve_comments: self.preserve_comments,
+            inline_sources_content: self.inline_sources_content,
+            comments: self.comments,
+            emit_source_map_columns: self.emit_source_map_columns,
+            output: self.output,
+            emit_asserts_for_import_attributes: self.emit_asserts_for_import_attributes,
+        }
+    }
 }
 
 /// `jsc` in  `.swcrc`.
@@ -1463,7 +1498,7 @@ pub struct JscExperimental {
     pub keep_import_attributes: BoolConfig<false>,
 
     #[serde(default)]
-    pub emit_asserts_from_attributes: BoolConfig<false>,
+    pub emit_asserts_for_import_attributes: BoolConfig<false>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.

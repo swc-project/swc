@@ -719,24 +719,7 @@ fn should_visit() {
 
             dbg!(config.syntax);
 
-            let config = BuiltInput {
-                program: config.program,
-                pass: chain!(Panicking, config.pass),
-                syntax: config.syntax,
-                target: config.target,
-                minify: config.minify,
-                external_helpers: config.external_helpers,
-                source_maps: config.source_maps,
-                input_source_map: config.input_source_map,
-                is_module: config.is_module,
-                output_path: config.output_path,
-                source_file_name: config.source_file_name,
-                preserve_comments: config.preserve_comments,
-                inline_sources_content: config.inline_sources_content,
-                comments: config.comments,
-                emit_source_map_columns: config.emit_source_map_columns,
-                output: config.output,
-            };
+            let config = config.with_pass(|pass| chain!(Panicking, pass));
 
             if config.minify {
                 let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
