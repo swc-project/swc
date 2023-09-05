@@ -310,7 +310,11 @@ where
 
         if let Some(with) = &n.with {
             formatting_space!();
-            keyword!("with");
+            if self.cfg.emit_asserts_for_import_attributes {
+                keyword!("asserts");
+            } else {
+                keyword!("with")
+            };
             formatting_space!();
             emit!(with);
         }
@@ -453,7 +457,11 @@ where
 
             if let Some(with) = &node.with {
                 formatting_space!();
-                keyword!("with");
+                if self.cfg.emit_asserts_for_import_attributes {
+                    keyword!("asserts");
+                } else {
+                    keyword!("with")
+                };
                 formatting_space!();
                 emit!(with);
             }
@@ -479,7 +487,11 @@ where
 
         if let Some(with) = &node.with {
             formatting_space!();
-            keyword!("with");
+            if self.cfg.emit_asserts_for_import_attributes {
+                keyword!("asserts");
+            } else {
+                keyword!("with")
+            };
             formatting_space!();
             emit!(with);
         }
