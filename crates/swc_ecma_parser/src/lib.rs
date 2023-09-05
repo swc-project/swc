@@ -295,6 +295,7 @@ impl Syntax {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct TsConfig {
     #[serde(default)]
     pub tsx: bool,
@@ -320,6 +321,7 @@ pub struct TsConfig {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
+#[non_exhaustive]
 pub struct EsConfig {
     #[serde(default)]
     pub jsx: bool,
