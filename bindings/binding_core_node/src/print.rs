@@ -49,7 +49,7 @@ impl Task for PrintTask {
                     None,
                     options.config.emit_source_map_columns.into_bool(),
                     Default::default(),
-                    swc_ecma_codegen::Config::default()
+                    swc_core::ecma::codegen::Config::default()
                         .with_target(options.config.jsc.target.unwrap_or(EsVersion::Es2020))
                         .with_minify(options.config.minify.into_bool()),
                 )
@@ -112,7 +112,7 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
             options.config.emit_source_map_columns.into_bool(),
             false,
             Default::default(),
-            swc_ecma_codegen::Config::default()
+            swc_core::ecma::codegen::Config::default()
                 .with_target(codegen_target)
                 .with_minify(options.config.minify.into_bool()),
         )
