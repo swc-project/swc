@@ -7,7 +7,7 @@
         "target": "es2022",
         "experimental": {
             "keepImportAttributes": true,
-            "emitAssertsForImportAttributes": true
+            "emitAssertForImportAttributes": true
         }
     },
     "module": {
