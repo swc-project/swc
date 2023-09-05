@@ -91,15 +91,13 @@ fn pass(input_dir: PathBuf) {
                             None,
                             None,
                             false,
-                            EsVersion::Es2020,
                             SourceMapsConfig::Bool(false),
                             &Default::default(),
                             None,
-                            false,
                             Some(&comments),
                             false,
-                            false,
                             Default::default(),
+                            swc_ecma_codegen::Config::default().with_target(EsVersion::Es2020),
                         )
                         .expect("failed to print?")
                         .code;

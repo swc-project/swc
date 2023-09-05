@@ -75,10 +75,7 @@ fn print<N: swc_ecma_codegen::Node>(cm: Lrc<SourceMap>, nodes: &[N], minify: boo
 
     {
         let mut emitter = swc_ecma_codegen::Emitter {
-            cfg: swc_ecma_codegen::Config {
-                minify,
-                ..Default::default()
-            },
+            cfg: swc_ecma_codegen::Config::default().with_minify(minify),
             cm: cm.clone(),
             comments: None,
             wr: Box::new(JsWriter::new(cm, "\n", &mut buf, None)),

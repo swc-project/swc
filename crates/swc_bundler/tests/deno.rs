@@ -1085,10 +1085,7 @@ fn bundle(url: &str, minify: bool) -> String {
                     }
 
                     Emitter {
-                        cfg: swc_ecma_codegen::Config {
-                            minify,
-                            ..Default::default()
-                        },
+                        cfg: swc_ecma_codegen::Config::default().with_minify(minify),
                         cm: cm.clone(),
                         comments: None,
                         wr,

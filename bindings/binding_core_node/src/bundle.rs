@@ -129,16 +129,16 @@ impl Task for BundleTask {
                                 None,
                                 None,
                                 true,
-                                codegen_target,
                                 SourceMapsConfig::Bool(true),
                                 // TODO
                                 &Default::default(),
                                 None,
-                                minify,
                                 None,
                                 true,
-                                false,
                                 Default::default(),
+                                swc_core::ecma::codegen::Config::default()
+                                    .with_target(codegen_target)
+                                    .with_minify(minify),
                             )?;
 
                             Ok((k, output))

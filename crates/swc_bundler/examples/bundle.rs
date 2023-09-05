@@ -42,10 +42,7 @@ fn print_bundles(cm: Lrc<SourceMap>, modules: Vec<Bundle>, minify: bool) {
             {
                 let wr = JsWriter::new(cm.clone(), "\n", &mut buf, None);
                 let mut emitter = Emitter {
-                    cfg: swc_ecma_codegen::Config {
-                        minify,
-                        ..Default::default()
-                    },
+                    cfg: swc_ecma_codegen::Config::default().with_minify(true),
                     cm: cm.clone(),
                     comments: None,
                     wr: if minify {
