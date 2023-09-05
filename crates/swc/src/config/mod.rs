@@ -667,7 +667,7 @@ impl Options {
             comments.map(|v| v as _),
         );
 
-        let keep_import_assertions = experimental.keep_import_assertions.into_bool();
+        let keep_import_attributes = experimental.keep_import_attributes.into_bool();
 
         #[cfg(feature = "plugin")]
         let plugin_transforms = {
@@ -801,7 +801,7 @@ impl Options {
                 ),
                 // The transform strips import assertions, so it's only enabled if
                 // keep_import_assertions is false.
-                Optional::new(import_assertions(), !keep_import_assertions),
+                Optional::new(import_assertions(), !keep_import_attributes),
                 Optional::new(
                     typescript::strip_with_jsx::<Option<&dyn Comments>>(
                         cm.clone(),

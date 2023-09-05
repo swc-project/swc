@@ -760,16 +760,16 @@ fn should_visit() {
                 None,
                 config.output_path,
                 config.inline_sources_content,
-                config.target,
                 config.source_maps,
                 &Default::default(),
                 None,
                 // TODO: figure out sourcemaps
-                config.minify,
                 Some(&comments),
                 config.emit_source_map_columns,
-                false,
                 Default::default(),
+                swc_ecma_codegen::Config::default()
+                    .with_target(config.target)
+                    .with_minify(config.minify),
             )
             .unwrap()
             .code)

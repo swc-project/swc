@@ -501,15 +501,13 @@ impl Compiler {
         source_file_name: Option<&str>,
         output_path: Option<PathBuf>,
         inline_sources_content: bool,
-        target: EsVersion,
         source_map: SourceMapsConfig,
         source_map_names: &AHashMap<BytePos, JsWord>,
         orig: Option<&sourcemap::SourceMap>,
-        minify: bool,
         comments: Option<&dyn Comments>,
         emit_source_map_columns: bool,
-        ascii_only: bool,
         preamble: &str,
+        codegen_config: swc_ecma_codegen::Config,
     ) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<IdentCollector>,
@@ -535,15 +533,12 @@ impl Compiler {
                     w.preamble(preamble).unwrap();
                     let mut wr = Box::new(w) as Box<dyn WriteJs>;
 
-                    if minify {
+                    if codegen_config.minify {
                         wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
                     }
 
                     let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config::default()
-                            .with_minify(minify)
-                            .with_ascii_only(ascii_only)
-                            .with_target(target),
+                        cfg: codegen_config,
                         comments,
                         cm: self.cm.clone(),
                         wr,
@@ -1168,15 +1163,16 @@ impl Compiler {
                 Some(&fm.name.to_string()),
                 opts.output_path.clone().map(From::from),
                 opts.inline_sources_content,
-                target,
                 source_map,
                 &source_map_names,
                 orig.as_ref(),
-                true,
                 Some(&comments),
                 opts.emit_source_map_columns,
-                opts.format.ascii_only,
                 &opts.format.preamble,
+                swc_ecma_codegen::Config::default()
+                    .with_target(target)
+                    .with_minify(true)
+                    .with_ascii_only(opts.format.ascii_only),
             )
         })
     }
@@ -1243,19 +1239,22 @@ impl Compiler {
                 config.source_file_name.as_deref(),
                 config.output_path,
                 config.inline_sources_content,
-                config.target,
                 config.source_maps,
                 &source_map_names,
                 orig,
-                config.minify,
                 config.comments.as_ref().map(|v| v as _),
                 config.emit_source_map_columns,
-                config
-                    .output
-                    .charset
-                    .map(|v| matches!(v, OutputCharset::Ascii))
-                    .unwrap_or(false),
                 &config.output.preamble,
+                swc_ecma_codegen::Config::default()
+                    .with_target(config.target)
+                    .with_minify(config.minify)
+                    .with_ascii_only(
+                        config
+                            .output
+                            .charset
+                            .map(|v| matches!(v, OutputCharset::Ascii))
+                            .unwrap_or(false),
+                    ),
             )
         })
     }
