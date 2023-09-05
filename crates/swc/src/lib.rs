@@ -540,12 +540,10 @@ impl Compiler {
                     }
 
                     let mut emitter = Emitter {
-                        cfg: swc_ecma_codegen::Config {
-                            minify,
-                            target,
-                            ascii_only,
-                            ..Default::default()
-                        },
+                        cfg: swc_ecma_codegen::Config::default()
+                            .with_minify(minify)
+                            .with_ascii_only(ascii_only)
+                            .with_target(target),
                         comments,
                         cm: self.cm.clone(),
                         wr,
