@@ -322,12 +322,10 @@ fn identity(entry: PathBuf) {
             wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
 
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify: true,
-                    target: EsVersion::Es5,
-                    ascii_only: true,
-                    ..Default::default()
-                },
+                cfg: swc_ecma_codegen::Config::default()
+                    .with_minify(true)
+                    .with_ascii_only(true)
+                    .with_target(EsVersion::Es5),
                 cm: cm.clone(),
                 wr,
                 comments: None,
