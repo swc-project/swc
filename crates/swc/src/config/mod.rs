@@ -1683,6 +1683,7 @@ pub struct TransformConfig {
 
 #[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[non_exhaustive]
 pub enum DecoratorVersion {
     #[default]
     #[serde(rename = "2021-12")]
