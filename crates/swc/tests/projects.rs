@@ -7,8 +7,8 @@ use anyhow::Context;
 use rayon::prelude::*;
 use swc::{
     config::{
-        BuiltInput, Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options,
-        SourceMapsConfig, TransformConfig,
+        Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        TransformConfig,
     },
     try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
