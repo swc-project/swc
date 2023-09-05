@@ -1460,7 +1460,10 @@ pub struct JscExperimental {
     pub plugins: Option<Vec<PluginConfig>>,
     /// If true, keeps import assertions in the output.
     #[serde(default)]
-    pub keep_import_assertions: BoolConfig<false>,
+    pub keep_import_attributes: BoolConfig<false>,
+
+    #[serde(default)]
+    pub emit_asserts_from_attributes: BoolConfig<false>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.
