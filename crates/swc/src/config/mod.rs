@@ -873,8 +873,8 @@ impl Options {
             preserve_comments,
             emit_source_map_columns: cfg.emit_source_map_columns.into_bool(),
             output: JscOutputConfig { charset, preamble },
-            emit_asserts_for_import_attributes: experimental
-                .emit_asserts_for_import_attributes
+            emit_assert_for_import_attributes: experimental
+                .emit_assert_for_import_attributes
                 .into_bool(),
         })
     }
@@ -1381,7 +1381,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub emit_source_map_columns: bool,
 
     pub output: JscOutputConfig,
-    pub emit_asserts_for_import_attributes: bool,
+    pub emit_assert_for_import_attributes: bool,
 }
 
 impl<P> BuiltInput<P>
@@ -1409,7 +1409,7 @@ where
             comments: self.comments,
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
-            emit_asserts_for_import_attributes: self.emit_asserts_for_import_attributes,
+            emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
         }
     }
 }
@@ -1498,7 +1498,7 @@ pub struct JscExperimental {
     pub keep_import_attributes: BoolConfig<false>,
 
     #[serde(default)]
-    pub emit_asserts_for_import_attributes: BoolConfig<false>,
+    pub emit_assert_for_import_attributes: BoolConfig<false>,
     /// Location where swc may stores its intermediate cache.
     /// Currently this is only being used for wasm plugin's bytecache.
     /// Path should be absolute directory, which will be created if not exist.

@@ -35,7 +35,7 @@ pub struct Config {
     pub omit_last_semi: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub emit_asserts_for_import_attributes: bool,
+    pub emit_assert_for_import_attributes: bool,
 }
 
 impl Default for Config {
@@ -45,7 +45,7 @@ impl Default for Config {
             minify: false,
             ascii_only: false,
             omit_last_semi: false,
-            emit_asserts_for_import_attributes: false,
+            emit_assert_for_import_attributes: false,
         }
     }
 }
@@ -71,11 +71,11 @@ impl Config {
         self
     }
 
-    pub fn with_emit_asserts_for_import_attributes(
+    pub fn with_emit_assert_for_import_attributes(
         mut self,
-        emit_asserts_for_import_attributes: bool,
+        emit_assert_for_import_attributes: bool,
     ) -> Self {
-        self.emit_asserts_for_import_attributes = emit_asserts_for_import_attributes;
+        self.emit_assert_for_import_attributes = emit_assert_for_import_attributes;
         self
     }
 }

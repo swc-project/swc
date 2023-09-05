@@ -310,7 +310,7 @@ where
 
         if let Some(with) = &n.with {
             formatting_space!();
-            if self.cfg.emit_asserts_for_import_attributes {
+            if self.cfg.emit_assert_for_import_attributes {
                 keyword!("asserts");
             } else {
                 keyword!("with")
@@ -457,7 +457,7 @@ where
 
             if let Some(with) = &node.with {
                 formatting_space!();
-                if self.cfg.emit_asserts_for_import_attributes {
+                if self.cfg.emit_assert_for_import_attributes {
                     keyword!("asserts");
                 } else {
                     keyword!("with")
@@ -487,7 +487,7 @@ where
 
         if let Some(with) = &node.with {
             formatting_space!();
-            if self.cfg.emit_asserts_for_import_attributes {
+            if self.cfg.emit_assert_for_import_attributes {
                 keyword!("asserts");
             } else {
                 keyword!("with")
