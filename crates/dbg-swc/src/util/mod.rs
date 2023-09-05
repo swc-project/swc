@@ -89,10 +89,7 @@ pub fn print_js(cm: Arc<SourceMap>, m: &Module, minify: bool) -> Result<String> 
         }
 
         let mut e = swc_ecma_codegen::Emitter {
-            cfg: swc_ecma_codegen::Config {
-                minify,
-                ..Default::default()
-            },
+            cfg: swc_ecma_codegen::Config::default().with_minify(true),
             cm,
             comments: None,
             wr,
