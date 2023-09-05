@@ -7,6 +7,12 @@
 
 - **(es/module)** Revert #7901 (#7906) ([85d6e9b](https://github.com/swc-project/swc/commit/85d6e9be07af7bb788594b21a986636657d86f03))
 
+### Features
+
+
+
+- **(es/codegen)** Add an option to print `assert` for import attributes (#7914) ([ee75756](https://github.com/swc-project/swc/commit/ee7575695de6dad140457ffb8bb8f0ac80c4dcdc))
+
 ## [1.3.82] - 2023-09-01
 
 ### Bug Fixes
