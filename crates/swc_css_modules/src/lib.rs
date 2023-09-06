@@ -218,7 +218,27 @@ where
                                     .cloned();
 
                                 if let Some(key) = key {
-                                    self.result.renamed.entry(key).or_default().extend(composes);
+                                    let mut renamed = self.result.renamed.clone();
+                                    let class_names = self.result.renamed.entry(key).or_default();
+
+                                    class_names.extend(composes.clone());
+
+                                    for composed_class_name in composes.iter() {
+                                        if let CssClassName::Local { name } = composed_class_name {
+                                            if let Some(original_class_name) =
+                                                self.data.renamed_to_orig.get(&name.value)
+                                            {
+                                                class_names.extend(
+                                                    renamed
+                                                        .entry(original_class_name.clone())
+                                                        .or_default()
+                                                        .split_at(1)
+                                                        .1
+                                                        .to_vec(),
+                                                );
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
