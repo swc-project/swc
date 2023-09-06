@@ -10,6 +10,9 @@
 
 - **(es/module)** Revert #7901 (#7906) ([85d6e9b](https://github.com/swc-project/swc/commit/85d6e9be07af7bb788594b21a986636657d86f03))
 
+
+- **(es/module)** Fix `jsc.paths` for projects using pnpm (#7918) ([a86e9f3](https://github.com/swc-project/swc/commit/a86e9f3bb5bd490ebf0b18fe7349a2b0fbc0c45f))
+
 ### Features
 
 
