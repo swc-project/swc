@@ -137,11 +137,9 @@ where
                     false
                 };
 
-                if let FileName::Real(target) = &resolved {
-                    // If node_modules is in path, we should return module specifier.
-                    if !is_base_in_node_modules && is_target_in_node_modules {
-                        return Ok(FileName::Real(module_specifier.into()));
-                    }
+                // If node_modules is in path, we should return module specifier.
+                if !is_base_in_node_modules && is_target_in_node_modules {
+                    return Ok(FileName::Real(module_specifier.into()));
                 }
 
                 Ok(resolved)
