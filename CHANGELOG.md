@@ -5,6 +5,9 @@
 
 
 
+- **(css/modules)** Aggregate class names when composes is chained. (#7917) ([0db25a2](https://github.com/swc-project/swc/commit/0db25a252cf35e4b64b38bde9f34a2f33eb2f662))
+
+
 - **(es/module)** Revert #7901 (#7906) ([85d6e9b](https://github.com/swc-project/swc/commit/85d6e9be07af7bb788594b21a986636657d86f03))
 
 ### Features
