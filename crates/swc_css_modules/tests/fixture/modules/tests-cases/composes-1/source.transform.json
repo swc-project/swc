@@ -18,6 +18,11 @@
     {
       "type": "local",
       "name": "__local__c1"
+    },
+    {
+      "type": "import",
+      "name": "c2",
+      "from": "./file.css"
     }
   ],
   "c5": [
