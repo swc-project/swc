@@ -2,19 +2,39 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript, TypeScript1, NullLogger, LoggerAdapter, BufferedLogger;
+var TypeScript, TypeScript1, CompilerDiagnostics, Alert, debug, diagnosticWriter, analysisPass, NullLogger, LoggerAdapter, BufferedLogger;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-!function(CompilerDiagnostics) {
-    var debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
-    function Alert(output) {
-        diagnosticWriter && diagnosticWriter.Alert(output);
+CompilerDiagnostics = (TypeScript1 = TypeScript || (TypeScript = {})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}), Alert = function(output) {
+    diagnosticWriter && diagnosticWriter.Alert(output);
+}, debug = !1, Object.defineProperty(CompilerDiagnostics, "debug", {
+    enumerable: !0,
+    get: function() {
+        return debug;
+    },
+    set: function(v) {
+        debug = v;
     }
-    CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
-        debug && Alert(s);
-    }, CompilerDiagnostics.assert = function(condition, s) {
-        debug && !condition && Alert(s);
-    };
-}((TypeScript1 = TypeScript || (TypeScript = {})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {})), NullLogger = function() {
+}), diagnosticWriter = null, Object.defineProperty(CompilerDiagnostics, "diagnosticWriter", {
+    enumerable: !0,
+    get: function() {
+        return diagnosticWriter;
+    },
+    set: function(v) {
+        diagnosticWriter = v;
+    }
+}), analysisPass = 0, Object.defineProperty(CompilerDiagnostics, "analysisPass", {
+    enumerable: !0,
+    get: function() {
+        return analysisPass;
+    },
+    set: function(v) {
+        analysisPass = v;
+    }
+}), CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
+    debug && Alert(s);
+}, CompilerDiagnostics.assert = function(condition, s) {
+    debug && !condition && Alert(s);
+}, NullLogger = function() {
     function NullLogger() {
         _class_call_check(this, NullLogger);
     }

@@ -51,8 +51,8 @@ var E08;
     E08["D"] = "hello";
     E08[E08["E"] = 10] = "E";
 })(E08 || (E08 = {}));
-var // Examples of numeric enum types with only constant members
-E10;
+var E10;
+// Examples of numeric enum types with only constant members
 (function(E10) {})(E10 || (E10 = {}));
 var E11;
 (function(E11) {
@@ -66,8 +66,8 @@ var E12;
     E12[E12["B"] = 2] = "B";
     E12[E12["C"] = 4] = "C";
 })(E12 || (E12 = {}));
-var // Examples of numeric enum types with constant and computed members
-E20;
+var E20;
+// Examples of numeric enum types with constant and computed members
 (function(E20) {
     E20[E20["A"] = "foo".length] = "A";
     E20[E20["B"] = E20.A + 1] = "B";

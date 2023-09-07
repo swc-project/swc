@@ -5,7 +5,16 @@ define([
     "use strict";
     var foo;
     (function(foo) {
-        var answer = foo.answer = 42;
+        var answer = 42;
+        Object.defineProperty(foo, "answer", {
+            enumerable: true,
+            get: function get() {
+                return answer;
+            },
+            set: function set(v) {
+                answer = v;
+            }
+        });
     })(foo || (foo = {}));
 });
 //// [foo_1.ts]

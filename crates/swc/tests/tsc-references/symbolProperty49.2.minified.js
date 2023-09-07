@@ -1,3 +1,9 @@
 //// [symbolProperty49.ts]
-var M, M1, Symbol;
-M1 = M || (M = {}), Symbol.iterator, M1.Symbol = Symbol;
+var M, Symbol;
+Object.defineProperty(M || (M = {}), "Symbol", {
+    enumerable: !0,
+    get: ()=>Symbol,
+    set (v) {
+        Symbol = v;
+    }
+}), Symbol.iterator;

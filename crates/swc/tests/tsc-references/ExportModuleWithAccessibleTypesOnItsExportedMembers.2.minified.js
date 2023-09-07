@@ -1,9 +1,17 @@
 //// [ExportModuleWithAccessibleTypesOnItsExportedMembers.ts]
-var A, A1, Point, B, Line;
+var A, A1, Point, B, Origin, Line;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 A1 = A || (A = {}), Point = function Point(x, y) {
     _class_call_check(this, Point), this.x = x, this.y = y;
-}, A1.Point = Point, (B = A1.B || (A1.B = {})).Origin = new Point(0, 0), Line = function() {
+}, A1.Point = Point, B = A1.B || (A1.B = {}), Origin = new Point(0, 0), Object.defineProperty(B, "Origin", {
+    enumerable: !0,
+    get: function() {
+        return Origin;
+    },
+    set: function(v) {
+        Origin = v;
+    }
+}), Line = function() {
     function Line(start, end) {
         _class_call_check(this, Line);
     }

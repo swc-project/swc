@@ -103,14 +103,10 @@ var E;
     E[E["b"] = 1] = "b";
 })(E || (E = {}));
 var E1;
-(function(E1) {
-    E1[E1["a"] = 0] = "a";
-    E1[E1["b"] = 1] = "b";
-})(E1 || (E1 = {}));
 function foo1() {
     for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
         a[_key] = arguments[_key];
     }
 }
-foo1(1, 2, 3, E.a);
-foo1(1, 2, 3, 0, E.b);
+foo1(1, 2, 3, 0);
+foo1(1, 2, 3, 0, 1);

@@ -104,6 +104,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
     let mut decorators = false;
     let mut decorator_metadata = false;
     let mut use_define_for_class_fields = false;
+    let mut verbatim_module_syntax = false;
 
     let filename = input
         .file_name()
@@ -170,6 +171,11 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                     files.extend(sub_file(cm.clone(), &mut buffer, sub_filename));
 
                     sub_filename = Cow::from(meta_data_value.trim());
+                }
+                "verbatimmodulesyntax" => {
+                    if meta_data_value.trim() == "true" {
+                        verbatim_module_syntax = true;
+                    }
                 }
                 _ => {}
             }
@@ -390,6 +396,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                             transform: Some(TransformConfig {
                                 use_define_for_class_fields: use_define_for_class_fields.into(),
                                 decorator_metadata: decorator_metadata.into(),
+                                verbatim_module_syntax: verbatim_module_syntax.into(),
                                 ..Default::default()
                             })
                             .into(),

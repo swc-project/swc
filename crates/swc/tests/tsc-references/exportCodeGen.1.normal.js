@@ -7,33 +7,42 @@ var A;
     var lt12 = function lt12() {
         return x < 12;
     };
-    var x = A.x = 12;
+    var x = 12;
+    Object.defineProperty(A, "x", {
+        enumerable: true,
+        get: function get() {
+            return x;
+        },
+        set: function set(v) {
+            x = v;
+        }
+    });
 })(A || (A = {}));
-// should not fully qualify 'x'
 var B;
+// should not fully qualify 'x'
 (function(B) {
     var lt12 = function lt12() {
         return x < 12;
     };
     var x = 12;
 })(B || (B = {}));
-// not copied, since not exported
 var C;
+// not copied, since not exported
 (function(C) {
     var no = function no() {
         return false;
     };
 })(C || (C = {}));
-// copies, since exported
 var D;
+// copies, since exported
 (function(D) {
     var yes = function yes() {
         return true;
     };
     D.yes = yes;
 })(D || (D = {}));
-// validate all exportable statements
 var E;
+// validate all exportable statements
 (function(E) {
     var fn = function fn() {};
     var Color;
@@ -48,12 +57,21 @@ var E;
     E.C = C;
     var M;
     (function(M) {
-        var x = M.x = 42;
+        var x = 42;
+        Object.defineProperty(M, "x", {
+            enumerable: true,
+            get: function get() {
+                return x;
+            },
+            set: function set(v) {
+                x = v;
+            }
+        });
     })(M = E.M || (E.M = {}));
 })(E || (E = {}));
+var F;
 // validate all exportable statements,
 // which are not exported
-var F;
 (function(F) {
     var fn = function fn() {};
     var Color;

@@ -8,7 +8,15 @@ var n, ANY, ANY1, M, ANY2 = [
     x: 1,
     y: null
 };
-(M || (M = {})).n = n;
+Object.defineProperty(M || (M = {}), "n", {
+    enumerable: !0,
+    get: function() {
+        return n;
+    },
+    set: function(v) {
+        n = v;
+    }
+});
 var objA = new function A() {
     _class_call_check(this, A);
 }();

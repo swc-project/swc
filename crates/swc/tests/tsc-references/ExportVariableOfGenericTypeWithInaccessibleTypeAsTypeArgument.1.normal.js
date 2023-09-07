@@ -7,6 +7,23 @@ var A;
         _class_call_check(this, B);
     };
     var beez;
-    var beez2 = A.beez2 = new Array();
-    A.beez = beez;
+    Object.defineProperty(A, "beez", {
+        enumerable: true,
+        get: function get() {
+            return beez;
+        },
+        set: function set(v) {
+            beez = v;
+        }
+    });
+    var beez2 = new Array();
+    Object.defineProperty(A, "beez2", {
+        enumerable: true,
+        get: function get() {
+            return beez2;
+        },
+        set: function set(v) {
+            beez2 = v;
+        }
+    });
 })(A || (A = {}));

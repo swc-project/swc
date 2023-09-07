@@ -1,5 +1,5 @@
 //// [moduleWithStatementsOfEveryKind.ts]
-var A, Y, Module, Color, Color1, Y1, A1, AA, B, BB, Color2;
+var A, Y, Module, Color, Color1, Y1, A1, AA, B, BB, Color2, x, array, fn, ol;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
@@ -21,12 +21,44 @@ A || (A = {}), Module || (Module = {}), (Color1 = Color || (Color = {}))[Color1.
         return _class_call_check(this, BB), _super.apply(this, arguments);
     }
     return BB;
-}(A1), Y1.BB = BB, Y1.Module || (Y1.Module = {}), (Color2 = Y1.Color || (Y1.Color = {}))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", Y1.x = 12, Y1.F = function(s) {
+}(A1), Y1.BB = BB, Y1.Module || (Y1.Module = {}), (Color2 = Y1.Color || (Y1.Color = {}))[Color2.Blue = 0] = "Blue", Color2[Color2.Red = 1] = "Red", x = 12, Object.defineProperty(Y1, "x", {
+    enumerable: !0,
+    get: function() {
+        return x;
+    },
+    set: function(v) {
+        x = v;
+    }
+}), Y1.F = function(s) {
     return 2;
-}, Y1.array = null, Y1.fn = function(s) {
+}, array = null, Object.defineProperty(Y1, "array", {
+    enumerable: !0,
+    get: function() {
+        return array;
+    },
+    set: function(v) {
+        array = v;
+    }
+}), fn = function(s) {
     return "hello " + s;
-}, Y1.ol = {
+}, Object.defineProperty(Y1, "fn", {
+    enumerable: !0,
+    get: function() {
+        return fn;
+    },
+    set: function(v) {
+        fn = v;
+    }
+}), ol = {
     s: "hello",
     id: 2,
     isvalid: !0
-};
+}, Object.defineProperty(Y1, "ol", {
+    enumerable: !0,
+    get: function() {
+        return ol;
+    },
+    set: function(v) {
+        ol = v;
+    }
+});

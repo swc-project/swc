@@ -5,9 +5,17 @@ var s;
 var M1;
 (function(M1) {
     var s;
+    Object.defineProperty(M1, "s", {
+        enumerable: true,
+        get: function get() {
+            return s;
+        },
+        set: function set(v) {
+            s = v;
+        }
+    });
     var n = s;
     var n;
-    M1.s = s;
 })(M1 || (M1 = {}));
 var M2;
 (function(M2) {

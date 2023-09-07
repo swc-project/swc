@@ -12,7 +12,15 @@ var _object_spread_props = require("@swc/helpers/_/_object_spread_props");
 var M;
 (function(M) {
     var React1;
-    M.React = React1;
+    Object.defineProperty(M, "React", {
+        enumerable: true,
+        get: function get() {
+            return React1;
+        },
+        set: function set(v) {
+            React1 = v;
+        }
+    });
 })(M || (M = {}));
 (function(M) {
     // Should emit M.React.createElement

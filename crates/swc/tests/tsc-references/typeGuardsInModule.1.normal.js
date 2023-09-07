@@ -5,8 +5,8 @@
 var num;
 var strOrNum;
 var var1;
-// Inside module
 var m1;
+// Inside module
 (function(m1) {
     // global vars in function declaration
     num = typeof var1 === "string" && var1.length; // string
@@ -18,18 +18,36 @@ var m1;
         num = var2; // number
     }
     var var3;
+    // exported variable in the module
+    Object.defineProperty(m1, "var3", {
+        enumerable: true,
+        get: function get() {
+            return var3;
+        },
+        set: function set(v) {
+            var3 = v;
+        }
+    });
     if (typeof var3 === "string") {
         strOrNum = var3; // string | number
     } else {
         strOrNum = var3; // string | number
     }
-    m1.var3 = var3;
 })(m1 || (m1 = {}));
-// local module
 var m2;
+// local module
 (function(m2) {
     var var2;
     var var3;
+    Object.defineProperty(m2, "var3", {
+        enumerable: true,
+        get: function get() {
+            return var3;
+        },
+        set: function set(v) {
+            var3 = v;
+        }
+    });
     var m3;
     (function(m3) {
         // global vars in function declaration
@@ -46,19 +64,26 @@ var m2;
             num = var4; // number
         }
         var var5;
+        // exported variable in the module
+        Object.defineProperty(m3, "var5", {
+            enumerable: true,
+            get: function get() {
+                return var5;
+            },
+            set: function set(v) {
+                var5 = v;
+            }
+        });
         if (typeof var5 === "string") {
             strOrNum = var5; // string | number
         } else {
             strOrNum = var5; // string | number
         }
-        m3.var5 = var5;
     })(m3 || (m3 = {}));
-    m2.var3 = var3;
 })(m2 || (m2 = {}));
-// Dotted module
 var m3;
+// Dotted module
 (function(m3) {
-    var m4;
     (function(m4) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
@@ -70,11 +95,20 @@ var m3;
             num = var2; // number
         }
         var var3;
+        // exported variable in the module
+        Object.defineProperty(m4, "var3", {
+            enumerable: true,
+            get: function get() {
+                return var3;
+            },
+            set: function set(v) {
+                var3 = v;
+            }
+        });
         if (typeof var3 === "string") {
             strOrNum = var3; // string | number
         } else {
             strOrNum = var3; // string | number
         }
-        m4.var3 = var3;
-    })(m4 = m3.m4 || (m3.m4 = {}));
+    })(m3.m4 || (m3.m4 = {}));
 })(m3 || (m3 = {}));

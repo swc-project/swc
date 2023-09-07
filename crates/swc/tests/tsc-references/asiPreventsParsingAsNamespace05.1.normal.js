@@ -2,8 +2,16 @@
 var namespace = 10;
 var a;
 (function(a) {
-    var b;
     (function(b) {
-        var c = b.c = 20;
-    })(b = a.b || (a.b = {}));
+        var c = 20;
+        Object.defineProperty(b, "c", {
+            enumerable: true,
+            get: function get() {
+                return c;
+            },
+            set: function set(v) {
+                c = v;
+            }
+        });
+    })(a.b || (a.b = {}));
 })(a || (a = {}));

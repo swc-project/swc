@@ -12,11 +12,11 @@ var AlienAnimalTypes;
 var catMap = {
     cat: [
         {
-            type: TerrestrialAnimalTypes.CAT,
+            type: "cat",
             address: ""
         },
         {
-            type: AlienAnimalTypes.CAT,
+            type: "cat",
             planet: ""
         }
     ],

@@ -13,6 +13,7 @@ var M2;
     var r2 = a.bar;
     var r3 = a.baz;
 })(M2 || (M2 = {}));
+// same as above but with an additional level of nesting and third module declaration
 (function(M2) {
     var M3;
     (function(M3) {

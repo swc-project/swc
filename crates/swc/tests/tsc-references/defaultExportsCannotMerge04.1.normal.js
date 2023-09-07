@@ -10,8 +10,15 @@ Object.defineProperty(exports, "default", {
     }
 });
 function Foo() {}
-var Foo;
 (function(Foo) {
     var x;
-    Foo.x = x;
+    Object.defineProperty(Foo, "x", {
+        enumerable: true,
+        get: function get() {
+            return x;
+        },
+        set: function set(v) {
+            x = v;
+        }
+    });
 })(Foo || (Foo = {}));

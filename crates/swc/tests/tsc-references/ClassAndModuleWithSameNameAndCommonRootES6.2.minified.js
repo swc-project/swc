@@ -6,14 +6,26 @@ var X, X1;
     }
 };
 //// [module.ts]
-var X, X1, Y;
-let Point;
-(Point = (Y = (X1 = X || (X = {})).Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
+var X, X1, Y, Point, Origin;
+Origin = new (Point = (Y = (X1 = X || (X = {})).Y || (X1.Y = {})).Point || (Y.Point = {}))(0, 0), Object.defineProperty(Point, "Origin", {
+    enumerable: !0,
+    get: ()=>Origin,
+    set (v) {
+        Origin = v;
+    }
+});
 //// [test.ts]
 //var cl: { x: number; y: number; }
 new X.Y.Point(1, 1), X.Y.Point.Origin;
  // error not expected here same as bug 83996 ?
 //// [simple.ts]
-class A {
+var A, Instance;
+class A1 {
 }
-(A || (A = {})).Instance = new A(), A.Instance, new A();
+Instance = new (A = A1 || (A1 = {}))(), Object.defineProperty(A, "Instance", {
+    enumerable: !0,
+    get: ()=>Instance,
+    set (v) {
+        Instance = v;
+    }
+}), A1.Instance, new A1();

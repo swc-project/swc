@@ -2,7 +2,15 @@
 var my;
 (function(my) {
     var div;
-    my.div = div;
+    Object.defineProperty(my, "div", {
+        enumerable: true,
+        get: function get() {
+            return div;
+        },
+        set: function set(v) {
+            div = v;
+        }
+    });
 })(my || (my = {}));
 // OK
 /*#__PURE__*/ React.createElement(my.div, {

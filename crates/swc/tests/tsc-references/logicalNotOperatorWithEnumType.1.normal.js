@@ -11,13 +11,13 @@ var ENUM1;
 // enum type var
 var ResultIsBoolean1 = !ENUM;
 // enum type expressions
-var ResultIsBoolean2 = !ENUM["B"];
-var ResultIsBoolean3 = !(ENUM.B + ENUM["C"]);
+var ResultIsBoolean2 = !1;
+var ResultIsBoolean3 = !(1 + 2);
 // multiple ! operators
 var ResultIsBoolean4 = !!ENUM;
-var ResultIsBoolean5 = !!!(ENUM["B"] + ENUM.C);
+var ResultIsBoolean5 = !!!(1 + 2);
 // miss assignment operators
 !ENUM;
 !ENUM1;
-!ENUM.B;
+!1;
 !ENUM, ENUM1;

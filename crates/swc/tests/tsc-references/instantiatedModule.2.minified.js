@@ -1,9 +1,17 @@
 //// [instantiatedModule.ts]
 // adding the var makes this an instantiated module
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(M || (M = {})).Point = 1;
-var M2, Point, M3, Color, M, M21, m2, a2, M31, m3, a3, m = M;
-M.Point, m.Point, M2 = M21 || (M21 = {}), Point = function() {
+M = M1 || (M1 = {}), Point1 = 1, Object.defineProperty(M, "Point", {
+    enumerable: !0,
+    get: function() {
+        return Point1;
+    },
+    set: function(v) {
+        Point1 = v;
+    }
+});
+var M2, Point, M3, Color, M, Point1, M1, M21, m2, a2, M31, m3, a3, m = M1;
+M1.Point, m.Point, M2 = M21 || (M21 = {}), Point = function() {
     function Point() {
         _class_call_check(this, Point);
     }

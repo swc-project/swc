@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript, TypeScript1, globalAstWalkerFactory, ChildrenWalkers, AstWalkOptions, AstWalker, AstWalkerFactory;
+var TypeScript, TypeScript1, globalAstWalkerFactory, ChildrenWalkers, AstWalkOptions, AstWalker, AstWalkerFactory, ChildrenWalkers1, walkRecordChildren, walkNamedTypeChildren;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 TypeScript1 = TypeScript || (TypeScript = {}), AstWalkOptions = function() {
     function AstWalkOptions() {
@@ -46,75 +46,72 @@ TypeScript1 = TypeScript || (TypeScript = {}), AstWalkOptions = function() {
     }, AstWalkerFactory;
 }(), TypeScript1.AstWalkerFactory = AstWalkerFactory, TypeScript1.getAstWalkerFactory = function() {
     return globalAstWalkerFactory || (globalAstWalkerFactory = new AstWalkerFactory()), globalAstWalkerFactory;
-}, function(ChildrenWalkers) {
-    function walkRecordChildren(preAst, parent, walker) {
-        preAst.name = walker.walk(preAst.name, preAst), walker.options.goNextSibling && preAst.members && (preAst.members = walker.walk(preAst.members, preAst));
-    }
-    ChildrenWalkers.walkNone = function(preAst, parent, walker) {
-    // Nothing to do
-    }, ChildrenWalkers.walkListChildren = function(preAst, parent, walker) {
-        var len = preAst.members.length;
-        if (walker.options.reverseSiblings) for(var i = len - 1; i >= 0; i--)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
-        else for(var i = 0; i < len; i++)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
-    }, ChildrenWalkers.walkUnaryExpressionChildren = function(preAst, parent, walker) {
-        preAst.castTerm && (preAst.castTerm = walker.walk(preAst.castTerm, preAst)), preAst.operand && (preAst.operand = walker.walk(preAst.operand, preAst));
-    }, ChildrenWalkers.walkBinaryExpressionChildren = function(preAst, parent, walker) {
-        walker.options.reverseSiblings ? (preAst.operand2 && (preAst.operand2 = walker.walk(preAst.operand2, preAst)), preAst.operand1 && walker.options.goNextSibling && (preAst.operand1 = walker.walk(preAst.operand1, preAst))) : (preAst.operand1 && (preAst.operand1 = walker.walk(preAst.operand1, preAst)), preAst.operand2 && walker.options.goNextSibling && (preAst.operand2 = walker.walk(preAst.operand2, preAst)));
-    }, ChildrenWalkers.walkTypeReferenceChildren = function(preAst, parent, walker) {
-        preAst.term && (preAst.term = walker.walk(preAst.term, preAst));
-    }, ChildrenWalkers.walkCallExpressionChildren = function(preAst, parent, walker) {
-        walker.options.reverseSiblings || (preAst.target = walker.walk(preAst.target, preAst)), preAst.arguments && walker.options.goNextSibling && (preAst.arguments = walker.walk(preAst.arguments, preAst)), walker.options.reverseSiblings && walker.options.goNextSibling && (preAst.target = walker.walk(preAst.target, preAst));
-    }, ChildrenWalkers.walkTrinaryExpressionChildren = function(preAst, parent, walker) {
-        preAst.operand1 && (preAst.operand1 = walker.walk(preAst.operand1, preAst)), preAst.operand2 && walker.options.goNextSibling && (preAst.operand2 = walker.walk(preAst.operand2, preAst)), preAst.operand3 && walker.options.goNextSibling && (preAst.operand3 = walker.walk(preAst.operand3, preAst));
-    }, ChildrenWalkers.walkFuncDeclChildren = function(preAst, parent, walker) {
-        preAst.name && (preAst.name = walker.walk(preAst.name, preAst)), preAst.arguments && preAst.arguments.members.length > 0 && walker.options.goNextSibling && (preAst.arguments = walker.walk(preAst.arguments, preAst)), preAst.returnTypeAnnotation && walker.options.goNextSibling && (preAst.returnTypeAnnotation = walker.walk(preAst.returnTypeAnnotation, preAst)), preAst.bod && preAst.bod.members.length > 0 && walker.options.goNextSibling && (preAst.bod = walker.walk(preAst.bod, preAst));
-    }, ChildrenWalkers.walkBoundDeclChildren = function(preAst, parent, walker) {
-        preAst.id && (preAst.id = walker.walk(preAst.id, preAst)), preAst.init && (preAst.init = walker.walk(preAst.init, preAst)), preAst.typeExpr && walker.options.goNextSibling && (preAst.typeExpr = walker.walk(preAst.typeExpr, preAst));
-    }, ChildrenWalkers.walkReturnStatementChildren = function(preAst, parent, walker) {
-        preAst.returnExpression && (preAst.returnExpression = walker.walk(preAst.returnExpression, preAst));
-    }, ChildrenWalkers.walkForStatementChildren = function(preAst, parent, walker) {
-        preAst.init && (preAst.init = walker.walk(preAst.init, preAst)), preAst.cond && walker.options.goNextSibling && (preAst.cond = walker.walk(preAst.cond, preAst)), preAst.incr && walker.options.goNextSibling && (preAst.incr = walker.walk(preAst.incr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkForInStatementChildren = function(preAst, parent, walker) {
-        preAst.lval = walker.walk(preAst.lval, preAst), walker.options.goNextSibling && (preAst.obj = walker.walk(preAst.obj, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkIfStatementChildren = function(preAst, parent, walker) {
-        preAst.cond = walker.walk(preAst.cond, preAst), preAst.thenBod && walker.options.goNextSibling && (preAst.thenBod = walker.walk(preAst.thenBod, preAst)), preAst.elseBod && walker.options.goNextSibling && (preAst.elseBod = walker.walk(preAst.elseBod, preAst));
-    }, ChildrenWalkers.walkWhileStatementChildren = function(preAst, parent, walker) {
-        preAst.cond = walker.walk(preAst.cond, preAst), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkDoWhileStatementChildren = function(preAst, parent, walker) {
-        preAst.cond = walker.walk(preAst.cond, preAst), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkBlockChildren = function(preAst, parent, walker) {
-        preAst.statements && (preAst.statements = walker.walk(preAst.statements, preAst));
-    }, ChildrenWalkers.walkCaseStatementChildren = function(preAst, parent, walker) {
-        preAst.expr && (preAst.expr = walker.walk(preAst.expr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkSwitchStatementChildren = function(preAst, parent, walker) {
-        preAst.val && (preAst.val = walker.walk(preAst.val, preAst)), preAst.caseList && walker.options.goNextSibling && (preAst.caseList = walker.walk(preAst.caseList, preAst));
-    }, ChildrenWalkers.walkTryChildren = function(preAst, parent, walker) {
-        preAst.body && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkTryCatchChildren = function(preAst, parent, walker) {
-        preAst.tryNode && (preAst.tryNode = walker.walk(preAst.tryNode, preAst)), preAst.catchNode && walker.options.goNextSibling && (preAst.catchNode = walker.walk(preAst.catchNode, preAst));
-    }, ChildrenWalkers.walkTryFinallyChildren = function(preAst, parent, walker) {
-        preAst.tryNode && (preAst.tryNode = walker.walk(preAst.tryNode, preAst)), preAst.finallyNode && walker.options.goNextSibling && (preAst.finallyNode = walker.walk(preAst.finallyNode, preAst));
-    }, ChildrenWalkers.walkFinallyChildren = function(preAst, parent, walker) {
-        preAst.body && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkCatchChildren = function(preAst, parent, walker) {
-        preAst.param && (preAst.param = walker.walk(preAst.param, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkRecordChildren = walkRecordChildren, ChildrenWalkers.walkNamedTypeChildren = function(preAst, parent, walker) {
-        walkRecordChildren(preAst, parent, walker);
-    }, ChildrenWalkers.walkClassDeclChildren = function(preAst, parent, walker) {
-        walkRecordChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
-    }, ChildrenWalkers.walkScriptChildren = function(preAst, parent, walker) {
-        preAst.bod && (preAst.bod = walker.walk(preAst.bod, preAst));
-    }, ChildrenWalkers.walkTypeDeclChildren = function(preAst, parent, walker) {
-        walkRecordChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
-    }, ChildrenWalkers.walkModuleDeclChildren = function(preAst, parent, walker) {
-        walkRecordChildren(preAst, parent, walker);
-    }, ChildrenWalkers.walkImportDeclChildren = function(preAst, parent, walker) {
-        preAst.id && (preAst.id = walker.walk(preAst.id, preAst)), preAst.alias && (preAst.alias = walker.walk(preAst.alias, preAst));
-    }, ChildrenWalkers.walkWithStatementChildren = function(preAst, parent, walker) {
-        preAst.expr && (preAst.expr = walker.walk(preAst.expr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
-    }, ChildrenWalkers.walkLabelChildren = function(preAst, parent, walker) {
-    //TODO: Walk "id"?
-    }, ChildrenWalkers.walkLabeledStatementChildren = function(preAst, parent, walker) {
-        preAst.labels = walker.walk(preAst.labels, preAst), walker.options.goNextSibling && (preAst.stmt = walker.walk(preAst.stmt, preAst));
-    };
-}(ChildrenWalkers || (ChildrenWalkers = {}));
+}, ChildrenWalkers1 = ChildrenWalkers || (ChildrenWalkers = {}), walkRecordChildren = function(preAst, parent, walker) {
+    preAst.name = walker.walk(preAst.name, preAst), walker.options.goNextSibling && preAst.members && (preAst.members = walker.walk(preAst.members, preAst));
+}, walkNamedTypeChildren = function(preAst, parent, walker) {
+    walkRecordChildren(preAst, parent, walker);
+}, ChildrenWalkers1.walkNone = function(preAst, parent, walker) {
+// Nothing to do
+}, ChildrenWalkers1.walkListChildren = function(preAst, parent, walker) {
+    var len = preAst.members.length;
+    if (walker.options.reverseSiblings) for(var i = len - 1; i >= 0; i--)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
+    else for(var i = 0; i < len; i++)walker.options.goNextSibling && (preAst.members[i] = walker.walk(preAst.members[i], preAst));
+}, ChildrenWalkers1.walkUnaryExpressionChildren = function(preAst, parent, walker) {
+    preAst.castTerm && (preAst.castTerm = walker.walk(preAst.castTerm, preAst)), preAst.operand && (preAst.operand = walker.walk(preAst.operand, preAst));
+}, ChildrenWalkers1.walkBinaryExpressionChildren = function(preAst, parent, walker) {
+    walker.options.reverseSiblings ? (preAst.operand2 && (preAst.operand2 = walker.walk(preAst.operand2, preAst)), preAst.operand1 && walker.options.goNextSibling && (preAst.operand1 = walker.walk(preAst.operand1, preAst))) : (preAst.operand1 && (preAst.operand1 = walker.walk(preAst.operand1, preAst)), preAst.operand2 && walker.options.goNextSibling && (preAst.operand2 = walker.walk(preAst.operand2, preAst)));
+}, ChildrenWalkers1.walkTypeReferenceChildren = function(preAst, parent, walker) {
+    preAst.term && (preAst.term = walker.walk(preAst.term, preAst));
+}, ChildrenWalkers1.walkCallExpressionChildren = function(preAst, parent, walker) {
+    walker.options.reverseSiblings || (preAst.target = walker.walk(preAst.target, preAst)), preAst.arguments && walker.options.goNextSibling && (preAst.arguments = walker.walk(preAst.arguments, preAst)), walker.options.reverseSiblings && walker.options.goNextSibling && (preAst.target = walker.walk(preAst.target, preAst));
+}, ChildrenWalkers1.walkTrinaryExpressionChildren = function(preAst, parent, walker) {
+    preAst.operand1 && (preAst.operand1 = walker.walk(preAst.operand1, preAst)), preAst.operand2 && walker.options.goNextSibling && (preAst.operand2 = walker.walk(preAst.operand2, preAst)), preAst.operand3 && walker.options.goNextSibling && (preAst.operand3 = walker.walk(preAst.operand3, preAst));
+}, ChildrenWalkers1.walkFuncDeclChildren = function(preAst, parent, walker) {
+    preAst.name && (preAst.name = walker.walk(preAst.name, preAst)), preAst.arguments && preAst.arguments.members.length > 0 && walker.options.goNextSibling && (preAst.arguments = walker.walk(preAst.arguments, preAst)), preAst.returnTypeAnnotation && walker.options.goNextSibling && (preAst.returnTypeAnnotation = walker.walk(preAst.returnTypeAnnotation, preAst)), preAst.bod && preAst.bod.members.length > 0 && walker.options.goNextSibling && (preAst.bod = walker.walk(preAst.bod, preAst));
+}, ChildrenWalkers1.walkBoundDeclChildren = function(preAst, parent, walker) {
+    preAst.id && (preAst.id = walker.walk(preAst.id, preAst)), preAst.init && (preAst.init = walker.walk(preAst.init, preAst)), preAst.typeExpr && walker.options.goNextSibling && (preAst.typeExpr = walker.walk(preAst.typeExpr, preAst));
+}, ChildrenWalkers1.walkReturnStatementChildren = function(preAst, parent, walker) {
+    preAst.returnExpression && (preAst.returnExpression = walker.walk(preAst.returnExpression, preAst));
+}, ChildrenWalkers1.walkForStatementChildren = function(preAst, parent, walker) {
+    preAst.init && (preAst.init = walker.walk(preAst.init, preAst)), preAst.cond && walker.options.goNextSibling && (preAst.cond = walker.walk(preAst.cond, preAst)), preAst.incr && walker.options.goNextSibling && (preAst.incr = walker.walk(preAst.incr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkForInStatementChildren = function(preAst, parent, walker) {
+    preAst.lval = walker.walk(preAst.lval, preAst), walker.options.goNextSibling && (preAst.obj = walker.walk(preAst.obj, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkIfStatementChildren = function(preAst, parent, walker) {
+    preAst.cond = walker.walk(preAst.cond, preAst), preAst.thenBod && walker.options.goNextSibling && (preAst.thenBod = walker.walk(preAst.thenBod, preAst)), preAst.elseBod && walker.options.goNextSibling && (preAst.elseBod = walker.walk(preAst.elseBod, preAst));
+}, ChildrenWalkers1.walkWhileStatementChildren = function(preAst, parent, walker) {
+    preAst.cond = walker.walk(preAst.cond, preAst), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkDoWhileStatementChildren = function(preAst, parent, walker) {
+    preAst.cond = walker.walk(preAst.cond, preAst), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkBlockChildren = function(preAst, parent, walker) {
+    preAst.statements && (preAst.statements = walker.walk(preAst.statements, preAst));
+}, ChildrenWalkers1.walkCaseStatementChildren = function(preAst, parent, walker) {
+    preAst.expr && (preAst.expr = walker.walk(preAst.expr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkSwitchStatementChildren = function(preAst, parent, walker) {
+    preAst.val && (preAst.val = walker.walk(preAst.val, preAst)), preAst.caseList && walker.options.goNextSibling && (preAst.caseList = walker.walk(preAst.caseList, preAst));
+}, ChildrenWalkers1.walkTryChildren = function(preAst, parent, walker) {
+    preAst.body && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkTryCatchChildren = function(preAst, parent, walker) {
+    preAst.tryNode && (preAst.tryNode = walker.walk(preAst.tryNode, preAst)), preAst.catchNode && walker.options.goNextSibling && (preAst.catchNode = walker.walk(preAst.catchNode, preAst));
+}, ChildrenWalkers1.walkTryFinallyChildren = function(preAst, parent, walker) {
+    preAst.tryNode && (preAst.tryNode = walker.walk(preAst.tryNode, preAst)), preAst.finallyNode && walker.options.goNextSibling && (preAst.finallyNode = walker.walk(preAst.finallyNode, preAst));
+}, ChildrenWalkers1.walkFinallyChildren = function(preAst, parent, walker) {
+    preAst.body && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkCatchChildren = function(preAst, parent, walker) {
+    preAst.param && (preAst.param = walker.walk(preAst.param, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkRecordChildren = walkRecordChildren, ChildrenWalkers1.walkNamedTypeChildren = walkNamedTypeChildren, ChildrenWalkers1.walkClassDeclChildren = function(preAst, parent, walker) {
+    walkNamedTypeChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
+}, ChildrenWalkers1.walkScriptChildren = function(preAst, parent, walker) {
+    preAst.bod && (preAst.bod = walker.walk(preAst.bod, preAst));
+}, ChildrenWalkers1.walkTypeDeclChildren = function(preAst, parent, walker) {
+    walkNamedTypeChildren(preAst, parent, walker), walker.options.goNextSibling && preAst.extendsList && (preAst.extendsList = walker.walk(preAst.extendsList, preAst)), walker.options.goNextSibling && preAst.implementsList && (preAst.implementsList = walker.walk(preAst.implementsList, preAst));
+}, ChildrenWalkers1.walkModuleDeclChildren = function(preAst, parent, walker) {
+    walkRecordChildren(preAst, parent, walker);
+}, ChildrenWalkers1.walkImportDeclChildren = function(preAst, parent, walker) {
+    preAst.id && (preAst.id = walker.walk(preAst.id, preAst)), preAst.alias && (preAst.alias = walker.walk(preAst.alias, preAst));
+}, ChildrenWalkers1.walkWithStatementChildren = function(preAst, parent, walker) {
+    preAst.expr && (preAst.expr = walker.walk(preAst.expr, preAst)), preAst.body && walker.options.goNextSibling && (preAst.body = walker.walk(preAst.body, preAst));
+}, ChildrenWalkers1.walkLabelChildren = function(preAst, parent, walker) {
+//TODO: Walk "id"?
+}, ChildrenWalkers1.walkLabeledStatementChildren = function(preAst, parent, walker) {
+    preAst.labels = walker.walk(preAst.labels, preAst), walker.options.goNextSibling && (preAst.stmt = walker.walk(preAst.stmt, preAst));
+};

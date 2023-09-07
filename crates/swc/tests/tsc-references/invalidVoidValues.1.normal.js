@@ -9,7 +9,7 @@ var E;
     E[E["A"] = 0] = "A";
 })(E || (E = {}));
 x = E;
-x = E.A;
+x = 0;
 var C = function C() {
     "use strict";
     _class_call_check(this, C);
@@ -23,7 +23,16 @@ x = {
 };
 var M;
 (function(M) {
-    var x = M.x = 1;
+    var x = 1;
+    Object.defineProperty(M, "x", {
+        enumerable: true,
+        get: function get() {
+            return x;
+        },
+        set: function set(v) {
+            x = v;
+        }
+    });
 })(M || (M = {}));
 x = M;
 function f(a) {

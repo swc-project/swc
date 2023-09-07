@@ -74,9 +74,17 @@ var D;
 var M;
 (function(M) {
     var x;
-    M.x = x;
+    Object.defineProperty(M, "x", {
+        enumerable: true,
+        get () {
+            return x;
+        },
+        set (v) {
+            x = v;
+        }
+    });
 })(M || (M = {}));
-var a = M.x;
+const a = M.x;
 //// [t2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

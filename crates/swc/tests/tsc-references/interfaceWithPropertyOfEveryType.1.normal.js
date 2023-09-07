@@ -7,7 +7,16 @@ var C = function C() {
 function f1() {}
 var M;
 (function(M) {
-    var y = M.y = 1;
+    var y = 1;
+    Object.defineProperty(M, "y", {
+        enumerable: true,
+        get: function get() {
+            return y;
+        },
+        set: function set(v) {
+            y = v;
+        }
+    });
 })(M || (M = {}));
 var E;
 (function(E) {
@@ -34,5 +43,5 @@ var a = {
     l: f1,
     m: M,
     n: {},
-    o: E.A
+    o: 0
 };

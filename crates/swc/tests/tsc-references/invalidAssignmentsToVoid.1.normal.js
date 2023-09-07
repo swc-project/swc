@@ -16,7 +16,16 @@ var i;
 x = i;
 var M;
 (function(M) {
-    var x = M.x = 1;
+    var x = 1;
+    Object.defineProperty(M, "x", {
+        enumerable: true,
+        get: function get() {
+            return x;
+        },
+        set: function set(v) {
+            x = v;
+        }
+    });
 })(M || (M = {}));
 x = M;
 function f(a) {

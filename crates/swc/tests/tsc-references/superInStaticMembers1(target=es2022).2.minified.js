@@ -9,9 +9,7 @@ export default class {
 //// [locals.ts]
 class C extends B {
     static{
-        let Reflect// collision (es2015-es2021 only)
-        , Reflect1// collision (es2015-es2021 only)
-        ;
+        let Reflect;
         this._ = [
             void super.w(),
             (()=>{
@@ -29,7 +27,7 @@ class C extends B {
             void super.w(),
             void super.w(),
             void (Reflect || (Reflect = {}), super.w()),
-            void (Reflect1 || (Reflect1 = {}), super.w()),
+            void super.w(),
             void super.w(),
             void super.w(),
             void super.w(),
@@ -58,14 +56,11 @@ class C extends B {
         super.w();
     }
     static{
-        let Reflect// collision (es2015-es2021 only)
-        ;
+        let Reflect;
         Reflect || (Reflect = {}), super.w();
     }
     static{
-        let Reflect// collision (es2015-es2021 only)
-        ;
-        Reflect || (Reflect = {}), super.w();
+        super.w();
     }
     static{
         super.w();
@@ -178,9 +173,8 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticField.ts]
-var Reflect// collision (es2015-es2021 only)
-;
-Reflect || (Reflect = {});
+var Reflect;
+Reflect || (Reflect = {}); // collision (es2015-es2021 only)
 class C extends B {
     static{
         this._ = super.w();
@@ -188,9 +182,8 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect// collision (es2015-es2021 only)
-;
-Reflect || (Reflect = {});
+var Reflect;
+Reflect || (Reflect = {}); // collision (es2015-es2021 only)
 class C extends B {
     static{
         super.w();
@@ -198,9 +191,6 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticField.ts]
-var Reflect// collision (es2015-es2021 only)
-;
-Reflect || (Reflect = {});
 class C extends B {
     static{
         this._ = super.w();
@@ -208,9 +198,6 @@ class C extends B {
 }
 export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
-var Reflect// collision (es2015-es2021 only)
-;
-Reflect || (Reflect = {});
 class C extends B {
     static{
         super.w();

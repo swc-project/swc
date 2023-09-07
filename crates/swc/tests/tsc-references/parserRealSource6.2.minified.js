@@ -69,7 +69,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), preFindEnclosingScope = function(
     }, _proto.getScriptFragment = function() {
         if (null == this.scriptFragment) {
             var ast = this.getScriptFragmentStartAST(), minChar = ast.minChar, limChar = this.isMemberCompletion ? this.pos : this.pos + 1;
-            this.scriptFragment = TypeScript.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
+            this.scriptFragment = TypeScript1.quickParse(this.logger, ast, this.text, minChar, limChar, null).Script;
         }
         return this.scriptFragment;
     }, EnclosingScopeContext;
@@ -83,5 +83,5 @@ TypeScript1 = TypeScript || (TypeScript = {}), preFindEnclosingScope = function(
     context.scopeChain = context.scopeChain.previous;
 }, TypeScript1.preFindEnclosingScope = preFindEnclosingScope, TypeScript1.findEnclosingScopeAt = function(logger, script, text, pos, isMemberCompletion) {
     var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
-    return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
+    return (TypeScript1.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
 };

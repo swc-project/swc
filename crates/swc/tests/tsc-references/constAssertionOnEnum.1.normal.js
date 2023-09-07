@@ -13,14 +13,14 @@ var Bar;
     Bar[Bar["B"] = 1] = "B";
 })(Bar || (Bar = {}));
 let foo = Foo.A;
-let bar = Bar.A;
+let bar = 0;
 //// [ns.ts]
 var ns;
-(function(ns1) {
+(function(ns) {
     let Foo;
     (function(Foo) {
         Foo[Foo["X"] = 0] = "X";
-    })(Foo = ns1.Foo || (ns1.Foo = {}));
+    })(Foo = ns.Foo || (ns.Foo = {}));
     ns.Foo.X;
 })(ns || (ns = {}));
 //// [more.ts]

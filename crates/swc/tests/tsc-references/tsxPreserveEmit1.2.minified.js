@@ -17,5 +17,13 @@ define([
     var M, X1;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _reactrouter.Route, (M || (M = {})).X = X1, M || (M = {}), X;
+    }), _reactrouter.Route, Object.defineProperty(M || (M = {}), "X", {
+        enumerable: !0,
+        get: function() {
+            return X1;
+        },
+        set: function(v) {
+            X1 = v;
+        }
+    }), M || (M = {}), X;
 });

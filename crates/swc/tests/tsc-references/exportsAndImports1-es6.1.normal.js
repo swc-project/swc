@@ -45,17 +45,20 @@ var E;
     E[E["C"] = 2] = "C";
 })(E || (E = {}));
 var D;
-(function(D) {
-    D[D["A"] = 0] = "A";
-    D[D["B"] = 1] = "B";
-    D[D["C"] = 2] = "C";
-})(D || (D = {}));
 var M;
 (function(M) {
     var x;
-    M.x = x;
+    Object.defineProperty(M, "x", {
+        enumerable: true,
+        get () {
+            return x;
+        },
+        set (v) {
+            x = v;
+        }
+    });
 })(M || (M = {}));
-var a = M.x;
+const a = M.x;
 //// [t2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

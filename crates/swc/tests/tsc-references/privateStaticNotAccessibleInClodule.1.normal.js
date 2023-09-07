@@ -5,6 +5,15 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function(C1) {
-    var y = C1.y = C.bar;
+(function(C) {
+    var y = C.bar; // error
+    Object.defineProperty(C, "y", {
+        enumerable: true,
+        get: function get() {
+            return y;
+        },
+        set: function set(v) {
+            y = v;
+        }
+    });
 })(C || (C = {}));

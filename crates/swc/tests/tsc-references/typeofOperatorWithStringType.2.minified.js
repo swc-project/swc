@@ -17,7 +17,15 @@ var A = function() {
         return "";
     }, A;
 }();
-(M || (M = {})).n = n;
+Object.defineProperty(M || (M = {}), "n", {
+    enumerable: !0,
+    get: function() {
+        return n;
+    },
+    set: function(v) {
+        n = v;
+    }
+});
 var objA = new A();
 void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(""), _type_of({
     x: "",

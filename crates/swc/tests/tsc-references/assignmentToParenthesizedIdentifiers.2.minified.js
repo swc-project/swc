@@ -1,11 +1,27 @@
 //// [assignmentToParenthesizedIdentifiers.ts]
 var M, M2, E, y, M21, x, E1;
 import "@swc/helpers/_/_class_call_check";
-(M || (M = {})).y = y, M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
+Object.defineProperty(M || (M = {}), "y", {
+    enumerable: !0,
+    get: function() {
+        return y;
+    },
+    set: function(v) {
+        y = v;
+    }
+}), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
     y: 3
 }, M = {
     y: 3
-}, ((M21 = M2 || (M2 = {})).M3 || (M21.M3 = {})).x = x, M2.M3 = {
+}, Object.defineProperty((M21 = M2 || (M2 = {})).M3 || (M21.M3 = {}), "x", {
+    enumerable: !0,
+    get: function() {
+        return x;
+    },
+    set: function(v) {
+        x = v;
+    }
+}), M2.M3 = {
     x: 3
 }, M2.M3 = {
     x: 3

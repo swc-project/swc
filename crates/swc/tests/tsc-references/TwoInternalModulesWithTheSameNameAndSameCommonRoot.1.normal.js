@@ -3,12 +3,12 @@ var A;
 (function(A) {
     var Utils;
     (function(Utils) {
-        function mirror(p) {
+        var mirror = function mirror(p) {
             return {
                 x: p.y,
                 y: p.x
             };
-        }
+        };
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
 })(A || (A = {}));
@@ -16,10 +16,19 @@ var A;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var Origin = A.Origin = {
+    var Origin = {
         x: 0,
         y: 0
     };
+    Object.defineProperty(A, "Origin", {
+        enumerable: true,
+        get: function get() {
+            return Origin;
+        },
+        set: function set(v) {
+            Origin = v;
+        }
+    });
     var Utils;
     (function(Utils) {
         var Plane = function Plane(tl, br) {

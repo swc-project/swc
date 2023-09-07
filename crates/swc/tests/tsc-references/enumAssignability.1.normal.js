@@ -9,8 +9,8 @@ var F;
 (function(F) {
     F[F["B"] = 0] = "B";
 })(F || (F = {}));
-var e = E.A;
-var f = F.B;
+var e = 0;
+var f = 0;
 e = f;
 f = e;
 e = 1; // ok

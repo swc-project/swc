@@ -107,15 +107,51 @@ var Y;
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
     })(Color = Y.Color || (Y.Color = {}));
-    var x = Y.x = 12;
+    var x = 12;
+    Object.defineProperty(Y, "x", {
+        enumerable: true,
+        get: function get() {
+            return x;
+        },
+        set: function set(v) {
+            x = v;
+        }
+    });
     Y.F = F;
-    var array = Y.array = null;
-    var fn = Y.fn = function(s) {
+    var array = null;
+    Object.defineProperty(Y, "array", {
+        enumerable: true,
+        get: function get() {
+            return array;
+        },
+        set: function set(v) {
+            array = v;
+        }
+    });
+    var fn = function(s) {
         return "hello " + s;
     };
-    var ol = Y.ol = {
+    Object.defineProperty(Y, "fn", {
+        enumerable: true,
+        get: function get() {
+            return fn;
+        },
+        set: function set(v) {
+            fn = v;
+        }
+    });
+    var ol = {
         s: "hello",
         id: 2,
         isvalid: true
     };
+    Object.defineProperty(Y, "ol", {
+        enumerable: true,
+        get: function get() {
+            return ol;
+        },
+        set: function set(v) {
+            ol = v;
+        }
+    });
 })(Y || (Y = {}));

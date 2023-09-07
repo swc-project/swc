@@ -35,14 +35,32 @@ var E;
 })(E || (E = {}));
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    var bar = 1;
+    Object.defineProperty(f, "bar", {
+        enumerable: true,
+        get: function get() {
+            return bar;
+        },
+        set: function set(v) {
+            bar = v;
+        }
+    });
 })(f || (f = {}));
 var c = function c() {
     "use strict";
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = c.bar = 1;
+    var bar = 1;
+    Object.defineProperty(c, "bar", {
+        enumerable: true,
+        get: function get() {
+            return bar;
+        },
+        set: function set(v) {
+            bar = v;
+        }
+    });
 })(c || (c = {}));
 // errors throughout
 function f2(x, y) {
@@ -94,8 +112,8 @@ function f2(x, y) {
     var r12 = true ? x : c2;
     var r13 = true ? E : x;
     var r13 = true ? x : E;
-    var r14 = true ? E.A : x;
-    var r14 = true ? x : E.A;
+    var r14 = true ? 0 : x;
+    var r14 = true ? x : 0;
     var af;
     var r15 = true ? af : x;
     var r15 = true ? x : af;

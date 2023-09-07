@@ -13,7 +13,15 @@ var A = function A() {
 var M;
 (function(M) {
     var n;
-    M.n = n;
+    Object.defineProperty(M, "n", {
+        enumerable: true,
+        get: function get() {
+            return n;
+        },
+        set: function set(v) {
+            n = v;
+        }
+    });
 })(M || (M = {}));
 var objA = new A();
 // number type var

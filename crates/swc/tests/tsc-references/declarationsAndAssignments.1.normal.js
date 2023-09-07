@@ -202,7 +202,27 @@ f14([
 ]); // Error, no x
 var M;
 (function(M) {
-    M.a = 1, M.b = 2;
+    var a = 1, b = 2;
+    Object.definePropertys(M, {
+        a: {
+            enumerable: true,
+            get: function get() {
+                return a;
+            },
+            set: function set(v) {
+                a = v;
+            }
+        },
+        b: {
+            enumerable: true,
+            get: function get() {
+                return b;
+            },
+            set: function set(v) {
+                b = v;
+            }
+        }
+    });
 })(M || (M = {}));
 function f15() {
     var a = "hello";

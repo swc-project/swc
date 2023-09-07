@@ -14,26 +14,26 @@ var E1, E2, E11, E21;
     r: function() {
         return 0;
     }
-}, E1.X), f1({
+}, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E1.X;
+        return 0;
     }
 }, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E1.X;
+        return 0;
     }
-}, E1.X), f1({
+}, 0), f1({
     w: function(x) {
         return x;
     },
     r: function() {
-        return E1.X;
+        return 0;
     }
-}, E2.X);
+}, 0);
  // Error

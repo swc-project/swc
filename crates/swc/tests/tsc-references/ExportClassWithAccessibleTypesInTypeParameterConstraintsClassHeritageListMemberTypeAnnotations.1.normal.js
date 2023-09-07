@@ -9,10 +9,19 @@ var A;
         _class_call_check(this, Point);
     };
     A.Point = Point;
-    var Origin = A.Origin = {
+    var Origin = {
         x: 0,
         y: 0
     };
+    Object.defineProperty(A, "Origin", {
+        enumerable: true,
+        get: function get() {
+            return Origin;
+        },
+        set: function set(v) {
+            Origin = v;
+        }
+    });
     var Point3d = /*#__PURE__*/ function(Point) {
         "use strict";
         _inherits(Point3d, Point);
@@ -24,11 +33,20 @@ var A;
         return Point3d;
     }(Point);
     A.Point3d = Point3d;
-    var Origin3d = A.Origin3d = {
+    var Origin3d = {
         x: 0,
         y: 0,
         z: 0
     };
+    Object.defineProperty(A, "Origin3d", {
+        enumerable: true,
+        get: function get() {
+            return Origin3d;
+        },
+        set: function set(v) {
+            Origin3d = v;
+        }
+    });
     var Line = function Line(start, end) {
         "use strict";
         _class_call_check(this, Line);

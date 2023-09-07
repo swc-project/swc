@@ -50,10 +50,10 @@ var onlyT;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {}));
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    var r7 = foo3(0, function(x) {
+        return 0;
     }, function(x) {
-        return F.A;
+        return 0;
     }); // error
 })(onlyT || (onlyT = {}));
 var TU;
@@ -104,9 +104,9 @@ var TU;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {}));
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    var r7 = foo3(0, function(x) {
+        return 0;
     }, function(x) {
-        return F.A;
+        return 0;
     });
 })(TU || (TU = {}));

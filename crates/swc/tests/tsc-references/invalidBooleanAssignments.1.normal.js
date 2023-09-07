@@ -20,7 +20,16 @@ var h = x;
 var h2 = x; // no error
 var M;
 (function(M) {
-    var a = M.a = 1;
+    var a = 1;
+    Object.defineProperty(M, "a", {
+        enumerable: true,
+        get: function get() {
+            return a;
+        },
+        set: function set(v) {
+            a = v;
+        }
+    });
 })(M || (M = {}));
 M = x;
 function i(a) {

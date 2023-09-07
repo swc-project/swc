@@ -8,7 +8,15 @@ x = ""; // Error
 var M;
 (function(M) {
     var y;
-    M.y = y;
+    Object.defineProperty(M, "y", {
+        enumerable: true,
+        get: function get() {
+            return y;
+        },
+        set: function set(v) {
+            y = v;
+        }
+    });
 })(M || (M = {}));
 M.y = 3; // OK
 M.y = 3; // OK
@@ -27,7 +35,15 @@ var M2;
     var M3;
     (function(M3) {
         var x;
-        M3.x = x;
+        Object.defineProperty(M3, "x", {
+            enumerable: true,
+            get: function get() {
+                return x;
+            },
+            set: function set(v) {
+                x = v;
+            }
+        });
     })(M3 = M2.M3 || (M2.M3 = {}));
     M3 = {
         x: 3

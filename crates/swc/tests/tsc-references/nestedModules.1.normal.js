@@ -14,7 +14,15 @@ var M2;
     var X;
     (function(X) {
         var Point;
-        X.Point = Point;
+        Object.defineProperty(X, "Point", {
+            enumerable: true,
+            get: function get() {
+                return Point;
+            },
+            set: function set(v) {
+                Point = v;
+            }
+        });
     })(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));
 var m = M2.X;

@@ -8,5 +8,14 @@ var A;
         this.x = x;
         this.y = y;
     };
-    var UnitSquare = A.UnitSquare = null;
+    var UnitSquare = null;
+    Object.defineProperty(A, "UnitSquare", {
+        enumerable: true,
+        get: function get() {
+            return UnitSquare;
+        },
+        set: function set(v) {
+            UnitSquare = v;
+        }
+    });
 })(A || (A = {}));

@@ -27,7 +27,15 @@ define([
     var M;
     (function(M) {
         var X1;
-        M.X = X1;
+        Object.defineProperty(M, "X", {
+            enumerable: true,
+            get: function get() {
+                return X1;
+            },
+            set: function set(v) {
+                X1 = v;
+            }
+        });
     })(M || (M = {}));
     (function(M) {
         // Should emit 'M.X' in both opening and closing tags

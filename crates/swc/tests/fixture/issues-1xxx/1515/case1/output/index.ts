@@ -16,7 +16,7 @@ class ServiceError extends Error {
         _define_property._(this, "name", "ServiceError.BadResponse");
     }
 }
-(function(ServiceError1) {
+(function(ServiceError) {
     let Code;
     (function(Code) {
         Code[Code["serviceNotFound"] = 404] = "serviceNotFound";
@@ -26,7 +26,7 @@ class ServiceError extends Error {
         Code[Code["timedOut"] = 504] = "timedOut";
         Code[Code["badRequest"] = 400] = "badRequest";
         Code[Code["badResponse"] = 422] = "badResponse";
-    })(Code = ServiceError1.Code || (ServiceError1.Code = {}));
+    })(Code = ServiceError.Code || (ServiceError.Code = {}));
     class ServiceNotFound extends ServiceError {
         constructor(...args){
             super(...args);
@@ -35,11 +35,11 @@ class ServiceError extends Error {
             _define_property._(this, "name", "ServiceError.ServiceNotFound");
         }
     }
-    ServiceError1.ServiceNotFound = ServiceNotFound;
+    ServiceError.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
         return {
             code: ServiceError.Code.implementation
         };
     }
-    ServiceError1.toMessageBody = toMessageBody;
+    ServiceError.toMessageBody = toMessageBody;
 })(ServiceError || (ServiceError = {}));

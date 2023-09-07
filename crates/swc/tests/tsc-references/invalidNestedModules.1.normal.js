@@ -2,17 +2,15 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var B;
     (function(B) {
-        var C;
         (function(C) {
             var Point = function Point() {
                 "use strict";
                 _class_call_check(this, Point);
             };
             C.Point = Point;
-        })(C = B.C || (B.C = {}));
-    })(B = A.B || (A.B = {}));
+        })(B.C || (B.C = {}));
+    })(A.B || (A.B = {}));
 })(A || (A = {}));
 (function(A) {
     var B;
@@ -26,19 +24,26 @@ var A;
 })(A || (A = {}));
 var M2;
 (function(M2) {
-    var X;
     (function(X) {
         var Point = function Point() {
             "use strict";
             _class_call_check(this, Point);
         };
         X.Point = Point;
-    })(X = M2.X || (M2.X = {}));
+    })(M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));
 (function(M2) {
     var X;
     (function(X) {
-        var Point;
-        X.Point = Point;
+        var Point; // Error
+        Object.defineProperty(X, "Point", {
+            enumerable: true,
+            get: function get() {
+                return Point;
+            },
+            set: function set(v) {
+                Point = v;
+            }
+        });
     })(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));

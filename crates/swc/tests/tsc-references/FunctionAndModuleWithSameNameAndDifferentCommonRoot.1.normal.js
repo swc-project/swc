@@ -14,10 +14,19 @@ var B;
 (function(B) {
     var Point;
     (function(Point) {
-        var Origin = Point.Origin = {
+        var Origin = {
             x: 0,
             y: 0
         };
+        Object.defineProperty(Point, "Origin", {
+            enumerable: true,
+            get: function get() {
+                return Origin;
+            },
+            set: function set(v) {
+                Origin = v;
+            }
+        });
     })(Point = B.Point || (B.Point = {}));
 })(B || (B = {}));
 //// [test.ts]

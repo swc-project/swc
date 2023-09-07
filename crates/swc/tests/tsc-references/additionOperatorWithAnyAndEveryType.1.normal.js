@@ -18,7 +18,15 @@ var E;
 var M;
 (function(M) {
     var a;
-    M.a = a;
+    Object.defineProperty(M, "a", {
+        enumerable: true,
+        get: function get() {
+            return a;
+        },
+        set: function set(v) {
+            a = v;
+        }
+    });
 })(M || (M = {}));
 var a;
 var b;
@@ -42,7 +50,7 @@ var r11 = a + foo();
 var r12 = a + C;
 var r13 = a + new C();
 var r14 = a + E;
-var r15 = a + E.a;
+var r15 = a + 0;
 var r16 = a + M;
 var r17 = a + "";
 var r18 = a + 123;

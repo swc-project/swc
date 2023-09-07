@@ -8,12 +8,30 @@ var A;
         this.x = x;
         this.y = y;
     };
-    var Origin = A.Origin = {
+    var Origin = {
         x: 0,
         y: 0
     };
-    var Unity = A.Unity = {
+    Object.defineProperty(A, "Origin", {
+        enumerable: true,
+        get: function get() {
+            return Origin;
+        },
+        set: function set(v) {
+            Origin = v;
+        }
+    });
+    var Unity = {
         start: new Point(0, 0),
         end: new Point(1, 0)
     };
+    Object.defineProperty(A, "Unity", {
+        enumerable: true,
+        get: function get() {
+            return Unity;
+        },
+        set: function set(v) {
+            Unity = v;
+        }
+    });
 })(A || (A = {}));

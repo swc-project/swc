@@ -8,10 +8,42 @@ function m1() {
 }
 !function foo3() {
     return foo3();
-}(), _type_of(1), (M = M1 || (M1 = {})).x = 1, M.C = function C() {
+}(), _type_of(1), M = M1 || (M1 = {}), x1 = 1, Object.defineProperty(M, "x", {
+    enumerable: !0,
+    get: function() {
+        return x1;
+    },
+    set: function(v) {
+        x1 = v;
+    }
+}), M.C = function C() {
     _class_call_check(this, C);
-}, (m1 || (m1 = {})).y = 2;
-var e1, M, M1, e11, c1 = function c1(x) {
+}, m11 = m1 || (m1 = {}), y1 = 2, Object.defineProperty(m11, "y", {
+    enumerable: !0,
+    get: function() {
+        return y1;
+    },
+    set: function(v) {
+        y1 = v;
+    }
+});
+var c1, x, e1, e11, y, M, x1, m11, y1, M1, e12, c11 = function c1(x) {
     _class_call_check(this, c1);
 };
-(c1 || (c1 = {})).x = 1, (e1 = e11 || (e11 = {}))[e1.A = 0] = "A", (e11 || (e11 = {})).y = 1;
+c1 = c11 || (c11 = {}), x = 1, Object.defineProperty(c1, "x", {
+    enumerable: !0,
+    get: function() {
+        return x;
+    },
+    set: function(v) {
+        x = v;
+    }
+}), (e1 = e12 || (e12 = {}))[e1.A = 0] = "A", e11 = e12 || (e12 = {}), y = 1, Object.defineProperty(e11, "y", {
+    enumerable: !0,
+    get: function() {
+        return y;
+    },
+    set: function(v) {
+        y = v;
+    }
+});

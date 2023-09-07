@@ -13,11 +13,59 @@ function fun3() {
 }
 var n1;
 (function(n1) {
-    var a = n1.a = fun1("Hello", "World");
-    var b = n1.b = fun1("Hello", "Hello");
-    var c = n1.c = fun2("Hello", "World");
-    var d = n1.d = fun2("Hello", "Hello");
-    var e = n1.e = fun3("Hello", "Hello", "World", "Foo");
+    var a = fun1("Hello", "World");
+    // The following should all come back as strings.
+    // They should be assignable to/from something of a type 'string'.
+    // They should not be assignable to either "Hello" or "World".
+    Object.defineProperty(n1, "a", {
+        enumerable: true,
+        get: function get() {
+            return a;
+        },
+        set: function set(v) {
+            a = v;
+        }
+    });
+    var b = fun1("Hello", "Hello");
+    Object.defineProperty(n1, "b", {
+        enumerable: true,
+        get: function get() {
+            return b;
+        },
+        set: function set(v) {
+            b = v;
+        }
+    });
+    var c = fun2("Hello", "World");
+    Object.defineProperty(n1, "c", {
+        enumerable: true,
+        get: function get() {
+            return c;
+        },
+        set: function set(v) {
+            c = v;
+        }
+    });
+    var d = fun2("Hello", "Hello");
+    Object.defineProperty(n1, "d", {
+        enumerable: true,
+        get: function get() {
+            return d;
+        },
+        set: function set(v) {
+            d = v;
+        }
+    });
+    var e = fun3("Hello", "Hello", "World", "Foo");
+    Object.defineProperty(n1, "e", {
+        enumerable: true,
+        get: function get() {
+            return e;
+        },
+        set: function set(v) {
+            e = v;
+        }
+    });
     // Should be valid
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -39,11 +87,58 @@ var n1;
 })(n1 || (n1 = {}));
 var n2;
 (function(n2) {
-    var a = n2.a = fun1("Hello", "Hello");
-    var b = n2.b = fun1("Hello", "World");
-    var c = n2.c = fun2("Hello", "Hello");
-    var d = n2.d = fun2("Hello", "World");
-    var e = n2.e = fun3("Hello", "World");
+    var a = fun1("Hello", "Hello");
+    // The following (regardless of errors) should come back typed
+    // as "Hello" (or "Hello" | "Hello").
+    Object.defineProperty(n2, "a", {
+        enumerable: true,
+        get: function get() {
+            return a;
+        },
+        set: function set(v) {
+            a = v;
+        }
+    });
+    var b = fun1("Hello", "World");
+    Object.defineProperty(n2, "b", {
+        enumerable: true,
+        get: function get() {
+            return b;
+        },
+        set: function set(v) {
+            b = v;
+        }
+    });
+    var c = fun2("Hello", "Hello");
+    Object.defineProperty(n2, "c", {
+        enumerable: true,
+        get: function get() {
+            return c;
+        },
+        set: function set(v) {
+            c = v;
+        }
+    });
+    var d = fun2("Hello", "World");
+    Object.defineProperty(n2, "d", {
+        enumerable: true,
+        get: function get() {
+            return d;
+        },
+        set: function set(v) {
+            d = v;
+        }
+    });
+    var e = fun3("Hello", "World");
+    Object.defineProperty(n2, "e", {
+        enumerable: true,
+        get: function get() {
+            return e;
+        },
+        set: function set(v) {
+            e = v;
+        }
+    });
     // Assignment from the returned value should cause an error.
     a = takeReturnString(a);
     b = takeReturnString(b);
@@ -65,11 +160,58 @@ var n2;
 })(n2 || (n2 = {}));
 var n3;
 (function(n3) {
-    var a = n3.a = fun2("Hello", "World");
-    var b = n3.b = fun2("World", "Hello");
-    var c = n3.c = fun2("Hello", "Hello");
-    var d = n3.d = fun2("World", "World");
-    var e = n3.e = fun3("Hello", "World");
+    var a = fun2("Hello", "World");
+    // The following (regardless of errors) should come back typed
+    // as "Hello" | "World" (or "World" | "Hello").
+    Object.defineProperty(n3, "a", {
+        enumerable: true,
+        get: function get() {
+            return a;
+        },
+        set: function set(v) {
+            a = v;
+        }
+    });
+    var b = fun2("World", "Hello");
+    Object.defineProperty(n3, "b", {
+        enumerable: true,
+        get: function get() {
+            return b;
+        },
+        set: function set(v) {
+            b = v;
+        }
+    });
+    var c = fun2("Hello", "Hello");
+    Object.defineProperty(n3, "c", {
+        enumerable: true,
+        get: function get() {
+            return c;
+        },
+        set: function set(v) {
+            c = v;
+        }
+    });
+    var d = fun2("World", "World");
+    Object.defineProperty(n3, "d", {
+        enumerable: true,
+        get: function get() {
+            return d;
+        },
+        set: function set(v) {
+            d = v;
+        }
+    });
+    var e = fun3("Hello", "World");
+    Object.defineProperty(n3, "e", {
+        enumerable: true,
+        get: function get() {
+            return e;
+        },
+        set: function set(v) {
+            e = v;
+        }
+    });
     // Assignment from the returned value should cause an error.
     a = takeReturnString(a);
     b = takeReturnString(b);

@@ -16,7 +16,7 @@ use swc_common::{
     sync::Lrc,
     FileName, Mark, SourceMap,
 };
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     helpers::{inject_helpers, Helpers, HELPERS},
@@ -133,7 +133,7 @@ impl Load for Loader {
         });
 
         let module = HELPERS.set(&Helpers::new(false), || {
-            module
+            Program::Module(module)
                 .fold_with(&mut resolver(unresolved_mark, top_level_mark, false))
                 .fold_with(&mut decorators(decorators::Config {
                     legacy: true,
@@ -149,6 +149,8 @@ impl Load for Loader {
                     unresolved_mark,
                 ))
                 .fold_with(&mut inject_helpers(unresolved_mark))
+                .module()
+                .unwrap()
         });
 
         Ok(ModuleData {

@@ -48,15 +48,18 @@ var E;
     E[E["C"] = 2] = "C";
 })(E || (E = {}));
 var D;
-(function(D) {
-    D[D["A"] = 0] = "A";
-    D[D["B"] = 1] = "B";
-    D[D["C"] = 2] = "C";
-})(D || (D = {}));
 var M;
 (function(M) {
     var x;
-    M.x = x;
+    Object.defineProperty(M, "x", {
+        enumerable: true,
+        get: function get() {
+            return x;
+        },
+        set: function set(v) {
+            x = v;
+        }
+    });
 })(M || (M = {}));
 var a = M.x;
 //// [t2.ts]

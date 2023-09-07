@@ -7,4 +7,12 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     _class_call_check(this, C);
 }, ((M21 = M2 || (M2 = {})).X || (M21.X = {})).Point = function Point() {
     _class_call_check(this, Point);
-}, ((M22 = M2 || (M2 = {})).X || (M22.X = {})).Point = Point;
+}, Object.defineProperty((M22 = M2 || (M2 = {})).X || (M22.X = {}), "Point", {
+    enumerable: !0,
+    get: function() {
+        return Point;
+    },
+    set: function(v) {
+        Point = v;
+    }
+});

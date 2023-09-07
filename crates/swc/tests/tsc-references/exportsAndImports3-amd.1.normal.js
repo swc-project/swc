@@ -85,7 +85,15 @@ define([
     var M;
     (function(M) {
         var x;
-        M.x = x;
+        Object.defineProperty(M, "x", {
+            enumerable: true,
+            get: function get() {
+                return x;
+            },
+            set: function set(v) {
+                x = v;
+            }
+        });
     })(M || (M = {}));
     var a = M.x;
 });

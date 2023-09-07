@@ -6,7 +6,6 @@
 var CONST = 9000 % 2;
 var D;
 (function(D) {
-    D[D["d"] = 10] = "d";
     D[D["e"] = 199 * Math.floor(Math.random() * 1000)] = "e";
     D[D["f"] = 10 - 100 * Math.floor(Math.random() % 8)] = "f";
     D[D["g"] = CONST] = "g";

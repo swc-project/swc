@@ -53,11 +53,20 @@ var E;
 })(E || (E = {}));
 var r13 = true ? E : null;
 var r13 = true ? null : E;
-var r14 = true ? E.A : null;
-var r14 = true ? null : E.A;
+var r14 = true ? 0 : null;
+var r14 = true ? null : 0;
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    var bar = 1;
+    Object.defineProperty(f, "bar", {
+        enumerable: true,
+        get: function get() {
+            return bar;
+        },
+        set: function set(v) {
+            bar = v;
+        }
+    });
 })(f || (f = {}));
 var af;
 var r15 = true ? af : null;
@@ -67,7 +76,16 @@ var c = function c() {
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = c.bar = 1;
+    var bar = 1;
+    Object.defineProperty(c, "bar", {
+        enumerable: true,
+        get: function get() {
+            return bar;
+        },
+        set: function set(v) {
+            bar = v;
+        }
+    });
 })(c || (c = {}));
 var ac;
 var r16 = true ? ac : null;

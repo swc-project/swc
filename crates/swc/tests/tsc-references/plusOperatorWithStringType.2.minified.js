@@ -9,6 +9,14 @@ var STRING, M, n, A = function() {
         return "";
     }, A;
 }();
-(M || (M = {})).n = n;
+Object.defineProperty(M || (M = {}), "n", {
+    enumerable: !0,
+    get: function() {
+        return n;
+    },
+    set: function(v) {
+        n = v;
+    }
+});
 var objA = new A();
 objA.a, M.n, A.foo(), STRING.charAt(0), objA.a, M.n;

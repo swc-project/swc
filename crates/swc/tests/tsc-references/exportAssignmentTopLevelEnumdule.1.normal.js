@@ -10,7 +10,16 @@ define([
         foo[foo["blue"] = 2] = "blue";
     })(foo || (foo = {}));
     (function(foo) {
-        var answer = foo.answer = 42;
+        var answer = 42;
+        Object.defineProperty(foo, "answer", {
+            enumerable: true,
+            get: function get() {
+                return answer;
+            },
+            set: function set(v) {
+                answer = v;
+            }
+        });
     })(foo || (foo = {}));
     return foo;
 });

@@ -26,7 +26,16 @@ var NonGeneric;
         return C;
     }();
     (function(C) {
-        var bar = C.bar = "";
+        var bar = ""; // not reflected in class type
+        Object.defineProperty(C, "bar", {
+            enumerable: true,
+            get: function get() {
+                return bar;
+            },
+            set: function set(v) {
+                bar = v;
+            }
+        });
     })(C || (C = {}));
     var c = new C(1, 2);
     var r = c.fn();
@@ -59,7 +68,16 @@ var Generic;
         return C;
     }();
     (function(C) {
-        var bar = C.bar = "";
+        var bar = ""; // not reflected in class type
+        Object.defineProperty(C, "bar", {
+            enumerable: true,
+            get: function get() {
+                return bar;
+            },
+            set: function set(v) {
+                bar = v;
+            }
+        });
     })(C || (C = {}));
     var c = new C(1, "");
     var r = c.fn();

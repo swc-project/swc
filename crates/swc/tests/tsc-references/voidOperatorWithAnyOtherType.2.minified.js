@@ -10,6 +10,14 @@ var n, M, obj1 = {
     }
     return A.foo = function() {}, A;
 }();
-(M || (M = {})).n = n;
+Object.defineProperty(M || (M = {}), "n", {
+    enumerable: !0,
+    get: function() {
+        return n;
+    },
+    set: function(v) {
+        n = v;
+    }
+});
 var objA = new A();
 obj1.x, obj1.y, objA.a, M.n, A.foo(), objA.a, M.n;
