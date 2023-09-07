@@ -4569,6 +4569,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $DataView = global[DATA_VIEW];
     var Math1 = global.Math;
     var RangeError1 = global.RangeError;
+    // eslint-disable-next-line no-shadow-restricted-names
     global.Infinity;
     var BaseBuffer = $ArrayBuffer;
     var abs = Math1.abs;
