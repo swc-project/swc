@@ -633,7 +633,17 @@ where
     fn emit_ts_ns_decl(&mut self, n: &TsNamespaceDecl) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        unimplemented!("emit_ts_ns_decl")
+        if n.declare {
+            keyword!("declare");
+            space!();
+        }
+
+        keyword!("namespace");
+        space!();
+        emit!(n.id);
+        formatting_space!();
+
+        emit!(n.body);
     }
 
     #[emitter]
