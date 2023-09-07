@@ -17,6 +17,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), pushAssignScope = function(scope,
     var memberScope = null, aggScope = null;
     ast.name && ast.mod && (ast.name.sym = ast.mod.symbol);
     var mod = ast.mod;
+    // We're likely here because of error recovery
     mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(ast), context.typeFlow.checker.currentModDecl = ast, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, ast.vars, mod.members.privateMembers, !0));
 }, preAssignClassScopes = function(ast, context) {
     var memberScope = null, aggScope = null;

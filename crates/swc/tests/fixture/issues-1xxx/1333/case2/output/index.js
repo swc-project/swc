@@ -126,6 +126,7 @@ class Shard extends _utils.Emitter {
         } else if (emit) {
             this.emit(_utils.ShardEvent.DESTROYED);
         }
+        // (Step 3) Make the websocket connection prop undefined.
         _class_private_field_set._(this, _ws1, undefined);
         // (Step 4) Set the shard status to disconnected.
         this.status = _utils.Status.DISCONNECTED;
@@ -138,6 +139,7 @@ class Shard extends _utils.Emitter {
             _class_private_field_set._(this, _seq, -1);
             this.session.reset();
         }
+        // (Step 7) Reset ze bucket!
         _class_private_field_set._(this, _bucket, new _utils.Bucket(120, 6e4));
     }
     connect() {
@@ -406,6 +408,7 @@ class Shard extends _utils.Emitter {
          * Guilds that are expected to be received.
          * @type {Set<string>}
          */ this.expectedGuilds = new Set();
+        // Private shit
         _class_private_field_set._(this, _seq, -1);
         _class_private_field_set._(this, _closingSeq, 0);
         _class_private_field_set._(this, _queue, []);

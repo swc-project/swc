@@ -45,7 +45,9 @@ var B = /*#__PURE__*/ function(A) {
                 _superprop_get_y().call(_this1);
                 // call with element access
                 _superprop_get("x").call(_this1);
+                // property access (read)
                 a = _superprop_get_x();
+                // element access (read)
                 b = _superprop_get("x");
                 return [
                     2
@@ -89,7 +91,9 @@ var B = /*#__PURE__*/ function(A) {
                 _superprop_get_x().call(_this1);
                 // call with element access
                 _superprop_get("x").call(_this1);
+                // property access (read)
                 a = _superprop_get_x();
+                // element access (read)
                 b = _superprop_get("x");
                 // property access (assign)
                 _superprop_set_x(f);

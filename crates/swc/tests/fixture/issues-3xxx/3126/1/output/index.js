@@ -2,6 +2,7 @@
 /************************************************************************/ /******/ /******/ // expose the modules object (__webpack_modules__)
 /******/ __webpack_require__.m = {
     /***/ 746: /***/ function(__unused_webpack_module, __unused_webpack___webpack_exports__, __webpack_require__1) {
+        // originally from react
         Object.prototype.hasOwnProperty;
     // END MY ACTUAL CODE
     /***/ }

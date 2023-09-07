@@ -19,6 +19,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), preFindEnclosingScope = function(
                 }, context.scopeStartAST = ast, context.enclosingClassDecl = ast;
                 break;
             case NodeType.ObjectLit:
+                // Only consider target-typed object literals
                 ast.targetType && (context.scopeGetter = function() {
                     return ast.targetType.containedScope;
                 }, context.objectLiteralScopeGetter = function() {

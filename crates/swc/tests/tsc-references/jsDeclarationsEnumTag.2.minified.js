@@ -25,7 +25,7 @@
  * @param {Second} s
  * @param {Fs} f
  */ export function consume(t, s, f) {
-    Target.START;
+    /** @type {Target} */ Target.START;
 }
 /** @param {string} s */ export function ff(s) {
     return(// element access with arbitrary string is an error only with noImplicitAny
