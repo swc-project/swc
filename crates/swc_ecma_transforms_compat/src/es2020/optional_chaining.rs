@@ -1,16 +1,17 @@
 use std::mem;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, DUMMY_SP};
+use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
+pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
+        unresolved: SyntaxContext::empty().apply_mark(unresolved_mark),
         ..Default::default()
     })
 }
@@ -18,6 +19,7 @@ pub fn optional_chaining(c: Config) -> impl Fold + VisitMut {
 #[derive(Default)]
 struct OptChaining {
     vars: Vec<VarDeclarator>,
+    unresolved: SyntaxContext,
     c: Config,
 }
 
@@ -63,7 +65,7 @@ impl VisitMut for OptChaining {
             // foo?.bar -> foo == null ? void 0 : foo.bar
             Expr::OptChain(v) => {
                 let data = self.gather(v.take(), vec![]);
-                *e = self.construct(data, false, self.c.no_document_all);
+                *e = self.construct(data, false);
             }
 
             Expr::Unary(UnaryExpr {
@@ -75,7 +77,7 @@ impl VisitMut for OptChaining {
                     // delete foo?.bar -> foo == null ? true : delete foo.bar
                     Expr::OptChain(v) => {
                         let data = self.gather(v.take(), vec![]);
-                        *e = self.construct(data, true, self.c.no_document_all);
+                        *e = self.construct(data, true);
                     }
                     _ => e.visit_mut_children_with(self),
                 }
@@ -145,12 +147,27 @@ impl VisitMut for OptChaining {
     }
 }
 
+#[derive(Debug, Clone)]
+enum Memo {
+    Should(Ident),
+    Not(Box<Expr>),
+}
+
+impl Memo {
+    fn into_expr(self) -> Expr {
+        match self {
+            Memo::Should(i) => Expr::Ident(i),
+            Memo::Not(e) => *e,
+        }
+    }
+}
+
 #[derive(Debug)]
 enum Gathering {
     Call(CallExpr),
     Member(MemberExpr),
-    OptCall(CallExpr, Ident),
-    OptMember(MemberExpr, Ident),
+    OptCall(CallExpr, Memo),
+    OptMember(MemberExpr, Memo),
 }
 
 impl OptChaining {
@@ -181,7 +198,7 @@ impl OptChaining {
                     next = m.obj.take();
                     m.prop.visit_mut_with(self);
                     chain.push(if optional {
-                        Gathering::OptMember(m.take(), self.memoize(&next))
+                        Gathering::OptMember(m.take(), self.memoize(&next, false))
                     } else {
                         Gathering::Member(m.take())
                     });
@@ -192,7 +209,7 @@ impl OptChaining {
                     c.args.visit_mut_with(self);
                     // I don't know why c is an OptCall instead of a CallExpr.
                     chain.push(if optional {
-                        Gathering::OptCall(c.take().into(), self.memoize(&next))
+                        Gathering::OptCall(c.take().into(), self.memoize(&next, true))
                     } else {
                         Gathering::Call(c.take().into())
                     });
@@ -213,12 +230,7 @@ impl OptChaining {
 
     /// Constructs a rightward nested conditional expression out of our
     /// flattened chain.
-    fn construct(
-        &mut self,
-        data: (Expr, usize, Vec<Gathering>),
-        is_delete: bool,
-        no_document_all: bool,
-    ) -> Expr {
+    fn construct(&mut self, data: (Expr, usize, Vec<Gathering>), is_delete: bool) -> Expr {
         let (mut current, count, chain) = data;
 
         // Stores partially constructed CondExprs for us to assemble later on.
@@ -260,16 +272,22 @@ impl OptChaining {
                         Expr::Member(m) => {
                             call = true;
                             let this = ctx.unwrap_or_else(|| {
-                                let this = self.memoize(&m.obj);
-                                m.obj = Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("="),
-                                    left: this.clone().into(),
-                                    right: m.obj.take(),
-                                }));
-                                this
+                                let this = self.memoize(&m.obj, true);
+
+                                match &this {
+                                    Memo::Should(i) => {
+                                        m.obj = Box::new(Expr::Assign(AssignExpr {
+                                            span: DUMMY_SP,
+                                            op: op!("="),
+                                            left: i.clone().into(),
+                                            right: m.obj.take(),
+                                        }));
+                                        this
+                                    }
+                                    Memo::Not(_) => this,
+                                }
                             });
-                            c.args.insert(0, this.as_arg());
+                            c.args.insert(0, this.into_expr().as_arg());
                         }
                         Expr::SuperProp(s) => {
                             call = true;
@@ -280,7 +298,7 @@ impl OptChaining {
 
                     committed_cond.push(CondExpr {
                         span: DUMMY_SP,
-                        test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
+                        test: init_and_eq_null_or_undefined(&memo, current, self.c.no_document_all),
                         cons: if is_delete {
                             true.into()
                         } else {
@@ -289,9 +307,11 @@ impl OptChaining {
                         alt: Take::dummy(),
                     });
                     c.callee = if call {
-                        memo.make_member(quote_ident!("call")).as_callee()
+                        memo.into_expr()
+                            .make_member(quote_ident!("call"))
+                            .as_callee()
                     } else {
-                        memo.as_callee()
+                        memo.into_expr().as_callee()
                     };
                     ctx = None;
                     Expr::Call(c)
@@ -299,7 +319,7 @@ impl OptChaining {
                 Gathering::OptMember(mut m, memo) => {
                     committed_cond.push(CondExpr {
                         span: DUMMY_SP,
-                        test: init_and_eq_null_or_undefined(&memo, current, no_document_all),
+                        test: init_and_eq_null_or_undefined(&memo, current, self.c.no_document_all),
                         cons: if is_delete {
                             true.into()
                         } else {
@@ -308,7 +328,7 @@ impl OptChaining {
                         alt: Take::dummy(),
                     });
                     ctx = Some(memo.clone());
-                    m.obj = memo.into();
+                    m.obj = memo.into_expr().into();
                     Expr::Member(m)
                 }
             };
@@ -331,15 +351,41 @@ impl OptChaining {
         current
     }
 
-    fn memoize(&mut self, expr: &Expr) -> Ident {
-        let memo = alias_ident_for(expr, "_this");
-        self.vars.push(VarDeclarator {
-            span: DUMMY_SP,
-            name: memo.clone().into(),
-            init: None,
-            definite: false,
-        });
-        memo
+    fn should_memo(&self, expr: &Expr, is_call: bool) -> bool {
+        fn is_simple_member(e: &Expr) -> bool {
+            match e {
+                Expr::Ident(_) => true,
+                Expr::SuperProp(s) if !s.prop.is_computed() => true,
+                Expr::Member(m) if !m.prop.is_computed() => is_simple_member(&m.obj),
+                _ => false,
+            }
+        }
+
+        match expr {
+            Expr::Ident(i) if i.span.ctxt != self.unresolved => false,
+            _ => {
+                if is_call && self.c.pure_getter {
+                    !is_simple_member(expr)
+                } else {
+                    true
+                }
+            }
+        }
+    }
+
+    fn memoize(&mut self, expr: &Expr, is_call: bool) -> Memo {
+        if self.should_memo(expr, is_call) {
+            let memo = alias_ident_for(expr, "_this");
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: memo.clone().into(),
+                init: None,
+                definite: false,
+            });
+            Memo::Should(memo)
+        } else {
+            Memo::Not(Box::new(expr.to_owned()))
+        }
     }
 
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
@@ -371,13 +417,16 @@ impl OptChaining {
     }
 }
 
-fn init_and_eq_null_or_undefined(i: &Ident, init: Expr, no_document_all: bool) -> Box<Expr> {
-    let lhs = Box::new(Expr::Assign(AssignExpr {
-        span: DUMMY_SP,
-        op: op!("="),
-        left: PatOrExpr::Pat(i.clone().into()),
-        right: Box::new(init),
-    }));
+fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Box<Expr> {
+    let lhs = match i {
+        Memo::Should(i) => Box::new(Expr::Assign(AssignExpr {
+            span: DUMMY_SP,
+            op: op!("="),
+            left: PatOrExpr::Pat(i.clone().into()),
+            right: Box::new(init),
+        })),
+        Memo::Not(e) => e.to_owned(),
+    };
 
     if no_document_all {
         return Box::new(Expr::Bin(BinExpr {
@@ -395,9 +444,14 @@ fn init_and_eq_null_or_undefined(i: &Ident, init: Expr, no_document_all: bool) -
         right: Box::new(Expr::Lit(Lit::Null(Null { span: DUMMY_SP }))),
     }));
 
+    let left_expr = match i {
+        Memo::Should(i) => Box::new(i.clone().into()),
+        Memo::Not(e) => e.to_owned(),
+    };
+
     let void_cmp = Box::new(Expr::Bin(BinExpr {
         span: DUMMY_SP,
-        left: Box::new(Expr::Ident(i.clone())),
+        left: left_expr,
         op: op!("==="),
         right: undefined(DUMMY_SP),
     }));
