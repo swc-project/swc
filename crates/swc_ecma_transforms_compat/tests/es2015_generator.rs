@@ -1937,3 +1937,47 @@ test_exec!(
     await res;
     "
 );
+
+test!(
+    Syntax::default(),
+    |_| {
+        let mark = Mark::fresh(Mark::root());
+        es2015::<SingleThreadedComments>(mark, None, Default::default())
+    },
+    issue_7809,
+    r#"
+    function a(fn) {
+        return _a.apply(this, arguments);
+    }
+    function _a() {
+        _a = _async_to_generator(function*(fn) {
+            (yield fn()).a = 1;
+        });
+        return _a.apply(this, arguments);
+    }    
+    "#,
+    r#"
+    function a(fn) {
+        return _a.apply(this, arguments);
+    }
+    function _a() {
+        _a = _async_to_generator(function(fn) {
+            return _ts_generator(this, function(_state) {
+                switch(_state.label){
+                    case 0:
+                        return [
+                            4,
+                            fn()
+                        ];
+                    case 1:
+                        _state.sent().a = 1;
+                        return [
+                            2
+                        ];
+                }
+            });
+        });
+        return _a.apply(this, arguments);
+    }           
+    "#
+);
