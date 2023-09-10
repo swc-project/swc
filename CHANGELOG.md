@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Visit assign expr in generator (#7932) ([97068e1](https://github.com/swc-project/swc/commit/97068e12d16803012a4859114702577def024a36))
+
 ## [1.3.83] - 2023-09-07
 
 ### Bug Fixes
