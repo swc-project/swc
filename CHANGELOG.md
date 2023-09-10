@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Emit leading comments for `ExprStmt` (#7916) ([2da5895](https://github.com/swc-project/swc/commit/2da58959c26d5afb0b8f179fc681478bf05e6e20))
+
+
 - **(es/compat)** Visit assign expr in generator (#7932) ([97068e1](https://github.com/swc-project/swc/commit/97068e12d16803012a4859114702577def024a36))
 
 ## [1.3.83] - 2023-09-07
