@@ -572,72 +572,70 @@ impl VisitMut for Generator {
                 e.visit_mut_children_with(self);
             }
 
-            Expr::Assign(node) => {
-                if contains_yield(&node.right) {
-                    match node.left.as_expr_mut() {
-                        Some(Expr::Member(left)) => {
-                            match &mut left.prop {
-                                MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
-                                    //      a.b = yield;
-                                    //
-                                    // [intermediate]
-                                    //  .local _a
-                                    //      _a = a;
-                                    //  .yield resumeLabel
-                                    //  .mark resumeLabel
-                                    //      _a.b = %sent%;
+            Expr::Assign(node) if contains_yield(&node.right) => {
+                match node.left.as_expr_mut() {
+                    Some(Expr::Member(left)) => {
+                        match &mut left.prop {
+                            MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
+                                //      a.b = yield;
+                                //
+                                // [intermediate]
+                                //  .local _a
+                                //      _a = a;
+                                //  .yield resumeLabel
+                                //  .mark resumeLabel
+                                //      _a.b = %sent%;
 
-                                    left.obj.visit_mut_with(self);
-                                    let obj = self.cache_expression(left.obj.take());
+                                left.obj.visit_mut_with(self);
+                                let obj = self.cache_expression(left.obj.take());
 
-                                    left.obj = Box::new(Expr::Ident(obj));
-                                }
-                                MemberProp::Computed(prop) => {
-                                    // [source]
-                                    //      a[b] = yield;
-                                    //
-                                    // [intermediate]
-                                    //  .local _a, _b
-                                    //      _a = a;
-                                    //      _b = b;
-                                    //  .yield resumeLabel
-                                    //  .mark resumeLabel
-                                    //      _a[_b] = %sent%;
-                                    let prop_span = prop.span;
-
-                                    left.obj.visit_mut_with(self);
-                                    let obj = self.cache_expression(left.obj.take());
-
-                                    prop.visit_mut_with(self);
-                                    let prop = self.cache_expression(prop.expr.take());
-
-                                    left.obj = Box::new(Expr::Ident(obj));
-                                    left.prop = MemberProp::Computed(ComputedPropName {
-                                        span: prop_span,
-                                        expr: Box::new(Expr::Ident(prop)),
-                                    });
-                                }
+                                left.obj = Box::new(Expr::Ident(obj));
                             }
-                            // [source]
-                        }
-                        _ => {
-                            node.left.visit_mut_with(self);
-                        }
-                    }
-                    if node.op != op!("=") {
-                        let left_of_right = self.cache_expression(node.left.take().expect_expr());
+                            MemberProp::Computed(prop) => {
+                                // [source]
+                                //      a[b] = yield;
+                                //
+                                // [intermediate]
+                                //  .local _a, _b
+                                //      _a = a;
+                                //      _b = b;
+                                //  .yield resumeLabel
+                                //  .mark resumeLabel
+                                //      _a[_b] = %sent%;
+                                let prop_span = prop.span;
 
-                        node.right.visit_mut_with(self);
+                                left.obj.visit_mut_with(self);
+                                let obj = self.cache_expression(left.obj.take());
 
-                        *e = Expr::Assign(AssignExpr {
-                            span: node.right.span(),
-                            op: node.op,
-                            left: left_of_right.into(),
-                            right: node.right.take(),
-                        });
-                    } else {
-                        node.right.visit_mut_with(self);
+                                prop.visit_mut_with(self);
+                                let prop = self.cache_expression(prop.expr.take());
+
+                                left.obj = Box::new(Expr::Ident(obj));
+                                left.prop = MemberProp::Computed(ComputedPropName {
+                                    span: prop_span,
+                                    expr: Box::new(Expr::Ident(prop)),
+                                });
+                            }
+                        }
+                        // [source]
                     }
+                    _ => {
+                        node.left.visit_mut_with(self);
+                    }
+                }
+                if node.op != op!("=") {
+                    let left_of_right = self.cache_expression(node.left.take().expect_expr());
+
+                    node.right.visit_mut_with(self);
+
+                    *e = Expr::Assign(AssignExpr {
+                        span: node.right.span(),
+                        op: node.op,
+                        left: left_of_right.into(),
+                        right: node.right.take(),
+                    });
+                } else {
+                    node.right.visit_mut_with(self);
                 }
             }
 
