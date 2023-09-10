@@ -415,6 +415,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
                 cache.mobile = cache.phone = phone, cache.tablet = null;
                 return; // unambiguously identified as phone
             }
+            // our rules haven't found a match -> try more general fallback rules
             impl.isMobileFallback(userAgent) ? undefined === (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth)) ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : // not mobile at all!
             cache.mobile = cache.tablet = cache.phone = null;
         }

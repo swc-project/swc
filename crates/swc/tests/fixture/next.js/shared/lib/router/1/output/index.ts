@@ -159,6 +159,8 @@ var Router = /*#__PURE__*/ function() {
                                 if (!_this.urlIsNew(cleanedAs) && !localeChange) {
                                     method = "replaceState";
                                 }
+                                // we need to resolve the as value using rewrites for dynamic SSG
+                                // pages to allow building the data URL correctly
                                 resolvedAs = as;
                                 // url and as should always be prefixed with basePath by this
                                 // point by either next/link or router.push/replace so strip the
@@ -315,6 +317,7 @@ var Router = /*#__PURE__*/ function() {
                                     // when updating query information
                                     props.pageProps.statusCode = 500;
                                 }
+                                // shallow routing is only allowed for same page URL changes.
                                 isValidShallowRoute = options.shallow && _this.route === route;
                                 shouldScroll = (_options_scroll = options.scroll) !== null && _options_scroll !== void 0 ? _options_scroll : !isValidShallowRoute;
                                 resetScroll = shouldScroll ? {

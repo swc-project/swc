@@ -728,6 +728,7 @@ function _simulateTransaction() {
                     // @ts-ignore
                     transaction.recentBlockhash = _state.sent();
                     signData = transaction.serializeMessage();
+                    // @ts-ignore
                     wireTransaction = transaction._serialize(signData);
                     encodedTransaction = wireTransaction.toString("base64");
                     config = {

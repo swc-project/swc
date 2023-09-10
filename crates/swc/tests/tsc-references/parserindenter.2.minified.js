@@ -277,6 +277,7 @@ Formatting1 = Formatting || (Formatting = {}), Indenter = function() {
                 }
                 // The parent node to take its indentation is the first parent that has indentation.
                 for(; null != parent && !parent.CanIndent();)parent = parent.Parent;
+                // Skip Program since it has no indentation
                 null != parent && parent.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkProg && (offset = parent.AuthorNode.Details.StartOffset, indentNode = parent);
             } else {
                 indentNode = tree.StartNodeSelf, offset = tree.StartNodePreviousSibling.Details.StartOffset;
@@ -289,6 +290,7 @@ Formatting1 = Formatting || (Formatting = {}), Indenter = function() {
         }
         if (null != indentNode) {
             var indentOverride = this.GetLineIndentationForOffset(offset);
+            // Set the indentation on all the siblings to be the same as indentNode
             this.smartIndent || null === tree.StartNodePreviousSibling || null == indentNode.Parent || ParseNodeExtensions.GetChildren(indentNode.Parent).foreach(function(sibling) {
                 sibling !== indentNode && sibling.CanIndent() && sibling.SetIndentationOverride(indentOverride);
             });
