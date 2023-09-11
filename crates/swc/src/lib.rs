@@ -1155,7 +1155,10 @@ impl Compiler {
                 swc_ecma_codegen::Config::default()
                     .with_target(target)
                     .with_minify(true)
-                    .with_ascii_only(opts.format.ascii_only),
+                    .with_ascii_only(opts.format.ascii_only)
+                    .with_emit_assert_for_import_attributes(
+                        opts.format.emit_assert_for_import_attributes,
+                    ),
             )
         })
     }
@@ -1237,6 +1240,9 @@ impl Compiler {
                             .charset
                             .map(|v| matches!(v, OutputCharset::Ascii))
                             .unwrap_or(false),
+                    )
+                    .with_emit_assert_for_import_attributes(
+                        config.emit_assert_for_import_attributes,
                     ),
             )
         })
