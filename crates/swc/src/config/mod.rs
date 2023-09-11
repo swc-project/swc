@@ -1248,6 +1248,9 @@ pub struct JsMinifyFormatOptions {
     /// Not implemented yet.
     #[serde(default, alias = "wrap_func_args")]
     pub wrap_func_args: bool,
+
+    #[serde(default)]
+    pub emit_assert_for_import_attributes: bool,
 }
 
 fn default_comments() -> BoolOrDataConfig<JsMinifyCommentOption> {
