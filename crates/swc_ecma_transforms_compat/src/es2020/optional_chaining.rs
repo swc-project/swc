@@ -149,15 +149,15 @@ impl VisitMut for OptChaining {
 
 #[derive(Debug, Clone)]
 enum Memo {
-    Should(Ident),
-    Not(Box<Expr>),
+    Cache(Ident),
+    Raw(Box<Expr>),
 }
 
 impl Memo {
     fn into_expr(self) -> Expr {
         match self {
-            Memo::Should(i) => Expr::Ident(i),
-            Memo::Not(e) => *e,
+            Memo::Cache(i) => Expr::Ident(i),
+            Memo::Raw(e) => *e,
         }
     }
 }
@@ -275,7 +275,7 @@ impl OptChaining {
                                 let this = self.memoize(&m.obj, true);
 
                                 match &this {
-                                    Memo::Should(i) => {
+                                    Memo::Cache(i) => {
                                         m.obj = Box::new(Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
@@ -284,7 +284,7 @@ impl OptChaining {
                                         }));
                                         this
                                     }
-                                    Memo::Not(_) => this,
+                                    Memo::Raw(_) => this,
                                 }
                             });
                             c.args.insert(0, this.into_expr().as_arg());
@@ -382,9 +382,9 @@ impl OptChaining {
                 init: None,
                 definite: false,
             });
-            Memo::Should(memo)
+            Memo::Cache(memo)
         } else {
-            Memo::Not(Box::new(expr.to_owned()))
+            Memo::Raw(Box::new(expr.to_owned()))
         }
     }
 
@@ -419,13 +419,13 @@ impl OptChaining {
 
 fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) -> Box<Expr> {
     let lhs = match i {
-        Memo::Should(i) => Box::new(Expr::Assign(AssignExpr {
+        Memo::Cache(i) => Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
             left: PatOrExpr::Pat(i.clone().into()),
             right: Box::new(init),
         })),
-        Memo::Not(e) => e.to_owned(),
+        Memo::Raw(e) => e.to_owned(),
     };
 
     if no_document_all {
@@ -445,8 +445,8 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
     }));
 
     let left_expr = match i {
-        Memo::Should(i) => Box::new(i.clone().into()),
-        Memo::Not(e) => e.to_owned(),
+        Memo::Cache(i) => Box::new(i.clone().into()),
+        Memo::Raw(e) => e.to_owned(),
     };
 
     let void_cmp = Box::new(Expr::Bin(BinExpr {
