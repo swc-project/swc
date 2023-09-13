@@ -1091,6 +1091,7 @@ fn issue_7513_2() {
                     fm,
                     handler,
                     &JsMinifyOptions {
+                        module: true,
                         compress: BoolOrDataConfig::from_bool(true),
                         mangle: BoolOrDataConfig::from_obj(MangleOptions {
                             props: None,
