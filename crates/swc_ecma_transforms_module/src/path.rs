@@ -86,21 +86,38 @@ where
     R: Resolve,
 {
     resolver: R,
-    base_dir: Option<PathBuf>,
+    config: Config,
+}
+
+#[derive(Debug, Clone, Default)]
+pub struct Config {
+    pub base_dir: Option<PathBuf>,
+    pub resolve_fully: bool,
 }
 
 impl<R> NodeImportResolver<R>
 where
     R: Resolve,
 {
-    #[deprecated(note = "Use `with_base_dir`")]
+    #[deprecated(note = "Use `with_config`")]
     pub fn new(resolver: R) -> Self {
-        Self::with_base_dir(resolver, None)
+        Self::with_config(resolver, Default::default())
     }
 
+    #[deprecated(note = "Use `with_config`")]
     pub fn with_base_dir(resolver: R, base_dir: Option<PathBuf>) -> Self {
+        Self::with_config(
+            resolver,
+            Config {
+                base_dir,
+                ..Default::default()
+            },
+        )
+    }
+
+    pub fn with_config(resolver: R, config: Config) -> Self {
         #[cfg(not(target_arch = "wasm32"))]
-        if let Some(base_dir) = &base_dir {
+        if let Some(base_dir) = &config.base_dir {
             assert!(
                 base_dir.is_absolute(),
                 "base_dir(`{}`) must be absolute. Please ensure that `jsc.baseUrl` is specified \
@@ -115,7 +132,7 @@ where
             );
         }
 
-        Self { resolver, base_dir }
+        Self { resolver, config }
     }
 }
 
@@ -186,8 +203,8 @@ where
         };
 
         if base.is_absolute() != target.is_absolute() {
-            base = Cow::Owned(absolute_path(self.base_dir.as_deref(), &base)?);
-            target = absolute_path(self.base_dir.as_deref(), &target)?;
+            base = Cow::Owned(absolute_path(self.config.base_dir.as_deref(), &base)?);
+            target = absolute_path(self.config.base_dir.as_deref(), &target)?;
         }
 
         debug!(
