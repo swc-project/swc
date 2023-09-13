@@ -1,1 +1,1 @@
-"use strict";var _a;var a=undefined;(_a=a)===null||_a===void 0?void 0:_a.b.c;
+"use strict";var a=undefined;a===null||a===void 0?void 0:a.b.c;

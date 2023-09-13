@@ -152,7 +152,7 @@ fn es2020_nullish_coalescing(b: &mut Bencher) {
 
 fn es2020_optional_chaining(b: &mut Bencher) {
     run(b, || {
-        swc_ecma_transforms_compat::es2020::optional_chaining(Default::default())
+        swc_ecma_transforms_compat::es2020::optional_chaining(Default::default(), Mark::new())
     });
 }
 

@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/compat)** Support `pure_getters` for `optional_chaining` (#7933) ([c091c5e](https://github.com/swc-project/swc/commit/c091c5e295ec2ef704be1461f6587ae85051b543))
+
 ## [1.3.84] - 2023-09-11
 
 ### Bug Fixes

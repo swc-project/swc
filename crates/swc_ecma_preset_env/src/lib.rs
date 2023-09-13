@@ -173,10 +173,13 @@ where
     let pass = add!(
         pass,
         OptionalChaining,
-        es2020::optional_chaining(es2020::optional_chaining::Config {
-            no_document_all: loose || assumptions.no_document_all,
-            pure_getter: loose || assumptions.pure_getters
-        })
+        es2020::optional_chaining(
+            es2020::optional_chaining::Config {
+                no_document_all: loose || assumptions.no_document_all,
+                pure_getter: loose || assumptions.pure_getters
+            },
+            global_mark
+        )
     );
 
     // ES2019
