@@ -1,10 +1,15 @@
 import swc from "../..";
 
 it("should compress", async () => {
-    const { code } = await swc.minify(`
+    const { code } = await swc.minify(
+        `
     import foo from '@src/app';
     console.log(foo)
-    `);
+    `,
+        {
+            module: true,
+        }
+    );
 
     expect(code).toMatchInlineSnapshot(
         `"import o from\\"@src/app\\";console.log(o);"`
@@ -17,7 +22,9 @@ it("should accept object", async () => {
     import foo from '@src/app';
     console.log(foo)
     `,
-        {}
+        {
+            module: true,
+        }
     );
 
     expect(code).toMatchInlineSnapshot(
@@ -32,6 +39,7 @@ it("should accept { mangle = true }", async () => {
     console.log(foo)
     `,
         {
+            module: true,
             compress: false,
             mangle: true,
         }
@@ -49,6 +57,7 @@ it("should accept { mangle = object }", async () => {
     console.log(foo)
     `,
         {
+            module: true,
             compress: false,
             mangle: {
                 topLevel: true,
@@ -244,4 +253,14 @@ describe("should remove comments", () => {
                          */const o=Math.random()+\\"_\\"+Math.random();console.log(o)})();"
         `);
     });
+});
+
+it("should accept non-strict code", async () => {
+    const { code } = await swc.minify(`
+    a = 1;
+    delete a;
+    console.log(a);
+    `);
+
+    expect(code).toMatchInlineSnapshot(`"a=1,delete a,console.log(a);"`);
 });
