@@ -7,15 +7,11 @@ const Foo = ((_Bar = class Bar {
     }
 }, __ = {
     writable: true,
-    value: (()=>{
-        ({ c: [_Bar1, _initClass]  } = _apply_decs_2203_r(_Bar, [], [
-            dec
-        ]));
-    })()
+    value: { c: [_Bar1, _initClass] } = _apply_decs_2203_r(_Bar, [], [
+        dec
+    ])
 }, __1 = {
     writable: true,
-    value: (()=>{
-        _initClass();
-    })()
+    value: _initClass()
 }, _Bar), _Bar1);
 const foo = new Foo();

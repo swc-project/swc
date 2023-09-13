@@ -13,11 +13,9 @@ new (_class = class extends _identity {
         }
         var __ = {
             writable: true,
-            value: (()=>{
-                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(Foo, [], [
-                    dec
-                ]));
-            })()
+            value: { c: [_Foo, _initClass] } = _apply_decs_2203_r(Foo, [], [
+                dec
+            ])
         };
         _define_property(Foo, "field", 123);
     })()
@@ -34,11 +32,9 @@ new (_class1 = class extends _identity {
         }
         var __ = {
             writable: true,
-            value: (()=>{
-                ({ c: [_Bar, _initClass1]  } = _apply_decs_2203_r(Bar, [], [
-                    dec
-                ]));
-            })()
+            value: { c: [_Bar, _initClass1] } = _apply_decs_2203_r(Bar, [], [
+                dec
+            ])
         };
         _define_property(Bar, "field", ((()=>{
             Bar.otherField = 456;

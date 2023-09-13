@@ -14,21 +14,17 @@ class C {
 }
 var __ = {
     writable: true,
-    value: (()=>{
-        ({ e: [_initProto] , c: [_C, _initClass]  } = _apply_decs_2203_r(C, [
-            [
-                memberDec,
-                2,
-                "m"
-            ]
-        ], [
-            classDec
-        ]));
-    })()
+    value: { e: [_initProto], c: [_C, _initClass] } = _apply_decs_2203_r(C, [
+        [
+            memberDec,
+            2,
+            "m"
+        ]
+    ], [
+        classDec
+    ])
 };
 var __1 = {
     writable: true,
-    value: (()=>{
-        _initClass();
-    })()
+    value: _initClass()
 };
