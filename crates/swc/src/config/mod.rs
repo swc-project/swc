@@ -1999,8 +1999,12 @@ fn default_env_name() -> String {
     }
 }
 
-fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ARandomState>> =
+fn build_resolver(
+    mut base_url: PathBuf,
+    paths: CompiledPaths,
+    resolve_fully: bool,
+) -> Box<SwcImportResolver> {
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.
@@ -2017,7 +2021,7 @@ fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportR
             .unwrap();
     }
 
-    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
+    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone(), resolve_fully)) {
         return Box::new((*cached).clone());
     }
 
@@ -2029,11 +2033,17 @@ fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportR
         );
         let r = CachingResolver::new(40, r);
 
-        let r = NodeImportResolver::with_base_dir(r, Some(base_url.clone()));
+        let r = NodeImportResolver::with_config(
+            r,
+            swc_ecma_transforms::modules::path::Config {
+                base_dir: Some(base_url.clone()),
+                resolve_fully,
+            },
+        );
         Arc::new(r)
     };
 
-    CACHE.insert((base_url, paths), r.clone());
+    CACHE.insert((base_url, paths, resolve_fully), r.clone());
 
     Box::new(r)
 }
