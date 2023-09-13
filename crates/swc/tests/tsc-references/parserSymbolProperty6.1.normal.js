@@ -5,6 +5,4 @@ class C {
         this[prop] = "";
     }
 }
-(()=>{
-    prop = Symbol.toStringTag;
-})();
+prop = Symbol.toStringTag;

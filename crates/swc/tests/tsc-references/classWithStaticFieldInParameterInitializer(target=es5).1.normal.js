@@ -6,7 +6,5 @@ var _class;
     var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : (_class = function _class() {
         "use strict";
         _class_call_check(this, _class);
-    }, function() {
-        _class.x = 1;
-    }(), _class);
+    }, _class.x = 1, _class);
 })();

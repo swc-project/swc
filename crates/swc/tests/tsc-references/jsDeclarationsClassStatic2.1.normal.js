@@ -6,9 +6,7 @@ var Base = function Base() {
     "use strict";
     _class_call_check(this, Base);
 };
-(function() {
-    Base.foo = "";
-})();
+Base.foo = "";
 export var Foo = /*#__PURE__*/ function(Base) {
     "use strict";
     _inherits(Foo, Base);
