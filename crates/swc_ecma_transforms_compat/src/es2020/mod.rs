@@ -1,5 +1,5 @@
 use serde::Deserialize;
-use swc_common::chain;
+use swc_common::{chain, Mark};
 use swc_ecma_visit::Fold;
 
 pub use self::{
@@ -11,10 +11,10 @@ mod export_namespace_from;
 pub mod nullish_coalescing;
 pub mod optional_chaining;
 
-pub fn es2020(config: Config) -> impl Fold {
+pub fn es2020(config: Config, unresolved_mark: Mark) -> impl Fold {
     chain!(
         nullish_coalescing(config.nullish_coalescing),
-        optional_chaining(config.optional_chaining),
+        optional_chaining(config.optional_chaining, unresolved_mark),
         export_namespace_from(),
     )
 }

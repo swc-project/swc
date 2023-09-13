@@ -3146,7 +3146,20 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(tr(), optional_chaining(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let config = strip::Config {
+            no_empty_export: true,
+            ..Default::default()
+        };
+        chain!(
+            Optional::new(decorators(Default::default()), false,),
+            resolver(unresolved_mark, top_level_mark, true),
+            strip_with_config(config, top_level_mark),
+            optional_chaining(Default::default(), unresolved_mark)
+        )
+    },
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
