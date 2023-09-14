@@ -45,7 +45,8 @@ test!(
     |tester| tr(
         tester,
         Config {
-            allow_top_level_this: true
+            allow_top_level_this: true,
+            ..Default::default()
         }
     ),
     allow_top_level_this_true,
@@ -67,7 +68,8 @@ test!(
     |tester| tr(
         tester,
         Config {
-            allow_top_level_this: false
+            allow_top_level_this: false,
+            ..Default::default()
         }
     ),
     iife,
@@ -94,7 +96,8 @@ test!(
     |tester| tr(
         tester,
         Config {
-            allow_top_level_this: false
+            allow_top_level_this: false,
+            ..Default::default()
         }
     ),
     top_level_this_false_class,
@@ -133,7 +136,8 @@ test!(
     |tester| tr(
         tester,
         Config {
-            allow_top_level_this: false
+            allow_top_level_this: false,
+            ..Default::default()
         }
     ),
     allow_top_level_this_false,

@@ -54,7 +54,7 @@ use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     feature::FeatureFlag,
     hygiene, modules,
-    modules::{path::NodeImportResolver, rewriter::import_rewriter},
+    modules::{path::NodeImportResolver, rewriter::import_rewriter, EsModuleConfig},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{
@@ -419,7 +419,7 @@ impl Options {
 
                         if matches!(
                             cfg.module,
-                            None | Some(ModuleConfig::Es6 | ModuleConfig::NodeNext)
+                            None | Some(ModuleConfig::Es6(..) | ModuleConfig::NodeNext(..))
                         ) {
                             c.module = true;
                         }
@@ -609,11 +609,11 @@ impl Options {
         );
 
         let import_export_assign_config = match cfg.module {
-            Some(ModuleConfig::Es6) => TsImportExportAssignConfig::EsNext,
+            Some(ModuleConfig::Es6(..)) => TsImportExportAssignConfig::EsNext,
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
             | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,
-            Some(ModuleConfig::NodeNext) => TsImportExportAssignConfig::NodeNext,
+            Some(ModuleConfig::NodeNext(..)) => TsImportExportAssignConfig::NodeNext,
             // TODO: should Preserve for SystemJS
             _ => TsImportExportAssignConfig::Classic,
         };
@@ -1571,9 +1571,9 @@ pub enum ModuleConfig {
     #[serde(rename = "systemjs")]
     SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
-    Es6,
+    Es6(EsModuleConfig),
     #[serde(rename = "nodenext")]
-    NodeNext,
+    NodeNext(EsModuleConfig),
 }
 
 impl ModuleConfig {
@@ -1596,11 +1596,20 @@ impl ModuleConfig {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         match config {
-            None | Some(ModuleConfig::Es6) | Some(ModuleConfig::NodeNext) => {
+            None => {
                 if skip_resolver {
                     Box::new(noop())
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, false);
+
+                    Box::new(import_rewriter(base, resolver))
+                }
+            }
+            Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
+                if skip_resolver {
+                    Box::new(noop())
+                } else {
+                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
 
                     Box::new(import_rewriter(base, resolver))
                 }
@@ -1673,7 +1682,7 @@ impl ModuleConfig {
                 if skip_resolver {
                     Box::new(modules::system_js::system_js(unresolved_mark, config))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
 
                     Box::new(modules::system_js::system_js_with_resolver(
                         resolver,

@@ -194,7 +194,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
                         ..Default::default()
                     },
                     module: if entry.extension().unwrap() == "mjs" {
-                        Some(ModuleConfig::Es6)
+                        Some(ModuleConfig::Es6(Default::default()))
                     } else {
                         Some(ModuleConfig::CommonJs(Default::default()))
                     },
