@@ -174,7 +174,9 @@ where
                 } else {
                     target_path.set_extension("js");
                 }
-            } else if !self.config.resolve_fully && is_resolved_as_ts && is_resolved_as_index {
+            } else if self.config.resolve_fully && is_resolved_as_ts {
+                target_path.set_extension("js");
+            } else if is_resolved_as_ts && is_resolved_as_index {
                 if orig_filename == "index" {
                     target_path.set_extension("");
                 } else {
