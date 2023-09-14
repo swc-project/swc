@@ -1,9 +1,7 @@
 {
     "sourceMaps": true,
     "module": {
-        "type": "es6",
-        "strict": true,
-        "noInterop": false
+        "type": "es6"
     },
     "env": {
         "targets": "node 12"
@@ -72,8 +70,12 @@
         },
         "keepClassNames": false,
         "paths": {
-            "@/*": ["./*"],
-            "__shared-fixtures__/*": ["./test/__shared-fixtures__/*"]
+            "@/*": [
+                "./*"
+            ],
+            "__shared-fixtures__/*": [
+                "./test/__shared-fixtures__/*"
+            ]
         },
         "baseUrl": ".",
         "loose": false
