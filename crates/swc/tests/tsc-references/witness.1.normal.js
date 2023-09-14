@@ -129,8 +129,6 @@ var C3 = function C3() {
     "use strict";
     _class_call_check(this, C3);
 };
-(function() {
-    C3.q = C3.q;
-})();
+C3.q = C3.q;
 var qq = C3.q;
 var qq; // Parentheses - tested a bunch above

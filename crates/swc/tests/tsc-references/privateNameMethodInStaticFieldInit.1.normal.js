@@ -7,9 +7,7 @@ class C {
         _class_private_method_init(this, _method);
     }
 }
-(()=>{
-    C.s = _class_private_method_get(_ref = new C(), _method, method).call(_ref);
-})();
+C.s = _class_private_method_get(_ref = new C(), _method, method).call(_ref);
 function method() {
     return 42;
 }

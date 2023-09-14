@@ -10,6 +10,4 @@ module.exports = (_ClassB = /*#__PURE__*/ function() {
         this.bb = new ClassB.MyA();
     };
     return ClassB;
-}(), function() {
-    _ClassB.MyA = ClassA;
-}(), _ClassB);
+}(), _ClassB.MyA = ClassA, _ClassB);

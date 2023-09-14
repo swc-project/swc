@@ -22,7 +22,5 @@ var Derived = /*#__PURE__*/ function(Base1) {
     }
     return Derived;
 }(Base);
-(function() {
-    Derived.bar = Base.foo // error
-    ;
-})();
+Derived.bar = Base.foo // error
+;

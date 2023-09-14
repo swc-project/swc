@@ -9,6 +9,4 @@ var _x = {
     writable: true,
     value: 123
 };
-(()=>{
-    console.log(_class_static_private_field_spec_get(C, C, _x));
-})();
+console.log(_class_static_private_field_spec_get(C, C, _x));

@@ -12,6 +12,4 @@ function foo() {
 foo((_class = function _class() {
     "use strict";
     _class_call_check(this, _class);
-}, function() {
-    _class.prop = "hello";
-}(), _class)).length;
+}, _class.prop = "hello", _class)).length;

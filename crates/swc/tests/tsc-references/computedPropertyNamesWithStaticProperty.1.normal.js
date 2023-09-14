@@ -10,6 +10,4 @@ class C {
     }
     [_staticProp2]() {}
 }
-(()=>{
-    C.staticProp = 10;
-})();
+C.staticProp = 10;

@@ -10,24 +10,18 @@ var A = /*#__PURE__*/ function() {
     };
     return A;
 }();
-(function() {
-    A.doSomething(); // should not error
-})();
+A.doSomething();
 var Baz = function Baz() {
     "use strict";
     _class_call_check(this, Baz);
 };
-(function() {
-    console.log(FOO); // should error
-})();
+console.log(FOO);
 var FOO = "FOO";
 var Bar = function Bar() {
     "use strict";
     _class_call_check(this, Bar);
 };
-(function() {
-    console.log(FOO); // should not error
-})();
+console.log(FOO);
 var u = "FOO";
 var CFA = /*#__PURE__*/ function() {
     "use strict";
@@ -41,10 +35,6 @@ var CFA = /*#__PURE__*/ function() {
     u = "BAR";
     u; // should be "BAR"
 })();
-(function() {
-    CFA.t = 1;
-})();
-(function() {
-    u; // should be "BAR"
-})();
+CFA.t = 1;
+u;
 u; // should be "BAR"

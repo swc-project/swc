@@ -9,6 +9,4 @@ var _bar = {
     Foo.qux1 = Foo.qux;
 })();
 _define_property(Foo, "qux", 21);
-(()=>{
-    Foo.qux2 = Foo.qux;
-})();
+Foo.qux2 = Foo.qux;
