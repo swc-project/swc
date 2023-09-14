@@ -3707,7 +3707,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.83.7"
+version = "0.83.8"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3758,7 +3758,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.155.2"
+version = "0.155.3"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -3868,7 +3868,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.27.2"
+version = "0.27.3"
 dependencies = [
  "rustc-hash",
  "serde",

@@ -5,6 +5,9 @@
 
 
 
+- **(css/modules)** Support composes when using multiple subclass selectors (#7949) ([05ca19b](https://github.com/swc-project/swc/commit/05ca19b84489ae47f69d8228b3c0097164c7ec6e))
+
+
 - **(es/minifier)** Parse a file as a module only if `opts.module` is `true` (#7943) ([b87ac64](https://github.com/swc-project/swc/commit/b87ac646f81f181b574da798b3e613a3cfa4cad5))
 
 ### Features
