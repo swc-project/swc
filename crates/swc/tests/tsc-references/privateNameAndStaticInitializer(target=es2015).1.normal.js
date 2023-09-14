@@ -16,6 +16,4 @@ class A {
         _class_private_field_set(this, _prop, 2);
     }
 }
-(()=>{
-    A.inst = new A();
-})();
+A.inst = new A();

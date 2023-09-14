@@ -17,12 +17,8 @@ class B {
             constructor(){
                 console.log("hello");
             }
-        }, (()=>{
-            _class.test = 123;
-        })(), _class));
+        }, _class.test = 123, _class));
         _class_private_field_set(this, _foo2, (_Foo = class Foo {
-        }, (()=>{
-            _Foo.otherClass = 123;
-        })(), _Foo));
+        }, _Foo.otherClass = 123, _Foo));
     }
 }

@@ -1,0 +1,11 @@
+.__local__root-class {
+  background-color: red;
+}
+.__local__chain-1, 
+.__local__chain-2 {}
+.__local__chain-1 {
+  color: blue;
+}
+.__local__chain-2 {
+  color: green;
+}

@@ -149,6 +149,4 @@ class C13 {
         this[E.A] = 1;
     }
 }
-(()=>{
-    prop = E.A;
-})();
+prop = E.A;

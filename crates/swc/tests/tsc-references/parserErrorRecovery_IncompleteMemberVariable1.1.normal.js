@@ -18,10 +18,8 @@ var Shapes;
         };
         return Point;
     }();
-    (function() {
-        // Static member
-        Point.origin = new Point(0, 0);
-    })();
+    // Static member
+    Point.origin = new Point(0, 0);
     Shapes.Point = Point;
 })(Shapes || (Shapes = {}));
 // Local variables

@@ -17,11 +17,40 @@ pub fn static_blocks(mark: Mark) -> impl Fold + VisitMut {
 impl ClassStaticBlock {
     fn visit_mut_static_block(
         &mut self,
-        static_block: StaticBlock,
+        mut static_block: StaticBlock,
         private_id: JsWord,
     ) -> PrivateProp {
+        let mut stmts = static_block.body.stmts.take();
+        let span = static_block.span;
+
+        // We special-case the single expression case to avoid the iife, since it's
+        // common.
+        let value = if stmts.len() == 1 && stmts[0].is_expr() {
+            stmts[0].take().expr().map(|expr_stmt| expr_stmt.expr)
+        } else {
+            static_block.body.stmts = stmts;
+
+            let expr = Expr::Call(CallExpr {
+                span: DUMMY_SP,
+                callee: ArrowExpr {
+                    span: DUMMY_SP,
+                    params: Vec::new(),
+                    is_async: false,
+                    is_generator: false,
+                    type_params: None,
+                    return_type: None,
+                    body: Box::new(BlockStmtOrExpr::BlockStmt(static_block.body)),
+                }
+                .as_callee(),
+                args: Vec::new(),
+                type_args: None,
+            });
+
+            Some(Box::new(expr))
+        };
+
         PrivateProp {
-            span: DUMMY_SP.apply_mark(self.mark),
+            span: span.apply_mark(self.mark),
             is_static: true,
             is_optional: false,
             is_override: false,
@@ -37,21 +66,7 @@ impl ClassStaticBlock {
                     optional: false,
                 },
             },
-            value: Some(Box::new(Expr::Call(CallExpr {
-                span: DUMMY_SP,
-                callee: ArrowExpr {
-                    span: DUMMY_SP,
-                    params: Vec::new(),
-                    is_async: false,
-                    is_generator: false,
-                    type_params: None,
-                    return_type: None,
-                    body: Box::new(BlockStmtOrExpr::BlockStmt(static_block.body)),
-                }
-                .as_callee(),
-                args: Vec::new(),
-                type_args: None,
-            }))),
+            value,
             definite: false,
         }
     }

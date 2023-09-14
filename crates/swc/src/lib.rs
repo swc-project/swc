@@ -1089,7 +1089,7 @@ impl Compiler {
                         import_attributes: true,
                         ..Default::default()
                     }),
-                    IsModule::Bool(true),
+                    IsModule::Bool(opts.module),
                     Some(&comments),
                 )
                 .context("failed to parse input file")?;

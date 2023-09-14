@@ -2,7 +2,5 @@
 let prop;
 class StringIterator {
 }
-(()=>{
-    prop = Symbol.iterator;
-})();
+prop = Symbol.iterator;
 for (var v of new StringIterator){}

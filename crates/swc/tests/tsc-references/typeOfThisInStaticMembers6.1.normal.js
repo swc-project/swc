@@ -6,9 +6,7 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function() {
-    C.f = 1;
-})();
+C.f = 1;
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
@@ -19,6 +17,4 @@ var D = /*#__PURE__*/ function(C) {
     }
     return D;
 }(C);
-(function() {
-    D.c = super();
-})();
+D.c = super();

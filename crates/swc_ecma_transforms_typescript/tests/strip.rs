@@ -729,7 +729,7 @@ test!(
         constructor(a) {
         }
     }
-    (()=>{ A.b = 'foo'; })();"
+    A.b = 'foo';"
 );
 
 test!(
@@ -3681,9 +3681,7 @@ to!(
         prop = (console.log(1), 'a');
         prop1 = (console.log(2), 'b');
     })();
-    (()=>{
-        A[prop1] = 2;
-    })();
+    A[prop1] = 2;
     "
 );
 
@@ -3709,9 +3707,7 @@ to!(
         prop = (console.log(1), 'a');
         prop1 = (console.log(2), 'b');
     })();
-    (()=>{
-        A[prop1] = 2;
-    })();
+    A[prop1] = 2;
     "
 );
 
@@ -3782,7 +3778,7 @@ to!(
     "
     var _class;
     const A = (_class = class {},
-        (()=>{ _class.a = 1; })(),
+        _class.a = 1,
         _class);
     "
 );
@@ -4157,9 +4153,9 @@ to!(
     var _TestClass;
     var _class;
     let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, (()=>{ _TestClass.Something = 'hello'; })(), (()=>{ _TestClass.SomeProperties = {
+    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
         firstProp: _TestClass.Something
-    };})(), _TestClass)) || _class) || _class;
+    }, _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4223,7 +4219,7 @@ class Foo {
 const identifier = 'bar';
 class Foo {
 }
-(()=>{ Foo.identifier = 5; })();
+Foo.identifier = 5;
   "
 );
 

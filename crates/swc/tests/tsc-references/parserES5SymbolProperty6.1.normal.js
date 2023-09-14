@@ -6,6 +6,4 @@ var C = function C() {
     _class_call_check(this, C);
     this[prop] = "";
 };
-(function() {
-    prop = Symbol.toStringTag;
-})();
+prop = Symbol.toStringTag;

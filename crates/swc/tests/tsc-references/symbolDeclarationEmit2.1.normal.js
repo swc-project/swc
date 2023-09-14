@@ -5,6 +5,4 @@ class C {
         this[prop] = "";
     }
 }
-(()=>{
-    prop = Symbol.toPrimitive;
-})();
+prop = Symbol.toPrimitive;

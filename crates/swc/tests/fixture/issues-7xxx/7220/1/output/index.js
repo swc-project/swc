@@ -28,13 +28,11 @@ var TestClass = /*#__PURE__*/ function() {
     ]);
     return TestClass;
 }();
-(function() {
-    var ref, ref1;
-    ref = _apply_decs_2203_r(TestClass, [
-        [
-            _dec,
-            2,
-            "success"
-        ]
-    ], []), ref1 = _sliced_to_array(ref.e, 1), _initProto = ref1[0], ref1, ref;
-})();
+var ref, ref1;
+ref = _apply_decs_2203_r(TestClass, [
+    [
+        _dec,
+        2,
+        "success"
+    ]
+], []), ref1 = _sliced_to_array(ref.e, 1), _initProto = ref1[0], ref1, ref;
