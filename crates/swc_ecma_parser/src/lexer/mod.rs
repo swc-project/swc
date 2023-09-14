@@ -694,7 +694,7 @@ impl<'a> Lexer<'a> {
             self.bump();
         }
         self.state.content_tag_template = ContentTagState::None;
-        return Ok(ContentTagEnd);
+        Ok(ContentTagEnd)
     }
 
     #[inline(never)]

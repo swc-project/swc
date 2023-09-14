@@ -518,10 +518,7 @@ impl<I: Tokens> Parser<I> {
         match bump!(self) {
             Token::ContentTagContent { value } => {
                 let span = span!(self, start);
-                return Ok(ContentTagContent {
-                    span,
-                    value: value.into(),
-                });
+                Ok(ContentTagContent { span, value })
             }
             _ => {
                 unexpected!(self, "content tag");
@@ -541,12 +538,12 @@ impl<I: Tokens> Parser<I> {
         let closing = ContentTagEnd {
             span: span!(self, closing_start),
         };
-        return Ok(ContentTagExpression {
+        Ok(ContentTagExpression {
             span: span!(self, opening_start),
             opening: opening.into(),
             contents: contents.into(),
             closing: closing.into(),
-        });
+        })
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
