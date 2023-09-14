@@ -854,14 +854,14 @@ where
     #[emitter]
     fn emit_content_tag_template_expr(&mut self, n: &ContentTagExpression) -> Result {
         self.wr.write_str_lit(n.span, "<template>")?;
-        self.wr.write_str_lit(n.span, &n.contents)?;
+        self.wr.write_str_lit(n.span, &n.contents.value)?;
         self.wr.write_str_lit(n.span, "</template>")?;
     }
 
     #[emitter]
     fn emit_content_tag_template_member(&mut self, n: &ContentTagMember) -> Result {
         self.wr.write_str_lit(n.span, "<template>")?;
-        self.wr.write_str_lit(n.span, &n.contents)?;
+        self.wr.write_str_lit(n.span, &n.contents.value)?;
         self.wr.write_str_lit(n.span, "</template>")?;
     }
 

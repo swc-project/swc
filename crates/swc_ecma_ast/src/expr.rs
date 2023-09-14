@@ -527,11 +527,41 @@ pub struct FnExpr {
 pub struct ContentTagExpression {
     pub span: Span,
 
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub opening: Box<ContentTagStart>,
+
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub contents: Box<ContentTagContent>,
+
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub closing: Box<ContentTagEnd>,
+}
+
+#[ast_node("ContentTagStart")]
+#[derive(Eq, Hash, EqIgnoreSpan, Copy)]
+pub struct ContentTagStart {
+    pub span: Span,
+}
+
+#[ast_node("ContentTagEnd")]
+#[derive(Eq, Hash, EqIgnoreSpan, Copy)]
+pub struct ContentTagEnd {
+    pub span: Span,
+}
+
+#[ast_node("ContentTagContent")]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+pub struct ContentTagContent {
+    pub span: Span,
+
     #[cfg_attr(
         any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
         with(swc_atoms::EncodeJsWord)
     )]
-    pub contents: JsWord,
+    pub value: JsWord,
 }
 
 impl Take for FnExpr {

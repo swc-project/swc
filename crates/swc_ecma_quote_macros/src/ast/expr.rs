@@ -139,3 +139,5 @@ impl_struct!(OptCall, [span, callee, args, type_args]);
 impl_enum!(Callee, [Super, Import, Expr]);
 
 impl_struct!(ContentTagExpression, [span, contents]);
+
+impl_struct!(ContentTagContent, [span, value]);

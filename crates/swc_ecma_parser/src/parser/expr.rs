@@ -513,23 +513,40 @@ impl<I: Tokens> Parser<I> {
         syntax_error!(self, self.input.cur_span(), SyntaxError::TS1109)
     }
 
-    pub fn parse_content_tag_template(&mut self) -> PResult<ContentTagExpression> {
-        assert_and_bump!(self, ContentTagStart);
+    fn parse_content_tag_contents(&mut self) -> PResult<ContentTagContent> {
         let start = cur_pos!(self);
-
         match bump!(self) {
             Token::ContentTagContent { value } => {
                 let span = span!(self, start);
-                assert_and_bump!(self, ContentTagEnd);
-                return Ok(ContentTagExpression {
+                return Ok(ContentTagContent {
                     span,
-                    contents: value.into(),
+                    value: value.into(),
                 });
             }
             _ => {
                 unexpected!(self, "content tag");
             }
         }
+    }
+
+    pub fn parse_content_tag_template(&mut self) -> PResult<ContentTagExpression> {
+        let opening_start = cur_pos!(self);
+        assert_and_bump!(self, ContentTagStart);
+        let opening = ContentTagStart {
+            span: span!(self, opening_start),
+        };
+        let contents = self.parse_content_tag_contents()?;
+        let closing_start = cur_pos!(self);
+        assert_and_bump!(self, ContentTagEnd);
+        let closing = ContentTagEnd {
+            span: span!(self, closing_start),
+        };
+        return Ok(ContentTagExpression {
+            span: span!(self, opening_start),
+            opening: opening.into(),
+            contents: contents.into(),
+            closing: closing.into(),
+        });
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

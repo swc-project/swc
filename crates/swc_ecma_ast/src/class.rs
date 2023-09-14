@@ -11,7 +11,8 @@ use crate::{
         Accessibility, TsExprWithTypeArgs, TsIndexSignature, TsTypeAnn, TsTypeParamDecl,
         TsTypeParamInstantiation,
     },
-    BigInt, ComputedPropName, EmptyStmt, Id, Ident, Number,
+    BigInt, ComputedPropName, ContentTagContent, ContentTagEnd, ContentTagStart, EmptyStmt, Id,
+    Ident, Number,
 };
 
 #[ast_node]
@@ -63,11 +64,17 @@ impl Take for Class {
 pub struct ContentTagMember {
     pub span: Span,
 
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(swc_atoms::EncodeJsWord)
-    )]
-    pub contents: swc_atoms::JsWord,
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub opening: Box<ContentTagStart>,
+
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub contents: Box<ContentTagContent>,
+
+    #[cfg_attr(feature = "serde-impl", serde(flatten))]
+    #[span]
+    pub closing: Box<ContentTagEnd>,
 }
 
 #[ast_node]

@@ -386,7 +386,9 @@ impl<I: Tokens> Parser<I> {
                 .map(|content_tag_template| {
                     ClassMember::ContentTagMember(ContentTagMember {
                         span: content_tag_template.span,
+                        opening: content_tag_template.opening,
                         contents: content_tag_template.contents,
+                        closing: content_tag_template.closing,
                     })
                 });
         }
