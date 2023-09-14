@@ -1,0 +1,16 @@
+.root-class {
+    background-color: red;
+}
+
+.chain-1,
+.chain-2 {
+    composes: root-class;
+}
+
+.chain-1 {
+    color: blue;
+}
+
+.chain-2 {
+    color: green;
+}

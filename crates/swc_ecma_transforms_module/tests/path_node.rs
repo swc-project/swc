@@ -84,24 +84,23 @@ fn issue_4730() {
 
 type JscPathsProvider = NodeImportResolver<TsConfigResolver<NodeModulesResolver>>;
 
-fn paths_resolver(
-    base_url: impl AsRef<Path>,
-    rules: Vec<(String, Vec<String>)>,
-) -> JscPathsProvider {
-    let base_url = base_url
-        .as_ref()
+fn paths_resolver(base_dir: &Path, rules: Vec<(String, Vec<String>)>) -> JscPathsProvider {
+    let base_dir = base_dir
         .to_path_buf()
         .canonicalize()
         .expect("failed to canonicalize");
-    dbg!(&base_url);
+    dbg!(&base_dir);
 
-    NodeImportResolver::with_base_dir(
+    NodeImportResolver::with_config(
         TsConfigResolver::new(
             NodeModulesResolver::new(swc_ecma_loader::TargetEnv::Node, Default::default(), true),
-            base_url.clone(),
+            base_dir.clone(),
             rules,
         ),
-        Some(base_url),
+        swc_ecma_transforms_module::path::Config {
+            base_dir: Some(base_dir),
+            resolve_fully: false,
+        },
     )
 }
 
@@ -134,7 +133,7 @@ fn fixture(input_dir: PathBuf) {
             let rules = config.paths.clone().into_iter().collect();
 
             let resolver =
-                paths_resolver(config.base_url.clone().unwrap_or(input_dir.clone()), rules);
+                paths_resolver(&config.base_url.clone().unwrap_or(input_dir.clone()), rules);
 
             import_rewriter(FileName::Real(index_path.clone()), resolver)
         },

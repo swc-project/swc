@@ -2,6 +2,4 @@
 let prop;
 class C {
 }
-(()=>{
-    prop = Symbol.toPrimitive;
-})();
+prop = Symbol.toPrimitive;

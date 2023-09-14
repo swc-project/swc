@@ -4,12 +4,6 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
-(function() {
-    A.bar = A.foo + 1;
-})();
-(function() {
-    A.foo + 2;
-})();
-(function() {
-    A.foo = 1;
-})();
+A.bar = A.foo + 1;
+A.foo + 2;
+A.foo = 1;

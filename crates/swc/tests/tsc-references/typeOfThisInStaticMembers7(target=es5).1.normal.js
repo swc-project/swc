@@ -8,12 +8,8 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function() {
-    C.a = 1;
-})();
-(function() {
-    C.b = C.a + 1;
-})();
+C.a = 1;
+C.b = C.a + 1;
 var D = /*#__PURE__*/ function(C) {
     "use strict";
     _inherits(D, C);
@@ -24,12 +20,6 @@ var D = /*#__PURE__*/ function(C) {
     }
     return D;
 }(C);
-(function() {
-    D.c = 2;
-})();
-(function() {
-    D.d = D.c + 1;
-})();
-(function() {
-    D.e = 1 + _get(_get_prototype_of(D), "a", D) + (D.c + 1) + 1;
-})();
+D.c = 2;
+D.d = D.c + 1;
+D.e = 1 + _get(_get_prototype_of(D), "a", D) + (D.c + 1) + 1;

@@ -11,9 +11,7 @@ class Foo {
         _class_private_field_set(this, _b, 2);
     }
 }
-(()=>{
-    Foo.c = 3;
-})();
+Foo.c = 3;
 var _d = {
     writable: true,
     value: 4

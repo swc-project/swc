@@ -1,5 +1,5 @@
 "use strict";
-var _obj, _obj_a, _obj1, _obj_b, _obj2, _obj_a1, _obj3;
+var _obj_a, _obj_b, _obj_a1;
 const obj = {
     a: {
         b: {
@@ -9,8 +9,8 @@ const obj = {
         }
     }
 };
-const a = (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a;
-const b = (_obj1 = obj) === null || _obj1 === void 0 ? void 0 : (_obj_a = _obj1.a) === null || _obj_a === void 0 ? void 0 : _obj_a.b;
-const bad = (_obj2 = obj) === null || _obj2 === void 0 ? void 0 : (_obj_b = _obj2.b) === null || _obj_b === void 0 ? void 0 : _obj_b.b;
+const a = obj === null || obj === void 0 ? void 0 : obj.a;
+const b = obj === null || obj === void 0 ? void 0 : (_obj_a = obj.a) === null || _obj_a === void 0 ? void 0 : _obj_a.b;
+const bad = obj === null || obj === void 0 ? void 0 : (_obj_b = obj.b) === null || _obj_b === void 0 ? void 0 : _obj_b.b;
 let val;
-val = (_obj3 = obj) === null || _obj3 === void 0 ? void 0 : (_obj_a1 = _obj3.a) === null || _obj_a1 === void 0 ? void 0 : _obj_a1.b;
+val = obj === null || obj === void 0 ? void 0 : (_obj_a1 = obj.a) === null || _obj_a1 === void 0 ? void 0 : _obj_a1.b;

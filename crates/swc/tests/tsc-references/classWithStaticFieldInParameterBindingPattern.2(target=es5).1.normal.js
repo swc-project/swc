@@ -18,9 +18,7 @@ var C = function C() {
             return _super.apply(this, arguments);
         }
         return _class;
-    }(C), function() {
-        _class.x = 1;
-    }(), _class).x], b = tmp === void 0 ? "" : tmp;
+    }(C), _class.x = 1, _class).x], b = tmp === void 0 ? "" : tmp;
     var C1;
 })();
 var x = "";
@@ -34,8 +32,6 @@ var x = "";
             return _super.apply(this, arguments);
         }
         return _class;
-    }(C), function() {
-        _class1.x = 1;
-    }(), _class1).x], b = tmp === void 0 ? "" : tmp, d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
+    }(C), _class1.x = 1, _class1).x], b = tmp === void 0 ? "" : tmp, d = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : x;
     var x1;
 })();

@@ -38,6 +38,9 @@ pub struct Config {
     pub ignore_dynamic: bool,
     #[serde(default)]
     pub preserve_import_meta: bool,
+
+    #[serde(default)]
+    pub resolve_fully: bool,
 }
 
 impl Default for Config {
@@ -52,6 +55,7 @@ impl Default for Config {
             no_interop: false,
             ignore_dynamic: false,
             preserve_import_meta: false,
+            resolve_fully: false,
         }
     }
 }

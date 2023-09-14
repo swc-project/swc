@@ -12,18 +12,14 @@ var Component = /*#__PURE__*/ function(ReactComponent1) {
     }
     return Component;
 }(ReactComponent);
-(function() {
-    Component.propTypes = {
-        foo: PropTypes.number,
-        bar: PropTypes.node,
-        baz: PropTypes.string.isRequired
-    };
-})();
-(function() {
-    Component.defaultProps = {
-        foo: 42
-    };
-})();
+Component.propTypes = {
+    foo: PropTypes.number,
+    bar: PropTypes.node,
+    baz: PropTypes.string.isRequired
+};
+Component.defaultProps = {
+    foo: 42
+};
 var a = /*#__PURE__*/ React.createElement(Component, {
     foo: 12,
     bar: "yes",
@@ -61,12 +57,10 @@ var JustPropTypes = /*#__PURE__*/ function(ReactComponent1) {
     }
     return JustPropTypes;
 }(ReactComponent);
-(function() {
-    JustPropTypes.propTypes = {
-        foo: PropTypes.number,
-        bar: PropTypes.node.isRequired
-    };
-})();
+JustPropTypes.propTypes = {
+    foo: PropTypes.number,
+    bar: PropTypes.node.isRequired
+};
 var g = /*#__PURE__*/ React.createElement(JustPropTypes, {
     foo: 12,
     bar: "ok"
@@ -92,11 +86,9 @@ var JustDefaultProps = /*#__PURE__*/ function(ReactComponent1) {
     }
     return JustDefaultProps;
 }(ReactComponent);
-(function() {
-    JustDefaultProps.defaultProps = {
-        foo: 42
-    };
-})();
+JustDefaultProps.defaultProps = {
+    foo: 42
+};
 var k = /*#__PURE__*/ React.createElement(JustDefaultProps, {
     foo: 12
 });
@@ -117,18 +109,14 @@ var BothWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent1) {
     }
     return BothWithSpecifiedGeneric;
 }(ReactComponent);
-(function() {
-    BothWithSpecifiedGeneric.propTypes = {
-        foo: PropTypes.string,
-        bar: PropTypes.node,
-        baz: PropTypes.number.isRequired
-    };
-})();
-(function() {
-    BothWithSpecifiedGeneric.defaultProps = {
-        foo: "yo"
-    };
-})();
+BothWithSpecifiedGeneric.propTypes = {
+    foo: PropTypes.string,
+    bar: PropTypes.node,
+    baz: PropTypes.number.isRequired
+};
+BothWithSpecifiedGeneric.defaultProps = {
+    foo: "yo"
+};
 var n = /*#__PURE__*/ React.createElement(BothWithSpecifiedGeneric, {
     foo: "fine",
     bar: "yes",
@@ -166,12 +154,10 @@ var JustPropTypesWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent1) 
     }
     return JustPropTypesWithSpecifiedGeneric;
 }(ReactComponent);
-(function() {
-    JustPropTypesWithSpecifiedGeneric.propTypes = {
-        foo: PropTypes.string,
-        bar: PropTypes.node.isRequired
-    };
-})();
+JustPropTypesWithSpecifiedGeneric.propTypes = {
+    foo: PropTypes.string,
+    bar: PropTypes.node.isRequired
+};
 var t = /*#__PURE__*/ React.createElement(JustPropTypesWithSpecifiedGeneric, {
     foo: "nice",
     bar: "ok"
@@ -197,11 +183,9 @@ var JustDefaultPropsWithSpecifiedGeneric = /*#__PURE__*/ function(ReactComponent
     }
     return JustDefaultPropsWithSpecifiedGeneric;
 }(ReactComponent);
-(function() {
-    JustDefaultPropsWithSpecifiedGeneric.defaultProps = {
-        foo: "no"
-    };
-})();
+JustDefaultPropsWithSpecifiedGeneric.defaultProps = {
+    foo: "no"
+};
 var x = /*#__PURE__*/ React.createElement(JustDefaultPropsWithSpecifiedGeneric, {
     foo: "eh"
 });

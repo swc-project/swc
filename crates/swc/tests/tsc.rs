@@ -315,8 +315,8 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 Self::Umd => ModuleConfig::Umd(Default::default()),
                 Self::Amd => ModuleConfig::Amd(Default::default()),
                 Self::SystemJs => ModuleConfig::SystemJs(Default::default()),
-                Self::Es6 => ModuleConfig::Es6,
-                Self::NodeNext => ModuleConfig::NodeNext,
+                Self::Es6 => ModuleConfig::Es6(Default::default()),
+                Self::NodeNext => ModuleConfig::NodeNext(Default::default()),
             }
         }
     }

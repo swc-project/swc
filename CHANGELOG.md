@@ -1,4 +1,27 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(css/modules)** Support composes when using multiple subclass selectors (#7949) ([05ca19b](https://github.com/swc-project/swc/commit/05ca19b84489ae47f69d8228b3c0097164c7ec6e))
+
+
+- **(es/compat)** Handle single expression case in static block (#7944) ([a80aec4](https://github.com/swc-project/swc/commit/a80aec47efcff953d3408cf6910b66c2312f3006))
+
+
+- **(es/minifier)** Parse a file as a module only if `opts.module` is `true` (#7943) ([b87ac64](https://github.com/swc-project/swc/commit/b87ac646f81f181b574da798b3e613a3cfa4cad5))
+
+### Features
+
+
+
+- **(es/compat)** Support `pure_getters` for `optional_chaining` (#7933) ([c091c5e](https://github.com/swc-project/swc/commit/c091c5e295ec2ef704be1461f6587ae85051b543))
+
+
+- **(es/module)** Add an option to make resolver fully resolve `index.js` (#7945) ([7e8d72d](https://github.com/swc-project/swc/commit/7e8d72d03b312b7a48c17afa8d2a4d7f4e802a6a))
+
 ## [1.3.84] - 2023-09-11
 
 ### Bug Fixes

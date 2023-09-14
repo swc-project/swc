@@ -187,8 +187,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 (true, c.config.import_interop(), c.config.ignore_dynamic)
             }
             Some(ModuleConfig::SystemJs(_))
-            | Some(ModuleConfig::Es6)
-            | Some(ModuleConfig::NodeNext)
+            | Some(ModuleConfig::Es6(..))
+            | Some(ModuleConfig::NodeNext(..))
             | None => (false, true.into(), true),
         };
 
@@ -233,15 +233,18 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                     should_enable(self.target, EsVersion::Es2021)
                 ),
                 Optional::new(
-                    compat::es2020::es2020(compat::es2020::Config {
-                        nullish_coalescing: compat::es2020::nullish_coalescing::Config {
-                            no_document_all: assumptions.no_document_all
+                    compat::es2020::es2020(
+                        compat::es2020::Config {
+                            nullish_coalescing: compat::es2020::nullish_coalescing::Config {
+                                no_document_all: assumptions.no_document_all
+                            },
+                            optional_chaining: compat::es2020::optional_chaining::Config {
+                                no_document_all: assumptions.no_document_all,
+                                pure_getter: assumptions.pure_getters
+                            }
                         },
-                        optional_chaining: compat::es2020::optional_chaining::Config {
-                            no_document_all: assumptions.no_document_all,
-                            pure_getter: assumptions.pure_getters
-                        }
-                    }),
+                        self.unresolved_mark
+                    ),
                     should_enable(self.target, EsVersion::Es2020)
                 ),
                 Optional::new(

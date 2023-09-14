@@ -729,7 +729,7 @@ test!(
         constructor(a) {
         }
     }
-    (()=>{ A.b = 'foo'; })();"
+    A.b = 'foo';"
 );
 
 test!(
@@ -3146,7 +3146,20 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(tr(), optional_chaining(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let config = strip::Config {
+            no_empty_export: true,
+            ..Default::default()
+        };
+        chain!(
+            Optional::new(decorators(Default::default()), false,),
+            resolver(unresolved_mark, top_level_mark, true),
+            strip_with_config(config, top_level_mark),
+            optional_chaining(Default::default(), unresolved_mark)
+        )
+    },
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
@@ -3668,9 +3681,7 @@ to!(
         prop = (console.log(1), 'a');
         prop1 = (console.log(2), 'b');
     })();
-    (()=>{
-        A[prop1] = 2;
-    })();
+    A[prop1] = 2;
     "
 );
 
@@ -3696,9 +3707,7 @@ to!(
         prop = (console.log(1), 'a');
         prop1 = (console.log(2), 'b');
     })();
-    (()=>{
-        A[prop1] = 2;
-    })();
+    A[prop1] = 2;
     "
 );
 
@@ -3769,7 +3778,7 @@ to!(
     "
     var _class;
     const A = (_class = class {},
-        (()=>{ _class.a = 1; })(),
+        _class.a = 1,
         _class);
     "
 );
@@ -4144,9 +4153,9 @@ to!(
     var _TestClass;
     var _class;
     let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, (()=>{ _TestClass.Something = 'hello'; })(), (()=>{ _TestClass.SomeProperties = {
+    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
         firstProp: _TestClass.Something
-    };})(), _TestClass)) || _class) || _class;
+    }, _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4210,7 +4219,7 @@ class Foo {
 const identifier = 'bar';
 class Foo {
 }
-(()=>{ Foo.identifier = 5; })();
+Foo.identifier = 5;
   "
 );
 

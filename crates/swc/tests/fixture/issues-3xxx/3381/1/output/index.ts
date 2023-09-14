@@ -5,15 +5,13 @@ var dummyTsFunction = function() {
         2
     ];
     var func1 = function(array) {
-        var // Mapping array
-        _array;
-        return (_array = array) === null || _array === void 0 ? void 0 : _array.map(function(i) {
+        return(// Mapping array
+        array === null || array === void 0 ? void 0 : array.map(function(i) {
             return i;
-        });
+        }));
     };
     var func2 = function(array) {
-        var _array;
-        return (_array = array) === null || _array === void 0 ? void 0 : _array.map(function(i) {
+        return array === null || array === void 0 ? void 0 : array.map(function(i) {
             return i;
         });
     };

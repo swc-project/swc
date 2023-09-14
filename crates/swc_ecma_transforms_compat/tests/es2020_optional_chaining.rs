@@ -1,12 +1,19 @@
 use std::{fs::read_to_string, path::PathBuf};
 
+use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2020::{optional_chaining, optional_chaining::Config};
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn tr(c: Config) -> impl Fold {
-    optional_chaining(c)
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+    chain!(
+        resolver(unresolved_mark, top_level_mark, false),
+        optional_chaining(c, unresolved_mark)
+    )
 }
 
 fn syntax() -> Syntax {
@@ -264,10 +271,18 @@ fn exec(input: PathBuf) {
     compare_stdout(
         Default::default(),
         |_| {
-            optional_chaining(Config {
-                no_document_all: true,
-                ..Default::default()
-            })
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                optional_chaining(
+                    Config {
+                        no_document_all: true,
+                        ..Default::default()
+                    },
+                    Mark::new(),
+                )
+            )
         },
         &src,
     );
@@ -279,7 +294,14 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|_| optional_chaining(Default::default()),
+        &|_| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                optional_chaining(Default::default(), unresolved_mark)
+            )
+        },
         &input,
         &output,
         Default::default(),
@@ -293,10 +315,18 @@ fn fixture_loose(input: PathBuf) {
     test_fixture(
         Default::default(),
         &|_| {
-            optional_chaining(Config {
-                no_document_all: true,
-                pure_getter: true,
-            })
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                optional_chaining(
+                    Config {
+                        no_document_all: true,
+                        pure_getter: true,
+                    },
+                    Mark::new(),
+                )
+            )
         },
         &input,
         &output,
