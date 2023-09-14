@@ -1614,7 +1614,7 @@ impl ModuleConfig {
                         comments,
                     ))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
                     Box::new(modules::common_js::common_js_with_resolver(
                         resolver,
                         base,
@@ -1635,7 +1635,7 @@ impl ModuleConfig {
                         comments,
                     ))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
 
                     Box::new(modules::umd::umd_with_resolver(
                         cm,
@@ -1657,7 +1657,7 @@ impl ModuleConfig {
                         comments,
                     ))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
 
                     Box::new(modules::amd::amd_with_resolver(
                         resolver,
