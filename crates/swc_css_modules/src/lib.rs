@@ -204,13 +204,13 @@ where
         n.visit_mut_children_with(self);
 
         if let QualifiedRulePrelude::SelectorList(sel) = &n.prelude {
-            //
-            if sel.children.len() == 1 && sel.children[0].children.len() == 1 {
-                if let ComplexSelectorChildren::CompoundSelector(sel) = &sel.children[0].children[0]
-                {
-                    if sel.subclass_selectors.len() == 1 {
-                        if let SubclassSelector::Class(class_sel) = &sel.subclass_selectors[0] {
-                            if let Some(composes) = self.data.composes_for_current.take() {
+            let composes = self.data.composes_for_current.take();
+
+            for child in &sel.children {
+                if let ComplexSelectorChildren::CompoundSelector(sel) = &child.children[0] {
+                    for subclass_sel in &sel.subclass_selectors {
+                        if let SubclassSelector::Class(class_sel) = &subclass_sel {
+                            if let Some(composes) = &composes {
                                 let key = self
                                     .data
                                     .renamed_to_orig
