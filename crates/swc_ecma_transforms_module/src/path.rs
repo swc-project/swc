@@ -136,6 +136,63 @@ where
     }
 }
 
+impl<R> NodeImportResolver<R>
+where
+    R: Resolve,
+{
+    fn to_specifier(&self, mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
+        debug!(
+            "Creating a specifier for `{}` with original filename `{:?}`",
+            target_path.display(),
+            orig_filename
+        );
+
+        if let Some(orig_filename) = orig_filename {
+            let is_resolved_as_index = if let Some(stem) = target_path.file_stem() {
+                stem == "index"
+            } else {
+                false
+            };
+
+            let is_resolved_as_ts = if let Some(ext) = target_path.extension() {
+                ext == "ts" || ext == "tsx"
+            } else {
+                false
+            };
+
+            let is_exact = if let Some(filename) = target_path.file_name() {
+                filename == orig_filename
+            } else {
+                false
+            };
+
+            if !is_resolved_as_index && !is_exact {
+                target_path.set_file_name(orig_filename);
+            } else if is_resolved_as_ts && is_exact {
+                if let Some(ext) = Path::new(orig_filename).extension() {
+                    target_path.set_extension(ext);
+                } else {
+                    target_path.set_extension("js");
+                }
+            } else if !self.config.resolve_fully && is_resolved_as_ts && is_resolved_as_index {
+                if orig_filename == "index" {
+                    target_path.set_extension("");
+                } else {
+                    target_path.pop();
+                }
+            }
+        } else {
+            target_path.set_extension("");
+        }
+
+        if cfg!(target_os = "windows") {
+            target_path.display().to_string().replace('\\', "/").into()
+        } else {
+            target_path.display().to_string().into()
+        }
+    }
+}
+
 impl<R> ImportResolver for NodeImportResolver<R>
 where
     R: Resolve,
@@ -174,10 +231,10 @@ where
                 if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
                     v
                 } else {
-                    return Ok(to_specifier(v, orig_filename));
+                    return Ok(self.to_specifier(v, orig_filename));
                 }
             }
-            FileName::Custom(s) => return Ok(to_specifier(s.into(), orig_filename)),
+            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), orig_filename)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -223,7 +280,7 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(to_specifier(target, orig_filename)),
+            None => return Ok(self.to_specifier(target, orig_filename)),
         };
 
         debug!("Relative path: {}", rel_path.display());
@@ -253,7 +310,7 @@ where
             Cow::Owned(format!("./{}", s))
         };
 
-        Ok(to_specifier(s.into_owned().into(), orig_filename))
+        Ok(self.to_specifier(s.into_owned().into(), orig_filename))
     }
 }
 
@@ -286,56 +343,4 @@ fn absolute_path(base_dir: Option<&Path>, path: &Path) -> io::Result<PathBuf> {
     .clean();
 
     Ok(absolute_path)
-}
-
-fn to_specifier(mut target_path: PathBuf, orig_filename: Option<&str>) -> JsWord {
-    debug!(
-        "Creating a specifier for `{}` with original filename `{:?}`",
-        target_path.display(),
-        orig_filename
-    );
-
-    if let Some(orig_filename) = orig_filename {
-        let is_resolved_as_index = if let Some(stem) = target_path.file_stem() {
-            stem == "index"
-        } else {
-            false
-        };
-
-        let is_resolved_as_ts = if let Some(ext) = target_path.extension() {
-            ext == "ts" || ext == "tsx"
-        } else {
-            false
-        };
-
-        let is_exact = if let Some(filename) = target_path.file_name() {
-            filename == orig_filename
-        } else {
-            false
-        };
-
-        if !is_resolved_as_index && !is_exact {
-            target_path.set_file_name(orig_filename);
-        } else if is_resolved_as_ts && is_exact {
-            if let Some(ext) = Path::new(orig_filename).extension() {
-                target_path.set_extension(ext);
-            } else {
-                target_path.set_extension("js");
-            }
-        } else if is_resolved_as_ts && is_resolved_as_index {
-            if orig_filename == "index" {
-                target_path.set_extension("");
-            } else {
-                target_path.pop();
-            }
-        }
-    } else {
-        target_path.set_extension("");
-    }
-
-    if cfg!(target_os = "windows") {
-        target_path.display().to_string().replace('\\', "/").into()
-    } else {
-        target_path.display().to_string().into()
-    }
 }
