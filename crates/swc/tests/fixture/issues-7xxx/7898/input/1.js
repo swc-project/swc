@@ -1,3 +1,0 @@
-info({
-    ...(this?.$current?.$getBase() || {}),
-});
