@@ -54,7 +54,7 @@ use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
 use swc_ecma_transforms::{
     feature::FeatureFlag,
     hygiene, modules,
-    modules::{path::NodeImportResolver, rewriter::import_rewriter},
+    modules::{path::NodeImportResolver, rewriter::import_rewriter, EsModuleConfig},
     optimization::{const_modules, json_parse, simplifier},
     pass::{noop, Optional},
     proposals::{
@@ -419,7 +419,7 @@ impl Options {
 
                         if matches!(
                             cfg.module,
-                            None | Some(ModuleConfig::Es6 | ModuleConfig::NodeNext)
+                            None | Some(ModuleConfig::Es6(..) | ModuleConfig::NodeNext(..))
                         ) {
                             c.module = true;
                         }
@@ -609,11 +609,11 @@ impl Options {
         );
 
         let import_export_assign_config = match cfg.module {
-            Some(ModuleConfig::Es6) => TsImportExportAssignConfig::EsNext,
+            Some(ModuleConfig::Es6(..)) => TsImportExportAssignConfig::EsNext,
             Some(ModuleConfig::CommonJs(..))
             | Some(ModuleConfig::Amd(..))
             | Some(ModuleConfig::Umd(..)) => TsImportExportAssignConfig::Preserve,
-            Some(ModuleConfig::NodeNext) => TsImportExportAssignConfig::NodeNext,
+            Some(ModuleConfig::NodeNext(..)) => TsImportExportAssignConfig::NodeNext,
             // TODO: should Preserve for SystemJS
             _ => TsImportExportAssignConfig::Classic,
         };
@@ -1571,9 +1571,9 @@ pub enum ModuleConfig {
     #[serde(rename = "systemjs")]
     SystemJs(modules::system_js::Config),
     #[serde(rename = "es6")]
-    Es6,
+    Es6(EsModuleConfig),
     #[serde(rename = "nodenext")]
-    NodeNext,
+    NodeNext(EsModuleConfig),
 }
 
 impl ModuleConfig {
@@ -1596,11 +1596,20 @@ impl ModuleConfig {
         let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         match config {
-            None | Some(ModuleConfig::Es6) | Some(ModuleConfig::NodeNext) => {
+            None => {
                 if skip_resolver {
                     Box::new(noop())
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, false);
+
+                    Box::new(import_rewriter(base, resolver))
+                }
+            }
+            Some(ModuleConfig::Es6(config)) | Some(ModuleConfig::NodeNext(config)) => {
+                if skip_resolver {
+                    Box::new(noop())
+                } else {
+                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
 
                     Box::new(import_rewriter(base, resolver))
                 }
@@ -1614,7 +1623,7 @@ impl ModuleConfig {
                         comments,
                     ))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
                     Box::new(modules::common_js::common_js_with_resolver(
                         resolver,
                         base,
@@ -1635,7 +1644,7 @@ impl ModuleConfig {
                         comments,
                     ))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
 
                     Box::new(modules::umd::umd_with_resolver(
                         cm,
@@ -1657,7 +1666,7 @@ impl ModuleConfig {
                         comments,
                     ))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.config.resolve_fully);
 
                     Box::new(modules::amd::amd_with_resolver(
                         resolver,
@@ -1673,7 +1682,7 @@ impl ModuleConfig {
                 if skip_resolver {
                     Box::new(modules::system_js::system_js(unresolved_mark, config))
                 } else {
-                    let resolver = build_resolver(base_url, paths);
+                    let resolver = build_resolver(base_url, paths, config.resolve_fully);
 
                     Box::new(modules::system_js::system_js_with_resolver(
                         resolver,
@@ -1999,8 +2008,12 @@ fn default_env_name() -> String {
     }
 }
 
-fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportResolver> {
-    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths), SwcImportResolver, ARandomState>> =
+fn build_resolver(
+    mut base_url: PathBuf,
+    paths: CompiledPaths,
+    resolve_fully: bool,
+) -> Box<SwcImportResolver> {
+    static CACHE: Lazy<DashMap<(PathBuf, CompiledPaths, bool), SwcImportResolver, ARandomState>> =
         Lazy::new(Default::default);
 
     // On Windows, we need to normalize path as UNC path.
@@ -2017,7 +2030,7 @@ fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportR
             .unwrap();
     }
 
-    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone())) {
+    if let Some(cached) = CACHE.get(&(base_url.clone(), paths.clone(), resolve_fully)) {
         return Box::new((*cached).clone());
     }
 
@@ -2029,11 +2042,17 @@ fn build_resolver(mut base_url: PathBuf, paths: CompiledPaths) -> Box<SwcImportR
         );
         let r = CachingResolver::new(40, r);
 
-        let r = NodeImportResolver::with_base_dir(r, Some(base_url.clone()));
+        let r = NodeImportResolver::with_config(
+            r,
+            swc_ecma_transforms::modules::path::Config {
+                base_dir: Some(base_url.clone()),
+                resolve_fully,
+            },
+        );
         Arc::new(r)
     };
 
-    CACHE.insert((base_url, paths), r.clone());
+    CACHE.insert((base_url, paths, resolve_fully), r.clone());
 
     Box::new(r)
 }

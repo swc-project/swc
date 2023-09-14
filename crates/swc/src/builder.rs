@@ -187,8 +187,8 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                 (true, c.config.import_interop(), c.config.ignore_dynamic)
             }
             Some(ModuleConfig::SystemJs(_))
-            | Some(ModuleConfig::Es6)
-            | Some(ModuleConfig::NodeNext)
+            | Some(ModuleConfig::Es6(..))
+            | Some(ModuleConfig::NodeNext(..))
             | None => (false, true.into(), true),
         };
 
