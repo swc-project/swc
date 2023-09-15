@@ -2,12 +2,12 @@
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
 description   = "preset-env for the swc"
 documentation = "https://rustdoc.swc.rs/swc_ecma_preset_env/"
+repository    = "https://github.com/swc-project/swc"
 edition       = "2021"
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_preset_env"
-repository    = "https://github.com/swc-project/swc"
-version       = "0.201.4"
+version       = "0.201.7"
 
 [lib]
 bench = false
