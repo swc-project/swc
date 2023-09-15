@@ -85,11 +85,12 @@ For running all tests, take the following steps:
     git submodule update --init --recursive
     ```
 
-2. Install js dependencies.
+2. Install js dependencies and enable yarn v3.
    Ensure [Yarn Package Manager is installed](https://yarnpkg.com/getting-started/install)
 
     ```bash
-    yarn
+    yarn set version latest
+    yarn install
     ```
 
 3. Setup some environment variables which is required for tests.
