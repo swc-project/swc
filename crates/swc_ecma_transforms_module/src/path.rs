@@ -193,13 +193,8 @@ where
             target_path.display().to_string().into()
         }
     }
-}
 
-impl<R> ImportResolver for NodeImportResolver<R>
-where
-    R: Resolve,
-{
-    fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
+    fn try_resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -313,6 +308,19 @@ where
         };
 
         Ok(self.to_specifier(s.into_owned().into(), orig_filename))
+    }
+}
+
+impl<R> ImportResolver for NodeImportResolver<R>
+where
+    R: Resolve,
+{
+    fn resolve_import(&self, base: &FileName, module_specifier: &str) -> Result<JsWord, Error> {
+        self.try_resolve_import(base, module_specifier)
+            .or_else(|err| {
+                warn!("Failed to resolve import: {}", err);
+                Ok(module_specifier.into())
+            })
     }
 }
 
