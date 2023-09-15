@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(es/preset-env)** Add the repository url to `Cargo.toml` (#7941) ([ca22359](https://github.com/swc-project/swc/commit/ca22359dbd0ca6e2e925bdc240939f6bd6e9ac9a))
+
 ## [1.3.85] - 2023-09-15
 
 ### Bug Fixes
