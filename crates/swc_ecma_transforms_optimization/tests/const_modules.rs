@@ -1,4 +1,4 @@
-use std::{collections::HashMap, path::PathBuf};
+use std::{collections::HashMap, fs::read_to_string, path::PathBuf};
 
 use swc_ecma_transforms_optimization::const_modules;
 use swc_ecma_transforms_testing::{test, test_fixture, Tester};
@@ -169,12 +169,10 @@ fn const_modules_test(input: PathBuf) {
     test_fixture(
         ::swc_ecma_parser::Syntax::default(),
         &|t| {
-            let globals = if globals.exists() {
-                let s = std::fs::read_to_string(&globals).unwrap();
-                serde_json::from_str(&s).unwrap()
-            } else {
-                Default::default()
-            };
+            let globals = read_to_string(&globals)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+                .unwrap_or_default();
 
             const_modules(t.cm.clone(), globals)
         },
