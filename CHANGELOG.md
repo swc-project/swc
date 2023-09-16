@@ -5,6 +5,9 @@
 
 
 
+- **(es/compat)** Handle `PrivateName` in `logical_assignments` (#7958) ([28318f0](https://github.com/swc-project/swc/commit/28318f09ed358b2baa155141bc715c25f658a2eb))
+
+
 - **(es/module)** Preserve import specifier if resolving fails (#7955) ([be5b02a](https://github.com/swc-project/swc/commit/be5b02a8cfe2a2c1c399a4f9404b8fd097084234))
 
 ### Miscellaneous Tasks
