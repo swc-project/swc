@@ -1,7 +1,7 @@
-use std::collections::HashMap;
+use std::{collections::HashMap, fs::read_to_string, path::PathBuf};
 
 use swc_ecma_transforms_optimization::const_modules;
-use swc_ecma_transforms_testing::{test, Tester};
+use swc_ecma_transforms_testing::{test, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
 fn tr(t: &mut Tester<'_>, sources: &[(&str, &[(&str, &str)])]) -> impl Fold {
@@ -160,3 +160,24 @@ console.log(something);
 console.log(true);
 "#
 );
+
+#[testing::fixture("tests/const-modules/**/input.js")]
+fn const_modules_test(input: PathBuf) {
+    let globals = input.with_file_name("globals.json");
+    let output = input.with_file_name("output.js");
+
+    test_fixture(
+        ::swc_ecma_parser::Syntax::default(),
+        &|t| {
+            let globals = read_to_string(&globals)
+                .ok()
+                .and_then(|s| serde_json::from_str(&s).ok())
+                .unwrap_or_default();
+
+            const_modules(t.cm.clone(), globals)
+        },
+        &input,
+        &output,
+        Default::default(),
+    );
+}
