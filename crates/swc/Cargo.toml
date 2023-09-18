@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.266.13"
+version       = "0.266.14"
 
 [lib]
 bench = false
@@ -77,7 +77,7 @@ swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.109.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.145.2", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.109.0", path = "../swc_ecma_ext_transforms" }
-swc_ecma_lints = { version = "0.88.2", path = "../swc_ecma_lints" }
+swc_ecma_lints = { version = "0.88.3", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "0.44.4", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
@@ -126,7 +126,7 @@ rayon = "1.7.0"
 swc_ecma_ast = { version = "0.109.1", path = "../swc_ecma_ast", features = [
   "serde-impl",
 ] }
-swc_ecma_lints = { version = "0.88.2", path = "../swc_ecma_lints", features = [
+swc_ecma_lints = { version = "0.88.3", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecma_testing = { version = "0.21.1", path = "../swc_ecma_testing" }

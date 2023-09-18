@@ -22,6 +22,12 @@
 
 - **(es/preset-env)** Ignore `tp` in the version of a browser version (#7968) ([005ddc5](https://github.com/swc-project/swc/commit/005ddc573e3752183783cc25dd6242b750f8beb5))
 
+### Refactor
+
+
+
+- **(es/lint)** Remove usage of `box_patterns` (#7966) ([f7b5e16](https://github.com/swc-project/swc/commit/f7b5e16aef968c9c9f38f40962edf334cc3983e6))
+
 ### Build
 
 
