@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.86] - 2023-09-18
 
 ### Bug Fixes
 
