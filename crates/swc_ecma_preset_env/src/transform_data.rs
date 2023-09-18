@@ -201,7 +201,13 @@ pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>
             .map(|(feature, version)| {
                 (
                     feature,
-                    version.map_value(|version| version.map(|v| v.parse().unwrap())),
+                    version.map_value(|version| {
+                        version.map(|v| {
+                            v.parse().unwrap_or_else(|err| {
+                                panic!("failed to parse `{v}` as a version: {err:?}")
+                            })
+                        })
+                    }),
                 )
             })
             .collect()
