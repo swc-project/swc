@@ -7,7 +7,7 @@ edition       = "2021"
 include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_preset_env"
-version       = "0.201.11"
+version       = "0.201.12"
 
 [lib]
 bench = false

@@ -19,6 +19,15 @@
 
 - **(es/preset-env)** Add the repository url to `Cargo.toml` (#7941) ([ca22359](https://github.com/swc-project/swc/commit/ca22359dbd0ca6e2e925bdc240939f6bd6e9ac9a))
 
+
+- **(es/preset-env)** Ignore `tp` in the version of a browser version (#7968) ([005ddc5](https://github.com/swc-project/swc/commit/005ddc573e3752183783cc25dd6242b750f8beb5))
+
+### Build
+
+
+
+- **(bindings/node)** Link msvc runtime statically (#7965) ([0759779](https://github.com/swc-project/swc/commit/07597795cc39cce527f505bc5db304ad93082494))
+
 ## [1.3.85] - 2023-09-15
 
 ### Bug Fixes
