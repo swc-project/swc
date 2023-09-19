@@ -578,41 +578,38 @@ impl Transform {
     }
 }
 
+/// Note:
+/// Const exported declarations are transformed into immutable bindings.
+/// `export` from `export let` / ` export var` will be stripped,
+/// and a mutable binding will be transformed into assignment to the
+/// namespace. All references to the mutable binding will be replaced with
+/// qualified access to the namespace property.
+///
+/// Exported function and class will be treat as const exported which is in
+/// line with how the TypeScript compiler handles exports.
+///
+/// Inline exported syntax should not be used with function which will lead
+/// to issues with function hoisting.
+///
+/// Input:
+/// ```TypeScript
+/// export const foo = init, { bar: baz } = init;
+///
+/// export function a() {}
+///
+/// export let b = init;
+/// ```
+///
+/// Output:
+/// ```TypeScript
+/// const foo = NS.foo = init, { bar: baz } = { bar: NS.baz } = init;
+///
+/// function a() {}
+/// NS.a = a;
+///
+/// NS.b = init;
+/// ```
 impl Transform {
-    /// Note:
-    /// Const exported declarations are transformed into immutable bindings.
-    /// `export` from `export let` / ` export var` will be stripped,
-    /// and a mutable binding will be created by `Object.defineProperty`.
-    ///
-    /// Exported function and class will be treat as const exported which is in
-    /// line with how the TypeScript compiler handles exports.
-    ///
-    /// Inline exported syntax should not be used with function which will lead
-    /// to issues with function hoisting.
-    ///
-    /// Input:
-    /// ```TypeScript
-    /// export const foo = init, { bar: baz } = init;
-    ///
-    /// export function a() {}
-    ///
-    /// export let b = init;
-    /// ```
-    ///
-    /// Output:
-    /// ```TypeScript
-    /// const foo = NS.foo = init, { bar: baz } = { bar: NS.baz } = init;
-    ///
-    /// function a() {}
-    /// NS.a = a;
-    ///
-    /// let b = init;
-    /// Object.defineProperty(NS, "b", {
-    ///     enumerable: true,
-    ///     get () { return b; },
-    ///     set (v) { b = v; }
-    /// });
-    /// ```
     fn transform_export_decl_in_ts_module_block(
         id: &Id,
         ExportDecl { decl, span, .. }: ExportDecl,
