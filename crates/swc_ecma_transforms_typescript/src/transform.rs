@@ -8,9 +8,11 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, is_literal, member_expr, private_ident,
-    quote_ident, quote_str, undefined, ExprFactory,
+    quote_ident, quote_str, ExprFactory,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{
+    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
+};
 
 use crate::{
     config::TsImportExportAssignConfig,
@@ -425,14 +427,20 @@ impl Transform {
 
     fn transform_ts_module_block(id: Id, TsModuleBlock { span, body }: TsModuleBlock) -> BlockStmt {
         let mut stmts = vec![];
+        let mut mutable_export_ids = Default::default();
 
         for module_item in body {
             match module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
-                    let (export_stmt, decl_stmt) =
-                        Self::transform_export_decl_in_ts_module_block(&id, export_decl);
+                    let (export_stmt, decl_stmt) = Self::transform_export_decl_in_ts_module_block(
+                        &id,
+                        export_decl,
+                        &mut mutable_export_ids,
+                    );
 
-                    stmts.push(decl_stmt);
+                    if !decl_stmt.is_empty() {
+                        stmts.push(decl_stmt);
+                    }
                     stmts.extend(export_stmt);
                 }
                 ModuleItem::Stmt(stmt) => stmts.push(stmt),
@@ -458,6 +466,13 @@ impl Transform {
                     });
                 }
             }
+        }
+
+        if !mutable_export_ids.is_empty() {
+            stmts.visit_mut_with(&mut ExportRefRewrriter {
+                namesapce_id: id,
+                export_id_list: mutable_export_ids,
+            });
         }
 
         BlockStmt { span, stmts }
@@ -601,14 +616,21 @@ impl Transform {
     fn transform_export_decl_in_ts_module_block(
         id: &Id,
         ExportDecl { decl, span, .. }: ExportDecl,
+        mutable_export_ids: &mut AHashSet<Id>,
     ) -> (Option<Stmt>, Stmt) {
         match decl {
             Decl::Fn(FnDecl { ref ident, .. }) | Decl::Class(ClassDecl { ref ident, .. }) => {
                 (Some(Self::assign_prop(id, ident, span)), Stmt::Decl(decl))
             }
-            Decl::Var(var_decl) => {
-                Self::transform_export_var_decl_in_ts_module_block(*var_decl, id)
-            }
+            Decl::Var(var_decl) => (
+                None,
+                Self::transform_export_var_decl_in_ts_module_block(
+                    *var_decl,
+                    id,
+                    span,
+                    mutable_export_ids,
+                ),
+            ),
             _ => unreachable!(),
         }
     }
@@ -616,21 +638,56 @@ impl Transform {
     fn transform_export_var_decl_in_ts_module_block(
         mut var_decl: VarDecl,
         id: &Id,
-    ) -> (Option<Stmt>, Stmt) {
+        span: Span,
+        mutable_export_ids: &mut AHashSet<Id>,
+    ) -> Stmt {
         debug_assert!(!var_decl.declare);
 
         var_decl.decls.iter_mut().for_each(|var_declarator| {
-            Self::export_const_var_with_init(var_declarator, id);
+            Self::assign_init_to_ns_id(var_declarator, id);
         });
 
-        (None, var_decl.into())
+        if var_decl.kind == VarDeclKind::Const {
+            return var_decl.into();
+        }
+
+        let mut collector = ExportedIdentCollector::default();
+        var_decl.visit_with(&mut collector);
+        mutable_export_ids.extend(collector.export_list);
+
+        let mut expr_list: Vec<Box<Expr>> =
+            var_decl.decls.into_iter().filter_map(|d| d.init).collect();
+
+        if expr_list.is_empty() {
+            return Stmt::dummy();
+        }
+
+        // take `NS.foo = init` from `let foo = init`;
+        let expr = if expr_list.len() == 1 {
+            expr_list[0].take()
+        } else {
+            Expr::Seq(SeqExpr {
+                span: DUMMY_SP,
+                exprs: expr_list,
+            })
+            .into()
+        };
+
+        Stmt::Expr(ExprStmt { span, expr })
     }
 
-    fn export_const_var_with_init(var_declarator: &mut VarDeclarator, id: &Id) {
-        let right = var_declarator
-            .init
-            .take()
-            .unwrap_or_else(|| undefined(DUMMY_SP));
+    /// Input:
+    /// ```TypeScript
+    /// const foo = init;
+    /// ```
+    /// Output:
+    /// ```TypeScript
+    /// const foo = NS.foo = init;
+    /// ```
+    fn assign_init_to_ns_id(var_declarator: &mut VarDeclarator, id: &Id) {
+        let Some(right) = var_declarator.init.take() else {
+            return;
+        };
 
         let mut left = var_declarator.name.clone();
         left.visit_mut_with(&mut ExportedPatRewriter {
@@ -1102,6 +1159,68 @@ impl VisitMut for ExportedPatRewriter {
         }
 
         n.visit_mut_children_with(self);
+    }
+}
+
+#[derive(Default)]
+struct ExportedIdentCollector {
+    export_list: Vec<Id>,
+}
+
+impl Visit for ExportedIdentCollector {
+    noop_visit_type!();
+
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        self.export_list.push(n.to_id());
+    }
+
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
+        self.export_list.push(n.key.to_id());
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
+        n.name.visit_with(self);
+    }
+}
+
+struct ExportRefRewrriter {
+    namesapce_id: Id,
+    export_id_list: AHashSet<Id>,
+}
+
+impl VisitMut for ExportRefRewrriter {
+    noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        if let Expr::Ident(ref_ident) = n {
+            if self.export_id_list.contains(&ref_ident.to_id()) {
+                *n = self.namesapce_id.clone().make_member(ref_ident.clone());
+            }
+            return;
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(shorthand) => {
+                if self.export_id_list.contains(&shorthand.to_id()) {
+                    *n = KeyValueProp {
+                        key: shorthand.clone().into(),
+                        value: self
+                            .namesapce_id
+                            .clone()
+                            .make_member(shorthand.take())
+                            .into(),
+                    }
+                    .into()
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
     }
 }
 
