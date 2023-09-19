@@ -1210,8 +1210,8 @@ impl Optimizer<'_> {
             Expr::Tpl(t) => t.exprs.iter().all(|e| self.is_skippable_for_seq(a, e)),
 
             Expr::TaggedTpl(t) => {
-                self.is_skippable_for_seq(a, e)
-                    && t.tag.exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
+                self.is_skippable_for_seq(a, &t.tag)
+                    && t.tpl.exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
             }
 
             Expr::Unary(UnaryExpr {
