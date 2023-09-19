@@ -616,6 +616,8 @@ __metadata:
   resolution: "swc-info@workspace:swc-info"
   dependencies:
     typescript: ^5.2.2
+  bin:
+    swc-info: bin/swc-info.js
   languageName: unknown
   linkType: soft
 
