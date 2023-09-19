@@ -8,11 +8,9 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, is_literal, member_expr, private_ident,
-    quote_ident, quote_str, ExprFactory,
+    quote_ident, quote_str, undefined, ExprFactory,
 };
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use crate::{
     config::TsImportExportAssignConfig,
@@ -609,7 +607,7 @@ impl Transform {
                 (Some(Self::assign_prop(id, ident, span)), Stmt::Decl(decl))
             }
             Decl::Var(var_decl) => {
-                Self::transform_export_var_decl_in_ts_module_block(*var_decl, id, span)
+                Self::transform_export_var_decl_in_ts_module_block(*var_decl, id)
             }
             _ => unreachable!(),
         }
@@ -618,32 +616,21 @@ impl Transform {
     fn transform_export_var_decl_in_ts_module_block(
         mut var_decl: VarDecl,
         id: &Id,
-        span: Span,
     ) -> (Option<Stmt>, Stmt) {
         debug_assert!(!var_decl.declare);
 
-        if var_decl.kind == VarDeclKind::Const {
-            var_decl.decls.iter_mut().for_each(|var_declarator| {
-                Self::export_const_var_with_init(var_declarator, id);
-            });
+        var_decl.decls.iter_mut().for_each(|var_declarator| {
+            Self::export_const_var_with_init(var_declarator, id);
+        });
 
-            return (None, var_decl.into());
-        }
-
-        let mut visitor = ExportedIdentCollector {
-            module_name: id.clone(),
-            export_list: Default::default(),
-        };
-
-        var_decl.visit_with(&mut visitor);
-        (Some(visitor.build_export_stmt(span)), var_decl.into())
+        (None, var_decl.into())
     }
 
     fn export_const_var_with_init(var_declarator: &mut VarDeclarator, id: &Id) {
         let right = var_declarator
             .init
             .take()
-            .expect("Missing initializer in const declaration");
+            .unwrap_or_else(|| undefined(DUMMY_SP));
 
         let mut left = var_declarator.name.clone();
         left.visit_mut_with(&mut ExportedPatRewriter {
@@ -1115,116 +1102,6 @@ impl VisitMut for ExportedPatRewriter {
         }
 
         n.visit_mut_children_with(self);
-    }
-}
-
-struct ExportedIdentCollector {
-    module_name: Id,
-    export_list: Vec<Id>,
-}
-
-impl Visit for ExportedIdentCollector {
-    noop_visit_type!();
-
-    fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.export_list.push(n.to_id());
-    }
-
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
-        self.export_list.push(n.key.to_id());
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
-        n.name.visit_with(self);
-    }
-}
-
-impl ExportedIdentCollector {
-    fn build_export_stmt(self, span: Span) -> Stmt {
-        let mut export_list = self.export_list;
-        let expr = match export_list.len() {
-            1 => {
-                let export_id = export_list.pop().unwrap();
-                let desc = Self::build_mutable_export_binding(&export_id);
-
-                member_expr!(DUMMY_SP, Object.defineProperty).as_call(
-                    DUMMY_SP,
-                    vec![
-                        self.module_name.as_arg(),
-                        Lit::Str(export_id.0.into()).as_arg(),
-                        desc.as_arg(),
-                    ],
-                )
-            }
-            _ => member_expr!(DUMMY_SP, Object.definePropertys).as_call(
-                DUMMY_SP,
-                vec![
-                    self.module_name.as_arg(),
-                    ObjectLit {
-                        span: DUMMY_SP,
-                        props: export_list
-                            .into_iter()
-                            .map(|id| KeyValueProp {
-                                value: Self::build_mutable_export_binding(&id).into(),
-                                key: quote_ident!(id.0).into(),
-                            })
-                            .map(Prop::KeyValue)
-                            .map(Into::into)
-                            .collect(),
-                    }
-                    .as_arg(),
-                ],
-            ),
-        };
-
-        Stmt::Expr(ExprStmt {
-            span,
-            expr: expr.into(),
-        })
-    }
-
-    /// ```JavaScript
-    /// {
-    ///     enumerable: true,
-    ///     get() { return x; },
-    ///     set(v) { x = v; },
-    /// }
-    /// ```
-    fn build_mutable_export_binding(id: &Id) -> ObjectLit {
-        let enumerable: Prop = KeyValueProp {
-            key: quote_ident!("enumerable").into(),
-            value: true.into(),
-        }
-        .into();
-
-        let get: Prop = MethodProp {
-            key: quote_ident!("get").into(),
-            function: id.clone().into_lazy_fn(Default::default()).into(),
-        }
-        .into();
-
-        let setter_param = private_ident!("v");
-        let set: Prop = MethodProp {
-            key: quote_ident!("set").into(),
-            function: Factory::function(
-                vec![setter_param.clone().into()],
-                BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![setter_param
-                        .make_assign_to(op!("="), Pat::Ident(id.clone().into()).into())
-                        .into_stmt()],
-                },
-            )
-            .into(),
-        }
-        .into();
-
-        ObjectLit {
-            span: DUMMY_SP,
-            props: vec![enumerable.into(), get.into(), set.into()],
-        }
     }
 }
 
