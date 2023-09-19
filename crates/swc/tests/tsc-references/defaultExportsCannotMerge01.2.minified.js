@@ -1,6 +1,6 @@
 //// [defaultExportsCannotMerge01.ts]
 //// [m1.ts]
-var Decl, x, y;
+var Decl;
 function Decl1() {
     return 0;
 }
@@ -11,23 +11,7 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return Decl1;
     }
-}), Decl = Decl1 || (Decl1 = {}), x = 10, Object.defineProperty(Decl, "x", {
-    enumerable: !0,
-    get: function() {
-        return x;
-    },
-    set: function(v) {
-        x = v;
-    }
-}), y = 20, Object.defineProperty(Decl, "y", {
-    enumerable: !0,
-    get: function() {
-        return y;
-    },
-    set: function(v) {
-        y = v;
-    }
-});
+}), (Decl = Decl1 || (Decl1 = {})).x = 10, Decl.y = 20;
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

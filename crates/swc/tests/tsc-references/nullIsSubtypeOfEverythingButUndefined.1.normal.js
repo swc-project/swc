@@ -57,16 +57,7 @@ var r14 = true ? 0 : null;
 var r14 = true ? null : 0;
 function f() {}
 (function(f) {
-    var bar = 1;
-    Object.defineProperty(f, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var af;
 var r15 = true ? af : null;
@@ -76,16 +67,7 @@ var c = function c() {
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = 1;
-    Object.defineProperty(c, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = c.bar = 1;
 })(c || (c = {}));
 var ac;
 var r16 = true ? ac : null;

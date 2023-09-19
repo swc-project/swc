@@ -11,19 +11,10 @@ var A;
         };
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
-    var Origin = {
+    var Origin = A.Origin = {
         x: 0,
         y: 0
     };
-    Object.defineProperty(A, "Origin", {
-        enumerable: true,
-        get: function get() {
-            return Origin;
-        },
-        set: function set(v) {
-            Origin = v;
-        }
-    });
 })(A || (A = {}));
 //// [part2.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";

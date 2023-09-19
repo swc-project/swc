@@ -3,16 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var x = "hello world";
-    Object.defineProperty(A, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
+    var x = A.x = "hello world";
     var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
@@ -60,16 +51,7 @@ var K;
     };
     K.L = L;
     (function(L) {
-        var y = 12;
-        Object.defineProperty(L, "y", {
-            enumerable: true,
-            get: function get() {
-                return y;
-            },
-            set: function set(v) {
-                y = v;
-            }
-        });
+        var y = L.y = 12;
     })(L = K.L || (K.L = {}));
 })(K || (K = {}));
 var M;

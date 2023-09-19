@@ -27,16 +27,7 @@ var j = x;
 var j2 = x;
 var M;
 (function(M) {
-    var foo = 1;
-    Object.defineProperty(M, "foo", {
-        enumerable: true,
-        get: function get() {
-            return foo;
-        },
-        set: function set(v) {
-            foo = v;
-        }
-    });
+    var foo = M.foo = 1;
 })(M || (M = {}));
 M = x;
 function k(a) {

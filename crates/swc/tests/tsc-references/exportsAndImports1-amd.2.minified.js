@@ -38,20 +38,12 @@ define([
             return a;
         }
     });
-    var E, x, E1, D, M, v = 1;
+    var E, E1, D, M, v = 1;
     function f() {}
     var C = function C() {
         _class_call_check._(this, C);
     };
-    (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", Object.defineProperty(M || (M = {}), "x", {
-        enumerable: !0,
-        get: function() {
-            return x;
-        },
-        set: function(v) {
-            x = v;
-        }
-    });
+    (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (M || (M = {})).x = void 0;
     var a = M.x;
 });
 //// [t2.ts]

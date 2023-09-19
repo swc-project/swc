@@ -18,16 +18,7 @@ var X;
     (function(Y) {
         var Point;
         (function(Point) {
-            var Origin = new Point(0, 0);
-            Object.defineProperty(Point, "Origin", {
-                enumerable: true,
-                get: function get() {
-                    return Origin;
-                },
-                set: function set(v) {
-                    Origin = v;
-                }
-            });
+            var Origin = Point.Origin = new Point(0, 0);
         })(Point = Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
@@ -42,16 +33,7 @@ var A = function A() {
     _class_call_check(this, A);
 };
 (function(A) {
-    var Instance = new A();
-    Object.defineProperty(A, "Instance", {
-        enumerable: true,
-        get: function get() {
-            return Instance;
-        },
-        set: function set(v) {
-            Instance = v;
-        }
-    });
+    var Instance = A.Instance = new A();
 })(A || (A = {}));
 // ensure merging works as expected
 var a = A.Instance;

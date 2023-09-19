@@ -1,16 +1,7 @@
 //// [file.tsx]
 var my;
 (function(my) {
-    var div;
-    Object.defineProperty(my, "div", {
-        enumerable: true,
-        get: function get() {
-            return div;
-        },
-        set: function set(v) {
-            div = v;
-        }
-    });
+    var div = my.div = void 0;
 })(my || (my = {}));
 // OK
 /*#__PURE__*/ React.createElement(my.div, {

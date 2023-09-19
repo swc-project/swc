@@ -26,16 +26,7 @@ define([
     var routes1 = /*#__PURE__*/ _react.createElement(Route, null);
     var M;
     (function(M) {
-        var X1;
-        Object.defineProperty(M, "X", {
-            enumerable: true,
-            get: function get() {
-                return X1;
-            },
-            set: function set(v) {
-                X1 = v;
-            }
-        });
+        var X1 = M.X = void 0;
     })(M || (M = {}));
     (function(M) {
         // Should emit 'M.X' in both opening and closing tags

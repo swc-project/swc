@@ -37,16 +37,7 @@ Object.defineProperty(exports, "M2", {
 });
 var M2;
 (function(M2) {
-    var x = true;
-    Object.defineProperty(M2, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
+    var x = M2.x = true;
 })(M2 || (M2 = {}));
 //// [test/foo_3.ts]
 "use strict";

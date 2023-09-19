@@ -3,18 +3,10 @@ define([
     "require",
     "@swc/helpers/_/_class_call_check"
 ], function(require, _class_call_check) {
-    var Foo, answer, Foo1 = function Foo() {
+    var Foo = function Foo() {
         _class_call_check._(this, Foo), this.test = "test";
     };
-    return Foo = Foo1 || (Foo1 = {}), answer = 42, Object.defineProperty(Foo, "answer", {
-        enumerable: !0,
-        get: function() {
-            return answer;
-        },
-        set: function(v) {
-            answer = v;
-        }
-    }), Foo1;
+    return (Foo || (Foo = {})).answer = 42, Foo;
 });
 //// [foo_1.ts]
 define([

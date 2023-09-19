@@ -29,16 +29,7 @@ var E;
 var r3 = foo3(a); // any
 function f() {}
 (function(f) {
-    var bar = 1;
-    Object.defineProperty(f, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var r3 = foo3(a); // any
 var CC = function CC() {
@@ -46,16 +37,7 @@ var CC = function CC() {
     _class_call_check(this, CC);
 };
 (function(CC) {
-    var bar = 1;
-    Object.defineProperty(CC, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = CC.bar = 1;
 })(CC || (CC = {}));
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any

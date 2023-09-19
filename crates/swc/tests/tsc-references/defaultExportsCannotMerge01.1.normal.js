@@ -15,26 +15,8 @@ function Decl() {
     return 0;
 }
 (function(Decl) {
-    var x = 10;
-    Object.defineProperty(Decl, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
-    var y = 20;
-    Object.defineProperty(Decl, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
+    var x = Decl.x = 10;
+    var y = Decl.y = 20;
 })(Decl || (Decl = {}));
 //// [m2.ts]
 "use strict";

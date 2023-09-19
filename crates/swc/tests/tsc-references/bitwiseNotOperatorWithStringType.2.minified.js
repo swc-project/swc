@@ -1,7 +1,7 @@
 //// [bitwiseNotOperatorWithStringType.ts]
 // ~ operator on string type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var STRING, M, n, A = function() {
+var STRING, M, A = function() {
     function A() {
         _class_call_check(this, A);
     }
@@ -9,14 +9,6 @@ var STRING, M, n, A = function() {
         return "";
     }, A;
 }();
-Object.defineProperty(M || (M = {}), "n", {
-    enumerable: !0,
-    get: function() {
-        return n;
-    },
-    set: function(v) {
-        n = v;
-    }
-});
+(M || (M = {})).n = void 0;
 var objA = new A();
 objA.a, M.n, A.foo(), STRING.charAt(0), objA.a, M.n;

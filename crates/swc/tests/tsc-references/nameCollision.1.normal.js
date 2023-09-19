@@ -47,14 +47,5 @@ var D;
 // no collision, since interface doesn't
 // generate code.
 (function(D) {
-    var E = "hello";
-    Object.defineProperty(D, "E", {
-        enumerable: true,
-        get: function get() {
-            return E;
-        },
-        set: function set(v) {
-            E = v;
-        }
-    });
+    var E = D.E = "hello";
 })(D || (D = {}));

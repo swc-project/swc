@@ -7,16 +7,7 @@ var A;
     var lt12 = function lt12() {
         return x < 12;
     };
-    var x = 12;
-    Object.defineProperty(A, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
+    var x = A.x = 12;
 })(A || (A = {}));
 var B;
 // should not fully qualify 'x'
@@ -57,16 +48,7 @@ var E;
     E.C = C;
     var M;
     (function(M) {
-        var x = 42;
-        Object.defineProperty(M, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = M.x = 42;
     })(M = E.M || (E.M = {}));
 })(E || (E = {}));
 var F;

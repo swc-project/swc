@@ -76,16 +76,7 @@ var D;
 })(D || (D = {}));
 var M;
 (function(M) {
-    var x;
-    Object.defineProperty(M, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
+    var x = M.x = void 0;
 })(M || (M = {}));
 var a = M.x;
 //// [t2.ts]

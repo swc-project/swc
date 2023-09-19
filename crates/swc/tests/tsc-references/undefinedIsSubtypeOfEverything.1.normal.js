@@ -173,16 +173,7 @@ var D11 = /*#__PURE__*/ function(Base) {
 }(Base);
 function f() {}
 (function(f) {
-    var bar = 1;
-    Object.defineProperty(f, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var D12 = /*#__PURE__*/ function(Base) {
     "use strict";
@@ -199,16 +190,7 @@ var c = function c() {
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = 1;
-    Object.defineProperty(c, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = c.bar = 1;
 })(c || (c = {}));
 var D13 = /*#__PURE__*/ function(Base) {
     "use strict";

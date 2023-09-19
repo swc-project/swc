@@ -24,18 +24,9 @@ var clodule3 = function clodule3() {
     _class_call_check(this, clodule3);
 };
 (function(clodule3) {
-    var y = {
+    var y = clodule3.y = {
         id: T
     };
-    Object.defineProperty(clodule3, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
 })(clodule3 || (clodule3 = {}));
 var clodule4 = function clodule4() {
     "use strict";

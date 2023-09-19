@@ -18,14 +18,5 @@ var D = /*#__PURE__*/ function(C) {
     return D;
 }(C);
 (function(D) {
-    var y = D.bar; // error
-    Object.defineProperty(D, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
+    var y = D.y = D.bar; // error
 })(D || (D = {}));

@@ -2,16 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M;
 (function(M) {
-    var a = 1;
-    Object.defineProperty(M, "a", {
-        enumerable: true,
-        get: function get() {
-            return a;
-        },
-        set: function set(v) {
-            a = v;
-        }
-    });
+    var a = M.a = 1;
 })(M || (M = {}));
 // primary expression
 var m;

@@ -14,32 +14,13 @@ var Geometry;
 (function(Geometry) {
     var Points = Geometry.Points = A;
     var Lines = B;
-    var Origin = {
+    var Origin = Geometry.Origin = {
         x: 0,
         y: 0
     };
-    Object.defineProperty(Geometry, "Origin", {
-        enumerable: true,
-        get: function get() {
-            return Origin;
-        },
-        set: function set(v) {
-            Origin = v;
-        }
-    });
-    var Unit = new Lines.Line(Origin, {
+    var Unit = Geometry.Unit = new Lines.Line(Origin, {
         x: 1,
         y: 0
-    });
-    // this is valid since B.Line _is_ visible outside Geometry
-    Object.defineProperty(Geometry, "Unit", {
-        enumerable: true,
-        get: function get() {
-            return Unit;
-        },
-        set: function set(v) {
-            Unit = v;
-        }
     });
 })(Geometry || (Geometry = {}));
 // expected to work since all are exported

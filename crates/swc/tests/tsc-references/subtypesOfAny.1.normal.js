@@ -15,30 +15,12 @@ var E;
 })(E || (E = {}));
 function f() {}
 (function(f) {
-    var bar = 1;
-    Object.defineProperty(f, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = 1;
-    Object.defineProperty(c, "bar", {
-        enumerable: true,
-        get: function get() {
-            return bar;
-        },
-        set: function set(v) {
-            bar = v;
-        }
-    });
+    var bar = c.bar = 1;
 })(c || (c = {}));

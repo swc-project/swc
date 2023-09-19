@@ -21,7 +21,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [test/foo_2.ts]
-var M2, M21, x;
+var M2;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "M2", {
@@ -29,15 +29,7 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return M2;
     }
-}), M21 = M2 || (M2 = {}), x = !0, Object.defineProperty(M21, "x", {
-    enumerable: !0,
-    get: function() {
-        return x;
-    },
-    set: function(v) {
-        x = v;
-    }
-});
+}), (M2 || (M2 = {})).x = !0;
 //// [test/foo_3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

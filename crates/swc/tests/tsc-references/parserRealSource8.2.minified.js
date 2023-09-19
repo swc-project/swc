@@ -2,7 +2,7 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript, TypeScript1, pushAssignScope, popAssignScope, instanceCompare, instanceFilterStop, preAssignModuleScopes, preAssignClassScopes, preAssignInterfaceScopes, preAssignWithScopes, preAssignFuncDeclScopes, preAssignCatchScopes, ScopeSearchFilter, instanceFilter;
+var TypeScript, TypeScript1, pushAssignScope, popAssignScope, instanceCompare, instanceFilterStop, preAssignModuleScopes, preAssignClassScopes, preAssignInterfaceScopes, preAssignWithScopes, preAssignFuncDeclScopes, preAssignCatchScopes, ScopeSearchFilter;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 TypeScript1 = TypeScript || (TypeScript = {}), pushAssignScope = function(scope, context, type, classType, fnc) {
     var chain = new ScopeChain(null, context.scopeChain, scope);
@@ -106,15 +106,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), pushAssignScope = function(scope,
     }, _proto.update = function(b) {
         return this.result = this.select(this.result, b), !!this.result && this.stop(this.result);
     }, ScopeSearchFilter;
-}(), TypeScript1.ScopeSearchFilter = ScopeSearchFilter, instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), Object.defineProperty(TypeScript1, "instanceFilter", {
-    enumerable: !0,
-    get: function() {
-        return instanceFilter;
-    },
-    set: function(v) {
-        instanceFilter = v;
-    }
-}), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = function(ast, parent, walker) {
+}(), TypeScript1.ScopeSearchFilter = ScopeSearchFilter, TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop), TypeScript1.preAssignModuleScopes = preAssignModuleScopes, TypeScript1.preAssignClassScopes = preAssignClassScopes, TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes, TypeScript1.preAssignWithScopes = preAssignWithScopes, TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes, TypeScript1.preAssignCatchScopes = preAssignCatchScopes, TypeScript1.preAssignScopes = function(ast, parent, walker) {
     var context = walker.state, go = !0;
     return ast && (ast.nodeType == NodeType.List ? ast.enclosingScope = context.scopeChain.scope : ast.nodeType == NodeType.ModuleDeclaration ? preAssignModuleScopes(ast, context) : ast.nodeType == NodeType.ClassDeclaration ? preAssignClassScopes(ast, context) : ast.nodeType == NodeType.InterfaceDeclaration ? preAssignInterfaceScopes(ast, context) : ast.nodeType == NodeType.With ? preAssignWithScopes(ast, context) : ast.nodeType == NodeType.FuncDecl ? preAssignFuncDeclScopes(ast, context) : ast.nodeType == NodeType.Catch ? preAssignCatchScopes(ast, context) : ast.nodeType == NodeType.TypeRef && (go = !1)), walker.options.goChildren = go, ast;
 }, TypeScript1.postAssignScopes = function(ast, parent, walker) {

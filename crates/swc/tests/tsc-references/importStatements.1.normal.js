@@ -9,16 +9,7 @@ var A;
         this.y = y;
     };
     A.Point = Point;
-    var Origin = new Point(0, 0);
-    Object.defineProperty(A, "Origin", {
-        enumerable: true,
-        get: function get() {
-            return Origin;
-        },
-        set: function set(v) {
-            Origin = v;
-        }
-    });
+    var Origin = A.Origin = new Point(0, 0);
 })(A || (A = {}));
 var C;
 // no code gen expected

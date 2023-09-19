@@ -361,16 +361,7 @@ var TypeScript;
         return ScopeSearchFilter;
     }();
     TypeScript.ScopeSearchFilter = ScopeSearchFilter;
-    var instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
-    Object.defineProperty(TypeScript, "instanceFilter", {
-        enumerable: true,
-        get: function get() {
-            return instanceFilter;
-        },
-        set: function set(v) {
-            instanceFilter = v;
-        }
-    });
+    var instanceFilter = TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
     TypeScript.preAssignModuleScopes = preAssignModuleScopes;
     TypeScript.preAssignClassScopes = preAssignClassScopes;
     TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes;

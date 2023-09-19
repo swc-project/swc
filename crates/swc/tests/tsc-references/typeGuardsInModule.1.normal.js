@@ -17,17 +17,7 @@ var m1;
     } else {
         num = var2; // number
     }
-    var var3;
-    // exported variable in the module
-    Object.defineProperty(m1, "var3", {
-        enumerable: true,
-        get: function get() {
-            return var3;
-        },
-        set: function set(v) {
-            var3 = v;
-        }
-    });
+    var var3 = m1.var3 = void 0;
     if (typeof var3 === "string") {
         strOrNum = var3; // string | number
     } else {
@@ -38,16 +28,7 @@ var m2;
 // local module
 (function(m2) {
     var var2;
-    var var3;
-    Object.defineProperty(m2, "var3", {
-        enumerable: true,
-        get: function get() {
-            return var3;
-        },
-        set: function set(v) {
-            var3 = v;
-        }
-    });
+    var var3 = m2.var3 = void 0;
     var m3;
     (function(m3) {
         // global vars in function declaration
@@ -63,17 +44,7 @@ var m2;
         } else {
             num = var4; // number
         }
-        var var5;
-        // exported variable in the module
-        Object.defineProperty(m3, "var5", {
-            enumerable: true,
-            get: function get() {
-                return var5;
-            },
-            set: function set(v) {
-                var5 = v;
-            }
-        });
+        var var5 = m3.var5 = void 0;
         if (typeof var5 === "string") {
             strOrNum = var5; // string | number
         } else {
@@ -94,17 +65,7 @@ var m3;
         } else {
             num = var2; // number
         }
-        var var3;
-        // exported variable in the module
-        Object.defineProperty(m4, "var3", {
-            enumerable: true,
-            get: function get() {
-                return var3;
-            },
-            set: function set(v) {
-                var3 = v;
-            }
-        });
+        var var3 = m4.var3 = void 0;
         if (typeof var3 === "string") {
             strOrNum = var3; // string | number
         } else {

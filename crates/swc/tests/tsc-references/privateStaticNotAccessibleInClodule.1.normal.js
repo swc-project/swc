@@ -6,14 +6,5 @@ var C = function C() {
     _class_call_check(this, C);
 };
 (function(C) {
-    var y = C.bar; // error
-    Object.defineProperty(C, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
+    var y = C.y = C.bar; // error
 })(C || (C = {}));

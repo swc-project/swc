@@ -17,16 +17,7 @@ var X;
     (function(Y) {
         let Point;
         (function(Point) {
-            var Origin = new Point(0, 0);
-            Object.defineProperty(Point, "Origin", {
-                enumerable: true,
-                get () {
-                    return Origin;
-                },
-                set (v) {
-                    Origin = v;
-                }
-            });
+            var Origin = Point.Origin = new Point(0, 0);
         })(Point = Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
@@ -38,16 +29,7 @@ var cl = X.Y.Point.Origin; // error not expected here same as bug 83996 ?
 class A {
 }
 (function(A) {
-    var Instance = new A();
-    Object.defineProperty(A, "Instance", {
-        enumerable: true,
-        get () {
-            return Instance;
-        },
-        set (v) {
-            Instance = v;
-        }
-    });
+    var Instance = A.Instance = new A();
 })(A || (A = {}));
 // ensure merging works as expected
 var a = A.Instance;

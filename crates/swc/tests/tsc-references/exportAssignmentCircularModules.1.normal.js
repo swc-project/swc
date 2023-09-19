@@ -6,16 +6,7 @@ define([
     "use strict";
     var Foo;
     (function(Foo) {
-        var x = _foo_1.x;
-        Object.defineProperty(Foo, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = Foo.x = _foo_1.x;
     })(Foo || (Foo = {}));
     return Foo;
 });
@@ -27,16 +18,7 @@ define([
     "use strict";
     var Foo;
     (function(Foo) {
-        var x = _foo_2.x;
-        Object.defineProperty(Foo, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = Foo.x = _foo_2.x;
     })(Foo || (Foo = {}));
     return Foo;
 });
@@ -48,16 +30,7 @@ define([
     "use strict";
     var Foo;
     (function(Foo) {
-        var x = _foo_0.x;
-        Object.defineProperty(Foo, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = Foo.x = _foo_0.x;
     })(Foo || (Foo = {}));
     return Foo;
 });

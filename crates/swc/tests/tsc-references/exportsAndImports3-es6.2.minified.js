@@ -51,17 +51,11 @@ Object.defineProperty(exports, "__esModule", {
         return a;
     }
 });
-var E, D, x, E1, D1, M, v = 1;
+var E, D, E1, D1, M, v = 1;
 function f() {}
 class C {
 }
-(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", Object.defineProperty(M || (M = {}), "x", {
-    enumerable: !0,
-    get: ()=>x,
-    set (v) {
-        x = v;
-    }
-});
+(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (M || (M = {})).x = void 0;
 const a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {

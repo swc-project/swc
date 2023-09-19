@@ -3,7 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var D, y, D1 = function(C) {
+var D, D1 = function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
@@ -13,12 +13,4 @@ var D, y, D1 = function(C) {
 }(function C() {
     _class_call_check(this, C);
 });
-y = (D = D1 || (D1 = {})).bar, Object.defineProperty(D, "y", {
-    enumerable: !0,
-    get: function() {
-        return y;
-    },
-    set: function(v) {
-        y = v;
-    }
-});
+(D = D1 || (D1 = {})).y = D.bar;

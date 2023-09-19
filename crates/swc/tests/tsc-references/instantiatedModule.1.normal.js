@@ -3,16 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M;
 (function(M) {
-    var Point = 1;
-    Object.defineProperty(M, "Point", {
-        enumerable: true,
-        get: function get() {
-            return Point;
-        },
-        set: function set(v) {
-            Point = v;
-        }
-    });
+    var Point = M.Point = 1;
 })(M || (M = {}));
 // primary expression
 var m;

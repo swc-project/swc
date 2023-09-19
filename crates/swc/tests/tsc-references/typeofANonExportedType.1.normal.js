@@ -21,16 +21,7 @@ export var r5;
 export var r5;
 var M;
 (function(M) {
-    var _$foo = "";
-    Object.defineProperty(M, "foo", {
-        enumerable: true,
-        get: function get() {
-            return _$foo;
-        },
-        set: function set(v) {
-            _$foo = v;
-        }
-    });
+    var _$foo = M.foo = "";
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
@@ -50,16 +41,7 @@ export var r11;
 export var r12;
 function foo() {}
 (function(foo) {
-    var y = 1;
-    Object.defineProperty(foo, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
+    var y = foo.y = 1;
     var C = function C() {
         "use strict";
         _class_call_check(this, C);

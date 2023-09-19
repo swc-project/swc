@@ -3,31 +3,13 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
     (function(B) {
-        var x;
-        Object.defineProperty(B, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = B.x = void 0;
     })(A.B || (A.B = {}));
 })(A || (A = {}));
 (function(A) {
     var B;
     (function(B) {
-        var x;
-        Object.defineProperty(B, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = B.x = void 0;
     })(B || (B = {}));
 })(A || (A = {}));
 // ensure the right var decl is exported

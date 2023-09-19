@@ -30,16 +30,7 @@ var A = /*#__PURE__*/ function() {
 }();
 var M;
 (function(M) {
-    var n;
-    Object.defineProperty(M, "n", {
-        enumerable: true,
-        get: function get() {
-            return n;
-        },
-        set: function set(v) {
-            n = v;
-        }
-    });
+    var n = M.n = void 0;
 })(M || (M = {}));
 var objA = new A();
 // any type var

@@ -14,16 +14,8 @@ define([
     "react",
     "react-router"
 ], function(require, exports, _react, _reactrouter) {
-    var M, X1;
+    var M;
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _reactrouter.Route, Object.defineProperty(M || (M = {}), "X", {
-        enumerable: !0,
-        get: function() {
-            return X1;
-        },
-        set: function(v) {
-            X1 = v;
-        }
-    }), M || (M = {}), X;
+    }), _reactrouter.Route, (M || (M = {})).X = void 0, M || (M = {}), X;
 });

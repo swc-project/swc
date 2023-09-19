@@ -6,7 +6,7 @@ function ExpandoDecl(n) {
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
 }, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl(101).length;
-var ExpandoMerge, p2, ExpandoMerge1, p3, Ns, ExpandoNamespace, Ns1, ExpandoExpr = function(n) {
+var Ns, ExpandoNamespace, Ns1, ExpandoExpr = function(n) {
     return n.toString();
 };
 ExpandoExpr.prop = {
@@ -19,28 +19,12 @@ ExpandoExpr.prop = {
 var ExpandoArrow = function(n) {
     return n.toString();
 };
-function ExpandoMerge2(n) {
+function ExpandoMerge(n) {
     return 100 * n;
 }
 ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     return n + 1;
-}, ExpandoMerge2.p1 = 111, ExpandoMerge = ExpandoMerge2 || (ExpandoMerge2 = {}), p2 = 222, Object.defineProperty(ExpandoMerge, "p2", {
-    enumerable: !0,
-    get: function() {
-        return p2;
-    },
-    set: function(v) {
-        p2 = v;
-    }
-}), ExpandoMerge1 = ExpandoMerge2 || (ExpandoMerge2 = {}), p3 = 333, Object.defineProperty(ExpandoMerge1, "p3", {
-    enumerable: !0,
-    get: function() {
-        return p3;
-    },
-    set: function(v) {
-        p3 = v;
-    }
-}), ExpandoMerge2.p1, ExpandoMerge2.p2, ExpandoMerge2.p3, ExpandoMerge2(1), Ns = Ns1 || (Ns1 = {}), (ExpandoNamespace = function() {}).p6 = 42, Ns.foo = function() {
+}, ExpandoMerge.p1 = 111, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222, (ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge.p1, ExpandoMerge.p2, ExpandoMerge.p3, ExpandoMerge(1), Ns = Ns1 || (Ns1 = {}), (ExpandoNamespace = function() {}).p6 = 42, Ns.foo = function() {
     return ExpandoNamespace;
 };
 // Should not work in Typescript -- must be const

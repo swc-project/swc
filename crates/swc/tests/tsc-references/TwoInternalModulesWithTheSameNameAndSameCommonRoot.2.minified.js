@@ -7,20 +7,12 @@ var A, A1;
     };
 };
 //// [part2.ts]
-var A, A1, Origin;
+var A, A1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-A1 = A || (A = {}), Origin = {
+(A1 = A || (A = {})).Origin = {
     x: 0,
     y: 0
-}, Object.defineProperty(A1, "Origin", {
-    enumerable: !0,
-    get: function() {
-        return Origin;
-    },
-    set: function(v) {
-        Origin = v;
-    }
-}), (A1.Utils || (A1.Utils = {})).Plane = function Plane(tl, br) {
+}, (A1.Utils || (A1.Utils = {})).Plane = function Plane(tl, br) {
     _class_call_check(this, Plane), this.tl = tl, this.br = br;
 };
 //// [part3.ts]

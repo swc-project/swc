@@ -11,14 +11,5 @@ Object.defineProperty(exports, "default", {
 });
 function Foo() {}
 (function(Foo) {
-    var x;
-    Object.defineProperty(Foo, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
+    var x = Foo.x = void 0;
 })(Foo || (Foo = {}));

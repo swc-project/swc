@@ -11,16 +11,7 @@ var A;
     A.Point = Point;
     var B;
     (function(B) {
-        var Origin = new Point(0, 0);
-        Object.defineProperty(B, "Origin", {
-            enumerable: true,
-            get: function get() {
-                return Origin;
-            },
-            set: function set(v) {
-                Origin = v;
-            }
-        });
+        var Origin = B.Origin = new Point(0, 0);
         var Line = /*#__PURE__*/ function() {
             "use strict";
             function Line(start, end) {

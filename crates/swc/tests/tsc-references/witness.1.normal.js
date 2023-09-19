@@ -111,16 +111,7 @@ var propAcc1;
 var M2;
 // Property access of module member
 (function(M2) {
-    var x = M2.x;
-    Object.defineProperty(M2, "x", {
-        enumerable: true,
-        get: function get() {
-            return x;
-        },
-        set: function set(v) {
-            x = v;
-        }
-    });
+    var x = M2.x = M2.x;
     var y = x;
     var y;
 })(M2 || (M2 = {}));

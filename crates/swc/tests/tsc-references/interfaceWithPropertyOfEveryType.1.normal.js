@@ -7,16 +7,7 @@ var C = function C() {
 function f1() {}
 var M;
 (function(M) {
-    var y = 1;
-    Object.defineProperty(M, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
+    var y = M.y = 1;
 })(M || (M = {}));
 var E;
 (function(E) {

@@ -3,19 +3,10 @@ var A;
 (function(A) {
     var Point;
     (function(Point) {
-        var Origin = {
+        var Origin = Point.Origin = {
             x: 0,
             y: 0
         };
-        Object.defineProperty(Point, "Origin", {
-            enumerable: true,
-            get: function get() {
-                return Origin;
-            },
-            set: function set(v) {
-                Origin = v;
-            }
-        });
     })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));
 //// [function.ts]
@@ -41,19 +32,10 @@ var B;
     };
     var Point;
     (function(Point) {
-        var Origin = {
+        var Origin = Point.Origin = {
             x: 0,
             y: 0
         };
-        Object.defineProperty(Point, "Origin", {
-            enumerable: true,
-            get: function get() {
-                return Origin;
-            },
-            set: function set(v) {
-                Origin = v;
-            }
-        });
     })(Point = B.Point || (B.Point = {}));
     // duplicate identifier error
     B.Point = Point;

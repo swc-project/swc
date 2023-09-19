@@ -1,19 +1,11 @@
 //// [decrementOperatorWithNumberType.ts]
 // -- operator on number type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var n, NUMBER, M, NUMBER1 = [
+var NUMBER, M, NUMBER1 = [
     1,
     2
 ];
-Object.defineProperty(M || (M = {}), "n", {
-    enumerable: !0,
-    get: function() {
-        return n;
-    },
-    set: function(v) {
-        n = v;
-    }
-});
+(M || (M = {})).n = void 0;
 var objA = new function A() {
     _class_call_check(this, A);
 }();

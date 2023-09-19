@@ -1,22 +1,14 @@
 //// [part1.ts]
-var A, A1, Origin;
+var A, A1;
 ((A1 = A || (A = {})).Utils || (A1.Utils = {})).mirror = function(p) {
     return {
         x: p.y,
         y: p.x
     };
-}, Origin = {
+}, A1.Origin = {
     x: 0,
     y: 0
-}, Object.defineProperty(A1, "Origin", {
-    enumerable: !0,
-    get: function() {
-        return Origin;
-    },
-    set: function(v) {
-        Origin = v;
-    }
-});
+};
 //// [part2.ts]
 var A, A1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";

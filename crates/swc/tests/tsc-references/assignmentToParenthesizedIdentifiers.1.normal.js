@@ -7,16 +7,7 @@ x = ""; // Error
 x = ""; // Error
 var M;
 (function(M) {
-    var y;
-    Object.defineProperty(M, "y", {
-        enumerable: true,
-        get: function get() {
-            return y;
-        },
-        set: function set(v) {
-            y = v;
-        }
-    });
+    var y = M.y = void 0;
 })(M || (M = {}));
 M.y = 3; // OK
 M.y = 3; // OK
@@ -34,16 +25,7 @@ var M2;
 (function(M2) {
     var M3;
     (function(M3) {
-        var x;
-        Object.defineProperty(M3, "x", {
-            enumerable: true,
-            get: function get() {
-                return x;
-            },
-            set: function set(v) {
-                x = v;
-            }
-        });
+        var x = M3.x = void 0;
     })(M3 = M2.M3 || (M2.M3 = {}));
     M3 = {
         x: 3

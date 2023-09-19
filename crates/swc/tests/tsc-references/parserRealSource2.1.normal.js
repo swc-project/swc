@@ -252,37 +252,8 @@ var TypeScript;
         ModuleGenTarget[ModuleGenTarget["Asynchronous"] = 1] = "Asynchronous";
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
     })(ModuleGenTarget = TypeScript.ModuleGenTarget || (TypeScript.ModuleGenTarget = {}));
-    var codeGenTarget = 0;
-    // Compiler defaults to generating ES5-compliant code for
-    //  - getters and setters
-    Object.defineProperty(TypeScript, "codeGenTarget", {
-        enumerable: true,
-        get: function get() {
-            return codeGenTarget;
-        },
-        set: function set(v) {
-            codeGenTarget = v;
-        }
-    });
-    var moduleGenTarget = 0;
-    Object.defineProperty(TypeScript, "moduleGenTarget", {
-        enumerable: true,
-        get: function get() {
-            return moduleGenTarget;
-        },
-        set: function set(v) {
-            moduleGenTarget = v;
-        }
-    });
-    var optimizeModuleCodeGen = true;
-    Object.defineProperty(TypeScript, "optimizeModuleCodeGen", {
-        enumerable: true,
-        get: function get() {
-            return optimizeModuleCodeGen;
-        },
-        set: function set(v) {
-            optimizeModuleCodeGen = v;
-        }
-    });
+    var codeGenTarget = TypeScript.codeGenTarget = 0;
+    var moduleGenTarget = TypeScript.moduleGenTarget = 0;
+    var optimizeModuleCodeGen = TypeScript.optimizeModuleCodeGen = true;
     TypeScript.flagsToString = flagsToString;
 })(TypeScript || (TypeScript = {}));

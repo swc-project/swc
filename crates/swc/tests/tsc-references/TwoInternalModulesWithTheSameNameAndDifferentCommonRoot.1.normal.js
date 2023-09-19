@@ -21,20 +21,10 @@ var otherRoot;
 (function(otherRoot) {
     var A;
     (function(A) {
-        var Origin = {
+        var Origin = A.Origin = {
             x: 0,
             y: 0
         };
-        // have to be fully qualified since in different root
-        Object.defineProperty(A, "Origin", {
-            enumerable: true,
-            get: function get() {
-                return Origin;
-            },
-            set: function set(v) {
-                Origin = v;
-            }
-        });
         var Utils;
         (function(Utils) {
             var Plane = function Plane(tl, br) {

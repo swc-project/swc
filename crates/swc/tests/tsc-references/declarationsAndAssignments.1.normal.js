@@ -202,27 +202,11 @@ f14([
 ]); // Error, no x
 var M;
 (function(M) {
-    var a = 1, b = 2;
-    Object.definePropertys(M, {
-        a: {
-            enumerable: true,
-            get: function get() {
-                return a;
-            },
-            set: function set(v) {
-                a = v;
-            }
-        },
-        b: {
-            enumerable: true,
-            get: function get() {
-                return b;
-            },
-            set: function set(v) {
-                b = v;
-            }
-        }
-    });
+    var ref;
+    var _ref = _sliced_to_array((ref = [
+        1,
+        2
+    ], M.a = ref[0], M.b = ref[1], ref), 2), a = _ref[0], b = _ref[1];
 })(M || (M = {}));
 function f15() {
     var a = "hello";

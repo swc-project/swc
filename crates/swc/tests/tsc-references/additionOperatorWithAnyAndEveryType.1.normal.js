@@ -17,16 +17,7 @@ var E;
 })(E || (E = {}));
 var M;
 (function(M) {
-    var a;
-    Object.defineProperty(M, "a", {
-        enumerable: true,
-        get: function get() {
-            return a;
-        },
-        set: function set(v) {
-            a = v;
-        }
-    });
+    var a = M.a = void 0;
 })(M || (M = {}));
 var a;
 var b;

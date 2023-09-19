@@ -35,15 +35,6 @@ var M2;
 (function(M2) {
     var X;
     (function(X) {
-        var Point; // Error
-        Object.defineProperty(X, "Point", {
-            enumerable: true,
-            get: function get() {
-                return Point;
-            },
-            set: function set(v) {
-                Point = v;
-            }
-        });
+        var Point = X.Point = void 0; // Error
     })(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));

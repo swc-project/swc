@@ -4,16 +4,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var s;
 var M1;
 (function(M1) {
-    var s;
-    Object.defineProperty(M1, "s", {
-        enumerable: true,
-        get: function get() {
-            return s;
-        },
-        set: function set(v) {
-            s = v;
-        }
-    });
+    var s = M1.s = void 0;
     var n = s;
     var n;
 })(M1 || (M1 = {}));

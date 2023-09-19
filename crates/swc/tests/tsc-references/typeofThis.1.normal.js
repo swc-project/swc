@@ -42,33 +42,15 @@ var Test5 = function Test5() {
 };
 var Test6;
 (function(Test6) {
-    var f = function() {
+    var f = Test6.f = function() {
         var x = 1;
     };
-    Object.defineProperty(Test6, "f", {
-        enumerable: true,
-        get: function get() {
-            return f;
-        },
-        set: function set(v) {
-            f = v;
-        }
-    });
 })(Test6 || (Test6 = {}));
 var Test7;
 (function(Test7) {
-    var f = function() {
+    var f = Test7.f = function() {
         var x = 1;
     };
-    Object.defineProperty(Test7, "f", {
-        enumerable: true,
-        get: function get() {
-            return f;
-        },
-        set: function set(v) {
-            f = v;
-        }
-    });
 })(Test7 || (Test7 = {}));
 var Test8 = function() {
     var x = 1;

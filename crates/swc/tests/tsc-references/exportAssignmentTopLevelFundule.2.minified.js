@@ -2,19 +2,10 @@
 define([
     "require"
 ], function(require) {
-    var foo, answer;
-    function foo1() {
+    function foo() {
         return "test";
     }
-    return foo = foo1 || (foo1 = {}), answer = 42, Object.defineProperty(foo, "answer", {
-        enumerable: !0,
-        get: function() {
-            return answer;
-        },
-        set: function(v) {
-            answer = v;
-        }
-    }), foo1;
+    return (foo || (foo = {})).answer = 42, foo;
 });
 //// [foo_1.ts]
 define([

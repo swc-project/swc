@@ -11,16 +11,7 @@ Point.Origin = {
     y: 0
 };
 (function(Point) {
-    var Origin = ""; //expected duplicate identifier error
-    Object.defineProperty(Point, "Origin", {
-        enumerable: true,
-        get: function get() {
-            return Origin;
-        },
-        set: function set(v) {
-            Origin = v;
-        }
-    });
+    var Origin = Point.Origin = ""; //expected duplicate identifier error
 })(Point || (Point = {}));
 var A;
 (function(A) {
@@ -36,15 +27,6 @@ var A;
     };
     A.Point = Point;
     (function(Point) {
-        var Origin = ""; //expected duplicate identifier error
-        Object.defineProperty(Point, "Origin", {
-            enumerable: true,
-            get: function get() {
-                return Origin;
-            },
-            set: function set(v) {
-                Origin = v;
-            }
-        });
+        var Origin = Point.Origin = ""; //expected duplicate identifier error
     })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));
