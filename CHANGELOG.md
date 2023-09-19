@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(bindings/type)** Update types of `jsc.experimental` (#7972) ([e40fccb](https://github.com/swc-project/swc/commit/e40fccb9ce2a8fc925de818c8da4b6503aab7ae3))
+
 ## [1.3.86] - 2023-09-18
 
 ### Bug Fixes
