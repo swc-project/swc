@@ -1207,6 +1207,13 @@ impl Optimizer<'_> {
 
             Expr::Yield(..) | Expr::Await(..) => false,
 
+            Expr::Tpl(t) => t.exprs.iter().all(|e| self.is_skippable_for_seq(a, e)),
+
+            Expr::TaggedTpl(t) => {
+                self.is_skippable_for_seq(a, e)
+                    && t.tag.exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
+            }
+
             Expr::Unary(UnaryExpr {
                 op: op!("!") | op!("void") | op!("typeof") | op!(unary, "-") | op!(unary, "+"),
                 arg,
@@ -1378,7 +1385,7 @@ impl Optimizer<'_> {
                 exprs.iter().all(|e| self.is_skippable_for_seq(a, e))
             }
 
-            Expr::TaggedTpl(..) | Expr::New(..) => {
+            Expr::New(..) => {
                 // TODO(kdy1): We can optimize some known calls.
 
                 false
@@ -1523,7 +1530,9 @@ impl Optimizer<'_> {
             | Expr::Class(..)
             | Expr::Lit(..)
             | Expr::Await(..)
-            | Expr::Yield(..) => true,
+            | Expr::Yield(..)
+            | Expr::Tpl(..)
+            | Expr::TaggedTpl(..) => true,
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
             }) => true,
