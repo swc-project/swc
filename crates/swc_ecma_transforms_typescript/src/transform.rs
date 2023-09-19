@@ -432,16 +432,15 @@ impl Transform {
         for module_item in body {
             match module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
-                    let (export_stmt, decl_stmt) = Self::transform_export_decl_in_ts_module_block(
+                    let stmt_list = Self::transform_export_decl_in_ts_module_block(
                         &id,
                         export_decl,
                         &mut mutable_export_ids,
-                    );
+                    )
+                    .into_iter()
+                    .flatten();
 
-                    if !decl_stmt.is_empty() {
-                        stmts.push(decl_stmt);
-                    }
-                    stmts.extend(export_stmt);
+                    stmts.extend(stmt_list);
                 }
                 ModuleItem::Stmt(stmt) => stmts.push(stmt),
                 item @ ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..)) => {
@@ -614,20 +613,21 @@ impl Transform {
         id: &Id,
         ExportDecl { decl, span, .. }: ExportDecl,
         mutable_export_ids: &mut AHashSet<Id>,
-    ) -> (Option<Stmt>, Stmt) {
+    ) -> [Option<Stmt>; 2] {
         match decl {
             Decl::Fn(FnDecl { ref ident, .. }) | Decl::Class(ClassDecl { ref ident, .. }) => {
-                (Some(Self::assign_prop(id, ident, span)), Stmt::Decl(decl))
+                let assign_stmt = Self::assign_prop(id, ident, span);
+                [Stmt::Decl(decl), assign_stmt].map(Option::Some)
             }
-            Decl::Var(var_decl) => (
-                None,
+            Decl::Var(var_decl) => [
                 Self::transform_export_var_decl_in_ts_module_block(
                     *var_decl,
                     id,
                     span,
                     mutable_export_ids,
                 ),
-            ),
+                None,
+            ],
             _ => unreachable!(),
         }
     }
@@ -637,7 +637,7 @@ impl Transform {
         id: &Id,
         span: Span,
         mutable_export_ids: &mut AHashSet<Id>,
-    ) -> Stmt {
+    ) -> Option<Stmt> {
         debug_assert!(!var_decl.declare);
 
         var_decl.decls.iter_mut().for_each(|var_declarator| {
@@ -645,7 +645,7 @@ impl Transform {
         });
 
         if var_decl.kind == VarDeclKind::Const {
-            return var_decl.into();
+            return Some(var_decl.into());
         }
 
         let mut collector = ExportedIdentCollector::default();
@@ -656,7 +656,7 @@ impl Transform {
             var_decl.decls.into_iter().filter_map(|d| d.init).collect();
 
         if expr_list.is_empty() {
-            return Stmt::dummy();
+            return None;
         }
 
         // take `NS.foo = init` from `let foo = init`;
@@ -670,7 +670,7 @@ impl Transform {
             .into()
         };
 
-        Stmt::Expr(ExprStmt { span, expr })
+        Some(Stmt::Expr(ExprStmt { span, expr }))
     }
 
     /// Input:
