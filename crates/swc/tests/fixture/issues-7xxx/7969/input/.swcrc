@@ -51,7 +51,8 @@
                 "unsafe_undefined": false,
                 "unused": true,
                 "const_to_let": true,
-                "pristine_globals": true
+                "pristine_globals": true,
+                "passes": 1
             },
             "mangle": {
                 "toplevel": false,
