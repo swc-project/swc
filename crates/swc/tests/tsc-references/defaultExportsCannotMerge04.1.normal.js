@@ -10,6 +10,4 @@ Object.defineProperty(exports, "default", {
     }
 });
 function Foo() {}
-(function(Foo) {
-    var x = Foo.x = void 0;
-})(Foo || (Foo = {}));
+(function(Foo) {})(Foo || (Foo = {}));

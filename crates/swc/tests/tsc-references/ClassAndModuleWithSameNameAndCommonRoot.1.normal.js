@@ -18,7 +18,7 @@ var X;
     (function(Y) {
         var Point;
         (function(Point) {
-            var Origin = Point.Origin = new Point(0, 0);
+            Point.Origin = new Point(0, 0);
         })(Point = Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
@@ -33,7 +33,7 @@ var A = function A() {
     _class_call_check(this, A);
 };
 (function(A) {
-    var Instance = A.Instance = new A();
+    A.Instance = new A();
 })(A || (A = {}));
 // ensure merging works as expected
 var a = A.Instance;

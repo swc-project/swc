@@ -62,7 +62,7 @@ function foo10(x) {
 var r10 = foo10(1);
 var M;
 (function(M) {
-    var x = M.x = 1;
+    M.x = 1;
     var C = function C() {
         "use strict";
         _class_call_check(this, C);
@@ -82,7 +82,7 @@ function m1() {
     return 1;
 }
 (function(m1) {
-    var y = m1.y = 2;
+    m1.y = 2;
 })(m1 || (m1 = {}));
 function foo13() {
     return m1;
@@ -93,7 +93,7 @@ var c1 = function c1(x) {
     _class_call_check(this, c1);
 };
 (function(c1) {
-    var x = c1.x = 1;
+    c1.x = 1;
 })(c1 || (c1 = {}));
 function foo14() {
     return c1;
@@ -104,7 +104,7 @@ var e1;
     e1[e1["A"] = 0] = "A";
 })(e1 || (e1 = {}));
 (function(e1) {
-    var y = e1.y = 1;
+    e1.y = 1;
 })(e1 || (e1 = {}));
 function foo15() {
     return e1;

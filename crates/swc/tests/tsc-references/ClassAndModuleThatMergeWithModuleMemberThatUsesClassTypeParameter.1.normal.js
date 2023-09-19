@@ -24,7 +24,7 @@ var clodule3 = function clodule3() {
     _class_call_check(this, clodule3);
 };
 (function(clodule3) {
-    var y = clodule3.y = {
+    clodule3.y = {
         id: T
     };
 })(clodule3 || (clodule3 = {}));

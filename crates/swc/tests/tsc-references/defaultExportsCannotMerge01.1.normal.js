@@ -15,8 +15,8 @@ function Decl() {
     return 0;
 }
 (function(Decl) {
-    var x = Decl.x = 10;
-    var y = Decl.y = 20;
+    Decl.x = 10;
+    Decl.y = 20;
 })(Decl || (Decl = {}));
 //// [m2.ts]
 "use strict";

@@ -14,7 +14,7 @@ var B;
 (function(B) {
     var Point;
     (function(Point) {
-        var Origin = Point.Origin = {
+        Point.Origin = {
             x: 0,
             y: 0
         };

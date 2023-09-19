@@ -3,7 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M;
 (function(M) {
-    var Point = M.Point = 1;
+    M.Point = 1;
 })(M || (M = {}));
 // primary expression
 var m;

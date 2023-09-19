@@ -6,4 +6,4 @@ var E, E1, M, C = function() {
     }
     return C.foo = function() {}, C;
 }();
-(E = E1 || (E1 = {}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", (M || (M = {})).a = void 0, new C(), C.foo();
+(E = E1 || (E1 = {}))[E.a = 0] = "a", E[E.b = 1] = "b", E[E.c = 2] = "c", M || (M = {}), new C(), C.foo();

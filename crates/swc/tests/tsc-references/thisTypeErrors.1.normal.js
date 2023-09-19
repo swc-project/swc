@@ -24,8 +24,7 @@ var C2 = /*#__PURE__*/ function() {
 C2.y = undefined;
 var N1;
 (function(N1) {
-    var x = N1.x = void 0;
-    var y = N1.y = this;
+    N1.y = this;
 })(N1 || (N1 = {}));
 var C3 = /*#__PURE__*/ function() {
     "use strict";

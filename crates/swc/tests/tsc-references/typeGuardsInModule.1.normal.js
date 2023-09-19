@@ -17,18 +17,16 @@ var m1;
     } else {
         num = var2; // number
     }
-    var var3 = m1.var3 = void 0;
-    if (typeof var3 === "string") {
-        strOrNum = var3; // string | number
+    if (typeof m1.var3 === "string") {
+        strOrNum = m1.var3; // string | number
     } else {
-        strOrNum = var3; // string | number
+        strOrNum = m1.var3; // string | number
     }
 })(m1 || (m1 = {}));
 var m2;
 // local module
 (function(m2) {
     var var2;
-    var var3 = m2.var3 = void 0;
     var m3;
     (function(m3) {
         // global vars in function declaration
@@ -36,7 +34,7 @@ var m2;
         // local variables from outer module declaration
         num = typeof var2 === "string" && var2.length; // string
         // exported variable from outer the module
-        strOrNum = typeof var3 === "string" && var3; // string | number
+        strOrNum = typeof m2.var3 === "string" && m2.var3; // string | number
         // variables in module declaration
         var var4;
         if (typeof var4 === "string") {
@@ -44,11 +42,10 @@ var m2;
         } else {
             num = var4; // number
         }
-        var var5 = m3.var5 = void 0;
-        if (typeof var5 === "string") {
-            strOrNum = var5; // string | number
+        if (typeof m3.var5 === "string") {
+            strOrNum = m3.var5; // string | number
         } else {
-            strOrNum = var5; // string | number
+            strOrNum = m3.var5; // string | number
         }
     })(m3 || (m3 = {}));
 })(m2 || (m2 = {}));
@@ -65,11 +62,10 @@ var m3;
         } else {
             num = var2; // number
         }
-        var var3 = m4.var3 = void 0;
-        if (typeof var3 === "string") {
-            strOrNum = var3; // string | number
+        if (typeof m4.var3 === "string") {
+            strOrNum = m4.var3; // string | number
         } else {
-            strOrNum = var3; // string | number
+            strOrNum = m4.var3; // string | number
         }
     })(m3.m4 || (m3.m4 = {}));
 })(m3 || (m3 = {}));

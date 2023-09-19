@@ -17,7 +17,7 @@ var A = function() {
         return "";
     }, A;
 }();
-(M || (M = {})).n = void 0;
+M || (M = {});
 var objA = new A();
 void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(""), _type_of({
     x: "",

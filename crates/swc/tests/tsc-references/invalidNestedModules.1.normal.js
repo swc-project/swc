@@ -34,7 +34,5 @@ var M2;
 })(M2 || (M2 = {}));
 (function(M2) {
     var X;
-    (function(X) {
-        var Point = X.Point = void 0; // Error
-    })(X = M2.X || (M2.X = {}));
+    (function(X) {})(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));

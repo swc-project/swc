@@ -21,9 +21,7 @@ var A = /*#__PURE__*/ function() {
     return A;
 }();
 var M;
-(function(M) {
-    var n = M.n = void 0;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
 var ResultIsString1 = typeof NUMBER === "undefined" ? "undefined" : _type_of(NUMBER);

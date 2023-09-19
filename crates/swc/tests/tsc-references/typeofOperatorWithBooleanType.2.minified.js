@@ -13,7 +13,7 @@ var BOOLEAN, M, A = function() {
         return !1;
     }, A;
 }();
-(M || (M = {})).n = void 0;
+M || (M = {});
 var objA = new A();
 void 0 === BOOLEAN || _type_of(BOOLEAN), _type_of(!0), _type_of({
     x: !0,

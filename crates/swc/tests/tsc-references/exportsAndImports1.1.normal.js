@@ -49,9 +49,7 @@ var E;
 })(E || (E = {}));
 var D;
 var M;
-(function(M) {
-    var x = M.x = void 0;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 var a = M.x;
 //// [t2.ts]
 "use strict";

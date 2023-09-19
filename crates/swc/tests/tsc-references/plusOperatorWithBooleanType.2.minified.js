@@ -9,6 +9,6 @@ var M, A = function() {
         return !1;
     }, A;
 }();
-(M || (M = {})).n = void 0;
+M || (M = {});
 var objA = new A();
 objA.a, M.n, A.foo(), objA.a, M.n;

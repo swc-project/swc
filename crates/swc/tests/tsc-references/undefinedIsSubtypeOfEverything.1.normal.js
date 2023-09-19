@@ -173,7 +173,7 @@ var D11 = /*#__PURE__*/ function(Base) {
 }(Base);
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    f.bar = 1;
 })(f || (f = {}));
 var D12 = /*#__PURE__*/ function(Base) {
     "use strict";
@@ -190,7 +190,7 @@ var c = function c() {
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = c.bar = 1;
+    c.bar = 1;
 })(c || (c = {}));
 var D13 = /*#__PURE__*/ function(Base) {
     "use strict";

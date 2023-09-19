@@ -107,13 +107,13 @@ var Y;
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
     })(Color = Y.Color || (Y.Color = {}));
-    var x = Y.x = 12;
+    Y.x = 12;
     Y.F = F;
-    var array = Y.array = null;
-    var fn = Y.fn = function(s) {
+    Y.array = null;
+    Y.fn = function(s) {
         return "hello " + s;
     };
-    var ol = Y.ol = {
+    Y.ol = {
         s: "hello",
         id: 2,
         isvalid: true

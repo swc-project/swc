@@ -57,7 +57,7 @@ var r14 = true ? 0 : null;
 var r14 = true ? null : 0;
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    f.bar = 1;
 })(f || (f = {}));
 var af;
 var r15 = true ? af : null;
@@ -67,7 +67,7 @@ var c = function c() {
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = c.bar = 1;
+    c.bar = 1;
 })(c || (c = {}));
 var ac;
 var r16 = true ? ac : null;

@@ -1,11 +1,11 @@
 //// [assignmentToParenthesizedIdentifiers.ts]
 var M, M2, E, M21, E1;
 import "@swc/helpers/_/_class_call_check";
-(M || (M = {})).y = void 0, M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
+M || (M = {}), M.y = 3, M.y = 3, M.y = 3, M.y = "", M.y = "", M.y = "", M = {
     y: 3
 }, M = {
     y: 3
-}, ((M21 = M2 || (M2 = {})).M3 || (M21.M3 = {})).x = void 0, M2.M3 = {
+}, (M21 = M2 || (M2 = {})).M3 || (M21.M3 = {}), M2.M3 = {
     x: 3
 }, M2.M3 = {
     x: 3

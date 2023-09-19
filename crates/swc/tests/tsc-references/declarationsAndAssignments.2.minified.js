@@ -1,5 +1,5 @@
 //// [declarationsAndAssignments.ts]
-var M, M1, ref, _ref;
+var M, M1;
 import "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import "@swc/helpers/_/_to_array";
@@ -35,10 +35,7 @@ f14([
             y: !1
         }
     ]
-]), (_ref = _sliced_to_array((ref = [
-    1,
-    2
-], (M1 = M || (M = {})).a = ref[0], M1.b = ref[1], ref), 2))[0], _ref[1], f17({}), f17({
+]), (M1 = M || (M = {})).a = 1, M1.b = 2, f17({}), f17({
     a: "hello"
 }), f17({
     c: !0

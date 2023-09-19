@@ -12,9 +12,7 @@ var A;
 var M2;
 (function(M2) {
     var X;
-    (function(X) {
-        var Point = X.Point = void 0;
-    })(X = M2.X || (M2.X = {}));
+    (function(X) {})(X = M2.X || (M2.X = {}));
 })(M2 || (M2 = {}));
 var m = M2.X;
 var point;

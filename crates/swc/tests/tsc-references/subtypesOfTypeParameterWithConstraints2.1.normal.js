@@ -41,14 +41,14 @@ var E;
 })(E || (E = {}));
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = c.bar = 1;
+    c.bar = 1;
 })(c || (c = {}));
 function f4(x) {
     var r0 = true ? x : null; // ok

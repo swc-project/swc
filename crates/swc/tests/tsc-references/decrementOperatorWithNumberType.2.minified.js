@@ -5,7 +5,7 @@ var NUMBER, M, NUMBER1 = [
     1,
     2
 ];
-(M || (M = {})).n = void 0;
+M || (M = {});
 var objA = new function A() {
     _class_call_check(this, A);
 }();

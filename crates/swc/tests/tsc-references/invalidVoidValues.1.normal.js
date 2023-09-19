@@ -23,7 +23,7 @@ x = {
 };
 var M;
 (function(M) {
-    var x = M.x = 1;
+    M.x = 1;
 })(M || (M = {}));
 x = M;
 function f(a) {

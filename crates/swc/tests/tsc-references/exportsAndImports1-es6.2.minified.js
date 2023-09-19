@@ -34,7 +34,7 @@ var E, E1, D, M, v = 1;
 function f() {}
 class C {
 }
-(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (M || (M = {})).x = void 0;
+(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", M || (M = {});
 const a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {

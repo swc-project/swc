@@ -2,14 +2,14 @@
 // Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
-var TypeScript, TypeScript1, CompilerDiagnostics, Alert, debug, diagnosticWriter, NullLogger, LoggerAdapter, BufferedLogger;
+var TypeScript, TypeScript1, CompilerDiagnostics, Alert, NullLogger, LoggerAdapter, BufferedLogger;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 CompilerDiagnostics = (TypeScript1 = TypeScript || (TypeScript = {})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {}), Alert = function(output) {
-    diagnosticWriter && diagnosticWriter.Alert(output);
-}, debug = CompilerDiagnostics.debug = !1, diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null, CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
-    debug && Alert(s);
+    CompilerDiagnostics.diagnosticWriter && CompilerDiagnostics.diagnosticWriter.Alert(output);
+}, CompilerDiagnostics.debug = !1, CompilerDiagnostics.diagnosticWriter = null, CompilerDiagnostics.analysisPass = 0, CompilerDiagnostics.Alert = Alert, CompilerDiagnostics.debugPrint = function(s) {
+    CompilerDiagnostics.debug && Alert(s);
 }, CompilerDiagnostics.assert = function(condition, s) {
-    debug && !condition && Alert(s);
+    CompilerDiagnostics.debug && !condition && Alert(s);
 }, NullLogger = function() {
     function NullLogger() {
         _class_call_check(this, NullLogger);

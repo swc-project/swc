@@ -4,7 +4,7 @@ var X;
     (function(Y) {
         var Point;
         (function(Point) {
-            var Origin = Point.Origin = new Point(0, 0);
+            Point.Origin = new Point(0, 0);
         })(Point = Y.Point || (Y.Point = {}));
     })(X.Y || (X.Y = {}));
 })(X || (X = {}));
@@ -27,7 +27,7 @@ var X;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var Instance = A.Instance = new A();
+    A.Instance = new A();
 })(A || (A = {}));
 // duplicate identifier
 var A = function A() {

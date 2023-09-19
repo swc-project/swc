@@ -9,6 +9,6 @@ var STRING, M, A = function() {
         return "";
     }, A;
 }();
-(M || (M = {})).n = void 0;
+M || (M = {});
 var objA = new A();
 objA.a, M.n, A.foo(), STRING.charAt(0), objA.a, M.n;

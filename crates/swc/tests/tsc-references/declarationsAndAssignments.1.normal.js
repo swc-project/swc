@@ -202,11 +202,7 @@ f14([
 ]); // Error, no x
 var M;
 (function(M) {
-    var ref;
-    var _ref = _sliced_to_array((ref = [
-        1,
-        2
-    ], M.a = ref[0], M.b = ref[1], ref), 2), a = _ref[0], b = _ref[1];
+    M.a = 1, M.b = 2;
 })(M || (M = {}));
 function f15() {
     var a = "hello";

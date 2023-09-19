@@ -47,5 +47,5 @@ var D;
 // no collision, since interface doesn't
 // generate code.
 (function(D) {
-    var E = D.E = "hello";
+    D.E = "hello";
 })(D || (D = {}));

@@ -23,7 +23,7 @@ g = null; // ok
 I = null; // error
 var M;
 (function(M) {
-    var x = M.x = 1;
+    M.x = 1;
 })(M || (M = {}));
 M = null; // error
 var h = null;

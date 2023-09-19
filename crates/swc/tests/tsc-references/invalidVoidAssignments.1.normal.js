@@ -15,7 +15,7 @@ var g = 1;
 var g2 = 1;
 var M;
 (function(M) {
-    var x = M.x = 1;
+    M.x = 1;
 })(M || (M = {}));
 M = x;
 function i(a) {

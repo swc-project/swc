@@ -16,9 +16,7 @@ var E;
     E[E["c"] = 2] = "c";
 })(E || (E = {}));
 var M;
-(function(M) {
-    var a = M.a = void 0;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 var a;
 var b;
 var c;

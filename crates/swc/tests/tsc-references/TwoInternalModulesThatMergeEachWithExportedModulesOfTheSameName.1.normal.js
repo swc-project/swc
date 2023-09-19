@@ -2,15 +2,11 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    (function(B) {
-        var x = B.x = void 0;
-    })(A.B || (A.B = {}));
+    (function(B) {})(A.B || (A.B = {}));
 })(A || (A = {}));
 (function(A) {
     var B;
-    (function(B) {
-        var x = B.x = void 0;
-    })(B || (B = {}));
+    (function(B) {})(B || (B = {}));
 })(A || (A = {}));
 // ensure the right var decl is exported
 var x;

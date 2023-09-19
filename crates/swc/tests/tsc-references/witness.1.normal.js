@@ -111,8 +111,8 @@ var propAcc1;
 var M2;
 // Property access of module member
 (function(M2) {
-    var x = M2.x = M2.x;
-    var y = x;
+    M2.x = M2.x;
+    var y = M2.x;
     var y;
 })(M2 || (M2 = {}));
 // Property access of class instance type

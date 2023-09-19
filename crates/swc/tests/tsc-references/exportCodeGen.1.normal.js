@@ -5,9 +5,9 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
     var lt12 = function lt12() {
-        return x < 12;
+        return A.x < 12;
     };
-    var x = A.x = 12;
+    A.x = 12;
 })(A || (A = {}));
 var B;
 // should not fully qualify 'x'
@@ -48,7 +48,7 @@ var E;
     E.C = C;
     var M;
     (function(M) {
-        var x = M.x = 42;
+        M.x = 42;
     })(M = E.M || (E.M = {}));
 })(E || (E = {}));
 var F;

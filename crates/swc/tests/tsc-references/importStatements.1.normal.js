@@ -9,7 +9,7 @@ var A;
         this.y = y;
     };
     A.Point = Point;
-    var Origin = A.Origin = new Point(0, 0);
+    A.Origin = new Point(0, 0);
 })(A || (A = {}));
 var C;
 // no code gen expected

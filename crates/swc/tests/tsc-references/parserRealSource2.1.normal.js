@@ -252,8 +252,10 @@ var TypeScript;
         ModuleGenTarget[ModuleGenTarget["Asynchronous"] = 1] = "Asynchronous";
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
     })(ModuleGenTarget = TypeScript.ModuleGenTarget || (TypeScript.ModuleGenTarget = {}));
-    var codeGenTarget = TypeScript.codeGenTarget = 0;
-    var moduleGenTarget = TypeScript.moduleGenTarget = 0;
-    var optimizeModuleCodeGen = TypeScript.optimizeModuleCodeGen = true;
+    // Compiler defaults to generating ES5-compliant code for
+    //  - getters and setters
+    TypeScript.codeGenTarget = 0;
+    TypeScript.moduleGenTarget = 0;
+    TypeScript.optimizeModuleCodeGen = true;
     TypeScript.flagsToString = flagsToString;
 })(TypeScript || (TypeScript = {}));

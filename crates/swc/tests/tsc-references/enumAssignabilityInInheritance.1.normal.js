@@ -34,7 +34,7 @@ var E2;
 var r4 = foo13(0);
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    f.bar = 1;
 })(f || (f = {}));
 var r4 = foo14(0);
 var CC = function CC() {
@@ -42,7 +42,7 @@ var CC = function CC() {
     _class_call_check(this, CC);
 };
 (function(CC) {
-    var bar = CC.bar = 1;
+    CC.bar = 1;
 })(CC || (CC = {}));
 var r4 = foo15(0);
 var r4 = foo16(0);

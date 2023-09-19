@@ -35,7 +35,7 @@ function f() {}
 var C = function C() {
     _class_call_check._(this, C);
 };
-(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (M || (M = {})).x = void 0;
+(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", M || (M = {});
 var a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {

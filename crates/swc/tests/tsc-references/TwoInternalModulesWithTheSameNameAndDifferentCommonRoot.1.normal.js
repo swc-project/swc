@@ -21,7 +21,8 @@ var otherRoot;
 (function(otherRoot) {
     var A;
     (function(A) {
-        var Origin = A.Origin = {
+        // have to be fully qualified since in different root
+        A.Origin = {
             x: 0,
             y: 0
         };

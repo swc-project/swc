@@ -361,7 +361,7 @@ var TypeScript;
         return ScopeSearchFilter;
     }();
     TypeScript.ScopeSearchFilter = ScopeSearchFilter;
-    var instanceFilter = TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
     TypeScript.preAssignModuleScopes = preAssignModuleScopes;
     TypeScript.preAssignClassScopes = preAssignClassScopes;
     TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes;

@@ -27,7 +27,7 @@ var j = x;
 var j2 = x;
 var M;
 (function(M) {
-    var foo = M.foo = 1;
+    M.foo = 1;
 })(M || (M = {}));
 M = x;
 function k(a) {

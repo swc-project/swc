@@ -6,6 +6,6 @@ var C = function C() {
     _class_call_check(this, C);
 };
 (function(C) {
-    var f = C.f = C.foo; // OK
-    var b = C.b = C.bar; // error
+    C.f = C.foo; // OK
+    C.b = C.bar; // error
 })(C || (C = {}));
