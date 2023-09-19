@@ -1391,8 +1391,6 @@ impl Optimizer<'_> {
                 false
             }
 
-            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().all(|e| self.is_skippable_for_seq(a, e)),
-
             // Expressions without any effects
             Expr::This(_)
             | Expr::Fn(_)
