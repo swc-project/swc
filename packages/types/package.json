@@ -1,6 +1,6 @@
 {
     "name": "@swc/types",
-    "version": "0.1.4",
+    "version": "0.1.5",
     "description": "Typings for the swc project.",
     "sideEffects": false,
     "scripts": {
