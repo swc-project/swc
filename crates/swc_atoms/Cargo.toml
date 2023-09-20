@@ -27,6 +27,7 @@ rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
 rustc-hash = "1.1.0"
 serde = "1"
 string_cache = "0.8.7"
+tendril = "0.4.3"
 triomphe = "0.1.8"
 
 [build-dependencies]
