@@ -129,14 +129,14 @@ function f18(x) {
     var r16 = true ? x : ac; // ok
 }
 function f19(x) {
-    var f17 = function f17(a) {
+    function f17(a) {
         var r17 = true ? x : a; // ok
         var r17 = true ? a : x; // ok
-    };
-    var f18 = function f18(a) {
+    }
+    function f18(a) {
         var r18 = true ? x : a; // ok
         var r18 = true ? a : x; // ok
-    };
+    }
 }
 function f20(x) {
     var r19 = true ? new Object() : x; // ok

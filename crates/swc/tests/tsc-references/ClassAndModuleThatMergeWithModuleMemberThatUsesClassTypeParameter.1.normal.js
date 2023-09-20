@@ -6,7 +6,7 @@ var clodule1 = function clodule1() {
     _class_call_check(this, clodule1);
 };
 (function(clodule1) {
-    var f = function f(x) {};
+    function f(x) {}
 })(clodule1 || (clodule1 = {}));
 var clodule2 = function clodule2() {
     "use strict";

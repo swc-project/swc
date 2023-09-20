@@ -38,9 +38,9 @@ var C3 = /*#__PURE__*/ function() {
     }
     var _proto = C3.prototype;
     _proto.f = function f() {
-        var g = function g(x) {
+        function g(x) {
             return undefined;
-        };
+        }
         var x2 = {
             h: function h(x) {
                 return undefined;

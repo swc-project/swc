@@ -11,11 +11,11 @@ var MyList = function MyList() {
 function foo(x) {}
 function foo2(x) {}
 function other() {
-    var foo3 = function foo3(x) {};
-    var foo4 = function foo4(x) {};
-    var foo5 = function foo5(x) {
+    function foo3(x) {}
+    function foo4(x) {}
+    function foo5(x) {
         return null;
-    };
+    }
     var list;
     var myList;
     var r = foo5(list);

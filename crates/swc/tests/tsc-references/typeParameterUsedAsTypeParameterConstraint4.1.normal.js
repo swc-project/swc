@@ -15,20 +15,20 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 function foo(x, y) {
-    var bar = function bar() {
+    function bar() {
         function baz(a, b) {
             x = y;
             return y;
         }
-    };
+    }
 }
 function foo2(x, y) {
-    var bar = function bar() {
+    function bar() {
         function baz(a, b) {
             x = y;
             return y;
         }
-    };
+    }
 }
 var f3 = function(x, y) {
     var bar = function bar(r, s) {

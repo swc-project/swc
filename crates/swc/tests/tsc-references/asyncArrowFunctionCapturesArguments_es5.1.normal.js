@@ -9,7 +9,7 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.method = function method() {
-        var other = function other() {};
+        function other() {}
         var _this = this, _arguments = arguments;
         var fn = function() {
             var _ref = _async_to_generator(function() {

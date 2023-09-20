@@ -49,11 +49,11 @@ ExpandoMerge.p1 = 111;
 var n = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1);
 var Ns;
 (function(Ns) {
-    var ExpandoNamespace = function ExpandoNamespace() {};
-    var foo = function foo() {
-        return ExpandoNamespace;
-    };
+    function ExpandoNamespace() {}
     ExpandoNamespace.p6 = 42;
+    function foo() {
+        return ExpandoNamespace;
+    }
     Ns.foo = foo;
 })(Ns || (Ns = {}));
 // Should not work in Typescript -- must be const

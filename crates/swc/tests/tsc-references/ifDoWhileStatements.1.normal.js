@@ -28,26 +28,26 @@ function F2(x) {
 }
 var M;
 (function(M) {
-    var F2 = function F2(x) {
-        return x.toString();
-    };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
     M.A = A;
+    function F2(x) {
+        return x.toString();
+    }
     M.F2 = F2;
 })(M || (M = {}));
 var N;
 (function(N) {
-    var F2 = function F2(x) {
-        return x.toString();
-    };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
     N.A = A;
+    function F2(x) {
+        return x.toString();
+    }
     N.F2 = F2;
 })(N || (N = {}));
 // literals

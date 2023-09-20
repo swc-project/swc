@@ -73,7 +73,7 @@ function serializeQueryParameters(parameters) {
  * @return {InstantSearchManager} a new instance of InstantSearchManager
  */ export default function createInstantSearchManager(param) {
     var indexName = param.indexName, _param_initialState = param.initialState, initialState = _param_initialState === void 0 ? {} : _param_initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay;
-    var createStore = function createStore(initialState) {
+    function createStore(initialState) {
         var state = initialState;
         var listeners = [];
         return {
@@ -93,27 +93,46 @@ function serializeQueryParameters(parameters) {
                 };
             }
         };
-    };
-    var skipSearch = function skipSearch() {
+    }
+    var helper = algoliasearchHelper(searchClient, indexName, _object_spread({}, HIGHLIGHT_TAGS));
+    addAlgoliaAgents(searchClient);
+    helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
+        indexId: indexName
+    })).on("error", handleSearchError);
+    var skip = false;
+    var stalledSearchTimer = null;
+    var initialSearchParameters = helper.state;
+    var widgetsManager = createWidgetsManager(onWidgetsUpdate);
+    hydrateSearchClient(searchClient, resultsState);
+    var store = createStore({
+        widgets: initialState,
+        metadata: hydrateMetadata(resultsState),
+        results: hydrateResultsState(resultsState),
+        error: null,
+        searching: false,
+        isSearchStalled: true,
+        searchingForFacetValues: false
+    });
+    function skipSearch() {
         skip = true;
-    };
-    var updateClient = function updateClient(client) {
+    }
+    function updateClient(client) {
         addAlgoliaAgents(client);
         helper.setClient(client);
         search();
-    };
-    var clearCache = function clearCache() {
+    }
+    function clearCache() {
         helper.clearCache();
         search();
-    };
-    var getMetadata = function getMetadata(state) {
+    }
+    function getMetadata(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getMetadata);
         }).map(function(widget) {
             return widget.getMetadata(state);
         });
-    };
-    var getSearchParameters = function getSearchParameters() {
+    }
+    function getSearchParameters() {
         var sharedParameters = widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.getSearchParameters);
         }).filter(function(widget) {
@@ -157,8 +176,8 @@ function serializeQueryParameters(parameters) {
             mainParameters: mainParameters,
             derivedParameters: derivedParameters
         };
-    };
-    var search = function search() {
+    }
+    function search() {
         if (!skip) {
             var _getSearchParameters = getSearchParameters(helper.state), mainParameters = _getSearchParameters.mainParameters, derivedParameters = _getSearchParameters.derivedParameters;
             // We have to call `slice` because the method `detach` on the derived
@@ -194,8 +213,8 @@ function serializeQueryParameters(parameters) {
             helper.setState(mainParameters);
             helper.search();
         }
-    };
-    var handleSearchSuccess = function handleSearchSuccess(param) {
+    }
+    function handleSearchSuccess(param) {
         var indexId = param.indexId;
         return function(event) {
             var state = store.getState();
@@ -227,8 +246,8 @@ function serializeQueryParameters(parameters) {
                 error: null
             }));
         };
-    };
-    var handleSearchError = function handleSearchError(param) {
+    }
+    function handleSearchError(param) {
         var error = param.error;
         var currentState = store.getState();
         var nextIsSearchStalled = currentState.isSearchStalled;
@@ -244,8 +263,8 @@ function serializeQueryParameters(parameters) {
             error: error,
             searching: false
         }));
-    };
-    var handleNewSearch = function handleNewSearch() {
+    }
+    function handleNewSearch() {
         if (!stalledSearchTimer) {
             var _setTimeout;
             _setTimeout = setTimeout(function() {
@@ -257,8 +276,8 @@ function serializeQueryParameters(parameters) {
                 }));
             }, stalledSearchDelay), stalledSearchTimer = _setTimeout, _setTimeout;
         }
-    };
-    var hydrateSearchClient = function hydrateSearchClient(client, results) {
+    }
+    function hydrateSearchClient(client, results) {
         if (!results) {
             return;
         }
@@ -304,8 +323,8 @@ function serializeQueryParameters(parameters) {
             return;
         }
         hydrateSearchClientWithSingleIndexRequest(client, results);
-    };
-    var hydrateSearchClientWithMultiIndexRequest = function hydrateSearchClientWithMultiIndexRequest(client, results) {
+    }
+    function hydrateSearchClientWithMultiIndexRequest(client, results) {
         // Algoliasearch API Client >= v4
         // Populate the cache with the data from the server
         if (client.transporter) {
@@ -349,8 +368,8 @@ function serializeQueryParameters(parameters) {
                 return acc.concat(result.rawResults);
             }, [])
         })));
-    };
-    var hydrateSearchClientWithSingleIndexRequest = function hydrateSearchClientWithSingleIndexRequest(client, results) {
+    }
+    function hydrateSearchClientWithSingleIndexRequest(client, results) {
         // Algoliasearch API Client >= v4
         // Populate the cache with the data from the server
         if (client.transporter) {
@@ -386,8 +405,8 @@ function serializeQueryParameters(parameters) {
         client.cache = _object_spread_props(_object_spread({}, client.cache), _define_property({}, key, JSON.stringify({
             results: results.rawResults
         })));
-    };
-    var hydrateResultsState = function hydrateResultsState(results) {
+    }
+    function hydrateResultsState(results) {
         if (!results) {
             return null;
         }
@@ -397,8 +416,8 @@ function serializeQueryParameters(parameters) {
             }, {});
         }
         return new algoliasearchHelper.SearchResults(new algoliasearchHelper.SearchParameters(results.state), results.rawResults);
-    };
-    var onWidgetsUpdate = // Called whenever a widget has been rendered with new props.
+    }
+    // Called whenever a widget has been rendered with new props.
     function onWidgetsUpdate() {
         var metadata = getMetadata(store.getState().widgets);
         store.setState(_object_spread_props(_object_spread({}, store.getState()), {
@@ -408,16 +427,16 @@ function serializeQueryParameters(parameters) {
         // Since the `getSearchParameters` method of widgets also depends on props,
         // the result search parameters might have changed.
         search();
-    };
-    var transitionState = function transitionState(nextSearchState) {
+    }
+    function transitionState(nextSearchState) {
         var searchState = store.getState().widgets;
         return widgetsManager.getWidgets().filter(function(widget) {
             return Boolean(widget.transitionState);
         }).reduce(function(res, widget) {
             return widget.transitionState(searchState, res);
         }, nextSearchState);
-    };
-    var onExternalStateUpdate = function onExternalStateUpdate(nextSearchState) {
+    }
+    function onExternalStateUpdate(nextSearchState) {
         var metadata = getMetadata(nextSearchState);
         store.setState(_object_spread_props(_object_spread({}, store.getState()), {
             widgets: nextSearchState,
@@ -425,8 +444,8 @@ function serializeQueryParameters(parameters) {
             searching: true
         }));
         search();
-    };
-    var onSearchForFacetValues = function onSearchForFacetValues(param) {
+    }
+    function onSearchForFacetValues(param) {
         var facetName = param.facetName, query = param.query, _param_maxFacetHits = param.maxFacetHits, maxFacetHits = _param_maxFacetHits === void 0 ? 10 : _param_maxFacetHits;
         // The values 1, 100 are the min / max values that the engine accepts.
         // see: https://www.algolia.com/doc/api-reference/api-parameters/maxFacetHits
@@ -455,35 +474,16 @@ function serializeQueryParameters(parameters) {
                 throw error;
             });
         });
-    };
-    var updateIndex = function updateIndex(newIndex) {
+    }
+    function updateIndex(newIndex) {
         initialSearchParameters = initialSearchParameters.setIndex(newIndex);
     // No need to trigger a new search here as the widgets will also update and trigger it if needed.
-    };
-    var getWidgetsIds = function getWidgetsIds() {
+    }
+    function getWidgetsIds() {
         return store.getState().metadata.reduce(function(res, meta) {
             return typeof meta.id !== "undefined" ? res.concat(meta.id) : res;
         }, []);
-    };
-    var helper = algoliasearchHelper(searchClient, indexName, _object_spread({}, HIGHLIGHT_TAGS));
-    addAlgoliaAgents(searchClient);
-    helper.on("search", handleNewSearch).on("result", handleSearchSuccess({
-        indexId: indexName
-    })).on("error", handleSearchError);
-    var skip = false;
-    var stalledSearchTimer = null;
-    var initialSearchParameters = helper.state;
-    var widgetsManager = createWidgetsManager(onWidgetsUpdate);
-    hydrateSearchClient(searchClient, resultsState);
-    var store = createStore({
-        widgets: initialState,
-        metadata: hydrateMetadata(resultsState),
-        results: hydrateResultsState(resultsState),
-        error: null,
-        searching: false,
-        isSearchStalled: true,
-        searchingForFacetValues: false
-    });
+    }
     return {
         store: store,
         widgetsManager: widgetsManager,

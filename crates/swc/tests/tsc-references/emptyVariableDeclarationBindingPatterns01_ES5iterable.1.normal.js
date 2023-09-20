@@ -2,13 +2,6 @@
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 (function() {
-    var f = function f() {
-        var ref = _object_destructuring_empty(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a), _ref = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), _ref1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = _ref1.p, ref1 = _object_destructuring_empty(tmp === void 0 ? a : tmp);
-        return function() {
-            var ref = _object_destructuring_empty(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a), _ref = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), _ref1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = _ref1.p, ref1 = _object_destructuring_empty(tmp === void 0 ? a : tmp);
-            return a;
-        };
-    };
     var a;
     var ref = _object_destructuring_empty(a);
     var ref1 = _object_destructuring_empty(a);
@@ -23,6 +16,13 @@ import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
     var ref7 = _object_destructuring_empty(a.p1), _a_p21 = _sliced_to_array(a.p2, 0);
     var ref8 = _object_destructuring_empty(a.p1), _a_p22 = _sliced_to_array(a.p2, 0);
     for(var ref9 = _object_destructuring_empty({}), ref10 = _object_destructuring_empty({}); false; void 0){}
+    function f() {
+        var ref = _object_destructuring_empty(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a), _ref = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), _ref1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = _ref1.p, ref1 = _object_destructuring_empty(tmp === void 0 ? a : tmp);
+        return function() {
+            var ref = _object_destructuring_empty(arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a), _ref = _sliced_to_array(arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : a, 0), _ref1 = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : a, tmp = _ref1.p, ref1 = _object_destructuring_empty(tmp === void 0 ? a : tmp);
+            return a;
+        };
+    }
 })();
 (function() {
     var ns = [];

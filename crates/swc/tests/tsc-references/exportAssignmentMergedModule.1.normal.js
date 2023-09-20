@@ -2,16 +2,16 @@
 "use strict";
 var Foo;
 (function(Foo) {
-    var a = function a() {
+    function a() {
         return 5;
-    };
+    }
     Foo.a = a;
     Foo.b = true;
 })(Foo || (Foo = {}));
 (function(Foo) {
-    var c = function c(a) {
+    function c(a) {
         return a;
-    };
+    }
     Foo.c = c;
     var Test;
     (function(Test) {

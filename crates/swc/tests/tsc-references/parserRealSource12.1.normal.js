@@ -5,12 +5,6 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var TypeScript;
 (function(TypeScript) {
-    var getAstWalkerFactory = function getAstWalkerFactory() {
-        if (!globalAstWalkerFactory) {
-            globalAstWalkerFactory = new AstWalkerFactory();
-        }
-        return globalAstWalkerFactory;
-    };
     var AstWalkOptions = /*#__PURE__*/ function() {
         "use strict";
         function AstWalkOptions() {
@@ -206,13 +200,20 @@ var TypeScript;
     }();
     TypeScript.AstWalkerFactory = AstWalkerFactory;
     var globalAstWalkerFactory;
+    function getAstWalkerFactory() {
+        if (!globalAstWalkerFactory) {
+            globalAstWalkerFactory = new AstWalkerFactory();
+        }
+        return globalAstWalkerFactory;
+    }
     TypeScript.getAstWalkerFactory = getAstWalkerFactory;
     var ChildrenWalkers;
     (function(ChildrenWalkers) {
-        var walkNone = function walkNone(preAst, parent, walker) {
+        function walkNone(preAst, parent, walker) {
         // Nothing to do
-        };
-        var walkListChildren = function walkListChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkNone = walkNone;
+        function walkListChildren(preAst, parent, walker) {
             var len = preAst.members.length;
             if (walker.options.reverseSiblings) {
                 for(var i = len - 1; i >= 0; i--){
@@ -227,16 +228,18 @@ var TypeScript;
                     }
                 }
             }
-        };
-        var walkUnaryExpressionChildren = function walkUnaryExpressionChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkListChildren = walkListChildren;
+        function walkUnaryExpressionChildren(preAst, parent, walker) {
             if (preAst.castTerm) {
                 preAst.castTerm = walker.walk(preAst.castTerm, preAst);
             }
             if (preAst.operand) {
                 preAst.operand = walker.walk(preAst.operand, preAst);
             }
-        };
-        var walkBinaryExpressionChildren = function walkBinaryExpressionChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkUnaryExpressionChildren = walkUnaryExpressionChildren;
+        function walkBinaryExpressionChildren(preAst, parent, walker) {
             if (walker.options.reverseSiblings) {
                 if (preAst.operand2) {
                     preAst.operand2 = walker.walk(preAst.operand2, preAst);
@@ -252,13 +255,15 @@ var TypeScript;
                     preAst.operand2 = walker.walk(preAst.operand2, preAst);
                 }
             }
-        };
-        var walkTypeReferenceChildren = function walkTypeReferenceChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkBinaryExpressionChildren = walkBinaryExpressionChildren;
+        function walkTypeReferenceChildren(preAst, parent, walker) {
             if (preAst.term) {
                 preAst.term = walker.walk(preAst.term, preAst);
             }
-        };
-        var walkCallExpressionChildren = function walkCallExpressionChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkTypeReferenceChildren = walkTypeReferenceChildren;
+        function walkCallExpressionChildren(preAst, parent, walker) {
             if (!walker.options.reverseSiblings) {
                 preAst.target = walker.walk(preAst.target, preAst);
             }
@@ -268,8 +273,9 @@ var TypeScript;
             if (walker.options.reverseSiblings && walker.options.goNextSibling) {
                 preAst.target = walker.walk(preAst.target, preAst);
             }
-        };
-        var walkTrinaryExpressionChildren = function walkTrinaryExpressionChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkCallExpressionChildren = walkCallExpressionChildren;
+        function walkTrinaryExpressionChildren(preAst, parent, walker) {
             if (preAst.operand1) {
                 preAst.operand1 = walker.walk(preAst.operand1, preAst);
             }
@@ -279,8 +285,9 @@ var TypeScript;
             if (preAst.operand3 && walker.options.goNextSibling) {
                 preAst.operand3 = walker.walk(preAst.operand3, preAst);
             }
-        };
-        var walkFuncDeclChildren = function walkFuncDeclChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkTrinaryExpressionChildren = walkTrinaryExpressionChildren;
+        function walkFuncDeclChildren(preAst, parent, walker) {
             if (preAst.name) {
                 preAst.name = walker.walk(preAst.name, preAst);
             }
@@ -293,8 +300,9 @@ var TypeScript;
             if (preAst.bod && preAst.bod.members.length > 0 && walker.options.goNextSibling) {
                 preAst.bod = walker.walk(preAst.bod, preAst);
             }
-        };
-        var walkBoundDeclChildren = function walkBoundDeclChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkFuncDeclChildren = walkFuncDeclChildren;
+        function walkBoundDeclChildren(preAst, parent, walker) {
             if (preAst.id) {
                 preAst.id = walker.walk(preAst.id, preAst);
             }
@@ -304,13 +312,15 @@ var TypeScript;
             if (preAst.typeExpr && walker.options.goNextSibling) {
                 preAst.typeExpr = walker.walk(preAst.typeExpr, preAst);
             }
-        };
-        var walkReturnStatementChildren = function walkReturnStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkBoundDeclChildren = walkBoundDeclChildren;
+        function walkReturnStatementChildren(preAst, parent, walker) {
             if (preAst.returnExpression) {
                 preAst.returnExpression = walker.walk(preAst.returnExpression, preAst);
             }
-        };
-        var walkForStatementChildren = function walkForStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkReturnStatementChildren = walkReturnStatementChildren;
+        function walkForStatementChildren(preAst, parent, walker) {
             if (preAst.init) {
                 preAst.init = walker.walk(preAst.init, preAst);
             }
@@ -323,8 +333,9 @@ var TypeScript;
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkForInStatementChildren = function walkForInStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkForStatementChildren = walkForStatementChildren;
+        function walkForInStatementChildren(preAst, parent, walker) {
             preAst.lval = walker.walk(preAst.lval, preAst);
             if (walker.options.goNextSibling) {
                 preAst.obj = walker.walk(preAst.obj, preAst);
@@ -332,8 +343,9 @@ var TypeScript;
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkIfStatementChildren = function walkIfStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkForInStatementChildren = walkForInStatementChildren;
+        function walkIfStatementChildren(preAst, parent, walker) {
             preAst.cond = walker.walk(preAst.cond, preAst);
             if (preAst.thenBod && walker.options.goNextSibling) {
                 preAst.thenBod = walker.walk(preAst.thenBod, preAst);
@@ -341,84 +353,97 @@ var TypeScript;
             if (preAst.elseBod && walker.options.goNextSibling) {
                 preAst.elseBod = walker.walk(preAst.elseBod, preAst);
             }
-        };
-        var walkWhileStatementChildren = function walkWhileStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkIfStatementChildren = walkIfStatementChildren;
+        function walkWhileStatementChildren(preAst, parent, walker) {
             preAst.cond = walker.walk(preAst.cond, preAst);
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkDoWhileStatementChildren = function walkDoWhileStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkWhileStatementChildren = walkWhileStatementChildren;
+        function walkDoWhileStatementChildren(preAst, parent, walker) {
             preAst.cond = walker.walk(preAst.cond, preAst);
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkBlockChildren = function walkBlockChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkDoWhileStatementChildren = walkDoWhileStatementChildren;
+        function walkBlockChildren(preAst, parent, walker) {
             if (preAst.statements) {
                 preAst.statements = walker.walk(preAst.statements, preAst);
             }
-        };
-        var walkCaseStatementChildren = function walkCaseStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkBlockChildren = walkBlockChildren;
+        function walkCaseStatementChildren(preAst, parent, walker) {
             if (preAst.expr) {
                 preAst.expr = walker.walk(preAst.expr, preAst);
             }
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkSwitchStatementChildren = function walkSwitchStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkCaseStatementChildren = walkCaseStatementChildren;
+        function walkSwitchStatementChildren(preAst, parent, walker) {
             if (preAst.val) {
                 preAst.val = walker.walk(preAst.val, preAst);
             }
             if (preAst.caseList && walker.options.goNextSibling) {
                 preAst.caseList = walker.walk(preAst.caseList, preAst);
             }
-        };
-        var walkTryChildren = function walkTryChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkSwitchStatementChildren = walkSwitchStatementChildren;
+        function walkTryChildren(preAst, parent, walker) {
             if (preAst.body) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkTryCatchChildren = function walkTryCatchChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkTryChildren = walkTryChildren;
+        function walkTryCatchChildren(preAst, parent, walker) {
             if (preAst.tryNode) {
                 preAst.tryNode = walker.walk(preAst.tryNode, preAst);
             }
             if (preAst.catchNode && walker.options.goNextSibling) {
                 preAst.catchNode = walker.walk(preAst.catchNode, preAst);
             }
-        };
-        var walkTryFinallyChildren = function walkTryFinallyChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkTryCatchChildren = walkTryCatchChildren;
+        function walkTryFinallyChildren(preAst, parent, walker) {
             if (preAst.tryNode) {
                 preAst.tryNode = walker.walk(preAst.tryNode, preAst);
             }
             if (preAst.finallyNode && walker.options.goNextSibling) {
                 preAst.finallyNode = walker.walk(preAst.finallyNode, preAst);
             }
-        };
-        var walkFinallyChildren = function walkFinallyChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkTryFinallyChildren = walkTryFinallyChildren;
+        function walkFinallyChildren(preAst, parent, walker) {
             if (preAst.body) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkCatchChildren = function walkCatchChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkFinallyChildren = walkFinallyChildren;
+        function walkCatchChildren(preAst, parent, walker) {
             if (preAst.param) {
                 preAst.param = walker.walk(preAst.param, preAst);
             }
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkRecordChildren = function walkRecordChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkCatchChildren = walkCatchChildren;
+        function walkRecordChildren(preAst, parent, walker) {
             preAst.name = walker.walk(preAst.name, preAst);
             if (walker.options.goNextSibling && preAst.members) {
                 preAst.members = walker.walk(preAst.members, preAst);
             }
-        };
-        var walkNamedTypeChildren = function walkNamedTypeChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkRecordChildren = walkRecordChildren;
+        function walkNamedTypeChildren(preAst, parent, walker) {
             walkRecordChildren(preAst, parent, walker);
-        };
-        var walkClassDeclChildren = function walkClassDeclChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkNamedTypeChildren = walkNamedTypeChildren;
+        function walkClassDeclChildren(preAst, parent, walker) {
             walkNamedTypeChildren(preAst, parent, walker);
             if (walker.options.goNextSibling && preAst.extendsList) {
                 preAst.extendsList = walker.walk(preAst.extendsList, preAst);
@@ -426,13 +451,15 @@ var TypeScript;
             if (walker.options.goNextSibling && preAst.implementsList) {
                 preAst.implementsList = walker.walk(preAst.implementsList, preAst);
             }
-        };
-        var walkScriptChildren = function walkScriptChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkClassDeclChildren = walkClassDeclChildren;
+        function walkScriptChildren(preAst, parent, walker) {
             if (preAst.bod) {
                 preAst.bod = walker.walk(preAst.bod, preAst);
             }
-        };
-        var walkTypeDeclChildren = function walkTypeDeclChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkScriptChildren = walkScriptChildren;
+        function walkTypeDeclChildren(preAst, parent, walker) {
             walkNamedTypeChildren(preAst, parent, walker);
             // walked arguments as part of members
             if (walker.options.goNextSibling && preAst.extendsList) {
@@ -441,67 +468,40 @@ var TypeScript;
             if (walker.options.goNextSibling && preAst.implementsList) {
                 preAst.implementsList = walker.walk(preAst.implementsList, preAst);
             }
-        };
-        var walkModuleDeclChildren = function walkModuleDeclChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkTypeDeclChildren = walkTypeDeclChildren;
+        function walkModuleDeclChildren(preAst, parent, walker) {
             walkRecordChildren(preAst, parent, walker);
-        };
-        var walkImportDeclChildren = function walkImportDeclChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkModuleDeclChildren = walkModuleDeclChildren;
+        function walkImportDeclChildren(preAst, parent, walker) {
             if (preAst.id) {
                 preAst.id = walker.walk(preAst.id, preAst);
             }
             if (preAst.alias) {
                 preAst.alias = walker.walk(preAst.alias, preAst);
             }
-        };
-        var walkWithStatementChildren = function walkWithStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkImportDeclChildren = walkImportDeclChildren;
+        function walkWithStatementChildren(preAst, parent, walker) {
             if (preAst.expr) {
                 preAst.expr = walker.walk(preAst.expr, preAst);
             }
             if (preAst.body && walker.options.goNextSibling) {
                 preAst.body = walker.walk(preAst.body, preAst);
             }
-        };
-        var walkLabelChildren = function walkLabelChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkWithStatementChildren = walkWithStatementChildren;
+        function walkLabelChildren(preAst, parent, walker) {
         //TODO: Walk "id"?
-        };
-        var walkLabeledStatementChildren = function walkLabeledStatementChildren(preAst, parent, walker) {
+        }
+        ChildrenWalkers.walkLabelChildren = walkLabelChildren;
+        function walkLabeledStatementChildren(preAst, parent, walker) {
             preAst.labels = walker.walk(preAst.labels, preAst);
             if (walker.options.goNextSibling) {
                 preAst.stmt = walker.walk(preAst.stmt, preAst);
             }
-        };
-        ChildrenWalkers.walkNone = walkNone;
-        ChildrenWalkers.walkListChildren = walkListChildren;
-        ChildrenWalkers.walkUnaryExpressionChildren = walkUnaryExpressionChildren;
-        ChildrenWalkers.walkBinaryExpressionChildren = walkBinaryExpressionChildren;
-        ChildrenWalkers.walkTypeReferenceChildren = walkTypeReferenceChildren;
-        ChildrenWalkers.walkCallExpressionChildren = walkCallExpressionChildren;
-        ChildrenWalkers.walkTrinaryExpressionChildren = walkTrinaryExpressionChildren;
-        ChildrenWalkers.walkFuncDeclChildren = walkFuncDeclChildren;
-        ChildrenWalkers.walkBoundDeclChildren = walkBoundDeclChildren;
-        ChildrenWalkers.walkReturnStatementChildren = walkReturnStatementChildren;
-        ChildrenWalkers.walkForStatementChildren = walkForStatementChildren;
-        ChildrenWalkers.walkForInStatementChildren = walkForInStatementChildren;
-        ChildrenWalkers.walkIfStatementChildren = walkIfStatementChildren;
-        ChildrenWalkers.walkWhileStatementChildren = walkWhileStatementChildren;
-        ChildrenWalkers.walkDoWhileStatementChildren = walkDoWhileStatementChildren;
-        ChildrenWalkers.walkBlockChildren = walkBlockChildren;
-        ChildrenWalkers.walkCaseStatementChildren = walkCaseStatementChildren;
-        ChildrenWalkers.walkSwitchStatementChildren = walkSwitchStatementChildren;
-        ChildrenWalkers.walkTryChildren = walkTryChildren;
-        ChildrenWalkers.walkTryCatchChildren = walkTryCatchChildren;
-        ChildrenWalkers.walkTryFinallyChildren = walkTryFinallyChildren;
-        ChildrenWalkers.walkFinallyChildren = walkFinallyChildren;
-        ChildrenWalkers.walkCatchChildren = walkCatchChildren;
-        ChildrenWalkers.walkRecordChildren = walkRecordChildren;
-        ChildrenWalkers.walkNamedTypeChildren = walkNamedTypeChildren;
-        ChildrenWalkers.walkClassDeclChildren = walkClassDeclChildren;
-        ChildrenWalkers.walkScriptChildren = walkScriptChildren;
-        ChildrenWalkers.walkTypeDeclChildren = walkTypeDeclChildren;
-        ChildrenWalkers.walkModuleDeclChildren = walkModuleDeclChildren;
-        ChildrenWalkers.walkImportDeclChildren = walkImportDeclChildren;
-        ChildrenWalkers.walkWithStatementChildren = walkWithStatementChildren;
-        ChildrenWalkers.walkLabelChildren = walkLabelChildren;
+        }
         ChildrenWalkers.walkLabeledStatementChildren = walkLabeledStatementChildren;
     })(ChildrenWalkers || (ChildrenWalkers = {}));
 })(TypeScript || (TypeScript = {}));

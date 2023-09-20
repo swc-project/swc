@@ -17,10 +17,9 @@ var Point = /*#__PURE__*/ function() {
     return Point;
 }();
 (function(Point) {
-    var Origin = function Origin() {
+    function Origin() {
         return null;
     } //expected duplicate identifier error
-    ;
     Point.Origin = Origin;
 })(Point || (Point = {}));
 var A;
@@ -43,10 +42,9 @@ var A;
     }();
     A.Point = Point;
     (function(Point) {
-        var Origin = function Origin() {
+        function Origin() {
             return "";
         } //expected duplicate identifier error
-        ;
         Point.Origin = Origin;
     })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));
