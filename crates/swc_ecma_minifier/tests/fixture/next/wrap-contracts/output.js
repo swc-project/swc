@@ -19083,8 +19083,8 @@
                                 if (Array.isArray(value1)) {
                                     if (0 === value1.length) return '[]';
                                     if (maximumDepth1 < stack1.length + 1) return '"[Array]"';
-                                    stack1.push(value1);
-                                    let res1 = `\n${indentation1 += spacer1}`;
+                                    stack1.push(value1), indentation1 += spacer1;
+                                    let res1 = `\n${indentation1}`;
                                     const join1 = `,\n${indentation1}`, maximumValuesToStringify1 = Math.min(value1.length, maximumBreadth1);
                                     let i2 = 0;
                                     for(; i2 < maximumValuesToStringify1 - 1; i2++){
