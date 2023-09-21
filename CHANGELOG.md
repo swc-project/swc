@@ -8,6 +8,9 @@
 - **(bindings/type)** Update types of `jsc.experimental` (#7972) ([e40fccb](https://github.com/swc-project/swc/commit/e40fccb9ce2a8fc925de818c8da4b6503aab7ae3))
 
 
+- **(es/compat)** Handle nullish in fn expr scope (#7980) ([5050f58](https://github.com/swc-project/swc/commit/5050f5820a43b8de7a87511070405e189eaafb5f))
+
+
 - **(es/minifier)** Do not inline into a template literal with sequential inliner (#7971) ([b3d3a7b](https://github.com/swc-project/swc/commit/b3d3a7bc7339776e57ca402e77cf3fb22c774784))
 
 ## [1.3.86] - 2023-09-18
