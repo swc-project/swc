@@ -16,35 +16,16 @@ use std::{
 
 use rustc_hash::FxHashSet;
 use serde::Serializer;
-use triomphe::{Arc, HeaderWithLength, ThinArc};
+use tendril::{Atomic, Tendril};
 
-include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
-
-/// An (optionally) interned string.
+/// Clone-on-write string.
 ///
-/// Use [AtomGenerator], [`Atom::new`] or `.into()` to create [Atom]s.
-/// If you think the same value will be used multiple time, use [AtomGenerator].
-/// Othrwise, create an [Atom] using `.into()`.
 ///
-/// # Comparison with [JsWord][]
-///
-/// [JsWord][] is a globally interned string with phf support, while [Atom] is a
-/// locally interened string. Global interning results in a less memory usage,
-/// but global means a mutex. Because of the mutex, [Atom] performs better in
-/// multi-thread environments. But due to lack of phf or global interning,
-/// comparison and hashing of [Atom] is slower than them of [JsWord].
-///
-/// # Usages
-///
-/// This should be used instead of [JsWord] for
-///
-/// - Long texts, which is **not likely to be duplicated**. This does not mean
-///   "longer than xx" as this is a type.
-/// - Raw values.
+/// See [tendril] for more details.
 #[derive(Clone)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(ThinArc<HeaderWithLength<()>, u8>);
+pub struct Atom(Tendril<tendril::fmt::UTF8, Atomic>);
 
 fn _assert_size() {
     let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
