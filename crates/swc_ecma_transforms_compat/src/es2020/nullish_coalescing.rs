@@ -199,14 +199,22 @@ impl VisitMut for NullishCoalescing {
 
         if !self.vars.is_empty() {
             if let BlockStmtOrExpr::Expr(expr) = n {
-                // () => expr
-                // () => { return expr; }
+                // expr
+                // { var decl = init; return expr; }
                 let span = expr.span();
-                let mut stmts = vec![Stmt::Return(ReturnStmt {
-                    span: DUMMY_SP,
-                    arg: Some(expr.take()),
-                })];
-                stmts.visit_mut_with(self);
+                let stmts = vec![
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.vars.take(),
+                        declare: false,
+                    }
+                    .into(),
+                    Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(expr.take()),
+                    }),
+                ];
                 *n = BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts });
             }
         }
