@@ -1,5 +1,5 @@
 {
-    "name": "@swc/download-counter",
+    "name": "@swc/counter",
     "packageManager": "yarn@3.2.3",
     "main": "index.js",
     "version": "0.1.0",
