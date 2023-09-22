@@ -2562,9 +2562,10 @@ __metadata:
     "@swc/core-win32-arm64-msvc": 1.2.146
     "@swc/core-win32-ia32-msvc": 1.2.146
     "@swc/core-win32-x64-msvc": 1.2.146
+    "@swc/counter": ^0.1.1
     "@swc/helpers": ^0.5.0
     "@swc/plugin-jest": latest
-    "@swc/types": ^0.1.4
+    "@swc/types": ^0.1.5
     "@taplo/cli": ^0.3.2
     "@types/jest": ^28.1.4
     "@types/node": ^20.5.0
@@ -2631,6 +2632,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@swc/counter@npm:^0.1.1":
+  version: 0.1.1
+  resolution: "@swc/counter@npm:0.1.1"
+  checksum: bb974babd493ba01c0d4a95ab610c3fc15fbf609c08cb0342798e485f57ecc0950abbf84e07124e63c5fe610b492d9a8dd03701d3b9ef7329d9e8bf3cc44980f
+  languageName: node
+  linkType: hard
+
 "@swc/helpers@npm:^0.5.0":
   version: 0.5.1
   resolution: "@swc/helpers@npm:0.5.1"
@@ -2647,10 +2655,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/types@npm:^0.1.4":
-  version: 0.1.4
-  resolution: "@swc/types@npm:0.1.4"
-  checksum: 9b09de7dca8e4b19bfb43f9e332c771855158cb761d26000807fe858447ecbc5342a6c257b26d9aa5497f7138fc58913693e2bee222e5042e0e8f57c2979ae66
+"@swc/types@npm:^0.1.5":
+  version: 0.1.5
+  resolution: "@swc/types@npm:0.1.5"
+  checksum: 6aee11f62d3d805a64848e0bd5f0e0e615f958e327a9e1260056c368d7d28764d89e38bd8005a536c9bf18afbcd303edd84099d60df34a2975d62540f61df13b
   languageName: node
   linkType: hard
 
