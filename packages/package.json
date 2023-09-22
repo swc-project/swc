@@ -1,8 +1,11 @@
 {
     "name": "@swc/workspace",
-  "packageManager": "yarn@3.2.3",
+    "packageManager": "yarn@3.2.3",
     "private": true,
     "workspaces": [
         "./*"
-    ]
+    ],
+    "devDependencies": {
+        "prettier": "^3.0.3"
+    }
 }
