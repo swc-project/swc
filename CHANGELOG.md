@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Refactor
+
+
+
+- **(bindingins)** Create `@swc/counter` (#7991) ([0acbb5f](https://github.com/swc-project/swc/commit/0acbb5f78daa52cf505e077993a694eb966368af))
+
 ## [1.3.87] - 2023-09-22
 
 ### Bug Fixes
