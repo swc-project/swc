@@ -1,7 +1,6 @@
 export function _class_apply_descriptor_update(receiver, descriptor) {
     if (descriptor.set) {
-        if (!descriptor.get)
-            throw new TypeError("attempted to read set only private field");
+        if (!descriptor.get) throw new TypeError("attempted to read set only private field");
 
         if (!("__destrWrapper" in descriptor)) {
             descriptor.__destrWrapper = {
@@ -10,7 +9,7 @@ export function _class_apply_descriptor_update(receiver, descriptor) {
                 },
                 get value() {
                     return descriptor.get.call(receiver);
-                },
+                }
             };
         }
 

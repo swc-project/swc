@@ -1,5 +1,5 @@
 export function _skip_first_generator_next(fn) {
-    return function () {
+    return function() {
         var it = fn.apply(this, arguments);
         it.next();
 

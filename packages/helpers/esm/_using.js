@@ -3,14 +3,11 @@
 export function _using(stack, value, isAwait) {
     if (value === null || value === void 0) return value;
     if (typeof value !== "object") {
-        throw new TypeError(
-            "using declarations can only be used with objects, null, or undefined.",
-        );
+        throw new TypeError("using declarations can only be used with objects, null, or undefined.");
     }
     // core-js-pure uses Symbol.for for polyfilling well-known symbols
     if (isAwait) {
-        var dispose =
-            value[Symbol.asyncDispose || Symbol.for("Symbol.asyncDispose")];
+        var dispose = value[Symbol.asyncDispose || Symbol.for("Symbol.asyncDispose")];
     }
     if (dispose === null || dispose === void 0) {
         dispose = value[Symbol.dispose || Symbol.for("Symbol.dispose")];

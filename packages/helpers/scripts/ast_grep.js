@@ -23,9 +23,7 @@ export function ast_grep() {
         source.prepend(`"use strict";\n\n`);
 
         if (filename.startsWith("_ts")) {
-            const match = tree
-                .root()
-                .find(`export { $NAME as _, $NAME as $ALIAS } from "tslib"`);
+            const match = tree.root().find(`export { $NAME as _, $NAME as $ALIAS } from "tslib"`);
             if (match) {
                 const name = match.getMatch("NAME").text();
                 const alias = match.getMatch("ALIAS").text();
@@ -42,13 +40,9 @@ export function ast_grep() {
                     `exports._ = exports.${alias} = require("tslib").${name};`,
                 );
                 task_queue.push(
-                    fs.writeFile(
-                        root("cjs", `${filename}.cjs`),
-                        source.toString(),
-                        {
-                            encoding: "utf-8",
-                        },
-                    ),
+                    fs.writeFile(root("cjs", `${filename}.cjs`), source.toString(), {
+                        encoding: "utf-8",
+                    }),
                 );
             } else {
                 report_noexport(tree.filename());
@@ -84,19 +78,13 @@ export function ast_grep() {
                     rule: {
                         pattern: func_name,
                         kind: "identifier",
-                        inside: {
-                            kind: "assignment_expression",
-                            field: "left",
-                        },
+                        inside: { kind: "assignment_expression", field: "left" },
                     },
                 })
                 .forEach((match) => {
                     const range = match.range();
 
-                    source.prependLeft(
-                        range.start.index,
-                        `exports._ = exports.${func_name} = `,
-                    );
+                    source.prependLeft(range.start.index, `exports._ = exports.${func_name} = `);
                 });
 
             const export_shortname = `export { ${func_name} as _}`;
@@ -116,10 +104,9 @@ export function ast_grep() {
         }
 
         // rewrite import
-        tree.root()
-            .findAll({
-                rule: { pattern: `import { $BINDING } from "$SOURCE"` },
-            })
+        tree
+            .root()
+            .findAll({ rule: { pattern: `import { $BINDING } from "$SOURCE"` } })
             .forEach((match) => {
                 const import_binding = match.getMatch("BINDING").text();
                 const import_source = match.getMatch("SOURCE").text();
@@ -138,7 +125,8 @@ export function ast_grep() {
                     `var ${import_binding} = require("./${import_binding}.cjs");`,
                 );
 
-                tree.root()
+                tree
+                    .root()
                     .findAll({
                         rule: {
                             pattern: import_binding,
@@ -192,13 +180,17 @@ function report_ts_mismatch(filename, match) {
                 [
                     " ".repeat(range.start.column),
                     "^".repeat(range.end.column - range.start.column),
-                ].join(""),
+                ]
+                    .join(""),
             ),
-            `${chalk.bold(
-                "note:",
-            )} The exported name should be the same as the filename.`,
+            `${
+                chalk.bold(
+                    "note:",
+                )
+            } The exported name should be the same as the filename.`,
             "",
-        ].join("\n"),
+        ]
+            .join("\n"),
     );
 }
 
@@ -220,7 +212,8 @@ function report_export_mismatch(filename, match) {
             [
                 " ".repeat(func_range.start.column),
                 "^".repeat(func_range.end.column - func_range.start.column),
-            ].join(""),
+            ]
+                .join(""),
         ),
     );
 
@@ -228,17 +221,18 @@ function report_export_mismatch(filename, match) {
         [
             `${chalk.bold.red("error")}: mismatch exported function name.`,
             "",
-            `${chalk.blue("-->")} ${filename}:${func_range.start.line + 1}:${
-                func_range.start.column + 1
-            }`,
+            `${chalk.blue("-->")} ${filename}:${func_range.start.line + 1}:${func_range.start.column + 1}`,
             "",
             ...text,
             "",
-            `${chalk.bold(
-                "note:",
-            )} The exported name should be the same as the filename.`,
+            `${
+                chalk.bold(
+                    "note:",
+                )
+            } The exported name should be the same as the filename.`,
             "",
-        ].join("\n"),
+        ]
+            .join("\n"),
     );
 }
 
@@ -259,25 +253,19 @@ function report_import_mismatch(filename, match) {
             match.text(),
             [
                 " ".repeat(binding_range.start.column),
-                chalk.red(
-                    "^".repeat(
-                        binding_range.end.column - binding_range.start.column,
-                    ),
-                ),
-                " ".repeat(
-                    source_range.start.column - binding_range.end.column,
-                ),
-                chalk.blue(
-                    "-".repeat(
-                        source_range.end.column - source_range.start.column,
-                    ),
-                ),
-            ].join(""),
-            `${chalk.bold(
-                "note:",
-            )} The imported binding name should be the same as the import source basename.`,
+                chalk.red("^".repeat(binding_range.end.column - binding_range.start.column)),
+                " ".repeat(source_range.start.column - binding_range.end.column),
+                chalk.blue("-".repeat(source_range.end.column - source_range.start.column)),
+            ]
+                .join(""),
+            `${
+                chalk.bold(
+                    "note:",
+                )
+            } The imported binding name should be the same as the import source basename.`,
             "",
-        ].join("\n"),
+        ]
+            .join("\n"),
     );
 }
 
@@ -286,9 +274,6 @@ function report_import_mismatch(filename, match) {
  */
 function report_noexport(filename) {
     errors.push(
-        [
-            `${chalk.bold.red("error")}: exported name not found`,
-            `${chalk.blue("-->")} ${filename}`,
-        ].join("\n"),
+        [`${chalk.bold.red("error")}: exported name not found`, `${chalk.blue("-->")} ${filename}`].join("\n"),
     );
 }

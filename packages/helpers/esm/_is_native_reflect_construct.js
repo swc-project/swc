@@ -4,9 +4,7 @@ export function _is_native_reflect_construct() {
     if (typeof Proxy === "function") return true;
 
     try {
-        Boolean.prototype.valueOf.call(
-            Reflect.construct(Boolean, [], function () {}),
-        );
+        Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function() {}));
 
         return true;
     } catch (e) {

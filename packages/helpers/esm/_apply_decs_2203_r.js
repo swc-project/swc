@@ -27,16 +27,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         };
     }
 
-    function memberDec(
-        dec,
-        name,
-        desc,
-        initializers,
-        kind,
-        isStatic,
-        isPrivate,
-        value,
-    ) {
+    function memberDec(dec, name, desc, initializers, kind, isStatic, isPrivate, value) {
         var kindStr;
 
         switch (kind) {
@@ -56,20 +47,12 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 kindStr = "field";
         }
 
-        var ctx = {
-            kind: kindStr,
-            name: isPrivate ? "#" + name : name,
-            static: isStatic,
-            private: isPrivate,
-        };
+        var ctx = { kind: kindStr, name: isPrivate ? "#" + name : name, static: isStatic, private: isPrivate };
 
         var decoratorFinishedRef = { v: false };
 
         if (kind !== 0 /* FIELD */) {
-            ctx.addInitializer = createAddInitializerMethod(
-                initializers,
-                decoratorFinishedRef,
-            );
+            ctx.addInitializer = createAddInitializerMethod(initializers, decoratorFinishedRef);
         }
 
         var get, set;
@@ -78,37 +61,32 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 get = desc.get;
                 set = desc.set;
             } else {
-                get = function () {
+                get = function() {
                     return this[name];
                 };
-                set = function (v) {
+                set = function(v) {
                     this[name] = v;
                 };
             }
         } else if (kind === 2 /* METHOD */) {
-            get = function () {
+            get = function() {
                 return desc.value;
             };
         } else {
             // replace with values that will go through the final getter and setter
             if (kind === 1 /* ACCESSOR */ || kind === 3 /* GETTER */) {
-                get = function () {
+                get = function() {
                     return desc.get.call(this);
                 };
             }
 
             if (kind === 1 /* ACCESSOR */ || kind === 4 /* SETTER */) {
-                set = function (v) {
+                set = function(v) {
                     desc.set.call(this, v);
                 };
             }
         }
-        ctx.access =
-            get && set
-                ? { get: get, set: set }
-                : get
-                ? { get: get }
-                : { set: set };
+        ctx.access = get && set ? { get: get, set: set } : get ? { get: get } : { set: set };
 
         try {
             return dec(value, ctx);
@@ -119,11 +97,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
 
     function assertNotFinished(decoratorFinishedRef, fnName) {
         if (decoratorFinishedRef.v) {
-            throw new Error(
-                "attempted to call " +
-                    fnName +
-                    " after decoration was finished",
-            );
+            throw new Error("attempted to call " + fnName + " after decoration was finished");
         }
     }
 
@@ -138,9 +112,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
 
         if (kind === 1 /* ACCESSOR */) {
             if (type !== "object" || value === null) {
-                throw new TypeError(
-                    "accessor decorators must return an object with get, set, or init properties or void 0",
-                );
+                throw new TypeError("accessor decorators must return an object with get, set, or init properties or void 0");
             }
             if (value.get !== undefined) {
                 assertCallable(value.get, "accessor.get");
@@ -160,22 +132,11 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
             } else {
                 hint = "method";
             }
-            throw new TypeError(
-                hint + " decorators must return a function or void 0",
-            );
+            throw new TypeError(hint + " decorators must return a function or void 0");
         }
     }
 
-    function applyMemberDec(
-        ret,
-        base,
-        decInfo,
-        name,
-        kind,
-        isStatic,
-        isPrivate,
-        initializers,
-    ) {
+    function applyMemberDec(ret, base, decInfo, name, kind, isStatic, isPrivate, initializers) {
         var decs = decInfo[0];
 
         var desc, init, value;
@@ -207,16 +168,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         var newValue, get, set;
 
         if (typeof decs === "function") {
-            newValue = memberDec(
-                decs,
-                name,
-                desc,
-                initializers,
-                kind,
-                isStatic,
-                isPrivate,
-                value,
-            );
+            newValue = memberDec(decs, name, desc, initializers, kind, isStatic, isPrivate, value);
 
             if (newValue !== void 0) {
                 assertValidReturnValue(kind, newValue);
@@ -237,16 +189,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
             for (var i = decs.length - 1; i >= 0; i--) {
                 var dec = decs[i];
 
-                newValue = memberDec(
-                    dec,
-                    name,
-                    desc,
-                    initializers,
-                    kind,
-                    isStatic,
-                    isPrivate,
-                    value,
-                );
+                newValue = memberDec(dec, name, desc, initializers, kind, isStatic, isPrivate, value);
 
                 if (newValue !== void 0) {
                     assertValidReturnValue(kind, newValue);
@@ -280,24 +223,23 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         if (kind === 0 /* FIELD */ || kind === 1 /* ACCESSOR */) {
             if (init === void 0) {
                 // If the initializer was void 0, sub in a dummy initializer
-                init = function (instance, init) {
+                init = function(instance, init) {
                     return init;
                 };
             } else if (typeof init !== "function") {
                 var ownInitializers = init;
 
-                init = function (instance, init) {
+                init = function(instance, init) {
                     var value = init;
 
-                    for (var i = 0; i < ownInitializers.length; i++)
-                        value = ownInitializers[i].call(instance, value);
+                    for (var i = 0; i < ownInitializers.length; i++) value = ownInitializers[i].call(instance, value);
 
                     return value;
                 };
             } else {
                 var originalInitializer = init;
 
-                init = function (instance, init) {
+                init = function(instance, init) {
                     return originalInitializer.call(instance, init);
                 };
             }
@@ -319,16 +261,16 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
 
             if (isPrivate) {
                 if (kind === 1 /* ACCESSOR */) {
-                    ret.push(function (instance, args) {
+                    ret.push(function(instance, args) {
                         return value.get.call(instance, args);
                     });
-                    ret.push(function (instance, args) {
+                    ret.push(function(instance, args) {
                         return value.set.call(instance, args);
                     });
                 } else if (kind === 2 /* METHOD */) {
                     ret.push(value);
                 } else {
-                    ret.push(function (instance, args) {
+                    ret.push(function(instance, args) {
                         return value.call(instance, args);
                     });
                 }
@@ -378,21 +320,14 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
             }
 
             if (kind !== 0 /* FIELD */ && !isPrivate) {
-                var existingNonFields = isStatic
-                    ? existingStaticNonFields
-                    : existingProtoNonFields;
+                var existingNonFields = isStatic ? existingStaticNonFields : existingProtoNonFields;
 
                 var existingKind = existingNonFields.get(name) || 0;
 
-                if (
-                    existingKind === true ||
-                    (existingKind === 3 /* GETTER */ &&
-                        kind !== 4) /* SETTER */ ||
-                    (existingKind === 4 /* SETTER */ && kind !== 3) /* GETTER */
-                ) {
+                if (existingKind === true || (existingKind === 3 /* GETTER */ && kind !== 4) /* SETTER */ || (existingKind === 4 /* SETTER */ && kind !== 3) /* GETTER */) {
                     throw new Error(
-                        "Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: " +
-                            name,
+                        "Attempted to decorate a public method/accessor that has the same name as a previously decorated public method/accessor. This is not currently supported by the decorators plugin. Property name was: "
+                            + name
                     );
                 } else if (!existingKind && kind > 2 /* METHOD */) {
                     existingNonFields.set(name, kind);
@@ -401,16 +336,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 }
             }
 
-            applyMemberDec(
-                ret,
-                base,
-                decInfo,
-                name,
-                kind,
-                isStatic,
-                isPrivate,
-                initializers,
-            );
+            applyMemberDec(ret, base, decInfo, name, kind, isStatic, isPrivate, initializers);
         }
 
         pushInitializers(ret, protoInitializers);
@@ -420,9 +346,8 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
 
     function pushInitializers(ret, initializers) {
         if (initializers) {
-            ret.push(function (instance) {
-                for (var i = 0; i < initializers.length; i++)
-                    initializers[i].call(instance);
+            ret.push(function(instance) {
+                for (var i = 0; i < initializers.length; i++) initializers[i].call(instance);
                 return instance;
             });
         }
@@ -438,14 +363,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 var decoratorFinishedRef = { v: false };
 
                 try {
-                    var nextNewClass = classDecs[i](newClass, {
-                        kind: "class",
-                        name: name,
-                        addInitializer: createAddInitializerMethod(
-                            initializers,
-                            decoratorFinishedRef,
-                        ),
-                    });
+                    var nextNewClass = classDecs[i](newClass, { kind: "class", name: name, addInitializer: createAddInitializerMethod(initializers, decoratorFinishedRef) });
                 } finally {
                     decoratorFinishedRef.v = true;
                 }
@@ -456,13 +374,9 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 }
             }
 
-            return [
-                newClass,
-                function () {
-                    for (var i = 0; i < initializers.length; i++)
-                        initializers[i].call(newClass);
-                },
-            ];
+            return [newClass, function() {
+                for (var i = 0; i < initializers.length; i++) initializers[i].call(newClass);
+            }];
         }
         // The transformer will not emit assignment when there are no class decorators,
         // so we don't have to return an empty array here.
@@ -614,13 +528,13 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
     initializeClass(Class);
    */
 
-    _apply_decs_2203_r = function (targetClass, memberDecs, classDecs) {
+    _apply_decs_2203_r = function(targetClass, memberDecs, classDecs) {
         return {
             e: applyMemberDecs(targetClass, memberDecs),
             // Lazily apply class decorations so that member init locals can be properly bound.
             get c() {
                 return applyClassDecs(targetClass, classDecs);
-            },
+            }
         };
     };
 

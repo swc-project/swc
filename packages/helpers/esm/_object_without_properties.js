@@ -11,8 +11,7 @@ export function _object_without_properties(source, excluded) {
         for (i = 0; i < sourceSymbolKeys.length; i++) {
             key = sourceSymbolKeys[i];
             if (excluded.indexOf(key) >= 0) continue;
-            if (!Object.prototype.propertyIsEnumerable.call(source, key))
-                continue;
+            if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
             target[key] = source[key];
         }
     }

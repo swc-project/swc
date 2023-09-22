@@ -4,7 +4,7 @@ function ownKeys(object, enumerableOnly) {
     if (Object.getOwnPropertySymbols) {
         var symbols = Object.getOwnPropertySymbols(object);
         if (enumerableOnly) {
-            symbols = symbols.filter(function (sym) {
+            symbols = symbols.filter(function(sym) {
                 return Object.getOwnPropertyDescriptor(object, sym).enumerable;
             });
         }
@@ -16,18 +16,10 @@ function ownKeys(object, enumerableOnly) {
 export function _object_spread_props(target, source) {
     source = source != null ? source : {};
 
-    if (Object.getOwnPropertyDescriptors)
-        Object.defineProperties(
-            target,
-            Object.getOwnPropertyDescriptors(source),
-        );
+    if (Object.getOwnPropertyDescriptors) Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     else {
-        ownKeys(Object(source)).forEach(function (key) {
-            Object.defineProperty(
-                target,
-                key,
-                Object.getOwnPropertyDescriptor(source, key),
-            );
+        ownKeys(Object(source)).forEach(function(key) {
+            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
         });
     }
 

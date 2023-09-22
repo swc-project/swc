@@ -4,14 +4,8 @@ export function _async_generator(gen) {
     var front, back;
 
     function send(key, arg) {
-        return new Promise(function (resolve, reject) {
-            var request = {
-                key: key,
-                arg: arg,
-                resolve: resolve,
-                reject: reject,
-                next: null,
-            };
+        return new Promise(function(resolve, reject) {
+            var request = { key: key, arg: arg, resolve: resolve, reject: reject, next: null };
             if (back) back = back.next = request;
             else {
                 front = back = request;
@@ -25,19 +19,16 @@ export function _async_generator(gen) {
             var result = gen[key](arg);
             var value = result.value;
             var wrappedAwait = value instanceof _await_value;
-            Promise.resolve(wrappedAwait ? value.wrapped : value).then(
-                function (arg) {
-                    if (wrappedAwait) {
-                        resume("next", arg);
+            Promise.resolve(wrappedAwait ? value.wrapped : value).then(function(arg) {
+                if (wrappedAwait) {
+                    resume("next", arg);
 
-                        return;
-                    }
-                    settle(result.done ? "return" : "normal", arg);
-                },
-                function (err) {
-                    resume("throw", err);
-                },
-            );
+                    return;
+                }
+                settle(result.done ? "return" : "normal", arg);
+            }, function(err) {
+                resume("throw", err);
+            });
         } catch (err) {
             settle("throw", err);
         }
@@ -66,20 +57,20 @@ export function _async_generator(gen) {
 }
 
 if (typeof Symbol === "function" && Symbol.asyncIterator) {
-    _async_generator.prototype[Symbol.asyncIterator] = function () {
+    _async_generator.prototype[Symbol.asyncIterator] = function() {
         return this;
     };
 }
 
-_async_generator.prototype.next = function (arg) {
+_async_generator.prototype.next = function(arg) {
     return this._invoke("next", arg);
 };
 
-_async_generator.prototype.throw = function (arg) {
+_async_generator.prototype.throw = function(arg) {
     return this._invoke("throw", arg);
 };
 
-_async_generator.prototype.return = function (arg) {
+_async_generator.prototype.return = function(arg) {
     return this._invoke("return", arg);
 };
 export { _async_generator as _ };

@@ -8,7 +8,7 @@ export function _update(target, property, receiver, isStrict) {
         },
         set _(value) {
             _set(target, property, value, receiver, isStrict);
-        },
+        }
     };
 }
 export { _update as _ };
