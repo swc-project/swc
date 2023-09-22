@@ -64,9 +64,13 @@ modules.forEach((p) => {
     }
 
     task_queue.push(
-        fs.outputFile(root("src", `${importBinding}.mjs`), re_export_esm(importBinding), {
-            encoding: "utf-8",
-        }),
+        fs.outputFile(
+            root("src", `${importBinding}.mjs`),
+            re_export_esm(importBinding),
+            {
+                encoding: "utf-8",
+            },
+        ),
     );
 
     indexESM.push(`export { ${importBinding} } from "./${importBinding}.js";`);
@@ -97,7 +101,7 @@ task_queue.push(
         encoding: "utf-8",
     }),
     fs.outputFile(root("src", "index.mjs"), `export * from "../esm/index.js"`, {
-        "encoding": "utf-8",
+        encoding: "utf-8",
     }),
 );
 

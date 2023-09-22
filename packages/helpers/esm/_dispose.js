@@ -9,7 +9,13 @@ function dispose_SuppressedError(suppressed, error) {
             this.error = error;
             this.stack = new Error().stack;
         };
-        dispose_SuppressedError.prototype = Object.create(Error.prototype, { constructor: { value: dispose_SuppressedError, writable: true, configurable: true } });
+        dispose_SuppressedError.prototype = Object.create(Error.prototype, {
+            constructor: {
+                value: dispose_SuppressedError,
+                writable: true,
+                configurable: true,
+            },
+        });
     }
     return new dispose_SuppressedError(suppressed, error);
 }

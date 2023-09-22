@@ -5,7 +5,8 @@ export function _defaults(obj, defaults) {
         var key = keys[i];
         var value = Object.getOwnPropertyDescriptor(defaults, key);
 
-        if (value && value.configurable && obj[key] === undefined) Object.defineProperty(obj, key, value);
+        if (value && value.configurable && obj[key] === undefined)
+            Object.defineProperty(obj, key, value);
     }
 
     return obj;

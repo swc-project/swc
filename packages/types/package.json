@@ -1,6 +1,6 @@
 {
     "name": "@swc/types",
-  "packageManager": "yarn@3.2.3",
+    "packageManager": "yarn@3.2.3",
     "version": "0.1.5",
     "description": "Typings for the swc project.",
     "sideEffects": false,

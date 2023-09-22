@@ -4,7 +4,7 @@ export function _class_apply_descriptor_destructure(receiver, descriptor) {
             descriptor.__destrObj = {
                 set value(v) {
                     descriptor.set.call(receiver, v);
-                }
+                },
             };
         }
 

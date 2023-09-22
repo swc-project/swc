@@ -1,9 +1,10 @@
 export function _async_generator_delegate(inner, awaitWrap) {
-    var iter = {}, waiting = false;
+    var iter = {},
+        waiting = false;
 
     function pump(key, value) {
         waiting = true;
-        value = new Promise(function(resolve) {
+        value = new Promise(function (resolve) {
             resolve(inner[key](value));
         });
 
@@ -11,12 +12,12 @@ export function _async_generator_delegate(inner, awaitWrap) {
     }
 
     if (typeof Symbol === "function" && Symbol.iterator) {
-        iter[Symbol.iterator] = function() {
+        iter[Symbol.iterator] = function () {
             return this;
         };
     }
 
-    iter.next = function(value) {
+    iter.next = function (value) {
         if (waiting) {
             waiting = false;
 
@@ -27,7 +28,7 @@ export function _async_generator_delegate(inner, awaitWrap) {
     };
 
     if (typeof inner.throw === "function") {
-        iter.throw = function(value) {
+        iter.throw = function (value) {
             if (waiting) {
                 waiting = false;
                 throw value;
@@ -37,7 +38,7 @@ export function _async_generator_delegate(inner, awaitWrap) {
         };
     }
     if (typeof inner.return === "function") {
-        iter.return = function(value) {
+        iter.return = function (value) {
             return pump("return", value);
         };
     }

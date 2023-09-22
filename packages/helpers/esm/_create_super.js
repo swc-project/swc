@@ -6,7 +6,8 @@ export function _create_super(Derived) {
     var hasNativeReflectConstruct = _is_native_reflect_construct();
 
     return function _createSuperInternal() {
-        var Super = _get_prototype_of(Derived), result;
+        var Super = _get_prototype_of(Derived),
+            result;
 
         if (hasNativeReflectConstruct) {
             var NewTarget = _get_prototype_of(this).constructor;

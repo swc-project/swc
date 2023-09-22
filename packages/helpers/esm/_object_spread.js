@@ -7,13 +7,14 @@ export function _object_spread(target) {
 
         if (typeof Object.getOwnPropertySymbols === "function") {
             ownKeys = ownKeys.concat(
-                Object.getOwnPropertySymbols(source).filter(function(sym) {
-                    return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                })
+                Object.getOwnPropertySymbols(source).filter(function (sym) {
+                    return Object.getOwnPropertyDescriptor(source, sym)
+                        .enumerable;
+                }),
             );
         }
 
-        ownKeys.forEach(function(key) {
+        ownKeys.forEach(function (key) {
             _define_property(target, key, source[key]);
         });
     }
