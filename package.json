@@ -181,6 +181,7 @@
     ],
     "packageManager": "yarn@3.5.0",
     "dependencies": {
-        "@swc/types": "^0.1.4"
+        "@swc/counter": "^0.1.1",
+        "@swc/types": "^0.1.5"
     }
 }
