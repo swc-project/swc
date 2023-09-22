@@ -66,6 +66,9 @@
         "*.rs": [
             "rustfmt --"
         ],
+        "*.json": [
+            "prettier --write"
+        ],
         "!(**/tests/**/*)*.js": [
             "prettier --write"
         ],
