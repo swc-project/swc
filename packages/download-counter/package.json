@@ -1,0 +1,8 @@
+{
+  "name": "@swc/download-counter",
+  "packageManager": "yarn@3.2.3",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+}
+}
