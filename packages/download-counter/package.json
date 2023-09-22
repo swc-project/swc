@@ -1,7 +1,7 @@
 {
     "name": "@swc/download-counter",
     "packageManager": "yarn@3.2.3",
-    "main":"index.js",
+    "main": "index.js",
     "version": "0.1.0",
     "description": "Downloade counter for the swc project",
     "sideEffects": false,
@@ -9,6 +9,7 @@
         "type": "git",
         "url": "git+https://github.com/swc-project/swc.git"
     },
+    "scripts": {},
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
         "access": "public"
