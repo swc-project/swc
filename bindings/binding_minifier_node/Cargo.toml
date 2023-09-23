@@ -12,23 +12,6 @@ version = "0.1.0"
 bench      = false
 crate-type = ["cdylib"]
 
-[features]
-default = ["swc_v1", "plugin"]
-plugin = [
-  "swc_core/plugin_transform_host_native",
-  "swc_core/plugin_transform_host_native_filesystem_cache",
-]
-swc_v1 = ["swc_core/bundler_node_v1"]
-swc_v2 = ["swc_core/bundler_node_v2"]
-
-# Internal flag for testing purpose only.
-__plugin_transform_vtest = [
-  # We know what we're doing - enable internal features for testing fixture setup.
-  "swc_core/__plugin_transform_host",
-  "swc_core/__plugin_transform_host_schema_vtest",
-  "swc_core/__plugin_transform_env_native",
-]
-
 [build-dependencies]
 napi-build = { version = "2" }
 
@@ -55,13 +38,7 @@ swc_core = { version = "0.83.18", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_codegen",
-  "ecma_ast_serde",
   "common_concurrent",
-  "bundler",
-  "ecma_loader",
-  "ecma_transforms",
-  "ecma_visit",
-  "base_node",
-  "base_concurrent",
+  "ecma_minifier",
 ] }
 swc_node_base = "0.5.8"
