@@ -229,7 +229,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.3.87"
+version = "1.3.88"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -242,9 +242,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.57.16"
+version = "0.57.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6232aeb775b976b0b29090292b9b6fec47b5dc192079f00289c83d6b616b9ebc"
+checksum = "d663489067ac79ba005d88d8b96f3ca1eb89703fa27efb669bccf1727cbf44c2"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -2800,9 +2800,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.266.16"
+version = "0.266.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03f12d1929ab7e5ff0d67dba9178e45df6462eeceb0ccdfdd41943741e3ba961"
+checksum = "bbafa50ea10536a61820a35d4b0b3151d062f7bac436dc4d3248d08c9c8c1aa2"
 dependencies = [
  "anyhow",
  "base64 0.13.1",
@@ -2992,9 +2992,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.83.18"
+version = "0.83.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0d507a359348e2c0ec0ffe4510701aeed711e7432e7c9116f1e80d55ee591197"
+checksum = "a4435f953f7b0ae00a2d2d80f48144ea86448bdc0946037dbe4432b134916cd3"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3536,9 +3536,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.55.16"
+version = "0.55.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "45f60ac72e57f9fe4437054f0d288f4d602cba8ef1548b711f1ab30def1c3c64"
+checksum = "a3fe216f6e85db093f2a0020e3dcf8b1b3f4afcff5925384f1a6cc53e5f5084a"
 dependencies = [
  "anyhow",
  "dashmap",
