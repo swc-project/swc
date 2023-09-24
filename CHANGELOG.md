@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es)** Enable resolver if `jsc.baseUrl` is specified (#7998) ([f374ad9](https://github.com/swc-project/swc/commit/f374ad903a066ebf3a7e54a3656cb3fc44b37445))
+
 ## [1.3.88] - 2023-09-24
 
 ### Features
