@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.88] - 2023-09-24
 
 ### Features
 
