@@ -16,13 +16,16 @@ var A, A1;
 A.Point, A.Point(), A.Point.Origin;
  // not expected to be an error.
 //// [simple.ts]
-var B, B1, Point;
-Point = function() {
-    return {
+var B;
+!function(B) {
+    function Point() {
+        return {
+            x: 0,
+            y: 0
+        };
+    }
+    B.Point = Point, (Point = B.Point || (B.Point = {})).Origin = {
         x: 0,
         y: 0
     };
-}, (B1 = B || (B = {})).Point = Point, (Point = B1.Point || (B1.Point = {})).Origin = {
-    x: 0,
-    y: 0
-}, B.Point, B.Point(), B.Point.Origin;
+}(B || (B = {})), B.Point, B.Point(), B.Point.Origin;

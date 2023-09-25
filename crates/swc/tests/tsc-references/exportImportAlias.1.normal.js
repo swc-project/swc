@@ -22,9 +22,9 @@ var c;
 var c;
 var X;
 (function(X) {
-    var Y = function Y() {
+    function Y() {
         return 42;
-    };
+    }
     X.Y = Y;
     (function(Y) {
         var Point = function Point(x, y) {

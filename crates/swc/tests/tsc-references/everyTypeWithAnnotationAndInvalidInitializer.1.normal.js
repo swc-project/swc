@@ -16,27 +16,27 @@ function F2(x) {
 }
 var M;
 (function(M) {
-    var _$F2 = function _$F2(x) {
-        return x.toString();
-    };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
     M.A = A;
-    M.F2 = _$F2;
+    function F2(x) {
+        return x.toString();
+    }
+    M.F2 = F2;
 })(M || (M = {}));
 var N;
 (function(N) {
-    var _$F2 = function _$F2(x) {
-        return x.toString();
-    };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
     N.A = A;
-    N.F2 = _$F2;
+    function F2(x) {
+        return x.toString();
+    }
+    N.F2 = F2;
 })(N || (N = {}));
 var aNumber = "this is a string";
 var aString = 9.9;

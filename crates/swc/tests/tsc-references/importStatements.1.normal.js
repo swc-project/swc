@@ -29,9 +29,9 @@ var D;
 })(D || (D = {}));
 var E;
 (function(E) {
-    var xDist = function xDist(x) {
-        return a.Origin.x - x.x;
-    };
     var a = A;
+    function xDist(x) {
+        return a.Origin.x - x.x;
+    }
     E.xDist = xDist;
 })(E || (E = {}));

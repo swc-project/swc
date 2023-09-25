@@ -78,9 +78,9 @@ var SomeDerived1 = /*#__PURE__*/ function(SomeBase) {
         var x = _get(_get_prototype_of(SomeDerived1.prototype), "publicMember", this);
     };
     _proto.fn2 = function fn2() {
-        var inner = function inner() {
+        function inner() {
             _get(_get_prototype_of(SomeDerived1.prototype), "publicFunc", this).call(this);
-        };
+        }
         var x = {
             test: function test() {
                 return _get(_get_prototype_of(SomeDerived1.prototype), "publicFunc", this).call(this);

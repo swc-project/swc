@@ -46,23 +46,6 @@ var ImmediatelyFix;
 })(ImmediatelyFix || (ImmediatelyFix = {}));
 var WithCandidates;
 (function(WithCandidates) {
-    var other = function other(t, u) {
-        var r10 = c.foo2(1, function(x) {
-            return "";
-        }); // error
-        var r10 = c.foo2(1, function(x) {
-            return "";
-        }); // string
-        var r11 = c3.foo3(1, function(x) {
-            return "";
-        }, ""); // error
-        var r11b = c3.foo3(1, function(x) {
-            return "";
-        }, 1); // error
-        var r12 = c3.foo3(1, function(a) {
-            return "";
-        }, 1); // error
-    };
     var C = /*#__PURE__*/ function() {
         "use strict";
         function C() {
@@ -114,4 +97,21 @@ var WithCandidates;
         return C3;
     }();
     var c3;
+    function other(t, u) {
+        var r10 = c.foo2(1, function(x) {
+            return "";
+        }); // error
+        var r10 = c.foo2(1, function(x) {
+            return "";
+        }); // string
+        var r11 = c3.foo3(1, function(x) {
+            return "";
+        }, ""); // error
+        var r11b = c3.foo3(1, function(x) {
+            return "";
+        }, 1); // error
+        var r12 = c3.foo3(1, function(a) {
+            return "";
+        }, 1); // error
+    }
 })(WithCandidates || (WithCandidates = {}));

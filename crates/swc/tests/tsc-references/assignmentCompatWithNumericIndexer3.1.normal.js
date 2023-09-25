@@ -26,7 +26,11 @@ a = b2; // ok
 b2 = a; // error
 var Generics;
 (function(Generics) {
-    var foo = function foo() {
+    var A = function A() {
+        "use strict";
+        _class_call_check(this, A);
+    };
+    function foo() {
         var a;
         var b;
         a = b; // error
@@ -34,9 +38,5 @@ var Generics;
         var b2;
         a = b2; // ok
         b2 = a; // ok
-    };
-    var A = function A() {
-        "use strict";
-        _class_call_check(this, A);
-    };
+    }
 })(Generics || (Generics = {}));

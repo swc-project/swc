@@ -9,7 +9,7 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.method = function method() {
-        var other = function other() {};
+        function other() {}
         function fn() {
             return _fn.apply(this, arguments);
         }

@@ -2,12 +2,6 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var fromOrigin = function fromOrigin(p) {
-        return new Line({
-            x: 0,
-            y: 0
-        }, p);
-    };
     var Point = function Point() {
         "use strict";
         _class_call_check(this, Point);
@@ -19,5 +13,11 @@ var A;
         this.start = start;
         this.end = end;
     };
+    function fromOrigin(p) {
+        return new Line({
+            x: 0,
+            y: 0
+        }, p);
+    }
     A.fromOrigin = fromOrigin;
 })(A || (A = {}));

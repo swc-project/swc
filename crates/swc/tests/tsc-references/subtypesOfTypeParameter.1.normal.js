@@ -46,14 +46,6 @@ var c = function c() {
 })(c || (c = {}));
 // errors throughout
 function f2(x, y) {
-    var f17 = function f17(a) {
-        var r17 = true ? x : a;
-        var r17 = true ? a : x;
-    };
-    var f18 = function f18(a) {
-        var r18 = true ? x : a;
-        var r18 = true ? a : x;
-    };
     var r0 = true ? x : null;
     var r0 = true ? null : x;
     var u;
@@ -102,6 +94,14 @@ function f2(x, y) {
     var ac;
     var r16 = true ? ac : x;
     var r16 = true ? x : ac;
+    function f17(a) {
+        var r17 = true ? x : a;
+        var r17 = true ? a : x;
+    }
+    function f18(a) {
+        var r18 = true ? x : a;
+        var r18 = true ? a : x;
+    }
     var r19 = true ? new Object() : x; // BCT is Object
     var r19 = true ? x : new Object(); // BCT is Object
     var r20 = true ? {} : x; // ok

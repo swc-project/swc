@@ -5,9 +5,9 @@ import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var M;
 (function(M) {
-    var fn = function fn(x) {
+    function fn(x) {
         return "";
-    };
+    }
     M.fn = fn;
 })(M || (M = {}));
 var x;

@@ -51,23 +51,23 @@ var GH14865;
 var GH30170;
 // https://github.com/Microsoft/TypeScript/issues/30170
 (function(GH30170) {
-    var draw = function draw(val) {};
-    var drawWithColor = function drawWithColor(currentColor) {
+    function draw(val) {}
+    function drawWithColor(currentColor) {
         return draw({
             color: currentColor
         });
-    };
+    }
 })(GH30170 || (GH30170 = {}));
 var GH12052;
 // https://github.com/Microsoft/TypeScript/issues/12052
 (function(GH12052) {
-    var getAxisType = function getAxisType() {
+    function getAxisType() {
         if (1 == 1) {
             return "categorical";
         } else {
             return "linear";
         }
-    };
+    }
     var bad = {
         type: getAxisType()
     };
@@ -79,16 +79,16 @@ var GH12052;
 var GH18421;
 // https://github.com/Microsoft/TypeScript/issues/18421
 (function(GH18421) {
-    var makeNewThing = function makeNewThing(thingType) {
+    function makeNewThing(thingType) {
         return {
             type: thingType
         };
-    };
+    }
 })(GH18421 || (GH18421 = {}));
 var GH15907;
 // https://github.com/Microsoft/TypeScript/issues/15907
 (function(GH15907) {
-    var dispatchAction = function dispatchAction(action) {};
+    function dispatchAction(action) {}
     var active = true;
     dispatchAction({
         type: active ? "disactivate" : "activate"
@@ -97,11 +97,11 @@ var GH15907;
 var GH20889;
 // https://github.com/Microsoft/TypeScript/issues/20889
 (function(GH20889) {
-    var foo = function foo(obj1) {
+    function foo(obj1) {
         var obj2 = {
             type: obj1.type
         };
-    };
+    }
 })(GH20889 || (GH20889 = {}));
 var GH39357;
 // https://github.com/microsoft/TypeScript/issues/39357

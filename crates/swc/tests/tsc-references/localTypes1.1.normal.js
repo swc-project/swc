@@ -21,7 +21,7 @@ function f1() {
     return a;
 }
 function f2() {
-    var g = function g() {
+    function g() {
         var E;
         (function(E) {
             E[E["A"] = 0] = "A";
@@ -37,7 +37,7 @@ function f2() {
         ];
         a[0].x = 1;
         return a;
-    };
+    }
     return g();
 }
 function f3(b) {
@@ -146,7 +146,11 @@ var A = /*#__PURE__*/ function() {
     return A;
 }();
 function f6() {
-    var g = function g() {
+    var A = function A() {
+        "use strict";
+        _class_call_check(this, A);
+    };
+    function g() {
         var B = /*#__PURE__*/ function(A) {
             "use strict";
             _inherits(B, A);
@@ -175,10 +179,6 @@ function f6() {
             return x;
         }
         return h();
-    };
-    var A = function A() {
-        "use strict";
-        _class_call_check(this, A);
-    };
+    }
     return g();
 }

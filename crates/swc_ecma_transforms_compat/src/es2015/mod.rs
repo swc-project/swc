@@ -230,10 +230,10 @@ function foo(scope) {
 ",
         "
 function foo(scope) {
-    let startOperation = function startOperation(operation) {
-        scope.agentOperation = operation;
-    };
     scope.startOperation = startOperation;
+    function startOperation(operation) {
+        scope.agentOperation = operation;
+    }
 }
 "
     );

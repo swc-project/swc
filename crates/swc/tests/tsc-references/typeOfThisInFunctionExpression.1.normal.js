@@ -27,10 +27,10 @@ var C = function C() {
 };
 var M;
 (function(M) {
-    var fn = function fn() {
+    function fn() {
         var p = this;
         var p;
-    };
+    }
     var t = function t() {
         var p = this;
         var p;

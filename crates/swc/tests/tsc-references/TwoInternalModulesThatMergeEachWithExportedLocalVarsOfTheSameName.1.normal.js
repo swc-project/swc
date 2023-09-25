@@ -3,12 +3,12 @@ export var A;
 (function(A) {
     var Utils;
     (function(Utils) {
-        var mirror = function mirror(p) {
+        function mirror(p) {
             return {
                 x: p.y,
                 y: p.x
             };
-        };
+        }
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
     A.Origin = {
