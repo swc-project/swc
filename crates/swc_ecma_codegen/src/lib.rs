@@ -3866,8 +3866,6 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                     )
                                 });
 
-                                dbg!(v, v > 0xffff);
-
                                 if v > 0xffff {
                                     buf.push_str(&inner_buf);
 
@@ -3876,6 +3874,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                     for _ in 0..end {
                                         iter.next();
                                     }
+                                } else {
+                                    buf.push_str("\\\\");
                                 }
                             }
                         } else if is_curly {
