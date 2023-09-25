@@ -7,6 +7,9 @@
 
 - **(es)** Enable resolver if `jsc.baseUrl` is specified (#7998) ([f374ad9](https://github.com/swc-project/swc/commit/f374ad903a066ebf3a7e54a3656cb3fc44b37445))
 
+
+- **(es/compat)** Skip function scope in `block-scoped-fns` pass (#7975) ([d91a554](https://github.com/swc-project/swc/commit/d91a554033c8ce0ea2b2538b0e86abf5a81eac76))
+
 ### Refactor
 
 
