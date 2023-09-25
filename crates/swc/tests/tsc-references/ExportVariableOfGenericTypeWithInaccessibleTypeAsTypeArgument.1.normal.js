@@ -6,7 +6,5 @@ var A;
         "use strict";
         _class_call_check(this, B);
     };
-    var beez;
-    var beez2 = A.beez2 = new Array();
-    A.beez = beez;
+    A.beez2 = new Array();
 })(A || (A = {}));

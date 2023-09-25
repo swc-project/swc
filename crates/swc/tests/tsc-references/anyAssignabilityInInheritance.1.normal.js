@@ -29,7 +29,7 @@ var E;
 var r3 = foo3(a); // any
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    f.bar = 1;
 })(f || (f = {}));
 var r3 = foo3(a); // any
 var CC = function CC() {
@@ -37,7 +37,7 @@ var CC = function CC() {
     _class_call_check(this, CC);
 };
 (function(CC) {
-    var bar = CC.bar = 1;
+    CC.bar = 1;
 })(CC || (CC = {}));
 var r3 = foo3(a); // any
 var r3 = foo3(a); // any

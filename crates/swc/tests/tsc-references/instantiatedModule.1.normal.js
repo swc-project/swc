@@ -3,7 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M;
 (function(M) {
-    var Point = M.Point = 1;
+    M.Point = 1;
 })(M || (M = {}));
 // primary expression
 var m;
@@ -13,9 +13,9 @@ var a1 = M.Point;
 var a1 = m.Point;
 var p1;
 var p1;
+var M2;
 // making the point a class instead of an interface 
 // makes this an instantiated mmodule
-var M2;
 (function(M2) {
     var Point = /*#__PURE__*/ function() {
         "use strict";

@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M;
 (function(M) {
-    var a = M.a = 1;
+    M.a = 1;
 })(M || (M = {}));
 // primary expression
 var m;
@@ -15,12 +15,12 @@ var M2;
 (function(M2) {
     var Point;
     (function(Point) {
-        function Origin() {
+        var Origin = function Origin() {
             return {
                 x: 0,
                 y: 0
             };
-        }
+        };
         Point.Origin = Origin;
     })(Point = M2.Point || (M2.Point = {}));
 })(M2 || (M2 = {}));

@@ -6,7 +6,7 @@ var Foo;
         return 5;
     };
     Foo.a = a;
-    var b = Foo.b = true;
+    Foo.b = true;
 })(Foo || (Foo = {}));
 (function(Foo) {
     var c = function c(a) {
@@ -15,7 +15,7 @@ var Foo;
     Foo.c = c;
     var Test;
     (function(Test) {
-        var answer = Test.answer = 42;
+        Test.answer = 42;
     })(Test = Foo.Test || (Foo.Test = {}));
 })(Foo || (Foo = {}));
 module.exports = Foo;

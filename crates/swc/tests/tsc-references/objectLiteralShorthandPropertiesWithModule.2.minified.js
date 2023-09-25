@@ -1,4 +1,4 @@
 //// [objectLiteralShorthandPropertiesWithModule.ts]
 // module export
-var m, x1;
-(m || (m = {})).x = x1, m || (m = {}), x, x, x;
+var m;
+m || (m = {}), m || (m = {}), x, x, x;

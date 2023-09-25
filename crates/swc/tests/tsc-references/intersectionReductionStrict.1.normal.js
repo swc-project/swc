@@ -13,9 +13,7 @@ var x2 = {
 x1[k] = "bar"; // Error
 x2[k] = "bar"; // Error
 var Tag1;
-(function(Tag1) {})(Tag1 || (Tag1 = {}));
 var Tag2;
-(function(Tag2) {})(Tag2 || (Tag2 = {}));
 s1 = s2;
 s2 = s1;
 t1 = t2;

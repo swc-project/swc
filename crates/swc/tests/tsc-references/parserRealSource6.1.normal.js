@@ -4,7 +4,7 @@
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var TypeScript;
-(function(TypeScript1) {
+(function(TypeScript) {
     var preFindMemberScope = function preFindMemberScope(ast, parent, walker) {
         var memScope = walker.state;
         if (hasFlag(ast.flags, memScope.matchFlag) && (memScope.pos < 0 || memScope.pos == ast.limChar)) {
@@ -122,7 +122,7 @@ var TypeScript;
         this.checker = checker;
         this.script = null;
     };
-    TypeScript1.TypeCollectionContext = TypeCollectionContext;
+    TypeScript.TypeCollectionContext = TypeCollectionContext;
     var MemberScopeContext = function MemberScopeContext(flow, pos, matchFlag) {
         "use strict";
         _class_call_check(this, MemberScopeContext);
@@ -133,7 +133,7 @@ var TypeScript;
         this.ast = null;
         this.options = new AstWalkOptions();
     };
-    TypeScript1.MemberScopeContext = MemberScopeContext;
+    TypeScript.MemberScopeContext = MemberScopeContext;
     var EnclosingScopeContext = /*#__PURE__*/ function() {
         "use strict";
         function EnclosingScopeContext(logger, script, text, pos, isMemberCompletion) {
@@ -183,10 +183,15 @@ var TypeScript;
         };
         return EnclosingScopeContext;
     }();
-    TypeScript1.EnclosingScopeContext = EnclosingScopeContext;
-    TypeScript1.preFindMemberScope = preFindMemberScope;
-    TypeScript1.pushTypeCollectionScope = pushTypeCollectionScope;
-    TypeScript1.popTypeCollectionScope = popTypeCollectionScope;
-    TypeScript1.preFindEnclosingScope = preFindEnclosingScope;
-    TypeScript1.findEnclosingScopeAt = findEnclosingScopeAt;
+    TypeScript.EnclosingScopeContext = EnclosingScopeContext;
+    TypeScript.preFindMemberScope = preFindMemberScope;
+    TypeScript.pushTypeCollectionScope = pushTypeCollectionScope;
+    TypeScript.popTypeCollectionScope = popTypeCollectionScope;
+    TypeScript.preFindEnclosingScope = preFindEnclosingScope;
+    //
+    // Find the enclosing scope context from a position inside a script AST.
+    // The "scopeStartAST" of the returned scope is always valid.
+    // Return "null" if the enclosing scope can't be found.
+    //
+    TypeScript.findEnclosingScopeAt = findEnclosingScopeAt;
 })(TypeScript || (TypeScript = {}));

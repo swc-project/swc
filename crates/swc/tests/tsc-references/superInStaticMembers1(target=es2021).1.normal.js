@@ -38,15 +38,12 @@ C._ = [
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        let Reflect// collision (es2015-es2021 only)
-        ;
-        (function(Reflect) {})(Reflect || (Reflect = {}));
+        let Reflect;
+        (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
-        let Reflect// collision (es2015-es2021 only)
-        ;
-        (function(Reflect) {})(Reflect || (Reflect = {}));
+        let Reflect;
         _get(_get_prototype_of(C), "w", C).call(C);
     })(),
     (()=>{
@@ -91,15 +88,12 @@ C._ = [
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (()=>{
-    let Reflect// collision (es2015-es2021 only)
-    ;
-    (function(Reflect) {})(Reflect || (Reflect = {}));
+    let Reflect;
+    (function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 (()=>{
-    let Reflect// collision (es2015-es2021 only)
-    ;
-    (function(Reflect) {})(Reflect || (Reflect = {}));
+    let Reflect;
     _get(_get_prototype_of(C), "w", C).call(C);
 })();
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -223,9 +217,8 @@ export { };
 //// [enumInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect// collision (es2015-es2021 only)
-;
-(function(Reflect) {})(Reflect || (Reflect = {}));
+var Reflect;
+(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -233,9 +226,8 @@ export { };
 //// [enumInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect// collision (es2015-es2021 only)
-;
-(function(Reflect) {})(Reflect || (Reflect = {}));
+var Reflect;
+(function(Reflect) {})(Reflect || (Reflect = {})); // collision (es2015-es2021 only)
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -243,9 +235,7 @@ export { };
 //// [constEnumInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect// collision (es2015-es2021 only)
-;
-(function(Reflect) {})(Reflect || (Reflect = {}));
+var Reflect;
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
@@ -253,9 +243,7 @@ export { };
 //// [constEnumInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-var Reflect// collision (es2015-es2021 only)
-;
-(function(Reflect) {})(Reflect || (Reflect = {}));
+var Reflect;
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
@@ -266,112 +254,112 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [namespaceImportInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [namedImportInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [namedImportInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [namedImportOfInterfaceInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfInterfaceInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfUninstantiatedNamespaceInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only, not a type-only import)
 //// [namedImportOfConstEnumInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [namedImportOfConstEnumInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [typeOnlyNamedImportInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // no collision
 //// [typeOnlyNamedImportInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // no collision
 //// [defaultImportInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [defaultImportInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // collision (es2015-es2021 only)
 //// [typeOnlyDefaultImportInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // no collision
 //// [typeOnlyDefaultImportInContainingScopeStaticBlock.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
-export { };
+export { }; // no collision
 //// [typeInContainingScopeStaticField.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";

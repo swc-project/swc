@@ -18,7 +18,7 @@ g = x;
 I = x;
 var M;
 (function(M) {
-    var x = M.x = 1;
+    M.x = 1;
 })(M || (M = {}));
 M = x;
 function i(a) {}

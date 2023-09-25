@@ -63,7 +63,7 @@ use swc_ecma_transforms::{
     },
     react::{self, default_pragma, default_pragma_frag},
     resolver,
-    typescript::{self, TsEnumConfig, TsImportExportAssignConfig},
+    typescript::{self, TsImportExportAssignConfig},
     Assumptions,
 };
 use swc_ecma_transforms_compat::es2015::regenerator;
@@ -618,6 +618,8 @@ impl Options {
             _ => TsImportExportAssignConfig::Classic,
         };
 
+        let verbatim_module_syntax = transform.verbatim_module_syntax.into_bool();
+
         let charset = cfg.jsc.output.charset.or_else(|| {
             if js_minify.as_ref()?.format.ascii_only {
                 Some(OutputCharset::Ascii)
@@ -803,9 +805,14 @@ impl Options {
                 // keep_import_assertions is false.
                 Optional::new(import_assertions(), !keep_import_attributes),
                 Optional::new(
-                    typescript::strip_with_jsx::<Option<&dyn Comments>>(
+                    typescript::tsx::<Option<&dyn Comments>>(
                         cm.clone(),
                         typescript::Config {
+                            import_export_assign_config,
+                            verbatim_module_syntax,
+                            ..Default::default()
+                        },
+                        typescript::TsxConfig {
                             pragma: Some(
                                 transform
                                     .react
@@ -820,14 +827,6 @@ impl Options {
                                     .clone()
                                     .unwrap_or_else(default_pragma_frag)
                             ),
-                            ts_enum_config: TsEnumConfig {
-                                treat_const_enum_as_enum: transform
-                                    .treat_const_enum_as_enum
-                                    .into_bool(),
-                                ts_enum_is_readonly: assumptions.ts_enum_is_readonly,
-                            },
-                            import_export_assign_config,
-                            ..Default::default()
                         },
                         comments.map(|v| v as _),
                         top_level_mark
@@ -1722,10 +1721,16 @@ pub struct TransformConfig {
     pub regenerator: regenerator::Config,
 
     #[serde(default)]
+    #[deprecated]
     pub treat_const_enum_as_enum: BoolConfig<false>,
 
+    /// https://www.typescriptlang.org/tsconfig#useDefineForClassFields
     #[serde(default)]
     pub use_define_for_class_fields: BoolConfig<true>,
+
+    /// https://www.typescriptlang.org/tsconfig#verbatimModuleSyntax
+    #[serde(default)]
+    pub verbatim_module_syntax: BoolConfig<false>,
 
     #[serde(default)]
     pub decorator_version: Option<DecoratorVersion>,

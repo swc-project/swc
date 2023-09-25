@@ -58,6 +58,7 @@ var TypeScript;
         };
         return PrintContext;
     }();
+    // TODO: refactor indent logic for use in emit
     TypeScript.PrintContext = PrintContext;
     TypeScript.prePrintAST = prePrintAST;
     TypeScript.postPrintAST = postPrintAST;

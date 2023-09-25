@@ -75,10 +75,7 @@ var D;
     D[D["C"] = 2] = "C";
 })(D || (D = {}));
 var M;
-(function(M) {
-    var x;
-    M.x = x;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 var a = M.x;
 //// [t2.ts]
 "use strict";

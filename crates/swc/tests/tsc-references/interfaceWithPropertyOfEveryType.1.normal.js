@@ -7,7 +7,7 @@ var C = function C() {
 function f1() {}
 var M;
 (function(M) {
-    var y = M.y = 1;
+    M.y = 1;
 })(M || (M = {}));
 var E;
 (function(E) {
@@ -34,5 +34,5 @@ var a = {
     l: f1,
     m: M,
     n: {},
-    o: E.A
+    o: 0
 };

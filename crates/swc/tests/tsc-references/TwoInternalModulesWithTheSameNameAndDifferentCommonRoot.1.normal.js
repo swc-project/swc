@@ -5,12 +5,12 @@ var Root;
     (function(A) {
         var Utils;
         (function(Utils) {
-            function mirror(p) {
+            var mirror = function mirror(p) {
                 return {
                     x: p.y,
                     y: p.x
                 };
-            }
+            };
             Utils.mirror = mirror;
         })(Utils = A.Utils || (A.Utils = {}));
     })(A = Root.A || (Root.A = {}));
@@ -21,7 +21,8 @@ var otherRoot;
 (function(otherRoot) {
     var A;
     (function(A) {
-        var Origin = A.Origin = {
+        // have to be fully qualified since in different root
+        A.Origin = {
             x: 0,
             y: 0
         };

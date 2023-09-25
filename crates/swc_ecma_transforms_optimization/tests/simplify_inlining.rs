@@ -6,12 +6,12 @@ use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2022::class_properties;
 use swc_ecma_transforms_optimization::simplify::inlining::inlining;
 use swc_ecma_transforms_testing::test;
-use swc_ecma_transforms_typescript::strip;
+use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::Fold;
 
 fn simple_strip(top_level_mark: Mark) -> impl Fold {
-    strip::strip_with_config(
-        strip::Config {
+    typescript(
+        typescript::Config {
             no_empty_export: true,
             ..Default::default()
         },

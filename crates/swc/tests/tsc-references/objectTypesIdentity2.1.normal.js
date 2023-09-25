@@ -19,7 +19,7 @@ var E;
     E[E["A"] = 0] = "A";
 })(E || (E = {}));
 var b = {
-    foo: E.A
+    foo: 0
 };
 function foo5(x) {}
 function foo5b(x) {}

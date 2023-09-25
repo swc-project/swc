@@ -43,9 +43,10 @@ var A;
     }();
     A.Point = Point;
     (function(Point) {
-        function Origin() {
+        var Origin = function Origin() {
             return "";
         } //expected duplicate identifier error
+        ;
         Point.Origin = Origin;
     })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));

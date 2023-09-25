@@ -18,7 +18,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_module::common_js;
 use swc_ecma_transforms_proposal::{decorators, decorators::Config};
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
-use swc_ecma_transforms_typescript::strip;
+use swc_ecma_transforms_typescript::{strip, typescript};
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
@@ -61,8 +61,8 @@ fn simple_strip(t: &Tester, config: Config) -> impl Fold {
     chain!(
         decorators(config),
         resolver(unresolved_mark, top_level_mark, false),
-        strip::strip_with_config(
-            strip::Config {
+        typescript(
+            typescript::Config {
                 no_empty_export: true,
                 ..Default::default()
             },

@@ -3,7 +3,7 @@ var A;
 (function(A) {
     var Point;
     (function(Point) {
-        var Origin = Point.Origin = {
+        Point.Origin = {
             x: 0,
             y: 0
         };
@@ -18,6 +18,7 @@ var A;
             y: 0
         };
     };
+    // duplicate identifier error
     A.Point = Point;
 })(A || (A = {}));
 //// [simple.ts]
@@ -29,11 +30,13 @@ var B;
             y: 0
         };
     };
+    var Point;
     (function(Point) {
-        var Origin = Point.Origin = {
+        Point.Origin = {
             x: 0,
             y: 0
         };
     })(Point = B.Point || (B.Point = {}));
+    // duplicate identifier error
     B.Point = Point;
 })(B || (B = {}));

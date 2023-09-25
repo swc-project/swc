@@ -2,7 +2,7 @@
 // typeof  operator on string type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var n, STRING, M, STRING1 = [
+var STRING, M, STRING1 = [
     "",
     "abc"
 ];
@@ -17,7 +17,7 @@ var A = function() {
         return "";
     }, A;
 }();
-(M || (M = {})).n = n;
+M || (M = {});
 var objA = new A();
 void 0 === STRING || _type_of(STRING), _type_of(STRING1), _type_of(""), _type_of({
     x: "",

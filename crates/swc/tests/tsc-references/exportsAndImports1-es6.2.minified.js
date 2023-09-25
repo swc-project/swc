@@ -21,7 +21,7 @@ Object.defineProperty(exports, "__esModule", {
         return E1;
     },
     D: function() {
-        return D1;
+        return D;
     },
     M: function() {
         return M;
@@ -30,12 +30,12 @@ Object.defineProperty(exports, "__esModule", {
         return a;
     }
 });
-var E, D, x, E1, D1, M, v = 1;
+var E, E1, D, M, v = 1;
 function f() {}
 class C {
 }
-(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", (D = D1 || (D1 = {}))[D.A = 0] = "A", D[D.B = 1] = "B", D[D.C = 2] = "C", (M || (M = {})).x = x;
-var a = M.x;
+(E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", E[E.C = 2] = "C", M || (M = {});
+const a = M.x;
 //// [t2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

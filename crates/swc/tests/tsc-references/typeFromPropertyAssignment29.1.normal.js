@@ -41,10 +41,10 @@ function ExpandoMerge(n) {
 }
 ExpandoMerge.p1 = 111;
 (function(ExpandoMerge) {
-    var p2 = ExpandoMerge.p2 = 222;
+    ExpandoMerge.p2 = 222;
 })(ExpandoMerge || (ExpandoMerge = {}));
 (function(ExpandoMerge) {
-    var p3 = ExpandoMerge.p3 = 333;
+    ExpandoMerge.p3 = 333;
 })(ExpandoMerge || (ExpandoMerge = {}));
 var n = ExpandoMerge.p1 + ExpandoMerge.p2 + ExpandoMerge.p3 + ExpandoMerge(1);
 var Ns;

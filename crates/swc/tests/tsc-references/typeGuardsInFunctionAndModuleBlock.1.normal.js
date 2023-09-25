@@ -58,7 +58,6 @@ var m1;
     var x;
     var m2;
     (function(m2) {
-        var m3;
         (function(m3) {
             var b = x; // new scope - number | boolean | string
             var y;
@@ -69,6 +68,6 @@ var m1;
                 y = typeof x === "boolean" ? x.toString() // boolean
                  : x.toString(); // number
             }
-        })(m3 = m2.m3 || (m2.m3 = {}));
+        })(m2.m3 || (m2.m3 = {}));
     })(m2 || (m2 = {}));
 })(m1 || (m1 = {}));

@@ -97,9 +97,11 @@ pub struct Assumptions {
     pub super_is_callable_constructor: bool,
 
     #[serde(default)]
+    #[deprecated(note = "This value will be always true")]
     pub ts_enum_is_readonly: bool,
 }
 
+#[allow(deprecated)]
 impl Assumptions {
     pub fn all() -> Self {
         Self {

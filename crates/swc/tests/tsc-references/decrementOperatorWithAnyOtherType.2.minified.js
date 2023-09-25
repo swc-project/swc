@@ -1,14 +1,14 @@
 //// [decrementOperatorWithAnyOtherType.ts]
 // -- operator on any type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var n, ANY, ANY1, M, ANY2 = [
+var ANY, ANY1, M, ANY2 = [
     "",
     ""
 ], obj = {
     x: 1,
     y: null
 };
-(M || (M = {})).n = n;
+M || (M = {});
 var objA = new function A() {
     _class_call_check(this, A);
 }();

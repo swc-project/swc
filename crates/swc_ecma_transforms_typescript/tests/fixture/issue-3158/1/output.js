@@ -1,7 +1,7 @@
 var Foo;
 (function(Foo) {
-    var bar = Foo.bar = 42;
-    var foo = Foo.foo = function() {
+    const bar = Foo.bar = 42;
+    const foo = Foo.foo = function() {
         return 20;
     };
     function xyz() {

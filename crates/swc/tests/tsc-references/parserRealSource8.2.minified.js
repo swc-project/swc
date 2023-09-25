@@ -36,7 +36,7 @@ TypeScript1 = TypeScript || (TypeScript = {}), pushAssignScope = function(scope,
 }, preAssignWithScopes = function(ast, context) {
     var withType = ast.type, members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), ambientMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), withType = new Type(), withSymbol = new WithSymbol(ast.minChar, context.typeFlow.checker.locationInfo.unitIndex, withType);
     withType.members = members, withType.ambientMembers = ambientMembers, withType.symbol = withSymbol, withType.setHasImplementation(), ast.type = withType;
-    var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
+    var withScope = new TypeScript1.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
     pushAssignScope(withScope, context, null, null, null), withType.containedScope = withScope;
 }, preAssignFuncDeclScopes = function(ast, context) {
     var container = null, localContainer = null;

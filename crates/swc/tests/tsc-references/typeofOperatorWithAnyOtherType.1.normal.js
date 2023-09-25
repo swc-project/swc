@@ -29,10 +29,7 @@ var A = /*#__PURE__*/ function() {
     return A;
 }();
 var M;
-(function(M) {
-    var n;
-    M.n = n;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // any type var
 var ResultIsString1 = typeof ANY1 === "undefined" ? "undefined" : _type_of(ANY1);

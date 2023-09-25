@@ -5,8 +5,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var B;
 (function(B) {
-    var a = A;
-    B.a = a;
+    var a = B.a = A;
     var D = /*#__PURE__*/ function(_a_C) {
         "use strict";
         _inherits(D, _a_C);
@@ -26,8 +25,7 @@ var A;
         _class_call_check(this, C);
     };
     A.C = C;
-    var b = B;
-    A.b = b;
+    var b = A.b = B;
 })(A || (A = {}));
 var c;
 var c = new B.a.C();

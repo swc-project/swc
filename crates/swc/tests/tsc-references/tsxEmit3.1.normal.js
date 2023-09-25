@@ -14,6 +14,8 @@ var M;
             _class_call_check(this, Bar1);
         };
         S1.Bar = Bar1;
+    // Emit Foo
+    // Foo, <Foo />;
     })(S1 = M.S || (M.S = {}));
 })(M || (M = {}));
 (function(M) {

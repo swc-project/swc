@@ -26,7 +26,7 @@ var NonGeneric;
         return C;
     }();
     (function(C) {
-        var bar = C.bar = "";
+        C.bar = ""; // not reflected in class type
     })(C || (C = {}));
     var c = new C(1, 2);
     var r = c.fn();
@@ -59,7 +59,7 @@ var Generic;
         return C;
     }();
     (function(C) {
-        var bar = C.bar = "";
+        C.bar = ""; // not reflected in class type
     })(C || (C = {}));
     var c = new C(1, "");
     var r = c.fn();

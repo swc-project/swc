@@ -1,3 +1,3 @@
-var l;
-import { test as o } from "test";
-(l || (l = {})).Hello = "World!", o(l.Hello);
+var o;
+import { test as r } from "test";
+(o || (o = {})).Hello = "World!", r("World!");

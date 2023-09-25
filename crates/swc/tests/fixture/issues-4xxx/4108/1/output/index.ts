@@ -120,7 +120,7 @@ function _sendTransactionsWithManualRetry() {
                 case 4:
                     return [
                         4,
-                        sendTransactions(connection, wallet, instructions, filteredSigners, SequenceType.StopOnFailure, "single")
+                        sendTransactions(connection, wallet, instructions, filteredSigners, 2, "single")
                     ];
                 case 5:
                     txs = _state.sent().txs;
@@ -196,7 +196,7 @@ export var sendTransactions = function() {
                                         connection: connection,
                                         signedTransaction: signedTxns[i1]
                                     });
-                                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                                    if (!(sequenceType !== 1)) return [
                                         3,
                                         7
                                     ];
@@ -227,7 +227,7 @@ export var sendTransactions = function() {
                                     console.log("Failed at txn index:", i1);
                                     console.log("Caught failure:", e);
                                     failCallback(signedTxns[i1], i1);
-                                    if (!(sequenceType === SequenceType.StopOnFailure)) return [
+                                    if (!(sequenceType === 2)) return [
                                         3,
                                         5
                                     ];
@@ -264,7 +264,7 @@ export var sendTransactions = function() {
                             }
                         });
                     };
-                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : SequenceType.Parallel, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
+                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : 1, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
                         return false;
                     }, block = _arguments.length > 8 ? _arguments[8] : void 0, beforeTransactions = _arguments.length > 9 && _arguments[9] !== void 0 ? _arguments[9] : [], afterTransactions = _arguments.length > 10 && _arguments[10] !== void 0 ? _arguments[10] : [];
                     if (!wallet.publicKey) throw new WalletNotConnectedError();
@@ -327,7 +327,7 @@ export var sendTransactions = function() {
                         4
                     ];
                 case 7:
-                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                    if (!(sequenceType !== 1)) return [
                         3,
                         9
                     ];

@@ -5,10 +5,6 @@ var SyntaxKind;
     SyntaxKind[SyntaxKind["ExportDeclaration"] = 1] = "ExportDeclaration";
 })(SyntaxKind || (SyntaxKind = {}));
 var SymbolFlags;
-(function(SymbolFlags) {
-    SymbolFlags["Type"] = "Type";
-    SymbolFlags["Value"] = "Value";
-})(SymbolFlags || (SymbolFlags = {}));
 export { SymbolFlags };
 //// [/b.ts]
 SyntaxKind.ImportClause;

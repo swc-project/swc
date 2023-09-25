@@ -3,8 +3,7 @@
 // See LICENSE.txt in the project root for complete license information.
 ///<reference path='typescript.ts' />
 var TypeScript;
-(function(TypeScript1) {
-    var AstWalkerWithDetailCallback;
+(function(TypeScript) {
     (function(AstWalkerWithDetailCallback) {
         function walk(script, callback) {
             var pre = function(cur, parent) {
@@ -31,5 +30,5 @@ var TypeScript;
             }
             return true;
         }
-    })(AstWalkerWithDetailCallback = TypeScript1.AstWalkerWithDetailCallback || (TypeScript1.AstWalkerWithDetailCallback = {}));
+    })(TypeScript.AstWalkerWithDetailCallback || (TypeScript.AstWalkerWithDetailCallback = {}));
 })(TypeScript || (TypeScript = {}));

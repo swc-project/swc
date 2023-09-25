@@ -2,7 +2,7 @@
 // typeof  operator on number type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-var n, NUMBER, M, NUMBER1 = [
+var NUMBER, M, NUMBER1 = [
     1,
     2
 ];
@@ -17,7 +17,7 @@ var A = function() {
         return 1;
     }, A;
 }();
-(M || (M = {})).n = n;
+M || (M = {});
 var objA = new A();
 void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(1), _type_of({
     x: 1,

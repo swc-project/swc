@@ -5,27 +5,18 @@
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-function _export(target, all) {
-    for(var name in all)Object.defineProperty(target, name, {
-        enumerable: true,
-        get: all[name]
-    });
-}
-_export(exports, {
-    Decl: function() {
-        return Decl;
-    },
-    default: function() {
+Object.defineProperty(exports, "default", {
+    enumerable: true,
+    get: function() {
         return Decl;
     }
 });
 function Decl() {
     return 0;
 }
-var Decl;
 (function(Decl) {
-    var x = Decl.x = 10;
-    var y = Decl.y = 20;
+    Decl.x = 10;
+    Decl.y = 20;
 })(Decl || (Decl = {}));
 //// [m2.ts]
 "use strict";
