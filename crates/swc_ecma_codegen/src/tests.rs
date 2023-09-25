@@ -1,6 +1,7 @@
 use std::{
     fmt::Debug,
     io::Write,
+    path::PathBuf,
     sync::{Arc, RwLock},
 };
 
@@ -888,6 +889,15 @@ export default {
             ..Default::default()
         },
     );
+}
+
+#[testing::fixture("tests/str-lits/**/*.txt")]
+fn test_str_lit(input: PathBuf) {
+    test_str_lit_inner(input)
+}
+
+fn test_str_lit_inner(input: PathBuf) {
+    let raw_input_text = std::fs::read_to_string(&input).unwrap();
 }
 
 #[test]
