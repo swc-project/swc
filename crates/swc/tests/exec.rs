@@ -372,8 +372,11 @@ fn test_file_with_opts(
                     idx,
                     res.code
                 );
-                println!("external_helpers: {:?}", opts.config.jsc.external_helpers);
+
                 println!("target: {:?}", opts.config.jsc.target.unwrap());
+                println!("minify: {:?}", opts.config.jsc.minify.is_some());
+                println!("external_helpers: {:?}", opts.config.jsc.external_helpers);
+                println!("source_map: {:?}", opts.source_maps.is_some());
 
                 let actual_stdout = stdout_of(
                     &res.code,

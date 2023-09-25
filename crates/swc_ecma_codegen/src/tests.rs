@@ -1,11 +1,13 @@
 use std::{
     fmt::Debug,
     io::Write,
+    path::PathBuf,
     sync::{Arc, RwLock},
 };
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
@@ -888,4 +890,40 @@ export default {
             ..Default::default()
         },
     );
+}
+
+#[testing::fixture("tests/str-lits/**/*.txt")]
+fn test_str_lit(input: PathBuf) {
+    test_str_lit_inner(input)
+}
+
+/// Print text back using `console.log`
+fn run_node(code: &str) -> String {
+    exec_node_js(
+        code,
+        JsExecOptions {
+            cache: true,
+            module: false,
+            args: vec![],
+        },
+    )
+    .expect("failed to execute node.js")
+}
+
+fn test_str_lit_inner(input: PathBuf) {
+    let raw_str = std::fs::read_to_string(&*input).unwrap();
+    let input_code = format!("console.log('{raw_str}')");
+
+    let output_code = parse_then_emit(
+        &input_code,
+        Config::default()
+            .with_target(EsVersion::latest())
+            .with_minify(true),
+        Syntax::default(),
+    );
+
+    let expected = run_node(&input_code);
+    let actual = run_node(&output_code);
+
+    assert_eq!(actual, expected);
 }
