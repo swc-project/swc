@@ -1,0 +1,28 @@
+{
+    "name": "@swc/counter",
+    "packageManager": "yarn@3.2.3",
+    "main": "index.js",
+    "version": "0.1.1",
+    "description": "Downloade counter for the swc project",
+    "sideEffects": false,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/swc-project/swc.git"
+    },
+    "scripts": {},
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/",
+        "access": "public"
+    },
+    "keywords": [
+        "swc",
+        "download",
+        "counter"
+    ],
+    "author": "강동윤 <kdy1997.dev@gmail.com>",
+    "license": "Apache-2.0",
+    "bugs": {
+        "url": "https://github.com/swc-project/swc/issues"
+    },
+    "homepage": "https://swc.rs"
+}

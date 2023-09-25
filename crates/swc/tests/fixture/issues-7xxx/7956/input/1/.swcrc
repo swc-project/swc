@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript"
+        }
+    },
+    "env": {
+        "targets": "chrome 74"
+    }
+}

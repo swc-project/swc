@@ -123,9 +123,6 @@ impl VisitMut for Operators {
                     };
 
                     let (left_prop, right_prop) = match m.prop.take() {
-                        MemberProp::PrivateName(_) => {
-                            unreachable!("private should be removed by class_properties")
-                        }
                         MemberProp::Computed(c) => {
                             let (left, right) = self.memorize_prop(c);
                             (left.into(), right.into())

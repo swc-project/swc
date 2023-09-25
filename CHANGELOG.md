@@ -5,6 +5,77 @@
 
 
 
+- **(es)** Enable resolver if `jsc.baseUrl` is specified (#7998) ([f374ad9](https://github.com/swc-project/swc/commit/f374ad903a066ebf3a7e54a3656cb3fc44b37445))
+
+## [1.3.88] - 2023-09-24
+
+### Features
+
+
+
+- **(es/config)** Accept `jsc.experimental.keepImportAssertions` (#7995) ([4d777ee](https://github.com/swc-project/swc/commit/4d777ee270183ba375b68c003e61692af6d571c3))
+
+### Refactor
+
+
+
+- **(bindingins)** Create `@swc/counter` (#7991) ([0acbb5f](https://github.com/swc-project/swc/commit/0acbb5f78daa52cf505e077993a694eb966368af))
+
+## [1.3.87] - 2023-09-22
+
+### Bug Fixes
+
+
+
+- **(bindings/type)** Update types of `jsc.experimental` (#7972) ([e40fccb](https://github.com/swc-project/swc/commit/e40fccb9ce2a8fc925de818c8da4b6503aab7ae3))
+
+
+- **(es/compat)** Handle nullish in fn expr scope (#7980) ([5050f58](https://github.com/swc-project/swc/commit/5050f5820a43b8de7a87511070405e189eaafb5f))
+
+
+- **(es/minifier)** Do not inline into a template literal with sequential inliner (#7971) ([b3d3a7b](https://github.com/swc-project/swc/commit/b3d3a7bc7339776e57ca402e77cf3fb22c774784))
+
+## [1.3.86] - 2023-09-18
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Handle `PrivateName` in `logical_assignments` (#7958) ([28318f0](https://github.com/swc-project/swc/commit/28318f09ed358b2baa155141bc715c25f658a2eb))
+
+
+- **(es/minifier)** Handle `ModuleDecl` when transform const modules (#7959) ([06ca1fe](https://github.com/swc-project/swc/commit/06ca1fe0a03954883750c3c39d0163fc29596ad1))
+
+
+- **(es/module)** Preserve import specifier if resolving fails (#7955) ([be5b02a](https://github.com/swc-project/swc/commit/be5b02a8cfe2a2c1c399a4f9404b8fd097084234))
+
+### Miscellaneous Tasks
+
+
+
+- **(es/preset-env)** Add the repository url to `Cargo.toml` (#7941) ([ca22359](https://github.com/swc-project/swc/commit/ca22359dbd0ca6e2e925bdc240939f6bd6e9ac9a))
+
+
+- **(es/preset-env)** Ignore `tp` in the version of a browser version (#7968) ([005ddc5](https://github.com/swc-project/swc/commit/005ddc573e3752183783cc25dd6242b750f8beb5))
+
+### Refactor
+
+
+
+- **(es/lint)** Remove usage of `box_patterns` (#7966) ([f7b5e16](https://github.com/swc-project/swc/commit/f7b5e16aef968c9c9f38f40962edf334cc3983e6))
+
+### Build
+
+
+
+- **(bindings/node)** Link msvc runtime statically (#7965) ([0759779](https://github.com/swc-project/swc/commit/07597795cc39cce527f505bc5db304ad93082494))
+
+## [1.3.85] - 2023-09-15
+
+### Bug Fixes
+
+
+
 - **(css/modules)** Support composes when using multiple subclass selectors (#7949) ([05ca19b](https://github.com/swc-project/swc/commit/05ca19b84489ae47f69d8228b3c0097164c7ec6e))
 
 

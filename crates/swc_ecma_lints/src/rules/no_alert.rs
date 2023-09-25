@@ -129,6 +129,37 @@ impl NoAlert {
         }
     }
 
+    fn handle_member_expr(&mut self, member_expr: &MemberExpr) {
+        let MemberExpr { obj, prop, .. } = member_expr;
+
+        match obj.as_ref() {
+            Expr::Ident(obj) => {
+                if !self.is_satisfying_indent(obj) {
+                    return;
+                }
+
+                self.obj = Some(obj.sym.clone());
+
+                self.handle_member_prop(prop);
+            }
+            Expr::This(_) => {
+                let inside_arrow_fn = self.is_inside_arrow_fn();
+                let inside_class = self.is_inside_class();
+
+                if inside_arrow_fn && inside_class {
+                    return;
+                }
+
+                if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
+                    return;
+                }
+
+                self.handle_member_prop(prop);
+            }
+            _ => {}
+        }
+    }
+
     fn handle_callee(&mut self, expr: &Expr) {
         match expr {
             Expr::Ident(ident) => {
@@ -136,39 +167,10 @@ impl NoAlert {
                     self.prop = Some(ident.sym.clone());
                 }
             }
-            Expr::Member(member_expr)
-            | Expr::OptChain(OptChainExpr {
-                base: box OptChainBase::Member(member_expr),
-                ..
-            }) => {
-                let MemberExpr { obj, prop, .. } = member_expr;
-
-                match obj.as_ref() {
-                    Expr::Ident(obj) => {
-                        if !self.is_satisfying_indent(obj) {
-                            return;
-                        }
-
-                        self.obj = Some(obj.sym.clone());
-
-                        self.handle_member_prop(prop);
-                    }
-                    Expr::This(_) => {
-                        let inside_arrow_fn = self.is_inside_arrow_fn();
-                        let inside_class = self.is_inside_class();
-
-                        if inside_arrow_fn && inside_class {
-                            return;
-                        }
-
-                        if !inside_arrow_fn && (inside_class || self.is_inside_object()) {
-                            return;
-                        }
-
-                        self.handle_member_prop(prop);
-                    }
-                    _ => {}
-                }
+            Expr::Member(member_expr) => self.handle_member_expr(member_expr),
+            Expr::OptChain(OptChainExpr { base, .. }) if base.is_member() => {
+                let member_expr = base.as_member().unwrap();
+                self.handle_member_expr(member_expr);
             }
             Expr::OptChain(opt_chain) => {
                 opt_chain.visit_children_with(self);

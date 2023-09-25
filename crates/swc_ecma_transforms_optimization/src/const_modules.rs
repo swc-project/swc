@@ -151,11 +151,7 @@ impl VisitMut for ConstModules {
             return;
         }
 
-        n.iter_mut().for_each(|item| {
-            if let ModuleItem::Stmt(stmt) = item {
-                stmt.visit_mut_with(self);
-            }
-        });
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {

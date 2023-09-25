@@ -1496,7 +1496,7 @@ pub struct JscExperimental {
     #[serde(default)]
     pub plugins: Option<Vec<PluginConfig>>,
     /// If true, keeps import assertions in the output.
-    #[serde(default)]
+    #[serde(default, alias = "keepImportAssertions")]
     pub keep_import_attributes: BoolConfig<false>,
 
     #[serde(default)]
@@ -1586,13 +1586,14 @@ impl ModuleConfig {
         config: Option<ModuleConfig>,
         available_features: FeatureFlag,
     ) -> Box<dyn swc_ecma_visit::Fold + 'cmt> {
+        let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
+
         let base = match base {
-            FileName::Real(v) if !paths.is_empty() => {
+            FileName::Real(v) if !skip_resolver => {
                 FileName::Real(v.canonicalize().unwrap_or_else(|_| v.to_path_buf()))
             }
             _ => base.clone(),
         };
-        let skip_resolver = base_url.as_os_str().is_empty() && paths.is_empty();
 
         match config {
             None => {

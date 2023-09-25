@@ -1,0 +1,5 @@
+{
+    "some-const-module": {
+        "default": "42"
+    }
+}
