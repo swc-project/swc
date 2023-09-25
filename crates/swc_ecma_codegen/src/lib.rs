@@ -3874,8 +3874,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                     for _ in 0..end {
                                         iter.next();
                                     }
-                                } else if 0xd800 <= v && v <= 0xdfff {
-                                    buf.push_str("\\");
+                                } else if (0xd800..=0xdfff).contains(&v) {
+                                    buf.push('\\');
                                 } else {
                                     buf.push_str("\\\\");
                                 }
