@@ -889,3 +889,12 @@ export default {
         },
     );
 }
+
+#[test]
+fn test_get_quoted_utf16_with_raw_1() {
+    const SRC: &str = include_str!("../tests/assets/raw-1.txt");
+
+    let actual = get_quoted_utf16(SRC, false, EsVersion::latest());
+
+    assert_eq!(actual, SRC);
+}
