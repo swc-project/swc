@@ -899,7 +899,7 @@ fn test_get_quoted_utf16_with_raw_1() {
         dbg!(c);
         let actual = get_quoted_utf16(&c.to_string(), false, EsVersion::latest());
 
-        println!("Actual: {:?}", &actual[1..actual.len() - 2]);
+        println!("Actual: {:?}", &actual[1..actual.len() - 1]);
     }
 
     let actual = get_quoted_utf16(SRC, false, EsVersion::latest());
