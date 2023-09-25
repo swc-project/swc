@@ -894,6 +894,12 @@ export default {
 fn test_get_quoted_utf16_with_raw_1() {
     const SRC: &str = include_str!("../tests/assets/raw-1.txt");
 
+    for c in SRC.chars() {
+        let actual = get_quoted_utf16(&c.to_string(), false, EsVersion::latest());
+
+        assert_eq!(actual, c.to_string());
+    }
+
     let actual = get_quoted_utf16(SRC, false, EsVersion::latest());
 
     assert_eq!(actual, SRC);
