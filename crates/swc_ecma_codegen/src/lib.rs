@@ -3858,20 +3858,24 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
 
                             let val_str = &inner_buf[range];
 
-                            let v = u32::from_str_radix(val_str, 16).unwrap_or_else(|err| {
-                                unreachable!(
-                                    "failed to parse {} as a hex value: {:?}",
-                                    val_str, err
-                                )
-                            });
+                            if is_valid {
+                                let v = u32::from_str_radix(val_str, 16).unwrap_or_else(|err| {
+                                    unreachable!(
+                                        "failed to parse {} as a hex value: {:?}",
+                                        val_str, err
+                                    )
+                                });
 
-                            if is_valid && v > 0xffff {
-                                buf.push_str(&inner_buf);
+                                dbg!(v, v > 0xffff);
 
-                                let end = if is_curly { 7 } else { 5 };
+                                if v > 0xffff {
+                                    buf.push_str(&inner_buf);
 
-                                for _ in 0..end {
-                                    iter.next();
+                                    let end = if is_curly { 7 } else { 5 };
+
+                                    for _ in 0..end {
+                                        iter.next();
+                                    }
                                 }
                             }
                         } else if is_curly {
