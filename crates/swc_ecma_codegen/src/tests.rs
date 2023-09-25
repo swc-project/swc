@@ -899,7 +899,7 @@ fn test_str_lit(input: PathBuf) {
 
 /// Print text back using `console.log`
 fn print_back(s: &str) -> String {
-    let output = exec_node_js(
+    exec_node_js(
         "console.log(process.argv[1])",
         JsExecOptions {
             cache: true,
@@ -907,9 +907,7 @@ fn print_back(s: &str) -> String {
             args: vec![s.into()],
         },
     )
-    .expect("failed to execute node.js");
-
-    output
+    .expect("failed to execute node.js")
 }
 
 fn test_str_lit_inner(input: PathBuf) {
