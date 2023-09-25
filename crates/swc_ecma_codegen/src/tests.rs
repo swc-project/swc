@@ -900,11 +900,11 @@ fn test_str_lit(input: PathBuf) {
 /// Print text back using `console.log`
 fn print_back(s: &str) -> String {
     exec_node_js(
-        "console.log(process.argv[1])",
+        &format!("console.log('{s}')"),
         JsExecOptions {
             cache: true,
             module: false,
-            args: vec![s.into()],
+            args: vec![],
         },
     )
     .expect("failed to execute node.js")
