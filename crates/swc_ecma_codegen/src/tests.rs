@@ -7,6 +7,7 @@ use std::{
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
+use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
@@ -896,23 +897,25 @@ fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
 }
 
-fn test_str_lit_inner(input: PathBuf) {
-    let raw_input_text = std::fs::read_to_string(&input).unwrap();
+/// Print text back using `console.log`
+fn print_back(s: &str) -> String {
+    exec_node_js(
+        "console.log(process.argv[2])",
+        JsExecOptions {
+            cache: true,
+            module: false,
+            args: vec![s.into()],
+        },
+    )
+    .expect("failed to execute node.js")
 }
 
-#[test]
-fn test_get_quoted_utf16_with_raw_1() {
-    const SRC: &str = include_str!("../tests/assets/raw-1.txt");
+fn test_str_lit_inner(input: PathBuf) {
+    let raw_str = std::fs::read_to_string(&*input).unwrap();
+    let actual_str_lit = get_quoted_utf16(&raw_str, false, EsVersion::latest());
+    let actual = print_back(&actual_str_lit[1..actual_str_lit.len() - 1]);
 
-    // Test char-by-char
-    for c in SRC.chars() {
-        dbg!(c);
-        let actual = get_quoted_utf16(&c.to_string(), false, EsVersion::latest());
+    let expected = print_back(&raw_str);
 
-        println!("Actual: {:?}", &actual[1..actual.len() - 1]);
-    }
-
-    let actual = get_quoted_utf16(SRC, false, EsVersion::latest());
-
-    assert_eq!(actual, SRC);
+    assert_eq!(actual, expected);
 }
