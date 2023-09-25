@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/codegen)** Fix codegen of unicode surrogates (#7985) ([39c680d](https://github.com/swc-project/swc/commit/39c680d814644fbde50b0f73a29aebe791812eb2))
+
 ## [1.3.89] - 2023-09-25
 
 ### Bug Fixes
