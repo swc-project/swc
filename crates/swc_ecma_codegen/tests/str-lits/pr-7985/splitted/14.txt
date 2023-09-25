@@ -1,1 +1,1 @@
-Indonesian\\"}),`\\n`,(n\\"it\\"}),\\":ItalianoItalian\\"}),`\\n`,(n\\"ja\\"}),\\":\\\\u65E5\\\\u672C\\\\u8A9EJapanese\\"}),`\\n`,(n\\"ko\\"}),\\":\\\\uD55C\\\\uAD6D\\\\uC5B4Korean\\"}),`\\n`,(n\\"nl\\"}),\\":NederlandsDutch\\"}),`\\n`,(n\\"nl-be\\"}),\\":Nederlands(Belgi\\\\xEB)Dutch(Belgium)\\"}),`\\n`,(n\\"no\\"}),\\":NorskNorwegian\\"}),`\\n`,(n\\"pl\\"}),\\":(n\\"th\\"}),\\":\\\\u0E44\\\\u0E17\\\\u0E22Thai\\"}),`\\n`,(n\\"tr\\"}),\\":T\\\\xFCrk\\\\xE7eTurkish\\"}),`\\n`,(n.li,{()(n.
+Indonesian\\"}),`\\n`,(n\\"it\\"}),\\":Italiano
