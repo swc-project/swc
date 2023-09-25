@@ -8,5 +8,5 @@ var A;
         this.x = x;
         this.y = y;
     };
-    var UnitSquare = A.UnitSquare = null;
+    A.UnitSquare = null;
 })(A || (A = {}));

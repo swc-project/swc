@@ -7,11 +7,13 @@ export var AClass = function AClass() {
     _class_call_check(this, AClass);
 };
 //// [/b.ts]
-import { A } from "./a";
+import { a, A, AClass } from "./a";
+import "./a";
 export { A };
 export { A as A2 } from "./a";
+export { } from "./a";
 //// [/c.ts]
-export { };
+import { AClass } from "./b";
 //// [/main4.ts]
 export default 1; // ok
 //// [/main5.ts]
@@ -23,6 +25,6 @@ var C = function C() {
 ;
 export { C as default };
 //// [/main6.ts]
-export { }; // error
+export default I; // error
 //// [/main7.ts]
-export { }; // error
+export default C; // error

@@ -26,16 +26,16 @@ var M1;
         EConst1[EConst1["F"] = 8] = "F";
     })(EConst1 = M1.EConst1 || (M1.EConst1 = {}));
     var x = [
-        EConst1.A,
-        EConst1.B,
-        EConst1.C,
-        EConst1.D,
-        EConst1.E,
-        EConst1.F
+        3,
+        2,
+        1,
+        7,
+        9,
+        8
     ];
 })(M1 || (M1 = {}));
-// Enum with only computed members across 2 declarations with the same root module 
 var M2;
+// Enum with only computed members across 2 declarations with the same root module 
 (function(M2) {
     var EComp2;
     (function(EComp2) {
@@ -57,8 +57,8 @@ var M2;
         EComp2.F
     ];
 })(M2 || (M2 = {}));
-// Enum with initializer in only one of two declarations with constant members with the same root module
 var M3;
+// Enum with initializer in only one of two declarations with constant members with the same root module
 (function(M3) {
     var EInit;
     (function(EInit) {
@@ -71,8 +71,8 @@ var M3;
         EInit[EInit["E"] = 3] = "E";
     })(EInit || (EInit = {}));
 })(M3 || (M3 = {}));
-// Enums with same name but different root module
 var M4;
+// Enums with same name but different root module
 (function(M4) {
     var Color;
     (function(Color) {
@@ -92,7 +92,6 @@ var M5;
 })(M5 || (M5 = {}));
 var M6;
 (function(M6) {
-    var A;
     (function(A) {
         var Color;
         (function(Color) {
@@ -100,7 +99,7 @@ var M6;
             Color[Color["Green"] = 1] = "Green";
             Color[Color["Blue"] = 2] = "Blue";
         })(Color = A.Color || (A.Color = {}));
-    })(A = M6.A || (M6.A = {}));
+    })(M6.A || (M6.A = {}));
 })(M6 || (M6 = {}));
 (function(M6) {
     var A;

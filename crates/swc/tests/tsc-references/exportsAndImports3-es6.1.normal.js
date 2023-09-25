@@ -72,11 +72,8 @@ var D;
     D[D["C"] = 2] = "C";
 })(D || (D = {}));
 var M;
-(function(M) {
-    var x;
-    M.x = x;
-})(M || (M = {}));
-var a = M.x;
+(function(M) {})(M || (M = {}));
+const a = M.x;
 //// [t2.ts]
 "use strict";
 Object.defineProperty(exports, "__esModule", {

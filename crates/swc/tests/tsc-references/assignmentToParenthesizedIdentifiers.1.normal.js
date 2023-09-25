@@ -6,10 +6,7 @@ x = 3; // OK
 x = ""; // Error
 x = ""; // Error
 var M;
-(function(M) {
-    var y;
-    M.y = y;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 M.y = 3; // OK
 M.y = 3; // OK
 M.y = 3; // OK
@@ -25,10 +22,7 @@ M = {
 var M2;
 (function(M2) {
     var M3;
-    (function(M3) {
-        var x;
-        M3.x = x;
-    })(M3 = M2.M3 || (M2.M3 = {}));
+    (function(M3) {})(M3 = M2.M3 || (M2.M3 = {}));
     M3 = {
         x: 3
     }; // Error

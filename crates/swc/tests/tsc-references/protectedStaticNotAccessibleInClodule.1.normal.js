@@ -5,7 +5,7 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function(C1) {
-    var f = C1.f = C.foo;
-    var b = C1.b = C.bar;
+(function(C) {
+    C.f = C.foo; // OK
+    C.b = C.bar; // error
 })(C || (C = {}));

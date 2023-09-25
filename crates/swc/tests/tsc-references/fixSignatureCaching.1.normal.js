@@ -4,61 +4,6 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 (function(define1, undefined) {
     define1(function() {
         "use strict";
-        var equalIC = function equalIC(a, b) {
-            return a != null && b != null && a.toLowerCase() === b.toLowerCase();
-        };
-        var containsIC = function containsIC(array, value) {
-            var valueLC, i, len = array.length;
-            if (!len || !value) {
-                return false;
-            }
-            valueLC = value.toLowerCase();
-            for(i = 0; i < len; ++i){
-                if (valueLC === array[i].toLowerCase()) {
-                    return true;
-                }
-            }
-            return false;
-        };
-        var convertPropsToRegExp = function convertPropsToRegExp(object) {
-            for(var key in object){
-                if (hasOwnProp.call(object, key)) {
-                    object[key] = new RegExp(object[key], "i");
-                }
-            }
-        };
-        var MobileDetect = /**
-     * Constructor for MobileDetect object.
-     * <br>
-     * Such an object will keep a reference to the given user-agent string and cache most of the detect queries.<br>
-     * <div style="background-color: #d9edf7; border: 1px solid #bce8f1; color: #3a87ad; padding: 14px; border-radius: 2px; margin-top: 20px">
-     *     <strong>Find information how to download and install:</strong>
-     *     <a href="https://github.com/hgoebl/mobile-detect.js/">github.com/hgoebl/mobile-detect.js/</a>
-     * </div>
-     *
-     * @example <pre>
-     *     var md = new MobileDetect(window.navigator.userAgent);
-     *     if (md.mobile()) {
-     *         location.href = (md.mobileGrade() === 'A') ? '/mobile/' : '/lynx/';
-     *     }
-     * </pre>
-     *
-     * @param {string} userAgent typically taken from window.navigator.userAgent or http_header['User-Agent']
-     * @param {number} [maxPhoneWidth=600] <strong>only for browsers</strong> specify a value for the maximum
-     *        width of smallest device side (in logical "CSS" pixels) until a device detected as mobile will be handled
-     *        as phone.
-     *        This is only used in cases where the device cannot be classified as phone or tablet.<br>
-     *        See <a href="http://developer.android.com/guide/practices/screens_support.html">Declaring Tablet Layouts
-     *        for Android</a>.<br>
-     *        If you provide a value < 0, then this "fuzzy" check is disabled.
-     * @constructor
-     * @global
-     */ function MobileDetect(userAgent, maxPhoneWidth) {
-            this.ua = userAgent || "";
-            this._cache = {};
-            //600dp is typical 7" tablet minimum width
-            this.maxPhoneWidth = maxPhoneWidth || 600;
-        };
         var impl = {};
         impl.mobileDetectRules = {
             "phones": {
@@ -349,6 +294,29 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         isArray = "isArray" in Array ? function isArray(value) {
             return Object.prototype.toString.call(value) === "[object Array]";
         } : Array.isArray;
+        function equalIC(a, b) {
+            return a != null && b != null && a.toLowerCase() === b.toLowerCase();
+        }
+        function containsIC(array, value) {
+            var valueLC, i, len = array.length;
+            if (!len || !value) {
+                return false;
+            }
+            valueLC = value.toLowerCase();
+            for(i = 0; i < len; ++i){
+                if (valueLC === array[i].toLowerCase()) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        function convertPropsToRegExp(object) {
+            for(var key in object){
+                if (hasOwnProp.call(object, key)) {
+                    object[key] = new RegExp(object[key], "i");
+                }
+            }
+        }
         (function init() {
             var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
             for(key in mobileDetectRules.props){
@@ -576,6 +544,38 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         impl.getDeviceSmallerSide = function() {
             return window.screen.width < window.screen.height ? window.screen.width : window.screen.height;
         };
+        /**
+     * Constructor for MobileDetect object.
+     * <br>
+     * Such an object will keep a reference to the given user-agent string and cache most of the detect queries.<br>
+     * <div style="background-color: #d9edf7; border: 1px solid #bce8f1; color: #3a87ad; padding: 14px; border-radius: 2px; margin-top: 20px">
+     *     <strong>Find information how to download and install:</strong>
+     *     <a href="https://github.com/hgoebl/mobile-detect.js/">github.com/hgoebl/mobile-detect.js/</a>
+     * </div>
+     *
+     * @example <pre>
+     *     var md = new MobileDetect(window.navigator.userAgent);
+     *     if (md.mobile()) {
+     *         location.href = (md.mobileGrade() === 'A') ? '/mobile/' : '/lynx/';
+     *     }
+     * </pre>
+     *
+     * @param {string} userAgent typically taken from window.navigator.userAgent or http_header['User-Agent']
+     * @param {number} [maxPhoneWidth=600] <strong>only for browsers</strong> specify a value for the maximum
+     *        width of smallest device side (in logical "CSS" pixels) until a device detected as mobile will be handled
+     *        as phone.
+     *        This is only used in cases where the device cannot be classified as phone or tablet.<br>
+     *        See <a href="http://developer.android.com/guide/practices/screens_support.html">Declaring Tablet Layouts
+     *        for Android</a>.<br>
+     *        If you provide a value < 0, then this "fuzzy" check is disabled.
+     * @constructor
+     * @global
+     */ function MobileDetect(userAgent, maxPhoneWidth) {
+            this.ua = userAgent || "";
+            this._cache = {};
+            //600dp is typical 7" tablet minimum width
+            this.maxPhoneWidth = maxPhoneWidth || 600;
+        }
         MobileDetect.prototype = {
             constructor: MobileDetect,
             /**

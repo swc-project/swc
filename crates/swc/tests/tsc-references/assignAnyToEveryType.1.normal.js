@@ -15,7 +15,7 @@ var E;
     E[E["A"] = 0] = "A";
 })(E || (E = {}));
 var g = x;
-var g2 = E.A;
+var g2 = 0;
 g2 = x;
 var C = function C() {
     "use strict";
@@ -27,7 +27,7 @@ var j = x;
 var j2 = x;
 var M;
 (function(M) {
-    var foo = M.foo = 1;
+    M.foo = 1;
 })(M || (M = {}));
 M = x;
 function k(a) {

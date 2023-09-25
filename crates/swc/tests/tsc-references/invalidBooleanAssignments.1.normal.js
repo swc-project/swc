@@ -20,7 +20,7 @@ var h = x;
 var h2 = x; // no error
 var M;
 (function(M) {
-    var a = M.a = 1;
+    M.a = 1;
 })(M || (M = {}));
 M = x;
 function i(a) {

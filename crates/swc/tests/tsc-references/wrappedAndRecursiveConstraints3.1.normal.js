@@ -8,9 +8,9 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.foo = function foo(x) {
-        var bar = function bar(x) {
+        function bar(x) {
             return x;
-        };
+        }
         return bar;
     };
     return C;

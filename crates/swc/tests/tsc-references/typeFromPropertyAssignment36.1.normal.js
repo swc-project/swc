@@ -1,29 +1,29 @@
 //// [typeFromPropertyAssignment36.ts]
 function f(b) {
-    var _$d = function _$d() {};
-    _$d.e = 12;
-    _$d.e;
+    function d() {}
+    d.e = 12;
+    d.e;
     if (b) {
-        _$d.q = false;
+        d.q = false;
     }
     // error d.q might not be assigned
-    _$d.q;
+    d.q;
     if (b) {
-        _$d.q = false;
+        d.q = false;
     } else {
-        _$d.q = true;
+        d.q = true;
     }
-    _$d.q;
+    d.q;
     if (b) {
-        _$d.r = 1;
+        d.r = 1;
     } else {
-        _$d.r = 2;
+        d.r = 2;
     }
-    _$d.r;
+    d.r;
     if (b) {
-        _$d.s = "hi";
+        d.s = "hi";
     }
-    return _$d;
+    return d;
 }
 // OK to access possibly-unassigned properties outside the initialising scope
 var test = f(true).s;

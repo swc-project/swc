@@ -114,11 +114,11 @@ function someOtherFn() {
 }
 // Arrow function used in nested function in function
 function outerFn() {
-    var innerFn = function innerFn() {
+    function innerFn() {
         var arrowFn = function() {};
         var p = arrowFn();
         var p;
-    };
+    }
 }
 // Arrow function used in nested function in arrow function
 var f = function(n) {

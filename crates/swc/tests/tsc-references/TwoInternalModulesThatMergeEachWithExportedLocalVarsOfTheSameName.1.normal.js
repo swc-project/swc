@@ -11,7 +11,7 @@ export var A;
         }
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
-    var Origin = A.Origin = {
+    A.Origin = {
         x: 0,
         y: 0
     };
@@ -20,7 +20,8 @@ export var A;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var A;
 (function(A) {
-    var Origin = A.Origin = {
+    // collision with 'Origin' var in other part of merged module
+    A.Origin = {
         x: 0,
         y: 0
     };

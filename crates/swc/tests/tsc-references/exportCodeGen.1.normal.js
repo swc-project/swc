@@ -4,42 +4,42 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var lt12 = function lt12() {
-        return x < 12;
-    };
-    var x = A.x = 12;
+    A.x = 12;
+    function lt12() {
+        return A.x < 12;
+    }
 })(A || (A = {}));
-// should not fully qualify 'x'
 var B;
+// should not fully qualify 'x'
 (function(B) {
-    var lt12 = function lt12() {
-        return x < 12;
-    };
     var x = 12;
+    function lt12() {
+        return x < 12;
+    }
 })(B || (B = {}));
-// not copied, since not exported
 var C;
+// not copied, since not exported
 (function(C) {
-    var no = function no() {
+    function no() {
         return false;
-    };
+    }
 })(C || (C = {}));
-// copies, since exported
 var D;
+// copies, since exported
 (function(D) {
-    var yes = function yes() {
+    function yes() {
         return true;
-    };
+    }
     D.yes = yes;
 })(D || (D = {}));
-// validate all exportable statements
 var E;
+// validate all exportable statements
 (function(E) {
-    var fn = function fn() {};
     var Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
     })(Color = E.Color || (E.Color = {}));
+    function fn() {}
     E.fn = fn;
     var C = function C() {
         "use strict";
@@ -48,18 +48,18 @@ var E;
     E.C = C;
     var M;
     (function(M) {
-        var x = M.x = 42;
+        M.x = 42;
     })(M = E.M || (E.M = {}));
 })(E || (E = {}));
+var F;
 // validate all exportable statements,
 // which are not exported
-var F;
 (function(F) {
-    var fn = function fn() {};
     var Color;
     (function(Color) {
         Color[Color["Red"] = 0] = "Red";
     })(Color || (Color = {}));
+    function fn() {}
     var C = function C() {
         "use strict";
         _class_call_check(this, C);

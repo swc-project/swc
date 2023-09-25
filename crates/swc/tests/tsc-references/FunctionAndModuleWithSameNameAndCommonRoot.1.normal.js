@@ -1,12 +1,12 @@
 //// [function.ts]
 var A;
 (function(A) {
-    var Point = function Point() {
+    function Point() {
         return {
             x: 0,
             y: 0
         };
-    };
+    }
     A.Point = Point;
 })(A || (A = {}));
 //// [module.ts]
@@ -14,7 +14,7 @@ var A;
 (function(A) {
     var Point;
     (function(Point) {
-        var Origin = Point.Origin = {
+        Point.Origin = {
             x: 0,
             y: 0
         };
@@ -29,15 +29,15 @@ var cl = A.Point.Origin; // not expected to be an error.
 //// [simple.ts]
 var B;
 (function(B) {
-    var Point = function Point() {
+    function Point() {
         return {
             x: 0,
             y: 0
         };
-    };
+    }
     B.Point = Point;
     (function(Point) {
-        var Origin = Point.Origin = {
+        Point.Origin = {
             x: 0,
             y: 0
         };

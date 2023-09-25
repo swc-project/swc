@@ -1,9 +1,6 @@
 //// [file.tsx]
 var my;
-(function(my) {
-    var div;
-    my.div = div;
-})(my || (my = {}));
+(function(my) {})(my || (my = {}));
 // OK
 /*#__PURE__*/ React.createElement(my.div, {
     n: "x"

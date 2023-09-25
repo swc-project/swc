@@ -4,113 +4,19 @@
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var TypeScript;
-(function(TypeScript1) {
-    var lastOf = function lastOf(items) {
+(function(TypeScript) {
+    function lastOf(items) {
         return items === null || items.length === 0 ? null : items[items.length - 1];
-    };
-    var max = function max(a, b) {
+    }
+    TypeScript.lastOf = lastOf;
+    function max(a, b) {
         return a >= b ? a : b;
-    };
-    var min = function min(a, b) {
+    }
+    TypeScript.max = max;
+    function min(a, b) {
         return a <= b ? a : b;
-    };
-    var isValidAstNode = function isValidAstNode(ast) {
-        if (ast === null) return false;
-        if (ast.minChar === -1 || ast.limChar === -1) return false;
-        return true;
-    };
-    var getAstPathToPosition = function getAstPathToPosition(script, pos) {
-        var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : GetAstPathOptions.Default;
-        var lookInComments = function(comments) {
-            if (comments && comments.length > 0) {
-                for(var i = 0; i < comments.length; i++){
-                    var minChar = comments[i].minChar;
-                    var limChar = comments[i].limChar;
-                    if (!comments[i].isBlockComment) {
-                        limChar++; // For single line comments, include 1 more character (for the newline)
-                    }
-                    if (pos >= minChar && pos < limChar) {
-                        ctx.path.push(comments[i]);
-                    }
-                }
-            }
-        };
-        var pre = function pre(cur, parent, walker) {
-            if (isValidAstNode(cur)) {
-                // Add "cur" to the stack if it contains our position
-                // For "identifier" nodes, we need a special case: A position equal to "limChar" is
-                // valid, since the position corresponds to a caret position (in between characters)
-                // For example:
-                //  bar
-                //  0123
-                // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
-                var inclusive = hasFlag(options, GetAstPathOptions.EdgeInclusive) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar; // Special "EOF" case
-                var minChar = cur.minChar;
-                var limChar = cur.limChar + (inclusive ? 1 : 0);
-                if (pos >= minChar && pos < limChar) {
-                    // TODO: Since AST is sometimes not correct wrt to position, only add "cur" if it's better
-                    //       than top of the stack.
-                    var previous = ctx.path.ast();
-                    if (previous == null || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) {
-                        ctx.path.push(cur);
-                    } else {
-                    //logger.log("TODO: Ignoring node because minChar, limChar not better than previous node in stack");
-                    }
-                }
-                // The AST walker skips comments, but we might be in one, so check the pre/post comments for this node manually
-                if (pos < limChar) {
-                    lookInComments(cur.preComments);
-                }
-                if (pos >= minChar) {
-                    lookInComments(cur.postComments);
-                }
-                if (!hasFlag(options, GetAstPathOptions.DontPruneSearchBasedOnPosition)) {
-                    // Don't go further down the tree if pos is outside of [minChar, limChar]
-                    walker.options.goChildren = minChar <= pos && pos <= limChar;
-                }
-            }
-            return cur;
-        };
-        var ctx = new AstPathContext();
-        TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx);
-        return ctx.path;
-    };
-    var getTokenizationOffset = function getTokenizationOffset(script, position) {
-        var bestOffset = 0;
-        var pre = function(cur, parent, walker) {
-            if (TypeScript.isValidAstNode(cur)) {
-                // Did we find a closer offset?
-                if (cur.minChar <= position) {
-                    bestOffset = max(bestOffset, cur.minChar);
-                }
-                // Stop the walk if this node is not related to "minChar"
-                if (cur.minChar > position || cur.limChar < bestOffset) {
-                    walker.options.goChildren = false;
-                }
-            }
-            return cur;
-        };
-        TypeScript.getAstWalkerFactory().walk(script, pre);
-        return bestOffset;
-    };
-    var walkAST = function walkAST(ast, callback) {
-        var pre = function pre(cur, parent, walker) {
-            var path = walker.state;
-            path.push(cur);
-            callback(path, walker);
-            return cur;
-        };
-        var post = function post(cur, parent, walker) {
-            var path = walker.state;
-            path.pop();
-            return cur;
-        };
-        var path = new AstPath();
-        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
-    };
-    TypeScript1.lastOf = lastOf;
-    TypeScript1.max = max;
-    TypeScript1.min = min;
+    }
+    TypeScript.min = min;
     var AstPath = /*#__PURE__*/ function() {
         "use strict";
         function AstPath() {
@@ -330,28 +236,136 @@ var TypeScript;
         };
         return AstPath;
     }();
-    TypeScript1.AstPath = AstPath;
-    TypeScript1.isValidAstNode = isValidAstNode;
+    //
+    // Helper class representing a path from a root ast node to a (grand)child ast node.
+    // This is helpful as our tree don't have parents.
+    //
+    TypeScript.AstPath = AstPath;
+    function isValidAstNode(ast) {
+        if (ast === null) return false;
+        if (ast.minChar === -1 || ast.limChar === -1) return false;
+        return true;
+    }
+    TypeScript.isValidAstNode = isValidAstNode;
     var AstPathContext = function AstPathContext() {
         "use strict";
         _class_call_check(this, AstPathContext);
         this.path = new TypeScript.AstPath();
     };
-    TypeScript1.AstPathContext = AstPathContext;
+    TypeScript.AstPathContext = AstPathContext;
     var GetAstPathOptions;
     (function(GetAstPathOptions) {
         GetAstPathOptions[GetAstPathOptions["Default"] = 0] = "Default";
         GetAstPathOptions[GetAstPathOptions["EdgeInclusive"] = 1] = "EdgeInclusive";
-        GetAstPathOptions[GetAstPathOptions[//We need this options dealing with an AST coming from an incomplete AST. For example:
+        //We need this options dealing with an AST coming from an incomplete AST. For example:
         //     class foo { // r
         // If we ask for the AST at the position after the "r" character, we won't see we are 
         // inside a comment, because the "class" AST node has a limChar corresponding to the position of 
         // the "{" character, meaning we don't traverse the tree down to the stmt list of the class, meaning
         // we don't find the "precomment" attached to the errorneous empty stmt.
         //TODO: It would be nice to be able to get rid of this.
-        "DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
-    })(GetAstPathOptions = TypeScript1.GetAstPathOptions || (TypeScript1.GetAstPathOptions = {}));
-    TypeScript1.getAstPathToPosition = getAstPathToPosition;
-    TypeScript1.getTokenizationOffset = getTokenizationOffset;
-    TypeScript1.walkAST = walkAST;
+        GetAstPathOptions[GetAstPathOptions["DontPruneSearchBasedOnPosition"] = 2] = "DontPruneSearchBasedOnPosition";
+    })(GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}));
+    function getAstPathToPosition(script, pos) {
+        var options = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
+        var lookInComments = function(comments) {
+            if (comments && comments.length > 0) {
+                for(var i = 0; i < comments.length; i++){
+                    var minChar = comments[i].minChar;
+                    var limChar = comments[i].limChar;
+                    if (!comments[i].isBlockComment) {
+                        limChar++; // For single line comments, include 1 more character (for the newline)
+                    }
+                    if (pos >= minChar && pos < limChar) {
+                        ctx.path.push(comments[i]);
+                    }
+                }
+            }
+        };
+        var pre = function pre(cur, parent, walker) {
+            if (isValidAstNode(cur)) {
+                // Add "cur" to the stack if it contains our position
+                // For "identifier" nodes, we need a special case: A position equal to "limChar" is
+                // valid, since the position corresponds to a caret position (in between characters)
+                // For example:
+                //  bar
+                //  0123
+                // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
+                var inclusive = hasFlag(options, 1) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar; // Special "EOF" case
+                var minChar = cur.minChar;
+                var limChar = cur.limChar + (inclusive ? 1 : 0);
+                if (pos >= minChar && pos < limChar) {
+                    // TODO: Since AST is sometimes not correct wrt to position, only add "cur" if it's better
+                    //       than top of the stack.
+                    var previous = ctx.path.ast();
+                    if (previous == null || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) {
+                        ctx.path.push(cur);
+                    } else {
+                    //logger.log("TODO: Ignoring node because minChar, limChar not better than previous node in stack");
+                    }
+                }
+                // The AST walker skips comments, but we might be in one, so check the pre/post comments for this node manually
+                if (pos < limChar) {
+                    lookInComments(cur.preComments);
+                }
+                if (pos >= minChar) {
+                    lookInComments(cur.postComments);
+                }
+                if (!hasFlag(options, 2)) {
+                    // Don't go further down the tree if pos is outside of [minChar, limChar]
+                    walker.options.goChildren = minChar <= pos && pos <= limChar;
+                }
+            }
+            return cur;
+        };
+        var ctx = new AstPathContext();
+        TypeScript.getAstWalkerFactory().walk(script, pre, null, null, ctx);
+        return ctx.path;
+    }
+    ///
+    /// Return the stack of AST nodes containing "position"
+    ///
+    TypeScript.getAstPathToPosition = getAstPathToPosition;
+    function getTokenizationOffset(script, position) {
+        var bestOffset = 0;
+        var pre = function(cur, parent, walker) {
+            if (TypeScript.isValidAstNode(cur)) {
+                // Did we find a closer offset?
+                if (cur.minChar <= position) {
+                    bestOffset = max(bestOffset, cur.minChar);
+                }
+                // Stop the walk if this node is not related to "minChar"
+                if (cur.minChar > position || cur.limChar < bestOffset) {
+                    walker.options.goChildren = false;
+                }
+            }
+            return cur;
+        };
+        TypeScript.getAstWalkerFactory().walk(script, pre);
+        return bestOffset;
+    }
+    //
+    // Find a source text offset that is safe for lexing tokens at the given position.
+    // This is used when "position" might be inside a comment or string, etc.
+    //
+    TypeScript.getTokenizationOffset = getTokenizationOffset;
+    function walkAST(ast, callback) {
+        var pre = function pre(cur, parent, walker) {
+            var path = walker.state;
+            path.push(cur);
+            callback(path, walker);
+            return cur;
+        };
+        var post = function post(cur, parent, walker) {
+            var path = walker.state;
+            path.pop();
+            return cur;
+        };
+        var path = new AstPath();
+        TypeScript.getAstWalkerFactory().walk(ast, pre, post, null, path);
+    }
+    ///
+    /// Simple function to Walk an AST using a simple callback function.
+    ///
+    TypeScript.walkAST = walkAST;
 })(TypeScript || (TypeScript = {}));

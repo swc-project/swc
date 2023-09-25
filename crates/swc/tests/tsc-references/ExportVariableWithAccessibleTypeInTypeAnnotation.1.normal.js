@@ -1,7 +1,8 @@
 //// [ExportVariableWithAccessibleTypeInTypeAnnotation.ts]
 var A;
 (function(A) {
-    var Origin = A.Origin = {
+    // valid since Point is exported
+    A.Origin = {
         x: 0,
         y: 0
     };

@@ -11,10 +11,7 @@ var A = function A() {
     _class_call_check(this, A);
 };
 var M;
-(function(M) {
-    var n;
-    M.n = n;
-})(M || (M = {}));
+(function(M) {})(M || (M = {}));
 var objA = new A();
 // number type var
 var ResultIsNumber1 = ++NUMBER;

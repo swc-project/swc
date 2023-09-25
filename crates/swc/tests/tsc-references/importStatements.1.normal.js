@@ -9,10 +9,10 @@ var A;
         this.y = y;
     };
     A.Point = Point;
-    var Origin = A.Origin = new Point(0, 0);
+    A.Origin = new Point(0, 0);
 })(A || (A = {}));
-// no code gen expected
 var C;
+// no code gen expected
 (function(C) {
     var m;
     var p;
@@ -21,17 +21,17 @@ var C;
         y: 0
     };
 })(C || (C = {}));
-// code gen expected
 var D;
+// code gen expected
 (function(D) {
     var a = A;
     var p = new a.Point(1, 1);
 })(D || (D = {}));
 var E;
 (function(E) {
-    var xDist = function xDist(x) {
-        return a.Origin.x - x.x;
-    };
     var a = A;
+    function xDist(x) {
+        return a.Origin.x - x.x;
+    }
     E.xDist = xDist;
 })(E || (E = {}));

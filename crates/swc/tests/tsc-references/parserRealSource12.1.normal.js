@@ -5,12 +5,6 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var TypeScript;
 (function(TypeScript) {
-    var getAstWalkerFactory = function getAstWalkerFactory() {
-        if (!globalAstWalkerFactory) {
-            globalAstWalkerFactory = new AstWalkerFactory();
-        }
-        return globalAstWalkerFactory;
-    };
     var AstWalkOptions = /*#__PURE__*/ function() {
         "use strict";
         function AstWalkOptions() {
@@ -206,6 +200,12 @@ var TypeScript;
     }();
     TypeScript.AstWalkerFactory = AstWalkerFactory;
     var globalAstWalkerFactory;
+    function getAstWalkerFactory() {
+        if (!globalAstWalkerFactory) {
+            globalAstWalkerFactory = new AstWalkerFactory();
+        }
+        return globalAstWalkerFactory;
+    }
     TypeScript.getAstWalkerFactory = getAstWalkerFactory;
     var ChildrenWalkers;
     (function(ChildrenWalkers) {

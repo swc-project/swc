@@ -1,7 +1,7 @@
 //// [voidOperatorWithAnyOtherType.ts]
 // void  operator on any type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var n, M, obj1 = {
+var M, obj1 = {
     x: "",
     y: 1
 }, A = function() {
@@ -10,6 +10,6 @@ var n, M, obj1 = {
     }
     return A.foo = function() {}, A;
 }();
-(M || (M = {})).n = n;
+M || (M = {});
 var objA = new A();
 obj1.x, obj1.y, objA.a, M.n, A.foo(), objA.a, M.n;

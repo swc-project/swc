@@ -10,9 +10,10 @@ var clodule = /*#__PURE__*/ function() {
     };
     return clodule;
 }();
-(function(clodule1) {
-    var fn = function fn(x, y) {
+(function(clodule) {
+    function fn(x, y) {
         return clodule.sfn("a");
-    };
-    clodule1.fn = fn;
+    }
+    // error: duplicate identifier expected
+    clodule.fn = fn;
 })(clodule || (clodule = {}));

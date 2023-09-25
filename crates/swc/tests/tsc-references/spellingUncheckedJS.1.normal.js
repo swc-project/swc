@@ -7,12 +7,12 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var inModule = 1;
 inmodule.toFixed();
 function f() {
-    // @ts-expect-error
-    "this is fine";
     var locals = 2 + true;
     locale.toFixed();
     // @ts-expect-error
     localf.toExponential();
+    // @ts-expect-error
+    "this is fine";
 }
 var Classe = /*#__PURE__*/ function() {
     "use strict";

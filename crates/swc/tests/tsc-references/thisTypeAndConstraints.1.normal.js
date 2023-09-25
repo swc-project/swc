@@ -12,9 +12,9 @@ var A = /*#__PURE__*/ function() {
     return A;
 }();
 function f(x) {
-    var g = function g(x) {
+    function g(x) {
         x = x.self();
-    };
+    }
     x = x.self();
 }
 var B = /*#__PURE__*/ function() {

@@ -16,10 +16,9 @@ var Point = /*#__PURE__*/ function() {
     return Point;
 }();
 (function(Point) {
-    var Origin = function Origin() {
+    function Origin() {
         return "";
     } // not an error, since not exported
-    ;
 })(Point || (Point = {}));
 var A;
 (function(A) {

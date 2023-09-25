@@ -5,7 +5,7 @@ define([
     "use strict";
     var foo;
     (function(foo) {
-        var answer = foo.answer = 42;
+        foo.answer = 42;
     })(foo || (foo = {}));
 });
 //// [foo_1.ts]

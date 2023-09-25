@@ -9,8 +9,8 @@ var F;
 (function(F) {
     F[F["B"] = 0] = "B";
 })(F || (F = {}));
-var e = E.A;
-var f = F.B;
+var e = 0;
+var f = 0;
 e = f;
 f = e;
 e = 1; // ok
@@ -19,13 +19,6 @@ var x = e; // ok
 x = f; // ok
 var Others;
 (function(Others) {
-    var foo = function foo(x, y, z) {
-        x = e;
-        y = e;
-        z = e;
-        var a = e;
-        var b = e;
-    };
     var a = e; // ok
     var C = function C() {
         "use strict";
@@ -51,4 +44,11 @@ var Others;
     var o = e;
     var p = e;
     var q = e;
+    function foo(x, y, z) {
+        x = e;
+        y = e;
+        z = e;
+        var a = e;
+        var b = e;
+    }
 })(Others || (Others = {}));

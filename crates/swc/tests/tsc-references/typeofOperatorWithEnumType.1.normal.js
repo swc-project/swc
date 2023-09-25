@@ -13,18 +13,18 @@ var ENUM1;
 var ResultIsString1 = typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM);
 var ResultIsString2 = typeof ENUM1 === "undefined" ? "undefined" : _type_of(ENUM1);
 // enum type expressions
-var ResultIsString3 = _type_of(ENUM1["A"]);
-var ResultIsString4 = _type_of(ENUM[0] + ENUM1["B"]);
+var ResultIsString3 = _type_of(0);
+var ResultIsString4 = _type_of(ENUM[0] + 1);
 // multiple typeof  operators
 var ResultIsString5 = _type_of(typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM));
-var ResultIsString6 = _type_of(_type_of(_type_of(ENUM[0] + ENUM1.B)));
+var ResultIsString6 = _type_of(_type_of(_type_of(ENUM[0] + 1)));
 // miss assignment operators
 typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM);
 typeof ENUM1 === "undefined" ? "undefined" : _type_of(ENUM1);
-_type_of(ENUM1["B"]);
+_type_of(1);
 typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM), ENUM1;
-var // use typeof in type query
-z;
+var z;
+// use typeof in type query
 (function(z) {})(z || (z = {}));
 z: typeof ENUM === "undefined" ? "undefined" : _type_of(ENUM);
 z: typeof ENUM1 === "undefined" ? "undefined" : _type_of(ENUM1);

@@ -8,5 +8,5 @@ var E;
     E[E["A"] = 0] = "A";
 })(E || (E = {}));
 var d = x;
-var e = E.A;
+var e = 0;
 e = x;

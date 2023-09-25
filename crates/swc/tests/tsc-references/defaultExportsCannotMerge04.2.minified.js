@@ -1,5 +1,4 @@
 //// [defaultExportsCannotMerge04.ts]
-var Foo, x;
 function Foo() {}
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -8,4 +7,4 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return Foo;
     }
-}), (Foo || (Foo = {})).x = x;
+}), Foo || (Foo = {});

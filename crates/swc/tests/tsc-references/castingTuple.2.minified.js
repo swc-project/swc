@@ -12,4 +12,4 @@ var classCDTuple = [
     new C(),
     new D()
 ];
-classCDTuple[2], classCDTuple[5], E1.one, E2.one, new C(), new C(), new D(), t4[2] = 10;
+classCDTuple[2], classCDTuple[5], new C(), new C(), new D(), t4[2] = 10;

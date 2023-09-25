@@ -5,77 +5,25 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var TypeScript;
 (function(TypeScript) {
-    var timeFunction = function timeFunction(logger, funcDescription, func) {
-        var start = +new Date();
-        var result = func();
-        var end = +new Date();
-        logger.log(funcDescription + " completed in " + (end - start) + " msec");
-        return result;
-    };
-    var stringToLiteral = function stringToLiteral(value, length) {
-        var result = "";
-        var addChar = function(index) {
-            var ch = value.charCodeAt(index);
-            switch(ch){
-                case 0x09:
-                    result += "\\t";
-                    break;
-                case 0x0a:
-                    result += "\\n";
-                    break;
-                case 0x0b:
-                    result += "\\v";
-                    break;
-                case 0x0c:
-                    result += "\\f";
-                    break;
-                case 0x0d:
-                    result += "\\r";
-                    break;
-                case 0x22:
-                    result += '\\"';
-                    break;
-                case 0x27:
-                    result += "\\'";
-                    break;
-                case 0x5c:
-                    result += "\\";
-                    break;
-                default:
-                    result += value.charAt(index);
-            }
-        };
-        var tooLong = value.length > length;
-        if (tooLong) {
-            var mid = length >> 1;
-            for(var i = 0; i < mid; i++)addChar(i);
-            result += "(...)";
-            for(var i = value.length - mid; i < value.length; i++)addChar(i);
-        } else {
-            length = value.length;
-            for(var i = 0; i < length; i++)addChar(i);
-        }
-        return result;
-    };
     var CompilerDiagnostics;
     (function(CompilerDiagnostics) {
-        var debug = CompilerDiagnostics.debug = false;
-        var diagnosticWriter = CompilerDiagnostics.diagnosticWriter = null;
-        var analysisPass = CompilerDiagnostics.analysisPass = 0;
+        CompilerDiagnostics.debug = false;
+        CompilerDiagnostics.diagnosticWriter = null;
+        CompilerDiagnostics.analysisPass = 0;
         function Alert(output) {
-            if (diagnosticWriter) {
-                diagnosticWriter.Alert(output);
+            if (CompilerDiagnostics.diagnosticWriter) {
+                CompilerDiagnostics.diagnosticWriter.Alert(output);
             }
         }
         CompilerDiagnostics.Alert = Alert;
         function debugPrint(s) {
-            if (debug) {
+            if (CompilerDiagnostics.debug) {
                 Alert(s);
             }
         }
         CompilerDiagnostics.debugPrint = debugPrint;
         function assert(condition, s) {
-            if (debug) {
+            if (CompilerDiagnostics.debug) {
                 if (!condition) {
                     Alert(s);
                 }
@@ -169,6 +117,58 @@ var TypeScript;
         return BufferedLogger;
     }();
     TypeScript.BufferedLogger = BufferedLogger;
+    function timeFunction(logger, funcDescription, func) {
+        var start = +new Date();
+        var result = func();
+        var end = +new Date();
+        logger.log(funcDescription + " completed in " + (end - start) + " msec");
+        return result;
+    }
     TypeScript.timeFunction = timeFunction;
+    function stringToLiteral(value, length) {
+        var result = "";
+        var addChar = function(index) {
+            var ch = value.charCodeAt(index);
+            switch(ch){
+                case 0x09:
+                    result += "\\t";
+                    break;
+                case 0x0a:
+                    result += "\\n";
+                    break;
+                case 0x0b:
+                    result += "\\v";
+                    break;
+                case 0x0c:
+                    result += "\\f";
+                    break;
+                case 0x0d:
+                    result += "\\r";
+                    break;
+                case 0x22:
+                    result += '\\"';
+                    break;
+                case 0x27:
+                    result += "\\'";
+                    break;
+                case 0x5c:
+                    result += "\\";
+                    break;
+                default:
+                    result += value.charAt(index);
+            }
+        };
+        var tooLong = value.length > length;
+        if (tooLong) {
+            var mid = length >> 1;
+            for(var i = 0; i < mid; i++)addChar(i);
+            result += "(...)";
+            for(var i = value.length - mid; i < value.length; i++)addChar(i);
+        } else {
+            length = value.length;
+            for(var i = 0; i < length; i++)addChar(i);
+        }
+        return result;
+    }
     TypeScript.stringToLiteral = stringToLiteral;
 })(TypeScript || (TypeScript = {}));

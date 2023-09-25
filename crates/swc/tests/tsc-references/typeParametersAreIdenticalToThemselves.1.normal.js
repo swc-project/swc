@@ -4,8 +4,8 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function foo1(x) {}
 function foo2(x) {}
 function foo3(x, y) {
-    var inner = function inner(x) {};
-    var inner2 = function inner2(x) {};
+    function inner(x) {}
+    function inner2(x) {}
 }
 var C = /*#__PURE__*/ function() {
     "use strict";

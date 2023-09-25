@@ -4,7 +4,7 @@ var Test;
         return 10;
     }
     Test.abc = abc;
-    var foo = Test.foo = function() {
+    const foo = Test.foo = function() {
         return 20;
     };
     function xyz() {

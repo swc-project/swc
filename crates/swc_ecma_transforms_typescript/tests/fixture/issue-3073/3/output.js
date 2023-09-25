@@ -1,6 +1,6 @@
 var Baz;
 (function(Baz) {
-    var baz = Baz.baz = {
+    const baz = Baz.baz = {
         a: 1,
         b: 2
     };

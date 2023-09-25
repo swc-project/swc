@@ -11,10 +11,10 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.foo = function foo() {
-        var temp = function temp(a) {
+        function temp(a) {
             var y;
             return y;
-        };
+        }
         return temp(null);
     };
     return C;

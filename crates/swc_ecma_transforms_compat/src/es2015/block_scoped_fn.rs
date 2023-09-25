@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::IdentUsageFinder;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -15,11 +15,22 @@ struct BlockScopedFns;
 impl VisitMut for BlockScopedFns {
     noop_visit_mut_type!();
 
-    fn visit_mut_stmts(&mut self, items: &mut Vec<Stmt>) {
-        let mut stmts = Vec::with_capacity(items.len());
-        let mut extra_stmts = Vec::with_capacity(items.len());
+    fn visit_mut_function(&mut self, n: &mut Function) {
+        let Some(body) = &mut n.body else { return };
 
-        for mut stmt in items.take() {
+        n.params.visit_mut_with(self);
+
+        // skip function scope
+        body.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
+        n.visit_mut_children_with(self);
+
+        let mut stmts = Vec::with_capacity(n.stmts.len());
+        let mut extra_stmts = Vec::with_capacity(n.stmts.len());
+
+        for stmt in n.stmts.take() {
             if let Stmt::Expr(ExprStmt { ref expr, .. }) = stmt {
                 if let Expr::Lit(Lit::Str(..)) = &**expr {
                     stmts.push(stmt);
@@ -27,45 +38,36 @@ impl VisitMut for BlockScopedFns {
                 }
             }
 
-            // This is to preserve function Class()
-            if stmt.span().is_dummy() {
-                extra_stmts.push(stmt)
-            } else {
-                match stmt {
-                    Stmt::Decl(Decl::Fn(decl)) => {
-                        if IdentUsageFinder::find(&decl.ident.to_id(), &decl.function) {
-                            extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
-                            continue;
-                        }
-                        stmts.push(
-                            VarDecl {
-                                span: DUMMY_SP,
-                                kind: VarDeclKind::Let,
-                                decls: vec![VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: decl.ident.clone().into(),
-                                    init: Some(Box::new(Expr::Fn(FnExpr {
-                                        ident: Some(decl.ident),
-                                        function: decl.function,
-                                    }))),
-                                    definite: false,
-                                }],
-                                declare: false,
-                            }
-                            .into(),
-                        )
-                    }
-                    _ => {
-                        stmt.visit_mut_children_with(self);
-                        extra_stmts.push(stmt)
-                    }
+            if let Stmt::Decl(Decl::Fn(decl)) = stmt {
+                if IdentUsageFinder::find(&decl.ident.to_id(), &decl.function) {
+                    extra_stmts.push(Stmt::Decl(Decl::Fn(decl)));
+                    continue;
                 }
+                stmts.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        decls: vec![VarDeclarator {
+                            span: DUMMY_SP,
+                            name: decl.ident.clone().into(),
+                            init: Some(Box::new(Expr::Fn(FnExpr {
+                                ident: Some(decl.ident),
+                                function: decl.function,
+                            }))),
+                            definite: false,
+                        }],
+                        declare: false,
+                    }
+                    .into(),
+                )
+            } else {
+                extra_stmts.push(stmt)
             }
         }
 
         stmts.append(&mut extra_stmts);
 
-        *items = stmts
+        n.stmts = stmts
     }
 }
 
@@ -123,6 +125,48 @@ name("Steve");
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| block_scoped_functions(),
+        basic_2,
+        r#"
+        {
+            function foo() {
+                return function bar() {
+                    {
+                        function baz() {}
+                    }
+                };
+                function baz() {}
+                {
+                    function bar() {}
+                    {
+                        function bar() {}
+                    }
+                }
+            }
+        }
+        "#,
+        r#"
+        {
+            let foo = function foo() {
+                return function bar() {
+                    {
+                        let baz = function baz() {};
+                    }
+                };
+                function baz() {}
+                {
+                    let bar = function bar() {};
+                    {
+                        let bar = function bar() {};
+                    }
+                }
+            };
+        }
+        "#
+    );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |_| block_scoped_functions(),
         issue_271,
         "
 function foo(scope) {
@@ -135,10 +179,10 @@ function foo(scope) {
 ",
         "
 function foo(scope) {
-    let startOperation = function startOperation(operation) {
-        scope.agentOperation = operation;
-    };
     scope.startOperation = startOperation;
+    function startOperation(operation) {
+        scope.agentOperation = operation;
+    }
 }
 "
     );
@@ -219,9 +263,9 @@ function foo(scope) {
         }",
         "function foo() {
             'use strict';
-            let _interop_require_default = function _interop_require_default(obj) {
+            function _interop_require_default(obj) {
                 return obj && obj.__esModule ? obj : { default: obj };
-            };
+            }
         }
 "
     );

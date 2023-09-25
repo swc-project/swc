@@ -1,7 +1,7 @@
 //// [voidOperatorWithStringType.ts]
 // void  operator on string type
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var STRING, M, n, A = function() {
+var STRING, M, A = function() {
     function A() {
         _class_call_check(this, A);
     }
@@ -9,6 +9,6 @@ var STRING, M, n, A = function() {
         return "";
     }, A;
 }();
-(M || (M = {})).n = n;
+M || (M = {});
 var objA = new A();
 objA.a, M.n, A.foo(), STRING.charAt(0), objA.a, M.n;

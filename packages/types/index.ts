@@ -317,7 +317,7 @@ export interface TerserMangleOptions {
     reserved?: string[];
 }
 
-export interface TerserManglePropertiesOptions { }
+export interface TerserManglePropertiesOptions {}
 
 /**
  * Programmatic options.
@@ -602,13 +602,11 @@ export interface JscConfig {
          */
         keepImportAttributes?: boolean;
 
-
         /**
          * Use `assert` instead of `with` for imports and exports.
          * This option only works when `keepImportAttributes` is `true`.
          */
         emitAssertForImportAttributes?: boolean;
-
 
         /**
          * Specify the location where SWC stores its intermediate cache files.
@@ -1087,7 +1085,7 @@ export interface Output {
     map?: string;
 }
 
-export interface MatchPattern { }
+export interface MatchPattern {}
 
 // -------------------------------
 // ---------- Ast nodes ----------
@@ -1319,7 +1317,7 @@ export type Expression =
     | OptionalChainingExpression
     | Invalid;
 
-interface ExpressionBase extends Node, HasSpan { }
+interface ExpressionBase extends Node, HasSpan {}
 
 export interface Identifier extends ExpressionBase {
     type: "Identifier";

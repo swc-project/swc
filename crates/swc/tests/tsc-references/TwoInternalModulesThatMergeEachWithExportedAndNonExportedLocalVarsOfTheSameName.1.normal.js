@@ -11,7 +11,7 @@ var A;
         }
         Utils.mirror = mirror;
     })(Utils = A.Utils || (A.Utils = {}));
-    var Origin = A.Origin = {
+    A.Origin = {
         x: 0,
         y: 0
     };

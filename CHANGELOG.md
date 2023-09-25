@@ -5,6 +5,37 @@
 
 
 
+- **(es)** Enable resolver if `jsc.baseUrl` is specified (#7998) ([f374ad9](https://github.com/swc-project/swc/commit/f374ad903a066ebf3a7e54a3656cb3fc44b37445))
+
+
+- **(es/compat)** Skip function scope in `block-scoped-fns` pass (#7975) ([d91a554](https://github.com/swc-project/swc/commit/d91a554033c8ce0ea2b2538b0e86abf5a81eac76))
+
+### Refactor
+
+
+
+- **(es/typescript)** Reimplement TypeScript pass (#7202) ([9c9a538](https://github.com/swc-project/swc/commit/9c9a538f23cb2bcd2f46e156babf64c7a81db245))
+
+## [1.3.88] - 2023-09-24
+
+### Features
+
+
+
+- **(es/config)** Accept `jsc.experimental.keepImportAssertions` (#7995) ([4d777ee](https://github.com/swc-project/swc/commit/4d777ee270183ba375b68c003e61692af6d571c3))
+
+### Refactor
+
+
+
+- **(bindingins)** Create `@swc/counter` (#7991) ([0acbb5f](https://github.com/swc-project/swc/commit/0acbb5f78daa52cf505e077993a694eb966368af))
+
+## [1.3.87] - 2023-09-22
+
+### Bug Fixes
+
+
+
 - **(bindings/type)** Update types of `jsc.experimental` (#7972) ([e40fccb](https://github.com/swc-project/swc/commit/e40fccb9ce2a8fc925de818c8da4b6503aab7ae3))
 
 

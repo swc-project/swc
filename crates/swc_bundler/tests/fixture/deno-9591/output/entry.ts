@@ -1632,27 +1632,27 @@ var LogLevels;
 })(LogLevels || (LogLevels = {}));
 Object.keys(LogLevels).filter((key)=>isNaN(Number(key)));
 const byLevel = {
-    [String(LogLevels.NOTSET)]: "NOTSET",
-    [String(LogLevels.DEBUG)]: "DEBUG",
-    [String(LogLevels.INFO)]: "INFO",
-    [String(LogLevels.WARNING)]: "WARNING",
-    [String(LogLevels.ERROR)]: "ERROR",
-    [String(LogLevels.CRITICAL)]: "CRITICAL"
+    [String(0)]: "NOTSET",
+    [String(10)]: "DEBUG",
+    [String(20)]: "INFO",
+    [String(30)]: "WARNING",
+    [String(40)]: "ERROR",
+    [String(50)]: "CRITICAL"
 };
 function getLevelByName(name) {
     switch(name){
         case "NOTSET":
-            return LogLevels.NOTSET;
+            return 0;
         case "DEBUG":
-            return LogLevels.DEBUG;
+            return 10;
         case "INFO":
-            return LogLevels.INFO;
+            return 20;
         case "WARNING":
-            return LogLevels.WARNING;
+            return 30;
         case "ERROR":
-            return LogLevels.ERROR;
+            return 40;
         case "CRITICAL":
-            return LogLevels.CRITICAL;
+            return 50;
         default:
             throw new Error(`no log level found for "${name}"`);
     }
@@ -2929,11 +2929,11 @@ function detect(content) {
     if (!d || d.length === 0) {
         return null;
     }
-    const crlf = d.filter((x)=>x === EOL.CRLF);
+    const crlf = d.filter((x)=>x === "\r\n");
     if (crlf.length > 0) {
-        return EOL.CRLF;
+        return "\r\n";
     } else {
-        return EOL.LF;
+        return "\n";
     }
 }
 function format3(content, eol) {

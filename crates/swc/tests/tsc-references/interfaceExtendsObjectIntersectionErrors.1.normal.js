@@ -52,9 +52,3 @@ var C5 = /*#__PURE__*/ function(_Constructor) {
     }
     return C5;
 }(Constructor());
-var EX;
-(function(EX) {
-    EX[EX["A"] = 0] = "A";
-    EX[EX["B"] = 1] = "B";
-    EX[EX["C"] = 2] = "C";
-})(EX || (EX = {}));

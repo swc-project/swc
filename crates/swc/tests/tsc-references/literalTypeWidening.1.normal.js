@@ -120,5 +120,5 @@ var E;
     E[E["A"] = 0] = "A";
     E[E["B"] = 1] = "B";
 })(E || (E = {}));
-var a = f(E.A);
+var a = f(0);
 var b = a;

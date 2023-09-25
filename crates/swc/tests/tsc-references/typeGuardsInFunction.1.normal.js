@@ -16,7 +16,8 @@ function f(param) {
 }
 // local function declaration
 function f1(param) {
-    var f2 = function f2(param1) {
+    var var2;
+    function f2(param1) {
         // global vars in function declaration
         num = typeof var1 === "string" && var1.length; // string
         // variables from outer function declaration
@@ -27,8 +28,7 @@ function f1(param) {
         var var3;
         num = typeof var3 === "string" && var3.length; // string
         num = typeof param1 === "string" && param1.length; // string
-    };
-    var var2;
+    }
 }
 // Function expression
 function f2(param) {

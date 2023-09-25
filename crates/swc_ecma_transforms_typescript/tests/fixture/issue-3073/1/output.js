@@ -1,6 +1,6 @@
 var Foo;
 (function(Foo) {
-    ({ a: Foo.a  } = {
+    const { a } = { a: Foo.a } = {
         a: 1
-    });
+    };
 })(Foo || (Foo = {}));
