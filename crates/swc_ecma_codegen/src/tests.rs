@@ -898,9 +898,9 @@ fn test_str_lit(input: PathBuf) {
 }
 
 /// Print text back using `console.log`
-fn print_back(s: &str) -> String {
+fn run_node(code: &str) -> String {
     exec_node_js(
-        &format!("console.log('{s}')"),
+        code,
         JsExecOptions {
             cache: true,
             module: false,
@@ -912,10 +912,18 @@ fn print_back(s: &str) -> String {
 
 fn test_str_lit_inner(input: PathBuf) {
     let raw_str = std::fs::read_to_string(&*input).unwrap();
-    let actual_str_lit = get_quoted_utf16(&raw_str, false, EsVersion::latest());
-    let actual = print_back(&actual_str_lit[1..actual_str_lit.len() - 1]);
+    let input_code = format!("console.log('{raw_str}')");
 
-    let expected = print_back(&raw_str);
+    let output_code = parse_then_emit(
+        &input_code,
+        Config::default()
+            .with_target(EsVersion::latest())
+            .with_minify(true),
+        Syntax::default(),
+    );
+
+    let expected = run_node(&input_code);
+    let actual = run_node(&output_code);
 
     assert_eq!(actual, expected);
 }
