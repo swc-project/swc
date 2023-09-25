@@ -1,1 +1,1 @@
-Japanese\\"}),`\\n`,(n\\"ko\\"}),\\":\\\\uD55C\\\\uAD6D\\\\uC5B4Korean\\"}),`\\n`,(n\\"nl\\"}),\\":NederlandsDutch\\"}),`\\n`,(n\\"nl-be\\"}),\\":Nederlands(Belgi\\\\xEB)Dutch(Belgium)\\"}),`\\n`,(n\\"no\\"}),\\":NorskNorwegian\\"}),`\\n`,(n\\"pl\\"}),\\":(n\\"th\\"}),\\":\\\\u0E44\\\\u0E17\\\\u0E22
+Japanese\\"}),`\\n`,(n\\"ko\\"}),\\":\\\\uD55C\\\\uAD6D\\\\uC5B4
