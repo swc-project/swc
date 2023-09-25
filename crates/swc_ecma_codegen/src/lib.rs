@@ -3865,7 +3865,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                 )
                             });
 
-                            if is_valid && v < 0xffff {
+                            if is_valid && v > 0xffff {
                                 buf.push_str(&inner_buf);
 
                                 let end = if is_curly { 7 } else { 5 };
