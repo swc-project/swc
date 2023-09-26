@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Fix codegen of unicode surrogates (#7985) ([39c680d](https://github.com/swc-project/swc/commit/39c680d814644fbde50b0f73a29aebe791812eb2))
 
+
+- **(es/codegen)** Fix codegen of optional chaining expr with a comment (#8005) ([f07bb48](https://github.com/swc-project/swc/commit/f07bb482e694a422591085621a38aff747294502))
+
 ## [1.3.89] - 2023-09-25
 
 ### Bug Fixes
