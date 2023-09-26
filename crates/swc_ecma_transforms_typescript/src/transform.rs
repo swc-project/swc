@@ -1190,6 +1190,17 @@ struct ExportRefRewrriter {
 impl VisitMut for ExportRefRewrriter {
     noop_visit_mut_type!();
 
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        match n {
+            Pat::Ident(BindingIdent { id, .. }) => {
+                if self.export_id_list.contains(&id.to_id()) {
+                    *n = Pat::Expr(Box::new(self.namesapce_id.clone().make_member(id.take())));
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         if let Expr::Ident(ref_ident) = n {
             if self.export_id_list.contains(&ref_ident.to_id()) {
