@@ -1,0 +1,18 @@
+{
+    "jsc": {
+        "transform": {
+            "decoratorVersion": "2022-03"
+        },
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false
+        },
+        "target": "es2021",
+        "loose": false,
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "isModule": true,
+    "minify": false
+}
