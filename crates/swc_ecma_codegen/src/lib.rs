@@ -2941,6 +2941,19 @@ where
                 }
             }
 
+            Expr::OptChain(e) => match &*e.base {
+                OptChainBase::Member(m) => {
+                    if self.has_leading_comment(&m.obj) {
+                        return true;
+                    }
+                }
+                OptChainBase::Call(c) => {
+                    if self.has_leading_comment(&c.callee) {
+                        return true;
+                    }
+                }
+            },
+
             _ => {}
         }
 
