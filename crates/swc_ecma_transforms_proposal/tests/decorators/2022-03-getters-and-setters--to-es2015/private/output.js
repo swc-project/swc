@@ -42,5 +42,5 @@ function get_a() {
     return _call_a(this);
 }
 function set_a(v) {
-    _call_a1(this, v);
+    return _call_a1(this, v);
 }

@@ -6,11 +6,11 @@ class Foo {
         return _class_private_field_get(this, _a).call(this);
     }
     constructor(){
-        _define_property(this, "value", 1);
         _class_private_field_init(this, _a, {
-            writable: true,
-            value: _call_a
+            get: get_a,
+            set: void 0
         });
+        _define_property(this, "value", 1);
         _initProto(this);
     }
 }
@@ -27,3 +27,6 @@ var __ = {
         ]
     ], [])
 };
+function get_a() {
+    return _call_a;
+}

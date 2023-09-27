@@ -2,7 +2,7 @@ var _initClass, _init_b, _init_c, _get___c, _set___c, _call_d, _initProto, _init
 let _A;
 class A {
     static{
-        ({ e: [_init_b, _init_c, _get___c, _set___c, _call_d, _initProto, _initStatic] , c: [_A, _initClass]  } = _apply_decs_2203_r(this, [
+        ({ e: [_init_b, _init_c, _get___c, _set___c, _call_d, _initProto, _initStatic], c: [_A, _initClass] } = _apply_decs_2203_r(this, [
             [
                 dec3,
                 6,
@@ -53,7 +53,9 @@ class A {
     static set #c(_v) {
         _set___c(this, _v);
     }
-    #d = _call_d;
+    get #d() {
+        return _call_d;
+    }
     static{
         _initClass();
     }

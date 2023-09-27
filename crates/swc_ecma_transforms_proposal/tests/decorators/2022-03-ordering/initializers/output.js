@@ -8,7 +8,7 @@ new class extends _identity {
     static{
         class A {
             static{
-                ({ e: [_call_c, _init_f, _init_g, _get___g, _set___g, _call_d, _init_e, _init_h, _get___h, _set___h, _initProto, _initStatic] , c: [_A, _initClass]  } = _apply_decs_2203_r(this, [
+                ({ e: [_call_c, _init_f, _init_g, _get___g, _set___g, _call_d, _init_e, _init_h, _get___h, _set___h, _initProto, _initStatic], c: [_A, _initClass] } = _apply_decs_2203_r(this, [
                     [
                         [
                             _dec4,
@@ -95,7 +95,9 @@ new class extends _identity {
             }
             a() {}
             static b() {}
-            #d = _call_d;
+            get #d() {
+                return _call_d;
+            }
             #___private_e = (_initProto(this), _init_e(this));
             get e() {
                 return this.#___private_e;
@@ -118,7 +120,9 @@ new class extends _identity {
             }
         }
     }
-    #c = _call_c;
+    get #c() {
+        return _call_c;
+    }
     #___private_f = _init_f(this);
     #__g = _init_g(this);
     get #g() {

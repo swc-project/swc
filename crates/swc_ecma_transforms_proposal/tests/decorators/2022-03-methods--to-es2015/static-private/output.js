@@ -5,10 +5,14 @@ class Foo {
         return _class_static_private_field_spec_get(this, Foo, _a).call(Foo);
     }
 }
+var _a = {
+    get: get_a,
+    set: void 0
+};
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_call_a, _initStatic]  } = _apply_decs_2203_r(Foo, [
+        ({ e: [_call_a, _initStatic] } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 7,
@@ -22,7 +26,6 @@ var __ = {
     })()
 };
 _define_property(Foo, "value", 1);
-var _a = {
-    writable: true,
-    value: _call_a
-};
+function get_a() {
+    return _call_a;
+}
