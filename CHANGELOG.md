@@ -13,6 +13,9 @@
 
 - **(es/typescript)** Handle `DeclareCollect` correctly (#8008) ([9d08b8a](https://github.com/swc-project/swc/commit/9d08b8a6145d486e570a22563c62a69722cf8759))
 
+
+- **(es/typescript)** Handle qualified access in assign pat (#8012) ([2f01aba](https://github.com/swc-project/swc/commit/2f01aba978415add87994f9b20e3e2db83fc48b6))
+
 ## [1.3.89] - 2023-09-25
 
 ### Bug Fixes
