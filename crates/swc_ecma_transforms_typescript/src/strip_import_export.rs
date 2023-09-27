@@ -120,10 +120,19 @@ struct DeclareCollect {
     id_value: AHashSet<Id>,
 }
 
-// Only scan the top level of the module
+/// Only scan the top level of the module.
+/// Any inner declaration is ignored.
 impl Visit for DeclareCollect {
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         self.id_value.insert(n.to_id());
+    }
+
+    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
+        self.id_value.insert(n.key.to_id());
+    }
+
+    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
+        n.name.visit_with(self);
     }
 
     fn visit_fn_decl(&mut self, n: &FnDecl) {
@@ -132,6 +141,10 @@ impl Visit for DeclareCollect {
 
     fn visit_class_decl(&mut self, n: &ClassDecl) {
         self.id_value.insert(n.ident.to_id());
+    }
+
+    fn visit_ts_enum_decl(&mut self, n: &TsEnumDecl) {
+        self.id_value.insert(n.id.to_id());
     }
 
     fn visit_export_default_decl(&mut self, n: &ExportDefaultDecl) {
@@ -200,6 +213,14 @@ impl Visit for DeclareCollect {
                     }
                 }
             });
+    }
+
+    fn visit_stmt(&mut self, n: &Stmt) {
+        if !n.is_decl() {
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_stmts(&mut self, _: &[Stmt]) {

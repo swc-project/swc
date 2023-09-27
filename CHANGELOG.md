@@ -10,6 +10,9 @@
 
 - **(es/codegen)** Fix codegen of optional chaining expr with a comment (#8005) ([f07bb48](https://github.com/swc-project/swc/commit/f07bb482e694a422591085621a38aff747294502))
 
+
+- **(es/typescript)** Handle `DeclareCollect` correctly (#8008) ([9d08b8a](https://github.com/swc-project/swc/commit/9d08b8a6145d486e570a22563c62a69722cf8759))
+
 ## [1.3.89] - 2023-09-25
 
 ### Bug Fixes
