@@ -934,9 +934,13 @@ impl Transform {
         let mut should_inject = false;
         let create_require = private_ident!("_createRequire");
         let require = private_ident!("__require");
-        let global_span = DUMMY_SP.apply_mark(self.top_level_mark);
-        let cjs_require = quote_ident!(global_span, "require");
-        let cjs_exports = quote_ident!(global_span, "exports");
+
+        // NOTE: This is not correct!
+        // However, all unresolved_span are used in TsImportExportAssignConfig::Classic
+        // which is deprecated and not used in real world.
+        let unresolved_span = DUMMY_SP.apply_mark(self.top_level_mark);
+        let cjs_require = quote_ident!(unresolved_span, "require");
+        let cjs_exports = quote_ident!(unresolved_span, "exports");
 
         let mut cjs_export_assign = None;
 
@@ -1097,16 +1101,10 @@ impl Transform {
                     n.push(
                         Stmt::Expr(ExprStmt {
                             span,
-                            expr: Box::new(
-                                expr.make_assign_to(
-                                    op!("="),
-                                    member_expr!(
-                                        DUMMY_SP.apply_mark(self.top_level_mark),
-                                        module.exports
-                                    )
-                                    .as_pat_or_expr(),
-                                ),
-                            ),
+                            expr: Box::new(expr.make_assign_to(
+                                op!("="),
+                                member_expr!(unresolved_span, module.exports).as_pat_or_expr(),
+                            )),
                         })
                         .into(),
                     );
