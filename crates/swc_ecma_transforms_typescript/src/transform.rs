@@ -49,7 +49,7 @@ use crate::{
 /// [export and import require]: https://www.typescriptlang.org/docs/handbook/modules.html#export--and-import--require
 #[derive(Debug, Default)]
 pub(crate) struct Transform {
-    unresolved_mark: Mark,
+    top_level_mark: Mark,
     top_level_ctxt: SyntaxContext,
 
     import_export_assign_config: TsImportExportAssignConfig,
@@ -64,13 +64,13 @@ pub(crate) struct Transform {
 }
 
 pub fn transform(
-    unresolved_mark: Mark,
+    top_level_mark: Mark,
     import_export_assign_config: TsImportExportAssignConfig,
     verbatim_module_syntax: bool,
 ) -> impl Fold + VisitMut {
     as_folder(Transform {
-        unresolved_mark,
-        top_level_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+        top_level_mark,
+        top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         import_export_assign_config,
         verbatim_module_syntax,
         ..Default::default()
@@ -502,7 +502,7 @@ impl Transform {
                 &id.to_id(),
                 &default_init,
                 &self.record,
-                self.unresolved_mark,
+                self.top_level_mark,
             );
 
             default_init = value.inc();
@@ -560,14 +560,14 @@ impl Transform {
         enum_id: &Id,
         default_init: &TsEnumRecordValue,
         record: &TsEnumRecord,
-        unresolved_mark: Mark,
+        top_level_mark: Mark,
     ) -> TsEnumRecordValue {
         member
             .init
             .map(|expr| {
                 EnumValueComputer {
                     enum_id,
-                    unresolved_mark,
+                    top_level_mark,
                     record,
                 }
                 .compute(expr)
@@ -934,7 +934,7 @@ impl Transform {
         let mut should_inject = false;
         let create_require = private_ident!("_createRequire");
         let require = private_ident!("__require");
-        let global_span = DUMMY_SP.apply_mark(self.unresolved_mark);
+        let global_span = DUMMY_SP.apply_mark(self.top_level_mark);
         let cjs_require = quote_ident!(global_span, "require");
         let cjs_exports = quote_ident!(global_span, "exports");
 
@@ -1101,7 +1101,7 @@ impl Transform {
                                 expr.make_assign_to(
                                     op!("="),
                                     member_expr!(
-                                        DUMMY_SP.apply_mark(self.unresolved_mark),
+                                        DUMMY_SP.apply_mark(self.top_level_mark),
                                         module.exports
                                     )
                                     .as_pat_or_expr(),

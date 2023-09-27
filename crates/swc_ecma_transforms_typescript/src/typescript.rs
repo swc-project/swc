@@ -12,21 +12,21 @@ use swc_ecma_visit::{as_folder, Fold, VisitMut, VisitMutWith};
 pub use crate::config::*;
 use crate::{strip_import_export::StripImportExport, strip_type::StripType, transform::transform};
 
-pub fn typescript(config: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+pub fn typescript(config: Config, top_level_mark: Mark) -> impl Fold + VisitMut {
     as_folder(TypeScript {
         config,
-        unresolved_mark,
+        top_level_mark,
         id_usage: Default::default(),
     })
 }
 
-pub fn strip(unresolved_mark: Mark) -> impl Fold + VisitMut {
-    typescript(Config::default(), unresolved_mark)
+pub fn strip(top_level_mark: Mark) -> impl Fold + VisitMut {
+    typescript(Config::default(), top_level_mark)
 }
 
 pub(crate) struct TypeScript {
     pub config: Config,
-    pub unresolved_mark: Mark,
+    pub top_level_mark: Mark,
 
     id_usage: AHashSet<Id>,
 }
@@ -45,7 +45,7 @@ impl VisitMut for TypeScript {
         n.visit_mut_with(&mut StripType::default());
 
         n.visit_mut_with(&mut transform(
-            self.unresolved_mark,
+            self.top_level_mark,
             self.config.import_export_assign_config,
             self.config.verbatim_module_syntax,
         ));
@@ -104,7 +104,7 @@ pub fn tsx<C>(
     config: Config,
     tsx_config: TsxConfig,
     comments: C,
-    unresolved_mark: Mark,
+    top_level_mark: Mark,
 ) -> impl Fold + VisitMut
 where
     C: Comments,
@@ -115,7 +115,7 @@ where
         id_usage: Default::default(),
         comments,
         cm,
-        unresolved_mark,
+        top_level_mark,
     })
 }
 
@@ -142,7 +142,7 @@ where
     id_usage: AHashSet<Id>,
     comments: C,
     cm: Lrc<SourceMap>,
-    unresolved_mark: Mark,
+    top_level_mark: Mark,
 }
 
 impl<C> VisitMut for TypeScriptReact<C>
@@ -162,7 +162,7 @@ where
                     .pragma
                     .clone()
                     .unwrap_or_else(|| "React.createElement".to_string()),
-                self.unresolved_mark,
+                self.top_level_mark,
             );
 
             let pragma_frag = parse_expr_for_jsx(
@@ -172,7 +172,7 @@ where
                     .pragma_frag
                     .clone()
                     .unwrap_or_else(|| "React.Fragment".to_string()),
-                self.unresolved_mark,
+                self.top_level_mark,
             );
 
             let pragma_id = id_for_jsx(&pragma);
@@ -190,7 +190,7 @@ where
                 pragma_frag,
                 ..
             } = self.comments.with_leading(span.lo, |comments| {
-                JsxDirectives::from_comments(&self.cm, span, comments, self.unresolved_mark)
+                JsxDirectives::from_comments(&self.cm, span, comments, self.top_level_mark)
             });
 
             if let Some(pragma) = pragma {
@@ -214,7 +214,7 @@ where
 
         n.visit_mut_with(&mut TypeScript {
             config: mem::take(&mut self.config),
-            unresolved_mark: self.unresolved_mark,
+            top_level_mark: self.top_level_mark,
             id_usage: mem::take(&mut self.id_usage),
         });
     }

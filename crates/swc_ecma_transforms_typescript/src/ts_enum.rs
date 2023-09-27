@@ -91,7 +91,7 @@ impl From<f64> for TsEnumRecordValue {
 
 pub(crate) struct EnumValueComputer<'a> {
     pub enum_id: &'a Id,
-    pub unresolved_mark: Mark,
+    pub top_level_mark: Mark,
     pub record: &'a TsEnumRecord,
 }
 
@@ -111,12 +111,12 @@ impl<'a> EnumValueComputer<'a> {
                 span,
                 sym: js_word!("NaN"),
                 ..
-            }) if span.ctxt.has_mark(self.unresolved_mark) => TsEnumRecordValue::Number(f64::NAN),
+            }) if span.ctxt.has_mark(self.top_level_mark) => TsEnumRecordValue::Number(f64::NAN),
             Expr::Ident(Ident {
                 span,
                 sym: js_word!("Infinity"),
                 ..
-            }) if span.ctxt.has_mark(self.unresolved_mark) => {
+            }) if span.ctxt.has_mark(self.top_level_mark) => {
                 TsEnumRecordValue::Number(f64::INFINITY)
             }
             Expr::Ident(ref ident) => self
