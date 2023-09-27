@@ -12,7 +12,7 @@ var _a = {
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_call_a, _initStatic]  } = _apply_decs_2203_r(Foo, [
+        ({ e: [_call_a, _initStatic] } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 9,
@@ -27,5 +27,5 @@ var __ = {
 };
 _define_property(Foo, "value", 1);
 function set_a(v) {
-    _call_a(this, v);
+    return _call_a(this, v);
 }

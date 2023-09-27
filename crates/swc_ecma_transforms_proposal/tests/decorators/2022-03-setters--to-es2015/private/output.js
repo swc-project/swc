@@ -28,5 +28,5 @@ var __ = {
     ], [])
 };
 function set_a(v) {
-    _call_a(this, v);
+    return _call_a(this, v);
 }
