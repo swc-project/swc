@@ -7,7 +7,7 @@ use serde::{
     Deserialize, Deserializer,
 };
 use string_enum::StringEnum;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{js_word, Atom};
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -556,12 +556,7 @@ pub struct ContentTagEnd {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct ContentTagContent {
     pub span: Span,
-
-    #[cfg_attr(
-        any(feature = "rkyv-impl", feature = "rkyv-bytecheck-impl"),
-        with(swc_atoms::EncodeJsWord)
-    )]
-    pub value: JsWord,
+    pub value: Atom,
 }
 
 impl Take for FnExpr {
