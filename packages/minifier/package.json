@@ -6,7 +6,11 @@
     "main": "./index.js",
     "author": "강동윤 <kdy1997.dev@gmail.com>",
     "license": "Apache-2.0",
-    "keywords": ["swc", "terser", "minifier"],
+    "keywords": [
+        "swc",
+        "terser",
+        "minifier"
+    ],
     "engines": {
         "node": ">=12"
     },

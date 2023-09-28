@@ -108,7 +108,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/counter@workspace:download-counter":
+"@swc/counter@^0.1.1, @swc/counter@workspace:download-counter":
   version: 0.0.0-use.local
   resolution: "@swc/counter@workspace:download-counter"
   languageName: unknown
@@ -123,6 +123,14 @@ __metadata:
     magic-string: ^0.30.0
     tslib: ^2.4.0
     zx: ^7.2.1
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier@workspace:minifier":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier@workspace:minifier"
+  dependencies:
+    "@swc/counter": ^0.1.1
   languageName: unknown
   linkType: soft
 
@@ -673,7 +681,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=a1c5e5"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
