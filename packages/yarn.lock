@@ -108,9 +108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/download-counter@workspace:download-counter":
+"@swc/counter@workspace:download-counter":
   version: 0.0.0-use.local
-  resolution: "@swc/download-counter@workspace:download-counter"
+  resolution: "@swc/counter@workspace:download-counter"
   languageName: unknown
   linkType: soft
 

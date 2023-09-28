@@ -9,7 +9,6 @@
         "type": "git",
         "url": "git+https://github.com/swc-project/swc.git"
     },
-    "scripts": {},
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
         "access": "public"
