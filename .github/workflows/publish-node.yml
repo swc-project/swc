@@ -207,6 +207,14 @@ jobs:
         with:
           name: |
             bindings-${{ matrix.settings.target }}
+          path: |
+            swc*
+          if-no-files-found: error
+      # Separate step for fail-fast
+      - name: Upload minifier artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: |
             minifier-${{ matrix.settings.target }}
           path: |
             swc*
