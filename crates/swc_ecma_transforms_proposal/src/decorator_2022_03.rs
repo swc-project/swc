@@ -82,10 +82,23 @@ impl Decorator202203 {
             span: DUMMY_SP,
             op: op!("="),
             left: ident.clone().into(),
-            right: dec,
+            right: Box::new(Expr::Arrow(ArrowExpr {
+                span: DUMMY_SP,
+                params: Vec::default(),
+                body: Box::new(BlockStmtOrExpr::Expr(dec)),
+                is_async: false,
+                is_generator: false,
+                type_params: None,
+                return_type: None,
+            })),
         })));
 
-        ident.into()
+        Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: Callee::Expr(ident.into()),
+            args: Vec::new(),
+            type_args: None,
+        }))
     }
 
     /// Moves `cur_inits` to `extra_stmts`.

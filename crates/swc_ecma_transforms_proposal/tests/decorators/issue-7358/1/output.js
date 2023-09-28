@@ -1,21 +1,21 @@
-var _dec, _initClass, _dec1, _dec2, _initProto;
+var _dec, _initClass, _dec1, _dec2, _dec3, _dec4, _initProto;
 let _Foo;
-_dec = decorate(), _dec1 = decorate(), _dec2 = decorate();
+_dec = ()=>decorate(), _dec1 = ()=>decorate(), _dec2 = ()=>decorate(), _dec3 = ()=>_dec1(), _dec4 = ()=>_dec2();
 class Foo {
     static{
-        ({ e: [_initProto] , c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [
+        ({ e: [_initProto], c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [
             [
-                _dec1,
+                _dec3(),
                 3,
                 "name"
             ],
             [
-                _dec2,
+                _dec4(),
                 2,
                 "sayHi"
             ]
         ], [
-            _dec
+            _dec()
         ]));
     }
     constructor(){
@@ -32,7 +32,7 @@ class Foo {
     }
 }
 function decorate() {
-    return function(target, { kind  }) {
+    return function(target, { kind }) {
         console.log(target, kind);
     };
 }
