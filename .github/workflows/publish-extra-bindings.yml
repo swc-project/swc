@@ -136,6 +136,7 @@ jobs:
         shell: bash
         working-directory: "./packages"
         run: |
+          corepack enable
           yarn
 
       - name: Setup toolchain
