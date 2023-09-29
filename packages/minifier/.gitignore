@@ -1,2 +1,4 @@
 *.js
 *.d.ts
+!binding.js
+!binding.d.ts
