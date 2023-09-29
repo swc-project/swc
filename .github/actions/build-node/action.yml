@@ -51,6 +51,7 @@ runs:
       shell: bash
 
     - name: Install dependencies
+      shell: bash
       working-directory: "./packages"
       run: |
         # curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
