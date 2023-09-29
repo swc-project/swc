@@ -18,9 +18,8 @@ on:
     branches:
       - ci
       - ci*
-      - main
     tags:
-      - v*
+      - "*"
 
 jobs:
   build-node:
