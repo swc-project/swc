@@ -40,7 +40,9 @@ jobs:
           echo "::set-output name=run::[ $BRANCH == 'ci' ] || [ $BRANCH == 'ci-'* ] || [ ! -z ${arr[0]} -a ! -z ${arr[1]} ]"
 
   build-node:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    if: ${{ needs.determine-work.outputs.run }}
+    needs:
+      - determine-work
     strategy:
       fail-fast: false
       matrix:
