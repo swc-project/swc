@@ -1,6 +1,6 @@
 use std::{env, path::PathBuf};
 
-use anyhow::Error;
+use anyhow::{Context, Error};
 use serde::Serialize;
 use swc_atoms::JsWord;
 use swc_common::{
@@ -8,8 +8,8 @@ use swc_common::{
     SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_codegen::Node;
-use swc_ecma_parser::Syntax;
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
+use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
 use swc_ecma_visit::VisitWith;
 
 #[cfg(feature = "node")]
@@ -92,6 +92,7 @@ pub fn parse_js(
 /// This should be called in a scope of [swc_common::GLOBALS].
 #[allow(clippy::too_many_arguments)]
 pub fn print<T>(
+    cm: Lrc<SourceMap>,
     node: &T,
     source_file_name: Option<&str>,
     output_path: Option<PathBuf>,
@@ -108,7 +109,7 @@ where
     T: Node + VisitWith<IdentCollector>,
 {
     self.run(|| {
-        let _timer = timer!("Compiler.print");
+        let _timer = timer!("Compiler::print");
 
         let mut src_map_buf = vec![];
 
@@ -116,7 +117,7 @@ where
             let mut buf = vec![];
             {
                 let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
-                    self.cm.clone(),
+                    cm.clone(),
                     "\n",
                     &mut buf,
                     if source_map.enabled() {
@@ -135,7 +136,7 @@ where
                 let mut emitter = Emitter {
                     cfg: codegen_config,
                     comments,
-                    cm: self.cm.clone(),
+                    cm: cm.clone(),
                     wr,
                 };
 
@@ -160,32 +161,7 @@ where
                 if v {
                     let mut buf = vec![];
 
-                    self.cm
-                        .build_source_map_with_config(
-                            &src_map_buf,
-                            orig,
-                            SwcSourceMapConfig {
-                                source_file_name,
-                                output_path: output_path.as_deref(),
-                                names: source_map_names,
-                                inline_sources_content,
-                                emit_columns: emit_source_map_columns,
-                            },
-                        )
-                        .to_writer(&mut buf)
-                        .context("failed to write source map")?;
-                    let map = String::from_utf8(buf).context("source map is not utf-8")?;
-                    (src, Some(map))
-                } else {
-                    (src, None)
-                }
-            }
-            SourceMapsConfig::Str(_) => {
-                let mut src = src;
-                let mut buf = vec![];
-
-                self.cm
-                    .build_source_map_with_config(
+                    cm.build_source_map_with_config(
                         &src_map_buf,
                         orig,
                         SwcSourceMapConfig {
@@ -197,7 +173,30 @@ where
                         },
                     )
                     .to_writer(&mut buf)
-                    .context("failed to write source map file")?;
+                    .context("failed to write source map")?;
+                    let map = String::from_utf8(buf).context("source map is not utf-8")?;
+                    (src, Some(map))
+                } else {
+                    (src, None)
+                }
+            }
+            SourceMapsConfig::Str(_) => {
+                let mut src = src;
+                let mut buf = vec![];
+
+                cm.build_source_map_with_config(
+                    &src_map_buf,
+                    orig,
+                    SwcSourceMapConfig {
+                        source_file_name,
+                        output_path: output_path.as_deref(),
+                        names: source_map_names,
+                        inline_sources_content,
+                        emit_columns: emit_source_map_columns,
+                    },
+                )
+                .to_writer(&mut buf)
+                .context("failed to write source map file")?;
                 let map = String::from_utf8(buf).context("source map is not utf-8")?;
 
                 src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
@@ -212,4 +211,101 @@ where
 
         Ok(TransformOutput { code, map })
     })
+}
+
+struct SwcSourceMapConfig<'a> {
+    source_file_name: Option<&'a str>,
+    /// Output path of the `.map` file.
+    output_path: Option<&'a Path>,
+
+    names: &'a AHashMap<BytePos, JsWord>,
+
+    inline_sources_content: bool,
+
+    emit_columns: bool,
+}
+
+impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
+    fn file_name_to_source(&self, f: &FileName) -> String {
+        if let Some(file_name) = self.source_file_name {
+            return file_name.to_string();
+        }
+
+        let base_path = match self.output_path {
+            Some(v) => v,
+            None => return f.to_string(),
+        };
+        let target = match f {
+            FileName::Real(v) => v,
+            _ => return f.to_string(),
+        };
+
+        let rel = pathdiff::diff_paths(target, base_path);
+        match rel {
+            Some(v) => {
+                let s = v.to_string_lossy().to_string();
+                if cfg!(target_os = "windows") {
+                    s.replace('\\', "/")
+                } else {
+                    s
+                }
+            }
+            None => f.to_string(),
+        }
+    }
+
+    fn name_for_bytepos(&self, pos: BytePos) -> Option<&str> {
+        self.names.get(&pos).map(|v| &**v)
+    }
+
+    fn inline_sources_content(&self, _: &FileName) -> bool {
+        self.inline_sources_content
+    }
+
+    fn emit_columns(&self, _f: &FileName) -> bool {
+        self.emit_columns
+    }
+
+    fn skip(&self, f: &FileName) -> bool {
+        match f {
+            FileName::Internal(..) => true,
+            FileName::Custom(s) => s.starts_with('<'),
+            _ => false,
+        }
+    }
+}
+
+pub(crate) fn minify_file_comments(
+    comments: &SingleThreadedComments,
+    preserve_comments: BoolOr<JsMinifyCommentOption>,
+) {
+    match preserve_comments {
+        BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => {}
+
+        BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
+            let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
+                // Preserve license comments.
+                //
+                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L175-L181
+                vc.retain(|c: &Comment| {
+                    c.text.contains("@lic")
+                        || c.text.contains("@preserve")
+                        || c.text.contains("@copyright")
+                        || c.text.contains("@cc_on")
+                        || (c.kind == CommentKind::Block && c.text.starts_with('!'))
+                });
+                !vc.is_empty()
+            };
+            let (mut l, mut t) = comments.borrow_all_mut();
+
+            l.retain(preserve_excl);
+            t.retain(preserve_excl);
+        }
+
+        BoolOr::Bool(false) => {
+            let (mut l, mut t) = comments.borrow_all_mut();
+            l.clear();
+            t.clear();
+        }
+    }
 }
