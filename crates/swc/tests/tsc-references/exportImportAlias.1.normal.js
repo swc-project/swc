@@ -14,7 +14,7 @@ var A;
 })(A || (A = {}));
 var C;
 (function(C) {
-    var a = C.a = A;
+    C.a = A;
 })(C || (C = {}));
 var a = C.a.x;
 var b = new C.a.Point(0, 0);
@@ -38,7 +38,8 @@ var X;
 })(X || (X = {}));
 var Z;
 (function(Z) {
-    var y = Z.y = X.Y;
+    // 'y' should be a fundule here
+    Z.y = X.Y;
 })(Z || (Z = {}));
 var m = Z.y();
 var n = new Z.y.Point(0, 0);
@@ -56,7 +57,7 @@ var K;
 })(K || (K = {}));
 var M;
 (function(M) {
-    var D = M.D = K.L;
+    M.D = K.L;
 })(M || (M = {}));
 var o;
 var o = new M.D("Hello");

@@ -578,10 +578,8 @@ impl Transform {
 }
 
 /// Note:
-/// Const exported declarations are transformed into immutable bindings.
-/// `export` from `export let` / ` export var` will be stripped,
-/// and a mutable binding will be transformed into assignment to the
-/// namespace. All references to the mutable binding will be replaced with
+/// All exported variable declarations are transformed into assignment to the
+/// namespace. All references to the exported binding will be replaced with
 /// qualified access to the namespace property.
 ///
 /// Exported function and class will be treat as const exported which is in
@@ -592,7 +590,7 @@ impl Transform {
 ///
 /// Input:
 /// ```TypeScript
-/// export const foo = init, { bar: baz } = init;
+/// export const foo = init, { bar: baz = init } = init;
 ///
 /// export function a() {}
 ///
@@ -601,7 +599,7 @@ impl Transform {
 ///
 /// Output:
 /// ```TypeScript
-/// const foo = NS.foo = init, { bar: baz } = { bar: NS.baz } = init;
+/// NS.foo = init, { bar: NS.baz = init } = init;
 ///
 /// function a() {}
 /// NS.a = a;
@@ -640,17 +638,13 @@ impl Transform {
     ) -> Option<Stmt> {
         debug_assert!(!var_decl.declare);
 
-        var_decl.decls.iter_mut().for_each(|var_declarator| {
-            Self::assign_init_to_ns_id(var_declarator, id);
-        });
-
-        if var_decl.kind == VarDeclKind::Const {
-            return Some(var_decl.into());
-        }
-
         let mut collector = ExportedIdentCollector::default();
         var_decl.visit_with(&mut collector);
         mutable_export_ids.extend(collector.export_list);
+
+        var_decl.decls.visit_mut_with(&mut ExportedPatRewriter {
+            id: id.clone().into(),
+        });
 
         let mut expr_list: Vec<Box<Expr>> =
             var_decl.decls.into_iter().filter_map(|d| d.init).collect();
@@ -671,31 +665,6 @@ impl Transform {
         };
 
         Some(Stmt::Expr(ExprStmt { span, expr }))
-    }
-
-    /// Input:
-    /// ```TypeScript
-    /// const foo = init;
-    /// ```
-    /// Output:
-    /// ```TypeScript
-    /// const foo = NS.foo = init;
-    /// ```
-    fn assign_init_to_ns_id(var_declarator: &mut VarDeclarator, id: &Id) {
-        let Some(right) = var_declarator.init.take() else {
-            return;
-        };
-
-        let mut left = var_declarator.name.clone();
-        left.visit_mut_with(&mut ExportedPatRewriter {
-            id: id.clone().into(),
-        });
-
-        var_declarator.init = Some(
-            right
-                .make_assign_to(op!("="), PatOrExpr::Pat(left.into()))
-                .into(),
-        );
     }
 }
 
@@ -1135,6 +1104,21 @@ struct ExportedPatRewriter {
 impl VisitMut for ExportedPatRewriter {
     noop_visit_mut_type!();
 
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        let Some(right) = n.init.take() else {
+            return;
+        };
+
+        let mut left = n.name.take();
+        left.visit_mut_with(self);
+
+        n.init = Some(
+            right
+                .make_assign_to(op!("="), PatOrExpr::Pat(left.into()))
+                .into(),
+        );
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(BindingIdent { id, .. }) = n {
             *n = Pat::Expr(Box::new(self.id.clone().make_member(id.take())));
@@ -1145,10 +1129,23 @@ impl VisitMut for ExportedPatRewriter {
     }
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
-        if let ObjectPatProp::Assign(AssignPatProp { key, .. }) = n {
+        if let ObjectPatProp::Assign(AssignPatProp { key, value, .. }) = n {
+            let left = Box::new(Pat::Expr(self.id.clone().make_member(key.clone()).into()));
+
+            let value = if let Some(right) = value.take() {
+                Pat::Assign(AssignPat {
+                    span: DUMMY_SP,
+                    left,
+                    right,
+                })
+                .into()
+            } else {
+                left
+            };
+
             *n = ObjectPatProp::KeyValue(KeyValuePatProp {
                 key: PropName::Ident(key.clone()),
-                value: Box::new(Pat::Expr(self.id.clone().make_member(key.clone()).into())),
+                value,
             });
             return;
         }
