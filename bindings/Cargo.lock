@@ -276,6 +276,7 @@ dependencies = [
  "serde_json",
  "swc_compiler_base",
  "swc_core",
+ "swc_error_reporters",
  "swc_node_base",
  "tracing",
  "tracing-chrome",
