@@ -1,13 +1,13 @@
 name: "Build node.js binding"
 description: "Build a binding for node.js by using `settings` matrix"
 
+inputs:
+  package:
+    description: "Package name"
+    required: true
+
 runs:
   using: "composite"
-
-  inputs:
-    package:
-      description: "Package name"
-      required: true
 
   steps:
     - name: Setup node x64
