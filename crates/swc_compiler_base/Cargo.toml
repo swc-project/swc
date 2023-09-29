@@ -14,6 +14,7 @@ node = ["napi", "napi-derive"]
 
 [dependencies]
 anyhow           = "1.0.75"
+base64           = "0.13.0"
 serde            = { version = "1.0.188", features = ["derive"] }
 sourcemap        = "6.2"
 swc_atoms        = { version = "0.5.9", path = "../swc_atoms" }
