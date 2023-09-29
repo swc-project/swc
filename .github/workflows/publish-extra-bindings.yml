@@ -372,27 +372,32 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        working-directory: "./packages/minifier"
+        run: corepack yarn
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: artifacts
+          path: ./packages/minifier/artifacts
 
       - name: List binaries
+        working-directory: "./packages/minifier"
         run: ls -R artifacts
         shell: bash
 
       - name: Move binaries
+        working-directory: "./packages/minifier"
         shell: bash
         run: |
           npm run artifacts
 
       - name: List npm
+        working-directory: "./packages/minifier"
         run: ls -R ./scripts/npm
         shell: bash
 
       - name: Set fallback dependencies
+        working-directory: "./packages/minifier"
         shell: bash
         run: |
           node ./scripts/update_fallback_dependencies.js
