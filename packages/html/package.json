@@ -1,6 +1,6 @@
 {
-    "name": "@swc/html",
-    "version": "1.3.90",
+    "name": "@swc-lab/html",
+    "version": "0.1.0",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -8,7 +8,6 @@
     "license": "Apache-2.0",
     "keywords": [
         "swc",
-        "terser",
         "html"
     ],
     "engines": {
