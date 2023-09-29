@@ -173,7 +173,7 @@ jobs:
           name: |
             minifier-${{ matrix.settings.target }}
           path: |
-            minifier*
+            ./packages/minifier/minifier*
           if-no-files-found: error
 
   test-macOS-windows-binding:
