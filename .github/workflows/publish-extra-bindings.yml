@@ -23,6 +23,7 @@ on:
 
 jobs:
   check:
+    name: "Check if we need to build"
     outputs:
       package: ${{ steps.split.outputs.package }}
       version: ${{ steps.split.outputs.version }}
