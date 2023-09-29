@@ -28,6 +28,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        package:
+          - "html"
+          - "xml"
+          - "minifier"
+
         settings:
           - host: macos-latest
             target: x86_64-apple-darwin
