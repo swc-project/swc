@@ -205,7 +205,17 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: |
+            bindings-${{ matrix.settings.target }}
+          path: |
+            swc*
+          if-no-files-found: error
+      # Separate step for fail-fast
+      - name: Upload minifier artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: |
+            minifier-${{ matrix.settings.target }}
           path: |
             swc*
           if-no-files-found: error
@@ -459,6 +469,7 @@ jobs:
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
           npm publish --access public
+          (cd ./packages/minifier && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

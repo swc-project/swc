@@ -108,9 +108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/download-counter@workspace:download-counter":
+"@swc/counter@^0.1.1, @swc/counter@workspace:counter":
   version: 0.0.0-use.local
-  resolution: "@swc/download-counter@workspace:download-counter"
+  resolution: "@swc/counter@workspace:counter"
   languageName: unknown
   linkType: soft
 
@@ -123,6 +123,15 @@ __metadata:
     magic-string: ^0.30.0
     tslib: ^2.4.0
     zx: ^7.2.1
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier@workspace:minifier":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier@workspace:minifier"
+  dependencies:
+    "@swc/counter": ^0.1.1
+    typescript: ^5.2.2
   languageName: unknown
   linkType: soft
 
