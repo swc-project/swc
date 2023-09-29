@@ -13,6 +13,12 @@
 
 - **(es/typescript)** Rename wrong `unresolved_mark` (#8018) ([5817268](https://github.com/swc-project/swc/commit/58172689ce7f8dd2f0a79d8771c52fe309880b44))
 
+### Documentation
+
+
+
+- **(counter)** Document the purpose of the package (#8032) ([b6b5a4d](https://github.com/swc-project/swc/commit/b6b5a4d3a6f1c6c74d47c855081a8fee17066829))
+
 ### Features
 
 
