@@ -49,3 +49,4 @@ swc_core = { version = "0.83.18", features = [
 ] }
 swc_error_reporters = "0.16.1"
 swc_node_base = "0.5.8"
+swc_nodejs_common = "0.0.8"
