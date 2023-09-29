@@ -104,18 +104,21 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
+
       - name: Setup node x64
         uses: actions/setup-node@v3
         if: matrix.settings.target != 'i686-pc-windows-msvc'
         with:
           node-version: 18
           architecture: x64
+
       - name: Setup node x86
         uses: actions/setup-node@v3
         if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
           node-version: 18
           architecture: x86
+
       - name: Install
         uses: actions-rs/toolchain@v1
         if: ${{ !matrix.settings.docker }}
@@ -123,12 +126,15 @@ jobs:
           profile: minimal
           override: true
           target: ${{ matrix.settings.target }}
+
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
           version: 0.10.1
+
       - name: Install node dependencies
         shell: bash
+        working-directory: "./packages"
         run: |
           yarn
 
@@ -136,7 +142,9 @@ jobs:
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
         shell: bash
+
       - name: Install dependencies
+        working-directory: "./packages"
         run: |
           yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -158,19 +166,11 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: |
-            bindings-${{ matrix.settings.target }}
-          path: |
-            swc*
-          if-no-files-found: error
-      # Separate step for fail-fast
-      - name: Upload minifier artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: |
             minifier-${{ matrix.settings.target }}
           path: |
             swc*
           if-no-files-found: error
+
   test-macOS-windows-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
