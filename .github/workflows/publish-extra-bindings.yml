@@ -199,18 +199,21 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        working-directory: "./packages/minifier"
+        run: corepack yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: minifier-${{ matrix.settings.target }}
-          path: .
+          path: "./packages/minifier"
       - name: List packages
-        run: ls -R .
+        run: ls -R ./packages/minifier
         shell: bash
       - name: Build TypeScript
+        working-directory: "./packages/minifier"
         run: yarn build:ts
       - name: Test bindings
+        working-directory: "./packages/minifier"
         run: yarn test
   test-linux-x64-gnu-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
@@ -233,18 +236,22 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        working-directory: "./packages/minifier"
+        run: corepack yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: minifier-x86_64-unknown-linux-gnu
-          path: .
+          path: "./packages/minifier"
       - name: List packages
+        working-directory: "./packages/minifier"
         run: ls -R .
         shell: bash
       - name: Build TypeScript
+        working-directory: "./packages/minifier"
         run: yarn build:ts
       - name: Test bindings
+        working-directory: "./packages/minifier"
         run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-x64-musl-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
@@ -266,18 +273,22 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        working-directory: "./packages/minifier"
+        run: corepack yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: minifier-x86_64-unknown-linux-musl
-          path: .
+          path: "./packages/minifier"
       - name: List packages
+        working-directory: "./packages/minifier"
         run: ls -R .
         shell: bash
       - name: Build TypeScript
+        working-directory: "./packages/minifier"
         run: yarn build:ts
       - name: Test bindings
+        working-directory: "./packages/minifier"
         run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true yarn test
   test-linux-aarch64-musl-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
@@ -291,13 +302,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: minifier-aarch64-unknown-linux-musl
-          path: .
+          path: "./packages/minifier"
       - name: List packages
+        working-directory: "./packages/minifier"
         run: ls -R .
         shell: bash
       - name: Install dependencies
-        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+        working-directory: "./packages/minifier"
+        run: corepack yarn
       - name: Build TypeScript
+        working-directory: "./packages/minifier"
         run: yarn build:ts
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -311,7 +325,7 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test
+            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true yarn test)
   test-linux-arm-gnueabihf-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -331,13 +345,16 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: minifier-armv7-unknown-linux-gnueabihf
-          path: .
+          path: "./packages/minifier"
       - name: List packages
+        working-directory: "./packages/minifier"
         run: ls -R .
         shell: bash
       - name: Install dependencies
-        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+        working-directory: "./packages/minifier"
+        run: corepack yarn
       - name: Build TypeScript
+        working-directory: "./packages/minifier"
         run: yarn build:ts
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -351,8 +368,8 @@ jobs:
           options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
-            ls -la
+            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
+            ls -la)
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
