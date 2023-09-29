@@ -258,6 +258,8 @@ jobs:
             runner: ubuntu-latest
           - crate: swc_core
             os: ubuntu-latest
+          - crate: swc_compiler_base
+            os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_css
             os: ubuntu-latest
