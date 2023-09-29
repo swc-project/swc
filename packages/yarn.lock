@@ -81,6 +81,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@napi-rs/cli@npm:^2.16.3":
+  version: 2.16.3
+  resolution: "@napi-rs/cli@npm:2.16.3"
+  bin:
+    napi: scripts/index.js
+  checksum: 11f78b09548bc5c22df56e4fab4a87b68c2d3f2a18a55cf11e775e6a4cb5739ec0e21a14e614db2cdc2b9773cb42536c6bd00c3f85d3b461f956594f8a89ddcb
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -130,7 +139,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc/minifier@workspace:minifier"
   dependencies:
+    "@napi-rs/cli": ^2.16.3
     "@swc/counter": ^0.1.1
+    "@types/node": ^20.7.1
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
@@ -188,6 +199,13 @@ __metadata:
   version: 18.17.5
   resolution: "@types/node@npm:18.17.5"
   checksum: b8c658a99234b99425243c324b641ed7b9ceb6bee6b06421fdc9bb7c58f9a5552e353225cc549e6982462ac384abe1985022ed76e2e4728797f59b21f659ca2b
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.7.1":
+  version: 20.7.1
+  resolution: "@types/node@npm:20.7.1"
+  checksum: 3140bd6c9130f1ed73a78ce7a1765ee43e155c1eea50eea45e18faeb31d11d97a84fffdc5e3a97582101d2f57d2652a50f510ede6c702780267bad74c822d56c
   languageName: node
   linkType: hard
 
