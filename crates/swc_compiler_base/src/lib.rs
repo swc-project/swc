@@ -1,16 +1,25 @@
-use std::{env, path::PathBuf};
+use std::{
+    env,
+    path::{Path, PathBuf},
+};
 
 use anyhow::{Context, Error};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::AHashMap, comments::Comments, errors::Handler, sync::Lrc, BytePos, SourceFile,
-    SourceMap,
+    collections::AHashMap,
+    comments::{Comments, SingleThreadedComments},
+    errors::Handler,
+    source_map::SourceMapGenConfig,
+    sync::Lrc,
+    BytePos, FileName, SourceFile, SourceMap,
 };
+use swc_config::config_types::BoolOr;
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
 use swc_ecma_visit::VisitWith;
+use swc_timer::timer;
 
 #[cfg(feature = "node")]
 #[napi_derive::napi(object)]
@@ -108,80 +117,56 @@ pub fn print<T>(
 where
     T: Node + VisitWith<IdentCollector>,
 {
-    self.run(|| {
-        let _timer = timer!("Compiler::print");
+    let _timer = timer!("Compiler::print");
 
-        let mut src_map_buf = vec![];
+    let mut src_map_buf = vec![];
 
-        let src = {
-            let mut buf = vec![];
-            {
-                let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
-                    cm.clone(),
-                    "\n",
-                    &mut buf,
-                    if source_map.enabled() {
-                        Some(&mut src_map_buf)
-                    } else {
-                        None
-                    },
-                );
-                w.preamble(preamble).unwrap();
-                let mut wr = Box::new(w) as Box<dyn WriteJs>;
-
-                if codegen_config.minify {
-                    wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
-                }
-
-                let mut emitter = Emitter {
-                    cfg: codegen_config,
-                    comments,
-                    cm: cm.clone(),
-                    wr,
-                };
-
-                node.emit_with(&mut emitter)
-                    .context("failed to emit module")?;
-            }
-            // Invalid utf8 is valid in javascript world.
-            String::from_utf8(buf).expect("invalid utf8 character detected")
-        };
-
-        if cfg!(debug_assertions)
-            && !src_map_buf.is_empty()
-            && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
-            && src.lines().count() >= 3
-            && option_env!("SWC_DEBUG") == Some("1")
+    let src = {
+        let mut buf = vec![];
         {
-            panic!("The module contains only dummy spans\n{}", src);
-        }
-
-        let (code, map) = match source_map {
-            SourceMapsConfig::Bool(v) => {
-                if v {
-                    let mut buf = vec![];
-
-                    cm.build_source_map_with_config(
-                        &src_map_buf,
-                        orig,
-                        SwcSourceMapConfig {
-                            source_file_name,
-                            output_path: output_path.as_deref(),
-                            names: source_map_names,
-                            inline_sources_content,
-                            emit_columns: emit_source_map_columns,
-                        },
-                    )
-                    .to_writer(&mut buf)
-                    .context("failed to write source map")?;
-                    let map = String::from_utf8(buf).context("source map is not utf-8")?;
-                    (src, Some(map))
+            let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
+                cm.clone(),
+                "\n",
+                &mut buf,
+                if source_map.enabled() {
+                    Some(&mut src_map_buf)
                 } else {
-                    (src, None)
-                }
+                    None
+                },
+            );
+            w.preamble(preamble).unwrap();
+            let mut wr = Box::new(w) as Box<dyn WriteJs>;
+
+            if codegen_config.minify {
+                wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
             }
-            SourceMapsConfig::Str(_) => {
-                let mut src = src;
+
+            let mut emitter = Emitter {
+                cfg: codegen_config,
+                comments,
+                cm: cm.clone(),
+                wr,
+            };
+
+            node.emit_with(&mut emitter)
+                .context("failed to emit module")?;
+        }
+        // Invalid utf8 is valid in javascript world.
+        String::from_utf8(buf).expect("invalid utf8 character detected")
+    };
+
+    if cfg!(debug_assertions)
+        && !src_map_buf.is_empty()
+        && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
+        && src.lines().count() >= 3
+        && option_env!("SWC_DEBUG") == Some("1")
+    {
+        panic!("The module contains only dummy spans\n{}", src);
+    }
+
+    let (code, map) = match source_map {
+        SourceMapsConfig::Bool(v) => {
+            if v {
                 let mut buf = vec![];
 
                 cm.build_source_map_with_config(
@@ -196,21 +181,43 @@ where
                     },
                 )
                 .to_writer(&mut buf)
-                .context("failed to write source map file")?;
+                .context("failed to write source map")?;
                 let map = String::from_utf8(buf).context("source map is not utf-8")?;
-
-                src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
-                base64::encode_config_buf(
-                    map.as_bytes(),
-                    base64::Config::new(base64::CharacterSet::Standard, true),
-                    &mut src,
-                );
+                (src, Some(map))
+            } else {
                 (src, None)
             }
-        };
+        }
+        SourceMapsConfig::Str(_) => {
+            let mut src = src;
+            let mut buf = vec![];
 
-        Ok(TransformOutput { code, map })
-    })
+            cm.build_source_map_with_config(
+                &src_map_buf,
+                orig,
+                SwcSourceMapConfig {
+                    source_file_name,
+                    output_path: output_path.as_deref(),
+                    names: source_map_names,
+                    inline_sources_content,
+                    emit_columns: emit_source_map_columns,
+                },
+            )
+            .to_writer(&mut buf)
+            .context("failed to write source map file")?;
+            let map = String::from_utf8(buf).context("source map is not utf-8")?;
+
+            src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
+            base64::encode_config_buf(
+                map.as_bytes(),
+                base64::Config::new(base64::CharacterSet::Standard, true),
+                &mut src,
+            );
+            (src, None)
+        }
+    };
+
+    Ok(TransformOutput { code, map })
 }
 
 struct SwcSourceMapConfig<'a> {
@@ -307,5 +314,31 @@ pub(crate) fn minify_file_comments(
             l.clear();
             t.clear();
         }
+    }
+}
+
+/// Configuration related to source map generated by swc.
+#[derive(Clone, Serialize, Deserialize, Debug)]
+#[serde(untagged)]
+pub enum SourceMapsConfig {
+    Bool(bool),
+    Str(String),
+}
+
+impl SourceMapsConfig {
+    pub fn enabled(&self) -> bool {
+        match *self {
+            SourceMapsConfig::Bool(b) => b,
+            SourceMapsConfig::Str(ref s) => {
+                assert_eq!(s, "inline", "Source map must be true, false or inline");
+                true
+            }
+        }
+    }
+}
+
+impl Default for SourceMapsConfig {
+    fn default() -> Self {
+        SourceMapsConfig::Bool(true)
     }
 }

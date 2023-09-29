@@ -138,7 +138,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
-pub use swc_compiler_base::TransformOutput;
+pub use swc_compiler_base::{SourceMapsConfig, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
