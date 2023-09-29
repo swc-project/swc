@@ -1,11 +1,14 @@
 use std::sync::Arc;
 
-use anyhow::Error;
+use anyhow::{Context, Error};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Task,
 };
 use serde::Deserialize;
+use swc_compiler_base::{
+    minify_file_comments, parse_js, IdentCollector, IsModule, SourceMapsConfig, TransformOutput,
+};
 use swc_config::config_types::BoolOr;
 use swc_core::{
     base::config::JsMinifyCommentOption,
@@ -16,15 +19,18 @@ use swc_core::{
         FileName, Mark, SourceFile, SourceMap,
     },
     ecma::{
-        minifier::{js::JsMinifyOptions, option::MinifyOptions},
+        minifier::{
+            js::JsMinifyOptions,
+            option::{MinifyOptions, TopLevelOptions},
+        },
         parser::{EsConfig, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
-        visit::{FoldWith, VisitMutWith},
+        visit::{FoldWith, VisitMutWith, VisitWith},
     },
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
-use crate::{util::try_with, TransformOutput};
+use crate::util::try_with;
 
 struct MinifyTask {
     code: String,
@@ -138,6 +144,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
         let comments = SingleThreadedComments::default();
 
         let module = parse_js(
+            cm.clone(),
             fm.clone(),
             handler,
             target,
@@ -188,7 +195,8 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             if !is_mangler_enabled {
                 module.visit_mut_with(&mut hygiene())
             }
-            module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)))
+            module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)));
+            module
         })();
 
         let preserve_comments = options
@@ -199,7 +207,8 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
         minify_file_comments(&comments, preserve_comments);
 
-        print(
+        swc_compiler_base::print(
+            cm.clone(),
             &module,
             Some(&fm.name.to_string()),
             options.output_path.clone().map(From::from),
