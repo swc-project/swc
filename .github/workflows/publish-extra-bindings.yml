@@ -28,11 +28,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        package:
-          - "html"
-          - "xml"
-          - "minifier"
-
         settings:
           - host: macos-latest
             target: x86_64-apple-darwin
@@ -110,76 +105,17 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Setup node x64
-        uses: actions/setup-node@v3
-        if: matrix.settings.target != 'i686-pc-windows-msvc'
+      - uses: ./.github/actions/build-node
         with:
-          node-version: 18
-          architecture: x64
+          package: "minifier"
 
-      - name: Setup node x86
-        uses: actions/setup-node@v3
-        if: matrix.settings.target == 'i686-pc-windows-msvc'
+      - uses: ./.github/actions/build-node
         with:
-          node-version: 18
-          architecture: x86
+          package: "html"
 
-      - name: Install
-        uses: actions-rs/toolchain@v1
-        if: ${{ !matrix.settings.docker }}
+      - uses: ./.github/actions/build-node
         with:
-          profile: minimal
-          override: true
-          target: ${{ matrix.settings.target }}
-
-      - uses: goto-bus-stop/setup-zig@v2
-        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
-        with:
-          version: 0.10.1
-
-      - shell: bash
-        run: corepack enable
-
-      - name: Install node dependencies
-        shell: bash
-        working-directory: "./packages/minifier"
-        run: corepack yarn
-
-      - name: Setup toolchain
-        run: ${{ matrix.settings.setup }}
-        if: ${{ matrix.settings.setup }}
-        shell: bash
-
-      - name: Install dependencies
-        working-directory: "./packages"
-        run: |
-          # curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-          echo '/usr/local/cargo/bin' >> $GITHUB_PATH
-      - name: Build in docker
-        uses: addnab/docker-run-action@v3
-        if: ${{ matrix.settings.docker }}
-        with:
-          image: ${{ matrix.settings.docker }}
-          options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
-          run: >-
-            yarn global add wasm-pack &&
-            ${{ matrix.settings.build }}
-      - name: Build
-        if: ${{ !matrix.settings.docker }}
-        run: ${{ matrix.settings.build }}
-        shell: bash
-
-      - run: ls -al ./packages/minifier
-        shell: bash
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: |
-            minifier-${{ matrix.settings.target }}
-          path: |
-            ./packages/minifier/minifier*
-          if-no-files-found: error
+          package: "css"
 
   test-macOS-windows-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
