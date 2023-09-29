@@ -13,14 +13,29 @@
 
 - **(es/typescript)** Rename wrong `unresolved_mark` (#8018) ([5817268](https://github.com/swc-project/swc/commit/58172689ce7f8dd2f0a79d8771c52fe309880b44))
 
+### Documentation
+
+
+
+- **(counter)** Document the purpose of the package (#8032) ([b6b5a4d](https://github.com/swc-project/swc/commit/b6b5a4d3a6f1c6c74d47c855081a8fee17066829))
+
 ### Features
 
 
 
 - **(bindings)** Create a minifier-only package (#7993) ([64d8f4b](https://github.com/swc-project/swc/commit/64d8f4b59f81c71bffbb906595bafa356f326924))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Prepare `@swc/minifier` (#8027) ([8214b9e](https://github.com/swc-project/swc/commit/8214b9ed4e214dc6a52e7d2c80cd3b8ca87d3a12))
+
 ### Refactor
 
+
+
+- **(es)** Extract parser/codegen code for `swc::Compiler` (#8030) ([a13f5cb](https://github.com/swc-project/swc/commit/a13f5cbe03f067b376f9f3318ef822142551eb96))
 
 
 - **(es/minifier)** Move JS options to `swc_ecma_minifier` (#8028) ([725f7f5](https://github.com/swc-project/swc/commit/725f7f5bda0881bdaac1bf1254f58e5341633d4e))

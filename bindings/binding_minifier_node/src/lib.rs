@@ -6,22 +6,12 @@ extern crate napi_derive;
 
 extern crate swc_node_base;
 
-use std::{env, panic::set_hook, sync::Arc};
+use std::{env, panic::set_hook};
 
 use backtrace::Backtrace;
-use swc_core::{
-    base::Compiler,
-    common::{sync::Lazy, FilePathMapping, SourceMap},
-};
 
 mod minify;
 mod util;
-
-static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-
-    Arc::new(Compiler::new(cm))
-});
 
 #[napi::module_init]
 fn init() {
@@ -32,29 +22,6 @@ fn init() {
         }));
     }
 }
-
-fn get_compiler() -> Arc<Compiler> {
-    COMPILER.clone()
-}
-
-#[napi(js_name = "Compiler")]
-pub struct JsCompiler {
-    _compiler: Arc<Compiler>,
-}
-
-#[napi]
-impl JsCompiler {
-    #[napi(constructor)]
-    #[allow(clippy::new_without_default)]
-    #[tracing::instrument(level = "info", skip_all)]
-    pub fn new() -> Self {
-        Self {
-            _compiler: COMPILER.clone(),
-        }
-    }
-}
-
-pub type ArcCompiler = Arc<Compiler>;
 
 /// Hack for `Type Generation`
 #[napi(object)]

@@ -33,13 +33,22 @@ tracing = { version = "0.1.37", features = ["release_max_level_info"] }
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
+sourcemap = "6.0.0"
 
+swc_compiler_base = { version = "0.1.0", features = ["node"] }
+swc_config = "0.1.7"
 swc_core = { version = "0.83.18", features = [
   "allocator_node",
+  "common_concurrent",
+  "common_sourcemap",
   "ecma_ast",
   "ecma_codegen",
-  "common_concurrent",
+  "ecma_parser",
   "ecma_minifier",
+  "ecma_minifier_concurrent",
+  "ecma_transforms",
+  "ecma_visit",
 ] }
+swc_error_reporters = "0.16.1"
 swc_node_base = "0.5.8"
-swc_compiler_base = { version = "0.1.0", features = ["node"] }
+swc_nodejs_common = "0.0.8"

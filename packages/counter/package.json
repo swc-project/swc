@@ -2,7 +2,7 @@
     "name": "@swc/counter",
     "packageManager": "yarn@3.2.3",
     "main": "index.js",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "description": "Downloade counter for the swc project",
     "sideEffects": false,
     "repository": {

@@ -7,9 +7,9 @@
     "cpu": [
         "ia32"
     ],
-    "main": "swc.win32-ia32-msvc.node",
+    "main": "minifier.win32-ia32-msvc.node",
     "files": [
-        "swc.win32-ia32-msvc.node",
+        "minifier.win32-ia32-msvc.node",
         "swc.exe"
     ],
     "description": "Super-fast alternative for babel",
