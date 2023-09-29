@@ -32,14 +32,14 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              (cd packages/minifier && yarn build && strip -x *.node)
+              (cd packages/minifier && corepack yarn build && strip -x *.node)
           - host: windows-latest
             build: |
               (cd packages/minifier && yarn build)
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
-              (cd packages/minifier && yarn build --target i686-pc-windows-msvc)
+              (cd packages/minifier && corepack yarn build --target i686-pc-windows-msvc)
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
@@ -47,7 +47,7 @@ jobs:
             build: >-
               set -e &&
               unset CC_x86_64_unknown_linux_gnu && unset CC &&
-              (cd packages/minifier && yarn build --target x86_64-unknown-linux-gnu && strip swc.linux-x64-gnu.node)
+              (cd packages/minifier && corepack yarn build --target x86_64-unknown-linux-gnu && strip swc.linux-x64-gnu.node)
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             # musl build is slow, let's disable the LTO
@@ -55,7 +55,7 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              (cd packages/minifier && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build &&
+              (cd packages/minifier && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' corepack yarn build &&
               llvm-strip -x swc.linux-x64-musl.node)
           - host: macos-latest
             target: aarch64-apple-darwin
@@ -65,7 +65,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              (cd packages/minifier && yarn build --target=aarch64-apple-darwin && strip -x *.node)
+              (cd packages/minifier && corepack yarn build --target=aarch64-apple-darwin && strip -x *.node)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -74,7 +74,7 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
-              (cd packages/minifier && yarn build --target aarch64-unknown-linux-gnu &&
+              (cd packages/minifier && corepack yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x swc.linux-arm64-gnu.node)
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
@@ -83,7 +83,7 @@ jobs:
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             # Use napi to build cli binary here to use zig as linker
             build: |
-              (cd packages/minifier && yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node)
+              (cd packages/minifier && corepack yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
@@ -92,14 +92,14 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              (cd packages/minifier && env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node)
+              (cd packages/minifier && env RUSTFLAGS='-C target-feature=-crt-static' corepack yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip swc.linux-arm64-musl.node)
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
             build: |
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
-              (cd packages/minifier && yarn build --target aarch64-pc-windows-msvc)
+              (cd packages/minifier && corepack yarn build --target aarch64-pc-windows-msvc)
     name: stable - ${{ matrix.settings.target }} - node@18
     runs-on: ${{ matrix.settings.host }}
     steps:
