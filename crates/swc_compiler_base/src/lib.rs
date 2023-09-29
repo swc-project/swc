@@ -1,4 +1,16 @@
+use std::{env, path::PathBuf};
+
+use anyhow::Error;
 use serde::Serialize;
+use swc_atoms::JsWord;
+use swc_common::{
+    collections::AHashMap, comments::Comments, errors::Handler, sync::Lrc, BytePos, SourceFile,
+    SourceMap,
+};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_codegen::Node;
+use swc_ecma_parser::Syntax;
+use swc_ecma_visit::VisitWith;
 
 #[cfg(feature = "node")]
 #[napi_derive::napi(object)]
@@ -18,17 +30,18 @@ pub struct TransformOutput {
 }
 
 /// This method parses a javascript / typescript file
+///
+/// This should be called in a scope of [swc_common::GLOBALS].
 pub fn parse_js(
     cm: Lrc<SourceMap>,
-    comments: SwcComments,
-    fm: Arc<SourceFile>,
+    fm: Lrc<SourceFile>,
     handler: &Handler,
     target: EsVersion,
     syntax: Syntax,
     is_module: IsModule,
     comments: Option<&dyn Comments>,
 ) -> Result<Program, Error> {
-    let mut res = self.run(|| {
+    let mut res = (|| {
         let mut error = false;
 
         let mut errors = vec![];
@@ -59,7 +72,7 @@ pub fn parse_js(
         }
 
         Ok(program)
-    });
+    })();
 
     if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
         res = res.with_context(|| format!("Parser config: {:?}", syntax));
@@ -73,6 +86,10 @@ pub fn parse_js(
 ///
 /// This method receives target file path, but does not write file to the
 /// path. See: https://github.com/swc-project/swc/issues/1255
+///
+///
+///
+/// This should be called in a scope of [swc_common::GLOBALS].
 #[allow(clippy::too_many_arguments)]
 pub fn print<T>(
     node: &T,
