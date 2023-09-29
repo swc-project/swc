@@ -393,7 +393,7 @@ jobs:
           node-version: 18
 
       - name: Set release name
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo "RELEASE_VERSION=${{ github.event.inputs.package }}@v${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
