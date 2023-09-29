@@ -1,6 +1,6 @@
 {
     "name": "swc-info",
-    "packageManager": "yarn@3.2.3",
+    "packageManager": "yarn@3.5.0",
     "version": "0.1.15",
     "description": "CLI tool to help issue reporting for swc",
     "sideEffects": false,

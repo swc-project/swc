@@ -1,6 +1,6 @@
 {
     "name": "@swc/counter",
-    "packageManager": "yarn@3.2.3",
+    "packageManager": "yarn@3.5.0",
     "main": "index.js",
     "version": "0.1.2",
     "description": "Downloade counter for the swc project",
