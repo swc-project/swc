@@ -20,7 +20,7 @@ on:
         type: choice
         description: Package name to publish
         options:
-          - ${{ github.event.inputs.package }}
+          - minifier
           - html
           - xml
       version:
