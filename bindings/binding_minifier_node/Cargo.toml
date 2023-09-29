@@ -34,6 +34,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
+swc_compiler_base = { version = "0.1.0", features = ["node"] }
 swc_core = { version = "0.83.18", features = [
   "allocator_node",
   "ecma_ast",
@@ -42,5 +43,5 @@ swc_core = { version = "0.83.18", features = [
   "ecma_minifier",
   "ecma_minifier_concurrent",
 ] }
+swc_error_reporters = "0.16.1"
 swc_node_base = "0.5.8"
-swc_compiler_base = { version = "0.1.0", features = ["node"] }
