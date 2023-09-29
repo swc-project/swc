@@ -27,7 +27,7 @@ concurrent = [
 debug = ["swc_ecma_visit/debug"]
 default = ["es3"]
 es3 = []
-node = ["napi", "napi-derive"]
+node = ["napi", "napi-derive", "swc_compiler_base/node"]
 plugin = [
   "swc_plugin_runner/ecma",
   "swc_plugin_runner/rkyv-impl",
@@ -73,6 +73,7 @@ swc_common = { version = "0.32.1", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
+swc_compiler_base = { version = "0.1.0", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.109.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.145.5", path = "../swc_ecma_codegen" }
@@ -105,7 +106,6 @@ swc_plugin_proxy = { version = "0.38.1", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "0.102.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.20.1", path = "../swc_timer" }
 swc_visit = { version = "0.5.7", path = "../swc_visit" }
-swc_compiler_base = { version = "0.1.0", path = "../swc_compiler_base" }
 
 
   [dependencies.napi-derive]

@@ -9,4 +9,19 @@ name          = "swc_compiler_base"
 repository    = "https://github.com/swc-project/swc.git"
 version       = "0.1.0"
 
+[features]
+node = ["napi", "napi-derive"]
+
 [dependencies]
+
+    [dependencies.napi-derive]
+    default-features = false
+    features         = ["type-def"]
+    optional         = true
+    version          = "2.0.0"
+
+    [dependencies.napi]
+    default-features = false
+    features         = ["napi3"]
+    optional         = true
+    version          = "2.0.0"
