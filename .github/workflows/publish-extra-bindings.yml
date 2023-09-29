@@ -203,7 +203,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-${{ matrix.settings.target }}
+          name: minifier-${{ matrix.settings.target }}
           path: .
       - name: List packages
         run: ls -R .
@@ -237,7 +237,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-unknown-linux-gnu
+          name: minifier-x86_64-unknown-linux-gnu
           path: .
       - name: List packages
         run: ls -R .
@@ -270,7 +270,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-x86_64-unknown-linux-musl
+          name: minifier-x86_64-unknown-linux-musl
           path: .
       - name: List packages
         run: ls -R .
@@ -290,7 +290,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-aarch64-unknown-linux-musl
+          name: minifier-aarch64-unknown-linux-musl
           path: .
       - name: List packages
         run: ls -R .
@@ -330,7 +330,7 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: bindings-armv7-unknown-linux-gnueabihf
+          name: minifier-armv7-unknown-linux-gnueabihf
           path: .
       - name: List packages
         run: ls -R .
