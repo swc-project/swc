@@ -46,6 +46,8 @@ swc_core = { version = "0.83.18", features = [
   "ecma_parser",
   "ecma_minifier",
   "ecma_minifier_concurrent",
+  "ecma_transforms",
+  "ecma_visit",
 ] }
 swc_error_reporters = "0.16.1"
 swc_node_base = "0.5.8"

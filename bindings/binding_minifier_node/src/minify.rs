@@ -11,7 +11,6 @@ use swc_compiler_base::{
 };
 use swc_config::config_types::BoolOr;
 use swc_core::{
-    base::config::JsMinifyCommentOption,
     common::{
         collections::AHashMap,
         comments::{Comments, SingleThreadedComments},
@@ -20,7 +19,7 @@ use swc_core::{
     },
     ecma::{
         minifier::{
-            js::JsMinifyOptions,
+            js::{JsMinifyCommentOption, JsMinifyOptions},
             option::{MinifyOptions, TopLevelOptions},
         },
         parser::{EsConfig, Syntax},

@@ -6,22 +6,12 @@ extern crate napi_derive;
 
 extern crate swc_node_base;
 
-use std::{env, panic::set_hook, sync::Arc};
+use std::{env, panic::set_hook};
 
 use backtrace::Backtrace;
-use swc_core::{
-    base::Compiler,
-    common::{sync::Lazy, FilePathMapping, SourceMap},
-};
 
 mod minify;
 mod util;
-
-static COMPILER: Lazy<Arc<Compiler>> = Lazy::new(|| {
-    let cm = Arc::new(SourceMap::new(FilePathMapping::empty()));
-
-    Arc::new(Compiler::new(cm))
-});
 
 #[napi::module_init]
 fn init() {
