@@ -1,4 +1,4 @@
-name: Publish (node)
+name: Publish (minifier)
 
 env:
   DEBUG: napi:*

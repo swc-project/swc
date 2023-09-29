@@ -1,4 +1,4 @@
-name: Publish (node)
+name: Publish (core)
 
 env:
   DEBUG: napi:*
