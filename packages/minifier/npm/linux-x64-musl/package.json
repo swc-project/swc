@@ -7,9 +7,9 @@
     "cpu": [
         "x64"
     ],
-    "main": "swc.linux-x64-musl.node",
+    "main": "minifier.linux-x64-musl.node",
     "files": [
-        "swc.linux-x64-musl.node",
+        "minifier.linux-x64-musl.node",
         "swc"
     ],
     "libc": [

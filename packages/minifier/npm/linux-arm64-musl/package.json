@@ -7,9 +7,9 @@
     "cpu": [
         "arm64"
     ],
-    "main": "swc.linux-arm64-musl.node",
+    "main": "minifier.linux-arm64-musl.node",
     "files": [
-        "swc.linux-arm64-musl.node",
+        "minifier.linux-arm64-musl.node",
         "swc"
     ],
     "libc": [

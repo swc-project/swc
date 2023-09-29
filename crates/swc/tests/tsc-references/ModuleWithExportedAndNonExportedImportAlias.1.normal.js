@@ -12,7 +12,7 @@ var B;
 })(B || (B = {}));
 var Geometry;
 (function(Geometry) {
-    var Points = Geometry.Points = A;
+    Geometry.Points = A;
     var Lines = B;
     Geometry.Origin = {
         x: 0,
