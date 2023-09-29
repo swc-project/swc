@@ -26,11 +26,11 @@ global = this, factory = function(exports1, _class_call_check, _interop_require_
             get: all[name]
         });
     }(exports1, {
-        p2: function() {
-            return p2;
-        },
         D: function() {
             return D;
+        },
+        p2: function() {
+            return p2;
         }
     }), import("./0"), import("./0").then(function(zero) {
         return zero.foo();

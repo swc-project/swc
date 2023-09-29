@@ -19,20 +19,20 @@
         });
     }
     _export(exports, {
-        fn: function() {
-            return fn;
-        },
         cl1: function() {
             return cl1;
-        },
-        obj: function() {
-            return obj;
         },
         cl2: function() {
             return cl2;
         },
+        fn: function() {
+            return fn;
+        },
         l: function() {
             return l;
+        },
+        obj: function() {
+            return obj;
         }
     });
     function fn() {

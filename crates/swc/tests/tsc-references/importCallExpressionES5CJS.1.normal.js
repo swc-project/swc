@@ -24,11 +24,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    p2: function() {
-        return p2;
-    },
     D: function() {
         return D;
+    },
+    p2: function() {
+        return p2;
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check");

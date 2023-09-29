@@ -12,10 +12,10 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    return: function() {
+    as: function() {
         return as;
     },
-    as: function() {
+    return: function() {
         return as;
     }
 });

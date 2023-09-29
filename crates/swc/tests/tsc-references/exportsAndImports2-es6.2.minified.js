@@ -25,11 +25,11 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    y: function() {
-        return _t1.x;
-    },
     x: function() {
         return _t1.y;
+    },
+    y: function() {
+        return _t1.x;
     }
 });
 const _t1 = require("./t1");
@@ -42,11 +42,11 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    y: function() {
-        return _t1.x;
-    },
     x: function() {
         return _t1.y;
+    },
+    y: function() {
+        return _t1.x;
     }
 });
 const _t1 = require("./t1");

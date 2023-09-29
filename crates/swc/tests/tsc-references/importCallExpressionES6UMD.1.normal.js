@@ -40,11 +40,11 @@
         });
     }
     _export(exports, {
-        p2: function() {
-            return p2;
-        },
         D: function() {
             return D;
+        },
+        p2: function() {
+            return p2;
         }
     });
     import("./0");

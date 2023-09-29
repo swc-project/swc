@@ -7,8 +7,14 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    obj: function() {
-        return obj;
+    ClassWithPrivateNamedAccessors: function() {
+        return ClassWithPrivateNamedAccessors;
+    },
+    ClassWithPrivateNamedMethods: function() {
+        return ClassWithPrivateNamedMethods;
+    },
+    ClassWithPrivateNamedProperties: function() {
+        return ClassWithPrivateNamedProperties;
     },
     classExpression: function() {
         return classExpression;
@@ -16,14 +22,8 @@ Object.defineProperty(exports, "__esModule", {
     funcInferredReturnType: function() {
         return funcInferredReturnType;
     },
-    ClassWithPrivateNamedProperties: function() {
-        return ClassWithPrivateNamedProperties;
-    },
-    ClassWithPrivateNamedMethods: function() {
-        return ClassWithPrivateNamedMethods;
-    },
-    ClassWithPrivateNamedAccessors: function() {
-        return ClassWithPrivateNamedAccessors;
+    obj: function() {
+        return obj;
     }
 });
 const obj = {

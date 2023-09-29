@@ -16,26 +16,26 @@ define([
             get: all[name]
         });
     }(exports, {
-        v: function() {
-            return v;
-        },
-        f: function() {
-            return f;
-        },
         C: function() {
             return C;
         },
-        E: function() {
-            return E1;
-        },
         D: function() {
             return D;
+        },
+        E: function() {
+            return E1;
         },
         M: function() {
             return M;
         },
         a: function() {
             return a;
+        },
+        f: function() {
+            return f;
+        },
+        v: function() {
+            return v;
         }
     });
     var E, E1, D, M, v = 1;
@@ -60,23 +60,17 @@ define([
             get: all[name]
         });
     }(exports, {
-        v: function() {
-            return _t1.v;
-        },
-        f: function() {
-            return _t1.f;
-        },
         C: function() {
             return _t1.C;
         },
-        I: function() {
-            return _t1.I;
+        D: function() {
+            return _t1.D;
         },
         E: function() {
             return _t1.E;
         },
-        D: function() {
-            return _t1.D;
+        I: function() {
+            return _t1.I;
         },
         M: function() {
             return _t1.M;
@@ -89,6 +83,12 @@ define([
         },
         a: function() {
             return _t1.a;
+        },
+        f: function() {
+            return _t1.f;
+        },
+        v: function() {
+            return _t1.v;
         }
     });
 });
@@ -106,23 +106,17 @@ define([
             get: all[name]
         });
     }(exports, {
-        v: function() {
-            return _t1.v;
-        },
-        f: function() {
-            return _t1.f;
-        },
         C: function() {
             return _t1.C;
         },
-        I: function() {
-            return _t1.I;
+        D: function() {
+            return _t1.D;
         },
         E: function() {
             return _t1.E;
         },
-        D: function() {
-            return _t1.D;
+        I: function() {
+            return _t1.I;
         },
         M: function() {
             return _t1.M;
@@ -135,6 +129,12 @@ define([
         },
         a: function() {
             return _t1.a;
+        },
+        f: function() {
+            return _t1.f;
+        },
+        v: function() {
+            return _t1.v;
         }
     });
 });
