@@ -47,7 +47,7 @@ jobs:
         package:
           - minifier
           - html
-          - css
+          - xml
 
         settings:
           - host: macos-latest
