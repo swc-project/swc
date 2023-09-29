@@ -8,7 +8,7 @@ class A {
         var _class_private_field_get1;
         var _this_getInstance;
         _class_private_field_get(this, _fieldFunc).call(this);
-        ((_class_private_field_get1 = _class_private_field_get(this, _fieldFunc)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.call)(this);
+        (_class_private_field_get1 = _class_private_field_get(this, _fieldFunc)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.call(this);
         const func = _class_private_field_get(this, _fieldFunc);
         func();
         new (_class_private_field_get(this, _fieldFunc))();

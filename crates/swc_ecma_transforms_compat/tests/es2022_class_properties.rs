@@ -9,6 +9,7 @@ use swc_ecma_transforms_compat::{
     es2015::{arrow, block_scoping, classes, function_name, template_literal},
     es2016::exponentiation,
     es2017::async_to_generator,
+    es2020::optional_chaining,
     es2022::class_properties,
     es3::reserved_words,
 };
@@ -6667,5 +6668,43 @@ var _x = {
     writable: true,
     value: _set(_get_prototype_of(x), "x", 0, x, true)
 };
+"#
+);
+
+test!(
+    syntax(),
+    |t| {
+        let unresolved = Mark::new();
+        chain!(
+            class_properties(Some(t.comments.clone()), Default::default()),
+            optional_chaining(Default::default(), unresolved)
+        )
+    },
+    issue_8003,
+    "
+class Foo {
+  #priv
+  search() {
+    this.#priv?.()
+  }
+}
+    
+console.log(new Foo().search())",
+    r#"
+var _priv = new WeakMap();
+class Foo {
+  search() {
+    var _class_private_field_get1;
+    (_class_private_field_get1 = _class_private_field_get(this, _priv)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.call(this);
+  }
+  constructor(){
+    _class_private_field_init(this, _priv, {
+      writable: true,
+      value: void 0
+      });
+  }
+}
+
+console.log(new Foo().search());
 "#
 );
