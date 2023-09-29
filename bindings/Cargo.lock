@@ -280,6 +280,7 @@ dependencies = [
  "swc_core",
  "swc_error_reporters",
  "swc_node_base",
+ "swc_nodejs_common",
  "tracing",
  "tracing-chrome",
  "tracing-futures",
