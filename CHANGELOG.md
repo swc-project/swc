@@ -10,6 +10,12 @@
 
 - **(es/typescript)** Rename wrong `unresolved_mark` (#8018) ([5817268](https://github.com/swc-project/swc/commit/58172689ce7f8dd2f0a79d8771c52fe309880b44))
 
+### Features
+
+
+
+- **(bindings)** Create a minifier-only package (#7993) ([64d8f4b](https://github.com/swc-project/swc/commit/64d8f4b59f81c71bffbb906595bafa356f326924))
+
 ## [1.3.90] - 2023-09-27
 
 ### Bug Fixes
