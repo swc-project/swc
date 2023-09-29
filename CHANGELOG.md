@@ -25,6 +25,12 @@
 
 - **(bindings)** Create a minifier-only package (#7993) ([64d8f4b](https://github.com/swc-project/swc/commit/64d8f4b59f81c71bffbb906595bafa356f326924))
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Prepare `@swc/minifier` (#8027) ([8214b9e](https://github.com/swc-project/swc/commit/8214b9ed4e214dc6a52e7d2c80cd3b8ca87d3a12))
+
 ### Refactor
 
 
