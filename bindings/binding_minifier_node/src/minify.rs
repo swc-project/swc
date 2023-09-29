@@ -17,6 +17,7 @@ use swc_core::{
     },
     ecma::{
         minifier::{js::JsMinifyOptions, option::MinifyOptions},
+        parser::{EsConfig, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
         visit::{FoldWith, VisitMutWith},
     },
@@ -136,22 +137,21 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
 
         let comments = SingleThreadedComments::default();
 
-        let module = self
-            .parse_js(
-                fm.clone(),
-                handler,
-                target,
-                Syntax::Es(EsConfig {
-                    jsx: true,
-                    decorators: true,
-                    decorators_before_export: true,
-                    import_attributes: true,
-                    ..Default::default()
-                }),
-                IsModule::Bool(options.module),
-                Some(&comments),
-            )
-            .context("failed to parse input file")?;
+        let module = parse_js(
+            fm.clone(),
+            handler,
+            target,
+            Syntax::Es(EsConfig {
+                jsx: true,
+                decorators: true,
+                decorators_before_export: true,
+                import_attributes: true,
+                ..Default::default()
+            }),
+            IsModule::Bool(options.module),
+            Some(&comments),
+        )
+        .context("failed to parse input file")?;
 
         let source_map_names = if source_map.enabled() {
             let mut v = IdentCollector {
@@ -170,7 +170,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
 
         let is_mangler_enabled = min_opts.mangle.is_some();
 
-        let module = run_transform(handler, false, || {
+        let module = (|| {
             let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
             let mut module = swc_core::ecma::minifier::optimize(
@@ -189,7 +189,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
                 module.visit_mut_with(&mut hygiene())
             }
             module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)))
-        });
+        })();
 
         let preserve_comments = options
             .format
