@@ -22,6 +22,23 @@ on:
       - "*"
 
 jobs:
+  determine-work:
+    outputs:
+      run: ${{ steps.split.outputs.test }}
+      package: ${{ steps.split.outputs.test }}
+      version: ${{ steps.split.outputs.test }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Split branch name
+        id: split
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          arr=($BRANCH)
+          echo "::set-output name=package::${arr[0]}"
+          echo "::set-output name=version::${arr[1]#v}"
+          echo "::set-output name=run::[ $BRANCH == 'ci' ] || [ $BRANCH == 'ci-'* ] || [ ! -z ${arr[0]} -a ! -z ${arr[1]} ]"
+
   build-node:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     strategy:
