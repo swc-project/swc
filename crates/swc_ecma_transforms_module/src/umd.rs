@@ -1,8 +1,7 @@
 use anyhow::Context;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, Spanned,
-    DUMMY_SP,
+    comments::Comments, sync::Lrc, util::take::Take, FileName, Mark, SourceMap, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -293,7 +292,7 @@ where
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by_key(|prop| prop.span());
+            export_obj_prop_list.sort_by_cached_key(|v| v.key().clone());
 
             let exports = self.exports();
 
