@@ -23,6 +23,9 @@
 
 
 
+- **(es)** Extract parser/codegen code for `swc::Compiler` (#8030) ([a13f5cb](https://github.com/swc-project/swc/commit/a13f5cbe03f067b376f9f3318ef822142551eb96))
+
+
 - **(es/minifier)** Move JS options to `swc_ecma_minifier` (#8028) ([725f7f5](https://github.com/swc-project/swc/commit/725f7f5bda0881bdaac1bf1254f58e5341633d4e))
 
 ## [1.3.90] - 2023-09-27
