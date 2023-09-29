@@ -1,6 +1,4 @@
-use serde_json;
-
-use crate::{parse_swcrc, Options};
+use crate::parse_swcrc;
 
 #[test]
 fn object() {

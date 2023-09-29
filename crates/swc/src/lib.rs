@@ -112,7 +112,6 @@ pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
 
 use std::{
-    env,
     fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
@@ -120,35 +119,24 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{
-    collections::AHashMap,
-    comments::{CommentKind, SingleThreadedComments},
-    errors::HANDLER,
-};
-use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
+use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
-use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
 use swc_common::{
-    chain,
-    comments::{Comment, Comments},
-    errors::Handler,
-    source_map::SourceMapGenConfig,
-    sync::Lrc,
-    BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
+    chain, comments::Comments, errors::Handler, sync::Lrc, BytePos, FileName, Mark, SourceFile,
+    SourceMap, Spanned, GLOBALS,
 };
+pub use swc_compiler_base::TransformOutput;
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_ecma_ast::{EsVersion, Ident, Program};
-use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_codegen::{self, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
-use swc_ecma_parser::{
-    parse_file_as_module, parse_file_as_program, parse_file_as_script, EsConfig, Syntax,
-};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
@@ -157,7 +145,7 @@ use swc_ecma_transforms::{
     pass::noop,
     resolver,
 };
-use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
@@ -165,7 +153,8 @@ use url::Url;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltInput, Config, ConfigFile, InputSourceMap, Options, Rc, RootMode, SourceMapsConfig,
+    BuiltInput, Config, ConfigFile, InputSourceMap, IsModule, JsMinifyCommentOption,
+    JsMinifyOptions, Options, OutputCharset, Rc, RootMode, SourceMapsConfig,
 };
 
 mod builder;
@@ -223,23 +212,6 @@ pub struct Compiler {
     /// CodeMap
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
-}
-
-#[cfg(feature = "node")]
-#[napi_derive::napi(object)]
-#[derive(Debug, Serialize)]
-pub struct TransformOutput {
-    pub code: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map: Option<String>,
-}
-
-#[cfg(not(feature = "node"))]
-#[derive(Debug, Serialize)]
-pub struct TransformOutput {
-    pub code: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map: Option<String>,
 }
 
 /// These are **low-level** apis.
@@ -447,46 +419,15 @@ impl Compiler {
         is_module: IsModule,
         comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
-        let mut res = self.run(|| {
-            let mut error = false;
-
-            let mut errors = vec![];
-            let program_result = match is_module {
-                IsModule::Bool(true) => {
-                    parse_file_as_module(&fm, syntax, target, comments, &mut errors)
-                        .map(Program::Module)
-                }
-                IsModule::Bool(false) => {
-                    parse_file_as_script(&fm, syntax, target, comments, &mut errors)
-                        .map(Program::Script)
-                }
-                IsModule::Unknown => {
-                    parse_file_as_program(&fm, syntax, target, comments, &mut errors)
-                }
-            };
-
-            for e in errors {
-                e.into_diagnostic(handler).emit();
-                error = true;
-            }
-
-            let program = program_result.map_err(|e| {
-                e.into_diagnostic(handler).emit();
-                Error::msg("Syntax Error")
-            })?;
-
-            if error {
-                return Err(anyhow::anyhow!("Syntax Error"));
-            }
-
-            Ok(program)
-        });
-
-        if env::var("SWC_DEBUG").unwrap_or_default() == "1" {
-            res = res.with_context(|| format!("Parser config: {:?}", syntax));
-        }
-
-        res
+        swc_compiler_base::parse_js(
+            self.cm.clone(),
+            fm,
+            handler,
+            target,
+            syntax,
+            is_module,
+            comments,
+        )
     }
 
     /// Converts ast node to source string and sourcemap.
@@ -510,210 +451,22 @@ impl Compiler {
         codegen_config: swc_ecma_codegen::Config,
     ) -> Result<TransformOutput, Error>
     where
-        T: Node + VisitWith<IdentCollector>,
+        T: Node + VisitWith<swc_compiler_base::IdentCollector>,
     {
-        self.run(|| {
-            let _timer = timer!("Compiler.print");
-
-            let mut src_map_buf = vec![];
-
-            let src = {
-                let mut buf = vec![];
-                {
-                    let mut w = swc_ecma_codegen::text_writer::JsWriter::new(
-                        self.cm.clone(),
-                        "\n",
-                        &mut buf,
-                        if source_map.enabled() {
-                            Some(&mut src_map_buf)
-                        } else {
-                            None
-                        },
-                    );
-                    w.preamble(preamble).unwrap();
-                    let mut wr = Box::new(w) as Box<dyn WriteJs>;
-
-                    if codegen_config.minify {
-                        wr = Box::new(swc_ecma_codegen::text_writer::omit_trailing_semi(wr));
-                    }
-
-                    let mut emitter = Emitter {
-                        cfg: codegen_config,
-                        comments,
-                        cm: self.cm.clone(),
-                        wr,
-                    };
-
-                    node.emit_with(&mut emitter)
-                        .context("failed to emit module")?;
-                }
-                // Invalid utf8 is valid in javascript world.
-                String::from_utf8(buf).expect("invalid utf8 character detected")
-            };
-
-            if cfg!(debug_assertions)
-                && !src_map_buf.is_empty()
-                && src_map_buf.iter().all(|(bp, _)| bp.is_dummy())
-                && src.lines().count() >= 3
-                && option_env!("SWC_DEBUG") == Some("1")
-            {
-                panic!("The module contains only dummy spans\n{}", src);
-            }
-
-            let (code, map) = match source_map {
-                SourceMapsConfig::Bool(v) => {
-                    if v {
-                        let mut buf = vec![];
-
-                        self.cm
-                            .build_source_map_with_config(
-                                &src_map_buf,
-                                orig,
-                                SwcSourceMapConfig {
-                                    source_file_name,
-                                    output_path: output_path.as_deref(),
-                                    names: source_map_names,
-                                    inline_sources_content,
-                                    emit_columns: emit_source_map_columns,
-                                },
-                            )
-                            .to_writer(&mut buf)
-                            .context("failed to write source map")?;
-                        let map = String::from_utf8(buf).context("source map is not utf-8")?;
-                        (src, Some(map))
-                    } else {
-                        (src, None)
-                    }
-                }
-                SourceMapsConfig::Str(_) => {
-                    let mut src = src;
-                    let mut buf = vec![];
-
-                    self.cm
-                        .build_source_map_with_config(
-                            &src_map_buf,
-                            orig,
-                            SwcSourceMapConfig {
-                                source_file_name,
-                                output_path: output_path.as_deref(),
-                                names: source_map_names,
-                                inline_sources_content,
-                                emit_columns: emit_source_map_columns,
-                            },
-                        )
-                        .to_writer(&mut buf)
-                        .context("failed to write source map file")?;
-                    let map = String::from_utf8(buf).context("source map is not utf-8")?;
-
-                    src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
-                    base64::encode_config_buf(
-                        map.as_bytes(),
-                        base64::Config::new(base64::CharacterSet::Standard, true),
-                        &mut src,
-                    );
-                    (src, None)
-                }
-            };
-
-            Ok(TransformOutput { code, map })
-        })
-    }
-}
-
-struct SwcSourceMapConfig<'a> {
-    source_file_name: Option<&'a str>,
-    /// Output path of the `.map` file.
-    output_path: Option<&'a Path>,
-
-    names: &'a AHashMap<BytePos, JsWord>,
-
-    inline_sources_content: bool,
-
-    emit_columns: bool,
-}
-
-impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
-    fn file_name_to_source(&self, f: &FileName) -> String {
-        if let Some(file_name) = self.source_file_name {
-            return file_name.to_string();
-        }
-
-        let base_path = match self.output_path {
-            Some(v) => v,
-            None => return f.to_string(),
-        };
-        let target = match f {
-            FileName::Real(v) => v,
-            _ => return f.to_string(),
-        };
-
-        let rel = pathdiff::diff_paths(target, base_path);
-        match rel {
-            Some(v) => {
-                let s = v.to_string_lossy().to_string();
-                if cfg!(target_os = "windows") {
-                    s.replace('\\', "/")
-                } else {
-                    s
-                }
-            }
-            None => f.to_string(),
-        }
-    }
-
-    fn name_for_bytepos(&self, pos: BytePos) -> Option<&str> {
-        self.names.get(&pos).map(|v| &**v)
-    }
-
-    fn inline_sources_content(&self, _: &FileName) -> bool {
-        self.inline_sources_content
-    }
-
-    fn emit_columns(&self, _f: &FileName) -> bool {
-        self.emit_columns
-    }
-
-    fn skip(&self, f: &FileName) -> bool {
-        match f {
-            FileName::Internal(..) => true,
-            FileName::Custom(s) => s.starts_with('<'),
-            _ => false,
-        }
-    }
-}
-
-pub(crate) fn minify_file_comments(
-    comments: &SingleThreadedComments,
-    preserve_comments: BoolOr<JsMinifyCommentOption>,
-) {
-    match preserve_comments {
-        BoolOr::Bool(true) | BoolOr::Data(JsMinifyCommentOption::PreserveAllComments) => {}
-
-        BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments) => {
-            let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
-                // Preserve license comments.
-                //
-                // See https://github.com/terser/terser/blob/798135e04baddd94fea403cfaab4ba8b22b1b524/lib/output.js#L175-L181
-                vc.retain(|c: &Comment| {
-                    c.text.contains("@lic")
-                        || c.text.contains("@preserve")
-                        || c.text.contains("@copyright")
-                        || c.text.contains("@cc_on")
-                        || (c.kind == CommentKind::Block && c.text.starts_with('!'))
-                });
-                !vc.is_empty()
-            };
-            let (mut l, mut t) = comments.borrow_all_mut();
-
-            l.retain(preserve_excl);
-            t.retain(preserve_excl);
-        }
-
-        BoolOr::Bool(false) => {
-            let (mut l, mut t) = comments.borrow_all_mut();
-            l.clear();
-            t.clear();
-        }
+        swc_compiler_base::print(
+            self.cm.clone(),
+            node,
+            source_file_name,
+            output_path,
+            inline_sources_content,
+            source_map,
+            source_map_names,
+            orig,
+            comments,
+            emit_source_map_columns,
+            preamble,
+            codegen_config,
+        )
     }
 }
 
@@ -1003,7 +756,7 @@ impl Compiler {
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            let _timer = timer!("Compiler.minify");
+            let _timer = timer!("Compiler::minify");
 
             let target = opts.ecma.clone().into();
 
@@ -1095,7 +848,7 @@ impl Compiler {
                 .context("failed to parse input file")?;
 
             let source_map_names = if source_map.enabled() {
-                let mut v = IdentCollector {
+                let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
                 };
 
@@ -1139,7 +892,7 @@ impl Compiler {
                 .clone()
                 .into_inner()
                 .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-            minify_file_comments(&comments, preserve_comments);
+            swc_compiler_base::minify_file_comments(&comments, preserve_comments);
 
             self.print(
                 &module,
@@ -1197,7 +950,7 @@ impl Compiler {
         self.run(|| {
             let program = config.program;
             let source_map_names = if config.source_maps.enabled() {
-                let mut v = IdentCollector {
+                let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
                 };
 
@@ -1217,7 +970,7 @@ impl Compiler {
             });
 
             if let Some(comments) = &config.comments {
-                minify_file_comments(comments, config.preserve_comments);
+                swc_compiler_base::minify_file_comments(comments, config.preserve_comments);
             }
 
             self.print(
@@ -1308,16 +1061,4 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
     serde_json::from_value(v)
         .map(Rc::Single)
         .map_err(convert_json_err)
-}
-
-pub struct IdentCollector {
-    names: AHashMap<BytePos, JsWord>,
-}
-
-impl Visit for IdentCollector {
-    noop_visit_type!();
-
-    fn visit_ident(&mut self, ident: &Ident) {
-        self.names.insert(ident.span.lo, ident.sym.clone());
-    }
 }
