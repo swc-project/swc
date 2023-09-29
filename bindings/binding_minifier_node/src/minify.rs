@@ -11,7 +11,7 @@ use swc_core::{
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
-use crate::{get_compiler, util::try_with, TransformOutput};
+use crate::{util::try_with, TransformOutput};
 
 struct MinifyTask {
     code: String,
@@ -49,7 +49,9 @@ impl MinifyTarget {
 fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<TransformOutput> {
     let cm: Arc<SourceMap> = Arc::default();
 
-    try_with(cm.clone(), false, ErrorFormat::Normal, |handler| {}).convert_err()
+    let fm = input.to_file(cm.clone());
+
+    try_with(cm.clone(), false, |handler| {}).convert_err()
 }
 
 #[napi]
@@ -61,12 +63,7 @@ impl Task for MinifyTask {
         let input: MinifyTarget = deserialize_json(&self.code)?;
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
-            let fm = input.to_file(self.c.cm.clone());
-
-            self.c.minify(fm, handler, &options)
-        })
-        .convert_err()
+        do_work(input, options)
     }
 
     fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
@@ -80,9 +77,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
-    let c = get_compiler();
-
-    let task = MinifyTask { c, code, options };
+    let task = MinifyTask { code, options };
 
     AsyncTask::with_optional_signal(task, signal)
 }
@@ -90,19 +85,8 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let code: MinifyTarget = get_deserialized(code)?;
-    let opts = get_deserialized(opts)?;
+    let input: MinifyTarget = get_deserialized(code)?;
+    let options = get_deserialized(opts)?;
 
-    let c = get_compiler();
-
-    let fm = code.to_file(c.cm.clone());
-
-    try_with(
-        c.cm.clone(),
-        false,
-        // TODO(kdy1): Maybe make this configurable?
-        ErrorFormat::Normal,
-        |handler| c.minify(fm, handler, &opts),
-    )
-    .convert_err()
+    do_work(input, options)
 }

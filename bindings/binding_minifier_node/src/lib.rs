@@ -33,10 +33,6 @@ fn init() {
     }
 }
 
-fn get_compiler() -> Arc<Compiler> {
-    COMPILER.clone()
-}
-
 /// Hack for `Type Generation`
 #[napi(object)]
 pub struct TransformOutput {
