@@ -12,17 +12,17 @@ _export(exports, {
     bar: function() {
         return bar;
     },
-    foo1: function() {
-        return foo;
-    },
     bar2: function() {
+        return bar;
+    },
+    default: function() {
         return bar;
     },
     foo: function() {
         return foo;
     },
-    default: function() {
-        return bar;
+    foo1: function() {
+        return foo;
     }
 });
 const foo = 1;

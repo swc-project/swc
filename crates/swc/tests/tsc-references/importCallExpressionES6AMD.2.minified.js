@@ -29,11 +29,11 @@ define([
             get: all[name]
         });
     }(exports, {
-        p2: function() {
-            return p2;
-        },
         D: function() {
             return D;
+        },
+        p2: function() {
+            return p2;
         }
     }), new Promise((resolve, reject)=>require([
             "./0"

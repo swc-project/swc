@@ -17,11 +17,11 @@
         });
     }
     _export(exports, {
-        baz: function() {
-            return _moduleWithGetter.baz;
-        },
         Foo: function() {
             return _moduleWithGetter.default;
+        },
+        baz: function() {
+            return _moduleWithGetter.baz;
         }
     });
     _moduleWithGetter = /*#__PURE__*/ _interop_require_wildcard(_moduleWithGetter);

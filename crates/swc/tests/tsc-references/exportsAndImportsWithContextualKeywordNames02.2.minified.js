@@ -8,10 +8,10 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    return: function() {
+    as: function() {
         return as;
     },
-    as: function() {
+    return: function() {
         return as;
     }
 });

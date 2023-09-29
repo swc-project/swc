@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    foo: function() {
-        return foo;
-    },
     bar: function() {
         return bar;
+    },
+    foo: function() {
+        return foo;
     }
 });
-const { foo , ...bar } = {};
+const { foo, ...bar } = {};

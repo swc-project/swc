@@ -13,17 +13,17 @@ define([
         });
     }
     _export(exports, {
-        input: function() {
-            return input;
-        },
         default: function() {
             return _default;
+        },
+        input: function() {
+            return input;
         }
     });
     function input(name) {
         return `${name}.md?render`;
     }
-    function _default({ name , input: inp  }) {
+    function _default({ name, input: inp }) {
         inp = inp || input(name);
         return {
             input: inp

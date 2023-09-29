@@ -1,8 +1,8 @@
 {
-  "mappings": "AAAA,WAAW;;;;;;;;;IACCA,GAAG;;;IAIFC,IAAI;eAAJA;;;qBAJQ;AAId,MAAMA,OAAO,CAACC;IACjB,sBAAsB;IACtB,OAAO,IAAIC,QAAQ,CAACC,UAChBC,WAAW;YACPD,QAAQ;QACZ,GAAG;AAEX",
+  "mappings": "AAAA,WAAW;;;;;;;;;IAKEA,IAAI;eAAJA;;IAJDC,GAAG;;;;qBAAM;AAId,MAAMD,OAAO,CAACE;IACjB,sBAAsB;IACtB,OAAO,IAAIC,QAAQ,CAACC,UAChBC,WAAW;YACPD,QAAQ;QACZ,GAAG;AAEX",
   "names": [
-    "get",
     "byID",
+    "get",
     "id",
     "Promise",
     "resolve",

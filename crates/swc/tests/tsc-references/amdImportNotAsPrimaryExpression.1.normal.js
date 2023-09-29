@@ -15,11 +15,11 @@ define([
         });
     }
     _export(exports, {
-        E1: function() {
-            return E1;
-        },
         C1: function() {
             return C1;
+        },
+        E1: function() {
+            return E1;
         }
     });
     var C1 = function C1() {

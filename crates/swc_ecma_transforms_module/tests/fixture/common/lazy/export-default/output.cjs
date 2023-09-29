@@ -9,14 +9,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    bar: function() {
+        return _bar().default;
+    },
     default: function() {
         return _foo().default;
     },
     foo: function() {
         return _foo().default;
-    },
-    bar: function() {
-        return _bar().default;
     }
 });
 function _foo() {

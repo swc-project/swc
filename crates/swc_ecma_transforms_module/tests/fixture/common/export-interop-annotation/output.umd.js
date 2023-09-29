@@ -16,11 +16,11 @@
         });
     }
     _export(exports, {
-        useRouter: function() {
-            return useRouter;
-        },
         default: function() {
             return _default;
+        },
+        useRouter: function() {
+            return useRouter;
         }
     });
     function useRouter() {}

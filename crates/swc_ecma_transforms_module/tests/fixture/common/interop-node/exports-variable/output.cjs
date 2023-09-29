@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
+    bar: null,
     foo: null,
     foo2: null,
-    bar: null,
     foo3: null,
     foo4: null,
     foo5: null,
@@ -21,14 +21,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    bar: function() {
+        return bar;
+    },
     foo: function() {
         return foo;
     },
     foo2: function() {
         return foo2;
-    },
-    bar: function() {
-        return bar;
     },
     foo3: function() {
         return foo3;

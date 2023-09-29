@@ -1,6 +1,10 @@
 use indexmap::IndexMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashSet, util::take::Take, Span};
+use swc_common::{
+    collections::{AHashMap, AHashSet},
+    util::take::Take,
+    Span,
+};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -8,7 +12,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use crate::{module_ref_rewriter::ImportMap, util::ObjPropKeyIdent};
 
 pub type Link = IndexMap<JsWord, LinkItem>;
-pub type Export = IndexMap<(JsWord, Span), Ident>;
+pub type Export = AHashMap<(JsWord, Span), Ident>;
 
 #[derive(Debug)]
 pub struct ModuleDeclStrip {

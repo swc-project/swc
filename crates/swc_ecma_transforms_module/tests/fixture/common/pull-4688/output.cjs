@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    format: function() {
-        return format;
-    },
     default: function() {
         return defaultLocale;
+    },
+    format: function() {
+        return format;
     }
 });
 var format;
