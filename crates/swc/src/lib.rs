@@ -419,6 +419,15 @@ impl Compiler {
         is_module: IsModule,
         comments: Option<&dyn Comments>,
     ) -> Result<Program, Error> {
+        swc_compiler_base::parse_js(
+            self.cm.clone(),
+            fm,
+            handler,
+            target,
+            syntax,
+            is_module,
+            comments,
+        )
     }
 
     /// Converts ast node to source string and sourcemap.
@@ -442,8 +451,22 @@ impl Compiler {
         codegen_config: swc_ecma_codegen::Config,
     ) -> Result<TransformOutput, Error>
     where
-        T: Node + VisitWith<IdentCollector>,
+        T: Node + VisitWith<swc_compiler_base::IdentCollector>,
     {
+        swc_compiler_base::print(
+            self.cm.clone(),
+            node,
+            source_file_name,
+            output_path,
+            inline_sources_content,
+            source_map,
+            source_map_names,
+            orig,
+            comments,
+            emit_source_map_columns,
+            preamble,
+            codegen_config,
+        )
     }
 }
 
@@ -733,7 +756,7 @@ impl Compiler {
         opts: &JsMinifyOptions,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
-            let _timer = timer!("Compiler.minify");
+            let _timer = timer!("Compiler::minify");
 
             let target = opts.ecma.clone().into();
 
@@ -825,7 +848,7 @@ impl Compiler {
                 .context("failed to parse input file")?;
 
             let source_map_names = if source_map.enabled() {
-                let mut v = IdentCollector {
+                let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
                 };
 
@@ -869,7 +892,7 @@ impl Compiler {
                 .clone()
                 .into_inner()
                 .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
-            minify_file_comments(&comments, preserve_comments);
+            swc_compiler_base::minify_file_comments(&comments, preserve_comments);
 
             self.print(
                 &module,
@@ -927,7 +950,7 @@ impl Compiler {
         self.run(|| {
             let program = config.program;
             let source_map_names = if config.source_maps.enabled() {
-                let mut v = IdentCollector {
+                let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
                 };
 
@@ -947,7 +970,7 @@ impl Compiler {
             });
 
             if let Some(comments) = &config.comments {
-                minify_file_comments(comments, config.preserve_comments);
+                swc_compiler_base::minify_file_comments(comments, config.preserve_comments);
             }
 
             self.print(

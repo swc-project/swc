@@ -46,7 +46,7 @@ pub struct TransformOutput {
 ///
 /// This should be called in a scope of [swc_common::GLOBALS].
 pub fn parse_js(
-    cm: Lrc<SourceMap>,
+    _cm: Lrc<SourceMap>,
     fm: Lrc<SourceFile>,
     handler: &Handler,
     target: EsVersion,
@@ -286,7 +286,7 @@ impl SourceMapGenConfig for SwcSourceMapConfig<'_> {
     }
 }
 
-pub(crate) fn minify_file_comments(
+pub fn minify_file_comments(
     comments: &SingleThreadedComments,
     preserve_comments: BoolOr<JsMinifyCommentOption>,
 ) {
@@ -416,7 +416,7 @@ impl<'de> Deserialize<'de> for IsModule {
 }
 
 pub struct IdentCollector {
-    names: AHashMap<BytePos, JsWord>,
+    pub names: AHashMap<BytePos, JsWord>,
 }
 
 impl Visit for IdentCollector {
