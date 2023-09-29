@@ -40,6 +40,7 @@ swc_config = "0.1.7"
 swc_core = { version = "0.83.18", features = [
   "allocator_node",
   "common_concurrent",
+  "common_sourcemap",
   "ecma_ast",
   "ecma_codegen",
   "ecma_parser",
