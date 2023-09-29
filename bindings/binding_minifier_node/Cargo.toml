@@ -40,6 +40,7 @@ swc_core = { version = "0.83.18", features = [
   "ecma_codegen",
   "common_concurrent",
   "ecma_minifier",
+  "ecma_minifier_concurrent",
 ] }
 swc_node_base = "0.5.8"
 swc_compiler_base = { version = "0.1.0", features = ["node"] }
