@@ -100,7 +100,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
               (cd packages/minifier && corepack yarn build --target aarch64-pc-windows-msvc)
-    name: "Build: ${{ matrix.package }} - ${{ matrix.settings.target }}"
+    name: "Build: ${{ matrix.settings.target }}"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
