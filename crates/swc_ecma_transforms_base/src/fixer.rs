@@ -101,18 +101,16 @@ impl Fixer<'_> {
     }
 
     fn wrap_callee(&mut self, e: &mut Expr) {
-        if match e {
-            Expr::Lit(Lit::Num(..) | Lit::Str(..)) => false,
+        match e {
+            Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
             Expr::Cond(..)
             | Expr::Bin(..)
             | Expr::Lit(..)
             | Expr::Unary(..)
             | Expr::Object(..)
             | Expr::Await(..)
-            | Expr::Yield(..) => true,
-            _ => false,
-        } {
-            self.wrap(e)
+            | Expr::Yield(..) => self.wrap(e),
+            _ => (),
         }
     }
 }
@@ -400,7 +398,11 @@ impl VisitMut for Fixer<'_> {
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
         let old = self.visit_call(&mut node.args, &mut node.callee);
         if let Callee::Expr(e) = &mut node.callee {
-            self.wrap_callee(e)
+            if let Expr::OptChain(_) = &**e {
+                self.wrap(e)
+            } else {
+                self.wrap_callee(e)
+            }
         }
 
         self.ctx = old;
