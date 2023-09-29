@@ -44,6 +44,7 @@ use swc_ecma_loader::{
     resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
     TargetEnv,
 };
+pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
     MangleOptions,
