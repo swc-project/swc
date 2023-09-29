@@ -117,6 +117,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@swc-lab/html@workspace:html":
+  version: 0.0.0-use.local
+  resolution: "@swc-lab/html@workspace:html"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@swc-lab/xml@workspace:xml":
+  version: 0.0.0-use.local
+  resolution: "@swc-lab/xml@workspace:xml"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@swc/counter@^0.1.1, @swc/counter@workspace:counter":
   version: 0.0.0-use.local
   resolution: "@swc/counter@workspace:counter"
@@ -132,19 +158,6 @@ __metadata:
     magic-string: ^0.30.0
     tslib: ^2.4.0
     zx: ^7.2.1
-  languageName: unknown
-  linkType: soft
-
-"@swc/html@workspace:html":
-  version: 0.0.0-use.local
-  resolution: "@swc/html@workspace:html"
-  dependencies:
-    "@napi-rs/cli": ^2.16.3
-    "@swc/counter": ^0.1.1
-    "@swc/types": "workspace:^"
-    "@types/node": ^20.7.1
-    cross-env: ^7.0.3
-    typescript: ^5.2.2
   languageName: unknown
   linkType: soft
 
@@ -174,19 +187,6 @@ __metadata:
   resolution: "@swc/workspace@workspace:."
   dependencies:
     prettier: ^3.0.3
-  languageName: unknown
-  linkType: soft
-
-"@swc/xml@workspace:xml":
-  version: 0.0.0-use.local
-  resolution: "@swc/xml@workspace:xml"
-  dependencies:
-    "@napi-rs/cli": ^2.16.3
-    "@swc/counter": ^0.1.1
-    "@swc/types": "workspace:^"
-    "@types/node": ^20.7.1
-    cross-env: ^7.0.3
-    typescript: ^5.2.2
   languageName: unknown
   linkType: soft
 
