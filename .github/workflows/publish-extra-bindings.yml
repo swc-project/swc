@@ -22,9 +22,8 @@ on:
       - "*"
 
 jobs:
-  determine-work:
+  check:
     outputs:
-      run: ${{ steps.split.outputs.tesrunt }}
       package: ${{ steps.split.outputs.package }}
       version: ${{ steps.split.outputs.version }}
     runs-on: ubuntu-latest
@@ -37,12 +36,10 @@ jobs:
           arr=($BRANCH)
           echo "::set-output name=package::${arr[0]}"
           echo "::set-output name=version::${arr[1]#v}"
-          echo "::set-output name=run::[ $BRANCH == 'ci' ] || [ $BRANCH == 'ci-'* ] || [ ! -z ${arr[0]} -a ! -z ${arr[1]} ]"
 
   build-node:
-    if: ${{ needs.determine-work.outputs.run }}
     needs:
-      - determine-work
+      - check
     strategy:
       fail-fast: false
       matrix:
@@ -126,7 +123,8 @@ jobs:
     name: "Build: ${{ matrix.package }} - ${{ matrix.settings.target }} - node@18"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - if: ${{ startsWith(github.ref,'refs/head') || needs.check.outputs.package == matrix.package }}
+        uses: actions/checkout@v3
 
       - name: Setup node x64
         uses: actions/setup-node@v3
