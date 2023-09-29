@@ -139,6 +139,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
 };
+pub use swc_compiler_base::TransformOutput;
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
@@ -223,23 +224,6 @@ pub struct Compiler {
     /// CodeMap
     pub cm: Arc<SourceMap>,
     comments: SwcComments,
-}
-
-#[cfg(feature = "node")]
-#[napi_derive::napi(object)]
-#[derive(Debug, Serialize)]
-pub struct TransformOutput {
-    pub code: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map: Option<String>,
-}
-
-#[cfg(not(feature = "node"))]
-#[derive(Debug, Serialize)]
-pub struct TransformOutput {
-    pub code: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub map: Option<String>,
 }
 
 /// These are **low-level** apis.

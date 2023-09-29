@@ -1,14 +1,16 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+#[cfg(feature = "node")]
+#[napi_derive::napi(object)]
+#[derive(Debug, Serialize)]
+pub struct TransformOutput {
+    pub code: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub map: Option<String>,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[cfg(not(feature = "node"))]
+#[derive(Debug, Serialize)]
+pub struct TransformOutput {
+    pub code: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub map: Option<String>,
 }
