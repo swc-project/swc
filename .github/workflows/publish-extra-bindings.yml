@@ -133,18 +133,7 @@ jobs:
         shell: bash
         run: |
           yarn
-      - name: Cache cargo registry
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/registry
-          key: ${{ matrix.settings.target }}-node@18-cargo-registry-trimmed
-      - name: Cache cargo index
-        uses: actions/cache@v3
-        with:
-          path: ~/.cargo/git
-          key: ${{ matrix.settings.target }}-node@18-cargo-index-trimmed
 
-        if: ${{ matrix.settings.docker }}
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
@@ -241,11 +230,6 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-linux-x64-gnu-${{ matrix.node }}
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
@@ -310,11 +294,6 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-linux-aarch64-musl-${{ matrix.node }}
       - name: Install dependencies
         run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
       - name: Build TypeScript
@@ -355,11 +334,6 @@ jobs:
       - name: List packages
         run: ls -R .
         shell: bash
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-linux-arm-gnueabihf-${{ matrix.node }}
       - name: Install dependencies
         run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
       - name: Build TypeScript
