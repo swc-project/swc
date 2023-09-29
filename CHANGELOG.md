@@ -19,6 +19,12 @@
 
 - **(bindings)** Create a minifier-only package (#7993) ([64d8f4b](https://github.com/swc-project/swc/commit/64d8f4b59f81c71bffbb906595bafa356f326924))
 
+### Refactor
+
+
+
+- **(es/minifier)** Move JS options to `swc_ecma_minifier` (#8028) ([725f7f5](https://github.com/swc-project/swc/commit/725f7f5bda0881bdaac1bf1254f58e5341633d4e))
+
 ## [1.3.90] - 2023-09-27
 
 ### Bug Fixes
