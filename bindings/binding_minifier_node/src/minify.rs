@@ -1,23 +1,37 @@
 use std::sync::Arc;
 
+use anyhow::{Context, Error};
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Task,
 };
 use serde::Deserialize;
-use swc_core::{
-    base::{
-        config::{ErrorFormat, JsMinifyOptions},
-        TransformOutput,
-    },
-    common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
-    node::{deserialize_json, get_deserialized, MapErr},
+use swc_compiler_base::{
+    minify_file_comments, parse_js, IdentCollector, IsModule, SourceMapsConfig, TransformOutput,
 };
+use swc_config::config_types::BoolOr;
+use swc_core::{
+    common::{
+        collections::AHashMap,
+        comments::{Comments, SingleThreadedComments},
+        sync::Lrc,
+        FileName, Mark, SourceFile, SourceMap,
+    },
+    ecma::{
+        minifier::{
+            js::{JsMinifyCommentOption, JsMinifyOptions},
+            option::{MinifyOptions, TopLevelOptions},
+        },
+        parser::{EsConfig, Syntax},
+        transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
+        visit::{FoldWith, VisitMutWith, VisitWith},
+    },
+};
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
-use crate::{get_compiler, util::try_with};
+use crate::util::try_with;
 
 struct MinifyTask {
-    c: Arc<swc_core::base::Compiler>,
     code: String,
     options: String,
 }
@@ -50,6 +64,172 @@ impl MinifyTarget {
     }
 }
 
+fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<TransformOutput> {
+    let cm: Arc<SourceMap> = Arc::default();
+
+    let fm = input.to_file(cm.clone());
+
+    try_with(cm.clone(), false, |handler| {
+        let target = options.ecma.clone().into();
+
+        let (source_map, orig) = options
+            .source_map
+            .as_ref()
+            .map(|obj| -> Result<_, Error> {
+                let orig = obj
+                    .content
+                    .as_ref()
+                    .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
+                let orig = match orig {
+                    Some(v) => Some(v?),
+                    None => None,
+                };
+                Ok((SourceMapsConfig::Bool(true), orig))
+            })
+            .unwrap_as_option(|v| {
+                Some(Ok(match v {
+                    Some(true) => (SourceMapsConfig::Bool(true), None),
+                    _ => (SourceMapsConfig::Bool(false), None),
+                }))
+            })
+            .unwrap()?;
+
+        let mut min_opts = MinifyOptions {
+            compress: options
+                .compress
+                .clone()
+                .unwrap_as_option(|default| match default {
+                    Some(true) | None => Some(Default::default()),
+                    _ => None,
+                })
+                .map(|v| v.into_config(cm.clone())),
+            mangle: options
+                .mangle
+                .clone()
+                .unwrap_as_option(|default| match default {
+                    Some(true) | None => Some(Default::default()),
+                    _ => None,
+                }),
+            ..Default::default()
+        };
+
+        // top_level defaults to true if module is true
+
+        // https://github.com/swc-project/swc/issues/2254
+
+        if options.module {
+            if let Some(opts) = &mut min_opts.compress {
+                if opts.top_level.is_none() {
+                    opts.top_level = Some(TopLevelOptions { functions: true });
+                }
+            }
+
+            if let Some(opts) = &mut min_opts.mangle {
+                if opts.top_level.is_none() {
+                    opts.top_level = Some(true);
+                }
+            }
+        }
+
+        if options.keep_fnames {
+            if let Some(opts) = &mut min_opts.compress {
+                opts.keep_fnames = true;
+            }
+            if let Some(opts) = &mut min_opts.mangle {
+                opts.keep_fn_names = true;
+            }
+        }
+
+        let comments = SingleThreadedComments::default();
+
+        let module = parse_js(
+            cm.clone(),
+            fm.clone(),
+            handler,
+            target,
+            Syntax::Es(EsConfig {
+                jsx: true,
+                decorators: true,
+                decorators_before_export: true,
+                import_attributes: true,
+                ..Default::default()
+            }),
+            IsModule::Bool(options.module),
+            Some(&comments),
+        )
+        .context("failed to parse input file")?;
+
+        let source_map_names = if source_map.enabled() {
+            let mut v = IdentCollector {
+                names: Default::default(),
+            };
+
+            module.visit_with(&mut v);
+
+            v.names
+        } else {
+            Default::default()
+        };
+
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        let is_mangler_enabled = min_opts.mangle.is_some();
+
+        let module = (|| {
+            let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+            let mut module = swc_core::ecma::minifier::optimize(
+                module,
+                cm.clone(),
+                Some(&comments),
+                None,
+                &min_opts,
+                &swc_core::ecma::minifier::option::ExtraOptions {
+                    unresolved_mark,
+                    top_level_mark,
+                },
+            );
+
+            if !is_mangler_enabled {
+                module.visit_mut_with(&mut hygiene())
+            }
+            module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)));
+            module
+        })();
+
+        let preserve_comments = options
+            .format
+            .comments
+            .clone()
+            .into_inner()
+            .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
+        minify_file_comments(&comments, preserve_comments);
+
+        swc_compiler_base::print(
+            cm.clone(),
+            &module,
+            Some(&fm.name.to_string()),
+            options.output_path.clone().map(From::from),
+            options.inline_sources_content,
+            source_map,
+            &source_map_names,
+            orig.as_ref(),
+            Some(&comments),
+            options.emit_source_map_columns,
+            &options.format.preamble,
+            swc_core::ecma::codegen::Config::default()
+                .with_target(target)
+                .with_minify(true)
+                .with_ascii_only(options.format.ascii_only)
+                .with_emit_assert_for_import_attributes(
+                    options.format.emit_assert_for_import_attributes,
+                ),
+        )
+    })
+    .convert_err()
+}
+
 #[napi]
 impl Task for MinifyTask {
     type JsValue = TransformOutput;
@@ -59,12 +239,7 @@ impl Task for MinifyTask {
         let input: MinifyTarget = deserialize_json(&self.code)?;
         let options: JsMinifyOptions = deserialize_json(&self.options)?;
 
-        try_with(self.c.cm.clone(), false, ErrorFormat::Normal, |handler| {
-            let fm = input.to_file(self.c.cm.clone());
-
-            self.c.minify(fm, handler, &options)
-        })
-        .convert_err()
+        do_work(input, options)
     }
 
     fn resolve(&mut self, _env: napi::Env, output: Self::Output) -> napi::Result<Self::JsValue> {
@@ -78,9 +253,7 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
     let code = String::from_utf8_lossy(code.as_ref()).to_string();
     let options = String::from_utf8_lossy(opts.as_ref()).to_string();
 
-    let c = get_compiler();
-
-    let task = MinifyTask { c, code, options };
+    let task = MinifyTask { code, options };
 
     AsyncTask::with_optional_signal(task, signal)
 }
@@ -88,19 +261,8 @@ fn minify(code: Buffer, opts: Buffer, signal: Option<AbortSignal>) -> AsyncTask<
 #[napi]
 pub fn minify_sync(code: Buffer, opts: Buffer) -> napi::Result<TransformOutput> {
     crate::util::init_default_trace_subscriber();
-    let code: MinifyTarget = get_deserialized(code)?;
-    let opts = get_deserialized(opts)?;
+    let input: MinifyTarget = get_deserialized(code)?;
+    let options = get_deserialized(opts)?;
 
-    let c = get_compiler();
-
-    let fm = code.to_file(c.cm.clone());
-
-    try_with(
-        c.cm.clone(),
-        false,
-        // TODO(kdy1): Maybe make this configurable?
-        ErrorFormat::Normal,
-        |handler| c.minify(fm, handler, &opts),
-    )
-    .convert_err()
+    do_work(input, options)
 }

@@ -7,9 +7,9 @@
     "cpu": [
         "arm"
     ],
-    "main": "swc.linux-arm-gnueabihf.node",
+    "main": "minifier.linux-arm-gnueabihf.node",
     "files": [
-        "swc.linux-arm-gnueabihf.node",
+        "minifier.linux-arm-gnueabihf.node",
         "swc"
     ],
     "description": "Super-fast alternative for babel",

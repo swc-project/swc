@@ -4,14 +4,12 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 
 use anyhow::{anyhow, Error};
 use napi::Env;
-use swc_core::{
-    base::{config::ErrorFormat, try_with_handler},
-    common::{
-        errors::Handler,
-        sync::{Lrc, OnceCell},
-        SourceMap, GLOBALS,
-    },
+use swc_core::common::{
+    errors::Handler,
+    sync::{Lrc, OnceCell},
+    SourceMap, GLOBALS,
 };
+use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;
 use tracing_subscriber::{
@@ -58,19 +56,14 @@ pub fn init_custom_trace_subscriber(
 }
 
 #[instrument(level = "trace", skip_all)]
-pub fn try_with<F, Ret>(
-    cm: Lrc<SourceMap>,
-    skip_filename: bool,
-    _error_format: ErrorFormat,
-    op: F,
-) -> Result<Ret, Error>
+pub fn try_with<F, Ret>(cm: Lrc<SourceMap>, skip_filename: bool, op: F) -> Result<Ret, Error>
 where
     F: FnOnce(&Handler) -> Result<Ret, Error>,
 {
     GLOBALS.set(&Default::default(), || {
         try_with_handler(
             cm,
-            swc_core::base::HandlerOpts {
+            HandlerOpts {
                 skip_filename,
                 ..Default::default()
             },

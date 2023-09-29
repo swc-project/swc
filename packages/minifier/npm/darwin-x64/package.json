@@ -7,9 +7,9 @@
     "cpu": [
         "x64"
     ],
-    "main": "swc.darwin-x64.node",
+    "main": "minifier.darwin-x64.node",
     "files": [
-        "swc.darwin-x64.node",
+        "minifier.darwin-x64.node",
         "swc"
     ],
     "description": "Super-fast alternative for babel",

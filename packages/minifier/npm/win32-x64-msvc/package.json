@@ -7,9 +7,9 @@
     "cpu": [
         "x64"
     ],
-    "main": "swc.win32-x64-msvc.node",
+    "main": "minifier.win32-x64-msvc.node",
     "files": [
-        "swc.win32-x64-msvc.node",
+        "minifier.win32-x64-msvc.node",
         "swc.exe"
     ],
     "description": "Super-fast alternative for babel",
