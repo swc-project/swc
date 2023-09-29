@@ -128,7 +128,6 @@ use common::{
 use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
-use serde::Serialize;
 use serde_json::error::Category;
 pub use sourcemap;
 use swc_common::{
