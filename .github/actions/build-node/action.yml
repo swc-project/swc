@@ -3,6 +3,12 @@ description: "Build a binding for node.js by using `settings` matrix"
 
 runs:
   using: "composite"
+
+  inputs:
+    package:
+      description: "Package name"
+      required: true
+
   steps:
     - name: Setup node x64
       uses: actions/setup-node@v3
