@@ -1,10 +1,6 @@
-#![cfg_attr(
-    any(not(any(feature = "plugin")), target_arch = "wasm32"),
-    allow(unused)
-)]
 use std::{
     collections::{HashMap, HashSet},
-    env, fmt,
+    env,
     path::{Path, PathBuf},
     sync::Arc,
     usize,
@@ -16,18 +12,16 @@ use either::Either;
 use indexmap::IndexMap;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use serde::{
-    de::{Unexpected, Visitor},
-    Deserialize, Deserializer, Serialize, Serializer,
-};
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
+#[allow(unused)]
+use swc_common::plugin::metadata::TransformPluginMetadataContext;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet, ARandomState},
     comments::{Comments, SingleThreadedComments},
     errors::Handler,
-    plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
 };
 pub use swc_compiler_base::{IsModule, SourceMapsConfig};
@@ -41,15 +35,11 @@ use swc_ecma_lints::{
     config::LintConfig,
     rules::{lint_to_fold, LintParams},
 };
-use swc_ecma_loader::{
-    resolvers::{lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver},
-    TargetEnv,
+use swc_ecma_loader::resolvers::{
+    lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 pub use swc_ecma_minifier::js::*;
-use swc_ecma_minifier::option::{
-    terser::{TerserCompressorOptions, TerserEcmaVersion, TerserTopLevelOptions},
-    MangleOptions,
-};
+use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};

@@ -120,7 +120,6 @@ use std::{
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
-use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
@@ -154,7 +153,8 @@ use url::Url;
 
 pub use crate::builder::PassBuilder;
 use crate::config::{
-    BuiltInput, Config, ConfigFile, InputSourceMap, Options, Rc, RootMode, SourceMapsConfig,
+    BuiltInput, Config, ConfigFile, InputSourceMap, IsModule, JsMinifyCommentOption,
+    JsMinifyOptions, Options, OutputCharset, Rc, RootMode, SourceMapsConfig,
 };
 
 mod builder;
