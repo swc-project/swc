@@ -32,17 +32,11 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-              cp ./bindings/target/release/swc .
-              chmod +x ./swc
-              yarn build
-              strip -x *.node
+              (cd packages/minifier && yarn build)
+              (cd packages/minifier && strip -x *.node)
           - host: windows-latest
             build: |
-              export CARGO_PROFILE_RELEASE_LTO=false
-              yarn build
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-              cp ./bindings/target/release/swc .
+              (cd packages/minifier && yarn build)
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
