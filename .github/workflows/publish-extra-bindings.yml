@@ -1,4 +1,4 @@
-name: Publish (minifier)
+name: Publish (extra-bindings)
 
 env:
   DEBUG: napi:*
@@ -468,7 +468,6 @@ jobs:
         run: |
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          npm publish --access public
           (cd ./packages/minifier && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
