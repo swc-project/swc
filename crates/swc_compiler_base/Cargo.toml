@@ -13,6 +13,7 @@ version       = "0.1.0"
 node = ["napi", "napi-derive"]
 
 [dependencies]
+serde = { version = "1.0.188", features = ["derive"] }
 
     [dependencies.napi-derive]
     default-features = false
