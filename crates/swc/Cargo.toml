@@ -105,6 +105,7 @@ swc_plugin_proxy = { version = "0.38.1", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "0.102.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.20.1", path = "../swc_timer" }
 swc_visit = { version = "0.5.7", path = "../swc_visit" }
+swc_compiler_base = { version = "0.1.0", path = "../swc_compiler_base" }
 
 
   [dependencies.napi-derive]
