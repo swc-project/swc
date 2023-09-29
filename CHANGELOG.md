@@ -8,6 +8,9 @@
 - **(es/compat)** Use return statements for method and setter decorator (#8017) ([38bc710](https://github.com/swc-project/swc/commit/38bc71006ed6f46c0145e07acccce75f7be26553))
 
 
+- **(es/module)** Sort the exported ESM bindings (#8024) ([990ca06](https://github.com/swc-project/swc/commit/990ca06aca3242a789e165f4318c95d0bb64b02e))
+
+
 - **(es/typescript)** Rename wrong `unresolved_mark` (#8018) ([5817268](https://github.com/swc-project/swc/commit/58172689ce7f8dd2f0a79d8771c52fe309880b44))
 
 ### Features
