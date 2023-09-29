@@ -4,13 +4,10 @@ use std::panic::{catch_unwind, AssertUnwindSafe};
 
 use anyhow::{anyhow, Error};
 use napi::Env;
-use swc_core::{
-    base::{config::ErrorFormat, try_with_handler},
-    common::{
-        errors::Handler,
-        sync::{Lrc, OnceCell},
-        SourceMap, GLOBALS,
-    },
+use swc_core::common::{
+    errors::Handler,
+    sync::{Lrc, OnceCell},
+    SourceMap, GLOBALS,
 };
 use tracing::instrument;
 use tracing_chrome::ChromeLayerBuilder;

@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use anyhow::Error;
 use napi::{
     bindgen_prelude::{AbortSignal, AsyncTask, Buffer},
     Task,
@@ -51,7 +52,163 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
 
     let fm = input.to_file(cm.clone());
 
-    try_with(cm.clone(), false, |handler| {}).convert_err()
+    try_with(cm.clone(), false, |handler| {
+        let target = options.ecma.clone().into();
+
+        let (source_map, orig) = options
+            .source_map
+            .as_ref()
+            .map(|obj| -> Result<_, Error> {
+                let orig = obj
+                    .content
+                    .as_ref()
+                    .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
+                let orig = match orig {
+                    Some(v) => Some(v?),
+                    None => None,
+                };
+                Ok((SourceMapsConfig::Bool(true), orig))
+            })
+            .unwrap_as_option(|v| {
+                Some(Ok(match v {
+                    Some(true) => (SourceMapsConfig::Bool(true), None),
+                    _ => (SourceMapsConfig::Bool(false), None),
+                }))
+            })
+            .unwrap()?;
+
+        let mut min_opts = MinifyOptions {
+            compress: options
+                .compress
+                .clone()
+                .unwrap_as_option(|default| match default {
+                    Some(true) | None => Some(Default::default()),
+                    _ => None,
+                })
+                .map(|v| v.into_config(self.cm.clone())),
+            mangle: options
+                .mangle
+                .clone()
+                .unwrap_as_option(|default| match default {
+                    Some(true) | None => Some(Default::default()),
+                    _ => None,
+                }),
+            ..Default::default()
+        };
+
+        // top_level defaults to true if module is true
+
+        // https://github.com/swc-project/swc/issues/2254
+
+        if options.module {
+            if let Some(opts) = &mut min_opts.compress {
+                if opts.top_level.is_none() {
+                    opts.top_level = Some(TopLevelOptions { functions: true });
+                }
+            }
+
+            if let Some(opts) = &mut min_opts.mangle {
+                if opts.top_level.is_none() {
+                    opts.top_level = Some(true);
+                }
+            }
+        }
+
+        if options.keep_fnames {
+            if let Some(opts) = &mut min_opts.compress {
+                opts.keep_fnames = true;
+            }
+            if let Some(opts) = &mut min_opts.mangle {
+                opts.keep_fn_names = true;
+            }
+        }
+
+        let comments = SingleThreadedComments::default();
+
+        let module = self
+            .parse_js(
+                fm.clone(),
+                handler,
+                target,
+                Syntax::Es(EsConfig {
+                    jsx: true,
+                    decorators: true,
+                    decorators_before_export: true,
+                    import_attributes: true,
+                    ..Default::default()
+                }),
+                IsModule::Bool(options.module),
+                Some(&comments),
+            )
+            .context("failed to parse input file")?;
+
+        let source_map_names = if source_map.enabled() {
+            let mut v = IdentCollector {
+                names: Default::default(),
+            };
+
+            module.visit_with(&mut v);
+
+            v.names
+        } else {
+            Default::default()
+        };
+
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        let is_mangler_enabled = min_opts.mangle.is_some();
+
+        let module = self.run_transform(handler, false, || {
+            let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+            let mut module = swc_ecma_minifier::optimize(
+                module,
+                self.cm.clone(),
+                Some(&comments),
+                None,
+                &min_opts,
+                &swc_ecma_minifier::option::ExtraOptions {
+                    unresolved_mark,
+                    top_level_mark,
+                },
+            );
+
+            if !is_mangler_enabled {
+                module.visit_mut_with(&mut hygiene())
+            }
+            module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
+        });
+
+        let preserve_comments = options
+            .format
+            .comments
+            .clone()
+            .into_inner()
+            .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
+        minify_file_comments(&comments, preserve_comments);
+
+        self.print(
+            &module,
+            Some(&fm.name.to_string()),
+            options.output_path.clone().map(From::from),
+            options.inline_sources_content,
+            source_map,
+            &source_map_names,
+            orig.as_ref(),
+            Some(&comments),
+            options.emit_source_map_columns,
+            &options.format.preamble,
+            swc_ecma_codegen::Config::default()
+                .with_target(target)
+                .with_minify(true)
+                .with_ascii_only(options.format.ascii_only)
+                .with_emit_assert_for_import_attributes(
+                    options.format.emit_assert_for_import_attributes,
+                ),
+        )
+    })
+    .convert_err()
 }
 
 #[napi]
