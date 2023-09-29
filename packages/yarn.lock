@@ -81,15 +81,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^2.16.3":
-  version: 2.16.3
-  resolution: "@napi-rs/cli@npm:2.16.3"
-  bin:
-    napi: scripts/index.js
-  checksum: 11f78b09548bc5c22df56e4fab4a87b68c2d3f2a18a55cf11e775e6a4cb5739ec0e21a14e614db2cdc2b9773cb42536c6bd00c3f85d3b461f956594f8a89ddcb
-  languageName: node
-  linkType: hard
-
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -117,9 +108,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/counter@^0.1.1, @swc/counter@workspace:download-counter":
+"@swc/counter@^0.1.1, @swc/counter@workspace:counter":
   version: 0.0.0-use.local
-  resolution: "@swc/counter@workspace:download-counter"
+  resolution: "@swc/counter@workspace:counter"
   languageName: unknown
   linkType: soft
 
@@ -139,7 +130,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc/minifier@workspace:minifier"
   dependencies:
-    "@napi-rs/cli": ^2.16.3
     "@swc/counter": ^0.1.1
     typescript: ^5.2.2
   languageName: unknown
@@ -692,7 +682,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=85af82"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
