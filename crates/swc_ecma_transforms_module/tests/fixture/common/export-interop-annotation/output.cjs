@@ -3,8 +3,8 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    useRouter: null,
-    default: null
+    default: null,
+    useRouter: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -13,11 +13,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    useRouter: function() {
-        return useRouter;
-    },
     default: function() {
         return _default;
+    },
+    useRouter: function() {
+        return useRouter;
     }
 });
 function useRouter() {}

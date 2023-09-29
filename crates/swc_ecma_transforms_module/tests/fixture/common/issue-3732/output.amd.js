@@ -15,11 +15,11 @@ define([
         });
     }
     _export(exports, {
-        get: function() {
-            return _get;
-        },
         byID: function() {
             return byID;
+        },
+        get: function() {
+            return _get;
         }
     });
     _get = /*#__PURE__*/ _interop_require_wildcard(_get);

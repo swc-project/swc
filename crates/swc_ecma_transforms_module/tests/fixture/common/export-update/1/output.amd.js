@@ -13,9 +13,6 @@ define([
         });
     }
     _export(exports, {
-        foo: function() {
-            return foo;
-        },
         bar: function() {
             return bar;
         },
@@ -24,6 +21,9 @@ define([
         },
         bazbar: function() {
             return baz;
+        },
+        foo: function() {
+            return foo;
         },
         foobar: function() {
             return foo;
