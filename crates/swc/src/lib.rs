@@ -1050,15 +1050,3 @@ fn parse_swcrc(s: &str) -> Result<Rc, Error> {
         .map(Rc::Single)
         .map_err(convert_json_err)
 }
-
-pub struct IdentCollector {
-    names: AHashMap<BytePos, JsWord>,
-}
-
-impl Visit for IdentCollector {
-    noop_visit_type!();
-
-    fn visit_ident(&mut self, ident: &Ident) {
-        self.names.insert(ident.span.lo, ident.sym.clone());
-    }
-}
