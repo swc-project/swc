@@ -14,17 +14,21 @@ permissions:
   id-token: write
 
 on:
-  push:
-    branches:
-      - ci
-      - ci*
-      - main
-    tags:
-      - v*
+  workflow_dispatch:
+    inputs:
+      package:
+        type: choice
+        description: Package name to publish
+        options:
+          - minifier
+          - html
+          - xml
+      version:
+        description: Must be a valid semver version, and should not start with `v`.
+        required: true
 
 jobs:
   build-node:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     strategy:
       fail-fast: false
       matrix:
@@ -32,14 +36,14 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              (cd packages/minifier && corepack yarn build && strip -x *.node)
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build && strip -x *.node)
           - host: windows-latest
             build: |
-              (cd packages/minifier && yarn build)
+              (cd packages/${{ github.event.inputs.package }} && yarn build)
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
-              (cd packages/minifier && corepack yarn build --target i686-pc-windows-msvc)
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target i686-pc-windows-msvc)
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
@@ -47,7 +51,7 @@ jobs:
             build: >-
               set -e &&
               unset CC_x86_64_unknown_linux_gnu && unset CC &&
-              (cd packages/minifier && corepack yarn build --target x86_64-unknown-linux-gnu && strip minifier.linux-x64-gnu.node)
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target x86_64-unknown-linux-gnu && strip ${{ github.event.inputs.package }}.linux-x64-gnu.node)
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             # musl build is slow, let's disable the LTO
@@ -55,8 +59,8 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              (cd packages/minifier && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' corepack yarn build &&
-              llvm-strip -x minifier.linux-x64-musl.node)
+              (cd packages/${{ github.event.inputs.package }} && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' corepack yarn build &&
+              llvm-strip -x ${{ github.event.inputs.package }}.linux-x64-musl.node)
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -65,7 +69,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              (cd packages/minifier && corepack yarn build --target=aarch64-apple-darwin && strip -x *.node)
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target=aarch64-apple-darwin && strip -x *.node)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -74,8 +78,8 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
-              (cd packages/minifier && corepack yarn build --target aarch64-unknown-linux-gnu &&
-              llvm-strip -x minifier.linux-arm64-gnu.node)
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target aarch64-unknown-linux-gnu &&
+              llvm-strip -x ${{ github.event.inputs.package }}.linux-arm64-gnu.node)
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
@@ -83,7 +87,7 @@ jobs:
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
             # Use napi to build cli binary here to use zig as linker
             build: |
-              (cd packages/minifier && corepack yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip minifier.linux-arm-gnueabihf.node)
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip ${{ github.event.inputs.package }}.linux-arm-gnueabihf.node)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
@@ -92,15 +96,15 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              (cd packages/minifier && env RUSTFLAGS='-C target-feature=-crt-static' corepack yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip minifier.linux-arm64-musl.node)
+              (cd packages/${{ github.event.inputs.package }} && env RUSTFLAGS='-C target-feature=-crt-static' corepack yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip ${{ github.event.inputs.package }}.linux-arm64-musl.node)
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
             build: |
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
-              (cd packages/minifier && corepack yarn build --target aarch64-pc-windows-msvc)
-    name: stable - ${{ matrix.settings.target }} - node@18
+              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target aarch64-pc-windows-msvc)
+    name: "Build: ${{ matrix.package }} - ${{ matrix.settings.target }}"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
@@ -137,7 +141,7 @@ jobs:
 
       - name: Install node dependencies
         shell: bash
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
 
       - name: Setup toolchain
@@ -164,20 +168,19 @@ jobs:
         run: ${{ matrix.settings.build }}
         shell: bash
 
-      - run: ls -al ./packages/minifier
+      - run: ls -al ./packages/${{ github.event.inputs.package }}
         shell: bash
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: |
-            minifier-${{ matrix.settings.target }}
+            ${{ github.event.inputs.package }}-${{ matrix.settings.target }}
           path: |
-            ./packages/minifier/minifier*
+            ./packages/${{ github.event.inputs.package }}/${{ github.event.inputs.package }}*
           if-no-files-found: error
 
   test-macOS-windows-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
     needs:
       - build-node
@@ -199,24 +202,23 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: minifier-${{ matrix.settings.target }}
-          path: "./packages/minifier"
+          name: ${{ github.event.inputs.package }}-${{ matrix.settings.target }}
+          path: "./packages/${{ github.event.inputs.package }}"
       - name: List packages
-        run: ls -R ./packages/minifier
+        run: ls -R ./packages/${{ github.event.inputs.package }}
         shell: bash
       - name: Build TypeScript
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
       - name: Test bindings
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn test
   test-linux-x64-gnu-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
       - build-node
@@ -236,25 +238,24 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: minifier-x86_64-unknown-linux-gnu
-          path: "./packages/minifier"
+          name: ${{ github.event.inputs.package }}-x86_64-unknown-linux-gnu
+          path: "./packages/${{ github.event.inputs.package }}"
       - name: List packages
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
 
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc/packages/minifier node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc/packages/${{ github.event.inputs.package }} node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
   test-linux-x64-musl-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
       - build-node
@@ -273,24 +274,23 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
       - name: Install dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: minifier-x86_64-unknown-linux-musl
-          path: "./packages/minifier"
+          name: ${{ github.event.inputs.package }}-x86_64-unknown-linux-musl
+          path: "./packages/${{ github.event.inputs.package }}"
       - name: List packages
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: ls -R .
         shell: bash
       - name: Build TypeScript
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
       - name: Test bindings
-        run: docker run --rm -v $(pwd):/swc -w /swc/packages/minifier node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc/packages/${{ github.event.inputs.package }} node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
   test-linux-aarch64-musl-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
     needs:
       - build-node
@@ -300,17 +300,17 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: minifier-aarch64-unknown-linux-musl
-          path: "./packages/minifier"
+          name: ${{ github.event.inputs.package }}-aarch64-unknown-linux-musl
+          path: "./packages/${{ github.event.inputs.package }}"
       - name: List packages
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: ls -R .
         shell: bash
       - name: Install dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
       - name: Build TypeScript
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -324,9 +324,8 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test)
+            (cd "./packages/${{ github.event.inputs.package }}" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test)
   test-linux-arm-gnueabihf-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
     needs:
       - build-node
@@ -343,17 +342,17 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: minifier-armv7-unknown-linux-gnueabihf
-          path: "./packages/minifier"
+          name: ${{ github.event.inputs.package }}-armv7-unknown-linux-gnueabihf
+          path: "./packages/${{ github.event.inputs.package }}"
       - name: List packages
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: ls -R .
         shell: bash
       - name: Install dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
       - name: Build TypeScript
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -367,11 +366,9 @@ jobs:
           options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test &&
+            (cd "./packages/${{ github.event.inputs.package }}" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test &&
             ls -la)
-  publish:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-
+  publish-node:
     name: npm
     runs-on: ubuntu-latest
     needs:
@@ -389,35 +386,35 @@ jobs:
           node-version: 18
 
       - name: Set release name
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+        run: echo "RELEASE_VERSION=${{ github.event.inputs.package }}@v${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
       - name: Install dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: ./packages/minifier/artifacts
+          path: ./packages/${{ github.event.inputs.package }}/artifacts
 
       - name: List binaries
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: ls -R artifacts
         shell: bash
 
       - name: Move binaries
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         shell: bash
         run: |
           npm run artifacts
 
       - name: List npm
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         run: ls -R ./scripts/npm
         shell: bash
 
       - name: Set fallback dependencies
-        working-directory: "./packages/minifier"
+        working-directory: "./packages/${{ github.event.inputs.package }}"
         shell: bash
         run: |
           node ./scripts/update_fallback_dependencies.js
@@ -426,7 +423,7 @@ jobs:
         run: |
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-          (cd ./packages/minifier && npm publish --access public)
+          (cd ./packages/${{ github.event.inputs.package }} && npm publish --access public)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

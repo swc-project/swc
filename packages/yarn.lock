@@ -117,6 +117,32 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@swc-lab/html@workspace:html":
+  version: 0.0.0-use.local
+  resolution: "@swc-lab/html@workspace:html"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@swc-lab/xml@workspace:xml":
+  version: 0.0.0-use.local
+  resolution: "@swc-lab/xml@workspace:xml"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@swc/counter@^0.1.1, @swc/counter@workspace:counter":
   version: 0.0.0-use.local
   resolution: "@swc/counter@workspace:counter"
@@ -748,7 +774,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=85af82"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver

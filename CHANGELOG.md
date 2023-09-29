@@ -34,6 +34,9 @@
 
 - **(ci)** Prepare `@swc/minifier` (#8027) ([8214b9e](https://github.com/swc-project/swc/commit/8214b9ed4e214dc6a52e7d2c80cd3b8ca87d3a12))
 
+
+- **(ci)** Expose more crates to JS (#8033) ([186ecfa](https://github.com/swc-project/swc/commit/186ecfadb55430405d1a4e1400574a6e958f9458))
+
 ### Refactor
 
 
