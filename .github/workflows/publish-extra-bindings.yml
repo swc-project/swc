@@ -211,10 +211,10 @@ jobs:
         shell: bash
       - name: Build TypeScript
         working-directory: "./packages/minifier"
-        run: yarn build:ts
+        run: corepack yarn build:ts
       - name: Test bindings
         working-directory: "./packages/minifier"
-        run: yarn test
+        run: corepack yarn test
   test-linux-x64-gnu-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
@@ -249,10 +249,10 @@ jobs:
         shell: bash
       - name: Build TypeScript
         working-directory: "./packages/minifier"
-        run: yarn build:ts
+        run: corepack yarn build:ts
       - name: Test bindings
         working-directory: "./packages/minifier"
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
   test-linux-x64-musl-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
@@ -286,10 +286,10 @@ jobs:
         shell: bash
       - name: Build TypeScript
         working-directory: "./packages/minifier"
-        run: yarn build:ts
+        run: corepack yarn build:ts
       - name: Test bindings
         working-directory: "./packages/minifier"
-        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true yarn test
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
   test-linux-aarch64-musl-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
@@ -312,7 +312,7 @@ jobs:
         run: corepack yarn
       - name: Build TypeScript
         working-directory: "./packages/minifier"
-        run: yarn build:ts
+        run: corepack yarn build:ts
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -325,7 +325,7 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true yarn test)
+            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test)
   test-linux-arm-gnueabihf-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -355,7 +355,7 @@ jobs:
         run: corepack yarn
       - name: Build TypeScript
         working-directory: "./packages/minifier"
-        run: yarn build:ts
+        run: corepack yarn build:ts
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -368,7 +368,7 @@ jobs:
           options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
+            (cd "./packages/minifier" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test &&
             ls -la)
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
