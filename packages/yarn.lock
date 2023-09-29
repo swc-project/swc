@@ -141,12 +141,13 @@ __metadata:
   dependencies:
     "@napi-rs/cli": ^2.16.3
     "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
     "@types/node": ^20.7.1
     typescript: ^5.2.2
   languageName: unknown
   linkType: soft
 
-"@swc/types@workspace:types":
+"@swc/types@workspace:^, @swc/types@workspace:types":
   version: 0.0.0-use.local
   resolution: "@swc/types@workspace:types"
   dependencies:
