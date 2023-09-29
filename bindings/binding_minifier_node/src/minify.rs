@@ -27,8 +27,8 @@ use swc_core::{
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
         visit::{FoldWith, VisitMutWith, VisitWith},
     },
-    node::{deserialize_json, get_deserialized, MapErr},
 };
+use swc_nodejs_common::{deserialize_json, get_deserialized, MapErr};
 
 use crate::util::try_with;
 
