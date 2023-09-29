@@ -132,11 +132,13 @@ jobs:
         with:
           version: 0.10.1
 
+      - shell: bash
+        run: corepack enable
+
       - name: Install node dependencies
         shell: bash
-        working-directory: "./packages"
+        working-directory: "./packages/minifier"
         run: |
-          corepack enable
           yarn
 
       - name: Setup toolchain
