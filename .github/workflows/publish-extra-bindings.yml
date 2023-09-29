@@ -35,8 +35,8 @@ jobs:
           BRANCH: ${{ github.ref_name }}
         run: |
           arr=($BRANCH)
-          echo "::set-output name=package::${arr[0]}"
-          echo "::set-output name=version::${arr[1]#v}"
+          echo "package=${arr[0]}" >> $GITHUB_OUTPUT
+          echo "version=${arr[1]#v}" >> $GITHUB_OUTPUT
 
   build-node:
     needs:
