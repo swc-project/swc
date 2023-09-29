@@ -135,6 +135,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@swc/html@workspace:html":
+  version: 0.0.0-use.local
+  resolution: "@swc/html@workspace:html"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
 "@swc/minifier@workspace:minifier":
   version: 0.0.0-use.local
   resolution: "@swc/minifier@workspace:minifier"
@@ -161,6 +174,19 @@ __metadata:
   resolution: "@swc/workspace@workspace:."
   dependencies:
     prettier: ^3.0.3
+  languageName: unknown
+  linkType: soft
+
+"@swc/xml@workspace:xml":
+  version: 0.0.0-use.local
+  resolution: "@swc/xml@workspace:xml"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
   languageName: unknown
   linkType: soft
 
@@ -748,7 +774,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=85af82"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=a1c5e5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
