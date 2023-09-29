@@ -24,9 +24,9 @@ on:
 jobs:
   determine-work:
     outputs:
-      run: ${{ steps.split.outputs.test }}
-      package: ${{ steps.split.outputs.test }}
-      version: ${{ steps.split.outputs.test }}
+      run: ${{ steps.split.outputs.tesrunt }}
+      package: ${{ steps.split.outputs.package }}
+      version: ${{ steps.split.outputs.version }}
     runs-on: ubuntu-latest
     steps:
       - name: Split branch name
@@ -46,6 +46,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        package:
+          - minifier
+          - html
+          - css
+
         settings:
           - host: macos-latest
             target: x86_64-apple-darwin
@@ -118,7 +123,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
               (cd packages/minifier && corepack yarn build --target aarch64-pc-windows-msvc)
-    name: stable - ${{ matrix.settings.target }} - node@18
+    name: "Build: ${{ matrix.package }} - ${{ matrix.settings.target }} - node@18"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
