@@ -163,6 +163,10 @@ jobs:
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
         shell: bash
+
+      - run: ls -al ./packages/minifier/artifacts
+        shell: bash
+
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
