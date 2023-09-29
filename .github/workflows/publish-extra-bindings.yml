@@ -14,17 +14,21 @@ permissions:
   id-token: write
 
 on:
-  push:
-    branches:
-      - ci
-      - ci*
-      - main
-    tags:
-      - v*
+  workflow_dispatch:
+    inputs:
+      package:
+        type: choice
+        description: Package name to publish
+        options:
+          - minifier
+          - html
+          - xml
+      version:
+        description: Must be a valid semver version, and should not start with `v`.
+        required: true
 
 jobs:
   build-node:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     strategy:
       fail-fast: false
       matrix:
@@ -100,22 +104,81 @@ jobs:
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
               (cd packages/minifier && corepack yarn build --target aarch64-pc-windows-msvc)
-    name: "Build: ${{ matrix.settings.target }}"
+    name: "Build: ${{ matrix.package }} - ${{ matrix.settings.target }}"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
 
-      - uses: ./.github/actions/build-node
+      - name: Setup node x64
+        uses: actions/setup-node@v3
+        if: matrix.settings.target != 'i686-pc-windows-msvc'
         with:
-          package: "minifier"
+          node-version: 18
+          architecture: x64
 
-      - uses: ./.github/actions/build-node
+      - name: Setup node x86
+        uses: actions/setup-node@v3
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
         with:
-          package: "html"
+          node-version: 18
+          architecture: x86
 
-      - uses: ./.github/actions/build-node
+      - name: Install
+        uses: actions-rs/toolchain@v1
+        if: ${{ !matrix.settings.docker }}
         with:
-          package: "css"
+          profile: minimal
+          override: true
+          target: ${{ matrix.settings.target }}
+
+      - uses: goto-bus-stop/setup-zig@v2
+        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
+        with:
+          version: 0.10.1
+
+      - shell: bash
+        run: corepack enable
+
+      - name: Install node dependencies
+        shell: bash
+        working-directory: "./packages/minifier"
+        run: corepack yarn
+
+      - name: Setup toolchain
+        run: ${{ matrix.settings.setup }}
+        if: ${{ matrix.settings.setup }}
+        shell: bash
+
+      - name: Install dependencies
+        working-directory: "./packages"
+        run: |
+          # curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+          echo '/usr/local/cargo/bin' >> $GITHUB_PATH
+      - name: Build in docker
+        uses: addnab/docker-run-action@v3
+        if: ${{ matrix.settings.docker }}
+        with:
+          image: ${{ matrix.settings.docker }}
+          options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
+          run: >-
+            yarn global add wasm-pack &&
+            ${{ matrix.settings.build }}
+      - name: Build
+        if: ${{ !matrix.settings.docker }}
+        run: ${{ matrix.settings.build }}
+        shell: bash
+
+      - run: ls -al ./packages/minifier
+        shell: bash
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: |
+            minifier-${{ matrix.settings.target }}
+          path: |
+            ./packages/minifier/minifier*
+          if-no-files-found: error
 
   test-macOS-windows-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
