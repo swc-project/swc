@@ -591,7 +591,11 @@ impl Options {
 
                 let plugin_resolver = CachingResolver::new(
                     40,
-                    NodeModulesResolver::new(TargetEnv::Node, Default::default(), true),
+                    NodeModulesResolver::new(
+                        swc_ecma_loader::TargetEnv::Node,
+                        Default::default(),
+                        true,
+                    ),
                 );
 
                 if let Some(plugins) = &experimental.plugins {
