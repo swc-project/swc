@@ -386,8 +386,6 @@ jobs:
       - name: Move binaries
         shell: bash
         run: |
-          ./scripts/cli_artifacts.sh
-          ls -R ./artifacts_cli
           npm run artifacts
 
       - name: List npm
@@ -407,11 +405,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Upload CLI binaries to gh release
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
-        run: |
-          ./scripts/cli_upload_gh_release.sh
