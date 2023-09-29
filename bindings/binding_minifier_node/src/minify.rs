@@ -6,18 +6,14 @@ use napi::{
 };
 use serde::Deserialize;
 use swc_core::{
-    base::{
-        config::{ErrorFormat, JsMinifyOptions},
-        TransformOutput,
-    },
     common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
+    ecma::minifier::js::JsMinifyOptions,
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
-use crate::{get_compiler, util::try_with};
+use crate::{get_compiler, util::try_with, TransformOutput};
 
 struct MinifyTask {
-    c: Arc<swc_core::base::Compiler>,
     code: String,
     options: String,
 }
@@ -48,6 +44,12 @@ impl MinifyTarget {
             }
         }
     }
+}
+
+fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<TransformOutput> {
+    let cm: Arc<SourceMap> = Arc::default();
+
+    try_with(cm.clone(), false, ErrorFormat::Normal, |handler| {}).convert_err()
 }
 
 #[napi]
