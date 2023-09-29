@@ -3365,14 +3365,10 @@ to!(
             throw new Error();
         }
         util.assertNever = assertNever;
-        const arrayToEnum = util.arrayToEnum = (items)=>{
-        };
-        const getValidEnumValues = util.getValidEnumValues = (obj)=>{
-        };
-        const getValues = util.getValues = (obj)=>{
-        };
-        const objectValues = util.objectValues = (obj)=>{
-        };
+        util.arrayToEnum = (items)=>{};
+        util.getValidEnumValues = (obj)=>{};
+        util.getValues = (obj)=>{};
+        util.objectValues = (obj)=>{};
     })(util || (util = {}));
     "
 );
@@ -3389,7 +3385,7 @@ to!(
     export var util;
     (function (util) {
         const c = 3;
-        const [a, b] =  [util.a, util.b] = [1, 2, 3];
+        [util.a, util.b] = [1, 2, 3];
     })(util || (util = {}));
     "
 );
@@ -3435,7 +3431,7 @@ to!(
     var Test;
     (function (Test) {
         (function (Inner) {
-            const c = Inner.c = 3;
+            Inner.c = 3;
         })(Test.Inner || (Test.Inner = {}));
     })(Test || (Test = {}));
     "
@@ -3490,7 +3486,7 @@ to!(
         })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
         let MyInnerNamespace;
         (function (MyInnerNamespace) {
-            const Dec2 = MyInnerNamespace.Dec2 = 2;
+            MyInnerNamespace.Dec2 = 2;
         })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
     (function (MyNamespace) {
@@ -3524,8 +3520,8 @@ to!(
     })(A || (A = {}));
     var B;
     (function (B) {
-        const a = B.a = A;
-        console.log(a.Test);
+        B.a = A;
+        console.log(B.a.Test);
         const b = A;
         console.log(b.Test);
     })(B || (B = {}));

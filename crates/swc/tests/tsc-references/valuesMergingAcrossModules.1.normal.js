@@ -6,7 +6,7 @@ import { A } from "./a";
 //// [c.ts]
 var A;
 (function(A) {
-    var displayName = A.displayName = "A";
+    A.displayName = "A";
 })(A || (A = {}));
 A();
 A.displayName;

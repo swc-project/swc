@@ -39,7 +39,7 @@ Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./
 const x = 1; // error
 var Values;
 (function(Values) {
-    const x = Values.x = 1;
+    Values.x = 1;
 })(Values || (Values = {}));
  // sketchy, but ok
 //// [/main2.ts]
@@ -51,7 +51,7 @@ module.exports = {
 "use strict";
 var ns;
 (function(ns) {
-    const x = ns.x = 1;
+    ns.x = 1;
 })(ns || (ns = {}));
 module.exports = ns;
 //// [/main4.ts]

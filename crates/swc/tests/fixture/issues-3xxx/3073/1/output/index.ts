@@ -1,7 +1,7 @@
 var n;
 (function(n) {
     var ref;
-    var a = (ref = {
+    ref = {
         a: 1
-    }, n.a = ref.a, ref).a;
+    }, n.a = ref.a, ref;
 })(n || (n = {}));
