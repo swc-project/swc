@@ -8,6 +8,9 @@
 - **(es/compat)** Use return statements for method and setter decorator (#8017) ([38bc710](https://github.com/swc-project/swc/commit/38bc71006ed6f46c0145e07acccce75f7be26553))
 
 
+- **(es/compat)** Generate `OptCall` for `OptCall` for private fields (#8031) ([06b6eb9](https://github.com/swc-project/swc/commit/06b6eb999964c25a964b0105bd7a4f20b51300dd))
+
+
 - **(es/module)** Sort the exported ESM bindings (#8024) ([990ca06](https://github.com/swc-project/swc/commit/990ca06aca3242a789e165f4318c95d0bb64b02e))
 
 
@@ -36,6 +39,9 @@
 
 
 - **(ci)** Expose more crates to JS (#8033) ([186ecfa](https://github.com/swc-project/swc/commit/186ecfadb55430405d1a4e1400574a6e958f9458))
+
+
+- **(ci)** Remove wrong `if`s ([dec68c3](https://github.com/swc-project/swc/commit/dec68c32126e38066feb813fce4635e7d40a8429))- **general**: Fix yarn lockfile ([7f91274](https://github.com/swc-project/swc/commit/7f9127420867cba856faa4ede8ef62ec3146e382))
 
 ### Refactor
 
