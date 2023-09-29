@@ -138,8 +138,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         working-directory: "./packages/minifier"
-        run: |
-          yarn
+        run: corepack yarn
 
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
