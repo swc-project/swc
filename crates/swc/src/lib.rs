@@ -112,7 +112,6 @@ pub extern crate swc_atoms as atoms;
 extern crate swc_common as common;
 
 use std::{
-    env,
     fs::{read_to_string, File},
     path::{Path, PathBuf},
     sync::Arc,
@@ -120,35 +119,25 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
-use common::{
-    collections::AHashMap,
-    comments::{CommentKind, SingleThreadedComments},
-    errors::HANDLER,
-};
+use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
 use config::{IsModule, JsMinifyCommentOption, JsMinifyOptions, OutputCharset};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
 pub use sourcemap;
 use swc_common::{
-    chain,
-    comments::{Comment, Comments},
-    errors::Handler,
-    source_map::SourceMapGenConfig,
-    sync::Lrc,
-    BytePos, FileName, Mark, SourceFile, SourceMap, Spanned, GLOBALS,
+    chain, comments::Comments, errors::Handler, sync::Lrc, BytePos, FileName, Mark, SourceFile,
+    SourceMap, Spanned, GLOBALS,
 };
-pub use swc_compiler_base::{SourceMapsConfig, TransformOutput};
+pub use swc_compiler_base::TransformOutput;
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
-use swc_ecma_ast::{EsVersion, Ident, Program};
-use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter, Node};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_codegen::{self, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
-use swc_ecma_parser::{
-    parse_file_as_module, parse_file_as_program, parse_file_as_script, EsConfig, Syntax,
-};
+use swc_ecma_parser::{EsConfig, Syntax};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
@@ -157,7 +146,7 @@ use swc_ecma_transforms::{
     pass::noop,
     resolver,
 };
-use swc_ecma_visit::{noop_visit_type, FoldWith, Visit, VisitMutWith, VisitWith};
+use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;

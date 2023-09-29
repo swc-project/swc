@@ -30,7 +30,7 @@ use swc_common::{
     plugin::metadata::TransformPluginMetadataContext,
     FileName, Mark, SourceMap, SyntaxContext,
 };
-pub use swc_compiler_base::IsModule;
+pub use swc_compiler_base::{IsModule, SourceMapsConfig};
 use swc_config::{
     config_types::{BoolConfig, BoolOr, BoolOrDataConfig, MergingOption},
     merge::Merge,

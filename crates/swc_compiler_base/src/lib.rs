@@ -1,24 +1,28 @@
 use std::{
-    env,
+    env, fmt,
     path::{Path, PathBuf},
 };
 
 use anyhow::{Context, Error};
-use serde::{Deserialize, Serialize};
+use serde::{
+    de::{Unexpected, Visitor},
+    Deserialize, Deserializer, Serialize, Serializer,
+};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
-    comments::{Comments, SingleThreadedComments},
+    comments::{Comment, CommentKind, Comments, SingleThreadedComments},
     errors::Handler,
     source_map::SourceMapGenConfig,
     sync::Lrc,
     BytePos, FileName, SourceFile, SourceMap,
 };
-use swc_config::config_types::BoolOr;
-use swc_ecma_ast::{EsVersion, Program};
+use swc_config::{config_types::BoolOr, merge::Merge};
+use swc_ecma_ast::{EsVersion, Ident, Program};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter, Node};
+use swc_ecma_minifier::js::JsMinifyCommentOption;
 use swc_ecma_parser::{parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax};
-use swc_ecma_visit::VisitWith;
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 #[cfg(feature = "node")]
