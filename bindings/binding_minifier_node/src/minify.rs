@@ -6,9 +6,20 @@ use napi::{
     Task,
 };
 use serde::Deserialize;
+use swc_config::config_types::BoolOr;
 use swc_core::{
-    common::{collections::AHashMap, sync::Lrc, FileName, SourceFile, SourceMap},
-    ecma::minifier::js::JsMinifyOptions,
+    base::config::JsMinifyCommentOption,
+    common::{
+        collections::AHashMap,
+        comments::{Comments, SingleThreadedComments},
+        sync::Lrc,
+        FileName, Mark, SourceFile, SourceMap,
+    },
+    ecma::{
+        minifier::{js::JsMinifyOptions, option::MinifyOptions},
+        transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
+        visit::{FoldWith, VisitMutWith},
+    },
     node::{deserialize_json, get_deserialized, MapErr},
 };
 
@@ -85,7 +96,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
                     Some(true) | None => Some(Default::default()),
                     _ => None,
                 })
-                .map(|v| v.into_config(self.cm.clone())),
+                .map(|v| v.into_config(cm.clone())),
             mangle: options
                 .mangle
                 .clone()
@@ -159,16 +170,16 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
 
         let is_mangler_enabled = min_opts.mangle.is_some();
 
-        let module = self.run_transform(handler, false, || {
+        let module = run_transform(handler, false, || {
             let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-            let mut module = swc_ecma_minifier::optimize(
+            let mut module = swc_core::ecma::minifier::optimize(
                 module,
-                self.cm.clone(),
+                cm.clone(),
                 Some(&comments),
                 None,
                 &min_opts,
-                &swc_ecma_minifier::option::ExtraOptions {
+                &swc_core::ecma::minifier::option::ExtraOptions {
                     unresolved_mark,
                     top_level_mark,
                 },
@@ -177,7 +188,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             if !is_mangler_enabled {
                 module.visit_mut_with(&mut hygiene())
             }
-            module.fold_with(&mut fixer(Some(&comments as &dyn Comments)))
+            module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)))
         });
 
         let preserve_comments = options
@@ -188,7 +199,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             .unwrap_or(BoolOr::Data(JsMinifyCommentOption::PreserveSomeComments));
         minify_file_comments(&comments, preserve_comments);
 
-        self.print(
+        print(
             &module,
             Some(&fm.name.to_string()),
             options.output_path.clone().map(From::from),
@@ -199,7 +210,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             Some(&comments),
             options.emit_source_map_columns,
             &options.format.preamble,
-            swc_ecma_codegen::Config::default()
+            swc_core::ecma::codegen::Config::default()
                 .with_target(target)
                 .with_minify(true)
                 .with_ascii_only(options.format.ascii_only)
