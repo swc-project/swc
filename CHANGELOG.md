@@ -11,6 +11,9 @@
 - **(es/compat)** Generate `OptCall` for `OptCall` for private fields (#8031) ([06b6eb9](https://github.com/swc-project/swc/commit/06b6eb999964c25a964b0105bd7a4f20b51300dd))
 
 
+- **(es/minifier)** Check if object shorthand is skippable for seq inliner (#8036) ([01391e3](https://github.com/swc-project/swc/commit/01391e3c13e42b7f42f80ab13b396cad182942ff))
+
+
 - **(es/module)** Sort the exported ESM bindings (#8024) ([990ca06](https://github.com/swc-project/swc/commit/990ca06aca3242a789e165f4318c95d0bb64b02e))
 
 
@@ -41,7 +44,7 @@
 - **(ci)** Expose more crates to JS (#8033) ([186ecfa](https://github.com/swc-project/swc/commit/186ecfadb55430405d1a4e1400574a6e958f9458))
 
 
-- **(ci)** Remove wrong `if`s ([dec68c3](https://github.com/swc-project/swc/commit/dec68c32126e38066feb813fce4635e7d40a8429))- **general**: Fix yarn lockfile ([7f91274](https://github.com/swc-project/swc/commit/7f9127420867cba856faa4ede8ef62ec3146e382))
+- **(ci)** Remove wrong `if`s ([dec68c3](https://github.com/swc-project/swc/commit/dec68c32126e38066feb813fce4635e7d40a8429))- **general**: Fix yarn lockfile ([7f91274](https://github.com/swc-project/swc/commit/7f9127420867cba856faa4ede8ef62ec3146e382))- **general**: Fix yarn lockfile ([c062536](https://github.com/swc-project/swc/commit/c0625361a1ad7537ca53a157fbdc8599fbbe2a44))
 
 ### Refactor
 
