@@ -16,5 +16,6 @@ git reset --hard
 
 # Update version
 npm version "$version" --no-git-tag-version --allow-same-version
-(cd ./bindings && cargo set-version $version -p binding_core_wasm -p bindings_minifier_wasm)
+(cd ./bindings && cargo set-version $version -p binding_core_wasm)
+(cd ./bindings && cargo set-version $version -p bindings_minifier_wasm)
 (cd ./bindings && cargo set-version --bump patch -p swc_cli)
