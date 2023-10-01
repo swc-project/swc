@@ -229,7 +229,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.3.90"
+version = "1.3.91"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2953,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.78"
+version = "0.91.79"
 dependencies = [
  "anyhow",
  "atty",
