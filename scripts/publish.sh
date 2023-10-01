@@ -17,3 +17,5 @@ npm version "$version" --no-git-tag-version
 (cd ./bindings && cargo set-version --bump patch -p swc_cli)
 
 # Update swc_core
+
+(cd ./bindings && cargo upgrade -p swc_core --help)
