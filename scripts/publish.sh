@@ -18,4 +18,4 @@ npm version "$version" --no-git-tag-version
 
 # Update swc_core
 
-(cd ./bindings && cargo upgrade -p swc_core --help)
+(cd ./bindings && cargo upgrade -p swc_core --recursive false)
