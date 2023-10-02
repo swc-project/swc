@@ -27,9 +27,9 @@ body = """
     \n\n
     {%- for commit in commits %}
         {%- if commit.scope -%}
-        {% else -%}
+        {% else %}
             \n
-            - **general**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+            - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
             {%- if commit.breaking %}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
             {%- endif -%}

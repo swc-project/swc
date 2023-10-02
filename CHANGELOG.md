@@ -2,8 +2,15 @@
 ## [unreleased]
 
 ### Bug Fixes
-- **general**: Fixup
+
+
+
+- Fixup
  ([3fdfddb](https://github.com/swc-project/swc/commit/3fdfddbf026464926bd0615f1bffac9d3258c334))
+
+
+- Fixup
+ ([21c13cd](https://github.com/swc-project/swc/commit/21c13cde33324ec5c3c2a551c3718186d902c76e))
 
 ### Miscellaneous Tasks
 
@@ -56,7 +63,13 @@
 - **(ci)** Expose more crates to JS ([#8033](https://github.com/swc-project/swc/issues/8033)) ([186ecfa](https://github.com/swc-project/swc/commit/186ecfadb55430405d1a4e1400574a6e958f9458))
 
 
-- **(ci)** Remove wrong `if`s ([dec68c3](https://github.com/swc-project/swc/commit/dec68c32126e38066feb813fce4635e7d40a8429))- **general**: Fix yarn lockfile ([7f91274](https://github.com/swc-project/swc/commit/7f9127420867cba856faa4ede8ef62ec3146e382))- **general**: Fix yarn lockfile ([c062536](https://github.com/swc-project/swc/commit/c0625361a1ad7537ca53a157fbdc8599fbbe2a44))
+- **(ci)** Remove wrong `if`s ([dec68c3](https://github.com/swc-project/swc/commit/dec68c32126e38066feb813fce4635e7d40a8429))
+
+
+- Fix yarn lockfile ([7f91274](https://github.com/swc-project/swc/commit/7f9127420867cba856faa4ede8ef62ec3146e382))
+
+
+- Fix yarn lockfile ([c062536](https://github.com/swc-project/swc/commit/c0625361a1ad7537ca53a157fbdc8599fbbe2a44))
 
 ### Refactor
 
@@ -280,7 +293,10 @@
 
 
 
-- **(deps)** Update `memchr` ([#7891](https://github.com/swc-project/swc/issues/7891)) ([01cbd6e](https://github.com/swc-project/swc/commit/01cbd6edbd37c95ece7ca20ad2f6c85d6c1b6e35))- **general**: Use `textarea` for `swc-info` ([eed2903](https://github.com/swc-project/swc/commit/eed290319e4a8128948ce07e76d11a01d2096a8b))
+- **(deps)** Update `memchr` ([#7891](https://github.com/swc-project/swc/issues/7891)) ([01cbd6e](https://github.com/swc-project/swc/commit/01cbd6edbd37c95ece7ca20ad2f6c85d6c1b6e35))
+
+
+- Use `textarea` for `swc-info` ([eed2903](https://github.com/swc-project/swc/commit/eed290319e4a8128948ce07e76d11a01d2096a8b))
 
 ### Performance
 
@@ -306,7 +322,10 @@
 - **(es/module)** Don't resolve as `node_modules` from `TscResolver` ([#7866](https://github.com/swc-project/swc/issues/7866)) ([11ebae1](https://github.com/swc-project/swc/commit/11ebae1bdd2fbd05d908fa560b81b830dddb3c56))
 
 ### Miscellaneous Tasks
-- **general**: Remove unused files ([e47f1c2](https://github.com/swc-project/swc/commit/e47f1c2bf7e1dc9fedf5a364884a40a5e7735973))
+
+
+
+- Remove unused files ([e47f1c2](https://github.com/swc-project/swc/commit/e47f1c2bf7e1dc9fedf5a364884a40a5e7735973))
 
 ## [1.3.79] - 2023-08-25
 
@@ -385,7 +404,10 @@
 - **(common)** Make `ahash` optional ([#7816](https://github.com/swc-project/swc/issues/7816)) ([981d7b1](https://github.com/swc-project/swc/commit/981d7b152b2f488a67d42052152db22225f1d094))
 
 
-- **(es/parser)** Remove needless `unsafe` ([#7818](https://github.com/swc-project/swc/issues/7818)) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))- **general**: Use `ahash` from `swc_common` in more places ([#7815](https://github.com/swc-project/swc/issues/7815)) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88))
+- **(es/parser)** Remove needless `unsafe` ([#7818](https://github.com/swc-project/swc/issues/7818)) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))
+
+
+- Use `ahash` from `swc_common` in more places ([#7815](https://github.com/swc-project/swc/issues/7815)) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88))
 
 ## [1.3.77] - 2023-08-16
 
@@ -1236,7 +1258,10 @@
 - **(testing)** Fix path normalization on windows for testing diffs ([#7299](https://github.com/swc-project/swc/issues/7299)) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
 
 ### Miscellaneous Tasks
-- **general**: Update issue template to prevent useless issues ([#7303](https://github.com/swc-project/swc/issues/7303)) ([9816ba2](https://github.com/swc-project/swc/commit/9816ba27958af07399383fc995c49dc1ed3e3554))
+
+
+
+- Update issue template to prevent useless issues ([#7303](https://github.com/swc-project/swc/issues/7303)) ([9816ba2](https://github.com/swc-project/swc/commit/9816ba27958af07399383fc995c49dc1ed3e3554))
 
 ### Testing
 
@@ -1576,7 +1601,10 @@
 
 
 
-- **(es/resolver)** Make scope context identical to the vars ([#7095](https://github.com/swc-project/swc/issues/7095)) ([0f09e35](https://github.com/swc-project/swc/commit/0f09e356c38268ac10223d0d44dd253949bcbc59))- **general**: Feat(css/minifier) Follow the CSS spec more rigorously ([#6291](https://github.com/swc-project/swc/issues/6291))
+- **(es/resolver)** Make scope context identical to the vars ([#7095](https://github.com/swc-project/swc/issues/7095)) ([0f09e35](https://github.com/swc-project/swc/commit/0f09e356c38268ac10223d0d44dd253949bcbc59))
+
+
+- Feat(css/minifier) Follow the CSS spec more rigorously ([#6291](https://github.com/swc-project/swc/issues/6291))
 
 **Description:**
 
@@ -1630,7 +1658,10 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/lexer)** Use jump table for `skip_space` ([#7073](https://github.com/swc-project/swc/issues/7073)) ([f854d51](https://github.com/swc-project/swc/commit/f854d51343dcbdf43acd87f51e2288a052e39a0b))
 
 ### Refactor
-- **general**: Fix lints using clippy from `nightly-2023-03-13` ([#6920](https://github.com/swc-project/swc/issues/6920)) ([963c460](https://github.com/swc-project/swc/commit/963c46061321fff3a2893da4953c1fd5ec649311))
+
+
+
+- Fix lints using clippy from `nightly-2023-03-13` ([#6920](https://github.com/swc-project/swc/issues/6920)) ([963c460](https://github.com/swc-project/swc/commit/963c46061321fff3a2893da4953c1fd5ec649311))
 
 ## [1.3.40] - 2023-03-13
 
@@ -1697,7 +1728,10 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/transforms)** Handle object shorthand in `const_modules` ([#7022](https://github.com/swc-project/swc/issues/7022)) ([0314869](https://github.com/swc-project/swc/commit/0314869464f59748a6a44980ade4dc1eda39ac3b))
 
 ### Documentation
-- **general**: MSRV ([32bc2f5](https://github.com/swc-project/swc/commit/32bc2f57be06997497d2ad43c2168efb3daaa435))
+
+
+
+- MSRV ([32bc2f5](https://github.com/swc-project/swc/commit/32bc2f57be06997497d2ad43c2168efb3daaa435))
 
 ### Features
 
@@ -1888,7 +1922,10 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/typescript)** Fix handling of non-uppercase JSX elements ([#6928](https://github.com/swc-project/swc/issues/6928)) ([ebc65c7](https://github.com/swc-project/swc/commit/ebc65c7dcba4ccfeb7c0a1e200b5130bc8a15791))
 
 ### Miscellaneous Tasks
-- **general**: Bump swc_css_* ([#6924](https://github.com/swc-project/swc/issues/6924)) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
+
+
+
+- Bump swc_css_* ([#6924](https://github.com/swc-project/swc/issues/6924)) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
 
 ## [1.3.34] - 2023-02-08
 
