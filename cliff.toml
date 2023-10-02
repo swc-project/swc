@@ -23,7 +23,6 @@ body = """
         {%- if commit.breaking %}
         {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
         {%- endif -%}
-        {%- if commit.links %} ({% for link in commit.links %}\n   - [{{link.text}}]({{link.href}}){% endfor -%}){% endif %}\
     {%- endfor -%}
     \n\n
     {%- for commit in commits %}
@@ -34,7 +33,6 @@ body = """
             {%- if commit.breaking %}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
             {%- endif -%}
-            {%- if commit.links %} ({% for link in commit.links %}\n   - [{{link.text}}]({{link.href}}){% endfor -%}){% endif %}\
         {% endif -%}
     {% endfor -%}
     {% raw %}\n{% endraw %}\
@@ -69,7 +67,4 @@ commit_parsers = [
 filter_commits = false
 # glob pattern for matching git tags
 limit_commits = 1000
-link_parsers = [
-    { pattern = "#(\\d+)", href = "https://github.com/swc-project/swc/issues/$1" },
-]
-tag_pattern = "v[0-9]*"
+tag_pattern   = "v[0-9]*"
