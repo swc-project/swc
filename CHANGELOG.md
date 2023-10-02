@@ -1,22 +1,14 @@
 # Changelog
 ## [unreleased]
 
-### Bug Fixes
-
-
-
-- Fixup
- ([3fdfddb](https://github.com/swc-project/swc/commit/3fdfddbf026464926bd0615f1bffac9d3258c334))
-
-
-- Fixup
- ([21c13cd](https://github.com/swc-project/swc/commit/21c13cde33324ec5c3c2a551c3718186d902c76e))
-
 ### Miscellaneous Tasks
 
 
 
 - **(ci)** Fix publish action ([8ddb0da](https://github.com/swc-project/swc/commit/8ddb0dafa25e21020f6378ee4c29fa286654ea30))
+
+
+- **(ci)** Prepare multi-package repository ([#8043](https://github.com/swc-project/swc/issues/8043)) ([f2bc6a3](https://github.com/swc-project/swc/commit/f2bc6a3fcc7367726afe55b4fa4c6bde839fbd70))
 
 ## [1.3.91] - 2023-10-01
 
@@ -1936,6 +1928,12 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(css/modules)** Fix interop of `&` and `:global` ([#6900](https://github.com/swc-project/swc/issues/6900)) ([f85ea9c](https://github.com/swc-project/swc/commit/f85ea9cb570ee9431926fb51559ecd34a701384f))
 
 
+- **(es/minifier)** Don't break ternary with assignment in test ([#6906](https://github.com/swc-project/swc/issues/6906)) ([951dafb](https://github.com/swc-project/swc/commit/951dafbc1a56b8b29fd76aaad8138e58eaadda12))
+
+
+- **(es/module)** Fix SystemJS imports ([#6879](https://github.com/swc-project/swc/issues/6879)) ([85fffda](https://github.com/swc-project/swc/commit/85fffdad022cf1bccf8763e7bb73fb15f62d2430))
+
+
 - **(es/parser)** Don't use `stacker` for armv7 ([#6916](https://github.com/swc-project/swc/issues/6916)) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))
 
 ### Documentation
@@ -1943,6 +1941,12 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(readme)** Split download badge ([#6917](https://github.com/swc-project/swc/issues/6917)) ([d779927](https://github.com/swc-project/swc/commit/d779927b4d00a19b3eb2b6cb792a682cbc006970))
+
+### Features
+
+
+
+- **(bindings/cli)** Support for *.mts/*.cts files ([#6909](https://github.com/swc-project/swc/issues/6909)) ([76bc8a2](https://github.com/swc-project/swc/commit/76bc8a29743edf397c59f5283aaa74a08e8fba57))
 
 ### Testing
 
