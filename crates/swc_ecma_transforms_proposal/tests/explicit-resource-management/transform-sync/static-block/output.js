@@ -2,7 +2,7 @@ class A {
     static{
         try {
             var _stack = [];
-            const x = _using(_stack, y);
+            var x = _using(_stack, y);
             doSomethingWith(x);
         } catch (_) {
             var _error = _;

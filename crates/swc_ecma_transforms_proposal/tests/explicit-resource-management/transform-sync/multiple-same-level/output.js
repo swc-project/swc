@@ -2,11 +2,11 @@
     try {
         var _stack = [];
         stmt;
-        const x = _using(_stack, obj);
+        var x = _using(_stack, obj);
         stmt;
-        const y = _using(_stack, obj), z = _using(_stack, obj);
+        var y = _using(_stack, obj), z = _using(_stack, obj);
         stmt;
-        const w = _using(_stack, obj);
+        var w = _using(_stack, obj);
         doSomethingWith(x, z);
     } catch (_) {
         var _error = _;
