@@ -381,7 +381,7 @@
 - **(common)** Make `ahash` optional (#7816) ([981d7b1](https://github.com/swc-project/swc/commit/981d7b152b2f488a67d42052152db22225f1d094))
 
 
-- **(es/parser)** Remove needless `unsafe` (#7818) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))- **general**: Use `ahash` from `swc_common` in more places (#7815) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88))
+- **(es/parser)** Remove needless `unsafe` (#7818) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))- **general**: Use `ahash` from `swc_common` in more places (#7815) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88)) ([#7815](https://github.com/swc-project/swc/issues/7815))
 
 ## [1.3.77] - 2023-08-16
 
@@ -1232,7 +1232,7 @@
 - **(testing)** Fix path normalization on windows for testing diffs (#7299) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
 
 ### Miscellaneous Tasks
-- **general**: Update issue template to prevent useless issues (#7303) ([9816ba2](https://github.com/swc-project/swc/commit/9816ba27958af07399383fc995c49dc1ed3e3554))
+- **general**: Update issue template to prevent useless issues (#7303) ([9816ba2](https://github.com/swc-project/swc/commit/9816ba27958af07399383fc995c49dc1ed3e3554)) ([#7303](https://github.com/swc-project/swc/issues/7303))
 
 ### Testing
 
@@ -1576,7 +1576,7 @@
 
 **Description:**
 
-Full refactor of the "calc" simplification to be more compliant with the spec. ([df09d2f](https://github.com/swc-project/swc/commit/df09d2fd4bef3ab83efbe46f8e3d42d26bbae95d))
+Full refactor of the "calc" simplification to be more compliant with the spec. ([df09d2f](https://github.com/swc-project/swc/commit/df09d2fd4bef3ab83efbe46f8e3d42d26bbae95d)) ([#6291](https://github.com/swc-project/swc/issues/6291))
 
 ### Refactor
 
@@ -1626,7 +1626,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/lexer)** Use jump table for `skip_space` (#7073) ([f854d51](https://github.com/swc-project/swc/commit/f854d51343dcbdf43acd87f51e2288a052e39a0b))
 
 ### Refactor
-- **general**: Fix lints using clippy from `nightly-2023-03-13` (#6920) ([963c460](https://github.com/swc-project/swc/commit/963c46061321fff3a2893da4953c1fd5ec649311))
+- **general**: Fix lints using clippy from `nightly-2023-03-13` (#6920) ([963c460](https://github.com/swc-project/swc/commit/963c46061321fff3a2893da4953c1fd5ec649311)) ([#6920](https://github.com/swc-project/swc/issues/6920))
 
 ## [1.3.40] - 2023-03-13
 
@@ -1884,7 +1884,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/typescript)** Fix handling of non-uppercase JSX elements (#6928) ([ebc65c7](https://github.com/swc-project/swc/commit/ebc65c7dcba4ccfeb7c0a1e200b5130bc8a15791))
 
 ### Miscellaneous Tasks
-- **general**: Bump swc_css_* (#6924) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
+- **general**: Bump swc_css_* (#6924) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49)) ([#6924](https://github.com/swc-project/swc/issues/6924))
 
 ## [1.3.34] - 2023-02-08
 
@@ -1940,7 +1940,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 
-- **(bindings/cli)** Enable `preferUnplugged` by default for the plugins (#6912) ([17f1c50](https://github.com/swc-project/swc/commit/17f1c50287c798b57a0d2ac2a95ba6c864b1c2d7))- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3))
+- **(bindings/cli)** Enable `preferUnplugged` by default for the plugins (#6912) ([17f1c50](https://github.com/swc-project/swc/commit/17f1c50287c798b57a0d2ac2a95ba6c864b1c2d7))- **general**: Make issue templates mention `no +1` (#6894) ([5d5140f](https://github.com/swc-project/swc/commit/5d5140f0a50696d747ee62e72866b9b03e52cde3)) ([#6894](https://github.com/swc-project/swc/issues/6894))
 
 ### Testing
 
@@ -2696,7 +2696,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/typescript)** Migrate inline tests to fixture tests (#6546) ([cddbc41](https://github.com/swc-project/swc/commit/cddbc41430c524b126368a6989de3b2c88e5e713))
 
 
-- **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))- **general**: Use correct extensions for fixture tests (#6539) ([7ee86d1](https://github.com/swc-project/swc/commit/7ee86d1d2579d861501a525cbc6ddd3669d4c25c))
+- **(ts/compat)** Migrate inline tests to fixture testing (#6475) ([cc4646a](https://github.com/swc-project/swc/commit/cc4646a4cc455c08680f7dedb344337f90f0c668))- **general**: Use correct extensions for fixture tests (#6539) ([7ee86d1](https://github.com/swc-project/swc/commit/7ee86d1d2579d861501a525cbc6ddd3669d4c25c)) ([#6539](https://github.com/swc-project/swc/issues/6539))
 
 ### Build
 
@@ -3666,7 +3666,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(ci)** Extract bot action to a separate repository (#6064) ([39481c6](https://github.com/swc-project/swc/commit/39481c622c288139ccd74fd2b3ba1bd65f4d9708))
 
 
-- **(ci)** Fix publish action by reverting #5969 ([fee747d](https://github.com/swc-project/swc/commit/fee747de594de0de19496068d85e982888491a6c))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549))
+- **(ci)** Fix publish action by reverting #5969 ([fee747d](https://github.com/swc-project/swc/commit/fee747de594de0de19496068d85e982888491a6c))- **general**: Update `README.md` (#6007) ([185d6fe](https://github.com/swc-project/swc/commit/185d6fe98276d413a10159cac96adce1e2e4d549)) ([#6007](https://github.com/swc-project/swc/issues/6007))
 
 ### Performance
 
@@ -3957,7 +3957,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 
-- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))- **general**: Remove `.prettierrc.json` (#5895) ([89f0a4c](https://github.com/swc-project/swc/commit/89f0a4c5ac66d30ac2b9bf51db488a9946acea65))
+- **(ci)** Reduce CI time (#5870) ([9ca3966](https://github.com/swc-project/swc/commit/9ca3966686ea2e62dc7225352cdc2ae66b970b8b))- **general**: Update MSRV (#5856) ([f3e0267](https://github.com/swc-project/swc/commit/f3e02675ad74013b82ef911bfcf75e39bc7b4967)) ([#5856](https://github.com/swc-project/swc/issues/5856))- **general**: Fix publish script ([720b3e0](https://github.com/swc-project/swc/commit/720b3e05c1e5fa9ab5bdae5f6d1268d6f6bce885))- **general**: Remove `.prettierrc.json` (#5895) ([89f0a4c](https://github.com/swc-project/swc/commit/89f0a4c5ac66d30ac2b9bf51db488a9946acea65)) ([#5895](https://github.com/swc-project/swc/issues/5895))
 
 ### Performance
 
@@ -3972,7 +3972,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 
-- **(es/ast)** Apply rkyv-bytecheck flag (#5866) ([092b728](https://github.com/swc-project/swc/commit/092b7281d0929a77ddfa3d09018445b94b0dc1cf))- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e))
+- **(es/ast)** Apply rkyv-bytecheck flag (#5866) ([092b728](https://github.com/swc-project/swc/commit/092b7281d0929a77ddfa3d09018445b94b0dc1cf))- **general**: Refactor code using clippy (#5863) ([dfb01bd](https://github.com/swc-project/swc/commit/dfb01bde71c73ea398b7e3d8428a3c3015366d4e)) ([#5863](https://github.com/swc-project/swc/issues/5863))
 
 ### Testing
 
@@ -4212,7 +4212,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/minifier)** Fix size calculator script (#5767) ([9d29abc](https://github.com/swc-project/swc/commit/9d29abcd5b9ab08fb3eed4d685806a6b0dac9d95))
 
 
-- **(html/parser)** Typo (#5778) ([1b200a0](https://github.com/swc-project/swc/commit/1b200a0582f77aaca9abcbd4d693be13e172b9ec))- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742))
+- **(html/parser)** Typo (#5778) ([1b200a0](https://github.com/swc-project/swc/commit/1b200a0582f77aaca9abcbd4d693be13e172b9ec))- **general**: Typo (#5758) ([15e2357](https://github.com/swc-project/swc/commit/15e2357d1d7086f3a48def71c38acb7052f8d742)) ([#5758](https://github.com/swc-project/swc/issues/5758))
 
 ### Performance
 
@@ -4843,7 +4843,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(node)** Use published version of `swc_core` for node binding (#5481) ([9d04f24](https://github.com/swc-project/swc/commit/9d04f24c26d334f7675bbd2ebe3da04467fe6524))
 
 ### Miscellaneous Tasks
-- **general**: Typo (#5478) ([8fde2ab](https://github.com/swc-project/swc/commit/8fde2ab07b56ea644850da5f9b60ed580ccb9d7f))
+- **general**: Typo (#5478) ([8fde2ab](https://github.com/swc-project/swc/commit/8fde2ab07b56ea644850da5f9b60ed580ccb9d7f)) ([#5478](https://github.com/swc-project/swc/issues/5478))
 
 ### Testing
 
@@ -5083,7 +5083,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(swc_core)** Expand features and use it from wasm and cli (#5369) ([8b9dd6f](https://github.com/swc-project/swc/commit/8b9dd6f026e13fa850a7adcca52e285d874d4390))
 
 ### Miscellaneous Tasks
-- **general**: Update toml formatting (#5368) ([12fd737](https://github.com/swc-project/swc/commit/12fd7373265df570aa129ce8c92ce5953db79254))
+- **general**: Update toml formatting (#5368) ([12fd737](https://github.com/swc-project/swc/commit/12fd7373265df570aa129ce8c92ce5953db79254)) ([#5368](https://github.com/swc-project/swc/issues/5368))
 
 ### Performance
 
@@ -5305,7 +5305,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(ci)** Fix build for Android platforms (#5317) ([18d4029](https://github.com/swc-project/swc/commit/18d4029b337a94881ea173886271a54b5f385998))
 
 
-- **(deps)** Update `bytecheck` (#5296) ([35b1e78](https://github.com/swc-project/swc/commit/35b1e7817974b0e1d7a5af1f9314444fe4070585))- **general**: Fix CI (#5251) ([d229917](https://github.com/swc-project/swc/commit/d229917588a7bfda8bf4023c42c4190552a3b0c6))- **general**: Fix CI ([3421064](https://github.com/swc-project/swc/commit/34210648b06c4e4e4bd7d368a1b9d203535bbc30))
+- **(deps)** Update `bytecheck` (#5296) ([35b1e78](https://github.com/swc-project/swc/commit/35b1e7817974b0e1d7a5af1f9314444fe4070585))- **general**: Fix CI (#5251) ([d229917](https://github.com/swc-project/swc/commit/d229917588a7bfda8bf4023c42c4190552a3b0c6)) ([#5251](https://github.com/swc-project/swc/issues/5251))- **general**: Fix CI ([3421064](https://github.com/swc-project/swc/commit/34210648b06c4e4e4bd7d368a1b9d203535bbc30))
 
 ### Performance
 
@@ -5366,7 +5366,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 - **(testing)** Allow space in file names (#5237) ([de76868](https://github.com/swc-project/swc/commit/de76868cad88b9afe103a60331c1456a3f02e37e))- **general**: Fix(es/lints: Handle ts export import equals (#5225)
 
- ([04de455](https://github.com/swc-project/swc/commit/04de455a9a34dbcbb193bffc9ab504c0e30e8706))
+ ([04de455](https://github.com/swc-project/swc/commit/04de455a9a34dbcbb193bffc9ab504c0e30e8706)) ([#5225](https://github.com/swc-project/swc/issues/5225))
 
 ### Features
 
@@ -5423,7 +5423,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(ci)** Fix publish script (#5241) ([66550d6](https://github.com/swc-project/swc/commit/66550d6e87582bb3cb34d18c0dffd8f33814d81d))
 
 
-- **(visit)** Specify version of `swc_macros_common` (#5231) ([1aa0223](https://github.com/swc-project/swc/commit/1aa022361e7918f4077eacae6e51899eac007be5))- **general**: Typo (#5239) ([17f1cee](https://github.com/swc-project/swc/commit/17f1cee0a8132c79712c742f645e098df9309999))- **general**: Typo (#5238) ([df426d7](https://github.com/swc-project/swc/commit/df426d7b1d2ca74505051bfe78aa78a2a315e0ab))
+- **(visit)** Specify version of `swc_macros_common` (#5231) ([1aa0223](https://github.com/swc-project/swc/commit/1aa022361e7918f4077eacae6e51899eac007be5))- **general**: Typo (#5239) ([17f1cee](https://github.com/swc-project/swc/commit/17f1cee0a8132c79712c742f645e098df9309999)) ([#5239](https://github.com/swc-project/swc/issues/5239))- **general**: Typo (#5238) ([df426d7](https://github.com/swc-project/swc/commit/df426d7b1d2ca74505051bfe78aa78a2a315e0ab)) ([#5238](https://github.com/swc-project/swc/issues/5238))
 
 ### Testing
 
@@ -7514,7 +7514,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/minifier)** Setup correct benchmark (#4372) ([5d179bf](https://github.com/swc-project/swc/commit/5d179bfd7d41731a2322854c7aafc93b008eb5f8))
 
 
-- **(node/types)** Add `unsafe` to compress options (#4362) ([b63cd53](https://github.com/swc-project/swc/commit/b63cd53ca6cb230f7724a03ffaebe2362c80d35b))- **general**: Remove an incorrect link in `CONTRIBUTING.md` (#4363) ([c661d5f](https://github.com/swc-project/swc/commit/c661d5f6f6b613cfed22545cc7cde7411dbd5747))
+- **(node/types)** Add `unsafe` to compress options (#4362) ([b63cd53](https://github.com/swc-project/swc/commit/b63cd53ca6cb230f7724a03ffaebe2362c80d35b))- **general**: Remove an incorrect link in `CONTRIBUTING.md` (#4363) ([c661d5f](https://github.com/swc-project/swc/commit/c661d5f6f6b613cfed22545cc7cde7411dbd5747)) ([#4363](https://github.com/swc-project/swc/issues/4363))
 
 ### Performance
 
@@ -8394,7 +8394,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(ci)** Invoke `yarn` before publishing ([743a5da](https://github.com/swc-project/swc/commit/743a5da1e5e6a3c9b8c59694e4f3cf04fa89006d))
 
 
-- **(es/preset-env)** Track `.json` files to make cargo happy ([bd0fcb9](https://github.com/swc-project/swc/commit/bd0fcb9ea491f713ab3c0ed2b6035d3438446e8e))- **general**: Update linguist (#3991) ([0312292](https://github.com/swc-project/swc/commit/0312292410e3e001906241f5a2ab88839995376f))
+- **(es/preset-env)** Track `.json` files to make cargo happy ([bd0fcb9](https://github.com/swc-project/swc/commit/bd0fcb9ea491f713ab3c0ed2b6035d3438446e8e))- **general**: Update linguist (#3991) ([0312292](https://github.com/swc-project/swc/commit/0312292410e3e001906241f5a2ab88839995376f)) ([#3991](https://github.com/swc-project/swc/issues/3991))
 
 ### Performance
 
@@ -8849,7 +8849,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/minifier)** Implement more rules (#3841) ([260c2a8](https://github.com/swc-project/swc/commit/260c2a885e16332a0e3401bccb65d1381bfab3f3))
 
 ### Miscellaneous Tasks
-- **general**: Ignore linguist detection for CSS test files (#3831) ([8755ce1](https://github.com/swc-project/swc/commit/8755ce160f9fa6f9ce75c4ac40fc02d5df236d2d))
+- **general**: Ignore linguist detection for CSS test files (#3831) ([8755ce1](https://github.com/swc-project/swc/commit/8755ce160f9fa6f9ce75c4ac40fc02d5df236d2d)) ([#3831](https://github.com/swc-project/swc/issues/3831))
 
 ### Performance
 
@@ -8962,7 +8962,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(plugin/runner)** Update `wasmer` to `v2.2` (#3788) ([99d536e](https://github.com/swc-project/swc/commit/99d536e4869df5a9cc642ed0a155683165ee93c9))
 
 ### Miscellaneous Tasks
-- **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657))
+- **general**: Update `rustc` (#3768) ([3798436](https://github.com/swc-project/swc/commit/3798436201a0838e55beac974792f4d560b47657)) ([#3768](https://github.com/swc-project/swc/issues/3768))
 
 ### Performance
 
@@ -9023,7 +9023,7 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 - **(plugin/macro)** Do not free guest memory twice (#3732) ([d8b0166](https://github.com/swc-project/swc/commit/d8b01660dcd0bca43993043e8fa6ed33c62894a9))- **general**: Fix(es/parser) Throw a syntax error for `const` without initializer in strict mode (#3742)
 
-Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://github.com/swc-project/swc/commit/abc05725575b0ee29319f32beadb014e70af5e06))
+Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://github.com/swc-project/swc/commit/abc05725575b0ee29319f32beadb014e70af5e06)) ([#3742](https://github.com/swc-project/swc/issues/3742))
 
 ### Features
 
@@ -9068,7 +9068,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(visit)** Allow using `?Sized` as visitor (#3745) ([b0b5d5d](https://github.com/swc-project/swc/commit/b0b5d5d0c2779e48d815fbbc65c01d5344590763))
 
 ### Miscellaneous Tasks
-- **general**: Skip CI for automated commits (#3760) ([6d98d14](https://github.com/swc-project/swc/commit/6d98d146a65e801677e63069bc52e66bb5315617))- **general**: Skip more actions for automated commits (#3761) ([0ff4ad3](https://github.com/swc-project/swc/commit/0ff4ad37c3783e7b141c6d879ed0a5a7e85135a3))
+- **general**: Skip CI for automated commits (#3760) ([6d98d14](https://github.com/swc-project/swc/commit/6d98d146a65e801677e63069bc52e66bb5315617)) ([#3760](https://github.com/swc-project/swc/issues/3760))- **general**: Skip more actions for automated commits (#3761) ([0ff4ad3](https://github.com/swc-project/swc/commit/0ff4ad37c3783e7b141c6d879ed0a5a7e85135a3)) ([#3761](https://github.com/swc-project/swc/issues/3761))
 
 ### Performance
 
@@ -9249,7 +9249,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(ci)** Kill previous runs (#3678) ([f733c9c](https://github.com/swc-project/swc/commit/f733c9c82f0ab942e4a02e7f97d2fda0ef88bfc1))
 
 
-- **(cli)** Improve the plugin template (#3632) ([0f1afcb](https://github.com/swc-project/swc/commit/0f1afcb8963b27bc04145bc3e947f7408c8d9a18))- **general**: Typo (#3646) ([c5f0e87](https://github.com/swc-project/swc/commit/c5f0e87ebf20259eae230c478da200530f9430e0))
+- **(cli)** Improve the plugin template (#3632) ([0f1afcb](https://github.com/swc-project/swc/commit/0f1afcb8963b27bc04145bc3e947f7408c8d9a18))- **general**: Typo (#3646) ([c5f0e87](https://github.com/swc-project/swc/commit/c5f0e87ebf20259eae230c478da200530f9430e0)) ([#3646](https://github.com/swc-project/swc/issues/3646))
 
 ### Performance
 
@@ -10483,7 +10483,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(es/ast)** Improve rustdoc (#3142) ([333acb5](https://github.com/swc-project/swc/commit/333acb56223139817c1df0c8b3763190b55a6295))- **general**: Update discord link (#3161) ([fb20480](https://github.com/swc-project/swc/commit/fb2048035f0aa67761aa213c58795accfde7a6d0))
+- **(es/ast)** Improve rustdoc (#3142) ([333acb5](https://github.com/swc-project/swc/commit/333acb56223139817c1df0c8b3763190b55a6295))- **general**: Update discord link (#3161) ([fb20480](https://github.com/swc-project/swc/commit/fb2048035f0aa67761aa213c58795accfde7a6d0)) ([#3161](https://github.com/swc-project/swc/issues/3161))
 
 ### Features
 
@@ -10501,7 +10501,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(ci)** Update `github-action-benchmark` (#3148) ([5a3bdc9](https://github.com/swc-project/swc/commit/5a3bdc9ed37ba39a0591c66bd89eddb95f6df850))- **general**: Add `enhancement` label to `feature_request` template (#3164) ([360ad7b](https://github.com/swc-project/swc/commit/360ad7b41c6fa35ce3afc81c2237d9acdae9a549))
+- **(ci)** Update `github-action-benchmark` (#3148) ([5a3bdc9](https://github.com/swc-project/swc/commit/5a3bdc9ed37ba39a0591c66bd89eddb95f6df850))- **general**: Add `enhancement` label to `feature_request` template (#3164) ([360ad7b](https://github.com/swc-project/swc/commit/360ad7b41c6fa35ce3afc81c2237d9acdae9a549)) ([#3164](https://github.com/swc-project/swc/issues/3164))
 
 ### Performance
 
@@ -10796,7 +10796,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(api/rust)** Automate updating of change logs ([4006d56](https://github.com/swc-project/swc/commit/4006d5691fead36529ded1e0ab6273087624b180))
 
 
-- **(ci)** Setup yarn cache (#3015) ([69123dd](https://github.com/swc-project/swc/commit/69123ddc283f55b224c9bee218065926cba5ae64))- **general**: Remove redundant dependencies (#3008) ([cabf5a4](https://github.com/swc-project/swc/commit/cabf5a458d7e823ce2787ecc0ee660ddb1b390fe))- **general**: Add changelog and pr template (#3017) ([aab3326](https://github.com/swc-project/swc/commit/aab3326b3eec376d2fd754c42f3b2505af163c40))
+- **(ci)** Setup yarn cache (#3015) ([69123dd](https://github.com/swc-project/swc/commit/69123ddc283f55b224c9bee218065926cba5ae64))- **general**: Remove redundant dependencies (#3008) ([cabf5a4](https://github.com/swc-project/swc/commit/cabf5a458d7e823ce2787ecc0ee660ddb1b390fe)) ([#3008](https://github.com/swc-project/swc/issues/3008))- **general**: Add changelog and pr template (#3017) ([aab3326](https://github.com/swc-project/swc/commit/aab3326b3eec376d2fd754c42f3b2505af163c40)) ([#3017](https://github.com/swc-project/swc/issues/3017))
 
 ### Performance
 
@@ -10820,7 +10820,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/parser)** Make some verification logic optional (#3024) ([7236a22](https://github.com/swc-project/swc/commit/7236a2213e0ca260cbe9ff44ae909a3ceeeb3c4f))
 
 ### Build
-- **general**: Use `mocha` for `exec_ test` instead of `jest` (#3009) ([00d22b8](https://github.com/swc-project/swc/commit/00d22b8fde8ef1639608d1d6894dd4fea38cc39f))
+- **general**: Use `mocha` for `exec_ test` instead of `jest` (#3009) ([00d22b8](https://github.com/swc-project/swc/commit/00d22b8fde8ef1639608d1d6894dd4fea38cc39f)) ([#3009](https://github.com/swc-project/swc/issues/3009))
 
 ### Type
 
@@ -10873,7 +10873,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/minifier)** Print more informantion on infinite loops (#2976) ([694d3c5](https://github.com/swc-project/swc/commit/694d3c50725ce0bfae9650f4c4b3caf2aa6b6821))
 
 ### Miscellaneous Tasks
-- **general**: Fix `@swc/helpers` ([6996d7c](https://github.com/swc-project/swc/commit/6996d7cdd7ed227bd0794af852d11cbd79ac94b8))- **general**: Fix license issue (#3002) ([0a637d6](https://github.com/swc-project/swc/commit/0a637d6ce2fd86dc063e50235e81e3a99b87acfd))
+- **general**: Fix `@swc/helpers` ([6996d7c](https://github.com/swc-project/swc/commit/6996d7cdd7ed227bd0794af852d11cbd79ac94b8))- **general**: Fix license issue (#3002) ([0a637d6](https://github.com/swc-project/swc/commit/0a637d6ce2fd86dc063e50235e81e3a99b87acfd)) ([#3002](https://github.com/swc-project/swc/issues/3002))
 
 ### Performance
 
@@ -10935,10 +10935,10 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(webpack/ast)** Reduce `if` statements (#2969) ([2a01dd4](https://github.com/swc-project/swc/commit/2a01dd4b32a96a14efbe7067dac2d83f3a881c84))
 
 
-- **(webpack/ast)** Preserve span (#2971) ([74363e0](https://github.com/swc-project/swc/commit/74363e03579367b2d362f0fcbc3f5bc92a88d469))- **general**: (es/compat): Change order of passes (#2949) ([99da422](https://github.com/swc-project/swc/commit/99da4221ae4ef7ba01d765a3f8c097fe04d3dc2f))
+- **(webpack/ast)** Preserve span (#2971) ([74363e0](https://github.com/swc-project/swc/commit/74363e03579367b2d362f0fcbc3f5bc92a88d469))- **general**: (es/compat): Change order of passes (#2949) ([99da422](https://github.com/swc-project/swc/commit/99da4221ae4ef7ba01d765a3f8c097fe04d3dc2f)) ([#2949](https://github.com/swc-project/swc/issues/2949)[#2150](https://github.com/swc-project/swc/issues/2150))
 
 ### Miscellaneous Tasks
-- **general**: Add a script to manage crates ([b9baa50](https://github.com/swc-project/swc/commit/b9baa503e3c8c94fb9f4c535ab83689654715e89))- **general**: Make `rust-analyzer` faster (#2962) ([02322aa](https://github.com/swc-project/swc/commit/02322aaa9919f75a150b7ea27a637fee0b981b36))- **general**: Remove duplicate version field in `package.json` (#2965) ([ce60138](https://github.com/swc-project/swc/commit/ce601382d5b79449a355ad636ea83322816eccd9))- **general**: Inline `@swc/helpers` (#2972) ([ffec782](https://github.com/swc-project/swc/commit/ffec782a41c86d8988425df05f719ec80ae6cb0e))
+- **general**: Add a script to manage crates ([b9baa50](https://github.com/swc-project/swc/commit/b9baa503e3c8c94fb9f4c535ab83689654715e89))- **general**: Make `rust-analyzer` faster (#2962) ([02322aa](https://github.com/swc-project/swc/commit/02322aaa9919f75a150b7ea27a637fee0b981b36)) ([#2962](https://github.com/swc-project/swc/issues/2962))- **general**: Remove duplicate version field in `package.json` (#2965) ([ce60138](https://github.com/swc-project/swc/commit/ce601382d5b79449a355ad636ea83322816eccd9)) ([#2965](https://github.com/swc-project/swc/issues/2965))- **general**: Inline `@swc/helpers` (#2972) ([ffec782](https://github.com/swc-project/swc/commit/ffec782a41c86d8988425df05f719ec80ae6cb0e)) ([#2972](https://github.com/swc-project/swc/issues/2972))
 
 ### Performance
 
@@ -10959,7 +10959,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/preset-env)** Avoid unnecessary `unwrap` (#2943) ([3302d17](https://github.com/swc-project/swc/commit/3302d1733acd5adf4f53ce8c2aef678990f584f2))
 
 ### Build
-- **general**: Update `.npmignore` (#2963) ([ad35d95](https://github.com/swc-project/swc/commit/ad35d954e1f847edc48574b4b4dedcae83e1bcbb))
+- **general**: Update `.npmignore` (#2963) ([ad35d95](https://github.com/swc-project/swc/commit/ad35d954e1f847edc48574b4b4dedcae83e1bcbb)) ([#2963](https://github.com/swc-project/swc/issues/2963))
 
 ## [1.2.117] - 2021-12-02
 
@@ -10976,7 +10976,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/compat)** Add loose mode to `parameters` (#2911) ([1555ceb](https://github.com/swc-project/swc/commit/1555ceb8a395351e26b9e66bf8a4e77adc0300c5))
 
 ### Miscellaneous Tasks
-- **general**: Break cycles (#2941) ([0304c55](https://github.com/swc-project/swc/commit/0304c550a48b0f31ac646ed8e3326c0568210883))- **general**: Drop freebsd for publishing ([82c8694](https://github.com/swc-project/swc/commit/82c8694f4b840d439d091de0ffe9af07c0d172f2))
+- **general**: Break cycles (#2941) ([0304c55](https://github.com/swc-project/swc/commit/0304c550a48b0f31ac646ed8e3326c0568210883)) ([#2941](https://github.com/swc-project/swc/issues/2941))- **general**: Drop freebsd for publishing ([82c8694](https://github.com/swc-project/swc/commit/82c8694f4b840d439d091de0ffe9af07c0d172f2))
 
 ## [1.2.116] - 2021-12-01
 
@@ -11090,7 +11090,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(es/preset-env)** Upgrade `browserslist-rs` (#2889) ([af216c1](https://github.com/swc-project/swc/commit/af216c10147afff6ba296adbbfb9b2683a21ee50))- **general**: Reduce compile time (#2909) ([435facc](https://github.com/swc-project/swc/commit/435faccc2e9e989e6de5b5e6e809599f53afa1c1))- **general**: Fix cargo config ([3695159](https://github.com/swc-project/swc/commit/36951599584182b56456b69f6e462a1a0f8a0799))- **general**: Fix cargo config again ([189a590](https://github.com/swc-project/swc/commit/189a5903ccbf25531dc26c8f793d14ec08261cbe))- **general**: Revert ([166c12d](https://github.com/swc-project/swc/commit/166c12d295a18507856424f5cd6ab9a18572c9db))- **general**: Revert #2907 ([666e3cc](https://github.com/swc-project/swc/commit/666e3cc71ef8f9e491b45c1ff695a5d0cf21b5d3))
+- **(es/preset-env)** Upgrade `browserslist-rs` (#2889) ([af216c1](https://github.com/swc-project/swc/commit/af216c10147afff6ba296adbbfb9b2683a21ee50))- **general**: Reduce compile time (#2909) ([435facc](https://github.com/swc-project/swc/commit/435faccc2e9e989e6de5b5e6e809599f53afa1c1)) ([#2909](https://github.com/swc-project/swc/issues/2909))- **general**: Fix cargo config ([3695159](https://github.com/swc-project/swc/commit/36951599584182b56456b69f6e462a1a0f8a0799))- **general**: Fix cargo config again ([189a590](https://github.com/swc-project/swc/commit/189a5903ccbf25531dc26c8f793d14ec08261cbe))- **general**: Revert ([166c12d](https://github.com/swc-project/swc/commit/166c12d295a18507856424f5cd6ab9a18572c9db))- **general**: Revert #2907 ([666e3cc](https://github.com/swc-project/swc/commit/666e3cc71ef8f9e491b45c1ff695a5d0cf21b5d3)) ([#2907](https://github.com/swc-project/swc/issues/2907))
 
 ## [1.2.113] - 2021-11-27
 
@@ -11134,7 +11134,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(webpack)** Add ast reducer (#2875) ([c2bbdbe](https://github.com/swc-project/swc/commit/c2bbdbe9d6397e2ec36beabdacb2541497c76510))
 
 ### Miscellaneous Tasks
-- **general**: Allow using `#[doc(cfg)]` (#2871) ([28850ee](https://github.com/swc-project/swc/commit/28850eef5c98d9b0975eb84aa647d2b2c1977cb7))- **general**: Document features (#2890) ([f5af22e](https://github.com/swc-project/swc/commit/f5af22ef716db76a39ea22cc88f3f92745fb4aad))
+- **general**: Allow using `#[doc(cfg)]` (#2871) ([28850ee](https://github.com/swc-project/swc/commit/28850eef5c98d9b0975eb84aa647d2b2c1977cb7)) ([#2871](https://github.com/swc-project/swc/issues/2871))- **general**: Document features (#2890) ([f5af22e](https://github.com/swc-project/swc/commit/f5af22ef716db76a39ea22cc88f3f92745fb4aad)) ([#2890](https://github.com/swc-project/swc/issues/2890))
 
 ### Performance
 
@@ -11202,10 +11202,10 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/minifier)** Improve `drop_console` (#2830) ([c5768d7](https://github.com/swc-project/swc/commit/c5768d7672ba33e75e0268176a90f9fb1d725fb4))
 
 
-- **(es/preset_env)** Use `browserslist-rs` (#2845) ([2c099bf](https://github.com/swc-project/swc/commit/2c099bfd2c4a1ec147269d445db88bd88856e1f8))- **general**: Enable logging of timings (#2833) ([6b96a3d](https://github.com/swc-project/swc/commit/6b96a3d8ed2bc9c55fdc07d22257800d27e7a160))
+- **(es/preset_env)** Use `browserslist-rs` (#2845) ([2c099bf](https://github.com/swc-project/swc/commit/2c099bfd2c4a1ec147269d445db88bd88856e1f8))- **general**: Enable logging of timings (#2833) ([6b96a3d](https://github.com/swc-project/swc/commit/6b96a3d8ed2bc9c55fdc07d22257800d27e7a160)) ([#2833](https://github.com/swc-project/swc/issues/2833))
 
 ### Miscellaneous Tasks
-- **general**: Typo (#2829) ([bfa6458](https://github.com/swc-project/swc/commit/bfa645873710c07a77658ed0472ff817de6d10a5))
+- **general**: Typo (#2829) ([bfa6458](https://github.com/swc-project/swc/commit/bfa645873710c07a77658ed0472ff817de6d10a5)) ([#2829](https://github.com/swc-project/swc/issues/2829))
 
 ### Performance
 
@@ -11310,7 +11310,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/compat)** Apply `block_scoping` before `regenerator` (#2740) ([bb646cc](https://github.com/swc-project/swc/commit/bb646cc31cbdbcb1b12786733fb3c9d9d75ae095))
 
 
-- **(es/transforms/compat)** Preserve more span (#2762) ([2fb4e5a](https://github.com/swc-project/swc/commit/2fb4e5a60ccdd5531e075bb03348a3548e275d2b))- **general**: Revert #2766 (#2774) ([95e7f4d](https://github.com/swc-project/swc/commit/95e7f4d4e91d967c3482dd673a670d134e9760b6))
+- **(es/transforms/compat)** Preserve more span (#2762) ([2fb4e5a](https://github.com/swc-project/swc/commit/2fb4e5a60ccdd5531e075bb03348a3548e275d2b))- **general**: Revert #2766 (#2774) ([95e7f4d](https://github.com/swc-project/swc/commit/95e7f4d4e91d967c3482dd673a670d134e9760b6)) ([#2766](https://github.com/swc-project/swc/issues/2766)[#2774](https://github.com/swc-project/swc/issues/2774))
 
 ### Features
 
@@ -11325,7 +11325,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Add `IsModule` (#2601) ([65d376a](https://github.com/swc-project/swc/commit/65d376a91baf19f1f6ddf99e700a5f82b33c9e0c))
 
 ### Miscellaneous Tasks
-- **general**: Fix broken link (#2737) ([79fc464](https://github.com/swc-project/swc/commit/79fc464f8ddc5ccf77520734405ae7c174f4383d))- **general**: Update markdown files to use "SWC" instead of "swc" (#2744) ([3ebc5c6](https://github.com/swc-project/swc/commit/3ebc5c6b6905d28769da6aefb48646a4ad6d023d))- **general**: Change Gitter link to Discord (#2752) ([015b258](https://github.com/swc-project/swc/commit/015b2586c307d22b07aa02a9db2202aff337f554))- **general**: Rename the default branch from `master` to `main` (#2750) ([6b70fb5](https://github.com/swc-project/swc/commit/6b70fb5afe91fc7e0a5b5031409179e0ad1f8d32))- **general**: Ensure `feature.manyFiles` of Git is enabled (#2754) ([8aea5eb](https://github.com/swc-project/swc/commit/8aea5ebb47524d3a0a25e93e394133eed8c4d72b))- **general**: Fix benchmark github action (#2755) ([54bc405](https://github.com/swc-project/swc/commit/54bc4054a9a892439725d8944b6dc5116df59389))- **general**: Fix typo (#2764) ([2e01876](https://github.com/swc-project/swc/commit/2e018769c2bdbec7b2891bf09293c6c5b5c0dee6))- **general**: Fix links and paths (#2773) ([58bf5a5](https://github.com/swc-project/swc/commit/58bf5a5e2cff18ab7524188387cc893051edf045))
+- **general**: Fix broken link (#2737) ([79fc464](https://github.com/swc-project/swc/commit/79fc464f8ddc5ccf77520734405ae7c174f4383d)) ([#2737](https://github.com/swc-project/swc/issues/2737))- **general**: Update markdown files to use "SWC" instead of "swc" (#2744) ([3ebc5c6](https://github.com/swc-project/swc/commit/3ebc5c6b6905d28769da6aefb48646a4ad6d023d)) ([#2744](https://github.com/swc-project/swc/issues/2744))- **general**: Change Gitter link to Discord (#2752) ([015b258](https://github.com/swc-project/swc/commit/015b2586c307d22b07aa02a9db2202aff337f554)) ([#2752](https://github.com/swc-project/swc/issues/2752))- **general**: Rename the default branch from `master` to `main` (#2750) ([6b70fb5](https://github.com/swc-project/swc/commit/6b70fb5afe91fc7e0a5b5031409179e0ad1f8d32)) ([#2750](https://github.com/swc-project/swc/issues/2750))- **general**: Ensure `feature.manyFiles` of Git is enabled (#2754) ([8aea5eb](https://github.com/swc-project/swc/commit/8aea5ebb47524d3a0a25e93e394133eed8c4d72b)) ([#2754](https://github.com/swc-project/swc/issues/2754))- **general**: Fix benchmark github action (#2755) ([54bc405](https://github.com/swc-project/swc/commit/54bc4054a9a892439725d8944b6dc5116df59389)) ([#2755](https://github.com/swc-project/swc/issues/2755))- **general**: Fix typo (#2764) ([2e01876](https://github.com/swc-project/swc/commit/2e018769c2bdbec7b2891bf09293c6c5b5c0dee6)) ([#2764](https://github.com/swc-project/swc/issues/2764))- **general**: Fix links and paths (#2773) ([58bf5a5](https://github.com/swc-project/swc/commit/58bf5a5e2cff18ab7524188387cc893051edf045)) ([#2773](https://github.com/swc-project/swc/issues/2773))
 
 ### Refactor
 
@@ -11343,7 +11343,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/compat)** Migrate to `VisitMut` (#2751) ([e7cbe3d](https://github.com/swc-project/swc/commit/e7cbe3df2038a98f0f83cf918604f5b971161e10))
 
 
-- **(swc_bundler)** Extract logic for analyzing cycles (#2733) ([b869c81](https://github.com/swc-project/swc/commit/b869c81888553b870a5a2c79c6ef49354df15670))- **general**: Flatten `css` (#2731) ([1d518fe](https://github.com/swc-project/swc/commit/1d518fe3813ed7847ff76e67001fec8420126286))- **general**: Cleanup (#2749) ([2462b99](https://github.com/swc-project/swc/commit/2462b9941f94bc475cf9ff9c67e3b7c1f98739cc))
+- **(swc_bundler)** Extract logic for analyzing cycles (#2733) ([b869c81](https://github.com/swc-project/swc/commit/b869c81888553b870a5a2c79c6ef49354df15670))- **general**: Flatten `css` (#2731) ([1d518fe](https://github.com/swc-project/swc/commit/1d518fe3813ed7847ff76e67001fec8420126286)) ([#2731](https://github.com/swc-project/swc/issues/2731))- **general**: Cleanup (#2749) ([2462b99](https://github.com/swc-project/swc/commit/2462b9941f94bc475cf9ff9c67e3b7c1f98739cc)) ([#2749](https://github.com/swc-project/swc/issues/2749))
 
 ### Testing
 
@@ -11402,7 +11402,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(rplugin)** Implement general AST processing plugin system (#2671) ([bf0007b](https://github.com/swc-project/swc/commit/bf0007bec0127adaa74ffbc23b2c6662612e062f))
 
 ### Miscellaneous Tasks
-- **general**: Update rustc to prevent `CVE-2021-42574` (#2690) ([368b9e2](https://github.com/swc-project/swc/commit/368b9e2ff278eebf63636a44349add4cf940096d))- **general**: Update README.md (#2693) ([cb68956](https://github.com/swc-project/swc/commit/cb689565d570a3fd86fe9b4589d37a5adc73cd96))
+- **general**: Update rustc to prevent `CVE-2021-42574` (#2690) ([368b9e2](https://github.com/swc-project/swc/commit/368b9e2ff278eebf63636a44349add4cf940096d)) ([#2690](https://github.com/swc-project/swc/issues/2690))- **general**: Update README.md (#2693) ([cb68956](https://github.com/swc-project/swc/commit/cb689565d570a3fd86fe9b4589d37a5adc73cd96)) ([#2693](https://github.com/swc-project/swc/issues/2693))
 
 ### Performance
 
@@ -11420,7 +11420,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(css/ast)** Remove `UniversalSelector` (#2673) ([4484d64](https://github.com/swc-project/swc/commit/4484d64f946b7800a97f0625a9a7846f33cc46e4))
 
 
-- **(es/transforms/bugfix)** Migrate `edge_default_param` to `VisitMut` (#2676) ([8915913](https://github.com/swc-project/swc/commit/891591382d50a70712b804668f7c56573bca3d12))- **general**: Remove trailing whitespace (#2668) ([94cb430](https://github.com/swc-project/swc/commit/94cb4303ae49440aeb9d53d52376ad66b44f28ce))- **general**: Flatten crates (#2697) ([687305f](https://github.com/swc-project/swc/commit/687305f280937cba1544fdade652aeb5f3941b2e))- **general**: Flatten more packages (#2706) ([4f70ee6](https://github.com/swc-project/swc/commit/4f70ee6d980dbe198aa2db6f4ee7427805568064))- **general**: Flatten `ecmascript` (#2708) ([2b2f695](https://github.com/swc-project/swc/commit/2b2f6955f22c7ef04dd844e7aa686bbcefd977db))
+- **(es/transforms/bugfix)** Migrate `edge_default_param` to `VisitMut` (#2676) ([8915913](https://github.com/swc-project/swc/commit/891591382d50a70712b804668f7c56573bca3d12))- **general**: Remove trailing whitespace (#2668) ([94cb430](https://github.com/swc-project/swc/commit/94cb4303ae49440aeb9d53d52376ad66b44f28ce)) ([#2668](https://github.com/swc-project/swc/issues/2668))- **general**: Flatten crates (#2697) ([687305f](https://github.com/swc-project/swc/commit/687305f280937cba1544fdade652aeb5f3941b2e)) ([#2697](https://github.com/swc-project/swc/issues/2697))- **general**: Flatten more packages (#2706) ([4f70ee6](https://github.com/swc-project/swc/commit/4f70ee6d980dbe198aa2db6f4ee7427805568064)) ([#2706](https://github.com/swc-project/swc/issues/2706))- **general**: Flatten `ecmascript` (#2708) ([2b2f695](https://github.com/swc-project/swc/commit/2b2f6955f22c7ef04dd844e7aa686bbcefd977db)) ([#2708](https://github.com/swc-project/swc/issues/2708))
 
 ### Testing
 
@@ -11509,7 +11509,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc_common)** Allow `dylib` (#2628) ([04238d0](https://github.com/swc-project/swc/commit/04238d0b932f0efd8ac8ae262174ebc18469fa6f))
 
 ### Miscellaneous Tasks
-- **general**: Use form for issues (#2595) ([a278eff](https://github.com/swc-project/swc/commit/a278eff5ee0307d56b426d6029d9ac77fd8d1c55))- **general**: Fix syntax of github issue template (#2596) ([c05f35d](https://github.com/swc-project/swc/commit/c05f35d5f1c89cdcbeb70000020a8eefa59316cd))- **general**: Update playground link in the issue form (#2621) ([f8c7d36](https://github.com/swc-project/swc/commit/f8c7d36ac9cb6d46de690e90a0399a1b01ca823b))- **general**: Improve version manager script ([3935400](https://github.com/swc-project/swc/commit/3935400a55109aa2c40906a8d8999574b3f99012))
+- **general**: Use form for issues (#2595) ([a278eff](https://github.com/swc-project/swc/commit/a278eff5ee0307d56b426d6029d9ac77fd8d1c55)) ([#2595](https://github.com/swc-project/swc/issues/2595))- **general**: Fix syntax of github issue template (#2596) ([c05f35d](https://github.com/swc-project/swc/commit/c05f35d5f1c89cdcbeb70000020a8eefa59316cd)) ([#2596](https://github.com/swc-project/swc/issues/2596))- **general**: Update playground link in the issue form (#2621) ([f8c7d36](https://github.com/swc-project/swc/commit/f8c7d36ac9cb6d46de690e90a0399a1b01ca823b)) ([#2621](https://github.com/swc-project/swc/issues/2621))- **general**: Improve version manager script ([3935400](https://github.com/swc-project/swc/commit/3935400a55109aa2c40906a8d8999574b3f99012))
 
 ### Refactor
 
@@ -11527,7 +11527,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(css/parser)** Refactor parser for at rules (#2617) ([cc5398b](https://github.com/swc-project/swc/commit/cc5398b1a6d915e04ed84298907dc90215c7c255))
 
 
-- **(es/parser)** Deprecate `JscTarget` (#2600) ([3280b4c](https://github.com/swc-project/swc/commit/3280b4cd7a147cf72f517afa7a11cc5c39ccec06))- **general**: Move `HANDLER` to `swc_common` (#2599) ([e589d00](https://github.com/swc-project/swc/commit/e589d00f62c94065247b4eae69a09840e012dd34))
+- **(es/parser)** Deprecate `JscTarget` (#2600) ([3280b4c](https://github.com/swc-project/swc/commit/3280b4cd7a147cf72f517afa7a11cc5c39ccec06))- **general**: Move `HANDLER` to `swc_common` (#2599) ([e589d00](https://github.com/swc-project/swc/commit/e589d00f62c94065247b4eae69a09840e012dd34)) ([#2599](https://github.com/swc-project/swc/issues/2599))
 
 ## [1.2.106] - 2021-10-31
 
@@ -11577,7 +11577,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(ci)** Don't use push action ([b197eb6](https://github.com/swc-project/swc/commit/b197eb65afad1b73109641a53112e230b98a8ea5))- **general**: Fix failing tests and improve CI scripts (#2563) ([7e29685](https://github.com/swc-project/swc/commit/7e29685a1766a3a0fd4b03766e6a96ac24054f6e))- **general**: Fix CI script for PRs (#2575) ([a6af0ab](https://github.com/swc-project/swc/commit/a6af0ab30f45d72890ecbed40e3c5d7b91ab4f37))- **general**: Make `cargo test --all` work (#2580) ([f9a8ad3](https://github.com/swc-project/swc/commit/f9a8ad386d5feafb48756764982f6843f6adaca3))- **general**: Fix typo (#2586) ([ef3c9a7](https://github.com/swc-project/swc/commit/ef3c9a7422ef62d6a767dd96882f024d47aad1de))- **general**: Manage crate version using github action (#2587) ([f997bc4](https://github.com/swc-project/swc/commit/f997bc4889473399462173b4ba043e5b93d8bc6c))- **general**: Fix script for managing crates (#2588) ([d63553e](https://github.com/swc-project/swc/commit/d63553e5d741b9fd307efdf1570cbefef0f60dd6))- **general**: Fix crate manager script ([bab638c](https://github.com/swc-project/swc/commit/bab638c5e8887febaa061358f889a646cab41580))- **general**: Fix permission issue ([ceb025b](https://github.com/swc-project/swc/commit/ceb025b735607ff8094e2cde5ec8050d05ead871))- **general**: Fix musl target ([dfd8d1a](https://github.com/swc-project/swc/commit/dfd8d1ad61675d8de0c96df96b04b6c13540ed3a))- **general**: Use ubuntu-18.04 for musl ([e3b8e53](https://github.com/swc-project/swc/commit/e3b8e5324bf6d3ea42fc92b70e9f37db28ba6a6a))
+- **(ci)** Don't use push action ([b197eb6](https://github.com/swc-project/swc/commit/b197eb65afad1b73109641a53112e230b98a8ea5))- **general**: Fix failing tests and improve CI scripts (#2563) ([7e29685](https://github.com/swc-project/swc/commit/7e29685a1766a3a0fd4b03766e6a96ac24054f6e)) ([#2563](https://github.com/swc-project/swc/issues/2563))- **general**: Fix CI script for PRs (#2575) ([a6af0ab](https://github.com/swc-project/swc/commit/a6af0ab30f45d72890ecbed40e3c5d7b91ab4f37)) ([#2575](https://github.com/swc-project/swc/issues/2575))- **general**: Make `cargo test --all` work (#2580) ([f9a8ad3](https://github.com/swc-project/swc/commit/f9a8ad386d5feafb48756764982f6843f6adaca3)) ([#2580](https://github.com/swc-project/swc/issues/2580))- **general**: Fix typo (#2586) ([ef3c9a7](https://github.com/swc-project/swc/commit/ef3c9a7422ef62d6a767dd96882f024d47aad1de)) ([#2586](https://github.com/swc-project/swc/issues/2586))- **general**: Manage crate version using github action (#2587) ([f997bc4](https://github.com/swc-project/swc/commit/f997bc4889473399462173b4ba043e5b93d8bc6c)) ([#2587](https://github.com/swc-project/swc/issues/2587))- **general**: Fix script for managing crates (#2588) ([d63553e](https://github.com/swc-project/swc/commit/d63553e5d741b9fd307efdf1570cbefef0f60dd6)) ([#2588](https://github.com/swc-project/swc/issues/2588))- **general**: Fix crate manager script ([bab638c](https://github.com/swc-project/swc/commit/bab638c5e8887febaa061358f889a646cab41580))- **general**: Fix permission issue ([ceb025b](https://github.com/swc-project/swc/commit/ceb025b735607ff8094e2cde5ec8050d05ead871))- **general**: Fix musl target ([dfd8d1a](https://github.com/swc-project/swc/commit/dfd8d1ad61675d8de0c96df96b04b6c13540ed3a))- **general**: Use ubuntu-18.04 for musl ([e3b8e53](https://github.com/swc-project/swc/commit/e3b8e5324bf6d3ea42fc92b70e9f37db28ba6a6a))
 
 ### Performance
 
@@ -11586,7 +11586,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(node/swc)** Parse input using worker thread (#2590) ([db09bce](https://github.com/swc-project/swc/commit/db09bce687bab9771e041808c8db483f0014d34a))
 
 ### Ci
-- **general**: Sync to latest napi workflow (#2592) ([1a659d3](https://github.com/swc-project/swc/commit/1a659d32141daa9ce4c2f190722489d337c3665a))
+- **general**: Sync to latest napi workflow (#2592) ([1a659d3](https://github.com/swc-project/swc/commit/1a659d32141daa9ce4c2f190722489d337c3665a)) ([#2592](https://github.com/swc-project/swc/issues/2592))
 
 ## [1.2.105] - 2021-10-28
 
@@ -11641,7 +11641,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/react)** Improve development more (#2542) ([70f5583](https://github.com/swc-project/swc/commit/70f55833e9a19a62257806e79225bda896d90396))
 
 ### Miscellaneous Tasks
-- **general**: Remove useless submodules (#2537) ([265084c](https://github.com/swc-project/swc/commit/265084c41ed1b484c0f7d486d56b71db8d6cc9d1))- **general**: Configure kodiak ([2febd77](https://github.com/swc-project/swc/commit/2febd77c56137406e0fc5467ff3315aebb088f2f))- **general**: Disable freebsd build to publish ([e3869f1](https://github.com/swc-project/swc/commit/e3869f1d27c2e4a518d9ba5468d08f58e6e8f18e))
+- **general**: Remove useless submodules (#2537) ([265084c](https://github.com/swc-project/swc/commit/265084c41ed1b484c0f7d486d56b71db8d6cc9d1)) ([#2537](https://github.com/swc-project/swc/issues/2537))- **general**: Configure kodiak ([2febd77](https://github.com/swc-project/swc/commit/2febd77c56137406e0fc5467ff3315aebb088f2f))- **general**: Disable freebsd build to publish ([e3869f1](https://github.com/swc-project/swc/commit/e3869f1d27c2e4a518d9ba5468d08f58e6e8f18e))
 
 ### Performance
 
@@ -11662,7 +11662,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(css/parser)** Fix parsing of some selectors (#2525) ([6876b1b](https://github.com/swc-project/swc/commit/6876b1b26c2d380264efb5517e25c4cbfb282dc4))
 
 ### Ci
-- **general**: Limit number of runs in graph (#2540) ([edc97ef](https://github.com/swc-project/swc/commit/edc97ef540e74d1be3065039f06c7302615bad4f))
+- **general**: Limit number of runs in graph (#2540) ([edc97ef](https://github.com/swc-project/swc/commit/edc97ef540e74d1be3065039f06c7302615bad4f)) ([#2540](https://github.com/swc-project/swc/issues/2540))
 
 ## [1.2.103] - 2021-10-25
 
@@ -11736,7 +11736,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/compat)** Add tests for `optional_catch_binding` (#2502) ([a9869e6](https://github.com/swc-project/swc/commit/a9869e60f2e8feb0fbcbbba693bc86a14dbeb83f))
 
 ### Ci
-- **general**: Re-enable FreeBSD build (#2497) ([1b91d55](https://github.com/swc-project/swc/commit/1b91d55277ddc9fb7eed3de5345f14c70f85e2fe))
+- **general**: Re-enable FreeBSD build (#2497) ([1b91d55](https://github.com/swc-project/swc/commit/1b91d55277ddc9fb7eed3de5345f14c70f85e2fe)) ([#2497](https://github.com/swc-project/swc/issues/2497))
 
 ## [1.2.102] - 2021-10-21
 
@@ -11806,7 +11806,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/optimization)** Improve `inline_globals` (#2479) ([b0361ca](https://github.com/swc-project/swc/commit/b0361caa582600074962c2b80a442421d2ab5a4f))
 
 ### Miscellaneous Tasks
-- **general**: Fix typo (#2472) ([123c1f5](https://github.com/swc-project/swc/commit/123c1f5d020d1c885bbde6db8551af654356c442))
+- **general**: Fix typo (#2472) ([123c1f5](https://github.com/swc-project/swc/commit/123c1f5d020d1c885bbde6db8551af654356c442)) ([#2472](https://github.com/swc-project/swc/issues/2472))
 
 ### Performance
 
@@ -11841,7 +11841,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Accept map for `envs` (#2467) ([28f2c7a](https://github.com/swc-project/swc/commit/28f2c7ae5d4602c36aac610aab60986805f17678))
 
 ### Miscellaneous Tasks
-- **general**: Add `include` to `swc` ([ac77240](https://github.com/swc-project/swc/commit/ac772403b2eb51c0fe013e2fe56685a5df0389a5))- **general**: Add CI steps for combined benchmark data (#2458) ([8c0c250](https://github.com/swc-project/swc/commit/8c0c250249e9a14a14e653c9e55f6e233d3537a5))
+- **general**: Add `include` to `swc` ([ac77240](https://github.com/swc-project/swc/commit/ac772403b2eb51c0fe013e2fe56685a5df0389a5))- **general**: Add CI steps for combined benchmark data (#2458) ([8c0c250](https://github.com/swc-project/swc/commit/8c0c250249e9a14a14e653c9e55f6e233d3537a5)) ([#2458](https://github.com/swc-project/swc/issues/2458))
 
 ### Performance
 
@@ -11928,7 +11928,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(doc)** Add an example of stripping out types (#2430) ([647d3ed](https://github.com/swc-project/swc/commit/647d3ed36a63a541061930e34daa5705f4ff468e))- **general**: Check for issues already fixed (#2429) ([a25d67b](https://github.com/swc-project/swc/commit/a25d67bfbfdc8258df5ed98eb7803bd79d9d261e))
+- **(doc)** Add an example of stripping out types (#2430) ([647d3ed](https://github.com/swc-project/swc/commit/647d3ed36a63a541061930e34daa5705f4ff468e))- **general**: Check for issues already fixed (#2429) ([a25d67b](https://github.com/swc-project/swc/commit/a25d67bfbfdc8258df5ed98eb7803bd79d9d261e)) ([#2429](https://github.com/swc-project/swc/issues/2429)[#2372](https://github.com/swc-project/swc/issues/2372)[#2351](https://github.com/swc-project/swc/issues/2351))
 
 ### Performance
 
@@ -12159,7 +12159,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(ci)** Add a CI script to publish from github actions (#2353) ([305f90c](https://github.com/swc-project/swc/commit/305f90ce766bb39cd148f019166d1697069f004d))
 
 
-- **(es/minifier)** Publish (#2354) ([a553451](https://github.com/swc-project/swc/commit/a55345156268e31b9f466150bf842a7026dd1269))- **general**: Improve documentation for rust users (#2340) ([bbefa0e](https://github.com/swc-project/swc/commit/bbefa0e57e54f18a21ac448148eb93012344d2df))- **general**: Setup workfllow to bump version (#2368) ([e2a0edd](https://github.com/swc-project/swc/commit/e2a0edd49d47e43f93716a6435fdd7eb2dac1405))
+- **(es/minifier)** Publish (#2354) ([a553451](https://github.com/swc-project/swc/commit/a55345156268e31b9f466150bf842a7026dd1269))- **general**: Improve documentation for rust users (#2340) ([bbefa0e](https://github.com/swc-project/swc/commit/bbefa0e57e54f18a21ac448148eb93012344d2df)) ([#2340](https://github.com/swc-project/swc/issues/2340))- **general**: Setup workfllow to bump version (#2368) ([e2a0edd](https://github.com/swc-project/swc/commit/e2a0edd49d47e43f93716a6435fdd7eb2dac1405)) ([#2368](https://github.com/swc-project/swc/issues/2368))
 
 ### Performance
 
@@ -12203,7 +12203,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(css/parser)** Implement more error recovery (#2316) ([ce40ff7](https://github.com/swc-project/swc/commit/ce40ff73a73891fb1b41aedf1f6a26ce867ed7a1))
 
 ### Miscellaneous Tasks
-- **general**: Update rustc (#2332) ([a7357ab](https://github.com/swc-project/swc/commit/a7357ab51730322a55bde7161de629f9d6da118e))
+- **general**: Update rustc (#2332) ([a7357ab](https://github.com/swc-project/swc/commit/a7357ab51730322a55bde7161de629f9d6da118e)) ([#2332](https://github.com/swc-project/swc/issues/2332))
 
 ### Performance
 
@@ -12226,7 +12226,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/parser)** Report errors for multiple import/export specifiers without comma (#2302) ([83153a0](https://github.com/swc-project/swc/commit/83153a0f8588f30a72f59525d9605035c43af4a2))
 
 
-- **(es/parser)** Improve error message (#2304) ([552fc23](https://github.com/swc-project/swc/commit/552fc2374d12476c81d11f7cf4362e0d8774bd1d))- **general**: Migrate dependencies (#2307) ([650e149](https://github.com/swc-project/swc/commit/650e1494d492a4129916b265aa688b1062fad119))
+- **(es/parser)** Improve error message (#2304) ([552fc23](https://github.com/swc-project/swc/commit/552fc2374d12476c81d11f7cf4362e0d8774bd1d))- **general**: Migrate dependencies (#2307) ([650e149](https://github.com/swc-project/swc/commit/650e1494d492a4129916b265aa688b1062fad119)) ([#2307](https://github.com/swc-project/swc/issues/2307)[#2284](https://github.com/swc-project/swc/issues/2284))
 
 ### Features
 
@@ -12264,7 +12264,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Fix simple bugs (#2292) ([1b2e670](https://github.com/swc-project/swc/commit/1b2e6706bdbe890cc4449876c3105342f3cfa9c5))
 
 ### Miscellaneous Tasks
-- **general**: Improve docs (#2301) ([83d88ce](https://github.com/swc-project/swc/commit/83d88ce388ee8553af6507032630ddbc7a100d14))
+- **general**: Improve docs (#2301) ([83d88ce](https://github.com/swc-project/swc/commit/83d88ce388ee8553af6507032630ddbc7a100d14)) ([#2301](https://github.com/swc-project/swc/issues/2301))
 
 ### Testing
 
@@ -12287,7 +12287,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(node/swc)** Allow `JsMinifyOptions` type for `JscConfig.minify` (#2287) ([4846c32](https://github.com/swc-project/swc/commit/4846c3230396875ee5a7017c525aa64e788b3bb7))
 
 ### Miscellaneous Tasks
-- **general**: Ignore linguist detection for fixtures (#2285) ([e538970](https://github.com/swc-project/swc/commit/e5389700e64f1e33fef9a59f6755a139b33ab41a))- **general**: Fix typo (#2288) ([dd3f18b](https://github.com/swc-project/swc/commit/dd3f18b760dd1922904677e8a3705a5187fbf140))
+- **general**: Ignore linguist detection for fixtures (#2285) ([e538970](https://github.com/swc-project/swc/commit/e5389700e64f1e33fef9a59f6755a139b33ab41a)) ([#2285](https://github.com/swc-project/swc/issues/2285))- **general**: Fix typo (#2288) ([dd3f18b](https://github.com/swc-project/swc/commit/dd3f18b760dd1922904677e8a3705a5187fbf140)) ([#2288](https://github.com/swc-project/swc/issues/2288))
 
 ## [1.2.89] - 2021-09-21
 
@@ -12334,7 +12334,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/minifier)** Add CLI for debugging (#2273) ([406fa3f](https://github.com/swc-project/swc/commit/406fa3fc780eea0e26aa3f636643e6db7ee32b04))
 
 ### Miscellaneous Tasks
-- **general**: Add discord server link to `README.md` (#2278) ([893fb08](https://github.com/swc-project/swc/commit/893fb087ae77fe5ab03cba5a67ce155123695441))
+- **general**: Add discord server link to `README.md` (#2278) ([893fb08](https://github.com/swc-project/swc/commit/893fb087ae77fe5ab03cba5a67ce155123695441)) ([#2278](https://github.com/swc-project/swc/issues/2278))
 
 ## [1.2.88] - 2021-09-16
 
@@ -12405,7 +12405,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/parser)** Fix parsing of static blocks (#2200) ([cbc8230](https://github.com/swc-project/swc/commit/cbc823031042638c99fd58692ac94527d1ab1852))
 
 
-- **(swc)** Improve rust apis (#2197) ([77be9f6](https://github.com/swc-project/swc/commit/77be9f63b9fd2b400f6b1a767172d95d3260dc84))- **general**: Fix simple bugs (#2220) ([b4796d9](https://github.com/swc-project/swc/commit/b4796d9d54e31fdd5f29c8c1a43875dcb7bbf186))
+- **(swc)** Improve rust apis (#2197) ([77be9f6](https://github.com/swc-project/swc/commit/77be9f63b9fd2b400f6b1a767172d95d3260dc84))- **general**: Fix simple bugs (#2220) ([b4796d9](https://github.com/swc-project/swc/commit/b4796d9d54e31fdd5f29c8c1a43875dcb7bbf186)) ([#2220](https://github.com/swc-project/swc/issues/2220)[#2219](https://github.com/swc-project/swc/issues/2219))
 
 ### Features
 
@@ -12458,7 +12458,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/parser)** Add tests for static blocks (#2180) ([b2c9971](https://github.com/swc-project/swc/commit/b2c99719fdf0549ff5a296c13747580b3a2f6e0c))
 
 
-- **(es/parser, es/codegen, es/visit)** Support  static blocks in classes (#2130) ([a10118c](https://github.com/swc-project/swc/commit/a10118c90fa32d3b52a127411e5fe671c4eb19f3))- **general**: Expose `.take()` (#2190) ([a8cb554](https://github.com/swc-project/swc/commit/a8cb554be5dea1d06dc91b3b2d715682663e3549))
+- **(es/parser, es/codegen, es/visit)** Support  static blocks in classes (#2130) ([a10118c](https://github.com/swc-project/swc/commit/a10118c90fa32d3b52a127411e5fe671c4eb19f3))- **general**: Expose `.take()` (#2190) ([a8cb554](https://github.com/swc-project/swc/commit/a8cb554be5dea1d06dc91b3b2d715682663e3549)) ([#2190](https://github.com/swc-project/swc/issues/2190)[#2189](https://github.com/swc-project/swc/issues/2189))
 
 ### Refactor
 
@@ -12554,7 +12554,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/parser)** Report an early error for `await` used in wrong contexts (#2098) ([e3e2908](https://github.com/swc-project/swc/commit/e3e29081397363c3afdbf983dd94c63763f411c3))
 
 ### Miscellaneous Tasks
-- **general**: Fix typo in type definition (#2116) ([91c239b](https://github.com/swc-project/swc/commit/91c239bc741a7770e637a7b413123427e7dfa4fe))- **general**: Fix typo (#2136) ([84cda8a](https://github.com/swc-project/swc/commit/84cda8a9f5d142c4af2bead63c65bb8b80f296f9))- **general**: Fix typo (#2135) ([1d71a8e](https://github.com/swc-project/swc/commit/1d71a8ea956e3da81532258676028859d49d1a50))
+- **general**: Fix typo in type definition (#2116) ([91c239b](https://github.com/swc-project/swc/commit/91c239bc741a7770e637a7b413123427e7dfa4fe)) ([#2116](https://github.com/swc-project/swc/issues/2116))- **general**: Fix typo (#2136) ([84cda8a](https://github.com/swc-project/swc/commit/84cda8a9f5d142c4af2bead63c65bb8b80f296f9)) ([#2136](https://github.com/swc-project/swc/issues/2136))- **general**: Fix typo (#2135) ([1d71a8e](https://github.com/swc-project/swc/commit/1d71a8ea956e3da81532258676028859d49d1a50)) ([#2135](https://github.com/swc-project/swc/issues/2135))
 
 ## [1.2.80] - 2021-08-19
 
@@ -12617,10 +12617,10 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/minifier)** Implement more rules (#2058) ([0e30deb](https://github.com/swc-project/swc/commit/0e30deba1a6fba0cfb9cf570ecf7838def56389b))
 
 ### Miscellaneous Tasks
-- **general**: Cleanup codes for fixture testing (#2070) ([b0c41bb](https://github.com/swc-project/swc/commit/b0c41bb3f2db6cf0b3e333694adf10df1ca5856c))
+- **general**: Cleanup codes for fixture testing (#2070) ([b0c41bb](https://github.com/swc-project/swc/commit/b0c41bb3f2db6cf0b3e333694adf10df1ca5856c)) ([#2070](https://github.com/swc-project/swc/issues/2070))
 
 ### Performance
-- **general**: Use ahash instead of sip hash (#2073) ([f6aabfc](https://github.com/swc-project/swc/commit/f6aabfce9c4b7bcd46bd6fdec593ec26f7dc1a09))
+- **general**: Use ahash instead of sip hash (#2073) ([f6aabfc](https://github.com/swc-project/swc/commit/f6aabfce9c4b7bcd46bd6fdec593ec26f7dc1a09)) ([#2073](https://github.com/swc-project/swc/issues/2073))
 
 ### Testing
 
@@ -12836,7 +12836,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Expose minifier api (#1978) ([d1c4817](https://github.com/swc-project/swc/commit/d1c481790ca6bb17353b3ee3268655ea48effa36))
 
 ### Miscellaneous Tasks
-- **general**: Fix typo (#1958) ([cd4a564](https://github.com/swc-project/swc/commit/cd4a564eead8cb3a6b0b0780ab6b0ba1ee116346))- **general**: Use correct license for the node package (#1966) ([f3603b2](https://github.com/swc-project/swc/commit/f3603b2cb84605a0ba5e0d818bef4ba86098712e))
+- **general**: Fix typo (#1958) ([cd4a564](https://github.com/swc-project/swc/commit/cd4a564eead8cb3a6b0b0780ab6b0ba1ee116346)) ([#1958](https://github.com/swc-project/swc/issues/1958))- **general**: Use correct license for the node package (#1966) ([f3603b2](https://github.com/swc-project/swc/commit/f3603b2cb84605a0ba5e0d818bef4ba86098712e)) ([#1966](https://github.com/swc-project/swc/issues/1966))
 
 ## [1.2.66] - 2021-07-20
 
@@ -12905,7 +12905,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(ci)** Switch installation method of deno (#1915) ([4e42c66](https://github.com/swc-project/swc/commit/4e42c66663e6627c33dea9868de59609b7fde5cc))- **general**: Update README.md (#1910) ([8694b11](https://github.com/swc-project/swc/commit/8694b11959a01da78bdb7ec283894ac9576e4186))
+- **(ci)** Switch installation method of deno (#1915) ([4e42c66](https://github.com/swc-project/swc/commit/4e42c66663e6627c33dea9868de59609b7fde5cc))- **general**: Update README.md (#1910) ([8694b11](https://github.com/swc-project/swc/commit/8694b11959a01da78bdb7ec283894ac9576e4186)) ([#1910](https://github.com/swc-project/swc/issues/1910))
 
 ### Refactor
 
@@ -13014,7 +13014,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/ast)** Upgrade arbitrary crate to v1 (#1844) ([c5f1c6b](https://github.com/swc-project/swc/commit/c5f1c6b8ba3a26f1b3463f92954c245ecc52e23a))
 
 
-- **(es/ast)** Bump version (#1853) ([737ce63](https://github.com/swc-project/swc/commit/737ce63b78ceb65d0ce482eb72adf1422469f37d))- **general**: Organize project  (#1849) ([ff440d4](https://github.com/swc-project/swc/commit/ff440d47a402bf5273217f6995269a918886d322))
+- **(es/ast)** Bump version (#1853) ([737ce63](https://github.com/swc-project/swc/commit/737ce63b78ceb65d0ce482eb72adf1422469f37d))- **general**: Organize project  (#1849) ([ff440d4](https://github.com/swc-project/swc/commit/ff440d47a402bf5273217f6995269a918886d322)) ([#1849](https://github.com/swc-project/swc/issues/1849))
 
 ## [1.2.61] - 2021-06-16
 
@@ -13354,7 +13354,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Fix bugs (#1560) ([46c3d62](https://github.com/swc-project/swc/commit/46c3d62ebd06bd6d24091cff972eac53103af891))
 
 
-- **(swc)** Fix various bugs (#1588) ([4db24fb](https://github.com/swc-project/swc/commit/4db24fb7f63fdec6e2c3eb59d4948337690663f3))- **general**: Fix bugs (#1590) ([c765c7e](https://github.com/swc-project/swc/commit/c765c7e06e1d3caa6f7271630831c79f4b3e6a2c))
+- **(swc)** Fix various bugs (#1588) ([4db24fb](https://github.com/swc-project/swc/commit/4db24fb7f63fdec6e2c3eb59d4948337690663f3))- **general**: Fix bugs (#1590) ([c765c7e](https://github.com/swc-project/swc/commit/c765c7e06e1d3caa6f7271630831c79f4b3e6a2c)) ([#1590](https://github.com/swc-project/swc/issues/1590)[#1456](https://github.com/swc-project/swc/issues/1456)[#1362](https://github.com/swc-project/swc/issues/1362)[#1362](https://github.com/swc-project/swc/issues/1362))
 
 ## [1.2.53] - 2021-04-16
 
@@ -13451,7 +13451,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Fix bugs (#1529) ([252804d](https://github.com/swc-project/swc/commit/252804d2e34c192a3b5146915e752d3fa023980a))
 
 
-- **(swc)** Fix various bugs (#1550) ([2211a99](https://github.com/swc-project/swc/commit/2211a9908a9a1c2e01d5f483ad91ac396336dc08))- **general**: Fix bugs (#1516) ([51d0cef](https://github.com/swc-project/swc/commit/51d0cef287bd90c337db391e977daf34d8820419))
+- **(swc)** Fix various bugs (#1550) ([2211a99](https://github.com/swc-project/swc/commit/2211a9908a9a1c2e01d5f483ad91ac396336dc08))- **general**: Fix bugs (#1516) ([51d0cef](https://github.com/swc-project/swc/commit/51d0cef287bd90c337db391e977daf34d8820419)) ([#1516](https://github.com/swc-project/swc/issues/1516)[#1517](https://github.com/swc-project/swc/issues/1517)[#1517](https://github.com/swc-project/swc/issues/1517)[#1488](https://github.com/swc-project/swc/issues/1488)[#1490](https://github.com/swc-project/swc/issues/1490)[#1480](https://github.com/swc-project/swc/issues/1480)[#1508](https://github.com/swc-project/swc/issues/1508))
 
 ### Features
 
@@ -13522,7 +13522,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Fix bugs (#1453) ([dcdac2d](https://github.com/swc-project/swc/commit/dcdac2db6fbe9e1b78dc99dc1e29aa24c6a683f1))
 
 ### Miscellaneous Tasks
-- **general**: Add note about required dev tools (#1467) ([a903683](https://github.com/swc-project/swc/commit/a90368372f340a356a90eccb2bbf423caf80f73c))
+- **general**: Add note about required dev tools (#1467) ([a903683](https://github.com/swc-project/swc/commit/a90368372f340a356a90eccb2bbf423caf80f73c)) ([#1467](https://github.com/swc-project/swc/issues/1467))
 
 ### Refactor
 
@@ -13563,7 +13563,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms)** Port @babel/preset-modules (#1439) ([eec65f2](https://github.com/swc-project/swc/commit/eec65f25bbfaaf81ee6e18ed2b9461c1d7d8c618))
 
 ### Miscellaneous Tasks
-- **general**: Typo (#1442) ([24dac86](https://github.com/swc-project/swc/commit/24dac8605b8ed6473ac5881651437c3f614bb001))- **general**: Fix link (#1443) ([7d62fdf](https://github.com/swc-project/swc/commit/7d62fdf761b558f7ca29a85f6da76f82f1750802))
+- **general**: Typo (#1442) ([24dac86](https://github.com/swc-project/swc/commit/24dac8605b8ed6473ac5881651437c3f614bb001)) ([#1442](https://github.com/swc-project/swc/issues/1442))- **general**: Fix link (#1443) ([7d62fdf](https://github.com/swc-project/swc/commit/7d62fdf761b558f7ca29a85f6da76f82f1750802)) ([#1443](https://github.com/swc-project/swc/issues/1443))
 
 ## [1.2.49] - 2021-02-23
 
@@ -13574,7 +13574,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(common)** Allow using with MIRI (#1426) ([abfff69](https://github.com/swc-project/swc/commit/abfff69300e46fff8d244fe27bacf08c1545d005))
 
 
-- **(node-swc)** Fix glibc compatibility issue (#1431) ([6ece763](https://github.com/swc-project/swc/commit/6ece76367b3b36e673e16ffd8d9600ccdd6c65cf))- **general**: Fix tests on windows (#1419) ([59bd00d](https://github.com/swc-project/swc/commit/59bd00d8413fc95cb285e838e66f26b5b09fd2bb))
+- **(node-swc)** Fix glibc compatibility issue (#1431) ([6ece763](https://github.com/swc-project/swc/commit/6ece76367b3b36e673e16ffd8d9600ccdd6c65cf))- **general**: Fix tests on windows (#1419) ([59bd00d](https://github.com/swc-project/swc/commit/59bd00d8413fc95cb285e838e66f26b5b09fd2bb)) ([#1419](https://github.com/swc-project/swc/issues/1419))
 
 ## [1.2.48] - 2021-02-22
 
@@ -13630,7 +13630,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(swc)** Reduce allocation (#1401) ([a53186c](https://github.com/swc-project/swc/commit/a53186c842bf9eb33f0834bab911a7f5a8c9b17b))
 
 ### Documentation
-- **general**: Fixed documentation link URL in README.md (#1375) ([7a93594](https://github.com/swc-project/swc/commit/7a935942294c2b72480c6ecf1388684d625a1229))
+- **general**: Fixed documentation link URL in README.md (#1375) ([7a93594](https://github.com/swc-project/swc/commit/7a935942294c2b72480c6ecf1388684d625a1229)) ([#1375](https://github.com/swc-project/swc/issues/1375))
 
 ### Features
 
@@ -13645,7 +13645,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es/transforms/react)** New jsx transform (#1408) ([0be20ff](https://github.com/swc-project/swc/commit/0be20ff0ae49f379a63a5ce0f1a3d806dae1eff7))
 
 
-- **(node-swc)** Reduce binary size (#1418) ([9d896c7](https://github.com/swc-project/swc/commit/9d896c746e4604c9047f8ef62bcd728ca51d3aa3))- **general**: Add import assertion to dep analyzer (#1387) ([8ef78a9](https://github.com/swc-project/swc/commit/8ef78a9e08008275c3c60090ce65ad4339220eb5))
+- **(node-swc)** Reduce binary size (#1418) ([9d896c7](https://github.com/swc-project/swc/commit/9d896c746e4604c9047f8ef62bcd728ca51d3aa3))- **general**: Add import assertion to dep analyzer (#1387) ([8ef78a9](https://github.com/swc-project/swc/commit/8ef78a9e08008275c3c60090ce65ad4339220eb5)) ([#1387](https://github.com/swc-project/swc/issues/1387))
 
 ### Miscellaneous Tasks
 
@@ -13730,7 +13730,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(es)** TypeScript 4.2 (#1330) ([3faefb5](https://github.com/swc-project/swc/commit/3faefb5836942062e372727503bacc099185f0e7))
 
 ### V1.2.46
-- **general**: Prevent regression. (#1356) ([5c3a0b5](https://github.com/swc-project/swc/commit/5c3a0b516607941297f4eb099632b6c5294d20a2))
+- **general**: Prevent regression. (#1356) ([5c3a0b5](https://github.com/swc-project/swc/commit/5c3a0b516607941297f4eb099632b6c5294d20a2)) ([#1356](https://github.com/swc-project/swc/issues/1356))
 
 ## [1.2.44] - 2021-01-11
 
@@ -13756,7 +13756,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(ecmascript/transforms)** Split into multiple crates. (#1311) ([76d9e2a](https://github.com/swc-project/swc/commit/76d9e2a9dfe3f5e6d4f10834c6740637f65eef44))
 
 ### Miscellaneous Tasks
-- **general**: Fix website docs link (#1317) ([5d88e8b](https://github.com/swc-project/swc/commit/5d88e8ba5434bd059eb2ae91df295fb3f1fb707b))- **general**: Update actions/setup-node (#1315) ([78dc61a](https://github.com/swc-project/swc/commit/78dc61af332fe8ce796d9345a86ef7830294e135))
+- **general**: Fix website docs link (#1317) ([5d88e8b](https://github.com/swc-project/swc/commit/5d88e8ba5434bd059eb2ae91df295fb3f1fb707b)) ([#1317](https://github.com/swc-project/swc/issues/1317))- **general**: Update actions/setup-node (#1315) ([78dc61a](https://github.com/swc-project/swc/commit/78dc61af332fe8ce796d9345a86ef7830294e135)) ([#1315](https://github.com/swc-project/swc/issues/1315))
 
 ## [1.2.43] - 2020-12-30
 
@@ -13831,7 +13831,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(visit)** Add support for Arc<T> (#1256) ([718f478](https://github.com/swc-project/swc/commit/718f47803bcfd0ff2d11bf72aaa7c34029cae789))
 
 
-- **(wasm-web)** Initialize ([edf74fc](https://github.com/swc-project/swc/commit/edf74fc1ec6543af5844c666187659700b68699e))- **general**: Specifier position in DependencyDescriptor (#1260) ([8ba2ae9](https://github.com/swc-project/swc/commit/8ba2ae959d0a44b368e26daf6a23657f83f3196c))
+- **(wasm-web)** Initialize ([edf74fc](https://github.com/swc-project/swc/commit/edf74fc1ec6543af5844c666187659700b68699e))- **general**: Specifier position in DependencyDescriptor (#1260) ([8ba2ae9](https://github.com/swc-project/swc/commit/8ba2ae959d0a44b368e26daf6a23657f83f3196c)) ([#1260](https://github.com/swc-project/swc/issues/1260))
 
 ## [1.2.40] - 2020-12-03
 
@@ -13842,7 +13842,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(regenerator)** Handle ternary correctly (#1228) ([f8a1fb8](https://github.com/swc-project/swc/commit/f8a1fb878daf603150174ca23b7e6d22d22e3b5c))
 
 
-- **(source map)** Fix inline source map comment slicing (#1237) ([cdaefcc](https://github.com/swc-project/swc/commit/cdaefcc27e3c943e6ff9b98fc4ea19f0d7a1bf23))- **general**: Decorator metadata (#1248) ([2e29d78](https://github.com/swc-project/swc/commit/2e29d7828164493ec6e8e3c043325ebcd2d935e1))
+- **(source map)** Fix inline source map comment slicing (#1237) ([cdaefcc](https://github.com/swc-project/swc/commit/cdaefcc27e3c943e6ff9b98fc4ea19f0d7a1bf23))- **general**: Decorator metadata (#1248) ([2e29d78](https://github.com/swc-project/swc/commit/2e29d7828164493ec6e8e3c043325ebcd2d935e1)) ([#1248](https://github.com/swc-project/swc/issues/1248)[#1160](https://github.com/swc-project/swc/issues/1160))
 
 ### Features
 
@@ -13859,35 +13859,35 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(typo)** Dowloads => downloads (#1222) ([723970d](https://github.com/swc-project/swc/commit/723970db1f8e0077dfd5a641f7edf87ca3053961))- **general**: Publish script ([1268206](https://github.com/swc-project/swc/commit/1268206bff17b1258e125f6214f8d9b2b1dc42a3))
 
 ### Features
-- **general**: Macro for fixture testing (#1226) ([ad23a58](https://github.com/swc-project/swc/commit/ad23a58fed924747a4175b22f0ba49db40a9dd2d))
+- **general**: Macro for fixture testing (#1226) ([ad23a58](https://github.com/swc-project/swc/commit/ad23a58fed924747a4175b22f0ba49db40a9dd2d)) ([#1226](https://github.com/swc-project/swc/issues/1226))
 
 ### Bundler
-- **general**: Fix issues (#1212) ([4294b5e](https://github.com/swc-project/swc/commit/4294b5e7ba41b74ff731df3b524155a60fd434a9))
+- **general**: Fix issues (#1212) ([4294b5e](https://github.com/swc-project/swc/commit/4294b5e7ba41b74ff731df3b524155a60fd434a9)) ([#1212](https://github.com/swc-project/swc/issues/1212)[#6802](https://github.com/swc-project/swc/issues/6802)[#8246](https://github.com/swc-project/swc/issues/8246)[#8302](https://github.com/swc-project/swc/issues/8302)[#8302](https://github.com/swc-project/swc/issues/8302)[#8308](https://github.com/swc-project/swc/issues/8308)[#8399](https://github.com/swc-project/swc/issues/8399)[#8314](https://github.com/swc-project/swc/issues/8314)[#8325](https://github.com/swc-project/swc/issues/8325)[#8344](https://github.com/swc-project/swc/issues/8344)[#1211](https://github.com/swc-project/swc/issues/1211))
 
 ## [1.2.38] - 2020-11-08
 
 ### Bug Fixes
-- **general**: SourceMap::span_to_lines for empty file (#1198) ([546a01c](https://github.com/swc-project/swc/commit/546a01cdc2f7dbe4bda06a2f3440c117136b72a8))
+- **general**: SourceMap::span_to_lines for empty file (#1198) ([546a01c](https://github.com/swc-project/swc/commit/546a01cdc2f7dbe4bda06a2f3440c117136b72a8)) ([#1198](https://github.com/swc-project/swc/issues/1198))
 
 ### Bundler
-- **general**: Improve hook for import.meta (#1195) ([3cdb62b](https://github.com/swc-project/swc/commit/3cdb62bfd85f537e91918c39bb216a04c9a569ca))- **general**: Use a local variable for import.meta (#1201) ([64942b5](https://github.com/swc-project/swc/commit/64942b50065226bdd56bfc700a764b1e72d12892))- **general**: Handle swc helpers (#1199) ([0a5e23f](https://github.com/swc-project/swc/commit/0a5e23f97c30d7ee72b8faaddfc697e33e3cdd4d))
+- **general**: Improve hook for import.meta (#1195) ([3cdb62b](https://github.com/swc-project/swc/commit/3cdb62bfd85f537e91918c39bb216a04c9a569ca)) ([#1195](https://github.com/swc-project/swc/issues/1195))- **general**: Use a local variable for import.meta (#1201) ([64942b5](https://github.com/swc-project/swc/commit/64942b50065226bdd56bfc700a764b1e72d12892)) ([#1201](https://github.com/swc-project/swc/issues/1201))- **general**: Handle swc helpers (#1199) ([0a5e23f](https://github.com/swc-project/swc/commit/0a5e23f97c30d7ee72b8faaddfc697e33e3cdd4d)) ([#1199](https://github.com/swc-project/swc/issues/1199))
 
 ### Resolver
-- **general**: Handle class declarations (#1200) ([f21a288](https://github.com/swc-project/swc/commit/f21a28844dd819f22cef87c9e0e285e9482afcf0))
+- **general**: Handle class declarations (#1200) ([f21a288](https://github.com/swc-project/swc/commit/f21a28844dd819f22cef87c9e0e285e9482afcf0)) ([#1200](https://github.com/swc-project/swc/issues/1200)[#463](https://github.com/swc-project/swc/issues/463))
 
 ## [1.2.37] - 2020-10-29
 
 ### Ast
-- **general**: Add support for fuzzing (#1167) ([11d137a](https://github.com/swc-project/swc/commit/11d137ac1121d505bdcceebabe9f75b2b77f6b18))
+- **general**: Add support for fuzzing (#1167) ([11d137a](https://github.com/swc-project/swc/commit/11d137ac1121d505bdcceebabe9f75b2b77f6b18)) ([#1167](https://github.com/swc-project/swc/issues/1167))
 
 ### Bundler
-- **general**: Allow importing and exporting from same module (#1152) ([f0ea70c](https://github.com/swc-project/swc/commit/f0ea70cb25e571ad81fc7027e61f69b69edec5ab))- **general**: Fix bugs (#1154) ([6f00620](https://github.com/swc-project/swc/commit/6f006208ac555ef02aac7a1c8c09dff124564e8c))- **general**: Fix dead code elimination (#1157) ([5a91ab9](https://github.com/swc-project/swc/commit/5a91ab994c5daa6920df7986e8694df906011243))- **general**: Handle computed accesses correctly (#1159) ([ad7cb65](https://github.com/swc-project/swc/commit/ad7cb6544d1ff019243f40fa87f59843d7b2151d))- **general**: Make output deterministic (#1166) ([41d1738](https://github.com/swc-project/swc/commit/41d1738b822ee44b664f152c69724184d2238cad))- **general**: Fix ordering (#1171) ([626c881](https://github.com/swc-project/swc/commit/626c881c981ecf6e8102409171b66174737b7e19))
+- **general**: Allow importing and exporting from same module (#1152) ([f0ea70c](https://github.com/swc-project/swc/commit/f0ea70cb25e571ad81fc7027e61f69b69edec5ab)) ([#1152](https://github.com/swc-project/swc/issues/1152)[#1150](https://github.com/swc-project/swc/issues/1150))- **general**: Fix bugs (#1154) ([6f00620](https://github.com/swc-project/swc/commit/6f006208ac555ef02aac7a1c8c09dff124564e8c)) ([#1154](https://github.com/swc-project/swc/issues/1154)[#1155](https://github.com/swc-project/swc/issues/1155))- **general**: Fix dead code elimination (#1157) ([5a91ab9](https://github.com/swc-project/swc/commit/5a91ab994c5daa6920df7986e8694df906011243)) ([#1157](https://github.com/swc-project/swc/issues/1157)[#1156](https://github.com/swc-project/swc/issues/1156))- **general**: Handle computed accesses correctly (#1159) ([ad7cb65](https://github.com/swc-project/swc/commit/ad7cb6544d1ff019243f40fa87f59843d7b2151d)) ([#1159](https://github.com/swc-project/swc/issues/1159))- **general**: Make output deterministic (#1166) ([41d1738](https://github.com/swc-project/swc/commit/41d1738b822ee44b664f152c69724184d2238cad)) ([#1166](https://github.com/swc-project/swc/issues/1166))- **general**: Fix ordering (#1171) ([626c881](https://github.com/swc-project/swc/commit/626c881c981ecf6e8102409171b66174737b7e19)) ([#1171](https://github.com/swc-project/swc/issues/1171))
 
 ### Codegen
-- **general**: Preserve space for postfix unary operators (#1185) ([6e9d06e](https://github.com/swc-project/swc/commit/6e9d06e95a31c15cb856377591d05f9be3c8b5f1))
+- **general**: Preserve space for postfix unary operators (#1185) ([6e9d06e](https://github.com/swc-project/swc/commit/6e9d06e95a31c15cb856377591d05f9be3c8b5f1)) ([#1185](https://github.com/swc-project/swc/issues/1185))
 
 ### Parser
-- **general**: Remove unnecessary question mark (#1174) ([fd760fb](https://github.com/swc-project/swc/commit/fd760fbf09e7632ba2f3f66e20377a4b5f545568))
+- **general**: Remove unnecessary question mark (#1174) ([fd760fb](https://github.com/swc-project/swc/commit/fd760fbf09e7632ba2f3f66e20377a4b5f545568)) ([#1174](https://github.com/swc-project/swc/issues/1174))
 
 ### Transforms
 - **general**: Fix _typeof helper  ([6b03c65](https://github.com/swc-project/swc/commit/6b03c659caba37693a8f0eb86ac98112884b70d8))
@@ -13895,7 +13895,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.2.36] - 2020-10-06
 
 ### Bundler
-- **general**: Fix bugs (#1141) ([c127cb2](https://github.com/swc-project/swc/commit/c127cb2b48e6ad2301f7ea67184a78b0621994cb))
+- **general**: Fix bugs (#1141) ([c127cb2](https://github.com/swc-project/swc/commit/c127cb2b48e6ad2301f7ea67184a78b0621994cb)) ([#1141](https://github.com/swc-project/swc/issues/1141)[#1138](https://github.com/swc-project/swc/issues/1138)[#1139](https://github.com/swc-project/swc/issues/1139))
 
 ## [1.2.35] - 2020-10-04
 
@@ -13909,7 +13909,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(strip)** Don't treat type-only exports as concrete references (#1126) ([e4b8a0c](https://github.com/swc-project/swc/commit/e4b8a0cc1eed8de5d7f8f9706ced5acc56f6c15e))
 
 ### Bundler
-- **general**: Fix bugs (#1105) ([9879fa5](https://github.com/swc-project/swc/commit/9879fa59c87d1f54bde7413a9ca49e40ffd65b38))- **general**: Fix extra bugs (#1127) ([205ce4e](https://github.com/swc-project/swc/commit/205ce4ebe2bc300f66bb4e82de7a128b91e0425c))
+- **general**: Fix bugs (#1105) ([9879fa5](https://github.com/swc-project/swc/commit/9879fa59c87d1f54bde7413a9ca49e40ffd65b38)) ([#1105](https://github.com/swc-project/swc/issues/1105)[#1109](https://github.com/swc-project/swc/issues/1109)[#1110](https://github.com/swc-project/swc/issues/1110)[#1111](https://github.com/swc-project/swc/issues/1111)[#1115](https://github.com/swc-project/swc/issues/1115)[#1116](https://github.com/swc-project/swc/issues/1116)[#1118](https://github.com/swc-project/swc/issues/1118)[#1119](https://github.com/swc-project/swc/issues/1119)[#1117](https://github.com/swc-project/swc/issues/1117))- **general**: Fix extra bugs (#1127) ([205ce4e](https://github.com/swc-project/swc/commit/205ce4ebe2bc300f66bb4e82de7a128b91e0425c)) ([#1127](https://github.com/swc-project/swc/issues/1127))
 
 ## [1.2.34] - 2020-09-24
 
@@ -13922,65 +13922,65 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 - **(strip)** Fix Config::import_not_used_as_values (#1101) ([a9c3072](https://github.com/swc-project/swc/commit/a9c3072b651fec425b569829fb75012e93282115))
 
 ### Miscellaneous Tasks
-- **general**: Bump version of wasm (#1102) ([73671ec](https://github.com/swc-project/swc/commit/73671ecd90900194f87a39947f37ce15a8675ea9))
+- **general**: Bump version of wasm (#1102) ([73671ec](https://github.com/swc-project/swc/commit/73671ecd90900194f87a39947f37ce15a8675ea9)) ([#1102](https://github.com/swc-project/swc/issues/1102))
 
 ## [1.2.32] - 2020-09-22
 
 ### Codegen
-- **general**: Fix for jsx (#1097) ([7e8ff1d](https://github.com/swc-project/swc/commit/7e8ff1d342b43231ad273631a45517413e0add41))
+- **general**: Fix for jsx (#1097) ([7e8ff1d](https://github.com/swc-project/swc/commit/7e8ff1d342b43231ad273631a45517413e0add41)) ([#1097](https://github.com/swc-project/swc/issues/1097))
 
 ## [1.2.31] - 2020-09-22
 
 ### Bundler
-- **general**: Handle export * properly (#1083) ([fa756a1](https://github.com/swc-project/swc/commit/fa756a1b4819e4f2966f152204afd91b80450cec))
+- **general**: Handle export * properly (#1083) ([fa756a1](https://github.com/swc-project/swc/commit/fa756a1b4819e4f2966f152204afd91b80450cec)) ([#1083](https://github.com/swc-project/swc/issues/1083))
 
 ### Resolver
-- **general**: Handle pattern in lhs of for of/in correctly (#1089) ([ac0a19c](https://github.com/swc-project/swc/commit/ac0a19c0e84c612b0ca0ee06b463143f4abedccf))
+- **general**: Handle pattern in lhs of for of/in correctly (#1089) ([ac0a19c](https://github.com/swc-project/swc/commit/ac0a19c0e84c612b0ca0ee06b463143f4abedccf)) ([#1089](https://github.com/swc-project/swc/issues/1089))
 
 ### Wasm
-- **general**: Automatic deployment (#1084) ([7905b0d](https://github.com/swc-project/swc/commit/7905b0dcf5afaf9a465e54b6dbae211627a48ad0))
+- **general**: Automatic deployment (#1084) ([7905b0d](https://github.com/swc-project/swc/commit/7905b0dcf5afaf9a465e54b6dbae211627a48ad0)) ([#1084](https://github.com/swc-project/swc/issues/1084))
 
 ## [1.2.30] - 2020-09-18
 
 ## [1.2.29] - 2020-09-18
 
 ### Bundler
-- **general**: Fix for deno (#1078) ([24c597f](https://github.com/swc-project/swc/commit/24c597f097235c9756a5d8d6e1e2bdf76b3261cb))
+- **general**: Fix for deno (#1078) ([24c597f](https://github.com/swc-project/swc/commit/24c597f097235c9756a5d8d6e1e2bdf76b3261cb)) ([#1078](https://github.com/swc-project/swc/issues/1078))
 
 ### Typescript_strip
-- **general**: Option to remove completely unused imports (#1060) ([bc82b55](https://github.com/swc-project/swc/commit/bc82b5567e2abb9c56aa3b537354b021f4b04a6e))
+- **general**: Option to remove completely unused imports (#1060) ([bc82b55](https://github.com/swc-project/swc/commit/bc82b5567e2abb9c56aa3b537354b021f4b04a6e)) ([#1060](https://github.com/swc-project/swc/issues/1060))
 
 ## [1.2.28] - 2020-09-13
 
 ## [1.2.27-alpha.1] - 2020-09-13
 
 ### Cjs
-- **general**: Fix import order (#1069) ([8a01729](https://github.com/swc-project/swc/commit/8a0172912e963d0fa274af0ea262d27feff68ad8))
+- **general**: Fix import order (#1069) ([8a01729](https://github.com/swc-project/swc/commit/8a0172912e963d0fa274af0ea262d27feff68ad8)) ([#1069](https://github.com/swc-project/swc/issues/1069))
 
 ### Parser
-- **general**: Parse member expression is object patterns (#1068) ([0972db9](https://github.com/swc-project/swc/commit/0972db98a1d4f592e1030e20d71996a65e8d4dd1))
+- **general**: Parse member expression is object patterns (#1068) ([0972db9](https://github.com/swc-project/swc/commit/0972db98a1d4f592e1030e20d71996a65e8d4dd1)) ([#1068](https://github.com/swc-project/swc/issues/1068))
 
 ### Resolver
-- **general**: No additional scope for function child (#1070) ([f029115](https://github.com/swc-project/swc/commit/f029115914969d3949f77322519d3030fdbe17d9))- **general**: Correctly set in_type (#1071) ([4d5a0da](https://github.com/swc-project/swc/commit/4d5a0dacec80b2e0fdba1781ffef80aeaaa9cc49))
+- **general**: No additional scope for function child (#1070) ([f029115](https://github.com/swc-project/swc/commit/f029115914969d3949f77322519d3030fdbe17d9)) ([#1070](https://github.com/swc-project/swc/issues/1070))- **general**: Correctly set in_type (#1071) ([4d5a0da](https://github.com/swc-project/swc/commit/4d5a0dacec80b2e0fdba1781ffef80aeaaa9cc49)) ([#1071](https://github.com/swc-project/swc/issues/1071))
 
 ## [1.2.26] - 2020-09-11
 
 ## [1.2.25] - 2020-09-11
 
 ### Bug Fixes
-- **general**: Handle conditional expression in callee (#1051) ([9be8bf6](https://github.com/swc-project/swc/commit/9be8bf671d27033df7d535840dfe2b54a12792b2))
+- **general**: Handle conditional expression in callee (#1051) ([9be8bf6](https://github.com/swc-project/swc/commit/9be8bf671d27033df7d535840dfe2b54a12792b2)) ([#1051](https://github.com/swc-project/swc/issues/1051))
 
 ### Codegen
-- **general**: Don't emit newline after a block comment (#1062) ([2fff66d](https://github.com/swc-project/swc/commit/2fff66d985b53412322ed37f8549d0668336fc52))
+- **general**: Don't emit newline after a block comment (#1062) ([2fff66d](https://github.com/swc-project/swc/commit/2fff66d985b53412322ed37f8549d0668336fc52)) ([#1062](https://github.com/swc-project/swc/issues/1062))
 
 ### Common_js
-- **general**: Change order of exports (#1057) ([dc4c92c](https://github.com/swc-project/swc/commit/dc4c92c9da148c4a8a4617ad7e3bafedbbd5af97))
+- **general**: Change order of exports (#1057) ([dc4c92c](https://github.com/swc-project/swc/commit/dc4c92c9da148c4a8a4617ad7e3bafedbbd5af97)) ([#1057](https://github.com/swc-project/swc/issues/1057)[#1043](https://github.com/swc-project/swc/issues/1043))
 
 ### Jsdoc
-- **general**: Fix parser (#1059) ([09e3f96](https://github.com/swc-project/swc/commit/09e3f96a3e6e524360d6bff1b4520d5163780f88))
+- **general**: Fix parser (#1059) ([09e3f96](https://github.com/swc-project/swc/commit/09e3f96a3e6e524360d6bff1b4520d5163780f88)) ([#1059](https://github.com/swc-project/swc/issues/1059))
 
 ### Resolver
-- **general**: Handle constructor properly (#1054) ([e2546e0](https://github.com/swc-project/swc/commit/e2546e0100683b13c51345bea80affbe6941476a))- **general**: Fix handling of constructor parameters (#1056) ([aec155b](https://github.com/swc-project/swc/commit/aec155b58fdc61928f0a4e25c3405932d751a3f9))
+- **general**: Handle constructor properly (#1054) ([e2546e0](https://github.com/swc-project/swc/commit/e2546e0100683b13c51345bea80affbe6941476a)) ([#1054](https://github.com/swc-project/swc/issues/1054))- **general**: Fix handling of constructor parameters (#1056) ([aec155b](https://github.com/swc-project/swc/commit/aec155b58fdc61928f0a4e25c3405932d751a3f9)) ([#1056](https://github.com/swc-project/swc/issues/1056))
 
 ## [1.2.24] - 2020-09-08
 
@@ -13992,7 +13992,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 
 
-- **(dep_graph)** Top level dynamic import (#1024) ([c4cc433](https://github.com/swc-project/swc/commit/c4cc4334348a633ced02976c8ac584448253e63c))- **general**: Expose dep_graph crate (#1023) ([9a073f1](https://github.com/swc-project/swc/commit/9a073f10a58270d66b6fd745ca29f3400ea70797))- **general**: Handle binary expression in callee of new (#1030) ([6524802](https://github.com/swc-project/swc/commit/6524802ae526bf2437c7025d0ed2e79a92ad66eb))
+- **(dep_graph)** Top level dynamic import (#1024) ([c4cc433](https://github.com/swc-project/swc/commit/c4cc4334348a633ced02976c8ac584448253e63c))- **general**: Expose dep_graph crate (#1023) ([9a073f1](https://github.com/swc-project/swc/commit/9a073f10a58270d66b6fd745ca29f3400ea70797)) ([#1023](https://github.com/swc-project/swc/issues/1023))- **general**: Handle binary expression in callee of new (#1030) ([6524802](https://github.com/swc-project/swc/commit/6524802ae526bf2437c7025d0ed2e79a92ad66eb)) ([#1030](https://github.com/swc-project/swc/issues/1030))
 
 ## [1.2.22] - 2020-08-30
 
@@ -14005,10 +14005,10 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.2.20] - 2020-08-15
 
 ### Hygiene
-- **general**: No ref-ref conflict (#963) ([01aeec3](https://github.com/swc-project/swc/commit/01aeec39ca2a999bc1960a45dc5407cd6f51712b))
+- **general**: No ref-ref conflict (#963) ([01aeec3](https://github.com/swc-project/swc/commit/01aeec39ca2a999bc1960a45dc5407cd6f51712b)) ([#963](https://github.com/swc-project/swc/issues/963)[#962](https://github.com/swc-project/swc/issues/962))
 
 ### Spack
-- **general**: Allow using jsx (#971) ([7387872](https://github.com/swc-project/swc/commit/73878728aa919234f8219c912fe34981c993be13))
+- **general**: Allow using jsx (#971) ([7387872](https://github.com/swc-project/swc/commit/73878728aa919234f8219c912fe34981c993be13)) ([#971](https://github.com/swc-project/swc/issues/971))
 
 ## [1.2.19] - 2020-08-13
 
@@ -14027,37 +14027,37 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.2.10] - 2020-07-31
 
 ### Bug Fixes
-- **general**: Readonly is not stripped from private prop (#916) ([9cb32cb](https://github.com/swc-project/swc/commit/9cb32cbb7581a2c967d189afa7b0ca7311180f92))
+- **general**: Readonly is not stripped from private prop (#916) ([9cb32cb](https://github.com/swc-project/swc/commit/9cb32cbb7581a2c967d189afa7b0ca7311180f92)) ([#916](https://github.com/swc-project/swc/issues/916))
 
 ### Codegen
-- **general**: Preserve quotes (#911) ([ca43112](https://github.com/swc-project/swc/commit/ca43112d2acbf528dcaf7c638539762c6ef15a9b))
+- **general**: Preserve quotes (#911) ([ca43112](https://github.com/swc-project/swc/commit/ca43112d2acbf528dcaf7c638539762c6ef15a9b)) ([#911](https://github.com/swc-project/swc/issues/911))
 
 ## [1.2.9] - 2020-07-26
 
 ### Cleanup
-- **general**: `native` (#887) ([68799d7](https://github.com/swc-project/swc/commit/68799d74efc10261c4224bf992cc8db353584c2d))
+- **general**: `native` (#887) ([68799d7](https://github.com/swc-project/swc/commit/68799d74efc10261c4224bf992cc8db353584c2d)) ([#887](https://github.com/swc-project/swc/issues/887))
 
 ### Spack
-- **general**: Remove_item is deprecated (#881) ([053f81c](https://github.com/swc-project/swc/commit/053f81c7613a3c49e42435790a8a047e4df2e68e))
+- **general**: Remove_item is deprecated (#881) ([053f81c](https://github.com/swc-project/swc/commit/053f81c7613a3c49e42435790a8a047e4df2e68e)) ([#881](https://github.com/swc-project/swc/issues/881))
 
 ## [1.2.8] - 2020-07-05
 
 ## [1.2.7] - 2020-07-01
 
 ### Spack
-- **general**: More extensions for node resolver (#842) ([aea757d](https://github.com/swc-project/swc/commit/aea757d369898aac573454ada6074d03084e59e4))- **general**: Enhancement (#845) ([31020e4](https://github.com/swc-project/swc/commit/31020e46d8f87eaee4bb4100cb6b660c4998e8cc))- **general**: Modules (#848) ([66d42ad](https://github.com/swc-project/swc/commit/66d42adf7eddb9af4fb664c5297c2adb7fc0805c))
+- **general**: More extensions for node resolver (#842) ([aea757d](https://github.com/swc-project/swc/commit/aea757d369898aac573454ada6074d03084e59e4)) ([#842](https://github.com/swc-project/swc/issues/842))- **general**: Enhancement (#845) ([31020e4](https://github.com/swc-project/swc/commit/31020e46d8f87eaee4bb4100cb6b660c4998e8cc)) ([#845](https://github.com/swc-project/swc/issues/845))- **general**: Modules (#848) ([66d42ad](https://github.com/swc-project/swc/commit/66d42adf7eddb9af4fb664c5297c2adb7fc0805c)) ([#848](https://github.com/swc-project/swc/issues/848))
 
 ## [1.2.1] - 2020-06-14
 
 ## [1.2.0] - 2020-06-14
 
 ### Spack
-- **general**: Super-fast bundler (#825) ([fcef201](https://github.com/swc-project/swc/commit/fcef2016951a1040ef8b9e62271e98c4b85b71b8))
+- **general**: Super-fast bundler (#825) ([fcef201](https://github.com/swc-project/swc/commit/fcef2016951a1040ef8b9e62271e98c4b85b71b8)) ([#825](https://github.com/swc-project/swc/issues/825))
 
 ## [1.1.58] - 2020-06-12
 
 ### Regenerator
-- **general**: Handle yield* correctly (#833) ([5022999](https://github.com/swc-project/swc/commit/5022999600bf443cd29ebff2b9c7bb3497da0449))
+- **general**: Handle yield* correctly (#833) ([5022999](https://github.com/swc-project/swc/commit/5022999600bf443cd29ebff2b9c7bb3497da0449)) ([#833](https://github.com/swc-project/swc/issues/833))
 
 ## [1.1.56] - 2020-06-10
 
@@ -14074,12 +14074,12 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.1.48] - 2020-05-23
 
 ### Typescript_strip
-- **general**: Handle types used only in casts (#794) ([f117fed](https://github.com/swc-project/swc/commit/f117fedad890b7968ff5070853aca50371b1a6af))
+- **general**: Handle types used only in casts (#794) ([f117fed](https://github.com/swc-project/swc/commit/f117fedad890b7968ff5070853aca50371b1a6af)) ([#794](https://github.com/swc-project/swc/issues/794))
 
 ## [1.1.46] - 2020-05-21
 
 ### Resolver
-- **general**: Handle body of arrow functions correctly (#790) ([5cc3efa](https://github.com/swc-project/swc/commit/5cc3efa851652235d10b6fbb4258c645a4edeb7c))
+- **general**: Handle body of arrow functions correctly (#790) ([5cc3efa](https://github.com/swc-project/swc/commit/5cc3efa851652235d10b6fbb4258c645a4edeb7c)) ([#790](https://github.com/swc-project/swc/issues/790))
 
 ## [1.1.45] - 2020-05-19
 
@@ -14088,7 +14088,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.1.42] - 2020-05-09
 
 ### Dce
-- **general**: Separate phase for dropping imports (#764) ([ddc5ace](https://github.com/swc-project/swc/commit/ddc5ace570d0e860901816c68d6b55c2ce8834ec))
+- **general**: Separate phase for dropping imports (#764) ([ddc5ace](https://github.com/swc-project/swc/commit/ddc5ace570d0e860901816c68d6b55c2ce8834ec)) ([#764](https://github.com/swc-project/swc/issues/764))
 
 ## [1.1.41] - 2020-05-05
 
@@ -14117,7 +14117,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.1.29] - 2020-02-25
 
 ### Resolver
-- **general**: Handle hoisting correctly (#689) ([363b835](https://github.com/swc-project/swc/commit/363b8353cf274bb134a0cbbc67ece27a63313a8b))
+- **general**: Handle hoisting correctly (#689) ([363b835](https://github.com/swc-project/swc/commit/363b8353cf274bb134a0cbbc67ece27a63313a8b)) ([#689](https://github.com/swc-project/swc/issues/689))
 
 ## [1.1.28] - 2020-02-22
 
@@ -14126,7 +14126,7 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.1.26] - 2020-02-19
 
 ### Resolver
-- **general**: Handle method property correctly (#679) ([f79223e](https://github.com/swc-project/swc/commit/f79223e98c6a133457305d39baf53ff51c2009f9))
+- **general**: Handle method property correctly (#679) ([f79223e](https://github.com/swc-project/swc/commit/f79223e98c6a133457305d39baf53ff51c2009f9)) ([#679](https://github.com/swc-project/swc/issues/679))
 
 ## [1.1.25] - 2020-02-17
 
@@ -14147,35 +14147,35 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.1.16] - 2020-01-24
 
 ### Block_scoping
-- **general**: Handle variable infection (#610) ([480015d](https://github.com/swc-project/swc/commit/480015d407c74f12f8454e553dd8e65e131ab0ce))
+- **general**: Handle variable infection (#610) ([480015d](https://github.com/swc-project/swc/commit/480015d407c74f12f8454e553dd8e65e131ab0ce)) ([#610](https://github.com/swc-project/swc/issues/610)[#609](https://github.com/swc-project/swc/issues/609))
 
 ## [1.1.15] - 2020-01-24
 
 ### Hygiene
-- **general**: Fix handling of special identifiers (#603) ([9be9ea2](https://github.com/swc-project/swc/commit/9be9ea2c430f34d8d447cbca0a4fb1a5b3ec2b13))
+- **general**: Fix handling of special identifiers (#603) ([9be9ea2](https://github.com/swc-project/swc/commit/9be9ea2c430f34d8d447cbca0a4fb1a5b3ec2b13)) ([#603](https://github.com/swc-project/swc/issues/603)[#602](https://github.com/swc-project/swc/issues/602))
 
 ## [1.1.14] - 2020-01-23
 
 ### Bug Fixes
 - **general**: Fix as_bool treating bitor like bitand (#596)
 
- ([08ce8d0](https://github.com/swc-project/swc/commit/08ce8d029323c8c7685739d188c27c7d5d965b64))
+ ([08ce8d0](https://github.com/swc-project/swc/commit/08ce8d029323c8c7685739d188c27c7d5d965b64)) ([#596](https://github.com/swc-project/swc/issues/596))
 
 ### Hygiene
-- **general**: Handle use-use conflict (#599) ([8ecbe14](https://github.com/swc-project/swc/commit/8ecbe14207156c2fc34b29c63bb52f8ba303afce))
+- **general**: Handle use-use conflict (#599) ([8ecbe14](https://github.com/swc-project/swc/commit/8ecbe14207156c2fc34b29c63bb52f8ba303afce)) ([#599](https://github.com/swc-project/swc/issues/599))
 
 ### Regenerator
-- **general**: Allow nested finally block (#601) ([20e37ea](https://github.com/swc-project/swc/commit/20e37eae5d579b91576dc93afe94e615f54832bd))
+- **general**: Allow nested finally block (#601) ([20e37ea](https://github.com/swc-project/swc/commit/20e37eae5d579b91576dc93afe94e615f54832bd)) ([#601](https://github.com/swc-project/swc/issues/601)[#600](https://github.com/swc-project/swc/issues/600))
 
 ## [1.1.13] - 2020-01-17
 
 ### Resolver
-- **general**: Handle methods correctly (#579) ([b7f8282](https://github.com/swc-project/swc/commit/b7f8282eb1c92f20ad0d846c0314ca758bfdad43))
+- **general**: Handle methods correctly (#579) ([b7f8282](https://github.com/swc-project/swc/commit/b7f8282eb1c92f20ad0d846c0314ca758bfdad43)) ([#579](https://github.com/swc-project/swc/issues/579)[#578](https://github.com/swc-project/swc/issues/578))
 
 ## [1.1.12] - 2020-01-08
 
 ### Dce
-- **general**: Preserve nested if statement (#565) ([3e0f4a5](https://github.com/swc-project/swc/commit/3e0f4a5bd7d247d9ac69ac8bb537a33eadc85f53))
+- **general**: Preserve nested if statement (#565) ([3e0f4a5](https://github.com/swc-project/swc/commit/3e0f4a5bd7d247d9ac69ac8bb537a33eadc85f53)) ([#565](https://github.com/swc-project/swc/issues/565))
 
 ## [1.1.11] - 2020-01-02
 
@@ -14191,10 +14191,10 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 
 ### Bug Fixes
 - **general**: Fixup! Add a test for #503
- ([5076249](https://github.com/swc-project/swc/commit/5076249c907f53235778d6b44d6b83d433b88829))
+ ([5076249](https://github.com/swc-project/swc/commit/5076249c907f53235778d6b44d6b83d433b88829)) ([#503](https://github.com/swc-project/swc/issues/503))
 
 ### Parser
-- **general**: Respect jsc.target (#507) ([332061f](https://github.com/swc-project/swc/commit/332061f44dcad267a4d011ef7fc6cd35159586dd))
+- **general**: Respect jsc.target (#507) ([332061f](https://github.com/swc-project/swc/commit/332061f44dcad267a4d011ef7fc6cd35159586dd)) ([#507](https://github.com/swc-project/swc/issues/507))
 
 ## [1.1.5] - 2019-12-11
 
@@ -14215,17 +14215,17 @@ Co-authored-by: Donny/강동윤 <kdy1997.dev@gmail.com> ([abc0572](https://githu
 ## [1.0.53] - 2019-11-23
 
 ### Resolver
-- **general**: Handle arrow expression correctly (#462) ([fa941b3](https://github.com/swc-project/swc/commit/fa941b3ea3d5b8073f8fc33311231d7c71229e01))
+- **general**: Handle arrow expression correctly (#462) ([fa941b3](https://github.com/swc-project/swc/commit/fa941b3ea3d5b8073f8fc33311231d7c71229e01)) ([#462](https://github.com/swc-project/swc/issues/462)[#462](https://github.com/swc-project/swc/issues/462))
 
 ## [1.0.52] - 2019-11-20
 
 ### Resolver
-- **general**: Handle hoisting (#455) ([2106860](https://github.com/swc-project/swc/commit/210686011d8890bfae702687de3172cb52178d02))
+- **general**: Handle hoisting (#455) ([2106860](https://github.com/swc-project/swc/commit/210686011d8890bfae702687de3172cb52178d02)) ([#455](https://github.com/swc-project/swc/issues/455))
 
 ## [1.0.50] - 2019-11-18
 
 ### Parser
-- **general**: Error recovery (#449) ([d074063](https://github.com/swc-project/swc/commit/d0740638671d6572d753324a6abec8340037af6d))
+- **general**: Error recovery (#449) ([d074063](https://github.com/swc-project/swc/commit/d0740638671d6572d753324a6abec8340037af6d)) ([#449](https://github.com/swc-project/swc/issues/449))
 
 ## [1.0.49] - 2019-11-15
 
@@ -14247,13 +14247,13 @@ It's not rust code..
  ([d4ef56e](https://github.com/swc-project/swc/commit/d4ef56eb5b66c043e5b8cc5a84a8275cda04bd7c))- **general**: Fix a bug
  ([90135ed](https://github.com/swc-project/swc/commit/90135ede1ebffd6328929ac82aedd1716a03f7ef))- **general**: Fix test imports for latest nightly (#355)
 
- ([6f97012](https://github.com/swc-project/swc/commit/6f970128219af125f839bf11785d5eb351dd06cb))- **general**: Fix lints
+ ([6f97012](https://github.com/swc-project/swc/commit/6f970128219af125f839bf11785d5eb351dd06cb)) ([#355](https://github.com/swc-project/swc/issues/355))- **general**: Fix lints
  ([fbbafc5](https://github.com/swc-project/swc/commit/fbbafc5712356135e9714f1f281c93d3530a17c1))- **general**: Fix `this` in async generator (#425)
 
 swc_ecma_transforms:
  - Don't delete test file when an execution test fails
  - fix #400
- ([3a637d4](https://github.com/swc-project/swc/commit/3a637d422944b5e983fd4befb21586034efb2552))- **general**: Fixup! Bump versions
+ ([3a637d4](https://github.com/swc-project/swc/commit/3a637d422944b5e983fd4befb21586034efb2552)) ([#425](https://github.com/swc-project/swc/issues/425)[#400](https://github.com/swc-project/swc/issues/400))- **general**: Fixup! Bump versions
  ([2add7a0](https://github.com/swc-project/swc/commit/2add7a08ef422e06b3b7bb9bb1c6d657a44278a7))
 
 ### Miscellaneous Tasks
@@ -14263,18 +14263,18 @@ swc_ecma_transforms:
 - **general**: `left.rhs * right` is only safe when operators are the same ([07bf194](https://github.com/swc-project/swc/commit/07bf194e61b922421584026d033c885cd44e2be1))
 
 ### Es2015
-- **general**: :destructuring pass (#312) ([b4a391b](https://github.com/swc-project/swc/commit/b4a391b3a7e0d2f70bd8b4c101f7ce4747b72441))
+- **general**: :destructuring pass (#312) ([b4a391b](https://github.com/swc-project/swc/commit/b4a391b3a7e0d2f70bd8b4c101f7ce4747b72441)) ([#312](https://github.com/swc-project/swc/issues/312)[#311](https://github.com/swc-project/swc/issues/311))
 
 ### Readme
-- **general**: Fix npm install command (#89) ([946a32a](https://github.com/swc-project/swc/commit/946a32adf86e61951adfb45b7d0cce24672d8456))
+- **general**: Fix npm install command (#89) ([946a32a](https://github.com/swc-project/swc/commit/946a32adf86e61951adfb45b7d0cce24672d8456)) ([#89](https://github.com/swc-project/swc/issues/89))
 
 ### Swc_ecma_ast
 - **general**: - Split class member / property into separate types ([a46804a](https://github.com/swc-project/swc/commit/a46804ab48a54c46a35d719507822f207cb296fa))
 
 ### Swc_ecma_transforms
-- **general**: - remove this parameter from typescript::strip pass (fixes #236) ([4fddea0](https://github.com/swc-project/swc/commit/4fddea0bbd750fdc6658d3e092366b3fecf3c899))
+- **general**: - remove this parameter from typescript::strip pass (fixes #236) ([4fddea0](https://github.com/swc-project/swc/commit/4fddea0bbd750fdc6658d3e092366b3fecf3c899)) ([#236](https://github.com/swc-project/swc/issues/236))
 
 ### Travis
-- **general**: Fix doc upload (#47) ([bbd9ec9](https://github.com/swc-project/swc/commit/bbd9ec9eb98f08a279a0ee70105e816f2aac41c7))- **general**: Don't cache docs ([4e21eb1](https://github.com/swc-project/swc/commit/4e21eb160d69e423d45d39ae1cba7f1e0cf264f4))
+- **general**: Fix doc upload (#47) ([bbd9ec9](https://github.com/swc-project/swc/commit/bbd9ec9eb98f08a279a0ee70105e816f2aac41c7)) ([#47](https://github.com/swc-project/swc/issues/47))- **general**: Don't cache docs ([4e21eb1](https://github.com/swc-project/swc/commit/4e21eb160d69e423d45d39ae1cba7f1e0cf264f4))
 
 <!-- generated by git-cliff -->
