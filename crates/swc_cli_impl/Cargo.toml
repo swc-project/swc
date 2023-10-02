@@ -36,4 +36,4 @@ swc_core = { version = "0.83.34", features = [
     "trace_macro",
     "common_concurrent",
     "base_concurrent",
-] }
+], path = "../swc_core" }
