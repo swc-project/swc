@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/compat)** Fix scoping of `explicit-resource-management` ([#8044](https://github.com/swc-project/swc/issues/8044)) ([96a7a4d](https://github.com/swc-project/swc/commit/96a7a4d045d08547fed75c79a7156f79262edfc2))
+
 ### Miscellaneous Tasks
 
 
@@ -9,6 +15,9 @@
 
 
 - **(ci)** Prepare multi-package repository ([#8043](https://github.com/swc-project/swc/issues/8043)) ([f2bc6a3](https://github.com/swc-project/swc/commit/f2bc6a3fcc7367726afe55b4fa4c6bde839fbd70))
+
+
+- **(ci)** Fix publish action for minifier ([77b8591](https://github.com/swc-project/swc/commit/77b8591d86dee33c92277b4b2d301d8cb253c16b))
 
 ## [1.3.91] - 2023-10-01
 
@@ -1931,9 +1940,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/minifier)** Don't break ternary with assignment in test ([#6906](https://github.com/swc-project/swc/issues/6906)) ([951dafb](https://github.com/swc-project/swc/commit/951dafbc1a56b8b29fd76aaad8138e58eaadda12))
 
 
-- **(es/module)** Fix SystemJS imports ([#6879](https://github.com/swc-project/swc/issues/6879)) ([85fffda](https://github.com/swc-project/swc/commit/85fffdad022cf1bccf8763e7bb73fb15f62d2430))
-
-
 - **(es/parser)** Don't use `stacker` for armv7 ([#6916](https://github.com/swc-project/swc/issues/6916)) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))
 
 ### Documentation
@@ -1941,12 +1947,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(readme)** Split download badge ([#6917](https://github.com/swc-project/swc/issues/6917)) ([d779927](https://github.com/swc-project/swc/commit/d779927b4d00a19b3eb2b6cb792a682cbc006970))
-
-### Features
-
-
-
-- **(bindings/cli)** Support for *.mts/*.cts files ([#6909](https://github.com/swc-project/swc/issues/6909)) ([76bc8a2](https://github.com/swc-project/swc/commit/76bc8a29743edf397c59f5283aaa74a08e8fba57))
 
 ### Testing
 

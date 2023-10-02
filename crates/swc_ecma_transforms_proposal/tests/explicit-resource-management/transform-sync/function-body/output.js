@@ -1,7 +1,7 @@
 function fn() {
     try {
         var _stack = [];
-        const x = _using(_stack, obj);
+        var x = _using(_stack, obj);
         return doSomethingWith(x);
     } catch (_) {
         var _error = _;
