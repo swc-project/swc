@@ -413,12 +413,6 @@ jobs:
         run: ls -R ./scripts/npm
         shell: bash
 
-      - name: Set fallback dependencies
-        working-directory: "./packages/${{ github.event.inputs.package }}"
-        shell: bash
-        run: |
-          node ./scripts/update_fallback_dependencies.js
-
       - name: Publish
         run: |
           npm config set provenance true
