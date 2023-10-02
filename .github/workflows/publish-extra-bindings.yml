@@ -23,9 +23,6 @@ on:
           - minifier
           - html
           - xml
-      version:
-        description: Must be a valid semver version, and should not start with `v`.
-        required: true
 
 jobs:
   build-node:
@@ -104,7 +101,7 @@ jobs:
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
               (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target aarch64-pc-windows-msvc)
-    name: "Build: ${{ matrix.package }} - ${{ matrix.settings.target }}"
+    name: "Build: ${{ github.event.inputs.package }} - ${{ matrix.settings.target }}"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v3
@@ -384,9 +381,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
-
-      - name: Set release name
-        run: echo "RELEASE_VERSION=${{ github.event.inputs.package }}@v${{ github.event.inputs.version }}" >> $GITHUB_ENV
 
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
