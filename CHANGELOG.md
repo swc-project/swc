@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix publish action ([8ddb0da](https://github.com/swc-project/swc/commit/8ddb0dafa25e21020f6378ee4c29fa286654ea30))
+
 ## [1.3.91] - 2023-10-01
 
 ### Bug Fixes
