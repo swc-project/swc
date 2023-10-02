@@ -68,6 +68,7 @@ commit_parsers = [
 # filter out the commits that are not matched by commit parsers
 filter_commits = false
 # glob pattern for matching git tags
+limit_commits = 1000
 link_parsers = [
     { pattern = "#(\\d+)", href = "https://github.com/swc-project/swc/issues/$1" },
 ]
