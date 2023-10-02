@@ -17,8 +17,8 @@ use crate::{
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
-        clone_first_use_directive, define_es_module, emit_export_stmts, local_name_for_src,
-        use_strict, ImportInterop,
+        define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
+        VecStmtLike,
     },
 };
 
@@ -116,9 +116,18 @@ where
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(module_items.len() + 4);
 
+        // Collect directives
+        stmts.extend(
+            module_items
+                .iter_mut()
+                .take_while(|i| i.directive_continue())
+                .map(|i| i.take())
+                .map(ModuleItem::expect_stmt),
+        );
+
         // "use strict";
-        if self.config.config.strict_mode {
-            stmts.push(clone_first_use_directive(module_items, true).unwrap_or_else(use_strict));
+        if self.config.config.strict_mode && !stmts.has_use_strict() {
+            stmts.push(use_strict());
         }
 
         let ModuleDeclStrip {
@@ -143,7 +152,7 @@ where
         );
 
         stmts.extend(module_items.take().into_iter().filter_map(|i| match i {
-            ModuleItem::Stmt(stmt) if !stmt.is_directive() => Some(stmt),
+            ModuleItem::Stmt(stmt) if !stmt.is_empty() => Some(stmt),
             _ => None,
         }));
 
