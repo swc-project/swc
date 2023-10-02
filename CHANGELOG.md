@@ -8,6 +8,9 @@
 - **(es/compat)** Fix scoping of `explicit-resource-management` ([#8044](https://github.com/swc-project/swc/issues/8044)) ([96a7a4d](https://github.com/swc-project/swc/commit/96a7a4d045d08547fed75c79a7156f79262edfc2))
 
 
+- **(es/compat)** Transform default-exported class decorators correctly ([#8050](https://github.com/swc-project/swc/issues/8050)) ([a751f1c](https://github.com/swc-project/swc/commit/a751f1cfaf415917ab2a5e5098d9ca32bffa907b))
+
+
 - **(es/module)** Handle directives ([#8048](https://github.com/swc-project/swc/issues/8048)) ([4d8e101](https://github.com/swc-project/swc/commit/4d8e1013bb7775f60d463276cc3233ecd7849b31))
 
 ### Miscellaneous Tasks
@@ -1944,12 +1947,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - Bump swc_css_* ([#6924](https://github.com/swc-project/swc/issues/6924)) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
 
 ## [1.3.34] - 2023-02-08
-
-### Bug Fixes
-
-
-
-- **(es/parser)** Don't use `stacker` for armv7 ([#6916](https://github.com/swc-project/swc/issues/6916)) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))
 
 ### Documentation
 
