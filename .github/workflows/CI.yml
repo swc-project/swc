@@ -827,7 +827,7 @@ jobs:
       - cargo-test
       - node-test
       - integration-test
-    if: always()
+    if: ${{ always() && (github.event_name != 'push' || github.ref != 'refs/heads/master') }}
     runs-on: ubuntu-latest
     name: Done
     steps:
