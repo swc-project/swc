@@ -4,7 +4,7 @@ use commands::{Command, CommandRunner, PluginSubcommand, SwcCliOptions};
 mod commands;
 mod util;
 
-pub fn run() {
+pub fn run() -> anyhow::Result<()> {
     let command = SwcCliOptions::parse().command;
 
     match &command {
