@@ -62,7 +62,7 @@ fn get_name(option: &PluginScaffoldOptions) -> Result<&str> {
 /// Note: this is slim implementation does not support different vcs other than
 /// git at the moment.
 fn write_ignore_file(base_path: &Path) -> Result<()> {
-    let ignore_list: Vec<String> = vec!["/target", "^target/", "target"]
+    let ignore_list: Vec<String> = ["/target", "^target/", "target"]
         .iter()
         .map(|v| v.to_string())
         .collect();
@@ -149,7 +149,7 @@ impl super::CommandRunner for PluginScaffoldOptions {
 
         // Create `Cargo.toml` file with necessary sections
         fs::write(
-            &path.join("Cargo.toml"),
+            path.join("Cargo.toml"),
             format!(
                 r#"[package]
 name = "{}"
@@ -190,7 +190,7 @@ swc_core = {{ version = "{}", features = ["ecma_plugin_transform"] }}
         let cargo_config_path = path.join(".cargo");
         create_dir_all(&cargo_config_path).context("`create_dir_all` failed")?;
         fs::write(
-            &cargo_config_path.join("config"),
+            cargo_config_path.join("config"),
             r#"# These command aliases are not final, may change
 [alias]
 # Alias to build actual plugin binary for the specified target.
@@ -205,10 +205,10 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
         let dist_output_path = format!(
             "target/{}/release/{}.wasm",
             build_target,
-            name.replace("-", "_")
+            name.replace('-', "_")
         );
         fs::write(
-            &path.join("package.json"),
+            path.join("package.json"),
             format!(
                 r#"{{
     "name": "{}",
@@ -235,7 +235,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
         let src_path = path.join("src");
         create_dir_all(&src_path)?;
         fs::write(
-            &src_path.join("lib.rs"),
+            src_path.join("lib.rs"),
             r##"use swc_core::ecma::{
     ast::Program,
     transforms::testing::test,

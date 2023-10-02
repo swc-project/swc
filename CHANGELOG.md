@@ -19,6 +19,12 @@
 
 - **(ci)** Fix publish action for minifier ([77b8591](https://github.com/swc-project/swc/commit/77b8591d86dee33c92277b4b2d301d8cb253c16b))
 
+### Refactor
+
+
+
+- **(cli)** Make CLI testable/managable with `swc-bump` ([#8045](https://github.com/swc-project/swc/issues/8045)) ([f717cf2](https://github.com/swc-project/swc/commit/f717cf21cc1cea5e30e87c4d08861daadb25ab14))
+
 ## [1.3.91] - 2023-10-01
 
 ### Bug Fixes
@@ -1935,9 +1941,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(css/modules)** Fix interop of `&` and `:global` ([#6900](https://github.com/swc-project/swc/issues/6900)) ([f85ea9c](https://github.com/swc-project/swc/commit/f85ea9cb570ee9431926fb51559ecd34a701384f))
-
-
-- **(es/minifier)** Don't break ternary with assignment in test ([#6906](https://github.com/swc-project/swc/issues/6906)) ([951dafb](https://github.com/swc-project/swc/commit/951dafbc1a56b8b29fd76aaad8138e58eaadda12))
 
 
 - **(es/parser)** Don't use `stacker` for armv7 ([#6916](https://github.com/swc-project/swc/issues/6916)) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))

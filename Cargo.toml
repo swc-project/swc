@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "crates/swc_core",
+  "crates/swc_cli_impl",
   "crates/dbg-swc",
   "crates/jsdoc",
   "crates/binding_macros",
