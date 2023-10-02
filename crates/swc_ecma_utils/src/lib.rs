@@ -2262,6 +2262,18 @@ pub fn prepend_stmts<T: StmtLike>(
 
 pub trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
+    #[deprecated(note = "use directive_continue instead")]
+    fn is_directive(&self) -> bool {
+        match self.as_ref() {
+            Some(Stmt::Expr(expr)) => match &*expr.expr {
+                Expr::Lit(Lit::Str(Str {
+                    raw: Some(value), ..
+                })) => value.starts_with("\"use ") || value.starts_with("'use "),
+                _ => false,
+            },
+            _ => false,
+        }
+    }
     fn directive_continue(&self) -> bool {
         match self.as_ref() {
             Some(Stmt::Expr(expr)) => match &*expr.expr {
