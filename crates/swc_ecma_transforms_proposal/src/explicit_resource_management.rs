@@ -87,6 +87,10 @@ impl ExplicitResourceManagement {
                 Ok(stmt @ Stmt::Decl(Decl::Fn(..))) => {
                     new.push(T::from_stmt(stmt));
                 }
+                Ok(Stmt::Decl(Decl::Var(mut var))) => {
+                    var.kind = VarDeclKind::Var;
+                    try_body.push(Stmt::Decl(Decl::Var(var)));
+                }
                 Ok(stmt) => try_body.push(stmt),
                 Err(stmt) => match stmt.try_into_module_decl() {
                     Ok(ModuleDecl::ExportDefaultDecl(decl)) => {
