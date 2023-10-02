@@ -232,9 +232,6 @@ jobs:
           - crate: swc
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_atoms
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -244,12 +241,15 @@ jobs:
           - crate: swc_cached
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_common
+          - crate: swc_cli_impl
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_common
-            os: windows-latest
-            runner: windows-latest
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_compiler_base
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_config
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -268,9 +268,6 @@ jobs:
           - crate: swc_css_codegen
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_css_codegen
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_css_codegen_macros
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -289,9 +286,6 @@ jobs:
           - crate: swc_css_parser
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_css_parser
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_css_prefixer
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -307,9 +301,6 @@ jobs:
           - crate: swc_ecma_codegen
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_ecma_codegen
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_ecma_codegen_macros
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -325,24 +316,15 @@ jobs:
           - crate: swc_ecma_loader
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_ecma_loader
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_ecma_minifier
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_ecma_parser
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_ecma_parser
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_ecma_preset_env
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_ecma_preset_env
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_ecma_quote
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -370,9 +352,6 @@ jobs:
           - crate: swc_ecma_transforms_module
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_ecma_transforms_module
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_ecma_transforms_optimization
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -385,9 +364,6 @@ jobs:
           - crate: swc_ecma_transforms_testing
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_ecma_transforms_testing
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_ecma_transforms_typescript
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -430,9 +406,6 @@ jobs:
           - crate: swc_html_codegen
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_html_codegen
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_html_codegen_macros
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -442,9 +415,6 @@ jobs:
           - crate: swc_html_parser
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_html_parser
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_html_utils
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -460,9 +430,6 @@ jobs:
           - crate: swc_node_bundler
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_node_bundler
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_node_comments
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -472,9 +439,6 @@ jobs:
           - crate: swc_plugin
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_plugin
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_plugin_macro
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -484,18 +448,9 @@ jobs:
           - crate: swc_plugin_runner
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_plugin_runner
-            os: macos-latest
-            runner: macos-latest
-          - crate: swc_plugin_runner
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_plugin_testing
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: swc_plugin_testing
-            os: windows-latest
-            runner: windows-latest
           - crate: swc_timer
             os: ubuntu-latest
             runner: ubuntu-latest
