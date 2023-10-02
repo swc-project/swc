@@ -839,3 +839,20 @@ jobs:
       - name: (swcpack) example react app
         run: |
           (cd crates/swc_node_bundler/tests/integration/react && yarn && npx spack)
+
+  done:
+    needs:
+      - cargo-fmt
+      - cargo-clippy
+      - cargo-deny
+      - cargo-check
+      - test-wasm
+      - cargo-test
+      - node-test
+      - integration-test
+    if: always()
+    runs-on: ubuntu-latest
+    name: Done
+    steps:
+      - run: exit 1
+        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled')) }}
