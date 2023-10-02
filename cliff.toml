@@ -23,6 +23,7 @@ body = """
         {%- if commit.breaking %}
         {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
         {%- endif -%}
+        {%- if commit.links %} ({% for link in commit.links %}[{{link.text}}]({{link.href}}){% endfor -%}){% endif %}\
     {%- endfor -%}
     \n\n
     {%- for commit in commits %}
