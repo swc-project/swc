@@ -194,26 +194,33 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn clone_first_use_directive(
-    stmts: &[ModuleItem],
-    want_use_strict: bool,
-) -> Option<Stmt> {
-    if stmts.is_empty() {
-        return None;
-    }
+pub(super) trait VecStmtLike {
+    type StmtLike: IsDirective;
 
-    stmts.iter().find_map(|item| match item {
-        ModuleItem::Stmt(stmt) => {
-            if (want_use_strict && stmt.is_use_strict())
-                || (!want_use_strict && !stmt.is_use_strict() && stmt.is_directive())
-            {
-                Some(stmt.clone())
-            } else {
-                None
-            }
-        }
-        _ => None,
-    })
+    fn as_ref(&self) -> &[Self::StmtLike];
+
+    fn has_use_strict(&self) -> bool {
+        self.as_ref()
+            .iter()
+            .take_while(|s| s.directive_continue())
+            .any(IsDirective::is_use_strict)
+    }
+}
+
+impl VecStmtLike for [ModuleItem] {
+    type StmtLike = ModuleItem;
+
+    fn as_ref(&self) -> &[Self::StmtLike] {
+        self
+    }
+}
+
+impl VecStmtLike for [Stmt] {
+    type StmtLike = Stmt;
+
+    fn as_ref(&self) -> &[Self::StmtLike] {
+        self
+    }
 }
 
 pub(super) fn use_strict() -> Stmt {

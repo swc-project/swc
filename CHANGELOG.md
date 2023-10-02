@@ -7,6 +7,9 @@
 
 - **(es/compat)** Fix scoping of `explicit-resource-management` ([#8044](https://github.com/swc-project/swc/issues/8044)) ([96a7a4d](https://github.com/swc-project/swc/commit/96a7a4d045d08547fed75c79a7156f79262edfc2))
 
+
+- **(es/module)** Handle directives ([#8048](https://github.com/swc-project/swc/issues/8048)) ([4d8e101](https://github.com/swc-project/swc/commit/4d8e1013bb7775f60d463276cc3233ecd7849b31))
+
 ### Miscellaneous Tasks
 
 
@@ -18,6 +21,12 @@
 
 
 - **(ci)** Fix publish action for minifier ([77b8591](https://github.com/swc-project/swc/commit/77b8591d86dee33c92277b4b2d301d8cb253c16b))
+
+
+- Fix CI condition ([9c9c03b](https://github.com/swc-project/swc/commit/9c9c03b76b7de8df754437e3ee2d4ab5d079b96d))
+
+
+- Fix CI ([0c8d8a3](https://github.com/swc-project/swc/commit/0c8d8a3f4ab24c41d209bf2fdd37703e0205f0c0))
 
 ### Refactor
 
@@ -1938,9 +1947,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(css/modules)** Fix interop of `&` and `:global` ([#6900](https://github.com/swc-project/swc/issues/6900)) ([f85ea9c](https://github.com/swc-project/swc/commit/f85ea9cb570ee9431926fb51559ecd34a701384f))
 
 
 - **(es/parser)** Don't use `stacker` for armv7 ([#6916](https://github.com/swc-project/swc/issues/6916)) ([4c5d5a6](https://github.com/swc-project/swc/commit/4c5d5a6fcaf49782effc6079bb92adec45ceb83c))
