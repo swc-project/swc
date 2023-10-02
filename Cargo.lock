@@ -3650,6 +3650,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_cli_impl"
+version = "0.1.0"
+
+[[package]]
 name = "swc_common"
 version = "0.32.1"
 dependencies = [
