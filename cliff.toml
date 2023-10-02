@@ -50,6 +50,10 @@ footer = """
 # https://www.conventionalcommits.org
 conventional_commits  = true
 filter_unconventional = false
+
+commit_preprocessors = [
+    { pattern = "\\(#([0-9]+)\\)", replace = "([#${1}](https://github.com/swc-project/swc/issues/${1}))" },
+]
 # regex for parsing and grouping commits
 commit_parsers = [
     { message = "^feat", group = "Features" },
