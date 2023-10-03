@@ -27,8 +27,10 @@ body:
       render: json
   - type: input
     id: repro-link
+    validations:
+      required: true
     attributes:
-      label: Playground link
+      label: Playground link (or link to the minimal reproduction)
       description: You can use [swc playground](https://play.swc.rs/) to create a reproduction link, then paste the link here.
   - type: textarea
     id: swc-info
