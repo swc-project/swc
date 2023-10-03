@@ -244,6 +244,14 @@ impl BlockScoping {
             }
             .into();
 
+            if flow_helper.has_await {
+                call = AwaitExpr {
+                    span: DUMMY_SP,
+                    arg: call.into(),
+                }
+                .into();
+            }
+
             if flow_helper.has_yield {
                 call = YieldExpr {
                     span: DUMMY_SP,
