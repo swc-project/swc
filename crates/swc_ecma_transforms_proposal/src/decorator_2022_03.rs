@@ -784,13 +784,24 @@ impl VisitMut for Decorator202203 {
         self.consume_inits();
 
         if !self.state.extra_stmts.is_empty() {
+            let mut stmts = vec![];
+
+            if !self.pre_class_inits.is_empty() {
+                stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(self.pre_class_inits.take()),
+                }))
+            }
+
+            stmts.append(&mut self.state.extra_stmts);
+
             n.body.insert(
                 0,
                 ClassMember::StaticBlock(StaticBlock {
                     span: DUMMY_SP,
                     body: BlockStmt {
                         span: DUMMY_SP,
-                        stmts: self.state.extra_stmts.take(),
+                        stmts,
                     },
                 }),
             );
