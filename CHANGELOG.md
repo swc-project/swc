@@ -43,6 +43,9 @@
 
 - Mark reproduction link required ([c6e0a18](https://github.com/swc-project/swc/commit/c6e0a18292001cb46722b533213acdf374311edc))
 
+
+- Update nissuer.yml ([#8060](https://github.com/swc-project/swc/issues/8060)) ([a2f1010](https://github.com/swc-project/swc/commit/a2f1010b4e312d972d901705da971b887b1b254a))
+
 ### Refactor
 
 
