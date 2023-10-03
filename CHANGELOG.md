@@ -31,6 +31,9 @@
 
 - Fix CI ([0c8d8a3](https://github.com/swc-project/swc/commit/0c8d8a3f4ab24c41d209bf2fdd37703e0205f0c0))
 
+
+- Configure `nissuer` ([#8053](https://github.com/swc-project/swc/issues/8053)) ([2a508bc](https://github.com/swc-project/swc/commit/2a508bcb9a7fb4d3323b4e08c0702b1191f95b96))
+
 ### Refactor
 
 
@@ -1947,12 +1950,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - Bump swc_css_* ([#6924](https://github.com/swc-project/swc/issues/6924)) ([75376cd](https://github.com/swc-project/swc/commit/75376cd65cf10e9777aab5e00abf9f851a222a49))
 
 ## [1.3.34] - 2023-02-08
-
-### Documentation
-
-
-
-- **(readme)** Split download badge ([#6917](https://github.com/swc-project/swc/issues/6917)) ([d779927](https://github.com/swc-project/swc/commit/d779927b4d00a19b3eb2b6cb792a682cbc006970))
 
 ### Testing
 
