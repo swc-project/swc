@@ -28,6 +28,11 @@ struct Decorator202203 {
     state: ClassState,
 
     /// Prepended before the class static block.
+    ///
+    /// We can't add this before the class because a decorator may use the
+    /// class.
+    ///
+    /// https://github.com/swc-project/swc/issues/7973
     pre_class_inits: Vec<Box<Expr>>,
 
     rename_map: FxHashMap<Id, Id>,
