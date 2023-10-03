@@ -1,7 +1,6 @@
 use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, Spanned,
-    DUMMY_SP,
+    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -12,12 +11,14 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 
 pub use super::util::Config;
 use crate::{
-    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
+    module_decl_strip::{
+        Export, ExportKV, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
+    },
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, prop_name, use_strict,
-        ImportInterop, ObjPropKeyIdent, VecStmtLike,
+        ImportInterop, VecStmtLike,
     },
 };
 
@@ -364,7 +365,7 @@ where
         let mut export_stmts: Vec<Stmt> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by_cached_key(|v| v.key().clone());
+            export_obj_prop_list.sort_by_cached_key(|(key, ..)| key.clone());
 
             let mut features = self.available_features;
             let exports = self.exports();
@@ -457,17 +458,17 @@ where
     /// 0 && (exports.foo = 0);
     /// 0 && (module.exports = { foo: _, bar: _ });
     /// ```
-    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Option<Stmt> {
+    fn emit_lexer_exports_init(&mut self, export_id_list: &[ExportKV]) -> Option<Stmt> {
         match export_id_list.len() {
             0 => None,
             1 => {
                 let expr: Expr = 0.into();
 
-                let key_value = &export_id_list[0];
-                let prop = prop_name(key_value.key(), DUMMY_SP).into();
+                let (key, export_item) = &export_id_list[0];
+                let prop = prop_name(key, DUMMY_SP).into();
                 let export_binding = MemberExpr {
                     obj: Box::new(self.exports().into()),
-                    span: key_value.span(),
+                    span: export_item.export_name_span(),
                     prop,
                 };
                 let expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
@@ -483,7 +484,7 @@ where
             _ => {
                 let props = export_id_list
                     .iter()
-                    .map(|key_value| prop_name(key_value.key(), DUMMY_SP))
+                    .map(|(key, ..)| prop_name(key, DUMMY_SP))
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value

@@ -429,7 +429,7 @@ where
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by_cached_key(|v| v.key().clone());
+            export_obj_prop_list.sort_by_cached_key(|(key, ..)| key.clone());
 
             let exports = self.exports();
 
