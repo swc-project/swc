@@ -27,7 +27,7 @@ struct Decorator202203 {
 
     state: ClassState,
 
-    /// Prepended before the class
+    /// Prepended before the class static block.
     pre_class_inits: Vec<Box<Expr>>,
 
     rename_map: FxHashMap<Id, Id>,
@@ -363,6 +363,14 @@ impl Decorator202203 {
         self.state.class_decorators.extend(decorators);
 
         {
+            let mut stmts = vec![];
+
+            if !self.pre_class_inits.is_empty() {
+                stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(self.pre_class_inits.take()),
+                }))
+            }
             let call_stmt = CallExpr {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
@@ -371,11 +379,12 @@ impl Decorator202203 {
             }
             .into_stmt();
 
+            stmts.push(call_stmt);
             class.body.push(ClassMember::StaticBlock(StaticBlock {
                 span: DUMMY_SP,
                 body: BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![call_stmt],
+                    stmts,
                 },
             }));
         }
