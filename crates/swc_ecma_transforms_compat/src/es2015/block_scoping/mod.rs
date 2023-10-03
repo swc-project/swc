@@ -161,6 +161,7 @@ impl BlockScoping {
                 has_break: false,
                 has_return: false,
                 has_yield: false,
+                has_await: false,
                 label: IndexMap::new(),
                 inner_label: AHashSet::default(),
                 mutated,
@@ -222,7 +223,7 @@ impl BlockScoping {
                         decorators: Default::default(),
                         body: Some(body_stmt),
                         is_generator: flow_helper.has_yield,
-                        is_async: false,
+                        is_async: flow_helper.has_await,
                         type_params: None,
                         return_type: None,
                     }
@@ -242,6 +243,14 @@ impl BlockScoping {
                 type_args: None,
             }
             .into();
+
+            if flow_helper.has_await {
+                call = AwaitExpr {
+                    span: DUMMY_SP,
+                    arg: call.into(),
+                }
+                .into();
+            }
 
             if flow_helper.has_yield {
                 call = YieldExpr {
@@ -616,6 +625,7 @@ struct FlowHelper<'a> {
     has_break: bool,
     has_return: bool,
     has_yield: bool,
+    has_await: bool,
 
     // label cannot be shadowed, so it's pretty safe to use JsWord
     label: IndexMap<JsWord, Label>,
@@ -657,18 +667,6 @@ impl VisitMut for FlowHelper<'_> {
     /// noop
     fn visit_mut_arrow_expr(&mut self, _n: &mut ArrowExpr) {}
 
-    fn visit_mut_yield_expr(&mut self, e: &mut YieldExpr) {
-        e.visit_mut_children_with(self);
-
-        self.has_yield = true;
-    }
-
-    fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
-        self.inner_label.insert(l.label.sym.clone());
-
-        l.visit_mut_children_with(self);
-    }
-
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
             PatOrExpr::Expr(e) => {
@@ -686,6 +684,12 @@ impl VisitMut for FlowHelper<'_> {
         }
 
         n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_await_expr(&mut self, e: &mut AwaitExpr) {
+        e.visit_mut_children_with(self);
+
+        self.has_await = true;
     }
 
     /// https://github.com/swc-project/swc/pull/2916
@@ -722,6 +726,12 @@ impl VisitMut for FlowHelper<'_> {
 
     /// noop
     fn visit_mut_function(&mut self, _f: &mut Function) {}
+
+    fn visit_mut_labeled_stmt(&mut self, l: &mut LabeledStmt) {
+        self.inner_label.insert(l.label.sym.clone());
+
+        l.visit_mut_children_with(self);
+    }
 
     fn visit_mut_stmt(&mut self, node: &mut Stmt) {
         let span = node.span();
@@ -821,6 +831,12 @@ impl VisitMut for FlowHelper<'_> {
         self.in_nested_loop = true;
         s.visit_mut_children_with(self);
         self.in_nested_loop = old;
+    }
+
+    fn visit_mut_yield_expr(&mut self, e: &mut YieldExpr) {
+        e.visit_mut_children_with(self);
+
+        self.has_yield = true;
     }
 }
 
