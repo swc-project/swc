@@ -1,7 +1,7 @@
 var _computedKey, _initProto;
-_computedKey = 'computed';
 class Tests {
     static{
+        _computedKey = 'computed';
         ({ e: [_initProto] } = _apply_decs_2203_r(this, [
             [
                 test,

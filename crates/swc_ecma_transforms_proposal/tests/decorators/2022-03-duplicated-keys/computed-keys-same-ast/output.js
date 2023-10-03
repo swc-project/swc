@@ -1,9 +1,9 @@
 var _computedKey, _computedKey1, _initProto;
 const dec = ()=>{};
-_computedKey = getKey(), _computedKey1 = getKey();
 class Foo {
     static{
-        ({ e: [_initProto]  } = _apply_decs_2203_r(this, [
+        _computedKey = getKey(), _computedKey1 = getKey();
+        ({ e: [_initProto] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 2,

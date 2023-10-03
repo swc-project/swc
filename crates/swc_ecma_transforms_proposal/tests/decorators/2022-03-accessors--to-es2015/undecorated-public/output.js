@@ -1,6 +1,5 @@
 var _computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 var ____private_a = /*#__PURE__*/ new WeakMap(), ____private_b = /*#__PURE__*/ new WeakMap(), ____private_computedKey = /*#__PURE__*/ new WeakMap();
 let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
 class Foo {

@@ -1,6 +1,5 @@
 var _computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 class Foo {
     static #___private_a;
     static get a() {

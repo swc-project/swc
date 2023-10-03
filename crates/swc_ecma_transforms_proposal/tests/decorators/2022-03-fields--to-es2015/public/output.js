@@ -1,6 +1,5 @@
 var _computedKey, _init_a, _init_b, _init__computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 let _computedKey1 = _computedKey;
 class Foo {
     constructor(){
@@ -11,21 +10,24 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_init_a, _init_b, _init__computedKey] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            0,
-            "a"
-        ],
-        [
-            dec,
-            0,
-            "b"
-        ],
-        [
-            dec,
-            0,
-            _computedKey
-        ]
-    ], [])
+    value: (()=>{
+        _computedKey = 'c';
+        ({ e: [_init_a, _init_b, _init__computedKey] } = _apply_decs_2203_r(Foo, [
+            [
+                dec,
+                0,
+                "a"
+            ],
+            [
+                dec,
+                0,
+                "b"
+            ],
+            [
+                dec,
+                0,
+                _computedKey
+            ]
+        ], []));
+    })()
 };

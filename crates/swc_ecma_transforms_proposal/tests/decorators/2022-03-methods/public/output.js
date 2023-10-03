@@ -1,9 +1,9 @@
 var _computedKey, _initProto;
 const dec = ()=>{};
-_computedKey = 'b';
 class Foo {
     static{
-        ({ e: [_initProto]  } = _apply_decs_2203_r(this, [
+        _computedKey = 'b';
+        ({ e: [_initProto] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 2,
