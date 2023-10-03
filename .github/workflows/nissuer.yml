@@ -22,3 +22,4 @@ jobs:
           reproduction-comment: ".github/invalid-link.md"
           reproduction-hosts: "github.com,play.swc.rs"
           reproduction-invalid-label: "invalid link"
+          reproduction-issue-labels: "C-bug"
