@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
+    is_valid_prop_ident, private_ident, quote_ident, quote_str, undefined, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -16,6 +16,7 @@ use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
+    top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
@@ -107,12 +108,7 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        let import_interop = self.config.config.import_interop();
-
         let module_items = &mut module.body;
-
-        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        module_items.visit_mut_with(&mut strip);
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(module_items.len() + 4);
 
@@ -129,6 +125,15 @@ where
         if self.config.config.strict_mode && !stmts.has_use_strict() {
             stmts.push(use_strict());
         }
+
+        if !self.config.config.allow_top_level_this {
+            top_level_this(module_items, *undefined(DUMMY_SP));
+        }
+
+        let import_interop = self.config.config.import_interop();
+
+        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
+        module_items.visit_mut_with(&mut strip);
 
         let ModuleDeclStrip {
             link,
@@ -165,11 +170,7 @@ where
             stmts.push(return_stmt.into())
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
-            import_map,
-            Default::default(),
-            self.config.config.allow_top_level_this,
-        ));
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(import_map, Default::default()));
 
         // ====================
         //  Emit

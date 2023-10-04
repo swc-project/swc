@@ -5,7 +5,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_expr, quote_ident, undefined, ExprFactory, FunctionFactory,
+    IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -16,6 +17,7 @@ use crate::{
     },
     module_ref_rewriter::{ImportMap, ModuleRefRewriter},
     path::{ImportResolver, Resolver},
+    top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, prop_name, use_strict,
         ImportInterop, VecStmtLike,
@@ -92,6 +94,26 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);
+
+        // Collect directives
+        stmts.extend(
+            &mut n
+                .body
+                .iter_mut()
+                .take_while(|i| i.directive_continue())
+                .map(|i| i.take()),
+        );
+
+        // "use strict";
+        if self.config.strict_mode && !stmts.has_use_strict() {
+            stmts.push(use_strict().into());
+        }
+
+        if !self.config.allow_top_level_this {
+            top_level_this(&mut n.body, *undefined(DUMMY_SP));
+        }
+
         let import_interop = self.config.import_interop();
 
         let mut module_map = Default::default();
@@ -111,22 +133,6 @@ where
 
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.body.visit_mut_with(&mut strip);
-
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);
-
-        // Collect directives
-        stmts.extend(
-            &mut n
-                .body
-                .iter_mut()
-                .take_while(|i| i.directive_continue())
-                .map(|i| i.take()),
-        );
-
-        // "use strict";
-        if self.config.strict_mode && !stmts.has_use_strict() {
-            stmts.push(use_strict().into());
-        }
 
         let ModuleDeclStrip {
             link,
@@ -182,11 +188,7 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
-            module_map,
-            lazy_record,
-            self.config.allow_top_level_this,
-        ));
+        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(module_map, lazy_record));
 
         n.body = stmts;
     }
