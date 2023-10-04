@@ -350,7 +350,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
+        let mut export_obj_prop_list = export.into_iter().collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {

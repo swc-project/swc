@@ -6,10 +6,10 @@ pub struct TopLevelThis {
     this: Expr,
 }
 
-pub(crate) fn top_level_this<V: VisitMutWith<TopLevelThis>>(
-    node: &mut V,
-    replace_with: Expr,
-) -> bool {
+pub(crate) fn top_level_this<V>(node: &mut V, replace_with: Expr) -> bool
+where
+    V: VisitMutWith<TopLevelThis>,
+{
     let mut v = TopLevelThis {
         this: replace_with,
         found: false,

@@ -274,7 +274,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
+        let mut export_obj_prop_list = export.into_iter().collect();
 
         let lexer_reexport = if export_interop_annotation {
             self.emit_lexer_reexport(&link)
