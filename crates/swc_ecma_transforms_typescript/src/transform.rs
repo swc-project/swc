@@ -8,7 +8,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, find_pat_ids, is_literal, member_expr,
-    private_ident, quote_ident, quote_str, ExprFactory,
+    private_ident, quote_ident, quote_str, ExprFactory, QueryRef, RefRewriter,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -466,10 +466,7 @@ impl Transform {
         }
 
         if !mutable_export_ids.is_empty() {
-            stmts.visit_mut_with(&mut ExportRefRewrriter {
-                namesapce_id: id,
-                export_id_list: mutable_export_ids,
-            });
+            export_binding_rewrite(&mut stmts, id, mutable_export_ids);
         }
 
         BlockStmt { span, stmts }
@@ -1150,54 +1147,40 @@ impl VisitMut for ExportedPatRewriter {
     }
 }
 
-struct ExportRefRewrriter {
+struct ExportQuery {
     namesapce_id: Id,
     export_id_list: AHashSet<Id>,
 }
 
-impl VisitMut for ExportRefRewrriter {
-    noop_visit_mut_type!();
-
-    fn visit_mut_pat(&mut self, n: &mut Pat) {
-        match n {
-            Pat::Ident(BindingIdent { id, .. }) => {
-                if self.export_id_list.contains(&id.to_id()) {
-                    *n = Pat::Expr(Box::new(self.namesapce_id.clone().make_member(id.take())));
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
+impl QueryRef for ExportQuery {
+    fn query_ref(&self, ident: &Ident) -> Option<Expr> {
+        self.export_id_list
+            .contains(&ident.to_id())
+            .then(|| self.namesapce_id.clone().make_member(ident.clone()))
     }
 
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        if let Expr::Ident(ref_ident) = n {
-            if self.export_id_list.contains(&ref_ident.to_id()) {
-                *n = self.namesapce_id.clone().make_member(ref_ident.clone());
-            }
-            return;
-        }
-
-        n.visit_mut_children_with(self);
+    fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
+        self.query_ref(ident)
     }
 
-    fn visit_mut_prop(&mut self, n: &mut Prop) {
-        match n {
-            Prop::Shorthand(shorthand) => {
-                if self.export_id_list.contains(&shorthand.to_id()) {
-                    *n = KeyValueProp {
-                        key: shorthand.clone().into(),
-                        value: self
-                            .namesapce_id
-                            .clone()
-                            .make_member(shorthand.take())
-                            .into(),
-                    }
-                    .into()
-                }
-            }
-            _ => n.visit_mut_children_with(self),
-        }
+    fn should_fix_this(&self, _: &Ident) -> bool {
+        // tsc does not care about `this` in namespace.
+        false
     }
+}
+
+fn export_binding_rewrite<V>(node: &mut V, namesapce_id: Id, export_id_list: AHashSet<Id>)
+where
+    V: VisitMutWith<RefRewriter<ExportQuery>>,
+{
+    let mut v = RefRewriter {
+        query: ExportQuery {
+            namesapce_id,
+            export_id_list,
+        },
+    };
+
+    node.visit_mut_with(&mut v);
 }
 
 struct EnumMemberItem {
