@@ -15,7 +15,7 @@ use crate::{
     module_decl_strip::{
         Export, ExportKV, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
     },
-    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
+    module_ref_rewriter::{import_binding_rewrite, ImportMap},
     path::{ImportResolver, Resolver},
     top_level_this::top_level_this,
     util::{
@@ -188,7 +188,7 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(module_map, lazy_record));
+        import_binding_rewrite(&mut stmts, module_map, lazy_record);
 
         n.body = stmts;
     }

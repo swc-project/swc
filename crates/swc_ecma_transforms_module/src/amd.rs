@@ -18,7 +18,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 pub use super::util::Config as InnerConfig;
 use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
-    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
+    module_ref_rewriter::{import_binding_rewrite, ImportMap},
     path::{ImportResolver, Resolver},
     top_level_this::top_level_this,
     util::{
@@ -203,7 +203,7 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(import_map, Default::default()));
+        import_binding_rewrite(&mut stmts, import_map, Default::default());
 
         // ====================
         //  Emit
