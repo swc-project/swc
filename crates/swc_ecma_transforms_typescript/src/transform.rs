@@ -7,12 +7,10 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, is_literal, member_expr, private_ident,
-    quote_ident, quote_str, ExprFactory,
+    alias_ident_for, constructor::inject_after_super, find_pat_ids, is_literal, member_expr,
+    private_ident, quote_ident, quote_str, ExprFactory,
 };
-use swc_ecma_visit::{
-    as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
-};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 use crate::{
     config::TsImportExportAssignConfig,
@@ -638,9 +636,7 @@ impl Transform {
     ) -> Option<Stmt> {
         debug_assert!(!var_decl.declare);
 
-        let mut collector = ExportedIdentCollector::default();
-        var_decl.visit_with(&mut collector);
-        mutable_export_ids.extend(collector.export_list);
+        mutable_export_ids.extend(find_pat_ids(&var_decl));
 
         var_decl.decls.visit_mut_with(&mut ExportedPatRewriter {
             id: id.clone().into(),
@@ -1151,29 +1147,6 @@ impl VisitMut for ExportedPatRewriter {
         }
 
         n.visit_mut_children_with(self);
-    }
-}
-
-#[derive(Default)]
-struct ExportedIdentCollector {
-    export_list: Vec<Id>,
-}
-
-impl Visit for ExportedIdentCollector {
-    noop_visit_type!();
-
-    fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        self.export_list.push(n.to_id());
-    }
-
-    fn visit_assign_pat_prop(&mut self, n: &AssignPatProp) {
-        self.export_list.push(n.key.to_id());
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_var_declarator(&mut self, n: &VarDeclarator) {
-        n.name.visit_with(self);
     }
 }
 
