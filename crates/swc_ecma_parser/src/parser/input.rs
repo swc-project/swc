@@ -438,12 +438,12 @@ impl<I: Tokens> Buffer<I> {
     /// Returns last byte position of previous token.
     #[inline]
     pub fn last_pos(&self) -> BytePos {
-        self.prev_span.hi
+        self.prev_span.1
     }
 
     /// Returns span of the previous token.
     #[inline]
-    pub fn prev_span(&self) -> Span {
+    pub fn prev_span(&self) -> SmallSpan {
         self.prev_span
     }
 
