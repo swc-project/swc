@@ -672,11 +672,12 @@ impl TokenContexts {
             //          function b(){}
             //      };
             //  }
-            Some(TokenType::Keyword(Return)) | Some(TokenType::Keyword(Yield)) => {
+            Some(TokenType::Keyword(Keyword::Return))
+            | Some(TokenType::Keyword(Keyword::Yield)) => {
                 return had_line_break;
             }
 
-            Some(TokenType::Keyword(Else))
+            Some(TokenType::Keyword(Keyword::Else))
             | Some(TokenType::Semi)
             | None
             | Some(TokenType::RParen) => {
@@ -698,7 +699,9 @@ impl TokenContexts {
             }
 
             // `class C<T> { ... }`
-            Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
+            Some(TokenType::BinOp(BinOpToken::Lt)) | Some(TokenType::BinOp(BinOpToken::Gt)) => {
+                return true
+            }
 
             // () => {}
             Some(TokenType::Arrow) => return true,
