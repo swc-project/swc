@@ -83,7 +83,7 @@ impl QueryRef for ImportQuery {
     }
 }
 
-pub(crate) fn import_binding_rewrite<V>(
+pub(crate) fn rewrite_import_bindings<V>(
     node: &mut V,
     import_map: ImportMap,
     lazy_record: AHashSet<Id>,

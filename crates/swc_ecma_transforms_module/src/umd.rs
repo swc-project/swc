@@ -14,7 +14,7 @@ use self::config::BuiltConfig;
 pub use self::config::Config;
 use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
-    module_ref_rewriter::{import_binding_rewrite, ImportMap},
+    module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::{ImportResolver, Resolver},
     top_level_this::top_level_this,
     util::{
@@ -170,7 +170,7 @@ where
             stmts.push(return_stmt.into())
         }
 
-        import_binding_rewrite(&mut stmts, import_map, Default::default());
+        rewrite_import_bindings(&mut stmts, import_map, Default::default());
 
         // ====================
         //  Emit

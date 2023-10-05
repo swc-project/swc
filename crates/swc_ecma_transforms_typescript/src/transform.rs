@@ -466,7 +466,7 @@ impl Transform {
         }
 
         if !mutable_export_ids.is_empty() {
-            export_binding_rewrite(&mut stmts, id, mutable_export_ids);
+            rewrite_export_bindings(&mut stmts, id, mutable_export_ids);
         }
 
         BlockStmt { span, stmts }
@@ -1169,7 +1169,7 @@ impl QueryRef for ExportQuery {
     }
 }
 
-fn export_binding_rewrite<V>(node: &mut V, namesapce_id: Id, export_id_list: AHashSet<Id>)
+fn rewrite_export_bindings<V>(node: &mut V, namesapce_id: Id, export_id_list: AHashSet<Id>)
 where
     V: VisitMutWith<RefRewriter<ExportQuery>>,
 {
