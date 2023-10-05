@@ -333,7 +333,13 @@ impl<'a> Iterator for Lexer<'a> {
             self.read_token()
         })();
 
-        let token = match res.map_err(TokenKind::Error).map_err(Some) {
+        let token = match res
+            .map_err(|err| {
+                self.token_error = Some(err);
+                TokenKind::Error
+            })
+            .map_err(Some)
+        {
             Ok(t) => t,
             Err(e) => e,
         };
