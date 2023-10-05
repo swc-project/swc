@@ -9,7 +9,7 @@ use std::{
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{Span, Spanned};
-use swc_ecma_ast::BinaryOp;
+use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
@@ -32,8 +32,8 @@ macro_rules! define_known_ident {
         macro_rules! known_ident_token {
             $(
                 ($value) => {
-                    $TokenKind::Word($WordKind::Ident(
-                        $IdentKind::Known($KnownIdent::$name),
+                    crate::token::TokenKind::Word(crate::token::WordKind::Ident(
+                        crate::token::IdentKind::Known(crate::token::KnownIdent::$name),
                     ))
                 };
             )*
@@ -43,7 +43,7 @@ macro_rules! define_known_ident {
         macro_rules! known_ident {
             $(
                 ($value) => {
-                    $KnownIdent::$name
+                    KnownIdent::$name
                 };
             )*
         }
@@ -154,7 +154,7 @@ pub enum TokenKind {
     Template,
     Colon,
     BinOp(BinOpToken),
-    AssignOp(AssignOpToken),
+    AssignOp(AssignOp),
     DollarLBrace,
     QuestionMark,
     PlusPlus,
@@ -227,7 +227,7 @@ pub enum Token {
     ///
     BinOp(BinOpToken),
     ///
-    AssignOp(AssignOpToken),
+    AssignOp(AssignOp),
 
     /// '${'
     DollarLBrace,
