@@ -21,7 +21,9 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{AssignOpToken::*, BinOpToken::*, IdentKind, TokenKind, TokenKind::*, WordKind},
+    token::{
+        AssignOpToken::*, BinOpToken::*, IdentKind, SmallSpan, TokenKind, TokenKind::*, WordKind,
+    },
     Context, Syntax,
 };
 
@@ -1299,10 +1301,10 @@ impl<'a> Lexer<'a> {
     }
 }
 
-fn pos_span(p: BytePos) -> Span {
-    Span::new(p, p, Default::default())
+fn pos_span(p: BytePos) -> SmallSpan {
+    (p, p)
 }
 
-fn fixed_len_span(p: BytePos, len: u32) -> Span {
-    Span::new(p, p + BytePos(len), Default::default())
+fn fixed_len_span(p: BytePos, len: u32) -> SmallSpan {
+    (p, p + BytePos(len))
 }
