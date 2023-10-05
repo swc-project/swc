@@ -21,7 +21,9 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{AssignOpToken::*, BinOpToken::*, Keyword::*, TokenKind, TokenKind::*},
+    token::{
+        AssignOpToken::*, BinOpToken::*, IdentKind, KnownIdent, TokenKind, TokenKind::*, WordKind,
+    },
     Context, Syntax,
 };
 
@@ -752,83 +754,92 @@ impl<'a> Lexer<'a> {
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident_or_keyword(&mut self) -> LexResult<TokenKind> {
+        use crate::token::Keyword::*;
+
         debug_assert!(self.cur().is_some());
         let start = self.cur_pos();
 
-        let (word, has_escape) = self.read_word_as_str_with(|s| {
+        let (word, has_escape) = self.read_word_as_str_with(|lexer, s| {
             if s.len() == 1 || s.len() > 10 {
-                Word::Ident(s.into())
             } else {
                 match s.as_bytes()[0] {
-                    b'a' if s == "await" => Await.into(),
-                    b'b' if s == "break" => Break.into(),
+                    b'a' if s == "await" => return Await.into(),
+                    b'b' if s == "break" => return Break.into(),
                     b'c' => match s {
-                        "case" => Case.into(),
-                        "const" => Const.into(),
-                        "class" => Class.into(),
-                        "catch" => Catch.into(),
-                        "continue" => Continue.into(),
-                        _ => Word::Ident(s.into()),
+                        "case" => return Case.into(),
+                        "const" => return Const.into(),
+                        "class" => return Class.into(),
+                        "catch" => return Catch.into(),
+                        "continue" => return Continue.into(),
+                        _ => {}
                     },
                     b'd' => match s {
-                        "do" => Do.into(),
-                        "default" => Default_.into(),
-                        "delete" => Delete.into(),
-                        "debugger" => Debugger.into(),
-                        _ => Word::Ident(s.into()),
+                        "do" => return Do.into(),
+                        "default" => return Default_.into(),
+                        "delete" => return Delete.into(),
+                        "debugger" => return Debugger.into(),
+                        _ => {}
                     },
                     b'e' => match s {
-                        "else" => Else.into(),
-                        "export" => Export.into(),
-                        "extends" => Extends.into(),
-                        _ => Word::Ident(s.into()),
+                        "else" => return Else.into(),
+                        "export" => return Export.into(),
+                        "extends" => return Extends.into(),
+                        _ => {}
                     },
                     b'f' => match s {
-                        "for" => For.into(),
-                        "false" => Word::False,
-                        "finally" => Finally.into(),
-                        "function" => Function.into(),
-                        _ => Word::Ident(s.into()),
+                        "for" => return For.into(),
+                        "false" => return WordKind::False,
+                        "finally" => return Finally.into(),
+                        "function" => return Function.into(),
+                        _ => {}
                     },
                     b'i' => match s {
-                        "if" => If.into(),
-                        "import" => Import.into(),
-                        "in" => In.into(),
-                        "instanceof" => InstanceOf.into(),
-                        _ => Word::Ident(s.into()),
+                        "if" => return If.into(),
+                        "import" => return Import.into(),
+                        "in" => return In.into(),
+                        "instanceof" => return InstanceOf.into(),
+                        _ => {}
                     },
-                    b'l' if s == "let" => Let.into(),
+                    b'l' if s == "let" => return Let.into(),
                     b'n' => match s {
-                        "new" => New.into(),
-                        "null" => Word::Null,
-                        _ => Word::Ident(s.into()),
+                        "new" => return New.into(),
+                        "null" => return WordKind::Null,
+                        _ => {}
                     },
-                    b'r' if s == "return" => Return.into(),
+                    b'r' if s == "return" => return Return.into(),
                     b's' => match s {
-                        "super" => Super.into(),
-                        "switch" => Switch.into(),
-                        _ => Word::Ident(s.into()),
+                        "super" => return Super.into(),
+                        "switch" => return Switch.into(),
+                        _ => {}
                     },
                     b't' => match s {
-                        "this" => This.into(),
-                        "true" => Word::True,
-                        "try" => Try.into(),
-                        "throw" => Throw.into(),
-                        "typeof" => TypeOf.into(),
-                        _ => Word::Ident(s.into()),
+                        "this" => return This.into(),
+                        "true" => WordKind::True,
+                        "try" => return Try.into(),
+                        "throw" => return Throw.into(),
+                        "typeof" => return TypeOf.into(),
+                        _ => {}
                     },
                     b'v' => match s {
-                        "var" => Var.into(),
-                        "void" => Void.into(),
-                        _ => Word::Ident(s.into()),
+                        "var" => return Var.into(),
+                        "void" => return Void.into(),
+                        _ => {}
                     },
                     b'w' => match s {
-                        "while" => While.into(),
-                        "with" => With.into(),
-                        _ => Word::Ident(s.into()),
+                        "while" => return While.into(),
+                        "with" => return With.into(),
+                        _ => {}
                     },
-                    b'y' if s == "yield" => Yield.into(),
-                    _ => Word::Ident(s.into()),
+                    b'y' if s == "yield" => return Yield.into(),
+                    _ => {}
+                }
+            }
+
+            match KnownIdent::try_from(s) {
+                Ok(v) => WordKind::Ident(IdentKind::Known(v)),
+                Err(()) => {
+                    lexer.token_str = s.into();
+                    WordKind::Ident(IdentKind::Other)
                 }
             }
         })?;
@@ -850,7 +861,7 @@ impl<'a> Lexer<'a> {
     /// This method is optimized for texts without escape sequences.
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&str) -> Ret,
+        F: FnOnce(&mut Lexer, &str) -> Ret,
     {
         debug_assert!(self.cur().is_some());
         let mut first = true;
