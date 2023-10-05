@@ -462,7 +462,7 @@ impl State {
         } else {
             // ported updateContext
             match next {
-                tok!(')') | tok!('}') => {
+                TokenKind::RParen | crate::token::TokenKind::RBrace => {
                     // TODO: Verify
                     if context.len() == 1 {
                         return true;
@@ -605,7 +605,7 @@ impl State {
                 // remains unchanged.
                 tok!("++") | tok!("--") => is_expr_allowed,
 
-                tok!('`') => {
+                TokenKind::BackQuote => {
                     // If we are in template, ` terminates template.
                     if let Some(TokenContext::Tpl { .. }) = context.current() {
                         context.pop();

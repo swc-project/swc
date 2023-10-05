@@ -5,10 +5,7 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
-use crate::{
-    parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
-    token::AssignOpToken,
-};
+use crate::parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
@@ -590,7 +587,7 @@ impl<I: Tokens> Parser<I> {
             }
             Expr::Assign(
                 assign_expr @ AssignExpr {
-                    op: AssignOpToken::Assign,
+                    op: AssignOp::Assign,
                     ..
                 },
             ) => {
