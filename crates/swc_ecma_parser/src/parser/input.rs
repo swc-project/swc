@@ -326,7 +326,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     /// Returns current token.
-    pub fn bump(&mut self) -> Token {
+    pub fn bump(&mut self) -> TokenKind {
         #[cold]
         #[inline(never)]
         fn invalid_state() -> ! {
@@ -340,7 +340,7 @@ impl<I: Tokens> Buffer<I> {
             Some(t) => t,
             None => invalid_state(),
         };
-        self.prev_span = prev.span();
+        self.prev_span = prev.span;
 
         prev.token
     }
