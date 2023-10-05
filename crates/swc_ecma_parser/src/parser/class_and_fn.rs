@@ -161,7 +161,7 @@ impl<I: Tokens> Parser<I> {
                 let eof_text = p.input.dump_cur();
                 p.emit_err(
                     p.input.cur_span(),
-                    SyntaxError::Expected(&Token::RBrace, eof_text),
+                    SyntaxError::Expected(TokenKind::RBrace, eof_text),
                 );
             } else {
                 expect!(p, '}');
@@ -1314,8 +1314,7 @@ impl<I: Tokens> Parser<I> {
 
             // typescript extension
             let return_type = if p.syntax().typescript() && is!(p, ':') {
-                p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
-                    .map(Some)?
+                p.parse_ts_type_or_type_predicate_ann(tok!(':')).map(Some)?
             } else {
                 None
             };
