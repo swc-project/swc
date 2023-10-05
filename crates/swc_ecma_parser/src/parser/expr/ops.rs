@@ -347,11 +347,12 @@ impl<I: Tokens> Parser<I> {
         if is_one_of!(self, "++", "--") {
             self.check_assign_target(&expr, false);
 
-            let op = if bump!(self) == tok!("++") {
+            let op = if cur!(self, true)? == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
             };
+            bump!(self);
 
             return Ok(Box::new(Expr::Update(UpdateExpr {
                 span: span!(self, expr.span_lo()),
