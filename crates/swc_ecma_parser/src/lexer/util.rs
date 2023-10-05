@@ -19,6 +19,7 @@ use super::{
 use crate::{
     error::{Error, SyntaxError},
     lexer::comments_buffer::BufferedCommentKind,
+    token::SmallSpan,
     Tokens,
 };
 
@@ -51,7 +52,7 @@ impl Raw {
 // pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
-    pub(super) fn span(&self, start: BytePos) -> Span {
+    pub(super) fn span(&self, start: BytePos) -> SmallSpan {
         let end = self.last_pos();
         if cfg!(debug_assertions) && start > end {
             unreachable!(
@@ -60,11 +61,7 @@ impl<'a> Lexer<'a> {
                 start.0, end.0
             )
         }
-        Span {
-            lo: start,
-            hi: end,
-            ctxt: SyntaxContext::empty(),
-        }
+        (start, end)
     }
 
     #[inline(always)]
