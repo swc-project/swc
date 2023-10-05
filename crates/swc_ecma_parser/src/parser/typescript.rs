@@ -1848,7 +1848,7 @@ impl<I: Tokens> Parser<I> {
         let type_params = self.try_parse_ts_type_params(false, true)?;
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
-        let type_ann = self.parse_ts_type_or_type_predicate_ann(&tok!("=>"))?;
+        let type_ann = self.parse_ts_type_or_type_predicate_ann(tok!("=>"))?;
         trace_cur!(self, parse_ts_fn_or_constructor_type__after_params);
         let type_ann = self.parse_ts_type_or_type_predicate_ann(tok!("=>"))?;
         trace_cur!(self, parse_ts_fn_or_constructor_type__after_type_ann);
