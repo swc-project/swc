@@ -122,7 +122,8 @@ pub struct Lexer<'a> {
 
     pub(crate) ctx: Context,
 
-    token_text: smartstring::SmartString<smartstring::LazyCompact>,
+    token_str1: smartstring::SmartString<smartstring::LazyCompact>,
+    token_str2: String,
 
     atoms: Rc<RefCell<AtomGenerator>>,
 
@@ -169,7 +170,8 @@ impl<'a> Lexer<'a> {
             module_errors: Default::default(),
             atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
-            token_text: Default::default(),
+            token_str1: Default::default(),
+            token_str2: Default::default(),
             token_raw: Default::default(),
             token_error: Default::default(),
         }
