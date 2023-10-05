@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::Token,
+    token::{BinOpToken, Token},
     Context, Syntax,
 };
 
@@ -332,8 +332,6 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
-        use crate::token::BinOpToken::*;
-
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -341,7 +339,11 @@ impl<'a> Lexer<'a> {
             // Safety: cur() is Some(c as char)
             self.input.bump();
         }
-        let token = if c == b'&' { BitAnd } else { BitOr };
+        let token = if c == b'&' {
+            BinOpToken::BitAnd
+        } else {
+            BinOpToken::BitOr
+        };
 
         // '|=', '&='
         if self.input.eat_byte(b'=') {
@@ -373,7 +375,7 @@ impl<'a> Lexer<'a> {
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token == BitOr && self.is_str("||||| ") {
+            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
@@ -382,13 +384,13 @@ impl<'a> Lexer<'a> {
             }
 
             return Ok(Token::BinOp(match token {
-                BitAnd => LogicalAnd,
-                BitOr => LogicalOr,
+                BinOpToken::BitAnd => BinOpToken::LogicalAnd,
+                BinOpToken::BitOr => BinOpToken::LogicalOr,
                 _ => unreachable!(),
             }));
         }
 
-        Ok(BinOp(token))
+        Ok(Token::BinOp(token))
     }
 
     /// Read a token given `*` or `%`.
@@ -396,29 +398,27 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
-        use crate::token::BinOpToken::*;
-
         let is_mul = c == b'*';
         unsafe {
             // Safety: cur() is Some(c)
             self.input.bump();
         }
         let mut token = if is_mul {
-            Token::BinOp(Mul)
+            Token::BinOp(BinOpToken::Mul)
         } else {
-            Token::BinOp(Mod)
+            Token::BinOp(BinOpToken::Mod)
         };
 
         // check for **
         if is_mul && self.input.eat_byte(b'*') {
-            token = Token::BinOp(Exp)
+            token = Token::BinOp(BinOpToken::Exp)
         }
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                Token::BinOp(Mul) => AssignOp(MulAssign),
-                Token::BinOp(Mod) => AssignOp(ModAssign),
-                Token::BinOp(Exp) => AssignOp(ExpAssign),
+                Token::BinOp(Mul) => Token::AssignOp(MulAssign),
+                Token::BinOp(Mod) => Token::AssignOp(ModAssign),
+                Token::BinOp(Exp) => Token::AssignOp(ExpAssign),
                 _ => unreachable!(),
             }
         }
@@ -600,14 +600,22 @@ impl<'a> Lexer<'a> {
             }
 
             if c == b'+' {
-                PlusPlus
+                Token::PlusPlus
             } else {
-                MinusMinus
+                Token::MinusMinus
             }
         } else if self.input.eat_byte(b'=') {
-            AssignOp(if c == b'+' { AddAssign } else { SubAssign })
+            Token::AssignOp(if c == b'+' {
+                AssignOp::AddAssign
+            } else {
+                AssignOp::SubAssign
+            })
         } else {
-            BinOp(if c == b'+' { Add } else { Sub })
+            Token::BinOp(if c == b'+' {
+                BinOpToken::Add
+            } else {
+                BinOpToken::Sub
+            })
         }))
     }
 
@@ -625,7 +633,7 @@ impl<'a> Lexer<'a> {
 
             if self.input.eat_byte(b'=') {
                 if c == b'!' {
-                    BinOp(NotEqEq)
+                    Token::BinOp(BinOpToken::NotEqEq)
                 } else {
                     // =======
                     //    ^
@@ -636,21 +644,21 @@ impl<'a> Lexer<'a> {
                         return self.read_token();
                     }
 
-                    BinOp(EqEqEq)
+                    Token::BinOp(BinOpToken::EqEqEq)
                 }
             } else if c == b'!' {
-                BinOp(NotEq)
+                Token::BinOp(BinOpToken::NotEq)
             } else {
-                BinOp(EqEq)
+                Token::BinOp(BinOpToken::EqEq)
             }
         } else if c == b'=' && self.input.eat_byte(b'>') {
             // "=>"
 
-            Arrow
+            Token::Arrow
         } else if c == b'!' {
-            Bang
+            Token::Bang
         } else {
-            AssignOp(Assign)
+            Token::AssignOp(AssignOp::Assign)
         }))
     }
 }
