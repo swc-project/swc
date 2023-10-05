@@ -216,12 +216,12 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    fn emit_err(&self, span: SmallSpan, error: SyntaxError) {
+    fn emit_err(&self, span: impl Into<SmallSpan>, error: SyntaxError) {
         if self.ctx().ignore_error || !self.syntax().early_errors() {
             return;
         }
 
-        self.emit_error(Error::new(span, error))
+        self.emit_error(Error::new(span.into(), error))
     }
 
     #[cold]
