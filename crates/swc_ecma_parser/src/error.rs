@@ -24,9 +24,9 @@ impl Spanned for Error {
 
 impl Error {
     #[cold]
-    pub(crate) fn new(span: SmallSpan, error: SyntaxError) -> Self {
+    pub(crate) fn new(span: impl Into<Span>, error: SyntaxError) -> Self {
         Self {
-            error: Box::new((Span::new(span.0, span.1, Default::default()), error)),
+            error: Box::new((span.into(), error)),
         }
     }
 
