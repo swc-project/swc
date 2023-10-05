@@ -764,6 +764,19 @@ macro_rules! known_ident {
                 };
             )*
         }
+
+        impl std::str::FromStr for KnownIdent {
+            type Err = ();
+
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                match s {
+                    $(
+                        $value => Ok(Self::$name),
+                    )*
+                    _ => Err(()),
+                }
+            }
+        }
     };
 }
 
