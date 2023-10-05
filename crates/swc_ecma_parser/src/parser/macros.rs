@@ -277,7 +277,7 @@ Current token is {:?}",
         );
 
         let pos = cur_pos!($p);
-        let last = Span::new(pos, pos, Default::default());
+        let last = (pos, pos);
         match $p.input.peek() {
             Some(c) => Ok(c),
             None => {
