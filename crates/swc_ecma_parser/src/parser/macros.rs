@@ -237,7 +237,7 @@ macro_rules! store {
 macro_rules! cur {
     ($p:expr, $required:expr) => {{
         let pos = $p.input.last_pos();
-        let last = Span::new(pos, pos, Default::default());
+        let last = (pos, pos);
         let is_err_token = match $p.input.cur() {
             Some($crate::token::TokenKind::Error) => true,
             _ => false,
