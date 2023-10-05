@@ -1,64 +1,63 @@
 use swc_atoms::js_word;
 
 use super::*;
-use crate::token::Keyword;
+use crate::token::{IdentKind, Keyword, KnownIdent, WordKind};
 
 impl Context {
-    pub(crate) fn is_reserved(self, word: &Word) -> bool {
-        match *word {
-            Word::Keyword(Keyword::Let) => self.strict,
-            Word::Keyword(Keyword::Await) => self.in_async || self.strict,
-            Word::Keyword(Keyword::Yield) => self.in_generator || self.strict,
+    pub(crate) fn is_reserved(self, word: WordKind) -> bool {
+        match word {
+            WordKind::Keyword(Keyword::Let) => self.strict,
+            WordKind::Keyword(Keyword::Await) => self.in_async || self.strict,
+            WordKind::Keyword(Keyword::Yield) => self.in_generator || self.strict,
 
-            Word::Null
-            | Word::True
-            | Word::False
-            | Word::Keyword(Keyword::Break)
-            | Word::Keyword(Keyword::Case)
-            | Word::Keyword(Keyword::Catch)
-            | Word::Keyword(Keyword::Continue)
-            | Word::Keyword(Keyword::Debugger)
-            | Word::Keyword(Keyword::Default_)
-            | Word::Keyword(Keyword::Do)
-            | Word::Keyword(Keyword::Export)
-            | Word::Keyword(Keyword::Else)
-            | Word::Keyword(Keyword::Finally)
-            | Word::Keyword(Keyword::For)
-            | Word::Keyword(Keyword::Function)
-            | Word::Keyword(Keyword::If)
-            | Word::Keyword(Keyword::Return)
-            | Word::Keyword(Keyword::Switch)
-            | Word::Keyword(Keyword::Throw)
-            | Word::Keyword(Keyword::Try)
-            | Word::Keyword(Keyword::Var)
-            | Word::Keyword(Keyword::Const)
-            | Word::Keyword(Keyword::While)
-            | Word::Keyword(Keyword::With)
-            | Word::Keyword(Keyword::New)
-            | Word::Keyword(Keyword::This)
-            | Word::Keyword(Keyword::Super)
-            | Word::Keyword(Keyword::Class)
-            | Word::Keyword(Keyword::Extends)
-            | Word::Keyword(Keyword::Import)
-            | Word::Keyword(Keyword::In)
-            | Word::Keyword(Keyword::InstanceOf)
-            | Word::Keyword(Keyword::TypeOf)
-            | Word::Keyword(Keyword::Void)
-            | Word::Keyword(Keyword::Delete) => true,
+            WordKind::Null
+            | WordKind::True
+            | WordKind::False
+            | WordKind::Keyword(Keyword::Break)
+            | WordKind::Keyword(Keyword::Case)
+            | WordKind::Keyword(Keyword::Catch)
+            | WordKind::Keyword(Keyword::Continue)
+            | WordKind::Keyword(Keyword::Debugger)
+            | WordKind::Keyword(Keyword::Default_)
+            | WordKind::Keyword(Keyword::Do)
+            | WordKind::Keyword(Keyword::Export)
+            | WordKind::Keyword(Keyword::Else)
+            | WordKind::Keyword(Keyword::Finally)
+            | WordKind::Keyword(Keyword::For)
+            | WordKind::Keyword(Keyword::Function)
+            | WordKind::Keyword(Keyword::If)
+            | WordKind::Keyword(Keyword::Return)
+            | WordKind::Keyword(Keyword::Switch)
+            | WordKind::Keyword(Keyword::Throw)
+            | WordKind::Keyword(Keyword::Try)
+            | WordKind::Keyword(Keyword::Var)
+            | WordKind::Keyword(Keyword::Const)
+            | WordKind::Keyword(Keyword::While)
+            | WordKind::Keyword(Keyword::With)
+            | WordKind::Keyword(Keyword::New)
+            | WordKind::Keyword(Keyword::This)
+            | WordKind::Keyword(Keyword::Super)
+            | WordKind::Keyword(Keyword::Class)
+            | WordKind::Keyword(Keyword::Extends)
+            | WordKind::Keyword(Keyword::Import)
+            | WordKind::Keyword(Keyword::In)
+            | WordKind::Keyword(Keyword::InstanceOf)
+            | WordKind::Keyword(Keyword::TypeOf)
+            | WordKind::Keyword(Keyword::Void)
+            | WordKind::Keyword(Keyword::Delete) => true,
 
             // Future reserved word
-            Word::Ident(js_word!("enum")) => true,
+            WordKind::Ident(IdentKind::Known(KnownIdent::Enum)) => true,
 
-            Word::Ident(js_word!("implements"))
-            | Word::Ident(js_word!("package"))
-            | Word::Ident(js_word!("protected"))
-            | Word::Ident(js_word!("interface"))
-            | Word::Ident(js_word!("private"))
-            | Word::Ident(js_word!("public"))
-                if self.strict =>
-            {
-                true
-            }
+            // Future reserved word
+            WordKind::Ident(IdentKind::Known(
+                KnownIdent::Implements
+                | KnownIdent::Package
+                | KnownIdent::Protected
+                | KnownIdent::Private
+                | KnownIdent::Public
+                | KnownIdent::Interface,
+            )) => self.strict,
 
             _ => false,
         }
