@@ -8,12 +8,173 @@ use std::{
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom, JsWord};
-use swc_common::{Span, Spanned};
+use swc_common::{BytePos, Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
-pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
+pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
+
+macro_rules! define_known_ident {
+    (
+        $(
+            $name:ident => $value:tt,
+        )*
+    ) => {
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+        #[non_exhaustive]
+        pub enum KnownIdent {
+            $(
+                $name
+            ),*
+        }
+
+        #[allow(unused)]
+        macro_rules! known_ident_token {
+            $(
+                ($value) => {
+                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
+                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
+                    ))
+                };
+            )*
+        }
+
+        #[allow(unused)]
+        macro_rules! known_ident {
+            $(
+                ($value) => {
+                    $crate::token::KnownIdent::$name
+                };
+            )*
+        }
+
+        impl std::str::FromStr for KnownIdent {
+            type Err = ();
+
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                match s {
+                    $(
+                        $value => Ok(Self::$name),
+                    )*
+                    _ => Err(()),
+                }
+            }
+        }
+    };
+}
+
+define_known_ident!(
+    Abstract => "abstract",
+    As => "as",
+    Async => "async",
+    From => "from",
+    Of => "of",
+    Type => "type",
+    Global => "global",
+    Static => "static",
+    Using => "using",
+    Readonly => "readonly",
+    Unique => "unique",
+    Keyof => "keyof",
+    Declare => "declare",
+    Enum => "enum",
+    Is => "is",
+    Infer => "infer",
+    Symbol => "symbol",
+    Undefined => "undefined",
+    Interface => "interface",
+    Implements => "implements",
+    Asserts => "asserts",
+    Require => "require",
+    Get => "get",
+    Set => "set",
+    Any => "any",
+    Intrinsic => "intrinsic",
+    Unknown => "unknown",
+    String => "string",
+    Object => "object",
+    Number => "number",
+    Bigint => "bigint",
+    Boolean => "boolean",
+    Never => "never",
+    Assert => "assert",
+    Namespace => "namespace",
+    Accessor => "accessor",
+    Meta => "meta",
+    Target => "target",
+    Satisfies => "satisfies",
+    Package => "package",
+    Protected => "protected",
+    Private => "private",
+    Public => "public",
+);
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum WordKind {
+    Keyword(Keyword),
+
+    Null,
+    True,
+    False,
+
+    Ident(IdentKind),
+}
+
+impl From<Keyword> for WordKind {
+    #[inline(always)]
+    fn from(kwd: Keyword) -> Self {
+        Self::Keyword(kwd)
+    }
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum IdentKind {
+    Known(KnownIdent),
+    Other,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum TokenKind {
+    Word(WordKind),
+    Arrow,
+    Hash,
+    At,
+    Dot,
+    DotDotDot,
+    Bang,
+    LParen,
+    RParen,
+    LBracket,
+    RBracket,
+    LBrace,
+    RBrace,
+    Semi,
+    Comma,
+    BackQuote,
+    Template,
+    Colon,
+    BinOp(BinOpToken),
+    AssignOp(AssignOpToken),
+    DollarLBrace,
+    QuestionMark,
+    PlusPlus,
+    MinusMinus,
+    Tilde,
+    Str,
+    /// We abuse `token.raw` for flags
+    Regex,
+    Num,
+    BigInt,
+
+    JSXName,
+    JSXText,
+    JSXTagStart,
+    JSXTagEnd,
+
+    Shebang,
+    Error,
+}
 
 #[derive(Clone, PartialEq)]
 pub enum Token {
@@ -116,8 +277,8 @@ pub enum Token {
     Error(Error),
 }
 
-impl Token {
-    pub(crate) const fn before_expr(&self) -> bool {
+impl TokenKind {
+    pub(crate) const fn before_expr(self) -> bool {
         match self {
             Self::Word(w) => w.before_expr(),
             Self::BinOp(w) => w.before_expr(),
@@ -154,10 +315,10 @@ impl Token {
             | Self::PlusPlus
             | Self::MinusMinus
             | Self::Tilde
-            | Self::Str { .. }
-            | Self::Regex(..)
-            | Self::Num { .. }
-            | Self::BigInt { .. }
+            | Self::Str
+            | Self::Regex
+            | Self::Num
+            | Self::BigInt
             | Self::JSXTagStart => true,
             _ => false,
         }
@@ -237,16 +398,18 @@ impl BinOpToken {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
-    pub token: Token,
+    pub token: TokenKind,
     /// Had a line break before this token?
     pub had_line_break: bool,
-    pub span: Span,
+    pub span: SmallSpan,
 }
+
+pub type SmallSpan = (BytePos, BytePos);
 
 impl Spanned for TokenAndSpan {
     #[inline(always)]
     fn span(&self) -> Span {
-        self.span
+        Span::new(self.span.0, self.span.1, Default::default())
     }
 }
 
@@ -261,17 +424,17 @@ pub enum Word {
     Ident(JsWord),
 }
 
-impl Word {
+impl WordKind {
     pub(crate) const fn before_expr(&self) -> bool {
         match self {
-            Word::Keyword(k) => k.before_expr(),
+            Self::Keyword(k) => k.before_expr(),
             _ => false,
         }
     }
 
     pub(crate) const fn starts_expr(&self) -> bool {
         match self {
-            Word::Keyword(k) => k.starts_expr(),
+            Self::Keyword(k) => k.starts_expr(),
             _ => true,
         }
     }
@@ -597,17 +760,17 @@ impl From<BinOpToken> for BinaryOp {
     }
 }
 
-impl Token {
+impl TokenKind {
     /// Returns true if `self` can follow keyword let.
     ///
     /// e.g. `let a = xx;`, `let {a:{}} = 1`
     pub(crate) fn follows_keyword_let(&self, _strict: bool) -> bool {
         matches!(
             *self,
-            crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Let))
+            Self::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Let))
                 | tok!('{')
                 | tok!('[')
-                | Word(Word::Ident(..))
+                | Self::Word(WordKind::Ident(..))
                 | tok!("yield")
                 | tok!("await")
         )
