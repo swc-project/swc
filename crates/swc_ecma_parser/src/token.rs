@@ -15,6 +15,101 @@ use swc_ecma_ast::BinaryOp;
 pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
 
+macro_rules! define_known_ident {
+    (
+        $(
+            $name:ident => $value:tt,
+        )*
+    ) => {
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+        #[non_exhaustive]
+        pub enum KnownIdent {
+            $(
+                $name
+            ),*
+        }
+
+        #[allow(unused)]
+        macro_rules! known_ident_token {
+            $(
+                ($value) => {
+                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
+                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
+                    ))
+                };
+            )*
+        }
+
+        #[allow(unused)]
+        macro_rules! known_ident {
+            $(
+                ($value) => {
+                    $crate::token::KnownIdent::$name
+                };
+            )*
+        }
+
+        impl std::str::FromStr for KnownIdent {
+            type Err = ();
+
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                match s {
+                    $(
+                        $value => Ok(Self::$name),
+                    )*
+                    _ => Err(()),
+                }
+            }
+        }
+    };
+}
+
+define_known_ident!(
+    Abstract => "abstract",
+    As => "as",
+    Async => "async",
+    From => "from",
+    Of => "of",
+    Type => "type",
+    Global => "global",
+    Static => "static",
+    Using => "using",
+    Readonly => "readonly",
+    Unique => "unique",
+    Keyof => "keyof",
+    Declare => "declare",
+    Enum => "enum",
+    Is => "is",
+    Infer => "infer",
+    Symbol => "symbol",
+    Undefined => "undefined",
+    Interface => "interface",
+    Implements => "implements",
+    Asserts => "asserts",
+    Require => "require",
+    Get => "get",
+    Set => "set",
+    Any => "any",
+    Intrinsic => "intrinsic",
+    Unknown => "unknown",
+    String => "string",
+    Object => "object",
+    Number => "number",
+    Bigint => "bigint",
+    Boolean => "boolean",
+    Never => "never",
+    Assert => "assert",
+    Namespace => "namespace",
+    Accessor => "accessor",
+    Meta => "meta",
+    Target => "target",
+    Satisfies => "satisfies",
+    Package => "package",
+    Protected => "protected",
+    Private => "private",
+    Public => "public",
+);
+
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum WordKind {
     Keyword(Keyword),
@@ -739,98 +834,3 @@ impl Debug for Token {
         Ok(())
     }
 }
-
-macro_rules! define_known_ident {
-    (
-        $(
-            $name:ident => $value:tt,
-        )*
-    ) => {
-        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
-        #[non_exhaustive]
-        pub enum KnownIdent {
-            $(
-                $name
-            ),*
-        }
-
-        #[allow(unused)]
-        macro_rules! known_ident_token {
-            $(
-                ($value) => {
-                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
-                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
-                    ))
-                };
-            )*
-        }
-
-        #[allow(unused)]
-        macro_rules! known_ident {
-            $(
-                ($value) => {
-                    $crate::token::KnownIdent::$name
-                };
-            )*
-        }
-
-        impl std::str::FromStr for KnownIdent {
-            type Err = ();
-
-            fn from_str(s: &str) -> Result<Self, Self::Err> {
-                match s {
-                    $(
-                        $value => Ok(Self::$name),
-                    )*
-                    _ => Err(()),
-                }
-            }
-        }
-    };
-}
-
-define_known_ident!(
-    Abstract => "abstract",
-    As => "as",
-    Async => "async",
-    From => "from",
-    Of => "of",
-    Type => "type",
-    Global => "global",
-    Static => "static",
-    Using => "using",
-    Readonly => "readonly",
-    Unique => "unique",
-    Keyof => "keyof",
-    Declare => "declare",
-    Enum => "enum",
-    Is => "is",
-    Infer => "infer",
-    Symbol => "symbol",
-    Undefined => "undefined",
-    Interface => "interface",
-    Implements => "implements",
-    Asserts => "asserts",
-    Require => "require",
-    Get => "get",
-    Set => "set",
-    Any => "any",
-    Intrinsic => "intrinsic",
-    Unknown => "unknown",
-    String => "string",
-    Object => "object",
-    Number => "number",
-    Bigint => "bigint",
-    Boolean => "boolean",
-    Never => "never",
-    Assert => "assert",
-    Namespace => "namespace",
-    Accessor => "accessor",
-    Meta => "meta",
-    Target => "target",
-    Satisfies => "satisfies",
-    Package => "package",
-    Protected => "protected",
-    Private => "private",
-    Public => "public",
-);
