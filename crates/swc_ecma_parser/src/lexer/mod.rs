@@ -348,8 +348,8 @@ impl<'a> Lexer<'a> {
         // '|=', '&='
         if self.input.eat_byte(b'=') {
             return Ok(Token::AssignOp(match token {
-                BinOptoken::BitAnd => AssignOp::BitAndAssign,
-                BinOptoken::BitOr => AssignOp::BitOrAssign,
+                BinOpToken::BitAnd => AssignOp::BitAndAssign,
+                BinOpToken::BitOr => AssignOp::BitOrAssign,
                 _ => unreachable!(),
             }));
         }
