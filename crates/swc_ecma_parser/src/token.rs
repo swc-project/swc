@@ -60,6 +60,19 @@ macro_rules! define_known_ident {
                 }
             }
         }
+
+        impl std::convert::TryFrom<&JsWord> for KnownIdent {
+            type Error = ();
+
+            fn try_from(value: &JsWord) -> Result<Self, Self::Error> {
+                match *value {
+                    $(
+                        js_word!($value) => Ok(Self::$name),
+                    )*
+                    _ => Err(()),
+                }
+            }
+        }
     };
 }
 
@@ -470,11 +483,11 @@ impl Word {
             Word::Null => WordKind::Null,
             Word::True => WordKind::True,
             Word::False => WordKind::False,
-            Word::Ident(ref i) => WordKind::Ident(IdentKind::Known(
+            Word::Ident(ref i) => WordKind::Ident(
                 KnownIdent::try_from(i)
                     .map(IdentKind::Known)
                     .unwrap_or(IdentKind::Other),
-            )),
+            ),
         }
     }
 }
