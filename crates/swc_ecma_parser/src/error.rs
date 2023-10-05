@@ -8,7 +8,7 @@ use swc_common::{
     Span, Spanned,
 };
 
-use crate::token::{TokenKind, WordKind};
+use crate::token::{SmallSpan, TokenKind, WordKind};
 
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
@@ -24,9 +24,9 @@ impl Spanned for Error {
 
 impl Error {
     #[cold]
-    pub(crate) fn new(span: Span, error: SyntaxError) -> Self {
+    pub(crate) fn new(span: SmallSpan, error: SyntaxError) -> Self {
         Self {
-            error: Box::new((span, error)),
+            error: Box::new((Span::new(span.0, span.1, Default::default()), error)),
         }
     }
 
