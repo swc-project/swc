@@ -138,11 +138,12 @@ pub use self::{
 pub type JscTarget = EsVersion;
 
 #[macro_use]
+pub mod token;
+#[macro_use]
 mod macros;
 pub mod error;
 pub mod lexer;
 mod parser;
-pub mod token;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, tag = "syntax")]
