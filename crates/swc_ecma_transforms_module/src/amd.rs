@@ -5,7 +5,7 @@ use swc_atoms::{js_word, JsWord};
 use swc_common::{
     comments::{CommentKind, Comments},
     util::take::Take,
-    FileName, Mark, Span, Spanned, DUMMY_SP,
+    FileName, Mark, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
@@ -132,10 +132,8 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        if let Some(first) = n.body.first() {
-            if self.module_id.is_none() {
-                self.module_id = self.get_amd_module_id_from_comments(first.span());
-            }
+        if self.module_id.is_none() {
+            self.module_id = self.get_amd_module_id_from_comments(n.span);
         }
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
