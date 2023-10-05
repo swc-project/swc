@@ -2,6 +2,7 @@ use either::Either;
 use swc_common::{Span, Spanned, SyntaxContext};
 
 use super::*;
+use crate::token::TokenKind;
 
 #[cfg(test)]
 mod tests;
@@ -13,8 +14,8 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_ident);
 
         let ctx = self.ctx();
-        match *cur!(self, true)? {
-            Token::JSXName { .. } => match bump!(self) {
+        match cur!(self, true)? {
+            TokenKind::JSXName => match bump!(self) {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
                     Ok(Ident::new(name, span))
@@ -77,7 +78,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        match *cur!(self, true)? {
+        match cur!(self, true)? {
             tok!('{') => {
                 let node = self.parse_jsx_expr_container(start)?;
 
@@ -88,11 +89,11 @@ impl<I: Tokens> Parser<I> {
                     JSXExpr::Expr(..) => Ok(node.into()),
                 }
             }
-            Token::Str { .. } => {
+            TokenKind::Str => {
                 let lit = self.parse_lit()?;
                 Ok(JSXAttrValue::Lit(lit))
             }
-            Token::JSXTagStart => {
+            TokenKind::JSXTagStart => {
                 let expr = self.parse_jsx_element()?;
                 match expr {
                     Either::Left(n) => Ok(JSXAttrValue::JSXFragment(n)),
@@ -287,7 +288,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let forced_jsx_context = match bump!(self) {
             tok!('<') => true,
-            Token::JSXTagStart => false,
+            TokenKind::JSXTagStart => false,
             _ => unreachable!(),
         };
 
@@ -313,8 +314,8 @@ impl<I: Tokens> Parser<I> {
 
             if !self_closing {
                 'contents: loop {
-                    match *cur!(p, true)? {
-                        Token::JSXTagStart => {
+                    match cur!(p, true)? {
+                        TokenKind::JSXTagStart => {
                             let start = cur_pos!(p);
 
                             if peeked_is!(p, '/') {
@@ -332,7 +333,7 @@ impl<I: Tokens> Parser<I> {
                                 Either::Right(e) => JSXElementChild::from(Box::new(e)),
                             })?);
                         }
-                        Token::JSXText { .. } => {
+                        TokenKind::JSXText => {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         tok!('{') => {
@@ -409,7 +410,10 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({ matches!(*cur!(self, true)?, Token::JSXTagStart | tok!('<')) });
+        debug_assert!(matches!(
+            cur!(self, true)?,
+            TokenKind::JSXTagStart | tok!('<')
+        ));
 
         let start_pos = cur_pos!(self);
 
@@ -418,7 +422,7 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!(matches!(cur!(self, false), Ok(&Token::JSXText { .. })));
+        debug_assert!(matches!(cur!(self, false), Ok(TokenKind::JSXText)));
         let token = bump!(self);
         let span = self.input.prev_span();
         match token {
