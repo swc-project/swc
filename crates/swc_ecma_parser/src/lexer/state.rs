@@ -290,7 +290,7 @@ impl<'a> Iterator for Lexer<'a> {
                                 // Safety: cur() is Some('>')
                                 self.input.bump();
                             }
-                            return Ok(Some(TokenKind::JSXTagEnd));
+                            return Ok(Some(Token::JSXTagEnd));
                         }
 
                         if (c == '\'' || c == '"')
@@ -318,7 +318,7 @@ impl<'a> Iterator for Lexer<'a> {
                             return self.read_token();
                         }
 
-                        return Ok(Some(TokenKind::JSXTagStart));
+                        return Ok(Some(Token::JSXTagStart));
                     }
                 }
             }
@@ -333,13 +333,7 @@ impl<'a> Iterator for Lexer<'a> {
             self.read_token()
         })();
 
-        let token = match res
-            .map_err(|err| {
-                self.token_error = Some(err);
-                TokenKind::Error
-            })
-            .map_err(Some)
-        {
+        let token = match res.map_err(Token::Error).map_err(Some) {
             Ok(t) => t,
             Err(e) => e,
         };
