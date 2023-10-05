@@ -252,7 +252,7 @@ impl<'a> Lexer<'a> {
             };
             let cmt = Comment {
                 kind: CommentKind::Line,
-                span: SmallSpan::new(start, end, SyntaxContext::empty()),
+                span: Span::new(start, end, SyntaxContext::empty()),
                 text: self.atoms.borrow_mut().intern(s),
             };
 
@@ -315,7 +315,7 @@ impl<'a> Lexer<'a> {
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
                         kind: CommentKind::Block,
-                        span: SmallSpan::new(start, end, SyntaxContext::empty()),
+                        span: Span::new(start, end, SyntaxContext::empty()),
                         text: self.atoms.borrow_mut().intern(s),
                     };
 

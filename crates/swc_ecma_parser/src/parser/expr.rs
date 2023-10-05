@@ -183,7 +183,7 @@ impl<I: Tokens> Parser<I> {
                             .map(|i| i.is_reserved_in_strict_bind())
                             .unwrap_or(false)
                     {
-                        self.emit_strict_mode_err(cond.span(), SyntaxError::TS1100);
+                        self.emit_strict_mode_err(cond.span().into(), SyntaxError::TS1100);
                     }
 
                     // TODO
@@ -415,7 +415,7 @@ impl<I: Tokens> Parser<I> {
             let id = self.parse_ident(!ctx.in_generator, !ctx.in_async)?;
             if id.is_reserved_in_strict_mode(self.ctx().module && !self.ctx().in_declare) {
                 self.emit_strict_mode_err(
-                    self.input.prev_span(),
+                    self.input.prev_span().into(),
                     SyntaxError::InvalidIdentInStrict(id.sym.clone()),
                 );
             }
