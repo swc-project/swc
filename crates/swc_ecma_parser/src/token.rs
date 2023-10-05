@@ -277,6 +277,47 @@ pub enum Token {
     Error(Error),
 }
 
+impl Token {
+    pub(crate) fn kind(&self) -> TokenKind {
+        match self {
+            Self::Arrow => TokenKind::Arrow,
+            Self::Hash => TokenKind::Hash,
+            Self::At => TokenKind::At,
+            Self::Dot => TokenKind::Dot,
+            Self::DotDotDot => TokenKind::DotDotDot,
+            Self::Bang => TokenKind::Bang,
+            Self::LParen => TokenKind::LParen,
+            Self::RParen => TokenKind::RParen,
+            Self::LBracket => TokenKind::LBracket,
+            Self::RBracket => TokenKind::RBracket,
+            Self::LBrace => TokenKind::LBrace,
+            Self::RBrace => TokenKind::RBrace,
+            Self::Semi => TokenKind::Semi,
+            Self::Comma => TokenKind::Comma,
+            Self::BackQuote => TokenKind::BackQuote,
+            Self::Template { .. } => TokenKind::Template,
+            Self::Colon => TokenKind::Colon,
+            Self::BinOp(op) => TokenKind::BinOp(*op),
+            Self::AssignOp(op) => TokenKind::AssignOp(*op),
+            Self::DollarLBrace => TokenKind::DollarLBrace,
+            Self::QuestionMark => TokenKind::QuestionMark,
+            Self::PlusPlus => TokenKind::PlusPlus,
+            Self::MinusMinus => TokenKind::MinusMinus,
+            Self::Tilde => TokenKind::Tilde,
+            Self::Str { .. } => TokenKind::Str,
+            Self::Regex(..) => TokenKind::Regex,
+            Self::Num { .. } => TokenKind::Num,
+            Self::BigInt { .. } => TokenKind::BigInt,
+            Self::JSXName { .. } => TokenKind::JSXName,
+            Self::JSXText { .. } => TokenKind::JSXText,
+            Self::JSXTagStart => TokenKind::JSXTagStart,
+            Self::JSXTagEnd => TokenKind::JSXTagEnd,
+            Self::Shebang(..) => TokenKind::Shebang,
+            Self::Error(..) => TokenKind::Error,
+        }
+    }
+}
+
 impl TokenKind {
     pub(crate) const fn before_expr(self) -> bool {
         match self {
