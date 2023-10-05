@@ -188,7 +188,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// babel: `getTokenFromCode`
-    fn read_token(&mut self) -> LexResult<Option<Token>> {
+    fn read_token(&mut self) -> LexResult<Option<TokenKind>> {
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
             None => return Ok(None),
@@ -210,7 +210,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_number_sign(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.cur().is_some());
 
         unsafe {
@@ -580,7 +580,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(vec![c.into()]))
     }
 
-    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<TokenKind>> {
         let start = self.cur_pos();
 
         unsafe {
@@ -615,7 +615,7 @@ impl<'a> Lexer<'a> {
         }))
     }
 
-    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<TokenKind>> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
@@ -661,7 +661,7 @@ impl<'a> Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<Token>> {
+    fn read_slash(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert_eq!(self.cur(), Some('/'));
 
         // Divide operator
@@ -675,7 +675,7 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(never)]
-    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_lt_gt(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
         let had_line_break_before_last = self.had_line_break_before_last();
