@@ -425,7 +425,7 @@ impl State {
         matches!(self.token_type, Some(TokenType::Template))
     }
 
-    fn update(&mut self, start: BytePos, next: &TokenKind) {
+    fn update(&mut self, start: BytePos, next: TokenKind) {
         if cfg!(feature = "debug") {
             trace!(
                 "updating state: next={:?}, had_line_break={} ",
@@ -632,7 +632,7 @@ impl State {
                 TokenKind::JSXTagEnd => {
                     let out = context.pop();
                     if (out == Some(TokenContext::JSXOpeningTag)
-                        && prev == Some(TokenType::BinOp(BinOpTokenKind::Div)))
+                        && prev == Some(TokenType::BinOp(BinOpToken::Div)))
                         || out == Some(TokenContext::JSXClosingTag)
                     {
                         context.pop();
