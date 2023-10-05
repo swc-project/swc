@@ -11,7 +11,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    token::{BinOpToken, Keyword, TokenKind, WordKind},
+    token::{BinOpToken, Keyword, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
 };
 
@@ -83,9 +83,9 @@ impl TokenType {
     }
 }
 
-impl From<&'_ TokenKind> for TokenType {
+impl From<TokenKind> for TokenType {
     #[inline]
-    fn from(t: &TokenKind) -> Self {
+    fn from(t: TokenKind) -> Self {
         match t {
             TokenKind::Template { .. } => TokenType::Template,
             TokenKind::Dot => TokenType::Dot,
@@ -104,7 +104,7 @@ impl From<&'_ TokenKind> for TokenType {
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
                 can_have_trailing_comment: matches!(
-                    *t,
+                    t,
                     TokenKind::Num { .. }
                         | TokenKind::Str { .. }
                         | TokenKind::Word(WordKind::Ident(..))
@@ -204,7 +204,7 @@ impl<'a> Iterator for Lexer<'a> {
 
             if self.state.is_first {
                 if let Some(shebang) = self.read_shebang()? {
-                    return Ok(Some(TokenKind::Shebang(shebang)));
+                    return Ok(Some(shebang));
                 }
             }
 
