@@ -12,7 +12,7 @@ use swc_common::{BytePos, Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 
-pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
+pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
@@ -24,6 +24,13 @@ pub enum WordKind {
     False,
 
     Ident(IdentKind),
+}
+
+impl From<Keyword> for WordKind {
+    #[inline(always)]
+    fn from(kwd: Keyword) -> Self {
+        Self::Keyword(kwd)
+    }
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
