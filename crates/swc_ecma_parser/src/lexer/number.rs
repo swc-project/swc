@@ -227,16 +227,13 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((
-            val,
-            self.atoms.borrow_mut().intern(&*raw_str),
-        )))
+        Ok(Either::Left((val, raw_str.into())))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<(f64, String), (Box<BigIntValue>, String)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -277,7 +274,7 @@ impl<'a> Lexer<'a> {
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, l.atoms.borrow_mut().intern(&**buf))))
+            Ok(Either::Left((val, buf.into())))
         })
     }
 

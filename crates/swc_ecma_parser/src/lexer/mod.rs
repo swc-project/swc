@@ -344,15 +344,35 @@ impl<'a> Lexer<'a> {
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Num { value, raw },
-                    Right((value, raw)) => BigInt { value, raw },
+                    Left((value, raw)) => {
+                        self.token_num_val = value;
+                        self.token_raw = raw;
+
+                        Num
+                    }
+                    Right((value, raw)) => {
+                        self.token_bigint_val = value;
+                        self.token_raw = raw;
+
+                        BigInt
+                    }
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Num { value, raw },
-            Right((value, raw)) => BigInt { value, raw },
+            Left((value, raw)) => {
+                self.token_num_val = value;
+                self.token_raw = raw;
+
+                Num
+            }
+            Right((value, raw)) => {
+                self.token_bigint_val = value;
+                self.token_raw = raw;
+
+                BigInt
+            }
         })
     }
 
