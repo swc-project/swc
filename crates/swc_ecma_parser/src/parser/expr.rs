@@ -1988,7 +1988,9 @@ impl<I: Tokens> Parser<I> {
             || (!is!(self, '*')
                 && !is!(self, '/')
                 && !is!(self, "/=")
-                && !cur!(self, false).map(Token::starts_expr).unwrap_or(true))
+                && !cur!(self, false)
+                    .map(|t| t.kind().starts_expr())
+                    .unwrap_or(true))
         {
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(self, start),

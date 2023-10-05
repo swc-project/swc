@@ -343,7 +343,7 @@ impl TokenKind {
         }
     }
 
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         match self {
             Self::Word(w) => w.starts_expr(),
             Self::BinOp(w) => w.starts_expr(),
@@ -428,7 +428,7 @@ pub enum BinOpToken {
 }
 
 impl BinOpToken {
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         matches!(self, Self::Add | Self::Sub)
     }
 
@@ -480,14 +480,14 @@ impl Word {
 }
 
 impl WordKind {
-    pub(crate) const fn before_expr(&self) -> bool {
+    pub(crate) const fn before_expr(self) -> bool {
         match self {
             Self::Keyword(k) => k.before_expr(),
             _ => false,
         }
     }
 
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         match self {
             Self::Keyword(k) => k.starts_expr(),
             _ => true,
@@ -680,7 +680,7 @@ pub enum Keyword {
 }
 
 impl Keyword {
-    pub(crate) const fn before_expr(&self) -> bool {
+    pub(crate) const fn before_expr(self) -> bool {
         matches!(
             self,
             Self::Await
@@ -701,7 +701,7 @@ impl Keyword {
         )
     }
 
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         matches!(
             self,
             Self::Await
