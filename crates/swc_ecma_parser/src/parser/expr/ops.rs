@@ -17,12 +17,12 @@ impl<I: Tokens> Parser<I> {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
                 match cur!(self, true)? {
-                    &tok!("in") if ctx.include_in_expr => {
+                    tok!("in") if ctx.include_in_expr => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
                         Box::new(Expr::Invalid(Invalid { span: err.span() }))
                     }
-                    &tok!("instanceof") | &Token::BinOp(..) => {
+                    tok!("instanceof") | TokenKind::BinOp(..) => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
                         Box::new(Expr::Invalid(Invalid { span: err.span() }))
@@ -138,10 +138,10 @@ impl<I: Tokens> Parser<I> {
             Ok(cur) => cur,
             Err(..) => return Ok((left, None)),
         };
-        let op = match *word {
+        let op = match word {
             tok!("in") if ctx.include_in_expr => op!("in"),
             tok!("instanceof") => op!("instanceof"),
-            Token::BinOp(op) => op.into(),
+            TokenKind::BinOp(op) => op.into(),
             _ => {
                 return Ok((left, None));
             }
@@ -283,7 +283,7 @@ impl<I: Tokens> Parser<I> {
 
         // Parse unary expression
         if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
-            let op = match bump!(self) {
+            let op = match cur!(self, true)? {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
                 tok!("typeof") => op!("typeof"),
@@ -293,6 +293,7 @@ impl<I: Tokens> Parser<I> {
                 tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
+            bump!(self);
             let arg_start = cur_pos!(self) - BytePos(1);
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,
