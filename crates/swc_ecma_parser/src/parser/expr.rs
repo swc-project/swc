@@ -3,9 +3,7 @@ use swc_atoms::js_word;
 use swc_common::{ast_node, collections::AHashMap, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{
-    lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken,
-};
+use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};
 
 mod ops;
 #[cfg(test)]
@@ -159,7 +157,7 @@ impl<I: Tokens> Parser<I> {
 
         match cur!(self, false) {
             Ok(&Token::AssignOp(op)) => {
-                let left = if op == AssignOpToken::Assign {
+                let left = if op == AssignOp::Assign {
                     self.reparse_expr_as_pat(PatType::AssignPat, cond)
                         .map(Box::new)
                         .map(PatOrExpr::Pat)?

@@ -513,7 +513,7 @@ impl State {
                     false
                 }
 
-                tok!(':')
+                TokenKind::Colon
                     if matches!(
                         context.current(),
                         Some(TokenContext::FnExpr | TokenContext::ClassExpr)
@@ -574,19 +574,21 @@ impl State {
                     true
                 }
 
-                tok!('/') if syntax.jsx() && prev == Some(TokenType::JSXTagStart) => {
+                TokenKind::BinOp(crate::token::BinOpToken::Div)
+                    if syntax.jsx() && prev == Some(TokenType::JSXTagStart) =>
+                {
                     context.pop();
                     context.pop(); // do not consider JSX expr -> JSX open tag -> ... anymore
                     context.push(TokenContext::JSXClosingTag); // reconsider as closing tag context
                     false
                 }
 
-                tok!("${") => {
+                TokenKind::DollarLBrace => {
                     context.push(TokenContext::TplQuasi);
                     true
                 }
 
-                tok!('(') => {
+                TokenKind::LParen => {
                     // if, for, with, while is statement
 
                     context.push(match prev {
@@ -603,7 +605,7 @@ impl State {
                 }
 
                 // remains unchanged.
-                tok!("++") | tok!("--") => is_expr_allowed,
+                TokenKind::PlusPlus | TokenKind::MinusMinus => is_expr_allowed,
 
                 TokenKind::BackQuote => {
                     // If we are in template, ` terminates template.
