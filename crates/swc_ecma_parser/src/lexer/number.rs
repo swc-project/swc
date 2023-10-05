@@ -80,9 +80,9 @@ impl<'a> Lexer<'a> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self.make_legacy_octal(start, 0f64).map(|value| {
-                            Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                        });
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, raw)));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.

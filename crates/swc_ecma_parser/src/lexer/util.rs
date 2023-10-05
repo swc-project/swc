@@ -4,7 +4,6 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use std::char;
 
-use smartstring::{LazyCompact, SmartString};
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
@@ -26,7 +25,7 @@ use crate::{
 /// Collector for raw string.
 ///
 /// Methods of this struct is noop if the value is [None].
-pub(super) struct Raw(pub Option<SmartString<LazyCompact>>);
+pub(super) struct Raw(pub Option<String>);
 
 impl Raw {
     #[inline]

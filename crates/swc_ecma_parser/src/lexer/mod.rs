@@ -1206,9 +1206,9 @@ impl<'a> Lexer<'a> {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|lexer, s| lexer.atoms.borrow_mut().intern(s))
-                    .map(Some),
+                Some(c) if c.is_ident_start() => {
+                    self.read_word_as_str_with(|lexer, s| s.into()).map(Some)
+                }
                 _ => Ok(None),
             }
         }?

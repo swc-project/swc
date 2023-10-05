@@ -10,7 +10,7 @@ use swc_common::input::Input;
 use super::{pos_span, util::CharExt, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    token::{AssignOpToken, BinOpToken, Token, TokenKind},
+    token::{AssignOpToken, BinOpToken, TokenKind},
 };
 
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<TokenKind>>>;
@@ -69,8 +69,18 @@ const DIG: ByteHandler = Some(|lexer| {
     lexer
         .read_number(false)
         .map(|v| match v {
-            Either::Left((value, raw)) => Token::Num { value, raw },
-            Either::Right((value, raw)) => Token::BigInt { value, raw },
+            Either::Left((value, raw)) => {
+                lexer.token_num_val = value;
+                lexer.token_raw = raw;
+
+                TokenKind::Num
+            }
+            Either::Right((value, raw)) => {
+                lexer.token_bigint_val = value;
+                lexer.token_raw = raw;
+
+                TokenKind::BigInt
+            }
         })
         .map(Some)
 });
