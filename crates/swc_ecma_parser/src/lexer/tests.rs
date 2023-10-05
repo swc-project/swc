@@ -3,6 +3,7 @@ extern crate test;
 use std::{ops::Range, str};
 
 use swc_common::{BytePos, Span, SyntaxContext};
+use swc_ecma_ast::AssignOp;
 use test::{black_box, Bencher};
 
 use super::state::{lex, lex_module_errors, lex_tokens, with_lexer};
@@ -11,7 +12,7 @@ use crate::{
     lexer::state::lex_errors,
     token::{
         AssignOpToken::*,
-        BinOpToken::*,
+        BinOpToken::{self, *},
         Keyword,
         Token::{self, *},
         TokenAndSpan, Word,
