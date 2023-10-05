@@ -8,7 +8,7 @@ use std::{
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom, JsWord};
-use swc_common::{BytePos, Span, Spanned};
+use swc_common::{Span, Spanned};
 pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
 use swc_ecma_ast::BinaryOp;
 

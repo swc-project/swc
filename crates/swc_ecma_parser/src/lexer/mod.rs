@@ -777,63 +777,63 @@ impl<'a> Lexer<'a> {
                         _ => {}
                     },
                     b'd' => match s {
-                        "do" => Do.into(),
-                        "default" => Default_.into(),
-                        "delete" => Delete.into(),
-                        "debugger" => Debugger.into(),
+                        "do" => return Do.into(),
+                        "default" => return Default_.into(),
+                        "delete" => return Delete.into(),
+                        "debugger" => return Debugger.into(),
                         _ => {}
                     },
                     b'e' => match s {
-                        "else" => Else.into(),
-                        "export" => Export.into(),
-                        "extends" => Extends.into(),
+                        "else" => return Else.into(),
+                        "export" => return Export.into(),
+                        "extends" => return Extends.into(),
                         _ => {}
                     },
                     b'f' => match s {
-                        "for" => For.into(),
-                        "false" => Word::False,
-                        "finally" => Finally.into(),
-                        "function" => Function.into(),
+                        "for" => return For.into(),
+                        "false" => return Word::False,
+                        "finally" => return Finally.into(),
+                        "function" => return Function.into(),
                         _ => {}
                     },
                     b'i' => match s {
-                        "if" => If.into(),
-                        "import" => Import.into(),
-                        "in" => In.into(),
-                        "instanceof" => InstanceOf.into(),
+                        "if" => return If.into(),
+                        "import" => return Import.into(),
+                        "in" => return In.into(),
+                        "instanceof" => return InstanceOf.into(),
                         _ => {}
                     },
-                    b'l' if s == "let" => Let.into(),
+                    b'l' if s == "let" => return Let.into(),
                     b'n' => match s {
-                        "new" => New.into(),
-                        "null" => Word::Null,
+                        "new" => return New.into(),
+                        "null" => return Word::Null,
                         _ => {}
                     },
-                    b'r' if s == "return" => Return.into(),
+                    b'r' if s == "return" => return Return.into(),
                     b's' => match s {
-                        "super" => Super.into(),
-                        "switch" => Switch.into(),
+                        "super" => return Super.into(),
+                        "switch" => return Switch.into(),
                         _ => {}
                     },
                     b't' => match s {
-                        "this" => This.into(),
-                        "true" => Word::True,
-                        "try" => Try.into(),
-                        "throw" => Throw.into(),
-                        "typeof" => TypeOf.into(),
+                        "this" => return This.into(),
+                        "true" => return Word::True,
+                        "try" => return Try.into(),
+                        "throw" => return Throw.into(),
+                        "typeof" => return TypeOf.into(),
                         _ => {}
                     },
                     b'v' => match s {
-                        "var" => Var.into(),
-                        "void" => Void.into(),
+                        "var" => return Var.into(),
+                        "void" => return Void.into(),
                         _ => {}
                     },
                     b'w' => match s {
-                        "while" => While.into(),
-                        "with" => With.into(),
+                        "while" => return While.into(),
+                        "with" => return With.into(),
                         _ => {}
                     },
-                    b'y' if s == "yield" => Yield.into(),
+                    b'y' if s == "yield" => return Yield.into(),
                     _ => {}
                 }
             }

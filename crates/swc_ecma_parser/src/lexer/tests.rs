@@ -9,7 +9,14 @@ use super::state::{lex, lex_module_errors, lex_tokens, with_lexer};
 use crate::{
     error::{Error, SyntaxError},
     lexer::state::lex_errors,
-    token::{AssignOpToken::*, BinOpToken::*, Token::*, TokenAndSpan},
+    token::{
+        AssignOpToken::*,
+        BinOpToken::*,
+        Keyword,
+        Token::{self, *},
+        TokenAndSpan, Word,
+    },
+    Syntax,
 };
 
 fn sp(r: Range<usize>) -> Span {
