@@ -175,7 +175,7 @@ pub enum Token {
 }
 
 impl TokenKind {
-    pub(crate) const fn before_expr(&self) -> bool {
+    pub(crate) const fn before_expr(self) -> bool {
         match self {
             Self::Word(w) => w.before_expr(),
             Self::BinOp(w) => w.before_expr(),
