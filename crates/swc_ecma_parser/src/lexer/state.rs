@@ -11,7 +11,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    token::{BinOpToken, Keyword, TokenAndSpan, TokenKind, WordKind},
+    token::{BinOpToken, Keyword, Token, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
 };
 
@@ -204,7 +204,7 @@ impl<'a> Iterator for Lexer<'a> {
 
             if self.state.is_first {
                 if let Some(shebang) = self.read_shebang()? {
-                    return Ok(Some(shebang));
+                    return Ok(Some(Token::Shebang(shebang)));
                 }
             }
 
