@@ -126,6 +126,7 @@ pub struct Lexer<'a> {
     pub(crate) ctx: Context,
 
     token_str: String,
+    token_raw: String,
     token_num_val: f64,
 
     atoms: Rc<RefCell<AtomGenerator>>,
@@ -145,8 +146,7 @@ pub struct Lexer<'a> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
-    token_raw: String,
-    token_bigint_val: BigInt,
+    token_bigint_val: Box<BigInt>,
     token_error: Option<Error>,
 }
 
