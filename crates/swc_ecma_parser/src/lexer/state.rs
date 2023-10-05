@@ -419,7 +419,7 @@ impl State {
         matches!(self.token_type, Some(TokenType::Template))
     }
 
-    fn update(&mut self, start: BytePos, next: &Token) {
+    fn update(&mut self, start: BytePos, next: &TokenKind) {
         if cfg!(feature = "debug") {
             trace!(
                 "updating state: next={:?}, had_line_break={} ",
@@ -450,12 +450,12 @@ impl State {
         syntax: Syntax,
         prev: Option<TokenType>,
         start: BytePos,
-        next: &Token,
+        next: &TokenKind,
         had_line_break: bool,
         had_line_break_before_last: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        let is_next_keyword = matches!(*next, Word(Word::Keyword(..)));
+        let is_next_keyword = matches!(*next, TokenKind::Word(WordKind::Keyword(..)));
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
             false
