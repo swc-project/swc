@@ -835,7 +835,7 @@ impl<'a> Lexer<'a> {
                 }
             }
 
-            match KnownIdent::try_from(s) {
+            match s.parse() {
                 Ok(v) => WordKind::Ident(IdentKind::Known(v)),
                 Err(()) => {
                     lexer.token_str = s.into();
