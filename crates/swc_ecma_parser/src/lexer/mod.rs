@@ -814,7 +814,7 @@ impl<'a> Lexer<'a> {
                     },
                     b't' => match s {
                         "this" => return This.into(),
-                        "true" => WordKind::True,
+                        "true" => return WordKind::True,
                         "try" => return Try.into(),
                         "throw" => return Throw.into(),
                         "typeof" => return TypeOf.into(),
@@ -848,7 +848,7 @@ impl<'a> Lexer<'a> {
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
-        if has_escape && self.ctx.is_reserved(&word) {
+        if has_escape && self.ctx.is_reserved(word) {
             self.error(
                 start,
                 SyntaxError::EscapeInReservedWord { word: word.into() },
@@ -922,7 +922,7 @@ impl<'a> Lexer<'a> {
                 }
                 first = false;
             }
-            let value = convert(buf);
+            let value = convert(self, buf);
 
             Ok((value, has_escape))
         })
@@ -1172,10 +1172,9 @@ impl<'a> Lexer<'a> {
         // here (don't ask).
         // let flags_start = self.cur_pos();
         let flags = {
-            let atoms = self.atoms.clone();
             match self.cur() {
                 Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s| atoms.borrow_mut().intern(s))
+                    .read_word_as_str_with(|lexer, s| lexer.atoms.borrow_mut().intern(s))
                     .map(Some),
                 _ => Ok(None),
             }
