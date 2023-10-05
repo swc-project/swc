@@ -7,7 +7,6 @@ use std::{borrow::Cow, fmt::Write};
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
-use smartstring::{LazyCompact, SmartString};
 use swc_common::SyntaxContext;
 use tracing::trace;
 
@@ -47,8 +46,8 @@ impl<'a> Lexer<'a> {
         }
 
         let start = self.cur_pos();
-        let mut raw_val = SmartString::<LazyCompact>::new();
-        let mut raw_str = SmartString::<LazyCompact>::new();
+        let mut raw_val = String::new();
+        let mut raw_str = String::new();
 
         let val = if starts_with_dot {
             // first char is '.'
@@ -62,10 +61,7 @@ impl<'a> Lexer<'a> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    self.atoms.borrow_mut().intern(&*raw),
-                )));
+                return Ok(Either::Right((Box::new(s.into_value()), raw)));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -308,7 +304,7 @@ impl<'a> Lexer<'a> {
     /// Returned bool is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<(f64, LazyBigInt<RADIX>, SmartString<LazyCompact>, bool)> {
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, String, bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",

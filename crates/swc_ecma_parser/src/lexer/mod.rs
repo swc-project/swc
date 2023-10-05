@@ -1,12 +1,11 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, mem, rc::Rc};
 
 use either::Either::{Left, Right};
 use num_bigint::BigInt;
 use smallvec::{smallvec, SmallVec};
-use smartstring::SmartString;
-use swc_atoms::{Atom, AtomGenerator};
+use swc_atoms::AtomGenerator;
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, EsVersion};
 
@@ -1184,7 +1183,7 @@ impl<'a> Lexer<'a> {
                 buf.push(c);
             }
 
-            Ok(Atom::new(&**buf))
+            Ok(mem::take(buf))
         })?;
 
         // input is terminated without following `/`
@@ -1216,7 +1215,10 @@ impl<'a> Lexer<'a> {
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Regex(content, flags))
+        self.token_str = content;
+        self.token_raw = flags;
+
+        Ok(Regex)
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<TokenKind>> {
@@ -1238,7 +1240,7 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());
-        let mut raw = SmartString::new();
+        let mut raw = String::new();
 
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
@@ -1253,11 +1255,11 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
+                self.token_str = cooked;
+                self.token_raw = raw;
+
                 // TODO: Handle error
-                return Ok(Template {
-                    cooked: cooked.map(Atom::from),
-                    raw: Atom::new(&*raw),
-                });
+                return Ok(Template);
             }
 
             if c == '\\' {

@@ -456,7 +456,7 @@ impl State {
         syntax: Syntax,
         prev: Option<TokenType>,
         start: BytePos,
-        next: &TokenKind,
+        next: TokenKind,
         had_line_break: bool,
         had_line_break_before_last: bool,
         is_expr_allowed: bool,

@@ -162,6 +162,7 @@ pub enum TokenKind {
     MinusMinus,
     Tilde,
     Str,
+    /// We abuse `token.raw` for flags
     Regex,
     Num,
     BigInt,
