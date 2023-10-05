@@ -350,7 +350,7 @@ impl<'a> Iterator for Lexer<'a> {
                 }
             }
 
-            self.state.update(start, token);
+            self.state.update(start, token.kind());
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }

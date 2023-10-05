@@ -314,6 +314,7 @@ impl Token {
             Self::JSXTagEnd => TokenKind::JSXTagEnd,
             Self::Shebang(..) => TokenKind::Shebang,
             Self::Error(..) => TokenKind::Error,
+            Self::Word(w) => TokenKind::Word(w.kind()),
         }
     }
 }
@@ -461,6 +462,22 @@ pub enum Word {
     False,
 
     Ident(JsWord),
+}
+
+impl Word {
+    pub(crate) fn kind(&self) -> WordKind {
+        match *self {
+            Word::Keyword(k) => WordKind::Keyword(k),
+            Word::Null => WordKind::Null,
+            Word::True => WordKind::True,
+            Word::False => WordKind::False,
+            Word::Ident(ref i) => WordKind::Ident(IdentKind::Known(
+                KnownIdent::try_from(i)
+                    .map(IdentKind::Known)
+                    .unwrap_or(IdentKind::Other),
+            )),
+        }
+    }
 }
 
 impl WordKind {

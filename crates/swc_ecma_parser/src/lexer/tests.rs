@@ -3,6 +3,7 @@ extern crate test;
 use std::{ops::Range, str};
 
 use swc_common::{BytePos, Span, SyntaxContext};
+use swc_ecma_ast::AssignOp;
 use test::{black_box, Bencher};
 
 use super::state::{lex, lex_module_errors, lex_tokens, with_lexer};
@@ -13,6 +14,7 @@ use crate::{
         AssignOpToken::*,
         BinOpToken::{self, *},
         Keyword,
+        Keyword::*,
         Token::{self, *},
         TokenAndSpan, Word,
     },
@@ -125,7 +127,7 @@ impl WithSpan for BinOpToken {
         BinOp(self)
     }
 }
-impl WithSpan for AssignOpToken {
+impl WithSpan for AssignOp {
     fn into_token(self) -> Token {
         AssignOp(self)
     }
