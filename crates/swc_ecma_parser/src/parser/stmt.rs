@@ -392,7 +392,7 @@ impl<'a, I: Tokens> Parser<I> {
         if let Expr::Ident(ref ident) = *expr {
             if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
-                    ident.span,
+                    ident.span.into(),
                     SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
                 );
 
@@ -414,7 +414,10 @@ impl<'a, I: Tokens> Parser<I> {
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
             match *sym {
                 js_word!("enum") | js_word!("interface") => {
-                    self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
+                    self.emit_strict_mode_err(
+                        span.into(),
+                        SyntaxError::InvalidIdentInStrict(sym.clone()),
+                    );
                 }
                 _ => {}
             }

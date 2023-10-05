@@ -263,11 +263,12 @@ impl<I: Tokens> Parser<I> {
 
         // Parse update expression
         if is!(self, "++") || is!(self, "--") {
-            let op = if bump!(self) == tok!("++") {
+            let op = if cur!(self, true)? == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
             };
+            bump!(self);
 
             let arg = self.parse_unary_expr()?;
             let span = Span::new(start, arg.span_hi(), Default::default());
