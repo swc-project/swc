@@ -1,5 +1,4 @@
 use either::Either;
-use swc_atoms::Atom;
 
 use super::*;
 
@@ -321,10 +320,9 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
-        Ok(Token::Str {
-            value: out.into(),
-            raw: Atom::new(raw),
-        })
+        self.token_str2 = out;
+        self.token_raw = raw;
+        Ok(TokenKind::Str)
     }
 
     /// Read a JSX identifier (valid tag or attribute name).
@@ -348,7 +346,8 @@ impl<'a> Lexer<'a> {
             }
         });
 
-        Ok(Token::JSXName { name: slice.into() })
+        self.token_str1 = slice.into();
+        Ok(TokenKind::JSXName)
     }
 }
 
