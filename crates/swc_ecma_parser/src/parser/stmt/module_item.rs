@@ -53,7 +53,7 @@ impl<I: Tokens> Parser<I> {
 
         // Handle import 'mod.js'
         let str_start = cur_pos!(self);
-        if let Ok(&Token::Str { .. }) = cur!(self, false) {
+        if let Ok(TokenKind::Str) = cur!(self, false) {
             let src = match bump!(self) {
                 Token::Str { value, raw, .. } => Box::new(Str {
                     span: span!(self, str_start),
@@ -143,8 +143,8 @@ impl<I: Tokens> Parser<I> {
             expect!(self, "from");
             let str_start = cur_pos!(self);
 
-            match *cur!(self, true)? {
-                Token::Str { .. } => match bump!(self) {
+            match cur!(self, true)? {
+                TokenKind::Str => match bump!(self) {
                     Token::Str { value, raw, .. } => Box::new(Str {
                         span: span!(self, str_start),
                         value,
@@ -357,8 +357,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
-            let sym = match *cur!(self, true)? {
-                Token::Word(ref w) => w.clone().into(),
+            let sym = match cur!(self, true)? {
+                TokenKind::Word(ref w) => w.clone().into(),
                 _ => unreachable!(),
             };
             // TODO: remove clone
@@ -798,8 +798,8 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "from");
 
         let str_start = cur_pos!(self);
-        let src = match *cur!(self, true)? {
-            Token::Str { .. } => match bump!(self) {
+        let src = match cur!(self, true)? {
+            TokenKind::Str => match bump!(self) {
                 Token::Str { value, raw, .. } => Box::new(Str {
                     span: span!(self, str_start),
                     value,
