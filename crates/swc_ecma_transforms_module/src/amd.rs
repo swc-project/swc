@@ -132,6 +132,12 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        if let Some(first) = n.body.first() {
+            if self.module_id.is_none() {
+                self.module_id = self.get_amd_module_id_from_comments(first.span());
+            }
+        }
+
         let mut stmts: Vec<Stmt> = Vec::with_capacity(n.body.len() + 4);
 
         // Collect directives
@@ -151,12 +157,6 @@ where
 
         if !self.config.allow_top_level_this {
             top_level_this(&mut n.body, *undefined(DUMMY_SP));
-        }
-
-        if let Some(first) = n.body.first() {
-            if self.module_id.is_none() {
-                self.module_id = self.get_amd_module_id_from_comments(first.span());
-            }
         }
 
         let import_interop = self.config.import_interop();
