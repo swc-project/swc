@@ -12,6 +12,7 @@ use super::{
 use crate::{
     error::{Error, SyntaxError},
     lexer::state::lex_errors,
+    token::{SmallSpan, TokenAndSpan},
 };
 
 fn sp(r: Range<usize>) -> SmallSpan {

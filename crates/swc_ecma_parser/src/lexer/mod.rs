@@ -1115,7 +1115,10 @@ impl<'a> Lexer<'a> {
                 if c.is_line_terminator() {
                     let span = l.span(start);
 
-                    return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
+                    return Err(Error::new(
+                        Span::new(span.0, span.1, Default::default()),
+                        SyntaxError::UnterminatedRegExp,
+                    ));
                 }
 
                 if escaped {
