@@ -493,7 +493,7 @@ impl State {
                     !out.is_expr()
                 }
 
-                Token::Word(Word::Keyword(Keyword::Function)) => {
+                TokenKind::Word(WordKind::Keyword(Keyword::Function)) => {
                     // This is required to lex
                     // `x = function(){}/42/i`
                     if is_expr_allowed
@@ -504,7 +504,7 @@ impl State {
                     false
                 }
 
-                Token::Word(Word::Keyword(Keyword::Class)) => {
+                TokenKind::Word(WordKind::Keyword(Keyword::Class)) => {
                     if is_expr_allowed
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
