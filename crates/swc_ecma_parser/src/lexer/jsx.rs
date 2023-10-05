@@ -210,7 +210,7 @@ impl<'a> Lexer<'a> {
         Ok(out)
     }
 
-    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
+    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<TokenKind> {
         debug_assert!(self.syntax.jsx());
 
         let mut raw = String::new();
@@ -335,7 +335,7 @@ impl<'a> Lexer<'a> {
     /// escape characters and so can be read as single slice.
     /// Also assumes that first character was already checked
     /// by isIdentifierStart in readToken.
-    pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
+    pub(super) fn read_jsx_word(&mut self) -> LexResult<TokenKind> {
         debug_assert!(self.syntax.jsx());
         debug_assert!(self.input.cur().is_some());
         debug_assert!(self.input.cur().unwrap().is_ident_start());
