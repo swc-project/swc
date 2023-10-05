@@ -50,14 +50,14 @@ pub struct Span {
 }
 
 impl From<(BytePos, BytePos)> for Span {
-    #[inline(always)]
+    #[inline]
     fn from(sp: (BytePos, BytePos)) -> Self {
         Span::new(sp.0, sp.1, Default::default())
     }
 }
 
 impl From<Span> for (BytePos, BytePos) {
-    #[inline(always)]
+    #[inline]
     fn from(sp: Span) -> Self {
         (sp.lo, sp.hi)
     }

@@ -405,9 +405,9 @@ pub struct TokenAndSpan {
 }
 
 impl Spanned for TokenAndSpan {
-    #[inline(always)]
+    #[inline]
     fn span(&self) -> Span {
-        Span::new(self.span.0, self.span.1, Default::default())
+        self.span
     }
 }
 
