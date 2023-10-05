@@ -122,8 +122,7 @@ pub struct Lexer<'a> {
 
     pub(crate) ctx: Context,
 
-    token_str1: smartstring::SmartString<smartstring::LazyCompact>,
-    token_str2: String,
+    token_str: String,
 
     atoms: Rc<RefCell<AtomGenerator>>,
 
@@ -170,8 +169,7 @@ impl<'a> Lexer<'a> {
             module_errors: Default::default(),
             atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
-            token_str1: Default::default(),
-            token_str2: Default::default(),
+            token_str: Default::default(),
             token_raw: Default::default(),
             token_error: Default::default(),
         }
@@ -226,7 +224,7 @@ impl<'a> Lexer<'a> {
             !self.input.is_at_start() || self.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Some(Token::Hash))
+        Ok(Some(TokenKind::Hash))
     }
 
     /// Read a token given `.`.

@@ -320,7 +320,7 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
-        self.token_str2 = out;
+        self.token_str = out;
         self.token_raw = raw;
         Ok(TokenKind::Str)
     }
@@ -346,7 +346,7 @@ impl<'a> Lexer<'a> {
             }
         });
 
-        self.token_str1 = slice.into();
+        self.token_str = slice.into();
         Ok(TokenKind::JSXName)
     }
 }
