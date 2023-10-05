@@ -116,24 +116,33 @@ impl FusedIterator for CharIter {}
 
 #[derive(Clone)]
 pub struct Lexer<'a> {
+    input: StringInput<'a>,
+
+    state: State,
+
+    pub(crate) ctx: Context,
+
+    token_text: smartstring::SmartString<smartstring::LazyCompact>,
+
+    atoms: Rc<RefCell<AtomGenerator>>,
+
+    start_pos: BytePos,
+
+    pub(crate) syntax: Syntax,
+
+    buf: Rc<RefCell<String>>,
+
     comments: Option<&'a dyn Comments>,
     /// [Some] if comment comment parsing is enabled. Otherwise [None]
     comments_buffer: Option<CommentsBuffer>,
 
-    pub(crate) ctx: Context,
-    input: StringInput<'a>,
-    start_pos: BytePos,
-
-    state: State,
-    pub(crate) syntax: Syntax,
     pub(crate) target: EsVersion,
 
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
-    atoms: Rc<RefCell<AtomGenerator>>,
-
-    buf: Rc<RefCell<String>>,
+    token_raw: String,
+    token_error: Option<Error>,
 }
 
 impl FusedIterator for Lexer<'_> {}
@@ -160,6 +169,9 @@ impl<'a> Lexer<'a> {
             module_errors: Default::default(),
             atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
+            token_text: Default::default(),
+            token_raw: Default::default(),
+            token_error: Default::default(),
         }
     }
 
