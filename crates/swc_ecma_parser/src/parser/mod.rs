@@ -12,7 +12,7 @@ use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,
     lexer::Lexer,
-    token::{Token, TokenKind, Word},
+    token::{SmallSpan, Token, TokenKind, Word},
     Context, EsVersion, Syntax, TsConfig,
 };
 #[cfg(test)]
@@ -100,7 +100,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Script {
-            span: span!(self, start),
+            span: SmallSpan!(self, start),
             body,
             shebang,
         })
@@ -124,7 +124,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {
-            span: span!(self, start),
+            span: SmallSpan!(self, start),
             body,
             shebang,
         })
@@ -161,7 +161,7 @@ impl<I: Tokens> Parser<I> {
 
         Ok(if has_module_item {
             Program::Module(Module {
-                span: span!(self, start),
+                span: SmallSpan!(self, start),
                 body,
                 shebang,
             })
@@ -174,7 +174,7 @@ impl<I: Tokens> Parser<I> {
                 })
                 .collect();
             Program::Script(Script {
-                span: span!(self, start),
+                span: SmallSpan!(self, start),
                 body,
                 shebang,
             })
@@ -195,7 +195,7 @@ impl<I: Tokens> Parser<I> {
         let shebang = self.parse_shebang()?;
 
         self.parse_block_body(true, true, None).map(|body| Module {
-            span: span!(self, start),
+            span: SmallSpan!(self, start),
             body,
             shebang,
         })
@@ -216,7 +216,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    fn emit_err(&self, span: Span, error: SyntaxError) {
+    fn emit_err(&self, span: SmallSpan, error: SyntaxError) {
         if self.ctx().ignore_error || !self.syntax().early_errors() {
             return;
         }
@@ -234,7 +234,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    fn emit_strict_mode_err(&self, span: Span, error: SyntaxError) {
+    fn emit_strict_mode_err(&self, span: SmallSpan, error: SyntaxError) {
         if self.ctx().ignore_error {
             return;
         }
