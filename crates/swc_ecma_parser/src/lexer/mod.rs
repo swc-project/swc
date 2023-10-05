@@ -1146,7 +1146,10 @@ impl<'a> Lexer<'a> {
         if !self.is(b'/') {
             let span = self.span(start);
 
-            return Err(Error::new(span, SyntaxError::UnterminatedRegExp));
+            return Err(Error::new(
+                Span::new(span.0, span.1, Default::default()),
+                SyntaxError::UnterminatedRegExp,
+            ));
         }
 
         self.bump(); // '/'
