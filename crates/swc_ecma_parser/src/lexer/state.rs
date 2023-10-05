@@ -462,7 +462,7 @@ impl State {
         } else {
             // ported updateContext
             match next {
-                TokenKind::RParen | crate::token::TokenKind::RBrace => {
+                TokenKind::RParen | TokenKind::RBrace => {
                     // TODO: Verify
                     if context.len() == 1 {
                         return true;
@@ -493,7 +493,7 @@ impl State {
                     !out.is_expr()
                 }
 
-                tok!("function") => {
+                Token::Word(Word::Keyword(Keyword::Function)) => {
                     // This is required to lex
                     // `x = function(){}/42/i`
                     if is_expr_allowed
@@ -504,7 +504,7 @@ impl State {
                     false
                 }
 
-                tok!("class") => {
+                Token::Word(Word::Keyword(Keyword::Class)) => {
                     if is_expr_allowed
                         && !context.is_brace_block(prev, had_line_break, is_expr_allowed)
                     {
@@ -574,7 +574,7 @@ impl State {
                     true
                 }
 
-                TokenKind::BinOp(crate::token::BinOpToken::Div)
+                TokenKind::BinOp(BinOpToken::Div)
                     if syntax.jsx() && prev == Some(TokenType::JSXTagStart) =>
                 {
                     context.pop();

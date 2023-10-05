@@ -32,8 +32,8 @@ macro_rules! define_known_ident {
         macro_rules! known_ident_token {
             $(
                 ($value) => {
-                    $crate::token::TokenKind::Word($crate::token::WordKind::Ident(
-                        $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
+                    $TokenKind::Word($WordKind::Ident(
+                        $IdentKind::Known($KnownIdent::$name),
                     ))
                 };
             )*
@@ -43,7 +43,7 @@ macro_rules! define_known_ident {
         macro_rules! known_ident {
             $(
                 ($value) => {
-                    $crate::token::KnownIdent::$name
+                    $KnownIdent::$name
                 };
             )*
         }
@@ -819,16 +819,16 @@ impl TokenKind {
     /// Returns true if `self` can follow keyword let.
     ///
     /// e.g. `let a = xx;`, `let {a:{}} = 1`
-    pub(crate) fn follows_keyword_let(&self, _strict: bool) -> bool {
-        matches!(
-            *self,
-            Self::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Let))
-                | tok!('{')
-                | tok!('[')
-                | Self::Word(WordKind::Ident(..))
-                | tok!("yield")
-                | tok!("await")
-        )
+    pub(crate) fn follows_keyword_let(self, _strict: bool) -> bool {
+        match self {
+            Self::Word(WordKind::Keyword(Keyword::Let))
+            | TokenKind::LBrace
+            | TokenKind::LBracket
+            | Self::Word(WordKind::Ident(..))
+            | TokenKind::Word(WordKind::Keyword(Keyword::Yield))
+            | TokenKind::Word(WordKind::Keyword(Keyword::Await)) => true,
+            _ => false,
+        }
     }
 }
 
