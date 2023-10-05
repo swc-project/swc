@@ -358,7 +358,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
             let sym = match cur!(self, true)? {
-                TokenKind::Word(ref w) => w.clone().into(),
+                TokenKind::Word(w) => w.clone().into(),
                 _ => unreachable!(),
             };
             // TODO: remove clone
