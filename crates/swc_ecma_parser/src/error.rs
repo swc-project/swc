@@ -8,7 +8,7 @@ use swc_common::{
     Span, Spanned,
 };
 
-use crate::token::TokenKind;
+use crate::token::{TokenKind, WordKind};
 
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
@@ -82,7 +82,7 @@ pub enum SyntaxError {
     UnterminatedStrLit,
     ExpectedUnicodeEscape,
     EscapeInReservedWord {
-        word: JsWord,
+        word: WordKind,
     },
     UnterminatedRegExp,
     UnterminatedTpl,
