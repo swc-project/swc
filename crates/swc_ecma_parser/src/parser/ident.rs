@@ -58,12 +58,12 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let w = match cur!(self, true) {
-            Ok(&Word(..)) => match bump!(self) {
+            Ok(TokenKind::Word(..)) => match bump!(self) {
                 Word(w) => w.into(),
                 _ => unreachable!(),
             },
 
-            Ok(&Token::JSXName { .. }) if in_type => match bump!(self) {
+            Ok(TokenKind::JSXName) if in_type => match bump!(self) {
                 Token::JSXName { name } => name,
                 _ => unreachable!(),
             },
@@ -77,11 +77,11 @@ impl<I: Tokens> Parser<I> {
     // https://tc39.es/ecma262/#prod-ModuleExportName
     pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
         let module_export_name = match cur!(self, false) {
-            Ok(&Token::Str { .. }) => match self.parse_lit()? {
+            Ok(TokenKind::Str) => match self.parse_lit()? {
                 Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
                 _ => unreachable!(),
             },
-            Ok(&Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
+            Ok(TokenKind::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
             _ => {
                 unexpected!(self, "identifier or string");
             }
@@ -99,7 +99,7 @@ impl<I: Tokens> Parser<I> {
 
         let word = self.parse_with(|p| {
             let w = match cur!(p, true) {
-                Ok(&Word(..)) => match bump!(p) {
+                Ok(TokenKind::Word(..)) => match bump!(p) {
                     Word(w) => w,
                     _ => unreachable!(),
                 },
