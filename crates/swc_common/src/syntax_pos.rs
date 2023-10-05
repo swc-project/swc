@@ -49,6 +49,20 @@ pub struct Span {
     pub ctxt: SyntaxContext,
 }
 
+impl From<(BytePos, BytePos)> for Span {
+    #[inline(always)]
+    fn from(sp: (BytePos, BytePos)) -> Self {
+        Span::new(sp.0, sp.1, Default::default())
+    }
+}
+
+impl From<Span> for (BytePos, BytePos) {
+    #[inline(always)]
+    fn from(sp: Span) -> Self {
+        (sp.lo, sp.hi)
+    }
+}
+
 #[cfg(feature = "arbitrary")]
 #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
 impl<'a> arbitrary::Arbitrary<'a> for Span {
