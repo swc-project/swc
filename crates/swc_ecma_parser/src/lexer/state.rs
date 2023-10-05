@@ -11,7 +11,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    token::*,
+    token::{BinOpToken, Keyword, TokenKind, WordKind},
     EsVersion, Syntax,
 };
 
@@ -83,36 +83,36 @@ impl TokenType {
     }
 }
 
-impl<'a> From<&'a Token> for TokenType {
+impl From<&'_ TokenKind> for TokenType {
     #[inline]
-    fn from(t: &Token) -> Self {
-        match *t {
-            Token::Template { .. } => TokenType::Template,
-            Token::Dot => TokenType::Dot,
-            Token::Colon => TokenType::Colon,
-            Token::LBrace => TokenType::LBrace,
-            Token::RParen => TokenType::RParen,
-            Token::Semi => TokenType::Semi,
-            Token::JSXTagEnd => TokenType::JSXTagEnd,
-            Token::JSXTagStart => TokenType::JSXTagStart,
-            Token::JSXText { .. } => TokenType::JSXText,
-            Token::JSXName { .. } => TokenType::JSXName,
-            Token::BinOp(op) => TokenType::BinOp(op),
-            Token::Arrow => TokenType::Arrow,
+    fn from(t: &TokenKind) -> Self {
+        match t {
+            TokenKind::Template { .. } => TokenType::Template,
+            TokenKind::Dot => TokenType::Dot,
+            TokenKind::Colon => TokenType::Colon,
+            TokenKind::LBrace => TokenType::LBrace,
+            TokenKind::RParen => TokenType::RParen,
+            TokenKind::Semi => TokenType::Semi,
+            TokenKind::JSXTagEnd => TokenType::JSXTagEnd,
+            TokenKind::JSXTagStart => TokenType::JSXTagStart,
+            TokenKind::JSXText { .. } => TokenType::JSXText,
+            TokenKind::JSXName { .. } => TokenType::JSXName,
+            TokenKind::BinOp(op) => TokenType::BinOp(op),
+            TokenKind::Arrow => TokenType::Arrow,
 
-            Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
+            TokenKind::Word(WordKind::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
                 can_have_trailing_comment: matches!(
                     *t,
-                    Token::Num { .. }
-                        | Token::Str { .. }
-                        | Token::Word(Word::Ident(..))
-                        | Token::DollarLBrace
-                        | Token::Regex(..)
-                        | Token::BigInt { .. }
-                        | Token::JSXText { .. }
-                        | Token::RBrace
+                    TokenKind::Num { .. }
+                        | TokenKind::Str { .. }
+                        | TokenKind::Word(WordKind::Ident(..))
+                        | TokenKind::DollarLBrace
+                        | TokenKind::Regex
+                        | TokenKind::BigInt { .. }
+                        | TokenKind::JSXText { .. }
+                        | TokenKind::RBrace
                 ),
             },
         }
@@ -204,7 +204,7 @@ impl<'a> Iterator for Lexer<'a> {
 
             if self.state.is_first {
                 if let Some(shebang) = self.read_shebang()? {
-                    return Ok(Some(Token::Shebang(shebang)));
+                    return Ok(Some(TokenKind::Shebang(shebang)));
                 }
             }
 
@@ -290,7 +290,7 @@ impl<'a> Iterator for Lexer<'a> {
                                 // Safety: cur() is Some('>')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagEnd));
+                            return Ok(Some(TokenKind::JSXTagEnd));
                         }
 
                         if (c == '\'' || c == '"')
@@ -318,7 +318,7 @@ impl<'a> Iterator for Lexer<'a> {
                             return self.read_token();
                         }
 
-                        return Ok(Some(Token::JSXTagStart));
+                        return Ok(Some(TokenKind::JSXTagStart));
                     }
                 }
             }
@@ -333,7 +333,7 @@ impl<'a> Iterator for Lexer<'a> {
             self.read_token()
         })();
 
-        let token = match res.map_err(Token::Error).map_err(Some) {
+        let token = match res.map_err(TokenKind::Error).map_err(Some) {
             Ok(t) => t,
             Err(e) => e,
         };
@@ -614,17 +614,17 @@ impl State {
                 }
 
                 // tt.jsxTagStart.updateContext
-                Token::JSXTagStart => {
+                TokenKind::JSXTagStart => {
                     context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
                     context.push(TokenContext::JSXOpeningTag); // start opening tag context
                     false
                 }
 
                 // tt.jsxTagEnd.updateContext
-                Token::JSXTagEnd => {
+                TokenKind::JSXTagEnd => {
                     let out = context.pop();
                     if (out == Some(TokenContext::JSXOpeningTag)
-                        && prev == Some(TokenType::BinOp(BinOpToken::Div)))
+                        && prev == Some(TokenType::BinOp(BinOpTokenKind::Div)))
                         || out == Some(TokenContext::JSXClosingTag)
                     {
                         context.pop();
