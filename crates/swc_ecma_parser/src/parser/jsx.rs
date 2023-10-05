@@ -286,11 +286,12 @@ impl<I: Tokens> Parser<I> {
 
         let _ = cur!(self, true);
         let start = cur_pos!(self);
-        let forced_jsx_context = match bump!(self) {
+        let forced_jsx_context = match cur!(self, true)? {
             tok!('<') => true,
             TokenKind::JSXTagStart => false,
             _ => unreachable!(),
         };
+        bump!(self);
 
         let ctx = Context {
             in_forced_jsx_context: forced_jsx_context,
