@@ -7,7 +7,7 @@ use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
 use swc_atoms::{Atom, AtomGenerator};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
-use swc_ecma_ast::{op, EsVersion};
+use swc_ecma_ast::{op, AssignOp, EsVersion};
 
 use self::{
     comments_buffer::CommentsBuffer,
@@ -21,6 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
+    token::Token,
     Context, Syntax,
 };
 
@@ -232,8 +233,8 @@ impl<'a> Lexer<'a> {
         };
         if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Num { value, raw },
-                Right((value, raw)) => BigInt { value, raw },
+                Left((value, raw)) => Token::Num { value, raw },
+                Right((value, raw)) => Token::BigInt { value, raw },
             });
         }
 
@@ -314,15 +315,15 @@ impl<'a> Lexer<'a> {
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Num { value, raw },
-                    Right((value, raw)) => BigInt { value, raw },
+                    Left((value, raw)) => Token::Num { value, raw },
+                    Right((value, raw)) => Token::BigInt { value, raw },
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Num { value, raw },
-            Right((value, raw)) => BigInt { value, raw },
+            Left((value, raw)) => Token::Num { value, raw },
+            Right((value, raw)) => Token::BigInt { value, raw },
         })
     }
 
@@ -344,9 +345,9 @@ impl<'a> Lexer<'a> {
 
         // '|=', '&='
         if self.input.eat_byte(b'=') {
-            return Ok(AssignOp(match token {
-                BitAnd => BitAndAssign,
-                BitOr => BitOrAssign,
+            return Ok(Token::AssignOp(match token {
+                BitAnd => AssignOp::BitAndAssign,
+                BitOr => AssignOp::BitOrAssign,
                 _ => unreachable!(),
             }));
         }
@@ -363,7 +364,7 @@ impl<'a> Lexer<'a> {
                     // Safety: cur() is Some('=')
                     self.input.bump();
                 }
-                return Ok(AssignOp(match token {
+                return Ok(Token::AssignOp(match token {
                     BitAnd => op!("&&="),
                     BitOr => op!("||="),
                     _ => unreachable!(),
@@ -380,7 +381,7 @@ impl<'a> Lexer<'a> {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(BinOp(match token {
+            return Ok(Token::BinOp(match token {
                 BitAnd => LogicalAnd,
                 BitOr => LogicalOr,
                 _ => unreachable!(),
@@ -395,23 +396,29 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
+        use crate::token::BinOpToken::*;
+
         let is_mul = c == b'*';
         unsafe {
             // Safety: cur() is Some(c)
             self.input.bump();
         }
-        let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
+        let mut token = if is_mul {
+            Token::BinOp(Mul)
+        } else {
+            Token::BinOp(Mod)
+        };
 
         // check for **
         if is_mul && self.input.eat_byte(b'*') {
-            token = BinOp(Exp)
+            token = Token::BinOp(Exp)
         }
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                BinOp(Mul) => AssignOp(MulAssign),
-                BinOp(Mod) => AssignOp(ModAssign),
-                BinOp(Exp) => AssignOp(ExpAssign),
+                Token::BinOp(Mul) => AssignOp(MulAssign),
+                Token::BinOp(Mod) => AssignOp(ModAssign),
+                Token::BinOp(Exp) => AssignOp(ExpAssign),
                 _ => unreachable!(),
             }
         }
