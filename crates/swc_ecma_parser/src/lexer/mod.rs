@@ -1172,7 +1172,7 @@ impl<'a> Lexer<'a> {
         Ok(Regex(content, flags))
     }
 
-    fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
+    fn read_shebang(&mut self) -> LexResult<Option<TokenKind>> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
         }
@@ -1183,7 +1183,8 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(Atom::new(s)))
+        self.token_str = s.into();
+        Ok(Some(TokenKind::Shebang))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<TokenKind> {
