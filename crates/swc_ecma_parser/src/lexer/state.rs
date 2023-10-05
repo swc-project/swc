@@ -538,14 +538,14 @@ impl State {
                         .before_expr()
                 }
 
-                Word(Word::Ident(..)) => {
+                TokenKind::Word(WordKind::Ident(..)) => {
                     // variable declaration
                     match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
-                            TokenType::Keyword(Let)
-                            | TokenType::Keyword(Const)
-                            | TokenType::Keyword(Var)
+                            TokenType::Keyword(Keyword::Let)
+                            | TokenType::Keyword(Keyword::Const)
+                            | TokenType::Keyword(Keyword::Var)
                                 if had_line_break_before_last =>
                             {
                                 true
@@ -591,7 +591,9 @@ impl State {
 
                     context.push(match prev {
                         Some(TokenType::Keyword(k)) => match k {
-                            If | With | While => TokenContext::ParenStmt { is_for_loop: false },
+                            Keyword::If | Keyword::With | Keyword::While => {
+                                TokenContext::ParenStmt { is_for_loop: false }
+                            }
                             For => TokenContext::ParenStmt { is_for_loop: true },
                             _ => TokenContext::ParenExpr,
                         },
