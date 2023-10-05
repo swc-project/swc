@@ -3,7 +3,7 @@ use swc_common::Spanned;
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, token::TokenKind};
 
 mod module_item;
 
@@ -16,7 +16,7 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         mut allow_directives: bool,
         top_level: bool,
-        end: Option<&'static Token>,
+        end: Option<TokenKind>,
     ) -> PResult<Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
@@ -443,7 +443,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expr,
             }))
         } else {
-            if let Token::BinOp(..) = *cur!(self, false)? {
+            if let TokenKind::BinOp(..) = cur!(self, false)? {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                 let expr = self.parse_bin_op_recursively(expr, 0)?;
                 return Ok(ExprStmt {
@@ -932,7 +932,7 @@ impl<'a, I: Tokens> Parser<I> {
             while !eat!(self, ';') {
                 bump!(self);
 
-                if let Some(Token::Error(_)) = self.input.cur() {
+                if let Some(TokenKind::Error) = self.input.cur() {
                     break;
                 }
             }
@@ -1105,7 +1105,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         expect!(self, '{');
 
-        let stmts = self.parse_block_body(allow_directives, false, Some(&tok!('}')))?;
+        let stmts = self.parse_block_body(allow_directives, false, Some(tok!('}')))?;
 
         let span = span!(self, start);
         Ok(BlockStmt { span, stmts })
@@ -1330,7 +1330,9 @@ impl<'a, I: Tokens> Parser<I> {
     }
 
     fn parse_for_each_head(&mut self, left: ForHead) -> PResult<TempForHead> {
-        let is_of = bump!(self) == tok!("of");
+        let is_of = cur!(self, true)? == tok!("of");
+        bump!(self);
+
         if is_of {
             let right = self.include_in_expr(true).parse_assignment_expr()?;
             Ok(TempForHead::ForOf { left, right })
