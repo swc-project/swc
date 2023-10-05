@@ -7,7 +7,7 @@ use swc_common::Spanned;
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
-    token::AssignOpToken,
+    token::{AssignOpToken, TokenKind, WordKind},
 };
 
 impl<I: Tokens> Parser<I> {
@@ -49,8 +49,8 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_binding_pat_or_ident(&mut self) -> PResult<Pat> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
-        match *cur!(self, true)? {
-            tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
+        match cur!(self, true)? {
+            tok!("yield") | TokenKind::Word(..) => self.parse_binding_ident().map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),
             // tok!('(') => {
@@ -151,8 +151,8 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && matches!(
-                *cur!(self, false)?,
-                Word(Word::Ident(
+                cur!(self, false)?,
+                TokenKind::Word(WordKind::Ident(
                     js_word!("public")
                         | js_word!("protected")
                         | js_word!("private")
