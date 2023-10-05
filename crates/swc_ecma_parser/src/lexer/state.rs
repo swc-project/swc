@@ -529,7 +529,7 @@ impl State {
                 }
 
                 // for (a of b) {}
-                tok!("of")
+                known_ident_token!("of")
                     if Some(TokenContext::ParenStmt { is_for_loop: true }) == context.current() =>
                 {
                     // e.g. for (a of _) => true
@@ -556,7 +556,7 @@ impl State {
                     }
                 }
 
-                tok!('{') => {
+                TokenKind::LBrace => {
                     let cur = context.current();
                     if syntax.jsx() && cur == Some(TokenContext::JSXOpeningTag) {
                         context.push(TokenContext::BraceExpr)
