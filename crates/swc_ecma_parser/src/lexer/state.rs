@@ -11,7 +11,7 @@ use crate::{
     error::{Error, SyntaxError},
     input::Tokens,
     lexer::util::CharExt,
-    token::*,
+    token::{BinOpToken, Keyword, TokenAndSpan, TokenKind, WordKind},
     EsVersion, Syntax,
 };
 
@@ -83,36 +83,36 @@ impl TokenType {
     }
 }
 
-impl<'a> From<&'a Token> for TokenType {
+impl From<TokenKind> for TokenType {
     #[inline]
-    fn from(t: &Token) -> Self {
-        match *t {
-            Token::Template { .. } => TokenType::Template,
-            Token::Dot => TokenType::Dot,
-            Token::Colon => TokenType::Colon,
-            Token::LBrace => TokenType::LBrace,
-            Token::RParen => TokenType::RParen,
-            Token::Semi => TokenType::Semi,
-            Token::JSXTagEnd => TokenType::JSXTagEnd,
-            Token::JSXTagStart => TokenType::JSXTagStart,
-            Token::JSXText { .. } => TokenType::JSXText,
-            Token::JSXName { .. } => TokenType::JSXName,
-            Token::BinOp(op) => TokenType::BinOp(op),
-            Token::Arrow => TokenType::Arrow,
+    fn from(t: TokenKind) -> Self {
+        match t {
+            TokenKind::Template { .. } => TokenType::Template,
+            TokenKind::Dot => TokenType::Dot,
+            TokenKind::Colon => TokenType::Colon,
+            TokenKind::LBrace => TokenType::LBrace,
+            TokenKind::RParen => TokenType::RParen,
+            TokenKind::Semi => TokenType::Semi,
+            TokenKind::JSXTagEnd => TokenType::JSXTagEnd,
+            TokenKind::JSXTagStart => TokenType::JSXTagStart,
+            TokenKind::JSXText { .. } => TokenType::JSXText,
+            TokenKind::JSXName { .. } => TokenType::JSXName,
+            TokenKind::BinOp(op) => TokenType::BinOp(op),
+            TokenKind::Arrow => TokenType::Arrow,
 
-            Token::Word(Word::Keyword(k)) => TokenType::Keyword(k),
+            TokenKind::Word(WordKind::Keyword(k)) => TokenType::Keyword(k),
             _ => TokenType::Other {
                 before_expr: t.before_expr(),
                 can_have_trailing_comment: matches!(
-                    *t,
-                    Token::Num { .. }
-                        | Token::Str { .. }
-                        | Token::Word(Word::Ident(..))
-                        | Token::DollarLBrace
-                        | Token::Regex(..)
-                        | Token::BigInt { .. }
-                        | Token::JSXText { .. }
-                        | Token::RBrace
+                    t,
+                    TokenKind::Num { .. }
+                        | TokenKind::Str { .. }
+                        | TokenKind::Word(WordKind::Ident(..))
+                        | TokenKind::DollarLBrace
+                        | TokenKind::Regex
+                        | TokenKind::BigInt { .. }
+                        | TokenKind::JSXText { .. }
+                        | TokenKind::RBrace
                 ),
             },
         }
@@ -204,7 +204,7 @@ impl<'a> Iterator for Lexer<'a> {
 
             if self.state.is_first {
                 if let Some(shebang) = self.read_shebang()? {
-                    return Ok(Some(Token::Shebang(shebang)));
+                    return Ok(Some(shebang));
                 }
             }
 
@@ -290,7 +290,7 @@ impl<'a> Iterator for Lexer<'a> {
                                 // Safety: cur() is Some('>')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagEnd));
+                            return Ok(Some(TokenKind::JSXTagEnd));
                         }
 
                         if (c == '\'' || c == '"')
@@ -318,7 +318,7 @@ impl<'a> Iterator for Lexer<'a> {
                             return self.read_token();
                         }
 
-                        return Ok(Some(Token::JSXTagStart));
+                        return Ok(Some(TokenKind::JSXTagStart));
                     }
                 }
             }
@@ -333,7 +333,13 @@ impl<'a> Iterator for Lexer<'a> {
             self.read_token()
         })();
 
-        let token = match res.map_err(Token::Error).map_err(Some) {
+        let token = match res
+            .map_err(|err| {
+                self.token_error = Some(err);
+                TokenKind::Error
+            })
+            .map_err(Some)
+        {
             Ok(t) => t,
             Err(e) => e,
         };
@@ -419,7 +425,7 @@ impl State {
         matches!(self.token_type, Some(TokenType::Template))
     }
 
-    fn update(&mut self, start: BytePos, next: &Token) {
+    fn update(&mut self, start: BytePos, next: TokenKind) {
         if cfg!(feature = "debug") {
             trace!(
                 "updating state: next={:?}, had_line_break={} ",
@@ -450,12 +456,12 @@ impl State {
         syntax: Syntax,
         prev: Option<TokenType>,
         start: BytePos,
-        next: &Token,
+        next: TokenKind,
         had_line_break: bool,
         had_line_break_before_last: bool,
         is_expr_allowed: bool,
     ) -> bool {
-        let is_next_keyword = matches!(*next, Word(Word::Keyword(..)));
+        let is_next_keyword = matches!(*next, TokenKind::Word(WordKind::Keyword(..)));
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
             false
@@ -538,14 +544,14 @@ impl State {
                         .before_expr()
                 }
 
-                Word(Word::Ident(..)) => {
+                TokenKind::Word(WordKind::Ident(..)) => {
                     // variable declaration
                     match prev {
                         Some(prev) => match prev {
                             // handle automatic semicolon insertion.
-                            TokenType::Keyword(Let)
-                            | TokenType::Keyword(Const)
-                            | TokenType::Keyword(Var)
+                            TokenType::Keyword(Keyword::Let)
+                            | TokenType::Keyword(Keyword::Const)
+                            | TokenType::Keyword(Keyword::Var)
                                 if had_line_break_before_last =>
                             {
                                 true
@@ -591,7 +597,9 @@ impl State {
 
                     context.push(match prev {
                         Some(TokenType::Keyword(k)) => match k {
-                            If | With | While => TokenContext::ParenStmt { is_for_loop: false },
+                            Keyword::If | Keyword::With | Keyword::While => {
+                                TokenContext::ParenStmt { is_for_loop: false }
+                            }
                             For => TokenContext::ParenStmt { is_for_loop: true },
                             _ => TokenContext::ParenExpr,
                         },
@@ -614,14 +622,14 @@ impl State {
                 }
 
                 // tt.jsxTagStart.updateContext
-                Token::JSXTagStart => {
+                TokenKind::JSXTagStart => {
                     context.push(TokenContext::JSXExpr); // treat as beginning of JSX expression
                     context.push(TokenContext::JSXOpeningTag); // start opening tag context
                     false
                 }
 
                 // tt.jsxTagEnd.updateContext
-                Token::JSXTagEnd => {
+                TokenKind::JSXTagEnd => {
                     let out = context.pop();
                     if (out == Some(TokenContext::JSXOpeningTag)
                         && prev == Some(TokenType::BinOp(BinOpToken::Div)))
@@ -672,11 +680,12 @@ impl TokenContexts {
             //          function b(){}
             //      };
             //  }
-            Some(TokenType::Keyword(Return)) | Some(TokenType::Keyword(Yield)) => {
+            Some(TokenType::Keyword(Keyword::Return))
+            | Some(TokenType::Keyword(Keyword::Yield)) => {
                 return had_line_break;
             }
 
-            Some(TokenType::Keyword(Else))
+            Some(TokenType::Keyword(Keyword::Else))
             | Some(TokenType::Semi)
             | None
             | Some(TokenType::RParen) => {
@@ -698,7 +707,9 @@ impl TokenContexts {
             }
 
             // `class C<T> { ... }`
-            Some(TokenType::BinOp(Lt)) | Some(TokenType::BinOp(Gt)) => return true,
+            Some(TokenType::BinOp(BinOpToken::Lt)) | Some(TokenType::BinOp(BinOpToken::Gt)) => {
+                return true
+            }
 
             // () => {}
             Some(TokenType::Arrow) => return true,
