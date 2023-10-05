@@ -35,7 +35,7 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<(f64, String), (Box<BigIntValue>, String)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {

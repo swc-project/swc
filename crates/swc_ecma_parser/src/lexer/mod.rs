@@ -3,6 +3,7 @@
 use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
+use num_bigint::BigInt;
 use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
 use swc_atoms::{Atom, AtomGenerator};
@@ -125,6 +126,7 @@ pub struct Lexer<'a> {
     pub(crate) ctx: Context,
 
     token_str: String,
+    token_num_val: f64,
 
     atoms: Rc<RefCell<AtomGenerator>>,
 
@@ -144,6 +146,7 @@ pub struct Lexer<'a> {
     module_errors: Rc<RefCell<Vec<Error>>>,
 
     token_raw: String,
+    token_bigint_val: BigInt,
     token_error: Option<Error>,
 }
 
@@ -174,6 +177,8 @@ impl<'a> Lexer<'a> {
             token_str: Default::default(),
             token_raw: Default::default(),
             token_error: Default::default(),
+            token_num_val: Default::default(),
+            token_bigint_val: Default::default(),
         }
     }
 
@@ -247,8 +252,18 @@ impl<'a> Lexer<'a> {
         };
         if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Num { value, raw },
-                Right((value, raw)) => BigInt { value, raw },
+                Left((value, raw)) => {
+                    self.token_num_val = value;
+                    self.token_raw = raw;
+
+                    Num
+                }
+                Right((value, raw)) => {
+                    self.token_bigint_val = value;
+                    self.token_raw = raw;
+
+                    BigInt
+                }
             });
         }
 
