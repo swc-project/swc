@@ -7,7 +7,7 @@ use swc_common::Spanned;
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
-    token::{AssignOpToken, TokenKind, WordKind},
+    token::{AssignOpToken, IdentKind, TokenKind, WordKind},
 };
 
 impl<I: Tokens> Parser<I> {
@@ -152,12 +152,12 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.syntax().typescript()
             && matches!(
                 cur!(self, false)?,
-                TokenKind::Word(WordKind::Ident(
-                    js_word!("public")
-                        | js_word!("protected")
-                        | js_word!("private")
-                        | js_word!("readonly")
-                ))
+                TokenKind::Word(WordKind::Ident(IdentKind::Known(
+                    known_ident!("public")
+                        | known_ident!("protected")
+                        | known_ident!("private")
+                        | known_ident!("readonly")
+                )))
             )
             && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {

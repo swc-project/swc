@@ -303,7 +303,7 @@ impl<I: Tokens> Buffer<I> {
     fn bump_inner(&mut self) {
         let prev = self.cur.take();
         self.prev_span = match prev {
-            Some(v) => v.span(),
+            Some(v) => v.span,
             _ => self.prev_span,
         };
 
