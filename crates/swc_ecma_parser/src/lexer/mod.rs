@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, Token},
+    token::{BinOpToken, Token, Word},
     Context, Syntax,
 };
 
@@ -416,9 +416,9 @@ impl<'a> Lexer<'a> {
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                Token::BinOp(Mul) => Token::AssignOp(MulAssign),
-                Token::BinOp(Mod) => Token::AssignOp(ModAssign),
-                Token::BinOp(Exp) => Token::AssignOp(ExpAssign),
+                Token::BinOp(Mul) => Token::AssignOp(AssignOp::MulAssign),
+                Token::BinOp(Mod) => Token::AssignOp(AssignOp::ModAssign),
+                Token::BinOp(Exp) => Token::AssignOp(AssignOp::ExpAssign),
                 _ => unreachable!(),
             }
         }
@@ -721,11 +721,11 @@ impl<'a> Lexer<'a> {
 
         let token = if self.eat(b'=') {
             match op {
-                Lt => BinOp(LtEq),
-                Gt => BinOp(GtEq),
-                LShift => AssignOp(LShiftAssign),
-                RShift => AssignOp(RShiftAssign),
-                ZeroFillRShift => AssignOp(ZeroFillRShiftAssign),
+                Lt => Token::BinOp(LtEq),
+                Gt => Token::BinOp(GtEq),
+                LShift => Token::AssignOp(AssignOp::LShiftAssign),
+                RShift => Token::AssignOp(AssignOp::RShiftAssign),
+                ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
                 _ => unreachable!(),
             }
         } else {
@@ -760,58 +760,60 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         let (word, has_escape) = self.read_word_as_str_with(|s| {
+            use crate::token::Keyword::*;
+
             if s.len() == 1 || s.len() > 10 {
-                Word::Ident(s.into())
+                {}
             } else {
                 match s.as_bytes()[0] {
-                    b'a' if s == "await" => Await.into(),
-                    b'b' if s == "break" => Break.into(),
+                    b'a' if s == "await" => return Await.into(),
+                    b'b' if s == "break" => return Break.into(),
                     b'c' => match s {
-                        "case" => Case.into(),
-                        "const" => Const.into(),
-                        "class" => Class.into(),
-                        "catch" => Catch.into(),
-                        "continue" => Continue.into(),
-                        _ => Word::Ident(s.into()),
+                        "case" => return Case.into(),
+                        "const" => return Const.into(),
+                        "class" => return Class.into(),
+                        "catch" => return Catch.into(),
+                        "continue" => return Continue.into(),
+                        _ => {}
                     },
                     b'd' => match s {
                         "do" => Do.into(),
                         "default" => Default_.into(),
                         "delete" => Delete.into(),
                         "debugger" => Debugger.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'e' => match s {
                         "else" => Else.into(),
                         "export" => Export.into(),
                         "extends" => Extends.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'f' => match s {
                         "for" => For.into(),
                         "false" => Word::False,
                         "finally" => Finally.into(),
                         "function" => Function.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'i' => match s {
                         "if" => If.into(),
                         "import" => Import.into(),
                         "in" => In.into(),
                         "instanceof" => InstanceOf.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'l' if s == "let" => Let.into(),
                     b'n' => match s {
                         "new" => New.into(),
                         "null" => Word::Null,
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'r' if s == "return" => Return.into(),
                     b's' => match s {
                         "super" => Super.into(),
                         "switch" => Switch.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b't' => match s {
                         "this" => This.into(),
@@ -819,22 +821,24 @@ impl<'a> Lexer<'a> {
                         "try" => Try.into(),
                         "throw" => Throw.into(),
                         "typeof" => TypeOf.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'v' => match s {
                         "var" => Var.into(),
                         "void" => Void.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'w' => match s {
                         "while" => While.into(),
                         "with" => With.into(),
-                        _ => Word::Ident(s.into()),
+                        _ => {}
                     },
                     b'y' if s == "yield" => Yield.into(),
-                    _ => Word::Ident(s.into()),
+                    _ => {}
                 }
             }
+
+            Word::Ident(s.into())
         })?;
 
         // Note: ctx is store in lexer because of this error.
