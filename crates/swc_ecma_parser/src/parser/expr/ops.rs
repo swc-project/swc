@@ -308,7 +308,7 @@ impl<I: Tokens> Parser<I> {
 
             if op == op!("delete") {
                 if let Expr::Ident(ref i) = *arg {
-                    self.emit_strict_mode_err(i.span, SyntaxError::TS1102)
+                    self.emit_strict_mode_err(i.span.into(), SyntaxError::TS1102)
                 }
             }
 
