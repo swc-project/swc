@@ -14,9 +14,8 @@ use std::{
     rc::Rc,
 };
 
-use rustc_hash::FxHashSet;
 use serde::Serializer;
-use tendril::{Atomic, Tendril};
+use tendril::{fmt::UTF8, Atomic, Tendril};
 
 /// Clone-on-write string.
 ///
@@ -25,48 +24,36 @@ use tendril::{Atomic, Tendril};
 #[derive(Clone)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(Tendril<tendril::fmt::UTF8, Atomic>);
+pub struct Atom(Tendril<UTF8, Atomic>);
+
+/// Safety: We do not perform slicing of single [Atom] from multiple threads.
+/// In other words, typically [Atom] is created in a single thread (and in the
+/// parser code) and passed around.
+unsafe impl Sync for Atom {}
 
 fn _assert_size() {
-    let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
+    let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 2]>;
 }
 
 impl Atom {
-    /// Creates a bad [Atom] from a string.
-    ///
-    /// This [Atom] is bad because it doesn't help reducing memory usage.
-    ///
-    /// # Note
-    ///
-    /// Although this is called `bad`, it's fine to use this if a string is
-    /// unlikely to be duplicated.
-    ///
-    /// e.g. Texts in template literals or comments are unlikely to benefit from
-    /// interning.
+    /// Creates a new [Atom] from a string.
     pub fn new<S>(s: S) -> Self
     where
-        Arc<str>: From<S>,
-        S: AsRef<str>,
+        Tendril<UTF8, Atomic>: From<S>,
     {
-        let len = s.as_ref().as_bytes().len();
-
-        Self(ThinArc::from_header_and_slice(
-            HeaderWithLength::new((), len),
-            s.as_ref().as_bytes(),
-        ))
+        Atom(Tendril::from(s))
     }
 }
+
+/// API wrappers for [tendril].
+impl Atom {}
 
 impl Deref for Atom {
     type Target = str;
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        unsafe {
-            // Safety: We only consturct this type from valid str
-
-            std::str::from_utf8_unchecked(&self.0.slice)
-        }
+        &self.0
     }
 }
 
@@ -112,19 +99,11 @@ impl_eq!(std::sync::Arc<str>);
 impl_eq!(Rc<str>);
 impl_eq!(Cow<'_, str>);
 impl_eq!(String);
-impl_eq!(JsWord);
 
 impl_from!(&'_ str);
 impl_from_deref!(Box<str>);
-impl_from!(Arc<str>);
 impl_from_deref!(Cow<'_, str>);
 impl_from!(String);
-
-impl From<JsWord> for Atom {
-    fn from(v: JsWord) -> Self {
-        Self::new(&*v)
-    }
-}
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
@@ -187,33 +166,6 @@ impl Hash for Atom {
     }
 }
 
-/// Generator for an interned strings.
-///
-/// A lexer is expected to store this in it.
-#[derive(Debug, Default, Clone)]
-pub struct AtomGenerator {
-    inner: FxHashSet<Atom>,
-}
-
-impl AtomGenerator {
-    /// Get an interned [Atom] or create one from `s`.
-    pub fn intern<S>(&mut self, s: S) -> Atom
-    where
-        Arc<str>: From<S>,
-        S: Eq + Hash,
-        S: AsRef<str>,
-    {
-        if let Some(v) = self.inner.get(s.as_ref()).cloned() {
-            return v;
-        }
-
-        let new = Atom::new(s);
-
-        self.inner.insert(new.clone());
-        new
-    }
-}
-
 impl serde::ser::Serialize for Atom {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
@@ -232,7 +184,7 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
     }
 }
 
-/// Creates an atom from a constant.
+/// Creates an Atom from a constant.
 #[macro_export]
 macro_rules! atom {
     ($s:literal) => {{
@@ -241,14 +193,6 @@ macro_rules! atom {
 
         $crate::Atom::clone(&*CACHE)
     }};
-}
-
-#[test]
-fn _assert() {
-    let mut g = AtomGenerator::default();
-
-    g.intern("str");
-    g.intern(String::new());
 }
 
 impl PartialEq<Atom> for str {
@@ -287,114 +231,5 @@ where
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))
-    }
-}
-
-/// NOT A PUBLIC API.
-///
-/// This type exists to allow serializing [JsWord] using `rkyv`.
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeJsWord;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<crate::JsWord> for EncodeJsWord {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    unsafe fn resolve_with(
-        field: &crate::JsWord,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(pos, resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<crate::JsWord, S> for EncodeJsWord
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(
-        field: &crate::JsWord,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, crate::JsWord, D> for EncodeJsWord
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<crate::JsWord, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(s.into())
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Option<crate::JsWord>> for EncodeJsWord {
-    type Archived = rkyv::Archived<Option<String>>;
-    type Resolver = rkyv::Resolver<Option<String>>;
-
-    unsafe fn resolve_with(
-        field: &Option<crate::JsWord>,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.as_ref().map(|s| s.to_string());
-        s.resolve(pos, resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Option<crate::JsWord>, S> for EncodeJsWord
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(
-        value: &Option<crate::JsWord>,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        value
-            .as_ref()
-            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
-            .transpose()
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<Option<String>>, Option<crate::JsWord>, D>
-    for EncodeJsWord
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<Option<String>>,
-        deserializer: &mut D,
-    ) -> Result<Option<crate::JsWord>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: Option<String> = field.deserialize(deserializer)?;
-
-        Ok(s.map(|s| s.into()))
     }
 }
