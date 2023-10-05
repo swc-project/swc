@@ -21,9 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{
-        AssignOpToken::*, BinOpToken::*, IdentKind, KnownIdent, TokenKind, TokenKind::*, WordKind,
-    },
+    token::{AssignOpToken::*, BinOpToken::*, IdentKind, TokenKind, TokenKind::*, WordKind},
     Context, Syntax,
 };
 
