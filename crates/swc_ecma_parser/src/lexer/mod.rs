@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::*,
+    token::{Keyword::*, TokenKind, TokenKind::*},
     Context, Syntax,
 };
 
