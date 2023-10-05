@@ -4,7 +4,7 @@ use swc_atoms::Atom;
 use super::*;
 
 impl<'a> Lexer<'a> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.syntax.jsx());
 
         let mut chunk_start = self.input.cur_pos();
