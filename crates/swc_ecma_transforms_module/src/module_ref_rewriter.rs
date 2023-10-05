@@ -78,7 +78,7 @@ impl QueryRef for ImportQuery {
 
         self.import_map
             .get(&ident.to_id())
-            .map(|(mod_ident, _)| mod_ident.span.ctxt != SyntaxContext::empty())
+            .map(|(_, prop)| prop.is_some())
             .unwrap_or_default()
     }
 }
