@@ -740,7 +740,7 @@ impl Debug for Token {
     }
 }
 
-macro_rules! known_ident {
+macro_rules! define_known_ident {
     (
         $(
             $name:ident => $value:tt,
@@ -765,6 +765,15 @@ macro_rules! known_ident {
             )*
         }
 
+        #[allow(unused)]
+        macro_rules! known_ident {
+            $(
+                ($value) => {
+                    $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
+                };
+            )*
+        }
+
         impl std::str::FromStr for KnownIdent {
             type Err = ();
 
@@ -780,7 +789,7 @@ macro_rules! known_ident {
     };
 }
 
-known_ident!(
+define_known_ident!(
     Abstract => "abstract",
     As => "as",
     Async => "async",
