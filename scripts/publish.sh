@@ -16,6 +16,6 @@ git reset --hard
 
 # Update version
 npm version "$version" --no-git-tag-version --allow-same-version
-(cd ./packages/minifier && yarn version --new-version "$version" --no-git-tag-version --allow-same-version)
+(cd ./packages/minifier && yarn version "$version" --no-git-tag-version --allow-same-version)
 (cd ./bindings && cargo set-version $version -p binding_core_wasm -p binding_minifier_wasm)
 (cd ./bindings && cargo set-version --bump patch -p swc_cli)
