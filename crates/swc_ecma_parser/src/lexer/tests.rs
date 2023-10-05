@@ -2,8 +2,9 @@ extern crate test;
 
 use std::{ops::Range, str};
 
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span, SyntaxContext};
-use swc_ecma_ast::AssignOp;
+use swc_ecma_ast::{AssignOp, AssignOp::*};
 use test::{black_box, Bencher};
 
 use super::state::{lex, lex_module_errors, lex_tokens, with_lexer};
@@ -11,7 +12,6 @@ use crate::{
     error::{Error, SyntaxError},
     lexer::state::lex_errors,
     token::{
-        AssignOpToken::*,
         BinOpToken::{self, *},
         Keyword,
         Keyword::*,
@@ -1850,7 +1850,7 @@ fn issue_2853_1_js() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
@@ -1872,7 +1872,7 @@ fn issue_2853_2_ts() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
@@ -1894,7 +1894,7 @@ fn issue_2853_3_js() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
@@ -1916,7 +1916,7 @@ fn issue_2853_4_ts() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
@@ -1941,7 +1941,7 @@ fn issue_2853_5_jsx() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
@@ -1966,7 +1966,7 @@ fn issue_2853_6_tsx() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\\0a\"".into(),
@@ -1991,7 +1991,7 @@ fn issue_2853_7_jsx() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
@@ -2016,7 +2016,7 @@ fn issue_2853_8_tsx() {
         vec![
             Word(Word::Keyword(Keyword::Const)),
             Word(Word::Ident("a".into())),
-            Token::AssignOp(AssignOpToken::Assign),
+            Token::AssignOp(AssignOp::Assign),
             Token::Str {
                 value: "\u{0000}a".into(),
                 raw: "\"\u{0000}a\"".into(),
