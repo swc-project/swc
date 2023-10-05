@@ -846,12 +846,13 @@ impl<'a, I: Tokens> Parser<I> {
 
     pub(super) fn parse_var_stmt(&mut self, for_loop: bool) -> PResult<Box<VarDecl>> {
         let start = cur_pos!(self);
-        let kind = match bump!(self) {
+        let kind = match cur!(self, true)? {
             tok!("const") => VarDeclKind::Const,
             tok!("let") => VarDeclKind::Let,
             tok!("var") => VarDeclKind::Var,
             _ => unreachable!(),
         };
+        bump!(self);
         let var_span = span!(self, start);
         let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
