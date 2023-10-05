@@ -261,8 +261,8 @@ impl<'a, I: Tokens> Parser<I> {
                 let _ = self.parse_finally_block();
 
                 return Ok(Stmt::Expr(ExprStmt {
-                    span,
-                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                    span: span.into(),
+                    expr: Box::new(Expr::Invalid(Invalid { span: span.into() })),
                 }));
             }
 
@@ -274,8 +274,8 @@ impl<'a, I: Tokens> Parser<I> {
                 let _ = self.parse_finally_block();
 
                 return Ok(Stmt::Expr(ExprStmt {
-                    span,
-                    expr: Box::new(Expr::Invalid(Invalid { span })),
+                    span: span.into(),
+                    expr: Box::new(Expr::Invalid(Invalid { span: span.into() })),
                 }));
             }
 

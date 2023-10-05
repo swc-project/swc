@@ -309,7 +309,7 @@ impl<I: Tokens> Parser<I> {
         let arg = match cur!(self, true)? {
             TokenKind::Str => match bump!(self) {
                 Token::Str { value, raw } => Str {
-                    span: arg_span,
+                    span: arg_span.into(),
                     value,
                     raw: Some(raw),
                 },
@@ -319,7 +319,7 @@ impl<I: Tokens> Parser<I> {
                 bump!(self);
                 self.emit_err(arg_span, SyntaxError::TS1141);
                 Str {
-                    span: arg_span,
+                    span: arg_span.into(),
                     value: "".into(),
                     raw: Some("\"\"".into()),
                 }
