@@ -14,7 +14,7 @@ use crate::Function;
 #[derive(Eq, PartialOrd, Ord, Hash)]
 pub struct Ident {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -48,7 +48,7 @@ impl Take for Ident {
 #[derive(Eq, Hash)]
 pub struct CustomIdent {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -64,7 +64,7 @@ impl EqIgnoreSpan for CustomIdent {
 #[derive(Eq, Hash)]
 pub struct DashedIdent {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -87,7 +87,7 @@ impl PartialEq<str> for DashedIdent {
 #[derive(Eq, Hash)]
 pub struct CustomPropertyName {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -103,7 +103,7 @@ impl EqIgnoreSpan for CustomPropertyName {
 #[derive(Eq, Hash)]
 pub struct Str {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -176,7 +176,6 @@ pub struct HexColor {
     /// Includes `#`
     pub span: Span,
     /// Does **not** include `#`
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     /// Does **not** include `#`
     pub raw: Option<Atom>,
@@ -443,7 +442,7 @@ pub enum UrlValue {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct UrlValueRaw {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
@@ -461,9 +460,9 @@ pub enum UrlModifier {
 #[derive(Eq, Hash)]
 pub struct UnicodeRange {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub start: JsWord,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub end: Option<JsWord>,
     pub raw: Option<Atom>,
 }

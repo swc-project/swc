@@ -858,7 +858,6 @@ pub enum SizeFeatureName {
 #[derive(Eq, Hash)]
 pub struct ExtensionName {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
     pub value: JsWord,
     pub raw: Option<Atom>,
 }
