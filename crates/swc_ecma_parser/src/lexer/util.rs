@@ -117,12 +117,12 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn error<T>(&mut self, start: BytePos, kind: SyntaxError) -> LexResult<T> {
         let span = self.span(start);
-        self.error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.error_span(span, kind)
     }
 
     #[cold]
     #[inline(never)]
-    pub(super) fn error_span<T>(&mut self, span: Span, kind: SyntaxError) -> LexResult<T> {
+    pub(super) fn error_span<T>(&mut self, span: SmallSpan, kind: SyntaxError) -> LexResult<T> {
         Err(Error::new(span, kind))
     }
 
@@ -130,12 +130,12 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn emit_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.emit_error_span(span, kind)
     }
 
     #[cold]
     #[inline(never)]
-    pub(super) fn emit_error_span(&mut self, span: Span, kind: SyntaxError) {
+    pub(super) fn emit_error_span(&mut self, span: SmallSpan, kind: SyntaxError) {
         if self.ctx.ignore_error {
             return;
         }
@@ -149,12 +149,12 @@ impl<'a> Lexer<'a> {
     #[inline(never)]
     pub(super) fn emit_strict_mode_error(&mut self, start: BytePos, kind: SyntaxError) {
         let span = self.span(start);
-        self.emit_strict_mode_error_span(Span::new(span.lo, span.hi, span.ctxt), kind)
+        self.emit_strict_mode_error_span(span, kind)
     }
 
     #[cold]
     #[inline(never)]
-    pub(super) fn emit_strict_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
+    pub(super) fn emit_strict_mode_error_span(&mut self, span: SmallSpan, kind: SyntaxError) {
         if self.ctx.strict {
             self.emit_error_span(span, kind);
             return;
@@ -176,7 +176,7 @@ impl<'a> Lexer<'a> {
     /// code.
     #[cold]
     #[inline(never)]
-    pub(super) fn emit_module_mode_error_span(&mut self, span: Span, kind: SyntaxError) {
+    pub(super) fn emit_module_mode_error_span(&mut self, span: SmallSpan, kind: SyntaxError) {
         let err = Error::new(span, kind);
 
         self.add_module_mode_error(err);
@@ -252,7 +252,7 @@ impl<'a> Lexer<'a> {
             };
             let cmt = Comment {
                 kind: CommentKind::Line,
-                span: Span::new(start, end, SyntaxContext::empty()),
+                span: SmallSpan::new(start, end, SyntaxContext::empty()),
                 text: self.atoms.borrow_mut().intern(s),
             };
 
@@ -315,7 +315,7 @@ impl<'a> Lexer<'a> {
                     let s = &src[..src.len() - 2];
                     let cmt = Comment {
                         kind: CommentKind::Block,
-                        span: Span::new(start, end, SyntaxContext::empty()),
+                        span: SmallSpan::new(start, end, SyntaxContext::empty()),
                         text: self.atoms.borrow_mut().intern(s),
                     };
 

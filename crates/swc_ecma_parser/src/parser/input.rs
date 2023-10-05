@@ -428,14 +428,11 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn cur_span(&self) -> Span {
-        let data = self
-            .cur
+    pub fn cur_span(&self) -> SmallSpan {
+        self.cur
             .as_ref()
-            .map(|item| item.span())
-            .unwrap_or(self.prev_span);
-
-        Span::new(data.lo, data.hi, data.ctxt)
+            .map(|item| item.span)
+            .unwrap_or(self.prev_span)
     }
 
     /// Returns last byte position of previous token.
