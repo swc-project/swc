@@ -21,7 +21,6 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::*,
     Context, Syntax,
 };
 
@@ -332,6 +331,8 @@ impl<'a> Lexer<'a> {
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
     fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
+        use crate::token::BinOpToken::*;
+
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 

@@ -401,10 +401,8 @@ pub struct TokenAndSpan {
     pub token: TokenKind,
     /// Had a line break before this token?
     pub had_line_break: bool,
-    pub span: SmallSpan,
+    pub span: Span,
 }
-
-pub type SmallSpan = (BytePos, BytePos);
 
 impl Spanned for TokenAndSpan {
     #[inline(always)]
