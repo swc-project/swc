@@ -9,10 +9,12 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ident::IdentLike, private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-use crate::{module_ref_rewriter::ImportMap, util::ObjPropKeyIdent};
+use crate::module_ref_rewriter::ImportMap;
 
+/// key: module path
 pub type Link = IndexMap<JsWord, LinkItem>;
-pub type Export = AHashMap<(JsWord, Span), Ident>;
+/// key: export binding name
+pub type Export = AHashMap<JsWord, ExportItem>;
 
 #[derive(Debug)]
 pub struct ModuleDeclStrip {
@@ -135,17 +137,18 @@ impl VisitMut for ModuleDeclStrip {
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         match &n.decl {
             Decl::Class(ClassDecl { ident, .. }) | Decl::Fn(FnDecl { ident, .. }) => {
-                let ident = ident.clone();
-
-                self.export.insert((ident.sym.clone(), ident.span), ident);
+                self.export.insert(
+                    ident.sym.clone(),
+                    ExportItem::new(ident.span, ident.clone()),
+                );
             }
 
             Decl::Var(v) => {
-                self.export
-                    .extend(find_pat_ids::<_, Ident>(&v.decls).into_iter().map(|id| {
-                        let ident = id.clone();
-                        ((id.sym, id.span), ident)
-                    }));
+                self.export.extend(
+                    find_pat_ids::<_, Ident>(&v.decls)
+                        .into_iter()
+                        .map(|id| (id.sym.clone(), ExportItem::new(id.span, id))),
+                );
             }
             _ => {}
         };
@@ -189,15 +192,14 @@ impl VisitMut for ModuleDeclStrip {
                     };
 
                     if let Some(exported) = exported {
-                        let exported = match exported {
+                        let (export_name, export_name_span) = match exported {
                             ModuleExportName::Ident(Ident { span, sym, .. }) => (sym, span),
                             ModuleExportName::Str(Str { span, value, .. }) => (value, span),
                         };
 
-                        (exported, orig)
+                        (export_name, ExportItem::new(export_name_span, orig))
                     } else {
-                        let exported = orig.sym.clone();
-                        ((exported, orig.span), orig)
+                        (orig.sym.clone(), ExportItem::new(orig.span, orig))
                     }
                 }
             }))
@@ -225,7 +227,8 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export.insert((js_word!("default"), n.span), ident);
+                self.export
+                    .insert(js_word!("default"), ExportItem::new(n.span, ident));
             }
             DefaultDecl::Fn(fn_expr) => {
                 let ident = fn_expr
@@ -233,7 +236,8 @@ impl VisitMut for ModuleDeclStrip {
                     .get_or_insert_with(|| private_ident!(n.span, "_default"))
                     .clone();
 
-                self.export.insert((js_word!("default"), n.span), ident);
+                self.export
+                    .insert(js_word!("default"), ExportItem::new(n.span, ident));
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -252,7 +256,7 @@ impl VisitMut for ModuleDeclStrip {
         let ident = private_ident!(n.span, "_default");
 
         self.export
-            .insert((js_word!("default"), n.span), ident.clone());
+            .insert(js_word!("default"), ExportItem::new(n.span, ident.clone()));
 
         self.export_default = Some(Stmt::Decl(
             n.expr
@@ -306,7 +310,8 @@ impl VisitMut for ModuleDeclStrip {
         }) = module_ref
         {
             if *is_export {
-                self.export.insert((id.sym.clone(), id.span), id.clone());
+                self.export
+                    .insert(id.sym.clone(), ExportItem::new(id.span, id.clone()));
             }
 
             self.link
@@ -623,7 +628,7 @@ impl LinkItem {
     }
 }
 
-pub(crate) type ExportObjPropList = Vec<ObjPropKeyIdent>;
+pub(crate) type ExportObjPropList = Vec<ExportKV>;
 
 /// Reduce self to generate ImportMap and ExportObjPropList
 pub(crate) trait LinkSpecifierReducer {
@@ -687,10 +692,13 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 // foo -> mod.foo
                 import_map.insert(orig.to_id(), (mod_ident.clone(), Some(orig.0.clone())));
 
-                let exported = exported.unwrap_or_else(|| orig.clone());
+                let (export_name, export_name_span) = exported.unwrap_or_else(|| orig.clone());
 
                 // bar -> foo
-                export_obj_prop_list.push((exported, quote_ident!(orig.1, orig.0)).into())
+                export_obj_prop_list.push((
+                    export_name,
+                    ExportItem::new(export_name_span, quote_ident!(orig.1, orig.0)),
+                ))
             }
             LinkSpecifier::ExportDefaultAs(_, key, span) => {
                 *ref_to_mod_ident = true;
@@ -702,20 +710,19 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                 // export { foo };
                 // ```
 
-                let exported = (key.clone(), span);
-
                 // foo -> mod.default
                 import_map.insert(
-                    exported.to_id(),
+                    (key.clone(), span).to_id(),
                     (mod_ident.clone(), Some("default".into())),
                 );
 
-                export_obj_prop_list.push((exported, quote_ident!(span, key)).into())
+                export_obj_prop_list
+                    .push((key.clone(), ExportItem::new(span, quote_ident!(span, key))));
             }
             LinkSpecifier::ExportStarAs(key, span) => {
                 *ref_to_mod_ident = true;
 
-                export_obj_prop_list.push((key, span, mod_ident.clone()).into())
+                export_obj_prop_list.push((key, ExportItem::new(span, mod_ident.clone())));
             }
             LinkSpecifier::ExportStar => {}
             LinkSpecifier::ImportEqual(id) => {
@@ -733,3 +740,22 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
         })
     }
 }
+
+#[derive(Debug)]
+pub struct ExportItem(Span, Ident);
+
+impl ExportItem {
+    pub fn new(export_name_span: Span, local_ident: Ident) -> Self {
+        Self(export_name_span, local_ident)
+    }
+
+    pub fn export_name_span(&self) -> Span {
+        self.0
+    }
+
+    pub fn into_local_ident(self) -> Ident {
+        self.1
+    }
+}
+
+pub type ExportKV = (JsWord, ExportItem);

@@ -20,7 +20,9 @@ use std::{
 
 use rustc_hash::FxHashMap;
 use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashSet, Mark, Span, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    collections::AHashSet, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{
     noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, visit_obj_and_computed,
@@ -3048,6 +3050,108 @@ impl VisitMut for IdentRenamer<'_> {
             _ => {
                 node.visit_mut_children_with(self);
             }
+        }
+    }
+}
+
+pub trait QueryRef {
+    fn query_ref(&self, ident: &Ident) -> Option<Expr>;
+    fn query_lhs(&self, ident: &Ident) -> Option<Expr>;
+    /// when `foo()` is replaced with `bar.baz()`,
+    /// should `bar.baz` be indirect call?
+    fn should_fix_this(&self, ident: &Ident) -> bool;
+}
+
+/// Replace `foo` with `bar` or `bar.baz`
+pub struct RefRewriter<T>
+where
+    T: QueryRef,
+{
+    pub query: T,
+}
+
+impl<T> VisitMut for RefRewriter<T>
+where
+    T: QueryRef,
+{
+    noop_visit_mut_type!();
+
+    /// replace bar in binding pattern
+    /// input:
+    /// ```JavaScript
+    /// const foo = { bar }
+    /// ```
+    /// output:
+    /// ```JavaScript
+    /// cobst foo = { bar: baz }
+    /// ```
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::Shorthand(shorthand) => {
+                if let Some(expr) = self.query.query_ref(shorthand) {
+                    *n = KeyValueProp {
+                        key: shorthand.take().into(),
+                        value: Box::new(expr),
+                    }
+                    .into()
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        match n {
+            Pat::Ident(BindingIdent { id, .. }) => {
+                if let Some(expr) = self.query.query_lhs(id) {
+                    *n = Pat::Expr(Box::new(expr));
+                }
+            }
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        match n {
+            Expr::Ident(ref_ident) => {
+                if let Some(expr) = self.query.query_ref(ref_ident) {
+                    *n = expr;
+                }
+            }
+
+            _ => n.visit_mut_children_with(self),
+        };
+    }
+
+    fn visit_mut_callee(&mut self, n: &mut Callee) {
+        match n {
+            Callee::Expr(e)
+                if e.as_ident()
+                    .map(|ident| self.query.should_fix_this(ident))
+                    .unwrap_or_default() =>
+            {
+                e.visit_mut_with(self);
+
+                if e.is_member() {
+                    *n = n.take().into_indirect()
+                }
+            }
+
+            _ => n.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        let should_fix_this = n
+            .tag
+            .as_ident()
+            .map(|ident| self.query.should_fix_this(ident))
+            .unwrap_or_default();
+
+        n.visit_mut_children_with(self);
+
+        if should_fix_this && n.tag.is_member() {
+            *n = n.take().into_indirect()
         }
     }
 }

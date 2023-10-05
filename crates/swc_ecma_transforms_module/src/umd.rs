@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
+    is_valid_prop_ident, private_ident, quote_ident, quote_str, undefined, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -14,8 +14,9 @@ use self::config::BuiltConfig;
 pub use self::config::Config;
 use crate::{
     module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
-    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
+    module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::{ImportResolver, Resolver},
+    top_level_this::top_level_this,
     util::{
         define_es_module, emit_export_stmts, local_name_for_src, use_strict, ImportInterop,
         VecStmtLike,
@@ -107,12 +108,7 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, module: &mut Module) {
-        let import_interop = self.config.config.import_interop();
-
         let module_items = &mut module.body;
-
-        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
-        module_items.visit_mut_with(&mut strip);
 
         let mut stmts: Vec<Stmt> = Vec::with_capacity(module_items.len() + 4);
 
@@ -129,6 +125,15 @@ where
         if self.config.config.strict_mode && !stmts.has_use_strict() {
             stmts.push(use_strict());
         }
+
+        if !self.config.config.allow_top_level_this {
+            top_level_this(module_items, *undefined(DUMMY_SP));
+        }
+
+        let import_interop = self.config.config.import_interop();
+
+        let mut strip = ModuleDeclStrip::new(self.const_var_kind);
+        module_items.visit_mut_with(&mut strip);
 
         let ModuleDeclStrip {
             link,
@@ -165,11 +170,7 @@ where
             stmts.push(return_stmt.into())
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
-            import_map,
-            Default::default(),
-            self.config.config.allow_top_level_this,
-        ));
+        rewrite_import_bindings(&mut stmts, import_map, Default::default());
 
         // ====================
         //  Emit
@@ -220,7 +221,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
+        let mut export_obj_prop_list = export.into_iter().collect();
 
         link.into_iter().for_each(
             |(src, LinkItem(src_span, link_specifier_set, mut link_flag))| {
@@ -301,7 +302,7 @@ where
         let mut export_stmts = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by_cached_key(|v| v.key().clone());
+            export_obj_prop_list.sort_by_cached_key(|(key, ..)| key.clone());
 
             let exports = self.exports();
 
