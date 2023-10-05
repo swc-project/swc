@@ -367,8 +367,8 @@ impl<'a> Lexer<'a> {
                     self.input.bump();
                 }
                 return Ok(Token::AssignOp(match token {
-                    BitAnd => op!("&&="),
-                    BitOr => op!("||="),
+                    BinOpToken::BitAnd => op!("&&="),
+                    BinOpToken::BitOr => op!("||="),
                     _ => unreachable!(),
                 }));
             }
@@ -416,9 +416,9 @@ impl<'a> Lexer<'a> {
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                Token::BinOp(Mul) => Token::AssignOp(AssignOp::MulAssign),
-                Token::BinOp(Mod) => Token::AssignOp(AssignOp::ModAssign),
-                Token::BinOp(Exp) => Token::AssignOp(AssignOp::ExpAssign),
+                Token::BinOp(BinOpToken::Mul) => Token::AssignOp(AssignOp::MulAssign),
+                Token::BinOp(BinOpToken::Mod) => Token::AssignOp(AssignOp::ModAssign),
+                Token::BinOp(BinOpToken::Exp) => Token::AssignOp(AssignOp::ExpAssign),
                 _ => unreachable!(),
             }
         }
@@ -748,8 +748,8 @@ impl<'a> Lexer<'a> {
         //    ^
         if had_line_break_before_last
             && match op {
-                LShift if self.is_str("<<<<< ") => true,
-                ZeroFillRShift if self.is_str(">>>> ") => true,
+                BinOpToken::LShift if self.is_str("<<<<< ") => true,
+                BinOpToken::ZeroFillRShift if self.is_str(">>>> ") => true,
                 _ => false,
             }
         {

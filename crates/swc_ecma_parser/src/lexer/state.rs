@@ -596,7 +596,7 @@ impl State {
                             Keyword::If | Keyword::With | Keyword::While => {
                                 TokenContext::ParenStmt { is_for_loop: false }
                             }
-                            For => TokenContext::ParenStmt { is_for_loop: true },
+                            Keyword::For => TokenContext::ParenStmt { is_for_loop: true },
                             _ => TokenContext::ParenExpr,
                         },
                         _ => TokenContext::ParenExpr,
