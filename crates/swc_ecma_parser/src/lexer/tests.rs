@@ -34,10 +34,10 @@ trait LineBreak: Into<TokenAndSpan> {
 impl LineBreak for TokenAndSpan {}
 
 trait SpanRange: Sized {
-    fn into_span(self) -> Span;
+    fn into_span(self) -> SmallSpan;
 }
 impl SpanRange for usize {
-    fn into_span(self) -> Span {
+    fn into_span(self) -> SmallSpan {
         Span::new(
             // +1 as bytepos starts at 1
             BytePos((self + 1) as _),
@@ -76,7 +76,7 @@ trait WithSpan: Sized {
             span: span.into_span(),
         }
     }
-    fn into_token(self) -> Token;
+    fn into_token(self) -> TokenKind;
 }
 impl WithSpan for Token {
     fn into_token(self) -> Token {
