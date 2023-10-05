@@ -4,7 +4,9 @@ use swc_common::{ast_node, collections::AHashMap, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{
-    lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList, token::AssignOpToken,
+    lexer::TokenContext,
+    parser::class_and_fn::IsSimpleParameterList,
+    token::{AssignOpToken, TokenKind, WordKind},
 };
 
 mod ops;
@@ -132,8 +134,10 @@ impl<I: Tokens> Parser<I> {
             return self.parse_yield_expr();
         }
 
-        self.state.potential_arrow_start = match *cur!(self, true)? {
-            Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
+        self.state.potential_arrow_start = match cur!(self, true)? {
+            TokenKind::Word(WordKind::Ident(..)) | tok!('(') | tok!("yield") => {
+                Some(cur_pos!(self))
+            }
             _ => None,
         };
 
@@ -158,7 +162,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, finish_assignment_expr);
 
         match cur!(self, false) {
-            Ok(&Token::AssignOp(op)) => {
+            Ok(TokenKind::AssignOp(op)) => {
                 let left = if op == AssignOpToken::Assign {
                     self.reparse_expr_as_pat(PatType::AssignPat, cond)
                         .map(Box::new)
@@ -327,9 +331,9 @@ impl<I: Tokens> Parser<I> {
                 tok!("null")
                 | tok!("true")
                 | tok!("false")
-                | Token::Num { .. }
-                | Token::BigInt { .. }
-                | Token::Str { .. } => {
+                | TokenKind::Num
+                | TokenKind::BigInt
+                | TokenKind::Str => {
                     return Ok(Box::new(Expr::Lit(self.parse_lit()?)));
                 }
 
@@ -339,7 +343,7 @@ impl<I: Tokens> Parser<I> {
 
                     self.input.set_next_regexp(Some(start));
 
-                    if let Some(Token::Regex(..)) = self.input.cur() {
+                    if let Some(TokenKind::Regex) = self.input.cur() {
                         self.input.set_next_regexp(None);
 
                         match bump!(self) {
@@ -825,7 +829,7 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+                let return_type = p.parse_ts_type_or_type_predicate_ann(tok!(':'))?;
 
                 expect!(p, "=>");
 
@@ -865,7 +869,7 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
         {
             self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+                let return_type = p.parse_ts_type_or_type_predicate_ann(tok!(':'))?;
 
                 if !is!(p, "=>") {
                     unexpected!(p, "fail")
@@ -913,7 +917,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: None,
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if let Ok(&Token::BinOp(..)) = cur!(self, false) {
+                if let Ok(TokenKind::BinOp(..)) = cur!(self, false) {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
@@ -1094,8 +1098,8 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
-        let (raw, cooked) = match *cur!(self, true)? {
-            Token::Template { .. } => match bump!(self) {
+        let (raw, cooked) = match cur!(self, true)? {
+            TokenKind::Template => match bump!(self) {
                 Token::Template { raw, cooked, .. } => match cooked {
                     Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
@@ -1578,15 +1582,15 @@ impl<I: Tokens> Parser<I> {
                     Either::Right(r) => Box::new(Box::new(r).into()),
                 }
             }
-            match *cur!(self, true)? {
-                Token::JSXText { .. } => {
+            match cur!(self, true)? {
+                TokenKind::JSXText => {
                     return self
                         .parse_jsx_text()
                         .map(Lit::JSXText)
                         .map(Expr::Lit)
                         .map(Box::new);
                 }
-                Token::JSXTagStart => {
+                TokenKind::JSXTagStart => {
                     return self.parse_jsx_element().map(into_expr);
                 }
                 _ => {}
@@ -1642,7 +1646,7 @@ impl<I: Tokens> Parser<I> {
             }
             debug_assert_ne!(
                 cur!(self, false).ok(),
-                Some(&tok!('(')),
+                Some(tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
             );
             return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
@@ -1724,7 +1728,7 @@ impl<I: Tokens> Parser<I> {
             let is_async = is!(self, "async")
                 && matches!(
                     peek!(self),
-                    Ok(tok!('(') | tok!("function") | Token::Word(..))
+                    Ok(tok!('(') | tok!("function") | TokenKind::Word(..))
                 );
 
             let start = cur_pos!(self);
@@ -1751,7 +1755,7 @@ impl<I: Tokens> Parser<I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        if let Ok(&Token::AssignOp(..)) = cur!(self, false) {
+                        if let Ok(TokenKind::AssignOp(..)) = cur!(self, false) {
                             expr = self.finish_assignment_expr(start, expr)?
                         }
 
@@ -1990,7 +1994,10 @@ impl<I: Tokens> Parser<I> {
             || (!is!(self, '*')
                 && !is!(self, '/')
                 && !is!(self, "/=")
-                && !cur!(self, false).map(Token::starts_expr).unwrap_or(true))
+                && !cur!(self, false)
+                    .as_ref()
+                    .map(TokenKind::starts_expr)
+                    .unwrap_or(true))
         {
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(self, start),
@@ -2038,19 +2045,19 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let v = match cur!(self, true)? {
-            Word(Word::Null) => {
+            TokenKind::Word(WordKind::Null) => {
                 bump!(self);
                 let span = span!(self, start);
                 Lit::Null(Null { span })
             }
-            Word(Word::True) | Word(Word::False) => {
+            TokenKind::Word(WordKind::True) | TokenKind::Word(WordKind::False) => {
                 let value = is!(self, "true");
                 bump!(self);
                 let span = span!(self, start);
 
                 Lit::Bool(Bool { span, value })
             }
-            Token::Str { .. } => match bump!(self) {
+            TokenKind::Str => match bump!(self) {
                 Token::Str { value, raw } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
@@ -2058,7 +2065,7 @@ impl<I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::Num { .. } => match bump!(self) {
+            TokenKind::Num => match bump!(self) {
                 Token::Num { value, raw } => Lit::Num(Number {
                     span: span!(self, start),
                     value,
@@ -2066,7 +2073,7 @@ impl<I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::BigInt { .. } => match bump!(self) {
+            TokenKind::BigInt => match bump!(self) {
                 Token::BigInt { value, raw } => Lit::BigInt(BigInt {
                     span: span!(self, start),
                     value,
