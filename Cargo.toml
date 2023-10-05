@@ -1,5 +1,6 @@
 [workspace]
 members = [
+  "xtask",
   "crates/swc_core",
   "crates/swc_cli_impl",
   "crates/dbg-swc",
