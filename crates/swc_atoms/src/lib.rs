@@ -17,6 +17,8 @@ use std::{
 use serde::Serializer;
 use tendril::{fmt::UTF8, Atomic, Tendril};
 
+pub use self::Atom as JsWord;
+
 /// Clone-on-write string.
 ///
 ///
