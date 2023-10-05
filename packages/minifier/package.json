@@ -58,7 +58,7 @@
     },
     "packageManager": "yarn@3.5.0",
     "dependencies": {
-        "@swc/counter": "^0.1.1",
+        "@swc/counter": "workspace:^",
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
