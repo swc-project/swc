@@ -769,7 +769,7 @@ macro_rules! define_known_ident {
         macro_rules! known_ident {
             $(
                 ($value) => {
-                    $crate::token::IdentKind::Known($crate::token::KnownIdent::$name),
+                    $crate::token::KnownIdent::$name
                 };
             )*
         }
