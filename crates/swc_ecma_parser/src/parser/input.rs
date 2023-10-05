@@ -1,7 +1,7 @@
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
 
 use lexer::TokenContexts;
-use swc_common::{BytePos, Span};
+use swc_common::{BytePos, Span, Spanned};
 
 use super::Parser;
 use crate::{
@@ -62,7 +62,7 @@ pub struct TokensInput {
 
 impl TokensInput {
     pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
-        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos(0));
+        let start_pos = tokens.first().map(|t| t.span.0).unwrap_or(BytePos(0));
 
         TokensInput {
             iter: tokens.into_iter(),
@@ -185,7 +185,7 @@ impl<I: Tokens> Iterator for Capturing<I> {
 
                 // remove tokens that could change due to backtracing
                 while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
+                    if last.span.0 >= ts.span.0 {
                         v.pop();
                     } else {
                         break;
@@ -260,7 +260,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
 pub(super) struct Buffer<I: Tokens> {
     iter: I,
     /// Span of the previous token.
-    prev_span: Span,
+    prev_span: SmallSpan,
     cur: Option<TokenAndSpan>,
     /// Peeked token
     next: Option<TokenAndSpan>,
@@ -287,7 +287,7 @@ impl<I: Tokens> Buffer<I> {
         }
     }
 
-    pub fn store(&mut self, token: Token) {
+    pub fn store(&mut self, token: TokenKind) {
         debug_assert!(self.next.is_none());
         debug_assert!(self.cur.is_none());
         let span = self.prev_span;
@@ -303,7 +303,7 @@ impl<I: Tokens> Buffer<I> {
     fn bump_inner(&mut self) {
         let prev = self.cur.take();
         self.prev_span = match prev {
-            Some(TokenAndSpan { span, .. }) => span,
+            Some(v) => v.span(),
             _ => self.prev_span,
         };
 
@@ -312,8 +312,8 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[allow(dead_code)]
-    pub fn cur_debug(&self) -> Option<&Token> {
-        self.cur.as_ref().map(|it| &it.token)
+    pub fn cur_debug(&self) -> Option<TokenKind> {
+        self.cur.as_ref().map(|it| it.token)
     }
 
     #[cold]
@@ -340,7 +340,7 @@ impl<I: Tokens> Buffer<I> {
             Some(t) => t,
             None => invalid_state(),
         };
-        self.prev_span = prev.span;
+        self.prev_span = prev.span();
 
         prev.token
     }
@@ -349,7 +349,7 @@ impl<I: Tokens> Buffer<I> {
         self.cur.is_some()
     }
 
-    pub fn peek(&mut self) -> Option<&Token> {
+    pub fn peek(&mut self) -> Option<TokenKind> {
         debug_assert!(
             self.cur.is_some(),
             "parser should not call peek() without knowing current token"
@@ -359,7 +359,7 @@ impl<I: Tokens> Buffer<I> {
             self.next = self.iter.next();
         }
 
-        self.next.as_ref().map(|ts| &ts.token)
+        self.next.as_ref().map(|ts| ts.token)
     }
 
     /// Returns true on eof.
@@ -386,27 +386,27 @@ impl<I: Tokens> Buffer<I> {
 
     /// Get current token. Returns `None` only on eof.
     #[inline]
-    pub fn cur(&mut self) -> Option<&Token> {
+    pub fn cur(&mut self) -> Option<TokenKind> {
         if self.cur.is_none() {
             self.bump_inner();
         }
 
         match &self.cur {
-            Some(v) => Some(&v.token),
+            Some(v) => Some(v.token),
             None => None,
         }
     }
 
     #[inline]
-    pub fn is(&mut self, expected: &Token) -> bool {
+    pub fn is(&mut self, expected: TokenKind) -> bool {
         match self.cur() {
-            Some(t) => *expected == *t,
+            Some(t) => expected == t,
             _ => false,
         }
     }
 
     #[inline]
-    pub fn eat(&mut self, expected: &Token) -> bool {
+    pub fn eat(&mut self, expected: TokenKind) -> bool {
         let v = self.is(expected);
         if v {
             self.bump();
@@ -420,7 +420,7 @@ impl<I: Tokens> Buffer<I> {
         let _ = self.cur();
         self.cur
             .as_ref()
-            .map(|item| item.span.lo)
+            .map(|item| item.span.0)
             .unwrap_or_else(|| {
                 // eof
                 self.last_pos()
@@ -432,7 +432,7 @@ impl<I: Tokens> Buffer<I> {
         let data = self
             .cur
             .as_ref()
-            .map(|item| item.span)
+            .map(|item| item.span())
             .unwrap_or(self.prev_span);
 
         Span::new(data.lo, data.hi, data.ctxt)
