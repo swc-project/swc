@@ -1098,10 +1098,10 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
-                        return Ok(Token::Str {
-                            value: (&**out).into(),
-                            raw: l.atoms.borrow_mut().intern(raw),
-                        });
+                        l.token_str = (&**out).into();
+                        l.token_raw = raw;
+
+                        return Ok(TokenKind::Str);
                     }
                     '\\' => {
                         raw.push(c);
@@ -1132,10 +1132,9 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            Ok(Token::Str {
-                value: (&**out).into(),
-                raw: l.atoms.borrow_mut().intern(raw),
-            })
+            l.token_str = (&**out).into();
+            l.token_raw = raw;
+            Ok(TokenKind::Str)
         })
     }
 

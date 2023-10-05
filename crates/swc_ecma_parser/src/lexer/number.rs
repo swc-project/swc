@@ -265,11 +265,6 @@ impl<'a> Lexer<'a> {
 
             if l.eat(b'n') {
                 buf.push('n');
-
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    l.atoms.borrow_mut().intern(&**buf),
-                )));
             }
 
             l.ensure_not_ident()?;
