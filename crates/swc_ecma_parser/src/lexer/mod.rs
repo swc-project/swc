@@ -705,31 +705,39 @@ impl<'a> Lexer<'a> {
             return self.read_token();
         }
 
-        let mut op = if c == '<' { Lt } else { Gt };
+        let mut op = if c == '<' {
+            BinOpToken::Lt
+        } else {
+            BinOpToken::Gt
+        };
 
         // '<<', '>>'
         if self.cur() == Some(c) {
             self.bump();
-            op = if c == '<' { LShift } else { RShift };
+            op = if c == '<' {
+                BinOpToken::LShift
+            } else {
+                BinOpToken::RShift
+            };
 
             //'>>>'
             if c == '>' && self.cur() == Some(c) {
                 self.bump();
-                op = ZeroFillRShift;
+                op = BinOpToken::ZeroFillRShift;
             }
         }
 
         let token = if self.eat(b'=') {
             match op {
-                Lt => Token::BinOp(LtEq),
-                Gt => Token::BinOp(GtEq),
-                LShift => Token::AssignOp(AssignOp::LShiftAssign),
-                RShift => Token::AssignOp(AssignOp::RShiftAssign),
-                ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
+                BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
+                BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),
+                BinOpToken::LShift => Token::AssignOp(AssignOp::LShiftAssign),
+                BinOpToken::RShift => Token::AssignOp(AssignOp::RShiftAssign),
+                BinOpToken::ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
                 _ => unreachable!(),
             }
         } else {
-            BinOp(op)
+            Token::BinOp(op)
         };
 
         // All conflict markers consist of the same character repeated seven times.
@@ -1174,7 +1182,7 @@ impl<'a> Lexer<'a> {
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Regex(content, flags))
+        Ok(Token::Regex(content, flags))
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
@@ -1211,7 +1219,7 @@ impl<'a> Lexer<'a> {
                 }
 
                 // TODO: Handle error
-                return Ok(Template {
+                return Ok(Token::Template {
                     cooked: cooked.map(Atom::from),
                     raw: Atom::new(&*raw),
                 });

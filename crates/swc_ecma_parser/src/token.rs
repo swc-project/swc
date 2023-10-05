@@ -398,7 +398,7 @@ impl BinOpToken {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
-    pub token: TokenKind,
+    pub token: Token,
     /// Had a line break before this token?
     pub had_line_break: bool,
     pub span: Span,
