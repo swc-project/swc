@@ -550,7 +550,7 @@ mod tests {
         .unwrap()
     }
 
-    fn num(s: &'static str) -> (f64, Atom) {
+    fn num(s: &'static str) -> (f64, String) {
         lex(s, |l| {
             l.read_number(s.starts_with('.')).unwrap().left().unwrap()
         })
