@@ -38,6 +38,24 @@ impl BenchCmd {
     }
 
     fn build_cmd(&self) -> Result<Command> {
-        if self.instrument {}
+        let mut cmd = if self.instrument {
+            // ddt profile instruments cargo -t time
+            let mut cmd = Command::new("ddt");
+            cmd.arg("profile").arg("instruments").arg("cargo");
+            cmd.arg("-t").arg("time");
+
+            if !self.debug {
+                cmd.arg("--release");
+            }
+        } else {
+            let mut cmd = Command::new("cargo");
+            cmd.arg("bench");
+
+            if self.debug {
+                cmd.arg("--debug");
+            }
+
+            cmd
+        };
     }
 }
