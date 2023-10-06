@@ -17,6 +17,7 @@ pub(crate) mod module_ref_rewriter;
 pub mod path;
 pub mod rewriter;
 pub mod system_js;
+mod top_level_this;
 pub mod umd;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
