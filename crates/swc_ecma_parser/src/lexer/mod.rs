@@ -22,8 +22,7 @@ pub use self::{
 use crate::{
     error::{Error, SyntaxError},
     lexer::state::ContentTagState,
-    token::*,
-    token::{BinOpToken, Token, Word},
+    token::{BinOpToken, Token, Word, *},
     Context, Syntax,
 };
 
