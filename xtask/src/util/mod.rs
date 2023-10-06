@@ -1,7 +1,7 @@
 use std::{
     env,
     path::{Path, PathBuf},
-    process::Command,
+    process::{Command, Stdio},
 };
 
 use anyhow::{Context, Result};
@@ -13,6 +13,7 @@ pub fn repository_root() -> Result<PathBuf> {
 
 pub fn run_cmd(cmd: &mut Command) -> Result<()> {
     eprintln!("Running {:?}", *cmd);
+    cmd.stdin(Stdio::inherit());
 
     let status = cmd.status()?;
 
