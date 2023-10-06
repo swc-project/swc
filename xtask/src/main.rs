@@ -1,8 +1,9 @@
 use anyhow::Result;
 use clap::{Parser, Subcommand};
 
-use crate::es::EsCmd;
+use crate::{clean::CleanCmd, es::EsCmd};
 
+mod clean;
 mod es;
 
 #[derive(Debug, Parser)]
@@ -14,6 +15,7 @@ struct CliArgs {
 #[derive(Debug, Subcommand)]
 enum Cmd {
     Es(EsCmd),
+    Clean(CleanCmd),
 }
 
 fn main() -> Result<()> {
@@ -21,5 +23,6 @@ fn main() -> Result<()> {
 
     match args.cmd {
         Cmd::Es(es) => es.run(),
+        Cmd::Clean(es) => es.run(),
     }
 }
