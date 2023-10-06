@@ -57,5 +57,21 @@ impl BenchCmd {
 
             cmd
         };
+
+        if self.benches {
+            cmd.arg("--benches");
+        }
+
+        if let Some(b) = &self.bench {
+            cmd.arg("--bench").arg(b);
+        }
+
+        if self.instrument {
+            cmd.arg("--").arg("--bench").args(&self.args);
+        } else {
+            cmd.arg("--").args(&self.args);
+        }
+
+        cmd
     }
 }
