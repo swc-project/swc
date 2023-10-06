@@ -5861,9 +5861,9 @@ checksum = "9d5b2c62b4012a3e1eca5a7e077d13b3bf498c4073e33ccd58626607748ceeca"
 
 [[package]]
 name = "walkdir"
-version = "2.3.3"
+version = "2.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "36df944cda56c7d8d8b7496af378e6b16de9284591917d307c9b4d313c44e698"
+checksum = "d71d857dc86794ca4c280d616f7da00d2dbfd8cd788846559a6813e6aa4b54ee"
 dependencies = [
  "same-file",
  "winapi-util",
@@ -6530,12 +6530,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "workdir"
-version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5614321163c0ece375e5839a617a0c2413b4abfd3f12d6d4b9fb151bf4017c79"
-
-[[package]]
 name = "wyz"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6550,7 +6544,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap 4.4.6",
- "workdir",
+ "walkdir",
 ]
 
 [[package]]
