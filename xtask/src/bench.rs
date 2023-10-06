@@ -4,7 +4,7 @@ use anyhow::Result;
 use clap::Args;
 use walkdir::WalkDir;
 
-use crate::util::repository_root;
+use crate::util::{repository_root, run_cmd};
 
 /// Run one or more benchmarks
 #[derive(Debug, Args)]
@@ -34,7 +34,9 @@ pub(super) struct BenchCmd {
 
 impl BenchCmd {
     pub fn run(self) -> Result<()> {
-        Ok(())
+        let mut cmd = self.build_cmd()?;
+
+        run_cmd(&mut cmd)
     }
 
     fn build_cmd(&self) -> Result<Command> {
@@ -47,6 +49,7 @@ impl BenchCmd {
             if !self.debug {
                 cmd.arg("--release");
             }
+            cmd
         } else {
             let mut cmd = Command::new("cargo");
             cmd.arg("bench");
@@ -72,6 +75,6 @@ impl BenchCmd {
             cmd.arg("--").args(&self.args);
         }
 
-        cmd
+        Ok(cmd)
     }
 }
