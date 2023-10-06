@@ -26,10 +26,10 @@ swc_common = { version = "0.32.2", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "0.109.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.145.6", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.145.7", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.140.1", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "0.21.2", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "0.133.8", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "0.133.9", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "0.123.3", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.95.2", path = "../swc_ecma_visit" }
 testing = { version = "0.34.2", path = "../testing" }
