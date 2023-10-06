@@ -5,6 +5,7 @@ use crate::{clean::CleanCmd, es::EsCmd};
 
 mod clean;
 mod es;
+mod util;
 
 #[derive(Debug, Parser)]
 struct CliArgs {

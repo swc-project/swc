@@ -4,13 +4,15 @@ use anyhow::Result;
 use clap::Args;
 use walkdir::WalkDir;
 
+use crate::util::repository_root;
+
 /// Clean cargo target directories
 #[derive(Debug, Args)]
 pub(super) struct CleanCmd {}
 
 impl CleanCmd {
     pub fn run(self) -> Result<()> {
-        let root_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+        let root_dir = repository_root()?;
 
         run_cargo_clean(&root_dir.join("bindings"))?;
 
@@ -27,7 +29,7 @@ impl CleanCmd {
         }
 
         // This should be last due to `xtask` itself
-        run_cargo_clean(root_dir)?;
+        run_cargo_clean(&root_dir)?;
 
         Ok(())
     }
