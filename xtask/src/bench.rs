@@ -61,6 +61,8 @@ impl BenchCmd {
             cmd
         };
 
+        cmd.arg("--package").arg(&self.package);
+
         if self.benches {
             cmd.arg("--benches");
         }
