@@ -6,11 +6,12 @@
 
 use either::Either;
 use swc_common::input::Input;
+use swc_ecma_ast::AssignOp;
 
 use super::{pos_span, util::CharExt, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    token::{AssignOpToken, BinOpToken, Token},
+    token::{BinOpToken, Token},
 };
 
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
@@ -147,7 +148,7 @@ const CRT: ByteHandler = Some(|lexer| {
     lexer.input.bump_bytes(1);
     Ok(Some(if lexer.input.cur_as_ascii() == Some(b'=') {
         lexer.input.bump_bytes(1);
-        Token::AssignOp(AssignOpToken::BitXorAssign)
+        Token::AssignOp(AssignOp::BitXorAssign)
     } else {
         Token::BinOp(BinOpToken::BitXor)
     }))
