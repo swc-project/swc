@@ -16,15 +16,15 @@ impl CleanCmd {
 
         run_cargo_clean(&root_dir.join("bindings"))?;
 
-        for dir in WalkDir::new(
+        for entry in WalkDir::new(
             root_dir
                 .join("crates")
                 .join("swc_plugin_runner")
                 .join("tests"),
         ) {
-            let dir = dir?;
-            if dir.file_name().to_string_lossy().starts_with("target") {
-                run_cargo_clean(dir.path())?;
+            let entry = entry?;
+            if entry.file_name().to_string_lossy() == "Cargo.tomm" {
+                run_cargo_clean(entry.path().parent().unwrap())?;
             }
         }
 
