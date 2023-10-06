@@ -184,6 +184,10 @@ pub enum TokenKind {
     JSXTagStart,
     JSXTagEnd,
 
+    ContentTagStart,
+    ContentTagContent,
+    ContentTagEnd,
+
     Shebang,
     Error,
 }
@@ -290,7 +294,7 @@ pub enum Token {
 
     ContentTagStart,
     ContentTagContent {
-        value: JsWord,
+        value: Atom,
     },
     ContentTagEnd,
 }
@@ -330,6 +334,9 @@ impl Token {
             Self::JSXText { .. } => TokenKind::JSXText,
             Self::JSXTagStart => TokenKind::JSXTagStart,
             Self::JSXTagEnd => TokenKind::JSXTagEnd,
+            Self::ContentTagStart => TokenKind::ContentTagStart,
+            Self::ContentTagContent { .. } => TokenKind::ContentTagContent,
+            Self::ContentTagEnd => TokenKind::ContentTagEnd,
             Self::Shebang(..) => TokenKind::Shebang,
             Self::Error(..) => TokenKind::Error,
             Self::Word(w) => TokenKind::Word(w.kind()),
