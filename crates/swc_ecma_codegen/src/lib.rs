@@ -240,6 +240,12 @@ where
         srcmap!(n, true);
 
         keyword!("import");
+
+        if n.type_only {
+            space!();
+            keyword!("type");
+        }
+
         let starts_with_ident = !n.specifiers.is_empty()
             && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
@@ -327,6 +333,11 @@ where
     #[emitter]
     fn emit_import_specific(&mut self, node: &ImportNamedSpecifier) -> Result {
         srcmap!(node, true);
+
+        if node.is_type_only {
+            keyword!("type");
+            space!();
+        }
 
         if let Some(ref imported) = node.imported {
             emit!(imported);

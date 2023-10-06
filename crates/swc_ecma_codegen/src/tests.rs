@@ -892,6 +892,57 @@ export default {
     );
 }
 
+#[test]
+fn emit_type_import_statement_named() {
+    let from = r#"
+      import type { X } from "y";
+    "#;
+    let to = r#"
+      import type { X } from "y";
+    "#;
+
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::Typescript(Default::default()),
+    );
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+}
+
+#[test]
+fn emit_type_import_statement_default() {
+    let from = r#"
+      import type X from "y";
+    "#;
+    let to = r#"
+      import type X from "y";
+    "#;
+
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::Typescript(Default::default()),
+    );
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+}
+
+#[test]
+fn emit_type_import_specifier() {
+    let from = r#"
+      import { type X } from "y";
+    "#;
+    let to = r#"
+      import { type X } from "y";
+    "#;
+
+    let out = parse_then_emit(
+        from,
+        Default::default(),
+        Syntax::Typescript(Default::default()),
+    );
+    assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
+}
+
 #[testing::fixture("tests/str-lits/**/*.txt")]
 fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
