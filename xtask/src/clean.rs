@@ -36,10 +36,13 @@ impl CleanCmd {
 }
 
 fn run_cargo_clean(dir: &Path) -> Result<()> {
-    let status = std::process::Command::new("cargo")
+    let mut cmd = std::process::Command::new("cargo")
         .arg("clean")
-        .current_dir(dir)
-        .status()?;
+        .current_dir(dir);
+
+    eprintln!("Running {:?}", cmd);
+
+    let status = cmd.status()?;
 
     if !status.success() {
         anyhow::bail!("Failed to run cargo clean");
