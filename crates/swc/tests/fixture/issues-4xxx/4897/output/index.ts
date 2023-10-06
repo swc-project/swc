@@ -22,6 +22,6 @@ define([
     }
     var Foo;
     (function(Foo) {
-        var Bar = Foo.Bar = 1234;
+        Foo.Bar = 1234;
     })(Foo || (Foo = {}));
 });

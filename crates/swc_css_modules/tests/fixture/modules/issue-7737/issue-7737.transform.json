@@ -1,0 +1,86 @@
+{
+  "chain2": [
+    {
+      "type": "local",
+      "name": "__local__chain2"
+    },
+    {
+      "type": "global",
+      "name": "e"
+    },
+    {
+      "type": "import",
+      "name": "f",
+      "from": "./f.css"
+    }
+  ],
+  "chain1": [
+    {
+      "type": "local",
+      "name": "__local__chain1"
+    },
+    {
+      "type": "local",
+      "name": "__local__chain2"
+    },
+    {
+      "type": "global",
+      "name": "c"
+    },
+    {
+      "type": "import",
+      "name": "d",
+      "from": "./d.css"
+    },
+    {
+      "type": "global",
+      "name": "e"
+    },
+    {
+      "type": "import",
+      "name": "f",
+      "from": "./f.css"
+    }
+  ],
+  "root-class": [
+    {
+      "type": "local",
+      "name": "__local__root-class"
+    },
+    {
+      "type": "local",
+      "name": "__local__chain1"
+    },
+    {
+      "type": "global",
+      "name": "a"
+    },
+    {
+      "type": "import",
+      "name": "b",
+      "from": "./b.css"
+    },
+    {
+      "type": "local",
+      "name": "__local__chain2"
+    },
+    {
+      "type": "global",
+      "name": "c"
+    },
+    {
+      "type": "import",
+      "name": "d",
+      "from": "./d.css"
+    },
+    {
+      "type": "global",
+      "name": "e"
+    },
+    {
+      "type": "import",
+      "name": "f",
+      "from": "./f.css"
+    }
+  ]
+}

@@ -12,11 +12,11 @@ _export(exports, {
     Foo: function() {
         return Foo;
     },
-    foo: function() {
-        return foo;
-    },
     default: function() {
         return _default;
+    },
+    foo: function() {
+        return foo;
     }
 });
 class Foo {

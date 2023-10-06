@@ -24,7 +24,7 @@ target/
 
 .DS_Store
 
-node_modules/
+/node_modules/
 
 # Flamegraph
 *.html
@@ -42,7 +42,6 @@ package-lock.json
 .COVERAGE_DIR
 
 **/*~
-**/node_modules
 **/.DS_Store
 
 pkg/

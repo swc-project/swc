@@ -8,7 +8,7 @@ import { Transaction } from "@solana/web3.js";
 import { WalletNotConnectedError } from "@solana/wallet-adapter-base";
 export var getErrorForTransaction = function() {
     var _ref = _async_to_generator(function(connection, txid) {
-        var _tx, tx, errors;
+        var tx, errors;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -26,7 +26,7 @@ export var getErrorForTransaction = function() {
                 case 2:
                     tx = _state.sent();
                     errors = [];
-                    if (((_tx = tx) === null || _tx === void 0 ? void 0 : _tx.meta) && tx.meta.logMessages) {
+                    if ((tx === null || tx === void 0 ? void 0 : tx.meta) && tx.meta.logMessages) {
                         tx.meta.logMessages.forEach(function(log) {
                             var regex = /Error: (.*)/gm;
                             var m;
@@ -120,7 +120,7 @@ function _sendTransactionsWithManualRetry() {
                 case 4:
                     return [
                         4,
-                        sendTransactions(connection, wallet, instructions, filteredSigners, SequenceType.StopOnFailure, "single")
+                        sendTransactions(connection, wallet, instructions, filteredSigners, 2, "single")
                     ];
                 case 5:
                     txs = _state.sent().txs;
@@ -196,7 +196,7 @@ export var sendTransactions = function() {
                                         connection: connection,
                                         signedTransaction: signedTxns[i1]
                                     });
-                                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                                    if (!(sequenceType !== 1)) return [
                                         3,
                                         7
                                     ];
@@ -227,7 +227,7 @@ export var sendTransactions = function() {
                                     console.log("Failed at txn index:", i1);
                                     console.log("Caught failure:", e);
                                     failCallback(signedTxns[i1], i1);
-                                    if (!(sequenceType === SequenceType.StopOnFailure)) return [
+                                    if (!(sequenceType === 2)) return [
                                         3,
                                         5
                                     ];
@@ -264,7 +264,7 @@ export var sendTransactions = function() {
                             }
                         });
                     };
-                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : SequenceType.Parallel, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
+                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : 1, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
                         return false;
                     }, block = _arguments.length > 8 ? _arguments[8] : void 0, beforeTransactions = _arguments.length > 9 && _arguments[9] !== void 0 ? _arguments[9] : [], afterTransactions = _arguments.length > 10 && _arguments[10] !== void 0 ? _arguments[10] : [];
                     if (!wallet.publicKey) throw new WalletNotConnectedError();
@@ -327,7 +327,7 @@ export var sendTransactions = function() {
                         4
                     ];
                 case 7:
-                    if (!(sequenceType !== SequenceType.Parallel)) return [
+                    if (!(sequenceType !== 1)) return [
                         3,
                         9
                     ];
@@ -366,7 +366,7 @@ export var sendTransactions = function() {
 }();
 export var sendTransaction = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructions, signers) {
-        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, _confirmation, _confirmation1, confirmation, errors;
+        var awaitConfirmation, commitment, includesFeePayer, block, transaction, _tmp, _transaction, _transaction1, _transaction2, rawTransaction, options, txid, slot, confirmation, errors;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
@@ -454,8 +454,8 @@ export var sendTransaction = function() {
                 case 7:
                     confirmation = _state.sent();
                     if (!confirmation) throw new Error("Timed out awaiting confirmation on transaction");
-                    slot = ((_confirmation = confirmation) === null || _confirmation === void 0 ? void 0 : _confirmation.slot) || 0;
-                    if (!((_confirmation1 = confirmation) === null || _confirmation1 === void 0 ? void 0 : _confirmation1.err)) return [
+                    slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
+                    if (!(confirmation === null || confirmation === void 0 ? void 0 : confirmation.err)) return [
                         3,
                         9
                     ];
@@ -574,7 +574,7 @@ export function sendSignedTransaction(_) {
 }
 function _sendSignedTransaction() {
     _sendSignedTransaction = _async_to_generator(function(param) {
-        var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, _confirmation, confirmation, err, simulateResult, e, i, line;
+        var signedTransaction, connection, _param_timeout, timeout, rawTransaction, startTime, slot, txid, done, confirmation, err, simulateResult, e, i, line;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -639,7 +639,7 @@ function _sendSignedTransaction() {
                         console.error(confirmation.err);
                         throw new Error("Transaction failed: Custom instruction error");
                     }
-                    slot = ((_confirmation = confirmation) === null || _confirmation === void 0 ? void 0 : _confirmation.slot) || 0;
+                    slot = (confirmation === null || confirmation === void 0 ? void 0 : confirmation.slot) || 0;
                     return [
                         3,
                         10
@@ -728,6 +728,7 @@ function _simulateTransaction() {
                     // @ts-ignore
                     transaction.recentBlockhash = _state.sent();
                     signData = transaction.serializeMessage();
+                    // @ts-ignore
                     wireTransaction = transaction._serialize(signData);
                     encodedTransaction = wireTransaction.toString("base64");
                     config = {

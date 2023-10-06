@@ -26,16 +26,16 @@ t1 = [
     f2
 ];
 t2 = [
-    E1.one,
-    E2.two
+    0,
+    0
 ];
 t3 = [
     5,
     undefined
 ];
 t4 = [
-    E1.one,
-    E2.two,
+    0,
+    0,
     20
 ];
 var e1 = t1[2]; // {}

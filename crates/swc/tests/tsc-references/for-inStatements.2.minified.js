@@ -38,4 +38,4 @@ for(var x in (M || (M = {})).X = function X() {
 }, M);
 for(var x in M.X);
 for(var x in (Color1 = Color || (Color = {}))[Color1.Red = 0] = "Red", Color1[Color1.Blue = 1] = "Blue", Color);
-for(var x in Color.Blue);
+for(var x in 1);

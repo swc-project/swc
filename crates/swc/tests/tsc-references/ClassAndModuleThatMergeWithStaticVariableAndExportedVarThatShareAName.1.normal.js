@@ -6,14 +6,12 @@ var Point = function Point(x, y) {
     this.x = x;
     this.y = y;
 };
-(function() {
-    Point.Origin = {
-        x: 0,
-        y: 0
-    };
-})();
+Point.Origin = {
+    x: 0,
+    y: 0
+};
 (function(Point) {
-    var Origin = Point.Origin = "";
+    Point.Origin = ""; //expected duplicate identifier error
 })(Point || (Point = {}));
 var A;
 (function(A) {
@@ -23,14 +21,12 @@ var A;
         this.x = x;
         this.y = y;
     };
-    (function() {
-        Point.Origin = {
-            x: 0,
-            y: 0
-        };
-    })();
+    Point.Origin = {
+        x: 0,
+        y: 0
+    };
     A.Point = Point;
     (function(Point) {
-        var Origin = Point.Origin = "";
+        Point.Origin = ""; //expected duplicate identifier error
     })(Point = A.Point || (A.Point = {}));
 })(A || (A = {}));

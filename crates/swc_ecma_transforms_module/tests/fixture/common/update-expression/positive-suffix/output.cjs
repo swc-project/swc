@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    diffLevel: function() {
-        return diffLevel;
-    },
     diff: function() {
         return diff;
+    },
+    diffLevel: function() {
+        return diffLevel;
     }
 });
 let diffLevel = 0;

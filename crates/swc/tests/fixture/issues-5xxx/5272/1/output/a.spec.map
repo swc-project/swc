@@ -1,0 +1,20 @@
+{
+  "mappings": ";;;iBAAoB;AAEpBA,SAAS,KAAK;IACVC,GAAG,kBAAkB;QACjB,IAAMC,IAAI,IAAIC,MAAG;QACjBC,OAAOF,EAAEG,GAAG,IAAIC,IAAI,CAAC;QACrBF,OAAOF,EAAEK,GAAG,IAAID,IAAI,CAAC;IACzB;AACJ",
+  "names": [
+    "describe",
+    "it",
+    "a",
+    "Foo",
+    "expect",
+    "bar",
+    "toBe",
+    "foo"
+  ],
+  "sources": [
+    "../../input/source/a/a.spec.ts"
+  ],
+  "sourcesContent": [
+    "import { Foo } from \"./a\";\n\ndescribe(\"a\", () => {\n    it(\"does its thing\", () => {\n        const a = new Foo();\n        expect(a.bar()).toBe(3);\n        expect(a.foo()).toBe(2);\n    });\n});"
+  ],
+  "version": 3
+}

@@ -5,6 +5,7 @@ use swc_ecma_ast::EsVersion;
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
+#[non_exhaustive]
 pub struct Config {
     /// The target runtime environment.
     ///
@@ -32,6 +33,9 @@ pub struct Config {
     /// Defaults to `false`.
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub omit_last_semi: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub emit_assert_for_import_attributes: bool,
 }
 
 impl Default for Config {
@@ -41,6 +45,37 @@ impl Default for Config {
             minify: false,
             ascii_only: false,
             omit_last_semi: false,
+            emit_assert_for_import_attributes: false,
         }
+    }
+}
+
+impl Config {
+    pub fn with_target(mut self, target: EsVersion) -> Self {
+        self.target = target;
+        self
+    }
+
+    pub fn with_minify(mut self, minify: bool) -> Self {
+        self.minify = minify;
+        self
+    }
+
+    pub fn with_ascii_only(mut self, ascii_only: bool) -> Self {
+        self.ascii_only = ascii_only;
+        self
+    }
+
+    pub fn with_omit_last_semi(mut self, omit_last_semi: bool) -> Self {
+        self.omit_last_semi = omit_last_semi;
+        self
+    }
+
+    pub fn with_emit_assert_for_import_attributes(
+        mut self,
+        emit_assert_for_import_attributes: bool,
+    ) -> Self {
+        self.emit_assert_for_import_attributes = emit_assert_for_import_attributes;
+        self
     }
 }

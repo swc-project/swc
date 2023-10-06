@@ -29,8 +29,10 @@ impl Config {
                 .into_iter()
                 .map(|(k, v)| {
                     let parse = |s| {
-                        let fm = cm
-                            .new_source_file(FileName::Custom(format!("<umd-config-{}.js>", s)), s);
+                        let fm = cm.new_source_file(
+                            FileName::Internal(format!("<umd-config-{}.js>", s)),
+                            s,
+                        );
 
                         parse_file_as_expr(
                             &fm,

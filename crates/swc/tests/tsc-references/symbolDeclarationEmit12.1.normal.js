@@ -13,8 +13,6 @@ let prop;
         }
         set [_Symbol_toPrimitive2](x) {}
     }
-    (()=>{
-        prop = Symbol.iterator;
-    })();
+    prop = Symbol.iterator;
     M.C = C;
 })(M || (M = {}));

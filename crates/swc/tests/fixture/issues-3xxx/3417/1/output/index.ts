@@ -1,9 +1,9 @@
 export function selectRooms(building) {
-    var getRoomFloorMaterial = function getRoomFloorMaterial(_) {
-        return null;
-    };
     var roomsByRow = {};
     var rooms = building.rooms, walls = building.walls, levels = building.levels, roomsByLevel = building.roomsByLevel;
+    function getRoomFloorMaterial(_) {
+        return null;
+    }
     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
     try {
         var _loop = function() {

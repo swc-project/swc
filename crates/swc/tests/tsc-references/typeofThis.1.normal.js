@@ -42,13 +42,13 @@ var Test5 = function Test5() {
 };
 var Test6;
 (function(Test6) {
-    var f = Test6.f = function() {
+    Test6.f = function() {
         var x = 1;
     };
 })(Test6 || (Test6 = {}));
 var Test7;
 (function(Test7) {
-    var f = Test7.f = function() {
+    Test7.f = function() {
         var x = 1;
     };
 })(Test7 || (Test7 = {}));

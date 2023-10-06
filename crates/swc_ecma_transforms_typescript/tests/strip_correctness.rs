@@ -9,7 +9,7 @@ use swc_ecma_ast::*;
 use swc_ecma_codegen::{self, Emitter};
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
-use swc_ecma_transforms_typescript::{strip, strip::strip_with_config};
+use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::{Fold, FoldWith};
 
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
@@ -188,10 +188,7 @@ fn identity(entry: PathBuf) {
 
         {
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify: false,
-                    ..Default::default()
-                },
+                cfg: swc_ecma_codegen::Config::default(),
                 cm: cm.clone(),
                 wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                     cm.clone(),
@@ -203,14 +200,15 @@ fn identity(entry: PathBuf) {
             };
 
             // Parse source
-            let module = parser
+            let program = parser
                 .parse_typescript_module()
                 .map(|p| {
                     let unresolved_mark = Mark::new();
                     let top_level_mark = Mark::new();
-                    p.fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
-                        .fold_with(&mut strip_with_config(
-                            strip::Config {
+                    Program::Module(p)
+                        .fold_with(&mut resolver(unresolved_mark, top_level_mark, true))
+                        .fold_with(&mut typescript(
+                            typescript::Config {
                                 no_empty_export: true,
                                 ..Default::default()
                             },
@@ -224,7 +222,7 @@ fn identity(entry: PathBuf) {
                     e.into_diagnostic(handler).emit();
                 })?;
 
-            emitter.emit_module(&module).unwrap();
+            emitter.emit_program(&program).unwrap();
         }
 
         let js_content = String::from_utf8_lossy(&wr.0.read().unwrap()).to_string();

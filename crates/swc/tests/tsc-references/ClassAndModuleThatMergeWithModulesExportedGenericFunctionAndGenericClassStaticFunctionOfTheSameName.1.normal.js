@@ -9,8 +9,9 @@ var clodule = /*#__PURE__*/ function() {
     return clodule;
 }();
 (function(clodule) {
-    var fn = function fn(x, y) {
+    function fn(x, y) {
         return x;
-    };
+    }
+    // error: duplicate identifier expected
     clodule.fn = fn;
 })(clodule || (clodule = {}));

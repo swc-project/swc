@@ -12,45 +12,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     // please file a bug if you get this error!
     throw Error("unknown environment");
 })()(function() {
-    var equalIC = function(a, b) {
-        return null != a && null != b && a.toLowerCase() === b.toLowerCase();
-    }, containsIC = function(array, value) {
-        var valueLC, i, len = array.length;
-        if (!len || !value) return !1;
-        for(i = 0, valueLC = value.toLowerCase(); i < len; ++i)if (valueLC === array[i].toLowerCase()) return !0;
-        return !1;
-    }, convertPropsToRegExp = function(object) {
-        for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], "i"));
-    }, MobileDetect = /**
-     * Constructor for MobileDetect object.
-     * <br>
-     * Such an object will keep a reference to the given user-agent string and cache most of the detect queries.<br>
-     * <div style="background-color: #d9edf7; border: 1px solid #bce8f1; color: #3a87ad; padding: 14px; border-radius: 2px; margin-top: 20px">
-     *     <strong>Find information how to download and install:</strong>
-     *     <a href="https://github.com/hgoebl/mobile-detect.js/">github.com/hgoebl/mobile-detect.js/</a>
-     * </div>
-     *
-     * @example <pre>
-     *     var md = new MobileDetect(window.navigator.userAgent);
-     *     if (md.mobile()) {
-     *         location.href = (md.mobileGrade() === 'A') ? '/mobile/' : '/lynx/';
-     *     }
-     * </pre>
-     *
-     * @param {string} userAgent typically taken from window.navigator.userAgent or http_header['User-Agent']
-     * @param {number} [maxPhoneWidth=600] <strong>only for browsers</strong> specify a value for the maximum
-     *        width of smallest device side (in logical "CSS" pixels) until a device detected as mobile will be handled
-     *        as phone.
-     *        This is only used in cases where the device cannot be classified as phone or tablet.<br>
-     *        See <a href="http://developer.android.com/guide/practices/screens_support.html">Declaring Tablet Layouts
-     *        for Android</a>.<br>
-     *        If you provide a value < 0, then this "fuzzy" check is disabled.
-     * @constructor
-     * @global
-     */ function(userAgent, maxPhoneWidth) {
-        this.ua = userAgent || "", this._cache = {}, //600dp is typical 7" tablet minimum width
-        this.maxPhoneWidth = maxPhoneWidth || 600;
-    }, impl = {};
+    var impl = {};
     impl.mobileDetectRules = {
         phones: {
             iPhone: "\\biPhone\\b|\\biPod\\b",
@@ -330,6 +292,48 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         tabletPattern: /android|ipad|playbook|silk/i
     };
     var isArray, hasOwnProp = Object.prototype.hasOwnProperty;
+    function equalIC(a, b) {
+        return null != a && null != b && a.toLowerCase() === b.toLowerCase();
+    }
+    function containsIC(array, value) {
+        var valueLC, i, len = array.length;
+        if (!len || !value) return !1;
+        for(i = 0, valueLC = value.toLowerCase(); i < len; ++i)if (valueLC === array[i].toLowerCase()) return !0;
+        return !1;
+    }
+    function convertPropsToRegExp(object) {
+        for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], "i"));
+    }
+    /**
+     * Constructor for MobileDetect object.
+     * <br>
+     * Such an object will keep a reference to the given user-agent string and cache most of the detect queries.<br>
+     * <div style="background-color: #d9edf7; border: 1px solid #bce8f1; color: #3a87ad; padding: 14px; border-radius: 2px; margin-top: 20px">
+     *     <strong>Find information how to download and install:</strong>
+     *     <a href="https://github.com/hgoebl/mobile-detect.js/">github.com/hgoebl/mobile-detect.js/</a>
+     * </div>
+     *
+     * @example <pre>
+     *     var md = new MobileDetect(window.navigator.userAgent);
+     *     if (md.mobile()) {
+     *         location.href = (md.mobileGrade() === 'A') ? '/mobile/' : '/lynx/';
+     *     }
+     * </pre>
+     *
+     * @param {string} userAgent typically taken from window.navigator.userAgent or http_header['User-Agent']
+     * @param {number} [maxPhoneWidth=600] <strong>only for browsers</strong> specify a value for the maximum
+     *        width of smallest device side (in logical "CSS" pixels) until a device detected as mobile will be handled
+     *        as phone.
+     *        This is only used in cases where the device cannot be classified as phone or tablet.<br>
+     *        See <a href="http://developer.android.com/guide/practices/screens_support.html">Declaring Tablet Layouts
+     *        for Android</a>.<br>
+     *        If you provide a value < 0, then this "fuzzy" check is disabled.
+     * @constructor
+     * @global
+     */ function MobileDetect(userAgent, maxPhoneWidth) {
+        this.ua = userAgent || "", this._cache = {}, //600dp is typical 7" tablet minimum width
+        this.maxPhoneWidth = maxPhoneWidth || 600;
+    }
     return impl.FALLBACK_PHONE = "UnknownPhone", impl.FALLBACK_TABLET = "UnknownTablet", impl.FALLBACK_MOBILE = "UnknownMobile", isArray = "isArray" in Array ? Array.isArray : function(value) {
         return "[object Array]" === Object.prototype.toString.call(value);
     }, isArray = "isArray" in Array ? function(value) {
@@ -415,6 +419,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
                 cache.mobile = cache.phone = phone, cache.tablet = null;
                 return; // unambiguously identified as phone
             }
+            // our rules haven't found a match -> try more general fallback rules
             impl.isMobileFallback(userAgent) ? undefined === (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth)) ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : // not mobile at all!
             cache.mobile = cache.tablet = cache.phone = null;
         }

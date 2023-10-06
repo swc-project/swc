@@ -10,5 +10,5 @@ var Shapes;
         Polygons.Square = Square;
     })(Polygons = Shapes.Polygons || (Shapes.Polygons = {}));
 })(Shapes || (Shapes = {}));
-var polygons = Shapes.Polygons;
+const polygons = Shapes.Polygons;
 let sq = new polygons.Square();

@@ -7,8 +7,8 @@ var Compass, bothIndex, stringOrNumber, someObject, Compass1, numIndex = {
     3: "three",
     three: "three"
 }, strIndex = {
-    N: Compass.North,
-    E: Compass.East
+    N: 0,
+    E: 2
 };
 function noIndex() {}
 var obj = {
@@ -26,4 +26,4 @@ var obj = {
 }, anyVar = {};
 // Assign to a property access
 obj.y = 4, // Property access on value of type 'any'
-anyVar.x = anyVar.y = obj.x = anyVar.z, obj.x, obj.hasOwnProperty, obj.qqq, obj["literal property"], obj["wa wa wa wa wa"], obj["10"], obj["1"], numIndex[3.0], numIndex[Compass.South], numIndex[anyVar], numIndex.what, numIndex[someObject], strIndex.N, strIndex.zzz, strIndex[10], strIndex[Compass.East], strIndex[null], noIndex[123], noIndex[Compass.South], noIndex[null], noIndex[someObject], noIndex[32], bothIndex[Compass.East], bothIndex[null], bothIndex.foo, bothIndex["1.0"], bothIndex[someObject], numIndex[stringOrNumber], strIndex[stringOrNumber], bothIndex[stringOrNumber];
+anyVar.x = anyVar.y = obj.x = anyVar.z, obj.x, obj.hasOwnProperty, obj.qqq, obj["literal property"], obj["wa wa wa wa wa"], obj["10"], obj["1"], numIndex[3.0], numIndex[1], numIndex[anyVar], numIndex.what, numIndex[someObject], strIndex.N, strIndex.zzz, strIndex[10], strIndex[2], strIndex[null], noIndex[123], noIndex[1], noIndex[null], noIndex[someObject], noIndex[32], bothIndex[2], bothIndex[null], bothIndex.foo, bothIndex["1.0"], bothIndex[someObject], numIndex[stringOrNumber], strIndex[stringOrNumber], bothIndex[stringOrNumber];

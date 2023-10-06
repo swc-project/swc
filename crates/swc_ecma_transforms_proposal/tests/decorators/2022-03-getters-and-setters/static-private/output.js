@@ -2,7 +2,7 @@ var _call_a, _call_a1, _initStatic;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_call_a, _call_a1, _initStatic]  } = _apply_decs_2203_r(this, [
+        ({ e: [_call_a, _call_a1, _initStatic] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 8,
@@ -27,7 +27,7 @@ class Foo {
         return _call_a(this);
     }
     static set #a(v) {
-        _call_a1(this, v);
+        return _call_a1(this, v);
     }
     static getA() {
         return this.#a;

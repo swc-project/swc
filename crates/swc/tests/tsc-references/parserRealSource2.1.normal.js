@@ -4,29 +4,9 @@
 ///<reference path='typescript.ts' />
 var TypeScript;
 (function(TypeScript) {
-    var hasFlag = function hasFlag(val, flag) {
+    function hasFlag(val, flag) {
         return (val & flag) != 0;
-    };
-    var ToDeclFlags = function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags) {
-        return fncOrVarOrSymbolOrModuleFlags;
-    };
-    var flagsToString = function flagsToString(e, flags) {
-        var builder = "";
-        for(var i = 1; i < 1 << 31; i = i << 1){
-            if ((flags & i) != 0) {
-                for(var k in e){
-                    if (e[k] == i) {
-                        if (builder.length > 0) {
-                            builder += "|";
-                        }
-                        builder += k;
-                        break;
-                    }
-                }
-            }
-        }
-        return builder;
-    };
+    }
     TypeScript.hasFlag = hasFlag;
     var ErrorRecoverySet;
     (function(ErrorRecoverySet) {
@@ -35,9 +15,9 @@ var TypeScript;
         ErrorRecoverySet[ErrorRecoverySet["SColon"] = 2] = "SColon";
         ErrorRecoverySet[ErrorRecoverySet["Asg"] = 4] = "Asg";
         ErrorRecoverySet[ErrorRecoverySet["BinOp"] = 8] = "BinOp";
-        ErrorRecoverySet[ErrorRecoverySet[// AsgMod, AsgAdd, AsgSub, AsgLsh, AsgRsh, AsgRs2, AsgAnd, AsgXor, AsgOr, QMark, Mult, Div, 
+        // AsgMod, AsgAdd, AsgSub, AsgLsh, AsgRsh, AsgRs2, AsgAnd, AsgXor, AsgOr, QMark, Mult, Div, 
         // Pct, GT, LT, And, Xor, Or
-        "RBrack"] = 16] = "RBrack";
+        ErrorRecoverySet[ErrorRecoverySet["RBrack"] = 16] = "RBrack";
         ErrorRecoverySet[ErrorRecoverySet["RCurly"] = 32] = "RCurly";
         ErrorRecoverySet[ErrorRecoverySet["RParen"] = 64] = "RParen";
         ErrorRecoverySet[ErrorRecoverySet["Dot"] = 128] = "Dot";
@@ -63,8 +43,8 @@ var TypeScript;
         ErrorRecoverySet[ErrorRecoverySet["RLit"] = 134217728] = "RLit";
         ErrorRecoverySet[ErrorRecoverySet["Func"] = 268435456] = "Func";
         ErrorRecoverySet[ErrorRecoverySet["EOF"] = 536870912] = "EOF";
-        ErrorRecoverySet[ErrorRecoverySet[// REVIEW: Name this something clearer.
-        "TypeScriptS"] = 1073741824] = "TypeScriptS";
+        // REVIEW: Name this something clearer.
+        ErrorRecoverySet[ErrorRecoverySet["TypeScriptS"] = 1073741824] = "TypeScriptS";
         ErrorRecoverySet[ErrorRecoverySet["ExprStart"] = 520158210] = "ExprStart";
         ErrorRecoverySet[ErrorRecoverySet["StmtStart"] = 1608580098] = "StmtStart";
         ErrorRecoverySet[ErrorRecoverySet["Postfix"] = 49280] = "Postfix";
@@ -106,10 +86,10 @@ var TypeScript;
         ASTFlags[ASTFlags["PossibleOptionalParameter"] = 256] = "PossibleOptionalParameter";
         ASTFlags[ASTFlags["ClassBaseConstructorCall"] = 512] = "ClassBaseConstructorCall";
         ASTFlags[ASTFlags["OptionalName"] = 1024] = "OptionalName";
-        ASTFlags[ASTFlags[// REVIEW: This flag is to mark lambda nodes to note that the LParen of an expression has already been matched in the lambda header.
+        // REVIEW: This flag is to mark lambda nodes to note that the LParen of an expression has already been matched in the lambda header.
         //         The flag is used to communicate this piece of information to the calling parseTerm, which intern will remove it.
         //         Once we have a better way to associate information with nodes, this flag should not be used.
-        "SkipNextRParen"] = 2048] = "SkipNextRParen";
+        ASTFlags[ASTFlags["SkipNextRParen"] = 2048] = "SkipNextRParen";
     })(ASTFlags = TypeScript.ASTFlags || (TypeScript.ASTFlags = {}));
     var DeclFlags;
     (function(DeclFlags) {
@@ -217,6 +197,9 @@ var TypeScript;
         SignatureFlags[SignatureFlags["IsStringIndexer"] = 2] = "IsStringIndexer";
         SignatureFlags[SignatureFlags["IsNumberIndexer"] = 4] = "IsNumberIndexer";
     })(SignatureFlags = TypeScript.SignatureFlags || (TypeScript.SignatureFlags = {}));
+    function ToDeclFlags(fncOrVarOrSymbolOrModuleFlags) {
+        return fncOrVarOrSymbolOrModuleFlags;
+    }
     TypeScript.ToDeclFlags = ToDeclFlags;
     var TypeFlags;
     (function(TypeFlags) {
@@ -252,8 +235,27 @@ var TypeScript;
         ModuleGenTarget[ModuleGenTarget["Asynchronous"] = 1] = "Asynchronous";
         ModuleGenTarget[ModuleGenTarget["Local"] = 2] = "Local";
     })(ModuleGenTarget = TypeScript.ModuleGenTarget || (TypeScript.ModuleGenTarget = {}));
-    var codeGenTarget = TypeScript.codeGenTarget = CodeGenTarget.ES3;
-    var moduleGenTarget = TypeScript.moduleGenTarget = ModuleGenTarget.Synchronous;
-    var optimizeModuleCodeGen = TypeScript.optimizeModuleCodeGen = true;
+    // Compiler defaults to generating ES5-compliant code for
+    //  - getters and setters
+    TypeScript.codeGenTarget = 0;
+    TypeScript.moduleGenTarget = 0;
+    TypeScript.optimizeModuleCodeGen = true;
+    function flagsToString(e, flags) {
+        var builder = "";
+        for(var i = 1; i < 1 << 31; i = i << 1){
+            if ((flags & i) != 0) {
+                for(var k in e){
+                    if (e[k] == i) {
+                        if (builder.length > 0) {
+                            builder += "|";
+                        }
+                        builder += k;
+                        break;
+                    }
+                }
+            }
+        }
+        return builder;
+    }
     TypeScript.flagsToString = flagsToString;
 })(TypeScript || (TypeScript = {}));

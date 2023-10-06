@@ -4,9 +4,6 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var A;
 (function(A) {
-    var F = function F(s) {
-        return 2;
-    };
     var A1 = function A() {
         "use strict";
         _class_call_check(this, A);
@@ -48,6 +45,9 @@ var A;
         Color[Color["Red"] = 1] = "Red";
     })(Color || (Color = {}));
     var x = 12;
+    function F(s) {
+        return 2;
+    }
     var array = null;
     var fn = function(s) {
         return "hello " + s;
@@ -60,9 +60,6 @@ var A;
 })(A || (A = {}));
 var Y;
 (function(Y) {
-    var F = function F(s) {
-        return 2;
-    };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
@@ -107,13 +104,16 @@ var Y;
         Color[Color["Blue"] = 0] = "Blue";
         Color[Color["Red"] = 1] = "Red";
     })(Color = Y.Color || (Y.Color = {}));
-    var x = Y.x = 12;
+    Y.x = 12;
+    function F(s) {
+        return 2;
+    }
     Y.F = F;
-    var array = Y.array = null;
-    var fn = Y.fn = function(s) {
+    Y.array = null;
+    Y.fn = function(s) {
         return "hello " + s;
     };
-    var ol = Y.ol = {
+    Y.ol = {
         s: "hello",
         id: 2,
         isvalid: true

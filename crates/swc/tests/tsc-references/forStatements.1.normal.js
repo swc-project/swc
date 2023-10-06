@@ -13,14 +13,14 @@ function F(x) {
 }
 var M;
 (function(M) {
-    var F2 = function F2(x) {
-        return x.toString();
-    };
     var A = function A() {
         "use strict";
         _class_call_check(this, A);
     };
     M.A = A;
+    function F2(x) {
+        return x.toString();
+    }
     M.F2 = F2;
 })(M || (M = {}));
 for(var aNumber = 9.9;;){}

@@ -87,15 +87,13 @@ var C = /*#__PURE__*/ function() {
     };
     return C;
 }();
-(function() {
-    C.prop = function() {
-        if (Math.random()) {
-            C.inStaticPropertyDeclaration = 0;
-        } else {
-            C.inStaticPropertyDeclaration = "string";
-        }
-    };
-})();
+C.prop = function() {
+    if (Math.random()) {
+        C.inStaticPropertyDeclaration = 0;
+    } else {
+        C.inStaticPropertyDeclaration = "string";
+    }
+};
 //// [b.ts]
 var c = new C();
 var stringOrNumber;

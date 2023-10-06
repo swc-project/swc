@@ -2114,12 +2114,7 @@ impl Minifier<'_> {
             )) as Box<dyn swc_ecma_codegen::text_writer::WriteJs>;
 
             let mut emitter = swc_ecma_codegen::Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    target,
-                    minify: false,
-                    ascii_only: false,
-                    omit_last_semi: false,
-                },
+                cfg: swc_ecma_codegen::Config::default().with_target(target),
                 cm,
                 comments: Some(&comments),
                 wr,

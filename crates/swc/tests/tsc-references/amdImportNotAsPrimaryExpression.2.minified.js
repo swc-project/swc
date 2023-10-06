@@ -12,11 +12,11 @@ define([
             get: all[name]
         });
     }(exports, {
-        E1: function() {
-            return E11;
-        },
         C1: function() {
             return C1;
+        },
+        E1: function() {
+            return E11;
         }
     });
     var E1, E11, C1 = function C1() {

@@ -1,18 +1,18 @@
 "use strict";
 function a() {}
 var te = function() {
-    var n = function n(n) {};
+    function n(n) {}
     var t = null;
     return {
-        init: function r(r) {
-            return t = new n(r);
+        init: function u(u) {
+            return t = new n(u);
         }
     };
 }();
 var he = function() {
-    var n = function n() {
+    function n() {
         a();
-    };
+    }
     ;
     var t = null;
     return {

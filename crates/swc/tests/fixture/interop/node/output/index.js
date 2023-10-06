@@ -3,9 +3,9 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
+    default: null,
     x: null,
-    y: null,
-    default: null
+    y: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -14,14 +14,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    default: function() {
+        return _default;
+    },
     x: function() {
         return x;
     },
     y: function() {
         return y;
-    },
-    default: function() {
-        return _default;
     }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");

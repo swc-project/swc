@@ -12,7 +12,9 @@ use swc_ecma_transforms_compat::{
 };
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
-use swc_ecma_transforms_typescript::{strip, strip::strip_with_config, TsImportExportAssignConfig};
+use swc_ecma_transforms_typescript::{
+    typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig,
+};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {
@@ -20,14 +22,14 @@ fn tr() -> impl Fold {
 }
 
 fn tr_config(
-    config: Option<strip::Config>,
+    config: Option<typescript::Config>,
     decorators_config: Option<decorators::Config>,
     use_define_for_class_fields: bool,
 ) -> impl Fold {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
     let has_decorators = decorators_config.is_some();
-    let config = config.unwrap_or_else(|| strip::Config {
+    let config = config.unwrap_or_else(|| typescript::Config {
         no_empty_export: true,
         ..Default::default()
     });
@@ -38,7 +40,7 @@ fn tr_config(
             has_decorators,
         ),
         resolver(unresolved_mark, top_level_mark, true),
-        strip_with_config(config, top_level_mark),
+        typescript(config, top_level_mark),
         Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
     )
 }
@@ -261,9 +263,9 @@ test!(
     r#"
 var StateNum;
 (function (StateNum) {
-    StateNum["closed"] = 'cl0';
-    StateNum["opened"] = 'op1';
-    StateNum["mounted"] = 'mo2';
+    StateNum["closed"] = "cl0";
+    StateNum["opened"] = "op1";
+    StateNum["mounted"] = "mo2";
 })(StateNum || (StateNum = {}));
 "#,
     ok_if_code_eq
@@ -729,7 +731,7 @@ test!(
         constructor(a) {
         }
     }
-    (()=>{ A.b = 'foo'; })();"
+    A.b = 'foo';"
 );
 
 test!(
@@ -3065,9 +3067,9 @@ test!(
     }),
     |_| {
         tr_config(
-            Some(strip::Config {
+            Some(typescript::Config {
                 no_empty_export: true,
-                import_not_used_as_values: strip::ImportsNotUsedAsValues::Preserve,
+                import_not_used_as_values: ImportsNotUsedAsValues::Preserve,
                 ..Default::default()
             }),
             None,
@@ -3105,14 +3107,14 @@ test!(
     |_| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
-        let config = strip::Config {
+        let config = typescript::Config {
             no_empty_export: true,
             ..Default::default()
         };
         chain!(
             Optional::new(decorators(Default::default()), false,),
             resolver(unresolved_mark, top_level_mark, true),
-            strip_with_config(config, top_level_mark),
+            typescript(config, top_level_mark),
             async_to_generator::<SingleThreadedComments>(Default::default(), None, unresolved_mark),
         )
     },
@@ -3146,7 +3148,20 @@ test!(
         decorators: true,
         ..Default::default()
     }),
-    |_| chain!(tr(), optional_chaining(Default::default())),
+    |_| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let config = typescript::Config {
+            no_empty_export: true,
+            ..Default::default()
+        };
+        chain!(
+            Optional::new(decorators(Default::default()), false,),
+            resolver(unresolved_mark, top_level_mark, true),
+            typescript(config, top_level_mark),
+            optional_chaining(Default::default(), unresolved_mark)
+        )
+    },
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
@@ -3210,7 +3225,7 @@ test!(
 test!(
     Syntax::Typescript(Default::default()),
     |_| tr_config(
-        Some(strip::Config {
+        Some(typescript::Config {
             no_empty_export: true,
             ..Default::default()
         }),
@@ -3350,14 +3365,10 @@ to!(
             throw new Error();
         }
         util.assertNever = assertNever;
-        var arrayToEnum = util.arrayToEnum = (items)=>{
-        };
-        var getValidEnumValues = util.getValidEnumValues = (obj)=>{
-        };
-        var getValues = util.getValues = (obj)=>{
-        };
-        var objectValues = util.objectValues = (obj)=>{
-        };
+        util.arrayToEnum = (items)=>{};
+        util.getValidEnumValues = (obj)=>{};
+        util.getValues = (obj)=>{};
+        util.objectValues = (obj)=>{};
     })(util || (util = {}));
     "
 );
@@ -3419,10 +3430,9 @@ to!(
     "
     var Test;
     (function (Test) {
-        let Inner;
         (function (Inner) {
-            var c = Inner.c = 3;
-        })(Inner = Test.Inner || (Test.Inner = {}));
+            Inner.c = 3;
+        })(Test.Inner || (Test.Inner = {}));
     })(Test || (Test = {}));
     "
 );
@@ -3476,7 +3486,7 @@ to!(
         })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
         let MyInnerNamespace;
         (function (MyInnerNamespace) {
-            var Dec2 = MyInnerNamespace.Dec2 = 2;
+            MyInnerNamespace.Dec2 = 2;
         })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
     })(MyNamespace || (MyNamespace = {}));
     (function (MyNamespace) {
@@ -3510,10 +3520,9 @@ to!(
     })(A || (A = {}));
     var B;
     (function (B) {
-        var a = A;
-        B.a = a;
-        console.log(a.Test);
-        var b = A;
+        B.a = A;
+        console.log(B.a.Test);
+        const b = A;
         console.log(b.Test);
     })(B || (B = {}));
     "#
@@ -3598,7 +3607,7 @@ to!(
 
 test_with_config!(
     issue_1472_1_define,
-    strip::Config {
+    typescript::Config {
         no_empty_export: true,
         ..Default::default()
     },
@@ -3625,7 +3634,7 @@ test_with_config!(
 
 test_with_config!(
     issue_1472_1_no_define,
-    strip::Config {
+    typescript::Config {
         no_empty_export: true,
         ..Default::default()
     },
@@ -3668,9 +3677,7 @@ to!(
         prop = (console.log(1), 'a');
         prop1 = (console.log(2), 'b');
     })();
-    (()=>{
-        A[prop1] = 2;
-    })();
+    A[prop1] = 2;
     "
 );
 
@@ -3696,9 +3703,7 @@ to!(
         prop = (console.log(1), 'a');
         prop1 = (console.log(2), 'b');
     })();
-    (()=>{
-        A[prop1] = 2;
-    })();
+    A[prop1] = 2;
     "
 );
 
@@ -3713,12 +3718,11 @@ to!(
     "
     export class A {
     }
-    (function(A1) {
+    (function(A) {
         class B extends A {
         }
-        A1.B = B;
-    })(A || (A = {
-    }));
+        A.B = B;
+    })(A || (A = {}));
     "
 );
 
@@ -3732,15 +3736,12 @@ to!(
 ",
     "
     export var A;
-    (function(A1) {
+    (function(A) {
         class B extends A {
         }
-        A1.B = B;
-    })(A || (A = {
-    }));
-    (function(A) {
-    })(A || (A = {
-    }));
+        A.B = B;
+    })(A || (A = {}));
+    (function(A) {})(A || (A = {}));
     "
 );
 
@@ -3769,7 +3770,7 @@ to!(
     "
     var _class;
     const A = (_class = class {},
-        (()=>{ _class.a = 1; })(),
+        _class.a = 1,
         _class);
     "
 );
@@ -3945,6 +3946,7 @@ to!(
     "
 );
 
+//
 to!(
     import_shadow_hoist,
     "
@@ -4144,9 +4146,9 @@ to!(
     var _TestClass;
     var _class;
     let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, (()=>{ _TestClass.Something = 'hello'; })(), (()=>{ _TestClass.SomeProperties = {
+    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
         firstProp: _TestClass.Something
-    };})(), _TestClass)) || _class) || _class;
+    }, _TestClass)) || _class) || _class;
     function someClassDecorator(c) {
         return c;
     }
@@ -4210,7 +4212,7 @@ class Foo {
 const identifier = 'bar';
 class Foo {
 }
-(()=>{ Foo.identifier = 5; })();
+Foo.identifier = 5;
   "
 );
 
@@ -4223,7 +4225,7 @@ to!(
     ",
     "
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-    var MongoClient = mongo.MongoClient;
+    const MongoClient = mongo.MongoClient;
     const mongoClient = new MongoClient();
     "
 );
@@ -4236,13 +4238,14 @@ to!(
     const mongoClient: MongoClient = {};
     ",
     "
+    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     const mongoClient = {};
     "
 );
 
 test_with_config!(
     deno_12532_declare_class_prop,
-    strip::Config {
+    typescript::Config {
         no_empty_export: true,
         ..Default::default()
     },
@@ -4295,11 +4298,11 @@ to!(
     Aqua = '#00ffff',
     Cyan = Aqua,
 }",
-    "var Color;
+    r##"var Color;
 (function (Color) {
-    Color[\"Aqua\"] = '#00ffff';
-    Color[\"Cyan\"] = '#00ffff';
-})(Color || (Color = {}));"
+    Color["Aqua"] = "#00ffff";
+    Color["Cyan"] = "#00ffff";
+})(Color || (Color = {}));"##
 );
 
 to!(
@@ -4414,18 +4417,18 @@ let b = class {
 }
     ",
     "
-let _console_log;
-let _console_log1 = console.log(123);
+let _console_log = console.log(123);
 class A {
     constructor(a = 1){
         this.a = a;
-        this[_console_log1] = 456;
+        this[_console_log] = 456;
     }
 }
-let b = (_console_log = console.log(456), class {
+let _console_log1;
+let b = (_console_log1 = console.log(456), class {
     constructor(a = 1){
         this.a = a;
-        this[_console_log] = 123;
+        this[_console_log1] = 123;
     }
 });
 "
@@ -4441,8 +4444,7 @@ test!(
     foo();
     "#,
     r#"
-    const foo = require("foo");
-    exports.foo = foo;
+    const foo = exports.foo = require("foo");
     foo();
     "#
 );
@@ -4450,7 +4452,7 @@ test!(
 test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
-        Some(strip::Config {
+        Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
@@ -4475,7 +4477,7 @@ test!(
 test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
-        Some(strip::Config {
+        Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
             ..Default::default()
         }),
@@ -4491,8 +4493,7 @@ test!(
     r#"
     import { createRequire as _createRequire } from "module";
     const __require = _createRequire(import.meta.url);
-    const foo = __require("foo");
-    export { foo };
+    export const foo = __require("foo");
 
     foo();
     "#

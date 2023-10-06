@@ -8,9 +8,5 @@ class C {
     }
     static set [_Symbol_toPrimitive1](x) {}
 }
-(()=>{
-    prop = Symbol.iterator;
-})();
-(()=>{
-    C[prop] = 0;
-})();
+prop = Symbol.iterator;
+C[prop] = 0;

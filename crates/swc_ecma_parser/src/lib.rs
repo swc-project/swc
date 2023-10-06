@@ -139,10 +139,11 @@ pub type JscTarget = EsVersion;
 
 #[macro_use]
 mod macros;
+#[macro_use]
+pub mod token;
 pub mod error;
 pub mod lexer;
 mod parser;
-pub mod token;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Deserialize, Serialize)]
 #[serde(deny_unknown_fields, tag = "syntax")]

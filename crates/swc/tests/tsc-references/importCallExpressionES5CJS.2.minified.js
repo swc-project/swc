@@ -19,11 +19,11 @@ Object.defineProperty(exports, "__esModule", {
         get: all[name]
     });
 }(exports, {
-    p2: function() {
-        return p2;
-    },
     D: function() {
         return D;
+    },
+    p2: function() {
+        return p2;
     }
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check"), _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");

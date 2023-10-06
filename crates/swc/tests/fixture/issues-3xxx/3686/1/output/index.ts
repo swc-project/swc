@@ -21,7 +21,7 @@ _ts_decorate._([
 ServiceError = _ts_decorate._([
     CD
 ], ServiceError);
-(function(ServiceError1) {
+(function(ServiceError) {
     let Code;
     (function(Code) {
         Code[Code["serviceNotFound"] = 404] = "serviceNotFound";
@@ -31,17 +31,17 @@ ServiceError = _ts_decorate._([
         Code[Code["timedOut"] = 504] = "timedOut";
         Code[Code["badRequest"] = 400] = "badRequest";
         Code[Code["badResponse"] = 422] = "badResponse";
-    })(Code = ServiceError1.Code || (ServiceError1.Code = {}));
+    })(Code = ServiceError.Code || (ServiceError.Code = {}));
     class ServiceNotFound extends ServiceError {
         // Service was probably not registered, or using the wrong channel
         code = 404;
         name = "ServiceError.ServiceNotFound";
     }
-    ServiceError1.ServiceNotFound = ServiceNotFound;
+    ServiceError.ServiceNotFound = ServiceNotFound;
     function toMessageBody(error) {
         return {
             code: ServiceError.Code.implementation
         };
     }
-    ServiceError1.toMessageBody = toMessageBody;
+    ServiceError.toMessageBody = toMessageBody;
 })(ServiceError || (ServiceError = {}));

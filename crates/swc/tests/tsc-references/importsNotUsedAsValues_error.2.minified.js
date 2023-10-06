@@ -39,22 +39,11 @@ export { };
 //!  3 | 
 //!    `----
 //// [/i.ts]
-//! 
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[1:1]
-//!  1 | import H = require('./h'); // Error
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  2 | let h: H = {};
-//!  3 | console.log(h);
-//!    `----
+console.log({});
+export { };
 //// [/j.ts]
-//! 
-//!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
-//!    ,-[1:1]
-//!  1 | import H = require('./h'); // noUnusedLocals error only
-//!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-//!  2 | 
-//!    `----
+export { };
+ // noUnusedLocals error only
 //// [/k.ts]
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.

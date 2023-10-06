@@ -13,23 +13,23 @@ define([
         });
     }
     _export(exports, {
-        noassign: function() {
-            return noassign;
-        },
-        warn: function() {
-            return warn;
+        addOne: function() {
+            return addOne;
         },
         errors: function() {
             return errors;
         },
-        addOne: function() {
-            return addOne;
+        noassign: function() {
+            return noassign;
         },
         someFunc: function() {
             return someFunc;
         },
         test: function() {
             return test;
+        },
+        warn: function() {
+            return warn;
         }
     });
     function log() {

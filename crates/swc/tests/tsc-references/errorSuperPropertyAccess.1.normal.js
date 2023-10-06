@@ -57,12 +57,8 @@ var SomeBase = /*#__PURE__*/ function() {
     SomeBase.publicStaticFunc = function publicStaticFunc() {};
     return SomeBase;
 }();
-(function() {
-    SomeBase.privateStaticMember = 0;
-})();
-(function() {
-    SomeBase.publicStaticMember = 0;
-})();
+SomeBase.privateStaticMember = 0;
+SomeBase.publicStaticMember = 0;
 //super.publicInstanceMemberNotFunction in constructor of derived class
 //super.publicInstanceMemberNotFunction in instance member function of derived class
 //super.publicInstanceMemberNotFunction in instance member accessor(get and set) of derived class
@@ -82,9 +78,9 @@ var SomeDerived1 = /*#__PURE__*/ function(SomeBase) {
         var x = _get(_get_prototype_of(SomeDerived1.prototype), "publicMember", this);
     };
     _proto.fn2 = function fn2() {
-        var inner = function inner() {
+        function inner() {
             _get(_get_prototype_of(SomeDerived1.prototype), "publicFunc", this).call(this);
-        };
+        }
         var x = {
             test: function test() {
                 return _get(_get_prototype_of(SomeDerived1.prototype), "publicFunc", this).call(this);

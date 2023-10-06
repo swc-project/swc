@@ -5,7 +5,5 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function() {
-    foo = 1;
-})();
+foo = 1;
 console.log(foo);

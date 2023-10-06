@@ -1,11 +1,11 @@
 var Foo;
 (function(Foo) {
-    var bar = Foo.bar = 42;
-    var foo = Foo.foo = function() {
+    Foo.bar = 42;
+    Foo.foo = function() {
         return 20;
     };
     function xyz() {
-        return foo() * bar;
+        return Foo.foo() * Foo.bar;
     }
     Foo.xyz = xyz;
 })(Foo || (Foo = {}));

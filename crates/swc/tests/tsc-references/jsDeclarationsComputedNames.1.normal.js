@@ -22,6 +22,4 @@ export var MyClass = function MyClass() {
     _class_call_check(this, MyClass);
     this[InnerSym] = "ok";
 };
-(function() {
-    MyClass[TopLevelSym] = 12;
-})();
+MyClass[TopLevelSym] = 12;

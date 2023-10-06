@@ -26,11 +26,11 @@ global = this, factory = function(exports1, _interop_require_wildcard) {
             get: all[name]
         });
     }(exports1, {
-        p2: function() {
-            return p2;
-        },
         D: function() {
             return D;
+        },
+        p2: function() {
+            return p2;
         }
     }), import("./0"), import("./0").then((zero)=>zero.foo());
     var p2 = import("./0");

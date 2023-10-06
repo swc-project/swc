@@ -1,5 +1,5 @@
 //// [typeArgumentsWithStringLiteralTypes01.ts]
-var n1, n2, n3, n11, a, b, c, d, e, n21, a1, b1, c1, d1, e1, n31, a2, b2, c2, d2, e2;
+var n1, n2, n3, n11, n21, n31;
 function fun1(x, y) {
     return randBool() ? x : y;
 }
@@ -10,13 +10,13 @@ function fun3() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return args[+randBool()];
 }
-a = (n11 = n1 || (n1 = {})).a = fun1("Hello", "World"), b = n11.b = fun1("Hello", "Hello"), c = n11.c = fun2("Hello", "World"), d = n11.d = fun2("Hello", "Hello"), e = n11.e = fun3("Hello", "Hello", "World", "Foo"), // Should be valid
-a = takeReturnString(a), b = takeReturnString(b), c = takeReturnString(c), d = takeReturnString(d), e = takeReturnString(e), // Passing these as arguments should cause an error.
-a = takeReturnHello(a), b = takeReturnHello(b), c = takeReturnHello(c), d = takeReturnHello(d), e = takeReturnHello(e), // Passing these as arguments should cause an error.
-a = takeReturnHelloWorld(a), b = takeReturnHelloWorld(b), c = takeReturnHelloWorld(c), d = takeReturnHelloWorld(d), takeReturnHelloWorld(e), a1 = (n21 = n2 || (n2 = {})).a = fun1("Hello", "Hello"), b1 = n21.b = fun1("Hello", "World"), c1 = n21.c = fun2("Hello", "Hello"), d1 = n21.d = fun2("Hello", "World"), e1 = n21.e = fun3("Hello", "World"), // Assignment from the returned value should cause an error.
-a1 = takeReturnString(a1), b1 = takeReturnString(b1), c1 = takeReturnString(c1), d1 = takeReturnString(d1), e1 = takeReturnString(e1), // Should be valid
-a1 = takeReturnHello(a1), b1 = takeReturnHello(b1), c1 = takeReturnHello(c1), d1 = takeReturnHello(d1), e1 = takeReturnHello(e1), // Assignment from the returned value should cause an error.
-a1 = takeReturnHelloWorld(a1), b1 = takeReturnHelloWorld(b1), c1 = takeReturnHelloWorld(c1), d1 = takeReturnHelloWorld(d1), takeReturnHelloWorld(e1), a2 = (n31 = n3 || (n3 = {})).a = fun2("Hello", "World"), b2 = n31.b = fun2("World", "Hello"), c2 = n31.c = fun2("Hello", "Hello"), d2 = n31.d = fun2("World", "World"), e2 = n31.e = fun3("Hello", "World"), // Assignment from the returned value should cause an error.
-a2 = takeReturnString(a2), b2 = takeReturnString(b2), c2 = takeReturnString(c2), d2 = takeReturnString(d2), e2 = takeReturnString(e2), // Passing these as arguments should cause an error.
-a2 = takeReturnHello(a2), b2 = takeReturnHello(b2), c2 = takeReturnHello(c2), d2 = takeReturnHello(d2), e2 = takeReturnHello(e2), // Both should be valid.
-a2 = takeReturnHelloWorld(a2), b2 = takeReturnHelloWorld(b2), c2 = takeReturnHelloWorld(c2), d2 = takeReturnHelloWorld(d2), takeReturnHelloWorld(e2);
+(n11 = n1 || (n1 = {})).a = fun1("Hello", "World"), n11.b = fun1("Hello", "Hello"), n11.c = fun2("Hello", "World"), n11.d = fun2("Hello", "Hello"), n11.e = fun3("Hello", "Hello", "World", "Foo"), // Should be valid
+n11.a = takeReturnString(n11.a), n11.b = takeReturnString(n11.b), n11.c = takeReturnString(n11.c), n11.d = takeReturnString(n11.d), n11.e = takeReturnString(n11.e), // Passing these as arguments should cause an error.
+n11.a = takeReturnHello(n11.a), n11.b = takeReturnHello(n11.b), n11.c = takeReturnHello(n11.c), n11.d = takeReturnHello(n11.d), n11.e = takeReturnHello(n11.e), // Passing these as arguments should cause an error.
+n11.a = takeReturnHelloWorld(n11.a), n11.b = takeReturnHelloWorld(n11.b), n11.c = takeReturnHelloWorld(n11.c), n11.d = takeReturnHelloWorld(n11.d), n11.e = takeReturnHelloWorld(n11.e), (n21 = n2 || (n2 = {})).a = fun1("Hello", "Hello"), n21.b = fun1("Hello", "World"), n21.c = fun2("Hello", "Hello"), n21.d = fun2("Hello", "World"), n21.e = fun3("Hello", "World"), // Assignment from the returned value should cause an error.
+n21.a = takeReturnString(n21.a), n21.b = takeReturnString(n21.b), n21.c = takeReturnString(n21.c), n21.d = takeReturnString(n21.d), n21.e = takeReturnString(n21.e), // Should be valid
+n21.a = takeReturnHello(n21.a), n21.b = takeReturnHello(n21.b), n21.c = takeReturnHello(n21.c), n21.d = takeReturnHello(n21.d), n21.e = takeReturnHello(n21.e), // Assignment from the returned value should cause an error.
+n21.a = takeReturnHelloWorld(n21.a), n21.b = takeReturnHelloWorld(n21.b), n21.c = takeReturnHelloWorld(n21.c), n21.d = takeReturnHelloWorld(n21.d), n21.e = takeReturnHelloWorld(n21.e), (n31 = n3 || (n3 = {})).a = fun2("Hello", "World"), n31.b = fun2("World", "Hello"), n31.c = fun2("Hello", "Hello"), n31.d = fun2("World", "World"), n31.e = fun3("Hello", "World"), // Assignment from the returned value should cause an error.
+n31.a = takeReturnString(n31.a), n31.b = takeReturnString(n31.b), n31.c = takeReturnString(n31.c), n31.d = takeReturnString(n31.d), n31.e = takeReturnString(n31.e), // Passing these as arguments should cause an error.
+n31.a = takeReturnHello(n31.a), n31.b = takeReturnHello(n31.b), n31.c = takeReturnHello(n31.c), n31.d = takeReturnHello(n31.d), n31.e = takeReturnHello(n31.e), // Both should be valid.
+n31.a = takeReturnHelloWorld(n31.a), n31.b = takeReturnHelloWorld(n31.b), n31.c = takeReturnHelloWorld(n31.c), n31.d = takeReturnHelloWorld(n31.d), n31.e = takeReturnHelloWorld(n31.e);

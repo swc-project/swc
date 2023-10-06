@@ -248,17 +248,17 @@ macro_rules! build_print_sync {
                         None,
                         None,
                         true,
-                        opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020),
                         opts.source_maps
                             .clone()
                             .unwrap_or($crate::wasm::SourceMapsConfig::Bool(false)),
                         &Default::default(),
                         None,
-                        opts.config.minify.into(),
                         None,
                         opts.config.emit_source_map_columns.into_bool(),
-                        false,
                         Default::default(),
+                        swc_core::ecma::codegen::Config::default()
+                            .with_target(opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020))
+                            .with_minify(opts.config.minify.into())
                     ),"failed to print code")?;
 
                     serde_wasm_bindgen::to_value(&s)

@@ -1,4 +1,4 @@
-import { Foo__2 } from "./foo.ts";
+import type { Foo__2 } from "./foo.ts";
 function _bar__2(...Foo__3: Foo__2) {
     console.log(Foo__3);
 }

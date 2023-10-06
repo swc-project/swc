@@ -1,6 +1,7 @@
 {
     "name": "@swc/types",
-    "version": "0.1.4",
+    "packageManager": "yarn@3.5.0",
+    "version": "0.1.5",
     "description": "Typings for the swc project.",
     "sideEffects": false,
     "scripts": {
@@ -26,7 +27,6 @@
         "url": "https://github.com/swc-project/swc/issues"
     },
     "homepage": "https://swc.rs",
-    "packageManager": "yarn@3.2.3",
     "devDependencies": {
         "typescript": "^5.2.2"
     }

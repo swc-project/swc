@@ -15,11 +15,11 @@ define([
         });
     }
     _export(exports, {
-        E1: function() {
-            return E1;
-        },
         C1: function() {
             return C1;
+        },
+        E1: function() {
+            return E1;
         }
     });
     var C1 = function C1() {
@@ -27,9 +27,7 @@ define([
         _class_call_check._(this, C1);
         this.m1 = 42;
     };
-    (function() {
-        C1.s1 = true;
-    })();
+    C1.s1 = true;
     var E1;
     (function(E1) {
         E1[E1["A"] = 0] = "A";

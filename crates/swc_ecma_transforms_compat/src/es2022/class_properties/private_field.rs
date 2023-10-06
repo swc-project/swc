@@ -455,21 +455,28 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 let (expr, this) = self.visit_mut_private_get(&mut callee, None);
                 if let Some(this) = this {
                     let args = iter::once(this.as_arg()).chain(call.args.take()).collect();
-                    *e = Expr::Call(CallExpr {
+                    let call = OptCall {
                         span: *span,
-                        callee: OptChainExpr {
-                            span: *span,
-                            optional: *optional,
-                            base: Box::new(OptChainBase::Member(MemberExpr {
-                                span: call.span,
-                                obj: Box::new(expr),
-                                prop: MemberProp::Ident(quote_ident!("call")),
-                            })),
-                        }
-                        .as_callee(),
+                        callee: Box::new(
+                            OptChainExpr {
+                                span: *span,
+                                optional: *optional,
+                                base: Box::new(OptChainBase::Member(MemberExpr {
+                                    span: call.span,
+                                    obj: Box::new(expr),
+                                    prop: MemberProp::Ident(quote_ident!("call")),
+                                })),
+                            }
+                            .into(),
+                        ),
                         args,
                         type_args: call.type_args.take(),
-                    });
+                    };
+                    *e = Expr::OptChain(OptChainExpr {
+                        span: *span,
+                        optional: false,
+                        base: Box::new(OptChainBase::Call(call)),
+                    })
                 } else {
                     call.callee = Box::new(expr);
                 }

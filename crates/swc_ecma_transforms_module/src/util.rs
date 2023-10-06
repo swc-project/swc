@@ -2,12 +2,14 @@ use is_macro::Is;
 use serde::{Deserialize, Serialize};
 use swc_atoms::{js_word, JsWord};
 use swc_cached::regex::CachedRegex;
-use swc_common::{Span, Spanned, DUMMY_SP};
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     is_valid_prop_ident, member_expr, private_ident, quote_ident, quote_str, ExprFactory,
     FunctionFactory, IsDirective,
 };
+
+use crate::module_decl_strip::{ExportItem, ExportKV};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -38,6 +40,9 @@ pub struct Config {
     pub ignore_dynamic: bool,
     #[serde(default)]
     pub preserve_import_meta: bool,
+
+    #[serde(default)]
+    pub resolve_fully: bool,
 }
 
 impl Default for Config {
@@ -52,6 +57,7 @@ impl Default for Config {
             no_interop: false,
             ignore_dynamic: false,
             preserve_import_meta: false,
+            resolve_fully: false,
         }
     }
 }
@@ -190,26 +196,33 @@ pub(super) fn define_es_module(exports: Ident) -> Stmt {
     .into_stmt()
 }
 
-pub(super) fn clone_first_use_directive(
-    stmts: &[ModuleItem],
-    want_use_strict: bool,
-) -> Option<Stmt> {
-    if stmts.is_empty() {
-        return None;
-    }
+pub(super) trait VecStmtLike {
+    type StmtLike: IsDirective;
 
-    stmts.iter().find_map(|item| match item {
-        ModuleItem::Stmt(stmt) => {
-            if (want_use_strict && stmt.is_use_strict())
-                || (!want_use_strict && !stmt.is_use_strict() && stmt.is_directive())
-            {
-                Some(stmt.clone())
-            } else {
-                None
-            }
-        }
-        _ => None,
-    })
+    fn as_ref(&self) -> &[Self::StmtLike];
+
+    fn has_use_strict(&self) -> bool {
+        self.as_ref()
+            .iter()
+            .take_while(|s| s.directive_continue())
+            .any(IsDirective::is_use_strict)
+    }
+}
+
+impl VecStmtLike for [ModuleItem] {
+    type StmtLike = ModuleItem;
+
+    fn as_ref(&self) -> &[Self::StmtLike] {
+        self
+    }
+}
+
+impl VecStmtLike for [Stmt] {
+    type StmtLike = Stmt;
+
+    fn as_ref(&self) -> &[Self::StmtLike] {
+        self
+    }
 }
 
 pub(super) fn use_strict() -> Stmt {
@@ -313,15 +326,19 @@ pub(crate) fn esm_export() -> Function {
     }
 }
 
-pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ObjPropKeyIdent>) -> Vec<Stmt> {
+pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) -> Vec<Stmt> {
     match prop_list.len() {
         0 | 1 => prop_list
             .pop()
-            .map(|obj_prop| {
+            .map(|(export_name, export_item)| {
                 object_define_enumerable(
                     exports.as_arg(),
-                    quote_str!(obj_prop.span(), obj_prop.key()).as_arg(),
-                    prop_function((js_word!("get"), DUMMY_SP, obj_prop.2.clone()).into()).into(),
+                    quote_str!(export_item.export_name_span(), export_name).as_arg(),
+                    prop_function((
+                        js_word!("get"),
+                        ExportItem::new(DUMMY_SP, export_item.into_local_ident()),
+                    ))
+                    .into(),
                 )
                 .into_stmt()
             })
@@ -386,39 +403,6 @@ impl From<IdentOrStr> for MemberProp {
     }
 }
 
-/// {
-///     "key": ident,
-/// }
-pub(crate) struct ObjPropKeyIdent(JsWord, Span, Ident);
-
-impl From<((JsWord, Span), Ident)> for ObjPropKeyIdent {
-    fn from(((key, span), ident): ((JsWord, Span), Ident)) -> Self {
-        Self(key, span, ident)
-    }
-}
-
-impl From<(JsWord, Span, Ident)> for ObjPropKeyIdent {
-    fn from((key, span, ident): (JsWord, Span, Ident)) -> Self {
-        Self(key, span, ident)
-    }
-}
-
-impl Spanned for ObjPropKeyIdent {
-    fn span(&self) -> Span {
-        self.1
-    }
-}
-
-impl ObjPropKeyIdent {
-    pub fn key(&self) -> &JsWord {
-        &self.0
-    }
-
-    pub fn into_expr(self) -> Expr {
-        self.2.into()
-    }
-}
-
 /// ```javascript
 /// {
 ///     key: function() {
@@ -426,13 +410,14 @@ impl ObjPropKeyIdent {
 ///     },
 /// }
 /// ```
-pub(crate) fn prop_function(prop: ObjPropKeyIdent) -> Prop {
-    let key = prop_name(prop.key(), prop.span()).into();
+pub(crate) fn prop_function((key, export_item): ExportKV) -> Prop {
+    let key = prop_name(&key, export_item.export_name_span()).into();
 
     KeyValueProp {
         key,
         value: Box::new(
-            prop.into_expr()
+            export_item
+                .into_local_ident()
                 .into_lazy_fn(Default::default())
                 .into_fn_expr(None)
                 .into(),

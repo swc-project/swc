@@ -240,6 +240,12 @@ where
         srcmap!(n, true);
 
         keyword!("import");
+
+        if n.type_only {
+            space!();
+            keyword!("type");
+        }
+
         let starts_with_ident = !n.specifiers.is_empty()
             && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
@@ -310,7 +316,11 @@ where
 
         if let Some(with) = &n.with {
             formatting_space!();
-            keyword!("with");
+            if self.cfg.emit_assert_for_import_attributes {
+                keyword!("assert");
+            } else {
+                keyword!("with")
+            };
             formatting_space!();
             emit!(with);
         }
@@ -323,6 +333,11 @@ where
     #[emitter]
     fn emit_import_specific(&mut self, node: &ImportNamedSpecifier) -> Result {
         srcmap!(node, true);
+
+        if node.is_type_only {
+            keyword!("type");
+            space!();
+        }
 
         if let Some(ref imported) = node.imported {
             emit!(imported);
@@ -453,7 +468,11 @@ where
 
             if let Some(with) = &node.with {
                 formatting_space!();
-                keyword!("with");
+                if self.cfg.emit_assert_for_import_attributes {
+                    keyword!("assert");
+                } else {
+                    keyword!("with")
+                };
                 formatting_space!();
                 emit!(with);
             }
@@ -479,7 +498,11 @@ where
 
         if let Some(with) = &node.with {
             formatting_space!();
-            keyword!("with");
+            if self.cfg.emit_assert_for_import_attributes {
+                keyword!("assert");
+            } else {
+                keyword!("with")
+            };
             formatting_space!();
             emit!(with);
         }
@@ -2770,6 +2793,8 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
+        self.emit_leading_comments_of_span(e.span, false)?;
+
         emit!(e.expr);
 
         semi!();
@@ -2942,6 +2967,19 @@ where
                     }
                 }
             }
+
+            Expr::OptChain(e) => match &*e.base {
+                OptChainBase::Member(m) => {
+                    if self.has_leading_comment(&m.obj) {
+                        return true;
+                    }
+                }
+                OptChainBase::Call(c) => {
+                    if self.has_leading_comment(&c.callee) {
+                        return true;
+                    }
+                }
+            },
 
             _ => {}
         }
@@ -3852,13 +3890,34 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                 inner_buf.push('}');
                             }
 
+                            let range = if is_curly {
+                                3..(inner_buf.len() - 1)
+                            } else {
+                                2..6
+                            };
+
+                            let val_str = &inner_buf[range];
+
                             if is_valid {
-                                buf.push_str(&inner_buf);
+                                let v = u32::from_str_radix(val_str, 16).unwrap_or_else(|err| {
+                                    unreachable!(
+                                        "failed to parse {} as a hex value: {:?}",
+                                        val_str, err
+                                    )
+                                });
 
-                                let end = if is_curly { 7 } else { 5 };
+                                if v > 0xffff {
+                                    buf.push_str(&inner_buf);
 
-                                for _ in 0..end {
-                                    iter.next();
+                                    let end = if is_curly { 7 } else { 5 };
+
+                                    for _ in 0..end {
+                                        iter.next();
+                                    }
+                                } else if (0xd800..=0xdfff).contains(&v) {
+                                    buf.push('\\');
+                                } else {
+                                    buf.push_str("\\\\");
                                 }
                             }
                         } else if is_curly {

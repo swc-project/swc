@@ -2,4 +2,4 @@
 //// [testA.ts]
 export { };
 //// [testB.ts]
-export { };
+export { }; // Error

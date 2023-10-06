@@ -7,7 +7,7 @@ define([
         return "test";
     }
     (function(foo) {
-        var answer = foo.answer = 42;
+        foo.answer = 42;
     })(foo || (foo = {}));
     return foo;
 });

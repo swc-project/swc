@@ -70,6 +70,8 @@ mod macros;
 mod compress;
 mod debug;
 pub mod eval;
+#[doc(hidden)]
+pub mod js;
 mod metadata;
 mod mode;
 pub mod option;

@@ -43,6 +43,7 @@ fn exec_inner(input: PathBuf) {
 }
 
 #[testing::fixture("tests/decorators/**/input.js")]
+#[testing::fixture("tests/decorators/**/input.mjs")]
 fn fixture(input: PathBuf) {
     fixture_inner(input)
 }
@@ -50,7 +51,10 @@ fn fixture(input: PathBuf) {
 fn fixture_inner(input: PathBuf) {
     let src = std::fs::read_to_string(&input).unwrap();
 
-    let output = input.with_file_name("output.js");
+    let output = input.with_file_name(format!(
+        "output.{}",
+        input.extension().unwrap().to_string_lossy()
+    ));
 
     test_fixture(
         syntax_default(),

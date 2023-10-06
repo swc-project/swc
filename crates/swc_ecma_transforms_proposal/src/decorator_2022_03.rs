@@ -850,18 +850,15 @@ impl VisitMut for Decorator202203 {
 
             match p.kind {
                 MethodKind::Method => {
-                    *n = ClassMember::PrivateProp(PrivateProp {
-                        accessibility: Default::default(),
-                        span: p.span,
-                        key: p.key.clone(),
-                        is_optional: Default::default(),
-                        is_override: Default::default(),
-                        is_static: p.is_static,
-                        value: Some(init.into()),
-                        type_ann: Default::default(),
-                        decorators: Default::default(),
-                        definite: Default::default(),
-                        readonly: Default::default(),
+                    let call_stmt = Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(Box::new(Expr::Ident(init))),
+                    });
+
+                    p.kind = MethodKind::Getter;
+                    p.function.body = Some(BlockStmt {
+                        span: DUMMY_SP,
+                        stmts: vec![call_stmt],
                     });
                 }
                 MethodKind::Getter => {
@@ -881,9 +878,9 @@ impl VisitMut for Decorator202203 {
                     });
                 }
                 MethodKind::Setter => {
-                    let call_stmt = Stmt::Expr(ExprStmt {
+                    let call_stmt = Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        expr: Box::new(Expr::Call(CallExpr {
+                        arg: Some(Box::new(Expr::Call(CallExpr {
                             span: DUMMY_SP,
                             callee: init.as_callee(),
                             args: vec![
@@ -891,7 +888,7 @@ impl VisitMut for Decorator202203 {
                                 p.function.params[0].pat.clone().expect_ident().id.as_arg(),
                             ],
                             type_args: Default::default(),
-                        })),
+                        }))),
                     });
 
                     p.function.body = Some(BlockStmt {
@@ -1447,6 +1444,13 @@ impl VisitMut for Decorator202203 {
                     return;
                 }
 
+                s.visit_mut_children_with(self);
+            }
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span: _,
+                decl: DefaultDecl::Class(c),
+            })) => {
+                self.handle_class_expr(&mut c.class, c.ident.as_ref());
                 s.visit_mut_children_with(self);
             }
             _ => {

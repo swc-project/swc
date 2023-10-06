@@ -1,8 +1,13 @@
-var _dec, _init_x;
-_dec = dec;
+var _init_x;
 export class A {
-  static {
-    [_init_x] = _applyDecs2203R(this, [[_dec, 0, "x"]], []).e;
+  static{
+    ({ e: [_init_x] } = _apply_decs_2203_r(this, [
+        [
+            dec,
+            0,
+            "x"
+        ]
+    ], []));
   }
   x = _init_x(this);
 }

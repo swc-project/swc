@@ -175,10 +175,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
 
                     {
                         let mut emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config {
-                                minify: false,
-                                ..Default::default()
-                            },
+                            cfg: swc_ecma_codegen::Config::default(),
                             cm: cm.clone(),
                             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                 cm.clone(),
@@ -189,10 +186,7 @@ fn identity_tests(tests: &mut Vec<TestDescAndFn>) -> Result<(), io::Error> {
                             comments: None,
                         };
                         let mut expected_emitter = Emitter {
-                            cfg: swc_ecma_codegen::Config {
-                                minify: false,
-                                ..Default::default()
-                            },
+                            cfg: swc_ecma_codegen::Config::default(),
                             cm: cm.clone(),
                             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                                 cm, "\n", &mut wr2, None,

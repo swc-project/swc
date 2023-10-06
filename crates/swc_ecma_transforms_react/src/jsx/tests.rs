@@ -1499,12 +1499,9 @@ fn test_script(src: &str, output: &Path, options: Options) {
         let mut buf = vec![];
 
         let mut emitter = Emitter {
-            cfg: Config {
-                target: Default::default(),
-                ascii_only: true,
-                minify: false,
-                omit_last_semi: true,
-            },
+            cfg: Config::default()
+                .with_ascii_only(true)
+                .with_omit_last_semi(true),
             cm: tester.cm.clone(),
             wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
                 tester.cm.clone(),

@@ -10,20 +10,20 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    fn: function() {
-        return fn;
-    },
     cl1: function() {
         return cl1;
-    },
-    obj: function() {
-        return obj;
     },
     cl2: function() {
         return cl2;
     },
+    fn: function() {
+        return fn;
+    },
     l: function() {
         return l;
+    },
+    obj: function() {
+        return obj;
     }
 });
 const _async_to_generator = require("@swc/helpers/_/_async_to_generator");

@@ -61,8 +61,8 @@ var classCDATuple = classCDTuple;
 var eleFromCDA1 = classCDATuple[2]; // A
 var eleFromCDA2 = classCDATuple[5]; // C | D | A
 var t10 = [
-    E1.one,
-    E2.one
+    0,
+    0
 ];
 var t11 = t10;
 var array1 = emptyObjTuple;

@@ -596,7 +596,18 @@ export interface JscConfig {
      */
     experimental?: {
         optimizeHygiene?: boolean;
-        keepImportAssertions?: boolean;
+
+        /**
+         * Preserve `with` in imports and exports.
+         */
+        keepImportAttributes?: boolean;
+
+        /**
+         * Use `assert` instead of `with` for imports and exports.
+         * This option only works when `keepImportAttributes` is `true`.
+         */
+        emitAssertForImportAttributes?: boolean;
+
         /**
          * Specify the location where SWC stores its intermediate cache files.
          * Currently only transform plugin uses this. If not specified, SWC will

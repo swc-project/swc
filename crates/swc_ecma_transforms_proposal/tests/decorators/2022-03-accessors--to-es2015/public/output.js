@@ -39,23 +39,21 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: (()=>{
-        ({ e: [_init_a, _init_b, _init_computedKey, _initProto]  } = _apply_decs_2203_r(Foo, [
-            [
-                dec,
-                1,
-                "a"
-            ],
-            [
-                dec,
-                1,
-                "b"
-            ],
-            [
-                dec,
-                1,
-                _computedKey
-            ]
-        ], []));
-    })()
+    value: { e: [_init_a, _init_b, _init_computedKey, _initProto] } = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            1,
+            "a"
+        ],
+        [
+            dec,
+            1,
+            "b"
+        ],
+        [
+            dec,
+            1,
+            _computedKey
+        ]
+    ], [])
 };

@@ -3,7 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    var x = A.x = "hello world";
+    A.x = "hello world";
     var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
@@ -14,8 +14,7 @@ var A;
 })(A || (A = {}));
 var C;
 (function(C) {
-    var a = A;
-    C.a = a;
+    C.a = A;
 })(C || (C = {}));
 var a = C.a.x;
 var b = new C.a.Point(0, 0);
@@ -23,9 +22,9 @@ var c;
 var c;
 var X;
 (function(X) {
-    var Y = function Y() {
+    function Y() {
         return 42;
-    };
+    }
     X.Y = Y;
     (function(Y) {
         var Point = function Point(x, y) {
@@ -40,8 +39,7 @@ var X;
 var Z;
 (function(Z) {
     // 'y' should be a fundule here
-    var y = X.Y;
-    Z.y = y;
+    Z.y = X.Y;
 })(Z || (Z = {}));
 var m = Z.y();
 var n = new Z.y.Point(0, 0);
@@ -54,13 +52,12 @@ var K;
     };
     K.L = L;
     (function(L) {
-        var y = L.y = 12;
+        L.y = 12;
     })(L = K.L || (K.L = {}));
 })(K || (K = {}));
 var M;
 (function(M) {
-    var D = K.L;
-    M.D = D;
+    M.D = K.L;
 })(M || (M = {}));
 var o;
 var o = new M.D("Hello");

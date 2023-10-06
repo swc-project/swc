@@ -21,7 +21,5 @@
         "use strict";
         _class_call_check._(this, C);
     };
-    (function() {
-        C.x = 1;
-    })();
+    C.x = 1;
 });

@@ -5,18 +5,17 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var B;
 (function(B) {
-    var a = A;
-    B.a = a;
-    var D = /*#__PURE__*/ function(_a_C) {
+    B.a = A;
+    var D = /*#__PURE__*/ function(_B_a_C) {
         "use strict";
-        _inherits(D, _a_C);
+        _inherits(D, _B_a_C);
         var _super = _create_super(D);
         function D() {
             _class_call_check(this, D);
             return _super.apply(this, arguments);
         }
         return D;
-    }(a.C);
+    }(B.a.C);
     B.D = D;
 })(B || (B = {}));
 var A;
@@ -26,8 +25,7 @@ var A;
         _class_call_check(this, C);
     };
     A.C = C;
-    var b = B;
-    A.b = b;
+    A.b = B;
 })(A || (A = {}));
 var c;
 var c = new B.a.C();

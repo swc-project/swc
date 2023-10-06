@@ -15,11 +15,9 @@ var A = function A() {
         return _instanceof(_this, A) ? _this.constructor : void 0;
     };
 };
-(function() {
-    A.c = function _target() {
-        return _instanceof(this, _target) ? this.constructor : void 0;
-    };
-})();
+A.c = function _target() {
+    return _instanceof(this, _target) ? this.constructor : void 0;
+};
 var B = /*#__PURE__*/ function _target(A) {
     "use strict";
     _inherits(B, A);

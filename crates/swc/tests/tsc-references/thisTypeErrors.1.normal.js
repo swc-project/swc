@@ -21,14 +21,10 @@ var C2 = /*#__PURE__*/ function() {
     };
     return C2;
 }();
-(function() {
-    C2.y = undefined;
-})();
+C2.y = undefined;
 var N1;
 (function(N1) {
-    var x;
-    var y = N1.y = this;
-    N1.x = x;
+    N1.y = this;
 })(N1 || (N1 = {}));
 var C3 = /*#__PURE__*/ function() {
     "use strict";
@@ -42,9 +38,9 @@ var C3 = /*#__PURE__*/ function() {
     }
     var _proto = C3.prototype;
     _proto.f = function f() {
-        var g = function g(x) {
+        function g(x) {
             return undefined;
-        };
+        }
         var x2 = {
             h: function h(x) {
                 return undefined;

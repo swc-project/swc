@@ -1,3 +1,5 @@
+#![allow(unused)]
+
 use std::{path::PathBuf, sync::Arc};
 
 use parking_lot::Mutex;

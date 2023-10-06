@@ -1266,6 +1266,9 @@ impl SourceMap {
                 Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
                 _ => {
                     f = self.lookup_source_file(pos);
+                    if config.skip(&f.name) {
+                        continue;
+                    }
                     src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
                     inline_sources_content = config.inline_sources_content(&f.name);
@@ -1447,8 +1450,9 @@ pub trait SourceMapGenConfig {
         true
     }
 
-    fn skip(&self, _f: &FileName) -> bool {
-        false
+    /// By default, we skip internal files.
+    fn skip(&self, f: &FileName) -> bool {
+        matches!(f, FileName::Internal(..))
     }
 }
 

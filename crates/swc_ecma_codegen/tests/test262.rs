@@ -136,11 +136,9 @@ fn do_test(entry: &Path, minify: bool) {
             }
 
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config {
-                    minify,
-                    target: EsVersion::Es5,
-                    ..Default::default()
-                },
+                cfg: swc_ecma_codegen::Config::default()
+                    .with_minify(minify)
+                    .with_target(EsVersion::Es5),
                 cm,
                 wr,
                 comments: if minify { None } else { Some(&comments) },

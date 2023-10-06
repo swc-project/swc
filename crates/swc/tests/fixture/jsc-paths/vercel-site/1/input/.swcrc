@@ -1,0 +1,13 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "./*"
+            ]
+        }
+    }
+}

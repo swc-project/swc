@@ -4,11 +4,11 @@ var Test;
         return 10;
     }
     Test.abc = abc;
-    var foo = Test.foo = function() {
+    Test.foo = function() {
         return 20;
     };
     function xyz() {
-        return abc() * foo();
+        return abc() * Test.foo();
     }
     Test.xyz = xyz;
 })(Test || (Test = {}));

@@ -2,7 +2,6 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var X;
 (function(X) {
-    var Y;
     (function(Y) {
         var Point = function Point(x, y) {
             "use strict";
@@ -11,18 +10,17 @@ var X;
             this.y = y;
         };
         Y.Point = Point;
-    })(Y = X.Y || (X.Y = {}));
+    })(X.Y || (X.Y = {}));
 })(X || (X = {}));
 //// [module.ts]
 var X;
 (function(X) {
-    var Y;
     (function(Y) {
         var Point;
-        (function(Point1) {
-            var Origin = Point1.Origin = new Point(0, 0);
+        (function(Point) {
+            Point.Origin = new Point(0, 0);
         })(Point = Y.Point || (Y.Point = {}));
-    })(Y = X.Y || (X.Y = {}));
+    })(X.Y || (X.Y = {}));
 })(X || (X = {}));
 //// [test.ts]
 //var cl: { x: number; y: number; }
@@ -34,8 +32,8 @@ var A = function A() {
     "use strict";
     _class_call_check(this, A);
 };
-(function(A1) {
-    var Instance = A1.Instance = new A();
+(function(A) {
+    A.Instance = new A();
 })(A || (A = {}));
 // ensure merging works as expected
 var a = A.Instance;

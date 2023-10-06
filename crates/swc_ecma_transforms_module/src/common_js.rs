@@ -1,23 +1,26 @@
 use swc_atoms::js_word;
 use swc_common::{
-    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, Spanned,
-    DUMMY_SP,
+    collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    member_expr, private_ident, quote_expr, quote_ident, ExprFactory, FunctionFactory, IsDirective,
+    member_expr, private_ident, quote_expr, quote_ident, undefined, ExprFactory, FunctionFactory,
+    IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use super::util::Config;
 use crate::{
-    module_decl_strip::{Export, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip},
-    module_ref_rewriter::{ImportMap, ModuleRefRewriter},
+    module_decl_strip::{
+        Export, ExportKV, Link, LinkFlag, LinkItem, LinkSpecifierReducer, ModuleDeclStrip,
+    },
+    module_ref_rewriter::{rewrite_import_bindings, ImportMap},
     path::{ImportResolver, Resolver},
+    top_level_this::top_level_this,
     util::{
-        clone_first_use_directive, define_es_module, emit_export_stmts, local_name_for_src,
-        prop_name, use_strict, ImportInterop, ObjPropKeyIdent,
+        define_es_module, emit_export_stmts, local_name_for_src, prop_name, use_strict,
+        ImportInterop, VecStmtLike,
     },
 };
 
@@ -91,6 +94,26 @@ where
     noop_visit_mut_type!();
 
     fn visit_mut_module(&mut self, n: &mut Module) {
+        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);
+
+        // Collect directives
+        stmts.extend(
+            &mut n
+                .body
+                .iter_mut()
+                .take_while(|i| i.directive_continue())
+                .map(|i| i.take()),
+        );
+
+        // "use strict";
+        if self.config.strict_mode && !stmts.has_use_strict() {
+            stmts.push(use_strict().into());
+        }
+
+        if !self.config.allow_top_level_this {
+            top_level_this(&mut n.body, *undefined(DUMMY_SP));
+        }
+
         let import_interop = self.config.import_interop();
 
         let mut module_map = Default::default();
@@ -110,19 +133,6 @@ where
 
         let mut strip = ModuleDeclStrip::new(self.const_var_kind);
         n.body.visit_mut_with(&mut strip);
-
-        let mut stmts: Vec<ModuleItem> = Vec::with_capacity(n.body.len() + 6);
-
-        stmts.extend(clone_first_use_directive(&n.body, false).map(From::from));
-
-        // "use strict";
-        if self.config.strict_mode {
-            stmts.push(
-                clone_first_use_directive(&n.body, true)
-                    .unwrap_or_else(use_strict)
-                    .into(),
-            );
-        }
 
         let ModuleDeclStrip {
             link,
@@ -156,7 +166,7 @@ where
         );
 
         stmts.extend(n.body.take().into_iter().filter(|item| match item {
-            ModuleItem::Stmt(stmt) => !stmt.is_directive(),
+            ModuleItem::Stmt(stmt) => !stmt.is_empty(),
             _ => false,
         }));
 
@@ -178,11 +188,7 @@ where
             stmts.visit_mut_children_with(self);
         }
 
-        stmts.visit_mut_children_with(&mut ModuleRefRewriter::new(
-            module_map,
-            lazy_record,
-            self.config.allow_top_level_this,
-        ));
+        rewrite_import_bindings(&mut stmts, module_map, lazy_record);
 
         n.body = stmts;
     }
@@ -268,7 +274,7 @@ where
 
         let mut stmts = Vec::with_capacity(link.len());
 
-        let mut export_obj_prop_list = export.into_iter().map(From::from).collect();
+        let mut export_obj_prop_list = export.into_iter().collect();
 
         let lexer_reexport = if export_interop_annotation {
             self.emit_lexer_reexport(&link)
@@ -361,7 +367,7 @@ where
         let mut export_stmts: Vec<Stmt> = Default::default();
 
         if !export_obj_prop_list.is_empty() && !is_export_assign {
-            export_obj_prop_list.sort_by_key(|prop| prop.span());
+            export_obj_prop_list.sort_by_cached_key(|(key, ..)| key.clone());
 
             let mut features = self.available_features;
             let exports = self.exports();
@@ -454,17 +460,17 @@ where
     /// 0 && (exports.foo = 0);
     /// 0 && (module.exports = { foo: _, bar: _ });
     /// ```
-    fn emit_lexer_exports_init(&mut self, export_id_list: &[ObjPropKeyIdent]) -> Option<Stmt> {
+    fn emit_lexer_exports_init(&mut self, export_id_list: &[ExportKV]) -> Option<Stmt> {
         match export_id_list.len() {
             0 => None,
             1 => {
                 let expr: Expr = 0.into();
 
-                let key_value = &export_id_list[0];
-                let prop = prop_name(key_value.key(), DUMMY_SP).into();
+                let (key, export_item) = &export_id_list[0];
+                let prop = prop_name(key, DUMMY_SP).into();
                 let export_binding = MemberExpr {
                     obj: Box::new(self.exports().into()),
-                    span: key_value.span(),
+                    span: export_item.export_name_span(),
                     prop,
                 };
                 let expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
@@ -480,7 +486,7 @@ where
             _ => {
                 let props = export_id_list
                     .iter()
-                    .map(|key_value| prop_name(key_value.key(), DUMMY_SP))
+                    .map(|(key, ..)| prop_name(key, DUMMY_SP))
                     .map(|key| KeyValueProp {
                         key: key.into(),
                         // `cjs-module-lexer` only support identifier as value

@@ -12,14 +12,14 @@ var B;
 })(B || (B = {}));
 var Geometry;
 (function(Geometry) {
-    var Points = A;
-    Geometry.Points = Points;
+    Geometry.Points = A;
     var Lines = B;
-    var Origin = Geometry.Origin = {
+    Geometry.Origin = {
         x: 0,
         y: 0
     };
-    var Unit = Geometry.Unit = new Lines.Line(Origin, {
+    // this is valid since B.Line _is_ visible outside Geometry
+    Geometry.Unit = new Lines.Line(Geometry.Origin, {
         x: 1,
         y: 0
     });

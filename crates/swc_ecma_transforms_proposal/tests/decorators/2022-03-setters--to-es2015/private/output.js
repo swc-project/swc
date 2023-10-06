@@ -16,19 +16,17 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: (()=>{
-        ({ e: [_call_a, _initProto]  } = _apply_decs_2203_r(Foo, [
-            [
-                dec,
-                4,
-                "a",
-                function(v) {
-                    return this.value = v;
-                }
-            ]
-        ], []));
-    })()
+    value: { e: [_call_a, _initProto] } = _apply_decs_2203_r(Foo, [
+        [
+            dec,
+            4,
+            "a",
+            function(v) {
+                return this.value = v;
+            }
+        ]
+    ], [])
 };
 function set_a(v) {
-    _call_a(this, v);
+    return _call_a(this, v);
 }

@@ -33,11 +33,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    y: function() {
-        return _t1.x;
-    },
     x: function() {
         return _t1.y;
+    },
+    y: function() {
+        return _t1.x;
     }
 });
 const _t1 = require("./t1");
@@ -53,11 +53,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    y: function() {
-        return _t1.x;
-    },
     x: function() {
         return _t1.y;
+    },
+    y: function() {
+        return _t1.x;
     }
 });
 const _t1 = require("./t1");

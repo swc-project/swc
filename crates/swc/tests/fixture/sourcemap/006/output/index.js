@@ -5,7 +5,12 @@ it("should compress avif smaller than webp and smaller than jpg", /*#__PURE__*/ 
     return _ts_generator(this, function(_state) {
         switch(_state.label){
             case 0:
-                query = {
+                /**
+     *
+     * 'Foo bar baz'
+     *
+     * Return @
+     */ query = {
                     url: "/test.jpg",
                     w: w,
                     q: 75

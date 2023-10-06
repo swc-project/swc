@@ -1,6 +1,6 @@
 //// [emitArrowFunctionWhenUsingArguments19.ts]
 function f() {
-    var g = function g() {
+    function g() {
         var _arguments = 10; // No capture in 'g', so no conflict.
         function h() {
             var _arguments1 = arguments;
@@ -9,8 +9,8 @@ function f() {
             }; // Should trigger an '_arguments' capture into function 'h'
             foo(_arguments); // Error as this does not resolve to the user defined '_arguments'
         }
-    };
-    var foo = function foo(x) {
+    }
+    function foo(x) {
         return 100;
-    };
+    }
 }

@@ -9,12 +9,6 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    x: function() {
-        return x;
-    },
-    y: function() {
-        return y;
-    },
     f1: function() {
         return f1;
     },
@@ -26,17 +20,23 @@ _export(exports, {
     },
     f4: function() {
         return f4;
+    },
+    x: function() {
+        return x;
+    },
+    y: function() {
+        return y;
     }
 });
 let x = 0;
 let y = 0;
 function f1() {
-    ({ x  } = {
+    ({ x } = {
         x: 1
     });
 }
 function f2() {
-    ({ x , y  } = {
+    ({ x, y } = {
         x: 2,
         y: 3
     });

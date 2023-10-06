@@ -15,6 +15,6 @@ var enumdule;
     enumdule[enumdule["Blue"] = 1] = "Blue";
 })(enumdule || (enumdule = {}));
 var x;
-var x = enumdule.Red;
+var x = 0;
 var y;
 var y = new enumdule.Point(0, 0);

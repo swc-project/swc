@@ -5,6 +5,6 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function(C1) {
-    var y = C1.y = C.bar;
+(function(C) {
+    C.y = C.bar; // error
 })(C || (C = {}));

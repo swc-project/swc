@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    baz: function() {
-        return _moduleWithGetter.baz;
-    },
     Foo: function() {
         return _moduleWithGetter.default;
+    },
+    baz: function() {
+        return _moduleWithGetter.baz;
     }
 });
 const _moduleWithGetter = /*#__PURE__*/ _interop_require_wildcard(require("./moduleWithGetter"));

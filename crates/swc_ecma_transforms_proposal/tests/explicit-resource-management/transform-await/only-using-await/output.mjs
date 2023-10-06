@@ -1,9 +1,9 @@
 {
     try {
         var _stack = [];
-        const x = _using(_stack, obj, true);
+        var x = _using(_stack, obj, true);
         stmt;
-        const y = _using(_stack, obj, true), z = _using(_stack, obj, true);
+        var y = _using(_stack, obj, true), z = _using(_stack, obj, true);
         doSomethingWith(x, y);
     } catch (_) {
         var _error = _;

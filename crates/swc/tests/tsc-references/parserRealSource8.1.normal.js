@@ -4,28 +4,64 @@
 ///<reference path='typescript.ts' />
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var TypeScript;
-(function(TypeScript1) {
-    var pushAssignScope = function pushAssignScope(scope, context, type, classType, fnc) {
+(function(TypeScript) {
+    var AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
+        "use strict";
+        _class_call_check(this, AssignScopeContext);
+        this.scopeChain = scopeChain;
+        this.typeFlow = typeFlow;
+        this.modDeclChain = modDeclChain;
+    };
+    TypeScript.AssignScopeContext = AssignScopeContext;
+    function pushAssignScope(scope, context, type, classType, fnc) {
         var chain = new ScopeChain(null, context.scopeChain, scope);
         chain.thisType = type;
         chain.classType = classType;
         chain.fnc = fnc;
         context.scopeChain = chain;
-    };
-    var popAssignScope = function popAssignScope(context) {
+    }
+    TypeScript.pushAssignScope = pushAssignScope;
+    function popAssignScope(context) {
         context.scopeChain = context.scopeChain.previous;
-    };
-    var instanceCompare = function instanceCompare(a, b) {
+    }
+    TypeScript.popAssignScope = popAssignScope;
+    function instanceCompare(a, b) {
         if (a == null || !a.isInstanceProperty()) {
             return b;
         } else {
             return a;
         }
-    };
-    var instanceFilterStop = function instanceFilterStop(s) {
+    }
+    TypeScript.instanceCompare = instanceCompare;
+    function instanceFilterStop(s) {
         return s.isInstanceProperty();
-    };
-    var preAssignModuleScopes = function preAssignModuleScopes(ast, context) {
+    }
+    TypeScript.instanceFilterStop = instanceFilterStop;
+    var ScopeSearchFilter = /*#__PURE__*/ function() {
+        "use strict";
+        function ScopeSearchFilter(select, stop) {
+            _class_call_check(this, ScopeSearchFilter);
+            this.select = select;
+            this.stop = stop;
+            this.result = null;
+        }
+        var _proto = ScopeSearchFilter.prototype;
+        _proto.reset = function reset() {
+            this.result = null;
+        };
+        _proto.update = function update(b) {
+            this.result = this.select(this.result, b);
+            if (this.result) {
+                return this.stop(this.result);
+            } else {
+                return false;
+            }
+        };
+        return ScopeSearchFilter;
+    }();
+    TypeScript.ScopeSearchFilter = ScopeSearchFilter;
+    TypeScript.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
+    function preAssignModuleScopes(ast, context) {
         var moduleDecl = ast;
         var memberScope = null;
         var aggScope = null;
@@ -49,8 +85,9 @@ var TypeScript;
         if (mod.symbol) {
             context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, moduleDecl.vars, mod.members.privateMembers, true);
         }
-    };
-    var preAssignClassScopes = function preAssignClassScopes(ast, context) {
+    }
+    TypeScript.preAssignModuleScopes = preAssignModuleScopes;
+    function preAssignClassScopes(ast, context) {
         var classDecl = ast;
         var memberScope = null;
         var aggScope = null;
@@ -76,8 +113,9 @@ var TypeScript;
         } else {
             ast.type = context.typeFlow.anyType;
         }
-    };
-    var preAssignInterfaceScopes = function preAssignInterfaceScopes(ast, context) {
+    }
+    TypeScript.preAssignClassScopes = preAssignClassScopes;
+    function preAssignInterfaceScopes(ast, context) {
         var interfaceDecl = ast;
         var memberScope = null;
         var aggScope = null;
@@ -92,8 +130,9 @@ var TypeScript;
         aggScope.addParentScope(context.scopeChain.scope);
         pushAssignScope(aggScope, context, null, null, null);
         interfaceType.containedScope = aggScope;
-    };
-    var preAssignWithScopes = function preAssignWithScopes(ast, context) {
+    }
+    TypeScript.preAssignInterfaceScopes = preAssignInterfaceScopes;
+    function preAssignWithScopes(ast, context) {
         var withStmt = ast;
         var withType = withStmt.type;
         var members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable()));
@@ -108,8 +147,9 @@ var TypeScript;
         var withScope = new TypeScript.SymbolScopeBuilder(withType.members, withType.ambientMembers, null, null, context.scopeChain.scope, withType.symbol);
         pushAssignScope(withScope, context, null, null, null);
         withType.containedScope = withScope;
-    };
-    var preAssignFuncDeclScopes = function preAssignFuncDeclScopes(ast, context) {
+    }
+    TypeScript.preAssignWithScopes = preAssignWithScopes;
+    function preAssignFuncDeclScopes(ast, context) {
         var funcDecl = ast;
         var container = null;
         var localContainer = null;
@@ -256,8 +296,9 @@ var TypeScript;
             var thisType = funcDecl.isConstructor && hasFlag(funcDecl.fncFlags, FncFlags.ClassMethod) ? context.scopeChain.thisType : null;
             pushAssignScope(locals, context, thisType, null, funcDecl);
         }
-    };
-    var preAssignCatchScopes = function preAssignCatchScopes(ast, context) {
+    }
+    TypeScript.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
+    function preAssignCatchScopes(ast, context) {
         var catchBlock = ast;
         if (catchBlock.param) {
             var catchTable = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())); // REVIEW: Should we be allocating a public table instead of a private one?
@@ -265,8 +306,9 @@ var TypeScript;
             catchBlock.containedScope = catchLocals;
             pushAssignScope(catchLocals, context, context.scopeChain.thisType, context.scopeChain.classType, context.scopeChain.fnc);
         }
-    };
-    var preAssignScopes = function preAssignScopes(ast, parent, walker) {
+    }
+    TypeScript.preAssignCatchScopes = preAssignCatchScopes;
+    function preAssignScopes(ast, parent, walker) {
         var context = walker.state;
         var go = true;
         if (ast) {
@@ -291,8 +333,9 @@ var TypeScript;
         }
         walker.options.goChildren = go;
         return ast;
-    };
-    var postAssignScopes = function postAssignScopes(ast, parent, walker) {
+    }
+    TypeScript.preAssignScopes = preAssignScopes;
+    function postAssignScopes(ast, parent, walker) {
         var context = walker.state;
         var go = true;
         if (ast) {
@@ -325,49 +368,6 @@ var TypeScript;
         }
         walker.options.goChildren = go;
         return ast;
-    };
-    var AssignScopeContext = function AssignScopeContext(scopeChain, typeFlow, modDeclChain) {
-        "use strict";
-        _class_call_check(this, AssignScopeContext);
-        this.scopeChain = scopeChain;
-        this.typeFlow = typeFlow;
-        this.modDeclChain = modDeclChain;
-    };
-    TypeScript1.AssignScopeContext = AssignScopeContext;
-    TypeScript1.pushAssignScope = pushAssignScope;
-    TypeScript1.popAssignScope = popAssignScope;
-    TypeScript1.instanceCompare = instanceCompare;
-    TypeScript1.instanceFilterStop = instanceFilterStop;
-    var ScopeSearchFilter = /*#__PURE__*/ function() {
-        "use strict";
-        function ScopeSearchFilter(select, stop) {
-            _class_call_check(this, ScopeSearchFilter);
-            this.select = select;
-            this.stop = stop;
-            this.result = null;
-        }
-        var _proto = ScopeSearchFilter.prototype;
-        _proto.reset = function reset() {
-            this.result = null;
-        };
-        _proto.update = function update(b) {
-            this.result = this.select(this.result, b);
-            if (this.result) {
-                return this.stop(this.result);
-            } else {
-                return false;
-            }
-        };
-        return ScopeSearchFilter;
-    }();
-    TypeScript1.ScopeSearchFilter = ScopeSearchFilter;
-    var instanceFilter = TypeScript1.instanceFilter = new ScopeSearchFilter(instanceCompare, instanceFilterStop);
-    TypeScript1.preAssignModuleScopes = preAssignModuleScopes;
-    TypeScript1.preAssignClassScopes = preAssignClassScopes;
-    TypeScript1.preAssignInterfaceScopes = preAssignInterfaceScopes;
-    TypeScript1.preAssignWithScopes = preAssignWithScopes;
-    TypeScript1.preAssignFuncDeclScopes = preAssignFuncDeclScopes;
-    TypeScript1.preAssignCatchScopes = preAssignCatchScopes;
-    TypeScript1.preAssignScopes = preAssignScopes;
-    TypeScript1.postAssignScopes = postAssignScopes;
+    }
+    TypeScript.postAssignScopes = postAssignScopes;
 })(TypeScript || (TypeScript = {}));

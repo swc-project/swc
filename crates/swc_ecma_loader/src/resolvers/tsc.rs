@@ -120,17 +120,26 @@ where
                     module_specifier, resolved, base
                 );
 
-                if let FileName::Real(target) = &resolved {
-                    // If node_modules is in path, we should return module specifier.
-                    if target.components().any(|c| {
-                        if let Component::Normal(v) = c {
-                            v == "node_modules"
-                        } else {
-                            false
-                        }
-                    }) {
-                        return Ok(FileName::Real(module_specifier.into()));
-                    }
+                let is_base_in_node_modules = if let FileName::Real(v) = base {
+                    v.components().any(|c| match c {
+                        Component::Normal(v) => v == "node_modules",
+                        _ => false,
+                    })
+                } else {
+                    false
+                };
+                let is_target_in_node_modules = if let FileName::Real(v) = &resolved {
+                    v.components().any(|c| match c {
+                        Component::Normal(v) => v == "node_modules",
+                        _ => false,
+                    })
+                } else {
+                    false
+                };
+
+                // If node_modules is in path, we should return module specifier.
+                if !is_base_in_node_modules && is_target_in_node_modules {
+                    return Ok(FileName::Real(module_specifier.into()));
                 }
 
                 Ok(resolved)

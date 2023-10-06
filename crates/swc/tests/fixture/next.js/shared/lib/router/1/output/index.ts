@@ -13,7 +13,7 @@ var Router = /*#__PURE__*/ function() {
             value: function change(method, url, as, options, forcedScroll) {
                 var _this = this;
                 return _async_to_generator(function() {
-                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, _props, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
+                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -159,6 +159,8 @@ var Router = /*#__PURE__*/ function() {
                                 if (!_this.urlIsNew(cleanedAs) && !localeChange) {
                                     method = "replaceState";
                                 }
+                                // we need to resolve the as value using rewrites for dynamic SSG
+                                // pages to allow building the data URL correctly
                                 resolvedAs = as;
                                 // url and as should always be prefixed with basePath by this
                                 // point by either next/link or router.push/replace so strip the
@@ -310,11 +312,12 @@ var Router = /*#__PURE__*/ function() {
                             case 13:
                                 Router.events.emit("beforeHistoryChange", as, routeProps);
                                 _this.changeState(method, url, as, options);
-                                if (options._h && pathname === "/_error" && ((_self___NEXT_DATA___props = self.__NEXT_DATA__.props) === null || _self___NEXT_DATA___props === void 0 ? void 0 : (_self___NEXT_DATA___props_pageProps = _self___NEXT_DATA___props.pageProps) === null || _self___NEXT_DATA___props_pageProps === void 0 ? void 0 : _self___NEXT_DATA___props_pageProps.statusCode) === 500 && ((_props = props) === null || _props === void 0 ? void 0 : _props.pageProps)) {
+                                if (options._h && pathname === "/_error" && ((_self___NEXT_DATA___props = self.__NEXT_DATA__.props) === null || _self___NEXT_DATA___props === void 0 ? void 0 : (_self___NEXT_DATA___props_pageProps = _self___NEXT_DATA___props.pageProps) === null || _self___NEXT_DATA___props_pageProps === void 0 ? void 0 : _self___NEXT_DATA___props_pageProps.statusCode) === 500 && (props === null || props === void 0 ? void 0 : props.pageProps)) {
                                     // ensure statusCode is still correct for static 500 page
                                     // when updating query information
                                     props.pageProps.statusCode = 500;
                                 }
+                                // shallow routing is only allowed for same page URL changes.
                                 isValidShallowRoute = options.shallow && _this.route === route;
                                 shouldScroll = (_options_scroll = options.scroll) !== null && _options_scroll !== void 0 ? _options_scroll : !isValidShallowRoute;
                                 resetScroll = shouldScroll ? {

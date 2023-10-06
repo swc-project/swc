@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_if_required, undefined, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -191,6 +191,35 @@ impl VisitMut for NullishCoalescing {
 
             _ => {}
         }
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, n: &mut BlockStmtOrExpr) {
+        let vars = self.vars.take();
+        n.visit_mut_children_with(self);
+
+        if !self.vars.is_empty() {
+            if let BlockStmtOrExpr::Expr(expr) = n {
+                // expr
+                // { var decl = init; return expr; }
+                let span = expr.span();
+                let stmts = vec![
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.vars.take(),
+                        declare: false,
+                    }
+                    .into(),
+                    Stmt::Return(ReturnStmt {
+                        span: DUMMY_SP,
+                        arg: Some(expr.take()),
+                    }),
+                ];
+                *n = BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts });
+            }
+        }
+
+        self.vars = vars;
     }
 }
 

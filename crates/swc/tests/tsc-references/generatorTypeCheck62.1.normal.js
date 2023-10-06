@@ -10,9 +10,6 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    strategy: function() {
-        return strategy;
-    },
     Nothing1: function() {
         return Nothing1;
     },
@@ -21,6 +18,9 @@ _export(exports, {
     },
     Nothing3: function() {
         return Nothing3;
+    },
+    strategy: function() {
+        return strategy;
     }
 });
 function strategy(stratName, gen) {

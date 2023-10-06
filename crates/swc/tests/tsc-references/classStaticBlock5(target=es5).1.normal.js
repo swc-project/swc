@@ -8,12 +8,8 @@ var B = function B() {
     "use strict";
     _class_call_check(this, B);
 };
-(function() {
-    B.a = 1;
-})();
-(function() {
-    B.b = 2;
-})();
+B.a = 1;
+B.b = 2;
 var C = /*#__PURE__*/ function(B) {
     "use strict";
     _inherits(C, B);
@@ -24,12 +20,8 @@ var C = /*#__PURE__*/ function(B) {
     }
     return C;
 }(B);
-(function() {
-    C.b = 3;
-})();
-(function() {
-    C.c = _get(_get_prototype_of(C), "a", C);
-})();
+C.b = 3;
+C.c = _get(_get_prototype_of(C), "a", C);
 (function() {
     C.b;
     _get(_get_prototype_of(C), "b", C);

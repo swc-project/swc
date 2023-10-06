@@ -13,7 +13,7 @@ const I = require("./a");
 "use strict";
 var I;
 (function(I) {
-    var x = I.x = 1;
+    I.x = 1;
 })(I || (I = {}));
 module.exports = I;
 //// [/d.ts]

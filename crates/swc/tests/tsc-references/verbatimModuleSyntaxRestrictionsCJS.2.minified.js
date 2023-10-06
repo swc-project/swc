@@ -28,7 +28,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
-Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl")));
+require("./decl"), Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./decl")));
 const x = 1; // error
 (Values || (Values = {})).x = 1;
  // sketchy, but ok
@@ -65,10 +65,22 @@ class C {
 //// [/main6.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
+}), Object.defineProperty(exports, "default" // error
+, {
+    enumerable: !0,
+    get: function() {
+        return _default;
+    }
 });
- // error
+const _default = I;
 //// [/main7.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
+}), Object.defineProperty(exports, "default" // error
+, {
+    enumerable: !0,
+    get: function() {
+        return _default;
+    }
 });
- // error
+const _default = esmy;

@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    get: function() {
-        return get;
-    },
     default: function() {
         return _default;
+    },
+    get: function() {
+        return get;
     }
 });
 function get(key) {

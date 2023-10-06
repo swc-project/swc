@@ -6,7 +6,7 @@ define([
     "use strict";
     var Foo;
     (function(Foo) {
-        var x = Foo.x = _foo_1.x;
+        Foo.x = _foo_1.x;
     })(Foo || (Foo = {}));
     return Foo;
 });
@@ -18,7 +18,7 @@ define([
     "use strict";
     var Foo;
     (function(Foo) {
-        var x = Foo.x = _foo_2.x;
+        Foo.x = _foo_2.x;
     })(Foo || (Foo = {}));
     return Foo;
 });
@@ -30,7 +30,7 @@ define([
     "use strict";
     var Foo;
     (function(Foo) {
-        var x = Foo.x = _foo_0.x;
+        Foo.x = _foo_0.x;
     })(Foo || (Foo = {}));
     return Foo;
 });

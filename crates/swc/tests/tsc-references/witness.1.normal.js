@@ -108,11 +108,11 @@ var propAcc1 = {
     m: propAcc1.m
 };
 var propAcc1;
-// Property access of module member
 var M2;
-(function(M21) {
-    var x = M21.x = M2.x;
-    var y = x;
+// Property access of module member
+(function(M2) {
+    M2.x = M2.x;
+    var y = M2.x;
     var y;
 })(M2 || (M2 = {}));
 // Property access of class instance type
@@ -129,8 +129,6 @@ var C3 = function C3() {
     "use strict";
     _class_call_check(this, C3);
 };
-(function() {
-    C3.q = C3.q;
-})();
+C3.q = C3.q;
 var qq = C3.q;
 var qq; // Parentheses - tested a bunch above

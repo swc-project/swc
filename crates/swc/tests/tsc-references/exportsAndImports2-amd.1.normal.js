@@ -47,11 +47,11 @@ define([
         });
     }
     _export(exports, {
-        y: function() {
-            return _t1.x;
-        },
         x: function() {
             return _t1.y;
+        },
+        y: function() {
+            return _t1.x;
         }
     });
 });
@@ -72,11 +72,11 @@ define([
         });
     }
     _export(exports, {
-        y: function() {
-            return _t1.x;
-        },
         x: function() {
             return _t1.y;
+        },
+        y: function() {
+            return _t1.x;
         }
     });
 });

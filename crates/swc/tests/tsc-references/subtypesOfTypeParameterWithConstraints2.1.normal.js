@@ -41,14 +41,14 @@ var E;
 })(E || (E = {}));
 function f() {}
 (function(f) {
-    var bar = f.bar = 1;
+    f.bar = 1;
 })(f || (f = {}));
 var c = function c() {
     "use strict";
     _class_call_check(this, c);
 };
 (function(c) {
-    var bar = c.bar = 1;
+    c.bar = 1;
 })(c || (c = {}));
 function f4(x) {
     var r0 = true ? x : null; // ok
@@ -115,8 +115,8 @@ function f15(x) {
 function f16(x) {
     var r13 = true ? E : x; // ok
     var r13 = true ? x : E; // ok
-    var r14 = true ? E.A : x; // ok
-    var r14 = true ? x : E.A; // ok
+    var r14 = true ? 0 : x; // ok
+    var r14 = true ? x : 0; // ok
 }
 function f17(x) {
     var af;
@@ -129,14 +129,14 @@ function f18(x) {
     var r16 = true ? x : ac; // ok
 }
 function f19(x) {
-    var f17 = function f17(a) {
+    function f17(a) {
         var r17 = true ? x : a; // ok
         var r17 = true ? a : x; // ok
-    };
-    var f18 = function f18(a) {
+    }
+    function f18(a) {
         var r18 = true ? x : a; // ok
         var r18 = true ? a : x; // ok
-    };
+    }
 }
 function f20(x) {
     var r19 = true ? new Object() : x; // ok

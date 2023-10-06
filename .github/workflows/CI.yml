@@ -245,12 +245,18 @@ jobs:
           - crate: swc_cached
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_cli_impl
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_common
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_common
             os: windows-latest
             runner: windows-latest
+          - crate: swc_compiler_base
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_config
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -591,13 +597,6 @@ jobs:
         run: |
           jest --version && mocha --version
 
-      - name: Cache rust artifacts
-        uses: Swatinem/rust-cache@v2
-        if: matrix.settings.crate == 'swc' || matrix.settings.crate == 'swc_plugin_runner'
-        with:
-          shared-key: cargo-test-${{ matrix.settings.crate }}
-          cache-on-failure: true
-
       - name: Configure execution cache
         shell: bash
         run: |
@@ -712,14 +711,6 @@ jobs:
           ./scripts/cargo/patch-section.sh >> bindings/Cargo.toml
           cd bindings && cargo update -p swc_core
 
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-node-api-test
-
       - name: Set platform name
         run: |
           export NODE_PLATFORM_NAME=$(node -e "console.log(require('os').platform())")
@@ -749,14 +740,6 @@ jobs:
         with:
           node-version: 14
           cache: "yarn"
-
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-cargo-integration
 
       - name: Set platform name
         run: |
@@ -834,3 +817,20 @@ jobs:
       - name: (swcpack) example react app
         run: |
           (cd crates/swc_node_bundler/tests/integration/react && yarn && npx spack)
+
+  done:
+    needs:
+      - cargo-fmt
+      - cargo-clippy
+      - cargo-deny
+      - cargo-check
+      - test-wasm
+      - cargo-test
+      - node-test
+      - integration-test
+    if: ${{ github.event_name != 'push' || github.ref != 'refs/heads/master' }}
+    runs-on: ubuntu-latest
+    name: Done
+    steps:
+      - run: exit 1
+        if: ${{ always() && (contains(needs.*.result, 'failure') || contains(needs.*.result, 'skipped') || contains(needs.*.result, 'cancelled')) }}

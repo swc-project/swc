@@ -1,1 +1,1 @@
-export var A = B;
+export const A = B;

@@ -19,16 +19,13 @@ define([
         _class_call_check._(this, C1);
         this.m1 = 42;
     };
-    (function() {
-        C1.s1 = true;
-    })();
+    C1.s1 = true;
 });
 //// [foo_1.ts]
 define([
     "require",
-    "exports",
-    "./foo_0"
-], function(require, exports, _foo_0) {
+    "exports"
+], function(require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true

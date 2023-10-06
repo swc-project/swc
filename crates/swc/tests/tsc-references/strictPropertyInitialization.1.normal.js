@@ -143,12 +143,8 @@ var E;
     E["A"] = "A";
     E["B"] = "B";
 })(E || (E = {}));
-let prop;
 class C13 {
     constructor(){
-        this[E.A] = 1;
+        this["A"] = 1;
     }
 }
-(()=>{
-    prop = E.A;
-})();

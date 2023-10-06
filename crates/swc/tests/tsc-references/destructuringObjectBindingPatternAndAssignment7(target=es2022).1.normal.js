@@ -4,10 +4,10 @@ var K;
     K["a"] = "a";
     K["b"] = "b";
 })(K || (K = {}));
-const { [K.a]: aVal, [K.b]: bVal } = (()=>{
+const { ["a"]: aVal, ["b"]: bVal } = (()=>{
     return {
-        [K.a]: 1,
-        [K.b]: 1
+        ["a"]: 1,
+        ["b"]: 1
     };
 })();
 console.log(aVal, bVal);

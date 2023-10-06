@@ -21,32 +21,31 @@ var B;
 })(B || (B = {}));
 var X;
 (function(X) {
-    var _$X = 13;
+    var X1 = 13;
     var Y;
     (function(Y) {
-        var _$Y = 13;
+        var Y1 = 13;
         var Z;
         (function(Z) {
-            var _$X = 12;
-            var _$Y = 12;
+            var X = 12;
+            var Y = 12;
             var Z1 = 12;
         })(Z = Y.Z || (Y.Z = {}));
     })(Y = X.Y || (X.Y = {}));
 })(X || (X = {}));
 var Y;
 (function(Y) {
-    var _$Y;
     (function(Y) {
-        var _$Y;
-        (function(_$Y) {
-            _$Y[_$Y["Red"] = 0] = "Red";
-            _$Y[_$Y["Blue"] = 1] = "Blue";
-        })(_$Y = Y.Y || (Y.Y = {}));
-    })(_$Y = Y.Y || (Y.Y = {}));
+        var Y;
+        (function(Y) {
+            Y[Y["Red"] = 0] = "Red";
+            Y[Y["Blue"] = 1] = "Blue";
+        })(Y = Y.Y || (Y.Y = {}));
+    })(Y.Y || (Y.Y = {}));
 })(Y || (Y = {}));
+var D;
 // no collision, since interface doesn't
 // generate code.
-var D;
 (function(D) {
-    var E = D.E = "hello";
+    D.E = "hello";
 })(D || (D = {}));

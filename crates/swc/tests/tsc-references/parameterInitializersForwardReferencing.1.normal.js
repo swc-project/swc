@@ -21,11 +21,11 @@ function inside() {
     var _$b;
 }
 function outside() {
-    var inside = function inside() {
+    var b1;
+    function inside() {
         var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : b1;
         var b2;
-    };
-    var b1;
+    }
 }
 function defaultArgFunction() {
     var a = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function() {

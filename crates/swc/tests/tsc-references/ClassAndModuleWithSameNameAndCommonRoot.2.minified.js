@@ -13,7 +13,7 @@ new X.Y.Point(1, 1), X.Y.Point.Origin;
  // error not expected here same as bug 83996 ?
 //// [simple.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var A = function A() {
+var A, A1 = function A() {
     _class_call_check(this, A);
 };
-(A || (A = {})).Instance = new A(), A.Instance, new A();
+(A = A1 || (A1 = {})).Instance = new A(), A1.Instance, new A1();

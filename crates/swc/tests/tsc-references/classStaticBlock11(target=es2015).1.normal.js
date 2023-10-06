@@ -14,7 +14,5 @@ class C {
         _class_private_field_set(this, _x, x);
     }
 }
-(()=>{
-    // getX has privileged access to #x
-    getX = (obj)=>_class_private_field_get(obj, _x);
-})();
+// getX has privileged access to #x
+getX = (obj)=>_class_private_field_get(obj, _x);

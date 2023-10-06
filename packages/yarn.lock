@@ -81,6 +81,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@napi-rs/cli@npm:^2.16.3":
+  version: 2.16.3
+  resolution: "@napi-rs/cli@npm:2.16.3"
+  bin:
+    napi: scripts/index.js
+  checksum: 11f78b09548bc5c22df56e4fab4a87b68c2d3f2a18a55cf11e775e6a4cb5739ec0e21a14e614db2cdc2b9773cb42536c6bd00c3f85d3b461f956594f8a89ddcb
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -108,6 +117,38 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@swc-lab/html@workspace:html":
+  version: 0.0.0-use.local
+  resolution: "@swc-lab/html@workspace:html"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@swc-lab/xml@workspace:xml":
+  version: 0.0.0-use.local
+  resolution: "@swc-lab/xml@workspace:xml"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": ^0.1.1
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@swc/counter@^0.1.1, @swc/counter@workspace:^, @swc/counter@workspace:counter":
+  version: 0.0.0-use.local
+  resolution: "@swc/counter@workspace:counter"
+  languageName: unknown
+  linkType: soft
+
 "@swc/helpers@workspace:helpers":
   version: 0.0.0-use.local
   resolution: "@swc/helpers@workspace:helpers"
@@ -120,7 +161,20 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@swc/types@workspace:types":
+"@swc/minifier@workspace:minifier":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier@workspace:minifier"
+  dependencies:
+    "@napi-rs/cli": ^2.16.3
+    "@swc/counter": "workspace:^"
+    "@swc/types": "workspace:^"
+    "@types/node": ^20.7.1
+    cross-env: ^7.0.3
+    typescript: ^5.2.2
+  languageName: unknown
+  linkType: soft
+
+"@swc/types@workspace:^, @swc/types@workspace:types":
   version: 0.0.0-use.local
   resolution: "@swc/types@workspace:types"
   dependencies:
@@ -131,6 +185,8 @@ __metadata:
 "@swc/workspace@workspace:.":
   version: 0.0.0-use.local
   resolution: "@swc/workspace@workspace:."
+  dependencies:
+    prettier: ^3.0.3
   languageName: unknown
   linkType: soft
 
@@ -171,6 +227,13 @@ __metadata:
   version: 18.17.5
   resolution: "@types/node@npm:18.17.5"
   checksum: b8c658a99234b99425243c324b641ed7b9ceb6bee6b06421fdc9bb7c58f9a5552e353225cc549e6982462ac384abe1985022ed76e2e4728797f59b21f659ca2b
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^20.7.1":
+  version: 20.7.1
+  resolution: "@types/node@npm:20.7.1"
+  checksum: 3140bd6c9130f1ed73a78ce7a1765ee43e155c1eea50eea45e18faeb31d11d97a84fffdc5e3a97582101d2f57d2652a50f510ede6c702780267bad74c822d56c
   languageName: node
   linkType: hard
 
@@ -217,6 +280,29 @@ __metadata:
   version: 5.3.0
   resolution: "chalk@npm:5.3.0"
   checksum: 623922e077b7d1e9dedaea6f8b9e9352921f8ae3afe739132e0e00c275971bdd331268183b2628cf4ab1727c45ea1f28d7e24ac23ce1db1eb653c414ca8a5a80
+  languageName: node
+  linkType: hard
+
+"cross-env@npm:^7.0.3":
+  version: 7.0.3
+  resolution: "cross-env@npm:7.0.3"
+  dependencies:
+    cross-spawn: ^7.0.1
+  bin:
+    cross-env: src/bin/cross-env.js
+    cross-env-shell: src/bin/cross-env-shell.js
+  checksum: 26f2f3ea2ab32617f57effb70d329c2070d2f5630adc800985d8b30b56e8bf7f5f439dd3a0358b79cee6f930afc23cf8e23515f17ccfb30092c6b62c6b630a79
+  languageName: node
+  linkType: hard
+
+"cross-spawn@npm:^7.0.1":
+  version: 7.0.3
+  resolution: "cross-spawn@npm:7.0.3"
+  dependencies:
+    path-key: ^3.1.0
+    shebang-command: ^2.0.0
+    which: ^2.0.1
+  checksum: 671cc7c7288c3a8406f3c69a3ae2fc85555c04169e9d611def9a675635472614f1c0ed0ef80955d5b6d4e724f6ced67f0ad1bb006c2ea643488fcfef994d7f52
   languageName: node
   linkType: hard
 
@@ -522,6 +608,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"path-key@npm:^3.1.0":
+  version: 3.1.1
+  resolution: "path-key@npm:3.1.1"
+  checksum: 55cd7a9dd4b343412a8386a743f9c746ef196e57c823d90ca3ab917f90ab9f13dd0ded27252ba49dbdfcab2b091d998bc446f6220cd3cea65db407502a740020
+  languageName: node
+  linkType: hard
+
 "path-type@npm:^4.0.0":
   version: 4.0.0
   resolution: "path-type@npm:4.0.0"
@@ -549,6 +642,15 @@ __metadata:
   version: 2.3.1
   resolution: "picomatch@npm:2.3.1"
   checksum: 050c865ce81119c4822c45d3c84f1ced46f93a0126febae20737bd05ca20589c564d6e9226977df859ed5e03dc73f02584a2b0faad36e896936238238b0446cf
+  languageName: node
+  linkType: hard
+
+"prettier@npm:^3.0.3":
+  version: 3.0.3
+  resolution: "prettier@npm:3.0.3"
+  bin:
+    prettier: bin/prettier.cjs
+  checksum: e10b9af02b281f6c617362ebd2571b1d7fc9fb8a3bd17e371754428cda992e5e8d8b7a046e8f7d3e2da1dcd21aa001e2e3c797402ebb6111b5cd19609dd228e0
   languageName: node
   linkType: hard
 
@@ -586,6 +688,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"shebang-command@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "shebang-command@npm:2.0.0"
+  dependencies:
+    shebang-regex: ^3.0.0
+  checksum: 6b52fe87271c12968f6a054e60f6bde5f0f3d2db483a1e5c3e12d657c488a15474121a1d55cd958f6df026a54374ec38a4a963988c213b7570e1d51575cea7fa
+  languageName: node
+  linkType: hard
+
+"shebang-regex@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "shebang-regex@npm:3.0.0"
+  checksum: 1a2bcae50de99034fcd92ad4212d8e01eedf52c7ec7830eedcf886622804fe36884278f2be8be0ea5fde3fd1c23911643a4e0f726c8685b61871c8908af01222
+  languageName: node
+  linkType: hard
+
 "slash@npm:^4.0.0":
   version: 4.0.0
   resolution: "slash@npm:4.0.0"
@@ -616,6 +734,8 @@ __metadata:
   resolution: "swc-info@workspace:swc-info"
   dependencies:
     typescript: ^5.2.2
+  bin:
+    swc-info: bin/swc-info.js
   languageName: unknown
   linkType: soft
 
@@ -654,7 +774,7 @@ __metadata:
 
 "typescript@patch:typescript@^5.2.2#~builtin<compat/typescript>":
   version: 5.2.2
-  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=a1c5e5"
+  resolution: "typescript@patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=85af82"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
@@ -682,6 +802,17 @@ __metadata:
   bin:
     webpod: dist/index.js
   checksum: 3c6f7376cf06804a0b68adec3c33d1aceb9a1d13854beac542b95dcdb6f6cee34cd05fbd2228e01b67c2ce48673650296976dd694bd8d0ff10920a32dbe2e30a
+  languageName: node
+  linkType: hard
+
+"which@npm:^2.0.1":
+  version: 2.0.2
+  resolution: "which@npm:2.0.2"
+  dependencies:
+    isexe: ^2.0.0
+  bin:
+    node-which: ./bin/node-which
+  checksum: 1a5c563d3c1b52d5f893c8b61afe11abc3bab4afac492e8da5bde69d550de701cf9806235f20a47b5c8fa8a1d6a9135841de2596535e998027a54589000e66d1
   languageName: node
   linkType: hard
 

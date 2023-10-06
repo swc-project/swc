@@ -7,8 +7,8 @@ use anyhow::Context;
 use rayon::prelude::*;
 use swc::{
     config::{
-        BuiltInput, Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options,
-        SourceMapsConfig, TransformConfig,
+        Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
+        TransformConfig,
     },
     try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
@@ -719,24 +719,7 @@ fn should_visit() {
 
             dbg!(config.syntax);
 
-            let config = BuiltInput {
-                program: config.program,
-                pass: chain!(Panicking, config.pass),
-                syntax: config.syntax,
-                target: config.target,
-                minify: config.minify,
-                external_helpers: config.external_helpers,
-                source_maps: config.source_maps,
-                input_source_map: config.input_source_map,
-                is_module: config.is_module,
-                output_path: config.output_path,
-                source_file_name: config.source_file_name,
-                preserve_comments: config.preserve_comments,
-                inline_sources_content: config.inline_sources_content,
-                comments: config.comments,
-                emit_source_map_columns: config.emit_source_map_columns,
-                output: config.output,
-            };
+            let config = config.with_pass(|pass| chain!(Panicking, pass));
 
             if config.minify {
                 let preserve_excl = |_: &BytePos, vc: &mut Vec<Comment>| -> bool {
@@ -760,16 +743,16 @@ fn should_visit() {
                 None,
                 config.output_path,
                 config.inline_sources_content,
-                config.target,
                 config.source_maps,
                 &Default::default(),
                 None,
                 // TODO: figure out sourcemaps
-                config.minify,
                 Some(&comments),
                 config.emit_source_map_columns,
-                false,
                 Default::default(),
+                swc_ecma_codegen::Config::default()
+                    .with_target(config.target)
+                    .with_minify(config.minify),
             )
             .unwrap()
             .code)
@@ -1108,6 +1091,7 @@ fn issue_7513_2() {
                     fm,
                     handler,
                     &JsMinifyOptions {
+                        module: true,
                         compress: BoolOrDataConfig::from_bool(true),
                         mangle: BoolOrDataConfig::from_obj(MangleOptions {
                             props: None,

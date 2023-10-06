@@ -27,9 +27,9 @@ body = """
     \n\n
     {%- for commit in commits %}
         {%- if commit.scope -%}
-        {% else -%}
+        {% else %}
             \n
-            - **general**: {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
+            - {{ commit.message | upper_first }} ([{{ commit.id | truncate(length=7, end="") }}](https://github.com/swc-project/swc/commit/{{ commit.id }}))
             {%- if commit.breaking %}
             {% raw %}  {% endraw %}- **BREAKING**: {{commit.breaking_description}}
             {%- endif -%}
@@ -48,24 +48,27 @@ footer = """
 [git]
 # allow only conventional commits
 # https://www.conventionalcommits.org
-conventional_commits = true
+conventional_commits  = true
 filter_unconventional = false
+
+commit_preprocessors = [
+    { pattern = "\\(#([0-9]+)\\)", replace = "([#${1}](https://github.com/swc-project/swc/issues/${1}))" },
+]
 # regex for parsing and grouping commits
 commit_parsers = [
-  { message = "^feat", group = "Features" },
-  { message = "^fix", group = "Bug Fixes" },
-  { message = "^doc", group = "Documentation" },
-  { message = "^perf", group = "Performance" },
-  { message = "^refactor", group = "Refactor" },
-  { message = "^style", group = "Styling" },
-  { message = "^test", group = "Testing" },
-  { message = "^chore: Publish", skip = true },
-  { message = "^chore", group = "Miscellaneous Tasks" },
-  { body = ".*security", group = "Security" },
+    { message = "^feat", group = "Features" },
+    { message = "^fix", group = "Bug Fixes" },
+    { message = "^doc", group = "Documentation" },
+    { message = "^perf", group = "Performance" },
+    { message = "^refactor", group = "Refactor" },
+    { message = "^style", group = "Styling" },
+    { message = "^test", group = "Testing" },
+    { message = "^chore: Publish", skip = true },
+    { message = "^chore", group = "Miscellaneous Tasks" },
+    { body = ".*security", group = "Security" },
 ]
 # filter out the commits that are not matched by commit parsers
 filter_commits = false
 # glob pattern for matching git tags
-tag_pattern = "v[0-9]*"
-# regex for skipping tags
-skip_tags = "v0.1.0-beta.1"
+limit_commits = 1000
+tag_pattern   = "v[0-9]*"

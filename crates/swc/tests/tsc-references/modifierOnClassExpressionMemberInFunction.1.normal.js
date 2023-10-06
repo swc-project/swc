@@ -11,7 +11,5 @@ function g() {
         var _proto = C.prototype;
         _proto.foo = function foo() {};
         return C;
-    }(), function() {
-        _C.prop2 = 43;
-    }(), _C);
+    }(), _C.prop2 = 43, _C);
 }

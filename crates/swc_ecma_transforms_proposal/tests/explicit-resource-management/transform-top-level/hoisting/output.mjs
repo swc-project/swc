@@ -19,7 +19,7 @@ export class B {
 try {
     var _stack = [];
     doSomething();
-    let c = 2;
+    var c = 2;
     class A {
     }
     var x = _using(_stack, null);

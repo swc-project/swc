@@ -1,9 +1,13 @@
 //// [node_modules/@types/node/index.d.ts]
 //// [index.js]
-/// <reference types="node" />
-var A;
-export var Something = 2; // to show conflict that can occur
-var A1;
-// @ts-ignore
-export { A1 as A };
-(A = A1 || (A1 = {})).B || (A.B = {}), new (require("fs")).Something();
+//! 
+//!   x ESM-style module declarations are not permitted in a namespace.
+//!     ,-[7:1]
+//!   7 |         const Something = require("fs").Something;
+//!   8 |         const thing = new Something();
+//!   9 |         // @ts-ignore
+//!  10 |         export { thing };
+//!     :         ^^^^^^^^^^^^^^^^^
+//!  11 |     }
+//!  12 | }
+//!     `----

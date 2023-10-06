@@ -38,17 +38,17 @@ Object.defineProperty(exports, "__esModule", {
     ___: function() {
         return ___;
     },
-    _hi: function() {
-        return _hi;
-    },
-    __proto: function() {
-        return __proto;
+    ___hello: function() {
+        return ___hello;
     },
     __esmodule: function() {
         return __esmodule;
     },
-    ___hello: function() {
-        return ___hello;
+    __proto: function() {
+        return __proto;
+    },
+    _hi: function() {
+        return _hi;
     }
 });
 //// [m2.ts]

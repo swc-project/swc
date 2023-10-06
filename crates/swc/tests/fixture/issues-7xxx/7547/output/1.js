@@ -1,32 +1,24 @@
 // code below dont work
-var _a;
 var a = {};
 new Promise(function(r) {
-    var _a;
-    r((_a = a) === null || _a === void 0 ? void 0 : _a.b);
+    r(a === null || a === void 0 ? void 0 : a.b);
 }).then(function(a) {
-    var _a;
-    return (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+    return a === null || a === void 0 ? void 0 : a.b;
 });
 var anony = function() {
-    var _a;
-    return (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+    return a === null || a === void 0 ? void 0 : a.b;
 };
 // code below works
-var b = (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+var b = a === null || a === void 0 ? void 0 : a.b;
 function fn() {
-    var _a;
-    return (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+    return a === null || a === void 0 ? void 0 : a.b;
 }
 setTimeout(function() {
-    var _a;
-    return (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+    return a === null || a === void 0 ? void 0 : a.b;
 }, 0);
 var anony2 = function anony2() {
-    var _a;
-    return (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+    return a === null || a === void 0 ? void 0 : a.b;
 };
 (function() {
-    var _a;
-    return (_a = a) === null || _a === void 0 ? void 0 : _a.b;
+    return a === null || a === void 0 ? void 0 : a.b;
 })();

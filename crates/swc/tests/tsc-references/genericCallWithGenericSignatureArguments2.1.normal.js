@@ -3,11 +3,16 @@
 // the corresponding inferred type arguments to become fixed and no further candidate inferences are made for them.
 var onlyT;
 (function(onlyT) {
-    var foo = function foo(a, b) {
+    function foo(a, b) {
         var r;
         return r;
-    };
-    var other2 = function other2(x) {
+    }
+    var r1 = foo(function(x) {
+        return 1;
+    }, function(x) {
+        return "";
+    });
+    function other2(x) {
         var r7 = foo(function(a) {
             return a;
         }, function(b) {
@@ -16,12 +21,12 @@ var onlyT;
         // BUG 835518
         var r9 = r7(new Date()); // should be ok
         var r10 = r7(1); // error
-    };
-    var foo2 = function foo2(a, b) {
+    }
+    function foo2(a, b) {
         var r;
         return r;
-    };
-    var other3 = function other3(x) {
+    }
+    function other3(x) {
         var r7 = foo2(function(a) {
             return a;
         }, function(b) {
@@ -32,16 +37,7 @@ var onlyT;
         }, function(b) {
             return b;
         }); // valid, T is inferred to be Date
-    };
-    var foo3 = function foo3(x, a, b) {
-        var r;
-        return r;
-    };
-    var r1 = foo(function(x) {
-        return 1;
-    }, function(x) {
-        return "";
-    });
+    }
     var E;
     (function(E) {
         E[E["A"] = 0] = "A";
@@ -50,19 +46,28 @@ var onlyT;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {}));
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    function foo3(x, a, b) {
+        var r;
+        return r;
+    }
+    var r7 = foo3(0, function(x) {
+        return 0;
     }, function(x) {
-        return F.A;
+        return 0;
     }); // error
 })(onlyT || (onlyT = {}));
 var TU;
 (function(TU) {
-    var foo = function foo(a, b) {
+    function foo(a, b) {
         var r;
         return r;
-    };
-    var other2 = function other2(x) {
+    }
+    var r1 = foo(function(x) {
+        return 1;
+    }, function(x) {
+        return "";
+    });
+    function other2(x) {
         var r7 = foo(function(a) {
             return a;
         }, function(b) {
@@ -70,12 +75,12 @@ var TU;
         });
         var r9 = r7(new Date());
         var r10 = r7(1);
-    };
-    var foo2 = function foo2(a, b) {
+    }
+    function foo2(a, b) {
         var r;
         return r;
-    };
-    var other3 = function other3(x) {
+    }
+    function other3(x) {
         var r7 = foo2(function(a) {
             return a;
         }, function(b) {
@@ -86,16 +91,7 @@ var TU;
         }, function(b) {
             return b;
         });
-    };
-    var foo3 = function foo3(x, a, b) {
-        var r;
-        return r;
-    };
-    var r1 = foo(function(x) {
-        return 1;
-    }, function(x) {
-        return "";
-    });
+    }
     var E;
     (function(E) {
         E[E["A"] = 0] = "A";
@@ -104,9 +100,13 @@ var TU;
     (function(F) {
         F[F["A"] = 0] = "A";
     })(F || (F = {}));
-    var r7 = foo3(E.A, function(x) {
-        return E.A;
+    function foo3(x, a, b) {
+        var r;
+        return r;
+    }
+    var r7 = foo3(0, function(x) {
+        return 0;
     }, function(x) {
-        return F.A;
+        return 0;
     });
 })(TU || (TU = {}));

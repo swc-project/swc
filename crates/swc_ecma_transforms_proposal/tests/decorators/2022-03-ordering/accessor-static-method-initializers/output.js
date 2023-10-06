@@ -10,7 +10,7 @@ new class extends _identity {
     static{
         class A {
             static{
-                ({ e: [_call_c, _init_a, _init_d, _get___d, _set___d, _initProto, _initStatic] , c: [_A, _initClass]  } = _apply_decs_2203_r(this, [
+                ({ e: [_call_c, _init_a, _init_d, _get___d, _set___d, _initProto, _initStatic], c: [_A, _initClass] } = _apply_decs_2203_r(this, [
                     [
                         [
                             _dec4,
@@ -76,5 +76,7 @@ new class extends _identity {
             }
         }
     }
-    #c = _call_c;
+    get #c() {
+        return _call_c;
+    }
 }();

@@ -4,7 +4,7 @@ export { };
 //// [b.ts]
 var A;
 (function(A) {
-    var displayName = A.displayName = "A";
+    A.displayName = "A";
 })(A || (A = {}));
 export { A };
 //// [c.ts]

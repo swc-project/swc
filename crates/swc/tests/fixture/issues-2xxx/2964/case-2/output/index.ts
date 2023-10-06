@@ -9,14 +9,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    noop: function() {
-        return noop;
-    },
     badIstanbul: function() {
         return badIstanbul;
     },
     downloadDocument: function() {
         return downloadDocument;
+    },
+    noop: function() {
+        return noop;
     }
 });
 const _object_without_properties = require("@swc/helpers/_/_object_without_properties");

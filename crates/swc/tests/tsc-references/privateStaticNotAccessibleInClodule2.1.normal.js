@@ -17,6 +17,6 @@ var D = /*#__PURE__*/ function(C) {
     }
     return D;
 }(C);
-(function(D1) {
-    var y = D1.y = D.bar;
+(function(D) {
+    D.y = D.bar; // error
 })(D || (D = {}));

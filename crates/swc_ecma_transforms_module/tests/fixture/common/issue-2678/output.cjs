@@ -12,11 +12,11 @@ _export(exports, {
     default: function() {
         return someCall;
     },
-    warn: function() {
-        return warn;
-    },
     test: function() {
         return test;
+    },
+    warn: function() {
+        return warn;
     }
 });
 function someCall() {

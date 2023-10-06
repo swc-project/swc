@@ -6,14 +6,14 @@ function _export(target, all) {
     });
 }
 _export(exports, {
+    default: function() {
+        return _default;
+    },
     x: function() {
         return x;
     },
     y: function() {
         return y;
-    },
-    default: function() {
-        return _default;
     }
 });
 const _foo = require("foo");

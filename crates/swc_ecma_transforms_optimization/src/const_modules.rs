@@ -46,7 +46,10 @@ pub fn const_modules(
 fn parse_option(cm: &SourceMap, name: &str, src: String) -> Arc<Expr> {
     static CACHE: Lazy<DashMap<String, Arc<Expr>, ARandomState>> = Lazy::new(DashMap::default);
 
-    let fm = cm.new_source_file(FileName::Custom(format!("<const-module-{}.js>", name)), src);
+    let fm = cm.new_source_file(
+        FileName::Internal(format!("<const-module-{}.js>", name)),
+        src,
+    );
     if let Some(expr) = CACHE.get(&**fm.src) {
         return expr.clone();
     }
@@ -148,11 +151,7 @@ impl VisitMut for ConstModules {
             return;
         }
 
-        n.iter_mut().for_each(|item| {
-            if let ModuleItem::Stmt(stmt) = item {
-                stmt.visit_mut_with(self);
-            }
-        });
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {

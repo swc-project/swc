@@ -12,11 +12,7 @@
         }
     },
     "module": {
-        "type": "es6",
-        "strict": false,
-        "strictMode": false,
-        "lazy": false,
-        "noInterop": false
+        "type": "es6"
     },
     "minify": false
 }

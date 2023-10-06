@@ -9,23 +9,20 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    node: function() {
-        return _BodyNodesBuilder;
-    },
     create: function() {
         return create;
     },
-    trustBox: function() {
-        return trustBox;
+    header: function() {
+        return header;
+    },
+    node: function() {
+        return _BodyNodesBuilder;
     },
     opener: function() {
         return opener;
     },
-    stage: function() {
-        return stage;
-    },
-    header: function() {
-        return header;
+    seq: function() {
+        return seq;
     },
     source: function() {
         return source;
@@ -33,8 +30,11 @@ _export(exports, {
     sources: function() {
         return sources;
     },
-    seq: function() {
-        return seq;
+    stage: function() {
+        return stage;
+    },
+    trustBox: function() {
+        return trustBox;
     }
 });
 const _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");

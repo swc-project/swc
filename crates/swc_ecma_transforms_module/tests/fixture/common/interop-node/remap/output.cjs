@@ -3,11 +3,11 @@ Object.defineProperty(exports, "__esModule", {
     value: true
 });
 0 && (module.exports = {
-    test: null,
     a: null,
     c: null,
     e: null,
-    f: null
+    f: null,
+    test: null
 });
 function _export(target, all) {
     for(var name in all)Object.defineProperty(target, name, {
@@ -16,9 +16,6 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    test: function() {
-        return test;
-    },
     a: function() {
         return a;
     },
@@ -30,6 +27,9 @@ _export(exports, {
     },
     f: function() {
         return d;
+    },
+    test: function() {
+        return test;
     }
 });
 var test = 2;

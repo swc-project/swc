@@ -138,7 +138,6 @@ f3(function(a, b, c) {
     }
 });
 function f4(t) {
-    var f = function f(cb) {};
     (function() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
             x[_key] = arguments[_key];
@@ -159,6 +158,7 @@ function f4(t) {
         1,
         2
     ].concat(_to_consumable_array(t)));
+    function f(cb) {}
     f(function() {
         for(var _len = arguments.length, x = new Array(_len), _key = 0; _key < _len; _key++){
             x[_key] = arguments[_key];

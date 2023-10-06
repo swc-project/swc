@@ -8,9 +8,6 @@ export default function c() {
         hits: []
     }), 2), o = c[0], u = c[1], l = e(i.useState("react"), 2), h = l[0], f = l[1];
     return i.useEffect(function() {
-        "" !== h && function() {
-            e.apply(this, arguments);
-        }();
         function e() {
             return (e = t(function() {
                 return r(this, function(t) {
@@ -33,6 +30,9 @@ export default function c() {
                 });
             })).apply(this, arguments);
         }
+        "" !== h && function() {
+            e.apply(this, arguments);
+        }();
     }, [
         h
     ]), /*#__PURE__*/ s(a, {

@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    default: function() {
-        return _default;
-    },
     Cachier: function() {
         return Cachier;
+    },
+    default: function() {
+        return _default;
     }
 });
 const _default = new Cachier();

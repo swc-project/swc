@@ -109,8 +109,8 @@ describe("parse", () => {
                     "optional": false,
                     "span": Object {
                       "ctxt": 2,
-                      "end": 394,
-                      "start": 391,
+                      "end": 289,
+                      "start": 286,
                     },
                     "type": "Identifier",
                     "value": "Foo",
@@ -119,8 +119,8 @@ describe("parse", () => {
                   "isAbstract": false,
                   "span": Object {
                     "ctxt": 0,
-                    "end": 397,
-                    "start": 385,
+                    "end": 292,
+                    "start": 280,
                   },
                   "superClass": null,
                   "superTypeParams": null,
@@ -131,8 +131,8 @@ describe("parse", () => {
               "interpreter": null,
               "span": Object {
                 "ctxt": 0,
-                "end": 397,
-                "start": 385,
+                "end": 292,
+                "start": 280,
               },
               "type": "Module",
             }
@@ -156,8 +156,8 @@ describe("parse", () => {
                     "optional": false,
                     "span": Object {
                       "ctxt": 2,
-                      "end": 407,
-                      "start": 404,
+                      "end": 302,
+                      "start": 299,
                     },
                     "type": "Identifier",
                     "value": "Foo",
@@ -166,8 +166,8 @@ describe("parse", () => {
                   "isAbstract": false,
                   "span": Object {
                     "ctxt": 0,
-                    "end": 410,
-                    "start": 398,
+                    "end": 305,
+                    "start": 293,
                   },
                   "superClass": null,
                   "superTypeParams": null,
@@ -178,8 +178,8 @@ describe("parse", () => {
               "interpreter": null,
               "span": Object {
                 "ctxt": 0,
-                "end": 410,
-                "start": 398,
+                "end": 305,
+                "start": 293,
               },
               "type": "Module",
             }
@@ -195,7 +195,7 @@ describe("minify", () => {
 
         expect(output).toMatchInlineSnapshot(`
             Object {
-              "code": "const somename=1;console.log(1);",
+              "code": "let somename=1;console.log(1);",
             }
         `);
     });
@@ -207,7 +207,7 @@ describe("minify", () => {
 
         expect(output).toMatchInlineSnapshot(`
             Object {
-              "code": "const somename=1;console.log(1);",
+              "code": "let somename=1;console.log(1);",
             }
         `);
     });

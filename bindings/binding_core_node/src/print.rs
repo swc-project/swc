@@ -40,18 +40,18 @@ impl Task for PrintTask {
                     None,
                     options.output_path.clone(),
                     true,
-                    options.config.jsc.target.unwrap_or(EsVersion::Es2020),
                     options
                         .source_maps
                         .clone()
                         .unwrap_or(SourceMapsConfig::Bool(false)),
                     &Default::default(),
                     None,
-                    options.config.minify.into_bool(),
                     None,
                     options.config.emit_source_map_columns.into_bool(),
-                    false,
                     Default::default(),
+                    swc_core::ecma::codegen::Config::default()
+                        .with_target(options.config.jsc.target.unwrap_or(EsVersion::Es2020))
+                        .with_minify(options.config.minify.into_bool()),
                 )
                 .convert_err()
         })
@@ -102,18 +102,18 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
             None,
             options.output_path,
             true,
-            codegen_target,
             options
                 .source_maps
                 .clone()
                 .unwrap_or(SourceMapsConfig::Bool(false)),
             &Default::default(),
             None,
-            options.config.minify.into_bool(),
             None,
             options.config.emit_source_map_columns.into_bool(),
-            false,
             Default::default(),
+            swc_core::ecma::codegen::Config::default()
+                .with_target(codegen_target)
+                .with_minify(options.config.minify.into_bool()),
         )
         .convert_err()
     })

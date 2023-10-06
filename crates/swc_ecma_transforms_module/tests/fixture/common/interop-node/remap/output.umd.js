@@ -16,9 +16,6 @@
         });
     }
     _export(exports, {
-        test: function() {
-            return test;
-        },
         a: function() {
             return a;
         },
@@ -30,6 +27,9 @@
         },
         f: function() {
             return d;
+        },
+        test: function() {
+            return test;
         }
     });
     var test = 2;

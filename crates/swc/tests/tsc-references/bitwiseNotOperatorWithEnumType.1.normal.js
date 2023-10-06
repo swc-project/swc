@@ -9,11 +9,11 @@ var ENUM1;
 // enum type var
 var ResultIsNumber1 = ~ENUM1;
 // enum type expressions
-var ResultIsNumber2 = ~ENUM1["A"];
-var ResultIsNumber3 = ~(ENUM1.A + ENUM1["B"]);
+var ResultIsNumber2 = ~0;
+var ResultIsNumber3 = ~(0 + 1);
 // multiple ~ operators
-var ResultIsNumber4 = ~~~(ENUM1["A"] + ENUM1.B);
+var ResultIsNumber4 = ~~~(0 + 1);
 // miss assignment operators
 ~ENUM1;
-~ENUM1["A"];
-~ENUM1.A, ~ENUM1["B"];
+~0;
+~0, ~1;

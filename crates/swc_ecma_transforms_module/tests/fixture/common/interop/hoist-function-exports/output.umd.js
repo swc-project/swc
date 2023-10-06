@@ -17,11 +17,11 @@
         });
     }
     _export(exports, {
-        nextOdd: function() {
-            return nextOdd;
-        },
         isOdd: function() {
             return isOdd;
+        },
+        nextOdd: function() {
+            return nextOdd;
         }
     });
     function nextOdd(n) {

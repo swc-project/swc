@@ -115,15 +115,13 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
                     None,
                     None,
                     false,
-                    EsVersion::Es2020,
                     SourceMapsConfig::Bool(false),
                     &Default::default(),
                     None,
-                    false,
                     None,
                     false,
-                    false,
                     Default::default(),
+                    swc_ecma_codegen::Config::default().with_target(EsVersion::Es2020),
                 )
                 .unwrap()
             }));

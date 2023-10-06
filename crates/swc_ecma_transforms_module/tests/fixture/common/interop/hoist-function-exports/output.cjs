@@ -9,11 +9,11 @@ function _export(target, all) {
     });
 }
 _export(exports, {
-    nextOdd: function() {
-        return nextOdd;
-    },
     isOdd: function() {
         return isOdd;
+    },
+    nextOdd: function() {
+        return nextOdd;
     }
 });
 const _evens = require("./evens");
