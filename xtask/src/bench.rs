@@ -1,8 +1,7 @@
-use std::{path::Path, process::Command};
+use std::process::Command;
 
 use anyhow::Result;
 use clap::Args;
-use walkdir::WalkDir;
 
 use crate::util::{repository_root, run_cmd};
 
