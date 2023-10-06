@@ -49,6 +49,10 @@ impl BenchCmd {
             if !self.debug {
                 cmd.arg("--release");
             }
+
+            // TODO: This should use cargo metadata
+            cmd.current_dir(repository_root()?.join("crates").join(&self.package));
+
             cmd
         } else {
             let mut cmd = Command::new("cargo");
