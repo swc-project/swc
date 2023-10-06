@@ -11,6 +11,9 @@
 
 
 
+- **(xtask)** Migrate scripts to xtask ([#8072](https://github.com/swc-project/swc/issues/8072)) ([a5621bb](https://github.com/swc-project/swc/commit/a5621bb30a665c8022d7004ccde53f574443cbe1))
+
+
 - Use `cargo xtask` ([#8068](https://github.com/swc-project/swc/issues/8068)) ([6420aef](https://github.com/swc-project/swc/commit/6420aefca5bd22af3a75b7ad34741509ed35377a))
 
 ### Refactor
@@ -1921,9 +1924,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(bindings/cli)** Rename `--config` to `--config-json` ([#6932](https://github.com/swc-project/swc/issues/6932)) ([cb4436b](https://github.com/swc-project/swc/commit/cb4436bd6ed085bdf1f0d98776f166bf2a6275c9))
 
 
 - **(bindings/node)** Treat `.cts` and `.mts` as input by default ([#6959](https://github.com/swc-project/swc/issues/6959)) ([d5c0dec](https://github.com/swc-project/swc/commit/d5c0dec40c1bb46bb5674242aa0a85f51c0826f7))
