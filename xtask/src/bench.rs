@@ -36,6 +36,8 @@ impl BenchCmd {
     pub fn run(self) -> Result<()> {
         let mut cmd = self.build_cmd()?;
 
+        cmd.env("RUST_LOG", "off");
+
         run_cmd(&mut cmd)
     }
 
