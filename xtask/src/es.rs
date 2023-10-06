@@ -1,6 +1,7 @@
 use anyhow::Result;
 use clap::{Args, Subcommand};
 
+/// Commands for ECMAScript crates.
 #[derive(Debug, Args)]
 pub(super) struct EsCmd {
     #[clap(subcommand)]
