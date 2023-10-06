@@ -36,9 +36,8 @@ impl CleanCmd {
 }
 
 fn run_cargo_clean(dir: &Path) -> Result<()> {
-    let mut cmd = std::process::Command::new("cargo")
-        .arg("clean")
-        .current_dir(dir);
+    let mut cmd = std::process::Command::new("cargo");
+    cmd.arg("clean").current_dir(dir);
 
     eprintln!("Running {:?}", cmd);
 
