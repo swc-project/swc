@@ -6530,6 +6530,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "workdir"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5614321163c0ece375e5839a617a0c2413b4abfd3f12d6d4b9fb151bf4017c79"
+
+[[package]]
 name = "wyz"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -6544,6 +6550,7 @@ version = "0.1.0"
 dependencies = [
  "anyhow",
  "clap 4.4.6",
+ "workdir",
 ]
 
 [[package]]
