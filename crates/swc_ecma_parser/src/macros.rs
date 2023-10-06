@@ -42,13 +42,13 @@ macro_rules! tok {
         crate::token::Token::BinOp(crate::token::BinOpToken::LogicalOr)
     };
     ("&&=") => {
-        crate::token::Token::AssignOp(crate::token::AssignOpToken::AndAssign)
+        crate::token::Token::AssignOp(swc_ecma_ast::AssignOp::AndAssign)
     };
     ("||=") => {
-        crate::token::Token::AssignOp(crate::token::AssignOpToken::OrAssign)
+        crate::token::Token::AssignOp(swc_ecma_ast::AssignOp::OrAssign)
     };
     ("??=") => {
-        crate::token::Token::AssignOp(crate::token::AssignOpToken::NullishAssign)
+        crate::token::Token::AssignOp(swc_ecma_ast::AssignOp::NullishAssign)
     };
 
     ("==") => {
@@ -99,7 +99,7 @@ macro_rules! tok {
         crate::token::Token::BinOp(crate::token::BinOpToken::Div)
     };
     ("/=") => {
-        crate::token::Token::AssignOp(crate::token::AssignOpToken::DivAssign)
+        crate::token::Token::AssignOp(swc_ecma_ast::AssignOp::DivAssign)
     };
     ('%') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::Mod)
@@ -128,7 +128,7 @@ macro_rules! tok {
     };
 
     ('=') => {
-        crate::token::Token::AssignOp(crate::token::AssignOpToken::Assign)
+        crate::token::Token::AssignOp(swc_ecma_ast::AssignOp::Assign)
     };
 
     ('(') => {

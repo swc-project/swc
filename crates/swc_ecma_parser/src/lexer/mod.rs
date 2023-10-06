@@ -7,7 +7,7 @@ use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
 use swc_atoms::{Atom, AtomGenerator};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
-use swc_ecma_ast::{op, EsVersion};
+use swc_ecma_ast::{op, AssignOp, EsVersion};
 
 use self::{
     comments_buffer::CommentsBuffer,
@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::*,
+    token::{BinOpToken, Token, Word},
     Context, Syntax,
 };
 
@@ -233,8 +233,8 @@ impl<'a> Lexer<'a> {
         };
         if next.is_ascii_digit() {
             return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Num { value, raw },
-                Right((value, raw)) => BigInt { value, raw },
+                Left((value, raw)) => Token::Num { value, raw },
+                Right((value, raw)) => Token::BigInt { value, raw },
             });
         }
 
@@ -315,15 +315,15 @@ impl<'a> Lexer<'a> {
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
                 return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Num { value, raw },
-                    Right((value, raw)) => BigInt { value, raw },
+                    Left((value, raw)) => Token::Num { value, raw },
+                    Right((value, raw)) => Token::BigInt { value, raw },
                 });
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Num { value, raw },
-            Right((value, raw)) => BigInt { value, raw },
+            Left((value, raw)) => Token::Num { value, raw },
+            Right((value, raw)) => Token::BigInt { value, raw },
         })
     }
 
@@ -339,13 +339,17 @@ impl<'a> Lexer<'a> {
             // Safety: cur() is Some(c as char)
             self.input.bump();
         }
-        let token = if c == b'&' { BitAnd } else { BitOr };
+        let token = if c == b'&' {
+            BinOpToken::BitAnd
+        } else {
+            BinOpToken::BitOr
+        };
 
         // '|=', '&='
         if self.input.eat_byte(b'=') {
-            return Ok(AssignOp(match token {
-                BitAnd => BitAndAssign,
-                BitOr => BitOrAssign,
+            return Ok(Token::AssignOp(match token {
+                BinOpToken::BitAnd => AssignOp::BitAndAssign,
+                BinOpToken::BitOr => AssignOp::BitOrAssign,
                 _ => unreachable!(),
             }));
         }
@@ -362,16 +366,16 @@ impl<'a> Lexer<'a> {
                     // Safety: cur() is Some('=')
                     self.input.bump();
                 }
-                return Ok(AssignOp(match token {
-                    BitAnd => op!("&&="),
-                    BitOr => op!("||="),
+                return Ok(Token::AssignOp(match token {
+                    BinOpToken::BitAnd => op!("&&="),
+                    BinOpToken::BitOr => op!("||="),
                     _ => unreachable!(),
                 }));
             }
 
             // |||||||
             //   ^
-            if had_line_break_before_last && token == BitOr && self.is_str("||||| ") {
+            if had_line_break_before_last && token == BinOpToken::BitOr && self.is_str("||||| ") {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
@@ -379,14 +383,14 @@ impl<'a> Lexer<'a> {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(BinOp(match token {
-                BitAnd => LogicalAnd,
-                BitOr => LogicalOr,
+            return Ok(Token::BinOp(match token {
+                BinOpToken::BitAnd => BinOpToken::LogicalAnd,
+                BinOpToken::BitOr => BinOpToken::LogicalOr,
                 _ => unreachable!(),
             }));
         }
 
-        Ok(BinOp(token))
+        Ok(Token::BinOp(token))
     }
 
     /// Read a token given `*` or `%`.
@@ -399,18 +403,22 @@ impl<'a> Lexer<'a> {
             // Safety: cur() is Some(c)
             self.input.bump();
         }
-        let mut token = if is_mul { BinOp(Mul) } else { BinOp(Mod) };
+        let mut token = if is_mul {
+            Token::BinOp(BinOpToken::Mul)
+        } else {
+            Token::BinOp(BinOpToken::Mod)
+        };
 
         // check for **
         if is_mul && self.input.eat_byte(b'*') {
-            token = BinOp(Exp)
+            token = Token::BinOp(BinOpToken::Exp)
         }
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                BinOp(Mul) => AssignOp(MulAssign),
-                BinOp(Mod) => AssignOp(ModAssign),
-                BinOp(Exp) => AssignOp(ExpAssign),
+                Token::BinOp(BinOpToken::Mul) => Token::AssignOp(AssignOp::MulAssign),
+                Token::BinOp(BinOpToken::Mod) => Token::AssignOp(AssignOp::ModAssign),
+                Token::BinOp(BinOpToken::Exp) => Token::AssignOp(AssignOp::ExpAssign),
                 _ => unreachable!(),
             }
         }
@@ -592,14 +600,22 @@ impl<'a> Lexer<'a> {
             }
 
             if c == b'+' {
-                PlusPlus
+                Token::PlusPlus
             } else {
-                MinusMinus
+                Token::MinusMinus
             }
         } else if self.input.eat_byte(b'=') {
-            AssignOp(if c == b'+' { AddAssign } else { SubAssign })
+            Token::AssignOp(if c == b'+' {
+                AssignOp::AddAssign
+            } else {
+                AssignOp::SubAssign
+            })
         } else {
-            BinOp(if c == b'+' { Add } else { Sub })
+            Token::BinOp(if c == b'+' {
+                BinOpToken::Add
+            } else {
+                BinOpToken::Sub
+            })
         }))
     }
 
@@ -617,7 +633,7 @@ impl<'a> Lexer<'a> {
 
             if self.input.eat_byte(b'=') {
                 if c == b'!' {
-                    BinOp(NotEqEq)
+                    Token::BinOp(BinOpToken::NotEqEq)
                 } else {
                     // =======
                     //    ^
@@ -628,21 +644,21 @@ impl<'a> Lexer<'a> {
                         return self.read_token();
                     }
 
-                    BinOp(EqEqEq)
+                    Token::BinOp(BinOpToken::EqEqEq)
                 }
             } else if c == b'!' {
-                BinOp(NotEq)
+                Token::BinOp(BinOpToken::NotEq)
             } else {
-                BinOp(EqEq)
+                Token::BinOp(BinOpToken::EqEq)
             }
         } else if c == b'=' && self.input.eat_byte(b'>') {
             // "=>"
 
-            Arrow
+            Token::Arrow
         } else if c == b'!' {
-            Bang
+            Token::Bang
         } else {
-            AssignOp(Assign)
+            Token::AssignOp(AssignOp::Assign)
         }))
     }
 }
@@ -689,31 +705,39 @@ impl<'a> Lexer<'a> {
             return self.read_token();
         }
 
-        let mut op = if c == '<' { Lt } else { Gt };
+        let mut op = if c == '<' {
+            BinOpToken::Lt
+        } else {
+            BinOpToken::Gt
+        };
 
         // '<<', '>>'
         if self.cur() == Some(c) {
             self.bump();
-            op = if c == '<' { LShift } else { RShift };
+            op = if c == '<' {
+                BinOpToken::LShift
+            } else {
+                BinOpToken::RShift
+            };
 
             //'>>>'
             if c == '>' && self.cur() == Some(c) {
                 self.bump();
-                op = ZeroFillRShift;
+                op = BinOpToken::ZeroFillRShift;
             }
         }
 
         let token = if self.eat(b'=') {
             match op {
-                Lt => BinOp(LtEq),
-                Gt => BinOp(GtEq),
-                LShift => AssignOp(LShiftAssign),
-                RShift => AssignOp(RShiftAssign),
-                ZeroFillRShift => AssignOp(ZeroFillRShiftAssign),
+                BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
+                BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),
+                BinOpToken::LShift => Token::AssignOp(AssignOp::LShiftAssign),
+                BinOpToken::RShift => Token::AssignOp(AssignOp::RShiftAssign),
+                BinOpToken::ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
                 _ => unreachable!(),
             }
         } else {
-            BinOp(op)
+            Token::BinOp(op)
         };
 
         // All conflict markers consist of the same character repeated seven times.
@@ -724,8 +748,8 @@ impl<'a> Lexer<'a> {
         //    ^
         if had_line_break_before_last
             && match op {
-                LShift if self.is_str("<<<<< ") => true,
-                ZeroFillRShift if self.is_str(">>>> ") => true,
+                BinOpToken::LShift if self.is_str("<<<<< ") => true,
+                BinOpToken::ZeroFillRShift if self.is_str(">>>> ") => true,
                 _ => false,
             }
         {
@@ -744,81 +768,85 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         let (word, has_escape) = self.read_word_as_str_with(|s| {
+            use crate::token::Keyword::*;
+
             if s.len() == 1 || s.len() > 10 {
-                Word::Ident(s.into())
+                {}
             } else {
                 match s.as_bytes()[0] {
-                    b'a' if s == "await" => Await.into(),
-                    b'b' if s == "break" => Break.into(),
+                    b'a' if s == "await" => return Await.into(),
+                    b'b' if s == "break" => return Break.into(),
                     b'c' => match s {
-                        "case" => Case.into(),
-                        "const" => Const.into(),
-                        "class" => Class.into(),
-                        "catch" => Catch.into(),
-                        "continue" => Continue.into(),
-                        _ => Word::Ident(s.into()),
+                        "case" => return Case.into(),
+                        "const" => return Const.into(),
+                        "class" => return Class.into(),
+                        "catch" => return Catch.into(),
+                        "continue" => return Continue.into(),
+                        _ => {}
                     },
                     b'd' => match s {
-                        "do" => Do.into(),
-                        "default" => Default_.into(),
-                        "delete" => Delete.into(),
-                        "debugger" => Debugger.into(),
-                        _ => Word::Ident(s.into()),
+                        "do" => return Do.into(),
+                        "default" => return Default_.into(),
+                        "delete" => return Delete.into(),
+                        "debugger" => return Debugger.into(),
+                        _ => {}
                     },
                     b'e' => match s {
-                        "else" => Else.into(),
-                        "export" => Export.into(),
-                        "extends" => Extends.into(),
-                        _ => Word::Ident(s.into()),
+                        "else" => return Else.into(),
+                        "export" => return Export.into(),
+                        "extends" => return Extends.into(),
+                        _ => {}
                     },
                     b'f' => match s {
-                        "for" => For.into(),
-                        "false" => Word::False,
-                        "finally" => Finally.into(),
-                        "function" => Function.into(),
-                        _ => Word::Ident(s.into()),
+                        "for" => return For.into(),
+                        "false" => return Word::False,
+                        "finally" => return Finally.into(),
+                        "function" => return Function.into(),
+                        _ => {}
                     },
                     b'i' => match s {
-                        "if" => If.into(),
-                        "import" => Import.into(),
-                        "in" => In.into(),
-                        "instanceof" => InstanceOf.into(),
-                        _ => Word::Ident(s.into()),
+                        "if" => return If.into(),
+                        "import" => return Import.into(),
+                        "in" => return In.into(),
+                        "instanceof" => return InstanceOf.into(),
+                        _ => {}
                     },
-                    b'l' if s == "let" => Let.into(),
+                    b'l' if s == "let" => return Let.into(),
                     b'n' => match s {
-                        "new" => New.into(),
-                        "null" => Word::Null,
-                        _ => Word::Ident(s.into()),
+                        "new" => return New.into(),
+                        "null" => return Word::Null,
+                        _ => {}
                     },
-                    b'r' if s == "return" => Return.into(),
+                    b'r' if s == "return" => return Return.into(),
                     b's' => match s {
-                        "super" => Super.into(),
-                        "switch" => Switch.into(),
-                        _ => Word::Ident(s.into()),
+                        "super" => return Super.into(),
+                        "switch" => return Switch.into(),
+                        _ => {}
                     },
                     b't' => match s {
-                        "this" => This.into(),
-                        "true" => Word::True,
-                        "try" => Try.into(),
-                        "throw" => Throw.into(),
-                        "typeof" => TypeOf.into(),
-                        _ => Word::Ident(s.into()),
+                        "this" => return This.into(),
+                        "true" => return Word::True,
+                        "try" => return Try.into(),
+                        "throw" => return Throw.into(),
+                        "typeof" => return TypeOf.into(),
+                        _ => {}
                     },
                     b'v' => match s {
-                        "var" => Var.into(),
-                        "void" => Void.into(),
-                        _ => Word::Ident(s.into()),
+                        "var" => return Var.into(),
+                        "void" => return Void.into(),
+                        _ => {}
                     },
                     b'w' => match s {
-                        "while" => While.into(),
-                        "with" => With.into(),
-                        _ => Word::Ident(s.into()),
+                        "while" => return While.into(),
+                        "with" => return With.into(),
+                        _ => {}
                     },
-                    b'y' if s == "yield" => Yield.into(),
-                    _ => Word::Ident(s.into()),
+                    b'y' if s == "yield" => return Yield.into(),
+                    _ => {}
                 }
             }
+
+            Word::Ident(s.into())
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -1154,7 +1182,7 @@ impl<'a> Lexer<'a> {
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Regex(content, flags))
+        Ok(Token::Regex(content, flags))
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
@@ -1191,7 +1219,7 @@ impl<'a> Lexer<'a> {
                 }
 
                 // TODO: Handle error
-                return Ok(Template {
+                return Ok(Token::Template {
                     cooked: cooked.map(Atom::from),
                     raw: Atom::new(&*raw),
                 });

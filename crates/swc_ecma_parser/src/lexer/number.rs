@@ -826,7 +826,7 @@ mod tests {
                 assert_eq!(expected, value);
             } else if let Ok(vec) = vec {
                 assert_ne!(
-                    vec![Num {
+                    vec![Token::Num {
                         value: expected,
                         raw: expected.to_string().into()
                     }],

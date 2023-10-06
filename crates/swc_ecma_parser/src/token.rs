@@ -9,11 +9,184 @@ use std::{
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom, JsWord};
 use swc_common::{Span, Spanned};
-pub(crate) use swc_ecma_ast::AssignOp as AssignOpToken;
-use swc_ecma_ast::BinaryOp;
+use swc_ecma_ast::{AssignOp, BinaryOp};
 
-pub(crate) use self::{AssignOpToken::*, BinOpToken::*, Keyword::*, Token::*};
+pub(crate) use self::{Keyword::*, Token::*};
 use crate::{error::Error, lexer::LexResult};
+
+macro_rules! define_known_ident {
+    (
+        $(
+            $name:ident => $value:tt,
+        )*
+    ) => {
+        #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
+        #[non_exhaustive]
+        pub enum KnownIdent {
+            $(
+                $name
+            ),*
+        }
+
+        #[allow(unused)]
+        macro_rules! known_ident_token {
+            $(
+                ($value) => {
+                    crate::token::TokenKind::Word(crate::token::WordKind::Ident(
+                        crate::token::IdentKind::Known(crate::token::KnownIdent::$name),
+                    ))
+                };
+            )*
+        }
+
+        #[allow(unused)]
+        macro_rules! known_ident {
+            $(
+                ($value) => {
+                    KnownIdent::$name
+                };
+            )*
+        }
+
+        impl std::str::FromStr for KnownIdent {
+            type Err = ();
+
+            fn from_str(s: &str) -> Result<Self, Self::Err> {
+                match s {
+                    $(
+                        $value => Ok(Self::$name),
+                    )*
+                    _ => Err(()),
+                }
+            }
+        }
+
+        impl std::convert::TryFrom<&JsWord> for KnownIdent {
+            type Error = ();
+
+            fn try_from(value: &JsWord) -> Result<Self, Self::Error> {
+                match *value {
+                    $(
+                        js_word!($value) => Ok(Self::$name),
+                    )*
+                    _ => Err(()),
+                }
+            }
+        }
+    };
+}
+
+define_known_ident!(
+    Abstract => "abstract",
+    As => "as",
+    Async => "async",
+    From => "from",
+    Of => "of",
+    Type => "type",
+    Global => "global",
+    Static => "static",
+    Using => "using",
+    Readonly => "readonly",
+    Unique => "unique",
+    Keyof => "keyof",
+    Declare => "declare",
+    Enum => "enum",
+    Is => "is",
+    Infer => "infer",
+    Symbol => "symbol",
+    Undefined => "undefined",
+    Interface => "interface",
+    Implements => "implements",
+    Asserts => "asserts",
+    Require => "require",
+    Get => "get",
+    Set => "set",
+    Any => "any",
+    Intrinsic => "intrinsic",
+    Unknown => "unknown",
+    String => "string",
+    Object => "object",
+    Number => "number",
+    Bigint => "bigint",
+    Boolean => "boolean",
+    Never => "never",
+    Assert => "assert",
+    Namespace => "namespace",
+    Accessor => "accessor",
+    Meta => "meta",
+    Target => "target",
+    Satisfies => "satisfies",
+    Package => "package",
+    Protected => "protected",
+    Private => "private",
+    Public => "public",
+);
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum WordKind {
+    Keyword(Keyword),
+
+    Null,
+    True,
+    False,
+
+    Ident(IdentKind),
+}
+
+impl From<Keyword> for WordKind {
+    #[inline(always)]
+    fn from(kwd: Keyword) -> Self {
+        Self::Keyword(kwd)
+    }
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum IdentKind {
+    Known(KnownIdent),
+    Other,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
+pub enum TokenKind {
+    Word(WordKind),
+    Arrow,
+    Hash,
+    At,
+    Dot,
+    DotDotDot,
+    Bang,
+    LParen,
+    RParen,
+    LBracket,
+    RBracket,
+    LBrace,
+    RBrace,
+    Semi,
+    Comma,
+    BackQuote,
+    Template,
+    Colon,
+    BinOp(BinOpToken),
+    AssignOp(AssignOp),
+    DollarLBrace,
+    QuestionMark,
+    PlusPlus,
+    MinusMinus,
+    Tilde,
+    Str,
+    /// We abuse `token.raw` for flags
+    Regex,
+    Num,
+    BigInt,
+
+    JSXName,
+    JSXText,
+    JSXTagStart,
+    JSXTagEnd,
+
+    Shebang,
+    Error,
+}
 
 #[derive(Clone, PartialEq)]
 pub enum Token {
@@ -67,7 +240,7 @@ pub enum Token {
     ///
     BinOp(BinOpToken),
     ///
-    AssignOp(AssignOpToken),
+    AssignOp(AssignOp),
 
     /// '${'
     DollarLBrace,
@@ -117,7 +290,49 @@ pub enum Token {
 }
 
 impl Token {
-    pub(crate) const fn before_expr(&self) -> bool {
+    pub(crate) fn kind(&self) -> TokenKind {
+        match self {
+            Self::Arrow => TokenKind::Arrow,
+            Self::Hash => TokenKind::Hash,
+            Self::At => TokenKind::At,
+            Self::Dot => TokenKind::Dot,
+            Self::DotDotDot => TokenKind::DotDotDot,
+            Self::Bang => TokenKind::Bang,
+            Self::LParen => TokenKind::LParen,
+            Self::RParen => TokenKind::RParen,
+            Self::LBracket => TokenKind::LBracket,
+            Self::RBracket => TokenKind::RBracket,
+            Self::LBrace => TokenKind::LBrace,
+            Self::RBrace => TokenKind::RBrace,
+            Self::Semi => TokenKind::Semi,
+            Self::Comma => TokenKind::Comma,
+            Self::BackQuote => TokenKind::BackQuote,
+            Self::Template { .. } => TokenKind::Template,
+            Self::Colon => TokenKind::Colon,
+            Self::BinOp(op) => TokenKind::BinOp(*op),
+            Self::AssignOp(op) => TokenKind::AssignOp(*op),
+            Self::DollarLBrace => TokenKind::DollarLBrace,
+            Self::QuestionMark => TokenKind::QuestionMark,
+            Self::PlusPlus => TokenKind::PlusPlus,
+            Self::MinusMinus => TokenKind::MinusMinus,
+            Self::Tilde => TokenKind::Tilde,
+            Self::Str { .. } => TokenKind::Str,
+            Self::Regex(..) => TokenKind::Regex,
+            Self::Num { .. } => TokenKind::Num,
+            Self::BigInt { .. } => TokenKind::BigInt,
+            Self::JSXName { .. } => TokenKind::JSXName,
+            Self::JSXText { .. } => TokenKind::JSXText,
+            Self::JSXTagStart => TokenKind::JSXTagStart,
+            Self::JSXTagEnd => TokenKind::JSXTagEnd,
+            Self::Shebang(..) => TokenKind::Shebang,
+            Self::Error(..) => TokenKind::Error,
+            Self::Word(w) => TokenKind::Word(w.kind()),
+        }
+    }
+}
+
+impl TokenKind {
+    pub(crate) const fn before_expr(self) -> bool {
         match self {
             Self::Word(w) => w.before_expr(),
             Self::BinOp(w) => w.before_expr(),
@@ -141,7 +356,7 @@ impl Token {
         }
     }
 
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         match self {
             Self::Word(w) => w.starts_expr(),
             Self::BinOp(w) => w.starts_expr(),
@@ -154,10 +369,10 @@ impl Token {
             | Self::PlusPlus
             | Self::MinusMinus
             | Self::Tilde
-            | Self::Str { .. }
-            | Self::Regex(..)
-            | Self::Num { .. }
-            | Self::BigInt { .. }
+            | Self::Str
+            | Self::Regex
+            | Self::Num
+            | Self::BigInt
             | Self::JSXTagStart => true,
             _ => false,
         }
@@ -226,7 +441,7 @@ pub enum BinOpToken {
 }
 
 impl BinOpToken {
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         matches!(self, Self::Add | Self::Sub)
     }
 
@@ -244,7 +459,7 @@ pub struct TokenAndSpan {
 }
 
 impl Spanned for TokenAndSpan {
-    #[inline(always)]
+    #[inline]
     fn span(&self) -> Span {
         self.span
     }
@@ -262,16 +477,32 @@ pub enum Word {
 }
 
 impl Word {
-    pub(crate) const fn before_expr(&self) -> bool {
+    pub(crate) fn kind(&self) -> WordKind {
+        match *self {
+            Word::Keyword(k) => WordKind::Keyword(k),
+            Word::Null => WordKind::Null,
+            Word::True => WordKind::True,
+            Word::False => WordKind::False,
+            Word::Ident(ref i) => WordKind::Ident(
+                KnownIdent::try_from(i)
+                    .map(IdentKind::Known)
+                    .unwrap_or(IdentKind::Other),
+            ),
+        }
+    }
+}
+
+impl WordKind {
+    pub(crate) const fn before_expr(self) -> bool {
         match self {
-            Word::Keyword(k) => k.before_expr(),
+            Self::Keyword(k) => k.before_expr(),
             _ => false,
         }
     }
 
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         match self {
-            Word::Keyword(k) => k.starts_expr(),
+            Self::Keyword(k) => k.starts_expr(),
             _ => true,
         }
     }
@@ -462,7 +693,7 @@ pub enum Keyword {
 }
 
 impl Keyword {
-    pub(crate) const fn before_expr(&self) -> bool {
+    pub(crate) const fn before_expr(self) -> bool {
         matches!(
             self,
             Self::Await
@@ -483,7 +714,7 @@ impl Keyword {
         )
     }
 
-    pub(crate) const fn starts_expr(&self) -> bool {
+    pub(crate) const fn starts_expr(self) -> bool {
         matches!(
             self,
             Self::Await
@@ -597,20 +828,20 @@ impl From<BinOpToken> for BinaryOp {
     }
 }
 
-impl Token {
+impl TokenKind {
     /// Returns true if `self` can follow keyword let.
     ///
     /// e.g. `let a = xx;`, `let {a:{}} = 1`
-    pub(crate) fn follows_keyword_let(&self, _strict: bool) -> bool {
-        matches!(
-            *self,
-            crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Let))
-                | tok!('{')
-                | tok!('[')
-                | Word(Word::Ident(..))
-                | tok!("yield")
-                | tok!("await")
-        )
+    pub(crate) fn follows_keyword_let(self, _strict: bool) -> bool {
+        match self {
+            Self::Word(WordKind::Keyword(Keyword::Let))
+            | TokenKind::LBrace
+            | TokenKind::LBracket
+            | Self::Word(WordKind::Ident(..))
+            | TokenKind::Word(WordKind::Keyword(Keyword::Yield))
+            | TokenKind::Word(WordKind::Keyword(Keyword::Await)) => true,
+            _ => false,
+        }
     }
 }
 
