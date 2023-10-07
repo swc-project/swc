@@ -183,7 +183,7 @@ where
                     .entry(None)
                     .or_default()
                     .push(Specifier::Specific {
-                        local: Id::new(js_word!("default"), SyntaxContext::empty()),
+                        local: Id::new("default", SyntaxContext::empty()),
                         alias: None,
                     });
             }
@@ -194,7 +194,7 @@ where
                     .entry(None)
                     .or_default()
                     .push(Specifier::Specific {
-                        local: Id::new(js_word!("default"), SyntaxContext::empty()),
+                        local: Id::new("default", SyntaxContext::empty()),
                         alias: None,
                     });
             }
@@ -233,7 +233,7 @@ where
                         ExportSpecifier::Default(d) => {
                             v.push(Specifier::Specific {
                                 local: d.exported.clone().into(),
-                                alias: Some(Id::new(js_word!("default"), SyntaxContext::empty())),
+                                alias: Some(Id::new("default", SyntaxContext::empty())),
                             });
                         }
                         ExportSpecifier::Named(n) => {

@@ -225,13 +225,7 @@ where
                 match &mut e.callee {
                     Callee::Expr(callee)
                         if self.bundler.config.require
-                            && matches!(
-                                &**callee,
-                                Expr::Ident(Ident {
-                                    sym: js_word!("require"),
-                                    ..
-                                })
-                            ) =>
+                            && matches!(&**callee, Expr::Ident(Ident { sym: "require", .. })) =>
                     {
                         if self.bundler.is_external(&src.value) {
                             return;
@@ -267,7 +261,7 @@ where
                     //
                     // ExprOrSuper::Expr(ref e) => match &**e {
                     //     Expr::Ident(Ident {
-                    //         sym: js_word!("import"),
+                    //         sym: "import",
                     //         ..
                     //     }) => {
                     //         self.info.dynamic_imports.push(src.clone());
@@ -610,13 +604,7 @@ where
                     ref args,
                     ..
                 }) if self.bundler.config.require
-                    && matches!(
-                        &**callee,
-                        Expr::Ident(Ident {
-                            sym: js_word!("require"),
-                            ..
-                        })
-                    )
+                    && matches!(&**callee, Expr::Ident(Ident { sym: "require", .. }))
                     && args.len() == 1 =>
                 {
                     let span = *span;

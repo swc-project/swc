@@ -239,10 +239,7 @@ impl Fold for ExportToReturn {
                     let ident = expr.ident;
                     let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
-                    self.export_key_value(
-                        Ident::new(js_word!("default"), export.span),
-                        ident.clone(),
-                    );
+                    self.export_key_value(Ident::new("default", export.span), ident.clone());
 
                     Some(Stmt::Decl(Decl::Class(ClassDecl {
                         ident,
@@ -254,10 +251,7 @@ impl Fold for ExportToReturn {
                     let ident = expr.ident;
                     let ident = ident.unwrap_or_else(|| private_ident!("_default_decl"));
 
-                    self.export_key_value(
-                        Ident::new(js_word!("default"), export.span),
-                        ident.clone(),
-                    );
+                    self.export_key_value(Ident::new("default", export.span), ident.clone());
 
                     Some(Stmt::Decl(Decl::Fn(FnDecl {
                         ident,

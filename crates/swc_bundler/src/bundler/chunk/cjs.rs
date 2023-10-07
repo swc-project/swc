@@ -357,7 +357,7 @@ impl VisitMut for DefaultHandler {
         e.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = e {
-            if i.sym == js_word!("default") {
+            if i.sym == "default" {
                 *e = Expr::Member(MemberExpr {
                     span: i.span,
                     obj: Box::new(Expr::Ident(Ident::new(

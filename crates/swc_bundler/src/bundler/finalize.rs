@@ -208,8 +208,7 @@ where
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
                                                 key: PropName::Ident(Ident::new(
-                                                    js_word!("default"),
-                                                    DUMMY_SP,
+                                                    "default", DUMMY_SP,
                                                 )),
                                                 value: Box::new(Expr::Ident(s.exported)),
                                             },
@@ -259,10 +258,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new(
-                                            js_word!("default"),
-                                            export.span,
-                                        )),
+                                        key: PropName::Ident(Ident::new("default", export.span)),
                                         value: Box::new(Expr::Ident(ident.clone())),
                                     },
                                 ))));
@@ -280,10 +276,7 @@ where
 
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
-                                        key: PropName::Ident(Ident::new(
-                                            js_word!("default"),
-                                            export.span,
-                                        )),
+                                        key: PropName::Ident(Ident::new("default", export.span)),
                                         value: Box::new(Expr::Ident(ident.clone())),
                                     },
                                 ))));

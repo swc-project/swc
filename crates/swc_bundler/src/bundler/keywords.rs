@@ -14,7 +14,7 @@ pub struct KeywordRenamer {
 impl KeywordRenamer {
     /// Returns `Some(new_ident)` if it should be renamed.
     fn renamed(&mut self, id: &Ident) -> Option<Ident> {
-        if id.sym == js_word!("import") {
+        if id.sym == "import" {
             return None;
         }
 
