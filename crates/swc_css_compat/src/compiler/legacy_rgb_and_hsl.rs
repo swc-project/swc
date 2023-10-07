@@ -1,6 +1,6 @@
 use std::f64::consts::PI;
 
-use swc_atoms::js_word;
+
 use swc_css_ast::{
     matches_eq, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Hue, Number, Percentage,
 };

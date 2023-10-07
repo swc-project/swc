@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Color, ComponentValue, Delimiter, DelimiterValue, Function,

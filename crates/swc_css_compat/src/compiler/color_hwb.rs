@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Delimiter, DelimiterValue, FunctionName,
     Hue, Ident, Number, Percentage,
@@ -29,7 +29,7 @@ impl Compiler {
                 Some(value)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -52,7 +52,7 @@ impl Compiler {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -84,7 +84,7 @@ impl Compiler {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
