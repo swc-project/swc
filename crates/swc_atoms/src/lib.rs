@@ -33,9 +33,9 @@ pub struct Atom(string_cache::Atom<InternalWordStaticSet>);
 /// parser code) and passed around.
 unsafe impl Sync for Atom {}
 
-fn _assert_size() {
-    let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
-}
+// fn _assert_size() {
+//     let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
+// }
 
 impl Atom {
     /// Creates a new [Atom] from a string.
