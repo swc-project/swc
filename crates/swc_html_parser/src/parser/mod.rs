@@ -7498,7 +7498,7 @@ where
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(
             Data::Element {
-                tag_name: "html",
+                tag_name: "html".into(),
                 namespace: Namespace::HTML,
                 attributes: RefCell::new(vec![]),
                 is_self_closing: false,
@@ -8474,7 +8474,7 @@ fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
                 tag_name,
                 ..
             } if *namespace == Namespace::MATHML
-                && matches!(*tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
+                && matches!(&**tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
             {
                 return true;
             }
