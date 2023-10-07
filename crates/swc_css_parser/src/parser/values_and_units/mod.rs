@@ -197,7 +197,7 @@ where
 
         let mut values = vec![];
 
-        match *function_name {
+        match &**function_name {
             "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws();
@@ -402,7 +402,7 @@ where
                     _ => {}
                 }
 
-                match *function_name {
+                match &**function_name {
                     "rgb" | "rgba" => {
                         let percentage_or_number_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
