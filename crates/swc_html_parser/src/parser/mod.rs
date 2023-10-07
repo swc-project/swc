@@ -2771,7 +2771,9 @@ where
                     // are ignored as an authoring convenience.)
                     //
                     // Set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "pre" | "listing") => {
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&**tag_name, "pre" | "listing") =>
+                    {
                         if self.open_elements_stack.has_in_button_scope(&"p") {
                             self.close_p_element(token_and_info, false);
                         }
@@ -2867,7 +2869,7 @@ where
                                     Some(node) if !is_html_element!(node, "li") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied("li"),
+                                            ErrorKind::UnclosedElementsImplied(js_word!("li")),
                                         ));
                                     }
                                     _ => {}
@@ -2941,7 +2943,7 @@ where
                     // close a p element.
                     //
                     // Finally, insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "dd" | "dt") => {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "dd" | "dt") => {
                         self.frameset_ok = false;
 
                         // Initialise node to be the current node (the bottommost node of
