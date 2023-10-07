@@ -502,7 +502,7 @@ impl Pure<'_> {
                         })),
                         _ => None,
                     },
-                    Expr::Ident(Ident { sym: "Number", .. }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Number" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 0.0,

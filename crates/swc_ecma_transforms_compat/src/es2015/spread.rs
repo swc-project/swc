@@ -335,9 +335,7 @@ impl Spread {
                         make_arr!();
 
                         buf.push(match *expr {
-                            Expr::Ident(Ident {
-                                sym: "arguments", ..
-                            }) => {
+                            Expr::Ident(Ident { sym, .. }) if &*sym == "arguments" => {
                                 if args_len == 1 {
                                     if need_array {
                                         return Expr::Call(CallExpr {
