@@ -53,7 +53,6 @@ bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
 bridge_lit_from!(Str, Atom);
-bridge_lit_from!(Str, Atom);
 bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
 bridge_lit_from!(Bool, bool);
