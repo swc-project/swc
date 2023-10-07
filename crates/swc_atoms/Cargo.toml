@@ -1,5 +1,6 @@
 [package]
 authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+build         = "build.rs"
 description   = "Atoms for the swc project."
 documentation = "https://rustdoc.swc.rs/swc_atoms/"
 edition       = "2021"
@@ -25,5 +26,9 @@ rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
 ] }
 rustc-hash = "1.1.0"
 serde = "1"
-tendril = "0.4.3"
+string_cache = "0.8.7"
 triomphe = "0.1.8"
+
+
+[build-dependencies]
+string_cache_codegen = "0.5.2"
