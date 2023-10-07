@@ -1,6 +1,5 @@
 use std::iter;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -172,7 +171,9 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Call(CallExpr {
             span,
             args,
-            callee: self.make_member(Ident::new("call", span)).as_callee(),
+            callee: self
+                .make_member(Ident::new("call".into(), span))
+                .as_callee(),
             type_args: None,
         })
     }
