@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::{
     CompoundSelector, PseudoClassSelector, PseudoClassSelectorChildren, SelectorList,
     SubclassSelector,

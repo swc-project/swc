@@ -1064,7 +1064,7 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;
-        match id.sym {
+        match &*id.sym {
             "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
             | "symbol" | "void" | "never" | "intrinsic" => {
                 self.emit_err(id.span, SyntaxError::TS2427);
