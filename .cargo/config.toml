@@ -4,7 +4,7 @@ xtask = "run --package xtask --"
 [build]
 
 rustdocflags = ["--cfg", "docsrs"]
-rustflags    = ["-Zshare-generics=y", "-Aclippy::mutable_key_type"]
+rustflags    = ["-Zshare-generics=y"]
 
 [target.x86_64-unknown-linux-gnu]
 rustflags = [
@@ -44,3 +44,7 @@ rustflags = [
 
 [target.aarch64-pc-windows-msvc]
 linker = "rust-lld"
+
+
+[target.'cfg(all())']
+rustflags = ["-Zshare-generics=y", "-Aclippy::mutable_key_type"]
