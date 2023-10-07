@@ -98,13 +98,11 @@ impl Visit for FontFamilyNoDuplicateNames {
     fn visit_declaration(&mut self, declaration: &Declaration) {
         match &declaration.name {
             DeclarationName::Ident(Ident { value, .. })
-                if value.eq_str_ignore_ascii_case("font-family") =>
+                if value.eq_ignore_ascii_case("font-family") =>
             {
                 self.check_component_values(&declaration.value);
             }
-            DeclarationName::Ident(Ident { value, .. })
-                if value.eq_str_ignore_ascii_case("font") =>
-            {
+            DeclarationName::Ident(Ident { value, .. }) if value.eq_ignore_ascii_case("font") => {
                 let index = declaration
                     .value
                     .iter()

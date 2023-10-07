@@ -418,7 +418,7 @@ where
 
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -459,7 +459,7 @@ where
                                 tok!("ident") => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -529,7 +529,7 @@ where
                                 tok!("ident") if !is_legacy_syntax => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -573,7 +573,7 @@ where
                                 tok!("ident") => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -645,7 +645,7 @@ where
                                 tok!("ident") if !is_legacy_syntax => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -689,7 +689,7 @@ where
                                 tok!("ident") => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -776,7 +776,7 @@ where
                             tok!("ident") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
-                                if ident.value.eq_str_ignore_ascii_case("none") {
+                                if ident.value.eq_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
                                 } else {
                                     Err(Error::new(
@@ -850,7 +850,7 @@ where
                                 tok!("ident") => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -895,7 +895,7 @@ where
                                 tok!("ident") => {
                                     let ident: Box<Ident> = parser.parse()?;
 
-                                    if ident.value.eq_str_ignore_ascii_case("none") {
+                                    if ident.value.eq_ignore_ascii_case("none") {
                                         Ok(Some(ComponentValue::Ident(ident)))
                                     } else {
                                         Err(Error::new(
@@ -958,7 +958,7 @@ where
                                     tok!("ident") => {
                                         let ident: Box<Ident> = parser.parse()?;
 
-                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                        if ident.value.eq_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
                                         } else {
                                             Err(Error::new(
@@ -1007,7 +1007,7 @@ where
                                     tok!("ident") => {
                                         let ident: Box<Ident> = parser.parse()?;
 
-                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                        if ident.value.eq_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
                                         } else {
                                             Err(Error::new(
@@ -1075,7 +1075,7 @@ where
                                     tok!("ident") => {
                                         let ident: Box<Ident> = parser.parse()?;
 
-                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                        if ident.value.eq_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
                                         } else {
                                             Err(Error::new(
@@ -1124,7 +1124,7 @@ where
                                     tok!("ident") => {
                                         let ident: Box<Ident> = parser.parse()?;
 
-                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                        if ident.value.eq_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
                                         } else {
                                             Err(Error::new(
@@ -1170,7 +1170,7 @@ where
                                     tok!("ident") => {
                                         let ident: Box<Ident> = parser.parse()?;
 
-                                        if ident.value.eq_str_ignore_ascii_case("none") {
+                                        if ident.value.eq_ignore_ascii_case("none") {
                                             Ok(Some(ComponentValue::Ident(ident)))
                                         } else {
                                             Err(Error::new(
@@ -1253,7 +1253,7 @@ where
                             tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
-                                if ident.value.eq_str_ignore_ascii_case("none") {
+                                if ident.value.eq_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
                                 } else {
                                     Err(Error::new(
@@ -1362,7 +1362,7 @@ where
                         tok!("ident") => {
                             let ident: Box<Ident> = parser.parse()?;
 
-                            if ident.value.eq_str_ignore_ascii_case("none") {
+                            if ident.value.eq_ignore_ascii_case("none") {
                                 Ok(Some(ComponentValue::Ident(ident)))
                             } else {
                                 Err(Error::new(
@@ -1416,7 +1416,7 @@ where
                             tok!("ident") => {
                                 let ident: Box<Ident> = self.parse()?;
 
-                                if ident.value.eq_str_ignore_ascii_case("none") {
+                                if ident.value.eq_ignore_ascii_case("none") {
                                     ComponentValue::Ident(ident)
                                 } else {
                                     return Err(Error::new(
@@ -1447,7 +1447,7 @@ where
                             tok!("ident") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
-                                if ident.value.eq_str_ignore_ascii_case("none") {
+                                if ident.value.eq_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
                                 } else {
                                     Err(Error::new(
@@ -1488,7 +1488,7 @@ where
                             tok!("ident") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
-                                if ident.value.eq_str_ignore_ascii_case("none") {
+                                if ident.value.eq_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
                                 } else {
                                     Err(Error::new(
@@ -1540,7 +1540,7 @@ where
                             tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
-                                if ident.value.eq_str_ignore_ascii_case("none") {
+                                if ident.value.eq_ignore_ascii_case("none") {
                                     Ok(Some(ComponentValue::Ident(ident)))
                                 } else {
                                     Err(Error::new(

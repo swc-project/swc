@@ -18,7 +18,7 @@ impl VisitMut for IdentReplacer<'_> {
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         n.visit_mut_children_with(self);
 
-        if n.value.eq_str_ignore_ascii_case(self.from) {
+        if n.value.eq_ignore_ascii_case(self.from) {
             n.value = self.to.into();
             n.raw = None;
         }
@@ -42,11 +42,11 @@ impl VisitMut for FunctionNameReplacer<'_> {
         n.visit_mut_children_with(self);
 
         match &mut n.name {
-            FunctionName::Ident(name) if name.value.eq_str_ignore_ascii_case(self.from) => {
+            FunctionName::Ident(name) if name.value.eq_ignore_ascii_case(self.from) => {
                 name.value = self.to.into();
                 name.raw = None;
             }
-            FunctionName::DashedIdent(name) if name.value.eq_str_ignore_ascii_case(self.from) => {
+            FunctionName::DashedIdent(name) if name.value.eq_ignore_ascii_case(self.from) => {
                 name.value = self.to.into();
                 name.raw = None;
             }
