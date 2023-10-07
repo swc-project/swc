@@ -6830,61 +6830,61 @@ where
     // xmlns	        (none)	xmlns	    XMLNS namespace
     // xmlns:xlink	    xmlns	xlink	    XMLNS namespace
     fn adjust_foreign_attribute(&self, attribute: &mut Attribute) {
-        match attribute.name {
+        match &*attribute.name {
             "xlink:actuate" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "actuate";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "actuate".into();
             }
             "xlink:arcrole" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "arcrole";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "arcrole".into();
             }
             "xlink:href" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "href";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "href".into();
             }
             "xlink:role" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "role";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "role".into();
             }
             "xlink:show" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "show";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "show".into();
             }
             "xlink:title" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "title";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "title".into();
             }
             "xlink:type" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some("xlink");
-                attribute.name = "type";
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "type".into();
             }
             "xml:lang" => {
                 attribute.namespace = Some(Namespace::XML);
-                attribute.prefix = Some("xml");
-                attribute.name = "lang";
+                attribute.prefix = Some("xml".into());
+                attribute.name = "lang".into();
             }
             "xml:space" => {
                 attribute.namespace = Some(Namespace::XML);
-                attribute.prefix = Some("xml");
-                attribute.name = "space";
+                attribute.prefix = Some("xml".into());
+                attribute.name = "space".into();
             }
             "xmlns" => {
                 attribute.namespace = Some(Namespace::XMLNS);
                 attribute.prefix = None;
-                attribute.name = "xmlns";
+                attribute.name = "xmlns".into();
             }
             "xmlns:xlink" => {
                 attribute.namespace = Some(Namespace::XMLNS);
-                attribute.prefix = Some("xmlns");
-                attribute.name = "xlink";
+                attribute.prefix = Some("xmlns".into());
+                attribute.name = "xlink".into();
             }
             _ => {}
         }
