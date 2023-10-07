@@ -2,8 +2,9 @@
 #![deny(clippy::all)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::needless_update)]
+#![allow(clippy::mutable_key_type)]
 
-use swc_atoms::{JsWord};
+use swc_atoms::JsWord;
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 
