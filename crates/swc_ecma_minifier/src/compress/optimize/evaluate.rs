@@ -403,7 +403,7 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = Expr::Ident(Ident::new(
-                                "NaN",
+                                "NaN".into(),
                                 bin.span.with_ctxt(
                                     SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                                 ),

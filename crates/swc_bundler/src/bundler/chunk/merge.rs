@@ -292,7 +292,7 @@ where
                         let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
-                            if *id.sym() == default {
+                            if *id.sym() == "default" {
                                 continue;
                             }
 

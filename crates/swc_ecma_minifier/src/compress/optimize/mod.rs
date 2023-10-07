@@ -2500,17 +2500,17 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
-        if let Stmt::Labeled(LabeledStmt {
-            label: Ident {
-                sym: js_word!(""), ..
-            },
-            body,
-            ..
-        }) = s
-        {
-            *s = *body.take();
+        match s {
+            Stmt::Labeled(LabeledStmt {
+                label: Ident { sym, .. },
+                body,
+                ..
+            }) if sym.is_empty() => {
+                *s = *body.take();
 
-            debug_assert_valid(s);
+                debug_assert_valid(s);
+            }
+            _ => (),
         }
 
         self.remove_duplicate_var_decls(s);
