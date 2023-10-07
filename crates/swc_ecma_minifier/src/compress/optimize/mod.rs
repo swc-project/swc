@@ -3094,13 +3094,7 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 fn is_expr_access_to_arguments(l: &Expr) -> bool {
     match l {
         Expr::Member(MemberExpr { obj, .. }) => {
-            matches!(
-                &**obj,
-                Expr::Ident(Ident {
-                    sym: "arguments",
-                    ..
-                })
-            )
+            matches!(&**obj, Expr::Ident(Ident { sym, .. }) if (&**sym == "arguments"))
         }
         _ => false,
     }
