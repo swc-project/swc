@@ -470,14 +470,14 @@ impl Minifier<'_> {
 
     fn is_attribute_value_unordered_set(&self, element: &Element, attribute: &Attribute) -> bool {
         if matches!(
-            attribute.name,
+            &*attribute.name,
             "class" | "part" | "itemprop" | "itemref" | "itemtype"
         ) {
             return true;
         }
 
         match element.namespace {
-            Namespace::HTML => match element.tag_name {
+            Namespace::HTML => match &*element.tag_name {
                 "link" if attribute.name == "blocking" => true,
                 "script" if attribute.name == "blocking" => true,
                 "style" if attribute.name == "blocking" => true,
@@ -512,7 +512,7 @@ impl Minifier<'_> {
             (
                 current_element.namespace,
                 &*current_element.tag_name,
-                &attribute.name,
+                &*attribute.name,
             ),
             (
                 Namespace::HTML,
@@ -752,7 +752,7 @@ impl Minifier<'_> {
 
     fn is_custom_element(&self, element: &Element) -> bool {
         // https://html.spec.whatwg.org/multipage/custom-elements.html#valid-custom-element-name
-        match element.tag_name {
+        match &*element.tag_name {
             "annotation-xml" | "color-profile" | "font-face" | "font-face-src"
             | "font-face-uri" | "font-face-format" | "font-face-name" | "missing-glyph" => false,
             _ => {
@@ -765,7 +765,7 @@ impl Minifier<'_> {
     fn get_display(&self, element: &Element) -> Display {
         match element.namespace {
             Namespace::HTML => {
-                match element.tag_name {
+                match &*element.tag_name {
                     "area" | "base" | "basefont" | "datalist" | "head" | "link" | "meta"
                     | "noembed" | "noframes" | "param" | "rp" | "script" | "style" | "template"
                     | "title" => Display::None,
@@ -821,7 +821,7 @@ impl Minifier<'_> {
                     _ => Display::Inline,
                 }
             }
-            Namespace::SVG => match element.tag_name {
+            Namespace::SVG => match &*element.tag_name {
                 "text" | "foreignObject" => Display::Block,
                 _ => Display::Inline,
             },
@@ -1033,7 +1033,7 @@ impl Minifier<'_> {
         };
 
         match element.namespace {
-            Namespace::HTML => match element.tag_name {
+            Namespace::HTML => match &*element.tag_name {
                 "script" | "style" => WhitespaceMinificationMode {
                     collapse: false,
                     trim: !matches!(
@@ -1055,7 +1055,7 @@ impl Minifier<'_> {
                     }
                 }
             },
-            Namespace::SVG => match element.tag_name {
+            Namespace::SVG => match &*element.tag_name {
                 "script" | "style" => WhitespaceMinificationMode {
                     collapse: false,
                     trim: true,
