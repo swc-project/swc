@@ -418,7 +418,10 @@ impl<I: Tokens> Parser<I> {
             {
                 // Property named `declare`
 
-                let key = Key::Public(PropName::Ident(Ident::new("declare", span!(self, start))));
+                let key = Key::Public(PropName::Ident(Ident::new(
+                    "declare".into(),
+                    span!(self, start),
+                )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_property(
                     start,
@@ -463,7 +466,10 @@ impl<I: Tokens> Parser<I> {
         if let Some(accessor_token) = accessor_token {
             // Handle accessor(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new("accessor", accessor_token)));
+                let key = Key::Public(PropName::Ident(Ident::new(
+                    "accessor".into(),
+                    accessor_token,
+                )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
                     |p| p.parse_unique_formal_params(),
@@ -486,7 +492,10 @@ impl<I: Tokens> Parser<I> {
             {
                 // Property named `accessor`
 
-                let key = Key::Public(PropName::Ident(Ident::new("accessor", accessor_token)));
+                let key = Key::Public(PropName::Ident(Ident::new(
+                    "accessor".into(),
+                    accessor_token,
+                )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 let is_static = static_token.is_some();
                 return self.make_property(
@@ -508,7 +517,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(static_token) = static_token {
             // Handle static(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new("static", static_token)));
+                let key = Key::Public(PropName::Ident(Ident::new("static".into(), static_token)));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
                     |p| p.parse_unique_formal_params(),
@@ -536,7 +545,8 @@ impl<I: Tokens> Parser<I> {
                 //   {}
                 let is_parsing_static_blocks = is!(self, '{');
                 if !is_parsing_static_blocks {
-                    let key = Key::Public(PropName::Ident(Ident::new("static", static_token)));
+                    let key =
+                        Key::Public(PropName::Ident(Ident::new("static".into(), static_token)));
                     let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                     return self.make_property(
                         start,
