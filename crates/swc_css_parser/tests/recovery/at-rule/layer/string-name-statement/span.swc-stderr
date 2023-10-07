@@ -47,7 +47,7 @@
    :        ^^^^^^^^^
    `----
 
-  x String { value: Atom('default' type=static), raw: "\"default\"" }
+  x String { value: "default", raw: "\"default\"" }
    ,-[$DIR/tests/recovery/at-rule/layer/string-name-statement/input.css:1:1]
  1 | @layer "default";
    :        ^^^^^^^^^

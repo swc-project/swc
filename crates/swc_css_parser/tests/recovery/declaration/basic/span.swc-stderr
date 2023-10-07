@@ -472,7 +472,7 @@
  13 |     color: red;
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
     ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  11 | a {
  12 |     test;

@@ -1720,7 +1720,7 @@
  39 | }
     `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident { value: "a", raw: "a" }
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:37:1]
  37 | 
  38 | ::pseudo-elem(a, b) {
@@ -1768,7 +1768,7 @@
  39 | }
     `----
 
-  x Ident { value: Atom('b' type=static), raw: "b" }
+  x Ident { value: "b", raw: "b" }
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:37:1]
  37 | 
  38 | ::pseudo-elem(a, b) {

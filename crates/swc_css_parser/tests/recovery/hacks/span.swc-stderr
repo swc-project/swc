@@ -975,7 +975,7 @@
  14 | .selector { [;property: value;]; }
     `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
     ,-[$DIR/tests/recovery/hacks/input.css:12:1]
  12 | 
  13 | .selector { (;property: value;); }
@@ -1023,7 +1023,7 @@
  14 | .selector { [;property: value;]; }
     `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
     ,-[$DIR/tests/recovery/hacks/input.css:12:1]
  12 | 
  13 | .selector { (;property: value;); }
@@ -1182,7 +1182,7 @@
     :               ^^^^^^^^
     `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
@@ -1224,7 +1224,7 @@
     :                         ^^^^^
     `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
     ,-[$DIR/tests/recovery/hacks/input.css:13:1]
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
@@ -1308,7 +1308,7 @@
     :        ^^^
     `----
 
-  x Ident { value: Atom('\0' type=inline), raw: "\\\\0" }
+  x Ident { value: "\\0", raw: "\\\\0" }
     ,-[$DIR/tests/recovery/hacks/input.css:15:1]
  15 | 
  16 | @media \\0 screen {}
@@ -1336,7 +1336,7 @@
     :            ^^^^^^
     `----
 
-  x Ident { value: Atom('screen' type=inline), raw: "screen" }
+  x Ident { value: "screen", raw: "screen" }
     ,-[$DIR/tests/recovery/hacks/input.css:15:1]
  15 | 
  16 | @media \\0 screen {}
@@ -5980,7 +5980,7 @@
     :                 ^^^^^
     `----
 
-  x Ident { value: Atom('hover' type=inline), raw: "hover" }
+  x Ident { value: "hover", raw: "hover" }
     ,-[$DIR/tests/recovery/hacks/input.css:63:1]
  63 | 
  64 | _:-moz-tree-row(hover), .selector {}
@@ -9396,7 +9396,7 @@
  105 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
  103 | .selector {
  104 |     !property: value;
@@ -9444,7 +9444,7 @@
  105 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
  103 | .selector {
  104 |     !property: value;
@@ -9634,7 +9634,7 @@
  109 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
  107 | .selector { 
  108 |     $property: value;
@@ -9682,7 +9682,7 @@
  109 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
  107 | .selector { 
  108 |     $property: value;
@@ -9872,7 +9872,7 @@
  113 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
  111 | .selector { 
  112 |     &property: value;
@@ -9920,7 +9920,7 @@
  113 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
  111 | .selector { 
  112 |     &property: value;
@@ -10110,7 +10110,7 @@
  117 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
  115 | .selector { 
  116 |     *property: value;
@@ -10158,7 +10158,7 @@
  117 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
  115 | .selector { 
  116 |     *property: value;
@@ -10348,7 +10348,7 @@
  121 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
  119 | .selector { 
  120 |     )property: value;
@@ -10396,7 +10396,7 @@
  121 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
  119 | .selector { 
  120 |     )property: value;
@@ -10586,7 +10586,7 @@
  125 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
  123 | .selector { 
  124 |     =property: value;
@@ -10634,7 +10634,7 @@
  125 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
  123 | .selector { 
  124 |     =property: value;
@@ -10824,7 +10824,7 @@
  129 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
  127 | .selector { 
  128 |     %property: value;
@@ -10872,7 +10872,7 @@
  129 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
  127 | .selector { 
  128 |     %property: value;
@@ -11062,7 +11062,7 @@
  133 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
  131 | .selector { 
  132 |     +property: value;
@@ -11110,7 +11110,7 @@
  133 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
  131 | .selector { 
  132 |     +property: value;
@@ -11388,7 +11388,7 @@
  137 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
  135 | .selector { 
  136 |     @property: value;
@@ -11514,7 +11514,7 @@
  141 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
  139 | .selector { 
  140 |     ,property: value;
@@ -11562,7 +11562,7 @@
  141 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
  139 | .selector { 
  140 |     ,property: value;
@@ -11752,7 +11752,7 @@
  145 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
  143 | .selector { 
  144 |     .property: value;
@@ -11800,7 +11800,7 @@
  145 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
  143 | .selector { 
  144 |     .property: value;
@@ -11990,7 +11990,7 @@
  149 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
  147 | .selector { 
  148 |     /property: value;
@@ -12038,7 +12038,7 @@
  149 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
  147 | .selector { 
  148 |     /property: value;
@@ -12228,7 +12228,7 @@
  153 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
  151 | .selector { 
  152 |     `property: value;
@@ -12276,7 +12276,7 @@
  153 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
  151 | .selector { 
  152 |     `property: value;
@@ -12466,7 +12466,7 @@
  157 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
  155 | .selector { 
  156 |     ]property: value;
@@ -12514,7 +12514,7 @@
  157 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
  155 | .selector { 
  156 |     ]property: value;
@@ -12688,7 +12688,7 @@
  161 |     color: red;
      `----
 
-  x Hash { is_id: true, value: Atom('property' type=static), raw: "property" }
+  x Hash { is_id: true, value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
  159 | .selector { 
  160 |     #property: value;
@@ -12736,7 +12736,7 @@
  161 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
  159 | .selector { 
  160 |     #property: value;
@@ -12926,7 +12926,7 @@
  165 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
  163 | .selector { 
  164 |     ~property: value;
@@ -12974,7 +12974,7 @@
  165 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
  163 | .selector { 
  164 |     ~property: value;
@@ -13164,7 +13164,7 @@
  169 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
  167 | .selector { 
  168 |     ?property: value;
@@ -13212,7 +13212,7 @@
  169 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
  167 | .selector { 
  168 |     ?property: value;
@@ -13402,7 +13402,7 @@
  173 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
  171 | .selector { 
  172 |     :property: value;
@@ -13450,7 +13450,7 @@
  173 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
  171 | .selector { 
  172 |     :property: value;
@@ -13637,7 +13637,7 @@
  177 |     color: red;
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
  175 | .selector { 
  176 |     |property: value;
@@ -13685,7 +13685,7 @@
  177 |     color: red;
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
  175 | .selector { 
  176 |     |property: value;
@@ -13862,7 +13862,7 @@
      :                       ^^^^^
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:179:1]
  179 | 
  180 | .selector { property: value !ie; }
@@ -13904,7 +13904,7 @@
      :                              ^^
      `----
 
-  x Ident { value: Atom('ie' type=inline), raw: "ie" }
+  x Ident { value: "ie", raw: "ie" }
      ,-[$DIR/tests/recovery/hacks/input.css:179:1]
  179 | 
  180 | .selector { property: value !ie; }
@@ -15433,7 +15433,7 @@
  205 | .selector { [;property: value;]; }
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:203:1]
  203 | 
  204 | .selector { (;property: value;); }
@@ -15481,7 +15481,7 @@
  205 | .selector { [;property: value;]; }
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:203:1]
  203 | 
  204 | .selector { (;property: value;); }
@@ -15640,7 +15640,7 @@
      :               ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
@@ -15682,7 +15682,7 @@
      :                         ^^^^^
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
@@ -17435,7 +17435,7 @@
  226 | .selector { [;property: value;]; }
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:224:1]
  224 | 
  225 | .selector { (;property: value;); }
@@ -17483,7 +17483,7 @@
  226 | .selector { [;property: value;]; }
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:224:1]
  224 | 
  225 | .selector { (;property: value;); }
@@ -17642,7 +17642,7 @@
      :               ^^^^^^^^
      `----
 
-  x Ident { value: Atom('property' type=static), raw: "property" }
+  x Ident { value: "property", raw: "property" }
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
@@ -17684,7 +17684,7 @@
      :                         ^^^^^
      `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
      ,-[$DIR/tests/recovery/hacks/input.css:225:1]
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
@@ -19060,7 +19060,7 @@
      :        ^^^
      `----
 
-  x Ident { value: Atom('\0' type=inline), raw: "\\\\0" }
+  x Ident { value: "\\0", raw: "\\\\0" }
      ,-[$DIR/tests/recovery/hacks/input.css:240:1]
  240 | 
  241 | @media \\0 screen {}
@@ -19088,7 +19088,7 @@
      :            ^^^^^^
      `----
 
-  x Ident { value: Atom('screen' type=inline), raw: "screen" }
+  x Ident { value: "screen", raw: "screen" }
      ,-[$DIR/tests/recovery/hacks/input.css:240:1]
  240 | 
  241 | @media \\0 screen {}
@@ -19252,7 +19252,7 @@
  245 |     _background: white;
      `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
  243 | a {
  244 |     *color : black;
@@ -19316,7 +19316,7 @@
  245 |     _background: white;
      `----
 
-  x Ident { value: Atom('black' type=static), raw: "black" }
+  x Ident { value: "black", raw: "black" }
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
  243 | a {
  244 |     *color : black;
@@ -19492,7 +19492,7 @@
  248 | }
      `----
 
-  x Ident { value: Atom('var' type=static), raw: "var" }
+  x Ident { value: "var", raw: "var" }
      ,-[$DIR/tests/recovery/hacks/input.css:246:1]
  246 |     font-size/**/: big;
  247 |     $(var)-size: 100%;
@@ -19508,7 +19508,7 @@
  248 | }
      `----
 
-  x Ident { value: Atom('-size' type=inline), raw: "-size" }
+  x Ident { value: "-size", raw: "-size" }
      ,-[$DIR/tests/recovery/hacks/input.css:246:1]
  246 |     font-size/**/: big;
  247 |     $(var)-size: 100%;
@@ -19685,7 +19685,7 @@
      :    ^
      `----
 
-  x Ident { value: Atom('b' type=static), raw: "b" }
+  x Ident { value: "b", raw: "b" }
      ,-[$DIR/tests/recovery/hacks/input.css:249:1]
  249 | 
  250 | a{*b:c}
@@ -19713,7 +19713,7 @@
      :      ^
      `----
 
-  x Ident { value: Atom('c' type=inline), raw: "c" }
+  x Ident { value: "c", raw: "c" }
      ,-[$DIR/tests/recovery/hacks/input.css:249:1]
  249 | 
  250 | a{*b:c}

@@ -65,7 +65,7 @@
    :             ^^^^^^^^^^^^
    `----
 
-  x String { value: Atom('./test.css' type=dynamic), raw: "\"./test.css\"" }
+  x String { value: "./test.css", raw: "\"./test.css\"" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :             ^^^^^^^^^^^^
@@ -107,7 +107,7 @@
    :                                   ^^^^^^^
    `----
 
-  x Ident { value: Atom('default' type=static), raw: "default" }
+  x Ident { value: "default", raw: "default" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                   ^^^^^^^
@@ -149,7 +149,7 @@
    :                                                    ^^^^^^^
    `----
 
-  x Ident { value: Atom('display' type=static), raw: "display" }
+  x Ident { value: "display", raw: "display" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                                    ^^^^^^^
@@ -185,7 +185,7 @@
    :                                                             ^^^^
    `----
 
-  x Ident { value: Atom('flex' type=static), raw: "flex" }
+  x Ident { value: "flex", raw: "flex" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                                             ^^^^
@@ -209,7 +209,7 @@
    :                                                                   ^^^^^^^
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
+  x Ident { value: "unknown", raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
  1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
    :                                                                   ^^^^^^^

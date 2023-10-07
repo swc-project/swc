@@ -65,7 +65,7 @@
    :         ^^^^^^^^^^^
    `----
 
-  x String { value: Atom('min-width' type=static), raw: "\"min-width\"" }
+  x String { value: "min-width", raw: "\"min-width\"" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :         ^^^^^^^^^^^
@@ -101,7 +101,7 @@
    :                      ^^^^
    `----
 
-  x Dimension(DimensionToken { value: 20.0, raw_value: "20", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 20.0, raw_value: "20", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/feature-name/input.css:1:1]
  1 | @media ("min-width": 20px) {}
    :                      ^^^^

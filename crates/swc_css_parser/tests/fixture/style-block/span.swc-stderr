@@ -4408,7 +4408,7 @@
  92 |         height: 100px;
     `----
 
-  x Ident { value: Atom('mobile' type=inline), raw: "mobile" }
+  x Ident { value: "mobile", raw: "mobile" }
     ,-[$DIR/tests/fixture/style-block/input.css:90:1]
  90 |     width: 10px;
  91 |     @mixin mobile {
@@ -4473,7 +4473,7 @@
  93 |     }
     `----
 
-  x Ident { value: Atom('height' type=static), raw: "height" }
+  x Ident { value: "height", raw: "height" }
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |     @mixin mobile {
  92 |         height: 100px;
@@ -4521,7 +4521,7 @@
  93 |     }
     `----
 
-  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" })
     ,-[$DIR/tests/fixture/style-block/input.css:91:1]
  91 |     @mixin mobile {
  92 |         height: 100px;
@@ -4820,7 +4820,7 @@
     :              ^^^^^^^
     `----
 
-  x String { value: Atom('a.css' type=inline), raw: "\"a.css\"" }
+  x String { value: "a.css", raw: "\"a.css\"" }
     ,-[$DIR/tests/fixture/style-block/input.css:97:1]
  97 | 
  98 | a { @unknown "a.css"; }
@@ -4953,7 +4953,7 @@
      :              ^^^
      `----
 
-  x Ident { value: Atom('foo' type=inline), raw: "foo" }
+  x Ident { value: "foo", raw: "foo" }
      ,-[$DIR/tests/fixture/style-block/input.css:99:1]
   99 | 
  100 | a { @unknown foo {} }
@@ -5264,7 +5264,7 @@
  108 |         height: 0;
      `----
 
-  x Ident { value: Atom('width' type=static), raw: "width" }
+  x Ident { value: "width", raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:106:1]
  106 |     --zero-size: {
  107 |         width: 0;
@@ -5360,7 +5360,7 @@
  109 |     };
      `----
 
-  x Ident { value: Atom('height' type=static), raw: "height" }
+  x Ident { value: "height", raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:107:1]
  107 |         width: 0;
  108 |         height: 0;
@@ -5538,7 +5538,7 @@
  112 |         height: 16px;
      `----
 
-  x Ident { value: Atom('width' type=static), raw: "width" }
+  x Ident { value: "width", raw: "width" }
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |     --small-icon: {
  111 |         width: 16px;
@@ -5586,7 +5586,7 @@
  112 |         height: 16px;
      `----
 
-  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
      ,-[$DIR/tests/fixture/style-block/input.css:110:1]
  110 |     --small-icon: {
  111 |         width: 16px;
@@ -5634,7 +5634,7 @@
  113 |     }
      `----
 
-  x Ident { value: Atom('height' type=static), raw: "height" }
+  x Ident { value: "height", raw: "height" }
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |         width: 16px;
  112 |         height: 16px;
@@ -5682,7 +5682,7 @@
  113 |     }
      `----
 
-  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
      ,-[$DIR/tests/fixture/style-block/input.css:111:1]
  111 |         width: 16px;
  112 |         height: 16px;

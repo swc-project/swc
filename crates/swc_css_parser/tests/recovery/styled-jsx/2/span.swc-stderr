@@ -146,7 +146,7 @@
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    `----
 
-  x Ident { value: Atom('b' type=static), raw: "b" }
+  x Ident { value: "b", raw: "b" }
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
    :               ^
@@ -207,7 +207,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__0' type=dynamic), raw: "__styled-jsx-placeholder__0" }
+  x Ident { value: "__styled-jsx-placeholder__0", raw: "__styled-jsx-placeholder__0" }
    ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
  1 | .a :global(> .b) {
  2 |     flex-basis: __styled-jsx-placeholder__0%;

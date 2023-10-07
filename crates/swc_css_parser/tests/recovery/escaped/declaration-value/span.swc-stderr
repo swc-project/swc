@@ -101,7 +101,7 @@
    :            ^
    `----
 
-  x Ident { value: Atom('x' type=static), raw: "x" }
+  x Ident { value: "x", raw: "x" }
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
  1 | a { value: x }
    :            ^

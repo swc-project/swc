@@ -158,7 +158,7 @@
  5 |         margin: 1em;
    `----
 
-  x Ident { value: Atom('input' type=static), raw: "input" }
+  x Ident { value: "input", raw: "input" }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:3:1]
  3 | 
  4 |     input {
@@ -232,7 +232,7 @@
  6 |     }
    `----
 
-  x Ident { value: Atom('margin' type=static), raw: "margin" }
+  x Ident { value: "margin", raw: "margin" }
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;
@@ -280,7 +280,7 @@
  6 |     }
    `----
 
-  x Dimension(DimensionToken { value: 1.0, raw_value: "1", unit: Atom('em' type=static), type_flag: Integer, raw_unit: "em" })
+  x Dimension(DimensionToken { value: 1.0, raw_value: "1", unit: "em", type_flag: Integer, raw_unit: "em" })
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
  4 |     input {
  5 |         margin: 1em;
