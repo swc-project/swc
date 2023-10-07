@@ -6,115 +6,113 @@ use crate::parser::{
 };
 
 static IMPLICIT_END_TAG_REQUIRED: &[&JsWord] = &[
-    &js_word!("dd"),
-    &js_word!("dt"),
-    &js_word!("li"),
-    &js_word!("optgroup"),
-    &js_word!("option"),
-    &js_word!("p"),
-    &js_word!("rb"),
-    &js_word!("rp"),
-    &js_word!("rt"),
-    &js_word!("rtc"),
+    &"dd",
+    &"dt",
+    &"li",
+    &"optgroup",
+    &"option",
+    &"p",
+    &"rb",
+    &"rp",
+    &"rt",
+    &"rtc",
 ];
 
 static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&JsWord] = &[
-    &js_word!("caption"),
-    &js_word!("colgroup"),
-    &js_word!("dd"),
-    &js_word!("dt"),
-    &js_word!("li"),
-    &js_word!("optgroup"),
-    &js_word!("option"),
-    &js_word!("p"),
-    &js_word!("rb"),
-    &js_word!("rp"),
-    &js_word!("rt"),
-    &js_word!("rtc"),
-    &js_word!("tbody"),
-    &js_word!("td"),
-    &js_word!("tfoot"),
-    &js_word!("th"),
-    &js_word!("thead"),
-    &js_word!("tr"),
+    &"caption",
+    &"colgroup",
+    &"dd",
+    &"dt",
+    &"li",
+    &"optgroup",
+    &"option",
+    &"p",
+    &"rb",
+    &"rp",
+    &"rt",
+    &"rtc",
+    &"tbody",
+    &"td",
+    &"tfoot",
+    &"th",
+    &"thead",
+    &"tr",
 ];
 
 static SPECIFIC_SCOPE: &[(&JsWord, Namespace)] = &[
-    (&js_word!("applet"), Namespace::HTML),
-    (&js_word!("caption"), Namespace::HTML),
-    (&js_word!("html"), Namespace::HTML),
-    (&js_word!("marquee"), Namespace::HTML),
-    (&js_word!("object"), Namespace::HTML),
-    (&js_word!("table"), Namespace::HTML),
-    (&js_word!("td"), Namespace::HTML),
-    (&js_word!("template"), Namespace::HTML),
-    (&js_word!("th"), Namespace::HTML),
+    (&"applet", Namespace::HTML),
+    (&"caption", Namespace::HTML),
+    (&"html", Namespace::HTML),
+    (&"marquee", Namespace::HTML),
+    (&"object", Namespace::HTML),
+    (&"table", Namespace::HTML),
+    (&"td", Namespace::HTML),
+    (&"template", Namespace::HTML),
+    (&"th", Namespace::HTML),
     (&js_word!("annotation-xml"), Namespace::MATHML),
-    (&js_word!("mi"), Namespace::MATHML),
-    (&js_word!("mn"), Namespace::MATHML),
-    (&js_word!("mo"), Namespace::MATHML),
-    (&js_word!("ms"), Namespace::MATHML),
-    (&js_word!("mtext"), Namespace::MATHML),
-    (&js_word!("desc"), Namespace::SVG),
-    (&js_word!("foreignObject"), Namespace::SVG),
-    (&js_word!("title"), Namespace::SVG),
+    (&"mi", Namespace::MATHML),
+    (&"mn", Namespace::MATHML),
+    (&"mo", Namespace::MATHML),
+    (&"ms", Namespace::MATHML),
+    (&"mtext", Namespace::MATHML),
+    (&"desc", Namespace::SVG),
+    (&"foreignObject", Namespace::SVG),
+    (&"title", Namespace::SVG),
 ];
 
 static LIST_ITEM_SCOPE: &[(&JsWord, Namespace)] = &[
-    (&js_word!("applet"), Namespace::HTML),
-    (&js_word!("caption"), Namespace::HTML),
-    (&js_word!("html"), Namespace::HTML),
-    (&js_word!("marquee"), Namespace::HTML),
-    (&js_word!("object"), Namespace::HTML),
-    (&js_word!("table"), Namespace::HTML),
-    (&js_word!("td"), Namespace::HTML),
-    (&js_word!("template"), Namespace::HTML),
-    (&js_word!("th"), Namespace::HTML),
+    (&"applet", Namespace::HTML),
+    (&"caption", Namespace::HTML),
+    (&"html", Namespace::HTML),
+    (&"marquee", Namespace::HTML),
+    (&"object", Namespace::HTML),
+    (&"table", Namespace::HTML),
+    (&"td", Namespace::HTML),
+    (&"template", Namespace::HTML),
+    (&"th", Namespace::HTML),
     (&js_word!("annotation-xml"), Namespace::MATHML),
-    (&js_word!("mi"), Namespace::MATHML),
-    (&js_word!("mn"), Namespace::MATHML),
-    (&js_word!("mo"), Namespace::MATHML),
-    (&js_word!("ms"), Namespace::MATHML),
-    (&js_word!("mtext"), Namespace::MATHML),
-    (&js_word!("desc"), Namespace::SVG),
-    (&js_word!("foreignObject"), Namespace::SVG),
-    (&js_word!("title"), Namespace::SVG),
-    (&js_word!("ol"), Namespace::HTML),
-    (&js_word!("ul"), Namespace::HTML),
+    (&"mi", Namespace::MATHML),
+    (&"mn", Namespace::MATHML),
+    (&"mo", Namespace::MATHML),
+    (&"ms", Namespace::MATHML),
+    (&"mtext", Namespace::MATHML),
+    (&"desc", Namespace::SVG),
+    (&"foreignObject", Namespace::SVG),
+    (&"title", Namespace::SVG),
+    (&"ol", Namespace::HTML),
+    (&"ul", Namespace::HTML),
 ];
 
 static BUTTON_SCOPE: &[(&JsWord, Namespace)] = &[
-    (&js_word!("applet"), Namespace::HTML),
-    (&js_word!("caption"), Namespace::HTML),
-    (&js_word!("html"), Namespace::HTML),
-    (&js_word!("marquee"), Namespace::HTML),
-    (&js_word!("object"), Namespace::HTML),
-    (&js_word!("table"), Namespace::HTML),
-    (&js_word!("td"), Namespace::HTML),
-    (&js_word!("template"), Namespace::HTML),
-    (&js_word!("th"), Namespace::HTML),
+    (&"applet", Namespace::HTML),
+    (&"caption", Namespace::HTML),
+    (&"html", Namespace::HTML),
+    (&"marquee", Namespace::HTML),
+    (&"object", Namespace::HTML),
+    (&"table", Namespace::HTML),
+    (&"td", Namespace::HTML),
+    (&"template", Namespace::HTML),
+    (&"th", Namespace::HTML),
     (&js_word!("annotation-xml"), Namespace::MATHML),
-    (&js_word!("mi"), Namespace::MATHML),
-    (&js_word!("mn"), Namespace::MATHML),
-    (&js_word!("mo"), Namespace::MATHML),
-    (&js_word!("ms"), Namespace::MATHML),
-    (&js_word!("mtext"), Namespace::MATHML),
-    (&js_word!("desc"), Namespace::SVG),
-    (&js_word!("foreignObject"), Namespace::SVG),
-    (&js_word!("title"), Namespace::SVG),
-    (&js_word!("button"), Namespace::HTML),
+    (&"mi", Namespace::MATHML),
+    (&"mn", Namespace::MATHML),
+    (&"mo", Namespace::MATHML),
+    (&"ms", Namespace::MATHML),
+    (&"mtext", Namespace::MATHML),
+    (&"desc", Namespace::SVG),
+    (&"foreignObject", Namespace::SVG),
+    (&"title", Namespace::SVG),
+    (&"button", Namespace::HTML),
 ];
 
 static TABLE_SCOPE: &[(&JsWord, Namespace)] = &[
-    (&js_word!("html"), Namespace::HTML),
-    (&js_word!("table"), Namespace::HTML),
-    (&js_word!("template"), Namespace::HTML),
+    (&"html", Namespace::HTML),
+    (&"table", Namespace::HTML),
+    (&"template", Namespace::HTML),
 ];
 
-static SELECT_SCOPE: &[(&JsWord, Namespace)] = &[
-    (&js_word!("optgroup"), Namespace::HTML),
-    (&js_word!("option"), Namespace::HTML),
-];
+static SELECT_SCOPE: &[(&JsWord, Namespace)] =
+    &[(&"optgroup", Namespace::HTML), (&"option", Namespace::HTML)];
 
 pub struct OpenElementsStack {
     pub items: Vec<RcNode>,
@@ -130,7 +128,7 @@ impl OpenElementsStack {
     }
 
     pub fn push(&mut self, node: RcNode) {
-        if is_html_element!(node, &js_word!("template")) {
+        if is_html_element!(node, &"template") {
             self.template_element_count += 1;
         }
 
@@ -141,7 +139,7 @@ impl OpenElementsStack {
         let popped = self.items.pop();
 
         if let Some(node) = &popped {
-            if is_html_element!(node, &js_word!("template")) {
+            if is_html_element!(node, &"template") {
                 self.template_element_count -= 1;
             }
         }
@@ -150,7 +148,7 @@ impl OpenElementsStack {
     }
 
     pub fn insert(&mut self, index: usize, node: RcNode) {
-        if is_html_element!(node, &js_word!("template")) {
+        if is_html_element!(node, &"template") {
             self.template_element_count += 1;
         }
 
@@ -159,11 +157,11 @@ impl OpenElementsStack {
 
     pub fn replace(&mut self, index: usize, node: RcNode) {
         if let Some(item) = self.items.get(index) {
-            if is_html_element!(item, &js_word!("template")) {
+            if is_html_element!(item, &"template") {
                 self.template_element_count -= 1;
             }
 
-            if is_html_element!(node, &js_word!("template")) {
+            if is_html_element!(node, &"template") {
                 self.template_element_count += 1;
             }
 
@@ -175,7 +173,7 @@ impl OpenElementsStack {
         let position = self.items.iter().rposition(|x| is_same_node(node, x));
 
         if let Some(position) = position {
-            if is_html_element!(node, &js_word!("template")) {
+            if is_html_element!(node, &"template") {
                 self.template_element_count -= 1;
             }
 
@@ -358,10 +356,7 @@ impl OpenElementsStack {
     // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !is_html_element!(
-                node,
-                &js_word!("table") | &js_word!("template") | &js_word!("html")
-            ) {
+            if !is_html_element!(node, &"table" | &"template" | &"html") {
                 self.pop();
             } else {
                 break;
@@ -374,10 +369,7 @@ impl OpenElementsStack {
     // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_row_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !is_html_element!(
-                node,
-                &js_word!("tr") | &js_word!("template") | &js_word!("html")
-            ) {
+            if !is_html_element!(node, &"tr" | &"template" | &"html") {
                 self.pop();
             } else {
                 break;
@@ -391,14 +383,7 @@ impl OpenElementsStack {
     // elements.
     pub fn clear_back_to_table_body_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !is_html_element!(
-                node,
-                &js_word!("thead")
-                    | &js_word!("tfoot")
-                    | &js_word!("tbody")
-                    | &js_word!("template")
-                    | &js_word!("html")
-            ) {
+            if !is_html_element!(node, &"thead" | &"tfoot" | &"tbody" | &"template" | &"html") {
                 self.pop();
             } else {
                 break;
