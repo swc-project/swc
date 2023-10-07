@@ -3,7 +3,7 @@ use std::sync::atomic::Ordering;
 use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
-use swc_atoms::js_word;
+
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     sync::Lock,

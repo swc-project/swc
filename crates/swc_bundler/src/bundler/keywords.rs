@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
