@@ -3367,7 +3367,7 @@ where
                     // name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the
                     // stack.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
+                        if matches!(&**tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
                         if !self.open_elements_stack.has_in_scope(&"h1")
                             && !self.open_elements_stack.has_in_scope(&"h2")
@@ -3473,7 +3473,7 @@ where
                     // elements that element.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "b" | "big"
                                 | "code"
                                 | "em"
@@ -3534,7 +3534,7 @@ where
                     // Run the adoption agency algorithm for the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "a" | "b"
                                 | "big"
                                 | "code"
@@ -3562,7 +3562,7 @@ where
                     //
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "applet" | "marquee" | "object") =>
+                        if matches!(&**tag_name, "applet" | "marquee" | "object") =>
                     {
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
@@ -3587,7 +3587,7 @@ where
                     //
                     // Clear the list of active formatting elements up to the last marker.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "applet" | "marquee" | "object") =>
+                        if matches!(&**tag_name, "applet" | "marquee" | "object") =>
                     {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -3680,7 +3680,7 @@ where
                         is_self_closing,
                         ..
                     } if matches!(
-                        *tag_name,
+                        &**tag_name,
                         "area" | "br" | "embed" | "img" | "keygen" | "wbr"
                     ) =>
                     {
@@ -3751,7 +3751,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if matches!(*tag_name, "param" | "source" | "track") => {
+                    } if matches!(&**tag_name, "param" | "source" | "track") => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -3807,7 +3807,7 @@ where
                                 token: Token::StartTag { tag_name, .. },
                                 ..
                             } => {
-                                *tag_name = "img";
+                                *tag_name = "img".into();
                             }
                             _ => {
                                 unreachable!();
@@ -3929,7 +3929,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "optgroup" | "option") =>
+                        if matches!(&**tag_name, "optgroup" | "option") =>
                     {
                         match self.open_elements_stack.items.last() {
                             Some(node) if is_html_element!(node, "option") => {
