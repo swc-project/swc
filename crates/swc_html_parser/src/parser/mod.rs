@@ -6828,47 +6828,47 @@ where
     // xmlns:xlink	    xmlns	xlink	    XMLNS namespace
     fn adjust_foreign_attribute(&self, attribute: &mut Attribute) {
         match attribute.name {
-            js_word!("xlink:actuate") => {
+            "xlink:actuate" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "actuate";
             }
-            js_word!("xlink:arcrole") => {
+            "xlink:arcrole" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "arcrole";
             }
-            js_word!("xlink:href") => {
+            "xlink:href" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "href";
             }
-            js_word!("xlink:role") => {
+            "xlink:role" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "role";
             }
-            js_word!("xlink:show") => {
+            "xlink:show" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "show";
             }
-            js_word!("xlink:title") => {
+            "xlink:title" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "title";
             }
-            js_word!("xlink:type") => {
+            "xlink:type" => {
                 attribute.namespace = Some(Namespace::XLINK);
                 attribute.prefix = Some("xlink");
                 attribute.name = "type";
             }
-            js_word!("xml:lang") => {
+            "xml:lang" => {
                 attribute.namespace = Some(Namespace::XML);
                 attribute.prefix = Some("xml");
                 attribute.name = "lang";
             }
-            js_word!("xml:space") => {
+            "xml:space" => {
                 attribute.namespace = Some(Namespace::XML);
                 attribute.prefix = Some("xml");
                 attribute.name = "space";
@@ -6878,7 +6878,7 @@ where
                 attribute.prefix = None;
                 attribute.name = "xmlns";
             }
-            js_word!("xmlns:xlink") => {
+            "xmlns:xlink" => {
                 attribute.namespace = Some(Namespace::XMLNS);
                 attribute.prefix = Some("xmlns");
                 attribute.name = "xlink";
@@ -7927,7 +7927,7 @@ where
                 | &"xmp"
         ) || is_mathml_element!(
             node,
-            &"mi" | &"mo" | &"mn" | &"ms" | &"mtext" | &js_word!("annotation-xml")
+            &"mi" | &"mo" | &"mn" | &"ms" | &"mtext" | &"annotation-xml"
         ) || is_svg_element!(node, &"title" | &"foreignObject" | &"desc")
         {
             return true;
@@ -8493,7 +8493,7 @@ fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
                 namespace,
                 tag_name,
                 ..
-            } if *namespace == Namespace::MATHML && *tag_name == js_word!("annotation-xml") => {
+            } if *namespace == Namespace::MATHML && *tag_name == "annotation-xml" => {
                 return true;
             }
             _ => {
@@ -8523,7 +8523,7 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                 tag_name,
                 attributes,
                 ..
-            } if *namespace == Namespace::MATHML && *tag_name == js_word!("annotation-xml") => {
+            } if *namespace == Namespace::MATHML && *tag_name == "annotation-xml" => {
                 for attribute in &*attributes.borrow() {
                     if *attribute.name == "encoding"
                         && (attribute.value.is_some()
