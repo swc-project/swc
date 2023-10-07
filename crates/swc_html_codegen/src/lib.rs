@@ -251,7 +251,7 @@ where
                                 ..
                             })) if *namespace == Namespace::HTML
                                 && matches!(
-                                    *tag_name,
+                                    &**tag_name,
                                     "meta"
                                         | "link"
                                         | "script"
@@ -299,7 +299,7 @@ where
                         {
                             !matches!(prev, Some(Child::Element(element)) if element.namespace == Namespace::HTML
                             && matches!(
-                                element.tag_name,
+                                &*element.tag_name,
                                 "tbody" | "thead" | "tfoot"
                             ))
                         }
@@ -313,7 +313,7 @@ where
 
         let is_void_element = match n.namespace {
             Namespace::HTML => matches!(
-                n.tag_name,
+                &*n.tag_name,
                 "area"
                     | "base"
                     | "basefont"
@@ -388,7 +388,7 @@ where
         }
 
         if !self.is_plaintext {
-            self.is_plaintext = matches!(n.tag_name, "plaintext");
+            self.is_plaintext = matches!(&*n.tag_name, "plaintext");
         }
 
         if let Some(content) = &n.content {
@@ -397,7 +397,7 @@ where
             let ctx = self.create_context_for_element(n);
 
             let need_extra_newline =
-                n.namespace == Namespace::HTML && matches!(n.tag_name, "textarea" | "pre");
+                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
             if need_extra_newline {
                 if let Some(Child::Text(Text { data, .. })) = &n.children.first() {
@@ -421,7 +421,7 @@ where
         let can_omit_end_tag = self.is_plaintext
             || (self.tag_omission
                 && n.namespace == Namespace::HTML
-                && match n.tag_name {
+                && match &*n.tag_name {
                     // Tag omission in text/html:
 
                     // An html element's end tag can be omitted if the html element is not
@@ -455,7 +455,7 @@ where
                             ..
                         })) if *namespace == Namespace::HTML
                             && matches!(
-                                *tag_name,
+                                &**tag_name,
                                 "address"
                                     | "article"
                                     | "aside"
@@ -497,7 +497,7 @@ where
                                 ..
                             }) if is_html_tag_name(*namespace, tag_name)
                                 && !matches!(
-                                    *tag_name,
+                                    &**tag_name,
                                     "a" | "audio"
                                         | "acronym"
                                         | "big"
@@ -531,7 +531,7 @@ where
                             tag_name,
                             ..
                         }) if *namespace == Namespace::HTML
-                            && matches!(*tag_name, "ul" | "ol" | "menu") =>
+                            && matches!(&**tag_name, "ul" | "ol" | "menu") =>
                         {
                             true
                         }
@@ -830,7 +830,7 @@ where
     }
 
     fn create_context_for_element(&self, n: &Element) -> Ctx {
-        let need_escape_text = match n.tag_name {
+        let need_escape_text = match &*n.tag_name {
             "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => false,
             "noscript" => !self.config.scripting_enabled,
             _ if self.is_plaintext => false,
