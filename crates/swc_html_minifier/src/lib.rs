@@ -2665,7 +2665,7 @@ impl VisitMut for Minifier<'_> {
             return;
         }
 
-        n.name = Some("html");
+        n.name = Some("html".into());
         n.system_id = None;
         n.public_id = None;
     }
@@ -2737,8 +2737,8 @@ impl VisitMut for Minifier<'_> {
                 if self.options.remove_empty_attributes {
                     let value = i1.value.as_ref().unwrap();
 
-                    if (matches!(i1.name, "id") && value.is_empty())
-                        || (matches!(i1.name, "class" | "style") && value.is_empty())
+                    if (matches!(&*i1.name, "id") && value.is_empty())
+                        || (matches!(&*i1.name, "class" | "style") && value.is_empty())
                         || self.is_event_handler_attribute(i1) && value.is_empty()
                     {
                         remove_list.push(i);
