@@ -104,11 +104,7 @@ impl Optimizer<'_> {
         }
 
         match e {
-            Expr::Ident(Ident {
-                span,
-                sym: "undefined",
-                ..
-            }) => {
+            Expr::Ident(Ident { span, sym, .. }) if &**sym == "undefined" => {
                 report_change!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
