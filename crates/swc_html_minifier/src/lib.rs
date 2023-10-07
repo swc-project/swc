@@ -247,7 +247,7 @@ fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
 impl Minifier<'_> {
     fn is_event_handler_attribute(&self, attribute: &Attribute) -> bool {
         matches!(
-            attribute.name,
+            &*attribute.name,
             "onabort"
                 | "onautocomplete"
                 | "onautocompleteerror"
