@@ -136,7 +136,7 @@ where
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        if i.sym == js_word!("arguments") {
+        if i.sym == "arguments" {
             self.scope.mark_used_arguments();
         }
 
@@ -1272,7 +1272,7 @@ where
             &e.name,
             Pat::Ident(BindingIdent {
                 id: Ident {
-                    sym: js_word!("arguments"),
+                    sym: "arguments",
                     ..
                 },
                 ..
