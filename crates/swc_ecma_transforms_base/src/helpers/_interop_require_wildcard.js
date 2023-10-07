@@ -17,7 +17,7 @@ function _interop_require_wildcard(obj, nodeInterop) {
     if (cache && cache.has(obj)) {
         return cache.get(obj);
     }
-    var newObj = {};
+    var newObj = { __proto__: null };
     var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
     for (var key in obj) {
         if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) {
