@@ -1617,7 +1617,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "head" | "body" | "html" | "br") =>
+                        if matches!(&**tag_name, "head" | "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -1697,7 +1697,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if matches!(*tag_name, "base" | "basefont" | "bgsound" | "link") => {
+                    } if matches!(&**tag_name, "base" | "basefont" | "bgsound" | "link") => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -1756,7 +1756,7 @@ where
                         self.parse_generic_text_element(token_and_info, true)?;
                     }
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "noframes" | "style") =>
+                        if matches!(&**tag_name, "noframes" | "style") =>
                     {
                         self.parse_generic_text_element(token_and_info, true)?;
                     }
@@ -7503,7 +7503,7 @@ where
         )
     }
 
-    fn create_fake_token_and_info(&self, tag_name: JsWord, span: Option<Span>) -> TokenAndInfo {
+    fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
         TokenAndInfo {
             span: match span {
                 Some(span) => span,
@@ -7511,7 +7511,7 @@ where
             },
             acknowledged: false,
             token: Token::StartTag {
-                tag_name,
+                tag_name: tag_name.into(),
                 raw_tag_name: None,
                 is_self_closing: false,
                 attributes: vec![],
