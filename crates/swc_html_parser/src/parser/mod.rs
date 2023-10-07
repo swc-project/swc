@@ -2961,7 +2961,7 @@ where
                                     Some(node) if !is_html_element!(node, "dd") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied("dd"),
+                                            ErrorKind::UnclosedElementsImplied(js_word!("dd")),
                                         ));
                                     }
                                     _ => {}
@@ -2984,7 +2984,7 @@ where
                                     Some(node) if !is_html_element!(node, "dt") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied("dt"),
+                                            ErrorKind::UnclosedElementsImplied(js_word!("dt")),
                                         ));
                                     }
                                     _ => {}
@@ -3086,7 +3086,7 @@ where
                     // same tag name as the token has been popped from the stack.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "address"
                                 | "article"
                                 | "aside"
@@ -3323,7 +3323,7 @@ where
                     //
                     // Pop elements from the stack of open elements until an HTML element with the
                     // same tag name as the token has been popped from the stack.
-                    Token::EndTag { tag_name, .. } if matches!(*tag_name, "dd" | "dt") => {
+                    Token::EndTag { tag_name, .. } if matches!(&**tag_name, "dd" | "dt") => {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
                             self.errors.push(Error::new(
                                 token_and_info.span,
