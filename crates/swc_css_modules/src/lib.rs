@@ -276,9 +276,9 @@ where
                     if n.value.len() >= 3 {
                         match (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1]) {
                             (
-                                ComponentValue::Ident(box Ident { value: "from", .. }),
+                                ComponentValue::Ident(box Ident { value, .. }),
                                 ComponentValue::Str(import_source),
-                            ) => {
+                            ) if &**value == "from" => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Import {
@@ -291,11 +291,9 @@ where
                                 return;
                             }
                             (
-                                ComponentValue::Ident(box Ident { value: "from", .. }),
-                                ComponentValue::Ident(box Ident {
-                                    value: "global", ..
-                                }),
-                            ) => {
+                                ComponentValue::Ident(box Ident { value: from, .. }),
+                                ComponentValue::Ident(box Ident { value: global, .. }),
+                            ) if &**from == "from" && &**global == "global" => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Global {
