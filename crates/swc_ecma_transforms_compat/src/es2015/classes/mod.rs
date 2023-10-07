@@ -309,7 +309,7 @@ where
                 }
                 PropName::Str(Str { value, span, .. }) => {
                     if is_valid_prop_ident(value) {
-                        c.ident = Some(private_ident!(*span, value));
+                        c.ident = Some(private_ident!(*span, value.clone()));
                     }
                 }
                 PropName::Computed(ComputedPropName { expr, .. }) => {
