@@ -165,8 +165,8 @@ impl OpenElementsStack {
     // algorithm terminates in a match state:
     fn has_element_target_node_in_specific_scope(
         &self,
-        tag_name: &JsWord,
-        list: &[(&JsWord, Namespace)],
+        tag_name: &str,
+        list: &[(&str, Namespace)],
     ) -> bool {
         let mut iter = self.items.iter().rev();
         // 1. Initialize node to be the current node (the bottommost node of the stack).
@@ -222,7 +222,7 @@ impl OpenElementsStack {
     // SVG foreignObject
     // SVG desc
     // SVG title
-    pub fn has_in_scope(&self, tag_name: &JsWord) -> bool {
+    pub fn has_in_scope(&self, tag_name: &str) -> bool {
         self.has_element_target_node_in_specific_scope(tag_name, SPECIFIC_SCOPE)
     }
 
