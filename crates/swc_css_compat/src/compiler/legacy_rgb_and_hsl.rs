@@ -42,7 +42,7 @@ impl Compiler {
                             unit,
                             ..
                         })) => {
-                            let value = match unit.value.to_ascii_lowercase() {
+                            let value = match &*unit.value.to_ascii_lowercase() {
                                 "deg" => value,
                                 "grad" => value * 180.0 / 200.0,
                                 "rad" => value * 180.0 / PI,
