@@ -660,7 +660,7 @@ impl From<IdentLike> for Atom {
     fn from(i: IdentLike) -> Self {
         match i {
             IdentLike::Known(i) => i.into(),
-            IdentLike::Other(i) => i.into(),
+            IdentLike::Other(i) => i,
         }
     }
 }
