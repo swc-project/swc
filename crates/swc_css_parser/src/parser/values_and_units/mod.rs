@@ -1250,7 +1250,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(*function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -1537,7 +1537,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(*function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -2571,7 +2571,7 @@ where
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
-                    value: "url",
+                    value: js_word!("url"),
                     raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
