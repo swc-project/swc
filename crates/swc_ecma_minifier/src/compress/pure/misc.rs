@@ -453,9 +453,15 @@ impl Pure<'_> {
                 .is_one_of_global_ref_to(&self.expr_ctx, &["Array", "Object", "RegExp"]) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident { sym: "RegExp", .. }) => self.optimize_regex(args, span),
-                    Expr::Ident(Ident { sym: "Array", .. }) => self.optimize_array(args, span),
-                    Expr::Ident(Ident { sym: "Object", .. }) => self.optimize_object(args, span),
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" => {
+                        self.optimize_regex(args, span)
+                    }
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Array" => {
+                        self.optimize_array(args, span)
+                    }
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                        self.optimize_object(args, span)
+                    }
                     _ => unreachable!(),
                 };
 
