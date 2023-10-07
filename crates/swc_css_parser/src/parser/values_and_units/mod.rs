@@ -48,7 +48,7 @@ where
                 return Ok(ComponentValue::Url(self.parse()?));
             }
 
-            Token::Function { value, .. } => match value.to_ascii_lowercase() {
+            Token::Function { value, .. } => match &*value.to_ascii_lowercase() {
                 "url" | "src" => {
                     return Ok(ComponentValue::Url(self.parse()?));
                 }
@@ -515,7 +515,7 @@ where
                     is_legacy_syntax = false;
                 }
 
-                match *function_name {
+                match &**function_name {
                     "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -3233,7 +3233,7 @@ where
             tok!("dimension") => Ok(CalcValue::Dimension(self.parse()?)),
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {
-                match value.to_ascii_lowercase() {
+                match &*value.to_ascii_lowercase() {
                     "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
                     _ => {
                         let span = self.input.cur_span();
