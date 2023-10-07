@@ -2291,7 +2291,14 @@ impl Optimizer<'_> {
         };
 
         if let Some(a_right) = a_right {
-            if a_right.is_this() || matches!(&**a_right, Expr::Ident(Ident { sym: arguments, .. }))
+            if a_right.is_this()
+                || matches!(
+                    &**a_right,
+                    Expr::Ident(Ident {
+                        sym: "arguments",
+                        ..
+                    })
+                )
             {
                 return Ok(false);
             }
