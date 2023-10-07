@@ -47,7 +47,7 @@ impl Context {
             | Word::Keyword(Keyword::Delete) => true,
 
             // Future reserved word
-            Word::Ident("enum") => true,
+            Word::Ident(IdentLike::Known(known_ident!("enum"))) => true,
 
             Word::Ident(IdentLike::Known(
                 known_ident!("implements")
