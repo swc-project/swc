@@ -352,7 +352,7 @@ impl Pure<'_> {
 
         Some(Expr::Lit(Lit::Regex(Regex {
             span: *span,
-            exp: pattern.into(),
+            exp: pattern,
             flags: {
                 let flag = flag.to_string();
                 let mut bytes = flag.into_bytes();
