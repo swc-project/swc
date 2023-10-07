@@ -2291,15 +2291,7 @@ impl Optimizer<'_> {
         };
 
         if let Some(a_right) = a_right {
-            if a_right.is_this()
-                || matches!(
-                    &**a_right,
-                    Expr::Ident(Ident {
-                        sym: "arguments",
-                        ..
-                    })
-                )
-            {
+            if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
                 return Ok(false);
             }
             if contains_arguments(&**a_right) {

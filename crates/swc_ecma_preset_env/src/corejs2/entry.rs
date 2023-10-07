@@ -86,7 +86,7 @@ impl VisitMut for Entry {
                     ..
                 }) = &**expr
                 {
-                    if let Expr::Ident(Ident { sym: "require", .. }) = &**callee {
+                    if callee.is_ident_ref_to("require") {
                         if args.len() == 1
                             && if let ExprOrSpread { spread: None, expr } = &args[0] {
                                 if let Expr::Lit(Lit::Str(s)) = &**expr {
