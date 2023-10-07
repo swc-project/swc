@@ -2690,7 +2690,7 @@ where
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "address"
                                 | "article"
                                 | "aside"
