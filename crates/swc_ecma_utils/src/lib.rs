@@ -1246,8 +1246,8 @@ pub trait ExprExt {
                     || match &**obj {
                         // Allow dummy span
                         Expr::Ident(Ident {
-                            span, sym: "Math", ..
-                        }) => span.ctxt == SyntaxContext::empty(),
+                            span, sym: math, ..
+                        }) => &**math == "Math" && span.ctxt == SyntaxContext::empty(),
 
                         // Some methods of string are pure
                         Expr::Lit(Lit::Str(..)) => match &*prop.sym {
@@ -2119,13 +2119,7 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
         return false;
     }
 
-    matches!(
-        *e.expr,
-        Expr::Ident(Ident {
-            sym: "arguments",
-            ..
-        })
-    )
+    e.expr.is_ident_ref_to("arguments")
 }
 
 /// Creates `void 0`.
