@@ -2734,7 +2734,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
+                        if matches!(&**tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
                         if self.open_elements_stack.has_in_button_scope(&"p") {
                             self.close_p_element(token_and_info, false);
