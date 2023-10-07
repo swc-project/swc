@@ -495,8 +495,8 @@ impl WordKind {
     }
 }
 
-impl From<JsWord> for Word {
-    fn from(i: JsWord) -> Self {
+impl From<&'_ str> for Word {
+    fn from(i: &str) -> Self {
         match i {
             "null" => Word::Null,
             "true" => Word::True,

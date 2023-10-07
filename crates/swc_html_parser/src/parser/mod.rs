@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::{Atom};
+use swc_atoms::Atom;
 use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
@@ -1069,7 +1069,7 @@ where
                         Data::Element {
                             tag_name: node_tag_name,
                             ..
-                        } if node_tag_name.to_ascii_lowercase() == &**tag_name => {
+                        } if node_tag_name.to_ascii_lowercase() == **tag_name => {
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
