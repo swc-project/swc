@@ -731,6 +731,12 @@ pub enum MemberProp {
     Computed(ComputedPropName),
 }
 
+impl MemberProp {
+    pub fn is_ident_with(&self, sym: &str) -> bool {
+        matches!(self, MemberProp::Ident(i) if i.sym == sym)
+    }
+}
+
 #[ast_node("SuperPropExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
