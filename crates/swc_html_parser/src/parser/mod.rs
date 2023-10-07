@@ -284,7 +284,7 @@ where
         );
 
         // 4.
-        match *get_tag_name!(context_node) {
+        match get_tag_name!(context_node) {
             "title" | "textarea" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::Rcdata);
             }
