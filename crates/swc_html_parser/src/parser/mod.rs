@@ -5718,7 +5718,7 @@ where
                     //
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "input" | "keygen" | "textarea") =>
+                        if matches!(&**tag_name, "input" | "keygen" | "textarea") =>
                     {
                         self.errors.push(Error::new(
                             token_and_info.span,
@@ -5741,7 +5741,7 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "script" | "template") =>
+                        if matches!(&**tag_name, "script" | "template") =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
@@ -5955,7 +5955,7 @@ where
                     // new current template insertion mode.
                     //
                     // Switch the insertion mode to "in row", and reprocess the token.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "td" | "th") => {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "td" | "th") => {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InRow);
@@ -6673,7 +6673,7 @@ where
     // name to definitionURL (note the case difference).
     fn adjust_math_ml_attribute(&self, attribute: &mut Attribute) {
         if attribute.name == "definitionurl" {
-            attribute.name = "definitionURL";
+            attribute.name = "definitionURL".into();
         }
     }
 
@@ -6743,65 +6743,65 @@ where
     // ychannelselector	        yChannelSelector
     // zoomandpan	            zoomAndPan
     fn adjust_svg_attribute(&self, attribute: &mut Attribute) {
-        match attribute.name {
-            "attributename" => attribute.name = "attributeName",
-            "attributetype" => attribute.name = "attributeType",
-            "basefrequency" => attribute.name = "baseFrequency",
-            "baseprofile" => attribute.name = "baseProfile",
-            "calcmode" => attribute.name = "calcMode",
-            "clippathunits" => attribute.name = "clipPathUnits",
-            "diffuseconstant" => attribute.name = "diffuseConstant",
-            "edgemode" => attribute.name = "edgeMode",
-            "filterunits" => attribute.name = "filterUnits",
-            "glyphref" => attribute.name = "glyphRef",
-            "gradienttransform" => attribute.name = "gradientTransform",
-            "gradientunits" => attribute.name = "gradientUnits",
-            "kernelmatrix" => attribute.name = "kernelMatrix",
-            "kernelunitlength" => attribute.name = "kernelUnitLength",
-            "keypoints" => attribute.name = "keyPoints",
-            "keysplines" => attribute.name = "keySplines",
-            "keytimes" => attribute.name = "keyTimes",
-            "lengthadjust" => attribute.name = "lengthAdjust",
-            "limitingconeangle" => attribute.name = "limitingConeAngle",
-            "markerheight" => attribute.name = "markerHeight",
-            "markerunits" => attribute.name = "markerUnits",
-            "markerwidth" => attribute.name = "markerWidth",
-            "maskcontentunits" => attribute.name = "maskContentUnits",
-            "maskunits" => attribute.name = "maskUnits",
-            "numoctaves" => attribute.name = "numOctaves",
-            "pathlength" => attribute.name = "pathLength",
-            "patterncontentunits" => attribute.name = "patternContentUnits",
-            "patterntransform" => attribute.name = "patternTransform",
-            "patternunits" => attribute.name = "patternUnits",
-            "pointsatx" => attribute.name = "pointsAtX",
-            "pointsaty" => attribute.name = "pointsAtY",
-            "pointsatz" => attribute.name = "pointsAtZ",
-            "preservealpha" => attribute.name = "preserveAlpha",
-            "preserveaspectratio" => attribute.name = "preserveAspectRatio",
-            "primitiveunits" => attribute.name = "primitiveUnits",
-            "refx" => attribute.name = "refX",
-            "refy" => attribute.name = "refY",
-            "repeatcount" => attribute.name = "repeatCount",
-            "repeatdur" => attribute.name = "repeatDur",
-            "requiredextensions" => attribute.name = "requiredExtensions",
-            "requiredfeatures" => attribute.name = "requiredFeatures",
-            "specularconstant" => attribute.name = "specularConstant",
-            "specularexponent" => attribute.name = "specularExponent",
-            "spreadmethod" => attribute.name = "spreadMethod",
-            "startoffset" => attribute.name = "startOffset",
-            "stddeviation" => attribute.name = "stdDeviation",
-            "stitchtiles" => attribute.name = "stitchTiles",
-            "surfacescale" => attribute.name = "surfaceScale",
-            "systemlanguage" => attribute.name = "systemLanguage",
-            "tablevalues" => attribute.name = "tableValues",
-            "targetx" => attribute.name = "targetX",
-            "targety" => attribute.name = "targetY",
-            "textlength" => attribute.name = "textLength",
-            "viewbox" => attribute.name = "viewBox",
-            "viewtarget" => attribute.name = "viewTarget",
-            "xchannelselector" => attribute.name = "xChannelSelector",
-            "ychannelselector" => attribute.name = "yChannelSelector",
-            "zoomandpan" => attribute.name = "zoomAndPan",
+        match &*attribute.name {
+            "attributename" => attribute.name = "attributeName".into(),
+            "attributetype" => attribute.name = "attributeType".into(),
+            "basefrequency" => attribute.name = "baseFrequency".into(),
+            "baseprofile" => attribute.name = "baseProfile".into(),
+            "calcmode" => attribute.name = "calcMode".into(),
+            "clippathunits" => attribute.name = "clipPathUnits".into(),
+            "diffuseconstant" => attribute.name = "diffuseConstant".into(),
+            "edgemode" => attribute.name = "edgeMode".into(),
+            "filterunits" => attribute.name = "filterUnits".into(),
+            "glyphref" => attribute.name = "glyphRef".into(),
+            "gradienttransform" => attribute.name = "gradientTransform".into(),
+            "gradientunits" => attribute.name = "gradientUnits".into(),
+            "kernelmatrix" => attribute.name = "kernelMatrix".into(),
+            "kernelunitlength" => attribute.name = "kernelUnitLength".into(),
+            "keypoints" => attribute.name = "keyPoints".into(),
+            "keysplines" => attribute.name = "keySplines".into(),
+            "keytimes" => attribute.name = "keyTimes".into(),
+            "lengthadjust" => attribute.name = "lengthAdjust".into(),
+            "limitingconeangle" => attribute.name = "limitingConeAngle".into(),
+            "markerheight" => attribute.name = "markerHeight".into(),
+            "markerunits" => attribute.name = "markerUnits".into(),
+            "markerwidth" => attribute.name = "markerWidth".into(),
+            "maskcontentunits" => attribute.name = "maskContentUnits".into(),
+            "maskunits" => attribute.name = "maskUnits".into(),
+            "numoctaves" => attribute.name = "numOctaves".into(),
+            "pathlength" => attribute.name = "pathLength".into(),
+            "patterncontentunits" => attribute.name = "patternContentUnits".into(),
+            "patterntransform" => attribute.name = "patternTransform".into(),
+            "patternunits" => attribute.name = "patternUnits".into(),
+            "pointsatx" => attribute.name = "pointsAtX".into(),
+            "pointsaty" => attribute.name = "pointsAtY".into(),
+            "pointsatz" => attribute.name = "pointsAtZ".into(),
+            "preservealpha" => attribute.name = "preserveAlpha".into(),
+            "preserveaspectratio" => attribute.name = "preserveAspectRatio".into(),
+            "primitiveunits" => attribute.name = "primitiveUnits".into(),
+            "refx" => attribute.name = "refX".into(),
+            "refy" => attribute.name = "refY".into(),
+            "repeatcount" => attribute.name = "repeatCount".into(),
+            "repeatdur" => attribute.name = "repeatDur".into(),
+            "requiredextensions" => attribute.name = "requiredExtensions".into(),
+            "requiredfeatures" => attribute.name = "requiredFeatures".into(),
+            "specularconstant" => attribute.name = "specularConstant".into(),
+            "specularexponent" => attribute.name = "specularExponent".into(),
+            "spreadmethod" => attribute.name = "spreadMethod".into(),
+            "startoffset" => attribute.name = "startOffset".into(),
+            "stddeviation" => attribute.name = "stdDeviation".into(),
+            "stitchtiles" => attribute.name = "stitchTiles".into(),
+            "surfacescale" => attribute.name = "surfaceScale".into(),
+            "systemlanguage" => attribute.name = "systemLanguage".into(),
+            "tablevalues" => attribute.name = "tableValues".into(),
+            "targetx" => attribute.name = "targetX".into(),
+            "targety" => attribute.name = "targetY".into(),
+            "textlength" => attribute.name = "textLength".into(),
+            "viewbox" => attribute.name = "viewBox".into(),
+            "viewtarget" => attribute.name = "viewTarget".into(),
+            "xchannelselector" => attribute.name = "xChannelSelector".into(),
+            "ychannelselector" => attribute.name = "yChannelSelector".into(),
+            "zoomandpan" => attribute.name = "zoomAndPan".into(),
             _ => {}
         }
     }
