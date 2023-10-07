@@ -667,12 +667,12 @@ impl Swcify for MetaProperty {
     fn swcify(self, ctx: &Context) -> Self::Output {
         let meta = self.meta.swcify(ctx).id;
         let prop = self.property.swcify(ctx).id;
-        match (meta, prop) {
-            (Ident { sym: "new", .. }, Ident { sym: "target", .. }) => MetaPropExpr {
+        match (&*meta.sym, &*prop.sym) {
+            ("new", "target") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },
-            (Ident { sym: "import", .. }, Ident { sym: "meta", .. }) => MetaPropExpr {
+            ("import", "meta") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },

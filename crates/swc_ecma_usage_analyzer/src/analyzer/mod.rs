@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
