@@ -2828,7 +2828,7 @@ impl VisitMut for Minifier<'_> {
                             text_type = Some(MinifierType::JsModule);
                         }
                         Some(value)
-                            if self.need_minify_js() && self.is_type_text_javascript(&value) =>
+                            if self.need_minify_js() && self.is_type_text_javascript(value) =>
                         {
                             text_type = Some(MinifierType::JsScript);
                         }
@@ -2847,7 +2847,7 @@ impl VisitMut for Minifier<'_> {
                             if self.options.minify_additional_scripts_content.is_some() =>
                         {
                             if let Some(minifier_type) =
-                                self.is_additional_scripts_content(&script_type)
+                                self.is_additional_scripts_content(script_type)
                             {
                                 text_type = Some(minifier_type);
                             }
