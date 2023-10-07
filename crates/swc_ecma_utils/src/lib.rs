@@ -1024,11 +1024,13 @@ pub trait ExprExt {
                     let e = match *elem {
                         Some(ref elem) => {
                             let ExprOrSpread { ref expr, .. } = *elem;
-                            match **expr {
-                                Expr::Lit(Lit::Null(..))
-                                | Expr::Ident(Ident {
-                                    sym: "undefined", ..
-                                }) => Cow::Borrowed(""),
+                            match &**expr {
+                                Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
+                                Expr::Ident(Ident { sym: undefined, .. })
+                                    if &**undefined == "undefined" =>
+                                {
+                                    Cow::Borrowed("")
+                                }
                                 _ => match expr.as_pure_string(ctx) {
                                     Known(v) => v,
                                     Unknown => return Value::Unknown,
