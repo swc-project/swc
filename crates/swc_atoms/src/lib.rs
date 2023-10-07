@@ -45,6 +45,11 @@ impl Atom {
     {
         Atom(s.as_ref().into())
     }
+
+    pub fn internal(v:string_cache::Atom<InternalWordStaticSet>) -> Self
+    {
+        Self(v)
+    }
 }
 
 /// API wrappers for [tendril].
@@ -133,7 +138,7 @@ impl Display for Atom {
 
 impl Default for Atom {
     fn default() -> Self {
-        atom!("")
+    Self(Default::default())
     }
 }
 
@@ -189,7 +194,19 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 /// Creates an Atom from a constant.
 #[macro_export]
 macro_rules! atom {
-    ($s:literal) => {{
+    ($s:tt) => {{
+        use $crate::internal_word;
+        // static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
+
+        // $crate::Atom::clone(&*CACHE)
+        $crate::Atom::internal(internal_word!($s))
+    }};
+}
+
+/// Creates an Atom from a constant.
+#[macro_export]
+macro_rules! lazy_atom {
+    ($s:tt) => {{
         static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
 
         $crate::Atom::clone(&*CACHE)
