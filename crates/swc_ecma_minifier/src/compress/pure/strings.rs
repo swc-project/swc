@@ -441,33 +441,31 @@ impl Pure<'_> {
             let rt = right.get_type();
             if let Value::Known(Type::Str) = lt {
                 if let Value::Known(Type::Str) = rt {
-                    if let Expr::Lit(Lit::Str(Str {
-                        value: js_word!(""),
-                        ..
-                    })) = &**left
-                    {
-                        self.changed = true;
-                        report_change!(
-                            "string: Dropping empty string literal (in lhs) because it does not \
-                             changes type"
-                        );
+                    match &**left {
+                        Expr::Lit(Lit::Str(Str { value, .. })) if value.is_empty() => {
+                            self.changed = true;
+                            report_change!(
+                                "string: Dropping empty string literal (in lhs) because it does \
+                                 not changes type"
+                            );
 
-                        *e = *right.take();
-                        return;
+                            *e = *right.take();
+                            return;
+                        }
+                        _ => (),
                     }
 
-                    if let Expr::Lit(Lit::Str(Str {
-                        value: js_word!(""),
-                        ..
-                    })) = &**right
-                    {
-                        self.changed = true;
-                        report_change!(
-                            "string: Dropping empty string literal (in rhs) because it does not \
-                             changes type"
-                        );
+                    match &**right {
+                        Expr::Lit(Lit::Str(Str { value, .. })) if value.is_empty() => {
+                            self.changed = true;
+                            report_change!(
+                                "string: Dropping empty string literal (in rhs) because it does \
+                                 not changes type"
+                            );
 
-                        *e = *left.take();
+                            *e = *left.take();
+                        }
+                        _ => (),
                     }
                 }
             }
