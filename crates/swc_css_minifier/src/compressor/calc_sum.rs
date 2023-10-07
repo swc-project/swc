@@ -315,7 +315,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
     // combine numbers, combine percentages, combine px values, etc.)
     let mut number: Option<usize> = None;
     let mut percentage: Option<usize> = None;
-    let mut dimensions: AHashMap<JsWord, usize> = AHashMap::default();
+    let mut dimensions: AHashMap<String, usize> = AHashMap::default();
     let mut idx = 0;
     while idx < nodes.len() {
         match &nodes[idx] {
@@ -333,7 +333,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
             }
             CalcNode::Dimension(d) => {
                 let unit = get_dimension_unit_lowercase(d);
-                match &dimensions.get(&unit) {
+                match &dimensions.get(&*unit) {
                     Some(prev_idx) => {
                         if try_to_sum_nodes(&mut nodes, **prev_idx, idx) {
                             nodes.remove(idx);
@@ -441,7 +441,7 @@ fn try_to_switch_sign_of_nodes(nodes: &[CalcNode]) -> Option<CalcNode> {
 }
 
 fn try_to_reduce_node_with_dimensions(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     try_to_reduce_node_with_absolute_lengths(dimensions, nodes);
@@ -452,7 +452,7 @@ fn try_to_reduce_node_with_dimensions(
 
 // https://www.w3.org/TR/css-values-4/#absolute-lengths
 fn try_to_reduce_node_with_absolute_lengths(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     if let (Some(idx_cm), Some(idx_mm)) = (dimensions.get("cm"), dimensions.get("mm")) {
@@ -521,7 +521,7 @@ fn try_to_reduce_node_with_absolute_lengths(
 
 // https://www.w3.org/TR/css-values-4/#time
 fn try_to_reduce_node_with_durations(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     if let (Some(idx_ms), Some(idx_s)) = (dimensions.get("ms"), dimensions.get("s")) {
@@ -537,7 +537,7 @@ fn try_to_reduce_node_with_durations(
 
 // https://www.w3.org/TR/css-values-4/#frequency
 fn try_to_reduce_node_with_frequencies(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     if let (Some(idx_hz), Some(idx_khz)) = (dimensions.get("hz"), dimensions.get("khz")) {
@@ -1108,7 +1108,7 @@ fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
     ret
 }
 
-fn get_dimension_unit_lowercase(d: &Dimension) -> JsWord {
+fn get_dimension_unit_lowercase(d: &Dimension) -> String {
     match d {
         Dimension::Length(l) => l.unit.value.to_ascii_lowercase(),
         Dimension::Angle(a) => a.unit.value.to_ascii_lowercase(),
