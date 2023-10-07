@@ -198,10 +198,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             Callee::Super(_) => return,
             Callee::Import(_) => DependencyKind::Import,
             Callee::Expr(expr) => match &**expr {
-                Expr::Ident(Ident {
-                    sym: js_word!("require"),
-                    ..
-                }) => DependencyKind::Require,
+                Expr::Ident(Ident { sym: "require", .. }) => DependencyKind::Require,
                 Expr::Member(member) => match (&*member.obj, &member.prop) {
                     (
                         Expr::Ident(Ident { sym: obj_sym, .. }),
