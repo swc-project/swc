@@ -7,6 +7,9 @@
 
 - **(es/codegen)** Fix codegen of type-only imports ([#8070](https://github.com/swc-project/swc/issues/8070)) ([6f45b46](https://github.com/swc-project/swc/commit/6f45b4693e6d35bf05bacb89b65c7f013d0366a2))
 
+
+- **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
+
 ### Miscellaneous Tasks
 
 
@@ -1939,9 +1942,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/minifier)** Fix optimization of expressions in numeric context ([#6965](https://github.com/swc-project/swc/issues/6965)) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
-
-
-- **(es/module)** Fix `jsc.paths` on Windows ([#6930](https://github.com/swc-project/swc/issues/6930)) ([1ec161a](https://github.com/swc-project/swc/commit/1ec161a0f15886f97d4fb9cbb5d115b29ed5e2a2))
 
 
 - **(es/react)** Fix handling of whitespaces ([#6935](https://github.com/swc-project/swc/issues/6935)) ([a9b25aa](https://github.com/swc-project/swc/commit/a9b25aaf4a776731d3ef2dc3c192a7b18023e765))
