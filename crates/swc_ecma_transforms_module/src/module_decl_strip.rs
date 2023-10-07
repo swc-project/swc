@@ -571,16 +571,14 @@ impl From<&ExportSpecifier> for LinkFlag {
             ExportSpecifier::Namespace(..) => Self::NAMESPACE,
 
             // https://github.com/tc39/proposal-export-default-from
-            ExportSpecifier::Default(..)
-            | ExportSpecifier::Named(ExportNamedSpecifier {
+            ExportSpecifier::Default(..) => Self::DEFAULT,
+            ExportSpecifier::Named(ExportNamedSpecifier {
                 is_type_only: false,
                 orig:
-                    ModuleExportName::Ident(Ident { sym: "default", .. })
-                    | ModuleExportName::Str(Str {
-                        value: "default", ..
-                    }),
+                    ModuleExportName::Ident(Ident { sym: s, .. })
+                    | ModuleExportName::Str(Str { value: s, .. }),
                 ..
-            }) => Self::DEFAULT,
+            }) if &**s == "default" => Self::DEFAULT,
 
             ExportSpecifier::Named(ExportNamedSpecifier {
                 is_type_only: false,
