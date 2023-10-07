@@ -476,7 +476,7 @@ where
                             Span::new(start_span.lo(), end_span.hi(), Default::default())
                         };
                         let (children, content) =
-                            if namespace == Namespace::HTML && *tag_name == "template" {
+                            if namespace == Namespace::HTML && &*tag_name == "template" {
                                 (
                                     vec![],
                                     Some(DocumentFragment {
