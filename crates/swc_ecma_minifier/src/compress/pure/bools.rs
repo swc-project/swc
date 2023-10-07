@@ -447,7 +447,7 @@ impl Pure<'_> {
 
             (Expr::Update(..) | Expr::Assign(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (Expr::Ident(..), Expr::Ident(Ident { sym: r_s, .. })) if &**r_s = "undefined" => true,
+            (Expr::Ident(..), Expr::Ident(Ident { sym: r_s, .. })) if &**r_s == "undefined" => true,
 
             (
                 Expr::Member(..)
