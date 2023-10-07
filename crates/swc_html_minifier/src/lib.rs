@@ -501,7 +501,7 @@ impl Minifier<'_> {
                 _ => false,
             },
             Namespace::SVG => {
-                matches!(element.tag_name, "a" if attribute.name == "rel")
+                matches!(&*element.tag_name, "a" if attribute.name == "rel")
             }
             _ => false,
         }
@@ -531,7 +531,8 @@ impl Minifier<'_> {
         element.attributes.iter().any(|attribute| {
             &*attribute.name == attribute_name
                 && attribute.value.is_some()
-                && attribute_value.contains(&attribute.value.as_ref().unwrap().to_ascii_lowercase())
+                && attribute_value
+                    .contains(&&*attribute.value.as_ref().unwrap().to_ascii_lowercase())
         })
     }
 
@@ -680,7 +681,7 @@ impl Minifier<'_> {
                                     // elements
                                     if element.namespace == Namespace::HTML
                                         && matches!(
-                                            element.tag_name,
+                                            &*element.tag_name,
                                             "base"
                                                 | "link"
                                                 | "noscript"
@@ -705,8 +706,8 @@ impl Minifier<'_> {
                 matches!(
                     (
                         element.namespace,
-                        &element.tag_name,
-                        &attribute.name,
+                        &*element.tag_name,
+                        &*attribute.name,
                         attribute_value.to_ascii_lowercase().trim()
                     ),
                     |(Namespace::MATHML, "math", "xmlns", "http://www.w3.org/1998/math/mathml")| (
@@ -721,7 +722,7 @@ impl Minifier<'_> {
     }
 
     fn is_javascript_url_element(&self, element: &Element) -> bool {
-        match (element.namespace, &element.tag_name) {
+        match (element.namespace, &*element.tag_name) {
             (Namespace::HTML | Namespace::SVG, "a") => return true,
             (Namespace::HTML, "iframe") => return true,
             _ => {}
@@ -838,11 +839,11 @@ impl Minifier<'_> {
                 // `noscript` - can be displayed if JavaScript disabled
                 // `script` - can insert markup using `document.write`
                 !matches!(
-                    element.tag_name,
+                    &*element.tag_name,
                     "base" | "command" | "link" | "meta" | "style" | "title" | "template"
                 )
             }
-            Namespace::SVG => !matches!(element.tag_name, "style"),
+            Namespace::SVG => !matches!(&*element.tag_name, "style"),
             _ => true,
         }
     }
@@ -1062,7 +1063,7 @@ impl Minifier<'_> {
                 },
                 // https://svgwg.org/svg2-draft/render.html#Definitions
                 _ if matches!(
-                    element.tag_name,
+                    &*element.tag_name,
                     "a" | "circle"
                         | "ellipse"
                         | "foreignObject"
