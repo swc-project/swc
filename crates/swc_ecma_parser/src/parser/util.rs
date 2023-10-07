@@ -47,14 +47,14 @@ impl Context {
             | Word::Keyword(Keyword::Delete) => true,
 
             // Future reserved word
-            Word::Ident(js_word!("enum")) => true,
+            Word::Ident("enum") => true,
 
-            Word::Ident(js_word!("implements"))
-            | Word::Ident(js_word!("package"))
-            | Word::Ident(js_word!("protected"))
-            | Word::Ident(js_word!("interface"))
-            | Word::Ident(js_word!("private"))
-            | Word::Ident(js_word!("public"))
+            Word::Ident("implements")
+            | Word::Ident("package")
+            | Word::Ident("protected")
+            | Word::Ident("interface")
+            | Word::Ident("private")
+            | Word::Ident("public")
                 if self.strict =>
             {
                 true
@@ -66,7 +66,7 @@ impl Context {
 
     pub fn is_reserved_word(self, word: &JsWord) -> bool {
         match *word {
-            js_word!("let") => self.strict,
+            "let" => self.strict,
             // SyntaxError in the module only, not in the strict.
             // ```JavaScript
             // function foo() {
@@ -74,54 +74,19 @@ impl Context {
             //     let await = 1;
             // }
             // ```
-            js_word!("await") => self.in_async || self.module,
-            js_word!("yield") => self.in_generator || self.strict,
+            "await" => self.in_async || self.module,
+            "yield" => self.in_generator || self.strict,
 
-            js_word!("null")
-            | js_word!("true")
-            | js_word!("false")
-            | js_word!("break")
-            | js_word!("case")
-            | js_word!("catch")
-            | js_word!("continue")
-            | js_word!("debugger")
-            | js_word!("default")
-            | js_word!("do")
-            | js_word!("export")
-            | js_word!("else")
-            | js_word!("finally")
-            | js_word!("for")
-            | js_word!("function")
-            | js_word!("if")
-            | js_word!("return")
-            | js_word!("switch")
-            | js_word!("throw")
-            | js_word!("try")
-            | js_word!("var")
-            | js_word!("const")
-            | js_word!("while")
-            | js_word!("with")
-            | js_word!("new")
-            | js_word!("this")
-            | js_word!("super")
-            | js_word!("class")
-            | js_word!("extends")
-            | js_word!("import")
-            | js_word!("in")
-            | js_word!("instanceof")
-            | js_word!("typeof")
-            | js_word!("void")
-            | js_word!("delete") => true,
+            "null" | "true" | "false" | "break" | "case" | "catch" | "continue" | "debugger"
+            | "default" | "do" | "export" | "else" | "finally" | "for" | "function" | "if"
+            | "return" | "switch" | "throw" | "try" | "var" | "const" | "while" | "with"
+            | "new" | "this" | "super" | "class" | "extends" | "import" | "in" | "instanceof"
+            | "typeof" | "void" | "delete" => true,
 
             // Future reserved word
-            js_word!("enum") => true,
+            "enum" => true,
 
-            js_word!("implements")
-            | js_word!("package")
-            | js_word!("protected")
-            | js_word!("interface")
-            | js_word!("private")
-            | js_word!("public")
+            "implements" | "package" | "protected" | "interface" | "private" | "public"
                 if self.strict =>
             {
                 true

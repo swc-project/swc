@@ -111,7 +111,7 @@ impl<I: Tokens> Parser<I> {
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected", "public", "static", or "yield".
             match w {
-                Word::Ident(ref name @ js_word!("enum")) => {
+                Word::Ident(ref name @ "enum") => {
                     p.emit_err(
                         p.input.prev_span(),
                         SyntaxError::InvalidIdentInStrict(name.clone()),
@@ -124,13 +124,13 @@ impl<I: Tokens> Parser<I> {
                     );
                 }
 
-                Word::Ident(ref name @ js_word!("static"))
-                | Word::Ident(ref name @ js_word!("implements"))
-                | Word::Ident(ref name @ js_word!("interface"))
-                | Word::Ident(ref name @ js_word!("package"))
-                | Word::Ident(ref name @ js_word!("private"))
-                | Word::Ident(ref name @ js_word!("protected"))
-                | Word::Ident(ref name @ js_word!("public")) => {
+                Word::Ident(ref name @ "static")
+                | Word::Ident(ref name @ "implements")
+                | Word::Ident(ref name @ "interface")
+                | Word::Ident(ref name @ "package")
+                | Word::Ident(ref name @ "private")
+                | Word::Ident(ref name @ "protected")
+                | Word::Ident(ref name @ "public") => {
                     p.emit_strict_mode_err(
                         p.input.prev_span(),
                         SyntaxError::InvalidIdentInStrict(name.clone()),
@@ -143,25 +143,23 @@ impl<I: Tokens> Parser<I> {
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
             match w {
-                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(js_word!("await")),
+                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok("await"),
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
-                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
-                    Ok(js_word!("this"))
-                }
-                Word::Keyword(Keyword::Let) => Ok(js_word!("let")),
+                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok("this"),
+                Word::Keyword(Keyword::Let) => Ok("let"),
                 Word::Ident(ident) => {
-                    if ident == js_word!("arguments") && p.ctx().in_class_field {
+                    if ident == "arguments" && p.ctx().in_class_field {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }
                     Ok(ident)
                 }
-                Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
-                Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
+                Word::Keyword(Keyword::Yield) if incl_yield => Ok("yield"),
+                Word::Keyword(Keyword::Await) if incl_await => Ok("await"),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }

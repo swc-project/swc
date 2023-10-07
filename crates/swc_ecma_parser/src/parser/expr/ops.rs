@@ -379,7 +379,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
-            return Ok(Box::new(Expr::Ident(Ident::new(js_word!("await"), span))));
+            return Ok(Box::new(Expr::Ident(Ident::new("await", span))));
         }
 
         if ctx.in_function && !ctx.in_async {

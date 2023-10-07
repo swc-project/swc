@@ -390,7 +390,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
-            if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
+            if *ident.sym == "interface" && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
                     ident.span,
                     SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
@@ -413,7 +413,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
             match *sym {
-                js_word!("enum") | js_word!("interface") => {
+                "enum" | "interface" => {
                     self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
                 }
                 _ => {}
@@ -423,7 +423,7 @@ impl<'a, I: Tokens> Parser<I> {
         if self.syntax().typescript() {
             if let Expr::Ident(ref i) = *expr {
                 match i.sym {
-                    js_word!("public") | js_word!("static") | js_word!("abstract") => {
+                    "public" | "static" | "abstract" => {
                         if eat!(self, "interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
@@ -1274,10 +1274,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let is_using_decl = self.input.syntax().explicit_resource_management()
             && match *init {
-                Expr::Ident(Ident {
-                    sym: js_word!("using"),
-                    ..
-                }) => {
+                Expr::Ident(Ident { sym: "using", .. }) => {
                     is!(self, BindingIdent)
                         && !is!(self, "of")
                         && (peeked_is!(self, "of") || peeked_is!(self, "in"))

@@ -265,14 +265,14 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // async a(){}
 
         match ident.sym {
-            js_word!("get") | js_word!("set") | js_word!("async") => {
+            "get" | "set" | "async" => {
                 trace_cur!(self, parse_object_prop__after_accessor);
 
                 if has_modifiers {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
-                let is_generator = ident.sym == js_word!("async") && eat!(self, '*');
+                let is_generator = ident.sym == "async" && eat!(self, '*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
                 self.with_ctx(Context {
@@ -282,7 +282,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                 })
                 .parse_with(|parser| {
                     match ident.sym {
-                        js_word!("get") => parser
+                        "get" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal
                                 vec![],
@@ -318,7 +318,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     })))
                                 },
                             ),
-                        js_word!("set") => {
+                        "set" => {
                             parser
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
@@ -366,7 +366,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     })))
                                 })
                         }
-                        js_word!("async") => parser
+                        "async" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal
                                 vec![],

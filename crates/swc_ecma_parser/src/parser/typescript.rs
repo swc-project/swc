@@ -188,11 +188,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ts_entity_name);
 
         let init = self.parse_ident_name()?;
-        if let Ident {
-            sym: js_word!("void"),
-            ..
-        } = init
-        {
+        if let Ident { sym: "void", .. } = init {
             let dot_start = cur_pos!(self);
             let dot_span = span!(self, dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)
@@ -409,30 +405,24 @@ impl<I: Tokens> Parser<I> {
                 "const" => {
                     is_const = true;
                     if !permit_const {
-                        self.emit_err(
-                            self.input.prev_span(),
-                            SyntaxError::TS1277(js_word!("const")),
-                        );
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1277("const"));
                     }
                 }
                 "in" => {
                     if !permit_in_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("in")));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274("in"));
                     } else if is_in {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("in")));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("in"));
                     } else if is_out {
-                        self.emit_err(
-                            self.input.prev_span(),
-                            SyntaxError::TS1029(js_word!("in"), js_word!("out")),
-                        );
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1029("in", "out"));
                     }
                     is_in = true;
                 }
                 "out" => {
                     if !permit_in_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274(js_word!("out")));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274("out"));
                     } else if is_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030(js_word!("out")));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("out"));
                     }
                     is_out = true;
                 }
@@ -1075,18 +1065,8 @@ impl<I: Tokens> Parser<I> {
 
         let id = self.parse_ident_name()?;
         match id.sym {
-            js_word!("string")
-            | js_word!("null")
-            | js_word!("number")
-            | js_word!("object")
-            | js_word!("any")
-            | js_word!("unknown")
-            | js_word!("boolean")
-            | js_word!("bigint")
-            | js_word!("symbol")
-            | js_word!("void")
-            | js_word!("never")
-            | js_word!("intrinsic") => {
+            "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
+            | "symbol" | "void" | "never" | "intrinsic" => {
                 self.emit_err(id.span, SyntaxError::TS2427);
             }
             _ => {}
@@ -2533,7 +2513,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         match value {
-            js_word!("abstract") => {
+            "abstract" => {
                 if next || (is!(self, "class") && !self.input.had_line_break_before_cur()) {
                     if next {
                         bump!(self);
@@ -2542,7 +2522,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("enum") => {
+            "enum" => {
                 if next || is!(self, IdentRef) {
                     if next {
                         bump!(self);
@@ -2554,7 +2534,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("interface") => {
+            "interface" => {
                 if next || (is!(self, IdentRef)) {
                     if next {
                         bump!(self);
@@ -2567,7 +2547,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("module") if !self.input.had_line_break_before_cur() => {
+            "module" if !self.input.had_line_break_before_cur() => {
                 if next {
                     bump!(self);
                 }
@@ -2585,7 +2565,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("namespace") => {
+            "namespace" => {
                 if next || is!(self, IdentRef) {
                     if next {
                         bump!(self);
@@ -2597,7 +2577,7 @@ impl<I: Tokens> Parser<I> {
                 }
             }
 
-            js_word!("type") => {
+            "type" => {
                 if next || is!(self, IdentRef) {
                     if next {
                         bump!(self);
