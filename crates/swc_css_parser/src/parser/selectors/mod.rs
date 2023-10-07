@@ -863,7 +863,7 @@ where
                 || -> PResult<Vec<PseudoClassSelectorChildren>> {
                     let mut children = vec![];
 
-                    match names.0 {
+                    match &*names.0 {
                         "local" | "global" if self.config.css_modules => {
                             self.input.skip_ws();
 
@@ -1102,7 +1102,7 @@ where
                 || -> PResult<Vec<PseudoElementSelectorChildren>> {
                     let mut children = vec![];
 
-                    match names.0 {
+                    match &*names.0 {
                         "cue" | "cue-region" => {
                             self.input.skip_ws();
 
