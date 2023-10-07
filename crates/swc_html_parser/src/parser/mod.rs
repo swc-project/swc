@@ -8526,10 +8526,10 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                 ..
             } if *namespace == Namespace::MATHML && *tag_name == "annotation-xml" => {
                 for attribute in &*attributes.borrow() {
-                    if *attribute.name == "encoding"
+                    if &*attribute.name == "encoding"
                         && (attribute.value.is_some()
                             && matches!(
-                                attribute.value.as_ref().unwrap().to_ascii_lowercase(),
+                                &*attribute.value.as_ref().unwrap().to_ascii_lowercase(),
                                 "text/html" | "application/xhtml+xml"
                             ))
                     {
@@ -8544,7 +8544,7 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                 tag_name,
                 ..
             } if *namespace == Namespace::SVG
-                && matches!(*tag_name, "foreignObject" | "desc" | "title") =>
+                && matches!(&**tag_name, "foreignObject" | "desc" | "title") =>
             {
                 return true;
             }

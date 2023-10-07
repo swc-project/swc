@@ -2232,7 +2232,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase();
+                ident.value = ident.value.to_ascii_lowercase().into();
 
                 Some(ident)
             }
@@ -2266,7 +2266,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase();
+                ident.value = ident.value.to_ascii_lowercase().into();
 
                 Some(ident)
             }
