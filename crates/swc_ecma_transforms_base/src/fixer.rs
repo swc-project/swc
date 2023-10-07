@@ -516,7 +516,7 @@ impl VisitMut for Fixer<'_> {
 
             if let ForHead::Pat(e) = &mut s.left {
                 if let Pat::Expr(expr) = &mut **e {
-                    if let Expr::Ident(Ident { sym: "async", .. }) = &**expr {
+                    if expr.is_ident_ref_to("async") {
                         self.wrap(&mut *expr);
                     }
                 }
