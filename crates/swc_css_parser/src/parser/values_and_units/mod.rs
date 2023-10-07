@@ -2571,7 +2571,7 @@ where
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
-                    value: "url",
+                    value: "url".into(),
                     raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
