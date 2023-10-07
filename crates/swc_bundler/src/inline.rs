@@ -27,9 +27,7 @@ pub(crate) fn inline(injected_ctxt: SyntaxContext, module: &mut Modules) {
         module.visit_with(&mut analyzer);
     }
 
-    let mut v = Inliner {
-        data: Readonly::new(data),
-    };
+    let mut v = Inliner { data: data.into() };
     module.par_visit_mut_with(&mut v);
     module.retain_mut(|_, s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
 }
