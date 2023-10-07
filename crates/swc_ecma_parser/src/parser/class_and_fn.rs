@@ -613,11 +613,14 @@ impl<I: Tokens> Parser<I> {
             match modifier {
                 "abstract" => {
                     if is_abstract {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("abstract"));
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1030("abstract".into()),
+                        );
                     } else if is_override {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029("abstract", "override"),
+                            SyntaxError::TS1029("abstract".into(), "override".into()),
                         );
                     } else {
                         is_abstract = true;
@@ -625,16 +628,19 @@ impl<I: Tokens> Parser<I> {
                 }
                 "override" => {
                     if is_override {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("override"));
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1030("override".into()),
+                        );
                     } else if readonly.is_some() {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029("override", "readonly"),
+                            SyntaxError::TS1029("override".into(), "readonly".into()),
                         );
                     } else if declare {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1243("override", "declare"),
+                            SyntaxError::TS1243("override".into(), "declare".into()),
                         );
                     } else if !self.ctx().has_super_class {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS4112);
@@ -645,7 +651,7 @@ impl<I: Tokens> Parser<I> {
                 "readonly" => {
                     let readonly_span = self.input.prev_span();
                     if readonly.is_some() {
-                        self.emit_err(readonly_span, SyntaxError::TS1030("readonly"));
+                        self.emit_err(readonly_span, SyntaxError::TS1030("readonly".into()));
                     } else {
                         readonly = Some(readonly_span);
                     }
@@ -654,7 +660,7 @@ impl<I: Tokens> Parser<I> {
                     if is_override {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029("static", "override"),
+                            SyntaxError::TS1029("static".into(), "override".into()),
                         );
                     }
 
@@ -768,7 +774,7 @@ impl<I: Tokens> Parser<I> {
 
             if is_constructor {
                 if self.syntax().typescript() && is_override {
-                    self.emit_err(span!(self, start), SyntaxError::TS1089("override"));
+                    self.emit_err(span!(self, start), SyntaxError::TS1089("override".into()));
                 }
 
                 if self.syntax().typescript() && is!(self, '<') {
@@ -837,7 +843,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if let Some(static_token) = static_token {
-                    self.emit_err(static_token, SyntaxError::TS1089("static"))
+                    self.emit_err(static_token, SyntaxError::TS1089("static".into()))
                 }
 
                 if let Some(span) = modifier_span {
@@ -917,7 +923,7 @@ impl<I: Tokens> Parser<I> {
                 is_override = true;
                 self.emit_err(
                     self.input.prev_span(),
-                    SyntaxError::TS1029("override", "async"),
+                    SyntaxError::TS1029("override".into(), "async".into()),
                 );
             }
 
@@ -964,7 +970,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::ConstructorAccessor);
             }
 
-            return match i.sym {
+            return match &*i.sym {
                 "get" => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
