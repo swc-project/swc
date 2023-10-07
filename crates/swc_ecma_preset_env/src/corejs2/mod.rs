@@ -326,13 +326,9 @@ impl Visit for UsageVisitor {
 
 fn is_symbol_iterator(e: &Expr) -> bool {
     match e {
-        Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(Ident {
-                sym: "iterator", ..
-            }),
-            ..
-        }) => matches!(&**obj, Expr::Ident(Ident { sym: "Symbol", .. })),
+        Expr::Member(MemberExpr { obj, prop, .. }) if prop.is_ident_with("iterator") => {
+            obj.is_ident_ref_to("Symbol")
+        }
         _ => false,
     }
 }

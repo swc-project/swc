@@ -86,23 +86,22 @@ impl VisitMut for Entry {
                     ..
                 }) = &**expr
                 {
-                    if callee.is_ident_ref_to("require") {
-                        if args.len() == 1
-                            && if let ExprOrSpread { spread: None, expr } = &args[0] {
-                                if let Expr::Lit(Lit::Str(s)) = &**expr {
-                                    s.value == *"core-js"
-                                        || s.value == *"@swc/polyfill"
-                                        || s.value == *"@babel/polyfill"
-                                } else {
-                                    false
-                                }
+                    if callee.is_ident_ref_to("require")
+                        && args.len() == 1
+                        && if let ExprOrSpread { spread: None, expr } = &args[0] {
+                            if let Expr::Lit(Lit::Str(s)) = &**expr {
+                                s.value == *"core-js"
+                                    || s.value == *"@swc/polyfill"
+                                    || s.value == *"@babel/polyfill"
                             } else {
                                 false
                             }
-                            && self.add_all("@swc/polyfill")
-                        {
-                            return false;
+                        } else {
+                            false
                         }
+                        && self.add_all("@swc/polyfill")
+                    {
+                        return false;
                     }
                 }
             }
