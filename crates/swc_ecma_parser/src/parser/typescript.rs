@@ -2515,7 +2515,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        match value {
+        match &*value {
             "abstract" => {
                 if next || (is!(self, "class") && !self.input.had_line_break_before_cur()) {
                     if next {
