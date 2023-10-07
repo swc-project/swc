@@ -19,7 +19,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashSet, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };

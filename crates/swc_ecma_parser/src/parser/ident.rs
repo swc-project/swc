@@ -111,7 +111,7 @@ impl<I: Tokens> Parser<I> {
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected", "public", "static", or "yield".
             match w {
-                Word::Ident(ref name @ word!("enum")) => {
+                Word::Ident(ref name @ ident_like!("enum")) => {
                     p.emit_err(
                         p.input.prev_span(),
                         SyntaxError::InvalidIdentInStrict(name.clone().into()),
@@ -160,7 +160,7 @@ impl<I: Tokens> Parser<I> {
                     {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }
-                    Ok(ident)
+                    Ok(ident.into())
                 }
                 Word::Keyword(Keyword::Yield) if incl_yield => Ok(atom!("yield")),
                 Word::Keyword(Keyword::Await) if incl_await => Ok(atom!("await")),

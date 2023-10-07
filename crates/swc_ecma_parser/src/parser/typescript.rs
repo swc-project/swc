@@ -188,7 +188,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_ts_entity_name);
 
         let init = self.parse_ident_name()?;
-        if let Ident { sym: "void", .. } = init {
+        if &*init.sym == "void" {
             let dot_start = cur_pos!(self);
             let dot_span = span!(self, dot_start);
             self.emit_err(dot_span, SyntaxError::TS1005)
