@@ -23,7 +23,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 ///
 /// See [tendril] for more details.
-#[derive(Clone)]
+#[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(string_cache::Atom<InternalWordStaticSet>);
@@ -46,8 +46,7 @@ impl Atom {
         Atom(s.as_ref().into())
     }
 
-    pub fn internal(v:string_cache::Atom<InternalWordStaticSet>) -> Self
-    {
+    pub fn internal(v: string_cache::Atom<InternalWordStaticSet>) -> Self {
         Self(v)
     }
 }
@@ -136,12 +135,6 @@ impl Display for Atom {
     }
 }
 
-impl Default for Atom {
-    fn default() -> Self {
-    Self(Default::default())
-    }
-}
-
 impl PartialOrd for Atom {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
         (**self).partial_cmp(&**other)
@@ -195,11 +188,9 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 #[macro_export]
 macro_rules! atom {
     ($s:tt) => {{
-        use $crate::internal_word;
-        // static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
+        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
 
-        // $crate::Atom::clone(&*CACHE)
-        $crate::Atom::internal(internal_word!($s))
+        $crate::Atom::clone(&*CACHE)
     }};
 }
 
