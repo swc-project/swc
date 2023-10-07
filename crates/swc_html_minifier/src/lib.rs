@@ -2462,7 +2462,7 @@ impl Minifier<'_> {
                 _ if self.options.normalize_attributes
                     && element.namespace == Namespace::HTML
                     && n.name == "contenteditable"
-                    && n.value == Some("true") =>
+                    && n.value.as_deref() == Some("true") =>
                 {
                     n.value = Some(js_word!(""));
                 }
@@ -2534,16 +2534,16 @@ impl Minifier<'_> {
                         value = value
                             .split(',')
                             .map(|value| {
-                                if matches!(n.name, "sizes" | "imagesizes") {
+                                if matches!(&*n.name, "sizes" | "imagesizes") {
                                     let trimmed = value.trim();
 
                                     match self.minify_sizes(trimmed) {
                                         Some(minified) => minified,
                                         _ => trimmed.to_string(),
                                     }
-                                } else if matches!(n.name, "points") {
+                                } else if matches!(&*n.name, "points") {
                                     self.collapse_whitespace(value.trim()).to_string()
-                                } else if matches!(n.name, "exportparts") {
+                                } else if matches!(&*n.name, "exportparts") {
                                     value.chars().filter(|c| !c.is_whitespace()).collect()
                                 } else {
                                     value.trim().to_string()
