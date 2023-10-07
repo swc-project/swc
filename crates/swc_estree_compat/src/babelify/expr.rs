@@ -552,7 +552,7 @@ impl Babelify for MetaPropExpr {
                         hi: self.span.hi - BytePos(5),
                         ..self.span
                     },
-                    sym: js_word!("import"),
+                    sym: "import",
                     optional: false,
                 }
                 .babelify(ctx),
@@ -561,7 +561,7 @@ impl Babelify for MetaPropExpr {
                         lo: self.span.lo + BytePos(7),
                         ..self.span
                     },
-                    sym: js_word!("meta"),
+                    sym: "meta",
                     optional: false,
                 }
                 .babelify(ctx),
@@ -572,7 +572,7 @@ impl Babelify for MetaPropExpr {
                         hi: self.span.hi - BytePos(7),
                         ..self.span
                     },
-                    sym: js_word!("new"),
+                    sym: "new",
                     optional: false,
                 }
                 .babelify(ctx),
@@ -581,7 +581,7 @@ impl Babelify for MetaPropExpr {
                         hi: self.span.hi + BytePos(4),
                         ..self.span
                     },
-                    sym: js_word!("target"),
+                    sym: "target",
                     optional: false,
                 }
                 .babelify(ctx),
