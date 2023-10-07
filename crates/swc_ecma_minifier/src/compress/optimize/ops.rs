@@ -379,7 +379,7 @@ impl Optimizer<'_> {
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        value: "function",
+                        value: "function".into(),
                     }));
                 }
 
@@ -389,7 +389,7 @@ impl Optimizer<'_> {
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        value: "object",
+                        value: "object".into(),
                     }));
                 }
                 _ => {}

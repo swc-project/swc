@@ -109,7 +109,7 @@ impl Pure<'_> {
             } else {
                 match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                    Expr::Lit(Lit::Null(..)) => "null",
+                    Expr::Lit(Lit::Null(..)) => "null".into(),
                     _ => return,
                 }
             }

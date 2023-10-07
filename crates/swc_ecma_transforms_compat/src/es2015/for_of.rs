@@ -389,7 +389,10 @@ impl ForOf {
         self.top_level_vars.push(VarDeclarator {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
-            init: Some(Box::new(Expr::Ident(Ident::new("undefined", DUMMY_SP)))),
+            init: Some(Box::new(Expr::Ident(Ident::new(
+                "undefined".into(),
+                DUMMY_SP,
+            )))),
             definite: false,
         });
 

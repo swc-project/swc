@@ -534,10 +534,10 @@ impl Optimizer<'_> {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
-                        self.typeofs.insert(i.to_id(), "function");
+                        self.typeofs.insert(i.to_id(), "function".into());
                     }
                     Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), "object");
+                        self.typeofs.insert(i.to_id(), "object".into());
                     }
                     _ => {}
                 }
