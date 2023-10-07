@@ -381,11 +381,11 @@ impl<'a> Input<'a> {
                             let name = match function.1 {
                                 FunctionName::Ident(name) => match name.raw {
                                     Some(raw) => (name.value, raw),
-                                    _ => (name.value.clone(), Atom::from(name.value)),
+                                    _ => (name.value.clone(), name.value),
                                 },
                                 FunctionName::DashedIdent(name) => match name.raw {
                                     Some(raw) => (format!("--{}", name.value).into(), raw),
-                                    _ => (name.value.clone(), Atom::from(name.value)),
+                                    _ => (name.value.clone(), name.value),
                                 },
                             };
 
