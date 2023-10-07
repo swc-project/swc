@@ -218,7 +218,7 @@ where
         let can_omit_start_tag = self.tag_omission
             && !has_attributes
             && n.namespace == Namespace::HTML
-            && match n.tag_name {
+            && match &*n.tag_name {
                 // Tag omission in text/html:
                 // An html element's start tag can be omitted if the first thing inside the html
                 // element is not a comment.
