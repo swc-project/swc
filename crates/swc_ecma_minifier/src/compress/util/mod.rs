@@ -1,6 +1,5 @@
 use std::f64;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 #[cfg(feature = "debug")]
@@ -592,11 +591,9 @@ where
 pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
     match s {
         Stmt::Decl(Decl::Fn(FnDecl {
-            ident: Ident {
-                sym: "undefined", ..
-            },
+            ident: Ident { sym, .. },
             ..
-        })) => false,
+        })) if &**sym == "undefined" => false,
 
         Stmt::Decl(Decl::Var(v))
             if matches!(
@@ -753,11 +750,10 @@ impl Visit for SuperFinder {
     fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
-        if let Prop::Shorthand(Ident {
-            sym: "arguments", ..
-        }) = n
-        {
-            self.found = true;
+        if let Prop::Shorthand(Ident { sym, .. }) = n {
+            if &**sym == "arguments" {
+                self.found = true;
+            }
         }
     }
 
