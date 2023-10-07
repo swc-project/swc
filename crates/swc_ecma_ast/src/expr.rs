@@ -7,7 +7,7 @@ use serde::{
     Deserialize, Deserializer,
 };
 use string_enum::StringEnum;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::{Atom};
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{

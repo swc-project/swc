@@ -1,6 +1,6 @@
 use std::{borrow::Cow, fmt::Debug, mem::take};
 
-use swc_atoms::Atom;
+
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_css_ast::{ComponentValue, FunctionName, ListOfComponentValues, Token, TokenAndSpan};
 

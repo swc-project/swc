@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+
 use swc_common::{Span, Spanned};
 use swc_css_ast::*;
 

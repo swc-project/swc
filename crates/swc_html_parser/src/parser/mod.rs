@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom};
 use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
@@ -1330,7 +1330,7 @@ where
                         ..
                     } => {
                         let is_html_name =
-                            matches!(name, Some(name) if name.eq_ignore_ascii_case(&"html"));
+                            matches!(name, Some(name) if name.eq_ignore_ascii_case("html"));
                         let is_conforming_doctype = is_html_name
                             && public_id.is_none()
                             && (system_id.is_none()
@@ -1908,7 +1908,7 @@ where
 
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&"template"]);
+                                .pop_until_tag_name_popped(&["template"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
@@ -2570,7 +2570,7 @@ where
                     //
                     // Switch the insertion mode to "after body".
                     Token::EndTag { tag_name, .. } if tag_name == "body" => {
-                        if !self.open_elements_stack.has_in_scope(&"body") {
+                        if !self.open_elements_stack.has_in_scope("body") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -2632,7 +2632,7 @@ where
                     //
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. } if tag_name == "html" => {
-                        if !self.open_elements_stack.has_in_scope(&"body") {
+                        if !self.open_elements_stack.has_in_scope("body") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -2717,7 +2717,7 @@ where
                                 | "ul"
                         ) =>
                     {
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2736,7 +2736,7 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(&**tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2774,7 +2774,7 @@ where
                     Token::StartTag { tag_name, .. }
                         if matches!(&**tag_name, "pre" | "listing") =>
                     {
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2812,7 +2812,7 @@ where
                             return Ok(());
                         }
 
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2861,7 +2861,7 @@ where
                             if is_html_element!(node, "li") {
                                 // Generate implied end tags, except for li elements.
                                 self.open_elements_stack
-                                    .generate_implied_end_tags_with_exclusion(&"li");
+                                    .generate_implied_end_tags_with_exclusion("li");
 
                                 // If the current node is not an li element, then this is a
                                 // parse error.
@@ -2877,7 +2877,7 @@ where
 
                                 // Pop elements from the stack of open elements until an li
                                 // element has been popped from the stack.
-                                self.open_elements_stack.pop_until_tag_name_popped(&[&"li"]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -2897,7 +2897,7 @@ where
                         // Step "Done".
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2953,7 +2953,7 @@ where
                             if is_html_element!(node, "dd") {
                                 // Generate implied end tags, except for dd elements.
                                 self.open_elements_stack
-                                    .generate_implied_end_tags_with_exclusion(&"dd");
+                                    .generate_implied_end_tags_with_exclusion("dd");
 
                                 // If the current node is not an dd element, then this is a
                                 // parse error.
@@ -2969,14 +2969,14 @@ where
 
                                 // Pop elements from the stack of open elements until an dd
                                 // element has been popped from the stack.
-                                self.open_elements_stack.pop_until_tag_name_popped(&[&"dd"]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dd"]);
 
                                 // Jump to the step labeled done below.
                                 break;
                             } else if is_html_element!(node, "dt") {
                                 // Generate implied end tags, except for li elements.
                                 self.open_elements_stack
-                                    .generate_implied_end_tags_with_exclusion(&"dt");
+                                    .generate_implied_end_tags_with_exclusion("dt");
 
                                 // If the current node is not an dt element, then this is a
                                 // parse error.
@@ -2992,7 +2992,7 @@ where
 
                                 // Pop elements from the stack of open elements until an dt
                                 // element has been popped from the stack.
-                                self.open_elements_stack.pop_until_tag_name_popped(&[&"dt"]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dt"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -3012,7 +3012,7 @@ where
                         // Step "Done".
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -3027,7 +3027,7 @@ where
                     //
                     // Switch the tokenizer to the PLAINTEXT state.
                     Token::StartTag { tag_name, .. } if tag_name == "plaintext" => {
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -3052,14 +3052,14 @@ where
                     //
                     // 4. Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. } if tag_name == "button" => {
-                        if self.open_elements_stack.has_in_scope(&"button") {
+                        if self.open_elements_stack.has_in_scope("button") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
                             ));
                             self.open_elements_stack.generate_implied_end_tags();
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&"button"]);
+                                .pop_until_tag_name_popped(&["button"]);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
@@ -3218,7 +3218,7 @@ where
 
                             self.open_elements_stack.remove(&node);
                         } else {
-                            if !self.open_elements_stack.has_in_scope(&"form") {
+                            if !self.open_elements_stack.has_in_scope("form") {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::StrayEndTag(tag_name.clone()),
@@ -3241,7 +3241,7 @@ where
 
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&"form"]);
+                                .pop_until_tag_name_popped(&["form"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
@@ -3254,7 +3254,7 @@ where
                     //
                     // Close a p element.
                     Token::EndTag { tag_name, .. } if tag_name == "p" => {
-                        if !self.open_elements_stack.has_in_button_scope(&"p") {
+                        if !self.open_elements_stack.has_in_button_scope("p") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
@@ -3282,14 +3282,14 @@ where
                     // Pop elements from the stack of open elements until an li element has been
                     // popped from the stack.
                     Token::EndTag { tag_name, .. } if tag_name == "li" => {
-                        if !self.open_elements_stack.has_in_list_item_scope(&"li") {
+                        if !self.open_elements_stack.has_in_list_item_scope("li") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
                             ));
                         } else {
                             self.open_elements_stack
-                                .generate_implied_end_tags_with_exclusion(&"li");
+                                .generate_implied_end_tags_with_exclusion("li");
 
                             match self.open_elements_stack.items.last() {
                                 Some(node) if !is_html_element!(node, "li") => {
@@ -3302,7 +3302,7 @@ where
                             }
 
                             let popped =
-                                self.open_elements_stack.pop_until_tag_name_popped(&[&"li"]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
@@ -3369,12 +3369,12 @@ where
                     Token::EndTag { tag_name, .. }
                         if matches!(&**tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
-                        if !self.open_elements_stack.has_in_scope(&"h1")
-                            && !self.open_elements_stack.has_in_scope(&"h2")
-                            && !self.open_elements_stack.has_in_scope(&"h3")
-                            && !self.open_elements_stack.has_in_scope(&"h4")
-                            && !self.open_elements_stack.has_in_scope(&"h5")
-                            && !self.open_elements_stack.has_in_scope(&"h6")
+                        if !self.open_elements_stack.has_in_scope("h1")
+                            && !self.open_elements_stack.has_in_scope("h2")
+                            && !self.open_elements_stack.has_in_scope("h3")
+                            && !self.open_elements_stack.has_in_scope("h4")
+                            && !self.open_elements_stack.has_in_scope("h5")
+                            && !self.open_elements_stack.has_in_scope("h6")
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -3510,7 +3510,7 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "nobr" => {
                         self.reconstruct_active_formatting_elements()?;
 
-                        if self.open_elements_stack.has_in_scope(&"nobr") {
+                        if self.open_elements_stack.has_in_scope("nobr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
@@ -3628,7 +3628,7 @@ where
                     Token::StartTag { tag_name, .. } if tag_name == "table" => {
                         if get_document_mode!(self.document.as_ref().unwrap())
                             != DocumentMode::Quirks
-                            && self.open_elements_stack.has_in_button_scope(&"p")
+                            && self.open_elements_stack.has_in_button_scope("p")
                         {
                             self.close_p_element(token_and_info, false);
                         }
@@ -3779,7 +3779,7 @@ where
                     } if tag_name == "hr" => {
                         let is_self_closing = *is_self_closing;
 
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -3861,7 +3861,7 @@ where
                     //
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. } if tag_name == "xmp" => {
-                        if self.open_elements_stack.has_in_button_scope(&"p") {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -3949,7 +3949,7 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. } if matches!(&**tag_name, "rb" | "rtc") => {
-                        let is_scope = self.open_elements_stack.has_in_scope(&"ruby");
+                        let is_scope = self.open_elements_stack.has_in_scope("ruby");
 
                         if is_scope {
                             self.open_elements_stack.generate_implied_end_tags();
@@ -3982,11 +3982,11 @@ where
                     //
                     // Insert an HTML element for the token.
                     Token::StartTag { tag_name, .. } if matches!(&**tag_name, "rp" | "rt") => {
-                        let in_scope = self.open_elements_stack.has_in_scope(&"ruby");
+                        let in_scope = self.open_elements_stack.has_in_scope("ruby");
 
                         if in_scope {
                             self.open_elements_stack
-                                .generate_implied_end_tags_with_exclusion(&"rtc");
+                                .generate_implied_end_tags_with_exclusion("rtc");
                         }
 
                         match self.open_elements_stack.items.last() {
@@ -4525,14 +4525,14 @@ where
                             ErrorKind::TableSeenWhileTableOpen,
                         ));
 
-                        if !self.open_elements_stack.has_in_table_scope(&"table") {
+                        if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
 
                             return Ok(());
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&"table"]);
+                            .pop_until_tag_name_popped(&["table"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -4548,7 +4548,7 @@ where
                     //
                     // Reset the insertion mode appropriately.
                     Token::EndTag { tag_name, .. } if tag_name == "table" => {
-                        if !self.open_elements_stack.has_in_table_scope(&"table") {
+                        if !self.open_elements_stack.has_in_table_scope("table") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -4556,7 +4556,7 @@ where
                         } else {
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&"table"]);
+                                .pop_until_tag_name_popped(&["table"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.reset_insertion_mode();
@@ -4790,7 +4790,7 @@ where
                     //
                     // Switch the insertion mode to "in table".
                     Token::EndTag { tag_name, .. } if tag_name == "caption" => {
-                        if !self.open_elements_stack.has_in_table_scope(&"caption") {
+                        if !self.open_elements_stack.has_in_table_scope("caption") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -4810,7 +4810,7 @@ where
 
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&"caption"]);
+                                .pop_until_tag_name_popped(&["caption"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
@@ -4854,7 +4854,7 @@ where
                                 | "tr"
                         ) =>
                     {
-                        if !self.open_elements_stack.has_in_table_scope(&"caption") {
+                        if !self.open_elements_stack.has_in_table_scope("caption") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayStartTag(tag_name.clone()),
@@ -4873,14 +4873,14 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&"caption"]);
+                                .pop_until_tag_name_popped(&["caption"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
                         }
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "table" => {
-                        if !self.open_elements_stack.has_in_table_scope(&"caption") {
+                        if !self.open_elements_stack.has_in_table_scope("caption") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -4899,7 +4899,7 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&"caption"]);
+                                .pop_until_tag_name_popped(&["caption"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
@@ -5160,9 +5160,9 @@ where
                             "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
-                        if !(self.open_elements_stack.has_in_table_scope(&"tbody")
-                            || self.open_elements_stack.has_in_table_scope(&"thead")
-                            || self.open_elements_stack.has_in_table_scope(&"tfoot"))
+                        if !(self.open_elements_stack.has_in_table_scope("tbody")
+                            || self.open_elements_stack.has_in_table_scope("thead")
+                            || self.open_elements_stack.has_in_table_scope("tfoot"))
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5176,9 +5176,9 @@ where
                         }
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "table" => {
-                        if !(self.open_elements_stack.has_in_table_scope(&"tbody")
-                            || self.open_elements_stack.has_in_table_scope(&"thead")
-                            || self.open_elements_stack.has_in_table_scope(&"tfoot"))
+                        if !(self.open_elements_stack.has_in_table_scope("tbody")
+                            || self.open_elements_stack.has_in_table_scope("thead")
+                            || self.open_elements_stack.has_in_table_scope("tfoot"))
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5245,7 +5245,7 @@ where
                     // Pop the current node (which will be a tr element) from the stack of open
                     // elements. Switch the insertion mode to "in table body".
                     Token::EndTag { tag_name, .. } if tag_name == "tr" => {
-                        if !self.open_elements_stack.has_in_table_scope(&"tr") {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoTableRowToClose,
@@ -5282,7 +5282,7 @@ where
                             "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead" | "tr"
                         ) =>
                     {
-                        if !self.open_elements_stack.has_in_table_scope(&"tr") {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoTableRowToClose,
@@ -5295,7 +5295,7 @@ where
                         }
                     }
                     Token::EndTag { tag_name, .. } if tag_name == "table" => {
-                        if !self.open_elements_stack.has_in_table_scope(&"tr") {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoTableRowToClose,
@@ -5332,7 +5332,7 @@ where
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
-                        } else if !self.open_elements_stack.has_in_table_scope(&"tr") {
+                        } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
 
                             return Ok(());
@@ -5439,8 +5439,8 @@ where
                                 | "tr"
                         ) =>
                     {
-                        if !self.open_elements_stack.has_in_table_scope(&"td")
-                            && !self.open_elements_stack.has_in_table_scope(&"th")
+                        if !self.open_elements_stack.has_in_table_scope("td")
+                            && !self.open_elements_stack.has_in_table_scope("th")
                         {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::NoCellToClose));
@@ -5659,7 +5659,7 @@ where
                     //
                     // Reset the insertion mode appropriately.
                     Token::EndTag { tag_name, .. } if tag_name == "select" => {
-                        if !self.open_elements_stack.has_in_select_scope(&"select") {
+                        if !self.open_elements_stack.has_in_select_scope("select") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -5667,7 +5667,7 @@ where
                         } else {
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&"select"]);
+                                .pop_until_tag_name_popped(&["select"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.reset_insertion_mode();
@@ -5692,14 +5692,14 @@ where
                             ErrorKind::StartSelectWhereEndSelectExpected,
                         ));
 
-                        if !self.open_elements_stack.has_in_select_scope(&"select") {
+                        if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
 
                             return Ok(());
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&"select"]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                     }
                     // A start tag whose tag name is one of: "input", "keygen", "textarea"
@@ -5725,13 +5725,13 @@ where
                             ErrorKind::StartTagWithSelectOpen(tag_name.clone()),
                         ));
 
-                        if !self.open_elements_stack.has_in_select_scope(&"select") {
+                        if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
                             return Ok(());
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&"select"]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -5803,7 +5803,7 @@ where
                             ErrorKind::StartTagWithSelectOpen(tag_name.clone()),
                         ));
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&"select"]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -5841,7 +5841,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&"select"]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -6018,7 +6018,7 @@ where
                                 ErrorKind::EofWithUnclosedElements,
                             ));
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&"template"]);
+                                .pop_until_tag_name_popped(&["template"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -7559,7 +7559,7 @@ where
 
         // 1. Generate implied end tags, except for p elements.
         self.open_elements_stack
-            .generate_implied_end_tags_with_exclusion(&"p");
+            .generate_implied_end_tags_with_exclusion("p");
 
         // 2. If the current node is not a p element, then this is a parse error.
         match self.open_elements_stack.items.last() {
@@ -7583,7 +7583,7 @@ where
 
         // 3. Pop elements from the stack of open elements until a p element has been
         // popped from the stack.
-        let popped = self.open_elements_stack.pop_until_tag_name_popped(&[&"p"]);
+        let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
 
         if is_close_p {
             self.update_end_tag_span(popped.as_ref(), token_and_info.span)
@@ -7609,7 +7609,7 @@ where
         // Pop elements from the stack of open elements stack until a td
         // element or a th element has been popped from the stack.
         self.open_elements_stack
-            .pop_until_tag_name_popped(&[&"td", "th"]);
+            .pop_until_tag_name_popped(&["td", "th"]);
 
         // Clear the list of active formatting elements up to the last marker.
         self.active_formatting_elements.clear_to_last_marker();

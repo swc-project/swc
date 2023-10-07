@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{
     matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
