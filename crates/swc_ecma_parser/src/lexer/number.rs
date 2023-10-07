@@ -110,9 +110,9 @@ impl<'a> Lexer<'a> {
                                     panic!("failed to parse {} into float using BigInt", val_str)
                                 });
 
-                            return self.make_legacy_octal(start, val).map(|value| {
-                                Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                            });
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, (&*raw).into())));
                         }
                     }
                 }
@@ -224,10 +224,7 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((
-            val,
-            self.atoms.borrow_mut().intern(&*raw_str),
-        )))
+        Ok(Either::Left((val, (&*raw_str).into())))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
@@ -266,15 +263,12 @@ impl<'a> Lexer<'a> {
             if l.eat(b'n') {
                 buf.push('n');
 
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    l.atoms.borrow_mut().intern(&**buf),
-                )));
+                return Ok(Either::Right((Box::new(s.into_value()), (&**buf).into())));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, l.atoms.borrow_mut().intern(&**buf))))
+            Ok(Either::Left((val, (&**buf).into())))
         })
     }
 
