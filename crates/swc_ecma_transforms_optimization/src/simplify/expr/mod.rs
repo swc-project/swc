@@ -524,19 +524,15 @@ impl SimplifyExpr {
             }
             op!("instanceof") => {
                 fn is_non_obj(e: &Expr) -> bool {
-                    match *e {
+                    match e {
                         // Non-object types are never instances.
                         Expr::Lit(Lit::Str { .. })
                         | Expr::Lit(Lit::Num(..))
                         | Expr::Lit(Lit::Null(..))
-                        | Expr::Lit(Lit::Bool(..))
-                        | Expr::Ident(Ident {
-                            sym: "undefined", ..
-                        })
-                        | Expr::Ident(Ident {
-                            sym: "Infinity", ..
-                        })
-                        | Expr::Ident(Ident { sym: "NaN", .. }) => true,
+                        | Expr::Lit(Lit::Bool(..)) => true,
+                        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
+                        Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
+                        Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
 
                         Expr::Unary(UnaryExpr {
                             op: op!("!"),
