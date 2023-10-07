@@ -2604,7 +2604,7 @@ where
 
                 let name = Ident {
                     span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value: function_name.to_ascii_lowercase(),
+                    value: function_name.to_ascii_lowercase().into(),
                     raw: Some(raw_function_name),
                 };
 
