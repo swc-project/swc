@@ -7,12 +7,7 @@ rustdocflags = ["--cfg", "docsrs"]
 rustflags    = ["-Zshare-generics=y"]
 
 [target.x86_64-unknown-linux-gnu]
-rustflags = [
-  "-C",
-  "target-feature=+sse2",
-  "-Zshare-generics=y",
-  "-Aclippy::mutable_key_type",
-]
+rustflags = ["-C", "target-feature=+sse2", "-Zshare-generics=y"]
 
 [target.aarch64-unknown-linux-gnu]
 linker = "aarch64-linux-gnu-gcc"
@@ -25,7 +20,6 @@ rustflags = [
   "-C",
   "link-arg=-lgcc",
   "-Zshare-generics=y",
-  "-Aclippy::mutable_key_type",
 ]
 
 [target.armv7-unknown-linux-gnueabihf]
@@ -33,18 +27,9 @@ linker = "arm-linux-gnueabihf-gcc"
 
 
 [target.x86_64-pc-windows-msvc]
-linker = "rust-lld"
-rustflags = [
-  "-C",
-  "target-feature=+crt-static",
-  "-Zshare-generics=y",
-  "-Aclippy::mutable_key_type",
-]
+linker    = "rust-lld"
+rustflags = ["-C", "target-feature=+crt-static", "-Zshare-generics=y"]
 
 
 [target.aarch64-pc-windows-msvc]
 linker = "rust-lld"
-
-
-[target.'cfg(all())']
-rustflags = ["-Zshare-generics=y", "-Aclippy::mutable_key_type"]
