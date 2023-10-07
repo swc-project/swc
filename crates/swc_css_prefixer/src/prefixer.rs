@@ -5,7 +5,7 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{JsWord};
 use swc_common::{collections::AHashMap, EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
@@ -804,7 +804,7 @@ impl Prefixer {
         property: &str,
         value: Option<Box<dyn 'a + Fn() -> Vec<ComponentValue>>>,
     ) {
-        if should_prefix(&property, self.env, true) && !self.is_duplicate(&property) {
+        if should_prefix(property, self.env, true) && !self.is_duplicate(property) {
             let name = DeclarationName::Ident(Ident {
                 span: DUMMY_SP,
                 value: property.into(),
@@ -845,12 +845,12 @@ impl Prefixer {
         property: &str,
         value: Box<dyn 'a + Fn() -> Vec<ComponentValue>>,
     ) {
-        if should_prefix(&property, self.env, true) {
+        if should_prefix(property, self.env, true) {
             // Use only specific prefix in prefixed at-rules or rule, i.e.
             // don't use `-moz` prefix for properties in `@-webkit-keyframes` at-rule
             if self.rule_prefix == Some(prefix) || self.rule_prefix.is_none() {
                 // Check we don't have prefixed property
-                if !self.is_duplicate(&property) {
+                if !self.is_duplicate(property) {
                     let name = DeclarationName::Ident(Ident {
                         span: DUMMY_SP,
                         value: property.into(),
