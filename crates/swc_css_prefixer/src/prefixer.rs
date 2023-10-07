@@ -16,9 +16,9 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 
 use crate::options::Options;
 
-static PREFIXES_AND_BROWSERS: Lazy<AHashMap<String, [BrowserData<Option<Version>>; 2]>> =
+static PREFIXES_AND_BROWSERS: Lazy<AHashMap<JsWord, [BrowserData<Option<Version>>; 2]>> =
     Lazy::new(|| {
-        let map: AHashMap<String, [BrowserData<Option<Version>>; 2]> =
+        let map: AHashMap<JsWord, [BrowserData<Option<Version>>; 2]> =
             serde_json::from_str(include_str!("../data/prefixes_and_browsers.json"))
                 .expect("failed to parse json");
 
