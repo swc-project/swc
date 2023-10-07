@@ -415,7 +415,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if can_be_arrow
-                && id.sym == js_word!("async")
+                && id.sym == "async"
                 && !self.input.had_line_break_before_cur()
                 && is!(self, BindingIdent)
             {
@@ -439,10 +439,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 let ident = self.parse_binding_ident()?;
-                if self.input.syntax().typescript()
-                    && ident.id.sym == js_word!("as")
-                    && !is!(self, "=>")
-                {
+                if self.input.syntax().typescript() && ident.id.sym == "as" && !is!(self, "=>") {
                     // async as type
                     let type_ann = self.in_type().parse_with(|p| p.parse_ts_type())?;
                     return Ok(Box::new(Expr::TsAs(TsAsExpr {
@@ -1158,14 +1155,14 @@ impl<I: Tokens> Parser<I> {
                         syntax_error!(
                             self,
                             self.input.cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed(js_word!("super"))
+                            SyntaxError::TsNonNullAssertionNotAllowed("super")
                         )
                     }
                     Callee::Import(..) => {
                         syntax_error!(
                             self,
                             self.input.cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed(js_word!("import"))
+                            SyntaxError::TsNonNullAssertionNotAllowed("import")
                         )
                     }
                     Callee::Expr(expr) => expr,
@@ -1451,11 +1448,7 @@ impl<I: Tokens> Parser<I> {
             return Ok((
                 Box::new(match obj {
                     Callee::Import(_) => {
-                        if let MemberProp::Ident(Ident {
-                            sym: js_word!("meta"),
-                            ..
-                        }) = prop
-                        {
+                        if let MemberProp::Ident(Ident { sym: "meta", .. }) = prop {
                             if !self.ctx().can_be_module {
                                 let span = span!(self, start);
                                 self.emit_err(span, SyntaxError::ImportMetaInScript);
@@ -1653,7 +1646,7 @@ impl<I: Tokens> Parser<I> {
             // which is left-recursive.
             let (callee, is_import) = match &*callee {
                 Expr::Ident(Ident {
-                    sym: js_word!("import"),
+                    sym: "import",
                     span,
                     ..
                 }) => (Callee::Import(Import { span: *span }), true),
@@ -2024,13 +2017,7 @@ impl<I: Tokens> Parser<I> {
         // TODO(kdy1): !this.state.containsEsc &&
 
         Ok(self.state.potential_arrow_start == Some(expr.span_lo())
-            && matches!(
-                *expr,
-                Expr::Ident(Ident {
-                    sym: js_word!("async"),
-                    ..
-                })
-            ))
+            && matches!(*expr, Expr::Ident(Ident { sym: "async", .. })))
     }
 
     /// 12.2.5 Array Initializer

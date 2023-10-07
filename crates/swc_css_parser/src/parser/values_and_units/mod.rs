@@ -52,19 +52,8 @@ where
                 "url" | "src" => {
                     return Ok(ComponentValue::Url(self.parse()?));
                 }
-                "rgb"
-                | "rgba"
-                | "hsl"
-                | "hsla"
-                | "hwb"
-                | "lab"
-                | "lch"
-                | "oklab"
-                | "oklch"
-                | "color"
-                | js_word!("device-cmyk")
-                | js_word!("color-mix")
-                | js_word!("color-contrast") => {
+                "rgb" | "rgba" | "hsl" | "hsla" | "hwb" | "lab" | "lch" | "oklab" | "oklch"
+                | "color" | "device-cmyk" | "color-mix" | "color-contrast" => {
                     return Ok(ComponentValue::Color(self.parse()?));
                 }
                 _ => {
@@ -209,19 +198,8 @@ where
         let mut values = vec![];
 
         match *function_name {
-            "calc"
-            | js_word!("-moz-calc")
-            | js_word!("-webkit-calc")
-            | "sin"
-            | "cos"
-            | "tan"
-            | "asin"
-            | "acos"
-            | "atan"
-            | "sqrt"
-            | "exp"
-            | "abs"
-            | "sign" => {
+            "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
+            | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -831,7 +809,7 @@ where
                     self.input.skip_ws();
                 }
             }
-            "hwb" | "lab" | "lch" | "oklab" | "oklch" | js_word!("device-cmyk") => {
+            "hwb" | "lab" | "lch" | "oklab" | "oklch" | "device-cmyk" => {
                 self.input.skip_ws();
 
                 let mut has_variable = false;
@@ -839,7 +817,7 @@ where
                 match cur!(self) {
                     Token::Ident { value, .. }
                         if matches_eq_ignore_ascii_case!(value, "from")
-                            && *function_name != js_word!("device-cmyk") =>
+                            && *function_name != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
@@ -949,7 +927,7 @@ where
 
                         self.input.skip_ws();
                     }
-                    js_word!("device-cmyk") => {
+                    "device-cmyk" => {
                         let cmyk_component = self.try_parse_variable_function(
                             |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
                             &mut has_variable,
@@ -1063,7 +1041,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("device-cmyk") => {
+                        "device-cmyk" => {
                             let cmyk_component = self.try_parse_variable_function(
                                 |parser, _| {
                                     Ok(Some(ComponentValue::CmykComponent(parser.parse()?)))
@@ -1226,7 +1204,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("device-cmyk") => {
+                        "device-cmyk" => {
                             let cmyk_component = self.try_parse_variable_function(
                                 |parser, _| {
                                     Ok(Some(ComponentValue::CmykComponent(parser.parse()?)))
@@ -1272,7 +1250,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(*function_name, js_word!("device-cmyk")) => {
+                            tok!("ident") if !matches!(*function_name, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -1344,12 +1322,8 @@ where
 
                                 Ok(Some(ComponentValue::DashedIdent(parser.parse()?)))
                             } else {
-                                if matches_eq_ignore_ascii_case!(
-                                    value,
-                                    "xyz",
-                                    js_word!("xyz-d50"),
-                                    js_word!("xyz-d65")
-                                ) {
+                                if matches_eq_ignore_ascii_case!(value, "xyz", "xyz-d50", "xyz-d65")
+                                {
                                     is_xyz = true
                                 } else {
                                     // There are predefined-rgb-params , but
@@ -1563,7 +1537,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(*function_name, js_word!("device-cmyk")) => {
+                            tok!("ident") if !matches!(*function_name, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_str_ignore_ascii_case("none") {
@@ -1601,7 +1575,7 @@ where
 
                 self.input.skip_ws();
             }
-            "element" | js_word!("-moz-element") => {
+            "element" | "-moz-element" => {
                 self.input.skip_ws();
 
                 let id_selector = self.try_parse_variable_function(
@@ -3260,7 +3234,7 @@ where
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {
                 match value.to_ascii_lowercase() {
-                    "e" | "pi" | "infinity" | js_word!("-infinity") | "nan" => {}
+                    "e" | "pi" | "infinity" | "-infinity" | "nan" => {}
                     _ => {
                         let span = self.input.cur_span();
 
@@ -3350,8 +3324,8 @@ pub(crate) fn is_math_function(name: &JsWord) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
         "calc",
-        js_word!("-moz-calc"),
-        js_word!("-webkit-calc"),
+        "-moz-calc",
+        "-webkit-calc",
         "sin",
         "cos",
         "tan",
@@ -3388,8 +3362,8 @@ fn is_absolute_color_base_function(name: &JsWord) -> bool {
         "oklab",
         "oklch",
         "color",
-        js_word!("color-mix"),
-        js_word!("color-contrast")
+        "color-mix",
+        "color-contrast"
     )
 }
 
@@ -3438,48 +3412,48 @@ fn is_system_color(name: &JsWord) -> bool {
         "windowframe",
         "windowtext",
         // Mozilla System Color Extensions
-        js_word!("-moz-buttondefault"),
-        js_word!("-moz-buttonhoverface"),
-        js_word!("-moz-buttonhovertext"),
-        js_word!("-moz-cellhighlight"),
-        js_word!("-moz-cellhighlighttext"),
-        js_word!("-moz-combobox"),
-        js_word!("-moz-comboboxtext"),
-        js_word!("-moz-dialog"),
-        js_word!("-moz-dialogtext"),
-        js_word!("-moz-dragtargetzone"),
-        js_word!("-moz-eventreerow"),
-        js_word!("-moz-html-cellhighlight"),
-        js_word!("-moz-html-cellhighlighttext"),
-        js_word!("-moz-mac-accentdarkestshadow"),
-        js_word!("-moz-mac-accentdarkshadow"),
-        js_word!("-moz-mac-accentface"),
-        js_word!("-moz-mac-accentlightesthighlight"),
-        js_word!("-moz-mac-accentlightshadow"),
-        js_word!("-moz-mac-accentregularhighlight"),
-        js_word!("-moz-mac-accentregularshadow"),
-        js_word!("-moz-mac-chrome-active"),
-        js_word!("-moz-mac-chrome-inactive"),
-        js_word!("-moz-mac-focusring"),
-        js_word!("-moz-mac-menuselect"),
-        js_word!("-moz-mac-menushadow"),
-        js_word!("-moz-mac-menutextselect"),
-        js_word!("-moz-menuhover"),
-        js_word!("-moz-menuhovertext"),
-        js_word!("-moz-menubartext"),
-        js_word!("-moz-menubarhovertext"),
-        js_word!("-moz-nativehyperlinktext"),
-        js_word!("-moz-oddtreerow"),
-        js_word!("-moz-win-communicationstext"),
-        js_word!("-moz-win-mediatext"),
-        js_word!("-moz-win-accentcolor"),
-        js_word!("-moz-win-accentcolortext"),
+        "-moz-buttondefault",
+        "-moz-buttonhoverface",
+        "-moz-buttonhovertext",
+        "-moz-cellhighlight",
+        "-moz-cellhighlighttext",
+        "-moz-combobox",
+        "-moz-comboboxtext",
+        "-moz-dialog",
+        "-moz-dialogtext",
+        "-moz-dragtargetzone",
+        "-moz-eventreerow",
+        "-moz-html-cellhighlight",
+        "-moz-html-cellhighlighttext",
+        "-moz-mac-accentdarkestshadow",
+        "-moz-mac-accentdarkshadow",
+        "-moz-mac-accentface",
+        "-moz-mac-accentlightesthighlight",
+        "-moz-mac-accentlightshadow",
+        "-moz-mac-accentregularhighlight",
+        "-moz-mac-accentregularshadow",
+        "-moz-mac-chrome-active",
+        "-moz-mac-chrome-inactive",
+        "-moz-mac-focusring",
+        "-moz-mac-menuselect",
+        "-moz-mac-menushadow",
+        "-moz-mac-menutextselect",
+        "-moz-menuhover",
+        "-moz-menuhovertext",
+        "-moz-menubartext",
+        "-moz-menubarhovertext",
+        "-moz-nativehyperlinktext",
+        "-moz-oddtreerow",
+        "-moz-win-communicationstext",
+        "-moz-win-mediatext",
+        "-moz-win-accentcolor",
+        "-moz-win-accentcolortext",
         // Mozilla Color Preference Extensions
-        js_word!("-moz-activehyperlinktext"),
-        js_word!("-moz-default-background-color"),
-        js_word!("-moz-default-color"),
-        js_word!("-moz-hyperlinktext"),
-        js_word!("-moz-visitedhyperlinktext")
+        "-moz-activehyperlinktext",
+        "-moz-default-background-color",
+        "-moz-default-color",
+        "-moz-hyperlinktext",
+        "-moz-visitedhyperlinktext"
     )
 }
 

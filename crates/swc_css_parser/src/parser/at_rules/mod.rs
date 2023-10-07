@@ -27,7 +27,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("color-profile") => {
+            "color-profile" => {
                 self.input.skip_ws();
 
                 let name = match cur!(self) {
@@ -64,7 +64,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("counter-style") => {
+            "counter-style" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::CounterStylePrelude(self.parse()?);
@@ -73,7 +73,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("custom-media") => {
+            "custom-media" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::CustomMediaPrelude(self.parse()?);
@@ -82,7 +82,7 @@ where
 
                 Some(prelude)
             }
-            "document" | js_word!("-moz-document") => {
+            "document" | "-moz-document" => {
                 self.input.skip_ws();
 
                 let span = self.input.cur_span();
@@ -110,7 +110,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("font-face") => {
+            "font-face" => {
                 self.input.skip_ws();
 
                 if !is!(self, EOF) {
@@ -121,7 +121,7 @@ where
 
                 None
             }
-            js_word!("font-feature-values") => {
+            "font-feature-values" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::FontFeatureValuesPrelude(self.parse()?);
@@ -130,7 +130,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("font-palette-values") => {
+            "font-palette-values" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::FontPaletteValuesPrelude(self.parse()?);
@@ -139,13 +139,8 @@ where
 
                 Some(prelude)
             }
-            "stylistic"
-            | js_word!("historical-forms")
-            | "styleset"
-            | js_word!("character-variant")
-            | "swash"
-            | "ornaments"
-            | "annotation"
+            "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
+            | "ornaments" | "annotation"
                 if self.ctx.in_font_feature_values_at_rule =>
             {
                 self.input.skip_ws();
@@ -222,11 +217,8 @@ where
 
                 Some(prelude)
             }
-            "keyframes"
-            | js_word!("-webkit-keyframes")
-            | js_word!("-moz-keyframes")
-            | js_word!("-o-keyframes")
-            | js_word!("-ms-keyframes") => {
+            "keyframes" | "-webkit-keyframes" | "-moz-keyframes" | "-o-keyframes"
+            | "-ms-keyframes" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::KeyframesPrelude(self.parse()?);
@@ -356,22 +348,22 @@ where
 
                 prelude
             }
-            js_word!("top-left-corner")
-            | js_word!("top-left")
-            | js_word!("top-center")
-            | js_word!("top-right")
-            | js_word!("top-right-corner")
-            | js_word!("bottom-left-corner")
-            | js_word!("bottom-left")
-            | js_word!("bottom-center")
-            | js_word!("bottom-right")
-            | js_word!("bottom-right-corner")
-            | js_word!("left-top")
-            | js_word!("left-middle")
-            | js_word!("left-bottom")
-            | js_word!("right-top")
-            | js_word!("right-middle")
-            | js_word!("right-bottom")
+            "top-left-corner"
+            | "top-left"
+            | "top-center"
+            | "top-right"
+            | "top-right-corner"
+            | "bottom-left-corner"
+            | "bottom-left"
+            | "bottom-center"
+            | "bottom-right"
+            | "bottom-right-corner"
+            | "left-top"
+            | "left-middle"
+            | "left-bottom"
+            | "right-top"
+            | "right-middle"
+            | "right-bottom"
                 if self.ctx.in_page_at_rule =>
             {
                 self.input.skip_ws();
@@ -402,7 +394,7 @@ where
 
                 Some(prelude)
             }
-            "viewport" | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
+            "viewport" | "-ms-viewport" | "-o-viewport" => {
                 self.input.skip_ws();
 
                 if !is!(self, EOF) {
@@ -413,7 +405,7 @@ where
 
                 None
             }
-            js_word!("starting-style") => {
+            "starting-style" => {
                 self.input.skip_ws();
 
                 if !is!(self, EOF) {
@@ -457,7 +449,7 @@ where
 
                 return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
             }
-            js_word!("color-profile") => {
+            "color-profile" => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -490,7 +482,7 @@ where
                     rule_list
                 }
             },
-            js_word!("counter-style") => {
+            "counter-style" => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -499,12 +491,12 @@ where
 
                 declaration_list
             }
-            js_word!("custom-media") => {
+            "custom-media" => {
                 let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
             }
-            "document" | js_word!("-moz-document") => match self.ctx.block_contents_grammar {
+            "document" | "-moz-document" => match self.ctx.block_contents_grammar {
                 BlockContentsGrammar::StyleBlock => {
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> =
@@ -520,7 +512,7 @@ where
                     rule_list
                 }
             },
-            js_word!("font-face") => {
+            "font-face" => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -529,7 +521,7 @@ where
 
                 declaration_list
             }
-            js_word!("font-feature-values") => {
+            "font-feature-values" => {
                 let ctx = Ctx {
                     in_font_feature_values_at_rule: true,
                     ..self.ctx
@@ -542,13 +534,8 @@ where
 
                 declaration_list
             }
-            "stylistic"
-            | js_word!("historical-forms")
-            | "styleset"
-            | js_word!("character-variant")
-            | "swash"
-            | "ornaments"
-            | "annotation"
+            "stylistic" | "historical-forms" | "styleset" | "character-variant" | "swash"
+            | "ornaments" | "annotation"
                 if self.ctx.in_font_feature_values_at_rule =>
             {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
@@ -559,7 +546,7 @@ where
 
                 declaration_list
             }
-            js_word!("font-palette-values") => {
+            "font-palette-values" => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -573,11 +560,8 @@ where
 
                 return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
             }
-            "keyframes"
-            | js_word!("-webkit-keyframes")
-            | js_word!("-moz-keyframes")
-            | js_word!("-o-keyframes")
-            | js_word!("-ms-keyframes") => {
+            "keyframes" | "-webkit-keyframes" | "-moz-keyframes" | "-o-keyframes"
+            | "-ms-keyframes" => {
                 let ctx = Ctx {
                     block_contents_grammar: BlockContentsGrammar::RuleList,
                     in_keyframes_at_rule: true,
@@ -696,22 +680,22 @@ where
 
                 declaration_list
             }
-            js_word!("top-left-corner")
-            | js_word!("top-left")
-            | js_word!("top-center")
-            | js_word!("top-right")
-            | js_word!("top-right-corner")
-            | js_word!("bottom-left-corner")
-            | js_word!("bottom-left")
-            | js_word!("bottom-center")
-            | js_word!("bottom-right")
-            | js_word!("bottom-right-corner")
-            | js_word!("left-top")
-            | js_word!("left-middle")
-            | js_word!("left-bottom")
-            | js_word!("right-top")
-            | js_word!("right-middle")
-            | js_word!("right-bottom")
+            "top-left-corner"
+            | "top-left"
+            | "top-center"
+            | "top-right"
+            | "top-right-corner"
+            | "bottom-left-corner"
+            | "bottom-left"
+            | "bottom-center"
+            | "bottom-right"
+            | "bottom-right-corner"
+            | "left-top"
+            | "left-middle"
+            | "left-bottom"
+            | "right-top"
+            | "right-middle"
+            | "right-bottom"
                 if self.ctx.in_page_at_rule =>
             {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
@@ -747,7 +731,7 @@ where
                     rule_list
                 }
             },
-            "viewport" | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
+            "viewport" | "-ms-viewport" | "-o-viewport" => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -756,7 +740,7 @@ where
 
                 declaration_list
             }
-            js_word!("starting-style") => {
+            "starting-style" => {
                 let rule_list = self.parse_as::<Vec<Rule>>()?;
                 let rule_list: Vec<ComponentValue> =
                     rule_list.into_iter().map(ComponentValue::from).collect();

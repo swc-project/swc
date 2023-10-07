@@ -878,7 +878,7 @@ where
                             children
                                 .push(PseudoClassSelectorChildren::ComplexSelector(selector_list));
                         }
-                        js_word!("-moz-any") | js_word!("-webkit-any") => {
+                        "-moz-any" | "-webkit-any" => {
                             self.input.skip_ws();
 
                             let compound_selector_list = self.parse()?;
@@ -983,12 +983,8 @@ where
                                 ),
                             );
                         }
-                        js_word!("nth-child")
-                        | js_word!("nth-last-child")
-                        | js_word!("nth-of-type")
-                        | js_word!("nth-last-of-type")
-                        | js_word!("nth-col")
-                        | js_word!("nth-last-col") => {
+                        "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
+                        | "nth-col" | "nth-last-col" => {
                             self.input.skip_ws();
 
                             let an_plus_b = self.parse()?;
@@ -1014,7 +1010,7 @@ where
                                     .push(PseudoClassSelectorChildren::SelectorList(selector_list));
                             }
                         }
-                        "host" | js_word!("host-context") => {
+                        "host" | "host-context" => {
                             self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
@@ -1107,7 +1103,7 @@ where
                     let mut children = vec![];
 
                     match names.0 {
-                        "cue" | js_word!("cue-region") => {
+                        "cue" | "cue-region" => {
                             self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
