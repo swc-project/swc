@@ -23,7 +23,7 @@ impl Optimizer<'_> {
                 if e.left.is_ident() && e.left.eq_ignore_span(&e.right) {
                     let id: Ident = e.left.clone().ident().unwrap();
                     if let Some(t) = self.typeofs.get(&id.to_id()) {
-                        match *t {
+                        match &**t {
                             "object" | "function" => {
                                 e.left = Box::new(make_bool(
                                     e.span,
