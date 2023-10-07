@@ -3,7 +3,7 @@ use either::Either;
 use swc_atoms::{atom, js_word};
 
 use super::*;
-use crate::token::Keyword;
+use crate::token::{IdentLike, Keyword};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
@@ -152,16 +152,18 @@ impl<I: Tokens> Parser<I> {
                 Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
-                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok("this"),
-                Word::Keyword(Keyword::Let) => Ok("let"),
+                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok(atom!("this")),
+                Word::Keyword(Keyword::Let) => Ok(atom!("let")),
                 Word::Ident(ident) => {
-                    if ident == "arguments" && p.ctx().in_class_field {
+                    if matches!(&ident, IdentLike::Other(arguments) if &*arguments == "arguments")
+                        && p.ctx().in_class_field
+                    {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }
                     Ok(ident)
                 }
-                Word::Keyword(Keyword::Yield) if incl_yield => Ok("yield"),
-                Word::Keyword(Keyword::Await) if incl_await => Ok("await"),
+                Word::Keyword(Keyword::Yield) if incl_yield => Ok(atom!("yield")),
+                Word::Keyword(Keyword::Await) if incl_await => Ok(atom!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }
