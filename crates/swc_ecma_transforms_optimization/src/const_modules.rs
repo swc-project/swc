@@ -127,7 +127,7 @@ impl VisitMut for ConstModules {
                                 let imported = &s.local.sym;
                                 let default_import_key = "default";
                                 let value =
-                                    entry.get(&default_import_key).cloned().unwrap_or_else(|| {
+                                    entry.get(default_import_key).cloned().unwrap_or_else(|| {
                                         panic!(
                                             "The requested const_module `{}` does not provide \
                                              default export",
