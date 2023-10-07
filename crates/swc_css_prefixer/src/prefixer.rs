@@ -555,8 +555,8 @@ impl VisitMut for CalcReplacer<'_> {
             return;
         }
 
-        if (is_webkit_calc && self.to == Some(&"-moz-calc"))
-            || (is_moz_calc && self.to == Some(&"-webkit-calc"))
+        if (is_webkit_calc && self.to == Some("-moz-calc"))
+            || (is_moz_calc && self.to == Some("-webkit-calc"))
         {
             return;
         }
@@ -1530,7 +1530,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-webkit-calc()", self.env, false) {
-                replace_calc(&mut webkit_value, Some(&"-webkit-calc"));
+                replace_calc(&mut webkit_value, Some("-webkit-calc"));
             }
 
             if should_prefix("-webkit-cross-fade()", self.env, false) {
@@ -1586,7 +1586,7 @@ impl VisitMut for Prefixer {
             }
 
             if should_prefix("-moz-calc()", self.env, false) {
-                replace_calc(&mut moz_value, Some(&"-moz-calc"));
+                replace_calc(&mut moz_value, Some("-moz-calc"));
             }
 
             if should_prefix("-moz-linear-gradient()", self.env, false) {
@@ -1766,7 +1766,7 @@ impl VisitMut for Prefixer {
 
             "background-clip" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if ident.value.eq_ignore_ascii_case(&"text") {
+                    if ident.value.eq_ignore_ascii_case("text") {
                         add_declaration!(Prefix::Webkit, "-webkit-background-clip", None);
                     }
                 }
@@ -1940,8 +1940,8 @@ impl VisitMut for Prefixer {
                         Some(ComponentValue::Ident(second)),
                     ) = (n.value.get(0), n.value.get(1))
                     {
-                        match (&first.value, &second.value) {
-                            (&"block", &"flow") | (&"flow", &"block") => {
+                        match (&*first.value, &*second.value) {
+                            ("block", "flow") | ("flow", "block") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -1949,7 +1949,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"block", &"flow-root") | (&"flow-root", &"block") => {
+                            ("block", "flow-root") | ("flow-root", "block") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -1957,7 +1957,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"inline", &"flow") | (&"flow", &"inline") => {
+                            ("inline", "flow") | ("flow", "inline") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -1965,7 +1965,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"inline", &"flow-root") | (&"flow-root", &"inline") => {
+                            ("inline", "flow-root") | ("flow-root", "inline") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -1973,7 +1973,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"run-in", &"flow") | (&"flow", &"run-in") => {
+                            ("run-in", "flow") | ("flow", "run-in") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -1981,7 +1981,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"block", &"flex") | (&"flex", &"block") => {
+                            ("block", "flex") | ("flex", "block") => {
                                 let mut declaration = Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -1993,7 +1993,7 @@ impl VisitMut for Prefixer {
 
                                 self.added_declarations.push(Box::new(declaration));
                             }
-                            (&"inline", &"flex") | (&"flex", &"inline") => {
+                            ("inline", "flex") | ("flex", "inline") => {
                                 let mut declaration = Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2005,7 +2005,7 @@ impl VisitMut for Prefixer {
 
                                 self.added_declarations.push(Box::new(declaration));
                             }
-                            (&"block", &"grid") | (&"grid", &"block") => {
+                            ("block", "grid") | ("grid", "block") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2013,7 +2013,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"inline", &"grid") | (&"grid", &"inline") => {
+                            ("inline", "grid") | ("grid", "inline") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2021,7 +2021,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"inline", &"ruby") | (&"ruby", &"inline") => {
+                            ("inline", "ruby") | ("ruby", "inline") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2029,7 +2029,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"block", &"table") | (&"table", &"block") => {
+                            ("block", "table") | ("table", "block") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2037,7 +2037,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"inline", &"table") | (&"table", &"inline") => {
+                            ("inline", "table") | ("table", "inline") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2045,7 +2045,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"table-cell", &"flow") | (&"flow", &"table-cell") => {
+                            ("table-cell", "flow") | ("flow", "table-cell") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2053,7 +2053,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"table-caption", &"flow") | (&"flow", &"table-caption") => {
+                            ("table-caption", "flow") | ("flow", "table-caption") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2061,7 +2061,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"ruby-base", &"flow") | (&"flow", &"ruby-base") => {
+                            ("ruby-base", "flow") | ("flow", "ruby-base") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2069,7 +2069,7 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"ruby-text", &"flow") | (&"flow", &"ruby-text") => {
+                            ("ruby-text", "flow") | ("flow", "ruby-text") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2090,12 +2090,12 @@ impl VisitMut for Prefixer {
                     ) = (n.value.get(0), n.value.get(1), n.value.get(2))
                     {
                         match (&first.value, &second.value, &third.value) {
-                            (&"list-item", &"block", &"flow")
-                            | (&"list-item", &"flow", &"block")
-                            | (&"block", &"list-item", &"flow")
-                            | (&"block", &"flow", &"list-item")
-                            | (&"flow", &"block", &"list-item")
-                            | (&"flow", &"list-item", &"block") => {
+                            ("list-item", "block", "flow")
+                            | ("list-item", "flow", "block")
+                            | ("block", "list-item", "flow")
+                            | ("block", "flow", "list-item")
+                            | ("flow", "block", "list-item")
+                            | ("flow", "list-item", "block") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2103,12 +2103,12 @@ impl VisitMut for Prefixer {
                                     important: n.important.clone(),
                                 }));
                             }
-                            (&"inline", &"flow", &"list-item")
-                            | (&"inline", &"list-item", &"flow")
-                            | (&"flow", &"inline", &"list-item")
-                            | (&"flow", &"list-item", &"inline")
-                            | (&"list-item", &"flow", &"inline")
-                            | (&"list-item", &"inline", &"flow") => {
+                            ("inline", "flow", "list-item")
+                            | ("inline", "list-item", "flow")
+                            | ("flow", "inline", "list-item")
+                            | ("flow", "list-item", "inline")
+                            | ("list-item", "flow", "inline")
+                            | ("list-item", "inline", "flow") => {
                                 self.added_declarations.push(Box::new(Declaration {
                                     span: n.span,
                                     name: n.name.clone(),
@@ -2125,7 +2125,7 @@ impl VisitMut for Prefixer {
             "flex" => {
                 let spec_2009_value = match n.value.get(0) {
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.eq_ignore_ascii_case(&"none") =>
+                        if ident.value.eq_ignore_ascii_case("none") =>
                     {
                         Some(ComponentValue::Integer(Box::new(Integer {
                             span: ident.span,
@@ -2134,7 +2134,7 @@ impl VisitMut for Prefixer {
                         })))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.eq_ignore_ascii_case(&"auto") =>
+                        if ident.value.eq_ignore_ascii_case("auto") =>
                     {
                         Some(ComponentValue::Integer(Box::new(Integer {
                             span: ident.span,
@@ -2226,22 +2226,22 @@ impl VisitMut for Prefixer {
             "flex-direction" => {
                 let old_values = match n.value.get(0) {
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.eq_ignore_ascii_case(&"row") =>
+                        if ident.value.eq_ignore_ascii_case("row") =>
                     {
                         Some(("horizontal", "normal"))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.eq_ignore_ascii_case(&"column") =>
+                        if ident.value.eq_ignore_ascii_case("column") =>
                     {
                         Some(("vertical", "normal"))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.eq_ignore_ascii_case(&"row-reverse") =>
+                        if ident.value.eq_ignore_ascii_case("row-reverse") =>
                     {
                         Some(("horizontal", "reverse"))
                     }
                     Some(ComponentValue::Ident(ident))
-                        if ident.value.eq_ignore_ascii_case(&"column-reverse") =>
+                        if ident.value.eq_ignore_ascii_case("column-reverse") =>
                     {
                         Some(("vertical", "reverse"))
                     }
@@ -2296,22 +2296,22 @@ impl VisitMut for Prefixer {
                     _ => {
                         let get_old_values = |index: usize| match n.value.get(index) {
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.eq_ignore_ascii_case(&"row") =>
+                                if ident.value.eq_ignore_ascii_case("row") =>
                             {
                                 Some(("horizontal", "normal"))
                             }
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.eq_ignore_ascii_case(&"column") =>
+                                if ident.value.eq_ignore_ascii_case("column") =>
                             {
                                 Some(("vertical", "normal"))
                             }
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.eq_ignore_ascii_case(&"row-reverse") =>
+                                if ident.value.eq_ignore_ascii_case("row-reverse") =>
                             {
                                 Some(("horizontal", "reverse"))
                             }
                             Some(ComponentValue::Ident(ident))
-                                if ident.value.eq_ignore_ascii_case(&"column-reverse") =>
+                                if ident.value.eq_ignore_ascii_case("column-reverse") =>
                             {
                                 Some(("vertical", "reverse"))
                             }
@@ -2356,7 +2356,7 @@ impl VisitMut for Prefixer {
             "justify-content" => {
                 let need_old_spec = !matches!(
                     n.value.get(0),
-                    Some(ComponentValue::Ident(box Ident { value, .. })) if value.eq_ignore_ascii_case(&"space-around")
+                    Some(ComponentValue::Ident(box Ident { value, .. })) if value.eq_ignore_ascii_case("space-around")
                 );
 
                 if need_old_spec {
@@ -2880,7 +2880,7 @@ impl VisitMut for Prefixer {
 
             "text-size-adjust" if n.value.len() == 1 => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    if ident.value.eq_ignore_ascii_case(&"none") {
+                    if ident.value.eq_ignore_ascii_case("none") {
                         add_declaration!(Prefix::Webkit, "-webkit-text-size-adjust", None);
                         add_declaration!(Prefix::Moz, "-moz-text-size-adjust", None);
                         add_declaration!(Prefix::Ms, "-ms-text-size-adjust", None);
@@ -2977,12 +2977,12 @@ impl VisitMut for Prefixer {
                         .rev()
                         .find(|declaration| {
                             matches!(declaration, ComponentValue::Declaration(box Declaration { name: DeclarationName::Ident(Ident { value, .. }), .. })
-                                if value.eq_ignore_ascii_case(&"direction"))
+                                if value.eq_ignore_ascii_case("direction"))
                         }) {
                         Some(ComponentValue::Declaration(box Declaration { value, .. })) => {
                             match value.get(0) {
                                 Some(ComponentValue::Ident(ident))
-                                if ident.value.eq_ignore_ascii_case(&"rtl") =>
+                                if ident.value.eq_ignore_ascii_case("rtl") =>
                                     {
                                         Some("rtl")
                                     }

@@ -327,7 +327,7 @@ where
         }
 
         if let DeclarationName::Ident(name) = &n.name {
-            match name.value {
+            match &*name.value {
                 "animation" => {
                     let mut can_change = true;
 
@@ -346,7 +346,7 @@ where
                                     continue;
                                 }
 
-                                match *value {
+                                match &**value {
                                     // iteration-count
                                     "infinite" => {
                                         if !iteration_count_visited {
@@ -404,7 +404,7 @@ where
                             }
                             ComponentValue::Function(f) => {
                                 if let FunctionName::Ident(ident) = &f.name {
-                                    match ident.value {
+                                    match &*ident.value {
                                         // easing-function
                                         "steps" | "cubic-bezier" | "linear" => {
                                             easing_function_visited = true;
