@@ -387,7 +387,7 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &JsWord) {
+    pub fn generate_implied_end_tags_with_exclusion(&mut self, tag_name: &str) {
         while let Some(node) = self.items.last() {
             if is_html_element_with_tag_name!(node, tag_name) {
                 break;
