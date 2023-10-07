@@ -220,7 +220,7 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident { sym: "String", .. }) => {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "String" => {
                     if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
@@ -252,7 +252,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident { sym: "Object", .. }) => {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
