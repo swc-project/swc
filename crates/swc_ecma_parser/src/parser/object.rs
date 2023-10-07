@@ -1,6 +1,5 @@
 //! Parser for object literal.
 
-use swc_atoms::js_word;
 use swc_common::Spanned;
 
 use super::*;

@@ -1,6 +1,6 @@
 //! 12.1 Identifiers
 use either::Either;
-use swc_atoms::{atom, js_word};
+use swc_atoms::atom;
 
 use super::*;
 use crate::token::{IdentLike, Keyword};
