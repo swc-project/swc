@@ -1268,7 +1268,7 @@ impl Compressor {
             return;
         };
 
-        match *name {
+        match &**name {
             "background-clip" | "mask-clip" | "mask-origin" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
@@ -1276,7 +1276,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"border-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1289,7 +1289,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"transparent") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1302,7 +1302,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"padding-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1322,7 +1322,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1347,7 +1347,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"currentcolor") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1360,7 +1360,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1373,7 +1373,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"content-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1386,7 +1386,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"canvastext") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1406,7 +1406,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1419,7 +1419,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"from-image") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1432,7 +1432,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"match-source") && declaration.value.len() == 1 {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1445,7 +1445,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"luminance") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1458,7 +1458,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"space-around") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1471,7 +1471,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1484,7 +1484,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"alternate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1502,7 +1502,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1515,7 +1515,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"view-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1545,7 +1545,7 @@ impl Compressor {
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1558,7 +1558,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"baseline") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
@@ -1571,7 +1571,7 @@ impl Compressor {
                     if value.eq_ignore_ascii_case(&"horizontal-tb") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "initial",
+                            value: "initial".into(),
                             raw: None,
                         }))];
                     }
