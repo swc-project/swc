@@ -126,12 +126,12 @@ impl<I: Tokens> Parser<I> {
 
                 Word::Ident(
                     ref name @ ident_like!("static")
-                    | ident_like!("implements")
-                    | ident_like!("interface")
-                    | ident_like!("package")
-                    | ident_like!("private")
-                    | ident_like!("protected")
-                    | ident_like!("public"),
+                    | ref name @ ident_like!("implements")
+                    | ref name @ ident_like!("interface")
+                    | ref name @ ident_like!("package")
+                    | ref name @ ident_like!("private")
+                    | ref name @ ident_like!("protected")
+                    | ref name @ ident_like!("public"),
                 ) => {
                     p.emit_strict_mode_err(
                         p.input.prev_span(),
