@@ -1,6 +1,6 @@
 use std::{borrow::Cow, mem::take};
 
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};

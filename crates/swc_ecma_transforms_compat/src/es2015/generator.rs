@@ -6,7 +6,7 @@ use std::{
 };
 
 use is_macro::Is;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
     SyntaxContext, DUMMY_SP,

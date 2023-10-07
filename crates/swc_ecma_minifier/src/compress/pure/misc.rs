@@ -1036,10 +1036,7 @@ impl Pure<'_> {
                     prop: MemberProp::Ident(prop),
                     ..
                 }) => {
-                    if let Expr::Ident(Ident {
-                        sym: "arguments", ..
-                    }) = &**obj
-                    {
+                    if obj.is_ident_ref_to("arguments") {
                         if &*prop.sym == "callee" {
                             return;
                         }
