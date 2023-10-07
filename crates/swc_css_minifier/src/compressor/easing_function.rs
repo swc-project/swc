@@ -10,7 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name == &js_word!("cubic-bezier") && function_value.len() == 7 => {
+            }) if name == &"cubic-bezier" && function_value.len() == 7 => {
                 if let (
                     first,
                     second,
@@ -29,7 +29,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: js_word!("linear"),
+                            value: "linear",
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(box Number { value, .. }) if *value == 0.25)
@@ -39,7 +39,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: js_word!("ease"),
+                            value: "ease",
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(box Number { value: first, .. }) if *first == 0.42)
@@ -49,7 +49,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: js_word!("ease-in"),
+                            value: "ease-in",
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Integer(box Integer { value: first, .. }) if *first == 0)
@@ -59,7 +59,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: js_word!("ease-out"),
+                            value: "ease-out",
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(box Number { value: first, .. }) if *first == 0.42)
@@ -69,7 +69,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: js_word!("ease-in-out"),
+                            value: "ease-in-out",
                             raw: None,
                         }))
                     }
@@ -79,7 +79,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name == &js_word!("steps") && function_value.len() == 3 => {
+            }) if name == &"steps" && function_value.len() == 3 => {
                 match (&function_value[0], &function_value[2]) {
                     (
                         ComponentValue::Integer(box Integer {
@@ -90,17 +90,17 @@ impl Compressor {
                             value: ident_value, ..
                         }),
                     ) if *number_value == 1 => match ident_value.to_ascii_lowercase() {
-                        js_word!("start") | js_word!("jump-start") => {
+                        "start" | "jump-start" => {
                             *component_value = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: js_word!("step-start"),
+                                value: "step-start",
                                 raw: None,
                             }))
                         }
-                        js_word!("end") | js_word!("jump-end") => {
+                        "end" | "jump-end" => {
                             *component_value = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: js_word!("step-end"),
+                                value: "step-end",
                                 raw: None,
                             }))
                         }
@@ -111,10 +111,10 @@ impl Compressor {
                         ComponentValue::Ident(box Ident {
                             value: ident_value, ..
                         }),
-                    ) if ident_value.eq_ignore_ascii_case(&js_word!("jump-start")) => {
+                    ) if ident_value.eq_ignore_ascii_case(&"jump-start") => {
                         function_value[2] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: js_word!("start"),
+                            value: "start",
                             raw: None,
                         }))
                     }
@@ -124,7 +124,7 @@ impl Compressor {
                             value: ident_value, ..
                         }),
                     ) => match ident_value.to_ascii_lowercase() {
-                        js_word!("end") | js_word!("jump-end") => {
+                        "end" | "jump-end" => {
                             *function_value = vec![ComponentValue::Integer(number.clone())];
                         }
                         _ => {}

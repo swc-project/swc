@@ -329,14 +329,7 @@ impl Compressor {
             _ => return false,
         };
 
-        matches!(
-            *name,
-            js_word!("media")
-                | js_word!("supports")
-                | js_word!("container")
-                | js_word!("layer")
-                | js_word!("nest")
-        )
+        matches!(*name, "media" | "supports" | "container" | "layer" | "nest")
     }
 
     fn try_merge_at_rule(&mut self, left: &mut AtRule, right: &mut AtRule) -> Option<AtRule> {
@@ -645,5 +638,5 @@ impl Compressor {
 
 #[inline]
 fn need_keep_by_name(name: &JsWord) -> bool {
-    *name == js_word!("color-profile")
+    *name == "color-profile"
 }

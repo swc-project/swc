@@ -121,7 +121,7 @@ macro_rules! make_color {
                     span: $span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: js_word!("rgba"),
+                        value: "rgba",
                         raw: None,
                     }),
                     value: vec![
@@ -247,7 +247,7 @@ impl Compressor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case(&"none") =>
             {
                 Some(0.0)
             }
@@ -277,7 +277,7 @@ impl Compressor {
                 Some(value)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case(&"none") =>
             {
                 Some(0.0)
             }
@@ -300,7 +300,7 @@ impl Compressor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case(&"none") =>
             {
                 Some(0.0)
             }
@@ -335,7 +335,7 @@ impl Compressor {
                 Some((2.55 * *value).round())
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case(&"none") =>
             {
                 Some(0.0)
             }
@@ -352,7 +352,7 @@ impl Compressor {
                 span,
                 ..
             })) => match value.to_ascii_lowercase() {
-                js_word!("transparent") => {
+                "transparent" => {
                     *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
                 name => {
@@ -387,7 +387,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if name == &js_word!("rgb") || name == &js_word!("rgba") => {
+            })) if name == &"rgb" || name == &"rgba" => {
                 let rgba: Vec<_> = value
                     .iter()
                     .filter(|n| {
@@ -425,7 +425,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if name == &js_word!("hsl") || name == &js_word!("hsla") => {
+            })) if name == &"hsl" || name == &"hsla" => {
                 let hsla: Vec<_> = value
                     .iter()
                     .filter(|n| {
@@ -465,7 +465,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if name == &js_word!("hwb") => {
+            })) if name == &"hwb" => {
                 let h = match self.get_hue(value.get(0).as_ref()) {
                     Some(value) => value,
                     _ => return,
