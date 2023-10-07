@@ -164,7 +164,7 @@ impl Optimizer<'_> {
         }
 
         match &**callee {
-            Expr::Ident(Ident { sym: "RegExp", .. }) if self.options.unsafe_regexp => {
+            Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" && self.options.unsafe_regexp => {
                 if !args.is_empty() {
                     self.optimize_expr_in_str_ctx(&mut args[0].expr);
                 }

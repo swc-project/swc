@@ -116,15 +116,13 @@ impl Optimizer<'_> {
         fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
-                    Expr::Lit(Lit::Str(Str {
-                        value: "undefined", ..
-                    })),
+                    Expr::Lit(Lit::Str(Str { value: l_v, .. })),
                     Expr::Unary(UnaryExpr {
                         op: op!("typeof"),
                         arg,
                         ..
                     }),
-                ) => {
+                ) if &**l_v == "undefined" => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
                         if let Some(usage) = o.data.vars.get(&arg.to_id()) {
