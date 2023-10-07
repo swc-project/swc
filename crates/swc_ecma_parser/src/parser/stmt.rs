@@ -412,7 +412,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
-            match *sym {
+            match &**sym {
                 "enum" | "interface" => {
                     self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
                 }
@@ -422,7 +422,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.syntax().typescript() {
             if let Expr::Ident(ref i) = *expr {
-                match i.sym {
+                match &*i.sym {
                     "public" | "static" | "abstract" => {
                         if eat!(self, "interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
