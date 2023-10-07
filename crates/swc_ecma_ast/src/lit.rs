@@ -5,7 +5,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{js_word, Atom};
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::jsx::JSXText;
@@ -52,7 +52,7 @@ bridge_expr_from!(Lit, Null);
 bridge_expr_from!(Lit, JSXText);
 
 bridge_lit_from!(Str, &'_ str);
-bridge_lit_from!(Str, JsWord);
+bridge_lit_from!(Str, Atom);
 bridge_lit_from!(Str, Atom);
 bridge_lit_from!(Str, Cow<'_, str>);
 bridge_lit_from!(Str, String);
@@ -163,8 +163,8 @@ impl From<BigIntValue> for BigInt {
 pub struct Str {
     pub span: Span,
 
-    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeJsWord))]
-    pub value: JsWord,
+    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeAtom))]
+    pub value: Atom,
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
@@ -206,9 +206,9 @@ impl EqIgnoreSpan for Str {
     }
 }
 
-impl From<JsWord> for Str {
+impl From<Atom> for Str {
     #[inline]
-    fn from(value: JsWord) -> Self {
+    fn from(value: Atom) -> Self {
         Str {
             span: DUMMY_SP,
             value,
@@ -217,9 +217,9 @@ impl From<JsWord> for Str {
     }
 }
 
-bridge_from!(Str, JsWord, &'_ str);
-bridge_from!(Str, JsWord, String);
-bridge_from!(Str, JsWord, Cow<'_, str>);
+bridge_from!(Str, Atom, &'_ str);
+bridge_from!(Str, Atom, String);
+bridge_from!(Str, Atom, Cow<'_, str>);
 
 /// A boolean literal.
 ///

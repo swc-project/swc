@@ -192,7 +192,7 @@ macro_rules! test_de {
 /// - `$bridge` must implement `From<$src>`.
 ///
 ///
-/// e.g. For `&str` -> `Box<Expr>`, we convert it by `&str` -> `JsWord` -> `Str`
+/// e.g. For `&str` -> `Box<Expr>`, we convert it by `&str` -> `Atom` -> `Str`
 /// -> `Lit` -> `Expr` -> `Box<Expr>`.
 macro_rules! bridge_from {
     ($dst:ty, $bridge:ty, $src:ty) => {
