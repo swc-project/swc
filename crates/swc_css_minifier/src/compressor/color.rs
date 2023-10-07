@@ -247,7 +247,7 @@ impl Compressor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -356,7 +356,7 @@ impl Compressor {
                     *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
                 name => {
-                    if let Some(value) = NAMED_COLORS.get(&name) {
+                    if let Some(value) = NAMED_COLORS.get(name) {
                         *color = make_color!(
                             *span,
                             value.rgb[0] as f64,
