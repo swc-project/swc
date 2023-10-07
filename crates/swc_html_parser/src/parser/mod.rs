@@ -2669,7 +2669,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements("html"),
+                                    ErrorKind::EndTagWithUnclosedElements(js_word!("html")),
                                 ));
 
                                 break;
