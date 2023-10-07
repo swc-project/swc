@@ -1166,7 +1166,7 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &JsWord) -> bool {
     }
 
     matches!(
-        *tag_name,
+        &**tag_name,
         "a" | "abbr"
             | "acronym"
             | "address"
