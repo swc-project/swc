@@ -3948,7 +3948,7 @@ where
                     // parse error.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "rb" | "rtc") => {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "rb" | "rtc") => {
                         let is_scope = self.open_elements_stack.has_in_scope(&"ruby");
 
                         if is_scope {
@@ -3981,7 +3981,7 @@ where
                     // rtc element or a ruby element, this is a parse error.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "rp" | "rt") => {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "rp" | "rt") => {
                         let in_scope = self.open_elements_stack.has_in_scope(&"ruby");
 
                         if in_scope {
@@ -4083,7 +4083,7 @@ where
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption"
                                 | "col"
                                 | "colgroup"
@@ -4480,7 +4480,7 @@ where
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // table body".
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "tbody" | "tfoot" | "thead") =>
+                        if matches!(&**tag_name, "tbody" | "tfoot" | "thead") =>
                     {
                         self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(token_and_info)?;
@@ -4494,7 +4494,9 @@ where
                     // switch the insertion mode to "in table body".
                     //
                     // Reprocess the current token.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "td" | "th" | "tr") => {
+                    Token::StartTag { tag_name, .. }
+                        if matches!(&**tag_name, "td" | "th" | "tr") =>
+                    {
                         self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(
                             &mut self.create_fake_token_and_info("tbody", None),
@@ -4566,7 +4568,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "body"
                                 | "caption"
                                 | "col"
@@ -4591,7 +4593,7 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "style" | "script" | "template") =>
+                        if matches!(&**tag_name, "style" | "script" | "template") =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
@@ -4840,7 +4842,7 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption"
                                 | "col"
                                 | "colgroup"
