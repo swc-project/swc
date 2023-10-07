@@ -60,19 +60,6 @@ macro_rules! define_known_ident {
                 }
             }
         }
-
-        impl std::convert::TryFrom<&JsWord> for KnownIdent {
-            type Error = ();
-
-            fn try_from(value: &JsWord) -> Result<Self, Self::Error> {
-                match *value {
-                    $(
-                        js_word!($value) => Ok(Self::$name),
-                    )*
-                    _ => Err(()),
-                }
-            }
-        }
     };
 }
 

@@ -390,7 +390,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
-            if *ident.sym == "interface" && self.input.had_line_break_before_cur() {
+            if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
                     ident.span,
                     SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
