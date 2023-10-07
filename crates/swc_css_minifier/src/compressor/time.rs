@@ -5,7 +5,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_time(&self, time: &mut Time) {
-        match time.unit.value {
+        match &*time.unit.value {
             "ms" if time.value.value == 0.0 || time.value.value >= 100.0 => {
                 let new_value = time.value.value / 1000.0;
 
@@ -16,7 +16,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: "s",
+                    value: "s".into(),
                     raw: None,
                 };
             }
@@ -30,7 +30,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: "ms",
+                    value: "ms".into(),
                     raw: None,
                 };
             }
