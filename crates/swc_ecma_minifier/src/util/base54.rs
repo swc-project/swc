@@ -2,7 +2,7 @@ use std::{cmp::Reverse, io, ops::AddAssign};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError, SyntaxContext,
 };

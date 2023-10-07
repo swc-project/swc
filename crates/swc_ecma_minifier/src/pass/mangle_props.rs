@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
 use once_cell::sync::Lazy;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,

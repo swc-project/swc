@@ -2,7 +2,7 @@ use std::mem::take;
 
 use indexmap::IndexMap;
 use smallvec::SmallVec;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet},
