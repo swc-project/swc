@@ -13,11 +13,8 @@ impl<I> Parser<I>
 where
     I: ParserInput,
 {
-    pub(super) fn parse_at_rule_prelude(
-        &mut self,
-        name: &JsWord,
-    ) -> PResult<Option<AtRulePrelude>> {
-        let prelude = match &**name {
+    pub(super) fn parse_at_rule_prelude(&mut self, name: &str) -> PResult<Option<AtRulePrelude>> {
+        let prelude = match name {
             "charset" => {
                 self.input.skip_ws();
 
@@ -442,8 +439,8 @@ where
         Ok(prelude)
     }
 
-    pub(super) fn parse_at_rule_block(&mut self, name: &JsWord) -> PResult<Vec<ComponentValue>> {
-        let block_contents = match &**name {
+    pub(super) fn parse_at_rule_block(&mut self, name: &str) -> PResult<Vec<ComponentValue>> {
+        let block_contents = match name {
             "charset" => {
                 let span = self.input.cur_span();
 
