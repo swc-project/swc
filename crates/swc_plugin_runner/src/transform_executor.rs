@@ -124,7 +124,7 @@ impl PluginTransformState {
         // https://github.com/wasmerio/wasmer/discussions/3966
         // [NOTE]: this is not a critical as plugin does not have things to clean up
         // in most cases
-        if let Some(wasi_env) = &self.wasi_env {
+        if let Some(_wasi_env) = &self.wasi_env {
             //wasi_env.cleanup(&mut self.store, None);
         }
 
