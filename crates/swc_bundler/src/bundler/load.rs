@@ -364,7 +364,7 @@ where
                         }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
-                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                            alias: Some(Id::new(default, s.span.ctxt())),
                         }),
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {
@@ -432,11 +432,7 @@ impl Visit for Es6ModuleDetector {
 
         match &e.callee {
             Callee::Expr(e) => {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("require"),
-                    ..
-                }) = &**e
-                {
+                if let Expr::Ident(Ident { sym: require, .. }) = &**e {
                     self.found_other = true;
                 }
             }
