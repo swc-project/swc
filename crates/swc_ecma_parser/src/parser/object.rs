@@ -264,7 +264,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // set a(v){}
         // async a(){}
 
-        match ident.sym {
+        match &*ident.sym {
             "get" | "set" | "async" => {
                 trace_cur!(self, parse_object_prop__after_accessor);
 
@@ -281,7 +281,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                     ..self.ctx()
                 })
                 .parse_with(|parser| {
-                    match ident.sym {
+                    match &*ident.sym {
                         "get" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal

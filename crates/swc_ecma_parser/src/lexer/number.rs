@@ -62,7 +62,7 @@ impl<'a> Lexer<'a> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((Box::new(s.into_value()), raw.into())));
+                return Ok(Either::Right((Box::new(s.into_value()), (&*raw).into())));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -81,9 +81,9 @@ impl<'a> Lexer<'a> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self.make_legacy_octal(start, 0f64).map(|value| {
-                            Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                        });
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, (&*raw).into())));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
