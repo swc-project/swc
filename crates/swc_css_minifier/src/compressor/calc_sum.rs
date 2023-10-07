@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+
 use swc_common::{collections::AHashMap, Span};
 use swc_css_ast::*;
 

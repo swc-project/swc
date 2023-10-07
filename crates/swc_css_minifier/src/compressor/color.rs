@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{JsWord};
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
@@ -277,7 +277,7 @@ impl Compressor {
                 Some(value)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -300,7 +300,7 @@ impl Compressor {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -335,7 +335,7 @@ impl Compressor {
                 Some((2.55 * *value).round())
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&"none") =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }

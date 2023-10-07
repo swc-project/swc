@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_css_ast::*;
 
 use super::Compressor;

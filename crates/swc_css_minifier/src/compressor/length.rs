@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -139,7 +139,7 @@ impl Compressor {
         match &*length.unit.value {
             "cm" => {
                 if value % 2.54 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"in");
+                    let new_value = self.convert_length(value, &length.unit.value, "in");
 
                     length.value = Number {
                         span: length.value.span,
@@ -152,7 +152,7 @@ impl Compressor {
                         raw: None,
                     };
                 } else if value <= 0.1 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"mm");
+                    let new_value = self.convert_length(value, &length.unit.value, "mm");
 
                     length.value = Number {
                         span: length.value.span,
@@ -168,7 +168,7 @@ impl Compressor {
             }
             "mm" => {
                 if value % 25.4 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"in");
+                    let new_value = self.convert_length(value, &length.unit.value, "in");
 
                     length.value = Number {
                         span: length.value.span,
@@ -181,7 +181,7 @@ impl Compressor {
                         raw: None,
                     };
                 } else if value % 10.0 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"cm");
+                    let new_value = self.convert_length(value, &length.unit.value, "cm");
 
                     length.value = Number {
                         span: length.value.span,
@@ -197,7 +197,7 @@ impl Compressor {
             }
             "q" => {
                 if value > 80.0 && value % 40.0 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"cm");
+                    let new_value = self.convert_length(value, &length.unit.value, "cm");
 
                     length.value = Number {
                         span: length.value.span,
@@ -210,7 +210,7 @@ impl Compressor {
                         raw: None,
                     };
                 } else if value % 101.6 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"in");
+                    let new_value = self.convert_length(value, &length.unit.value, "in");
 
                     length.value = Number {
                         span: length.value.span,
@@ -226,7 +226,7 @@ impl Compressor {
             }
             "pc" => {
                 if value % 6.0 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"in");
+                    let new_value = self.convert_length(value, &length.unit.value, "in");
 
                     length.value = Number {
                         span: length.value.span,
@@ -242,7 +242,7 @@ impl Compressor {
             }
             "pt" => {
                 if value % 72.0 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"in");
+                    let new_value = self.convert_length(value, &length.unit.value, "in");
 
                     length.value = Number {
                         span: length.value.span,
@@ -255,7 +255,7 @@ impl Compressor {
                         raw: None,
                     };
                 } else if value % 12.0 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"pc");
+                    let new_value = self.convert_length(value, &length.unit.value, "pc");
 
                     length.value = Number {
                         span: length.value.span,
@@ -268,7 +268,7 @@ impl Compressor {
                         raw: None,
                     };
                 } else if value % 0.75 == 0.0 {
-                    let new_value = self.convert_length(value, &length.unit.value, &"px");
+                    let new_value = self.convert_length(value, &length.unit.value, "px");
 
                     length.value = Number {
                         span: length.value.span,

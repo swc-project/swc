@@ -3,7 +3,7 @@
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::needless_update)]
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{JsWord};
 use swc_css_ast::*;
 use swc_css_visit::VisitMutWith;
 

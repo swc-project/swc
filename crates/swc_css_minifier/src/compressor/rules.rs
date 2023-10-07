@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{JsWord};
 use swc_common::{
     collections::AHashMap, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext,
 };

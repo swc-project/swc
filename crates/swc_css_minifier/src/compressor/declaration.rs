@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_css_ast::*;
 
@@ -36,7 +36,7 @@ impl Compressor {
                                 inside = Some(inside_node);
                             }
                             list_item_node @ ComponentValue::Ident(box Ident { value, .. })
-                                if value.eq_ignore_ascii_case(&"list-item") =>
+                                if value.eq_ignore_ascii_case("list-item") =>
                             {
                                 if let Some(ComponentValue::Ident(box Ident { value, .. })) = inside
                                 {
@@ -62,7 +62,7 @@ impl Compressor {
                                 ..
                             })),
                             None,
-                        ) if inside_value.eq_ignore_ascii_case(&"flow") => {
+                        ) if inside_value.eq_ignore_ascii_case("flow") => {
                             declaration.value = vec![outside.clone()];
                         }
                         // `block flow-root` -> `flow-root`
@@ -78,8 +78,8 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.eq_ignore_ascii_case(&"block")
-                            && inside_value.eq_ignore_ascii_case(&"flow-root") =>
+                        ) if outside_value.eq_ignore_ascii_case("block")
+                            && inside_value.eq_ignore_ascii_case("flow-root") =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -95,8 +95,8 @@ impl Compressor {
                                 ..
                             })),
                             None,
-                        ) if outside_value.eq_ignore_ascii_case(&"inline")
-                            && inside_value.eq_ignore_ascii_case(&"flow-root") =>
+                        ) if outside_value.eq_ignore_ascii_case("inline")
+                            && inside_value.eq_ignore_ascii_case("flow-root") =>
                         {
                             declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
@@ -115,8 +115,8 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.eq_ignore_ascii_case(&"block")
-                            && inside_value.eq_ignore_ascii_case(&"flow") =>
+                        ) if outside_value.eq_ignore_ascii_case("block")
+                            && inside_value.eq_ignore_ascii_case("flow") =>
                         {
                             declaration.value = vec![list_item.clone()];
                         }
@@ -128,7 +128,7 @@ impl Compressor {
                             })),
                             None,
                             Some(list_item),
-                        ) if outside_value.eq_ignore_ascii_case(&"block") => {
+                        ) if outside_value.eq_ignore_ascii_case("block") => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `flow list-item` -> `list-item`
@@ -139,7 +139,7 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if inside_value.eq_ignore_ascii_case(&"flow") => {
+                        ) if inside_value.eq_ignore_ascii_case("flow") => {
                             declaration.value = vec![list_item.clone()];
                         }
                         // `inline flow list-item` -> `inline list-item`
@@ -155,8 +155,8 @@ impl Compressor {
                                 ..
                             })),
                             Some(list_item),
-                        ) if outside_value.eq_ignore_ascii_case(&"inline")
-                            && inside_value.eq_ignore_ascii_case(&"flow") =>
+                        ) if outside_value.eq_ignore_ascii_case("inline")
+                            && inside_value.eq_ignore_ascii_case("flow") =>
                         {
                             declaration.value = vec![outside.clone(), list_item.clone()];
                         }
@@ -175,7 +175,7 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.eq_ignore_ascii_case(&"block")
+                        ) if outside_value.eq_ignore_ascii_case("block")
                             && matches_eq_ignore_ascii_case!(
                                 inside_value,
                                 "flex",
@@ -198,8 +198,8 @@ impl Compressor {
                                 }),
                             ),
                             None,
-                        ) if outside_value.eq_ignore_ascii_case(&"inline")
-                            && inside_value.eq_ignore_ascii_case(&"ruby") =>
+                        ) if outside_value.eq_ignore_ascii_case("inline")
+                            && inside_value.eq_ignore_ascii_case("ruby") =>
                         {
                             declaration.value = vec![inside.clone()];
                         }
@@ -332,7 +332,7 @@ impl Compressor {
                         .into_iter()
                         .map(|node| match node {
                             ComponentValue::Ident(box Ident { value, span, .. })
-                                if value.eq_ignore_ascii_case(&"normal") =>
+                                if value.eq_ignore_ascii_case("normal") =>
                             {
                                 ComponentValue::Integer(Box::new(Integer {
                                     span,
@@ -341,7 +341,7 @@ impl Compressor {
                                 }))
                             }
                             ComponentValue::Ident(box Ident { value, span, .. })
-                                if value.eq_ignore_ascii_case(&"bold") =>
+                                if value.eq_ignore_ascii_case("bold") =>
                             {
                                 ComponentValue::Integer(Box::new(Integer {
                                     span,
@@ -423,7 +423,7 @@ impl Compressor {
                         declaration.value.remove(0);
                         match &*ident.value.to_ascii_lowercase() {
                             _ if crate::is_css_wide_keyword(&ident.value)
-                                || ident.value.eq_ignore_ascii_case(&"none") =>
+                                || ident.value.eq_ignore_ascii_case("none") =>
                             {
                                 declaration.value.insert(0, ComponentValue::Str(ident));
                             }
@@ -458,7 +458,7 @@ impl Compressor {
                                 let value = ident.value.to_ascii_lowercase();
                                 match &*value {
                                     _ if crate::is_css_wide_keyword(&ident.value)
-                                        || ident.value.eq_ignore_ascii_case(&"none") =>
+                                        || ident.value.eq_ignore_ascii_case("none") =>
                                     {
                                         node
                                     }
@@ -489,7 +489,7 @@ impl Compressor {
             let is_initial = if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                 declaration.value.get(0)
             {
-                if value.eq_ignore_ascii_case(&"initial") {
+                if value.eq_ignore_ascii_case("initial") {
                     Some(span)
                 } else {
                     None
@@ -1273,7 +1273,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"border-box") {
+                    if value.eq_ignore_ascii_case("border-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1286,7 +1286,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"transparent") {
+                    if value.eq_ignore_ascii_case("transparent") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1299,7 +1299,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"padding-box") {
+                    if value.eq_ignore_ascii_case("padding-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1316,8 +1316,8 @@ impl Compressor {
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
                 ) = (declaration.value.get(0), declaration.value.get(1))
                 {
-                    if first.eq_ignore_ascii_case(&"auto")
-                        && second.eq_ignore_ascii_case(&"auto")
+                    if first.eq_ignore_ascii_case("auto")
+                        && second.eq_ignore_ascii_case("auto")
                         && declaration.value.len() == 2
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1344,7 +1344,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"currentcolor") {
+                    if value.eq_ignore_ascii_case("currentcolor") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1357,7 +1357,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"separate") {
+                    if value.eq_ignore_ascii_case("separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1370,7 +1370,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"content-box") {
+                    if value.eq_ignore_ascii_case("content-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1383,7 +1383,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"canvastext") {
+                    if value.eq_ignore_ascii_case("canvastext") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1400,8 +1400,8 @@ impl Compressor {
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
                 ) = (declaration.value.get(0), declaration.value.get(1))
                 {
-                    if first.eq_ignore_ascii_case(&"weight")
-                        && second.eq_ignore_ascii_case(&"style")
+                    if first.eq_ignore_ascii_case("weight")
+                        && second.eq_ignore_ascii_case("style")
                         && declaration.value.len() == 2
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1416,7 +1416,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"from-image") {
+                    if value.eq_ignore_ascii_case("from-image") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1429,7 +1429,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"match-source") && declaration.value.len() == 1 {
+                    if value.eq_ignore_ascii_case("match-source") && declaration.value.len() == 1 {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1442,7 +1442,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"luminance") {
+                    if value.eq_ignore_ascii_case("luminance") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1455,7 +1455,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"space-around") {
+                    if value.eq_ignore_ascii_case("space-around") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1468,7 +1468,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"separate") {
+                    if value.eq_ignore_ascii_case("separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1481,7 +1481,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"alternate") {
+                    if value.eq_ignore_ascii_case("alternate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1498,7 +1498,7 @@ impl Compressor {
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
                 ) = (declaration.value.get(0), declaration.value.get(1))
                 {
-                    if first.eq_ignore_ascii_case(&"over") && second.eq_ignore_ascii_case(&"right")
+                    if first.eq_ignore_ascii_case("over") && second.eq_ignore_ascii_case("right")
                     {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
@@ -1512,7 +1512,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"view-box") {
+                    if value.eq_ignore_ascii_case("view-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1555,7 +1555,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"baseline") {
+                    if value.eq_ignore_ascii_case("baseline") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
@@ -1568,7 +1568,7 @@ impl Compressor {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
                     declaration.value.get(0)
                 {
-                    if value.eq_ignore_ascii_case(&"horizontal-tb") {
+                    if value.eq_ignore_ascii_case("horizontal-tb") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),

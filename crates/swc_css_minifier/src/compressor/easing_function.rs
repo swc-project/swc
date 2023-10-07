@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -111,7 +111,7 @@ impl Compressor {
                         ComponentValue::Ident(box Ident {
                             value: ident_value, ..
                         }),
-                    ) if ident_value.eq_ignore_ascii_case(&"jump-start") => {
+                    ) if ident_value.eq_ignore_ascii_case("jump-start") => {
                         function_value[2] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "start".into(),

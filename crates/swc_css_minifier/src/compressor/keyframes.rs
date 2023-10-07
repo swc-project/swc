@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -10,7 +10,7 @@ impl Compressor {
         match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !is_css_wide_keyword(&string.value)
-                    && !string.value.eq_ignore_ascii_case(&"none") =>
+                    && !string.value.eq_ignore_ascii_case("none") =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     if self.is_ident_shorter_than_str(&string.value) {
