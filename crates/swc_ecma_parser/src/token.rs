@@ -502,13 +502,13 @@ pub enum IdentLike {
 
 impl Word {
     pub(crate) fn kind(&self) -> WordKind {
-        match *self {
-            Word::Keyword(k) => WordKind::Keyword(k),
+        match self {
+            Word::Keyword(k) => WordKind::Keyword(*k),
             Word::Null => WordKind::Null,
             Word::True => WordKind::True,
             Word::False => WordKind::False,
-            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(i)),
-            Word::Ident(IdentLike::Other(i)) => WordKind::Ident(IdentKind::Other),
+            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(*i)),
+            Word::Ident(IdentLike::Other(..)) => WordKind::Ident(IdentKind::Other),
         }
     }
 }
@@ -699,9 +699,9 @@ macro_rules! declare_keyword {
         $name:ident => $value:tt,
     )*) => {
         impl Keyword {
-            pub(crate) const fn into_js_word(self) -> JsWord {
+            pub(crate)  fn into_js_word(self) -> JsWord {
                 match self {
-                    $(Keyword::$name => $value.into(),)*
+                    $(Keyword::$name => atom!($value),)*
                 }
             }
         }
