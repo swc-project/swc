@@ -7,7 +7,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{js_word, Atom, JsWord, atom};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 
@@ -868,10 +868,11 @@ impl Word {
     pub(crate) fn cow(&self) -> Cow<JsWord> {
         match self {
             Word::Keyword(k) => Cow::Owned(k.into_js_word()),
-            Word::Ident(IdentLike::Known(w)) => Cow::Owned(w.into()),
-            Word::False => Cow::Owned("false"),
-            Word::True => Cow::Owned("true"),
-            Word::Null => Cow::Owned("null"),
+            Word::Ident(IdentLike::Known(w)) => Cow::Owned((*w).into()),
+            Word::Ident(IdentLike::Other(w)) => Cow::Borrowed(w),
+            Word::False => Cow::Owned(atom!("false")),
+            Word::True => Cow::Owned(atom!("true")),
+            Word::Null => Cow::Owned(atom!("null")),
         }
     }
 }
