@@ -16,7 +16,6 @@ use std::{
 
 use once_cell::sync::Lazy;
 use serde::Serializer;
-use tendril::{fmt::UTF8, Atomic, Tendril};
 
 pub use self::Atom as JsWord;
 
@@ -27,7 +26,7 @@ pub use self::Atom as JsWord;
 #[derive(Clone)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(Tendril<UTF8, Atomic>);
+pub struct Atom(string_cache::Atom<private::JsWordStaticSet>);
 
 /// Safety: We do not perform slicing of single [Atom] from multiple threads.
 /// In other words, typically [Atom] is created in a single thread (and in the
@@ -35,16 +34,16 @@ pub struct Atom(Tendril<UTF8, Atomic>);
 unsafe impl Sync for Atom {}
 
 fn _assert_size() {
-    let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 2]>;
+    let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
 }
 
 impl Atom {
     /// Creates a new [Atom] from a string.
     pub fn new<S>(s: S) -> Self
     where
-        Tendril<UTF8, Atomic>: From<S>,
+        S: AsRef<str>,
     {
-        Atom(Tendril::from(s))
+        Atom(s.as_ref().into())
     }
 }
 
@@ -236,14 +235,10 @@ where
     }
 }
 
-#[macro_export]
-macro_rules! js_word {
-    ($s:literal) => {{
-        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
-
-        $crate::JsWord::clone(&*CACHE)
-    }};
-}
-
 #[doc(hidden)]
 pub type CahcedAtom = Lazy<Atom>;
+
+mod private {
+
+    include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
+}
