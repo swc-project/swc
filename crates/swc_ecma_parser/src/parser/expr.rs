@@ -1643,12 +1643,13 @@ impl<I: Tokens> Parser<I> {
         if is!(self, '(') {
             // This is parsed using production MemberExpression,
             // which is left-recursive.
-            let (callee, is_import) = match &*callee {
-                Expr::Ident(Ident {
-                    sym: "import",
-                    span,
-                    ..
-                }) => (Callee::Import(Import { span: *span }), true),
+            let (callee, is_import) = match callee {
+                _ if callee.is_ident_ref_to("import") => (
+                    Callee::Import(Import {
+                        span: callee.span(),
+                    }),
+                    true,
+                ),
                 _ => (Callee::Expr(callee), false),
             };
             let args = self.parse_args(is_import)?;
