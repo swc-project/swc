@@ -217,17 +217,6 @@ impl From<JsWord> for Str {
     }
 }
 
-impl From<Atom> for Str {
-    #[inline]
-    fn from(value: Atom) -> Self {
-        Str {
-            span: DUMMY_SP,
-            value: JsWord::from(&*value),
-            raw: None,
-        }
-    }
-}
-
 bridge_from!(Str, JsWord, &'_ str);
 bridge_from!(Str, JsWord, String);
 bridge_from!(Str, JsWord, Cow<'_, str>);
