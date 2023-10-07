@@ -1360,10 +1360,8 @@ pub trait ExprExt {
                         let can_have_side_effect = |prop: &PropOrSpread| match prop {
                             PropOrSpread::Spread(_) => true,
                             PropOrSpread::Prop(prop) => match prop.as_ref() {
-                                Prop::Getter(_)
-                                | Prop::Setter(_)
-                                | Prop::Method(_)
-                                | Prop::Shorthand(Ident {
+                                Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
+                                Prop::Shorthand(Ident {
                                     sym: js_word!("__proto__"),
                                     ..
                                 })
