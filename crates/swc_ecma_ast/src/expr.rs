@@ -174,6 +174,13 @@ pub enum Expr {
 // assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
+    pub fn is_ident_ref_to(&self, ident: &str) {
+        match self {
+            Expr::Ident(i) => i.sym == ident,
+            _ => false,
+        }
+    }
+
     /// Normalize parenthesized expressions.
     ///
     /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
@@ -221,13 +228,7 @@ impl Expr {
 
     /// Returns true for `eval` and member expressions.
     pub fn directness_maters(&self) -> bool {
-        matches!(
-            self,
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) | Expr::Member(..)
-        )
+        self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
     }
 }
 
