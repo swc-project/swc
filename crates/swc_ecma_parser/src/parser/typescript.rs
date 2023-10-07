@@ -405,24 +405,27 @@ impl<I: Tokens> Parser<I> {
                 "const" => {
                     is_const = true;
                     if !permit_const {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1277("const"));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1277("const".into()));
                     }
                 }
                 "in" => {
                     if !permit_in_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274("in"));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274("in".into()));
                     } else if is_in {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("in"));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("in".into()));
                     } else if is_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1029("in", "out"));
+                        self.emit_err(
+                            self.input.prev_span(),
+                            SyntaxError::TS1029("in".into(), "out".into()),
+                        );
                     }
                     is_in = true;
                 }
                 "out" => {
                     if !permit_in_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274("out"));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1274("out".into()));
                     } else if is_out {
-                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("out"));
+                        self.emit_err(self.input.prev_span(), SyntaxError::TS1030("out".into()));
                     }
                     is_out = true;
                 }

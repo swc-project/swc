@@ -1154,14 +1154,14 @@ impl<I: Tokens> Parser<I> {
                         syntax_error!(
                             self,
                             self.input.cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed("super")
+                            SyntaxError::TsNonNullAssertionNotAllowed("super".into())
                         )
                     }
                     Callee::Import(..) => {
                         syntax_error!(
                             self,
                             self.input.cur_span(),
-                            SyntaxError::TsNonNullAssertionNotAllowed("import")
+                            SyntaxError::TsNonNullAssertionNotAllowed("import".into())
                         )
                     }
                     Callee::Expr(expr) => expr,
