@@ -1018,7 +1018,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "px",
+                            value: "px".into(),
                             raw: None,
                         },
                     },
@@ -1027,7 +1027,7 @@ impl Compressor {
             "flex-direction" | "grid-auto-flow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "row",
+                    value: "row".into(),
                     raw: None,
                 }))];
             }
@@ -1058,28 +1058,28 @@ impl Compressor {
             "box-decoration-break" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "slice",
+                    value: "slice".into(),
                     raw: None,
                 }))];
             }
             "caption-side" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "top",
+                    value: "top".into(),
                     raw: None,
                 }))];
             }
             "direction" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "ltr",
+                    value: "ltr".into(),
                     raw: None,
                 }))];
             }
             "empty-cells" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "show",
+                    value: "show".into(),
                     raw: None,
                 }))];
             }
@@ -1100,14 +1100,14 @@ impl Compressor {
             "flex-wrap" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "nowrap",
+                    value: "nowrap".into(),
                     raw: None,
                 }))];
             }
             "hyphens" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "manual",
+                    value: "manual".into(),
                     raw: None,
                 }))];
             }
