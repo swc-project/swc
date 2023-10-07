@@ -504,7 +504,7 @@ impl Visit for EvalFinder {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == js_word!("eval") {
+        if i.sym == "eval" {
             self.found = true;
         }
     }

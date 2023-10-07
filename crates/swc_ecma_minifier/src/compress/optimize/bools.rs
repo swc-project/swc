@@ -118,8 +118,7 @@ impl Optimizer<'_> {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str {
-                        value: js_word!("undefined"),
-                        ..
+                        value: "undefined", ..
                     })),
                     Expr::Unary(UnaryExpr {
                         op: op!("typeof"),

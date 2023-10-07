@@ -296,7 +296,7 @@ impl Visit for CharFreqAnalyzer<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym != js_word!("arguments") && i.span.ctxt == self.unresolved_ctxt {
+        if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
             return;
         }
 

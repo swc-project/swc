@@ -160,7 +160,7 @@ impl Pure<'_> {
                     obj: b_callee_obj,
                     prop:
                         prop @ MemberProp::Ident(Ident {
-                            sym: js_word!("apply") | js_word!("call"),
+                            sym: "apply" | "call",
                             ..
                         }),
                     ..

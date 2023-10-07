@@ -762,8 +762,7 @@ impl Optimizer<'_> {
                     Pat::Ident(BindingIdent {
                         id:
                             Ident {
-                                sym: js_word!("arguments"),
-                                ..
+                                sym: "arguments", ..
                             },
                         ..
                     }) => true,

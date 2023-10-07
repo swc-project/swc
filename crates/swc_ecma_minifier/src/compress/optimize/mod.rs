@@ -609,7 +609,7 @@ impl Optimizer<'_> {
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident {
             span,
-            sym: js_word!("undefined"),
+            sym: undefined,
             ..
         }) = e
         {
@@ -2391,11 +2391,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
         let should_preserve_zero = matches!(
             n.exprs.last().map(|v| &**v),
-            Some(Expr::Member(..))
-                | Some(Expr::Ident(Ident {
-                    sym: js_word!("eval"),
-                    ..
-                }))
+            Some(Expr::Member(..)) | Some(Expr::Ident(Ident { sym: eval, .. }))
         );
 
         let ctx = Ctx {
@@ -3099,13 +3095,9 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 
 fn is_expr_access_to_arguments(l: &Expr) -> bool {
     match l {
-        Expr::Member(MemberExpr { obj, .. }) => matches!(
-            &**obj,
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            })
-        ),
+        Expr::Member(MemberExpr { obj, .. }) => {
+            matches!(&**obj, Expr::Ident(Ident { sym: arguments, .. }))
+        }
         _ => false,
     }
 }

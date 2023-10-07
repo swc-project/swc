@@ -106,7 +106,7 @@ impl Optimizer<'_> {
         match e {
             Expr::Ident(Ident {
                 span,
-                sym: js_word!("undefined"),
+                sym: "undefined",
                 ..
             }) => {
                 report_change!("evaluate: `undefined` -> `void 0`");
@@ -116,7 +116,7 @@ impl Optimizer<'_> {
 
             Expr::Ident(Ident {
                 span,
-                sym: js_word!("Infinity"),
+                sym: "Infinity",
                 ..
             }) => {
                 report_change!("evaluate: `Infinity` -> `1 / 0`");
@@ -172,10 +172,7 @@ impl Optimizer<'_> {
         }
 
         match &**callee {
-            Expr::Ident(Ident {
-                sym: js_word!("RegExp"),
-                ..
-            }) if self.options.unsafe_regexp => {
+            Expr::Ident(Ident { sym: "RegExp", .. }) if self.options.unsafe_regexp => {
                 if !args.is_empty() {
                     self.optimize_expr_in_str_ctx(&mut args[0].expr);
                 }
@@ -231,10 +228,7 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident {
-                    sym: js_word!("String"),
-                    ..
-                }) => {
+                Expr::Ident(Ident { sym: "String", .. }) => {
                     if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
@@ -266,10 +260,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) => {
+                Expr::Ident(Ident { sym: "Object", .. }) => {
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
@@ -401,8 +392,7 @@ impl Optimizer<'_> {
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
                             let data = &self.data.vars;
                             if maybe_par!(
-                                data.iter()
-                                    .any(|(name, v)| v.declared && name.0 == js_word!("NaN")),
+                                data.iter().any(|(name, v)| v.declared && name.0 == "NaN"),
                                 *crate::LIGHT_TASK_PARALLELS
                             ) {
                                 return;
@@ -413,7 +403,7 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                "NaN",
                                 bin.span.with_ctxt(
                                     SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                                 ),
@@ -426,7 +416,7 @@ impl Optimizer<'_> {
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
                                 Expr::Ident(Ident::new(
-                                    js_word!("Infinity"),
+                                    "Infinity",
                                     bin.span.with_ctxt(SyntaxContext::empty()),
                                 ))
                             } else {
@@ -434,7 +424,7 @@ impl Optimizer<'_> {
                                     span: bin.span,
                                     op: op!(unary, "-"),
                                     arg: Box::new(Expr::Ident(Ident::new(
-                                        js_word!("Infinity"),
+                                        "Infinity",
                                         bin.span.with_ctxt(SyntaxContext::empty()),
                                     ))),
                                 })

@@ -24,7 +24,7 @@ impl Optimizer<'_> {
                     let id: Ident = e.left.clone().ident().unwrap();
                     if let Some(t) = self.typeofs.get(&id.to_id()) {
                         match *t {
-                            js_word!("object") | js_word!("function") => {
+                            "object" | "function" => {
                                 e.left = Box::new(make_bool(
                                     e.span,
                                     e.op == op!("===") || e.op == op!("=="),
@@ -379,7 +379,7 @@ impl Optimizer<'_> {
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        value: js_word!("function"),
+                        value: "function",
                     }));
                 }
 
@@ -389,7 +389,7 @@ impl Optimizer<'_> {
                     *e = Expr::Lit(Lit::Str(Str {
                         span: *span,
                         raw: None,
-                        value: js_word!("object"),
+                        value: "object",
                     }));
                 }
                 _ => {}

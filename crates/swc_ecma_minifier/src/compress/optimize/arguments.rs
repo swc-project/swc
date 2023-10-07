@@ -74,11 +74,9 @@ impl Optimizer<'_> {
 
         if f.params.iter().any(|param| match &param.pat {
             Pat::Ident(BindingIdent {
-                id:
-                    Ident {
-                        sym: js_word!("arguments"),
-                        ..
-                    },
+                id: Ident {
+                    sym: "arguments", ..
+                },
                 ..
             }) => true,
             Pat::Ident(i) => self
@@ -96,7 +94,7 @@ impl Optimizer<'_> {
             // If a function has a variable named `arguments`, we abort.
             let data: Vec<Id> = find_pat_ids(&f.body);
             if data.iter().any(|id| {
-                if id.0 == js_word!("arguments") {
+                if id.0 == "arguments" {
                     return true;
                 }
                 false
@@ -180,8 +178,7 @@ impl VisitMut for ArgReplacer<'_> {
         }) = n
         {
             if let Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
+                sym: "arguments", ..
             }) = &**obj
             {
                 match &*c.expr {

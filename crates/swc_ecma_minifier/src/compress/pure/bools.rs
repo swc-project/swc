@@ -208,17 +208,12 @@ impl Pure<'_> {
             | Expr::Bin(BinExpr { op: op!("||"), .. }) => true,
             // V8 and terser test ref have different opinion.
             Expr::Ident(Ident {
-                sym: js_word!("Infinity"),
-                ..
+                sym: "Infinity", ..
             }) => false,
             Expr::Ident(Ident {
-                sym: js_word!("undefined"),
-                ..
+                sym: "undefined", ..
             }) => false,
-            Expr::Ident(Ident {
-                sym: js_word!("NaN"),
-                ..
-            }) => false,
+            Expr::Ident(Ident { sym: "NaN", .. }) => false,
 
             e if is_pure_undefined(&self.expr_ctx, e) => true,
 
@@ -459,8 +454,7 @@ impl Pure<'_> {
             (
                 Expr::Ident(..),
                 Expr::Ident(Ident {
-                    sym: js_word!("undefined"),
-                    ..
+                    sym: "undefined", ..
                 }),
             ) => true,
 

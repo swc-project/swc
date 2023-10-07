@@ -25,10 +25,7 @@ impl Optimizer<'_> {
             }
 
             match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("RegExp"),
-                    ..
-                }) if self.options.unsafe_regexp => {
+                Expr::Ident(Ident { sym: "RegExp", .. }) if self.options.unsafe_regexp => {
                     if args.len() != 1 {
                         return;
                     }
@@ -129,7 +126,7 @@ impl Optimizer<'_> {
                 if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
                     if l.value == 0.0 && r.value == 0.0 {
                         *n = Expr::Ident(Ident::new(
-                            js_word!("NaN"),
+                            "NaN",
                             span.with_ctxt(
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ),

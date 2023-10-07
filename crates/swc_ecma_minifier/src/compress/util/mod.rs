@@ -380,8 +380,7 @@ pub(crate) fn negate_cost(
 pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     match e {
         Expr::Ident(Ident {
-            sym: js_word!("undefined"),
-            ..
+            sym: "undefined", ..
         }) => true,
 
         Expr::Unary(UnaryExpr {
@@ -595,11 +594,9 @@ where
 pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
     match s {
         Stmt::Decl(Decl::Fn(FnDecl {
-            ident:
-                Ident {
-                    sym: js_word!("undefined"),
-                    ..
-                },
+            ident: Ident {
+                sym: "undefined", ..
+            },
             ..
         })) => false,
 
@@ -759,8 +756,7 @@ impl Visit for SuperFinder {
         n.visit_children_with(self);
 
         if let Prop::Shorthand(Ident {
-            sym: js_word!("arguments"),
-            ..
+            sym: "arguments", ..
         }) = n
         {
             self.found = true;

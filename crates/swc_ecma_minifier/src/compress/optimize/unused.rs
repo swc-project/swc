@@ -404,7 +404,7 @@ impl Optimizer<'_> {
 
         match decl {
             Decl::Class(ClassDecl { ident, class, .. }) => {
-                if ident.sym == js_word!("arguments") {
+                if ident.sym == "arguments" {
                     return;
                 }
 
@@ -466,7 +466,7 @@ impl Optimizer<'_> {
             }
             Decl::Fn(FnDecl { ident, .. }) => {
                 // We should skip if the name of decl is arguments.
-                if ident.sym == js_word!("arguments") {
+                if ident.sym == "arguments" {
                     return;
                 }
 

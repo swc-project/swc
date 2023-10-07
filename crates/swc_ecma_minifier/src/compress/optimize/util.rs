@@ -250,10 +250,7 @@ impl<'a> Finalizer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
+            Expr::Ident(Ident { sym: "eval", .. }) => Some(Box::new(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![0.into(), e],
             }))),
@@ -412,10 +409,7 @@ impl<'a> NormalMultiReplacer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
+            Expr::Ident(Ident { sym: "eval", .. }) => Some(Box::new(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![0.into(), e],
             }))),
@@ -500,10 +494,7 @@ impl ExprReplacer {
         let e = self.to.take()?;
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
+            Expr::Ident(Ident { sym: "eval", .. }) => Some(Box::new(Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![0.into(), e],
             }))),

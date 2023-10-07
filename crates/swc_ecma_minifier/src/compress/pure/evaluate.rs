@@ -228,10 +228,7 @@ impl Pure<'_> {
         };
 
         match &*member.obj {
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            }) => {}
+            Expr::Ident(Ident { sym: arguments, .. }) => {}
             _ => return,
         }
 
@@ -264,11 +261,7 @@ impl Pure<'_> {
             }) = e
             {
                 if args.len() == 1 && args[0].spread.is_none() {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("Number"),
-                        ..
-                    }) = &**callee
-                    {
+                    if let Expr::Ident(Ident { sym: Number, .. }) = &**callee {
                         self.changed = true;
                         report_change!(
                             "evaluate: Reducing a call to `Number` into an unary operation"
@@ -751,7 +744,7 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                NaN,
                                 e.span().with_ctxt(SyntaxContext::empty()),
                             ))
                         }

@@ -191,11 +191,7 @@ fn is_object_property_call(call: &CallExpr) -> bool {
                 prop: MemberProp::Ident(Ident { sym, .. }),
                 ..
             }) if *sym == *"defineProperty" => {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) = &**obj
-                {
+                if let Expr::Ident(Ident { sym: "Object", .. }) = &**obj {
                     return true;
                 }
             }

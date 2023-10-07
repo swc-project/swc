@@ -148,11 +148,7 @@ impl Evaluator {
             // "foo".length
             Expr::Member(MemberExpr {
                 obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("length"),
-                        ..
-                    }),
+                prop: MemberProp::Ident(Ident { sym: "length", .. }),
                 ..
             }) if obj.is_lit() => {}
 
