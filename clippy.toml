@@ -16,5 +16,10 @@ disallowed-names = [
   "isize",
   "usize",
 ]
+ignore-interior-mutability = [
+  "bytes::Bytes",
+  "swc_atoms::Atom",
+  "swc_atoms::JsWord",
+]
 msrv = "1.58"
 type-complexity-threshold = 25000
