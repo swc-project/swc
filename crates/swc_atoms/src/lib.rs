@@ -26,7 +26,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 #[derive(Clone)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(string_cache::Atom<InternalWord>);
+pub struct Atom(string_cache::Atom<InternalWordStaticSet>);
 
 /// Safety: We do not perform slicing of single [Atom] from multiple threads.
 /// In other words, typically [Atom] is created in a single thread (and in the
@@ -238,4 +238,4 @@ where
 #[doc(hidden)]
 pub type CahcedAtom = Lazy<Atom>;
 
-include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
+include!(concat!(env!("OUT_DIR"), "/internal_word.rs"));
