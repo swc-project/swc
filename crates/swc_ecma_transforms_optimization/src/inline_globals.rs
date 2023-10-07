@@ -144,7 +144,7 @@ impl VisitMut for InlineGlobals {
                     ..
                 }) = &**obj
                 {
-                    if let Expr::Ident(Ident { sym: "process", .. }) = &**first_obj {
+                    if first_obj.is_ident_ref_to("process") {
                         match prop {
                             MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {

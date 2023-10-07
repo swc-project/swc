@@ -1,6 +1,5 @@
 use std::{borrow::Cow, cmp::min, iter::once, mem::take};
 
-use swc_atoms::js_word;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},

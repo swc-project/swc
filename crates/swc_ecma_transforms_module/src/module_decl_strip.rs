@@ -545,16 +545,15 @@ impl From<&ImportSpecifier> for LinkFlag {
         match i {
             ImportSpecifier::Namespace(..) => Self::NAMESPACE,
 
-            ImportSpecifier::Default(ImportDefaultSpecifier { .. })
-            | ImportSpecifier::Named(ImportNamedSpecifier {
+            ImportSpecifier::Default(ImportDefaultSpecifier { .. }) => Self::DEFAULT,
+
+            ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 imported:
-                    Some(ModuleExportName::Ident(Ident { sym: "default", .. }))
-                    | Some(ModuleExportName::Str(Str {
-                        value: "default", ..
-                    })),
+                    Some(ModuleExportName::Ident(Ident { sym: default, .. }))
+                    | Some(ModuleExportName::Str(Str { value: default, .. })),
                 ..
-            }) => Self::DEFAULT,
+            }) if &**default == "default" => Self::DEFAULT,
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
