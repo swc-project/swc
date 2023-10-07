@@ -119,13 +119,10 @@ impl VisitMut for TemplateLiteral {
                     let is_lit = is_literal(&expr);
 
                     if is_lit {
-                        let is_empty = matches!(
-                            *expr,
-                            Expr::Lit(Lit::Str(Str {
-                                value: js_word!(""),
-                                ..
-                            }))
-                        );
+                        let is_empty = match &expr {
+                            Expr::Lit(Lit::Str(Str { value, .. })) => value.is_empty(),
+                            _ => false,
+                        };
 
                         if !is_empty && args.is_empty() {
                             if let Expr::Lit(Lit::Str(Str { span, value, raw })) = *obj {
