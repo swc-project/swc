@@ -541,7 +541,7 @@ where
 
 struct CalcReplacer<'a> {
     inside_calc: bool,
-    to: Option<&'a JsWord>,
+    to: Option<&'a str>,
 }
 
 impl VisitMut for CalcReplacer<'_> {
@@ -608,7 +608,7 @@ impl VisitMut for CalcReplacer<'_> {
     }
 }
 
-fn replace_calc<N>(node: &mut N, to: Option<&JsWord>)
+fn replace_calc<N>(node: &mut N, to: Option<&str>)
 where
     N: for<'aa> VisitMutWith<CalcReplacer<'aa>>,
 {
@@ -3092,7 +3092,7 @@ impl VisitMut for Prefixer {
             | "grid-auto-columns"
             | "grid-auto-rows" => {
                 let is_grid_property = matches!(
-                    *name,
+                    &**name,
                     "grid"
                         | "grid-template"
                         | "grid-template-rows"
@@ -3446,7 +3446,7 @@ impl VisitMut for Prefixer {
 
             "break-inside" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" | "avoid" | "initial" | "inherit" | "revert" | "revert-layer" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-inside", None);
                             add_declaration!("page-break-inside", None);
@@ -3458,7 +3458,7 @@ impl VisitMut for Prefixer {
 
             "break-before" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" | "avoid" | "initial" | "inherit" | "revert" | "revert-layer" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-before", None);
                             add_declaration!("page-break-before", None);
@@ -3486,7 +3486,7 @@ impl VisitMut for Prefixer {
 
             "break-after" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" | "avoid" | "initial" | "inherit" | "revert" | "revert-layer" => {
                             add_declaration!(Prefix::Webkit, "-webkit-column-break-after", None);
                             add_declaration!("page-break-after", None);
