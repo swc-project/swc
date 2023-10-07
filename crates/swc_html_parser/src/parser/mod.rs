@@ -1843,7 +1843,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "body" | "html" | "br") =>
+                        if matches!(&**tag_name, "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -2035,7 +2035,7 @@ where
                     }
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "basefont" | "bgsound" | "link" | "meta" | "noframes" | "style"
                         ) =>
                     {
@@ -2053,7 +2053,7 @@ where
                     //
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, "head" | "noscript") =>
+                        if matches!(&**tag_name, "head" | "noscript") =>
                     {
                         self.errors.push(Error::new(
                             token_and_info.span,
@@ -2167,7 +2167,7 @@ where
                     // elements. (It might not be the current node at this point.)
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "base"
                                 | "basefont"
                                 | "bgsound"
@@ -2205,7 +2205,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "body" | "html" | "br") =>
+                        if matches!(&**tag_name, "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -2353,7 +2353,7 @@ where
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "base"
                                 | "basefont"
                                 | "bgsound"
@@ -2607,7 +2607,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements("body"),
+                                    ErrorKind::EndTagWithUnclosedElements(js_word!("body")),
                                 ));
 
                                 break;
