@@ -47,6 +47,16 @@ macro_rules! define_known_ident {
                 };
             )*
         }
+        #[allow(unused)]
+        macro_rules! ident_like {
+            $(
+                ($value) => {
+                    crate::token::IdentLike::Known(
+                        crate::token::KnownIdent::$name
+                    )
+                };
+            )*
+        }
 
         impl std::str::FromStr for KnownIdent {
             type Err = ();

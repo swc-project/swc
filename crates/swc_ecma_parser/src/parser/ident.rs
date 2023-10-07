@@ -111,10 +111,10 @@ impl<I: Tokens> Parser<I> {
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected", "public", "static", or "yield".
             match w {
-                Word::Ident(ref name @ "enum") => {
+                Word::Ident(ref name @ word!("enum")) => {
                     p.emit_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(name.clone()),
+                        SyntaxError::InvalidIdentInStrict(name.clone().into()),
                     );
                 }
                 Word::Keyword(name @ Keyword::Yield) | Word::Keyword(name @ Keyword::Let) => {
@@ -124,16 +124,18 @@ impl<I: Tokens> Parser<I> {
                     );
                 }
 
-                Word::Ident(ref name @ "static")
-                | Word::Ident(ref name @ "implements")
-                | Word::Ident(ref name @ "interface")
-                | Word::Ident(ref name @ "package")
-                | Word::Ident(ref name @ "private")
-                | Word::Ident(ref name @ "protected")
-                | Word::Ident(ref name @ "public") => {
+                Word::Ident(
+                    ref name @ ident_like!("static")
+                    | ident_like!("implements")
+                    | ident_like!("interface")
+                    | ident_like!("package")
+                    | ident_like!("private")
+                    | ident_like!("protected")
+                    | ident_like!("public"),
+                ) => {
                     p.emit_strict_mode_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(name.clone()),
+                        SyntaxError::InvalidIdentInStrict(name.clone().into()),
                     );
                 }
                 _ => {}
