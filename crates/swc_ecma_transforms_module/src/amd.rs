@@ -312,11 +312,7 @@ where
             Expr::Member(MemberExpr {
                 span,
                 obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("url"),
-                        ..
-                    }),
+                prop: MemberProp::Ident(Ident { sym: "url", .. }),
             }) if !self.config.preserve_import_meta
                 && obj
                     .as_meta_prop()
