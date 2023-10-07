@@ -149,12 +149,7 @@ impl Ord for Atom {
 
 impl PartialEq for Atom {
     fn eq(&self, other: &Self) -> bool {
-        // Fast path
-        if self.0.as_ptr() == other.0.as_ptr() {
-            return true;
-        }
-
-        (**self).eq(&**other)
+        self.0 == other.0
     }
 }
 
