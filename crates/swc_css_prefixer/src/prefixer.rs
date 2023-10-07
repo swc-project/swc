@@ -1696,7 +1696,7 @@ impl VisitMut for Prefixer {
             "animation" => {
                 let need_prefix = n.value.iter().all(|n| match n {
                     ComponentValue::Ident(ident) => !matches!(
-                        ident.value.to_ascii_lowercase(),
+                        &*ident.value.to_ascii_lowercase(),
                         "reverse" | "alternate-reverse"
                     ),
                     _ => true,
@@ -2287,7 +2287,7 @@ impl VisitMut for Prefixer {
             "flex-flow" => {
                 let is_single_flex_wrap = matches!(n.value.get(0), Some(ComponentValue::Ident(box Ident { value, .. })) if n.value.len() == 1
                 && matches!(
-                    value.to_ascii_lowercase(),
+                   &* value.to_ascii_lowercase(),
                     "wrap" | "nowrap" | "wrap-reverse"
                 ));
 
@@ -3411,7 +3411,7 @@ impl VisitMut for Prefixer {
 
             "overscroll-behavior" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" => {
                             add_declaration!(
                                 Prefix::Ms,
