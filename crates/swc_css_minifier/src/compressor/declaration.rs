@@ -772,7 +772,7 @@ impl Compressor {
             | "translate" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "none",
+                    value: "none".into(),
                     raw: None,
                 }))];
             }
@@ -819,7 +819,7 @@ impl Compressor {
             | "grid-column-gap" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "normal",
+                    value: "normal".into(),
                     raw: None,
                 }))];
             }
@@ -837,7 +837,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "s",
+                            value: "s".into(),
                             raw: None,
                         },
                     })))];
@@ -861,21 +861,21 @@ impl Compressor {
             "animation-timing-function" | "transition-timing-function" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "ease",
+                    value: "ease".into(),
                     raw: None,
                 }))];
             }
             "azimuth" | "mask-position" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "center",
+                    value: "center".into(),
                     raw: None,
                 }))];
             }
             "background-attachment" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "scroll",
+                    value: "scroll".into(),
                     raw: None,
                 }))];
             }
