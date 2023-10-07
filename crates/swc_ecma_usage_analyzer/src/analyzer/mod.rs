@@ -1272,11 +1272,11 @@ where
             &e.name,
             Pat::Ident(BindingIdent {
                 id: Ident {
-                    sym: "arguments",
+                    sym: arguments,
                     ..
                 },
                 ..
-            })
+            }) if &**arguments == "arguments"
         );
         {
             let ctx = Ctx {

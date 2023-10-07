@@ -2,7 +2,6 @@ use std::{hash::BuildHasherDefault, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
-use swc_atoms::js_word;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
