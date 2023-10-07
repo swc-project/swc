@@ -95,10 +95,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
-                    js_word!("arguments"),
-                    DUMMY_SP,
-                )))),
+                init: Some(Box::new(Expr::Ident(Ident::new("arguments", DUMMY_SP)))),
                 definite: false,
             });
         }
@@ -156,10 +153,7 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new(
-                    js_word!("arguments"),
-                    DUMMY_SP,
-                )))),
+                init: Some(Box::new(Expr::Ident(Ident::new("arguments", DUMMY_SP)))),
                 definite: false,
             });
         }
@@ -290,7 +284,7 @@ impl VisitMut for FnEnvHoister {
         match e {
             Expr::Ident(Ident { span, sym, .. })
                 if !self.arguments_disabled
-                    && *sym == js_word!("arguments")
+                    && *sym == "arguments"
                     && (span.ctxt == self.unresolved_ctxt
                         || span.ctxt == SyntaxContext::empty()) =>
             {

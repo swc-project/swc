@@ -170,8 +170,7 @@ impl Visit for ArgumentsFinder {
         e.visit_children_with(self);
 
         if let Expr::Ident(Ident {
-            sym: js_word!("arguments"),
-            ..
+            sym: "arguments", ..
         }) = *e
         {
             self.found = true;
@@ -185,8 +184,7 @@ impl Visit for ArgumentsFinder {
         n.visit_children_with(self);
 
         if let Prop::Shorthand(Ident {
-            sym: js_word!("arguments"),
-            ..
+            sym: "arguments", ..
         }) = n
         {
             self.found = true;
@@ -570,11 +568,7 @@ pub trait ExprExt {
                 ..
             }) => arg.is_immutable_value(),
 
-            Expr::Ident(ref i) => {
-                i.sym == js_word!("undefined")
-                    || i.sym == js_word!("Infinity")
-                    || i.sym == js_word!("NaN")
-            }
+            Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
 
             Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
 
@@ -617,13 +611,7 @@ pub trait ExprExt {
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
         // NaN is special
-        matches!(
-            self.as_expr(),
-            Expr::Ident(Ident {
-                sym: js_word!("NaN"),
-                ..
-            })
-        )
+        matches!(self.as_expr(), Expr::Ident(Ident { sym: "NaN", .. }))
     }
 
     fn is_undefined(&self, ctx: &ExprCtx) -> bool {
@@ -905,8 +893,8 @@ pub trait ExprExt {
                 _ => return (Pure, Unknown),
             },
             Expr::Ident(Ident { sym, span, .. }) => match *sym {
-                js_word!("undefined") | js_word!("NaN") if span.ctxt == ctx.unresolved_ctxt => NAN,
-                js_word!("Infinity") if span.ctxt == ctx.unresolved_ctxt => INFINITY,
+                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => NAN,
+                "Infinity" if span.ctxt == ctx.unresolved_ctxt => INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -916,7 +904,7 @@ pub trait ExprExt {
             }) if matches!(
                 &**arg,
                 Expr::Ident(Ident {
-                    sym: js_word!("Infinity"),
+                    sym: "Infinity",
                     span,
                     ..
                 }) if span.ctxt == ctx.unresolved_ctxt
@@ -1009,9 +997,7 @@ pub trait ExprExt {
                 // as_string()")
             }
             Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
-                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN")
-                    if span.ctxt == ctx.unresolved_ctxt =>
-                {
+                "undefined" | "Infinity" | "NaN" if span.ctxt == ctx.unresolved_ctxt => {
                     Known(Cow::Borrowed(&**sym))
                 }
                 _ => Unknown,
@@ -1045,8 +1031,7 @@ pub trait ExprExt {
                             match **expr {
                                 Expr::Lit(Lit::Null(..))
                                 | Expr::Ident(Ident {
-                                    sym: js_word!("undefined"),
-                                    ..
+                                    sym: "undefined", ..
                                 }) => Cow::Borrowed(""),
                                 _ => match expr.as_pure_string(ctx) {
                                     Known(v) => v,
@@ -1083,18 +1068,13 @@ pub trait ExprExt {
 
             Expr::Member(MemberExpr {
                 obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("length"),
-                        ..
-                    }),
+                prop: MemberProp::Ident(Ident { sym: "length", .. }),
                 ..
             }) => match &**obj {
                 Expr::Array(ArrayLit { .. })
                 | Expr::Lit(Lit::Str(..))
                 | Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
+                    sym: "arguments", ..
                 }) => Known(Type::Num),
                 _ => Unknown,
             },
@@ -1169,8 +1149,8 @@ pub trait ExprExt {
             }
 
             Expr::Ident(Ident { ref sym, .. }) => Known(match *sym {
-                js_word!("undefined") => UndefinedType,
-                js_word!("NaN") | js_word!("Infinity") => NumberType,
+                "undefined" => UndefinedType,
+                "NaN" | "Infinity" => NumberType,
                 _ => return Unknown,
             }),
 
@@ -1270,9 +1250,7 @@ pub trait ExprExt {
                     || match &**obj {
                         // Allow dummy span
                         Expr::Ident(Ident {
-                            span,
-                            sym: js_word!("Math"),
-                            ..
+                            span, sym: "Math", ..
                         }) => span.ctxt == SyntaxContext::empty(),
 
                         // Some methods of string are pure
@@ -2156,7 +2134,7 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     matches!(
         *e.expr,
         Expr::Ident(Ident {
-            sym: js_word!("arguments"),
+            sym: "arguments",
             ..
         })
     )
@@ -2483,7 +2461,7 @@ impl ExprCtx {
             Expr::New(e) => {
                 // Known constructors
                 if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                    if *sym == js_word!("Date") && e.args.is_empty() {
+                    if *sym == "Date" && e.args.is_empty() {
                         return;
                     }
                 }

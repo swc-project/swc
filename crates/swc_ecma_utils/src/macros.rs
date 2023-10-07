@@ -43,7 +43,7 @@ macro_rules! quote_expr {
     }};
 
     ($span:expr, undefined) => {{
-        box Expr::Ident(Ident::new(js_word!("undefined"), $span))
+        box Expr::Ident(Ident::new("undefined", $span))
     }};
 }
 

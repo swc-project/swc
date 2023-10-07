@@ -157,7 +157,7 @@ pub trait ExprFactory: Into<Expr> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(Ident::new(js_word!("apply"), span));
+        let apply = self.make_member(Ident::new("apply", span));
 
         Expr::Call(CallExpr {
             span,
@@ -172,9 +172,7 @@ pub trait ExprFactory: Into<Expr> {
         Expr::Call(CallExpr {
             span,
             args,
-            callee: self
-                .make_member(Ident::new(js_word!("call"), span))
-                .as_callee(),
+            callee: self.make_member(Ident::new("call", span)).as_callee(),
             type_args: None,
         })
     }
