@@ -97,7 +97,7 @@ impl Visit for DuplicateExports {
 
         d.visit_children_with(self);
 
-        self.add(&Ident::new(js_word!("default"), d.span));
+        self.add(&Ident::new("default", d.span));
     }
 
     fn visit_export_default_expr(&mut self, d: &ExportDefaultExpr) {
@@ -108,7 +108,7 @@ impl Visit for DuplicateExports {
             _ => {}
         }
 
-        self.add(&Ident::new(js_word!("default"), d.span));
+        self.add(&Ident::new("default", d.span));
     }
 
     fn visit_export_default_specifier(&mut self, s: &ExportDefaultSpecifier) {
