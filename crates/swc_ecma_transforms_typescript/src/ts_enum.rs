@@ -52,13 +52,13 @@ impl From<TsEnumRecordValue> for Expr {
             TsEnumRecordValue::String(string) => Expr::Lit(Lit::Str(string.into())),
             TsEnumRecordValue::Number(num) if f64::is_nan(num) => Expr::Ident(Ident {
                 span: DUMMY_SP,
-                sym: "NaN",
+                sym: "NaN".into(),
                 optional: false,
             }),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
                 let value = Expr::Ident(Ident {
                     span: DUMMY_SP,
-                    sym: "Infinity",
+                    sym: "Infinity".into(),
                     optional: false,
                 });
 

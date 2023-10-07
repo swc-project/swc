@@ -160,11 +160,11 @@ impl VisitMut for StripType {
         if n.first()
             .filter(|param| {
                 matches!(
-                    param.pat,
+                    &param.pat,
                     Pat::Ident(BindingIdent {
-                        id: Ident { sym: "this", .. },
+                        id: Ident { sym, .. },
                         ..
-                    })
+                    }) if &**sym == "this"
                 )
             })
             .is_some()
