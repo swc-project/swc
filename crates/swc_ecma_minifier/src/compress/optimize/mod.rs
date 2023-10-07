@@ -607,13 +607,10 @@ impl Optimizer<'_> {
     ///
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
-        if let Expr::Ident(Ident {
-            span,
-            sym: undefined,
-            ..
-        }) = e
-        {
-            *e = *undefined(*span);
+        if let Expr::Ident(Ident { span, sym, .. }) = e {
+            if &**sym == "undefined" {
+                *e = *undefined(*span);
+            }
         }
     }
 
