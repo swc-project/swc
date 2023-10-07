@@ -1,7 +1,8 @@
 use std::mem;
 
-use swc_common::collections::AHashSet;
+use swc_common::{collections::AHashSet, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
@@ -268,112 +269,127 @@ impl VisitMut for StripImportExport {
 
         let mut strip_ts_import_equals = StripTsImportEquals;
 
-        n.retain_mut(|module_item| match module_item {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                specifiers,
-                type_only: false,
-                ..
-            })) if !specifiers.is_empty() => {
-                // Note: If import specifiers is originally empty, then we leave it alone.
-                // This is weird but it matches TS.
+        for module_item in n {
+            match module_item {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                    specifiers,
+                    type_only: type_only @ false,
+                    ..
+                })) if !specifiers.is_empty() => {
+                    // Note: If import specifiers is originally empty, then we leave it alone.
+                    // This is weird but it matches TS.
 
-                specifiers.retain(|import_specifier| match import_specifier {
-                    ImportSpecifier::Named(named) => {
-                        if named.is_type_only {
-                            return false;
+                    specifiers.retain(|import_specifier| match import_specifier {
+                        ImportSpecifier::Named(named) => {
+                            if named.is_type_only {
+                                return false;
+                            }
+
+                            let id = named.local.to_id();
+
+                            if declare_info.has_value(&id) {
+                                return false;
+                            }
+
+                            usage_info.has_usage(&id)
                         }
+                        ImportSpecifier::Default(default) => {
+                            let id = default.local.to_id();
 
-                        let id = named.local.to_id();
+                            if declare_info.has_value(&id) {
+                                return false;
+                            }
 
-                        if declare_info.has_value(&id) {
-                            return false;
+                            usage_info.has_usage(&id)
                         }
+                        ImportSpecifier::Namespace(namespace) => {
+                            let id = namespace.local.to_id();
 
-                        usage_info.has_usage(&id)
-                    }
-                    ImportSpecifier::Default(default) => {
-                        let id = default.local.to_id();
+                            if declare_info.has_value(&id) {
+                                return false;
+                            }
 
-                        if declare_info.has_value(&id) {
-                            return false;
+                            usage_info.has_usage(&id)
                         }
+                    });
 
-                        usage_info.has_usage(&id)
-                    }
-                    ImportSpecifier::Namespace(namespace) => {
-                        let id = namespace.local.to_id();
+                    *type_only = self.import_not_used_as_values == ImportsNotUsedAsValues::Remove
+                        && specifiers.is_empty();
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    specifiers,
+                    src,
+                    type_only: type_only @ false,
+                    ..
+                })) => {
+                    specifiers.retain(|export_specifier| match export_specifier {
+                        ExportSpecifier::Namespace(..) => true,
+                        ExportSpecifier::Default(..) => true,
 
-                        if declare_info.has_value(&id) {
-                            return false;
+                        ExportSpecifier::Named(ExportNamedSpecifier {
+                            orig: ModuleExportName::Ident(ident),
+                            is_type_only: false,
+                            ..
+                        }) if src.is_none() => {
+                            let id = ident.to_id();
+
+                            !declare_info.has_pure_type(&id)
                         }
+                        ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
+                            !is_type_only
+                        }
+                    });
 
-                        usage_info.has_usage(&id)
-                    }
-                });
+                    *type_only = specifiers.is_empty();
+                }
 
-                self.import_not_used_as_values == ImportsNotUsedAsValues::Preserve
-                    || !specifiers.is_empty()
-            }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                specifiers,
-                src,
-                type_only: false,
-                ..
-            })) => {
-                specifiers.retain(|export_specifier| match export_specifier {
-                    ExportSpecifier::Namespace(..) => true,
-                    ExportSpecifier::Default(..) => true,
-
-                    ExportSpecifier::Named(ExportNamedSpecifier {
-                        orig: ModuleExportName::Ident(ident),
-                        is_type_only: false,
-                        ..
-                    }) if src.is_none() => {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span,
+                    expr,
+                    ..
+                })) => {
+                    if let Some(ident) = expr.as_mut_ident().filter(|ident| {
                         let id = ident.to_id();
-
-                        !declare_info.has_pure_type(&id)
+                        declare_info.has_pure_type(&id)
+                    }) {
+                        // ```TypeScript
+                        // export default some_type_or_interface
+                        // ```
+                        // ```TypeScript
+                        // export type { some_type_or_interface as default }
+                        // ```
+                        *module_item = ModuleItem::ModuleDecl(
+                            NamedExport {
+                                span: *span,
+                                specifiers: vec![ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ident.take().into(),
+                                    exported: Some(quote_ident!("default").into()),
+                                    is_type_only: false,
+                                }
+                                .into()],
+                                src: None,
+                                type_only: true,
+                                with: None,
+                            }
+                            .into(),
+                        );
                     }
-                    ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => {
-                        !is_type_only
-                    }
-                });
-
-                !specifiers.is_empty()
-            }
-            ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
-                ref type_only, ..
-            })) => !type_only,
-            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                ref expr,
-                ..
-            })) => expr
-                .as_ident()
-                .map(|ident| {
-                    let id = ident.to_id();
-
-                    !declare_info.has_pure_type(&id)
-                })
-                .unwrap_or(true),
-            ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl)) => {
-                if ts_import_equals_decl.is_type_only {
-                    return false;
                 }
-
-                if ts_import_equals_decl.is_export {
-                    return true;
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(ts_import_equals_decl))
+                    if !ts_import_equals_decl.is_type_only && !ts_import_equals_decl.is_export =>
+                {
+                    ts_import_equals_decl.is_type_only =
+                        !usage_info.has_usage(&ts_import_equals_decl.id.to_id());
                 }
-
-                usage_info.has_usage(&ts_import_equals_decl.id.to_id())
+                ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
+                    if ts_module.body.is_some() =>
+                {
+                    module_item.visit_mut_with(&mut strip_ts_import_equals);
+                }
+                _ => {}
             }
-            ModuleItem::Stmt(Stmt::Decl(Decl::TsModule(ref ts_module)))
-                if ts_module.body.is_some() =>
-            {
-                module_item.visit_mut_with(&mut strip_ts_import_equals);
-
-                true
-            }
-            _ => true,
-        });
+        }
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
