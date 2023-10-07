@@ -12,13 +12,7 @@ impl Compiler {
         n: &mut AbsoluteColorBase,
     ) {
         if let AbsoluteColorBase::Function(function) = n {
-            if !matches_eq!(
-                function.name,
-                js_word!("rgb"),
-                js_word!("rgba"),
-                js_word!("hsl"),
-                js_word!("hsla")
-            ) {
+            if !matches_eq!(function.name, "rgb", "rgba", "hsl", "hsla") {
                 return;
             }
 

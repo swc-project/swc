@@ -16,11 +16,11 @@ impl Compiler {
                     }
                 };
 
-                if name.value == js_word!("rgb") {
-                    name.value = js_word!("rgba");
+                if name.value == "rgb" {
+                    name.value = "rgba";
                     name.raw = None;
-                } else if name.value == js_word!("hsl") {
-                    name.value = js_word!("hsla");
+                } else if name.value == "hsl" {
+                    name.value = "hsla";
                     name.raw = None;
                 }
             } else {
@@ -31,11 +31,11 @@ impl Compiler {
                     }
                 };
 
-                if name.value == js_word!("rgba") {
-                    name.value = js_word!("rgb");
+                if name.value == "rgba" {
+                    name.value = "rgb";
                     name.raw = None;
-                } else if name.value == js_word!("hsla") {
-                    name.value = js_word!("hsl");
+                } else if name.value == "hsla" {
+                    name.value = "hsl";
                     name.raw = None;
                 }
             }

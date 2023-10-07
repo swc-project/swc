@@ -131,16 +131,16 @@ impl Compiler {
 
     fn get_left_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {
         let value = match name.value {
-            js_word!("width") => js_word!("min-width"),
-            js_word!("height") => js_word!("min-height"),
-            js_word!("device-width") => js_word!("min-device-width"),
-            js_word!("device-height") => js_word!("min-device-height"),
-            js_word!("aspect-ratio") => js_word!("min-aspect-ratio"),
-            js_word!("device-aspect-ratio") => js_word!("min-device-aspect-ratio"),
-            js_word!("color") => js_word!("min-color"),
-            js_word!("color-index") => js_word!("min-color-index"),
-            js_word!("monochrome") => js_word!("min-monochrome"),
-            js_word!("resolution") => js_word!("min-resolution"),
+            "width" => "min-width",
+            "height" => "min-height",
+            "device-width" => "min-device-width",
+            "device-height" => "min-device-height",
+            "aspect-ratio" => "min-aspect-ratio",
+            "device-aspect-ratio" => "min-device-aspect-ratio",
+            "color" => "min-color",
+            "color-index" => "min-color-index",
+            "monochrome" => "min-monochrome",
+            "resolution" => "min-resolution",
             _ => return None,
         };
 
@@ -153,16 +153,16 @@ impl Compiler {
 
     fn get_right_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {
         let value = match name.value {
-            js_word!("width") => js_word!("max-width"),
-            js_word!("height") => js_word!("max-height"),
-            js_word!("device-width") => js_word!("max-device-width"),
-            js_word!("device-height") => js_word!("max-device-height"),
-            js_word!("aspect-ratio") => js_word!("max-aspect-ratio"),
-            js_word!("device-aspect-ratio") => js_word!("max-device-aspect-ratio"),
-            js_word!("color") => js_word!("max-color"),
-            js_word!("color-index") => js_word!("max-color-index"),
-            js_word!("monochrome") => js_word!("max-monochrome"),
-            js_word!("resolution") => js_word!("max-resolution"),
+            "width" => "max-width",
+            "height" => "max-height",
+            "device-width" => "max-device-width",
+            "device-height" => "max-device-height",
+            "aspect-ratio" => "max-aspect-ratio",
+            "device-aspect-ratio" => "max-device-aspect-ratio",
+            "color" => "max-color",
+            "color-index" => "max-color-index",
+            "monochrome" => "max-monochrome",
+            "resolution" => "max-resolution",
             _ => return None,
         };
 

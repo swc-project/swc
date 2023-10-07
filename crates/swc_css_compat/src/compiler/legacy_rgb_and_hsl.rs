@@ -11,8 +11,8 @@ use crate::compiler::Compiler;
 impl Compiler {
     pub(crate) fn process_rgb_and_hsl(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
-            let is_rgb = matches_eq!(function.name, js_word!("rgb"), js_word!("rgba"));
-            let is_hsl = matches_eq!(function.name, js_word!("hsl"), js_word!("hsla"));
+            let is_rgb = matches_eq!(function.name, "rgb", "rgba");
+            let is_hsl = matches_eq!(function.name, "hsl", "hsla");
 
             if is_rgb {
                 function.value = function
@@ -43,10 +43,10 @@ impl Compiler {
                             ..
                         })) => {
                             let value = match unit.value.to_ascii_lowercase() {
-                                js_word!("deg") => value,
-                                js_word!("grad") => value * 180.0 / 200.0,
-                                js_word!("rad") => value * 180.0 / PI,
-                                js_word!("turn") => value * 360.0,
+                                "deg" => value,
+                                "grad" => value * 180.0 / 200.0,
+                                "rad" => value * 180.0 / PI,
+                                "turn" => value * 360.0,
                                 _ => {
                                     unreachable!();
                                 }
