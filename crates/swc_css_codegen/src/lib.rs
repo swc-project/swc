@@ -379,7 +379,7 @@ where
                     self,
                     AtRuleName::Ident(swc_css_ast::Ident {
                         span: n.span,
-                        value: js_word!("layer"),
+                        value: "layer",
                         raw: None
                     })
                 )
