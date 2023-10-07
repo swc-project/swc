@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
@@ -655,7 +655,10 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
 
                 import_map.insert(
                     id,
-                    (mod_ident.clone(), (!default_nowrap).then(|| "default")),
+                    (
+                        mod_ident.clone(),
+                        (!default_nowrap).then(|| "default".into()),
+                    ),
                 );
             }
             LinkSpecifier::ImportStarAs(id) => {
