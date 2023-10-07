@@ -234,9 +234,9 @@ struct Minifier<'a> {
     attribute_name_counter: Option<AHashMap<JsWord, usize>>,
 }
 
-fn get_white_space(namespace: Namespace, tag_name: &JsWord) -> WhiteSpace {
+fn get_white_space(namespace: Namespace, tag_name: &str) -> WhiteSpace {
     match namespace {
-        Namespace::HTML => match *tag_name {
+        Namespace::HTML => match tag_name {
             "textarea" | "code" | "pre" | "listing" | "plaintext" | "xmp" => WhiteSpace::Pre,
             _ => WhiteSpace::Normal,
         },
