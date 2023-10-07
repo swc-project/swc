@@ -240,11 +240,11 @@ where
 #[macro_export]
 macro_rules! js_word {
     ($s:literal) => {{
-        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::JsWord::new($s));
+        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
 
         $crate::JsWord::clone(&*CACHE)
     }};
 }
 
 #[doc(hidden)]
-pub type CahcedAtom = Lazy<JsWord>;
+pub type CahcedAtom = Lazy<Atom>;
