@@ -892,7 +892,7 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident { sym, span, .. }) => match *sym {
+            Expr::Ident(Ident { sym, span, .. }) => match &**sym {
                 "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => NAN,
                 "Infinity" if span.ctxt == ctx.unresolved_ctxt => INFINITY,
                 _ => return (Pure, Unknown),
@@ -904,10 +904,10 @@ pub trait ExprExt {
             }) if matches!(
                 &**arg,
                 Expr::Ident(Ident {
-                    sym: "Infinity",
+                    sym,
                     span,
                     ..
-                }) if span.ctxt == ctx.unresolved_ctxt
+                }) if &**sym == "Infinity" && span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -INFINITY
