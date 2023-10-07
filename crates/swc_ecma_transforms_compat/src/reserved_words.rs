@@ -40,9 +40,9 @@ impl VisitMut for EsReservedWord {
     fn visit_mut_prop_name(&mut self, _n: &mut PropName) {}
 }
 
-fn is_reserved(sym: &JsWord) -> bool {
+fn is_reserved(sym: &str) -> bool {
     matches!(
-        *sym,
+        sym,
         "enum"
             | "implements"
             | "package"
