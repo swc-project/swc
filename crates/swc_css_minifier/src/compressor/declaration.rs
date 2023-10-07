@@ -100,7 +100,7 @@ impl Compressor {
                         {
                             declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "inline-block",
+                                value: "inline-block".into(),
                                 raw: None,
                             }))];
                         }
@@ -372,20 +372,20 @@ impl Compressor {
                     ) = (first, second)
                     {
                         match (
-                            first_value.to_ascii_lowercase(),
-                            second_value.to_ascii_lowercase(),
+                            &*first_value.to_ascii_lowercase(),
+                            &*second_value.to_ascii_lowercase(),
                         ) {
                             ("repeat", "no-repeat") => {
                                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: *span,
-                                    value: "repeat-x",
+                                    value: "repeat-x".into(),
                                     raw: None,
                                 }))];
                             }
                             ("no-repeat", "repeat") => {
                                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: *span,
-                                    value: "repeat-y",
+                                    value: "repeat-y".into(),
                                     raw: None,
                                 }))];
                             }
@@ -602,7 +602,7 @@ impl Compressor {
             return;
         };
 
-        match *name {
+        match &**name {
             "accent-color"
             | "align-self"
             | "animation-timeline"
@@ -697,7 +697,7 @@ impl Compressor {
             | "z-index" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "auto",
+                    value: "auto".into(),
                     raw: None,
                 }))];
             }

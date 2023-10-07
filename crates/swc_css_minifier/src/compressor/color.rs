@@ -121,7 +121,7 @@ macro_rules! make_color {
                     span: $span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: "rgba",
+                        value: "rgba".into(),
                         raw: None,
                     }),
                     value: vec![
@@ -351,7 +351,7 @@ impl Compressor {
                 value,
                 span,
                 ..
-            })) => match value.to_ascii_lowercase() {
+            })) => match &*value.to_ascii_lowercase() {
                 "transparent" => {
                     *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
