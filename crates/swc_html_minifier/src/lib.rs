@@ -23,145 +23,145 @@ use crate::option::{
 
 pub mod option;
 
-static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
-    (&"head", &"profile"),
-    (&"audio", &"src"),
-    (&"embed", &"src"),
-    (&"iframe", &"src"),
-    (&"img", &"src"),
-    (&"input", &"src"),
-    (&"input", &"usemap"),
-    (&"input", &"longdesc"),
-    (&"script", &"src"),
-    (&"source", &"src"),
-    (&"track", &"src"),
-    (&"video", &"src"),
-    (&"video", &"poster"),
-    (&"td", &"colspan"),
-    (&"td", &"rowspan"),
-    (&"th", &"colspan"),
-    (&"th", &"rowspan"),
-    (&"col", &"span"),
-    (&"colgroup", &"span"),
-    (&"textarea", &"cols"),
-    (&"textarea", &"rows"),
-    (&"textarea", &"maxlength"),
-    (&"input", &"size"),
-    (&"input", &"formaction"),
-    (&"input", &"maxlength"),
-    (&"button", &"formaction"),
-    (&"select", &"size"),
-    (&"form", &"action"),
-    (&"object", &"data"),
-    (&"object", &"codebase"),
-    (&"object", &"classid"),
-    (&"applet", &"codebase"),
-    (&"a", &"href"),
-    (&"area", &"href"),
-    (&"link", &"href"),
-    (&"base", &"href"),
-    (&"q", &"cite"),
-    (&"blockquote", &"cite"),
-    (&"del", &"cite"),
-    (&"ins", &"cite"),
-    (&"img", &"usemap"),
-    (&"object", &"usemap"),
+static ALLOW_TO_TRIM_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("head", "profile"),
+    ("audio", "src"),
+    ("embed", "src"),
+    ("iframe", "src"),
+    ("img", "src"),
+    ("input", "src"),
+    ("input", "usemap"),
+    ("input", "longdesc"),
+    ("script", "src"),
+    ("source", "src"),
+    ("track", "src"),
+    ("video", "src"),
+    ("video", "poster"),
+    ("td", "colspan"),
+    ("td", "rowspan"),
+    ("th", "colspan"),
+    ("th", "rowspan"),
+    ("col", "span"),
+    ("colgroup", "span"),
+    ("textarea", "cols"),
+    ("textarea", "rows"),
+    ("textarea", "maxlength"),
+    ("input", "size"),
+    ("input", "formaction"),
+    ("input", "maxlength"),
+    ("button", "formaction"),
+    ("select", "size"),
+    ("form", "action"),
+    ("object", "data"),
+    ("object", "codebase"),
+    ("object", "classid"),
+    ("applet", "codebase"),
+    ("a", "href"),
+    ("area", "href"),
+    ("link", "href"),
+    ("base", "href"),
+    ("q", "cite"),
+    ("blockquote", "cite"),
+    ("del", "cite"),
+    ("ins", "cite"),
+    ("img", "usemap"),
+    ("object", "usemap"),
 ];
 
-static ALLOW_TO_TRIM_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[(&"a", &"href")];
+static ALLOW_TO_TRIM_SVG_ATTRIBUTES: &[(&str, &str)] = &[("a", "href")];
 
-static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
-    (&"img", &"srcset"),
-    (&"source", &"srcset"),
-    (&"img", &"sizes"),
-    (&"source", &"sizes"),
-    (&"link", &"media"),
-    (&"source", &"media"),
-    (&"style", &"media"),
+static COMMA_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("img", "srcset"),
+    ("source", "srcset"),
+    ("img", "sizes"),
+    ("source", "sizes"),
+    ("link", "media"),
+    ("source", "media"),
+    ("style", "media"),
 ];
 
-static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
-    (&"style", &"media"),
-    (&"polyline", &"points"),
-    (&"polygon", &"points"),
+static COMMA_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("style", "media"),
+    ("polyline", "points"),
+    ("polygon", "points"),
 ];
 
-static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
-    (&"a", &"rel"),
-    (&"a", &"ping"),
-    (&"area", &"rel"),
-    (&"area", &"ping"),
-    (&"link", &"rel"),
-    (&"link", &"sizes"),
-    (&"link", &"blocking"),
-    (&"iframe", &"sandbox"),
-    (&"td", &"headers"),
-    (&"th", &"headers"),
-    (&"output", &"for"),
-    (&"script", &"blocking"),
-    (&"style", &"blocking"),
-    (&"input", &"autocomplete"),
-    (&"form", &"rel"),
-    (&"form", &"autocomplete"),
+static SPACE_SEPARATED_HTML_ATTRIBUTES: &[(&str, &str)] = &[
+    ("a", "rel"),
+    ("a", "ping"),
+    ("area", "rel"),
+    ("area", "ping"),
+    ("link", "rel"),
+    ("link", "sizes"),
+    ("link", "blocking"),
+    ("iframe", "sandbox"),
+    ("td", "headers"),
+    ("th", "headers"),
+    ("output", "for"),
+    ("script", "blocking"),
+    ("style", "blocking"),
+    ("input", "autocomplete"),
+    ("form", "rel"),
+    ("form", "autocomplete"),
 ];
 
-static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
-    (&"svg", &"preserveAspectRatio"),
-    (&"svg", &"viewBox"),
-    (&"symbol", &"preserveAspectRatio"),
-    (&"symbol", &"viewBox"),
-    (&"image", &"preserveAspectRatio"),
-    (&"feImage", &"preserveAspectRatio"),
-    (&"marker", &"preserveAspectRatio"),
-    (&"pattern", &"preserveAspectRatio"),
-    (&"pattern", &"viewBox"),
-    (&"pattern", &"patternTransform"),
-    (&"view", &"preserveAspectRatio"),
-    (&"view", &"viewBox"),
-    (&"path", &"d"),
+static SPACE_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("svg", "preserveAspectRatio"),
+    ("svg", "viewBox"),
+    ("symbol", "preserveAspectRatio"),
+    ("symbol", "viewBox"),
+    ("image", "preserveAspectRatio"),
+    ("feImage", "preserveAspectRatio"),
+    ("marker", "preserveAspectRatio"),
+    ("pattern", "preserveAspectRatio"),
+    ("pattern", "viewBox"),
+    ("pattern", "patternTransform"),
+    ("view", "preserveAspectRatio"),
+    ("view", "viewBox"),
+    ("path", "d"),
     // TODO improve me more
-    (&"textPath", &"path"),
-    (&"animateMotion", &"path"),
-    (&"glyph", &"d"),
-    (&"missing-glyph", &"d"),
-    (&"feColorMatrix", &"values"),
-    (&"feConvolveMatrix", &"kernelMatrix"),
-    (&"text", &"rotate"),
-    (&"tspan", &"rotate"),
-    (&"feFuncA", &"tableValues"),
-    (&"feFuncB", &"tableValues"),
-    (&"feFuncG", &"tableValues"),
-    (&"feFuncR", &"tableValues"),
-    (&"linearGradient", &"gradientTransform"),
-    (&"radialGradient", &"gradientTransform"),
-    (&"font-face", &"panose-1"),
-    (&"a", &"rel"),
+    ("textPath", "path"),
+    ("animateMotion", "path"),
+    ("glyph", "d"),
+    ("missing-glyph", "d"),
+    ("feColorMatrix", "values"),
+    ("feConvolveMatrix", "kernelMatrix"),
+    ("text", "rotate"),
+    ("tspan", "rotate"),
+    ("feFuncA", "tableValues"),
+    ("feFuncB", "tableValues"),
+    ("feFuncG", "tableValues"),
+    ("feFuncR", "tableValues"),
+    ("linearGradient", "gradientTransform"),
+    ("radialGradient", "gradientTransform"),
+    ("font-face", "panose-1"),
+    ("a", "rel"),
 ];
 
-static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&JsWord, &JsWord)] = &[
-    (&"animate", &"keyTimes"),
-    (&"animate", &"keySplines"),
-    (&"animate", &"values"),
-    (&"animate", &"begin"),
-    (&"animate", &"end"),
-    (&"animateColor", &"keyTimes"),
-    (&"animateColor", &"keySplines"),
-    (&"animateColor", &"values"),
-    (&"animateColor", &"begin"),
-    (&"animateColor", &"end"),
-    (&"animateMotion", &"keyTimes"),
-    (&"animateMotion", &"keySplines"),
-    (&"animateMotion", &"values"),
-    (&"animateMotion", &"values"),
-    (&"animateMotion", &"end"),
-    (&"animateTransform", &"keyTimes"),
-    (&"animateTransform", &"keySplines"),
-    (&"animateTransform", &"values"),
-    (&"animateTransform", &"begin"),
-    (&"animateTransform", &"end"),
-    (&"discard", &"begin"),
-    (&"set", &"begin"),
-    (&"set", &"end"),
+static SEMICOLON_SEPARATED_SVG_ATTRIBUTES: &[(&str, &str)] = &[
+    ("animate", "keyTimes"),
+    ("animate", "keySplines"),
+    ("animate", "values"),
+    ("animate", "begin"),
+    ("animate", "end"),
+    ("animateColor", "keyTimes"),
+    ("animateColor", "keySplines"),
+    ("animateColor", "values"),
+    ("animateColor", "begin"),
+    ("animateColor", "end"),
+    ("animateMotion", "keyTimes"),
+    ("animateMotion", "keySplines"),
+    ("animateMotion", "values"),
+    ("animateMotion", "values"),
+    ("animateMotion", "end"),
+    ("animateTransform", "keyTimes"),
+    ("animateTransform", "keySplines"),
+    ("animateTransform", "values"),
+    ("animateTransform", "begin"),
+    ("animateTransform", "end"),
+    ("discard", "begin"),
+    ("set", "begin"),
+    ("set", "end"),
 ];
 
 enum CssMinificationMode {
@@ -398,7 +398,7 @@ impl Minifier<'_> {
                     if element.tag_name == "meta"
                         && (self.element_has_attribute_with_value(
                             element,
-                            &"name",
+                            "name",
                             &["viewport", "keywords"],
                         )) =>
                 {
@@ -406,19 +406,19 @@ impl Minifier<'_> {
                 }
                 "imagesrcset"
                     if element.tag_name == "link"
-                        && self.element_has_attribute_with_value(element, &"rel", &["preload"]) =>
+                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
                 {
                     true
                 }
                 "imagesizes"
                     if element.tag_name == "link"
-                        && self.element_has_attribute_with_value(element, &"rel", &["preload"]) =>
+                        && self.element_has_attribute_with_value(element, "rel", &["preload"]) =>
                 {
                     true
                 }
                 "accept"
                     if element.tag_name == "input"
-                        && self.element_has_attribute_with_value(element, &"type", &["file"]) =>
+                        && self.element_has_attribute_with_value(element, "type", &["file"]) =>
                 {
                     true
                 }
@@ -492,7 +492,7 @@ impl Minifier<'_> {
                 "link"
                     if self.element_has_attribute_with_value(
                         element,
-                        &"rel",
+                        "rel",
                         &["icon", "apple-touch-icon", "apple-touch-icon-precomposed"],
                     ) && attribute.name == "sizes" =>
                 {
@@ -516,9 +516,9 @@ impl Minifier<'_> {
             ),
             (
                 Namespace::HTML,
-                &"img" | &"audio" | &"video" | &"script" | &"link",
-                &"crossorigin",
-            ) | (Namespace::SVG, &"image", &"crossorigin")
+                "img" | "audio" | "video" | "script" | "link",
+                "crossorigin",
+            ) | (Namespace::SVG, "image", "crossorigin")
         )
     }
 
@@ -709,15 +709,10 @@ impl Minifier<'_> {
                         &attribute.name,
                         attribute_value.to_ascii_lowercase().trim()
                     ),
-                    |(
+                    |(Namespace::MATHML, "math", "xmlns", "http://www.w3.org/1998/math/mathml")| (
                         Namespace::MATHML,
-                        &"math",
-                        &"xmlns",
-                        "http://www.w3.org/1998/math/mathml",
-                    )| (
-                        Namespace::MATHML,
-                        &"math",
-                        &"xlink",
+                        "math",
+                        "xlink",
                         "http://www.w3.org/1999/xlink"
                     )
                 )
@@ -727,8 +722,8 @@ impl Minifier<'_> {
 
     fn is_javascript_url_element(&self, element: &Element) -> bool {
         match (element.namespace, &element.tag_name) {
-            (Namespace::HTML | Namespace::SVG, &"a") => return true,
-            (Namespace::HTML, &"iframe") => return true,
+            (Namespace::HTML | Namespace::SVG, "a") => return true,
+            (Namespace::HTML, "iframe") => return true,
             _ => {}
         }
 
@@ -2418,7 +2413,7 @@ impl Minifier<'_> {
             }
 
             match (element.namespace, &element.tag_name, &n.name) {
-                (Namespace::HTML, &"iframe", &"srcdoc") => {
+                (Namespace::HTML, "iframe", "srcdoc") => {
                     if let Some(minified) = self.minify_html(
                         value.to_string(),
                         HtmlMinificationMode::DocumentIframeSrcdoc,
@@ -2428,8 +2423,8 @@ impl Minifier<'_> {
                 }
                 (
                     Namespace::HTML | Namespace::SVG,
-                    &"style" | &"link" | &"script" | &"input",
-                    &"type",
+                    "style" | "link" | "script" | "input",
+                    "type",
                 ) if self.options.normalize_attributes => {
                     n.value = Some(value.trim().to_ascii_lowercase().into());
                 }
@@ -2486,7 +2481,7 @@ impl Minifier<'_> {
                     && n.name == "content"
                     && self.element_has_attribute_with_value(
                         element,
-                        &"http-equiv",
+                        "http-equiv",
                         &["content-security-policy"],
                     ) =>
                 {
