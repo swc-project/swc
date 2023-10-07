@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;

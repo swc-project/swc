@@ -2016,7 +2016,7 @@ impl<I: Tokens> Parser<I> {
         // TODO(kdy1): !this.state.containsEsc &&
 
         Ok(self.state.potential_arrow_start == Some(expr.span_lo())
-            && matches!(*expr, Expr::Ident(Ident { sym: "async", .. })))
+            && expr.is_ident_ref_to("async"))
     }
 
     /// 12.2.5 Array Initializer
