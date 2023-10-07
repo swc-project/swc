@@ -162,10 +162,7 @@ impl VisitMut for StripType {
                 matches!(
                     param.pat,
                     Pat::Ident(BindingIdent {
-                        id: Ident {
-                            sym: js_word!("this"),
-                            ..
-                        },
+                        id: Ident { sym: "this", .. },
                         ..
                     })
                 )
