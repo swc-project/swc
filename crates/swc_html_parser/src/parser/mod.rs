@@ -426,7 +426,7 @@ where
 
                 let attributes = attributes.take();
 
-                match tag_name {
+                match &*tag_name {
                     "html" | "body" if namespace == Namespace::HTML => {
                         // Elements and text after `</html>` are moving into `<body>`
                         // Elements and text after `</body>` are moving into `<body>`
@@ -734,7 +734,7 @@ where
             // current insertion mode in HTML content.
             Token::StartTag { tag_name, .. }
                 if matches!(
-                    *tag_name,
+                    &**tag_name,
                     "b" | "big"
                         | "blockquote"
                         | "body"
@@ -794,7 +794,7 @@ where
             } if *tag_name == "font"
                 && attributes
                     .iter()
-                    .any(|attribute| matches!(attribute.name, "color" | "face" | "size")) =>
+                    .any(|attribute| matches!(&*attribute.name, "color" | "face" | "size")) =>
             {
                 self.errors.push(Error::new(
                     token_and_info.span,
@@ -803,12 +803,15 @@ where
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }
-            Token::EndTag { tag_name, .. } if matches!(*tag_name, "br" | "p") => {
+            Token::EndTag { tag_name, .. } if matches!(&**tag_name, "br" | "p") => {
                 let last = get_tag_name!(self.open_elements_stack.items.last().unwrap());
 
                 self.errors.push(Error::new(
                     token_and_info.span,
-                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(tag_name.clone(), last.clone()),
+                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(
+                        tag_name.clone(),
+                        last.clone().into(),
+                    ),
                 ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
@@ -952,7 +955,7 @@ where
 
                     if let Some(new_tag_name) = new_tag_name {
                         token_and_info.token = Token::StartTag {
-                            tag_name: new_tag_name,
+                            tag_name: new_tag_name.into(),
                             raw_tag_name: raw_tag_name.clone(),
                             is_self_closing,
                             attributes: attributes.clone(),
@@ -1048,7 +1051,7 @@ where
                                 token_and_info.span,
                                 ErrorKind::EndTagDidNotMatchCurrentOpenElement(
                                     tag_name.clone(),
-                                    node_tag_name.clone(),
+                                    node_tag_name.clone().into(),
                                 ),
                             ));
                         }
@@ -1521,7 +1524,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "head" | "body" | "html" | "br") =>
+                        if matches!(&**tag_name, "head" | "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
