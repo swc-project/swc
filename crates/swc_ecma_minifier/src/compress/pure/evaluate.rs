@@ -226,9 +226,8 @@ impl Pure<'_> {
             _ => return,
         };
 
-        match &*member.obj {
-            Expr::Ident(Ident { sym: arguments, .. }) => {}
-            _ => return,
+        if !member.obj.is_ident_ref_to("arguments") {
+            return;
         }
 
         match &mut member.prop {
