@@ -396,10 +396,10 @@ pub fn hex_to_rgba(hex: &str) -> (u8, u8, u8, f64) {
 
 pub fn angle_to_deg(value: f64, from: &JsWord) -> f64 {
     match *from {
-        js_word!("deg") => value,
-        js_word!("grad") => value * 180.0 / 200.0,
-        js_word!("turn") => value * 360.0,
-        js_word!("rad") => value * 180.0 / PI,
+        "deg" => value,
+        "grad" => value * 180.0 / 200.0,
+        "turn" => value * 360.0,
+        "rad" => value * 180.0 / PI,
         _ => {
             unreachable!("Unknown angle type: {:?}", from);
         }
