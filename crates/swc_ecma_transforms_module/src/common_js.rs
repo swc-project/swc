@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
 };

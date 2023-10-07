@@ -138,22 +138,13 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     };
 
     match callee {
-        Expr::Member(MemberExpr {
-            obj,
-            prop: MemberProp::Ident(Ident {
-                sym: "createClass", ..
-            }),
-            ..
-        }) => {
+        Expr::Member(MemberExpr { obj, prop, .. }) if prop.is_ident_with("createClass") => {
             if obj.is_ident_ref_to("React") {
                 return true;
             }
         }
 
-        Expr::Ident(Ident {
-            sym: "createReactClass",
-            ..
-        }) => return true,
+        Expr::Ident(Ident { sym, .. }) if &**sym == "createReactClass" => return true,
         _ => {}
     }
 
