@@ -479,7 +479,7 @@ impl Pure<'_> {
             ) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident { sym: "Boolean", .. }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Boolean" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Bool(Bool {
                             span: *span,
                             value: false,
@@ -534,7 +534,7 @@ impl Pure<'_> {
                         }
                         _ => None,
                     },
-                    Expr::Ident(Ident { sym: "Symbol", .. }) => {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {
                         if let [ExprOrSpread { spread: None, .. }] = &mut args[..] {
                             if self.options.unsafe_symbols {
                                 args.clear();
