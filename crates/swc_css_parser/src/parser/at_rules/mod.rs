@@ -2525,7 +2525,7 @@ where
             tok!("ident") => {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase();
+                name.value = name.value.to_ascii_lowercase().into();
 
                 Ok(SizeFeatureValue::Ident(name))
             }
