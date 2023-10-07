@@ -375,7 +375,7 @@ impl Minifier<'_> {
     }
 
     fn is_trimable_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
-        match attribute.name {
+        match &*attribute.name {
             "style" | "tabindex" | "itemid" => return true,
             _ => {}
         }
@@ -393,7 +393,7 @@ impl Minifier<'_> {
 
     fn is_comma_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
         match element.namespace {
-            Namespace::HTML => match attribute.name {
+            Namespace::HTML => match &*attribute.name {
                 "content"
                     if element.tag_name == "meta"
                         && (self.element_has_attribute_with_value(
@@ -435,7 +435,7 @@ impl Minifier<'_> {
     }
 
     fn is_space_separated_attribute(&self, element: &Element, attribute: &Attribute) -> bool {
-        match attribute.name {
+        match &*attribute.name {
             "class" | "itemprop" | "itemref" | "itemtype" | "part" | "accesskey"
             | "aria-describedby" | "aria-labelledby" | "aria-owns" => return true,
             _ => {}
@@ -446,7 +446,7 @@ impl Minifier<'_> {
                 SPACE_SEPARATED_HTML_ATTRIBUTES.contains(&(&element.tag_name, &attribute.name))
             }
             Namespace::SVG => {
-                match attribute.name {
+                match &*attribute.name {
                     "transform" | "stroke-dasharray" | "clip-path" | "requiredFeatures" => {
                         return true
                     }
@@ -580,7 +580,7 @@ impl Minifier<'_> {
         match element.namespace {
             Namespace::HTML | Namespace::SVG => {
                 match element.tag_name {
-                    "html" => match attribute.name {
+                    "html" => match &*attribute.name {
                         "xmlns" => {
                             if &*attribute_value.trim().to_ascii_lowercase()
                                 == "http://www.w3.org/1999/xhtml"
@@ -597,7 +597,7 @@ impl Minifier<'_> {
                         }
                         _ => {}
                     },
-                    "script" => match attribute.name {
+                    "script" => match &*attribute.name {
                         "type" => {
                             if self.is_type_text_javascript(attribute_value) {
                                 return true;
@@ -1223,7 +1223,7 @@ impl Minifier<'_> {
                     .attributes
                     .clone()
                     .into_iter()
-                    .filter(|attribute| match attribute.name {
+                    .filter(|attribute| match &*attribute.name {
                         "src" if is_script_tag => {
                             need_skip = true;
 
@@ -1265,7 +1265,7 @@ impl Minifier<'_> {
                     .attributes
                     .clone()
                     .into_iter()
-                    .filter(|attribute| match attribute.name {
+                    .filter(|attribute| match &*attribute.name {
                         "src" if is_script_tag => {
                             need_skip = true;
 
