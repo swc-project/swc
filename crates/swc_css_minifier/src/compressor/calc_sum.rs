@@ -455,7 +455,7 @@ fn try_to_reduce_node_with_absolute_lengths(
     dimensions: &mut AHashMap<JsWord, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    if let (Some(idx_cm), Some(idx_mm)) = (dimensions.get(&"cm"), dimensions.get(&"mm")) {
+    if let (Some(idx_cm), Some(idx_mm)) = (dimensions.get("cm"), dimensions.get("mm")) {
         let value_cm = get_value(&nodes[*idx_cm]);
         let value_mm = get_value(&nodes[*idx_mm]);
         if let Some(result) = try_to_sum_values(value_cm, value_mm, Some(10.0)) {
@@ -464,7 +464,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_mm), Some(idx_q)) = (dimensions.get(&"mm"), dimensions.get(&"q")) {
+    if let (Some(idx_mm), Some(idx_q)) = (dimensions.get("mm"), dimensions.get("q")) {
         let value_mm = get_value(&nodes[*idx_mm]);
         let value_q = get_value(&nodes[*idx_q]);
         if let Some(result) = try_to_sum_values(value_mm, value_q, Some(4.0)) {
@@ -473,7 +473,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_cm), Some(idx_q)) = (dimensions.get(&"cm"), dimensions.get(&"q")) {
+    if let (Some(idx_cm), Some(idx_q)) = (dimensions.get("cm"), dimensions.get("q")) {
         let value_cm = get_value(&nodes[*idx_cm]);
         let value_q = get_value(&nodes[*idx_q]);
         if let Some(result) = try_to_sum_values(value_cm, value_q, Some(40.0)) {
@@ -482,7 +482,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_in), Some(idx_px)) = (dimensions.get(&"in"), dimensions.get(&"px")) {
+    if let (Some(idx_in), Some(idx_px)) = (dimensions.get("in"), dimensions.get("px")) {
         let value_in = get_value(&nodes[*idx_in]);
         let value_px = get_value(&nodes[*idx_px]);
         if let Some(result) = try_to_sum_values(value_in, value_px, Some(96.0)) {
@@ -491,7 +491,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_in), Some(idx_pc)) = (dimensions.get(&"in"), dimensions.get(&"pc")) {
+    if let (Some(idx_in), Some(idx_pc)) = (dimensions.get("in"), dimensions.get("pc")) {
         let value_in = get_value(&nodes[*idx_in]);
         let value_pc = get_value(&nodes[*idx_pc]);
         if let Some(result) = try_to_sum_values(value_in, value_pc, Some(6.0)) {
@@ -500,7 +500,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_pc), Some(idx_pt)) = (dimensions.get(&"pc"), dimensions.get(&"pt")) {
+    if let (Some(idx_pc), Some(idx_pt)) = (dimensions.get("pc"), dimensions.get("pt")) {
         let value_pc = get_value(&nodes[*idx_pc]);
         let value_pt = get_value(&nodes[*idx_pt]);
         if let Some(result) = try_to_sum_values(value_pc, value_pt, Some(12.0)) {
@@ -509,7 +509,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_pc), Some(idx_px)) = (dimensions.get(&"pc"), dimensions.get(&"px")) {
+    if let (Some(idx_pc), Some(idx_px)) = (dimensions.get("pc"), dimensions.get("px")) {
         let value_pc = get_value(&nodes[*idx_pc]);
         let value_px = get_value(&nodes[*idx_px]);
         if let Some(result) = try_to_sum_values(value_pc, value_px, Some(16.0)) {
@@ -524,13 +524,13 @@ fn try_to_reduce_node_with_durations(
     dimensions: &mut AHashMap<JsWord, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    if let (Some(idx_ms), Some(idx_s)) = (dimensions.get(&"ms"), dimensions.get(&"s")) {
+    if let (Some(idx_ms), Some(idx_s)) = (dimensions.get("ms"), dimensions.get("s")) {
         let value_ms = get_value(&nodes[*idx_ms]);
         let value_s = get_value(&nodes[*idx_s]);
         if let Some(result) = try_to_sum_values(value_s, value_ms, Some(1000.0)) {
             set_value(&mut nodes[*idx_ms], result);
             nodes.remove(*idx_s);
-            dimensions.remove(&"s");
+            dimensions.remove("s");
         }
     }
 }
@@ -540,13 +540,13 @@ fn try_to_reduce_node_with_frequencies(
     dimensions: &mut AHashMap<JsWord, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    if let (Some(idx_hz), Some(idx_khz)) = (dimensions.get(&"hz"), dimensions.get(&"khz")) {
+    if let (Some(idx_hz), Some(idx_khz)) = (dimensions.get("hz"), dimensions.get("khz")) {
         let value_hz = get_value(&nodes[*idx_hz]);
         let value_khz = get_value(&nodes[*idx_khz]);
         if let Some(result) = try_to_sum_values(value_khz, value_hz, Some(1000.0)) {
             set_value(&mut nodes[*idx_hz], result);
             nodes.remove(*idx_khz);
-            dimensions.remove(&"khz");
+            dimensions.remove("khz");
         }
     }
 }
