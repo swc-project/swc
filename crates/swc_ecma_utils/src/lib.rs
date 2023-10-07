@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::boxed_local)]
+#![allow(clippy::mutable_key_type)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
@@ -636,7 +637,7 @@ pub trait ExprExt {
     fn is_one_of_global_ref_to(&self, ctx: &ExprCtx, ids: &[&str]) -> bool {
         match self.as_expr() {
             Expr::Ident(i) => {
-                i.span.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| &i.sym == *id)
+                i.span.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id)
             }
             _ => false,
         }

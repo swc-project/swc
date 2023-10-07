@@ -18,16 +18,6 @@ macro_rules! native {
 
             SET.contains(sym)
         }
-
-        /// Faster
-        pub fn is_native_word(sym: &JsWord) -> bool {
-            match *sym{
-                $(
-                    js_word!($i) => true,
-                )*
-                _ => false
-            }
-        }
     };
 }
 
