@@ -169,10 +169,7 @@ impl Visit for ArgumentsFinder {
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        if let Expr::Ident(Ident {
-            sym: "arguments", ..
-        }) = *e
-        {
+        if e.is_ident_ref_to("arguments") {
             self.found = true;
         }
     }
@@ -183,11 +180,10 @@ impl Visit for ArgumentsFinder {
     fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
-        if let Prop::Shorthand(Ident {
-            sym: "arguments", ..
-        }) = n
-        {
-            self.found = true;
+        if let Prop::Shorthand(i) = n {
+            if &*i.sym == "arguments" {
+                self.found = true;
+            }
         }
     }
 }
