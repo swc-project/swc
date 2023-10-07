@@ -536,7 +536,7 @@ impl Minifier<'_> {
         })
     }
 
-    fn is_type_text_javascript(&self, value: &JsWord) -> bool {
+    fn is_type_text_javascript(&self, value: &str) -> bool {
         let value = value.trim().to_ascii_lowercase();
         let value = if let Some(next) = value.split(';').next() {
             next
@@ -1732,7 +1732,7 @@ impl Minifier<'_> {
     fn get_attribute_value<'a>(
         &self,
         attributes: &'a Vec<Attribute>,
-        name: JsWord,
+        name: &str,
     ) -> Option<&'a JsWord> {
         let mut type_attribute_value = None;
 
@@ -1749,7 +1749,7 @@ impl Minifier<'_> {
         type_attribute_value
     }
 
-    fn is_additional_scripts_content(&self, name: &JsWord) -> Option<MinifierType> {
+    fn is_additional_scripts_content(&self, name: &str) -> Option<MinifierType> {
         if let Some(minify_additional_scripts_content) =
             &self.options.minify_additional_scripts_content
         {
@@ -2807,7 +2807,7 @@ impl VisitMut for Minifier<'_> {
         let mut text_type = None;
 
         if let Some(current_element) = &self.current_element {
-            match current_element.tag_name {
+            match &*current_element.tag_name {
                 "script"
                     if (self.need_minify_json() || self.need_minify_js())
                         && matches!(
@@ -2817,13 +2817,13 @@ impl VisitMut for Minifier<'_> {
                         && !current_element
                             .attributes
                             .iter()
-                            .any(|attribute| matches!(attribute.name, "src")) =>
+                            .any(|attribute| matches!(&*attribute.name, "src")) =>
                 {
                     let type_attribute_value: Option<JsWord> = self
                         .get_attribute_value(&current_element.attributes, "type")
                         .map(|v| v.to_ascii_lowercase().trim().into());
 
-                    match type_attribute_value {
+                    match type_attribute_value.as_deref() {
                         Some("module") if self.need_minify_js() => {
                             text_type = Some(MinifierType::JsModule);
                         }
