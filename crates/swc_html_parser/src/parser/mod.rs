@@ -1069,7 +1069,7 @@ where
                         Data::Element {
                             tag_name: node_tag_name,
                             ..
-                        } if node_tag_name.to_ascii_lowercase() == *tag_name => {
+                        } if node_tag_name.to_ascii_lowercase() == &**tag_name => {
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
