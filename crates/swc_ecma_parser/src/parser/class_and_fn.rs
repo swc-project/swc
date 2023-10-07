@@ -1701,7 +1701,7 @@ fn is_constructor(key: &Key) -> bool {
         })) | Key::Public(PropName::Str(Str {
             value: constructor,
             ..
-        })) if &**constructor == "constructor"
+        })) if &*constructor == "constructor"
     )
 }
 
@@ -1711,7 +1711,7 @@ pub(crate) fn is_not_this(p: &Param) -> bool {
         Pat::Ident(BindingIdent {
             id: Ident { sym: this, .. },
             ..
-        })if &**this == "this"
+        })if &*this == "this"
     )
 }
 

@@ -5,7 +5,10 @@ use swc_atoms::js_word;
 use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
-use crate::parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread};
+use crate::{
+    parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
+    token::IdentLike,
+};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
@@ -149,7 +152,12 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.syntax().typescript()
             && matches!(
                 *cur!(self, false)?,
-                Word(Word::Ident("public" | "protected" | "private" | "readonly"))
+                Word(Word::Ident(IdentLike::Known(
+                    known_ident!("public")
+                        | known_ident!("protected")
+                        | known_ident!("private")
+                        | known_ident!("readonly")
+                )))
             )
             && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {
