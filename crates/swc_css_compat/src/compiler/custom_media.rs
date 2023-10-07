@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
     AtRule, AtRuleName, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident,

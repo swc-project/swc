@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{matches_eq, AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue};
 
