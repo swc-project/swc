@@ -392,7 +392,10 @@ impl<I: Tokens> Parser<I> {
         let declare_token = if declare {
             // Handle declare(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new("declare", span!(self, start))));
+                let key = Key::Public(PropName::Ident(Ident::new(
+                    "declare".into(),
+                    span!(self, start),
+                )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
                     |p| p.parse_unique_formal_params(),

@@ -131,8 +131,6 @@ pub struct Lexer<'a> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
-    atoms: Rc<RefCell<AtomGenerator>>,
-
     buf: Rc<RefCell<String>>,
 }
 
@@ -158,7 +156,6 @@ impl<'a> Lexer<'a> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
         }
     }
@@ -1070,7 +1067,7 @@ impl<'a> Lexer<'a> {
 
                         return Ok(Token::Str {
                             value: (&**out).into(),
-                            raw: l.atoms.borrow_mut().intern(raw),
+                            raw: raw.into(),
                         });
                     }
                     '\\' => {
@@ -1104,7 +1101,7 @@ impl<'a> Lexer<'a> {
 
             Ok(Token::Str {
                 value: (&**out).into(),
-                raw: l.atoms.borrow_mut().intern(raw),
+                raw: raw.into(),
             })
         })
     }
@@ -1171,11 +1168,8 @@ impl<'a> Lexer<'a> {
         // here (don't ask).
         // let flags_start = self.cur_pos();
         let flags = {
-            let atoms = self.atoms.clone();
             match self.cur() {
-                Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s| atoms.borrow_mut().intern(s))
-                    .map(Some),
+                Some(c) if c.is_ident_start() => self.read_word_as_str_with(|s| s.into()).map(Some),
                 _ => Ok(None),
             }
         }?
