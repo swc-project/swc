@@ -2607,7 +2607,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements(body),
+                                    ErrorKind::EndTagWithUnclosedElements("body".into()),
                                 ));
 
                                 break;
@@ -2669,7 +2669,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements(html),
+                                    ErrorKind::EndTagWithUnclosedElements("html".into()),
                                 ));
 
                                 break;
@@ -2869,7 +2869,7 @@ where
                                     Some(node) if !is_html_element!(node, "li") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(li),
+                                            ErrorKind::UnclosedElementsImplied("li".into()),
                                         ));
                                     }
                                     _ => {}
