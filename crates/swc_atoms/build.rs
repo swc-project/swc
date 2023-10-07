@@ -5,7 +5,7 @@ fn main() {
         .lines()
         .map(|l| l.trim())
         .collect::<Vec<_>>();
-    gen("js_word", "JsWord", &strs);
+    gen("js_word_old", "OldJsWord", &strs);
 }
 
 fn gen(mac_name: &str, type_name: &str, atoms: &[&str]) {
