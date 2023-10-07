@@ -8,7 +8,7 @@ use std::{
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;

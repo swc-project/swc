@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 

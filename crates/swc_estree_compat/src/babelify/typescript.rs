@@ -730,9 +730,9 @@ impl Babelify for TsTypeOperatorOp {
 
     fn babelify(self, _ctx: &Context) -> Self::Output {
         match self {
-            TsTypeOperatorOp::KeyOf => "keyof",
-            TsTypeOperatorOp::Unique => "unique",
-            TsTypeOperatorOp::ReadOnly => "readonly",
+            TsTypeOperatorOp::KeyOf => "keyof".into(),
+            TsTypeOperatorOp::Unique => "unique".into(),
+            TsTypeOperatorOp::ReadOnly => "readonly".into(),
         }
     }
 }
