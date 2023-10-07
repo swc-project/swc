@@ -52,10 +52,7 @@ impl Visit for Analyzer {
                 // composes: name from 'foo.css'
                 if d.value.len() >= 3 {
                     if let (
-                        ComponentValue::Ident(box Ident {
-                            value: js_word!("from"),
-                            ..
-                        }),
+                        ComponentValue::Ident(box Ident { value: "from", .. }),
                         ComponentValue::Str(s),
                     ) = (&d.value[d.value.len() - 2], &d.value[d.value.len() - 1])
                     {
