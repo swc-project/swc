@@ -2089,7 +2089,7 @@ impl VisitMut for Prefixer {
                         Some(ComponentValue::Ident(third)),
                     ) = (n.value.get(0), n.value.get(1), n.value.get(2))
                     {
-                        match (&first.value, &second.value, &third.value) {
+                        match (&*first.value, &*second.value, &*third.value) {
                             ("list-item", "block", "flow")
                             | ("list-item", "flow", "block")
                             | ("block", "list-item", "flow")
