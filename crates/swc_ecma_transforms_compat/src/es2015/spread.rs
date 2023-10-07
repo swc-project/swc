@@ -1,7 +1,6 @@
 use std::mem;
 
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};

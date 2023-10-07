@@ -324,7 +324,7 @@ where
                         let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
-                            if *id.sym() == default {
+                            if *id.sym() == "default" {
                                 continue;
                             }
 
@@ -515,7 +515,7 @@ where
                             }
                         };
                         // Default is not exported via `export *`
-                        if exported.sym == default {
+                        if &*exported.sym == "default" {
                             exported.span.ctxt == info.export_ctxt()
                         } else {
                             ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())

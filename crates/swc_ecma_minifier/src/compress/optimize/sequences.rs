@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{

@@ -224,8 +224,7 @@ where
 
                 match &mut e.callee {
                     Callee::Expr(callee)
-                        if self.bundler.config.require
-                            && matches!(&**callee, Expr::Ident(Ident { sym: "require", .. })) =>
+                        if self.bundler.config.require && callee.is_ident_ref_to("require") =>
                     {
                         if self.bundler.is_external(&src.value) {
                             return;
