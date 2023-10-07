@@ -7,7 +7,7 @@
 pub extern crate once_cell;
 
 use std::{
-    borrow::{Borrow, Cow},
+    borrow::Cow,
     fmt::{self, Display, Formatter},
     hash::Hash,
     ops::Deref,
@@ -113,12 +113,6 @@ impl_from!(String);
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
-        self
-    }
-}
-
-impl Borrow<str> for Atom {
-    fn borrow(&self) -> &str {
         self
     }
 }
