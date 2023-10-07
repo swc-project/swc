@@ -1064,14 +1064,13 @@ pub trait ExprExt {
 
             Expr::Member(MemberExpr {
                 obj,
-                prop: MemberProp::Ident(Ident { sym: "length", .. }),
+                prop: MemberProp::Ident(Ident { sym: length, .. }),
                 ..
-            }) => match &**obj {
-                Expr::Array(ArrayLit { .. })
-                | Expr::Lit(Lit::Str(..))
-                | Expr::Ident(Ident {
-                    sym: "arguments", ..
-                }) => Known(Type::Num),
+            }) if &**length == "length" => match &**obj {
+                Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
+                Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
+                    Known(Type::Num)
+                }
                 _ => Unknown,
             },
 
