@@ -6,7 +6,7 @@ use std::{
 use dashmap::DashMap;
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::ARandomState,
     errors::HANDLER,

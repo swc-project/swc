@@ -728,10 +728,9 @@ impl SimplifyExpr {
             Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
-            })
-            | Expr::Ident(Ident {
-                sym: "undefined", ..
-            }) => {
+            }) => "undefined",
+
+            Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => {
                 // We can assume `undefined` is `undefined`,
                 // because overriding `undefined` is always hard error in swc.
                 "undefined"
@@ -812,11 +811,9 @@ impl SimplifyExpr {
                 }
             }
             op!(unary, "-") => match &**arg {
-                Expr::Ident(Ident {
-                    sym: "Infinity", ..
-                }) => {}
+                Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => {}
                 // "-NaN" is "NaN"
-                Expr::Ident(Ident { sym: "NaN", .. }) => {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => {
                     self.changed = true;
                     *expr = *(arg.take());
                 }
