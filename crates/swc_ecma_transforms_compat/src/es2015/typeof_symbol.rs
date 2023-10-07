@@ -135,28 +135,13 @@ impl VisitMut for TypeOfSymbol {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn is_non_symbol_literal(e: &Expr) -> bool {
-    matches!(
-        *e,
-        Expr::Lit(Lit::Str(Str {
-            value: "undefined",
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: "object",
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: "boolean",
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: "number",
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: "string",
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: "function",
-            ..
-        }))
-    )
+    match e {
+        Expr::Lit(Lit::Str(Str { value, .. })) => matches!(
+            &**value,
+            "undefined" | "object" | "boolean" | "number" | "string" | "function"
+        ),
+        _ => false,
+    }
 }
 
 #[cfg(test)]
