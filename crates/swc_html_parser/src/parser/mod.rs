@@ -1040,7 +1040,7 @@ where
                 if let Some(node) = &node {
                     let node_tag_name = get_tag_name!(node);
 
-                    if node_tag_name.to_ascii_lowercase() != &**tag_name {
+                    if node_tag_name.to_ascii_lowercase() != **tag_name {
                         if stack_idx == 0 {
                             self.errors.push(Error::new(
                                 token_and_info.span,
