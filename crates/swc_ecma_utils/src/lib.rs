@@ -1144,7 +1144,7 @@ pub trait ExprExt {
                 Unknown
             }
 
-            Expr::Ident(Ident { ref sym, .. }) => Known(match *sym {
+            Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
                 "undefined" => UndefinedType,
                 "NaN" | "Infinity" => NumberType,
                 _ => return Unknown,
