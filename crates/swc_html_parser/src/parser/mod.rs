@@ -8529,7 +8529,7 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                         && (attribute.value.is_some()
                             && matches!(
                                 attribute.value.as_ref().unwrap().to_ascii_lowercase(),
-                                "text/html" | js_word!("application/xhtml+xml")
+                                "text/html" | "application/xhtml+xml"
                             ))
                     {
                         return true;
