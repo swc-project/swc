@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Create an instance of MyClass.
-                 *' type=dynamic),
+            value: "Create an instance of MyClass.\n     *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructs' type=dynamic),
+                    value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

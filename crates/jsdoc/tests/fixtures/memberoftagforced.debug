@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The current position.' type=dynamic),
+            value: "The current position.",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -128,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{object}' type=dynamic),
+                            value: "{object}",
                         },
                     },
                 ),
@@ -153,7 +153,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=static),
+                    value: "property",
                 },
                 tag: Property(
                     PropertyTag {
@@ -187,7 +187,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -202,7 +202,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{boolean}' type=dynamic),
+                                value: "{boolean}",
                             },
                         ),
                         desc: Text {
@@ -215,7 +215,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('needsRevalidate Does this point need to be revalidated?' type=dynamic),
+                            value: "needsRevalidate Does this point need to be revalidated?",
                         },
                     },
                 ),
@@ -242,7 +242,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The x coordinate of the point.' type=dynamic),
+            value: "The x coordinate of the point.",
         },
         tags: [
             TagItem {
@@ -265,7 +265,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -288,7 +288,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{number}' type=dynamic),
+                            value: "{number}",
                         },
                     },
                 ),
@@ -313,7 +313,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=static),
+                    value: "name",
                 },
                 tag: Name(
                     NameTag {
@@ -347,7 +347,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('point' type=inline),
+                                    value: "point",
                                 },
                             ],
                         },
@@ -376,7 +376,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The y coordinate of the point.' type=dynamic),
+            value: "The y coordinate of the point.",
         },
         tags: [
             TagItem {
@@ -399,7 +399,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -422,7 +422,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{number}' type=dynamic),
+                            value: "{number}",
                         },
                     },
                 ),
@@ -447,7 +447,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=static),
+                    value: "name",
                 },
                 tag: Name(
                     NameTag {
@@ -481,7 +481,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('point' type=inline),
+                                    value: "point",
                                 },
                             ],
                         },
@@ -510,7 +510,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -533,7 +533,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -556,7 +556,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{Array}' type=inline),
+                            value: "{Array}",
                         },
                     },
                 ),
@@ -581,7 +581,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=static),
+                    value: "name",
                 },
                 tag: Name(
                     NameTag {
@@ -615,7 +615,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('map' type=static),
+                                    value: "map",
                                 },
                             ],
                         },
@@ -644,7 +644,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The current cursor.' type=dynamic),
+            value: "The current cursor.",
         },
         tags: [],
     },

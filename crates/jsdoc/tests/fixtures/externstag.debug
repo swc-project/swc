@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('This is an externs file.
-             *
-             *' type=dynamic),
+            value: "This is an externs file.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('externs' type=inline),
+                    value: "externs",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -67,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

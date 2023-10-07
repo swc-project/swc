@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A builder function for the Stick application;' type=dynamic),
+            value: "A builder function for the Stick application;",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('var' type=static),
+                    value: "var",
                 },
                 tag: Member(
                     MemberTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         name: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('function' type=static),
+                            value: "function",
                         },
                     },
                 ),

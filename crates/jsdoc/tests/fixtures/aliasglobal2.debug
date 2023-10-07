@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Creates a new test object.
-                 *' type=dynamic),
+            value: "Creates a new test object.\n     *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('alias' type=inline),
+                    value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
@@ -77,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Test' type=inline),
+                                    value: "Test",
                                 },
                             ],
                         },
@@ -104,7 +103,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -144,7 +143,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Document me.' type=dynamic),
+            value: "Document me.",
         },
         tags: [],
     },
@@ -168,7 +167,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Document me.' type=dynamic),
+            value: "Document me.",
         },
         tags: [],
     },
@@ -192,7 +191,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Document me.' type=dynamic),
+            value: "Document me.",
         },
         tags: [],
     },

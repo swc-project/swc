@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -76,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('module' type=static),
+                                    value: "module",
                                 },
                             ],
                         },
@@ -105,7 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -128,7 +128,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -162,7 +162,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('foo' type=inline),
+                                    value: "foo",
                                 },
                             ],
                         },
@@ -189,7 +189,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -223,7 +223,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Pez' type=inline),
+                                    value: "Pez",
                                 },
                             ],
                         },
@@ -252,7 +252,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -275,7 +275,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -309,7 +309,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -336,7 +336,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('link' type=static),
+                    value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -359,7 +359,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:zest}' type=dynamic),
+                            value: "module:zest}",
                         },
                     },
                 ),
@@ -384,7 +384,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -418,7 +418,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -445,7 +445,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('linkplain' type=dynamic),
+                    value: "linkplain",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -468,7 +468,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:zing}' type=dynamic),
+                            value: "module:zing}",
                         },
                     },
                 ),
@@ -493,7 +493,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -527,7 +527,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -554,7 +554,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('linkstupid' type=dynamic),
+                    value: "linkstupid",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -577,7 +577,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:pizzazz}' type=dynamic),
+                            value: "module:pizzazz}",
                         },
                     },
                 ),

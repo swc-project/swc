@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,8 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set the value of the name property.
-             *' type=dynamic),
+            value: "Set the value of the name property.\n *",
         },
         tags: [
             TagItem {
@@ -106,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -131,7 +130,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -144,7 +143,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('newName' type=inline),
+                            value: "newName",
                         },
                     },
                 ),
@@ -171,8 +170,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Get the value of the name property.
-             *' type=dynamic),
+            value: "Get the value of the name property.\n *",
         },
         tags: [
             TagItem {
@@ -195,7 +193,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('returns' type=inline),
+                    value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
@@ -219,7 +217,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         description: Text {
@@ -232,7 +230,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -259,8 +257,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set the value of the shape property.
-             *' type=dynamic),
+            value: "Set the value of the shape property.\n *",
         },
         tags: [
             TagItem {
@@ -283,7 +280,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -308,7 +305,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -321,7 +318,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('newShape' type=dynamic),
+                            value: "newShape",
                         },
                     },
                 ),
@@ -348,8 +345,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set the value of the shape property, plus some other property.
-             *' type=dynamic),
+            value: "Set the value of the shape property, plus some other property.\n *",
         },
         tags: [
             TagItem {
@@ -372,7 +368,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -397,7 +393,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -410,7 +406,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('newShape' type=dynamic),
+                            value: "newShape",
                         },
                     },
                 ),
@@ -435,7 +431,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -460,7 +456,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -473,7 +469,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('mysteryProperty' type=dynamic),
+                            value: "mysteryProperty",
                         },
                     },
                 ),
@@ -500,8 +496,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Get the value of the shape property.
-             *' type=dynamic),
+            value: "Get the value of the shape property.\n *",
         },
         tags: [
             TagItem {
@@ -524,7 +519,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('returns' type=inline),
+                    value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
@@ -548,7 +543,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         description: Text {
@@ -561,7 +556,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

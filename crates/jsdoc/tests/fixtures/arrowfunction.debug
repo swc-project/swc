@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Increment a number by 1.
-             *
-             *' type=dynamic),
+            value: "Increment a number by 1.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -69,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -82,7 +80,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('n - The number to increment.' type=dynamic),
+                            value: "n - The number to increment.",
                         },
                     },
                 ),
@@ -109,7 +107,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Print a value to the console.' type=dynamic),
+            value: "Print a value to the console.",
         },
         tags: [],
     },
@@ -133,7 +131,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -156,7 +154,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -179,7 +177,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -206,7 +204,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Create a class with a `name` property.' type=dynamic),
+            value: "Create a class with a `name` property.",
         },
         tags: [],
     },

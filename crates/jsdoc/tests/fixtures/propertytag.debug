@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -67,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('@property {String} id=abc123 The identifier.' type=dynamic),
+                                value: "@property {String} id=abc123 The identifier.",
                             },
                         ),
                     },
@@ -93,7 +93,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=static),
+                    value: "property",
                 },
                 tag: Property(
                     PropertyTag {
@@ -127,7 +127,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -142,7 +142,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Object}' type=dynamic),
+                                value: "{Object}",
                             },
                         ),
                         desc: Text {
@@ -155,7 +155,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('defaults The default values.' type=dynamic),
+                            value: "defaults The default values.",
                         },
                     },
                 ),
@@ -180,7 +180,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=static),
+                    value: "property",
                 },
                 tag: Property(
                     PropertyTag {
@@ -214,7 +214,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -229,7 +229,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Number}' type=dynamic),
+                                value: "{Number}",
                             },
                         ),
                         desc: Text {
@@ -242,7 +242,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('defaults.a=1 The a property of the defaults.' type=dynamic),
+                            value: "defaults.a=1 The a property of the defaults.",
                         },
                     },
                 ),
@@ -267,7 +267,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('property' type=static),
+                    value: "property",
                 },
                 tag: Property(
                     PropertyTag {
@@ -301,7 +301,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -316,7 +316,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{String}' type=dynamic),
+                                value: "{String}",
                             },
                         ),
                         desc: Text {
@@ -329,7 +329,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('defaults.b The b property of the defaults.' type=dynamic),
+                            value: "defaults.b The b property of the defaults.",
                         },
                     },
                 ),

@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Test module.
-             *' type=dynamic),
+            value: "Test module.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -78,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('foo' type=inline),
+                            value: "foo",
                         },
                     },
                 ),
@@ -105,7 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Test class.' type=dynamic),
+            value: "Test class.",
         },
         tags: [],
     },
@@ -129,7 +128,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Test class constructor.' type=dynamic),
+            value: "Test class constructor.",
         },
         tags: [],
     },
@@ -153,7 +152,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Test method.' type=dynamic),
+            value: "Test method.",
         },
         tags: [],
     },

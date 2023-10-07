@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A method.' type=dynamic),
+            value: "A method.",
         },
         tags: [],
     },
@@ -106,7 +106,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -129,7 +129,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -169,7 +169,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Another method.' type=dynamic),
+            value: "Another method.",
         },
         tags: [],
     },
@@ -193,7 +193,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -216,7 +216,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -240,7 +240,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @augments Foo' type=dynamic),
+                                value: "* @augments Foo",
                             },
                         ),
                         name: None,
@@ -267,7 +267,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('augments' type=dynamic),
+                    value: "augments",
                 },
                 tag: Augments(
                     AugmentsTag {
@@ -301,7 +301,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Bar' type=inline),
+                                    value: "Bar",
                                 },
                             ],
                         },

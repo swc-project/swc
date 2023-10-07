@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the module here.
-             *' type=dynamic),
+            value: "Describe the module here.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('config' type=inline),
+                            value: "config",
                         },
                         ty: Text {
                             span: Span {
@@ -78,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('mymodule' type=dynamic),
+                            value: "mymodule",
                         },
                     },
                 ),
@@ -105,7 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the class here.' type=dynamic),
+            value: "Describe the class here.",
         },
         tags: [],
     },
@@ -129,8 +128,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Create a new configuration.
-                 *' type=dynamic),
+            value: "Create a new configuration.\n     *",
         },
         tags: [
             TagItem {
@@ -153,7 +151,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -178,7 +176,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -191,7 +189,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('id' type=static),
+                            value: "id",
                         },
                     },
                 ),
@@ -218,7 +216,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Document me.' type=dynamic),
+            value: "Document me.",
         },
         tags: [],
     },
@@ -242,9 +240,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Get the configuration ID.
-                 *
-                 *' type=dynamic),
+            value: "Get the configuration ID.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -267,7 +263,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('return' type=static),
+                    value: "return",
                 },
                 tag: Return(
                     ReturnTag {
@@ -291,7 +287,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         description: Text {
@@ -304,7 +300,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('The configuration ID.' type=dynamic),
+                            value: "The configuration ID.",
                         },
                     },
                 ),

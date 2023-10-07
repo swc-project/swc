@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Public variable.
-             *
-             *' type=dynamic),
+            value: "Public variable.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('public' type=static),
+                    value: "public",
                 },
                 tag: Public(
                     PublicTag {

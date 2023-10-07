@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Controls whether debugging is enabled.
-             *
-             *' type=dynamic),
+            value: "Controls whether debugging is enabled.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('define' type=inline),
+                    value: "define",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -67,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{boolean} `true` if enabled, `false` otherwise' type=dynamic),
+                            value: "{boolean} `true` if enabled, `false` otherwise",
                         },
                     },
                 ),

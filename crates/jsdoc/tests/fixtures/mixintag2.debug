@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('mixy' type=inline),
+                            value: "mixy",
                         },
                     },
                 ),
@@ -104,8 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Object A.
-             *' type=dynamic),
+            value: "Object A.\n *",
         },
         tags: [
             TagItem {
@@ -128,7 +127,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('mixin' type=inline),
+                    value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
@@ -151,7 +150,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -178,7 +177,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Some method.' type=dynamic),
+            value: "Some method.",
         },
         tags: [],
     },
@@ -202,8 +201,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Object B. Mixes Object A.
-             *' type=dynamic),
+            value: "Object B. Mixes Object A.\n *",
         },
         tags: [
             TagItem {
@@ -226,7 +224,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('mixin' type=inline),
+                    value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
@@ -249,7 +247,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* @mixes module:mixy.ObjectA' type=dynamic),
+                            value: "* @mixes module:mixy.ObjectA",
                         },
                     },
                 ),
@@ -276,8 +274,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Object C. Mixes Object B and adds its own method.
-             *' type=dynamic),
+            value: "Object C. Mixes Object B and adds its own method.\n *",
         },
         tags: [
             TagItem {
@@ -300,7 +297,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('mixin' type=inline),
+                    value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
@@ -323,7 +320,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* @mixes module:mixy.ObjectB' type=dynamic),
+                            value: "* @mixes module:mixy.ObjectB",
                         },
                     },
                 ),
@@ -350,8 +347,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Super-sweet method that's named in the comment, making this a virtual comment.
-                 *' type=dynamic),
+            value: "Super-sweet method that's named in the comment, making this a virtual comment.\n     *",
         },
         tags: [
             TagItem {
@@ -374,7 +370,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -398,7 +394,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('module:mixy.ObjectC.superSweet' type=dynamic),
+                                value: "module:mixy.ObjectC.superSweet",
                             },
                         ),
                     },
@@ -426,7 +422,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Class that mixes Object A, so it gets {' type=dynamic),
+            value: "Class that mixes Object A, so it gets {",
         },
         tags: [
             TagItem {
@@ -449,7 +445,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('link' type=static),
+                    value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -472,7 +468,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:mixy.ClassA#method}.' type=dynamic),
+                            value: "module:mixy.ClassA#method}.",
                         },
                     },
                 ),
@@ -497,7 +493,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -521,7 +517,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @mixes module:mixy.ObjectA' type=dynamic),
+                                value: "* @mixes module:mixy.ObjectA",
                             },
                         ),
                         name: None,
@@ -550,7 +546,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Do a thing.' type=dynamic),
+            value: "Do a thing.",
         },
         tags: [],
     },
@@ -574,7 +570,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Class that mixes Object C, so it gets {' type=dynamic),
+            value: "Class that mixes Object C, so it gets {",
         },
         tags: [
             TagItem {
@@ -597,7 +593,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('link' type=static),
+                    value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -620,7 +616,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:mixy.ClassB#method} and' type=dynamic),
+                            value: "module:mixy.ClassB#method} and",
                         },
                     },
                 ),

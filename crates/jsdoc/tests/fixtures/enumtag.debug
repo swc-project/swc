@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Enum for tri-state values.
-             *' type=dynamic),
+            value: "Enum for tri-state values.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('enum' type=static),
+                    value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{number}' type=dynamic),
+                            value: "{number}",
                         },
                     },
                 ),
@@ -93,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('true' type=static),
+            value: "true",
         },
         tags: [],
     },
@@ -117,7 +116,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -140,7 +139,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -163,7 +162,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -190,8 +189,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Numeric enum for true/false values.
-             *' type=dynamic),
+            value: "Numeric enum for true/false values.\n *",
         },
         tags: [
             TagItem {
@@ -214,7 +212,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('enum' type=static),
+                    value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
@@ -237,7 +235,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{boolean}' type=dynamic),
+                            value: "{boolean}",
                         },
                     },
                 ),
@@ -264,7 +262,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('false' type=static),
+            value: "false",
         },
         tags: [],
     },

@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('(scope tags for global objects do not override globalness hence need a container class)
-             *' type=dynamic),
+            value: "(scope tags for global objects do not override globalness hence need a container class)\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -78,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('scopetags' type=dynamic),
+                            value: "scopetags",
                         },
                     },
                 ),
@@ -105,7 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -128,7 +127,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('inner' type=inline),
+                    value: "inner",
                 },
                 tag: Inner(
                     InnerTag {
@@ -166,7 +165,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -189,7 +188,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('instance' type=dynamic),
+                    value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
@@ -227,7 +226,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -250,7 +249,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('static' type=static),
+                    value: "static",
                 },
                 tag: Static(
                     StaticTag {

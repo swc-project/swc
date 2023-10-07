@@ -19,10 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('This provides methods used for event handling. It's not meant to
-             * be used directly, except as a provider of related methods.
-             *
-             *' type=dynamic),
+            value: "This provides methods used for event handling. It's not meant to\n * be used directly, except as a provider of related methods.\n *\n *",
         },
         tags: [
             TagItem {
@@ -45,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('mixin' type=inline),
+                    value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
@@ -68,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -95,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('fires something.' type=dynamic),
+            value: "fires something.",
         },
         tags: [],
     },
@@ -119,7 +116,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('handles a signal.' type=dynamic),
+            value: "handles a signal.",
         },
         tags: [],
     },
@@ -143,7 +140,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -166,7 +163,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -190,7 +187,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @mixes Eventful' type=dynamic),
+                                value: "* @mixes Eventful",
                             },
                         ),
                         name: None,

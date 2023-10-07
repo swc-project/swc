@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Inline type info only.' type=dynamic),
+            value: "Inline type info only.",
         },
         tags: [],
     },
@@ -43,7 +43,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -66,7 +66,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -89,7 +89,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -116,7 +116,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Inline type info that conflicts with `' type=dynamic),
+            value: "Inline type info that conflicts with `",
         },
         tags: [
             TagItem {
@@ -139,7 +139,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -164,7 +164,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('tag' type=inline),
+                                value: "tag",
                             },
                         ),
                         desc: Text {
@@ -177,7 +177,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('*' type=static),
+                            value: "*",
                         },
                     },
                 ),
@@ -202,7 +202,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -226,7 +226,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @param {number} candyId - The candy's identifier.' type=dynamic),
+                                value: "* @param {number} candyId - The candy's identifier.",
                             },
                         ),
                         name: None,
@@ -255,7 +255,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -278,7 +278,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -301,7 +301,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -328,9 +328,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Inline type info for leading param only.
-             *
-             *' type=dynamic),
+            value: "Inline type info for leading param only.\n *\n *",
         },
         tags: [
             TagItem {
@@ -353,7 +351,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -378,7 +376,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -391,7 +389,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('item' type=inline),
+                            value: "item",
                         },
                     },
                 ),
@@ -418,7 +416,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -441,7 +439,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -464,7 +462,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -491,9 +489,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Inline type info for trailing param only.
-             *
-             *' type=dynamic),
+            value: "Inline type info for trailing param only.\n *\n *",
         },
         tags: [
             TagItem {
@@ -516,7 +512,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -541,7 +537,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Dispenser}' type=dynamic),
+                                value: "{Dispenser}",
                             },
                         ),
                         desc: Text {
@@ -554,7 +550,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('dispenser' type=dynamic),
+                            value: "dispenser",
                         },
                     },
                 ),
@@ -581,7 +577,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -604,7 +600,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -627,7 +623,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -654,9 +650,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Inline type info for inner param only.
-             *
-             *' type=dynamic),
+            value: "Inline type info for inner param only.\n *\n *",
         },
         tags: [
             TagItem {
@@ -679,7 +673,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -704,7 +698,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Dispenser}' type=dynamic),
+                                value: "{Dispenser}",
                             },
                         ),
                         desc: Text {
@@ -717,7 +711,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('dispenser' type=dynamic),
+                            value: "dispenser",
                         },
                     },
                 ),
@@ -742,7 +736,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -767,7 +761,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -780,7 +774,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('shade' type=inline),
+                            value: "shade",
                         },
                     },
                 ),
@@ -805,7 +799,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -830,7 +824,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -843,7 +837,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('brand' type=inline),
+                            value: "brand",
                         },
                     },
                 ),
@@ -870,7 +864,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -893,7 +887,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -916,7 +910,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

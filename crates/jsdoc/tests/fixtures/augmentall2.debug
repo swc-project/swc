@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Parent interface.
-             *' type=dynamic),
+            value: "Parent interface.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('interface' type=static),
+                    value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -82,7 +81,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Open the connection.' type=dynamic),
+            value: "Open the connection.",
         },
         tags: [],
     },
@@ -106,8 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Child interface.
-             *' type=dynamic),
+            value: "Child interface.\n *",
         },
         tags: [
             TagItem {
@@ -130,7 +128,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('interface' type=static),
+                    value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -154,7 +152,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @extends {Connection}' type=dynamic),
+                                value: "* @extends {Connection}",
                             },
                         ),
                     },
@@ -182,8 +180,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Implementation of child interface.
-             *' type=dynamic),
+            value: "Implementation of child interface.\n *",
         },
         tags: [
             TagItem {
@@ -206,7 +203,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -230,7 +227,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @implements {Socket}' type=dynamic),
+                                value: "* @implements {Socket}",
                             },
                         ),
                         name: None,
@@ -259,7 +256,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -282,7 +279,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('inheritdoc' type=dynamic),
+                    value: "inheritdoc",
                 },
                 tag: InheritDoc(
                     InheritDocTag {

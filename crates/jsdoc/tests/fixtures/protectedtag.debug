@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('uid' type=inline),
+                            value: "uid",
                         },
                     },
                 ),
@@ -104,7 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -127,7 +127,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('protected' type=static),
+                    value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
@@ -166,7 +166,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -189,7 +189,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('protected' type=static),
+                    value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
@@ -228,7 +228,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Root object.' type=dynamic),
+            value: "Root object.",
         },
         tags: [],
     },
@@ -252,7 +252,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Obtain a unique ID.' type=dynamic),
+            value: "Obtain a unique ID.",
         },
         tags: [],
     },
@@ -276,7 +276,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Associate an object with a unique ID.' type=dynamic),
+            value: "Associate an object with a unique ID.",
         },
         tags: [],
     },
