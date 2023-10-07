@@ -140,19 +140,11 @@ impl VisitMut for InlineGlobals {
             Expr::Member(MemberExpr { obj, prop, .. }) => {
                 if let Expr::Member(MemberExpr {
                     obj: first_obj,
-                    prop:
-                        MemberProp::Ident(Ident {
-                            sym: js_word!("env"),
-                            ..
-                        }),
+                    prop: MemberProp::Ident(Ident { sym: "env", .. }),
                     ..
                 }) = &**obj
                 {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("process"),
-                        ..
-                    }) = &**first_obj
-                    {
+                    if let Expr::Ident(Ident { sym: "process", .. }) = &**first_obj {
                         match prop {
                             MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {

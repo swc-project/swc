@@ -362,11 +362,7 @@ impl VisitMut for Remover {
 
         let should_preserved_this = matches!(
             &*last,
-            Expr::Member(..)
-                | Expr::Ident(Ident {
-                    sym: js_word!("eval"),
-                    ..
-                })
+            Expr::Member(..) | Expr::Ident(Ident { sym: eval, .. })
         );
 
         let mut exprs = if should_preserved_this {

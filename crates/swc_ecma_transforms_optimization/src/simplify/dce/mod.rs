@@ -310,7 +310,7 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             self.scope.found_arguemnts = true;
         }
 
@@ -361,11 +361,7 @@ impl Visit for Analyzer<'_> {
         n.visit_children_with(self);
 
         if let Callee::Expr(e) = n {
-            if let Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) = &**e
-            {
+            if let Expr::Ident(Ident { sym: "eval", .. }) = &**e {
                 self.scope.found_direct_eval = true;
             }
         }

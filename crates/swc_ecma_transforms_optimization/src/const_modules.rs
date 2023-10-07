@@ -125,7 +125,7 @@ impl VisitMut for ConstModules {
                             }
                             ImportSpecifier::Default(ref s) => {
                                 let imported = &s.local.sym;
-                                let default_import_key = js_word!("default");
+                                let default_import_key = "default";
                                 let value =
                                     entry.get(&default_import_key).cloned().unwrap_or_else(|| {
                                         panic!(

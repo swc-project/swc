@@ -372,7 +372,7 @@ impl<'a> Scope<'a> {
             self.prevent_inline(id)
         }
 
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             self.prevent_inline_of_params();
         }
 
@@ -443,7 +443,7 @@ impl<'a> Scope<'a> {
             self.prevent_inline(id)
         }
 
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             self.prevent_inline_of_params();
         }
 
