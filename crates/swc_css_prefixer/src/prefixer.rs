@@ -784,7 +784,7 @@ impl Prefixer {
         }
     }
 
-    fn is_duplicate(&self, name: &JsWord) -> bool {
+    fn is_duplicate(&self, name: &str) -> bool {
         if let Some(simple_block) = &self.simple_block {
             for n in simple_block.value.iter() {
                 if let ComponentValue::Declaration(box declaration) = n {
@@ -801,7 +801,7 @@ impl Prefixer {
     fn add_declaration2<'a>(
         &mut self,
         n: &Declaration,
-        property: JsWord,
+        property: &str,
         value: Option<Box<dyn 'a + Fn() -> Vec<ComponentValue>>>,
     ) {
         if should_prefix(&property, self.env, true) && !self.is_duplicate(&property) {
@@ -842,7 +842,7 @@ impl Prefixer {
         &mut self,
         n: &Declaration,
         prefix: Prefix,
-        property: JsWord,
+        property: &str,
         value: Box<dyn 'a + Fn() -> Vec<ComponentValue>>,
     ) {
         if should_prefix(&property, self.env, true) {
@@ -1686,7 +1686,7 @@ impl VisitMut for Prefixer {
             }};
         }
 
-        match *name {
+        match &**name {
             "appearance" => {
                 add_declaration!(Prefix::Webkit, "-webkit-appearance", None);
                 add_declaration!(Prefix::Moz, "-moz-appearance", None);
