@@ -1,5 +1,4 @@
 use radix_fmt::Radix;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
