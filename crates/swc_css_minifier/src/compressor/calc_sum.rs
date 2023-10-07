@@ -553,10 +553,10 @@ fn try_to_reduce_node_with_frequencies(
 
 // https://www.w3.org/TR/css-values-4/#resolution
 fn try_to_reduce_node_with_resolutions(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    match (dimensions.get(&"dppx"), dimensions.get(&"x")) {
+    match (dimensions.get("dppx"), dimensions.get("x")) {
         // "x" is an alias for "dppx"
         (Some(idx_dppx), Some(idx_x)) => {
             let value_dppx = get_value(&nodes[*idx_dppx]);
@@ -564,37 +564,37 @@ fn try_to_reduce_node_with_resolutions(
             if let Some(result) = try_to_sum_values(value_x, value_dppx, None) {
                 set_value(&mut nodes[*idx_x], result);
                 nodes.remove(*idx_dppx);
-                dimensions.remove(&"dppx");
+                dimensions.remove("dppx");
             }
         }
         (Some(idx_dppx), None) => {
             // rename "dppx" into "x"
             if let CalcNode::Dimension(Dimension::Resolution(r)) = &mut nodes[*idx_dppx] {
-                r.unit.value = "x";
-                dimensions.insert("x", *idx_dppx);
-                dimensions.remove(&"dppx");
+                r.unit.value = "x".into();
+                dimensions.insert("x".into(), *idx_dppx);
+                dimensions.remove("dppx");
             }
         }
         _ => {}
     }
 
-    if let (Some(idx_x), Some(idx_dpi)) = (dimensions.get(&"x"), dimensions.get(&"dpi")) {
+    if let (Some(idx_x), Some(idx_dpi)) = (dimensions.get("x"), dimensions.get("dpi")) {
         let value_x = get_value(&nodes[*idx_x]);
         let value_dpi = get_value(&nodes[*idx_dpi]);
         if let Some(result) = try_to_sum_values(value_x, value_dpi, Some(96.0)) {
             set_value(&mut nodes[*idx_dpi], result);
             nodes.remove(*idx_x);
-            dimensions.remove(&"x");
+            dimensions.remove("x");
         }
     }
 
-    if let (Some(idx_dpcm), Some(idx_dpi)) = (dimensions.get(&"dpcm"), dimensions.get(&"dpi")) {
+    if let (Some(idx_dpcm), Some(idx_dpi)) = (dimensions.get("dpcm"), dimensions.get("dpi")) {
         let value_dpcm = get_value(&nodes[*idx_dpcm]);
         let value_dpi = get_value(&nodes[*idx_dpi]);
         if let Some(result) = try_to_sum_values(value_dpcm, value_dpi, Some(2.54)) {
             set_value(&mut nodes[*idx_dpi], result);
             nodes.remove(*idx_dpcm);
-            dimensions.remove(&"dpcm");
+            dimensions.remove("dpcm");
         }
     }
 }

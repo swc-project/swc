@@ -52,7 +52,7 @@ impl Compressor {
 
         angle.unit = Ident {
             span: angle.unit.span,
-            value: "deg",
+            value: "deg".into(),
             raw: None,
         };
     }
