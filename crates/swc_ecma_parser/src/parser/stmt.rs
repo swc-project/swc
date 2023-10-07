@@ -1273,7 +1273,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let is_using_decl = self.input.syntax().explicit_resource_management()
             && match *init {
-                Expr::Ident(Ident { sym: "using", .. }) => {
+                _ if init.is_ident_ref_to("using") => {
                     is!(self, BindingIdent)
                         && !is!(self, "of")
                         && (peeked_is!(self, "of") || peeked_is!(self, "in"))
