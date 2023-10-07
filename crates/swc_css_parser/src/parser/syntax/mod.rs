@@ -158,7 +158,7 @@ where
         } else {
             AtRuleName::Ident(Ident {
                 span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                value: at_keyword_name.0.to_ascii_lowercase(),
+                value: at_keyword_name.0.to_ascii_lowercase().into(),
                 raw: Some(at_keyword_name.1),
             })
         };
@@ -619,7 +619,7 @@ where
         } else {
             let mut ident: Ident = self.parse()?;
 
-            ident.value = ident.value.to_ascii_lowercase();
+            ident.value = ident.value.to_ascii_lowercase().into();
 
             DeclarationName::Ident(ident)
         };
@@ -750,7 +750,7 @@ where
             };
             let value = Ident {
                 span: important_ident.span,
-                value: value.0.to_ascii_lowercase(),
+                value: value.0.to_ascii_lowercase().into(),
                 raw: Some(value.1),
             };
 
@@ -942,7 +942,7 @@ where
         } else {
             FunctionName::Ident(Ident {
                 span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                value: function_name.0.to_ascii_lowercase(),
+                value: function_name.0.to_ascii_lowercase().into(),
                 raw: Some(function_name.1),
             })
         };

@@ -1061,7 +1061,7 @@ where
         } else if is!(self, Ident) {
             let mut name: Ident = self.parse()?;
 
-            name.value = name.value.to_ascii_lowercase();
+            name.value = name.value.to_ascii_lowercase().into();
 
             Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
@@ -1092,7 +1092,7 @@ where
         if is!(self, Function) {
             let fn_span = self.input.cur_span();
             let name = bump!(self);
-            let names = match name {
+            let names: (Atom, _) = match name {
                 Token::Function { value, raw } => (value.to_ascii_lowercase().into(), raw),
                 _ => unreachable!(),
             };
@@ -1185,7 +1185,7 @@ where
         } else if is!(self, Ident) {
             let mut name: Ident = self.parse()?;
 
-            name.value = name.value.to_ascii_lowercase();
+            name.value = name.value.to_ascii_lowercase().into();
 
             Ok(PseudoElementSelector {
                 span: span!(self, span.lo),
@@ -1214,7 +1214,7 @@ where
                 {
                     let mut ident: Ident = self.parse()?;
 
-                    ident.value = ident.value.to_ascii_lowercase();
+                    ident.value = ident.value.to_ascii_lowercase().into();
 
                     Ok(AnPlusB::Ident(ident))
                 }
