@@ -31,7 +31,7 @@ impl Compressor {
                     ) if *first_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "translatey",
+                            value: "translatey".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];
@@ -62,7 +62,7 @@ impl Compressor {
                     ) if *first_number == 0 && *second_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "translatez",
+                            value: "translatez".into(),
                             raw: None,
                         });
                         *function_value = vec![third.clone()];
@@ -99,7 +99,7 @@ impl Compressor {
                     ) if *second_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "scalex",
+                            value: "scalex".into(),
                             raw: None,
                         });
                         *function_value = vec![first.clone()];
@@ -113,7 +113,7 @@ impl Compressor {
                     ) if *first_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "scaley",
+                            value: "scaley".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];
@@ -144,7 +144,7 @@ impl Compressor {
                     ) if *second_number == 1 && *third_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "scalex",
+                            value: "scalex".into(),
                             raw: None,
                         });
                         *function_value = vec![first.clone()];
@@ -162,7 +162,7 @@ impl Compressor {
                     ) if *first_number == 1 && *third_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "scaley",
+                            value: "scaley".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];
@@ -180,7 +180,7 @@ impl Compressor {
                     ) if *first_number == 1 && *second_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "scalez",
+                            value: "scalez".into(),
                             raw: None,
                         });
                         *function_value = vec![third.clone()];
@@ -281,7 +281,7 @@ impl Compressor {
                     {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "matrix",
+                            value: "matrix".into(),
                             raw: None,
                         });
                         *function_value = vec![
@@ -329,7 +329,7 @@ impl Compressor {
                     ) if *first_number == 1 && *second_number == 0 && *third_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "rotatex",
+                            value: "rotatex".into(),
                             raw: None,
                         });
                         *function_value = vec![fourth_value.clone()];
@@ -351,7 +351,7 @@ impl Compressor {
                     ) if *first_number == 0 && *second_number == 1 && *third_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "rotatey",
+                            value: "rotatey".into(),
                             raw: None,
                         });
                         *function_value = vec![fourth_value.clone()];
@@ -373,7 +373,7 @@ impl Compressor {
                     ) if *first_number == 0 && *second_number == 0 && *third_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "rotate",
+                            value: "rotate".into(),
                             raw: None,
                         });
                         *function_value = vec![fourth_value.clone()];
@@ -388,7 +388,7 @@ impl Compressor {
             }) if name == &"rotatez" && function_value.len() == 1 => {
                 *name = FunctionName::Ident(Ident {
                     span: name.span(),
-                    value: "rotate",
+                    value: "rotate".into(),
                     raw: None,
                 });
             }
@@ -408,7 +408,7 @@ impl Compressor {
                     ) if *second_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "skewx",
+                            value: "skewx".into(),
                             raw: None,
                         });
                         *function_value = vec![first.clone()];
@@ -423,7 +423,7 @@ impl Compressor {
                     ) if *first_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: "skewy",
+                            value: "skewy".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];

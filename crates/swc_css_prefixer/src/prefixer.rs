@@ -2993,7 +2993,7 @@ impl VisitMut for Prefixer {
                     };
 
                     if let ComponentValue::Ident(ident) = &n.value[0] {
-                        match ident.value.to_ascii_lowercase() {
+                        match &*ident.value.to_ascii_lowercase() {
                             "vertical-lr" => {
                                 add_declaration!(Prefix::Webkit, "-webkit-writing-mode", None);
 
