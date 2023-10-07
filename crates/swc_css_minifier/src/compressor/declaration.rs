@@ -1122,7 +1122,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "dppx",
+                            value: "dppx".into(),
                             raw: None,
                         },
                     }),
@@ -1131,35 +1131,35 @@ impl Compressor {
             "justify-items" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "legacy",
+                    value: "legacy".into(),
                     raw: None,
                 }))];
             }
             "list-style-type" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "disk",
+                    value: "disk".into(),
                     raw: None,
                 }))];
             }
             "mask-border-mode" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "alpha",
+                    value: "alpha".into(),
                     raw: None,
                 }))];
             }
             "mask-composite" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "add",
+                    value: "add".into(),
                     raw: None,
                 }))];
             }
             "masonry-auto-flow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "pack",
+                    value: "pack".into(),
                     raw: None,
                 }))];
             }
@@ -1173,7 +1173,7 @@ impl Compressor {
             "object-fit" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "fill",
+                    value: "fill".into(),
                     raw: None,
                 }))];
             }
@@ -1188,7 +1188,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "px",
+                            value: "px".into(),
                             raw: None,
                         },
                     },
@@ -1197,14 +1197,14 @@ impl Compressor {
             "position" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "static",
+                    value: "static".into(),
                     raw: None,
                 }))];
             }
             "scroll-timeline-axis" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "block",
+                    value: "block".into(),
                     raw: None,
                 }))];
             }
@@ -1218,35 +1218,35 @@ impl Compressor {
             "text-decoration-style" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "solid",
+                    value: "solid".into(),
                     raw: None,
                 }))];
             }
             "text-orientation" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "mixed",
+                    value: "mixed".into(),
                     raw: None,
                 }))];
             }
             "text-overflow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "clip",
+                    value: "clip".into(),
                     raw: None,
                 }))];
             }
             "transform-style" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "flat",
+                    value: "flat".into(),
                     raw: None,
                 }))];
             }
             "transition-property" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "all",
+                    value: "all".into(),
                     raw: None,
                 }))];
             }
