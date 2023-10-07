@@ -128,7 +128,7 @@ impl OpenElementsStack {
     }
 
     pub fn push(&mut self, node: RcNode) {
-        if is_html_element!(node, &"template") {
+        if is_html_element!(node, "template") {
             self.template_element_count += 1;
         }
 
@@ -139,7 +139,7 @@ impl OpenElementsStack {
         let popped = self.items.pop();
 
         if let Some(node) = &popped {
-            if is_html_element!(node, &"template") {
+            if is_html_element!(node, "template") {
                 self.template_element_count -= 1;
             }
         }
@@ -148,7 +148,7 @@ impl OpenElementsStack {
     }
 
     pub fn insert(&mut self, index: usize, node: RcNode) {
-        if is_html_element!(node, &"template") {
+        if is_html_element!(node, "template") {
             self.template_element_count += 1;
         }
 
@@ -157,11 +157,11 @@ impl OpenElementsStack {
 
     pub fn replace(&mut self, index: usize, node: RcNode) {
         if let Some(item) = self.items.get(index) {
-            if is_html_element!(item, &"template") {
+            if is_html_element!(item, "template") {
                 self.template_element_count -= 1;
             }
 
-            if is_html_element!(node, &"template") {
+            if is_html_element!(node, "template") {
                 self.template_element_count += 1;
             }
 
@@ -173,7 +173,7 @@ impl OpenElementsStack {
         let position = self.items.iter().rposition(|x| is_same_node(node, x));
 
         if let Some(position) = position {
-            if is_html_element!(node, &"template") {
+            if is_html_element!(node, "template") {
                 self.template_element_count -= 1;
             }
 
@@ -447,9 +447,9 @@ impl OpenElementsStack {
         }
     }
 
-    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&JsWord]) -> Option<RcNode> {
+    pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) -> Option<RcNode> {
         while let Some(node) = self.pop() {
-            if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
+            if tag_name.contains(get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
                 return Some(node);
             }
         }
