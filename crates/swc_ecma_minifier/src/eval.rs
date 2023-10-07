@@ -146,11 +146,8 @@ impl Evaluator {
             }
 
             // "foo".length
-            Expr::Member(MemberExpr {
-                obj,
-                prop: MemberProp::Ident(Ident { sym: "length", .. }),
-                ..
-            }) if obj.is_lit() => {}
+            Expr::Member(MemberExpr { obj, prop, .. })
+                if obj.is_lit() && prop.is_ident_with("length") => {}
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..

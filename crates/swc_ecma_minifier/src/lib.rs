@@ -33,6 +33,7 @@
 #![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
 #![allow(clippy::overly_complex_bool_expr)]
+#![allow(clippy::mutable_key_type)]
 #![allow(clippy::only_used_in_recursion)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
