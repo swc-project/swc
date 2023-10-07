@@ -2389,10 +2389,11 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        let should_preserve_zero = matches!(
-            n.exprs.last().map(|v| &**v),
-            Some(Expr::Member(..)) | Some(Expr::Ident(Ident { sym: eval, .. }))
-        );
+        let should_preserve_zero = n
+            .exprs
+            .last()
+            .map(|v| &**v)
+            .map_or(false, Expr::directness_maters);
 
         let ctx = Ctx {
             dont_use_negated_iife: true,
