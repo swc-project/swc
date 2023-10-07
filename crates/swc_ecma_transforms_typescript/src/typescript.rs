@@ -1,6 +1,5 @@
 use std::mem;
 
-use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span,
     Spanned,
@@ -126,7 +125,7 @@ fn id_for_jsx(e: &Expr) -> Id {
     match e {
         Expr::Ident(i) => i.to_id(),
         Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(obj),
-        Expr::Lit(Lit::Null(..)) => ("null", Default::default()),
+        Expr::Lit(Lit::Null(..)) => ("null".into(), Default::default()),
         _ => {
             panic!("failed to determine top-level Id for jsx expression")
         }
