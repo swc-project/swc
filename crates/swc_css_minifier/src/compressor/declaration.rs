@@ -912,14 +912,14 @@ impl Compressor {
             "background-repeat" | "mask-repeat" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "repeat",
+                    value: "repeat".into(),
                     raw: None,
                 }))];
             }
             "block-overflow" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "clip",
+                    value: "clip".into(),
                     raw: None,
                 }))];
             }
@@ -938,7 +938,7 @@ impl Compressor {
             | "outline-width" => {
                 declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                     span,
-                    value: "medium",
+                    value: "medium".into(),
                     raw: None,
                 }))];
             }
@@ -962,7 +962,7 @@ impl Compressor {
                         },
                         unit: Ident {
                             span: DUMMY_SP,
-                            value: "px",
+                            value: "px".into(),
                             raw: None,
                         },
                     }),
