@@ -366,7 +366,7 @@ impl SimplifyExpr {
                             }))
                         } else {
                             Expr::Ident(Ident::new(
-                                "NaN",
+                                "NaN".into(),
                                 span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                             ))
                         };
@@ -792,7 +792,7 @@ impl SimplifyExpr {
                         *expr = self.expr_ctx.preserve_effects(
                             *span,
                             Expr::Ident(Ident::new(
-                                "NaN",
+                                "NaN".into(),
                                 span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                             )),
                             iter::once(arg.take()),

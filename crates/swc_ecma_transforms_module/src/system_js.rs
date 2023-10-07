@@ -927,17 +927,17 @@ impl Fold for SystemJs {
                             }
                             DefaultDecl::Fn(fn_expr) => {
                                 if let Some(ident) = &fn_expr.ident {
-                                    self.export_names.push("default");
+                                    self.export_names.push("default".into());
                                     self.export_values
                                         .push(Box::new(Expr::Ident(ident.clone())));
-                                    self.add_export_name(ident.to_id(), "default");
+                                    self.add_export_name(ident.to_id(), "default".into());
                                     before_body_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                                         ident: ident.clone(),
                                         declare: false,
                                         function: fn_expr.function,
                                     })));
                                 } else {
-                                    self.export_names.push("default");
+                                    self.export_names.push("default".into());
                                     self.export_values.push(Box::new(Expr::Fn(fn_expr)));
                                 }
                             }
@@ -946,7 +946,7 @@ impl Fold for SystemJs {
                     }
                     ModuleDecl::ExportDefaultExpr(expr) => {
                         execute_stmts.push(
-                            self.export_call("default", expr.span, *expr.expr)
+                            self.export_call("default".into(), expr.span, *expr.expr)
                                 .into_stmt(),
                         );
                     }

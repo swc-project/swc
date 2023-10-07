@@ -335,7 +335,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
                     exports.as_arg(),
                     quote_str!(export_item.export_name_span(), export_name).as_arg(),
                     prop_function((
-                        "get",
+                        "get".into(),
                         ExportItem::new(DUMMY_SP, export_item.into_local_ident()),
                     ))
                     .into(),
