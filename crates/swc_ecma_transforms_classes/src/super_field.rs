@@ -90,14 +90,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
-            }) if matches!(
-                &**expr,
-                Expr::Ident(Ident {
-                    sym: js_word!("_define_property"),
-                    ..
-                })
-            ) =>
-            {
+            }) if expr.is_ident_ref_to("_define_property") => {
                 let old = self.in_injected_define_property_call;
                 self.in_injected_define_property_call = true;
                 n.visit_mut_children_with(self);
