@@ -389,11 +389,7 @@ impl Visit for FieldInitFinder {
             Callee::Super(_) | Callee::Import(_) => {}
             Callee::Expr(callee) => {
                 if let Expr::Member(callee) = &**callee {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("Object"),
-                        ..
-                    }) = &*callee.obj
-                    {
+                    if let Expr::Ident(Ident { sym: "Object", .. }) = &*callee.obj {
                         match &callee.prop {
                             MemberProp::Ident(Ident { sym: prop_sym, .. })
                                 if *prop_sym == *"assign" =>
