@@ -5,7 +5,7 @@ use crate::parser::{
     is_html_integration_point, is_mathml_text_integration_point, is_same_node, Data, RcNode,
 };
 
-static IMPLICIT_END_TAG_REQUIRED: &[&JsWord] = &[
+static IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
     &"dd",
     &"dt",
     &"li",
@@ -18,7 +18,7 @@ static IMPLICIT_END_TAG_REQUIRED: &[&JsWord] = &[
     &"rtc",
 ];
 
-static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&JsWord] = &[
+static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&str] = &[
     &"caption",
     &"colgroup",
     &"dd",
@@ -39,7 +39,7 @@ static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&JsWord] = &[
     &"tr",
 ];
 
-static SPECIFIC_SCOPE: &[(&JsWord, Namespace)] = &[
+static SPECIFIC_SCOPE: &[(&str, Namespace)] = &[
     (&"applet", Namespace::HTML),
     (&"caption", Namespace::HTML),
     (&"html", Namespace::HTML),
@@ -60,7 +60,7 @@ static SPECIFIC_SCOPE: &[(&JsWord, Namespace)] = &[
     (&"title", Namespace::SVG),
 ];
 
-static LIST_ITEM_SCOPE: &[(&JsWord, Namespace)] = &[
+static LIST_ITEM_SCOPE: &[(&str, Namespace)] = &[
     (&"applet", Namespace::HTML),
     (&"caption", Namespace::HTML),
     (&"html", Namespace::HTML),
@@ -83,7 +83,7 @@ static LIST_ITEM_SCOPE: &[(&JsWord, Namespace)] = &[
     (&"ul", Namespace::HTML),
 ];
 
-static BUTTON_SCOPE: &[(&JsWord, Namespace)] = &[
+static BUTTON_SCOPE: &[(&str, Namespace)] = &[
     (&"applet", Namespace::HTML),
     (&"caption", Namespace::HTML),
     (&"html", Namespace::HTML),
@@ -105,13 +105,13 @@ static BUTTON_SCOPE: &[(&JsWord, Namespace)] = &[
     (&"button", Namespace::HTML),
 ];
 
-static TABLE_SCOPE: &[(&JsWord, Namespace)] = &[
+static TABLE_SCOPE: &[(&str, Namespace)] = &[
     (&"html", Namespace::HTML),
     (&"table", Namespace::HTML),
     (&"template", Namespace::HTML),
 ];
 
-static SELECT_SCOPE: &[(&JsWord, Namespace)] =
+static SELECT_SCOPE: &[(&str, Namespace)] =
     &[(&"optgroup", Namespace::HTML), (&"option", Namespace::HTML)];
 
 pub struct OpenElementsStack {
