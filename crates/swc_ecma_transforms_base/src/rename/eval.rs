@@ -35,11 +35,7 @@ impl Visit for EvalFinder {
         c.visit_children_with(self);
 
         if let Callee::Expr(e) = c {
-            if let Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) = &**e
-            {
+            if let Expr::Ident(Ident { sym: "eval", .. }) = &**e {
                 self.found = true
             }
         }
