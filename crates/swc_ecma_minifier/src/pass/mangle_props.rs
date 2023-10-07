@@ -191,7 +191,7 @@ fn is_object_property_call(call: &CallExpr) -> bool {
                 prop: MemberProp::Ident(Ident { sym, .. }),
                 ..
             }) if *sym == *"defineProperty" => {
-                if let Expr::Ident(Ident { sym: "Object", .. }) = &**obj {
+                if obj.is_ident_ref_to("Object") {
                     return true;
                 }
             }
