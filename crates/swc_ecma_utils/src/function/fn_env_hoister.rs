@@ -1,7 +1,7 @@
 use std::mem;
 
 use indexmap::IndexMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -156,7 +156,10 @@ impl FnEnvHoister {
             decls.push(VarDeclarator {
                 span: DUMMY_SP,
                 name: id.into(),
-                init: Some(Box::new(Expr::Ident(Ident::new("arguments", DUMMY_SP)))),
+                init: Some(Box::new(Expr::Ident(Ident::new(
+                    "arguments".into(),
+                    DUMMY_SP,
+                )))),
                 definite: false,
             });
         }

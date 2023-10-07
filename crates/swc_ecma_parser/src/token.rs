@@ -7,7 +7,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{js_word, Atom, JsWord, atom};
+use swc_atoms::{atom, Atom, JsWord};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 

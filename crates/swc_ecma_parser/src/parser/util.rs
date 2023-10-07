@@ -1,5 +1,3 @@
-use swc_atoms::js_word;
-
 use super::*;
 use crate::token::{IdentLike, Keyword};
 
