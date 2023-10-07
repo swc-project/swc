@@ -1,4 +1,3 @@
-
 use swc_css_ast::*;
 
 use super::Compressor;
@@ -10,7 +9,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name == &"cubic-bezier" && function_value.len() == 7 => {
+            }) if name == "cubic-bezier" && function_value.len() == 7 => {
                 if let (
                     first,
                     second,
@@ -79,7 +78,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 span,
-            }) if name == &"steps" && function_value.len() == 3 => {
+            }) if name == "steps" && function_value.len() == 3 => {
                 match (&function_value[0], &function_value[2]) {
                     (
                         ComponentValue::Integer(box Integer {

@@ -1,4 +1,3 @@
-
 use swc_common::Spanned;
 use swc_css_ast::*;
 
@@ -11,7 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"translate" && function_value.len() == 3 => {
+            }) if name == "translate" && function_value.len() == 3 => {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
@@ -43,7 +42,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"translate3d" && function_value.len() == 5 => {
+            }) if name == "translate3d" && function_value.len() == 5 => {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -74,7 +73,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"scale" && function_value.len() == 3 => {
+            }) if name == "scale" && function_value.len() == 3 => {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
@@ -125,7 +124,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"scale3d" && function_value.len() == 5 => {
+            }) if name == "scale3d" && function_value.len() == 5 => {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -192,7 +191,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"matrix3d" && function_value.len() == 31 => {
+            }) if name == "matrix3d" && function_value.len() == 31 => {
                 match (
                     function_value.get(0),
                     function_value.get(1),
@@ -305,7 +304,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"rotate3d" && function_value.len() == 7 => {
+            }) if name == "rotate3d" && function_value.len() == 7 => {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -385,7 +384,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"rotatez" && function_value.len() == 1 => {
+            }) if name == "rotatez" && function_value.len() == 1 => {
                 *name = FunctionName::Ident(Ident {
                     span: name.span(),
                     value: "rotate".into(),
@@ -397,7 +396,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &"skew" && function_value.len() == 3 => {
+            }) if name == "skew" && function_value.len() == 3 => {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
