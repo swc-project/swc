@@ -121,7 +121,7 @@ impl Compiler {
             if a == 1.0 {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
                     name: FunctionName::Ident(Ident {
-                        value: "rgb",
+                        value: "rgb".into(),
                         span: Default::default(),
                         raw: None,
                     }),
@@ -155,7 +155,7 @@ impl Compiler {
             } else {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
                     name: FunctionName::Ident(Ident {
-                        value: "rgba",
+                        value: "rgba".into(),
                         span: Default::default(),
                         raw: None,
                     }),

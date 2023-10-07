@@ -17,10 +17,10 @@ impl Compiler {
                 };
 
                 if name.value == "rgb" {
-                    name.value = "rgba";
+                    name.value = "rgba".into();
                     name.raw = None;
                 } else if name.value == "hsl" {
-                    name.value = "hsla";
+                    name.value = "hsla".into();
                     name.raw = None;
                 }
             } else {
@@ -32,10 +32,10 @@ impl Compiler {
                 };
 
                 if name.value == "rgba" {
-                    name.value = "rgb";
+                    name.value = "rgb".into();
                     name.raw = None;
                 } else if name.value == "hsla" {
-                    name.value = "hsl";
+                    name.value = "hsl".into();
                     name.raw = None;
                 }
             }

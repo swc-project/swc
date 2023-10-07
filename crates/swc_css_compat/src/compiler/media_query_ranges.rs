@@ -130,7 +130,7 @@ impl Compiler {
     }
 
     fn get_left_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {
-        let value = match name.value {
+        let value = match &*name.value {
             "width" => "min-width",
             "height" => "min-height",
             "device-width" => "min-device-width",
@@ -146,13 +146,13 @@ impl Compiler {
 
         Some(MediaFeatureName::Ident(Ident {
             span: DUMMY_SP,
-            value,
+            value: value.into(),
             raw: None,
         }))
     }
 
     fn get_right_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {
-        let value = match name.value {
+        let value = match &*name.value {
             "width" => "max-width",
             "height" => "max-height",
             "device-width" => "max-device-width",
@@ -168,7 +168,7 @@ impl Compiler {
 
         Some(MediaFeatureName::Ident(Ident {
             span: DUMMY_SP,
-            value,
+            value: value.into(),
             raw: None,
         }))
     }

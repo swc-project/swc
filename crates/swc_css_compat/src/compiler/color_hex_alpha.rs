@@ -45,7 +45,7 @@ impl Compiler {
                     span: hex_color.span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: "rgba",
+                        value: "rgba".into(),
                         raw: None,
                     }),
                     value: vec![
