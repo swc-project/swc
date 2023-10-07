@@ -29,7 +29,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "linear",
+                            value: "linear".into(),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(box Number { value, .. }) if *value == 0.25)
@@ -39,7 +39,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "ease",
+                            value: "ease".into(),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(box Number { value: first, .. }) if *first == 0.42)
@@ -49,7 +49,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "ease-in",
+                            value: "ease-in".into(),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Integer(box Integer { value: first, .. }) if *first == 0)
@@ -59,7 +59,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "ease-out",
+                            value: "ease-out".into(),
                             raw: None,
                         }))
                     } else if matches!(first, ComponentValue::Number(box Number { value: first, .. }) if *first == 0.42)
@@ -69,7 +69,7 @@ impl Compressor {
                     {
                         *component_value = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "ease-in-out",
+                            value: "ease-in-out".into(),
                             raw: None,
                         }))
                     }
@@ -89,7 +89,7 @@ impl Compressor {
                         ComponentValue::Ident(box Ident {
                             value: ident_value, ..
                         }),
-                    ) if *number_value == 1 => match ident_value.to_ascii_lowercase() {
+                    ) if *number_value == 1 => match &*ident_value.to_ascii_lowercase() {
                         "start" | "jump-start" => {
                             *component_value = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
