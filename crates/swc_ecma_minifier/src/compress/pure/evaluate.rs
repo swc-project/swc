@@ -260,7 +260,7 @@ impl Pure<'_> {
             }) = e
             {
                 if args.len() == 1 && args[0].spread.is_none() {
-                    if let Expr::Ident(Ident { sym: Number, .. }) = &**callee {
+                    if callee.is_ident_ref_to("Number") {
                         self.changed = true;
                         report_change!(
                             "evaluate: Reducing a call to `Number` into an unary operation"
