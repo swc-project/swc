@@ -74,11 +74,9 @@ impl Optimizer<'_> {
 
         if f.params.iter().any(|param| match &param.pat {
             Pat::Ident(BindingIdent {
-                id: Ident {
-                    sym: "arguments", ..
-                },
+                id: Ident { sym, .. },
                 ..
-            }) => true,
+            }) if &**sym == "arguments" => true,
             Pat::Ident(i) => self
                 .data
                 .vars
@@ -177,50 +175,51 @@ impl VisitMut for ArgReplacer<'_> {
             ..
         }) = n
         {
-            if let Expr::Ident(Ident {
-                sym: "arguments", ..
-            }) = &**obj
-            {
-                match &*c.expr {
-                    Expr::Lit(Lit::Str(Str { value, .. })) => {
-                        let idx = value.parse::<usize>();
-                        let idx = match idx {
-                            Ok(v) => v,
-                            _ => return,
-                        };
+            match &**obj {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
+                    match &*c.expr {
+                        Expr::Lit(Lit::Str(Str { value, .. })) => {
+                            let idx = value.parse::<usize>();
+                            let idx = match idx {
+                                Ok(v) => v,
+                                _ => return,
+                            };
 
-                        self.inject_params_if_required(idx);
+                            self.inject_params_if_required(idx);
 
-                        if let Some(param) = self.params.get(idx) {
-                            if let Pat::Ident(i) = &param.pat {
-                                self.changed = true;
-                                *n = Expr::Ident(i.id.clone());
+                            if let Some(param) = self.params.get(idx) {
+                                if let Pat::Ident(i) = &param.pat {
+                                    self.changed = true;
+                                    *n = Expr::Ident(i.id.clone());
+                                }
                             }
                         }
-                    }
-                    Expr::Lit(Lit::Num(Number { value, .. })) => {
-                        if value.fract() != 0.0 {
-                            // We ignores non-integer values.
-                            return;
-                        }
+                        Expr::Lit(Lit::Num(Number { value, .. })) => {
+                            if value.fract() != 0.0 {
+                                // We ignores non-integer values.
+                                return;
+                            }
 
-                        let idx = value.round() as i64 as usize;
+                            let idx = value.round() as i64 as usize;
 
-                        self.inject_params_if_required(idx);
+                            self.inject_params_if_required(idx);
 
-                        //
-                        if let Some(param) = self.params.get(idx) {
-                            if let Pat::Ident(i) = &param.pat {
-                                report_change!(
-                                    "arguments: Replacing access to arguments to normal reference"
-                                );
-                                self.changed = true;
-                                *n = Expr::Ident(i.id.clone());
+                            //
+                            if let Some(param) = self.params.get(idx) {
+                                if let Pat::Ident(i) = &param.pat {
+                                    report_change!(
+                                        "arguments: Replacing access to arguments to normal \
+                                         reference"
+                                    );
+                                    self.changed = true;
+                                    *n = Expr::Ident(i.id.clone());
+                                }
                             }
                         }
+                        _ => {}
                     }
-                    _ => {}
                 }
+                _ => (),
             }
         }
     }
