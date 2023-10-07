@@ -119,7 +119,7 @@ impl VisitMut for TemplateLiteral {
                     let is_lit = is_literal(&expr);
 
                     if is_lit {
-                        let is_empty = match &expr {
+                        let is_empty = match &*expr {
                             Expr::Lit(Lit::Str(Str { value, .. })) => value.is_empty(),
                             _ => false,
                         };
@@ -169,7 +169,10 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(concat, expr_span)),
+                                        prop: MemberProp::Ident(Ident::new(
+                                            "concat".into(),
+                                            expr_span,
+                                        )),
                                     }
                                     .as_callee(),
                                     args: mem::take(&mut args)
