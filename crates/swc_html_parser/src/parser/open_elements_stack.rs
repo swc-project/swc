@@ -356,7 +356,7 @@ impl OpenElementsStack {
     // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !is_html_element!(node, &"table" | &"template" | &"html") {
+            if !is_html_element!(node, "table" | "template" | "html") {
                 self.pop();
             } else {
                 break;
@@ -369,7 +369,7 @@ impl OpenElementsStack {
     // template, or html element, pop elements from the stack of open elements.
     pub fn clear_back_to_table_row_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !is_html_element!(node, &"tr" | &"template" | &"html") {
+            if !is_html_element!(node, "tr" | "template" | "html") {
                 self.pop();
             } else {
                 break;
@@ -383,7 +383,7 @@ impl OpenElementsStack {
     // elements.
     pub fn clear_back_to_table_body_context(&mut self) {
         while let Some(node) = self.items.last() {
-            if !is_html_element!(node, &"thead" | &"tfoot" | &"tbody" | &"template" | &"html") {
+            if !is_html_element!(node, "thead" | "tfoot" | "tbody" | "template" | "html") {
                 self.pop();
             } else {
                 break;
@@ -449,7 +449,7 @@ impl OpenElementsStack {
 
     pub fn pop_until_tag_name_popped(&mut self, tag_name: &[&str]) -> Option<RcNode> {
         while let Some(node) = self.pop() {
-            if tag_name.contains(get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
+            if tag_name.contains(&get_tag_name!(node)) && get_namespace!(node) == Namespace::HTML {
                 return Some(node);
             }
         }
