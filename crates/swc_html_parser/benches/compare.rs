@@ -44,7 +44,7 @@ where
             .parse_document_fragment(
                 Element {
                     span: Default::default(),
-                    tag_name: js_word!("template"),
+                    tag_name: "template",
                     namespace: Namespace::HTML,
                     attributes: vec![],
                     is_self_closing: false,

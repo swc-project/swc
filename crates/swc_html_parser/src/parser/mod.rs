@@ -2607,7 +2607,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements(js_word!("body")),
+                                    ErrorKind::EndTagWithUnclosedElements(body),
                                 ));
 
                                 break;
@@ -2669,7 +2669,7 @@ where
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements(js_word!("html")),
+                                    ErrorKind::EndTagWithUnclosedElements(html),
                                 ));
 
                                 break;
@@ -2869,7 +2869,7 @@ where
                                     Some(node) if !is_html_element!(node, "li") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(js_word!("li")),
+                                            ErrorKind::UnclosedElementsImplied(li),
                                         ));
                                     }
                                     _ => {}
@@ -2961,7 +2961,7 @@ where
                                     Some(node) if !is_html_element!(node, "dd") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(js_word!("dd")),
+                                            ErrorKind::UnclosedElementsImplied(dd),
                                         ));
                                     }
                                     _ => {}
@@ -2984,7 +2984,7 @@ where
                                     Some(node) if !is_html_element!(node, "dt") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(js_word!("dt")),
+                                            ErrorKind::UnclosedElementsImplied(dt),
                                         ));
                                     }
                                     _ => {}
