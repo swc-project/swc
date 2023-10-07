@@ -207,13 +207,9 @@ impl Pure<'_> {
             | Expr::Bin(BinExpr { op: op!("&&"), .. })
             | Expr::Bin(BinExpr { op: op!("||"), .. }) => true,
             // V8 and terser test ref have different opinion.
-            Expr::Ident(Ident {
-                sym: "Infinity", ..
-            }) => false,
-            Expr::Ident(Ident {
-                sym: "undefined", ..
-            }) => false,
-            Expr::Ident(Ident { sym: "NaN", .. }) => false,
+            Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => false,
+            Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => false,
+            Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => false,
 
             e if is_pure_undefined(&self.expr_ctx, e) => true,
 
