@@ -607,7 +607,7 @@ pub trait ExprExt {
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
         // NaN is special
-        matches!(self.as_expr(), Expr::Ident(Ident { sym: "NaN", .. }))
+        self.as_expr().is_ident_ref_to("NaN")
     }
 
     fn is_undefined(&self, ctx: &ExprCtx) -> bool {
