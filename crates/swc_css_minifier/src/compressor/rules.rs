@@ -329,7 +329,10 @@ impl Compressor {
             _ => return false,
         };
 
-        matches!(*name, "media" | "supports" | "container" | "layer" | "nest")
+        matches!(
+            &**name,
+            "media" | "supports" | "container" | "layer" | "nest"
+        )
     }
 
     fn try_merge_at_rule(&mut self, left: &mut AtRule, right: &mut AtRule) -> Option<AtRule> {

@@ -261,7 +261,7 @@ impl VisitMut for Compressor {
         match &n.name {
             Ident { value, .. }
                 if matches!(
-                    *value,
+                    &**value,
                     "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
                 ) =>
             {

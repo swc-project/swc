@@ -396,7 +396,7 @@ impl Compressor {
                 value: box MediaFeatureValue::Number(value),
             }) => {
                 if matches!(
-                    name.value,
+                    &*name.value,
                     "min-color" | "min-color-index" | "min-monochrome"
                 ) && value.value == 1.0
                 {
@@ -412,7 +412,7 @@ impl Compressor {
             }
             MediaFeature::Range(range) => {
                 if let MediaFeatureValue::Ident(name) = &*range.left {
-                    if matches!(name.value, "color" | "color-index" | "monochrome")
+                    if matches!(&*name.value, "color" | "color-index" | "monochrome")
                         && matches!(&*range.right, MediaFeatureValue::Number(number) if number.value == 1.0)
                         && range.comparison == MediaFeatureRangeComparison::Ge
                     {
@@ -428,7 +428,7 @@ impl Compressor {
                         });
                     }
                 } else if let MediaFeatureValue::Ident(name) = &*range.right {
-                    if matches!(name.value, "color" | "color-index" | "monochrome")
+                    if matches!(&*name.value, "color" | "color-index" | "monochrome")
                         && matches!(&*range.left, MediaFeatureValue::Number(number) if number.value == 1.0)
                         && range.comparison == MediaFeatureRangeComparison::Le
                     {
