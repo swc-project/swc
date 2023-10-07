@@ -379,9 +379,7 @@ pub(crate) fn negate_cost(
 
 pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     match e {
-        Expr::Ident(Ident {
-            sym: "undefined", ..
-        }) => true,
+        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
 
         Expr::Unary(UnaryExpr {
             op: UnaryOp::Void,
