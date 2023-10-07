@@ -6,37 +6,12 @@ use crate::parser::{
 };
 
 static IMPLICIT_END_TAG_REQUIRED: &[&str] = &[
-    &"dd",
-    &"dt",
-    &"li",
-    &"optgroup",
-    &"option",
-    &"p",
-    &"rb",
-    &"rp",
-    &"rt",
-    &"rtc",
+    "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
 ];
 
 static IMPLICIT_END_TAG_REQUIRED_THOROUGHLY: &[&str] = &[
-    &"caption",
-    &"colgroup",
-    &"dd",
-    &"dt",
-    &"li",
-    &"optgroup",
-    &"option",
-    &"p",
-    &"rb",
-    &"rp",
-    &"rt",
-    &"rtc",
-    &"tbody",
-    &"td",
-    &"tfoot",
-    &"th",
-    &"thead",
-    &"tr",
+    "caption", "colgroup", "dd", "dt", "li", "optgroup", "option", "p", "rb", "rp", "rt", "rtc",
+    "tbody", "td", "tfoot", "th", "thead", "tr",
 ];
 
 static SPECIFIC_SCOPE: &[(&str, Namespace)] = &[
