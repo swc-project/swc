@@ -495,7 +495,7 @@ where
             tok!("ident") => {
                 let mut value: Ident = self.parse()?;
 
-                value.value = value.value.to_ascii_lowercase();
+                value.value = value.value.to_ascii_lowercase().into();
 
                 return Ok(TypeSelector::TagName(TagNameSelector {
                     span: span!(self, span.lo),
@@ -830,7 +830,7 @@ where
             tok!("ident") => {
                 let mut value: Ident = self.parse()?;
 
-                value.value = value.value.to_ascii_lowercase();
+                value.value = value.value.to_ascii_lowercase().into();
 
                 Ok(AttributeSelectorModifier {
                     span: span!(self, span.lo),
@@ -894,7 +894,7 @@ where
 
                             let mut ident: Ident = self.parse()?;
 
-                            ident.value = ident.value.to_ascii_lowercase();
+                            ident.value = ident.value.to_ascii_lowercase().into();
 
                             self.input.skip_ws();
 
@@ -1093,7 +1093,7 @@ where
             let fn_span = self.input.cur_span();
             let name = bump!(self);
             let names = match name {
-                Token::Function { value, raw } => (value.to_ascii_lowercase(), raw),
+                Token::Function { value, raw } => (value.to_ascii_lowercase().into(), raw),
                 _ => unreachable!(),
             };
 
