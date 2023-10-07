@@ -497,7 +497,7 @@ impl VisitMut for Polyfills {
                             span,
                             callee: Expr::Ident(Ident {
                                 span: DUMMY_SP.apply_mark(self.global_mark),
-                                sym: js_word!("require"),
+                                sym: require,
                                 optional: false,
                             })
                             .as_callee(),
@@ -523,7 +523,7 @@ impl VisitMut for Polyfills {
                             span,
                             callee: Expr::Ident(Ident {
                                 span: DUMMY_SP.apply_mark(self.global_mark),
-                                sym: js_word!("require"),
+                                sym: require,
                                 optional: false,
                             })
                             .as_callee(),

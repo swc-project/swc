@@ -328,19 +328,11 @@ fn is_symbol_iterator(e: &Expr) -> bool {
     match e {
         Expr::Member(MemberExpr {
             obj,
-            prop:
-                MemberProp::Ident(Ident {
-                    sym: js_word!("iterator"),
-                    ..
-                }),
+            prop: MemberProp::Ident(Ident {
+                sym: "iterator", ..
+            }),
             ..
-        }) => matches!(
-            &**obj,
-            Expr::Ident(Ident {
-                sym: js_word!("Symbol"),
-                ..
-            })
-        ),
+        }) => matches!(&**obj, Expr::Ident(Ident { sym: "Symbol", .. })),
         _ => false,
     }
 }

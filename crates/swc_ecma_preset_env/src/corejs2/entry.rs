@@ -86,11 +86,7 @@ impl VisitMut for Entry {
                     ..
                 }) = &**expr
                 {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("require"),
-                        ..
-                    }) = &**callee
-                    {
+                    if let Expr::Ident(Ident { sym: "require", .. }) = &**callee {
                         if args.len() == 1
                             && if let ExprOrSpread { spread: None, expr } = &args[0] {
                                 if let Expr::Lit(Lit::Str(s)) = &**expr {
