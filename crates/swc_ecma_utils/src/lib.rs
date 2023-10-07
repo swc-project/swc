@@ -1361,21 +1361,15 @@ pub trait ExprExt {
                             PropOrSpread::Spread(_) => true,
                             PropOrSpread::Prop(prop) => match prop.as_ref() {
                                 Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
-                                Prop::Shorthand(Ident {
-                                    sym: js_word!("__proto__"),
-                                    ..
-                                })
+                                Prop::Shorthand(Ident { sym, .. })
                                 | Prop::KeyValue(KeyValueProp {
                                     key:
-                                        PropName::Ident(Ident {
-                                            sym: js_word!("__proto__"),
-                                            ..
-                                        })
-                                        | PropName::Str(Str {
-                                            value: js_word!("__proto__"),
-                                            ..
-                                        })
-                                        | PropName::Computed(_),
+                                        PropName::Ident(Ident { sym, .. })
+                                        | PropName::Str(Str { value: sym, .. }),
+                                    ..
+                                }) => &**sym == "__proto__",
+                                Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Computed(_),
                                     ..
                                 }) => true,
                                 _ => false,
