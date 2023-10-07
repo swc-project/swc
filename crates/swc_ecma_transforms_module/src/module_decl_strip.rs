@@ -470,7 +470,7 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     }) => (sym, span.private()),
                 });
 
-                match orig {
+                match (&*orig.0, orig.1) {
                     ("default", default_span) => {
                         let (sym, span) = exported.unwrap_or(orig);
 

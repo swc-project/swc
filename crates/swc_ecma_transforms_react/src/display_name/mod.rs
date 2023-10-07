@@ -145,7 +145,7 @@ fn is_create_class_call(call: &CallExpr) -> bool {
             }),
             ..
         }) => {
-            if let Expr::Ident(Ident { sym: "React", .. }) = &**obj {
+            if obj.is_ident_ref_to("React") {
                 return true;
             }
         }
