@@ -631,7 +631,7 @@ where
                     }
                 }
 
-                match *function_name {
+                match &**function_name {
                     "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -837,7 +837,7 @@ where
                     _ => {}
                 }
 
-                match *function_name {
+                match &**function_name {
                     "hwb" => {
                         let hue_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -945,7 +945,7 @@ where
                 }
 
                 if !is_one_of!(self, EOF, "/") {
-                    match *function_name {
+                    match &**function_name {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
@@ -1062,7 +1062,7 @@ where
                 }
 
                 if !is_one_of!(self, EOF, "/") {
-                    match *function_name {
+                    match &**function_name {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
