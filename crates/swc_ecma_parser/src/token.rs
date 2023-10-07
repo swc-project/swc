@@ -460,7 +460,13 @@ pub enum Word {
     True,
     False,
 
-    Ident(JsWord),
+    Ident(IdentLike),
+}
+
+#[derive(Clone, PartialEq, Eq, Hash)]
+enum IdentLike {
+    Known(KnownIdent),
+    Other(JsWord),
 }
 
 impl Word {
@@ -470,11 +476,8 @@ impl Word {
             Word::Null => WordKind::Null,
             Word::True => WordKind::True,
             Word::False => WordKind::False,
-            Word::Ident(ref i) => WordKind::Ident(
-                KnownIdent::try_from(i)
-                    .map(IdentKind::Known)
-                    .unwrap_or(IdentKind::Other),
-            ),
+            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(i)),
+            Word::Ident(IdentLike::Other(i)) => WordKind::Ident(IdentKind::Other),
         }
     }
 }
@@ -536,10 +539,19 @@ impl From<&'_ str> for Word {
             "typeof" => TypeOf.into(),
             "void" => Void.into(),
             "delete" => Delete.into(),
-            _ => Word::Ident(i),
+            _ => Word::Ident(i.into()),
         }
     }
 }
+
+impl From<&'_ str> for IdentLike {
+    fn from(s: &str) -> Self {
+        s.parse::<KnownIdent>()
+            .map(Self::Known)
+            .unwrap_or_else(|_| Self::Other(s.into()))
+    }
+}
+
 impl From<Keyword> for Word {
     fn from(kwd: Keyword) -> Self {
         Word::Keyword(kwd)
