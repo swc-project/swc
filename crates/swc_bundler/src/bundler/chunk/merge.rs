@@ -623,7 +623,7 @@ where
                                 },
                                 ImportSpecifier::Default(s) => {
                                     new.push(
-                                        Ident::new(default, import.span)
+                                        Ident::new("default".into(), import.span)
                                             .assign_to(s.local.clone())
                                             .into_module_item(
                                                 injected_ctxt,
@@ -670,7 +670,8 @@ where
                         // To allow using identifier of the declaration in the original module, we
                         // create `const local_default = orig_ident` if original identifier exists.
 
-                        let local = Ident::new(default, DUMMY_SP.with_ctxt(info.local_ctxt()));
+                        let local =
+                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.local_ctxt()));
 
                         match export.decl {
                             DefaultDecl::Class(c) => {

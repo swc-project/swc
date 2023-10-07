@@ -210,7 +210,10 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(concat, expr_span)),
+                                        prop: MemberProp::Ident(Ident::new(
+                                            "concat".into(),
+                                            expr_span,
+                                        )),
                                     }
                                     .as_callee(),
                                     args: mem::take(&mut args)
