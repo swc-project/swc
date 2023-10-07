@@ -109,7 +109,7 @@ impl Compressor {
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
                 if matches!(
-                    name.value,
+                    &*name.value,
                     "before" | "after" | "first-letter" | "first-line"
                 ) {
                     *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
