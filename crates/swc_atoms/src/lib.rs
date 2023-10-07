@@ -191,8 +191,7 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
 #[macro_export]
 macro_rules! atom {
     ($s:literal) => {{
-        static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
-            $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new($s));
+        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
 
         $crate::Atom::clone(&*CACHE)
     }};

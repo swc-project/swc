@@ -1,6 +1,6 @@
 //! 12.1 Identifiers
 use either::Either;
-use swc_atoms::js_word;
+use swc_atoms::{atom, js_word};
 
 use super::*;
 use crate::token::Keyword;
@@ -145,7 +145,7 @@ impl<I: Tokens> Parser<I> {
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
             match w {
-                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok("await"),
+                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(atom!("await")),
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
