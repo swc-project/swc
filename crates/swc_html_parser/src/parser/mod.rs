@@ -2961,7 +2961,7 @@ where
                                     Some(node) if !is_html_element!(node, "dd") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(dd),
+                                            ErrorKind::UnclosedElementsImplied("dd".into()),
                                         ));
                                     }
                                     _ => {}
@@ -2984,7 +2984,7 @@ where
                                     Some(node) if !is_html_element!(node, "dt") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(dt),
+                                            ErrorKind::UnclosedElementsImplied("dt".into()),
                                         ));
                                     }
                                     _ => {}
