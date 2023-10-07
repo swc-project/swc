@@ -620,7 +620,16 @@ impl From<Word> for JsWord {
             Word::True => "true".into(),
             Word::False => "false".into(),
 
-            Word::Ident(w) => w,
+            Word::Ident(w) => w.into(),
+        }
+    }
+}
+
+impl From<IdentLike> for Atom {
+    fn from(i: IdentLike) -> Self {
+        match i {
+            IdentLike::Known(i) => i.into(),
+            IdentLike::Other(i) => i.into(),
         }
     }
 }
