@@ -43,7 +43,7 @@ macro_rules! define_known_ident {
         macro_rules! known_ident {
             $(
                 ($value) => {
-                    KnownIdent::$name
+                    crate::token::KnownIdent::$name
                 };
             )*
         }
@@ -464,7 +464,7 @@ pub enum Word {
 }
 
 #[derive(Clone, PartialEq, Eq, Hash)]
-enum IdentLike {
+pub enum IdentLike {
     Known(KnownIdent),
     Other(JsWord),
 }
@@ -613,11 +613,12 @@ impl From<Word> for JsWord {
                 Void => "void",
 
                 Delete => "delete",
-            },
+            }
+            .into(),
 
-            Word::Null => "null",
-            Word::True => "true",
-            Word::False => "false",
+            Word::Null => "null".into(),
+            Word::True => "true".into(),
+            Word::False => "false".into(),
 
             Word::Ident(w) => w,
         }
