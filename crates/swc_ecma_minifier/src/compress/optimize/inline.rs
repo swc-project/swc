@@ -177,7 +177,7 @@ impl Optimizer<'_> {
                 && usage.assign_count == 0
                 && (!usage.has_property_mutation || !usage.reassigned)
                 && match init {
-                    Expr::Ident(Ident { sym: "eval", .. }) => false,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.assigned_fn_local {
