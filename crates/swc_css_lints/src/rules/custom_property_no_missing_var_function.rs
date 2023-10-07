@@ -38,7 +38,7 @@ impl Visit for CustomPropertyNoMissingVarFunction {
     }
 
     fn visit_function(&mut self, function: &Function) {
-        self.in_var_function.push(function.name == "var");
+        self.in_var_function.push(function.name == *"var");
         function.visit_children_with(self);
         self.in_var_function.pop();
     }
