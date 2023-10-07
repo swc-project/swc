@@ -1446,8 +1446,8 @@ impl<I: Tokens> Parser<I> {
 
             return Ok((
                 Box::new(match obj {
-                    Callee::Import(_) => {
-                        if let MemberProp::Ident(Ident { sym: "meta", .. }) = prop {
+                    Callee::Import(_) => match prop {
+                        MemberProp::Ident(Ident { sym: meta, .. }) if &*meta == "meta" => {
                             if !self.ctx().can_be_module {
                                 let span = span!(self, start);
                                 self.emit_err(span, SyntaxError::ImportMetaInScript);
@@ -1456,10 +1456,11 @@ impl<I: Tokens> Parser<I> {
                                 span,
                                 kind: MetaPropKind::ImportMeta,
                             })
-                        } else {
+                        }
+                        _ => {
                             unexpected!(self, "meta");
                         }
-                    }
+                    },
                     Callee::Super(obj) => {
                         if !self.ctx().allow_direct_super
                             && !self.input.syntax().allow_super_outside_method()

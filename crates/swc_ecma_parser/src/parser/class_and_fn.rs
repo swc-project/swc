@@ -1693,24 +1693,24 @@ impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
 
 fn is_constructor(key: &Key) -> bool {
     matches!(
-        *key,
+        &key,
         Key::Public(PropName::Ident(Ident {
             sym: constructor,
             ..
         })) | Key::Public(PropName::Str(Str {
             value: constructor,
             ..
-        })) if &*constructor == "constructor"
+        })) if &**constructor == "constructor"
     )
 }
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
     !matches!(
-        p.pat,
+        &p.pat,
         Pat::Ident(BindingIdent {
             id: Ident { sym: this, .. },
             ..
-        })if &*this == "this"
+        })if &**this == "this"
     )
 }
 
