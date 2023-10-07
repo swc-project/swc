@@ -4,9 +4,9 @@ use swc_css_ast::*;
 use super::Compressor;
 
 impl Compressor {
-    fn convert_length(&mut self, value: f64, from_unit: &JsWord, to_unit: &JsWord) -> f64 {
-        match *to_unit {
-            "cm" => match *from_unit {
+    fn convert_length(&mut self, value: f64, from_unit: &str, to_unit: &str) -> f64 {
+        match to_unit {
+            "cm" => match from_unit {
                 "cm" => value,
                 "mm" => value / 10.0,
                 "q" => value / 40.0,
@@ -18,7 +18,7 @@ impl Compressor {
                     unreachable!()
                 }
             },
-            "mm" => match *from_unit {
+            "mm" => match from_unit {
                 "cm" => 10.0 * value,
                 "mm" => value,
                 "q" => value / 4.0,
@@ -30,7 +30,7 @@ impl Compressor {
                     unreachable!()
                 }
             },
-            "q" => match *from_unit {
+            "q" => match from_unit {
                 "cm" => 40.0 * value,
                 "mm" => 4.0 * value,
                 "q" => value,
@@ -42,7 +42,7 @@ impl Compressor {
                     unreachable!()
                 }
             },
-            "in" => match *from_unit {
+            "in" => match from_unit {
                 "cm" => value / 2.54,
                 "mm" => value / 25.4,
                 "q" => value / 101.6,
@@ -54,7 +54,7 @@ impl Compressor {
                     unreachable!()
                 }
             },
-            "pc" => match *from_unit {
+            "pc" => match from_unit {
                 "cm" => 6.0 / 2.54 * value,
                 "mm" => 6.0 / 25.4 * value,
                 "q" => 6.0 / 101.6 * value,
@@ -66,7 +66,7 @@ impl Compressor {
                     unreachable!()
                 }
             },
-            "pt" => match *from_unit {
+            "pt" => match from_unit {
                 "cm" => 72.0 / 2.54 * value,
                 "mm" => 72.0 / 25.4 * value,
                 "q" => 72.0 / 101.6 * value,
@@ -78,7 +78,7 @@ impl Compressor {
                     unreachable!()
                 }
             },
-            "px" => match *from_unit {
+            "px" => match from_unit {
                 "cm" => 96.0 / 2.54 * value,
                 "mm" => 96.0 / 25.4 * value,
                 "q" => 96.0 / 101.6 * value,

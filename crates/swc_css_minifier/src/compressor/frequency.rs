@@ -5,7 +5,7 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_frequency(&mut self, frequency: &mut Frequency) {
-        match frequency.unit.value {
+        match &*frequency.unit.value {
             "hz" if frequency.value.value > 0.0 && frequency.value.value % 1000.0 == 0.0 => {
                 let new_value = frequency.value.value / 1000.0;
 
@@ -16,7 +16,7 @@ impl Compressor {
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
-                    value: "khz",
+                    value: "khz".into(),
                     raw: None,
                 };
             }
@@ -33,7 +33,7 @@ impl Compressor {
                 };
                 frequency.unit = Ident {
                     span: frequency.unit.span,
-                    value: "hz",
+                    value: "hz".into(),
                     raw: None,
                 };
             }
