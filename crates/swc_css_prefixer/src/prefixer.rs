@@ -254,7 +254,7 @@ impl VisitMut for ImageSetFunctionReplacerOnLegacyVariant<'_> {
                 span: node.span,
                 name: Ident {
                     span: DUMMY_SP,
-                    value: "url",
+                    value: "url".into(),
                     raw: None,
                 },
                 value: Some(Box::new(UrlValue::Str(Str {
@@ -407,25 +407,25 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                     if angle == 0.0 {
                         n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "bottom",
+                            value: "bottom".into(),
                             raw: None,
                         }));
                     } else if angle == 90.0 {
                         n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "left",
+                            value: "left".into(),
                             raw: None,
                         }));
                     } else if angle == 180.0 {
                         n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "top",
+                            value: "top".into(),
                             raw: None,
                         }));
                     } else if angle == 270.0 {
                         n.value[0] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "right",
+                            value: "right".into(),
                             raw: None,
                         }));
                     } else {
@@ -680,7 +680,7 @@ impl VisitMut for ClampReplacer {
                 span: n.span,
                 name: FunctionName::Ident(Ident {
                     span: n.span,
-                    value: "min",
+                    value: "min".into(),
                     raw: None,
                 }),
                 value: vec![middle.clone(), comma.clone(), right.clone()],
@@ -694,7 +694,7 @@ impl VisitMut for ClampReplacer {
                 span: n.span,
                 name: FunctionName::Ident(Ident {
                     span: n.span,
-                    value: "max",
+                    value: "max".into(),
                     raw: None,
                 }),
                 value: vec![
@@ -807,7 +807,7 @@ impl Prefixer {
         if should_prefix(&property, self.env, true) && !self.is_duplicate(&property) {
             let name = DeclarationName::Ident(Ident {
                 span: DUMMY_SP,
-                value: property,
+                value: property.into(),
                 raw: None,
             });
 
@@ -853,7 +853,7 @@ impl Prefixer {
                 if !self.is_duplicate(&property) {
                     let name = DeclarationName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: property,
+                        value: property.into(),
                         raw: None,
                     });
 
@@ -2816,7 +2816,7 @@ impl VisitMut for Prefixer {
                     match &n.value[0] {
                         ComponentValue::Ident(ident)
                             if matches!(
-                                ident.value.to_ascii_lowercase(),
+                                &*ident.value.to_ascii_lowercase(),
                                 "none"
                                     | "underline"
                                     | "overline"
@@ -3337,7 +3337,7 @@ impl VisitMut for Prefixer {
                             span: n.span,
                             name: DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "overflow-x",
+                                value: "overflow-x".into(),
                                 raw: None,
                             }),
                             value: vec![left.clone()],
@@ -3347,7 +3347,7 @@ impl VisitMut for Prefixer {
                             span: n.span,
                             name: DeclarationName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "overflow-y",
+                                value: "overflow-y".into(),
                                 raw: None,
                             }),
                             value: vec![right.clone()],
