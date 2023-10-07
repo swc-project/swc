@@ -18,7 +18,7 @@ where
         name: &JsWord,
     ) -> PResult<Option<AtRulePrelude>> {
         let prelude = match *name {
-            js_word!("charset") => {
+            "charset" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::CharsetPrelude(self.parse()?);
@@ -55,7 +55,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("container") => {
+            "container" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::ContainerPrelude(self.parse()?);
@@ -82,7 +82,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("document") | js_word!("-moz-document") => {
+            "document" | js_word!("-moz-document") => {
                 self.input.skip_ws();
 
                 let span = self.input.cur_span();
@@ -139,13 +139,13 @@ where
 
                 Some(prelude)
             }
-            js_word!("stylistic")
+            "stylistic"
             | js_word!("historical-forms")
-            | js_word!("styleset")
+            | "styleset"
             | js_word!("character-variant")
-            | js_word!("swash")
-            | js_word!("ornaments")
-            | js_word!("annotation")
+            | "swash"
+            | "ornaments"
+            | "annotation"
                 if self.ctx.in_font_feature_values_at_rule =>
             {
                 self.input.skip_ws();
@@ -158,7 +158,7 @@ where
 
                 None
             }
-            js_word!("import") => {
+            "import" => {
                 self.input.skip_ws();
 
                 let span = self.input.cur_span();
@@ -180,7 +180,7 @@ where
                 let layer_name = if !is!(self, EOF) {
                     match cur!(self) {
                         Token::Ident { value, .. }
-                            if matches_eq_ignore_ascii_case!(value, js_word!("layer")) =>
+                            if matches_eq_ignore_ascii_case!(value, "layer") =>
                         {
                             let name = ImportLayerName::Ident(self.parse()?);
 
@@ -189,7 +189,7 @@ where
                             Some(Box::new(name))
                         }
                         Token::Function { value, .. }
-                            if matches_eq_ignore_ascii_case!(value, js_word!("layer")) =>
+                            if matches_eq_ignore_ascii_case!(value, "layer") =>
                         {
                             let ctx = Ctx {
                                 in_import_at_rule: true,
@@ -222,7 +222,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("keyframes")
+            "keyframes"
             | js_word!("-webkit-keyframes")
             | js_word!("-moz-keyframes")
             | js_word!("-o-keyframes")
@@ -235,7 +235,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("layer") => {
+            "layer" => {
                 self.input.skip_ws();
 
                 if is!(self, Ident) {
@@ -278,7 +278,7 @@ where
                     None
                 }
             }
-            js_word!("media") => {
+            "media" => {
                 self.input.skip_ws();
 
                 let media = if !is!(self, EOF) {
@@ -293,7 +293,7 @@ where
 
                 media
             }
-            js_word!("namespace") => {
+            "namespace" => {
                 self.input.skip_ws();
 
                 let span = self.input.cur_span();
@@ -334,7 +334,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("nest") => {
+            "nest" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::NestPrelude(self.parse()?);
@@ -343,7 +343,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("page") => {
+            "page" => {
                 self.input.skip_ws();
 
                 let prelude = if !is!(self, EOF) {
@@ -384,7 +384,7 @@ where
 
                 None
             }
-            js_word!("property") => {
+            "property" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::PropertyPrelude(self.parse()?);
@@ -393,7 +393,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("supports") => {
+            "supports" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::SupportsPrelude(self.parse()?);
@@ -402,7 +402,7 @@ where
 
                 Some(prelude)
             }
-            js_word!("viewport") | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
+            "viewport" | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
                 self.input.skip_ws();
 
                 if !is!(self, EOF) {
@@ -424,7 +424,7 @@ where
 
                 None
             }
-            js_word!("scope") => {
+            "scope" => {
                 self.input.skip_ws();
 
                 let prelude = AtRulePrelude::ScopePrelude(self.parse()?);
@@ -452,7 +452,7 @@ where
 
     pub(super) fn parse_at_rule_block(&mut self, name: &JsWord) -> PResult<Vec<ComponentValue>> {
         let block_contents = match *name {
-            js_word!("charset") => {
+            "charset" => {
                 let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
@@ -466,7 +466,7 @@ where
 
                 declaration_list
             }
-            js_word!("container") => match self.ctx.block_contents_grammar {
+            "container" => match self.ctx.block_contents_grammar {
                 BlockContentsGrammar::StyleBlock => {
                     let ctx = Ctx {
                         in_container_at_rule: true,
@@ -504,24 +504,22 @@ where
 
                 return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
             }
-            js_word!("document") | js_word!("-moz-document") => {
-                match self.ctx.block_contents_grammar {
-                    BlockContentsGrammar::StyleBlock => {
-                        let style_blocks: Vec<StyleBlock> = self.parse()?;
-                        let style_blocks: Vec<ComponentValue> =
-                            style_blocks.into_iter().map(ComponentValue::from).collect();
+            "document" | js_word!("-moz-document") => match self.ctx.block_contents_grammar {
+                BlockContentsGrammar::StyleBlock => {
+                    let style_blocks: Vec<StyleBlock> = self.parse()?;
+                    let style_blocks: Vec<ComponentValue> =
+                        style_blocks.into_iter().map(ComponentValue::from).collect();
 
-                        style_blocks
-                    }
-                    _ => {
-                        let rule_list = self.parse_as::<Vec<Rule>>()?;
-                        let rule_list: Vec<ComponentValue> =
-                            rule_list.into_iter().map(ComponentValue::from).collect();
-
-                        rule_list
-                    }
+                    style_blocks
                 }
-            }
+                _ => {
+                    let rule_list = self.parse_as::<Vec<Rule>>()?;
+                    let rule_list: Vec<ComponentValue> =
+                        rule_list.into_iter().map(ComponentValue::from).collect();
+
+                    rule_list
+                }
+            },
             js_word!("font-face") => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
@@ -544,13 +542,13 @@ where
 
                 declaration_list
             }
-            js_word!("stylistic")
+            "stylistic"
             | js_word!("historical-forms")
-            | js_word!("styleset")
+            | "styleset"
             | js_word!("character-variant")
-            | js_word!("swash")
-            | js_word!("ornaments")
-            | js_word!("annotation")
+            | "swash"
+            | "ornaments"
+            | "annotation"
                 if self.ctx.in_font_feature_values_at_rule =>
             {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
@@ -570,12 +568,12 @@ where
 
                 declaration_list
             }
-            js_word!("import") => {
+            "import" => {
                 let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::Unexpected("'{' token")));
             }
-            js_word!("keyframes")
+            "keyframes"
             | js_word!("-webkit-keyframes")
             | js_word!("-moz-keyframes")
             | js_word!("-o-keyframes")
@@ -649,14 +647,14 @@ where
 
                 rule_list
             }
-            js_word!("layer") => {
+            "layer" => {
                 let rule_list = self.parse_as::<Vec<Rule>>()?;
                 let rule_list: Vec<ComponentValue> =
                     rule_list.into_iter().map(ComponentValue::from).collect();
 
                 rule_list
             }
-            js_word!("media") => match self.ctx.block_contents_grammar {
+            "media" => match self.ctx.block_contents_grammar {
                 BlockContentsGrammar::StyleBlock => {
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> =
@@ -672,19 +670,19 @@ where
                     rule_list
                 }
             },
-            js_word!("namespace") => {
+            "namespace" => {
                 let span = self.input.cur_span();
 
                 return Err(Error::new(span, ErrorKind::Unexpected("")));
             }
-            js_word!("nest") => {
+            "nest" => {
                 let style_blocks: Vec<StyleBlock> = self.parse()?;
                 let style_blocks: Vec<ComponentValue> =
                     style_blocks.into_iter().map(ComponentValue::from).collect();
 
                 style_blocks
             }
-            js_word!("page") => {
+            "page" => {
                 let declaration_list = self
                     .with_ctx(Ctx {
                         in_page_at_rule: true,
@@ -724,7 +722,7 @@ where
 
                 declaration_list
             }
-            js_word!("property") => {
+            "property" => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -733,7 +731,7 @@ where
 
                 declaration_list
             }
-            js_word!("supports") => match self.ctx.block_contents_grammar {
+            "supports" => match self.ctx.block_contents_grammar {
                 BlockContentsGrammar::StyleBlock => {
                     let style_blocks: Vec<StyleBlock> = self.parse()?;
                     let style_blocks: Vec<ComponentValue> =
@@ -749,7 +747,7 @@ where
                     rule_list
                 }
             },
-            js_word!("viewport") | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
+            "viewport" | js_word!("-ms-viewport") | js_word!("-o-viewport") => {
                 let declaration_list: Vec<DeclarationOrAtRule> = self.parse()?;
                 let declaration_list: Vec<ComponentValue> = declaration_list
                     .into_iter()
@@ -765,7 +763,7 @@ where
 
                 rule_list
             }
-            js_word!("scope") => {
+            "scope" => {
                 let rule_list = self.parse_as::<Vec<Rule>>()?;
                 let rule_list: Vec<ComponentValue> =
                     rule_list.into_iter().map(ComponentValue::from).collect();
@@ -791,7 +789,7 @@ where
         let supports = if !is!(self, EOF) {
             match cur!(self) {
                 Token::Function { value, .. }
-                    if matches_eq_ignore_ascii_case!(value, js_word!("supports")) =>
+                    if matches_eq_ignore_ascii_case!(value, "supports") =>
                 {
                     let ctx = Ctx {
                         in_import_at_rule: true,
@@ -840,11 +838,7 @@ where
 
                 match cur!(self) {
                     Token::Function { value, .. }
-                        if matches_eq_ignore_ascii_case!(
-                            value,
-                            js_word!("local"),
-                            js_word!("global")
-                        ) =>
+                        if matches_eq_ignore_ascii_case!(value, "local", "global") =>
                     {
                         let span = self.input.cur_span();
                         let pseudo = match bump!(self) {
@@ -875,11 +869,7 @@ where
                         )))
                     }
                     Token::Ident { value, .. }
-                        if matches_eq_ignore_ascii_case!(
-                            value,
-                            js_word!("local"),
-                            js_word!("global")
-                        ) =>
+                        if matches_eq_ignore_ascii_case!(value, "local", "global") =>
                     {
                         let pseudo = self.parse()?;
 
@@ -908,7 +898,7 @@ where
             tok!("ident") => {
                 let custom_ident: CustomIdent = self.parse()?;
 
-                if matches_eq_ignore_ascii_case!(custom_ident.value, js_word!("none")) {
+                if matches_eq_ignore_ascii_case!(custom_ident.value, "none") {
                     return Err(Error::new(
                         custom_ident.span,
                         ErrorKind::InvalidCustomIdent(custom_ident.value),
@@ -938,7 +928,7 @@ where
 
                 ident.value = ident.value.to_ascii_lowercase();
 
-                if ident.value != js_word!("from") && ident.value != js_word!("to") {
+                if ident.value != "from" && ident.value != "to" {
                     return Err(Error::new(
                         ident.span,
                         ErrorKind::Expected("'from' or 'to' idents"),
@@ -1321,7 +1311,7 @@ where
                 value: function_name,
                 ..
             } => {
-                if matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
+                if matches_eq_ignore_ascii_case!(function_name, "url", "src") {
                     Ok(DocumentPreludeMatchingFunction::Url(self.parse()?))
                 } else {
                     // TODO improve me
@@ -2064,13 +2054,7 @@ where
 
         let value = match cur!(self) {
             Token::Ident { value, .. }
-                if matches_eq_ignore_ascii_case!(
-                    value,
-                    js_word!("left"),
-                    js_word!("right"),
-                    js_word!("first"),
-                    js_word!("blank")
-                ) =>
+                if matches_eq_ignore_ascii_case!(value, "left", "right", "first", "blank") =>
             {
                 let mut name: Ident = self.parse()?;
 

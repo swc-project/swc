@@ -49,19 +49,19 @@ where
             }
 
             Token::Function { value, .. } => match value.to_ascii_lowercase() {
-                js_word!("url") | js_word!("src") => {
+                "url" | "src" => {
                     return Ok(ComponentValue::Url(self.parse()?));
                 }
-                js_word!("rgb")
-                | js_word!("rgba")
-                | js_word!("hsl")
-                | js_word!("hsla")
-                | js_word!("hwb")
-                | js_word!("lab")
-                | js_word!("lch")
-                | js_word!("oklab")
-                | js_word!("oklch")
-                | js_word!("color")
+                "rgb"
+                | "rgba"
+                | "hsl"
+                | "hsla"
+                | "hwb"
+                | "lab"
+                | "lch"
+                | "oklab"
+                | "oklch"
+                | "color"
                 | js_word!("device-cmyk")
                 | js_word!("color-mix")
                 | js_word!("color-contrast") => {
@@ -89,7 +89,7 @@ where
             Token::Ident { value, .. } => {
                 if value.starts_with("--") {
                     return Ok(ComponentValue::DashedIdent(self.parse()?));
-                } else if matches_eq_ignore_ascii_case!(value, js_word!("u"))
+                } else if matches_eq_ignore_ascii_case!(value, "u")
                     && peeked_is_one_of!(self, "+", "number", "dimension")
                 {
                     return Ok(ComponentValue::UnicodeRange(self.parse()?));
@@ -209,19 +209,19 @@ where
         let mut values = vec![];
 
         match *function_name {
-            js_word!("calc")
+            "calc"
             | js_word!("-moz-calc")
             | js_word!("-webkit-calc")
-            | js_word!("sin")
-            | js_word!("cos")
-            | js_word!("tan")
-            | js_word!("asin")
-            | js_word!("acos")
-            | js_word!("atan")
-            | js_word!("sqrt")
-            | js_word!("exp")
-            | js_word!("abs")
-            | js_word!("sign") => {
+            | "sin"
+            | "cos"
+            | "tan"
+            | "asin"
+            | "acos"
+            | "atan"
+            | "sqrt"
+            | "exp"
+            | "abs"
+            | "sign" => {
                 self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -236,7 +236,7 @@ where
                     return Err(Error::new(span, ErrorKind::Unexpected("value")));
                 }
             }
-            js_word!("min") | js_word!("max") | js_word!("hypot") => {
+            "min" | "max" | "hypot" => {
                 self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -265,7 +265,7 @@ where
                     return Err(Error::new(span, ErrorKind::Unexpected("value")));
                 }
             }
-            js_word!("clamp") => {
+            "clamp" => {
                 self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -306,7 +306,7 @@ where
 
                 self.input.skip_ws();
             }
-            js_word!("round") => {
+            "round" => {
                 self.input.skip_ws();
 
                 if is!(self, "ident") {
@@ -350,7 +350,7 @@ where
 
                 self.input.skip_ws();
             }
-            js_word!("mod") | js_word!("rem") | js_word!("atan2") | js_word!("pow") => {
+            "mod" | "rem" | "atan2" | "pow" => {
                 self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -375,7 +375,7 @@ where
 
                 self.input.skip_ws();
             }
-            js_word!("log") => {
+            "log" => {
                 self.input.skip_ws();
 
                 let calc_sum = ComponentValue::CalcSum(self.parse()?);
@@ -396,16 +396,14 @@ where
                     self.input.skip_ws();
                 }
             }
-            js_word!("rgb") | js_word!("rgba") | js_word!("hsl") | js_word!("hsla") => {
+            "rgb" | "rgba" | "hsl" | "hsla" => {
                 self.input.skip_ws();
 
                 let mut has_variable = false;
                 let mut is_legacy_syntax = true;
 
                 match cur!(self) {
-                    Token::Ident { value, .. }
-                        if matches_eq_ignore_ascii_case!(value, js_word!("from")) =>
-                    {
+                    Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, "from") => {
                         is_legacy_syntax = false;
 
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -427,7 +425,7 @@ where
                 }
 
                 match *function_name {
-                    js_word!("rgb") | js_word!("rgba") => {
+                    "rgb" | "rgba" => {
                         let percentage_or_number_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -474,7 +472,7 @@ where
 
                         self.input.skip_ws();
                     }
-                    js_word!("hsl") | js_word!("hsla") => {
+                    "hsl" | "hsla" => {
                         let hue_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
@@ -540,7 +538,7 @@ where
                 }
 
                 match *function_name {
-                    js_word!("rgb") | js_word!("rgba") => {
+                    "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -585,7 +583,7 @@ where
 
                         self.input.skip_ws();
                     }
-                    js_word!("hsl") | js_word!("hsla") => {
+                    "hsl" | "hsla" => {
                         let percentage_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -656,7 +654,7 @@ where
                 }
 
                 match *function_name {
-                    js_word!("rgb") | js_word!("rgba") => {
+                    "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -701,7 +699,7 @@ where
 
                         self.input.skip_ws();
                     }
-                    js_word!("hsl") | js_word!("hsla") => {
+                    "hsl" | "hsla" => {
                         let percentage_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -833,19 +831,14 @@ where
                     self.input.skip_ws();
                 }
             }
-            js_word!("hwb")
-            | js_word!("lab")
-            | js_word!("lch")
-            | js_word!("oklab")
-            | js_word!("oklch")
-            | js_word!("device-cmyk") => {
+            "hwb" | "lab" | "lch" | "oklab" | "oklch" | js_word!("device-cmyk") => {
                 self.input.skip_ws();
 
                 let mut has_variable = false;
 
                 match cur!(self) {
                     Token::Ident { value, .. }
-                        if matches_eq_ignore_ascii_case!(value, js_word!("from"))
+                        if matches_eq_ignore_ascii_case!(value, "from")
                             && *function_name != js_word!("device-cmyk") =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
@@ -867,7 +860,7 @@ where
                 }
 
                 match *function_name {
-                    js_word!("hwb") => {
+                    "hwb" => {
                         let hue_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("number") | tok!("dimension") => {
@@ -911,7 +904,7 @@ where
 
                         self.input.skip_ws();
                     }
-                    js_word!("lab") | js_word!("lch") | js_word!("oklab") | js_word!("oklch") => {
+                    "lab" | "lch" | "oklab" | "oklch" => {
                         let percentage_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -975,7 +968,7 @@ where
 
                 if !is_one_of!(self, EOF, "/") {
                     match *function_name {
-                        js_word!("hwb") => {
+                        "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
                                     tok!("percentage") => {
@@ -1021,10 +1014,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("lab")
-                        | js_word!("lch")
-                        | js_word!("oklab")
-                        | js_word!("oklch") => {
+                        "lab" | "lch" | "oklab" | "oklch" => {
                             let number_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
                                     tok!("percentage") => {
@@ -1095,7 +1085,7 @@ where
 
                 if !is_one_of!(self, EOF, "/") {
                     match *function_name {
-                        js_word!("hwb") => {
+                        "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
                                     tok!("percentage") => {
@@ -1141,7 +1131,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("lab") | js_word!("oklab") => {
+                        "lab" | "oklab" => {
                             let number_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
                                     tok!("percentage") => {
@@ -1190,7 +1180,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("lch") | js_word!("oklch") => {
+                        "lch" | "oklch" => {
                             let hue_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
                                     tok!("number") | tok!("dimension") => {
@@ -1318,15 +1308,13 @@ where
                     self.input.skip_ws();
                 }
             }
-            js_word!("color") => {
+            "color" => {
                 self.input.skip_ws();
 
                 let mut has_variable = false;
 
                 match cur!(self) {
-                    Token::Ident { value, .. }
-                        if matches_eq_ignore_ascii_case!(value, js_word!("from")) =>
-                    {
+                    Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, "from") => {
                         values.push(ComponentValue::Ident(self.parse()?));
 
                         self.input.skip_ws();
@@ -1358,7 +1346,7 @@ where
                             } else {
                                 if matches_eq_ignore_ascii_case!(
                                     value,
-                                    js_word!("xyz"),
+                                    "xyz",
                                     js_word!("xyz-d50"),
                                     js_word!("xyz-d65")
                                 ) {
@@ -1446,10 +1434,7 @@ where
                             Token::Function { value, .. }
                                 if is_math_function(value)
                                     || matches_eq_ignore_ascii_case!(
-                                        value,
-                                        js_word!("var"),
-                                        js_word!("env"),
-                                        js_word!("constant")
+                                        value, "var", "env", "constant"
                                     ) =>
                             {
                                 ComponentValue::Function(self.parse()?)
@@ -1616,7 +1601,7 @@ where
 
                 self.input.skip_ws();
             }
-            js_word!("element") | js_word!("-moz-element") => {
+            "element" | js_word!("-moz-element") => {
                 self.input.skip_ws();
 
                 let id_selector = self.try_parse_variable_function(
@@ -1630,7 +1615,7 @@ where
                     self.input.skip_ws();
                 }
             }
-            js_word!("selector") if self.ctx.in_supports_at_rule => {
+            "selector" if self.ctx.in_supports_at_rule => {
                 self.input.skip_ws();
 
                 let selector = ComponentValue::ComplexSelector(self.parse()?);
@@ -1639,7 +1624,7 @@ where
 
                 self.input.skip_ws();
             }
-            js_word!("layer") if self.ctx.in_import_at_rule => {
+            "layer" if self.ctx.in_import_at_rule => {
                 self.input.skip_ws();
 
                 if is!(self, EOF) {
@@ -1672,7 +1657,7 @@ where
                     ));
                 }
             }
-            js_word!("supports") if self.ctx.in_import_at_rule => {
+            "supports" if self.ctx.in_import_at_rule => {
                 self.input.skip_ws();
 
                 if !is!(self, EOF) {
@@ -1738,12 +1723,7 @@ where
 
         match cur!(self) {
             Token::Function { value, .. }
-                if matches_eq_ignore_ascii_case!(
-                    value,
-                    js_word!("var"),
-                    js_word!("env"),
-                    js_word!("constant")
-                ) =>
+                if matches_eq_ignore_ascii_case!(value, "var", "env", "constant") =>
             {
                 *has_before_variable = true;
 
@@ -1877,12 +1857,7 @@ where
         match bump!(self) {
             Token::Ident { value, raw, .. } => {
                 if matches_eq_ignore_ascii_case!(
-                    value,
-                    js_word!("initial"),
-                    js_word!("inherit"),
-                    js_word!("unset"),
-                    js_word!("revert"),
-                    js_word!("default")
+                    value, "initial", "inherit", "unset", "revert", "default"
                 ) {
                     return Err(Error::new(span, ErrorKind::InvalidCustomIdent(value)));
                 }
@@ -2622,7 +2597,7 @@ where
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
-                    value: js_word!("url"),
+                    value: "url",
                     raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
@@ -2646,7 +2621,7 @@ where
                 value: function_name,
                 raw: raw_function_name,
             } => {
-                if !matches_eq_ignore_ascii_case!(function_name, js_word!("url"), js_word!("src")) {
+                if !matches_eq_ignore_ascii_case!(function_name, "url", "src") {
                     return Err(Error::new(
                         span,
                         ErrorKind::Expected("'url' or 'src' name of a function token"),
@@ -2725,7 +2700,7 @@ where
 
         // should start with `u` or `U`
         match cur!(self) {
-            Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, js_word!("u")) => {
+            Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, "u") => {
                 let u = match bump!(self) {
                     Token::Ident { value, .. } => value,
                     _ => {
@@ -3285,11 +3260,7 @@ where
             tok!("percentage") => Ok(CalcValue::Percentage(self.parse()?)),
             Token::Ident { value, .. } => {
                 match value.to_ascii_lowercase() {
-                    js_word!("e")
-                    | js_word!("pi")
-                    | js_word!("infinity")
-                    | js_word!("-infinity")
-                    | js_word!("nan") => {}
+                    "e" | "pi" | "infinity" | js_word!("-infinity") | "nan" => {}
                     _ => {
                         let span = self.input.cur_span();
 
@@ -3378,45 +3349,45 @@ where
 pub(crate) fn is_math_function(name: &JsWord) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
-        js_word!("calc"),
+        "calc",
         js_word!("-moz-calc"),
         js_word!("-webkit-calc"),
-        js_word!("sin"),
-        js_word!("cos"),
-        js_word!("tan"),
-        js_word!("asin"),
-        js_word!("acos"),
-        js_word!("atan"),
-        js_word!("sqrt"),
-        js_word!("exp"),
-        js_word!("abs"),
-        js_word!("sign"),
-        js_word!("min"),
-        js_word!("max"),
-        js_word!("hypot"),
-        js_word!("clamp"),
-        js_word!("round"),
-        js_word!("mod"),
-        js_word!("rem"),
-        js_word!("atan2"),
-        js_word!("pow"),
-        js_word!("log")
+        "sin",
+        "cos",
+        "tan",
+        "asin",
+        "acos",
+        "atan",
+        "sqrt",
+        "exp",
+        "abs",
+        "sign",
+        "min",
+        "max",
+        "hypot",
+        "clamp",
+        "round",
+        "mod",
+        "rem",
+        "atan2",
+        "pow",
+        "log"
     )
 }
 
 fn is_absolute_color_base_function(name: &JsWord) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
-        js_word!("rgb"),
-        js_word!("rgba"),
-        js_word!("hsl"),
-        js_word!("hsla"),
-        js_word!("hwb"),
-        js_word!("lab"),
-        js_word!("lch"),
-        js_word!("oklab"),
-        js_word!("oklch"),
-        js_word!("color"),
+        "rgb",
+        "rgba",
+        "hsl",
+        "hsla",
+        "hwb",
+        "lab",
+        "lch",
+        "oklab",
+        "oklch",
+        "color",
         js_word!("color-mix"),
         js_word!("color-contrast")
     )
@@ -3425,47 +3396,47 @@ fn is_absolute_color_base_function(name: &JsWord) -> bool {
 fn is_system_color(name: &JsWord) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
-        js_word!("canvas"),
-        js_word!("canvastext"),
-        js_word!("linktext"),
-        js_word!("visitedtext"),
-        js_word!("activetext"),
-        js_word!("buttonface"),
-        js_word!("buttontext"),
-        js_word!("buttonborder"),
-        js_word!("field"),
-        js_word!("fieldtext"),
-        js_word!("highlight"),
-        js_word!("highlighttext"),
-        js_word!("selecteditem"),
-        js_word!("selecteditemtext"),
-        js_word!("mark"),
-        js_word!("marktext"),
-        js_word!("graytext"),
+        "canvas",
+        "canvastext",
+        "linktext",
+        "visitedtext",
+        "activetext",
+        "buttonface",
+        "buttontext",
+        "buttonborder",
+        "field",
+        "fieldtext",
+        "highlight",
+        "highlighttext",
+        "selecteditem",
+        "selecteditemtext",
+        "mark",
+        "marktext",
+        "graytext",
         // Deprecated
-        js_word!("activeborder"),
-        js_word!("activecaption"),
-        js_word!("appWorkspace"),
-        js_word!("background"),
-        js_word!("buttonhighlight"),
-        js_word!("buttonshadow"),
-        js_word!("captiontext"),
-        js_word!("inactiveborder"),
-        js_word!("inactivecaption"),
-        js_word!("inactivecaptiontext"),
-        js_word!("infobackground"),
-        js_word!("infotext"),
-        js_word!("menu"),
-        js_word!("menutext"),
-        js_word!("scrollbar"),
-        js_word!("threeddarkshadow"),
-        js_word!("threedface"),
-        js_word!("threedhighlight"),
-        js_word!("threedlightshadow"),
-        js_word!("threedshadow"),
-        js_word!("window"),
-        js_word!("windowframe"),
-        js_word!("windowtext"),
+        "activeborder",
+        "activecaption",
+        "appWorkspace",
+        "background",
+        "buttonhighlight",
+        "buttonshadow",
+        "captiontext",
+        "inactiveborder",
+        "inactivecaption",
+        "inactivecaptiontext",
+        "infobackground",
+        "infotext",
+        "menu",
+        "menutext",
+        "scrollbar",
+        "threeddarkshadow",
+        "threedface",
+        "threedhighlight",
+        "threedlightshadow",
+        "threedshadow",
+        "window",
+        "windowframe",
+        "windowtext",
         // Mozilla System Color Extensions
         js_word!("-moz-buttondefault"),
         js_word!("-moz-buttonhoverface"),
@@ -3515,249 +3486,188 @@ fn is_system_color(name: &JsWord) -> bool {
 fn is_named_color(name: &JsWord) -> bool {
     matches_eq_ignore_ascii_case!(
         name,
-        js_word!("aliceblue"),
-        js_word!("antiquewhite"),
-        js_word!("aqua"),
-        js_word!("aquamarine"),
-        js_word!("azure"),
-        js_word!("beige"),
-        js_word!("bisque"),
-        js_word!("black"),
-        js_word!("blanchedalmond"),
-        js_word!("blue"),
-        js_word!("blueviolet"),
-        js_word!("brown"),
-        js_word!("burlywood"),
-        js_word!("cadetblue"),
-        js_word!("chartreuse"),
-        js_word!("chocolate"),
-        js_word!("coral"),
-        js_word!("cornflowerblue"),
-        js_word!("cornsilk"),
-        js_word!("crimson"),
-        js_word!("cyan"),
-        js_word!("darkblue"),
-        js_word!("darkcyan"),
-        js_word!("darkgoldenrod"),
-        js_word!("darkgray"),
-        js_word!("darkgreen"),
-        js_word!("darkgrey"),
-        js_word!("darkkhaki"),
-        js_word!("darkmagenta"),
-        js_word!("darkolivegreen"),
-        js_word!("darkorange"),
-        js_word!("darkorchid"),
-        js_word!("darkred"),
-        js_word!("darksalmon"),
-        js_word!("darkseagreen"),
-        js_word!("darkslateblue"),
-        js_word!("darkslategray"),
-        js_word!("darkslategrey"),
-        js_word!("darkturquoise"),
-        js_word!("darkviolet"),
-        js_word!("deeppink"),
-        js_word!("deepskyblue"),
-        js_word!("dimgray"),
-        js_word!("dimgrey"),
-        js_word!("dodgerblue"),
-        js_word!("firebrick"),
-        js_word!("floralwhite"),
-        js_word!("forestgreen"),
-        js_word!("fuchsia"),
-        js_word!("gainsboro"),
-        js_word!("ghostwhite"),
-        js_word!("gold"),
-        js_word!("goldenrod"),
-        js_word!("gray"),
-        js_word!("green"),
-        js_word!("greenyellow"),
-        js_word!("grey"),
-        js_word!("honeydew"),
-        js_word!("hotpink"),
-        js_word!("indianred"),
-        js_word!("indigo"),
-        js_word!("ivory"),
-        js_word!("khaki"),
-        js_word!("lavender"),
-        js_word!("lavenderblush"),
-        js_word!("lawngreen"),
-        js_word!("lemonchiffon"),
-        js_word!("lightblue"),
-        js_word!("lightcoral"),
-        js_word!("lightcyan"),
-        js_word!("lightgoldenrodyellow"),
-        js_word!("lightgray"),
-        js_word!("lightgreen"),
-        js_word!("lightgrey"),
-        js_word!("lightpink"),
-        js_word!("lightsalmon"),
-        js_word!("lightseagreen"),
-        js_word!("lightskyblue"),
-        js_word!("lightslategray"),
-        js_word!("lightslategrey"),
-        js_word!("lightsteelblue"),
-        js_word!("lightyellow"),
-        js_word!("lime"),
-        js_word!("limegreen"),
-        js_word!("linen"),
-        js_word!("magenta"),
-        js_word!("maroon"),
-        js_word!("mediumaquamarine"),
-        js_word!("mediumblue"),
-        js_word!("mediumorchid"),
-        js_word!("mediumpurple"),
-        js_word!("mediumseagreen"),
-        js_word!("mediumslateblue"),
-        js_word!("mediumspringgreen"),
-        js_word!("mediumturquoise"),
-        js_word!("mediumvioletred"),
-        js_word!("midnightblue"),
-        js_word!("mintcream"),
-        js_word!("mistyrose"),
-        js_word!("moccasin"),
-        js_word!("navajowhite"),
-        js_word!("navy"),
-        js_word!("oldlace"),
-        js_word!("olive"),
-        js_word!("olivedrab"),
-        js_word!("orange"),
-        js_word!("orangered"),
-        js_word!("orchid"),
-        js_word!("palegoldenrod"),
-        js_word!("palegreen"),
-        js_word!("paleturquoise"),
-        js_word!("palevioletred"),
-        js_word!("papayawhip"),
-        js_word!("peachpuff"),
-        js_word!("peru"),
-        js_word!("pink"),
-        js_word!("plum"),
-        js_word!("powderblue"),
-        js_word!("purple"),
-        js_word!("rebeccapurple"),
-        js_word!("red"),
-        js_word!("rosybrown"),
-        js_word!("royalblue"),
-        js_word!("saddlebrown"),
-        js_word!("salmon"),
-        js_word!("sandybrown"),
-        js_word!("seagreen"),
-        js_word!("seashell"),
-        js_word!("sienna"),
-        js_word!("silver"),
-        js_word!("skyblue"),
-        js_word!("slateblue"),
-        js_word!("slategray"),
-        js_word!("slategrey"),
-        js_word!("snow"),
-        js_word!("springgreen"),
-        js_word!("steelblue"),
-        js_word!("tan"),
-        js_word!("teal"),
-        js_word!("thistle"),
-        js_word!("tomato"),
-        js_word!("turquoise"),
-        js_word!("violet"),
-        js_word!("wheat"),
-        js_word!("white"),
-        js_word!("whitesmoke"),
-        js_word!("yellow"),
-        js_word!("yellowgreen")
+        "aliceblue",
+        "antiquewhite",
+        "aqua",
+        "aquamarine",
+        "azure",
+        "beige",
+        "bisque",
+        "black",
+        "blanchedalmond",
+        "blue",
+        "blueviolet",
+        "brown",
+        "burlywood",
+        "cadetblue",
+        "chartreuse",
+        "chocolate",
+        "coral",
+        "cornflowerblue",
+        "cornsilk",
+        "crimson",
+        "cyan",
+        "darkblue",
+        "darkcyan",
+        "darkgoldenrod",
+        "darkgray",
+        "darkgreen",
+        "darkgrey",
+        "darkkhaki",
+        "darkmagenta",
+        "darkolivegreen",
+        "darkorange",
+        "darkorchid",
+        "darkred",
+        "darksalmon",
+        "darkseagreen",
+        "darkslateblue",
+        "darkslategray",
+        "darkslategrey",
+        "darkturquoise",
+        "darkviolet",
+        "deeppink",
+        "deepskyblue",
+        "dimgray",
+        "dimgrey",
+        "dodgerblue",
+        "firebrick",
+        "floralwhite",
+        "forestgreen",
+        "fuchsia",
+        "gainsboro",
+        "ghostwhite",
+        "gold",
+        "goldenrod",
+        "gray",
+        "green",
+        "greenyellow",
+        "grey",
+        "honeydew",
+        "hotpink",
+        "indianred",
+        "indigo",
+        "ivory",
+        "khaki",
+        "lavender",
+        "lavenderblush",
+        "lawngreen",
+        "lemonchiffon",
+        "lightblue",
+        "lightcoral",
+        "lightcyan",
+        "lightgoldenrodyellow",
+        "lightgray",
+        "lightgreen",
+        "lightgrey",
+        "lightpink",
+        "lightsalmon",
+        "lightseagreen",
+        "lightskyblue",
+        "lightslategray",
+        "lightslategrey",
+        "lightsteelblue",
+        "lightyellow",
+        "lime",
+        "limegreen",
+        "linen",
+        "magenta",
+        "maroon",
+        "mediumaquamarine",
+        "mediumblue",
+        "mediumorchid",
+        "mediumpurple",
+        "mediumseagreen",
+        "mediumslateblue",
+        "mediumspringgreen",
+        "mediumturquoise",
+        "mediumvioletred",
+        "midnightblue",
+        "mintcream",
+        "mistyrose",
+        "moccasin",
+        "navajowhite",
+        "navy",
+        "oldlace",
+        "olive",
+        "olivedrab",
+        "orange",
+        "orangered",
+        "orchid",
+        "palegoldenrod",
+        "palegreen",
+        "paleturquoise",
+        "palevioletred",
+        "papayawhip",
+        "peachpuff",
+        "peru",
+        "pink",
+        "plum",
+        "powderblue",
+        "purple",
+        "rebeccapurple",
+        "red",
+        "rosybrown",
+        "royalblue",
+        "saddlebrown",
+        "salmon",
+        "sandybrown",
+        "seagreen",
+        "seashell",
+        "sienna",
+        "silver",
+        "skyblue",
+        "slateblue",
+        "slategray",
+        "slategrey",
+        "snow",
+        "springgreen",
+        "steelblue",
+        "tan",
+        "teal",
+        "thistle",
+        "tomato",
+        "turquoise",
+        "violet",
+        "wheat",
+        "white",
+        "whitesmoke",
+        "yellow",
+        "yellowgreen"
     )
 }
 
 fn is_length_unit(unit: &JsWord) -> bool {
     matches_eq_ignore_ascii_case!(
-        unit,
-        js_word!("em"),
-        js_word!("rem"),
-        js_word!("ex"),
-        js_word!("rex"),
-        js_word!("cap"),
-        js_word!("rcap"),
-        js_word!("ch"),
-        js_word!("rch"),
-        js_word!("ic"),
-        js_word!("ric"),
-        js_word!("lh"),
-        js_word!("rlh"),
+        unit, "em", "rem", "ex", "rex", "cap", "rcap", "ch", "rch", "ic", "ric", "lh", "rlh",
         //  Viewport-percentage Lengths
-        js_word!("vw"),
-        js_word!("svw"),
-        js_word!("lvw"),
-        js_word!("dvw"),
-        js_word!("vh"),
-        js_word!("svh"),
-        js_word!("lvh"),
-        js_word!("dvh"),
-        js_word!("vi"),
-        js_word!("svi"),
-        js_word!("lvi"),
-        js_word!("dvi"),
-        js_word!("vb"),
-        js_word!("svb"),
-        js_word!("lvb"),
-        js_word!("dvb"),
-        js_word!("vmin"),
-        js_word!("svmin"),
-        js_word!("lvmin"),
-        js_word!("dvmin"),
-        js_word!("vmax"),
-        js_word!("svmax"),
-        js_word!("lvmax"),
-        js_word!("dvmax"),
+        "vw", "svw", "lvw", "dvw", "vh", "svh", "lvh", "dvh", "vi", "svi", "lvi", "dvi", "vb",
+        "svb", "lvb", "dvb", "vmin", "svmin", "lvmin", "dvmin", "vmax", "svmax", "lvmax", "dvmax",
         // Absolute lengths
-        js_word!("cm"),
-        js_word!("mm"),
-        js_word!("q"),
-        js_word!("in"),
-        js_word!("pc"),
-        js_word!("pt"),
-        js_word!("px"),
-        js_word!("mozmm")
+        "cm", "mm", "q", "in", "pc", "pt", "px", "mozmm"
     )
 }
 
 fn is_container_lengths_unit(unit: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(
-        unit,
-        js_word!("cqw"),
-        js_word!("cqh"),
-        js_word!("cqi"),
-        js_word!("cqb"),
-        js_word!("cqmin"),
-        js_word!("cqmax")
-    )
+    matches_eq_ignore_ascii_case!(unit, "cqw", "cqh", "cqi", "cqb", "cqmin", "cqmax")
 }
 
 fn is_angle_unit(unit: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(
-        unit,
-        js_word!("deg"),
-        js_word!("grad"),
-        js_word!("rad"),
-        js_word!("turn")
-    )
+    matches_eq_ignore_ascii_case!(unit, "deg", "grad", "rad", "turn")
 }
 
 fn is_time_unit(unit: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(unit, js_word!("s"), js_word!("ms"))
+    matches_eq_ignore_ascii_case!(unit, "s", "ms")
 }
 
 fn is_frequency_unit(unit: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(unit, js_word!("hz"), js_word!("khz"))
+    matches_eq_ignore_ascii_case!(unit, "hz", "khz")
 }
 
 fn is_resolution_unit(unit: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(
-        unit,
-        js_word!("dpi"),
-        js_word!("dpcm"),
-        js_word!("dppx"),
-        js_word!("x")
-    )
+    matches_eq_ignore_ascii_case!(unit, "dpi", "dpcm", "dppx", "x")
 }
 
 fn is_flex_unit(unit: &JsWord) -> bool {
-    matches_eq_ignore_ascii_case!(unit, js_word!("fr"))
+    matches_eq_ignore_ascii_case!(unit, "fr")
 }
