@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     util::take::Take,

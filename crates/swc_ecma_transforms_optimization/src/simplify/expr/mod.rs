@@ -452,7 +452,7 @@ impl SimplifyExpr {
                                         }))
                                     } else {
                                         Expr::Ident(Ident::new(
-                                            "NaN",
+                                            "NaN".into(),
                                             span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                                         ))
                                     };
@@ -1227,9 +1227,11 @@ impl VisitMut for SimplifyExpr {
                             let mut expr = seq.exprs.take().into_iter().next().unwrap();
                             expr.visit_mut_with(self);
                             *e = expr;
-                        } else if let Some(
-                            Expr::Member(..) | Expr::Ident(Ident { sym: "eval", .. }),
-                        ) = seq.exprs.last().map(|v| &**v)
+                        } else if seq
+                            .exprs
+                            .last()
+                            .map(|v| &**v)
+                            .map_or(false, Expr::directness_maters)
                         {
                             match seq.exprs.get(0).map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
