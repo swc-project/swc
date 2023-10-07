@@ -3362,10 +3362,6 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::O, "-o-tab-size", None);
             }
 
-            "overflow-wrap" => {
-                add_declaration!("word-wrap", None);
-            }
-
             "hyphens" => {
                 add_declaration!(Prefix::Webkit, "-webkit-hyphens", None);
                 add_declaration!(Prefix::Moz, "-moz-hyphens", None);
