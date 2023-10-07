@@ -4,7 +4,7 @@ use std::{borrow::Cow, iter, iter::once, sync::Arc};
 
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -1126,7 +1126,7 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
                 span: DUMMY_SP,
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident {
                     span: DUMMY_SP.apply_mark(unresolved_mark),
-                    sym: "require",
+                    sym: "require".into(),
                     optional: false,
                 }))),
                 args: vec![ExprOrSpread {

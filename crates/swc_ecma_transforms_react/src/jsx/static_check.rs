@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_ecma_ast::*;
 
 /// We want to use React.createElement, even in the case of
