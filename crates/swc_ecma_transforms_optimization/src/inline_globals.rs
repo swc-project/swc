@@ -137,13 +137,12 @@ impl VisitMut for InlineGlobals {
                 }
             }
 
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if let Expr::Member(MemberExpr {
+            Expr::Member(MemberExpr { obj, prop, .. }) => match &**obj {
+                Expr::Member(MemberExpr {
                     obj: first_obj,
-                    prop: MemberProp::Ident(Ident { sym: "env", .. }),
+                    prop: inner_prop,
                     ..
-                }) = &**obj
-                {
+                }) if inner_prop.is_ident_with("env") => {
                     if first_obj.is_ident_ref_to("process") {
                         match prop {
                             MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
@@ -163,7 +162,8 @@ impl VisitMut for InlineGlobals {
                         }
                     }
                 }
-            }
+                _ => (),
+            },
             _ => {}
         }
     }
