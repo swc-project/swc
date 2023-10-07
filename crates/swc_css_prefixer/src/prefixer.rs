@@ -440,7 +440,7 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                             },
                             unit: Ident {
                                 span: unit.span,
-                                value: "deg",
+                                value: "deg".into(),
                                 raw: None,
                             },
                         })));
@@ -917,7 +917,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-ms-viewport",
+                                value: "-ms-viewport".into(),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -933,7 +933,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-o-viewport",
+                                value: "-o-viewport".into(),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -950,7 +950,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-webkit-keyframes",
+                                value: "-webkit-keyframes".into(),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -966,7 +966,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: *span,
-                                value: "-moz-keyframes",
+                                value: "-moz-keyframes".into(),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -982,7 +982,7 @@ impl VisitMut for Prefixer {
                             span: at_rule.span,
                             name: AtRuleName::Ident(Ident {
                                 span: DUMMY_SP,
-                                value: "-o-keyframes",
+                                value: "-o-keyframes".into(),
                                 raw: None,
                             }),
                             prelude: at_rule.prelude.clone(),
@@ -1729,7 +1729,7 @@ impl VisitMut for Prefixer {
 
             "animation-direction" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "alternate-reverse" | "reverse" => {}
                         _ => {
                             add_declaration!(Prefix::Webkit, "-webkit-animation-direction", None);
@@ -2859,7 +2859,7 @@ impl VisitMut for Prefixer {
 
             "text-decoration-skip-ink" => {
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "auto" => {
                             add_declaration!(
                                 Prefix::Webkit,
