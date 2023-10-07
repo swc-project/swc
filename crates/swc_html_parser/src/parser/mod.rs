@@ -4911,7 +4911,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "body"
                                 | "col"
                                 | "colgroup"
@@ -5098,7 +5098,7 @@ where
                     // switch the insertion mode to "in row".
                     //
                     // Reprocess the current token.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "th" | "td") => {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "th" | "td") => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StartTagInTableBody(tag_name.clone()),
@@ -5121,7 +5121,7 @@ where
                     // Pop the current node from the stack of open elements. Switch the insertion
                     // mode to "in table".
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "tbody" | "tfoot" | "thead") =>
+                        if matches!(&**tag_name, "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -5156,7 +5156,7 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
@@ -5197,7 +5197,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th" | "tr"
                         ) =>
                     {
@@ -5227,7 +5227,7 @@ where
                     // cell".
                     //
                     // Insert a marker at the end of the list of active formatting elements.
-                    Token::StartTag { tag_name, .. } if matches!(*tag_name, "th" | "td") => {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "th" | "td") => {
                         self.open_elements_stack.clear_back_to_table_row_context();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InCell;
@@ -5278,7 +5278,7 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead" | "tr"
                         ) =>
                     {
@@ -5325,7 +5325,7 @@ where
                     //
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "tbody" | "tfoot" | "thead") =>
+                        if matches!(&**tag_name, "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -5349,7 +5349,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
                         ) =>
                     {
@@ -5390,7 +5390,7 @@ where
                     // Clear the list of active formatting elements up to the last marker.
                     //
                     // Switch the insertion mode to "in row".
-                    Token::EndTag { tag_name, .. } if matches!(*tag_name, "td" | "th") => {
+                    Token::EndTag { tag_name, .. } if matches!(&**tag_name, "td" | "th") => {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5427,7 +5427,7 @@ where
                     // Otherwise, close the cell (see below) and reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption"
                                 | "col"
                                 | "colgroup"
@@ -5455,7 +5455,7 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "body" | "caption" | "col" | "colgroup" | "html"
                         ) =>
                     {
@@ -5472,7 +5472,7 @@ where
                     //
                     // Otherwise, close the cell (see below) and reprocess the token.
                     Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, "table" | "tbody" | "tfoot" | "thead" | "tr") =>
+                        if matches!(&**tag_name, "table" | "tbody" | "tfoot" | "thead" | "tr") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -5794,7 +5794,7 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
@@ -5826,7 +5826,7 @@ where
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
@@ -5874,7 +5874,7 @@ where
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "base"
                                 | "basefont"
                                 | "bgsound"
@@ -5904,7 +5904,7 @@ where
                     // Switch the insertion mode to "in table", and reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
+                            &**tag_name,
                             "caption" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
