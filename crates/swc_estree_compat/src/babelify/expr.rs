@@ -1,6 +1,5 @@
 use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
-use swc_atoms::js_word;
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
     ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BlockStmtOrExpr, CallExpr,

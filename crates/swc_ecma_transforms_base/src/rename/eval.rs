@@ -34,7 +34,7 @@ impl Visit for EvalFinder {
         c.visit_children_with(self);
 
         if let Callee::Expr(e) = c {
-            if let Expr::Ident(Ident { sym: "eval", .. }) = &**e {
+            if e.is_ident_ref_to("eval") {
                 self.found = true
             }
         }

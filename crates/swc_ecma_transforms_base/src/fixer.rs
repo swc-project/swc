@@ -500,13 +500,10 @@ impl VisitMut for Fixer<'_> {
         if !s.is_await {
             match &s.left {
                 ForHead::Pat(p)
-                    if matches!(
-                        &**p,
-                        Pat::Ident(BindingIdent {
-                            id: Ident { sym: "async", .. },
+                    if matches!(&**p, Pat::Ident(BindingIdent {
+                            id: Ident { sym, .. },
                             ..
-                        })
-                    ) =>
+                        }) if &**sym == "async") =>
                 {
                     let expr = Expr::Ident(p.clone().expect_ident().id);
                     s.left = ForHead::Pat(Pat::Expr(Box::new(expr)).into());
