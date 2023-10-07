@@ -400,8 +400,10 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 Self::ImportStarAs(local.to_id())
             }
 
-            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
-            | ImportSpecifier::Named(ImportNamedSpecifier {
+            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
+                Self::ImportDefault(local.to_id())
+            }
+            ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 local,
                 imported:

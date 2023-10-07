@@ -154,10 +154,10 @@ impl Optimizer<'_> {
             if !usage.reassigned {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) => {
-                        self.typeofs.insert(ident.to_id(), "function");
+                        self.typeofs.insert(ident.to_id(), "function".into());
                     }
                     Expr::Array(..) | Expr::Object(..) => {
-                        self.typeofs.insert(ident.to_id(), "object");
+                        self.typeofs.insert(ident.to_id(), "object".into());
                     }
                     _ => {}
                 }
