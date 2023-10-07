@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     comments::{Comment, Comments},
     Span,

@@ -70,6 +70,17 @@ macro_rules! define_known_ident {
                 }
             }
         }
+
+        impl From<KnownIdent> for Atom {
+
+            fn from(s: KnownIdent) -> Self {
+                match s {
+                    $(
+                        KnownIdent::$name => atom!($value),
+                    )*
+                }
+            }
+        }
     };
 }
 
