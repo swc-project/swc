@@ -1,4 +1,4 @@
-use swc_atoms::{JsWord};
+use swc_atoms::JsWord;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 use swc_css_utils::{angle_to_deg, hsl_to_rgb, hwb_to_rgb, to_rgb255, NAMED_COLORS};
@@ -387,7 +387,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if name == &"rgb" || name == &"rgba" => {
+            })) if name == "rgb" || name == "rgba" => {
                 let rgba: Vec<_> = value
                     .iter()
                     .filter(|n| {
@@ -425,7 +425,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if name == &"hsl" || name == &"hsla" => {
+            })) if name == "hsl" || name == "hsla" => {
                 let hsla: Vec<_> = value
                     .iter()
                     .filter(|n| {
@@ -465,7 +465,7 @@ impl Compressor {
                 name,
                 value,
                 ..
-            })) if name == &"hwb" => {
+            })) if name == "hwb" => {
                 let h = match self.get_hue(value.get(0).as_ref()) {
                     Some(value) => value,
                     _ => return,
