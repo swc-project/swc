@@ -2191,7 +2191,7 @@ impl VisitMut for Prefixer {
                                         },
                                         unit: Ident {
                                             span: DUMMY_SP,
-                                            value: "px",
+                                            value: "px".into(),
                                             raw: None,
                                         },
                                     },
@@ -2735,7 +2735,7 @@ impl VisitMut for Prefixer {
                 add_declaration!(Prefix::Moz, "-moz-user-select", None);
 
                 if let ComponentValue::Ident(ident) = &n.value[0] {
-                    match ident.value.to_ascii_lowercase() {
+                    match &*ident.value.to_ascii_lowercase() {
                         "contain" => {
                             add_declaration!(
                                 Prefix::Ms,
