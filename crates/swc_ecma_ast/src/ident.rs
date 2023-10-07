@@ -115,7 +115,6 @@ bridge_from!(BindingIdent, Ident, Id);
 pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
-    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeAtom))]
     pub sym: Atom,
 
     /// TypeScript only. Used in case of an optional parameter.

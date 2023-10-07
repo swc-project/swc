@@ -163,7 +163,6 @@ impl From<BigIntValue> for BigInt {
 pub struct Str {
     pub span: Span,
 
-    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeAtom))]
     pub value: Atom,
 
     /// Use `None` value only for transformations to avoid recalculate escaped
