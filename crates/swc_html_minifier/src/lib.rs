@@ -1176,7 +1176,7 @@ impl Minifier<'_> {
                     return element.attributes.iter().all(|attr| {
                         attr.name == "type"
                             && attr.value.is_some()
-                            && (attr.value == Some("module")
+                            && (attr.value.as_deref() == Some("module")
                                 || self.is_type_text_javascript(attr.value.as_ref().unwrap()))
                     });
                 }
@@ -1404,7 +1404,7 @@ impl Minifier<'_> {
                     Child::Text(text)
                         if self.need_collapse_whitespace()
                             && parent.namespace == Namespace::HTML
-                            && matches!(parent.tag_name, "html" | "head")
+                            && matches!(&*parent.tag_name, "html" | "head")
                             && text.data.chars().all(is_whitespace) =>
                     {
                         false
@@ -2211,7 +2211,7 @@ impl Minifier<'_> {
                                 span: Default::default(),
                                 name: swc_css_ast::AtRuleName::Ident(swc_css_ast::Ident {
                                     span: Default::default(),
-                                    value: "media",
+                                    value: "media".into(),
                                     raw: None,
                                 }),
                                 prelude: Some(
