@@ -141,24 +141,18 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     match callee {
         Expr::Member(MemberExpr {
             obj,
-            prop:
-                MemberProp::Ident(Ident {
-                    sym: js_word!("createClass"),
-                    ..
-                }),
+            prop: MemberProp::Ident(Ident {
+                sym: "createClass", ..
+            }),
             ..
         }) => {
-            if let Expr::Ident(Ident {
-                sym: js_word!("React"),
-                ..
-            }) = &**obj
-            {
+            if let Expr::Ident(Ident { sym: "React", .. }) = &**obj {
                 return true;
             }
         }
 
         Expr::Ident(Ident {
-            sym: js_word!("createReactClass"),
+            sym: "createReactClass",
             ..
         }) => return true,
         _ => {}
@@ -191,13 +185,13 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
 fn is_key_display_name(prop: &PropOrSpread) -> bool {
     match *prop {
         PropOrSpread::Prop(ref prop) => match **prop {
-            Prop::Shorthand(ref i) => i.sym == js_word!("displayName"),
+            Prop::Shorthand(ref i) => i.sym == "displayName",
             Prop::Method(MethodProp { ref key, .. })
             | Prop::Getter(GetterProp { ref key, .. })
             | Prop::Setter(SetterProp { ref key, .. })
             | Prop::KeyValue(KeyValueProp { ref key, .. }) => match *key {
-                PropName::Ident(ref i) => i.sym == js_word!("displayName"),
-                PropName::Str(ref s) => s.value == js_word!("displayName"),
+                PropName::Ident(ref i) => i.sym == "displayName",
+                PropName::Str(ref s) => s.value == "displayName",
                 PropName::Num(..) => false,
                 PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,

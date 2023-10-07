@@ -55,8 +55,7 @@ where
                             self.imports.insert(named.local.to_id(), (src, imported));
                         }
                         ImportSpecifier::Default(default) => {
-                            self.imports
-                                .insert(default.local.to_id(), (src, js_word!("default")));
+                            self.imports.insert(default.local.to_id(), (src, "default"));
                         }
                         ImportSpecifier::Namespace(ns) => {
                             self.imports.insert(ns.local.to_id(), (src, "*".into()));
