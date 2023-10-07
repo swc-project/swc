@@ -909,7 +909,7 @@ where
                 };
 
                 if namespace == Namespace::SVG {
-                    let new_tag_name = match *tag_name {
+                    let new_tag_name = match &**tag_name {
                         "altglyph" => Some("altGlyph"),
                         "altglyphdef" => Some("altGlyphDef"),
                         "altglyphitem" => Some("altGlyphItem"),
