@@ -511,7 +511,7 @@ impl Minifier<'_> {
         matches!(
             (
                 current_element.namespace,
-                &current_element.tag_name,
+                &*current_element.tag_name,
                 &attribute.name,
             ),
             (
@@ -525,8 +525,8 @@ impl Minifier<'_> {
     fn element_has_attribute_with_value(
         &self,
         element: &Element,
-        attribute_name: &JsWord,
-        attribute_value: &[JsWord],
+        attribute_name: &str,
+        attribute_value: &[&str],
     ) -> bool {
         element.attributes.iter().any(|attribute| {
             &*attribute.name == attribute_name
@@ -579,7 +579,7 @@ impl Minifier<'_> {
 
         match element.namespace {
             Namespace::HTML | Namespace::SVG => {
-                match element.tag_name {
+                match &*element.tag_name {
                     "html" => match &*attribute.name {
                         "xmlns" => {
                             if &*attribute_value.trim().to_ascii_lowercase()
