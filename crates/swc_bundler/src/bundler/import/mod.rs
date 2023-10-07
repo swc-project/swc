@@ -603,7 +603,7 @@ where
                     ref args,
                     ..
                 }) if self.bundler.config.require
-                    && matches!(&**callee, Expr::Ident(Ident { sym: "require", .. }))
+                    && callee.is_ident_ref_to("require")
                     && args.len() == 1 =>
                 {
                     let span = *span;

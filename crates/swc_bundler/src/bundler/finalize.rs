@@ -208,7 +208,8 @@ where
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
                                                 key: PropName::Ident(Ident::new(
-                                                    "default", DUMMY_SP,
+                                                    "default".into(),
+                                                    DUMMY_SP,
                                                 )),
                                                 value: Box::new(Expr::Ident(s.exported)),
                                             },

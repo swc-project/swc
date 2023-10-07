@@ -1,4 +1,5 @@
 use rustc_hash::FxHashSet;
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
