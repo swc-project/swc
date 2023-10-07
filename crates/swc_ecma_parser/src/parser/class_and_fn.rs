@@ -1051,10 +1051,16 @@ impl<I: Tokens> Parser<I> {
         }
         if key.is_private() {
             if declare {
-                self.emit_err(key.span(), SyntaxError::PrivateNameModifier("declare"))
+                self.emit_err(
+                    key.span(),
+                    SyntaxError::PrivateNameModifier("declare".into()),
+                )
             }
             if is_abstract {
-                self.emit_err(key.span(), SyntaxError::PrivateNameModifier("abstract"))
+                self.emit_err(
+                    key.span(),
+                    SyntaxError::PrivateNameModifier("abstract".into()),
+                )
             }
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
@@ -1483,7 +1489,7 @@ trait IsInvalidClassName {
 
 impl IsInvalidClassName for Ident {
     fn invalid_class_name(&self) -> Option<Span> {
-        match self.sym {
+        match &*self.sym {
             "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
             | "symbol" | "void" | "never" | "intrinsic" => Some(self.span),
             _ => None,
