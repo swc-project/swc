@@ -1,4 +1,3 @@
-
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     Dimension, Ident, MediaFeature, MediaFeatureName, MediaFeaturePlain, MediaFeatureRange,

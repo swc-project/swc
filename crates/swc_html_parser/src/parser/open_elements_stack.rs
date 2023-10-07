@@ -1,4 +1,3 @@
-
 use swc_html_ast::*;
 
 use crate::parser::{

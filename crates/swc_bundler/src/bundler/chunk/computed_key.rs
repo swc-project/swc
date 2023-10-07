@@ -1,7 +1,6 @@
 use std::mem::take;
 
 use anyhow::{bail, Error};
-
 use swc_common::{SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_top_level_await, find_pat_ids, private_ident, ExprFactory};

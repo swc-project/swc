@@ -1,4 +1,3 @@
-
 use swc_css_ast::*;
 
 use super::Compressor;

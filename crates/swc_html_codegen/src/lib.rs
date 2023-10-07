@@ -5,7 +5,7 @@
 pub use std::fmt::Result;
 use std::{borrow::Cow, iter::Peekable, str::Chars};
 
-use swc_atoms::{JsWord};
+use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_html_ast::*;
 use swc_html_codegen_macros::emitter;

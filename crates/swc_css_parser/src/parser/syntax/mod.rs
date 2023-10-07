@@ -1,4 +1,3 @@
-
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 

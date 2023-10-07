@@ -1,4 +1,3 @@
-
 use swc_css_ast::*;
 
 pub fn is_calc_function_name(function_name: &FunctionName) -> bool {

@@ -1,4 +1,4 @@
-use swc_atoms::{JsWord};
+use swc_atoms::JsWord;
 use swc_common::{BytePos, Span};
 use swc_css_ast::*;
 

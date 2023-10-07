@@ -2,7 +2,6 @@ use std::{collections::VecDeque, iter::from_fn, ops::Range};
 
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
-
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     sync::Lrc,

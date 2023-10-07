@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use swc_atoms::{JsWord};
+use swc_atoms::JsWord;
 use swc_common::{collections::ARandomState, FileName, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::find_pat_ids;

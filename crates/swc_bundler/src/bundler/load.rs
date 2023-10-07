@@ -4,7 +4,6 @@ use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-
 use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, MemberExpr, MemberProp, Module,

@@ -1,7 +1,6 @@
 use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
-
 use swc_common::{collections::AHashMap, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{quote_ident, undefined, ExprFactory};

@@ -1,4 +1,3 @@
-
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_css_ast::*;
 
@@ -1498,8 +1497,7 @@ impl Compressor {
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
                 ) = (declaration.value.get(0), declaration.value.get(1))
                 {
-                    if first.eq_ignore_ascii_case("over") && second.eq_ignore_ascii_case("right")
-                    {
+                    if first.eq_ignore_ascii_case("over") && second.eq_ignore_ascii_case("right") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
                             span: *span,
                             value: "initial".into(),
