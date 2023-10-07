@@ -905,10 +905,10 @@ impl Fold for SystemJs {
                         match decl.decl {
                             DefaultDecl::Class(class_expr) => {
                                 if let Some(ident) = &class_expr.ident {
-                                    self.export_names.push("default");
+                                    self.export_names.push("default".into());
                                     self.export_values.push(undefined(DUMMY_SP));
                                     self.add_declare_var_idents(ident);
-                                    self.add_export_name(ident.to_id(), "default");
+                                    self.add_export_name(ident.to_id(), "default".into());
                                     execute_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
@@ -921,7 +921,7 @@ impl Fold for SystemJs {
                                         .into_stmt(),
                                     );
                                 } else {
-                                    self.export_names.push("default");
+                                    self.export_names.push("default".into());
                                     self.export_values.push(Box::new(Expr::Class(class_expr)));
                                 }
                             }

@@ -3,7 +3,7 @@ use std::{borrow::Cow, sync::Arc};
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     pass::{CompilerPass, Repeated},
@@ -361,7 +361,7 @@ impl Visit for Analyzer<'_> {
         n.visit_children_with(self);
 
         if let Callee::Expr(e) = n {
-            if let Expr::Ident(Ident { sym: "eval", .. }) = &**e {
+            if e.is_ident_ref_to("eval") {
                 self.scope.found_direct_eval = true;
             }
         }

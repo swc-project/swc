@@ -228,7 +228,7 @@ impl VisitMut for ModuleDeclStrip {
                     .clone();
 
                 self.export
-                    .insert("default", ExportItem::new(n.span, ident));
+                    .insert("default".into(), ExportItem::new(n.span, ident));
             }
             DefaultDecl::Fn(fn_expr) => {
                 let ident = fn_expr
@@ -237,7 +237,7 @@ impl VisitMut for ModuleDeclStrip {
                     .clone();
 
                 self.export
-                    .insert("default", ExportItem::new(n.span, ident));
+                    .insert("default".into(), ExportItem::new(n.span, ident));
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -256,7 +256,7 @@ impl VisitMut for ModuleDeclStrip {
         let ident = private_ident!(n.span, "_default");
 
         self.export
-            .insert("default", ExportItem::new(n.span, ident.clone()));
+            .insert("default".into(), ExportItem::new(n.span, ident.clone()));
 
         self.export_default = Some(Stmt::Decl(
             n.expr
