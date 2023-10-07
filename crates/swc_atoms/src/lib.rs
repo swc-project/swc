@@ -164,7 +164,7 @@ impl Eq for Atom {}
 
 impl Hash for Atom {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        (**self).hash(state)
+        self.0.hash(state)
     }
 }
 
