@@ -1,6 +1,5 @@
 use std::ops::DerefMut;
 
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;

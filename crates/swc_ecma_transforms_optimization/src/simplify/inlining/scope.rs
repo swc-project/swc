@@ -7,7 +7,6 @@ use std::{
 };
 
 use indexmap::map::{Entry, IndexMap};
-use swc_atoms::js_word;
 use swc_common::collections::{AHashMap, AHashSet, ARandomState};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
