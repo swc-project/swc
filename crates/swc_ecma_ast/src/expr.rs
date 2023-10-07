@@ -174,7 +174,7 @@ pub enum Expr {
 // assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
-    pub fn is_ident_ref_to(&self, ident: &str) {
+    pub fn is_ident_ref_to(&self, ident: &str) -> bool {
         match self {
             Expr::Ident(i) => i.sym == ident,
             _ => false,
