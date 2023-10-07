@@ -14,6 +14,7 @@ use std::{
     rc::Rc,
 };
 
+use once_cell::sync::Lazy;
 use serde::Serializer;
 use tendril::{fmt::UTF8, Atomic, Tendril};
 
@@ -235,3 +236,15 @@ where
         Ok(Atom::new(s))
     }
 }
+
+#[macro_export]
+macro_rules! js_word {
+    ($s:literal) => {{
+        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::JsWord::new($s));
+
+        $crate::JsWord::clone(&*CACHE)
+    }};
+}
+
+#[doc(hidden)]
+pub type CahcedAtom = Lazy<JsWord>;
