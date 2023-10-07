@@ -379,7 +379,7 @@ where
                     self,
                     AtRuleName::Ident(swc_css_ast::Ident {
                         span: n.span,
-                        value: "layer",
+                        value: "layer".into(),
                         raw: None
                     })
                 )
@@ -1478,7 +1478,7 @@ where
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
         let value = if self.ctx.allow_to_lowercase && self.config.minify {
-            Cow::Owned(n.value.to_ascii_lowercase())
+            Cow::Owned(n.value.to_ascii_lowercase().into())
         } else {
             Cow::Borrowed(&n.value)
         };
