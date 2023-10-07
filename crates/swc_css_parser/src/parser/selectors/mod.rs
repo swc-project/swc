@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::{js_word, Atom};
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -854,8 +854,8 @@ where
         if is!(self, Function) {
             let fn_span = self.input.cur_span();
             let name = bump!(self);
-            let names = match name {
-                Token::Function { value, raw } => (value.to_ascii_lowercase(), raw),
+            let names: (Atom, _) = match name {
+                Token::Function { value, raw } => (value.to_ascii_lowercase().into(), raw),
                 _ => unreachable!(),
             };
             let state = self.input.state();
@@ -996,7 +996,7 @@ where
                             if is!(self, "ident") {
                                 let mut of: Ident = self.parse()?;
 
-                                of.value = of.value.to_ascii_lowercase();
+                                of.value = of.value.to_ascii_lowercase().into();
 
                                 children.push(PseudoClassSelectorChildren::Ident(of));
 
