@@ -2229,7 +2229,7 @@ impl Minifier<'_> {
                                     value: vec![swc_css_ast::ComponentValue::Str(Box::new(
                                         swc_css_ast::Str {
                                             span: Default::default(),
-                                            value: "placeholder",
+                                            value: "placeholder".into(),
                                             raw: None,
                                         },
                                     ))],
@@ -2317,7 +2317,7 @@ impl Minifier<'_> {
                 // `template` element, because it can be used in any place in source code
                 context_element = Some(Element {
                     span: Default::default(),
-                    tag_name: "template",
+                    tag_name: "template".into(),
                     namespace: Namespace::HTML,
                     attributes: vec![],
                     children: vec![],
@@ -2413,7 +2413,7 @@ impl Minifier<'_> {
                 return;
             }
 
-            match (element.namespace, &element.tag_name, &n.name) {
+            match (element.namespace, &*element.tag_name, &*n.name) {
                 (Namespace::HTML, "iframe", "srcdoc") => {
                     if let Some(minified) = self.minify_html(
                         value.to_string(),
