@@ -694,6 +694,74 @@ impl Display for KnownIdent {
     }
 }
 
+macro_rules! declare_keyword {
+    ($(
+        $name:ident => $value:tt,
+    )*) => {
+        impl Keyword {
+            pub(crate) const fn into_js_word(self) -> JsWord {
+                match self {
+                    $(Keyword::$name => $value.into(),)*
+                }
+            }
+        }
+    };
+}
+
+declare_keyword!(
+    Await => "await",
+    Break => "break",
+    Case => "case",
+    Catch => "catch",
+    Continue => "continue",
+    Debugger => "debugger",
+    Default_ => "default",
+    Do => "do",
+    Else => "else",
+
+    Finally => "finally",
+    For => "for",
+
+    Function => "function",
+
+    If => "if",
+
+    Return => "return",
+
+    Switch => "switch",
+
+    Throw => "throw",
+
+    Try => "try",
+    Var => "var",
+    Let => "let",
+    Const => "const",
+    While => "while",
+    With => "with",
+
+    New => "new",
+    This => "this",
+    Super => "super",
+
+    Class => "class",
+
+    Extends => "extends",
+
+    Export => "export",
+    Import => "import",
+
+    Yield => "yield",
+
+    In => "in",
+    InstanceOf => "instanceof",
+
+    TypeOf => "typeof",
+
+    Void => "void",
+
+    Delete => "delete",
+);
+
 /// Keywords
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub enum Keyword {
@@ -787,62 +855,6 @@ impl Keyword {
                 | Self::Void
                 | Self::Delete
         )
-    }
-
-    pub(crate) const fn into_js_word(self) -> JsWord {
-        match self {
-            Await => "await",
-            Break => "break",
-            Case => "case",
-            Catch => "catch",
-            Continue => "continue",
-            Debugger => "debugger",
-            Default_ => "default",
-            Do => "do",
-            Else => "else",
-
-            Finally => "finally",
-            For => "for",
-
-            Function => "function",
-
-            If => "if",
-
-            Return => "return",
-
-            Switch => "switch",
-
-            Throw => "throw",
-
-            Try => "try",
-            Var => "var",
-            Let => "let",
-            Const => "const",
-            While => "while",
-            With => "with",
-
-            New => "new",
-            This => "this",
-            Super => "super",
-
-            Class => "class",
-
-            Extends => "extends",
-
-            Export => "export",
-            Import => "import",
-
-            Yield => "yield",
-
-            In => "in",
-            InstanceOf => "instanceof",
-
-            TypeOf => "typeof",
-
-            Void => "void",
-
-            Delete => "delete",
-        }
     }
 }
 
