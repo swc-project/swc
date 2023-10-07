@@ -81,6 +81,16 @@ macro_rules! define_known_ident {
                 }
             }
         }
+        impl From<KnownIdent> for &'static str {
+
+            fn from(s: KnownIdent) -> Self {
+                match s {
+                    $(
+                        KnownIdent::$name => $value,
+                    )*
+                }
+            }
+        }
     };
 }
 
@@ -664,6 +674,23 @@ impl Debug for Word {
                 Display::fmt(&s, f)
             }
         }
+    }
+}
+
+impl Display for IdentLike {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        match *self {
+            IdentLike::Known(ref s) => Display::fmt(s, f),
+            IdentLike::Other(ref s) => Display::fmt(s, f),
+        }
+    }
+}
+
+impl Display for KnownIdent {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        let s: &'static str = (*self).into();
+
+        Display::fmt(s, f)
     }
 }
 
