@@ -416,7 +416,7 @@ impl Optimizer<'_> {
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
                                 Expr::Ident(Ident::new(
-                                    "Infinity",
+                                    "Infinity".into(),
                                     bin.span.with_ctxt(SyntaxContext::empty()),
                                 ))
                             } else {
@@ -424,7 +424,7 @@ impl Optimizer<'_> {
                                     span: bin.span,
                                     op: op!(unary, "-"),
                                     arg: Box::new(Expr::Ident(Ident::new(
-                                        "Infinity",
+                                        "Infinity".into(),
                                         bin.span.with_ctxt(SyntaxContext::empty()),
                                     ))),
                                 })

@@ -1,7 +1,6 @@
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
