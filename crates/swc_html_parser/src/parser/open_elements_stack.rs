@@ -264,7 +264,7 @@ impl OpenElementsStack {
     // All the element types listed above for the has an element in scope algorithm.
     // ol in the HTML namespace
     // ul in the HTML namespace
-    pub fn has_in_list_item_scope(&self, tag_name: &JsWord) -> bool {
+    pub fn has_in_list_item_scope(&self, tag_name: &str) -> bool {
         self.has_element_target_node_in_specific_scope(tag_name, LIST_ITEM_SCOPE)
     }
 
@@ -274,7 +274,7 @@ impl OpenElementsStack {
     //
     // All the element types listed above for the has an element in scope algorithm.
     // button in the HTML namespace
-    pub fn has_in_button_scope(&self, tag_name: &JsWord) -> bool {
+    pub fn has_in_button_scope(&self, tag_name: &str) -> bool {
         self.has_element_target_node_in_specific_scope(tag_name, BUTTON_SCOPE)
     }
 
@@ -285,7 +285,7 @@ impl OpenElementsStack {
     // html in the HTML namespace
     // table in the HTML namespace
     // template in the HTML namespace
-    pub fn has_in_table_scope(&self, tag_name: &JsWord) -> bool {
+    pub fn has_in_table_scope(&self, tag_name: &str) -> bool {
         self.has_element_target_node_in_specific_scope(tag_name, TABLE_SCOPE)
     }
 
@@ -295,7 +295,7 @@ impl OpenElementsStack {
     //
     // optgroup in the HTML namespace
     // option in the HTML namespace
-    pub fn has_in_select_scope(&self, tag_name: &JsWord) -> bool {
+    pub fn has_in_select_scope(&self, tag_name: &str) -> bool {
         let mut iter = self.items.iter().rev();
         // 1. Initialize node to be the current node (the bottommost node of the stack).
         let mut node = iter.next();
