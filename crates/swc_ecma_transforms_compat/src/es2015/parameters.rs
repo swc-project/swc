@@ -2,7 +2,6 @@ use std::mem;
 
 use arrayvec::ArrayVec;
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;

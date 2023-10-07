@@ -1,6 +1,5 @@
 use std::iter::repeat_with;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, is_valid_prop_ident, private_ident};
