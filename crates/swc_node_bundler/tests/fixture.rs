@@ -8,7 +8,6 @@ use std::{
 
 use anyhow::Error;
 use swc::{config::SourceMapsConfig, resolver::environment_resolver};
-use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{errors::HANDLER, FileName, Globals, Span, GLOBALS};
 use swc_ecma_ast::{

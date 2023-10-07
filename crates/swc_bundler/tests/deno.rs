@@ -7,7 +7,6 @@ use std::{collections::HashMap, fs::write, path::PathBuf, process::Command};
 
 use anyhow::Error;
 use ntest::timeout;
-use swc_atoms::js_word;
 use swc_bundler::{Bundler, Load, ModuleRecord};
 use swc_common::{collections::AHashSet, errors::HANDLER, FileName, Mark, Span, GLOBALS};
 use swc_ecma_ast::*;

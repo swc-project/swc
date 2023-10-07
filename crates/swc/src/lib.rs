@@ -106,6 +106,7 @@
 //! See [swc_ecma_minifier::eval::Evaluator].
 #![deny(unused)]
 #![allow(clippy::too_many_arguments)]
+#![allow(clippy::mutable_key_type)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
 pub extern crate swc_atoms as atoms;

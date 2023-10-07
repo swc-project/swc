@@ -11,7 +11,6 @@ use std::{
 };
 
 use anyhow::Error;
-use swc_atoms::js_word;
 use swc_bundler::{Bundle, Bundler, Load, ModuleData, ModuleRecord};
 use swc_common::{
     errors::{ColorConfig, Handler},

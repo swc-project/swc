@@ -7,7 +7,6 @@ use std::{
 };
 
 use anyhow::Error;
-use swc_atoms::js_word;
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{errors::HANDLER, FileName, Globals, Span};
 use swc_ecma_ast::{
