@@ -93,14 +93,14 @@ impl Compressor {
                         "start" | "jump-start" => {
                             *component_value = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "step-start",
+                                value: "step-start".into(),
                                 raw: None,
                             }))
                         }
                         "end" | "jump-end" => {
                             *component_value = ComponentValue::Ident(Box::new(Ident {
                                 span: *span,
-                                value: "step-end",
+                                value: "step-end".into(),
                                 raw: None,
                             }))
                         }
@@ -114,7 +114,7 @@ impl Compressor {
                     ) if ident_value.eq_ignore_ascii_case(&"jump-start") => {
                         function_value[2] = ComponentValue::Ident(Box::new(Ident {
                             span: *span,
-                            value: "start",
+                            value: "start".into(),
                             raw: None,
                         }))
                     }
@@ -123,7 +123,7 @@ impl Compressor {
                         ComponentValue::Ident(box Ident {
                             value: ident_value, ..
                         }),
-                    ) => match ident_value.to_ascii_lowercase() {
+                    ) => match &*ident_value.to_ascii_lowercase() {
                         "end" | "jump-end" => {
                             *function_value = vec![ComponentValue::Integer(number.clone())];
                         }
