@@ -110,11 +110,7 @@ impl Optimizer<'_> {
                 *e = *undefined(*span);
             }
 
-            Expr::Ident(Ident {
-                span,
-                sym: "Infinity",
-                ..
-            }) => {
+            Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
                 report_change!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {

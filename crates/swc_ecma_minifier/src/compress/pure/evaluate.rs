@@ -744,7 +744,7 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
-                                NaN,
+                                "NaN".into(),
                                 e.span().with_ctxt(SyntaxContext::empty()),
                             ))
                         }
