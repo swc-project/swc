@@ -136,7 +136,7 @@ impl Compressor {
     pub(super) fn compress_length(&mut self, length: &mut Length) {
         let value = length.value.value;
 
-        match length.unit.value {
+        match &*length.unit.value {
             "cm" => {
                 if value % 2.54 == 0.0 {
                     let new_value = self.convert_length(value, &length.unit.value, &"in");

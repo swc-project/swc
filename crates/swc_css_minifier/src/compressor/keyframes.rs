@@ -47,7 +47,7 @@ impl Compressor {
             KeyframeSelector::Percentage(i) if i.value.value == 100.0 => {
                 *keyframe_selector = KeyframeSelector::Ident(Ident {
                     span: i.span,
-                    value: "to",
+                    value: "to".into(),
                     raw: None,
                 })
             }
