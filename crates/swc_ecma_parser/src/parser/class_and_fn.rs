@@ -1696,12 +1696,12 @@ fn is_constructor(key: &Key) -> bool {
     matches!(
         *key,
         Key::Public(PropName::Ident(Ident {
-            sym: "constructor",
+            sym: constructor,
             ..
         })) | Key::Public(PropName::Str(Str {
-            value: "constructor",
+            value: constructor,
             ..
-        }))
+        })) if &**constructor == "constructor"
     )
 }
 
@@ -1709,9 +1709,9 @@ pub(crate) fn is_not_this(p: &Param) -> bool {
     !matches!(
         p.pat,
         Pat::Ident(BindingIdent {
-            id: Ident { sym: "this", .. },
+            id: Ident { sym: this, .. },
             ..
-        })
+        })if &**this == "this"
     )
 }
 
