@@ -407,12 +407,10 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 is_type_only: false,
                 local,
                 imported:
-                    Some(ModuleExportName::Ident(Ident { sym: "default", .. }))
-                    | Some(ModuleExportName::Str(Str {
-                        value: "default", ..
-                    })),
+                    Some(ModuleExportName::Ident(Ident { sym: s, .. }))
+                    | Some(ModuleExportName::Str(Str { value: s, .. })),
                 ..
-            }) => Self::ImportDefault(local.to_id()),
+            }) if &*s == "default" => Self::ImportDefault(local.to_id()),
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,

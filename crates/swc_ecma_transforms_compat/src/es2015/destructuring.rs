@@ -671,15 +671,15 @@ impl VisitMut for AssignFolder {
                             right.take()
                         } else {
                             match &mut **right {
-                                Expr::Ident(Ident {
-                                    sym: "arguments", ..
-                                }) => Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                        .as_callee(),
-                                    args: vec![right.take().as_arg()],
-                                    type_args: Default::default(),
-                                })),
+                                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
+                                    Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                            .as_callee(),
+                                        args: vec![right.take().as_arg()],
+                                        type_args: Default::default(),
+                                    }))
+                                }
                                 Expr::Array(..) => right.take(),
                                 _ => {
                                     // if left has rest then need `_to_array`

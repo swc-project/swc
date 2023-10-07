@@ -518,7 +518,7 @@ impl Pure<'_> {
                         }
                         _ => None,
                     },
-                    Expr::Ident(Ident { sym: "String", .. }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Str(Str {
                             span: *span,
                             value: "".into(),
