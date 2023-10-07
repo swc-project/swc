@@ -151,7 +151,7 @@ impl VisitMut for Spread {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee_updated.unwrap_or_else(|| callee.take()),
-                    prop: MemberProp::Ident(Ident::new(js_word!("apply"), *span)),
+                    prop: MemberProp::Ident(Ident::new("apply", *span)),
                 };
 
                 *e = Expr::Call(CallExpr {
@@ -337,8 +337,7 @@ impl Spread {
 
                         buf.push(match *expr {
                             Expr::Ident(Ident {
-                                sym: js_word!("arguments"),
-                                ..
+                                sym: "arguments", ..
                             }) => {
                                 if args_len == 1 {
                                     if need_array {
@@ -414,7 +413,7 @@ impl Spread {
             let callee = buf
                 .remove(0)
                 .expr
-                .make_member(Ident::new(js_word!("concat"), DUMMY_SP))
+                .make_member(Ident::new("concat", DUMMY_SP))
                 .as_callee();
 
             return Expr::Call(CallExpr {
@@ -440,7 +439,7 @@ impl Spread {
                         elems: vec![],
                     })
                 })
-                .make_member(Ident::new(js_word!("concat"), span))
+                .make_member(Ident::new("concat", span))
                 .as_callee(),
 
             args: buf,

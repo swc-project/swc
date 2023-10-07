@@ -672,8 +672,7 @@ impl VisitMut for AssignFolder {
                         } else {
                             match &mut **right {
                                 Expr::Ident(Ident {
-                                    sym: js_word!("arguments"),
-                                    ..
+                                    sym: "arguments", ..
                                 }) => Box::new(Expr::Call(CallExpr {
                                     span: DUMMY_SP,
                                     callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)

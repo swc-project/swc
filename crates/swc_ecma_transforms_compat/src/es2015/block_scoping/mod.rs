@@ -301,7 +301,7 @@ impl BlockScoping {
                                     .into()
                                 },
                                 //"object"
-                                right: js_word!("object").into(),
+                                right: "object".into(),
                             })),
                             cons: Box::new(Stmt::Return(ReturnStmt {
                                 span: DUMMY_SP,

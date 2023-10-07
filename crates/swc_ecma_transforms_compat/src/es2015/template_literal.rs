@@ -172,10 +172,7 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(
-                                            js_word!("concat"),
-                                            expr_span,
-                                        )),
+                                        prop: MemberProp::Ident(Ident::new(concat, expr_span)),
                                     }
                                     .as_callee(),
                                     args: mem::take(&mut args)
@@ -213,10 +210,7 @@ impl VisitMut for TemplateLiteral {
                                     callee: MemberExpr {
                                         span: DUMMY_SP,
                                         obj,
-                                        prop: MemberProp::Ident(Ident::new(
-                                            js_word!("concat"),
-                                            expr_span,
-                                        )),
+                                        prop: MemberProp::Ident(Ident::new(concat, expr_span)),
                                     }
                                     .as_callee(),
                                     args: mem::take(&mut args)

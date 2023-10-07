@@ -43,46 +43,46 @@ impl VisitMut for EsReservedWord {
 fn is_reserved(sym: &JsWord) -> bool {
     matches!(
         *sym,
-        js_word!("enum")
-            | js_word!("implements")
-            | js_word!("package")
-            | js_word!("protected")
-            | js_word!("interface")
-            | js_word!("private")
-            | js_word!("public")
-            | js_word!("await")
-            | js_word!("break")
-            | js_word!("case")
-            | js_word!("catch")
-            | js_word!("class")
-            | js_word!("const")
-            | js_word!("continue")
-            | js_word!("debugger")
-            | js_word!("default")
-            | js_word!("delete")
-            | js_word!("do")
-            | js_word!("else")
-            | js_word!("export")
-            | js_word!("extends")
-            | js_word!("finally")
-            | js_word!("for")
-            | js_word!("function")
-            | js_word!("if")
-            | js_word!("in")
-            | js_word!("instanceof")
-            | js_word!("new")
-            | js_word!("return")
-            | js_word!("super")
-            | js_word!("switch")
-            | js_word!("this")
-            | js_word!("throw")
-            | js_word!("try")
-            | js_word!("typeof")
-            | js_word!("var")
-            | js_word!("void")
-            | js_word!("while")
-            | js_word!("with")
-            | js_word!("yield")
+        "enum"
+            | "implements"
+            | "package"
+            | "protected"
+            | "interface"
+            | "private"
+            | "public"
+            | "await"
+            | "break"
+            | "case"
+            | "catch"
+            | "class"
+            | "const"
+            | "continue"
+            | "debugger"
+            | "default"
+            | "delete"
+            | "do"
+            | "else"
+            | "export"
+            | "extends"
+            | "finally"
+            | "for"
+            | "function"
+            | "if"
+            | "in"
+            | "instanceof"
+            | "new"
+            | "return"
+            | "super"
+            | "switch"
+            | "this"
+            | "throw"
+            | "try"
+            | "typeof"
+            | "var"
+            | "void"
+            | "while"
+            | "with"
+            | "yield"
     )
 }
 

@@ -138,22 +138,22 @@ fn is_non_symbol_literal(e: &Expr) -> bool {
     matches!(
         *e,
         Expr::Lit(Lit::Str(Str {
-            value: js_word!("undefined"),
+            value: "undefined",
             ..
         })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("object"),
+            value: "object",
             ..
         })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("boolean"),
+            value: "boolean",
             ..
         })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("number"),
+            value: "number",
             ..
         })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("string"),
+            value: "string",
             ..
         })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("function"),
+            value: "function",
             ..
         }))
     )
