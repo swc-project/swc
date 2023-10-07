@@ -1,7 +1,7 @@
 use swc_atoms::js_word;
 
 use super::*;
-use crate::token::Keyword;
+use crate::token::{IdentLike, Keyword};
 
 impl Context {
     pub(crate) fn is_reserved(self, word: &Word) -> bool {
@@ -49,16 +49,14 @@ impl Context {
             // Future reserved word
             Word::Ident("enum") => true,
 
-            Word::Ident("implements")
-            | Word::Ident("package")
-            | Word::Ident("protected")
-            | Word::Ident("interface")
-            | Word::Ident("private")
-            | Word::Ident("public")
-                if self.strict =>
-            {
-                true
-            }
+            Word::Ident(IdentLike::Known(
+                known_ident!("implements")
+                | known_ident!("package")
+                | known_ident!("protected")
+                | known_ident!("interface")
+                | known_ident!("private")
+                | known_ident!("public"),
+            )) if self.strict => true,
 
             _ => false,
         }
