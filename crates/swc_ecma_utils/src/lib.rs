@@ -992,7 +992,7 @@ pub trait ExprExt {
                 // converted. unimplemented!("TplLit.
                 // as_string()")
             }
-            Expr::Ident(Ident { ref sym, span, .. }) => match &*sym {
+            Expr::Ident(Ident { ref sym, span, .. }) => match &**sym {
                 "undefined" | "Infinity" | "NaN" if span.ctxt == ctx.unresolved_ctxt => {
                     Known(Cow::Borrowed(&**sym))
                 }
