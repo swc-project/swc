@@ -35,6 +35,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 ///  - Short strings must be stored inline.
 ///  - It should reuse underlying string when possible.
+///  - Drop must be fast, and concurrent drop must be also fast.
 ///
 ///
 ///
@@ -54,8 +55,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 /// ## compact_str
 ///
-/// This crate is generally useful. But AST operations are special, because most
-/// of the operations done on text tokens are `eq` and `hash`.
+/// This crate is generally useful. But AST operations are special.
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
