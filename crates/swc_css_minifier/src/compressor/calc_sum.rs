@@ -342,7 +342,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
                         }
                     }
                     None => {
-                        dimensions.insert(unit, idx);
+                        dimensions.insert(unit.to_string(), idx);
                         idx += 1;
                     }
                 }
