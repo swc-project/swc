@@ -1,4 +1,4 @@
-//! See [JsWord] and [Atom]
+//! See [Atom] for documentations.
 
 #![allow(clippy::unreadable_literal)]
 
@@ -20,10 +20,14 @@ use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
 
-/// Clone-on-write string.
+/// An immutable string.
 ///
+/// This type is newly implemented by the SWC core team because of special
+/// requirements of AST operations.
 ///
-/// See [tendril] for more details.
+/// # Requirement
+///
+/// This typw
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
