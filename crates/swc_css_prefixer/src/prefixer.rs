@@ -633,7 +633,7 @@ impl VisitMut for FontFaceFormatOldSyntax {
         }
 
         if let Some(ComponentValue::Ident(box ident)) = n.value.get(0) {
-            let new_value: JsWord = ident.value.to_ascii_lowercase().into();
+            let new_value: JsWord = ident.value.to_ascii_lowercase();
             let new_value = match &*new_value {
                 "woff" | "truetype" | "opentype" | "woff2" | "embedded-opentype" | "collection"
                 | "svg" => new_value,
