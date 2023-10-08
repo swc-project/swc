@@ -4,7 +4,7 @@ use std::{borrow::Cow, f64::consts::PI, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{Atom, StaticString};
+use swc_atoms::StaticString;
 use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
