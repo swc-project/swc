@@ -27,7 +27,18 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 /// # Requirement
 ///
-/// This typw
+///  - [Hash] and [PartialEq] implementation must be externally fast.
+///  - Short strings must be stored inline.
+///  - It should reuse underlying string when possible.
+///
+///
+///
+/// # Compaison with other libraries
+///
+///
+/// ## string-cache
+///
+/// Previously we used [string-cache](https://crates.io/crates/string-cache). But it is more focused on reducing duplicate strings. It used a global mutex to prevent duplciate, which is very costly for us.
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
