@@ -7,7 +7,7 @@
 pub extern crate once_cell;
 
 use std::{
-    borrow::Cow,
+    borrow::{Borrow, Cow},
     fmt::{self, Display, Formatter},
     hash::Hash,
     ops::Deref,
@@ -241,4 +241,10 @@ include!(concat!(env!("OUT_DIR"), "/internal_word.rs"));
 /// This should be used as a key for hash maps and hash sets.
 ///
 /// This will be replaced with [Atom] in the future.
-pub type StaticString = String;
+pub type StaticString = Atom;
+
+impl Borrow<str> for Atom {
+    fn borrow(&self) -> &str {
+        self
+    }
+}
