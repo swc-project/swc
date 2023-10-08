@@ -1477,7 +1477,7 @@ where
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
         let value = if self.ctx.allow_to_lowercase && self.config.minify {
-            Cow::Owned(n.value.to_ascii_lowercase().into())
+            Cow::Owned(n.value.to_ascii_lowercase())
         } else {
             Cow::Borrowed(&n.value)
         };
