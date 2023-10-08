@@ -1,6 +1,6 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -335,7 +335,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
                     exports.as_arg(),
                     quote_str!(export_item.export_name_span(), export_name).as_arg(),
                     prop_function((
-                        js_word!("get"),
+                        "get".into(),
                         ExportItem::new(DUMMY_SP, export_item.into_local_ident()),
                     ))
                     .into(),

@@ -1,4 +1,5 @@
 #![deny(clippy::all)]
+#![allow(clippy::mutable_key_type)]
 #![allow(clippy::arc_with_non_send_sync)]
 
 use swc_common::{chain, comments::Comments, sync::Lrc, Mark, SourceMap};

@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_ecma_ast::*;
 
 /// We want to use React.createElement, even in the case of
@@ -12,7 +11,7 @@ pub(super) fn should_use_create_element(attrs: &[JSXAttrOrSpread]) -> bool {
         if seen_prop_spread
             && match attr {
                 JSXAttrOrSpread::JSXAttr(attr) => match &attr.name {
-                    JSXAttrName::Ident(i) => i.sym == js_word!("key"),
+                    JSXAttrName::Ident(i) => i.sym == "key",
                     JSXAttrName::JSXNamespacedName(_) => false,
                 },
                 _ => false,

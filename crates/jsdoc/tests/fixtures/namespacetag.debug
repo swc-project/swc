@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -129,7 +129,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('Foo' type=inline),
+                                value: "Foo",
                             },
                         ),
                         name: None,
@@ -158,7 +158,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -181,7 +181,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -205,7 +205,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{function}' type=dynamic),
+                                value: "{function}",
                             },
                         ),
                         name: None,
@@ -234,7 +234,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -257,7 +257,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -297,7 +297,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Member of the namespace S.' type=dynamic),
+            value: "Member of the namespace S.",
         },
         tags: [],
     },

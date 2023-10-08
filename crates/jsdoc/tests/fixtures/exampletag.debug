@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('example' type=inline),
+                    value: "example",
                 },
                 tag: Example(
                     ExampleTag {
@@ -65,9 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* console.log("foo");
-                             * console.log("bar");
-                             ' type=dynamic),
+                            value: "* console.log(\"foo\");\n * console.log(\"bar\");\n ",
                         },
                     },
                 ),
@@ -94,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -117,7 +115,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('example' type=inline),
+                    value: "example",
                 },
                 tag: Example(
                     ExampleTag {
@@ -140,9 +138,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* console.log("foo");
-                             * console.log("bar");
-                             * ' type=dynamic),
+                            value: "* console.log(\"foo\");\n * console.log(\"bar\");\n * ",
                         },
                     },
                 ),
@@ -167,7 +163,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('example' type=inline),
+                    value: "example",
                 },
                 tag: Example(
                     ExampleTag {
@@ -190,9 +186,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* <caption>Example 2</caption>
-                             * 1 + 2;
-                             ' type=dynamic),
+                            value: "* <caption>Example 2</caption>\n * 1 + 2;\n ",
                         },
                     },
                 ),

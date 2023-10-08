@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Delimiter, DelimiterValue, FunctionName,
     Hue, Ident, Number, Percentage,
@@ -29,7 +28,7 @@ impl Compiler {
                 Some(value)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -52,7 +51,7 @@ impl Compiler {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -84,7 +83,7 @@ impl Compiler {
                 Some(*value / 100.0)
             }
             Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case(&js_word!("none")) =>
+                if value.eq_ignore_ascii_case("none") =>
             {
                 Some(0.0)
             }
@@ -95,7 +94,7 @@ impl Compiler {
 
     pub(crate) fn process_color_hwb(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
-            if function.name != js_word!("hwb") {
+            if function.name != "hwb" {
                 return;
             }
 
@@ -121,7 +120,7 @@ impl Compiler {
             if a == 1.0 {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
                     name: FunctionName::Ident(Ident {
-                        value: js_word!("rgb"),
+                        value: "rgb".into(),
                         span: Default::default(),
                         raw: None,
                     }),
@@ -155,7 +154,7 @@ impl Compiler {
             } else {
                 *n = AbsoluteColorBase::Function(swc_css_ast::Function {
                     name: FunctionName::Ident(Ident {
-                        value: js_word!("rgba"),
+                        value: "rgba".into(),
                         span: Default::default(),
                         raw: None,
                     }),

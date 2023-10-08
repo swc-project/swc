@@ -19,11 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Markdown asterisks in a doclet that does not use leading asterisks.
-                **Strong** is strong.
-            
-                * List item 1.
-                * List item 2.' type=dynamic),
+            value: "Markdown asterisks in a doclet that does not use leading asterisks.\n    **Strong** is strong.\n\n    * List item 1.\n    * List item 2.",
         },
         tags: [
             TagItem {
@@ -46,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -71,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -84,7 +80,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('thingy - The thingy.' type=dynamic),
+                            value: "thingy - The thingy.",
                         },
                     },
                 ),
@@ -111,12 +107,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Markdown asterisks in a doclet that uses leading asterisks.
-             * **Strong** is strong.
-             *
-             * * List item 1.
-             * * List item 2.
-             *' type=dynamic),
+            value: "Markdown asterisks in a doclet that uses leading asterisks.\n * **Strong** is strong.\n *\n * * List item 1.\n * * List item 2.\n *",
         },
         tags: [
             TagItem {
@@ -139,7 +130,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -164,7 +155,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -177,7 +168,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('thingy - The thingy.' type=dynamic),
+                            value: "thingy - The thingy.",
                         },
                     },
                 ),

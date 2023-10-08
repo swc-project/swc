@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Color, ComponentValue, Delimiter, DelimiterValue, Function,
@@ -45,7 +44,7 @@ impl Compiler {
                     span: hex_color.span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: js_word!("rgba"),
+                        value: "rgba".into(),
                         raw: None,
                     }),
                     value: vec![

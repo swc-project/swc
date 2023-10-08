@@ -4,7 +4,7 @@ use std::{borrow::Cow, iter, iter::once, sync::Arc};
 
 use serde::{Deserialize, Serialize};
 use string_enum::StringEnum;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     errors::HANDLER,
@@ -590,7 +590,7 @@ where
                             match attr.name {
                                 JSXAttrName::Ident(i) => {
                                     //
-                                    if !use_create_element && i.sym == js_word!("key") {
+                                    if !use_create_element && i.sym == "key" {
                                         key = attr
                                             .value
                                             .and_then(jsx_attr_value_to_expr)
@@ -1126,7 +1126,7 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
                 span: DUMMY_SP,
                 callee: Callee::Expr(Box::new(Expr::Ident(Ident {
                     span: DUMMY_SP.apply_mark(unresolved_mark),
-                    sym: js_word!("require"),
+                    sym: "require".into(),
                     optional: false,
                 }))),
                 args: vec![ExprOrSpread {
@@ -1152,7 +1152,7 @@ where
         let span = name.span();
         match name {
             JSXElementName::Ident(i) => {
-                if i.sym == js_word!("this") {
+                if i.sym == "this" {
                     return Box::new(Expr::This(ThisExpr { span }));
                 }
 
@@ -1196,7 +1196,7 @@ where
 
                     (match obj {
                         JSXObject::Ident(i) => {
-                            if i.sym == js_word!("this") {
+                            if i.sym == "this" {
                                 Expr::This(ThisExpr { span })
                             } else {
                                 Expr::Ident(i)

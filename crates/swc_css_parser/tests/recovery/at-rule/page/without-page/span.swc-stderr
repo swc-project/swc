@@ -88,7 +88,7 @@
  3 |     color: blue;
    `----
 
-  x Ident { value: Atom('content' type=static), raw: "content" }
+  x Ident { value: "content", raw: "content" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
  2 |     content: "foo";
@@ -136,7 +136,7 @@
  3 |     color: blue;
    `----
 
-  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
+  x String { value: "foo", raw: "\"foo\"" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:1:1]
  1 | @top-left {
  2 |     content: "foo";
@@ -184,7 +184,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;
@@ -232,7 +232,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('blue' type=static), raw: "blue" }
+  x Ident { value: "blue", raw: "blue" }
    ,-[$DIR/tests/recovery/at-rule/page/without-page/input.css:2:1]
  2 |     content: "foo";
  3 |     color: blue;

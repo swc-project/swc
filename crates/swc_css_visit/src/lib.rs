@@ -2,7 +2,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::ptr_arg)]
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::Span;
 use swc_css_ast::*;
 use swc_visit::define;
@@ -62,31 +62,31 @@ define!({
 
     pub struct Ident {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
     pub struct CustomIdent {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
     pub struct CustomPropertyName {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
     pub struct DashedIdent {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
     pub struct Str {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
@@ -180,7 +180,7 @@ define!({
 
     pub struct HexColor {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
@@ -297,7 +297,7 @@ define!({
 
     pub struct UrlValueRaw {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
@@ -308,8 +308,8 @@ define!({
 
     pub struct UnicodeRange {
         pub span: Span,
-        pub start: JsWord,
-        pub end: Option<JsWord>,
+        pub start: Atom,
+        pub end: Option<Atom>,
         pub raw: Option<Atom>,
     }
 
@@ -551,7 +551,7 @@ define!({
 
     pub struct CustomHighlightName {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 
@@ -1010,7 +1010,7 @@ define!({
 
     pub struct ExtensionName {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
 

@@ -1,4 +1,4 @@
-use swc_atoms::js_word;
+use swc_atoms::Atom;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -854,7 +854,7 @@ where
         if is!(self, Function) {
             let fn_span = self.input.cur_span();
             let name = bump!(self);
-            let names = match name {
+            let names: (Atom, _) = match name {
                 Token::Function { value, raw } => (value.to_ascii_lowercase(), raw),
                 _ => unreachable!(),
             };
@@ -863,8 +863,8 @@ where
                 || -> PResult<Vec<PseudoClassSelectorChildren>> {
                     let mut children = vec![];
 
-                    match names.0 {
-                        js_word!("local") | js_word!("global") if self.config.css_modules => {
+                    match &*names.0 {
+                        "local" | "global" if self.config.css_modules => {
                             self.input.skip_ws();
 
                             let ctx = Ctx {
@@ -878,7 +878,7 @@ where
                             children
                                 .push(PseudoClassSelectorChildren::ComplexSelector(selector_list));
                         }
-                        js_word!("-moz-any") | js_word!("-webkit-any") => {
+                        "-moz-any" | "-webkit-any" => {
                             self.input.skip_ws();
 
                             let compound_selector_list = self.parse()?;
@@ -889,7 +889,7 @@ where
                                 compound_selector_list,
                             ));
                         }
-                        js_word!("dir") => {
+                        "dir" => {
                             self.input.skip_ws();
 
                             let mut ident: Ident = self.parse()?;
@@ -900,7 +900,7 @@ where
 
                             children.push(PseudoClassSelectorChildren::Ident(ident));
                         }
-                        js_word!("lang") => {
+                        "lang" => {
                             self.input.skip_ws();
 
                             let child = match cur!(self) {
@@ -947,7 +947,7 @@ where
                                 children.push(child);
                             }
                         }
-                        js_word!("current") | js_word!("past") | js_word!("future") => {
+                        "current" | "past" | "future" => {
                             self.input.skip_ws();
 
                             let compound_selector_list = self.parse()?;
@@ -958,7 +958,7 @@ where
                                 compound_selector_list,
                             ));
                         }
-                        js_word!("not") | js_word!("matches") => {
+                        "not" | "matches" => {
                             self.input.skip_ws();
 
                             let selector_list = self.parse()?;
@@ -967,14 +967,14 @@ where
 
                             children.push(PseudoClassSelectorChildren::SelectorList(selector_list));
                         }
-                        js_word!("is") | js_word!("where") => {
+                        "is" | "where" => {
                             let forgiving_selector_list = self.parse()?;
 
                             children.push(PseudoClassSelectorChildren::ForgivingSelectorList(
                                 forgiving_selector_list,
                             ));
                         }
-                        js_word!("has") => {
+                        "has" => {
                             let forgiving_relative_selector_list = self.parse()?;
 
                             children.push(
@@ -983,12 +983,8 @@ where
                                 ),
                             );
                         }
-                        js_word!("nth-child")
-                        | js_word!("nth-last-child")
-                        | js_word!("nth-of-type")
-                        | js_word!("nth-last-of-type")
-                        | js_word!("nth-col")
-                        | js_word!("nth-last-col") => {
+                        "nth-child" | "nth-last-child" | "nth-of-type" | "nth-last-of-type"
+                        | "nth-col" | "nth-last-col" => {
                             self.input.skip_ws();
 
                             let an_plus_b = self.parse()?;
@@ -1014,7 +1010,7 @@ where
                                     .push(PseudoClassSelectorChildren::SelectorList(selector_list));
                             }
                         }
-                        js_word!("host") | js_word!("host-context") => {
+                        "host" | "host-context" => {
                             self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
@@ -1096,7 +1092,7 @@ where
         if is!(self, Function) {
             let fn_span = self.input.cur_span();
             let name = bump!(self);
-            let names = match name {
+            let names: (Atom, _) = match name {
                 Token::Function { value, raw } => (value.to_ascii_lowercase(), raw),
                 _ => unreachable!(),
             };
@@ -1106,8 +1102,8 @@ where
                 || -> PResult<Vec<PseudoElementSelectorChildren>> {
                     let mut children = vec![];
 
-                    match names.0 {
-                        js_word!("cue") | js_word!("cue-region") => {
+                    match &*names.0 {
+                        "cue" | "cue-region" => {
                             self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
@@ -1118,7 +1114,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("part") => {
+                        "part" => {
                             self.input.skip_ws();
 
                             let ident = self.parse()?;
@@ -1127,7 +1123,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("slotted") => {
+                        "slotted" => {
                             self.input.skip_ws();
 
                             let compound_selector = self.parse()?;
@@ -1138,7 +1134,7 @@ where
 
                             self.input.skip_ws();
                         }
-                        js_word!("highlight") => {
+                        "highlight" => {
                             self.input.skip_ws();
 
                             let custom_highlight_name = self.parse()?;
@@ -1214,7 +1210,7 @@ where
         match cur!(self) {
             //  odd | even
             Token::Ident { value, .. }
-                if matches_eq_ignore_ascii_case!(value, js_word!("odd"), js_word!("even")) =>
+                if matches_eq_ignore_ascii_case!(value, "odd", "even") =>
                 {
                     let mut ident: Ident = self.parse()?;
 

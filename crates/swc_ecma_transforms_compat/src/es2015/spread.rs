@@ -1,7 +1,6 @@
 use std::mem;
 
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
@@ -151,7 +150,7 @@ impl VisitMut for Spread {
                 let apply = MemberExpr {
                     span: DUMMY_SP,
                     obj: callee_updated.unwrap_or_else(|| callee.take()),
-                    prop: MemberProp::Ident(Ident::new(js_word!("apply"), *span)),
+                    prop: MemberProp::Ident(Ident::new("apply".into(), *span)),
                 };
 
                 *e = Expr::Call(CallExpr {
@@ -336,10 +335,7 @@ impl Spread {
                         make_arr!();
 
                         buf.push(match *expr {
-                            Expr::Ident(Ident {
-                                sym: js_word!("arguments"),
-                                ..
-                            }) => {
+                            Expr::Ident(Ident { ref sym, .. }) if &**sym == "arguments" => {
                                 if args_len == 1 {
                                     if need_array {
                                         return Expr::Call(CallExpr {
@@ -414,7 +410,7 @@ impl Spread {
             let callee = buf
                 .remove(0)
                 .expr
-                .make_member(Ident::new(js_word!("concat"), DUMMY_SP))
+                .make_member(Ident::new("concat".into(), DUMMY_SP))
                 .as_callee();
 
             return Expr::Call(CallExpr {
@@ -440,7 +436,7 @@ impl Spread {
                         elems: vec![],
                     })
                 })
-                .make_member(Ident::new(js_word!("concat"), span))
+                .make_member(Ident::new("concat".into(), span))
                 .as_callee(),
 
             args: buf,

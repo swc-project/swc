@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
@@ -668,30 +667,12 @@ impl Swcify for MetaProperty {
     fn swcify(self, ctx: &Context) -> Self::Output {
         let meta = self.meta.swcify(ctx).id;
         let prop = self.property.swcify(ctx).id;
-        match (meta, prop) {
-            (
-                Ident {
-                    sym: js_word!("new"),
-                    ..
-                },
-                Ident {
-                    sym: js_word!("target"),
-                    ..
-                },
-            ) => MetaPropExpr {
+        match (&*meta.sym, &*prop.sym) {
+            ("new", "target") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },
-            (
-                Ident {
-                    sym: js_word!("import"),
-                    ..
-                },
-                Ident {
-                    sym: js_word!("meta"),
-                    ..
-                },
-            ) => MetaPropExpr {
+            ("import", "meta") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },

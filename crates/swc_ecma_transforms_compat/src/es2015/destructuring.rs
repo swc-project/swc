@@ -1,7 +1,6 @@
 use std::iter;
 
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
@@ -671,16 +670,15 @@ impl VisitMut for AssignFolder {
                             right.take()
                         } else {
                             match &mut **right {
-                                Expr::Ident(Ident {
-                                    sym: js_word!("arguments"),
-                                    ..
-                                }) => Box::new(Expr::Call(CallExpr {
-                                    span: DUMMY_SP,
-                                    callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
-                                        .as_callee(),
-                                    args: vec![right.take().as_arg()],
-                                    type_args: Default::default(),
-                                })),
+                                Expr::Ident(Ident { sym, .. }) if &**sym == "arguments" => {
+                                    Box::new(Expr::Call(CallExpr {
+                                        span: DUMMY_SP,
+                                        callee: member_expr!(DUMMY_SP, Array.prototype.slice.call)
+                                            .as_callee(),
+                                        args: vec![right.take().as_arg()],
+                                        type_args: Default::default(),
+                                    }))
+                                }
                                 Expr::Array(..) => right.take(),
                                 _ => {
                                     // if left has rest then need `_to_array`

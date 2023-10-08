@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, BytePos, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -119,13 +119,10 @@ impl VisitMut for TemplateLiteral {
                     let is_lit = is_literal(&expr);
 
                     if is_lit {
-                        let is_empty = matches!(
-                            *expr,
-                            Expr::Lit(Lit::Str(Str {
-                                value: js_word!(""),
-                                ..
-                            }))
-                        );
+                        let is_empty = match &*expr {
+                            Expr::Lit(Lit::Str(Str { value, .. })) => value.is_empty(),
+                            _ => false,
+                        };
 
                         if !is_empty && args.is_empty() {
                             if let Expr::Lit(Lit::Str(Str { span, value, raw })) = *obj {
@@ -173,7 +170,7 @@ impl VisitMut for TemplateLiteral {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(Ident::new(
-                                            js_word!("concat"),
+                                            "concat".into(),
                                             expr_span,
                                         )),
                                     }
@@ -214,7 +211,7 @@ impl VisitMut for TemplateLiteral {
                                         span: DUMMY_SP,
                                         obj,
                                         prop: MemberProp::Ident(Ident::new(
-                                            js_word!("concat"),
+                                            "concat".into(),
                                             expr_span,
                                         )),
                                     }

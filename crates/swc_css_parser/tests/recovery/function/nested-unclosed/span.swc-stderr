@@ -147,7 +147,7 @@
  3 | }
    `----
 
-  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+  x String { value: "test", raw: "\"test\"" }
    ,-[$DIR/tests/recovery/function/nested-unclosed/input.css:1:1]
  1 | a {
  2 |     prop: url("test") :

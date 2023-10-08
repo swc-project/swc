@@ -4,7 +4,6 @@ use anyhow::{Context, Error};
 use is_macro::Is;
 #[cfg(feature = "rayon")]
 use rayon::iter::ParallelIterator;
-use swc_atoms::js_word;
 use swc_common::{sync::Lrc, FileName, SourceFile, SyntaxContext};
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, ImportDecl, ImportSpecifier, MemberExpr, MemberProp, Module,
@@ -364,7 +363,7 @@ where
                         }
                         ImportSpecifier::Default(s) => specifiers.push(Specifier::Specific {
                             local: s.local.into(),
-                            alias: Some(Id::new(js_word!("default"), s.span.ctxt())),
+                            alias: Some(Id::new("default".into(), s.span.ctxt())),
                         }),
                         ImportSpecifier::Namespace(s) => {
                             specifiers.push(Specifier::Namespace {
@@ -432,11 +431,7 @@ impl Visit for Es6ModuleDetector {
 
         match &e.callee {
             Callee::Expr(e) => {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("require"),
-                    ..
-                }) = &**e
-                {
+                if let Expr::Ident(Ident { sym: _require, .. }) = &**e {
                     self.found_other = true;
                 }
             }

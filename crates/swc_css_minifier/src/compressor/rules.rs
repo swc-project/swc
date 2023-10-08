@@ -1,6 +1,6 @@
 use std::mem::take;
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap, util::take::Take, EqIgnoreSpan, Span, Spanned, SyntaxContext,
 };
@@ -330,12 +330,8 @@ impl Compressor {
         };
 
         matches!(
-            *name,
-            js_word!("media")
-                | js_word!("supports")
-                | js_word!("container")
-                | js_word!("layer")
-                | js_word!("nest")
+            &**name,
+            "media" | "supports" | "container" | "layer" | "nest"
         )
     }
 
@@ -645,5 +641,5 @@ impl Compressor {
 
 #[inline]
 fn need_keep_by_name(name: &JsWord) -> bool {
-    *name == js_word!("color-profile")
+    *name == "color-profile"
 }

@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Namespace doStuff.
-             *' type=dynamic),
+            value: "Namespace doStuff.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -67,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('doStuff' type=inline),
+                                value: "doStuff",
                             },
                         ),
                         name: None,
@@ -96,8 +95,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Function with the same name as its namespace.
-             *' type=dynamic),
+            value: "Function with the same name as its namespace.\n *",
         },
         tags: [
             TagItem {
@@ -120,7 +118,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('memberof' type=dynamic),
+                    value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
@@ -154,7 +152,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('doStuff' type=inline),
+                                    value: "doStuff",
                                 },
                             ],
                         },
@@ -183,8 +181,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Function with a different name than the namespace.
-             *' type=dynamic),
+            value: "Function with a different name than the namespace.\n *",
         },
         tags: [
             TagItem {
@@ -207,7 +204,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('memberof' type=dynamic),
+                    value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
@@ -241,7 +238,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('doStuff' type=inline),
+                                    value: "doStuff",
                                 },
                             ],
                         },

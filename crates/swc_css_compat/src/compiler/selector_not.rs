@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::{
     CompoundSelector, PseudoClassSelector, PseudoClassSelectorChildren, SelectorList,
     SubclassSelector,
@@ -8,7 +7,7 @@ use crate::compiler::Compiler;
 
 impl Compiler {
     pub(crate) fn process_selector_not(&mut self, n: &mut CompoundSelector) {
-        let has_not = n.subclass_selectors.iter().any(|n| matches!(n, SubclassSelector::PseudoClass(PseudoClassSelector { name, children: Some(children), ..}) if name.value == js_word!("not")
+        let has_not = n.subclass_selectors.iter().any(|n| matches!(n, SubclassSelector::PseudoClass(PseudoClassSelector { name, children: Some(children), ..}) if name.value == "not"
             && matches!(children.get(0), Some(PseudoClassSelectorChildren::SelectorList(selector_list)) if selector_list.children.len() > 1)));
 
         if !has_not {
@@ -24,7 +23,7 @@ impl Compiler {
                     name,
                     children: Some(children),
                     ..
-                }) if name.value == js_word!("not")
+                }) if name.value == "not"
                     && matches!(children.get(0), Some(PseudoClassSelectorChildren::SelectorList(selector_list)) if selector_list.children.len() > 1) =>
                 {
                     if let Some(PseudoClassSelectorChildren::SelectorList(selector_list)) =

@@ -1,6 +1,5 @@
 use std::{borrow::Cow, cmp::min, iter::once, mem::take};
 
-use swc_atoms::js_word;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::{move_map::MoveMap, take::Take},
@@ -360,14 +359,7 @@ impl VisitMut for Remover {
 
         let last = e.exprs.pop().unwrap();
 
-        let should_preserved_this = matches!(
-            &*last,
-            Expr::Member(..)
-                | Expr::Ident(Ident {
-                    sym: js_word!("eval"),
-                    ..
-                })
-        );
+        let should_preserved_this = last.directness_maters();
 
         let mut exprs = if should_preserved_this {
             e.exprs

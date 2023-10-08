@@ -6,7 +6,7 @@ use std::{
 };
 
 use is_macro::Is;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
     SyntaxContext, DUMMY_SP,
@@ -772,7 +772,7 @@ impl VisitMut for Generator {
             let mut args = node.args.take().into_iter().map(Some).collect::<Vec<_>>();
             let arg = self.visit_elements(&mut args, None, None);
 
-            let apply = callee.make_member(Ident::new(js_word!("apply"), node.span));
+            let apply = callee.make_member(Ident::new("apply".into(), node.span));
 
             *node = CallExpr {
                 span: node.span,

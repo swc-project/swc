@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_utils::serialize_ident;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -109,10 +108,10 @@ impl VisitMut for Compressor {
         if let DeclarationName::Ident(Ident { value, .. }) = &n.name {
             if matches_eq_ignore_ascii_case!(
                 value,
-                js_word!("opacity"),
-                js_word!("fill-opacity"),
-                js_word!("stroke-opacity"),
-                js_word!("shape-image-threshold")
+                "opacity",
+                "fill-opacity",
+                "stroke-opacity",
+                "shape-image-threshold"
             ) {
                 n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
                     preserve_alpha_value: false,
@@ -261,13 +260,8 @@ impl VisitMut for Compressor {
         match &n.name {
             Ident { value, .. }
                 if matches!(
-                    *value,
-                    js_word!("not")
-                        | js_word!("is")
-                        | js_word!("where")
-                        | js_word!("matches")
-                        | js_word!("-moz-any")
-                        | js_word!("-webkit-any")
+                    &**value,
+                    "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
                 ) =>
             {
                 n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
@@ -341,15 +335,7 @@ impl VisitMut for Compressor {
 
     fn visit_mut_function(&mut self, n: &mut Function) {
         if matches_eq!(
-            n.name,
-            js_word!("rotate"),
-            js_word!("skew"),
-            js_word!("skewx"),
-            js_word!("skewy"),
-            js_word!("rotate3d"),
-            js_word!("rotatex"),
-            js_word!("rotatey"),
-            js_word!("rotatez")
+            n.name, "rotate", "skew", "skewx", "skewy", "rotate3d", "rotatex", "rotatey", "rotatez"
         ) {
             n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
                 in_transform_function: true,

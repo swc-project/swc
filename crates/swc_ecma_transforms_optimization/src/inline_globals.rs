@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     sync::Lrc,
@@ -137,22 +137,13 @@ impl VisitMut for InlineGlobals {
                 }
             }
 
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if let Expr::Member(MemberExpr {
+            Expr::Member(MemberExpr { obj, prop, .. }) => match &**obj {
+                Expr::Member(MemberExpr {
                     obj: first_obj,
-                    prop:
-                        MemberProp::Ident(Ident {
-                            sym: js_word!("env"),
-                            ..
-                        }),
+                    prop: inner_prop,
                     ..
-                }) = &**obj
-                {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("process"),
-                        ..
-                    }) = &**first_obj
-                    {
+                }) if inner_prop.is_ident_with("env") => {
+                    if first_obj.is_ident_ref_to("process") {
                         match prop {
                             MemberProp::Computed(ComputedPropName { expr: c, .. }) => {
                                 if let Expr::Lit(Lit::Str(Str { value: sym, .. })) = &**c {
@@ -171,7 +162,8 @@ impl VisitMut for InlineGlobals {
                         }
                     }
                 }
-            }
+                _ => (),
+            },
             _ => {}
         }
     }

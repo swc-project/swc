@@ -1,11 +1,13 @@
 //! 13.3.3 Destructuring Binding Patterns
 use std::iter;
 
-use swc_atoms::js_word;
 use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
-use crate::parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread};
+use crate::{
+    parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
+    token::IdentLike,
+};
 
 impl<I: Tokens> Parser<I> {
     pub fn parse_pat(&mut self) -> PResult<Pat> {
@@ -33,10 +35,10 @@ impl<I: Tokens> Parser<I> {
         if ident.is_reserved_in_strict_bind() {
             self.emit_strict_mode_err(ident.span, SyntaxError::EvalAndArgumentsInStrict);
         }
-        if self.ctx().in_async && ident.sym == js_word!("await") {
+        if self.ctx().in_async && ident.sym == "await" {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
-        if self.ctx().in_generator && ident.sym == js_word!("yield") {
+        if self.ctx().in_generator && ident.sym == "yield" {
             self.emit_err(ident.span, SyntaxError::ExpectedIdent);
         }
 
@@ -149,12 +151,12 @@ impl<I: Tokens> Parser<I> {
         let has_modifier = self.syntax().typescript()
             && matches!(
                 *cur!(self, false)?,
-                Word(Word::Ident(
-                    js_word!("public")
-                        | js_word!("protected")
-                        | js_word!("private")
-                        | js_word!("readonly")
-                ))
+                Word(Word::Ident(IdentLike::Known(
+                    known_ident!("public")
+                        | known_ident!("protected")
+                        | known_ident!("private")
+                        | known_ident!("readonly")
+                )))
             )
             && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {

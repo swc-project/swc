@@ -12,10 +12,10 @@ pub struct TokenAndSpan {
 #[derive(Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
 pub struct AttributeToken {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub name: JsWord,
     pub raw_name: Option<Atom>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: Option<JsWord>,
     pub raw_value: Option<Atom>,
 }
@@ -55,36 +55,32 @@ pub enum Raw {
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum Token {
     Doctype {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         // Name
         name: Option<JsWord>,
         // Is force quirks?
         force_quirks: bool,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
         // Public identifier
         public_id: Option<JsWord>,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
         // System identifier
         system_id: Option<JsWord>,
         // Raw value
         raw: Option<Atom>,
     },
     StartTag {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         tag_name: JsWord,
         raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
     EndTag {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         tag_name: JsWord,
         raw_tag_name: Option<Atom>,
         is_self_closing: bool,
         attributes: Vec<AttributeToken>,
     },
     Comment {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         data: JsWord,
         raw: Option<Atom>,
     },

@@ -2,7 +2,6 @@ use std::mem;
 
 use arrayvec::ArrayVec;
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 // use swc_ecma_transforms_base::perf::Parallel;
@@ -770,14 +769,14 @@ impl VisitMut for Params {
 }
 
 fn make_arg_nth(n: usize) -> Expr {
-    Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP)).computed_member(n)
+    Expr::Ident(Ident::new("arguments".into(), DUMMY_SP)).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
     Expr::Bin(BinExpr {
         left: Box::new(
-            Expr::Ident(Ident::new(js_word!("arguments"), DUMMY_SP))
-                .make_member(Ident::new(js_word!("length"), DUMMY_SP)),
+            Expr::Ident(Ident::new("arguments".into(), DUMMY_SP))
+                .make_member(Ident::new("length".into(), DUMMY_SP)),
         ),
         op: op!(">"),
         right: n.into(),

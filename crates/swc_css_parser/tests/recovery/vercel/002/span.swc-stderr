@@ -288,7 +288,7 @@
  5 |     border-radius: 7px;
    `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7vw' type=dynamic), raw: "__styled-jsx-placeholder__7vw" }
+  x Ident { value: "__styled-jsx-placeholder__7vw", raw: "__styled-jsx-placeholder__7vw" }
    ,-[$DIR/tests/recovery/vercel/002/input.css:3:1]
  3 |     height: __styled-jsx-placeholder__7px;
  4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);
@@ -352,7 +352,7 @@
  5 |     border-radius: 7px;
    `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7px' type=dynamic), raw: "__styled-jsx-placeholder__7px" }
+  x Ident { value: "__styled-jsx-placeholder__7px", raw: "__styled-jsx-placeholder__7px" }
    ,-[$DIR/tests/recovery/vercel/002/input.css:3:1]
  3 |     height: __styled-jsx-placeholder__7px;
  4 |     margin: 0 calc(__styled-jsx-placeholder__7vw - __styled-jsx-placeholder__7px);

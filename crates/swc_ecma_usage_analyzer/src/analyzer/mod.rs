@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
@@ -136,7 +135,7 @@ where
     }
 
     fn report_usage(&mut self, i: &Ident, is_assign: bool) {
-        if i.sym == js_word!("arguments") {
+        if i.sym == "arguments" {
             self.scope.mark_used_arguments();
         }
 
@@ -1272,11 +1271,11 @@ where
             &e.name,
             Pat::Ident(BindingIdent {
                 id: Ident {
-                    sym: js_word!("arguments"),
+                    sym: arguments,
                     ..
                 },
                 ..
-            })
+            }) if &**arguments == "arguments"
         );
         {
             let ctx = Ctx {

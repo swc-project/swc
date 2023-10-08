@@ -4,7 +4,7 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
@@ -250,13 +250,12 @@ impl<'a> Finalizer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), e],
-            }))),
+            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => {
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0.into(), e],
+                })))
+            }
             _ => Some(e),
         }
     }
@@ -412,13 +411,12 @@ impl<'a> NormalMultiReplacer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), e],
-            }))),
+            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => {
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0.into(), e],
+                })))
+            }
             _ => Some(e),
         }
     }
@@ -500,13 +498,12 @@ impl ExprReplacer {
         let e = self.to.take()?;
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), e],
-            }))),
+            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => {
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0.into(), e],
+                })))
+            }
             _ => Some(e),
         }
     }

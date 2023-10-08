@@ -109,7 +109,7 @@ impl Pure<'_> {
             } else {
                 match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                    Expr::Lit(Lit::Null(..)) => js_word!("null"),
+                    Expr::Lit(Lit::Null(..)) => "null".into(),
                     _ => return,
                 }
             }
@@ -352,7 +352,7 @@ impl Pure<'_> {
 
         Some(Expr::Lit(Lit::Regex(Regex {
             span: *span,
-            exp: pattern.into(),
+            exp: pattern,
             flags: {
                 let flag = flag.to_string();
                 let mut bytes = flag.into_bytes();
@@ -453,18 +453,15 @@ impl Pure<'_> {
                 .is_one_of_global_ref_to(&self.expr_ctx, &["Array", "Object", "RegExp"]) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("RegExp"),
-                        ..
-                    }) => self.optimize_regex(args, span),
-                    Expr::Ident(Ident {
-                        sym: js_word!("Array"),
-                        ..
-                    }) => self.optimize_array(args, span),
-                    Expr::Ident(Ident {
-                        sym: js_word!("Object"),
-                        ..
-                    }) => self.optimize_object(args, span),
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" => {
+                        self.optimize_regex(args, span)
+                    }
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Array" => {
+                        self.optimize_array(args, span)
+                    }
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                        self.optimize_object(args, span)
+                    }
                     _ => unreachable!(),
                 };
 
@@ -488,10 +485,7 @@ impl Pure<'_> {
             ) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("Boolean"),
-                        ..
-                    }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Boolean" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Bool(Bool {
                             span: *span,
                             value: false,
@@ -508,10 +502,7 @@ impl Pure<'_> {
                         })),
                         _ => None,
                     },
-                    Expr::Ident(Ident {
-                        sym: js_word!("Number"),
-                        ..
-                    }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Number" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 0.0,
@@ -527,10 +518,7 @@ impl Pure<'_> {
                         }
                         _ => None,
                     },
-                    Expr::Ident(Ident {
-                        sym: js_word!("String"),
-                        ..
-                    }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Str(Str {
                             span: *span,
                             value: "".into(),
@@ -552,10 +540,7 @@ impl Pure<'_> {
                         }
                         _ => None,
                     },
-                    Expr::Ident(Ident {
-                        sym: js_word!("Symbol"),
-                        ..
-                    }) => {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {
                         if let [ExprOrSpread { spread: None, .. }] = &mut args[..] {
                             if self.options.unsafe_symbols {
                                 args.clear();
@@ -1057,11 +1042,7 @@ impl Pure<'_> {
                     prop: MemberProp::Ident(prop),
                     ..
                 }) => {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("arguments"),
-                        ..
-                    }) = &**obj
-                    {
+                    if obj.is_ident_ref_to("arguments") {
                         if &*prop.sym == "callee" {
                             return;
                         }

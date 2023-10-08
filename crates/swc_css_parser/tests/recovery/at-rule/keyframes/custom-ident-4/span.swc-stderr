@@ -47,7 +47,7 @@
    :            ^^^^^^^
    `----
 
-  x Ident { value: Atom('default' type=static), raw: "default" }
+  x Ident { value: "default", raw: "default" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-4/input.css:1:1]
  1 | @keyframes default {}
    :            ^^^^^^^

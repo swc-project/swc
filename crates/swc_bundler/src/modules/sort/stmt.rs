@@ -2,7 +2,6 @@ use std::{collections::VecDeque, iter::from_fn, ops::Range};
 
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
-use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     sync::Lrc,
@@ -389,11 +388,7 @@ impl Visit for FieldInitFinder {
             Callee::Super(_) | Callee::Import(_) => {}
             Callee::Expr(callee) => {
                 if let Expr::Member(callee) = &**callee {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("Object"),
-                        ..
-                    }) = &*callee.obj
-                    {
+                    if callee.obj.is_ident_ref_to("Object") {
                         match &callee.prop {
                             MemberProp::Ident(Ident { sym: prop_sym, .. })
                                 if *prop_sym == *"assign" =>

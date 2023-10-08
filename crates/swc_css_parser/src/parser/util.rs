@@ -1,6 +1,5 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_atoms::js_word;
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
@@ -112,9 +111,7 @@ where
                         list_of_component_values,
                     )))
                 }
-                None if *normalized_at_rule_name == js_word!("layer")
-                    && at_rule.block.is_none() =>
-                {
+                None if normalized_at_rule_name == "layer" && at_rule.block.is_none() => {
                     self.errors.push(Error::new(
                         at_rule.span,
                         ErrorKind::Expected("at least one name"),

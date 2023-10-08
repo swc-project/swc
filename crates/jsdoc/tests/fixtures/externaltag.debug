@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The built in string object.
-             *' type=dynamic),
+            value: "The built in string object.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('external' type=dynamic),
+                    value: "external",
                 },
                 tag: External(
                     ExternalTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('String' type=static),
+                            value: "String",
                         },
                     },
                 ),
@@ -91,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('see' type=inline),
+                    value: "see",
                 },
                 tag: See(
                     SeeTag {
@@ -114,7 +113,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{@link https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String String}' type=dynamic),
+                            value: "{@link https://developer.mozilla.org/en/JavaScript/Reference/Global_Objects/String String}",
                         },
                     },
                 ),
@@ -141,8 +140,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Adds a new method to the built-in string.
-             *' type=dynamic),
+            value: "Adds a new method to the built-in string.\n *",
         },
         tags: [
             TagItem {
@@ -165,7 +163,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -189,7 +187,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('external:String#rot13' type=dynamic),
+                                value: "external:String#rot13",
                             },
                         ),
                     },
@@ -215,7 +213,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('example' type=inline),
+                    value: "example",
                 },
                 tag: Example(
                     ExampleTag {
@@ -238,9 +236,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* var greeting = new String('hello world');
-                             * console.log( greeting.rot13() ); // uryyb jbeyq
-                             ' type=dynamic),
+                            value: "* var greeting = new String('hello world');\n * console.log( greeting.rot13() ); // uryyb jbeyq\n ",
                         },
                     },
                 ),
@@ -267,8 +263,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The jQuery plugin namespace.
-             *' type=dynamic),
+            value: "The jQuery plugin namespace.\n *",
         },
         tags: [
             TagItem {
@@ -291,7 +286,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('external' type=dynamic),
+                    value: "external",
                 },
                 tag: External(
                     ExternalTag {
@@ -314,7 +309,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('"jQuery.fn"' type=dynamic),
+                            value: "\"jQuery.fn\"",
                         },
                     },
                 ),
@@ -339,7 +334,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('see' type=inline),
+                    value: "see",
                 },
                 tag: See(
                     SeeTag {
@@ -362,7 +357,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{@link http://docs.jquery.com/Plugins/Authoring The jQuery Plugin Guide}' type=dynamic),
+                            value: "{@link http://docs.jquery.com/Plugins/Authoring The jQuery Plugin Guide}",
                         },
                     },
                 ),
@@ -389,8 +384,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A jQuery plugin to make stars fly around your home page.
-             *' type=dynamic),
+            value: "A jQuery plugin to make stars fly around your home page.\n *",
         },
         tags: [
             TagItem {
@@ -413,7 +407,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -437,7 +431,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('external:"jQuery.fn".starfairy' type=dynamic),
+                                value: "external:\"jQuery.fn\".starfairy",
                             },
                         ),
                     },

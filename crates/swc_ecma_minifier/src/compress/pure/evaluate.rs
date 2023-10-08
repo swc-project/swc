@@ -1,5 +1,4 @@
 use radix_fmt::Radix;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
@@ -227,12 +226,8 @@ impl Pure<'_> {
             _ => return,
         };
 
-        match &*member.obj {
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            }) => {}
-            _ => return,
+        if !member.obj.is_ident_ref_to("arguments") {
+            return;
         }
 
         match &mut member.prop {
@@ -264,11 +259,7 @@ impl Pure<'_> {
             }) = e
             {
                 if args.len() == 1 && args[0].spread.is_none() {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("Number"),
-                        ..
-                    }) = &**callee
-                    {
+                    if callee.is_ident_ref_to("Number") {
                         self.changed = true;
                         report_change!(
                             "evaluate: Reducing a call to `Number` into an unary operation"
@@ -751,7 +742,7 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                "NaN".into(),
                                 e.span().with_ctxt(SyntaxContext::empty()),
                             ))
                         }

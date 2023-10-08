@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     util::take::Take,
@@ -309,19 +309,13 @@ where
                     self.support_arrow,
                 );
             }
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("url"),
-                        ..
-                    }),
-            }) if !self.config.preserve_import_meta
-                && obj
-                    .as_meta_prop()
-                    .map(|p| p.kind == MetaPropKind::ImportMeta)
-                    .unwrap_or_default() =>
+            Expr::Member(MemberExpr { span, obj, prop })
+                if prop.is_ident_with("url")
+                    && !self.config.preserve_import_meta
+                    && obj
+                        .as_meta_prop()
+                        .map(|p| p.kind == MetaPropKind::ImportMeta)
+                        .unwrap_or_default() =>
             {
                 obj.visit_mut_with(self);
 

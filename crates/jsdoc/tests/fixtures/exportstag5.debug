@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -92,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -115,7 +115,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('lends' type=inline),
+                    value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
@@ -149,7 +149,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('module' type=static),
+                                    value: "module",
                                 },
                             ],
                         },
@@ -178,7 +178,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('This should be in the Foo module doc.' type=dynamic),
+            value: "This should be in the Foo module doc.",
         },
         tags: [],
     },

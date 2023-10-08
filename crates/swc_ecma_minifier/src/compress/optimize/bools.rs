@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -117,16 +116,13 @@ impl Optimizer<'_> {
         fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
             match (&mut *l, &mut *r) {
                 (
-                    Expr::Lit(Lit::Str(Str {
-                        value: js_word!("undefined"),
-                        ..
-                    })),
+                    Expr::Lit(Lit::Str(Str { value: l_v, .. })),
                     Expr::Unary(UnaryExpr {
                         op: op!("typeof"),
                         arg,
                         ..
                     }),
-                ) => {
+                ) if &**l_v == "undefined" => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
                         if let Some(usage) = o.data.vars.get(&arg.to_id()) {

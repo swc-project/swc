@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Asynchronous function.
-             *
-             *' type=dynamic),
+            value: "Asynchronous function.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -68,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('foo' type=inline),
+                                value: "foo",
                             },
                         ),
                     },
@@ -94,7 +92,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('async' type=static),
+                    value: "async",
                 },
                 tag: Async(
                     AsyncTag {

@@ -1,6 +1,5 @@
 use std::mem::swap;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprCtx, ExprExt, Type, Value};
@@ -207,18 +206,9 @@ impl Pure<'_> {
             | Expr::Bin(BinExpr { op: op!("&&"), .. })
             | Expr::Bin(BinExpr { op: op!("||"), .. }) => true,
             // V8 and terser test ref have different opinion.
-            Expr::Ident(Ident {
-                sym: js_word!("Infinity"),
-                ..
-            }) => false,
-            Expr::Ident(Ident {
-                sym: js_word!("undefined"),
-                ..
-            }) => false,
-            Expr::Ident(Ident {
-                sym: js_word!("NaN"),
-                ..
-            }) => false,
+            Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => false,
+            Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => false,
+            Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => false,
 
             e if is_pure_undefined(&self.expr_ctx, e) => true,
 
@@ -456,13 +446,7 @@ impl Pure<'_> {
 
             (Expr::Update(..) | Expr::Assign(..), Expr::Lit(..)) if is_for_rel => false,
 
-            (
-                Expr::Ident(..),
-                Expr::Ident(Ident {
-                    sym: js_word!("undefined"),
-                    ..
-                }),
-            ) => true,
+            (Expr::Ident(..), Expr::Ident(Ident { sym: r_s, .. })) if &**r_s == "undefined" => true,
 
             (
                 Expr::Member(..)

@@ -1,7 +1,7 @@
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap, iter::IdentifyLast, pass::Repeated, util::take::Take, Spanned,
     SyntaxContext, DUMMY_SP,
@@ -607,13 +607,10 @@ impl Optimizer<'_> {
     ///
     /// - `undefined` => `void 0`
     fn compress_undefined(&mut self, e: &mut Expr) {
-        if let Expr::Ident(Ident {
-            span,
-            sym: js_word!("undefined"),
-            ..
-        }) = e
-        {
-            *e = *undefined(*span);
+        if let Expr::Ident(Ident { span, sym, .. }) = e {
+            if &**sym == "undefined" {
+                *e = *undefined(*span);
+            }
         }
     }
 
@@ -2389,14 +2386,11 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_seq_expr(&mut self, n: &mut SeqExpr) {
-        let should_preserve_zero = matches!(
-            n.exprs.last().map(|v| &**v),
-            Some(Expr::Member(..))
-                | Some(Expr::Ident(Ident {
-                    sym: js_word!("eval"),
-                    ..
-                }))
-        );
+        let should_preserve_zero = n
+            .exprs
+            .last()
+            .map(|v| &**v)
+            .map_or(false, Expr::directness_maters);
 
         let ctx = Ctx {
             dont_use_negated_iife: true,
@@ -2504,17 +2498,17 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
-        if let Stmt::Labeled(LabeledStmt {
-            label: Ident {
-                sym: js_word!(""), ..
-            },
-            body,
-            ..
-        }) = s
-        {
-            *s = *body.take();
+        match s {
+            Stmt::Labeled(LabeledStmt {
+                label: Ident { sym, .. },
+                body,
+                ..
+            }) if sym.is_empty() => {
+                *s = *body.take();
 
-            debug_assert_valid(s);
+                debug_assert_valid(s);
+            }
+            _ => (),
         }
 
         self.remove_duplicate_var_decls(s);
@@ -3099,13 +3093,9 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
 
 fn is_expr_access_to_arguments(l: &Expr) -> bool {
     match l {
-        Expr::Member(MemberExpr { obj, .. }) => matches!(
-            &**obj,
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            })
-        ),
+        Expr::Member(MemberExpr { obj, .. }) => {
+            matches!(&**obj, Expr::Ident(Ident { sym, .. }) if (&**sym == "arguments"))
+        }
         _ => false,
     }
 }

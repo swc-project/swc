@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Blah Blah Blah
-             *' type=dynamic),
+            value: "Blah Blah Blah\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('desc' type=static),
+                    value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('halb halb halb' type=dynamic),
+                            value: "halb halb halb",
                         },
                     },
                 ),
@@ -93,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -116,7 +115,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('description' type=dynamic),
+                    value: "description",
                 },
                 tag: Description(
                     DescriptionTag {
@@ -139,7 +138,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

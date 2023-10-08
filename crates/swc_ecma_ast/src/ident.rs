@@ -1,7 +1,7 @@
 use std::fmt::Display;
 
 use scoped_tls::scoped_thread_local;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -63,7 +63,7 @@ bridge_from!(BindingIdent, Ident, Id);
 /// A complete identifier with span.
 ///
 /// Identifier of swc consists of two parts. The first one is symbol, which is
-/// stored using an interned string, [JsWord] . The second
+/// stored using an interned string, [Atom] . The second
 /// one is [SyntaxContext][swc_common::SyntaxContext], which can be
 /// used to distinguish identifier with same symbol.
 ///
@@ -96,7 +96,7 @@ bridge_from!(BindingIdent, Ident, Id);
 ///
 /// Thanks to the `tag` we attached, we can now distinguish them.
 ///
-/// ([JsWord], [SyntaxContext])
+/// ([Atom], [SyntaxContext])
 ///
 /// See [Id], which is a type alias for this.
 ///
@@ -115,8 +115,7 @@ bridge_from!(BindingIdent, Ident, Id);
 pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
-    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeJsWord))]
-    pub sym: JsWord,
+    pub sym: Atom,
 
     /// TypeScript only. Used in case of an optional parameter.
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -167,7 +166,7 @@ impl Ident {
         self
     }
 
-    /// Creates `Id` using `JsWord` and `SyntaxContext` of `self`.
+    /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.span.ctxt)
     }
@@ -259,7 +258,7 @@ impl Ident {
 }
 
 /// See [Ident] for documentation.
-pub type Id = (JsWord, SyntaxContext);
+pub type Id = (Atom, SyntaxContext);
 
 impl Take for Ident {
     fn dummy() -> Self {
@@ -309,7 +308,7 @@ impl AsRef<str> for Ident {
 }
 
 impl Ident {
-    pub const fn new(sym: JsWord, span: Span) -> Self {
+    pub const fn new(sym: Atom, span: Span) -> Self {
         Ident {
             span,
             sym,
@@ -407,7 +406,7 @@ pub trait IdentExt: AsRef<str> {
     }
 }
 
-impl IdentExt for JsWord {}
+impl IdentExt for Atom {}
 impl IdentExt for Ident {}
 impl IdentExt for &'_ str {}
 impl IdentExt for String {}

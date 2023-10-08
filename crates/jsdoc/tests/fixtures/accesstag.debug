@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('access' type=inline),
+                    value: "access",
                 },
                 tag: Access(
                     AccessTag {
@@ -128,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('private' type=static),
+                            value: "private",
                         },
                     },
                 ),
@@ -155,7 +155,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -178,7 +178,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('access' type=inline),
+                    value: "access",
                 },
                 tag: Access(
                     AccessTag {
@@ -201,7 +201,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('protected' type=static),
+                            value: "protected",
                         },
                     },
                 ),
@@ -228,7 +228,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -251,7 +251,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('access' type=inline),
+                    value: "access",
                 },
                 tag: Access(
                     AccessTag {
@@ -274,7 +274,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('public' type=static),
+                            value: "public",
                         },
                     },
                 ),
@@ -301,7 +301,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('nothing' type=inline),
+            value: "nothing",
         },
         tags: [],
     },
@@ -325,7 +325,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -348,7 +348,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -388,7 +388,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -411,7 +411,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('private' type=static),
+                    value: "private",
                 },
                 tag: Private(
                     PrivateTag {
@@ -450,7 +450,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -473,7 +473,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('protected' type=static),
+                    value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
@@ -512,7 +512,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -535,7 +535,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('public' type=static),
+                    value: "public",
                 },
                 tag: Public(
                     PublicTag {
@@ -573,7 +573,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('nothing' type=inline),
+            value: "nothing",
         },
         tags: [],
     },

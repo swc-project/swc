@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
 
@@ -14,10 +13,7 @@ impl Pure<'_> {
         match &e.callee {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(callee) => match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("Symbol"),
-                    ..
-                }) => {}
+                Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {}
                 _ => return,
             },
         }

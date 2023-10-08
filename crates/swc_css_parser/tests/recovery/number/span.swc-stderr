@@ -139,7 +139,7 @@
  3 |     prop1: 10px
    `----
 
-  x Dimension(DimensionToken { value: 10.1, raw_value: "10.10", unit: Atom('px' type=static), type_flag: Number, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 10.1, raw_value: "10.10", unit: "px", type_flag: Number, raw_unit: "px" })
    ,-[$DIR/tests/recovery/number/input.css:1:1]
  1 | a {
  2 |     prop: 10.10px
@@ -171,7 +171,7 @@
  4 |     prop2: 10
    `----
 
-  x Ident { value: Atom('prop1' type=inline), raw: "prop1" }
+  x Ident { value: "prop1", raw: "prop1" }
    ,-[$DIR/tests/recovery/number/input.css:2:1]
  2 |     prop: 10.10px
  3 |     prop1: 10px
@@ -219,7 +219,7 @@
  4 |     prop2: 10
    `----
 
-  x Dimension(DimensionToken { value: 10.0, raw_value: "10", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 10.0, raw_value: "10", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/number/input.css:2:1]
  2 |     prop: 10.10px
  3 |     prop1: 10px
@@ -251,7 +251,7 @@
  5 |     prop3: 10.10
    `----
 
-  x Ident { value: Atom('prop2' type=inline), raw: "prop2" }
+  x Ident { value: "prop2", raw: "prop2" }
    ,-[$DIR/tests/recovery/number/input.css:3:1]
  3 |     prop1: 10px
  4 |     prop2: 10
@@ -331,7 +331,7 @@
  6 | }
    `----
 
-  x Ident { value: Atom('prop3' type=inline), raw: "prop3" }
+  x Ident { value: "prop3", raw: "prop3" }
    ,-[$DIR/tests/recovery/number/input.css:4:1]
  4 |     prop2: 10
  5 |     prop3: 10.10

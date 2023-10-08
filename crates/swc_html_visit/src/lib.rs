@@ -2,7 +2,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::ptr_arg)]
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::Span;
 use swc_html_ast::*;
 use swc_visit::define;
@@ -37,9 +37,9 @@ define!({
 
     pub struct DocumentType {
         pub span: Span,
-        pub name: Option<JsWord>,
-        pub public_id: Option<JsWord>,
-        pub system_id: Option<JsWord>,
+        pub name: Option<Atom>,
+        pub public_id: Option<Atom>,
+        pub system_id: Option<Atom>,
         pub raw: Option<Atom>,
     }
 
@@ -54,7 +54,7 @@ define!({
 
     pub struct Element {
         pub span: Span,
-        pub tag_name: JsWord,
+        pub tag_name: Atom,
         pub namespace: Namespace,
         pub attributes: Vec<Attribute>,
         pub children: Vec<Child>,
@@ -65,22 +65,22 @@ define!({
     pub struct Attribute {
         pub span: Span,
         pub namespace: Option<Namespace>,
-        pub prefix: Option<JsWord>,
-        pub name: JsWord,
+        pub prefix: Option<Atom>,
+        pub name: Atom,
         pub raw_name: Option<Atom>,
-        pub value: Option<JsWord>,
+        pub value: Option<Atom>,
         pub raw_value: Option<Atom>,
     }
 
     pub struct Text {
         pub span: Span,
-        pub data: JsWord,
+        pub data: Atom,
         pub raw: Option<Atom>,
     }
 
     pub struct Comment {
         pub span: Span,
-        pub data: JsWord,
+        pub data: Atom,
         pub raw: Option<Atom>,
     }
 });

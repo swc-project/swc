@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('throws' type=inline),
+                    value: "throws",
                 },
                 tag: Throw(
                     ThrowTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{InvalidArgumentException}' type=dynamic),
+                            value: "{InvalidArgumentException}",
                         },
                     },
                 ),
@@ -92,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -115,7 +115,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exception' type=dynamic),
+                    value: "exception",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -138,7 +138,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Will throw an error if argument is null.' type=dynamic),
+                            value: "Will throw an error if argument is null.",
                         },
                     },
                 ),
@@ -165,7 +165,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -188,7 +188,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exception' type=dynamic),
+                    value: "exception",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -211,7 +211,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{DivideByZero} Argument x must be non-zero.' type=dynamic),
+                            value: "{DivideByZero} Argument x must be non-zero.",
                         },
                     },
                 ),
@@ -238,9 +238,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A description of the function.
-             *
-             *' type=dynamic),
+            value: "A description of the function.\n *\n *",
         },
         tags: [
             TagItem {
@@ -263,7 +261,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exception' type=dynamic),
+                    value: "exception",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -286,7 +284,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{Object} A description of the exception.' type=dynamic),
+                            value: "{Object} A description of the exception.",
                         },
                     },
                 ),

@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constant' type=static),
+                    value: "constant",
                 },
                 tag: Const(
                     ConstTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('const' type=static),
+                    value: "const",
                 },
                 tag: Const(
                     ConstTag {
@@ -145,7 +145,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -168,7 +168,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('const' type=static),
+                    value: "const",
                 },
                 tag: Const(
                     ConstTag {
@@ -208,7 +208,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -231,7 +231,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('const' type=static),
+                    value: "const",
                 },
                 tag: Const(
                     ConstTag {
@@ -271,7 +271,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -294,7 +294,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('const' type=static),
+                    value: "const",
                 },
                 tag: Const(
                     ConstTag {
@@ -334,7 +334,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -357,7 +357,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('const' type=static),
+                    value: "const",
                 },
                 tag: Const(
                     ConstTag {
@@ -397,7 +397,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('auto-detected const' type=dynamic),
+            value: "auto-detected const",
         },
         tags: [],
     },

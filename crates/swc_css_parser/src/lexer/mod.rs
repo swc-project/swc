@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom, JsWord};
 use swc_common::{input::Input, BytePos, Span};
 use swc_css_ast::{
     matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
@@ -578,9 +578,7 @@ where
 
         // If string’s value is an ASCII case-insensitive match for "url", and the next
         // input code point is U+0028 LEFT PARENTHESIS ((), consume it.
-        if matches_eq_ignore_ascii_case!(ident_sequence.0, js_word!("url"))
-            && self.next() == Some('(')
-        {
+        if matches_eq_ignore_ascii_case!(ident_sequence.0, "url") && self.next() == Some('(') {
             self.consume();
 
             let start_whitespace = self.input.last_pos();

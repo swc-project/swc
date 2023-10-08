@@ -1,7 +1,7 @@
 use std::mem;
 
 use indexmap::IndexMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -96,7 +96,7 @@ impl FnEnvHoister {
                 span: DUMMY_SP,
                 name: id.into(),
                 init: Some(Box::new(Expr::Ident(Ident::new(
-                    js_word!("arguments"),
+                    "arguments".into(),
                     DUMMY_SP,
                 )))),
                 definite: false,
@@ -157,7 +157,7 @@ impl FnEnvHoister {
                 span: DUMMY_SP,
                 name: id.into(),
                 init: Some(Box::new(Expr::Ident(Ident::new(
-                    js_word!("arguments"),
+                    "arguments".into(),
                     DUMMY_SP,
                 )))),
                 definite: false,
@@ -290,7 +290,7 @@ impl VisitMut for FnEnvHoister {
         match e {
             Expr::Ident(Ident { span, sym, .. })
                 if !self.arguments_disabled
-                    && *sym == js_word!("arguments")
+                    && *sym == "arguments"
                     && (span.ctxt == self.unresolved_ctxt
                         || span.ctxt == SyntaxContext::empty()) =>
             {

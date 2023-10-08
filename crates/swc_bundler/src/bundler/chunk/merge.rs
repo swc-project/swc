@@ -3,7 +3,6 @@ use std::sync::atomic::Ordering;
 use anyhow::Error;
 use indexmap::IndexSet;
 use petgraph::EdgeDirection;
-use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     sync::Lock,
@@ -292,7 +291,7 @@ where
                         let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
-                            if *id.sym() == js_word!("default") {
+                            if *id.sym() == "default" {
                                 continue;
                             }
 
@@ -324,7 +323,7 @@ where
                         let ids: Vec<Id> = find_pat_ids(decl);
 
                         for id in ids {
-                            if *id.sym() == js_word!("default") {
+                            if *id.sym() == "default" {
                                 continue;
                             }
 
@@ -515,7 +514,7 @@ where
                             }
                         };
                         // Default is not exported via `export *`
-                        if exported.sym == js_word!("default") {
+                        if &*exported.sym == "default" {
                             exported.span.ctxt == info.export_ctxt()
                         } else {
                             ctx.is_exported_ctxt(exported.span.ctxt, info.export_ctxt())
@@ -623,7 +622,7 @@ where
                                 },
                                 ImportSpecifier::Default(s) => {
                                     new.push(
-                                        Ident::new(js_word!("default"), import.span)
+                                        Ident::new("default".into(), import.span)
                                             .assign_to(s.local.clone())
                                             .into_module_item(
                                                 injected_ctxt,
@@ -671,7 +670,7 @@ where
                         // create `const local_default = orig_ident` if original identifier exists.
 
                         let local =
-                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.local_ctxt()));
+                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.local_ctxt()));
 
                         match export.decl {
                             DefaultDecl::Class(c) => {
@@ -747,7 +746,7 @@ where
                         );
 
                         let exported =
-                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.export_ctxt()));
+                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.export_ctxt()));
 
                         new.push(
                             local
@@ -782,7 +781,7 @@ where
                         // TODO: Check if we really need this.
 
                         let local =
-                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.local_ctxt()));
+                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.local_ctxt()));
 
                         // Create `const local_default = expr`
                         new.push(
@@ -793,7 +792,7 @@ where
                         );
 
                         let exported =
-                            Ident::new(js_word!("default"), DUMMY_SP.with_ctxt(info.export_ctxt()));
+                            Ident::new("default".into(), DUMMY_SP.with_ctxt(info.export_ctxt()));
 
                         new.push(
                             local
@@ -1079,7 +1078,7 @@ where
                                 }) => {
                                     new.push(
                                         Ident::new(
-                                            js_word!("default"),
+                                            "default".into(),
                                             DUMMY_SP.with_ctxt(info.local_ctxt()),
                                         )
                                         .clone()
@@ -1240,7 +1239,7 @@ where
                                     .find(|s| s.0.src.value == import.src.value)
                                 {
                                     let imported = Ident::new(
-                                        js_word!("default"),
+                                        "default".into(),
                                         DUMMY_SP.with_ctxt(src.export_ctxt),
                                     );
                                     vars.push((

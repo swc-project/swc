@@ -2,7 +2,7 @@ use std::{cmp::Reverse, io, ops::AddAssign};
 
 use arrayvec::ArrayVec;
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     sync::Lrc, BytePos, FileLines, FileName, Loc, SourceMapper, Span, SpanLinesError, SyntaxContext,
 };
@@ -296,7 +296,7 @@ impl Visit for CharFreqAnalyzer<'_> {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym != js_word!("arguments") && i.span.ctxt == self.unresolved_ctxt {
+        if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
             return;
         }
 

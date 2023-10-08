@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,9 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Throw a snowball.
-             *
-             *' type=dynamic),
+            value: "Throw a snowball.\n *\n *",
         },
         tags: [
             TagItem {
@@ -107,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('fires' type=inline),
+                    value: "fires",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -130,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Hurl#snowball' type=dynamic),
+                            value: "Hurl#snowball",
                         },
                     },
                 ),
@@ -155,7 +153,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('fires' type=inline),
+                    value: "fires",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -178,7 +176,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Hurl#event:brick' type=dynamic),
+                            value: "Hurl#event:brick",
                         },
                     },
                 ),
@@ -205,7 +203,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -228,7 +226,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('event' type=inline),
+                    value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -251,7 +249,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Hurl#snowball' type=dynamic),
+                            value: "Hurl#snowball",
                         },
                     },
                 ),
@@ -278,9 +276,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Throw a football match.
-             *
-             *' type=dynamic),
+            value: "Throw a football match.\n *\n *",
         },
         tags: [
             TagItem {
@@ -303,7 +299,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('emits' type=inline),
+                    value: "emits",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -326,7 +322,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Hurl#footballMatch' type=dynamic),
+                            value: "Hurl#footballMatch",
                         },
                     },
                 ),
@@ -353,7 +349,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -376,7 +372,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('event' type=inline),
+                    value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -399,7 +395,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Hurl#footballMatch' type=dynamic),
+                            value: "Hurl#footballMatch",
                         },
                     },
                 ),

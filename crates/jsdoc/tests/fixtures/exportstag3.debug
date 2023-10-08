@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Utility functions to ease working with DOM elements.' type=dynamic),
+            value: "Utility functions to ease working with DOM elements.",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('html/utils' type=dynamic),
+                            value: "html/utils",
                         },
                     },
                 ),
@@ -92,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Get the value of a property on an element.' type=dynamic),
+            value: "Get the value of a property on an element.",
         },
         tags: [],
     },
@@ -116,7 +116,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Determine if an element is in the document head.' type=dynamic),
+            value: "Determine if an element is in the document head.",
         },
         tags: [],
     },

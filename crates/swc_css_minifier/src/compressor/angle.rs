@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_utils::angle_to_deg;
 
@@ -52,7 +51,7 @@ impl Compressor {
 
         angle.unit = Ident {
             span: angle.unit.span,
-            value: js_word!("deg"),
+            value: "deg".into(),
             raw: None,
         };
     }

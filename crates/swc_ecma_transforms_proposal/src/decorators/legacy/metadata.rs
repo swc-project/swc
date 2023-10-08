@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
@@ -324,11 +324,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             let item = serialize_type_node(class_name, ty);
 
             // One of the individual is global object, return immediately
-            if let Expr::Ident(Ident {
-                sym: js_word!("Object"),
-                ..
-            }) = item
-            {
+            if item.is_ident_ref_to("Object") {
                 return item;
             }
 

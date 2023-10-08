@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{matches_eq, AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue};
 
@@ -12,13 +11,7 @@ impl Compiler {
         n: &mut AbsoluteColorBase,
     ) {
         if let AbsoluteColorBase::Function(function) = n {
-            if !matches_eq!(
-                function.name,
-                js_word!("rgb"),
-                js_word!("rgba"),
-                js_word!("hsl"),
-                js_word!("hsla")
-            ) {
+            if !matches_eq!(function.name, "rgb", "rgba", "hsl", "hsla") {
                 return;
             }
 

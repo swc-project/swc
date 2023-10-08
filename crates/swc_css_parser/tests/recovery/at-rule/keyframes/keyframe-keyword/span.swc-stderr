@@ -75,7 +75,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('form' type=static), raw: "form" }
+  x Ident { value: "form", raw: "form" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:1:1]
  1 | @keyframes foo {
  2 | 	form {}
@@ -171,7 +171,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('ot' type=inline), raw: "ot" }
+  x Ident { value: "ot", raw: "ot" }
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-keyword/input.css:5:1]
  5 | @keyframes foo {
  6 | 	ot {}

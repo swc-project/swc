@@ -62,10 +62,7 @@ impl<'a> Lexer<'a> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    self.atoms.borrow_mut().intern(&*raw),
-                )));
+                return Ok(Either::Right((Box::new(s.into_value()), (&*raw).into())));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -84,9 +81,9 @@ impl<'a> Lexer<'a> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self.make_legacy_octal(start, 0f64).map(|value| {
-                            Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                        });
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, (&*raw).into())));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -113,9 +110,9 @@ impl<'a> Lexer<'a> {
                                     panic!("failed to parse {} into float using BigInt", val_str)
                                 });
 
-                            return self.make_legacy_octal(start, val).map(|value| {
-                                Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                            });
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, (&*raw).into())));
                         }
                     }
                 }
@@ -227,10 +224,7 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((
-            val,
-            self.atoms.borrow_mut().intern(&*raw_str),
-        )))
+        Ok(Either::Left((val, (&*raw_str).into())))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
@@ -269,15 +263,12 @@ impl<'a> Lexer<'a> {
             if l.eat(b'n') {
                 buf.push('n');
 
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    l.atoms.borrow_mut().intern(&**buf),
-                )));
+                return Ok(Either::Right((Box::new(s.into_value()), (&**buf).into())));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, l.atoms.borrow_mut().intern(&**buf))))
+            Ok(Either::Left((val, (&**buf).into())))
         })
     }
 

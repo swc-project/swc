@@ -1,5 +1,5 @@
 use anyhow::{Context, Error};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     sync::Lrc,
@@ -224,14 +224,7 @@ where
 
                 match &mut e.callee {
                     Callee::Expr(callee)
-                        if self.bundler.config.require
-                            && matches!(
-                                &**callee,
-                                Expr::Ident(Ident {
-                                    sym: js_word!("require"),
-                                    ..
-                                })
-                            ) =>
+                        if self.bundler.config.require && callee.is_ident_ref_to("require") =>
                     {
                         if self.bundler.is_external(&src.value) {
                             return;
@@ -267,7 +260,7 @@ where
                     //
                     // ExprOrSuper::Expr(ref e) => match &**e {
                     //     Expr::Ident(Ident {
-                    //         sym: js_word!("import"),
+                    //         sym: "import",
                     //         ..
                     //     }) => {
                     //         self.info.dynamic_imports.push(src.clone());
@@ -610,13 +603,7 @@ where
                     ref args,
                     ..
                 }) if self.bundler.config.require
-                    && matches!(
-                        &**callee,
-                        Expr::Ident(Ident {
-                            sym: js_word!("require"),
-                            ..
-                        })
-                    )
+                    && callee.is_ident_ref_to("require")
                     && args.len() == 1 =>
                 {
                     let span = *span;

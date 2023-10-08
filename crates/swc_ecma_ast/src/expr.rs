@@ -7,7 +7,7 @@ use serde::{
     Deserialize, Deserializer,
 };
 use string_enum::StringEnum;
-use swc_atoms::{js_word, Atom};
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 
 use crate::{
@@ -174,6 +174,13 @@ pub enum Expr {
 // assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
+    pub fn is_ident_ref_to(&self, ident: &str) -> bool {
+        match self {
+            Expr::Ident(i) => i.sym == ident,
+            _ => false,
+        }
+    }
+
     /// Normalize parenthesized expressions.
     ///
     /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
@@ -221,13 +228,7 @@ impl Expr {
 
     /// Returns true for `eval` and member expressions.
     pub fn directness_maters(&self) -> bool {
-        matches!(
-            self,
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) | Expr::Member(..)
-        )
+        self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
     }
 }
 
@@ -728,6 +729,12 @@ pub enum MemberProp {
     PrivateName(PrivateName),
     #[tag("Computed")]
     Computed(ComputedPropName),
+}
+
+impl MemberProp {
+    pub fn is_ident_with(&self, sym: &str) -> bool {
+        matches!(self, MemberProp::Ident(i) if i.sym == sym)
+    }
 }
 
 #[ast_node("SuperPropExpression")]

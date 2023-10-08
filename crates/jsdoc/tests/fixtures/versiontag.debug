@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('version' type=inline),
+                    value: "version",
                 },
                 tag: Version(
                     VersionTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('1.2.3' type=inline),
+                            value: "1.2.3",
                         },
                     },
                 ),

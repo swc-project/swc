@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
@@ -40,7 +39,7 @@ impl Optimizer<'_> {
         }
 
         // We will inline if possible.
-        if ident.sym == js_word!("arguments") {
+        if ident.sym == "arguments" {
             return;
         }
 
@@ -154,10 +153,10 @@ impl Optimizer<'_> {
             if !usage.reassigned {
                 match init {
                     Expr::Fn(..) | Expr::Arrow(..) => {
-                        self.typeofs.insert(ident.to_id(), js_word!("function"));
+                        self.typeofs.insert(ident.to_id(), "function".into());
                     }
                     Expr::Array(..) | Expr::Object(..) => {
-                        self.typeofs.insert(ident.to_id(), js_word!("object"));
+                        self.typeofs.insert(ident.to_id(), "object".into());
                     }
                     _ => {}
                 }
@@ -178,10 +177,7 @@ impl Optimizer<'_> {
                 && usage.assign_count == 0
                 && (!usage.has_property_mutation || !usage.reassigned)
                 && match init {
-                    Expr::Ident(Ident {
-                        sym: js_word!("eval"),
-                        ..
-                    }) => false,
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
                     Expr::Ident(id) if !id.eq_ignore_span(ident) => {
                         if !usage.assigned_fn_local {
@@ -537,10 +533,10 @@ impl Optimizer<'_> {
                 trace_op!("typeofs: Storing typeof `{}{:?}`", i.sym, i.span.ctxt);
                 match &*decl {
                     Decl::Fn(..) => {
-                        self.typeofs.insert(i.to_id(), js_word!("function"));
+                        self.typeofs.insert(i.to_id(), "function".into());
                     }
                     Decl::Class(..) => {
-                        self.typeofs.insert(i.to_id(), js_word!("object"));
+                        self.typeofs.insert(i.to_id(), "object".into());
                     }
                     _ => {}
                 }

@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=static),
+                    value: "name",
                 },
                 tag: Name(
                     NameTag {
@@ -76,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('dimensions' type=dynamic),
+                                    value: "dimensions",
                                 },
                             ],
                         },

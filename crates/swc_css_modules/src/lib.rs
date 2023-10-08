@@ -1,7 +1,7 @@
 #![feature(box_patterns)]
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span};
 use swc_css_ast::{
     ComplexSelector, ComplexSelectorChildren, ComponentValue, Declaration, DeclarationName,
@@ -119,7 +119,7 @@ where
                 );
             }
             KeyframesName::PseudoFunction(pseudo_function)
-                if pseudo_function.pseudo.value == js_word!("local") =>
+                if pseudo_function.pseudo.value == "local" =>
             {
                 match &pseudo_function.name {
                     KeyframesName::CustomIdent(custom_ident) => {
@@ -137,9 +137,7 @@ where
 
                 return;
             }
-            KeyframesName::PseudoPrefix(pseudo_prefix)
-                if pseudo_prefix.pseudo.value == js_word!("local") =>
-            {
+            KeyframesName::PseudoPrefix(pseudo_prefix) if pseudo_prefix.pseudo.value == "local" => {
                 match &pseudo_prefix.name {
                     KeyframesName::CustomIdent(custom_ident) => {
                         *n = KeyframesName::CustomIdent(custom_ident.clone());
@@ -157,7 +155,7 @@ where
                 return;
             }
             KeyframesName::PseudoFunction(pseudo_function)
-                if pseudo_function.pseudo.value == js_word!("global") =>
+                if pseudo_function.pseudo.value == "global" =>
             {
                 match &pseudo_function.name {
                     KeyframesName::CustomIdent(custom_ident) => {
@@ -174,7 +172,7 @@ where
                 return;
             }
             KeyframesName::PseudoPrefix(pseudo_prefix)
-                if pseudo_prefix.pseudo.value == js_word!("global") =>
+                if pseudo_prefix.pseudo.value == "global" =>
             {
                 match &pseudo_prefix.name {
                     KeyframesName::CustomIdent(custom_ident) => {
@@ -278,12 +276,9 @@ where
                     if n.value.len() >= 3 {
                         match (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1]) {
                             (
-                                ComponentValue::Ident(box Ident {
-                                    value: js_word!("from"),
-                                    ..
-                                }),
+                                ComponentValue::Ident(box Ident { value, .. }),
                                 ComponentValue::Str(import_source),
-                            ) => {
+                            ) if &**value == "from" => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Import {
@@ -296,15 +291,9 @@ where
                                 return;
                             }
                             (
-                                ComponentValue::Ident(box Ident {
-                                    value: js_word!("from"),
-                                    ..
-                                }),
-                                ComponentValue::Ident(box Ident {
-                                    value: js_word!("global"),
-                                    ..
-                                }),
-                            ) => {
+                                ComponentValue::Ident(box Ident { value: from, .. }),
+                                ComponentValue::Ident(box Ident { value: global, .. }),
+                            ) if &**from == "from" && &**global == "global" => {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Global {
@@ -336,8 +325,8 @@ where
         }
 
         if let DeclarationName::Ident(name) = &n.name {
-            match name.value {
-                js_word!("animation") => {
+            match &*name.value {
+                "animation" => {
                     let mut can_change = true;
 
                     let mut iteration_count_visited = false;
@@ -355,9 +344,9 @@ where
                                     continue;
                                 }
 
-                                match *value {
+                                match &**value {
                                     // iteration-count
-                                    js_word!("infinite") => {
+                                    "infinite" => {
                                         if !iteration_count_visited {
                                             iteration_count_visited = true;
                                             continue;
@@ -365,40 +354,29 @@ where
                                     }
                                     // fill-mode
                                     // NOTE: `animation: none:` will be trapped here
-                                    js_word!("none")
-                                    | js_word!("forwards")
-                                    | js_word!("backwards")
-                                    | js_word!("both") => {
+                                    "none" | "forwards" | "backwards" | "both" => {
                                         if !fill_mode_visited {
                                             fill_mode_visited = true;
                                             continue;
                                         }
                                     }
                                     // direction
-                                    js_word!("normal")
-                                    | js_word!("reverse")
-                                    | js_word!("alternate")
-                                    | js_word!("alternate-reverse") => {
+                                    "normal" | "reverse" | "alternate" | "alternate-reverse" => {
                                         if !direction_visited {
                                             direction_visited = true;
                                             continue;
                                         }
                                     }
                                     // easing-function
-                                    js_word!("linear")
-                                    | js_word!("ease")
-                                    | js_word!("ease-in")
-                                    | js_word!("ease-out")
-                                    | js_word!("ease-in-out")
-                                    | js_word!("step-start")
-                                    | js_word!("step-end") => {
+                                    "linear" | "ease" | "ease-in" | "ease-out" | "ease-in-out"
+                                    | "step-start" | "step-end" => {
                                         if !easing_function_visited {
                                             easing_function_visited = true;
                                             continue;
                                         }
                                     }
                                     // play-state
-                                    js_word!("running") | js_word!("paused") => {
+                                    "running" | "paused" => {
                                         if !play_state_visited {
                                             play_state_visited = true;
                                             continue;
@@ -424,11 +402,9 @@ where
                             }
                             ComponentValue::Function(f) => {
                                 if let FunctionName::Ident(ident) = &f.name {
-                                    match ident.value {
+                                    match &*ident.value {
                                         // easing-function
-                                        js_word!("steps")
-                                        | js_word!("cubic-bezier")
-                                        | js_word!("linear") => {
+                                        "steps" | "cubic-bezier" | "linear" => {
                                             easing_function_visited = true;
                                         }
                                         _ => {
@@ -459,7 +435,7 @@ where
                         }
                     }
                 }
-                js_word!("animation-name") => {
+                "animation-name" => {
                     for v in &mut n.value {
                         if let ComponentValue::Ident(box Ident {
                             span, value, raw, ..

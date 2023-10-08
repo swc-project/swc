@@ -193,12 +193,9 @@ impl<I: Tokens> Parser<I> {
                 // `import { type as } from 'mod'`
                 // `import { type as as } from 'mod'`
                 // `import { type as as as } from 'mod'`
-                if self.syntax().typescript()
-                    && orig_name.sym == js_word!("type")
-                    && is!(self, IdentName)
-                {
+                if self.syntax().typescript() && orig_name.sym == "type" && is!(self, IdentName) {
                     let possibly_orig_name = self.parse_ident_name()?;
-                    if possibly_orig_name.sym == js_word!("as") {
+                    if possibly_orig_name.sym == "as" {
                         // `import { type as } from 'mod'`
                         if !is!(self, IdentName) {
                             if self.ctx().is_reserved_word(&possibly_orig_name.sym) {
@@ -222,7 +219,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         let maybe_as = self.parse_binding_ident()?.id;
-                        if maybe_as.sym == js_word!("as") {
+                        if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `import { type as as as } from 'mod'`
                                 // `import { type as as foo } from 'mod'`
@@ -699,12 +696,9 @@ impl<I: Tokens> Parser<I> {
                 // `export { type as }`
                 // `export { type as as }`
                 // `export { type as as as }`
-                if self.syntax().typescript()
-                    && orig_ident.sym == js_word!("type")
-                    && is!(self, IdentName)
-                {
+                if self.syntax().typescript() && orig_ident.sym == "type" && is!(self, IdentName) {
                     let possibly_orig = self.parse_ident_name()?;
-                    if possibly_orig.sym == js_word!("as") {
+                    if possibly_orig.sym == "as" {
                         // `export { type as }`
                         if !is!(self, IdentName) {
                             if type_only {
@@ -720,7 +714,7 @@ impl<I: Tokens> Parser<I> {
                         }
 
                         let maybe_as = self.parse_ident_name()?;
-                        if maybe_as.sym == js_word!("as") {
+                        if maybe_as.sym == "as" {
                             if is!(self, IdentName) {
                                 // `export { type as as as }`
                                 // `export { type as as foo }`

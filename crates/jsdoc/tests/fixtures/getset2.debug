@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Employee class.' type=dynamic),
+            value: "Employee class.",
         },
         tags: [],
     },
@@ -43,8 +43,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Location.
-                 *' type=dynamic),
+            value: "Location.\n     *",
         },
         tags: [
             TagItem {
@@ -67,7 +66,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -90,7 +89,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{string}' type=dynamic),
+                            value: "{string}",
                         },
                     },
                 ),
@@ -117,7 +116,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -140,7 +139,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -163,7 +162,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

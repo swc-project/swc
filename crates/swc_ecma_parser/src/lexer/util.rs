@@ -256,7 +256,7 @@ impl<'a> Lexer<'a> {
             let cmt = Comment {
                 kind: CommentKind::Line,
                 span: Span::new(start, end, SyntaxContext::empty()),
-                text: self.atoms.borrow_mut().intern(s),
+                text: s.into(),
             };
 
             if is_for_next {
@@ -319,7 +319,7 @@ impl<'a> Lexer<'a> {
                     let cmt = Comment {
                         kind: CommentKind::Block,
                         span: Span::new(start, end, SyntaxContext::empty()),
-                        text: self.atoms.borrow_mut().intern(s),
+                        text: s.into(),
                     };
 
                     let _ = self.input.peek();

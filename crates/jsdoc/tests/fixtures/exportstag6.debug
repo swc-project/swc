@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A module representing a shirt.
-             *' type=dynamic),
+            value: "A module representing a shirt.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('my/shirt' type=dynamic),
+                            value: "my/shirt",
                         },
                     },
                 ),
@@ -91,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('version' type=inline),
+                    value: "version",
                 },
                 tag: Version(
                     VersionTag {
@@ -114,7 +113,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('1.0' type=inline),
+                            value: "1.0",
                         },
                     },
                 ),
@@ -141,7 +140,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A property of the module.' type=dynamic),
+            value: "A property of the module.",
         },
         tags: [],
     },
@@ -165,7 +164,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -188,7 +187,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -228,7 +227,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A property of the class.' type=dynamic),
+            value: "A property of the class.",
         },
         tags: [],
     },

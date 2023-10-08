@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, comments::Comments};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -56,7 +56,7 @@ where
                         }
                         ImportSpecifier::Default(default) => {
                             self.imports
-                                .insert(default.local.to_id(), (src, js_word!("default")));
+                                .insert(default.local.to_id(), (src, "default".into()));
                         }
                         ImportSpecifier::Namespace(ns) => {
                             self.imports.insert(ns.local.to_id(), (src, "*".into()));

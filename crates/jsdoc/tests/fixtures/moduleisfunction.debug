@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('This is a module called foo.
-             *' type=dynamic),
+            value: "This is a module called foo.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -78,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('foo' type=inline),
+                            value: "foo",
                         },
                     },
                 ),
@@ -105,8 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The module exports a single function.
-             *' type=dynamic),
+            value: "The module exports a single function.\n *",
         },
         tags: [
             TagItem {
@@ -129,7 +127,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -154,7 +152,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -167,7 +165,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('bar' type=inline),
+                            value: "bar",
                         },
                     },
                 ),

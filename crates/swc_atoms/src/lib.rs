@@ -7,85 +7,60 @@
 pub extern crate once_cell;
 
 use std::{
-    borrow::{Borrow, Cow},
+    borrow::Cow,
     fmt::{self, Display, Formatter},
     hash::Hash,
     ops::Deref,
     rc::Rc,
 };
 
-use rustc_hash::FxHashSet;
+use once_cell::sync::Lazy;
 use serde::Serializer;
-use triomphe::{Arc, HeaderWithLength, ThinArc};
 
-include!(concat!(env!("OUT_DIR"), "/js_word.rs"));
+pub use self::{atom as js_word, Atom as JsWord};
 
-/// An (optionally) interned string.
+/// Clone-on-write string.
 ///
-/// Use [AtomGenerator], [`Atom::new`] or `.into()` to create [Atom]s.
-/// If you think the same value will be used multiple time, use [AtomGenerator].
-/// Othrwise, create an [Atom] using `.into()`.
 ///
-/// # Comparison with [JsWord][]
-///
-/// [JsWord][] is a globally interned string with phf support, while [Atom] is a
-/// locally interened string. Global interning results in a less memory usage,
-/// but global means a mutex. Because of the mutex, [Atom] performs better in
-/// multi-thread environments. But due to lack of phf or global interning,
-/// comparison and hashing of [Atom] is slower than them of [JsWord].
-///
-/// # Usages
-///
-/// This should be used instead of [JsWord] for
-///
-/// - Long texts, which is **not likely to be duplicated**. This does not mean
-///   "longer than xx" as this is a type.
-/// - Raw values.
-#[derive(Clone)]
+/// See [tendril] for more details.
+#[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(ThinArc<HeaderWithLength<()>, u8>);
+pub struct Atom(string_cache::Atom<InternalWordStaticSet>);
 
-fn _assert_size() {
-    let _static_assert_size_eq = std::mem::transmute::<Atom, usize>;
-}
+/// Safety: We do not perform slicing of single [Atom] from multiple threads.
+/// In other words, typically [Atom] is created in a single thread (and in the
+/// parser code) and passed around.
+unsafe impl Sync for Atom {}
+
+// fn _assert_size() {
+//     let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
+// }
 
 impl Atom {
-    /// Creates a bad [Atom] from a string.
-    ///
-    /// This [Atom] is bad because it doesn't help reducing memory usage.
-    ///
-    /// # Note
-    ///
-    /// Although this is called `bad`, it's fine to use this if a string is
-    /// unlikely to be duplicated.
-    ///
-    /// e.g. Texts in template literals or comments are unlikely to benefit from
-    /// interning.
+    /// Creates a new [Atom] from a string.
     pub fn new<S>(s: S) -> Self
     where
-        Arc<str>: From<S>,
         S: AsRef<str>,
     {
-        let len = s.as_ref().as_bytes().len();
+        Atom(s.as_ref().into())
+    }
 
-        Self(ThinArc::from_header_and_slice(
-            HeaderWithLength::new((), len),
-            s.as_ref().as_bytes(),
-        ))
+    #[inline]
+    pub fn to_ascii_lowercase(&self) -> Self {
+        Self(self.0.to_ascii_lowercase())
     }
 }
+
+/// API wrappers for [tendril].
+impl Atom {}
 
 impl Deref for Atom {
     type Target = str;
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        unsafe {
-            // Safety: We only consturct this type from valid str
-
-            std::str::from_utf8_unchecked(&self.0.slice)
-        }
+        &self.0
     }
 }
 
@@ -131,28 +106,14 @@ impl_eq!(std::sync::Arc<str>);
 impl_eq!(Rc<str>);
 impl_eq!(Cow<'_, str>);
 impl_eq!(String);
-impl_eq!(JsWord);
 
 impl_from!(&'_ str);
 impl_from_deref!(Box<str>);
-impl_from!(Arc<str>);
 impl_from_deref!(Cow<'_, str>);
 impl_from!(String);
 
-impl From<JsWord> for Atom {
-    fn from(v: JsWord) -> Self {
-        Self::new(&*v)
-    }
-}
-
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
-        self
-    }
-}
-
-impl Borrow<str> for Atom {
-    fn borrow(&self) -> &str {
         self
     }
 }
@@ -166,12 +127,6 @@ impl fmt::Debug for Atom {
 impl Display for Atom {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(&**self, f)
-    }
-}
-
-impl Default for Atom {
-    fn default() -> Self {
-        atom!("")
     }
 }
 
@@ -189,12 +144,7 @@ impl Ord for Atom {
 
 impl PartialEq for Atom {
     fn eq(&self, other: &Self) -> bool {
-        // Fast path
-        if self.0.as_ptr() == other.0.as_ptr() {
-            return true;
-        }
-
-        (**self).eq(&**other)
+        self.0 == other.0
     }
 }
 
@@ -202,34 +152,7 @@ impl Eq for Atom {}
 
 impl Hash for Atom {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        (**self).hash(state)
-    }
-}
-
-/// Generator for an interned strings.
-///
-/// A lexer is expected to store this in it.
-#[derive(Debug, Default, Clone)]
-pub struct AtomGenerator {
-    inner: FxHashSet<Atom>,
-}
-
-impl AtomGenerator {
-    /// Get an interned [Atom] or create one from `s`.
-    pub fn intern<S>(&mut self, s: S) -> Atom
-    where
-        Arc<str>: From<S>,
-        S: Eq + Hash,
-        S: AsRef<str>,
-    {
-        if let Some(v) = self.inner.get(s.as_ref()).cloned() {
-            return v;
-        }
-
-        let new = Atom::new(s);
-
-        self.inner.insert(new.clone());
-        new
+        self.0.hash(state)
     }
 }
 
@@ -251,23 +174,24 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
     }
 }
 
-/// Creates an atom from a constant.
+/// Creates an Atom from a constant.
 #[macro_export]
 macro_rules! atom {
-    ($s:literal) => {{
-        static CACHE: $crate::once_cell::sync::Lazy<$crate::Atom> =
-            $crate::once_cell::sync::Lazy::new(|| $crate::Atom::new($s));
+    ($s:tt) => {{
+        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
 
         $crate::Atom::clone(&*CACHE)
     }};
 }
 
-#[test]
-fn _assert() {
-    let mut g = AtomGenerator::default();
+/// Creates an Atom from a constant.
+#[macro_export]
+macro_rules! lazy_atom {
+    ($s:tt) => {{
+        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
 
-    g.intern("str");
-    g.intern(String::new());
+        $crate::Atom::clone(&*CACHE)
+    }};
 }
 
 impl PartialEq<Atom> for str {
@@ -309,111 +233,12 @@ where
     }
 }
 
-/// NOT A PUBLIC API.
+#[doc(hidden)]
+pub type CahcedAtom = Lazy<Atom>;
+
+include!(concat!(env!("OUT_DIR"), "/internal_word.rs"));
+
+/// This should be used as a key for hash maps and hash sets.
 ///
-/// This type exists to allow serializing [JsWord] using `rkyv`.
-#[cfg(feature = "rkyv-impl")]
-#[derive(Debug, Clone, Copy)]
-#[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
-#[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct EncodeJsWord;
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<crate::JsWord> for EncodeJsWord {
-    type Archived = rkyv::Archived<String>;
-    type Resolver = rkyv::Resolver<String>;
-
-    unsafe fn resolve_with(
-        field: &crate::JsWord,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.to_string();
-        s.resolve(pos, resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<crate::JsWord, S> for EncodeJsWord
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(
-        field: &crate::JsWord,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        rkyv::string::ArchivedString::serialize_from_str(field, serializer)
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, crate::JsWord, D> for EncodeJsWord
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<String>,
-        deserializer: &mut D,
-    ) -> Result<crate::JsWord, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: String = field.deserialize(deserializer)?;
-
-        Ok(s.into())
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Option<crate::JsWord>> for EncodeJsWord {
-    type Archived = rkyv::Archived<Option<String>>;
-    type Resolver = rkyv::Resolver<Option<String>>;
-
-    unsafe fn resolve_with(
-        field: &Option<crate::JsWord>,
-        pos: usize,
-        resolver: Self::Resolver,
-        out: *mut Self::Archived,
-    ) {
-        use rkyv::Archive;
-
-        let s = field.as_ref().map(|s| s.to_string());
-        s.resolve(pos, resolver, out);
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Option<crate::JsWord>, S> for EncodeJsWord
-where
-    S: ?Sized + rkyv::ser::Serializer,
-{
-    fn serialize_with(
-        value: &Option<crate::JsWord>,
-        serializer: &mut S,
-    ) -> Result<Self::Resolver, S::Error> {
-        value
-            .as_ref()
-            .map(|value| rkyv::string::ArchivedString::serialize_from_str(value, serializer))
-            .transpose()
-    }
-}
-
-#[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<Option<String>>, Option<crate::JsWord>, D>
-    for EncodeJsWord
-where
-    D: ?Sized + rkyv::Fallible,
-{
-    fn deserialize_with(
-        field: &rkyv::Archived<Option<String>>,
-        deserializer: &mut D,
-    ) -> Result<Option<crate::JsWord>, D::Error> {
-        use rkyv::Deserialize;
-
-        let s: Option<String> = field.deserialize(deserializer)?;
-
-        Ok(s.map(|s| s.into()))
-    }
-}
+/// This will be replaced with [Atom] in the future.
+pub type StaticString = String;

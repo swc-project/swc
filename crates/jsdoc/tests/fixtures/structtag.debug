@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Foo class.
-             *
-             *' type=dynamic),
+            value: "Foo class.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -68,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @struct' type=dynamic),
+                                value: "* @struct",
                             },
                         ),
                         name: None,

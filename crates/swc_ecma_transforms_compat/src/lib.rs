@@ -2,6 +2,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::vec_box)]
 #![allow(clippy::boxed_local)]
+#![allow(clippy::mutable_key_type)]
 #![allow(clippy::match_like_matches_macro)]
 
 pub use self::{

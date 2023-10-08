@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
@@ -160,14 +159,11 @@ impl VisitMut for StripType {
         if n.first()
             .filter(|param| {
                 matches!(
-                    param.pat,
+                    &param.pat,
                     Pat::Ident(BindingIdent {
-                        id: Ident {
-                            sym: js_word!("this"),
-                            ..
-                        },
+                        id: Ident { sym, .. },
                         ..
-                    })
+                    }) if &**sym == "this"
                 )
             })
             .is_some()

@@ -1,6 +1,6 @@
 use anyhow::Context;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -905,10 +905,10 @@ impl Fold for SystemJs {
                         match decl.decl {
                             DefaultDecl::Class(class_expr) => {
                                 if let Some(ident) = &class_expr.ident {
-                                    self.export_names.push(js_word!("default"));
+                                    self.export_names.push("default".into());
                                     self.export_values.push(undefined(DUMMY_SP));
                                     self.add_declare_var_idents(ident);
-                                    self.add_export_name(ident.to_id(), js_word!("default"));
+                                    self.add_export_name(ident.to_id(), "default".into());
                                     execute_stmts.push(
                                         AssignExpr {
                                             span: DUMMY_SP,
@@ -921,23 +921,23 @@ impl Fold for SystemJs {
                                         .into_stmt(),
                                     );
                                 } else {
-                                    self.export_names.push(js_word!("default"));
+                                    self.export_names.push("default".into());
                                     self.export_values.push(Box::new(Expr::Class(class_expr)));
                                 }
                             }
                             DefaultDecl::Fn(fn_expr) => {
                                 if let Some(ident) = &fn_expr.ident {
-                                    self.export_names.push(js_word!("default"));
+                                    self.export_names.push("default".into());
                                     self.export_values
                                         .push(Box::new(Expr::Ident(ident.clone())));
-                                    self.add_export_name(ident.to_id(), js_word!("default"));
+                                    self.add_export_name(ident.to_id(), "default".into());
                                     before_body_stmts.push(Stmt::Decl(Decl::Fn(FnDecl {
                                         ident: ident.clone(),
                                         declare: false,
                                         function: fn_expr.function,
                                     })));
                                 } else {
-                                    self.export_names.push(js_word!("default"));
+                                    self.export_names.push("default".into());
                                     self.export_values.push(Box::new(Expr::Fn(fn_expr)));
                                 }
                             }
@@ -946,7 +946,7 @@ impl Fold for SystemJs {
                     }
                     ModuleDecl::ExportDefaultExpr(expr) => {
                         execute_stmts.push(
-                            self.export_call(js_word!("default"), expr.span, *expr.expr)
+                            self.export_call("default".into(), expr.span, *expr.expr)
                                 .into_stmt(),
                         );
                     }

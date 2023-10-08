@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
@@ -35,11 +34,7 @@ impl Visit for EvalFinder {
         c.visit_children_with(self);
 
         if let Callee::Expr(e) = c {
-            if let Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) = &**e
-            {
+            if e.is_ident_ref_to("eval") {
                 self.found = true
             }
         }

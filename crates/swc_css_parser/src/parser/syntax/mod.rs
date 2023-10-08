@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -700,7 +699,7 @@ where
                         ..
                     },
                 ) if exclamation_point_span.is_some()
-                    && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
+                    && matches_eq_ignore_ascii_case!(value, "important") =>
                 {
                     important_ident = Some(token_and_span.clone());
                 }

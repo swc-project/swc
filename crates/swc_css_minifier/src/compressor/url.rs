@@ -1,11 +1,10 @@
-use swc_atoms::js_word;
 use swc_css_ast::*;
 
 use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_url(&self, url: &mut Url) {
-        if url.name.value != js_word!("url") {
+        if url.name.value != "url" {
             return;
         }
 

@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Parallel};
@@ -135,28 +134,13 @@ impl VisitMut for TypeOfSymbol {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn is_non_symbol_literal(e: &Expr) -> bool {
-    matches!(
-        *e,
-        Expr::Lit(Lit::Str(Str {
-            value: js_word!("undefined"),
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("object"),
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("boolean"),
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("number"),
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("string"),
-            ..
-        })) | Expr::Lit(Lit::Str(Str {
-            value: js_word!("function"),
-            ..
-        }))
-    )
+    match e {
+        Expr::Lit(Lit::Str(Str { value, .. })) => matches!(
+            &**value,
+            "undefined" | "object" | "boolean" | "number" | "string" | "function"
+        ),
+        _ => false,
+    }
 }
 
 #[cfg(test)]

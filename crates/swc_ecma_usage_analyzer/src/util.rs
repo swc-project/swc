@@ -1,23 +1,14 @@
-use swc_atoms::{js_word, JsWord};
 use swc_ecma_ast::Stmt;
 
-pub fn is_global_var_with_pure_property_access(s: &JsWord) -> bool {
-    match *s {
-        js_word!("JSON")
-        | js_word!("Array")
-        | js_word!("String")
-        | js_word!("Object")
-        | js_word!("Number")
-        | js_word!("Date")
-        | js_word!("BigInt")
-        | js_word!("Boolean")
-        | js_word!("Math")
-        | js_word!("Error") => return true,
+pub fn is_global_var_with_pure_property_access(s: &str) -> bool {
+    match s {
+        "JSON" | "Array" | "String" | "Object" | "Number" | "Date" | "BigInt" | "Boolean"
+        | "Math" | "Error" => return true,
         _ => {}
     }
 
     matches!(
-        &**s,
+        s,
         "console"
             | "clearInterval"
             | "clearTimeout"

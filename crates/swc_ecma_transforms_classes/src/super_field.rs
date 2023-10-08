@@ -1,6 +1,5 @@
 use std::iter;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -90,14 +89,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
-            }) if matches!(
-                &**expr,
-                Expr::Ident(Ident {
-                    sym: js_word!("_define_property"),
-                    ..
-                })
-            ) =>
-            {
+            }) if expr.is_ident_ref_to("_define_property") => {
                 let old = self.in_injected_define_property_call;
                 self.in_injected_define_property_call = true;
                 n.visit_mut_children_with(self);

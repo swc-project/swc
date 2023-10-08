@@ -1,6 +1,5 @@
 use std::iter;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 
@@ -157,7 +156,7 @@ pub trait ExprFactory: Into<Expr> {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn apply(self, span: Span, this: Box<Expr>, args: Vec<ExprOrSpread>) -> Expr {
-        let apply = self.make_member(Ident::new(js_word!("apply"), span));
+        let apply = self.make_member(Ident::new("apply".into(), span));
 
         Expr::Call(CallExpr {
             span,
@@ -173,7 +172,7 @@ pub trait ExprFactory: Into<Expr> {
             span,
             args,
             callee: self
-                .make_member(Ident::new(js_word!("call"), span))
+                .make_member(Ident::new("call".into(), span))
                 .as_callee(),
             type_args: None,
         })

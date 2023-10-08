@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -396,10 +395,8 @@ impl Compressor {
                 value: box MediaFeatureValue::Number(value),
             }) => {
                 if matches!(
-                    name.value,
-                    js_word!("min-color")
-                        | js_word!("min-color-index")
-                        | js_word!("min-monochrome")
+                    &*name.value,
+                    "min-color" | "min-color-index" | "min-monochrome"
                 ) && value.value == 1.0
                 {
                     *n = MediaFeature::Boolean(MediaFeatureBoolean {
@@ -414,10 +411,8 @@ impl Compressor {
             }
             MediaFeature::Range(range) => {
                 if let MediaFeatureValue::Ident(name) = &*range.left {
-                    if matches!(
-                        name.value,
-                        js_word!("color") | js_word!("color-index") | js_word!("monochrome")
-                    ) && matches!(&*range.right, MediaFeatureValue::Number(number) if number.value == 1.0)
+                    if matches!(&*name.value, "color" | "color-index" | "monochrome")
+                        && matches!(&*range.right, MediaFeatureValue::Number(number) if number.value == 1.0)
                         && range.comparison == MediaFeatureRangeComparison::Ge
                     {
                         *n = MediaFeature::Boolean(MediaFeatureBoolean {
@@ -432,10 +427,8 @@ impl Compressor {
                         });
                     }
                 } else if let MediaFeatureValue::Ident(name) = &*range.right {
-                    if matches!(
-                        name.value,
-                        js_word!("color") | js_word!("color-index") | js_word!("monochrome")
-                    ) && matches!(&*range.left, MediaFeatureValue::Number(number) if number.value == 1.0)
+                    if matches!(&*name.value, "color" | "color-index" | "monochrome")
+                        && matches!(&*range.left, MediaFeatureValue::Number(number) if number.value == 1.0)
                         && range.comparison == MediaFeatureRangeComparison::Le
                     {
                         *n = MediaFeature::Boolean(MediaFeatureBoolean {

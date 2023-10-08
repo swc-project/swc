@@ -1,7 +1,6 @@
 use std::mem::take;
 
 use serde::Deserialize;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
@@ -390,7 +389,7 @@ impl ForOf {
             span: DUMMY_SP,
             name: error_ident.clone().into(),
             init: Some(Box::new(Expr::Ident(Ident::new(
-                js_word!("undefined"),
+                "undefined".into(),
                 DUMMY_SP,
             )))),
             definite: false,

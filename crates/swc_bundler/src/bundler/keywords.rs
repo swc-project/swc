@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::take::Take};
 use swc_ecma_ast::*;
 use swc_ecma_utils::private_ident;
@@ -14,7 +13,7 @@ pub struct KeywordRenamer {
 impl KeywordRenamer {
     /// Returns `Some(new_ident)` if it should be renamed.
     fn renamed(&mut self, id: &Ident) -> Option<Ident> {
-        if id.sym == js_word!("import") {
+        if id.sym == "import" {
             return None;
         }
 

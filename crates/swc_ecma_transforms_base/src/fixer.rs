@@ -2,7 +2,6 @@ use std::{hash::BuildHasherDefault, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
-use swc_atoms::js_word;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -501,16 +500,10 @@ impl VisitMut for Fixer<'_> {
         if !s.is_await {
             match &s.left {
                 ForHead::Pat(p)
-                    if matches!(
-                        &**p,
-                        Pat::Ident(BindingIdent {
-                            id: Ident {
-                                sym: js_word!("async"),
-                                ..
-                            },
+                    if matches!(&**p, Pat::Ident(BindingIdent {
+                            id: Ident { sym, .. },
                             ..
-                        })
-                    ) =>
+                        }) if &**sym == "async") =>
                 {
                     let expr = Expr::Ident(p.clone().expect_ident().id);
                     s.left = ForHead::Pat(Pat::Expr(Box::new(expr)).into());
@@ -520,11 +513,7 @@ impl VisitMut for Fixer<'_> {
 
             if let ForHead::Pat(e) = &mut s.left {
                 if let Pat::Expr(expr) = &mut **e {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("async"),
-                        ..
-                    }) = &**expr
-                    {
+                    if expr.is_ident_ref_to("async") {
                         self.wrap(&mut *expr);
                     }
                 }

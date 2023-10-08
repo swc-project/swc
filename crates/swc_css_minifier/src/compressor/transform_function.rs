@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_css_ast::*;
 
@@ -11,7 +10,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("translate") && function_value.len() == 3 => {
+            }) if name == "translate" && function_value.len() == 3 => {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
@@ -31,7 +30,7 @@ impl Compressor {
                     ) if *first_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("translatey"),
+                            value: "translatey".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];
@@ -43,7 +42,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("translate3d") && function_value.len() == 5 => {
+            }) if name == "translate3d" && function_value.len() == 5 => {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -62,7 +61,7 @@ impl Compressor {
                     ) if *first_number == 0 && *second_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("translatez"),
+                            value: "translatez".into(),
                             raw: None,
                         });
                         *function_value = vec![third.clone()];
@@ -74,7 +73,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("scale") && function_value.len() == 3 => {
+            }) if name == "scale" && function_value.len() == 3 => {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(
@@ -99,7 +98,7 @@ impl Compressor {
                     ) if *second_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("scalex"),
+                            value: "scalex".into(),
                             raw: None,
                         });
                         *function_value = vec![first.clone()];
@@ -113,7 +112,7 @@ impl Compressor {
                     ) if *first_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("scaley"),
+                            value: "scaley".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];
@@ -125,7 +124,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("scale3d") && function_value.len() == 5 => {
+            }) if name == "scale3d" && function_value.len() == 5 => {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -144,7 +143,7 @@ impl Compressor {
                     ) if *second_number == 1 && *third_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("scalex"),
+                            value: "scalex".into(),
                             raw: None,
                         });
                         *function_value = vec![first.clone()];
@@ -162,7 +161,7 @@ impl Compressor {
                     ) if *first_number == 1 && *third_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("scaley"),
+                            value: "scaley".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];
@@ -180,7 +179,7 @@ impl Compressor {
                     ) if *first_number == 1 && *second_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("scalez"),
+                            value: "scalez".into(),
                             raw: None,
                         });
                         *function_value = vec![third.clone()];
@@ -192,7 +191,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("matrix3d") && function_value.len() == 31 => {
+            }) if name == "matrix3d" && function_value.len() == 31 => {
                 match (
                     function_value.get(0),
                     function_value.get(1),
@@ -281,7 +280,7 @@ impl Compressor {
                     {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("matrix"),
+                            value: "matrix".into(),
                             raw: None,
                         });
                         *function_value = vec![
@@ -305,7 +304,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("rotate3d") && function_value.len() == 7 => {
+            }) if name == "rotate3d" && function_value.len() == 7 => {
                 match (
                     function_value.get(0),
                     function_value.get(2),
@@ -329,7 +328,7 @@ impl Compressor {
                     ) if *first_number == 1 && *second_number == 0 && *third_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("rotatex"),
+                            value: "rotatex".into(),
                             raw: None,
                         });
                         *function_value = vec![fourth_value.clone()];
@@ -351,7 +350,7 @@ impl Compressor {
                     ) if *first_number == 0 && *second_number == 1 && *third_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("rotatey"),
+                            value: "rotatey".into(),
                             raw: None,
                         });
                         *function_value = vec![fourth_value.clone()];
@@ -373,7 +372,7 @@ impl Compressor {
                     ) if *first_number == 0 && *second_number == 0 && *third_number == 1 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("rotate"),
+                            value: "rotate".into(),
                             raw: None,
                         });
                         *function_value = vec![fourth_value.clone()];
@@ -385,10 +384,10 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("rotatez") && function_value.len() == 1 => {
+            }) if name == "rotatez" && function_value.len() == 1 => {
                 *name = FunctionName::Ident(Ident {
                     span: name.span(),
-                    value: js_word!("rotate"),
+                    value: "rotate".into(),
                     raw: None,
                 });
             }
@@ -397,7 +396,7 @@ impl Compressor {
                 name,
                 value: function_value,
                 ..
-            }) if name == &js_word!("skew") && function_value.len() == 3 => {
+            }) if name == "skew" && function_value.len() == 3 => {
                 match (function_value.get(0), function_value.get(2)) {
                     (
                         Some(first),
@@ -408,7 +407,7 @@ impl Compressor {
                     ) if *second_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("skewx"),
+                            value: "skewx".into(),
                             raw: None,
                         });
                         *function_value = vec![first.clone()];
@@ -423,7 +422,7 @@ impl Compressor {
                     ) if *first_number == 0 => {
                         *name = FunctionName::Ident(Ident {
                             span: name.span(),
-                            value: js_word!("skewy"),
+                            value: "skewy".into(),
                             raw: None,
                         });
                         *function_value = vec![second.clone()];

@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
     AtRule, AtRuleName, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident,
@@ -18,7 +17,7 @@ pub(super) struct CustomMediaHandler {
 impl CustomMediaHandler {
     pub(crate) fn store_custom_media(&mut self, n: &mut AtRule) {
         if let AtRuleName::Ident(name) = &n.name {
-            if name.value == js_word!("custom-media") {
+            if name.value == "custom-media" {
                 if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
                     self.medias.push(prelude.take());
                 }
@@ -29,7 +28,7 @@ impl CustomMediaHandler {
     pub(crate) fn process_rules(&mut self, n: &mut Vec<Rule>) {
         n.retain(|n| match n {
             Rule::AtRule(n) => {
-                if matches!(&n.name, AtRuleName::Ident(ident) if ident.value == js_word!("custom-media")) {
+                if matches!(&n.name, AtRuleName::Ident(ident) if ident.value == "custom-media") {
                     return false;
                 }
 

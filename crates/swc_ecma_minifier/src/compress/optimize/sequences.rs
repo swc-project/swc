@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::{
@@ -2292,15 +2291,7 @@ impl Optimizer<'_> {
         };
 
         if let Some(a_right) = a_right {
-            if a_right.is_this()
-                || matches!(
-                    &**a_right,
-                    Expr::Ident(Ident {
-                        sym: js_word!("arguments"),
-                        ..
-                    })
-                )
-            {
+            if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
                 return Ok(false);
             }
             if contains_arguments(&**a_right) {

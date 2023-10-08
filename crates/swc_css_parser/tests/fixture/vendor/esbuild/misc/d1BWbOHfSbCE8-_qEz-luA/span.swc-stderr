@@ -95,7 +95,7 @@
    :      ^
    `----
 
-  x Ident { value: Atom('c' type=inline), raw: "c" }
+  x Ident { value: "c", raw: "c" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/d1BWbOHfSbCE8-_qEz-luA/input.css:1:1]
  1 | a:b(:c) {}
    :      ^

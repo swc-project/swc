@@ -2,6 +2,7 @@
 #![deny(unused)]
 #![allow(clippy::needless_lifetimes)]
 #![allow(clippy::vec_box)]
+#![allow(clippy::mutable_key_type)]
 
 use serde::{Deserialize, Serialize};
 

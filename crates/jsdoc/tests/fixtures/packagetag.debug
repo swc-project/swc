@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('This function is package-private.
-             *
-             *' type=dynamic),
+            value: "This function is package-private.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('package' type=static),
+                    value: "package",
                 },
                 tag: Package(
                     PackageTag {

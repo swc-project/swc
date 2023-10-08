@@ -413,7 +413,7 @@
  8 |     padding: __styled-jsx-placeholder__1;
    `----
 
-  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: "removed-214123-item" }
+  x Ident { value: "removed-214123-item", raw: "removed-214123-item" }
    ,-[$DIR/tests/recovery/styled-jsx/1/input.css:6:1]
  6 | 
  7 | .removed-214123 :global(> .removed-214123-item) {
@@ -576,7 +576,7 @@
  11 |     min-width: 0;
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__2' type=dynamic), raw: "__styled-jsx-placeholder__2" }
+  x Ident { value: "__styled-jsx-placeholder__2", raw: "__styled-jsx-placeholder__2" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:9:1]
   9 |     flex-grow: 0;
  10 |     flex-basis: __styled-jsx-placeholder__2%;
@@ -896,7 +896,7 @@
  16 |         flex-basis: __styled-jsx-placeholder__3%;
     `----
 
-  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: "removed-214123-item" }
+  x Ident { value: "removed-214123-item", raw: "removed-214123-item" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:14:1]
  14 | @media screen {
  15 |     .removed-214123 :global(> .removed-214123-item) {
@@ -961,7 +961,7 @@
  17 |     }
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__3' type=dynamic), raw: "__styled-jsx-placeholder__3" }
+  x Ident { value: "__styled-jsx-placeholder__3", raw: "__styled-jsx-placeholder__3" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:15:1]
  15 |     .removed-214123 :global(> .removed-214123-item) {
  16 |         flex-basis: __styled-jsx-placeholder__3%;
@@ -1233,7 +1233,7 @@
  22 |         flex-basis: __styled-jsx-placeholder__4%;
     `----
 
-  x Ident { value: Atom('removed-214123-item' type=dynamic), raw: "removed-214123-item" }
+  x Ident { value: "removed-214123-item", raw: "removed-214123-item" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:20:1]
  20 | @media screen {
  21 |     .removed-214123 :global(> .removed-214123-item) {
@@ -1298,7 +1298,7 @@
  23 |     }
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__4' type=dynamic), raw: "__styled-jsx-placeholder__4" }
+  x Ident { value: "__styled-jsx-placeholder__4", raw: "__styled-jsx-placeholder__4" }
     ,-[$DIR/tests/recovery/styled-jsx/1/input.css:21:1]
  21 |     .removed-214123 :global(> .removed-214123-item) {
  22 |         flex-basis: __styled-jsx-placeholder__4%;

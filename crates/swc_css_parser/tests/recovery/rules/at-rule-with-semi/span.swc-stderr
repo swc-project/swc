@@ -91,7 +91,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:2:1]
  2 | 
  3 | a { color: red }
