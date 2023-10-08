@@ -41,6 +41,10 @@ pub use self::{atom as js_word, Atom as JsWord};
 /// Previously we used `string-cache`. But it is more focused on reducing
 /// duplicate strings. It used a global mutex to prevent duplciate, which is
 /// very costly for us.
+///
+/// Existence of `Mutex` means `Drop` implementation has to check for the type
+/// of the string, because it may require to access the global mutex. This makes
+/// the perforamnce of `Drop` exteremly bad.
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
