@@ -1,5 +1,9 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+#[cfg(feature = "swc_atoms")]
+#[cfg_attr(docsrs, doc(cfg(feature = "swc_atoms")))]
+pub use swc_atoms as atoms;
+
 // Quote
 #[cfg(feature = "ecma_quote")]
 #[cfg_attr(docsrs, doc(cfg(feature = "ecma_quote")))]
