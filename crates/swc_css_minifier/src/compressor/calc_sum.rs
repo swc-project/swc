@@ -1,3 +1,4 @@
+use swc_atoms::Atom;
 use swc_common::{collections::AHashMap, Span};
 use swc_css_ast::*;
 
@@ -1107,7 +1108,7 @@ fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
     ret
 }
 
-fn get_dimension_unit_lowercase(d: &Dimension) -> String {
+fn get_dimension_unit_lowercase(d: &Dimension) -> Atom {
     match d {
         Dimension::Length(l) => l.unit.value.to_ascii_lowercase(),
         Dimension::Angle(a) => a.unit.value.to_ascii_lowercase(),
