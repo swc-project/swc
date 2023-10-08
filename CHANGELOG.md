@@ -23,6 +23,9 @@
 
 
 
+- **(atoms)** Remove usage of `js_word!` to drop `string-cache` ([#7976](https://github.com/swc-project/swc/issues/7976)) ([84cec87](https://github.com/swc-project/swc/commit/84cec8766db77062cc984c777dd716358ee8fd6e))
+
+
 - **(es/module)** Reimplement some functions of module/typescript ([#8063](https://github.com/swc-project/swc/issues/8063)) ([3e5b062](https://github.com/swc-project/swc/commit/3e5b062cd2792703371bbbfeaf1be309e8280abd))
 
 
@@ -1942,9 +1945,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/minifier)** Fix optimization of expressions in numeric context ([#6965](https://github.com/swc-project/swc/issues/6965)) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
-
-
-- **(es/react)** Fix handling of whitespaces ([#6935](https://github.com/swc-project/swc/issues/6935)) ([a9b25aa](https://github.com/swc-project/swc/commit/a9b25aaf4a776731d3ef2dc3c192a7b18023e765))
 
 
 - **(es/react)** Don't panic on `key` without a value ([#6945](https://github.com/swc-project/swc/issues/6945)) ([14454c9](https://github.com/swc-project/swc/commit/14454c9dbd222cabb8c6eeafa9c664c34030a121))
