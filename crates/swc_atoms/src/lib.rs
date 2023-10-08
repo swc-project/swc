@@ -46,8 +46,9 @@ impl Atom {
         Atom(s.as_ref().into())
     }
 
-    pub fn internal(v: string_cache::Atom<InternalWordStaticSet>) -> Self {
-        Self(v)
+    #[inline]
+    pub fn to_ascii_lowercase(&self) -> Self {
+        Self(self.0.to_ascii_lowercase())
     }
 }
 
