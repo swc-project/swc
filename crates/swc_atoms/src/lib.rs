@@ -237,3 +237,8 @@ where
 pub type CahcedAtom = Lazy<Atom>;
 
 include!(concat!(env!("OUT_DIR"), "/internal_word.rs"));
+
+/// This should be used as a key for hash maps and hash sets.
+///
+/// This will be replaced with [Atom] in the future.
+pub type StaticString = String;
