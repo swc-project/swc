@@ -28,6 +28,11 @@ pub use self::{atom as js_word, Atom as JsWord};
 /// # Requirement
 ///
 ///  - [Hash] and [PartialEq] implementation must be externally fast.
+///
+/// Most operations done on text tokens of AST are [Hash] and [PartialEq].
+/// Compactness of respresentation is, of course, important, but it is not the
+/// most important thing.
+///
 ///  - Short strings must be stored inline.
 ///  - It should reuse underlying string when possible.
 ///
@@ -45,6 +50,12 @@ pub use self::{atom as js_word, Atom as JsWord};
 /// Existence of `Mutex` means `Drop` implementation has to check for the type
 /// of the string, because it may require to access the global mutex. This makes
 /// the perforamnce of `Drop` exteremly bad.
+///
+///
+/// ## compact_str
+///
+/// This crate is generally useful. But AST operations are special, because most
+/// of the operations done on text tokens are `eq` and `hash`.
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
