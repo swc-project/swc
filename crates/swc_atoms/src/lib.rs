@@ -20,6 +20,8 @@ use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
 
+mod repr;
+
 /// An immutable string.
 ///
 /// This type is newly implemented by the SWC core team because of special
