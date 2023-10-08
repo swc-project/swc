@@ -33,7 +33,7 @@ where
                         } else {
                             let mut name: Ident = self.parse()?;
 
-                            name.value = name.value.to_ascii_lowercase().into();
+                            name.value = name.value.to_ascii_lowercase();
 
                             ColorProfileName::Ident(name)
                         }
@@ -906,7 +906,7 @@ where
             tok!("ident") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 if ident.value != "from" && ident.value != "to" {
                     return Err(Error::new(
@@ -1022,7 +1022,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1056,7 +1056,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1090,7 +1090,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1434,7 +1434,7 @@ where
             _ if !is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only", "layer") => {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase().into();
+                name.value = name.value.to_ascii_lowercase();
 
                 Ok(MediaType::Ident(name))
             }
@@ -1560,7 +1560,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1594,7 +1594,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1628,7 +1628,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1909,7 +1909,7 @@ where
             tok!("ident") => {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase().into();
+                name.value = name.value.to_ascii_lowercase();
 
                 Ok(MediaFeatureValue::Ident(name))
             }
@@ -2038,7 +2038,7 @@ where
             {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase().into();
+                name.value = name.value.to_ascii_lowercase();
 
                 name
             }
@@ -2194,7 +2194,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -2228,7 +2228,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -2262,7 +2262,7 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase().into();
+                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -2521,7 +2521,7 @@ where
             tok!("ident") => {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase().into();
+                name.value = name.value.to_ascii_lowercase();
 
                 Ok(SizeFeatureValue::Ident(name))
             }

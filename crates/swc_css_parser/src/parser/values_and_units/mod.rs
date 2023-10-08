@@ -2023,7 +2023,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase().into(),
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2072,7 +2072,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase().into(),
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2118,7 +2118,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase().into(),
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2164,7 +2164,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase().into(),
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2213,7 +2213,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase().into(),
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2259,7 +2259,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase().into(),
+                        value: unit.to_ascii_lowercase(),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2408,7 +2408,7 @@ where
 
                 Ok(HexColor {
                     span,
-                    value: value.to_ascii_lowercase().into(),
+                    value: value.to_ascii_lowercase(),
                     raw: Some(raw),
                 })
             }
@@ -2604,7 +2604,7 @@ where
 
                 let name = Ident {
                     span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value: function_name.to_ascii_lowercase().into(),
+                    value: function_name.to_ascii_lowercase(),
                     raw: Some(raw_function_name),
                 };
 
