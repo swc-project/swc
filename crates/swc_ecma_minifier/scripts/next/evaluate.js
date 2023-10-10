@@ -11,7 +11,7 @@ const rl = readline.createInterface({
 
 rl.on("line", async (data) => {
     try {
-        data = data.replace('{ breakLength: Infinity, maxStringLength: Infinity })', '')
+        data = data.replace('{ breakLength: Infinity, maxStringLength: Infinity }', '')
         const { name, source } = JSON.parse(data);
         const targetPath = path.join(
             __dirname,
