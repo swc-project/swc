@@ -32,31 +32,26 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
         .arg("--all")
         .arg("--")
         .arg("Cargo.lock")
-        .stdout(Stdio::piped())
         .stderr(Stdio::inherit())
-        .spawn()
+        .output()
         .context("failed to spwan git rev-list")?;
+
+    let git_rev_list =
+        String::from_utf8(git_rev_list.stdout).context("git rev-list output is not utf8")?;
 
     let git_grep_output = Command::new("git")
         .arg("grep")
-        .arg(regexp_for_swc_core_in_cargo_lockfile(version))
+        .arg(format!("version = \"{}\"", version))
+        .args(git_rev_list.lines())
         .arg("--")
         .arg("Cargo.lock")
         .stderr(Stdio::piped())
-        .stdin(Stdio::inherit())
+        // .stdin(Stdio::from(git_rev_list.stdout.unwrap()))
         .output()
         .context("failed to execute git grep")?;
 
     let git_grep_output =
         String::from_utf8(git_grep_output.stdout).context("git grep output is not utf8")?;
 
-    todo!("parse git grep output: {:?}", git_grep_output)
-}
-
-fn regexp_for_swc_core_in_cargo_lockfile(version: &str) -> String {
-    format!(
-        r#"name = "swc_core"
-version = "{}""#,
-        version
-    )
+    todo!("parse git grep output: \n{}", git_grep_output)
 }
