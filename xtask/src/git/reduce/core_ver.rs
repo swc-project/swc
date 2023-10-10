@@ -1,6 +1,4 @@
-use std::process::{Command, Stdio};
-
-use anyhow::{Context, Result};
+use anyhow::Result;
 use clap::Args;
 
 use crate::util::get_commit_for_swc_core_version;
