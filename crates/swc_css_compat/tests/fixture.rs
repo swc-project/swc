@@ -25,6 +25,7 @@ fn parse_stylesheet(fm: &Lrc<SourceFile>) -> Stylesheet {
     let mut errors = vec![];
     let ss: Stylesheet = parse_file(
         fm,
+        None,
         ParserConfig {
             allow_wrong_line_comments: true,
             ..Default::default()
