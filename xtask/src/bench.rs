@@ -28,6 +28,9 @@ pub(super) struct BenchCmd {
     #[clap(long)]
     instrument: bool,
 
+    #[clap(long)]
+    features: Vec<String>,
+
     args: Vec<String>,
 }
 
@@ -80,6 +83,10 @@ impl BenchCmd {
             cmd.arg("--").arg("--bench").args(&self.args);
         } else {
             cmd.arg("--").args(&self.args);
+        }
+
+        for f in self.features.iter() {
+            cmd.arg("--features").arg(f);
         }
 
         Ok(cmd)
