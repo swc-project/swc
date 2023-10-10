@@ -79,14 +79,14 @@ impl BenchCmd {
             cmd.arg("--bench").arg(b);
         }
 
+        for f in self.features.iter() {
+            cmd.arg("--features").arg(f);
+        }
+
         if self.instrument {
             cmd.arg("--").arg("--bench").args(&self.args);
         } else {
             cmd.arg("--").args(&self.args);
-        }
-
-        for f in self.features.iter() {
-            cmd.arg("--features").arg(f);
         }
 
         Ok(cmd)
