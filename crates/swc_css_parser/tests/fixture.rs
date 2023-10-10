@@ -1,7 +1,7 @@
 #![deny(warnings)]
 #![allow(clippy::needless_update)]
 
-use std::path::PathBuf;
+use std::{path::PathBuf, rc::Rc};
 
 use swc_common::{
     comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, Span, Spanned,
@@ -45,6 +45,22 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
                     .expect("failed to serialize stylesheet");
 
                 actual_json.compare_to_file(&ref_json_path).unwrap();
+
+                let (leading, trailing) = comments.take_all();
+                let leading = Rc::try_unwrap(leading).unwrap().into_inner();
+                let trailing = Rc::try_unwrap(trailing).unwrap().into_inner();
+
+                serde_json::to_string_pretty(&leading)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize comments")
+                    .compare_to_file(input.parent().unwrap().join("leading-comments.json"))
+                    .unwrap();
+
+                serde_json::to_string_pretty(&trailing)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize comments")
+                    .compare_to_file(input.parent().unwrap().join("trailing-comments.json"))
+                    .unwrap();
 
                 Ok(())
             }
