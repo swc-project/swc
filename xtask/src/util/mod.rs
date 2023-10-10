@@ -5,6 +5,14 @@ use std::{
 };
 
 use anyhow::{Context, Result};
+use serde_derive::Deserialize;
+
+pub fn wrap<F, Ret>(op: F) -> Result<Ret>
+where
+    F: FnOnce() -> Result<Ret>,
+{
+    op()
+}
 
 pub fn repository_root() -> Result<PathBuf> {
     let dir = env::var("CARGO_MANIFEST_DIR").context("failed to get manifest dir")?;
@@ -78,12 +86,33 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
 
 /// Read the version of swc_core from `Cargo.lock`
 pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
-    let output = Command::new("git")
-        .arg("show")
-        .arg(format!("{}:Cargo.lock", commit))
-        .stderr(Stdio::inherit())
-        .output()
-        .context("failed to spwan git show")?;
+    wrap(|| {
+        let output = Command::new("git")
+            .arg("show")
+            .arg(format!("{}:Cargo.lock", commit))
+            .stderr(Stdio::inherit())
+            .output()
+            .context("failed to spwan git show")?;
 
-    let output = String::from_utf8(output.stdout).context("git show output is not utf8")?;
+        let output_toml =
+            String::from_utf8(output.stdout).context("git show output is not utf8")?;
+
+        let content =
+            toml::from_str::<CargoLockfile>(&output_toml).context("failed to parse Cargo.lock")?;
+
+        todo!(
+            "parse the version of swc_core from the output of git show\n{}\n{:?}",
+            output_toml,
+            content
+        )
+    })
+    .with_context(|| format!("failed to get the version of swc_core of {}", commit))
 }
+
+#[derive(Debug, Deserialize)]
+struct CargoLockfile {
+    package: Vec<PkgInCargoLockfile>,
+}
+
+#[derive(Debug, Deserialize)]
+struct PkgInCargoLockfile {}
