@@ -52,6 +52,7 @@ fn compile(input: PathBuf) {
         let mut errors = vec![];
         let mut ss = swc_css_parser::parse_file(
             &fm,
+            None,
             ParserConfig {
                 css_modules: true,
                 ..Default::default()

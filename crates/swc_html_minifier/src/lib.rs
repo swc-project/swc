@@ -2153,7 +2153,7 @@ impl Minifier<'_> {
 
         let mut stylesheet = match mode {
             CssMinificationMode::Stylesheet => {
-                match swc_css_parser::parse_file(&fm, options.parser, &mut errors) {
+                match swc_css_parser::parse_file(&fm, None, options.parser, &mut errors) {
                     Ok(stylesheet) => stylesheet,
                     _ => return None,
                 }
@@ -2161,6 +2161,7 @@ impl Minifier<'_> {
             CssMinificationMode::ListOfDeclarations => {
                 match swc_css_parser::parse_file::<Vec<swc_css_ast::DeclarationOrAtRule>>(
                     &fm,
+                    None,
                     options.parser,
                     &mut errors,
                 ) {
