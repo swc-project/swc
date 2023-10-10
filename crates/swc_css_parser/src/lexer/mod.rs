@@ -1,7 +1,12 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{Atom, JsWord};
-use swc_common::{comments::Comments, input::Input, BytePos, Span};
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    input::Input,
+    util::take::Take,
+    BytePos, Span,
+};
 use swc_css_ast::{
     matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
 };
@@ -19,6 +24,7 @@ where
     I: Input,
 {
     comments: Option<&'a dyn Comments>,
+    pending_leading_comments: Vec<Comment>,
     input: I,
     cur: Option<char>,
     cur_pos: BytePos,
@@ -51,6 +57,7 @@ where
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             errors: Default::default(),
+            pending_leading_comments: Default::default(),
         }
     }
 
@@ -233,6 +240,12 @@ where
     fn consume_token(&mut self) -> LexResult<Token> {
         self.read_comments();
         self.start_pos = self.input.last_pos();
+
+        if let Some(comments) = self.comments {
+            if !self.pending_leading_comments.is_empty() {
+                comments.add_leading_comments(self.start_pos, self.pending_leading_comments.take());
+            }
+        }
 
         // Consume the next input code point.
         match self.consume() {
@@ -480,6 +493,20 @@ where
                     match self.consume() {
                         Some('*') if self.next() == Some('/') => {
                             self.consume(); // '/'
+
+                            if self.comments.is_some() {
+                                let last_pos = self.input.last_pos();
+                                let text = unsafe {
+                                    // Safety: last_pos is a valid position
+                                    self.input.slice(self.start_pos, last_pos)
+                                };
+
+                                self.pending_leading_comments.push(Comment {
+                                    kind: CommentKind::Block,
+                                    span: (self.start_pos, last_pos).into(),
+                                    text: text.into(),
+                                });
+                            }
 
                             break;
                         }

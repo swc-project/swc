@@ -1,6 +1,6 @@
 use std::{borrow::Cow, fmt::Debug, mem::take};
 
-use swc_common::{comments::Comments, BytePos, Span, Spanned, SyntaxContext};
+use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_css_ast::{ComponentValue, FunctionName, ListOfComponentValues, Token, TokenAndSpan};
 
 use super::PResult;
