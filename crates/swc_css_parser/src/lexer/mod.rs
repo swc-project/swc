@@ -535,9 +535,24 @@ where
                 self.consume(); // '/'
                 self.consume(); // '/'
 
+                let start_of_content = self.input.last_pos();
+
                 loop {
                     match self.consume() {
                         Some(c) if is_newline(c) => {
+                            if self.comments.is_some() {
+                                let last_pos = self.input.last_pos();
+                                let text = unsafe {
+                                    // Safety: last_pos is a valid position
+                                    self.input.slice(start_of_content, last_pos)
+                                };
+
+                                self.pending_leading_comments.push(Comment {
+                                    kind: CommentKind::Line,
+                                    span: (self.start_pos, last_pos).into(),
+                                    text: text.into(),
+                                });
+                            }
                             break;
                         }
                         None => return,
