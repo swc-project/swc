@@ -17,6 +17,10 @@ impl CoreVerCmd {
         let from_commit = get_commit_for_swc_core_version(&self.from)?;
         let to_commit = get_commit_for_swc_core_version(&self.to)?;
 
+        eprintln!(
+            "GitHub diff: https://github.com/swc-project/swc/compare/{from_commit}...{to_commit}"
+        );
+
         Ok(())
     }
 }
