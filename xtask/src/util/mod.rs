@@ -31,7 +31,8 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
     // version of swc_core.
     let git_rev_list = Command::new("git")
         .arg("rev-list")
-        .arg("--all")
+        .arg("--branches")
+        .arg("main")
         .arg("--")
         .arg("Cargo.lock")
         .stderr(Stdio::inherit())
