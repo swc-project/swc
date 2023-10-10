@@ -485,6 +485,8 @@ where
         // EOF code point. Return to the start of this step.
         // NOTE: We allow to parse line comments under the option.
         if self.next() == Some('/') && self.next_next() == Some('*') {
+            let cmt_start = self.input.last_pos();
+
             while self.next() == Some('/') && self.next_next() == Some('*') {
                 self.consume(); // '*'
                 self.consume(); // '/'
@@ -498,7 +500,7 @@ where
                                 let last_pos = self.input.last_pos();
                                 let text = unsafe {
                                     // Safety: last_pos is a valid position
-                                    self.input.slice(self.start_pos, last_pos)
+                                    self.input.slice(cmt_start, last_pos)
                                 };
 
                                 self.pending_leading_comments.push(Comment {
