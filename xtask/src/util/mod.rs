@@ -33,55 +33,58 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
 }
 
 pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
-    eprintln!("Getting commit for swc_core@v{}", version);
+    wrap(|| {
+        eprintln!("Getting commit for swc_core@v{}", version);
 
-    // We need to get the list of commits and pull requests which changed the
-    // version of swc_core.
-    let git_rev_list = Command::new("git")
-        .arg("rev-list")
-        .arg("--branches")
-        .arg("main")
-        .arg("--")
-        .arg("Cargo.lock")
-        .stderr(Stdio::inherit())
-        .output()
-        .context("failed to spwan git rev-list")?;
+        // We need to get the list of commits and pull requests which changed the
+        // version of swc_core.
+        let git_rev_list = Command::new("git")
+            .arg("rev-list")
+            .arg("--branches")
+            .arg("main")
+            .arg("--")
+            .arg("Cargo.lock")
+            .stderr(Stdio::inherit())
+            .output()
+            .context("failed to spwan git rev-list")?;
 
-    let git_rev_list =
-        String::from_utf8(git_rev_list.stdout).context("git rev-list output is not utf8")?;
+        let git_rev_list =
+            String::from_utf8(git_rev_list.stdout).context("git rev-list output is not utf8")?;
 
-    let git_grep_output = Command::new("git")
-        .arg("grep")
-        .arg(format!("version = \"{}\"", version))
-        .args(git_rev_list.lines())
-        .arg("--")
-        .arg("Cargo.lock")
-        .stderr(Stdio::piped())
-        // .stdin(Stdio::from(git_rev_list.stdout.unwrap()))
-        .output()
-        .context("failed to execute git grep")?;
+        let git_grep_output = Command::new("git")
+            .arg("grep")
+            .arg(format!("version = \"{}\"", version))
+            .args(git_rev_list.lines())
+            .arg("--")
+            .arg("Cargo.lock")
+            .stderr(Stdio::piped())
+            // .stdin(Stdio::from(git_rev_list.stdout.unwrap()))
+            .output()
+            .context("failed to execute git grep")?;
 
-    // git grep returns all commits with the version string with the format, so we
-    // need to check if it's the version of swc_core
-    let output =
-        String::from_utf8(git_grep_output.stdout).context("git grep output is not utf8")?;
+        // git grep returns all commits with the version string with the format, so we
+        // need to check if it's the version of swc_core
+        let output =
+            String::from_utf8(git_grep_output.stdout).context("git grep output is not utf8")?;
 
-    let line_count = output.lines().count();
+        let line_count = output.lines().count();
 
-    for line in output.lines() {
-        let commit = line.split(':').next().unwrap().to_string();
+        for line in output.lines() {
+            let commit = line.split(':').next().unwrap().to_string();
 
-        if line_count == 1 || get_version_of_swc_core_of_commit(&commit)? == version {
-            eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+            if line_count == 1 || get_version_of_swc_core_of_commit(&commit)? == version {
+                eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
 
-            return Ok(commit);
+                return Ok(commit);
+            }
         }
-    }
 
-    todo!(
-        "check if the version is the one of swc_core, where the output of git grep is\n{}",
-        output
-    )
+        todo!(
+            "check if the version is the one of swc_core, where the output of git grep is\n{}",
+            output
+        )
+    })
+    .with_context(|| format!("failed to get the commit for swc_core@v{}", version))
 }
 
 /// Read the version of swc_core from `Cargo.lock`
