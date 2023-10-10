@@ -39,6 +39,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
         // We need to get the list of commits and pull requests which changed the
         // version of swc_core.
         let git_rev_list = Command::new("git")
+            .current_dir(repository_root()?)
             .arg("rev-list")
             .arg("--branches")
             .arg("main")
@@ -52,6 +53,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
             String::from_utf8(git_rev_list.stdout).context("git rev-list output is not utf8")?;
 
         let git_grep_output = Command::new("git")
+            .current_dir(repository_root()?)
             .arg("grep")
             .arg(format!("version = \"{}\"", version))
             .args(git_rev_list.lines())
@@ -91,6 +93,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
 pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
     wrap(|| {
         let output = Command::new("git")
+            .current_dir(repository_root()?)
             .arg("show")
             .arg(format!("{}:Cargo.lock", commit))
             .stderr(Stdio::inherit())
