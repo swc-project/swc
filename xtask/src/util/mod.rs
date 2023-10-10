@@ -4,7 +4,7 @@ use std::{
     process::{Command, Stdio},
 };
 
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use serde_derive::Deserialize;
 
 pub fn wrap<F, Ret>(op: F) -> Result<Ret>
@@ -79,7 +79,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
             }
         }
 
-        todo!(
+        bail!(
             "check if the version is the one of swc_core, where the output of git grep is\n{}",
             output
         )
@@ -103,11 +103,13 @@ pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
         let content =
             toml::from_str::<CargoLockfile>(&output_toml).context("failed to parse Cargo.lock")?;
 
-        todo!(
-            "parse the version of swc_core from the output of git show\n{}\n{:?}",
-            output_toml,
-            content
-        )
+        for pkg in content.package {
+            if pkg.name == "swc_core" {
+                return Ok(pkg.version);
+            }
+        }
+
+        bail!("swc_core is not found in Cargo.lock")
     })
     .with_context(|| format!("failed to get the version of swc_core of {}", commit))
 }
@@ -118,4 +120,7 @@ struct CargoLockfile {
 }
 
 #[derive(Debug, Deserialize)]
-struct PkgInCargoLockfile {}
+struct PkgInCargoLockfile {
+    name: String,
+    version: String,
+}
