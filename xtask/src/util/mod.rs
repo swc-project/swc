@@ -53,18 +53,19 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
         .output()
         .context("failed to execute git grep")?;
 
-    let git_grep_output =
+    // git grep returns all commits with the version string with the format, so we
+    // need to check if it's the version of swc_core
+    let output =
         String::from_utf8(git_grep_output.stdout).context("git grep output is not utf8")?;
 
-    assert!(
-        git_grep_output.lines().count() == 1,
-        "The line of git grep output is not 1\ngit grep output: \n{}",
-        git_grep_output
-    );
+    for line in output.lines() {
+        let commit = line.split(':').next().unwrap().to_string();
 
-    let commit = git_grep_output.split(':').next().unwrap().to_string();
+        eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+    }
 
-    eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
-
-    Ok(commit)
+    todo!(
+        "check if the version is the one of swc_core, where the output of git grep is\n{}",
+        output
+    )
 }
