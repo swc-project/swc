@@ -19,7 +19,7 @@ where
 
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-        let lexer = Lexer::new(StringInput::from(&*fm), Default::default(), Some(&comments));
+        let lexer = Lexer::new(StringInput::from(&*fm), Some(&comments), Default::default());
         let mut parser = Parser::new(lexer, Default::default());
         let stylesheet: Stylesheet = parser.parse_all().unwrap();
 
