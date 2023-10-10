@@ -116,11 +116,11 @@ pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
 
 #[derive(Debug, Deserialize)]
 struct CargoLockfile {
-    package: Vec<PkgInCargoLockfile>,
+    package: Vec<LockfilePkg>,
 }
 
 #[derive(Debug, Deserialize)]
-struct PkgInCargoLockfile {
+struct LockfilePkg {
     name: String,
     version: String,
 }
