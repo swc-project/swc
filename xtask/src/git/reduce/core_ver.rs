@@ -3,11 +3,22 @@ use std::process::{Command, Stdio};
 use anyhow::{Context, Result};
 use clap::Args;
 
+use crate::util::get_commit_for_swc_core_version;
+
 /// Reduce the difference of the versions of `swc_core`s to the list of commits
 /// and pull requests.
 #[derive(Debug, Args)]
-pub(super) struct CoreVerCmd {}
+pub(super) struct CoreVerCmd {
+    from: String,
+
+    to: String,
+}
 
 impl CoreVerCmd {
-    pub fn run(self) -> Result<()> {}
+    pub fn run(self) -> Result<()> {
+        let from_commit = get_commit_for_swc_core_version(&self.from)?;
+        let to_commit = get_commit_for_swc_core_version(&self.from)?;
+
+        Ok(())
+    }
 }
