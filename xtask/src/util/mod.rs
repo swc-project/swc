@@ -45,7 +45,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
 fn regexp_for_swc_core_in_cargo_lockfile(version: &str) -> String {
     return format!(
         r#"name = "swc_core"
-    version = "{}""#,
+version = "{}""#,
         version
     );
 }
