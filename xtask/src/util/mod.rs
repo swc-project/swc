@@ -25,6 +25,8 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
 }
 
 pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
+    eprintln!("Getting commit for swc_core version {}", version);
+
     // We need to get the list of commits and pull requests which changed the
     // version of swc_core.
     let git_rev_list = Command::new("git")
@@ -59,5 +61,9 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
         git_grep_output
     );
 
-    Ok(git_grep_output.split(':').next().unwrap().to_string())
+    let commit = git_grep_output.split(':').next().unwrap().to_string();
+
+    eprintln!("\tThe commit for swc_core@{} is {}", version, commit);
+
+    Ok(commit)
 }
