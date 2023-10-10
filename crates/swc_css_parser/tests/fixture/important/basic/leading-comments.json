@@ -1,0 +1,46 @@
+{
+  "416": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 404,
+        "end": 416,
+        "ctxt": 0
+      },
+      "text": "/*! test */"
+    }
+  ],
+  "483": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 471,
+        "end": 483,
+        "ctxt": 0
+      },
+      "text": "/* sep */"
+    }
+  ],
+  "375": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 363,
+        "end": 375,
+        "ctxt": 0
+      },
+      "text": "/*! test */"
+    }
+  ],
+  "331": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 319,
+        "end": 331,
+        "ctxt": 0
+      },
+      "text": "/* test */"
+    }
+  ]
+}
