@@ -23,3 +23,29 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
 
     Ok(())
 }
+
+pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
+    // We need to get the list of commits and pull requests which changed the
+    // version of swc_core.
+    let git_rev_list = Command::new("git")
+        .arg("rev-list")
+        .arg("--all")
+        .arg("--")
+        .arg("Cargo.lock")
+        .stdout(Stdio::piped())
+        .stderr(Stdio::inherit())
+        .spawn()
+        .context("failed to spwan git rev-list")?;
+
+    let git_grep = Command::new("git")
+        .arg("grep")
+        .arg(regexp_for_swc_core_in_cargo_lockfile(version));
+}
+
+fn regexp_for_swc_core_in_cargo_lockfile(version: &str) -> String {
+    return format!(
+        r#"name = "swc_core"
+    version = "{}""#,
+        version
+    );
+}
