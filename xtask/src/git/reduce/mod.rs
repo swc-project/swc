@@ -1,9 +1,9 @@
 use anyhow::Result;
 use clap::{Args, Subcommand};
 
-use self::swc_core::SwcCoreCmd;
+use self::core_ver::CoreVerCmd;
 
-mod swc_core;
+mod core_ver;
 
 #[derive(Debug, Args)]
 pub(super) struct ReduceCmd {
@@ -13,13 +13,13 @@ pub(super) struct ReduceCmd {
 
 #[derive(Debug, Subcommand)]
 enum Inner {
-    SwcCore(SwcCoreCmd),
+    CoreVer(CoreVerCmd),
 }
 
 impl ReduceCmd {
     pub fn run(self) -> Result<()> {
         match self.cmd {
-            Inner::SwcCore(cmd) => cmd.run(),
+            Inner::CoreVer(cmd) => cmd.run(),
         }
     }
 }
