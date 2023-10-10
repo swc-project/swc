@@ -63,7 +63,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
     for line in output.lines() {
         let commit = line.split(':').next().unwrap().to_string();
 
-        if line_count == 1 {
+        if line_count == 1 || get_version_of_swc_core_of_commit(&commit)? == version {
             eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
 
             return Ok(commit);
