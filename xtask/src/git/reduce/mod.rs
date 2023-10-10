@@ -1,6 +1,10 @@
 use anyhow::Result;
 use clap::{Args, Subcommand};
 
+use self::swc_core::SwcCoreCmd;
+
+mod swc_core;
+
 #[derive(Debug, Args)]
 pub(super) struct ReduceCmd {
     #[clap(subcommand)]
@@ -8,10 +12,14 @@ pub(super) struct ReduceCmd {
 }
 
 #[derive(Debug, Subcommand)]
-enum Inner {}
+enum Inner {
+    SwcCore(SwcCoreCmd),
+}
 
 impl ReduceCmd {
     pub fn run(self) -> Result<()> {
-        match self.cmd {}
+        match self.cmd {
+            Inner::SwcCore(cmd) => cmd.run(),
+        }
     }
 }
