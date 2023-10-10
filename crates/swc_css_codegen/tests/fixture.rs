@@ -3,10 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::{
-    comments::{self, SingleThreadedComments},
-    FileName, Span,
-};
+use swc_common::{comments::SingleThreadedComments, FileName, Span};
 use swc_css_ast::*;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
@@ -622,11 +619,13 @@ fn parse_again(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
+        let comments = SingleThreadedComments::default();
+
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
         let mut stylesheet: Stylesheet =
-            parse_file(&fm, Default::default(), &mut errors).map_err(|err| {
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
             })?;
 
@@ -646,10 +645,15 @@ fn parse_again(input: PathBuf) {
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
         let mut parsed_errors = vec![];
-        let mut parsed: Stylesheet = parse_file(&new_fm, Default::default(), &mut parsed_errors)
-            .map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+        let mut parsed: Stylesheet = parse_file(
+            &new_fm,
+            Some(&comments),
+            Default::default(),
+            &mut parsed_errors,
+        )
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
 
         for err in parsed_errors {
             err.to_diagnostics(&handler).emit();
