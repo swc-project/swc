@@ -1,7 +1,7 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{Atom, JsWord};
-use swc_common::{input::Input, BytePos, Span};
+use swc_common::{comments::Comments, input::Input, BytePos, Span};
 use swc_css_ast::{
     matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
 };
@@ -13,11 +13,12 @@ use crate::{
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug, Clone)]
-pub struct Lexer<I>
+#[derive(Clone)]
+pub struct Lexer<'a, I>
 where
     I: Input,
 {
+    comments: Option<&'a dyn Comments>,
     input: I,
     cur: Option<char>,
     cur_pos: BytePos,
@@ -31,14 +32,15 @@ where
     errors: Rc<RefCell<Vec<Error>>>,
 }
 
-impl<I> Lexer<I>
+impl<'a, I> Lexer<'a, I>
 where
     I: Input,
 {
-    pub fn new(input: I, config: ParserConfig) -> Self {
+    pub fn new(input: I, config: ParserConfig, comments: Option<&'a dyn Comments>) -> Self {
         let start_pos = input.last_pos();
 
         Lexer {
+            comments,
             input,
             cur: None,
             cur_pos: start_pos,
@@ -92,7 +94,7 @@ where
     }
 }
 
-impl<I: Input> Iterator for Lexer<I> {
+impl<I: Input> Iterator for Lexer<'_, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -122,7 +124,7 @@ pub struct LexerState {
     pos: BytePos,
 }
 
-impl<I> ParserInput for Lexer<I>
+impl<I> ParserInput for Lexer<'_, I>
 where
     I: Input,
 {
@@ -170,7 +172,7 @@ where
     }
 }
 
-impl<I> Lexer<I>
+impl<I> Lexer<'_, I>
 where
     I: Input,
 {
