@@ -3,7 +3,9 @@
 
 use std::path::PathBuf;
 
-use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
+use swc_common::{
+    comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, Span, Spanned,
+};
 use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
@@ -20,8 +22,10 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
     let ref_json_path = input.parent().unwrap().join("output.json");
 
     testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config, Some(&comments));
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
         let errors = parser.take_errors();
@@ -64,7 +68,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default(), None);
             let mut tokens = vec![];
 
             for token_and_span in lexer.by_ref() {
@@ -124,8 +128,10 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
             return Ok(());
         }
 
+        let comments = SingleThreadedComments::default();
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), config, Some(&comments));
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
         let mut errors = parser.take_errors();
@@ -188,7 +194,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         let fm = cm.load_file(&input).unwrap();
         let mut lexer_errors = vec![];
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default(), None);
             let mut tokens = vec![];
 
             for token_and_span in lexer.by_ref() {
