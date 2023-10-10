@@ -77,7 +77,7 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
 }
 
 /// Read the version of swc_core from `Cargo.lock`
-fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
+pub fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
     let output = Command::new("git")
         .arg("show")
         .arg(format!("{}:Cargo.lock", commit))
