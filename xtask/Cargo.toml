@@ -13,4 +13,7 @@ version     = "0.1.0"
 [dependencies]
 anyhow  = "1.0.75"
 clap    = { version = "4.4.6", features = ["derive"] }
+serde = "1.0.188"
+serde_derive = "1.0.188"
+toml = "0.8.2"
 walkdir = "2.4.0"

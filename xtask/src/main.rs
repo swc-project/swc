@@ -1,12 +1,12 @@
 use anyhow::Result;
-use bench::BenchCmd;
 use clap::{Parser, Subcommand};
 
-use crate::{clean::CleanCmd, es::EsCmd};
+use crate::{bench::BenchCmd, clean::CleanCmd, es::EsCmd, git::GitCmd};
 
 mod bench;
 mod clean;
 mod es;
+mod git;
 mod util;
 
 #[derive(Debug, Parser)]
@@ -19,6 +19,7 @@ struct CliArgs {
 enum Cmd {
     Es(EsCmd),
     Bench(BenchCmd),
+    Git(GitCmd),
     Clean(CleanCmd),
 }
 
@@ -28,6 +29,7 @@ fn main() -> Result<()> {
     match args.cmd {
         Cmd::Es(c) => c.run(),
         Cmd::Bench(c) => c.run(),
+        Cmd::Git(c) => c.run(),
         Cmd::Clean(c) => c.run(),
     }
 }
