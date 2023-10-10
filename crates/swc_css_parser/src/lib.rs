@@ -67,7 +67,7 @@ pub fn parse_string_input<'a, 'b, T>(
 where
     Parser<Lexer<'b, StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(input, config, comments);
+    let lexer = Lexer::new(input, comments, config);
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();

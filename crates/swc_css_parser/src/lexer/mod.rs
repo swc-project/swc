@@ -42,7 +42,7 @@ impl<'a, I> Lexer<'a, I>
 where
     I: Input,
 {
-    pub fn new(input: I, config: ParserConfig, comments: Option<&'a dyn Comments>) -> Self {
+    pub fn new(input: I, comments: Option<&'a dyn Comments>, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
 
         Lexer {

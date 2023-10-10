@@ -530,7 +530,7 @@ fn stylesheet_span_visualizer(input: PathBuf, config: Option<ParserConfig>) {
         };
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), None, config);
         let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();

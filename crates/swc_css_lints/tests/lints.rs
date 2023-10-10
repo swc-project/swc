@@ -16,7 +16,7 @@ fn pass(input: PathBuf) {
         let config = Default::default();
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config, None);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), None, config);
         let mut parser = Parser::new(lexer, config);
 
         let stylesheet = match parser.parse_all() {
