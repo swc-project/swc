@@ -205,7 +205,7 @@ pub struct Tokens {
     pub tokens: Vec<TokenAndSpan>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Input<'a> {
     input: InputType<'a>,
     idx: Vec<usize>,

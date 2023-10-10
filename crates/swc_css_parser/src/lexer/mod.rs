@@ -1,7 +1,12 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{Atom, JsWord};
-use swc_common::{input::Input, BytePos, Span};
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    input::Input,
+    util::take::Take,
+    BytePos, Span,
+};
 use swc_css_ast::{
     matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
 };
@@ -13,11 +18,13 @@ use crate::{
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug, Clone)]
-pub struct Lexer<I>
+#[derive(Clone)]
+pub struct Lexer<'a, I>
 where
     I: Input,
 {
+    comments: Option<&'a dyn Comments>,
+    pending_leading_comments: Vec<Comment>,
     input: I,
     cur: Option<char>,
     cur_pos: BytePos,
@@ -31,14 +38,15 @@ where
     errors: Rc<RefCell<Vec<Error>>>,
 }
 
-impl<I> Lexer<I>
+impl<'a, I> Lexer<'a, I>
 where
     I: Input,
 {
-    pub fn new(input: I, config: ParserConfig) -> Self {
+    pub fn new(input: I, comments: Option<&'a dyn Comments>, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
 
         Lexer {
+            comments,
             input,
             cur: None,
             cur_pos: start_pos,
@@ -49,6 +57,7 @@ where
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             errors: Default::default(),
+            pending_leading_comments: Default::default(),
         }
     }
 
@@ -92,7 +101,7 @@ where
     }
 }
 
-impl<I: Input> Iterator for Lexer<I> {
+impl<I: Input> Iterator for Lexer<'_, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -122,7 +131,7 @@ pub struct LexerState {
     pos: BytePos,
 }
 
-impl<I> ParserInput for Lexer<I>
+impl<I> ParserInput for Lexer<'_, I>
 where
     I: Input,
 {
@@ -170,7 +179,7 @@ where
     }
 }
 
-impl<I> Lexer<I>
+impl<I> Lexer<'_, I>
 where
     I: Input,
 {
@@ -231,6 +240,12 @@ where
     fn consume_token(&mut self) -> LexResult<Token> {
         self.read_comments();
         self.start_pos = self.input.last_pos();
+
+        if let Some(comments) = self.comments {
+            if !self.pending_leading_comments.is_empty() {
+                comments.add_leading_comments(self.start_pos, self.pending_leading_comments.take());
+            }
+        }
 
         // Consume the next input code point.
         match self.consume() {
@@ -470,6 +485,8 @@ where
         // EOF code point. Return to the start of this step.
         // NOTE: We allow to parse line comments under the option.
         if self.next() == Some('/') && self.next_next() == Some('*') {
+            let cmt_start = self.input.last_pos();
+
             while self.next() == Some('/') && self.next_next() == Some('*') {
                 self.consume(); // '*'
                 self.consume(); // '/'
@@ -478,6 +495,20 @@ where
                     match self.consume() {
                         Some('*') if self.next() == Some('/') => {
                             self.consume(); // '/'
+
+                            if self.comments.is_some() {
+                                let last_pos = self.input.last_pos();
+                                let text = unsafe {
+                                    // Safety: last_pos is a valid position
+                                    self.input.slice(cmt_start, last_pos)
+                                };
+
+                                self.pending_leading_comments.push(Comment {
+                                    kind: CommentKind::Block,
+                                    span: (self.start_pos, last_pos).into(),
+                                    text: text.into(),
+                                });
+                            }
 
                             break;
                         }
@@ -506,9 +537,24 @@ where
                 self.consume(); // '/'
                 self.consume(); // '/'
 
+                let start_of_content = self.input.last_pos();
+
                 loop {
                     match self.consume() {
                         Some(c) if is_newline(c) => {
+                            if self.comments.is_some() {
+                                let last_pos = self.input.last_pos();
+                                let text = unsafe {
+                                    // Safety: last_pos is a valid position
+                                    self.input.slice(start_of_content, last_pos)
+                                };
+
+                                self.pending_leading_comments.push(Comment {
+                                    kind: CommentKind::Line,
+                                    span: (self.start_pos, last_pos).into(),
+                                    text: text.into(),
+                                });
+                            }
                             break;
                         }
                         None => return,

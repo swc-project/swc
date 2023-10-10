@@ -9,7 +9,7 @@ fn bench_stylesheet(b: &mut Bencher, src: &'static str) {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
         b.iter(|| {
-            let lexer = Lexer::new(StringInput::from(&*fm), Default::default());
+            let lexer = Lexer::new(StringInput::from(&*fm), None, Default::default());
 
             for t in lexer {
                 black_box(t);

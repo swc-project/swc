@@ -10,7 +10,7 @@ fn bench_stylesheet(b: &mut Bencher, src: &'static str) {
 
         b.iter(|| {
             let _ = black_box({
-                let lexer = Lexer::new(StringInput::from(&*fm), Default::default());
+                let lexer = Lexer::new(StringInput::from(&*fm), None, Default::default());
                 let mut parser = Parser::new(lexer, Default::default());
 
                 parser.parse_all()

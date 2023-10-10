@@ -84,7 +84,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
         let parsed: Stylesheet =
-            swc_css_parser::parse_file(&fm, Default::default(), &mut vec![]).unwrap();
+            swc_css_parser::parse_file(&fm, None, Default::default(), &mut vec![]).unwrap();
 
         let program = PluginSerializedBytes::try_serialize(
             &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),
@@ -135,7 +135,7 @@ fn invoke(input: PathBuf) -> Result<(), Error> {
         let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
         let parsed: Stylesheet =
-            swc_css_parser::parse_file(&fm, Default::default(), &mut vec![]).unwrap();
+            swc_css_parser::parse_file(&fm, None, Default::default(), &mut vec![]).unwrap();
 
         let mut serialized_program = PluginSerializedBytes::try_serialize(
             &swc_common::plugin::serialized::VersionedSerializable::new(parsed.clone()),

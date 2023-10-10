@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::{FileName, Span};
+use swc_common::{comments::SingleThreadedComments, FileName, Span};
 use swc_css_ast::*;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
@@ -41,10 +41,13 @@ fn run(input: &Path, minify: bool) {
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
 
+        let comments = SingleThreadedComments::default();
+
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -79,7 +82,7 @@ fn run(input: &Path, minify: bool) {
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
-            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+            parse_file(&fm_output, None, Default::default(), &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
             })?;
 
@@ -342,8 +345,11 @@ fn indent_type(input: PathBuf) {
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
+        let comments = SingleThreadedComments::default();
+
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -375,9 +381,11 @@ fn indent_type(input: PathBuf) {
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
-            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+            parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
+                |err| {
+                    err.to_diagnostics(&handler).emit();
+                },
+            )?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -404,10 +412,13 @@ fn indent_width(input: PathBuf) {
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
+        let comments = SingleThreadedComments::default();
+
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -439,9 +450,11 @@ fn indent_width(input: PathBuf) {
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
-            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+            parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
+                |err| {
+                    err.to_diagnostics(&handler).emit();
+                },
+            )?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -465,13 +478,16 @@ fn linefeed_lf(input: PathBuf) {
         input.extension().unwrap().to_string_lossy()
     ));
 
+    let comments = SingleThreadedComments::default();
+
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -505,9 +521,11 @@ fn linefeed_lf(input: PathBuf) {
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
-            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+            parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
+                |err| {
+                    err.to_diagnostics(&handler).emit();
+                },
+            )?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -534,10 +552,13 @@ fn linefeed_crlf(input: PathBuf) {
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
+        let comments = SingleThreadedComments::default();
+
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -571,9 +592,11 @@ fn linefeed_crlf(input: PathBuf) {
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
-            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+            parse_file(&fm_output, Some(&comments), Default::default(), &mut errors).map_err(
+                |err| {
+                    err.to_diagnostics(&handler).emit();
+                },
+            )?;
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -596,11 +619,13 @@ fn parse_again(input: PathBuf) {
     testing::run_test2(false, |cm, handler| {
         let fm = cm.load_file(&input).unwrap();
 
+        let comments = SingleThreadedComments::default();
+
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
         let mut stylesheet: Stylesheet =
-            parse_file(&fm, Default::default(), &mut errors).map_err(|err| {
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
             })?;
 
@@ -620,10 +645,15 @@ fn parse_again(input: PathBuf) {
 
         let new_fm = cm.new_source_file(FileName::Anon, css_str);
         let mut parsed_errors = vec![];
-        let mut parsed: Stylesheet = parse_file(&new_fm, Default::default(), &mut parsed_errors)
-            .map_err(|err| {
-                err.to_diagnostics(&handler).emit();
-            })?;
+        let mut parsed: Stylesheet = parse_file(
+            &new_fm,
+            Some(&comments),
+            Default::default(),
+            &mut parsed_errors,
+        )
+        .map_err(|err| {
+            err.to_diagnostics(&handler).emit();
+        })?;
 
         for err in parsed_errors {
             err.to_diagnostics(&handler).emit();
