@@ -2201,6 +2201,7 @@ impl Minifier<'_> {
             CssMinificationMode::MediaQueryList => {
                 match swc_css_parser::parse_file::<swc_css_ast::MediaQueryList>(
                     &fm,
+                    None,
                     options.parser,
                     &mut errors,
                 ) {

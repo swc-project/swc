@@ -18,6 +18,7 @@ fn imports(input: PathBuf) {
         let mut errors = vec![];
         let ss = swc_css_parser::parse_file(
             &fm,
+            None,
             ParserConfig {
                 css_modules: true,
                 ..Default::default()
