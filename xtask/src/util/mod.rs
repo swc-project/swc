@@ -53,5 +53,11 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
     let git_grep_output =
         String::from_utf8(git_grep_output.stdout).context("git grep output is not utf8")?;
 
-    todo!("parse git grep output: \n{}", git_grep_output)
+    assert!(
+        git_grep_output.lines().count() == 1,
+        "The line of git grep output is not 1\ngit grep output: \n{}",
+        git_grep_output
+    );
+
+    Ok(git_grep_output.split(':').next().unwrap().to_string())
 }
