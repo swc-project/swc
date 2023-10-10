@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use swc_common::{FileName, Span};
+use swc_common::{comments::SingleThreadedComments, FileName, Span};
 use swc_css_ast::*;
 use swc_css_codegen::{
     writer::basic::{BasicCssWriter, BasicCssWriterConfig, IndentType, LineFeed},
@@ -41,10 +41,13 @@ fn run(input: &Path, minify: bool) {
     run_test2(false, |cm, handler| {
         let fm = cm.load_file(input).unwrap();
 
+        let comments = SingleThreadedComments::default();
+
         eprintln!("==== ==== Input ==== ====\n{}\n", fm.src);
 
         let mut errors = vec![];
-        let mut stylesheet: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+        let mut stylesheet: Stylesheet =
+            parse_file(&fm, Some(&comments), Default::default(), &mut errors).unwrap();
 
         for err in take(&mut errors) {
             err.to_diagnostics(&handler).emit();
@@ -79,7 +82,7 @@ fn run(input: &Path, minify: bool) {
 
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
-            parse_file(&fm_output, Default::default(), &mut errors).map_err(|err| {
+            parse_file(&fm_output, None, Default::default(), &mut errors).map_err(|err| {
                 err.to_diagnostics(&handler).emit();
             })?;
 
