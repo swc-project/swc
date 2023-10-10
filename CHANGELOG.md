@@ -16,6 +16,12 @@
 
 - **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
 
+### Features
+
+
+
+- **(css/parser)** Store lexed comments ([#8091](https://github.com/swc-project/swc/issues/8091)) ([d1097cc](https://github.com/swc-project/swc/commit/d1097ccb599c4343e3f80ca9bd793bbfce424e8b))
+
 ### Miscellaneous Tasks
 
 
@@ -1942,9 +1948,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(bindings/node)** Treat `.cts` and `.mts` as input by default ([#6959](https://github.com/swc-project/swc/issues/6959)) ([d5c0dec](https://github.com/swc-project/swc/commit/d5c0dec40c1bb46bb5674242aa0a85f51c0826f7))
-
-
-- **(bundler)** Don't panic while finding exports ([#6947](https://github.com/swc-project/swc/issues/6947)) ([542bb62](https://github.com/swc-project/swc/commit/542bb62ef78a999fe6c636be821427691ce0b071))
 
 
 - **(css/modules)** Fix CSS `animation` on CSS Modules ([#6969](https://github.com/swc-project/swc/issues/6969)) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
