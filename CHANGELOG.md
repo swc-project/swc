@@ -23,6 +23,9 @@
 - **(xtask)** Migrate scripts to xtask ([#8072](https://github.com/swc-project/swc/issues/8072)) ([a5621bb](https://github.com/swc-project/swc/commit/a5621bb30a665c8022d7004ccde53f574443cbe1))
 
 
+- **(xtask)** Add `git reduce core-ver` ([#8088](https://github.com/swc-project/swc/issues/8088)) ([3b449e3](https://github.com/swc-project/swc/commit/3b449e3bcaaf90ae72493133e7c88099b0733ebc))
+
+
 - Use `cargo xtask` ([#8068](https://github.com/swc-project/swc/issues/8068)) ([6420aef](https://github.com/swc-project/swc/commit/6420aefca5bd22af3a75b7ad34741509ed35377a))
 
 ### Refactor
@@ -1951,9 +1954,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/minifier)** Fix optimization of expressions in numeric context ([#6965](https://github.com/swc-project/swc/issues/6965)) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
-
-
-- **(es/react)** Don't panic on `key` without a value ([#6945](https://github.com/swc-project/swc/issues/6945)) ([14454c9](https://github.com/swc-project/swc/commit/14454c9dbd222cabb8c6eeafa9c664c34030a121))
 
 
 - **(es/resolver)** Use type context for `export =` if it's unresolved ([#6963](https://github.com/swc-project/swc/issues/6963)) ([e946c43](https://github.com/swc-project/swc/commit/e946c43f4e0640bb7ad2470c9c5979583ced2e23))
