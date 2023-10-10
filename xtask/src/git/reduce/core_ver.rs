@@ -9,3 +9,11 @@ pub(super) struct CoreVerCmd {}
 impl CoreVerCmd {
     pub fn run(self) -> Result<()> {}
 }
+
+fn regexp_for(version: &str) -> String {
+    return format!(
+        r#"name = "swc_core"
+    version = "{}""#,
+        version
+    );
+}
