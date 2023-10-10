@@ -354,6 +354,7 @@ impl OptChaining {
     fn should_memo(&self, expr: &Expr, is_call: bool) -> bool {
         fn is_simple_member(e: &Expr) -> bool {
             match e {
+                Expr::This(..) => true,
                 Expr::Ident(_) => true,
                 Expr::SuperProp(s) if !s.prop.is_computed() => true,
                 Expr::Member(m) if !m.prop.is_computed() => is_simple_member(&m.obj),
