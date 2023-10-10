@@ -75,3 +75,15 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
         output
     )
 }
+
+/// Read the version of swc_core from `Cargo.lock`
+fn get_version_of_swc_core_of_commit(commit: &str) -> Result<String> {
+    let output = Command::new("git")
+        .arg("show")
+        .arg(format!("{}:Cargo.lock", commit))
+        .stderr(Stdio::inherit())
+        .output()
+        .context("failed to spwan git show")?;
+
+    let output = String::from_utf8(output.stdout).context("git show output is not utf8")?;
+}
