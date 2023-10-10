@@ -58,10 +58,16 @@ pub fn get_commit_for_swc_core_version(version: &str) -> Result<String> {
     let output =
         String::from_utf8(git_grep_output.stdout).context("git grep output is not utf8")?;
 
+    let line_count = output.lines().count();
+
     for line in output.lines() {
         let commit = line.split(':').next().unwrap().to_string();
 
-        eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+        if line_count == 1 {
+            eprintln!("\tThe commit for swc_core@v{} is {}", version, commit);
+
+            return Ok(commit);
+        }
     }
 
     todo!(
