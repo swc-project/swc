@@ -1,7 +1,6 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
-use swc_ecma_utils::quote_ident;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -62,15 +61,41 @@ impl VisitMut for Shorthand {
         prop.visit_mut_children_with(self);
 
         match prop {
-            Prop::Shorthand(Ident { sym, span, .. }) => {
+            Prop::Shorthand(ident) => {
+                let value = ident.clone().into();
+
                 *prop = Prop::KeyValue(KeyValueProp {
-                    key: PropName::Ident(quote_ident!(*span, sym.clone())),
-                    value: Box::new(quote_ident!(*span, sym.clone()).into()),
+                    key: if ident.sym == "__proto__" {
+                        PropName::Computed(ComputedPropName {
+                            span: ident.span,
+                            expr: ident.sym.clone().into(),
+                        })
+                    } else {
+                        ident.take().into()
+                    },
+                    value,
                 });
             }
             Prop::Method(MethodProp { key, function }) => {
+                let key = match key.take() {
+                    PropName::Ident(Ident { span, sym, .. }) if sym == "__proto__" => {
+                        ComputedPropName {
+                            span,
+                            expr: sym.into(),
+                        }
+                        .into()
+                    }
+                    PropName::Str(s @ Str { span, .. }) if s.value == "__proto__" => {
+                        ComputedPropName {
+                            span,
+                            expr: s.into(),
+                        }
+                        .into()
+                    }
+                    key => key,
+                };
                 *prop = Prop::KeyValue(KeyValueProp {
-                    key: key.take(),
+                    key,
                     value: Box::new(Expr::Fn(FnExpr {
                         ident: None,
                         function: function.take(),
@@ -80,75 +105,4 @@ impl VisitMut for Shorthand {
             _ => {}
         }
     }
-}
-
-#[cfg(test)]
-mod tests {
-    use swc_ecma_transforms_testing::test;
-
-    use super::*;
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| shorthand(),
-        babel_method_plain,
-        "var obj = {
-  method() {
-    return 5 + 5;
-  }
-};",
-        "var obj = {
-  method: function () {
-    return 5 + 5;
-  }
-};"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| shorthand(),
-        babel_comments,
-        "var A = 'a';
-var o = {
-  A // comment
-};",
-        "var A = 'a';
-var o = {
-  A: A // comment
-
-};"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| shorthand(),
-        babel_mixed,
-        "var coords = { x, y, foo: 'bar' };",
-        "var coords = {
-  x: x,
-  y: y,
-  foo: 'bar'
-};"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| shorthand(),
-        babel_multiple,
-        "var coords = { x, y };",
-        "var coords = {
-  x: x,
-  y: y
-};"
-    );
-
-    test!(
-        ::swc_ecma_parser::Syntax::default(),
-        |_| shorthand(),
-        babel_single,
-        "var coords = { x };",
-        "var coords = {
-  x: x
-};"
-    );
 }
