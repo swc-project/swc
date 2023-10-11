@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
     es2022::class_properties,
     es3::reserved_words,
 };
-use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, Tester};
+use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture, Tester};
 use swc_ecma_visit::Fold;
 
 fn syntax() -> Syntax {
@@ -4072,6 +4072,25 @@ fn exec(input: PathBuf) {
         Default::default(),
         |t| class_properties(Some(t.comments.clone()), Default::default()),
         &src,
+    );
+}
+
+#[testing::fixture("tests/class-properties/**/input.js")]
+fn fixture(input: PathBuf) {
+    test_fixture(
+        Default::default(),
+        &|t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                class_properties(Some(t.comments.clone()), Default::default())
+            )
+        },
+        &input,
+        &input.with_file_name("output.js"),
+        Default::default(),
     );
 }
 
