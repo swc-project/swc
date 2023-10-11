@@ -26,6 +26,9 @@
 
 
 
+- **(es/minifier)** Fix script for extracting test cases from next.js app ([#8092](https://github.com/swc-project/swc/issues/8092)) ([a2d0779](https://github.com/swc-project/swc/commit/a2d077958f071752dbc347fbf414622e0146e1fd))
+
+
 - **(xtask)** Migrate scripts to xtask ([#8072](https://github.com/swc-project/swc/issues/8072)) ([a5621bb](https://github.com/swc-project/swc/commit/a5621bb30a665c8022d7004ccde53f574443cbe1))
 
 
@@ -1945,9 +1948,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(bindings/node)** Treat `.cts` and `.mts` as input by default ([#6959](https://github.com/swc-project/swc/issues/6959)) ([d5c0dec](https://github.com/swc-project/swc/commit/d5c0dec40c1bb46bb5674242aa0a85f51c0826f7))
 
 
 - **(css/modules)** Fix CSS `animation` on CSS Modules ([#6969](https://github.com/swc-project/swc/issues/6969)) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
