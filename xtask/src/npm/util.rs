@@ -1,7 +1,8 @@
-use std::process::Command;
+use std::{path::Path, process::Command};
 
 use anyhow::Result;
 use cargo_metadata::MetadataCommand;
+use semver::Version;
 
 use crate::util::repository_root;
 
@@ -30,6 +31,59 @@ pub fn update_swc_crates() -> Result<()> {
     for pkg in get_swc_crates_of_bindings()? {
         c.arg("--package").arg(pkg);
     }
+
+    c.status()?;
+
+    Ok(())
+}
+
+pub fn set_version(version: &Version) -> Result<()> {
+    {
+        let mut c = Command::new("npm");
+        c.current_dir(repository_root()?);
+        c.arg("version")
+            .arg(version.to_string())
+            .arg("--no-git-tag-version")
+            .arg("--allow-same-version");
+
+        c.status()?;
+    }
+
+    {
+        let mut c = Command::new("npm");
+        c.current_dir(repository_root()?.join("packages").join("minifier"));
+        c.arg("version")
+            .arg(version.to_string())
+            .arg("--no-git-tag-version")
+            .arg("--allow-same-version");
+
+        c.status()?;
+    }
+
+    {
+        let mut c = Command::new("cargo");
+        c.current_dir(repository_root()?.join("bindings"));
+        c.arg("set-version")
+            .arg(version.to_string())
+            .arg("-p")
+            .arg("binding_core_wasm")
+            .arg("-p")
+            .arg("binding_minifier_wasm");
+
+        c.status()?;
+    }
+
+    Ok(())
+}
+
+pub fn bump_swc_cli() -> Result<()> {
+    let mut c = Command::new("cargo");
+    c.current_dir(repository_root()?.join("bindings"));
+    c.arg("set-version")
+        .arg("--bump")
+        .arg("patch")
+        .arg("-p")
+        .arg("swc_cli");
 
     c.status()?;
 

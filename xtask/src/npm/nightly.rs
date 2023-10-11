@@ -6,7 +6,7 @@ use clap::Args;
 use semver::{Prerelease, Version};
 
 use crate::{
-    npm::util::update_swc_crates,
+    npm::util::{bump_swc_cli, set_version, update_swc_crates},
     util::{repository_root, wrap},
 };
 
@@ -30,29 +30,13 @@ impl NightlyCmd {
 
             println!("Publishing nightly version {}", version);
 
-            invoke_version_script(&version)?;
+            set_version(&version).context("failed to set version")?;
+            bump_swc_cli().context("failed to bump swc-cli")?;
 
             Ok(())
         })
         .context("failed to publish nightly version")
     }
-}
-
-fn invoke_version_script(version: &Version) -> Result<()> {
-    let script = repository_root()?.join("scripts/publish.sh");
-
-    let status = Command::new(script)
-        .current_dir(repository_root()?)
-        .arg(&version.to_string())
-        .stderr(Stdio::inherit())
-        .status()
-        .context("failed to invoke publish.sh")?;
-
-    if !status.success() {
-        bail!("version.sh failed");
-    }
-
-    Ok(())
 }
 
 fn find_first_nightly(prev_version: &semver::Version, date: &str) -> Result<Version> {
