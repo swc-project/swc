@@ -29,6 +29,9 @@
 
 
 
+- **(ci)** Remove unused concurrency tests ([#8100](https://github.com/swc-project/swc/issues/8100)) ([226b17f](https://github.com/swc-project/swc/commit/226b17fa868f8d9580c7ed61dd32f5db1c838982))
+
+
 - **(es/minifier)** Fix script for extracting test cases from next.js app ([#8092](https://github.com/swc-project/swc/issues/8092)) ([a2d0779](https://github.com/swc-project/swc/commit/a2d077958f071752dbc347fbf414622e0146e1fd))
 
 
@@ -1957,9 +1960,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(css/modules)** Fix CSS `animation` on CSS Modules ([#6969](https://github.com/swc-project/swc/issues/6969)) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
-
-
-- **(es/minifier)** Fix optimization of expressions in numeric context ([#6965](https://github.com/swc-project/swc/issues/6965)) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
 
 ### Features
 
