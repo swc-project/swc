@@ -1,4 +1,4 @@
-use std::{path::Path, process::Command};
+use std::process::Command;
 
 use anyhow::Result;
 use cargo_metadata::MetadataCommand;
