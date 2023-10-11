@@ -307,28 +307,6 @@ impl VisitMut for TscDecorator {
         }
     }
 
-    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
-        n.visit_mut_children_with(self);
-
-        if let ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-            span,
-            decl: DefaultDecl::Class(c),
-        }) = n
-        {
-            if let Some(var_name) = self.assign_class_expr_to.take() {
-                *n = ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                    span: *span,
-                    expr: Box::new(Expr::Assign(AssignExpr {
-                        span: DUMMY_SP,
-                        op: op!("="),
-                        left: var_name.into(),
-                        right: Box::new(Expr::Class(c.take())),
-                    })),
-                })
-            }
-        }
-    }
-
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         let old = self.class_name.take();
 
@@ -465,6 +443,26 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_module_item(&mut self, module_item: &mut ModuleItem) {
         match module_item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                span,
+                decl: DefaultDecl::Class(c),
+            })) => {
+                c.visit_mut_with(self);
+
+                if let Some(var_name) = self.assign_class_expr_to.take() {
+                    *module_item =
+                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                            span: *span,
+                            expr: Box::new(Expr::Assign(AssignExpr {
+                                span: DUMMY_SP,
+                                op: op!("="),
+                                left: var_name.into(),
+                                right: Box::new(Expr::Class(c.take())),
+                            })),
+                        }));
+                }
+            }
+
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(n)) => {
                 let export_decl_span = n.span;
 
