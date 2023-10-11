@@ -46,7 +46,7 @@ impl NightlyCmd {
                     .status()
                     .context("git add failed")?;
 
-                // git commit --no-verify -m 'chore: Publish nightly'
+                // git commit --no-verify -m 'chore: Publish $version'
 
                 Command::new("git")
                     .current_dir(repository_root()?)
@@ -57,6 +57,16 @@ impl NightlyCmd {
                     .stderr(Stdio::inherit())
                     .status()
                     .context("git commit failed")?;
+
+                // git tag $version
+
+                Command::new("git")
+                    .current_dir(repository_root()?)
+                    .arg("tag")
+                    .arg(format!("v{}", version))
+                    .stderr(Stdio::inherit())
+                    .status()
+                    .context("git tag failed")?;
             }
 
             Ok(())
