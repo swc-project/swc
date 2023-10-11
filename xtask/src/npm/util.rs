@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use anyhow::{Context, Result};
 use cargo_metadata::MetadataCommand;
@@ -40,7 +40,7 @@ pub fn update_swc_crates() -> Result<()> {
 pub fn set_version(version: &Version) -> Result<()> {
     wrap(|| {
         let mut c = Command::new("npm");
-        c.current_dir(repository_root()?);
+        c.current_dir(repository_root()?).stderr(Stdio::inherit());
         c.arg("version")
             .arg(version.to_string())
             .arg("--no-git-tag-version")
@@ -54,7 +54,8 @@ pub fn set_version(version: &Version) -> Result<()> {
 
     wrap(|| {
         let mut c = Command::new("npm");
-        c.current_dir(repository_root()?.join("packages").join("minifier"));
+        c.current_dir(repository_root()?.join("packages").join("minifier"))
+            .stderr(Stdio::inherit());
         c.arg("version")
             .arg(version.to_string())
             .arg("--no-git-tag-version")
@@ -68,7 +69,8 @@ pub fn set_version(version: &Version) -> Result<()> {
 
     wrap(|| {
         let mut c = Command::new("cargo");
-        c.current_dir(repository_root()?.join("bindings"));
+        c.current_dir(repository_root()?.join("bindings"))
+            .stderr(Stdio::inherit());
         c.arg("set-version")
             .arg(version.to_string())
             .arg("-p")
@@ -86,7 +88,8 @@ pub fn set_version(version: &Version) -> Result<()> {
 
 pub fn bump_swc_cli() -> Result<()> {
     let mut c = Command::new("cargo");
-    c.current_dir(repository_root()?.join("bindings"));
+    c.current_dir(repository_root()?.join("bindings"))
+        .stderr(Stdio::inherit());
     c.arg("set-version")
         .arg("--bump")
         .arg("patch")
