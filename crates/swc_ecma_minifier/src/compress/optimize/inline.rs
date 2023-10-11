@@ -203,8 +203,11 @@ impl Optimizer<'_> {
                                 )
                             }
 
+                            dbg!(u);
                             if u.declared_as_fn_decl || u.declared_as_fn_expr {
-                                if self.mangle_options.map_or(false, |v| v.keep_fn_names) {
+                                if self.options.keep_fnames
+                                    || self.mangle_options.map_or(false, |v| v.keep_fn_names)
+                                {
                                     should_inline = false
                                 }
                             }
