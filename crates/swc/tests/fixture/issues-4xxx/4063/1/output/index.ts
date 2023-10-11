@@ -17,6 +17,7 @@ define([
     function state() {}
     class Controller {
     }
+    var _cls;
     class _class extends Controller {
         onChange() {}
         constructor(...args){
@@ -26,5 +27,5 @@ define([
     }
     _ts_decorate._([
         state
-    ], _class.prototype, "isTest", void 0);
+    ], _cls.prototype, "isTest", void 0);
 });
