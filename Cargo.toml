@@ -36,11 +36,7 @@ resolver = "2"
 debug = true
 # lto = true
 
-# Without this, printing diff consumes more than a minute.
-
-[profile.dev.package.pretty_assertions]
-opt-level = 3
-
+# Optimize for iteration
 [profile.dev.build-override]
 opt-level = 3
 
