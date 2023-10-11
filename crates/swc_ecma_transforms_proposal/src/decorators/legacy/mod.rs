@@ -444,21 +444,28 @@ impl VisitMut for TscDecorator {
     fn visit_mut_module_item(&mut self, module_item: &mut ModuleItem) {
         match module_item {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
-                span,
                 decl: DefaultDecl::Class(c),
+                ..
             })) => {
                 c.visit_mut_with(self);
 
                 if let Some(var_name) = self.assign_class_expr_to.take() {
-                    *module_item =
-                        ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
-                            span: *span,
-                            expr: Box::new(Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: var_name.into(),
-                                right: Box::new(Expr::Class(c.take())),
-                            })),
+                    *module_item = ModuleItem::Stmt(
+                        Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: var_name.clone().into(),
+                            right: Box::new(Expr::Class(c.take())),
+                        })
+                        .into_stmt(),
+                    );
+
+                    self.exports
+                        .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: ModuleExportName::Ident(var_name),
+                            exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
+                            is_type_only: Default::default(),
                         }));
                 }
             }
