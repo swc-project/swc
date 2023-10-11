@@ -1,0 +1,12 @@
+name: "Publish (auto)"
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: ["opened", "reopened", "synchronize"]
+
+jobs:
+  publish-nightly:
+    runs-on: ubuntu-latest
+    steps:
+      - run: cargo xtask npm nightly
