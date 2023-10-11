@@ -1,8 +1,8 @@
-var _cls;
-_cls = class _class {
+var _class;
+_class = class _$class {
     bar() {}
 };
 _ts_decorate([
     foo
-], _cls.prototype, "bar", null);
-export { _cls as default };
+], _class.prototype, "bar", null);
+export { _class as default };
