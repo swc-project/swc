@@ -5,7 +5,10 @@ use chrono::Utc;
 use clap::Args;
 use semver::{Prerelease, Version};
 
-use crate::util::{repository_root, wrap};
+use crate::{
+    npm::util::update_swc_crates,
+    util::{repository_root, wrap},
+};
 
 #[derive(Debug, Args)]
 pub(super) struct NightlyCmd {}
@@ -14,6 +17,8 @@ impl NightlyCmd {
     pub fn run(self) -> Result<()> {
         wrap(|| {
             let date = Utc::now().format("%Y%m%d").to_string();
+
+            update_swc_crates().context("failed to update swc crates")?;
 
             let root_pkg_json = repository_root()?.join("package.json");
             let content = serde_json::from_reader::<_, serde_json::Value>(

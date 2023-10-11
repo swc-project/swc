@@ -4,6 +4,7 @@ use clap::{Args, Subcommand};
 use self::nightly::NightlyCmd;
 
 mod nightly;
+mod util;
 
 #[derive(Debug, Args)]
 pub(super) struct NpmCmd {
