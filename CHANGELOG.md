@@ -50,6 +50,9 @@
 - **(xtask)** Add `--features` to `xtask bench` ([#8094](https://github.com/swc-project/swc/issues/8094)) ([f5d7acf](https://github.com/swc-project/swc/commit/f5d7acfa10b579e031c8f64deabe0ee39e4461ab))
 
 
+- **(xtask)** Add a command for nigjtly build ([#8104](https://github.com/swc-project/swc/issues/8104)) ([9d773bf](https://github.com/swc-project/swc/commit/9d773bfa12bd22fc042f2c9a2d798d9c43adc228))
+
+
 - Use `cargo xtask` ([#8068](https://github.com/swc-project/swc/issues/8068)) ([6420aef](https://github.com/swc-project/swc/commit/6420aefca5bd22af3a75b7ad34741509ed35377a))
 
 ### Refactor
