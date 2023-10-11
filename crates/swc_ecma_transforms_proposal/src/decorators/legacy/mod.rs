@@ -30,6 +30,7 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
         class_name: Default::default(),
         constructor_exprs: Default::default(),
         exports: Default::default(),
+        assign_class_expr_to: Default::default(),
     }
 }
 
@@ -49,6 +50,8 @@ pub(super) struct TscDecorator {
     constructor_exprs: Vec<Box<Expr>>,
 
     exports: Vec<ExportSpecifier>,
+
+    assign_class_expr_to: Option<Ident>,
 }
 
 impl TscDecorator {
@@ -292,52 +295,75 @@ impl VisitMut for TscDecorator {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Class(n) => {
-                let old = self.class_name.take();
+        e.visit_mut_children_with(self);
 
-                if contains_decorator(n) && n.ident.is_none() {
-                    let ident = private_ident!("_class");
+        if let Some(var_name) = self.assign_class_expr_to.take() {
+            *e = Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: var_name.into(),
+                right: Box::new(e.take()),
+            });
+        }
+    }
 
-                    let var_name = private_ident!("_cls");
+    fn visit_mut_module_decl(&mut self, n: &mut ModuleDecl) {
+        n.visit_mut_children_with(self);
 
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: Pat::Ident(var_name.clone().into()),
-                        init: None,
-                        definite: Default::default(),
-                    });
-
-                    self.class_name = Some(var_name.clone());
-                    n.ident = Some(ident);
-
-                    n.visit_mut_children_with(self);
-
-                    self.class_name = old;
-
-                    *e = Expr::Assign(AssignExpr {
+        if let ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+            span,
+            decl: DefaultDecl::Class(c),
+        }) = n
+        {
+            if let Some(var_name) = self.assign_class_expr_to.take() {
+                *n = ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    span: *span,
+                    expr: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: var_name.into(),
-                        right: Box::new(Expr::Class(n.take())),
-                    });
-                    return;
-                }
-                if let Some(ident) = &n.ident {
-                    if self.class_name.is_none() {
-                        self.class_name = Some(ident.clone());
-                    }
-                }
-
-                n.visit_mut_children_with(self);
-
-                self.class_name = old;
-            }
-
-            _ => {
-                e.visit_mut_children_with(self);
+                        right: Box::new(Expr::Class(c.take())),
+                    })),
+                })
             }
         }
+    }
+
+    fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
+        let old = self.class_name.take();
+
+        if contains_decorator(n) && n.ident.is_none() {
+            let ident = private_ident!("_class");
+
+            let var_name = private_ident!("_cls");
+
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(var_name.clone().into()),
+                init: None,
+                definite: Default::default(),
+            });
+
+            self.class_name = Some(var_name.clone());
+            n.ident = Some(ident);
+
+            n.visit_mut_children_with(self);
+
+            self.class_name = old;
+
+            self.assign_class_expr_to = Some(var_name);
+
+            return;
+        }
+        if let Some(ident) = &n.ident {
+            if self.class_name.is_none() {
+                self.class_name = Some(ident.clone());
+            }
+        }
+
+        n.visit_mut_children_with(self);
+
+        self.class_name = old;
     }
 
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
