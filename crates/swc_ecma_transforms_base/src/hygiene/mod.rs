@@ -13,6 +13,9 @@ pub struct Config {
     /// If true, the `hygiene` pass will preserve class names.
     pub keep_class_names: bool,
 
+    /// If true, the `hygiene` pass will preserve function names.
+    pub keep_fn_names: bool,
+
     /// If true, the bug of safari 10 is avoided.
     pub safari_10: bool,
 

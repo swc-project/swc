@@ -27,6 +27,7 @@ pub(crate) fn name_mangler(
         renamer(
             swc_ecma_transforms_base::hygiene::Config {
                 keep_class_names: options.keep_class_names,
+                keep_fn_names: options.keep_fn_names,
                 safari_10: options.safari10,
                 top_level_mark,
                 ignore_eval: options.eval,
