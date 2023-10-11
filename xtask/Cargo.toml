@@ -12,6 +12,7 @@ version     = "0.1.0"
 
 [dependencies]
 anyhow  = "1.0.75"
+chrono = { version = "0.4.31", default-features = false, features = ["windows-targets", "winapi", "iana-time-zone", "libc"] }
 clap    = { version = "4.4.6", features = ["derive"] }
 semver = "1.0.20"
 serde = "1.0.188"
