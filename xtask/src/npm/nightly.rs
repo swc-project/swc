@@ -37,6 +37,7 @@ fn invoke_version_script(version: &Version) -> Result<()> {
     let script = repository_root()?.join("scripts/publish.sh");
 
     let status = Command::new(script)
+        .current_dir(repository_root()?)
         .arg(&version.to_string())
         .stderr(Stdio::inherit())
         .status()
