@@ -19,6 +19,9 @@
 
 - **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
 
+
+- **(es/parser)** Fix parsing of `await using` ([#8101](https://github.com/swc-project/swc/issues/8101)) ([e1043fa](https://github.com/swc-project/swc/commit/e1043fae77ca9e33b2d65ce6edc9559917a895ec))
+
 ### Features
 
 
@@ -27,6 +30,9 @@
 
 ### Miscellaneous Tasks
 
+
+
+- **(ci)** Remove unused concurrency tests ([#8100](https://github.com/swc-project/swc/issues/8100)) ([226b17f](https://github.com/swc-project/swc/commit/226b17fa868f8d9580c7ed61dd32f5db1c838982))
 
 
 - **(es/minifier)** Fix script for extracting test cases from next.js app ([#8092](https://github.com/swc-project/swc/issues/8092)) ([a2d0779](https://github.com/swc-project/swc/commit/a2d077958f071752dbc347fbf414622e0146e1fd))
@@ -1951,15 +1957,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/tsc)** Update tsc test suite ([#6982](https://github.com/swc-project/swc/issues/6982)) ([b887b30](https://github.com/swc-project/swc/commit/b887b30092c77ec67eedb7f1dd0b5570a1a16eea))
 
 ## [1.3.36] - 2023-02-21
-
-### Bug Fixes
-
-
-
-- **(css/modules)** Fix CSS `animation` on CSS Modules ([#6969](https://github.com/swc-project/swc/issues/6969)) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
-
-
-- **(es/minifier)** Fix optimization of expressions in numeric context ([#6965](https://github.com/swc-project/swc/issues/6965)) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
 
 ### Features
 
