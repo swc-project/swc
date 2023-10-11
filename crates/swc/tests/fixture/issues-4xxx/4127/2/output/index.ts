@@ -2,7 +2,8 @@ import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 function test(constructor) {
     console.log(constructor);
 }
-let _class = class _class {
+var _class;
+_class = class _$class {
 };
 _class = _ts_decorate([
     test

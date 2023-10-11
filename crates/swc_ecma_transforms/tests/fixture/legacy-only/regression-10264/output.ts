@@ -1,5 +1,6 @@
 function myDecorator(decoratee) {}
-let _class = class _class {
+var _class;
+_class = class _$class {
 };
 _class = _ts_decorate([
     myDecorator

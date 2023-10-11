@@ -1,4 +1,5 @@
-let A = class A {
+var A;
+A = class A {
 };
 A = _ts_decorate([
     dec

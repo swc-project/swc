@@ -17,13 +17,14 @@ define([
     function state() {}
     class Controller {
     }
-    class _class extends Controller {
+    var _class;
+    _class = class _$class extends Controller {
         onChange() {}
         constructor(...args){
             super(...args);
             _define_property._(this, "isTest", false);
         }
-    }
+    };
     _ts_decorate._([
         state
     ], _class.prototype, "isTest", void 0);

@@ -30,6 +30,7 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
         class_name: Default::default(),
         constructor_exprs: Default::default(),
         exports: Default::default(),
+        assign_class_expr_to: Default::default(),
     }
 }
 
@@ -49,6 +50,8 @@ pub(super) struct TscDecorator {
     constructor_exprs: Vec<Box<Expr>>,
 
     exports: Vec<ExportSpecifier>,
+
+    assign_class_expr_to: Option<Ident>,
 }
 
 impl TscDecorator {
@@ -291,14 +294,49 @@ impl VisitMut for TscDecorator {
         self.class_name = old;
     }
 
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        if let Some(var_name) = self.assign_class_expr_to.take() {
+            *e = Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: op!("="),
+                left: var_name.into(),
+                right: Box::new(e.take()),
+            });
+        }
+    }
+
     fn visit_mut_class_expr(&mut self, n: &mut ClassExpr) {
         let old = self.class_name.take();
-        if contains_decorator(n) && n.ident.is_none() {
-            n.ident = Some(private_ident!("_class"));
-        }
 
+        if contains_decorator(n) && n.ident.is_none() {
+            let ident = private_ident!("_$class");
+
+            let var_name = private_ident!("_class");
+
+            self.vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(var_name.clone().into()),
+                init: None,
+                definite: Default::default(),
+            });
+
+            self.class_name = Some(var_name.clone());
+            n.ident = Some(ident);
+
+            n.visit_mut_children_with(self);
+
+            self.class_name = old;
+
+            self.assign_class_expr_to = Some(var_name);
+
+            return;
+        }
         if let Some(ident) = &n.ident {
-            self.class_name = Some(ident.clone());
+            if self.class_name.is_none() {
+                self.class_name = Some(ident.clone());
+            }
         }
 
         n.visit_mut_children_with(self);
@@ -405,6 +443,46 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_module_item(&mut self, module_item: &mut ModuleItem) {
         match module_item {
+            ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                decl: DefaultDecl::Class(c),
+                ..
+            })) => {
+                c.visit_mut_with(self);
+
+                if self.assign_class_expr_to.is_none() {
+                    if let Some(var_name) = c.ident.clone() {
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: Pat::Ident(var_name.clone().into()),
+                            init: None,
+                            definite: Default::default(),
+                        });
+
+                        self.assign_class_expr_to = Some(var_name);
+                    }
+                }
+
+                if let Some(var_name) = self.assign_class_expr_to.take() {
+                    *module_item = ModuleItem::Stmt(
+                        Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: var_name.clone().into(),
+                            right: Box::new(Expr::Class(c.take())),
+                        })
+                        .into_stmt(),
+                    );
+
+                    self.exports
+                        .push(ExportSpecifier::Named(ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: ModuleExportName::Ident(var_name),
+                            exported: Some(ModuleExportName::Ident(quote_ident!("default"))),
+                            is_type_only: Default::default(),
+                        }));
+                }
+            }
+
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(n)) => {
                 let export_decl_span = n.span;
 
