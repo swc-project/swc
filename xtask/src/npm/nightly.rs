@@ -34,7 +34,7 @@ impl NightlyCmd {
 fn find_first_nightly(prev_version: &semver::Version, date: &str) -> Result<Version> {
     let mut ver = prev_version.clone();
 
-    for i in 0.. {
+    for i in 1.. {
         ver.pre = Prerelease::new(&format!("nightly.{}.{}", date, i))?;
 
         let tag = format!("v{}", ver);
