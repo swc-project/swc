@@ -35,6 +35,9 @@
 - **(xtask)** Add `git reduce core-ver` ([#8088](https://github.com/swc-project/swc/issues/8088)) ([3b449e3](https://github.com/swc-project/swc/commit/3b449e3bcaaf90ae72493133e7c88099b0733ebc))
 
 
+- **(xtask)** Add `--features` to `xtask bench` ([#8094](https://github.com/swc-project/swc/issues/8094)) ([f5d7acf](https://github.com/swc-project/swc/commit/f5d7acfa10b579e031c8f64deabe0ee39e4461ab))
+
+
 - Use `cargo xtask` ([#8068](https://github.com/swc-project/swc/issues/8068)) ([6420aef](https://github.com/swc-project/swc/commit/6420aefca5bd22af3a75b7ad34741509ed35377a))
 
 ### Refactor
@@ -1951,9 +1954,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(css/modules)** Fix CSS `animation` on CSS Modules ([#6969](https://github.com/swc-project/swc/issues/6969)) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
-
-
-- **(es/minifier)** Fix `toFixed`, `toPrecision`, `toExponential` and `toString` of Number ([#6960](https://github.com/swc-project/swc/issues/6960)) ([9382bda](https://github.com/swc-project/swc/commit/9382bda786613abf15cecb0bf3531dd68bb6166b))
 
 
 - **(es/minifier)** Fix optimization of expressions in numeric context ([#6965](https://github.com/swc-project/swc/issues/6965)) ([1dfadb8](https://github.com/swc-project/swc/commit/1dfadb87907ef24c7b4d5184f24f30e028c1cef2))
