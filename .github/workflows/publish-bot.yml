@@ -1,6 +1,8 @@
 name: "Publish (auto)"
 
 env:
+  GIT_AUTHOR_NAME: "SWC Bot"
+  GIT_AUTHOR_EMAIL: "bot@swc.rs"
   GIT_COMMITTER_NAME: "SWC Bot"
   GIT_COMMITTER_EMAIL: "bot@swc.rs"
 
@@ -13,4 +15,23 @@ jobs:
   publish-nightly:
     runs-on: ubuntu-latest
     steps:
-      - run: cargo xtask npm nightly
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - run: cargo xtask npm nightly --git
+
+      - name: Create commit
+        run: |
+          git add -A
+          git commit --no-verify -m 'chore: Publish nightly'
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
+
+        # Push back, using ssh
+      - name: Push back
+        run: |
+          git push git@github.com:swc-project/swc.git --no-verify
+          git push git@github.com:swc-project/swc.git --no-verify --tags

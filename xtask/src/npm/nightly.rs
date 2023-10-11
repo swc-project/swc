@@ -11,7 +11,9 @@ use crate::{
 };
 
 #[derive(Debug, Args)]
-pub(super) struct NightlyCmd {}
+pub(super) struct NightlyCmd {
+    git: bool,
+}
 
 impl NightlyCmd {
     pub fn run(self) -> Result<()> {
@@ -32,6 +34,29 @@ impl NightlyCmd {
 
             set_version(&version).context("failed to set version")?;
             bump_swc_cli().context("failed to bump swc-cli")?;
+
+            if self.git {
+                // git add -A
+                Command::new("git")
+                    .current_dir(repository_root()?)
+                    .arg("add")
+                    .arg("-A")
+                    .stderr(Stdio::inherit())
+                    .status()
+                    .context("git add failed")?;
+
+                // git commit --no-verify -m 'chore: Publish nightly'
+
+                Command::new("git")
+                    .current_dir(repository_root()?)
+                    .arg("commit")
+                    .arg("--no-verify")
+                    .arg("-m")
+                    .arg("chore: Publish nightly")
+                    .stderr(Stdio::inherit())
+                    .status()
+                    .context("git commit failed")?;
+            }
 
             Ok(())
         })
