@@ -19,6 +19,9 @@
 
 - **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
 
+
+- **(es/parser)** Fix parsing of `await using` ([#8101](https://github.com/swc-project/swc/issues/8101)) ([e1043fa](https://github.com/swc-project/swc/commit/e1043fae77ca9e33b2d65ce6edc9559917a895ec))
+
 ### Features
 
 
@@ -1954,12 +1957,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/tsc)** Update tsc test suite ([#6982](https://github.com/swc-project/swc/issues/6982)) ([b887b30](https://github.com/swc-project/swc/commit/b887b30092c77ec67eedb7f1dd0b5570a1a16eea))
 
 ## [1.3.36] - 2023-02-21
-
-### Bug Fixes
-
-
-
-- **(css/modules)** Fix CSS `animation` on CSS Modules ([#6969](https://github.com/swc-project/swc/issues/6969)) ([4771aa2](https://github.com/swc-project/swc/commit/4771aa206a6aa8c48f41eeafba12040c04358885))
 
 ### Features
 
