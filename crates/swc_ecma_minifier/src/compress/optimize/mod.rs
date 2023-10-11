@@ -30,7 +30,7 @@ use crate::{
     debug::AssertValid,
     maybe_par,
     mode::Mode,
-    option::CompressOptions,
+    option::{CompressOptions, MangleOptions},
     program_data::ProgramData,
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
@@ -59,6 +59,7 @@ mod util;
 pub(super) fn optimizer<'a>(
     marks: Marks,
     options: &'a CompressOptions,
+    mangle_options: Option<&'a MangleOptions>,
     data: &'a mut ProgramData,
     mode: &'a dyn Mode,
     debug_infinite_loop: bool,
@@ -82,6 +83,7 @@ pub(super) fn optimizer<'a>(
         },
         changed: false,
         options,
+        mangle_options,
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
@@ -197,6 +199,7 @@ struct Optimizer<'a> {
 
     changed: bool,
     options: &'a CompressOptions,
+    mangle_options: Option<&'a MangleOptions>,
     /// Statements prepended to the current statement.
     prepend_stmts: SynthesizedStmts,
     /// Statements appended to the current statement.
