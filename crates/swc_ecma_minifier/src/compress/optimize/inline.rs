@@ -203,7 +203,6 @@ impl Optimizer<'_> {
                                 )
                             }
 
-                            dbg!(u);
                             if u.declared_as_fn_decl || u.declared_as_fn_expr {
                                 if self.options.keep_fnames
                                     || self.mangle_options.map_or(false, |v| v.keep_fn_names)
@@ -419,6 +418,14 @@ impl Optimizer<'_> {
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
                             if init_usage.reassigned || !init_usage.declared {
                                 return;
+                            }
+
+                            if init_usage.declared_as_fn_decl || init_usage.declared_as_fn_expr {
+                                if self.options.keep_fnames
+                                    || self.mangle_options.map_or(false, |v| v.keep_fn_names)
+                                {
+                                    return;
+                                }
                             }
                         }
                     }
