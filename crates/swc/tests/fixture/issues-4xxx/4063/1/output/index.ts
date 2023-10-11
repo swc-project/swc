@@ -11,20 +11,20 @@ define([
     Object.defineProperty(exports, "default", {
         enumerable: true,
         get: function() {
-            return _class;
+            return _cls;
         }
     });
     function state() {}
     class Controller {
     }
     var _cls;
-    class _class extends Controller {
+    _cls = class _class extends Controller {
         onChange() {}
         constructor(...args){
             super(...args);
             _define_property._(this, "isTest", false);
         }
-    }
+    };
     _ts_decorate._([
         state
     ], _cls.prototype, "isTest", void 0);

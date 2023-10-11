@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
     enumerable: true,
     get: function() {
-        return _class;
+        return _cls;
     }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
@@ -13,7 +13,7 @@ function test(constructor) {
     console.log(constructor);
 }
 var _cls;
-let _class = class _class {
+_cls = class _class {
 };
 _cls = _ts_decorate._([
     test
