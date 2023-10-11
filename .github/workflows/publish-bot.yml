@@ -21,11 +21,6 @@ jobs:
 
       - run: cargo xtask npm nightly --git
 
-      - name: Create commit
-        run: |
-          git add -A
-          git commit --no-verify -m 'chore: Publish nightly'
-
       - uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SWC_BOT_SSH }}
