@@ -311,7 +311,7 @@ impl VisitMut for TscDecorator {
         let old = self.class_name.take();
 
         if contains_decorator(n) && n.ident.is_none() {
-            let ident = private_ident!("__class");
+            let ident = private_ident!("_$class");
 
             let var_name = private_ident!("_class");
 
