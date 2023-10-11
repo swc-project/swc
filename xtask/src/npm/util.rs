@@ -1,10 +1,10 @@
 use std::process::Command;
 
-use anyhow::Result;
+use anyhow::{Context, Result};
 use cargo_metadata::MetadataCommand;
 use semver::Version;
 
-use crate::util::repository_root;
+use crate::util::{repository_root, wrap};
 
 /// Get the list of swc crates in the main swc repository.
 fn get_swc_crates_of_bindings() -> Result<Vec<String>> {
@@ -38,7 +38,7 @@ pub fn update_swc_crates() -> Result<()> {
 }
 
 pub fn set_version(version: &Version) -> Result<()> {
-    {
+    wrap(|| {
         let mut c = Command::new("npm");
         c.current_dir(repository_root()?);
         c.arg("version")
@@ -47,9 +47,12 @@ pub fn set_version(version: &Version) -> Result<()> {
             .arg("--allow-same-version");
 
         c.status()?;
-    }
 
-    {
+        Ok(())
+    })
+    .with_context(|| format!("failed to set version of @swc/core to v{}", version))?;
+
+    wrap(|| {
         let mut c = Command::new("npm");
         c.current_dir(repository_root()?.join("packages").join("minifier"));
         c.arg("version")
@@ -58,9 +61,12 @@ pub fn set_version(version: &Version) -> Result<()> {
             .arg("--allow-same-version");
 
         c.status()?;
-    }
 
-    {
+        Ok(())
+    })
+    .with_context(|| format!("failed to set version of @swc/minifier to v{}", version))?;
+
+    wrap(|| {
         let mut c = Command::new("cargo");
         c.current_dir(repository_root()?.join("bindings"));
         c.arg("set-version")
@@ -71,7 +77,9 @@ pub fn set_version(version: &Version) -> Result<()> {
             .arg("binding_minifier_wasm");
 
         c.status()?;
-    }
+        Ok(())
+    })
+    .with_context(|| format!("failed to set version of Wasm packages to v{}", version))?;
 
     Ok(())
 }
