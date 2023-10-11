@@ -53,40 +53,6 @@ impl Operator<'_> {
 
         Some(class_expr)
     }
-
-    fn keep_fn_name(&mut self, ident: &mut Ident, f: &mut Function) -> Option<FnExpr> {
-        if !self.config.keep_fn_names {
-            return None;
-        }
-
-        let mut orig_name = ident.clone();
-        orig_name.span.ctxt = SyntaxContext::empty();
-
-        {
-            // Remove span hygiene of the class.
-            let mut rename = AHashMap::default();
-
-            rename.insert(ident.to_id(), orig_name.sym.clone());
-
-            let mut operator = Operator {
-                rename: &rename,
-                config: self.config.clone(),
-                extra: Default::default(),
-            };
-
-            f.visit_mut_with(&mut operator);
-        }
-
-        let _ = self.rename_ident(ident);
-        f.visit_mut_with(self);
-
-        let fn_expr = FnExpr {
-            ident: Some(orig_name),
-            function: Box::new(f.take()),
-        };
-
-        Some(fn_expr)
-    }
 }
 
 impl Parallel for Operator<'_> {
@@ -141,19 +107,6 @@ impl<'a> VisitMut for Operator<'a> {
         n.class.visit_mut_with(self);
     }
 
-    fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
-        if let Some(ident) = &mut n.ident {
-            if let Some(expr) = self.keep_fn_name(ident, &mut n.function) {
-                *n = expr;
-                return;
-            }
-        }
-
-        n.ident.visit_mut_with(self);
-
-        n.function.visit_mut_with(self);
-    }
-
     fn visit_mut_decl(&mut self, decl: &mut Decl) {
         match decl {
             Decl::Class(cls) if self.config.keep_class_names => {
@@ -179,31 +132,6 @@ impl<'a> VisitMut for Operator<'a> {
 
                 return;
             }
-
-            Decl::Fn(f) if self.config.keep_fn_names => {
-                let span = f.function.span;
-
-                let expr = self.keep_fn_name(&mut f.ident, &mut f.function);
-                if let Some(expr) = expr {
-                    let var = VarDeclarator {
-                        span,
-                        name: f.ident.clone().into(),
-                        init: Some(Box::new(Expr::Fn(expr))),
-                        definite: false,
-                    };
-                    *decl = VarDecl {
-                        span,
-                        kind: VarDeclKind::Let,
-                        declare: false,
-                        decls: vec![var],
-                    }
-                    .into();
-                    return;
-                }
-
-                return;
-            }
-
             _ => {}
         }
 
