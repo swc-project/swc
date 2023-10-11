@@ -12,6 +12,7 @@ use crate::{
 
 #[derive(Debug, Args)]
 pub(super) struct NightlyCmd {
+    #[clap(long)]
     git: bool,
 }
 
@@ -52,7 +53,7 @@ impl NightlyCmd {
                     .arg("commit")
                     .arg("--no-verify")
                     .arg("-m")
-                    .arg("chore: Publish nightly")
+                    .arg(format!("chore: Publish {}", version))
                     .stderr(Stdio::inherit())
                     .status()
                     .context("git commit failed")?;
