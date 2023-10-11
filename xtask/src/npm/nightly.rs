@@ -1,6 +1,6 @@
 use std::process::{Command, Stdio};
 
-use anyhow::{Context, Result};
+use anyhow::{bail, Context, Result};
 use chrono::Utc;
 use clap::Args;
 use semver::{Prerelease, Version};
@@ -25,10 +25,28 @@ impl NightlyCmd {
 
             println!("Publishing nightly version {}", version);
 
+            invoke_version_script(&version)?;
+
             Ok(())
         })
         .context("failed to publish nightly version")
     }
+}
+
+fn invoke_version_script(version: &Version) -> Result<()> {
+    let script = repository_root()?.join("scripts/publish.sh");
+
+    let status = Command::new(script)
+        .arg(&version.to_string())
+        .stderr(Stdio::inherit())
+        .status()
+        .context("failed to invoke publish.sh")?;
+
+    if !status.success() {
+        bail!("version.sh failed");
+    }
+
+    Ok(())
 }
 
 fn find_first_nightly(prev_version: &semver::Version, date: &str) -> Result<Version> {
