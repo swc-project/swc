@@ -126,8 +126,10 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
             }
 
+            let mut eaten_await = false;
             if peeked_is!(self, "using") {
                 assert_and_bump!(self, "await");
+                eaten_await = true;
 
                 let v = self.parse_using_decl(start, true)?;
                 if let Some(v) = v {
@@ -135,7 +137,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            let expr = self.parse_await_expr()?;
+            let expr = self.parse_await_expr(!eaten_await)?;
             let expr = self
                 .include_in_expr(true)
                 .parse_bin_op_recursively(expr, 0)?;

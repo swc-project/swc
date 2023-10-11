@@ -330,7 +330,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "await") {
-            return self.parse_await_expr();
+            return self.parse_await_expr(true);
         }
 
         // UpdateExpression
@@ -361,10 +361,12 @@ impl<I: Tokens> Parser<I> {
         Ok(expr)
     }
 
-    pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
+    pub(crate) fn parse_await_expr(&mut self, expect_await_token: bool) -> PResult<Box<Expr>> {
         let start = cur_pos!(self);
 
-        assert_and_bump!(self, "await");
+        if expect_await_token {
+            assert_and_bump!(self, "await");
+        }
 
         if is!(self, '*') {
             syntax_error!(self, SyntaxError::AwaitStar);
