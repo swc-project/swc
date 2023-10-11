@@ -447,6 +447,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "cargo_metadata"
+version = "0.18.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fb9ac64500cc83ce4b9f8dafa78186aa008c8dea77a09b94cd307fd0cd5022a8"
+dependencies = [
+ "camino",
+ "cargo-platform",
+ "semver 1.0.20",
+ "serde",
+ "serde_json",
+ "thiserror",
+]
+
+[[package]]
 name = "cast"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5232,7 +5246,7 @@ name = "testing"
 version = "0.35.0"
 dependencies = [
  "ansi_term",
- "cargo_metadata",
+ "cargo_metadata 0.15.4",
  "difference",
  "once_cell",
  "pretty_assertions",
@@ -6606,6 +6620,7 @@ name = "xtask"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "cargo_metadata 0.18.0",
  "chrono",
  "clap 4.4.6",
  "semver 1.0.20",
