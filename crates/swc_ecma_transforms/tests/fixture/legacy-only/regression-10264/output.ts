@@ -1,7 +1,8 @@
 function myDecorator(decoratee) {}
-let _class = class _class {
+var _cls;
+_cls = class _class {
 };
-_class = _ts_decorate([
+_cls = _ts_decorate([
     myDecorator
-], _class);
-export { _class as default };
+], _cls);
+export { _cls as default };
