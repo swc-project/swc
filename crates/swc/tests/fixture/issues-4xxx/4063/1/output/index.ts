@@ -11,14 +11,14 @@ define([
     Object.defineProperty(exports, "default", {
         enumerable: true,
         get: function() {
-            return _cls;
+            return _class;
         }
     });
     function state() {}
     class Controller {
     }
-    var _cls;
-    _cls = class _class extends Controller {
+    var _class;
+    _class = class __class extends Controller {
         onChange() {}
         constructor(...args){
             super(...args);
@@ -27,5 +27,5 @@ define([
     };
     _ts_decorate._([
         state
-    ], _cls.prototype, "isTest", void 0);
+    ], _class.prototype, "isTest", void 0);
 });
