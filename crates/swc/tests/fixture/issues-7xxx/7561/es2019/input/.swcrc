@@ -4,7 +4,7 @@
             "syntax": "ecmascript",
             "jsx": false
         },
-        "target": "es2020",
+        "target": "es2019",
         "loose": false,
         "minify": {
             "compress": false,
