@@ -3494,12 +3494,14 @@
                     })(key, options1)(target[key], source[key], options1) : destination[key] = cloneUnlessOtherwiseSpecified(source[key], options1));
                 }), destination);
             }
-            deepmerge.all = function(array, options) {
+            deepmerge.all = function deepmergeAll(array, options) {
                 if (!Array.isArray(array)) throw Error("first argument should be an array");
                 return array.reduce(function(prev, next) {
                     return deepmerge(prev, next, options);
                 }, {});
-            }, module.exports = deepmerge;
+            };
+            var deepmerge_1 = deepmerge;
+            module.exports = deepmerge_1;
         },
         5202: function() {
             !function() {
@@ -5858,9 +5860,9 @@
                 };
             }, variant = function(_ref) {
                 var _config, sx, scale = _ref.scale, _ref$prop = _ref.prop, _ref$variants = _ref.variants, variants = void 0 === _ref$variants ? {} : _ref$variants, key = _ref.key;
-                return (sx = Object.keys(variants).length ? function(value, scale, props) {
+                return (sx = Object.keys(variants).length ? function sx(value, scale, props) {
                     return css_dist_index_esm(get(scale, value, null))(props.theme);
-                } : function(value, scale) {
+                } : function sx(value, scale) {
                     return get(scale, value, null);
                 }).scale = scale || key, sx.defaults = variants, createParser(((_config = {})[void 0 === _ref$prop ? "variant" : _ref$prop] = sx, _config));
             }, buttonStyle = variant({
@@ -5909,10 +5911,10 @@
                             setSystemColorMode(isNight ? "night" : "day");
                         }
                         if (media) {
-                            if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
+                            if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function cleanup() {
                                 media.removeEventListener("change", handleChange);
                             };
-                            if (void 0 !== media.addListener) return media.addListener(handleChange), function() {
+                            if (void 0 !== media.addListener) return media.addListener(handleChange), function cleanup() {
                                 media.removeListener(handleChange);
                             };
                         }
@@ -5945,7 +5947,7 @@
                     theme,
                     colorScheme
                 ]);
-                return react.useEffect(function() {
+                return react.useEffect(function updateColorModeAfterServerPassthrough() {
                     const resolvedColorModeOnClient = resolveColorMode(colorMode, systemColorMode);
                     resolvedColorModePassthrough.current && (resolvedColorModePassthrough.current !== resolvedColorModeOnClient && window.setTimeout(()=>{
                         setColorMode(resolvedColorModeOnClient), setColorMode(colorMode);
@@ -6443,7 +6445,7 @@
                 fontFamily: "normal",
                 lineHeight: "default"
             };
-            var ThemedApp = function() {
+            var lib_esm_BaseStyles = BaseStyles, ThemedApp = function() {
                 var ref = (0, react.useState)(!1), render = ref[0], setRender = ref[1];
                 return (0, react.useEffect)(function() {
                     console.log("PRERENDER: useEffect"), setRender(!0);
@@ -6456,7 +6458,7 @@
             }, _app = function() {
                 return (0, jsx_runtime.jsx)(SSRProvider, {
                     children: (0, jsx_runtime.jsx)(ThemeProvider, {
-                        children: (0, jsx_runtime.jsx)(BaseStyles, {
+                        children: (0, jsx_runtime.jsx)(lib_esm_BaseStyles, {
                             children: (0, jsx_runtime.jsx)(ThemedApp, {})
                         })
                     })
@@ -6608,7 +6610,7 @@
             module.exports = __webpack_require__(9921);
         },
         6774: function(module) {
-            module.exports = function(objA, objB, compare, compareContext) {
+            module.exports = function shallowEqual(objA, objB, compare, compareContext) {
                 var ret = compare ? compare.call(compareContext, objA, objB) : void 0;
                 if (void 0 !== ret) return !!ret;
                 if (objA === objB) return !0;

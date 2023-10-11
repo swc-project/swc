@@ -6603,7 +6603,7 @@
                             key: key,
                             hashId: hashId
                         };
-                    }, this.findKeyCommand = function(hashId, keyString) {
+                    }, this.findKeyCommand = function findKeyCommand(hashId, keyString) {
                         var key = KEY_MODS[hashId] + keyString;
                         return this.commandKeyBinding[key];
                     }, this.handleKeyboard = function(data, hashId, keyString, keyCode) {

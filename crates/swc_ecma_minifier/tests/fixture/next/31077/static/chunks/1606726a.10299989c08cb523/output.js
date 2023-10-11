@@ -234,27 +234,27 @@
                     configurable: !0
                 }
             };
-            ViewDesc.prototype.matchesWidget = function() {
+            ViewDesc.prototype.matchesWidget = function matchesWidget() {
                 return !1;
-            }, ViewDesc.prototype.matchesMark = function() {
+            }, ViewDesc.prototype.matchesMark = function matchesMark() {
                 return !1;
-            }, ViewDesc.prototype.matchesNode = function() {
+            }, ViewDesc.prototype.matchesNode = function matchesNode() {
                 return !1;
-            }, ViewDesc.prototype.matchesHack = function(_nodeName) {
+            }, ViewDesc.prototype.matchesHack = function matchesHack(_nodeName) {
                 return !1;
-            }, ViewDesc.prototype.parseRule = function() {
+            }, ViewDesc.prototype.parseRule = function parseRule() {
                 return null;
-            }, ViewDesc.prototype.stopEvent = function() {
+            }, ViewDesc.prototype.stopEvent = function stopEvent() {
                 return !1;
             }, prototypeAccessors.size.get = function() {
                 for(var size = 0, i = 0; i < this.children.length; i++)size += this.children[i].size;
                 return size;
             }, prototypeAccessors.border.get = function() {
                 return 0;
-            }, ViewDesc.prototype.destroy = function() {
+            }, ViewDesc.prototype.destroy = function destroy() {
                 this.parent = null, this.dom.pmViewDesc == this && (this.dom.pmViewDesc = null);
                 for(var i = 0; i < this.children.length; i++)this.children[i].destroy();
-            }, ViewDesc.prototype.posBeforeChild = function(child) {
+            }, ViewDesc.prototype.posBeforeChild = function posBeforeChild(child) {
                 for(var i = 0, pos = this.posAtStart; i < this.children.length; i++){
                     var cur = this.children[i];
                     if (cur == child) return pos;
@@ -268,7 +268,7 @@
                 return this.posBefore + this.size;
             }, prototypeAccessors.posAtEnd.get = function() {
                 return this.posAtStart + this.size - 2 * this.border;
-            }, ViewDesc.prototype.localPosFromDOM = function(dom, offset, bias) {
+            }, ViewDesc.prototype.localPosFromDOM = function localPosFromDOM(dom, offset, bias) {
                 if (this.contentDOM && this.contentDOM.contains(1 == dom.nodeType ? dom : dom.parentNode)) {
                     if (bias < 0) {
                         if (dom == this.contentDOM) domBefore = dom.childNodes[offset - 1];
@@ -306,7 +306,7 @@
                     }
                 }
                 return (null == atEnd ? bias > 0 : atEnd) ? this.posAtEnd : this.posAtStart;
-            }, ViewDesc.prototype.nearestDesc = function(dom, onlyNodes) {
+            }, ViewDesc.prototype.nearestDesc = function nearestDesc(dom, onlyNodes) {
                 for(var first = !0, cur = dom; cur; cur = cur.parentNode){
                     var desc = this.getDesc(cur);
                     if (desc && (!onlyNodes || desc.node)) {
@@ -314,15 +314,15 @@
                         first = !1;
                     }
                 }
-            }, ViewDesc.prototype.getDesc = function(dom) {
+            }, ViewDesc.prototype.getDesc = function getDesc(dom) {
                 for(var desc = dom.pmViewDesc, cur = desc; cur; cur = cur.parent)if (cur == this) return desc;
-            }, ViewDesc.prototype.posFromDOM = function(dom, offset, bias) {
+            }, ViewDesc.prototype.posFromDOM = function posFromDOM(dom, offset, bias) {
                 for(var scan = dom; scan; scan = scan.parentNode){
                     var desc = this.getDesc(scan);
                     if (desc) return desc.localPosFromDOM(dom, offset, bias);
                 }
                 return -1;
-            }, ViewDesc.prototype.descAt = function(pos) {
+            }, ViewDesc.prototype.descAt = function descAt(pos) {
                 for(var i = 0, offset = 0; i < this.children.length; i++){
                     var child = this.children[i], end = offset + child.size;
                     if (offset == pos && end != offset) {
@@ -332,7 +332,7 @@
                     if (pos < end) return child.descAt(pos - offset - child.border);
                     offset = end;
                 }
-            }, ViewDesc.prototype.domFromPos = function(pos, side) {
+            }, ViewDesc.prototype.domFromPos = function domFromPos(pos, side) {
                 if (!this.contentDOM) return {
                     node: this.dom,
                     offset: 0
@@ -359,7 +359,7 @@
                     node: this.contentDOM,
                     offset: next ? domIndex(next.dom) : this.contentDOM.childNodes.length
                 };
-            }, ViewDesc.prototype.parseRange = function(from, to, base) {
+            }, ViewDesc.prototype.parseRange = function parseRange(from, to, base) {
                 if (void 0 === base && (base = 0), 0 == this.children.length) return {
                     node: this.contentDOM,
                     from: from,
@@ -405,15 +405,15 @@
                     fromOffset: fromOffset,
                     toOffset: toOffset
                 };
-            }, ViewDesc.prototype.emptyChildAt = function(side) {
+            }, ViewDesc.prototype.emptyChildAt = function emptyChildAt(side) {
                 if (this.border || !this.contentDOM || !this.children.length) return !1;
                 var child = this.children[side < 0 ? 0 : this.children.length - 1];
                 return 0 == child.size || child.emptyChildAt(side);
-            }, ViewDesc.prototype.domAfterPos = function(pos) {
+            }, ViewDesc.prototype.domAfterPos = function domAfterPos(pos) {
                 var ref = this.domFromPos(pos, 0), node = ref.node, offset = ref.offset;
                 if (1 != node.nodeType || offset == node.childNodes.length) throw RangeError("No node after pos " + pos);
                 return node.childNodes[offset];
-            }, ViewDesc.prototype.setSelection = function(anchor, head, root, force) {
+            }, ViewDesc.prototype.setSelection = function setSelection(anchor, head, root, force) {
                 for(var from = Math.min(anchor, head), to = Math.max(anchor, head), i = 0, offset = 0; i < this.children.length; i++){
                     var child = this.children[i], end = offset + child.size;
                     if (from > offset && to < end) return child.setSelection(anchor - offset - child.border, head - offset - child.border, root, force);
@@ -462,11 +462,11 @@
                         range.setEnd(headDOM.node, headDOM.offset), range.setStart(anchorDOM.node, anchorDOM.offset), domSel.removeAllRanges(), domSel.addRange(range);
                     }
                 }
-            }, ViewDesc.prototype.ignoreMutation = function(mutation) {
+            }, ViewDesc.prototype.ignoreMutation = function ignoreMutation(mutation) {
                 return !this.contentDOM && "selection" != mutation.type;
             }, prototypeAccessors.contentLost.get = function() {
                 return this.contentDOM && this.contentDOM != this.dom && !this.dom.contains(this.contentDOM);
-            }, ViewDesc.prototype.markDirty = function(from, to) {
+            }, ViewDesc.prototype.markDirty = function markDirty(from, to) {
                 for(var offset = 0, i = 0; i < this.children.length; i++){
                     var child = this.children[i], end = offset + child.size;
                     if (offset == end ? from <= end && to >= offset : from < end && to > offset) {
@@ -480,7 +480,7 @@
                     offset = end;
                 }
                 this.dirty = 2;
-            }, ViewDesc.prototype.markParentsDirty = function() {
+            }, ViewDesc.prototype.markParentsDirty = function markParentsDirty() {
                 for(var level = 1, node = this.parent; node; node = node.parent, level++){
                     var dirty = 1 == level ? 2 : 1;
                     node.dirty < dirty && (node.dirty = dirty);
@@ -510,16 +510,16 @@
                         configurable: !0
                     }
                 };
-                return WidgetViewDesc.prototype.matchesWidget = function(widget) {
+                return WidgetViewDesc.prototype.matchesWidget = function matchesWidget(widget) {
                     return 0 == this.dirty && widget.type.eq(this.widget.type);
-                }, WidgetViewDesc.prototype.parseRule = function() {
+                }, WidgetViewDesc.prototype.parseRule = function parseRule() {
                     return {
                         ignore: !0
                     };
-                }, WidgetViewDesc.prototype.stopEvent = function(event) {
+                }, WidgetViewDesc.prototype.stopEvent = function stopEvent(event) {
                     var stop = this.widget.spec.stopEvent;
                     return !!stop && stop(event);
-                }, WidgetViewDesc.prototype.ignoreMutation = function(mutation) {
+                }, WidgetViewDesc.prototype.ignoreMutation = function ignoreMutation(mutation) {
                     return "selection" != mutation.type || this.widget.spec.ignoreSelection;
                 }, prototypeAccessors$1.domAtom.get = function() {
                     return !0;
@@ -536,37 +536,37 @@
                 };
                 return prototypeAccessors$2.size.get = function() {
                     return this.text.length;
-                }, CompositionViewDesc.prototype.localPosFromDOM = function(dom, offset) {
+                }, CompositionViewDesc.prototype.localPosFromDOM = function localPosFromDOM(dom, offset) {
                     return dom != this.textDOM ? this.posAtStart + (offset ? this.size : 0) : this.posAtStart + offset;
-                }, CompositionViewDesc.prototype.domFromPos = function(pos) {
+                }, CompositionViewDesc.prototype.domFromPos = function domFromPos(pos) {
                     return {
                         node: this.textDOM,
                         offset: pos
                     };
-                }, CompositionViewDesc.prototype.ignoreMutation = function(mut) {
+                }, CompositionViewDesc.prototype.ignoreMutation = function ignoreMutation(mut) {
                     return "characterData" === mut.type && mut.target.nodeValue == mut.oldValue;
                 }, Object.defineProperties(CompositionViewDesc.prototype, prototypeAccessors$2), CompositionViewDesc;
             }(ViewDesc), MarkViewDesc = function(ViewDesc) {
                 function MarkViewDesc(parent, mark, dom, contentDOM) {
                     ViewDesc.call(this, parent, [], dom, contentDOM), this.mark = mark;
                 }
-                return ViewDesc && (MarkViewDesc.__proto__ = ViewDesc), MarkViewDesc.prototype = Object.create(ViewDesc && ViewDesc.prototype), MarkViewDesc.prototype.constructor = MarkViewDesc, MarkViewDesc.create = function(parent, mark, inline, view) {
+                return ViewDesc && (MarkViewDesc.__proto__ = ViewDesc), MarkViewDesc.prototype = Object.create(ViewDesc && ViewDesc.prototype), MarkViewDesc.prototype.constructor = MarkViewDesc, MarkViewDesc.create = function create(parent, mark, inline, view) {
                     var custom = view.nodeViews[mark.type.name], spec = custom && custom(mark, view, inline);
                     return spec && spec.dom || (spec = prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMSerializer.renderSpec(document, mark.type.spec.toDOM(mark, inline))), new MarkViewDesc(parent, mark, spec.dom, spec.contentDOM || spec.dom);
-                }, MarkViewDesc.prototype.parseRule = function() {
+                }, MarkViewDesc.prototype.parseRule = function parseRule() {
                     return {
                         mark: this.mark.type.name,
                         attrs: this.mark.attrs,
                         contentElement: this.contentDOM
                     };
-                }, MarkViewDesc.prototype.matchesMark = function(mark) {
+                }, MarkViewDesc.prototype.matchesMark = function matchesMark(mark) {
                     return 3 != this.dirty && this.mark.eq(mark);
-                }, MarkViewDesc.prototype.markDirty = function(from, to) {
+                }, MarkViewDesc.prototype.markDirty = function markDirty(from, to) {
                     if (ViewDesc.prototype.markDirty.call(this, from, to), 0 != this.dirty) {
                         for(var parent = this.parent; !parent.node;)parent = parent.parent;
                         parent.dirty < this.dirty && (parent.dirty = this.dirty), this.dirty = 0;
                     }
-                }, MarkViewDesc.prototype.slice = function(from, to, view) {
+                }, MarkViewDesc.prototype.slice = function slice(from, to, view) {
                     var copy = MarkViewDesc.create(this.parent, this.mark, !0, view), nodes = this.children, size = this.size;
                     to < size && (nodes = replaceNodes(nodes, to, size, view)), from > 0 && (nodes = replaceNodes(nodes, 0, from, view));
                     for(var i = 0; i < nodes.length; i++)nodes[i].parent = copy;
@@ -588,7 +588,7 @@
                         configurable: !0
                     }
                 };
-                return NodeViewDesc.create = function(parent, node, outerDeco, innerDeco, view, pos) {
+                return NodeViewDesc.create = function create(parent, node, outerDeco, innerDeco, view, pos) {
                     var assign, descObj, custom = view.nodeViews[node.type.name], spec = custom && custom(node, view, function() {
                         return descObj ? descObj.parent ? descObj.parent.posBeforeChild(descObj) : void 0 : pos;
                     }, outerDeco, innerDeco), dom = spec && spec.dom, contentDOM = spec && spec.contentDOM;
@@ -600,7 +600,7 @@
                     contentDOM || node.isText || "BR" == dom.nodeName || (dom.hasAttribute("contenteditable") || (dom.contentEditable = !1), node.type.spec.draggable && (dom.draggable = !0));
                     var nodeDOM = dom;
                     return (dom = applyOuterDeco(dom, outerDeco, node), spec) ? descObj = new CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos + 1) : node.isText ? new TextViewDesc(parent, node, outerDeco, innerDeco, dom, nodeDOM, view) : new NodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos + 1);
-                }, NodeViewDesc.prototype.parseRule = function() {
+                }, NodeViewDesc.prototype.parseRule = function parseRule() {
                     var this$1 = this;
                     if (this.node.type.spec.reparseInView) return null;
                     var rule = {
@@ -610,13 +610,13 @@
                     return this.node.type.spec.code && (rule.preserveWhitespace = "full"), this.contentDOM && !this.contentLost ? rule.contentElement = this.contentDOM : rule.getContent = function() {
                         return this$1.contentDOM ? prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.Fragment.empty : this$1.node.content;
                     }, rule;
-                }, NodeViewDesc.prototype.matchesNode = function(node, outerDeco, innerDeco) {
+                }, NodeViewDesc.prototype.matchesNode = function matchesNode(node, outerDeco, innerDeco) {
                     return 0 == this.dirty && node.eq(this.node) && sameOuterDeco(outerDeco, this.outerDeco) && innerDeco.eq(this.innerDeco);
                 }, prototypeAccessors$3.size.get = function() {
                     return this.node.nodeSize;
                 }, prototypeAccessors$3.border.get = function() {
                     return this.node.isLeaf ? 0 : 1;
-                }, NodeViewDesc.prototype.updateChildren = function(view, pos) {
+                }, NodeViewDesc.prototype.updateChildren = function updateChildren(view, pos) {
                     var this$1 = this, inline = this.node.inlineContent, off = pos, composition = view.composing && this.localCompositionInfo(view, pos), localComposition = composition && composition.pos > -1 ? composition : null, compositionInChild = composition && composition.pos < 0, updater = new ViewTreeUpdater(this, localComposition && localComposition.node);
                     (function(parent, deco, onWidget, onNode) {
                         var locals = deco.locals(parent), offset = 0;
@@ -680,7 +680,7 @@
                             dom.style.cssText = oldCSS + "; list-style: square !important", window.getComputedStyle(dom).listStyle, dom.style.cssText = oldCSS;
                         }
                     }(this.dom));
-                }, NodeViewDesc.prototype.localCompositionInfo = function(view, pos) {
+                }, NodeViewDesc.prototype.localCompositionInfo = function localCompositionInfo(view, pos) {
                     var ref = view.state.selection, from = ref.from, to = ref.to;
                     if (view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection && !(from < pos) && !(to > pos + this.node.content.size)) {
                         var sel = view.root.getSelection(), textNode = function(node, offset) {
@@ -724,7 +724,7 @@
                             };
                         }
                     }
-                }, NodeViewDesc.prototype.protectLocalComposition = function(view, ref) {
+                }, NodeViewDesc.prototype.protectLocalComposition = function protectLocalComposition(view, ref) {
                     var node = ref.node, pos = ref.pos, text = ref.text;
                     if (!this.getDesc(node)) {
                         for(var topNode = node; topNode.parentNode != this.contentDOM; topNode = topNode.parentNode){
@@ -735,18 +735,18 @@
                         var desc = new CompositionViewDesc(this, topNode, node, text);
                         view.compositionNodes.push(desc), this.children = replaceNodes(this.children, pos, pos + text.length, view, desc);
                     }
-                }, NodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
+                }, NodeViewDesc.prototype.update = function update(node, outerDeco, innerDeco, view) {
                     return !!(3 != this.dirty && node.sameMarkup(this.node)) && (this.updateInner(node, outerDeco, innerDeco, view), !0);
-                }, NodeViewDesc.prototype.updateInner = function(node, outerDeco, innerDeco, view) {
+                }, NodeViewDesc.prototype.updateInner = function updateInner(node, outerDeco, innerDeco, view) {
                     this.updateOuterDeco(outerDeco), this.node = node, this.innerDeco = innerDeco, this.contentDOM && this.updateChildren(view, this.posAtStart), this.dirty = 0;
-                }, NodeViewDesc.prototype.updateOuterDeco = function(outerDeco) {
+                }, NodeViewDesc.prototype.updateOuterDeco = function updateOuterDeco(outerDeco) {
                     if (!sameOuterDeco(outerDeco, this.outerDeco)) {
                         var needsWrap = 1 != this.nodeDOM.nodeType, oldDOM = this.dom;
                         this.dom = patchOuterDeco(this.dom, this.nodeDOM, computeOuterDeco(this.outerDeco, this.node, needsWrap), computeOuterDeco(outerDeco, this.node, needsWrap)), this.dom != oldDOM && (oldDOM.pmViewDesc = null, this.dom.pmViewDesc = this), this.outerDeco = outerDeco;
                     }
-                }, NodeViewDesc.prototype.selectNode = function() {
+                }, NodeViewDesc.prototype.selectNode = function selectNode() {
                     this.nodeDOM.classList.add("ProseMirror-selectednode"), (this.contentDOM || !this.node.type.spec.draggable) && (this.dom.draggable = !0);
-                }, NodeViewDesc.prototype.deselectNode = function() {
+                }, NodeViewDesc.prototype.deselectNode = function deselectNode() {
                     this.nodeDOM.classList.remove("ProseMirror-selectednode"), (this.contentDOM || !this.node.type.spec.draggable) && this.dom.removeAttribute("draggable");
                 }, prototypeAccessors$3.domAtom.get = function() {
                     return this.node.isAtom;
@@ -765,29 +765,29 @@
                         configurable: !0
                     }
                 };
-                return TextViewDesc.prototype.parseRule = function() {
+                return TextViewDesc.prototype.parseRule = function parseRule() {
                     for(var skip = this.nodeDOM.parentNode; skip && skip != this.dom && !skip.pmIsDeco;)skip = skip.parentNode;
                     return {
                         skip: skip || !0
                     };
-                }, TextViewDesc.prototype.update = function(node, outerDeco, _, view) {
+                }, TextViewDesc.prototype.update = function update(node, outerDeco, _, view) {
                     return !!(3 != this.dirty && (0 == this.dirty || this.inParent()) && node.sameMarkup(this.node)) && (this.updateOuterDeco(outerDeco), (0 != this.dirty || node.text != this.node.text) && node.text != this.nodeDOM.nodeValue && (this.nodeDOM.nodeValue = node.text, view.trackWrites == this.nodeDOM && (view.trackWrites = null)), this.node = node, this.dirty = 0, !0);
-                }, TextViewDesc.prototype.inParent = function() {
+                }, TextViewDesc.prototype.inParent = function inParent() {
                     for(var parentDOM = this.parent.contentDOM, n = this.nodeDOM; n; n = n.parentNode)if (n == parentDOM) return !0;
                     return !1;
-                }, TextViewDesc.prototype.domFromPos = function(pos) {
+                }, TextViewDesc.prototype.domFromPos = function domFromPos(pos) {
                     return {
                         node: this.nodeDOM,
                         offset: pos
                     };
-                }, TextViewDesc.prototype.localPosFromDOM = function(dom, offset, bias) {
+                }, TextViewDesc.prototype.localPosFromDOM = function localPosFromDOM(dom, offset, bias) {
                     return dom == this.nodeDOM ? this.posAtStart + Math.min(offset, this.node.text.length) : NodeViewDesc.prototype.localPosFromDOM.call(this, dom, offset, bias);
-                }, TextViewDesc.prototype.ignoreMutation = function(mutation) {
+                }, TextViewDesc.prototype.ignoreMutation = function ignoreMutation(mutation) {
                     return "characterData" != mutation.type && "selection" != mutation.type;
-                }, TextViewDesc.prototype.slice = function(from, to, view) {
+                }, TextViewDesc.prototype.slice = function slice(from, to, view) {
                     var node = this.node.cut(from, to), dom = document.createTextNode(node.text);
                     return new TextViewDesc(this.parent, node, this.outerDeco, this.innerDeco, dom, dom, view);
-                }, TextViewDesc.prototype.markDirty = function(from, to) {
+                }, TextViewDesc.prototype.markDirty = function markDirty(from, to) {
                     NodeViewDesc.prototype.markDirty.call(this, from, to), this.dom != this.nodeDOM && (0 == from || to == this.nodeDOM.nodeValue.length) && (this.dirty = 3);
                 }, prototypeAccessors$4.domAtom.get = function() {
                     return !1;
@@ -805,11 +805,11 @@
                         configurable: !0
                     }
                 };
-                return TrailingHackViewDesc.prototype.parseRule = function() {
+                return TrailingHackViewDesc.prototype.parseRule = function parseRule() {
                     return {
                         ignore: !0
                     };
-                }, TrailingHackViewDesc.prototype.matchesHack = function(nodeName) {
+                }, TrailingHackViewDesc.prototype.matchesHack = function matchesHack(nodeName) {
                     return 0 == this.dirty && this.dom.nodeName == nodeName;
                 }, prototypeAccessors$5.domAtom.get = function() {
                     return !0;
@@ -820,24 +820,24 @@
                 function CustomNodeViewDesc(parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, spec, view, pos) {
                     NodeViewDesc.call(this, parent, node, outerDeco, innerDeco, dom, contentDOM, nodeDOM, view, pos), this.spec = spec;
                 }
-                return NodeViewDesc && (CustomNodeViewDesc.__proto__ = NodeViewDesc), CustomNodeViewDesc.prototype = Object.create(NodeViewDesc && NodeViewDesc.prototype), CustomNodeViewDesc.prototype.constructor = CustomNodeViewDesc, CustomNodeViewDesc.prototype.update = function(node, outerDeco, innerDeco, view) {
+                return NodeViewDesc && (CustomNodeViewDesc.__proto__ = NodeViewDesc), CustomNodeViewDesc.prototype = Object.create(NodeViewDesc && NodeViewDesc.prototype), CustomNodeViewDesc.prototype.constructor = CustomNodeViewDesc, CustomNodeViewDesc.prototype.update = function update(node, outerDeco, innerDeco, view) {
                     if (3 == this.dirty) return !1;
                     if (this.spec.update) {
                         var result = this.spec.update(node, outerDeco, innerDeco);
                         return result && this.updateInner(node, outerDeco, innerDeco, view), result;
                     }
                     return (!!this.contentDOM || !!node.isLeaf) && NodeViewDesc.prototype.update.call(this, node, outerDeco, innerDeco, view);
-                }, CustomNodeViewDesc.prototype.selectNode = function() {
+                }, CustomNodeViewDesc.prototype.selectNode = function selectNode() {
                     this.spec.selectNode ? this.spec.selectNode() : NodeViewDesc.prototype.selectNode.call(this);
-                }, CustomNodeViewDesc.prototype.deselectNode = function() {
+                }, CustomNodeViewDesc.prototype.deselectNode = function deselectNode() {
                     this.spec.deselectNode ? this.spec.deselectNode() : NodeViewDesc.prototype.deselectNode.call(this);
-                }, CustomNodeViewDesc.prototype.setSelection = function(anchor, head, root, force) {
+                }, CustomNodeViewDesc.prototype.setSelection = function setSelection(anchor, head, root, force) {
                     this.spec.setSelection ? this.spec.setSelection(anchor, head, root) : NodeViewDesc.prototype.setSelection.call(this, anchor, head, root, force);
-                }, CustomNodeViewDesc.prototype.destroy = function() {
+                }, CustomNodeViewDesc.prototype.destroy = function destroy() {
                     this.spec.destroy && this.spec.destroy(), NodeViewDesc.prototype.destroy.call(this);
-                }, CustomNodeViewDesc.prototype.stopEvent = function(event) {
+                }, CustomNodeViewDesc.prototype.stopEvent = function stopEvent(event) {
                     return !!this.spec.stopEvent && this.spec.stopEvent(event);
-                }, CustomNodeViewDesc.prototype.ignoreMutation = function(mutation) {
+                }, CustomNodeViewDesc.prototype.ignoreMutation = function ignoreMutation(mutation) {
                     return this.spec.ignoreMutation ? this.spec.ignoreMutation(mutation) : NodeViewDesc.prototype.ignoreMutation.call(this, mutation);
                 }, CustomNodeViewDesc;
             }(NodeViewDesc);
@@ -973,14 +973,14 @@
                     view.domObserver.setCurSelection(), view.domObserver.connectSelection();
                 }
             }
-            ViewTreeUpdater.prototype.destroyBetween = function(start, end) {
+            ViewTreeUpdater.prototype.destroyBetween = function destroyBetween(start, end) {
                 if (start != end) {
                     for(var i = start; i < end; i++)this.top.children[i].destroy();
                     this.top.children.splice(start, end - start), this.changed = !0;
                 }
-            }, ViewTreeUpdater.prototype.destroyRest = function() {
+            }, ViewTreeUpdater.prototype.destroyRest = function destroyRest() {
                 this.destroyBetween(this.index, this.top.children.length);
-            }, ViewTreeUpdater.prototype.syncToMarks = function(marks, inline, view) {
+            }, ViewTreeUpdater.prototype.syncToMarks = function syncToMarks(marks, inline, view) {
                 for(var keep = 0, depth = this.stack.length >> 1, maxKeep = Math.min(depth, marks.length); keep < maxKeep && (keep == depth - 1 ? this.top : this.stack[keep + 1 << 1]).matchesMark(marks[keep]) && !1 !== marks[keep].type.spec.spanning;)keep++;
                 for(; keep < depth;)this.destroyRest(), this.top.dirty = 0, this.index = this.stack.pop(), this.top = this.stack.pop(), depth--;
                 for(; depth < marks.length;){
@@ -996,7 +996,7 @@
                     }
                     this.index = 0, depth++;
                 }
-            }, ViewTreeUpdater.prototype.findNodeMatch = function(node, outerDeco, innerDeco, index) {
+            }, ViewTreeUpdater.prototype.findNodeMatch = function findNodeMatch(node, outerDeco, innerDeco, index) {
                 var children = this.top.children, found = -1;
                 if (index >= this.preMatch.index) {
                     for(var i = this.index; i < children.length; i++)if (children[i].matchesNode(node, outerDeco, innerDeco)) {
@@ -1011,9 +1011,9 @@
                     }
                 }
                 return !(found < 0) && (this.destroyBetween(this.index, found), this.index++, !0);
-            }, ViewTreeUpdater.prototype.updateNodeAt = function(node, outerDeco, innerDeco, index, view) {
+            }, ViewTreeUpdater.prototype.updateNodeAt = function updateNodeAt(node, outerDeco, innerDeco, index, view) {
                 return !!this.top.children[index].update(node, outerDeco, innerDeco, view) && (this.destroyBetween(this.index, index), this.index = index + 1, !0);
-            }, ViewTreeUpdater.prototype.findIndexWithChild = function(domNode) {
+            }, ViewTreeUpdater.prototype.findIndexWithChild = function findIndexWithChild(domNode) {
                 for(;;){
                     var parent = domNode.parentNode;
                     if (!parent) return -1;
@@ -1026,7 +1026,7 @@
                     }
                     domNode = parent;
                 }
-            }, ViewTreeUpdater.prototype.updateNextNode = function(node, outerDeco, innerDeco, view, index) {
+            }, ViewTreeUpdater.prototype.updateNextNode = function updateNextNode(node, outerDeco, innerDeco, view, index) {
                 for(var i = this.index; i < this.top.children.length; i++){
                     var next = this.top.children[i];
                     if (next instanceof NodeViewDesc) {
@@ -1038,19 +1038,19 @@
                     }
                 }
                 return !1;
-            }, ViewTreeUpdater.prototype.addNode = function(node, outerDeco, innerDeco, view, pos) {
+            }, ViewTreeUpdater.prototype.addNode = function addNode(node, outerDeco, innerDeco, view, pos) {
                 this.top.children.splice(this.index++, 0, NodeViewDesc.create(this.top, node, outerDeco, innerDeco, view, pos)), this.changed = !0;
-            }, ViewTreeUpdater.prototype.placeWidget = function(widget, view, pos) {
+            }, ViewTreeUpdater.prototype.placeWidget = function placeWidget(widget, view, pos) {
                 var next = this.index < this.top.children.length ? this.top.children[this.index] : null;
                 if (next && next.matchesWidget(widget) && (widget == next.widget || !next.widget.type.toDOM.parentNode)) this.index++;
                 else {
                     var desc = new WidgetViewDesc(this.top, widget, view, pos);
                     this.top.children.splice(this.index++, 0, desc), this.changed = !0;
                 }
-            }, ViewTreeUpdater.prototype.addTextblockHacks = function() {
+            }, ViewTreeUpdater.prototype.addTextblockHacks = function addTextblockHacks() {
                 for(var lastChild = this.top.children[this.index - 1]; lastChild instanceof MarkViewDesc;)lastChild = lastChild.children[lastChild.children.length - 1];
                 !(!lastChild || !(lastChild instanceof TextViewDesc) || /\n$/.test(lastChild.node.text)) || ((result.safari || result.chrome) && lastChild && "false" == lastChild.dom.contentEditable && this.addHackNode("IMG"), this.addHackNode("BR"));
-            }, ViewTreeUpdater.prototype.addHackNode = function(nodeName) {
+            }, ViewTreeUpdater.prototype.addHackNode = function addHackNode(nodeName) {
                 if (this.index < this.top.children.length && this.top.children[this.index].matchesHack(nodeName)) this.index++;
                 else {
                     var dom = document.createElement(nodeName);
@@ -1422,9 +1422,9 @@
             }, useCharData = result.ie && result.ie_version <= 11, SelectionState = function() {
                 this.anchorNode = this.anchorOffset = this.focusNode = this.focusOffset = null;
             };
-            SelectionState.prototype.set = function(sel) {
+            SelectionState.prototype.set = function set(sel) {
                 this.anchorNode = sel.anchorNode, this.anchorOffset = sel.anchorOffset, this.focusNode = sel.focusNode, this.focusOffset = sel.focusOffset;
-            }, SelectionState.prototype.eq = function(sel) {
+            }, SelectionState.prototype.eq = function eq(sel) {
                 return sel.anchorNode == this.anchorNode && sel.anchorOffset == this.anchorOffset && sel.focusNode == this.focusNode && sel.focusOffset == this.focusOffset;
             };
             var DOMObserver = function(view, handleDOMChange) {
@@ -1442,16 +1442,16 @@
                     }), this$1.flushSoon();
                 }), this.onSelectionChange = this.onSelectionChange.bind(this), this.suppressingSelectionUpdates = !1;
             };
-            DOMObserver.prototype.flushSoon = function() {
+            DOMObserver.prototype.flushSoon = function flushSoon() {
                 var this$1 = this;
                 this.flushingSoon < 0 && (this.flushingSoon = window.setTimeout(function() {
                     this$1.flushingSoon = -1, this$1.flush();
                 }, 20));
-            }, DOMObserver.prototype.forceFlush = function() {
+            }, DOMObserver.prototype.forceFlush = function forceFlush() {
                 this.flushingSoon > -1 && (window.clearTimeout(this.flushingSoon), this.flushingSoon = -1, this.flush());
-            }, DOMObserver.prototype.start = function() {
+            }, DOMObserver.prototype.start = function start() {
                 this.observer && this.observer.observe(this.view.dom, observeOptions), useCharData && this.view.dom.addEventListener("DOMCharacterDataModified", this.onCharData), this.connectSelection();
-            }, DOMObserver.prototype.stop = function() {
+            }, DOMObserver.prototype.stop = function stop() {
                 var this$1 = this;
                 if (this.observer) {
                     var take = this.observer.takeRecords();
@@ -1464,16 +1464,16 @@
                     this.observer.disconnect();
                 }
                 useCharData && this.view.dom.removeEventListener("DOMCharacterDataModified", this.onCharData), this.disconnectSelection();
-            }, DOMObserver.prototype.connectSelection = function() {
+            }, DOMObserver.prototype.connectSelection = function connectSelection() {
                 this.view.dom.ownerDocument.addEventListener("selectionchange", this.onSelectionChange);
-            }, DOMObserver.prototype.disconnectSelection = function() {
+            }, DOMObserver.prototype.disconnectSelection = function disconnectSelection() {
                 this.view.dom.ownerDocument.removeEventListener("selectionchange", this.onSelectionChange);
-            }, DOMObserver.prototype.suppressSelectionUpdates = function() {
+            }, DOMObserver.prototype.suppressSelectionUpdates = function suppressSelectionUpdates() {
                 var this$1 = this;
                 this.suppressingSelectionUpdates = !0, setTimeout(function() {
                     return this$1.suppressingSelectionUpdates = !1;
                 }, 50);
-            }, DOMObserver.prototype.onSelectionChange = function() {
+            }, DOMObserver.prototype.onSelectionChange = function onSelectionChange() {
                 var view;
                 if ((!(view = this.view).editable || view.root.activeElement == view.dom) && hasSelection(view)) {
                     if (this.suppressingSelectionUpdates) return selectionToDOM(this.view);
@@ -1483,16 +1483,16 @@
                     }
                     this.flush();
                 }
-            }, DOMObserver.prototype.setCurSelection = function() {
+            }, DOMObserver.prototype.setCurSelection = function setCurSelection() {
                 this.currentSelection.set(this.view.root.getSelection());
-            }, DOMObserver.prototype.ignoreSelectionChange = function(sel) {
+            }, DOMObserver.prototype.ignoreSelectionChange = function ignoreSelectionChange(sel) {
                 if (0 == sel.rangeCount) return !0;
                 var container = sel.getRangeAt(0).commonAncestorContainer, desc = this.view.docView.nearestDesc(container);
                 if (desc && desc.ignoreMutation({
                     type: "selection",
                     target: 3 == container.nodeType ? container.parentNode : container
                 })) return this.setCurSelection(), !0;
-            }, DOMObserver.prototype.flush = function() {
+            }, DOMObserver.prototype.flush = function flush() {
                 if (this.view.docView && !(this.flushingSoon > -1)) {
                     var view, mutations = this.observer ? this.observer.takeRecords() : [];
                     this.queue.length && (mutations = this.queue.concat(mutations), this.queue.length = 0);
@@ -1512,7 +1512,7 @@
                     }
                     (from > -1 || newSel) && (from > -1 && (this.view.docView.markDirty(from, to), view = this.view, cssChecked || (cssChecked = !0, "normal" == getComputedStyle(view.dom).whiteSpace && console.warn("ProseMirror expects the CSS white-space property to be set, preferably to 'pre-wrap'. It is recommended to load style/prosemirror.css from the prosemirror-view package."))), this.handleDOMChange(from, to, typeOver, added), this.view.docView.dirty ? this.view.updateState(this.view.state) : this.currentSelection.eq(sel) || selectionToDOM(this.view), this.currentSelection.set(sel));
                 }
-            }, DOMObserver.prototype.registerMutation = function(mut, added) {
+            }, DOMObserver.prototype.registerMutation = function registerMutation(mut, added) {
                 if (added.indexOf(mut.target) > -1) return null;
                 var desc = this.view.docView.nearestDesc(mut.target);
                 if ("attributes" == mut.type && (desc == this.view.docView || "contenteditable" == mut.attributeName || "style" == mut.attributeName && !mut.oldValue && !mut.target.getAttribute("style")) || !desc || desc.ignoreMutation(mut)) return null;
@@ -1686,12 +1686,12 @@
             function inOrNearComposition(view, event) {
                 return !!view.composing || !!(result.safari && 500 > Math.abs(event.timeStamp - view.compositionEndedAt)) && (view.compositionEndedAt = -200000000, !0);
             }
-            MouseDown.prototype.done = function() {
+            MouseDown.prototype.done = function done() {
                 var this$1 = this;
                 this.view.root.removeEventListener("mouseup", this.up), this.view.root.removeEventListener("mousemove", this.move), this.mightDrag && this.target && (this.view.domObserver.stop(), this.mightDrag.addAttr && this.target.removeAttribute("draggable"), this.mightDrag.setUneditable && this.target.removeAttribute("contentEditable"), this.view.domObserver.start()), this.delayedSelectionSync && setTimeout(function() {
                     return selectionToDOM(this$1.view);
                 }), this.view.mouseDown = null;
-            }, MouseDown.prototype.up = function(event) {
+            }, MouseDown.prototype.up = function up(event) {
                 if (this.done(), this.view.dom.contains(3 == event.target.nodeType ? event.target.parentNode : event.target)) {
                     var view, pos, inside, selectNode, pos1 = this.pos;
                     (this.view.state.doc != this.startDoc && (pos1 = this.view.posAtCoords(eventCoords(event))), this.allowDefault || !pos1) ? setSelectionOrigin(this.view, "pointer") : (view = this.view, pos = pos1.pos, inside = pos1.inside, selectNode = this.selectNode, runHandlerOnContext(view, "handleClickOn", pos, inside, event) || view.someProp("handleClick", function(f) {
@@ -1714,7 +1714,7 @@
                         return !!(node && node.isAtom && prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection.isSelectable(node)) && (updateSelection(view, new prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection($pos), "pointer"), !0);
                     }(view, inside))) ? event.preventDefault() : 0 == event.button && (this.flushed || result.safari && this.mightDrag && !this.mightDrag.node.isAtom || result.chrome && !(this.view.state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.TextSelection) && 2 >= Math.min(Math.abs(pos1.pos - this.view.state.selection.from), Math.abs(pos1.pos - this.view.state.selection.to))) ? (updateSelection(this.view, prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.Selection.near(this.view.state.doc.resolve(pos1.pos)), "pointer"), event.preventDefault()) : setSelectionOrigin(this.view, "pointer");
                 }
-            }, MouseDown.prototype.move = function(event) {
+            }, MouseDown.prototype.move = function move(event) {
                 !this.allowDefault && (Math.abs(this.event.x - event.clientX) > 4 || Math.abs(this.event.y - event.clientY) > 4) && (this.allowDefault = !0), setSelectionOrigin(this.view, "pointer"), 0 == event.buttons && this.done();
             }, handlers.touchdown = function(view) {
                 endComposition(view), setSelectionOrigin(view, "pointer");
@@ -1887,39 +1887,39 @@
             var WidgetType = function(toDOM, spec) {
                 this.spec = spec || noSpec, this.side = this.spec.side || 0, this.toDOM = toDOM;
             };
-            WidgetType.prototype.map = function(mapping, span, offset, oldOffset) {
+            WidgetType.prototype.map = function map(mapping, span, offset, oldOffset) {
                 var ref = mapping.mapResult(span.from + oldOffset, this.side < 0 ? -1 : 1), pos = ref.pos;
                 return ref.deleted ? null : new Decoration(pos - offset, pos - offset, this);
-            }, WidgetType.prototype.valid = function() {
+            }, WidgetType.prototype.valid = function valid() {
                 return !0;
-            }, WidgetType.prototype.eq = function(other) {
+            }, WidgetType.prototype.eq = function eq(other) {
                 return this == other || other instanceof WidgetType && (this.spec.key && this.spec.key == other.spec.key || this.toDOM == other.toDOM && compareObjs(this.spec, other.spec));
             };
             var InlineType = function(attrs, spec) {
                 this.spec = spec || noSpec, this.attrs = attrs;
             };
-            InlineType.prototype.map = function(mapping, span, offset, oldOffset) {
+            InlineType.prototype.map = function map(mapping, span, offset, oldOffset) {
                 var from = mapping.map(span.from + oldOffset, this.spec.inclusiveStart ? -1 : 1) - offset, to = mapping.map(span.to + oldOffset, this.spec.inclusiveEnd ? 1 : -1) - offset;
                 return from >= to ? null : new Decoration(from, to, this);
-            }, InlineType.prototype.valid = function(_, span) {
+            }, InlineType.prototype.valid = function valid(_, span) {
                 return span.from < span.to;
-            }, InlineType.prototype.eq = function(other) {
+            }, InlineType.prototype.eq = function eq(other) {
                 return this == other || other instanceof InlineType && compareObjs(this.attrs, other.attrs) && compareObjs(this.spec, other.spec);
-            }, InlineType.is = function(span) {
+            }, InlineType.is = function is(span) {
                 return span.type instanceof InlineType;
             };
             var NodeType = function(attrs, spec) {
                 this.spec = spec || noSpec, this.attrs = attrs;
             };
-            NodeType.prototype.map = function(mapping, span, offset, oldOffset) {
+            NodeType.prototype.map = function map(mapping, span, offset, oldOffset) {
                 var from = mapping.mapResult(span.from + oldOffset, 1);
                 if (from.deleted) return null;
                 var to = mapping.mapResult(span.to + oldOffset, -1);
                 return to.deleted || to.pos <= from.pos ? null : new Decoration(from.pos - offset, to.pos - offset, this);
-            }, NodeType.prototype.valid = function(node, span) {
+            }, NodeType.prototype.valid = function valid(node, span) {
                 var child, ref = node.content.findIndex(span.from), index = ref.index, offset = ref.offset;
                 return offset == span.from && !(child = node.child(index)).isText && offset + child.nodeSize == span.to;
-            }, NodeType.prototype.eq = function(other) {
+            }, NodeType.prototype.eq = function eq(other) {
                 return this == other || other instanceof NodeType && compareObjs(this.attrs, other.attrs) && compareObjs(this.spec, other.spec);
             };
             var Decoration = function(from, to, type) {
@@ -1932,17 +1932,17 @@
                     configurable: !0
                 }
             };
-            Decoration.prototype.copy = function(from, to) {
+            Decoration.prototype.copy = function copy(from, to) {
                 return new Decoration(from, to, this.type);
-            }, Decoration.prototype.eq = function(other, offset) {
+            }, Decoration.prototype.eq = function eq(other, offset) {
                 return void 0 === offset && (offset = 0), this.type.eq(other.type) && this.from + offset == other.from && this.to + offset == other.to;
-            }, Decoration.prototype.map = function(mapping, offset, oldOffset) {
+            }, Decoration.prototype.map = function map(mapping, offset, oldOffset) {
                 return this.type.map(mapping, this, offset, oldOffset);
-            }, Decoration.widget = function(pos, toDOM, spec) {
+            }, Decoration.widget = function widget(pos, toDOM, spec) {
                 return new Decoration(pos, pos, new WidgetType(toDOM, spec));
-            }, Decoration.inline = function(from, to, attrs, spec) {
+            }, Decoration.inline = function inline(from, to, attrs, spec) {
                 return new Decoration(from, to, new InlineType(attrs, spec));
-            }, Decoration.node = function(from, to, attrs, spec) {
+            }, Decoration.node = function node(from, to, attrs, spec) {
                 return new Decoration(from, to, new NodeType(attrs, spec));
             }, prototypeAccessors$1.spec.get = function() {
                 return this.type.spec;
@@ -1952,12 +1952,12 @@
             var none = [], noSpec = {}, DecorationSet = function(local, children) {
                 this.local = local && local.length ? local : none, this.children = children && children.length ? children : none;
             };
-            DecorationSet.create = function(doc, decorations) {
+            DecorationSet.create = function create(doc, decorations) {
                 return decorations.length ? buildTree(decorations, doc, 0, noSpec) : empty;
-            }, DecorationSet.prototype.find = function(start, end, predicate) {
+            }, DecorationSet.prototype.find = function find(start, end, predicate) {
                 var result = [];
                 return this.findInner(null == start ? 0 : start, null == end ? 1e9 : end, result, 0, predicate), result;
-            }, DecorationSet.prototype.findInner = function(start, end, result, offset, predicate) {
+            }, DecorationSet.prototype.findInner = function findInner(start, end, result, offset, predicate) {
                 for(var i = 0; i < this.local.length; i++){
                     var span = this.local[i];
                     span.from <= end && span.to >= start && (!predicate || predicate(span.spec)) && result.push(span.copy(span.from + offset, span.to + offset));
@@ -1966,9 +1966,9 @@
                     var childOff = this.children[i$1] + 1;
                     this.children[i$1 + 2].findInner(start - childOff, end - childOff, result, offset + childOff, predicate);
                 }
-            }, DecorationSet.prototype.map = function(mapping, doc, options) {
+            }, DecorationSet.prototype.map = function map(mapping, doc, options) {
                 return this == empty || 0 == mapping.maps.length ? this : this.mapInner(mapping, doc, 0, 0, options || noSpec);
-            }, DecorationSet.prototype.mapInner = function(mapping, node, offset, oldOffset, options) {
+            }, DecorationSet.prototype.mapInner = function mapInner(mapping, node, offset, oldOffset, options) {
                 for(var newLocal, i = 0; i < this.local.length; i++){
                     var mapped = this.local[i].map(mapping, offset, oldOffset);
                     mapped && mapped.type.valid(node, mapped) ? (newLocal || (newLocal = [])).push(mapped) : options.onRemove && options.onRemove(this.local[i].spec);
@@ -2012,9 +2012,9 @@
                     }
                     return new DecorationSet(newLocal && newLocal.sort(byPos), children);
                 }(this.children, newLocal, mapping, node, offset, oldOffset, options) : newLocal ? new DecorationSet(newLocal.sort(byPos)) : empty;
-            }, DecorationSet.prototype.add = function(doc, decorations) {
+            }, DecorationSet.prototype.add = function add(doc, decorations) {
                 return decorations.length ? this == empty ? DecorationSet.create(doc, decorations) : this.addInner(doc, decorations, 0) : this;
-            }, DecorationSet.prototype.addInner = function(doc, decorations, offset) {
+            }, DecorationSet.prototype.addInner = function addInner(doc, decorations, offset) {
                 var children, this$1 = this, childIndex = 0;
                 doc.forEach(function(childNode, childOffset) {
                     var found, baseOffset = childOffset + offset;
@@ -2025,9 +2025,9 @@
                 });
                 for(var local = moveSpans(childIndex ? withoutNulls(decorations) : decorations, -offset), i = 0; i < local.length; i++)local[i].type.valid(doc, local[i]) || local.splice(i--, 1);
                 return new DecorationSet(local.length ? this.local.concat(local).sort(byPos) : this.local, children || this.children);
-            }, DecorationSet.prototype.remove = function(decorations) {
+            }, DecorationSet.prototype.remove = function remove(decorations) {
                 return 0 == decorations.length || this == empty ? this : this.removeInner(decorations, 0);
-            }, DecorationSet.prototype.removeInner = function(decorations, offset) {
+            }, DecorationSet.prototype.removeInner = function removeInner(decorations, offset) {
                 for(var children = this.children, local = this.local, i = 0; i < children.length; i += 3){
                     for(var found = void 0, from = children[i] + offset, to = children[i + 1] + offset, j = 0, span = void 0; j < decorations.length; j++)(span = decorations[j]) && span.from > from && span.to < to && (decorations[j] = null, (found || (found = [])).push(span));
                     if (found) {
@@ -2040,7 +2040,7 @@
                     for(var i$1 = 0, span$1 = void 0; i$1 < decorations.length; i$1++)if (span$1 = decorations[i$1]) for(var j$1 = 0; j$1 < local.length; j$1++)local[j$1].eq(span$1, offset) && (local == this.local && (local = this.local.slice()), local.splice(j$1--, 1));
                 }
                 return children == this.children && local == this.local ? this : local.length || children.length ? new DecorationSet(local, children) : empty;
-            }, DecorationSet.prototype.forChild = function(offset, node) {
+            }, DecorationSet.prototype.forChild = function forChild(offset, node) {
                 if (this == empty) return this;
                 if (node.isLeaf) return DecorationSet.empty;
                 for(var child, local, i = 0; i < this.children.length; i += 3)if (this.children[i] >= offset) {
@@ -2062,15 +2062,15 @@
                     ]) : localSet;
                 }
                 return child || empty;
-            }, DecorationSet.prototype.eq = function(other) {
+            }, DecorationSet.prototype.eq = function eq(other) {
                 if (this == other) return !0;
                 if (!(other instanceof DecorationSet) || this.local.length != other.local.length || this.children.length != other.children.length) return !1;
                 for(var i = 0; i < this.local.length; i++)if (!this.local[i].eq(other.local[i])) return !1;
                 for(var i$1 = 0; i$1 < this.children.length; i$1 += 3)if (this.children[i$1] != other.children[i$1] || this.children[i$1 + 1] != other.children[i$1 + 1] || !this.children[i$1 + 2].eq(other.children[i$1 + 2])) return !1;
                 return !0;
-            }, DecorationSet.prototype.locals = function(node) {
+            }, DecorationSet.prototype.locals = function locals(node) {
                 return removeOverlap(this.localsInner(node));
-            }, DecorationSet.prototype.localsInner = function(node) {
+            }, DecorationSet.prototype.localsInner = function localsInner(node) {
                 if (this == empty) return none;
                 if (node.inlineContent || !this.local.some(InlineType.is)) return this.local;
                 for(var result = [], i = 0; i < this.local.length; i++)this.local[i].type instanceof InlineType || result.push(this.local[i]);
@@ -2142,23 +2142,23 @@
                     view.cursorWrapper.deco
                 ])), DecorationGroup.from(found);
             }
-            DecorationGroup.prototype.map = function(mapping, doc) {
+            DecorationGroup.prototype.map = function map(mapping, doc) {
                 var mappedDecos = this.members.map(function(member) {
                     return member.map(mapping, doc, noSpec);
                 });
                 return DecorationGroup.from(mappedDecos);
-            }, DecorationGroup.prototype.forChild = function(offset, child) {
+            }, DecorationGroup.prototype.forChild = function forChild(offset, child) {
                 if (child.isLeaf) return DecorationSet.empty;
                 for(var found = [], i = 0; i < this.members.length; i++){
                     var result = this.members[i].forChild(offset, child);
                     result != empty && (result instanceof DecorationGroup ? found = found.concat(result.members) : found.push(result));
                 }
                 return DecorationGroup.from(found);
-            }, DecorationGroup.prototype.eq = function(other) {
+            }, DecorationGroup.prototype.eq = function eq(other) {
                 if (!(other instanceof DecorationGroup) || other.members.length != this.members.length) return !1;
                 for(var i = 0; i < this.members.length; i++)if (!this.members[i].eq(other.members[i])) return !1;
                 return !0;
-            }, DecorationGroup.prototype.locals = function(node) {
+            }, DecorationGroup.prototype.locals = function locals(node) {
                 for(var result, sorted = !0, i = 0; i < this.members.length; i++){
                     var locals = this.members[i].localsInner(node);
                     if (locals.length) {
@@ -2169,7 +2169,7 @@
                     }
                 }
                 return result ? removeOverlap(sorted ? result : result.sort(byPos)) : none;
-            }, DecorationGroup.from = function(members) {
+            }, DecorationGroup.from = function from(members) {
                 switch(members.length){
                     case 0:
                         return empty;
@@ -2421,16 +2421,16 @@
                     this._props.state = this.state;
                 }
                 return this._props;
-            }, EditorView.prototype.update = function(props) {
+            }, EditorView.prototype.update = function update(props) {
                 props.handleDOMEvents != this._props.handleDOMEvents && ensureListeners(this), this._props = props, props.plugins && (props.plugins.forEach(checkStateComponent), this.directPlugins = props.plugins), this.updateStateInner(props.state, !0);
-            }, EditorView.prototype.setProps = function(props) {
+            }, EditorView.prototype.setProps = function setProps(props) {
                 var updated = {};
                 for(var name in this._props)updated[name] = this._props[name];
                 for(var name$1 in updated.state = this.state, props)updated[name$1] = props[name$1];
                 this.update(updated);
-            }, EditorView.prototype.updateState = function(state) {
+            }, EditorView.prototype.updateState = function updateState(state) {
                 this.updateStateInner(state, this.state.plugins != state.plugins);
-            }, EditorView.prototype.updateStateInner = function(state, reconfigured) {
+            }, EditorView.prototype.updateStateInner = function updateStateInner(state, reconfigured) {
                 var refDOM, refTop, newRefTop, this$1 = this, prev = this.state, redraw = !1, updateSel = !1;
                 if (state.storedMarks && this.composing && (clearComposition(this), updateSel = !0), this.state = state, reconfigured) {
                     var nodeViews = buildNodeViews(this);
@@ -2480,9 +2480,9 @@
                         return f(this$1);
                     }) || (state.selection instanceof prosemirror_state__WEBPACK_IMPORTED_MODULE_0__.NodeSelection ? scrollRectIntoView(this, this.docView.domAfterPos(state.selection.from).getBoundingClientRect(), startDOM) : scrollRectIntoView(this, this.coordsAtPos(state.selection.head, 1), startDOM));
                 } else oldScrollPos && (refDOM = oldScrollPos.refDOM, refTop = oldScrollPos.refTop, restoreScrollStack(oldScrollPos.stack, 0 == (newRefTop = refDOM ? refDOM.getBoundingClientRect().top : 0) ? 0 : newRefTop - refTop));
-            }, EditorView.prototype.destroyPluginViews = function() {
+            }, EditorView.prototype.destroyPluginViews = function destroyPluginViews() {
                 for(var view; view = this.pluginViews.pop();)view.destroy && view.destroy();
-            }, EditorView.prototype.updatePluginViews = function(prevState) {
+            }, EditorView.prototype.updatePluginViews = function updatePluginViews(prevState) {
                 if (prevState && prevState.plugins == this.state.plugins && this.directPlugins == this.prevDirectPlugins) for(var i$2 = 0; i$2 < this.pluginViews.length; i$2++){
                     var pluginView = this.pluginViews[i$2];
                     pluginView.update && pluginView.update(this, prevState);
@@ -2498,7 +2498,7 @@
                         plugin$1.spec.view && this.pluginViews.push(plugin$1.spec.view(this));
                     }
                 }
-            }, EditorView.prototype.someProp = function(propName, f) {
+            }, EditorView.prototype.someProp = function someProp(propName, f) {
                 var value, prop = this._props && this._props[propName];
                 if (null != prop && (value = f ? f(prop) : prop)) return value;
                 for(var i = 0; i < this.directPlugins.length; i++){
@@ -2510,9 +2510,9 @@
                     var prop$2 = plugins[i$1].props[propName];
                     if (null != prop$2 && (value = f ? f(prop$2) : prop$2)) return value;
                 }
-            }, EditorView.prototype.hasFocus = function() {
+            }, EditorView.prototype.hasFocus = function hasFocus() {
                 return this.root.activeElement == this.dom;
-            }, EditorView.prototype.focus = function() {
+            }, EditorView.prototype.focus = function focus() {
                 this.domObserver.stop(), this.editable && function(dom) {
                     if (dom.setActive) return dom.setActive();
                     if (preventScrollSupported) return dom.focus(preventScrollSupported);
@@ -2533,7 +2533,7 @@
                     }), this._root = search;
                 }
                 return cached || document;
-            }, EditorView.prototype.posAtCoords = function(coords) {
+            }, EditorView.prototype.posAtCoords = function posAtCoords$1(coords) {
                 return function(view, coords) {
                     var node, offset, doc = view.dom.ownerDocument;
                     if (doc.caretPositionFromPoint) try {
@@ -2636,19 +2636,19 @@
                         inside: desc ? desc.posAtStart - desc.border : -1
                     };
                 }(this, coords);
-            }, EditorView.prototype.coordsAtPos = function(pos, side) {
+            }, EditorView.prototype.coordsAtPos = function coordsAtPos$1(pos, side) {
                 return void 0 === side && (side = 1), coordsAtPos(this, pos, side);
-            }, EditorView.prototype.domAtPos = function(pos, side) {
+            }, EditorView.prototype.domAtPos = function domAtPos(pos, side) {
                 return void 0 === side && (side = 0), this.docView.domFromPos(pos, side);
-            }, EditorView.prototype.nodeDOM = function(pos) {
+            }, EditorView.prototype.nodeDOM = function nodeDOM(pos) {
                 var desc = this.docView.descAt(pos);
                 return desc ? desc.nodeDOM : null;
-            }, EditorView.prototype.posAtDOM = function(node, offset, bias) {
+            }, EditorView.prototype.posAtDOM = function posAtDOM(node, offset, bias) {
                 void 0 === bias && (bias = -1);
                 var pos = this.docView.posFromDOM(node, offset, bias);
                 if (null == pos) throw RangeError("DOM position not inside the editor");
                 return pos;
-            }, EditorView.prototype.endOfTextblock = function(dir, state) {
+            }, EditorView.prototype.endOfTextblock = function endOfTextblock$1(dir, state) {
                 var view, state1, sel, $pos;
                 return view = this, state1 = state || this.state, cachedState == state1 && cachedDir == dir ? cachedResult : (cachedState = state1, cachedDir = dir, cachedResult = "up" == dir || "down" == dir ? (sel = state1.selection, $pos = "up" == dir ? sel.$from : sel.$to, withFlushedState(view, state1, function() {
                     for(var dom = view.docView.domFromPos($pos.pos, "up" == dir ? -1 : 1).node;;){
@@ -2684,14 +2684,14 @@
                         return sel.removeAllRanges(), sel.addRange(oldRange), null != oldBidiLevel && (sel.caretBidiLevel = oldBidiLevel), result;
                     }) : "left" == dir || "backward" == dir ? !offset : atEnd;
                 }(view, state1, dir));
-            }, EditorView.prototype.destroy = function() {
+            }, EditorView.prototype.destroy = function destroy() {
                 this.docView && (function(view) {
                     for(var type in view.domObserver.stop(), view.eventHandlers)view.dom.removeEventListener(type, view.eventHandlers[type]);
                     clearTimeout(view.composingTimeout), clearTimeout(view.lastIOSEnterFallbackTimeout);
                 }(this), this.destroyPluginViews(), this.mounted ? (this.docView.update(this.state.doc, [], viewDecorations(this), this), this.dom.textContent = "") : this.dom.parentNode && this.dom.parentNode.removeChild(this.dom), this.docView.destroy(), this.docView = null);
-            }, EditorView.prototype.dispatchEvent = function(event) {
+            }, EditorView.prototype.dispatchEvent = function dispatchEvent$1(event) {
                 runCustomHandler(this, event) || !handlers[event.type] || !this.editable && event.type in editHandlers || handlers[event.type](this, event);
-            }, EditorView.prototype.dispatch = function(tr) {
+            }, EditorView.prototype.dispatch = function dispatch(tr) {
                 var dispatchTransaction = this._props.dispatchTransaction;
                 dispatchTransaction ? dispatchTransaction.call(this, tr) : this.updateState(this.state.apply(tr));
             }, Object.defineProperties(EditorView.prototype, prototypeAccessors$2);
