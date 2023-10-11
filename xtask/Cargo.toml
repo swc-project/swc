@@ -12,6 +12,7 @@ version     = "0.1.0"
 
 [dependencies]
 anyhow       = "1.0.75"
+cargo_metadata = "0.18.0"
 chrono = "0.4.31"
 clap         = { version = "4.4.6", features = ["derive"] }
 semver       = "1.0.20"
