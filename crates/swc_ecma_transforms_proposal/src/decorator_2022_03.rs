@@ -1449,7 +1449,7 @@ impl VisitMut for Decorator202203 {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                 span: _,
                 decl: DefaultDecl::Class(c),
-            })) => {
+            })) if !c.class.decorators.is_empty() => {
                 self.handle_class_expr(&mut c.class, c.ident.as_ref());
                 s.visit_mut_children_with(self);
             }
