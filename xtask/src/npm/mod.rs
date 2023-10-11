@@ -1,6 +1,10 @@
 use anyhow::Result;
 use clap::{Args, Subcommand};
 
+use self::nightly::NightlyCmd;
+
+mod nightly;
+
 #[derive(Debug, Args)]
 pub(super) struct NpmCmd {
     #[clap(subcommand)]
@@ -8,10 +12,14 @@ pub(super) struct NpmCmd {
 }
 
 #[derive(Debug, Subcommand)]
-enum Inner {}
+enum Inner {
+    Nightly(NightlyCmd),
+}
 
 impl NpmCmd {
     pub fn run(self) -> Result<()> {
-        match self.cmd {}
+        match self.cmd {
+            Inner::Nightly(c) => c.run(),
+        }
     }
 }
