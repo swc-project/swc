@@ -18,7 +18,7 @@ define([
     class Controller {
     }
     var _class;
-    _class = class __class extends Controller {
+    _class = class _$class extends Controller {
         onChange() {}
         constructor(...args){
             super(...args);

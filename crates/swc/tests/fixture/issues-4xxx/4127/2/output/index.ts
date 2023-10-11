@@ -3,7 +3,7 @@ function test(constructor) {
     console.log(constructor);
 }
 var _class;
-_class = class __class {
+_class = class _$class {
 };
 _class = _ts_decorate([
     test

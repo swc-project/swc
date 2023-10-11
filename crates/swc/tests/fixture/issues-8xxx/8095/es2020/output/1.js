@@ -1,6 +1,6 @@
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 var _class;
-const foo = _class = class __class {
+const foo = _class = class _$class {
     foo(v) {
         return v;
     }
