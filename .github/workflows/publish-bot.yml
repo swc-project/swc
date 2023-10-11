@@ -1,5 +1,9 @@
 name: "Publish (auto)"
 
+env:
+  GIT_COMMITTER_NAME: "SWC Bot"
+  GIT_COMMITTER_EMAIL: "bot@swc.rs"
+
 on:
   workflow_dispatch:
   pull_request:
