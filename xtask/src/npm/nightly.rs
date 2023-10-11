@@ -57,6 +57,7 @@ fn invoke_version_script(version: &Version) -> Result<()> {
 
 fn find_first_nightly(prev_version: &semver::Version, date: &str) -> Result<Version> {
     let mut ver = prev_version.clone();
+    ver.patch += 1;
 
     for i in 1.. {
         ver.pre = Prerelease::new(&format!("nightly.{}.{}", date, i))?;
