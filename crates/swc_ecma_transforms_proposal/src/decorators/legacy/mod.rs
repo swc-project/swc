@@ -449,6 +449,10 @@ impl VisitMut for TscDecorator {
             })) => {
                 c.visit_mut_with(self);
 
+                if self.assign_class_expr_to.is_none() {
+                    self.assign_class_expr_to = c.ident.clone();
+                }
+
                 if let Some(var_name) = self.assign_class_expr_to.take() {
                     *module_item = ModuleItem::Stmt(
                         Expr::Assign(AssignExpr {
