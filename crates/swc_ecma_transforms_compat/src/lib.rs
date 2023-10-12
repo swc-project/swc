@@ -13,6 +13,8 @@ pub use self::{
 #[macro_use]
 mod macros;
 pub use swc_ecma_compat_bugfixes as bugfixes;
+pub use swc_ecma_compat_common::regexp;
+pub use swc_ecma_compat_es3 as es3;
 pub mod class_fields_use_set;
 pub mod es2015;
 pub mod es2016;
@@ -22,6 +24,4 @@ pub mod es2019;
 pub mod es2020;
 pub mod es2021;
 pub mod es2022;
-pub mod es3;
-pub mod regexp;
 pub mod reserved_words;

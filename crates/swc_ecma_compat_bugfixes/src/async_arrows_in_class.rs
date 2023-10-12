@@ -1,5 +1,6 @@
 use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_compat_es2015::arrow;
 use swc_ecma_utils::prepend_stmt;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
 use swc_trace_macro::swc_trace;
