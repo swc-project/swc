@@ -4184,6 +4184,46 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_ecma_compat_bugfixes"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2015"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2016"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2017"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2018"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2019"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2020"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2021"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es2022"
+version = "0.1.0"
+
+[[package]]
+name = "swc_ecma_compat_es3"
+version = "0.1.0"
+
+[[package]]
 name = "swc_ecma_dep_graph"
 version = "0.113.1"
 dependencies = [
@@ -4463,6 +4503,16 @@ dependencies = [
  "swc_common",
  "swc_config",
  "swc_ecma_ast",
+ "swc_ecma_compat_bugfixes",
+ "swc_ecma_compat_es2015",
+ "swc_ecma_compat_es2016",
+ "swc_ecma_compat_es2017",
+ "swc_ecma_compat_es2018",
+ "swc_ecma_compat_es2019",
+ "swc_ecma_compat_es2020",
+ "swc_ecma_compat_es2021",
+ "swc_ecma_compat_es2022",
+ "swc_ecma_compat_es3",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
  "swc_ecma_transforms_classes",
