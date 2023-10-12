@@ -464,8 +464,8 @@ test!(
 }
 ",
     "
-
-    export default class X {
+    var X;
+    X =  class X {
         anything = 0;
         x() {
             const localVar = aFunctionSomewhere();
@@ -475,6 +475,7 @@ test!(
     _ts_decorate([
         whatever
     ], X.prototype, \"anything\", void 0);
+    export { X as default };
     "
 );
 
