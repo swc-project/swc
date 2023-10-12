@@ -1,5 +1,6 @@
 use serde::Deserialize;
 use swc_common::{chain, comments::Comments, pass::Optional, Mark};
+use swc_ecma_compat_common::regexp::{self, regexp};
 use swc_ecma_visit::Fold;
 
 pub use self::{
@@ -10,7 +11,6 @@ pub use self::{
     parameters::parameters, shorthand_property::shorthand, spread::spread,
     sticky_regex::sticky_regex, template_literal::template_literal, typeof_symbol::typeof_symbol,
 };
-use crate::regexp::{self, regexp};
 
 mod arrow;
 mod block_scoped_fn;
