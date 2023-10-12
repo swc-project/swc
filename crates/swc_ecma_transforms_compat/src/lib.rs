@@ -12,7 +12,7 @@ pub use swc_ecma_compat_es2016 as es2016;
 pub use swc_ecma_compat_es2017 as es2017;
 pub use swc_ecma_compat_es2018 as es2018;
 pub use swc_ecma_compat_es2019 as es2019;
-pub use swc_ecma_compat_es2020 as es2029;
+pub use swc_ecma_compat_es2020 as es2020;
 pub use swc_ecma_compat_es2021 as es2021;
 pub use swc_ecma_compat_es2022 as es2022;
 pub use swc_ecma_compat_es3 as es3;
