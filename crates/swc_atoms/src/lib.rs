@@ -6,6 +6,8 @@
 #[doc(hidden)]
 pub extern crate once_cell;
 
+extern crate alloc;
+
 use std::{
     borrow::{Borrow, Cow},
     fmt::{self, Display, Formatter},

@@ -1,16 +1,9 @@
-use core::{
-    cmp,
-    mem,
-    ptr,
-};
+use core::{cmp, mem, ptr};
 
-use super::capacity::Capacity;
-use super::{
-    Repr,
-    MAX_SIZE,
-};
+use super::{capacity::Capacity, Repr, MAX_SIZE};
 
-/// The minimum size we'll allocate on the heap is one usize larger than our max inline size
+/// The minimum size we'll allocate on the heap is one usize larger than our max
+/// inline size
 const MIN_HEAP_SIZE: usize = MAX_SIZE + mem::size_of::<usize>();
 
 const UNKNOWN: usize = 0;
@@ -18,8 +11,8 @@ pub type StrBuffer = [u8; UNKNOWN];
 
 /// [`HeapBuffer`] grows at an amortized rates of 1.5x
 ///
-/// Note: this is different than [`std::string::String`], which grows at a rate of 2x. It's debated
-/// which is better, for now we'll stick with a rate of 1.5x
+/// Note: this is different than [`std::string::String`], which grows at a rate
+/// of 2x. It's debated which is better, for now we'll stick with a rate of 1.5x
 #[inline(always)]
 pub fn amortized_growth(cur_len: usize, additional: usize) -> usize {
     let required = cur_len.saturating_add(additional);
@@ -44,9 +37,10 @@ impl HeapBuffer {
 
         // copy our string into the buffer we just allocated
         //
-        // SAFETY: We know both `src` and `dest` are valid for respectively reads and writes of
-        // length `len` because `len` comes from `src`, and `dest` was allocated to be at least that
-        // length. We also know they're non-overlapping because `dest` is newly allocated
+        // SAFETY: We know both `src` and `dest` are valid for respectively reads and
+        // writes of length `len` because `len` comes from `src`, and `dest` was
+        // allocated to be at least that length. We also know they're
+        // non-overlapping because `dest` is newly allocated
         unsafe { ptr.as_ptr().copy_from_nonoverlapping(text.as_ptr(), len) };
 
         HeapBuffer { ptr, len, cap }
@@ -61,10 +55,12 @@ impl HeapBuffer {
         HeapBuffer { ptr, len, cap }
     }
 
-    /// Create a [`HeapBuffer`] with `text` that has _at least_ `additional` bytes of capacity
+    /// Create a [`HeapBuffer`] with `text` that has _at least_ `additional`
+    /// bytes of capacity
     ///
-    /// To prevent frequent re-allocations, this method will create a [`HeapBuffer`] with a capacity
-    /// of `text.len() + additional` or `text.len() * 1.5`, whichever is greater
+    /// To prevent frequent re-allocations, this method will create a
+    /// [`HeapBuffer`] with a capacity of `text.len() + additional` or
+    /// `text.len() * 1.5`, whichever is greater
     #[inline]
     pub fn with_additional(text: &str, additional: usize) -> Self {
         let len = text.len();
@@ -73,9 +69,10 @@ impl HeapBuffer {
 
         // copy our string into the buffer we just allocated
         //
-        // SAFETY: We know both `src` and `dest` are valid for respectively reads and writes of
-        // length `len` because `len` comes from `src`, and `dest` was allocated to be at least that
-        // length. We also know they're non-overlapping because `dest` is newly allocated
+        // SAFETY: We know both `src` and `dest` are valid for respectively reads and
+        // writes of length `len` because `len` comes from `src`, and `dest` was
+        // allocated to be at least that length. We also know they're
+        // non-overlapping because `dest` is newly allocated
         unsafe { ptr.as_ptr().copy_from_nonoverlapping(text.as_ptr(), len) };
 
         HeapBuffer { ptr, len, cap }
@@ -89,7 +86,8 @@ impl HeapBuffer {
             // re-adjust the pointer to include the capacity that's on the heap
             let adj_ptr: *const u8 = this.ptr.as_ptr().wrapping_sub(mem::size_of::<usize>());
             let mut buf = [0u8; mem::size_of::<usize>()];
-            // SAFETY: `src` and `dst` don't overlap, and are valid for usize number of bytes
+            // SAFETY: `src` and `dst` don't overlap, and are valid for usize number of
+            // bytes
             unsafe {
                 ptr::copy_nonoverlapping(adj_ptr, buf.as_mut_ptr(), mem::size_of::<usize>());
             }
@@ -104,11 +102,13 @@ impl HeapBuffer {
         }
     }
 
-    /// Try to grow the [`HeapBuffer`] by reallocating, returning an error if we fail
+    /// Try to grow the [`HeapBuffer`] by reallocating, returning an error if we
+    /// fail
     pub fn realloc(&mut self, new_capacity: usize) -> Result<usize, ()> {
         let new_cap = Capacity::new(new_capacity);
 
-        // We can't reallocate to a size less than our length, or else we'd clip the string
+        // We can't reallocate to a size less than our length, or else we'd clip the
+        // string
         if new_capacity < self.len {
             return Err(());
         }
@@ -136,8 +136,8 @@ impl HeapBuffer {
                 let new_layout = inline_capacity::layout(new_capacity);
                 let new_size = new_layout.size();
 
-                // It's possible `new_size` could overflow since inline_capacity::layout pads for
-                // alignment
+                // It's possible `new_size` could overflow since inline_capacity::layout pads
+                // for alignment
                 if new_size < new_capacity {
                     return Err(());
                 }
@@ -163,8 +163,8 @@ impl HeapBuffer {
                 // alloc::realloc requires that size > 0
                 debug_assert!(new_size > 0);
 
-                // It's possible `new_size` could overflow since heap_capacity::layout requires a
-                // few additional bytes
+                // It's possible `new_size` could overflow since heap_capacity::layout requires
+                // a few additional bytes
                 if new_size < new_capacity {
                     return Err(());
                 }
@@ -219,7 +219,8 @@ impl HeapBuffer {
     /// Set's the length of the content for this [`HeapBuffer`]
     ///
     /// # SAFETY:
-    /// * The caller must guarantee that `len` bytes in the buffer are valid UTF-8
+    /// * The caller must guarantee that `len` bytes in the buffer are valid
+    ///   UTF-8
     #[inline]
     pub unsafe fn set_len(&mut self, len: usize) {
         self.len = len;
@@ -239,7 +240,8 @@ impl Clone for HeapBuffer {
 
         // SAFETY:
         // * `src` and `dst` don't overlap because we just created `dst`
-        // * `src` and `dst` are both valid for `self.len` bytes because self.len < capacity
+        // * `src` and `dst` are both valid for `self.len` bytes because self.len <
+        //   capacity
         unsafe {
             new.ptr
                 .as_ptr()
@@ -259,19 +261,20 @@ impl Drop for HeapBuffer {
     }
 }
 
-/// Allocates a buffer on the heap that we can use to store a string, optionally stores the capacity
-/// of said buffer on the heap.
+/// Allocates a buffer on the heap that we can use to store a string, optionally
+/// stores the capacity of said buffer on the heap.
 ///
-/// Returns a [`Capacity`] that either indicates the capacity is stored on the heap, or is stored
-/// in the `Capacity` itself.
+/// Returns a [`Capacity`] that either indicates the capacity is stored on the
+/// heap, or is stored in the `Capacity` itself.
 #[inline]
 pub fn allocate_ptr(capacity: usize) -> (Capacity, ptr::NonNull<u8>) {
-    // We allocate at least MIN_HEAP_SIZE bytes because we need to allocate at least one byte
+    // We allocate at least MIN_HEAP_SIZE bytes because we need to allocate at least
+    // one byte
     let capacity = capacity.max(MIN_HEAP_SIZE);
     let cap = Capacity::new(capacity);
 
-    // HeapBuffer doesn't support 0 sized allocations, we should always allocate at least
-    // MIN_HEAP_SIZE bytes
+    // HeapBuffer doesn't support 0 sized allocations, we should always allocate at
+    // least MIN_HEAP_SIZE bytes
     debug_assert!(capacity > 0);
 
     #[cold]
@@ -301,7 +304,8 @@ pub fn allocate_ptr(capacity: usize) -> (Capacity, ptr::NonNull<u8>) {
     (cap, ptr)
 }
 
-/// Deallocates a buffer on the heap, handling when the capacity is also stored on the heap
+/// Deallocates a buffer on the heap, handling when the capacity is also stored
+/// on the heap
 #[inline]
 pub fn deallocate_ptr(ptr: ptr::NonNull<u8>, cap: Capacity) {
     #[cold]
@@ -310,15 +314,16 @@ pub fn deallocate_ptr(ptr: ptr::NonNull<u8>, cap: Capacity) {
         let adj_ptr = ptr.as_ptr().wrapping_sub(mem::size_of::<usize>());
         // read the capacity from the heap so we know how much to deallocate
         let mut buf = [0u8; mem::size_of::<usize>()];
-        // SAFETY: `src` and `dst` don't overlap, and are valid for usize number of bytes
+        // SAFETY: `src` and `dst` don't overlap, and are valid for usize number of
+        // bytes
         unsafe {
             ptr::copy_nonoverlapping(adj_ptr, buf.as_mut_ptr(), mem::size_of::<usize>());
         }
         let capacity = usize::from_ne_bytes(buf);
         // SAFETY: We know the pointer is not null since we got it as a NonNull
         let ptr = unsafe { ptr::NonNull::new_unchecked(adj_ptr) };
-        // SAFETY: We checked above that our capacity is on the heap, and we readjusted the
-        // pointer to reference the capacity
+        // SAFETY: We checked above that our capacity is on the heap, and we readjusted
+        // the pointer to reference the capacity
         unsafe { heap_capacity::dealloc(ptr, capacity) }
     }
 
@@ -331,10 +336,7 @@ pub fn deallocate_ptr(ptr: ptr::NonNull<u8>, cap: Capacity) {
 }
 
 mod heap_capacity {
-    use core::{
-        alloc,
-        ptr,
-    };
+    use core::{alloc, ptr};
 
     use super::StrBuffer;
 
@@ -343,23 +345,25 @@ mod heap_capacity {
         let layout = layout(capacity);
         debug_assert!(layout.size() > 0);
 
-        // SAFETY: `alloc(...)` has undefined behavior if the layout is zero-sized. We know the
-        // layout can't be zero-sized though because we're always at least allocating one `usize`
+        // SAFETY: `alloc(...)` has undefined behavior if the layout is zero-sized. We
+        // know the layout can't be zero-sized though because we're always at
+        // least allocating one `usize`
         let raw_ptr = unsafe { ::alloc::alloc::alloc(layout) };
 
-        // Check to make sure our pointer is non-null, some allocators return null pointers instead
-        // of panicking
+        // Check to make sure our pointer is non-null, some allocators return null
+        // pointers instead of panicking
         match ptr::NonNull::new(raw_ptr) {
             Some(ptr) => ptr,
             None => ::alloc::alloc::handle_alloc_error(layout),
         }
     }
 
-    /// Deallocates a pointer which references a `HeapBuffer` whose capacity is on the heap
+    /// Deallocates a pointer which references a `HeapBuffer` whose capacity is
+    /// on the heap
     ///
     /// # Saftey
-    /// * `ptr` must point to the start of a `HeapBuffer` whose capacity is on the heap. i.e. we
-    ///   must have `ptr -> [cap<usize> ; string<bytes>]`
+    /// * `ptr` must point to the start of a `HeapBuffer` whose capacity is on
+    ///   the heap. i.e. we must have `ptr -> [cap<usize> ; string<bytes>]`
     pub unsafe fn dealloc(ptr: ptr::NonNull<u8>, capacity: usize) {
         let layout = layout(capacity);
         ::alloc::alloc::dealloc(ptr.as_ptr(), layout);
@@ -383,10 +387,7 @@ mod heap_capacity {
 }
 
 mod inline_capacity {
-    use core::{
-        alloc,
-        ptr,
-    };
+    use core::{alloc, ptr};
 
     use super::StrBuffer;
 
@@ -397,23 +398,26 @@ mod inline_capacity {
         let layout = layout(capacity);
         debug_assert!(layout.size() > 0);
 
-        // SAFETY: `alloc(...)` has undefined behavior if the layout is zero-sized. We specify that
-        // `capacity` must be > 0 as a constraint to uphold the safety of this method. If capacity
-        // is greater than 0, then our layout will be non-zero-sized.
+        // SAFETY: `alloc(...)` has undefined behavior if the layout is zero-sized. We
+        // specify that `capacity` must be > 0 as a constraint to uphold the
+        // safety of this method. If capacity is greater than 0, then our layout
+        // will be non-zero-sized.
         let raw_ptr = ::alloc::alloc::alloc(layout);
 
-        // Check to make sure our pointer is non-null, some allocators return null pointers instead
-        // of panicking
+        // Check to make sure our pointer is non-null, some allocators return null
+        // pointers instead of panicking
         match ptr::NonNull::new(raw_ptr) {
             Some(ptr) => ptr,
             None => ::alloc::alloc::handle_alloc_error(layout),
         }
     }
 
-    /// Deallocates a pointer which references a `HeapBuffer` whose capacity is stored inline
+    /// Deallocates a pointer which references a `HeapBuffer` whose capacity is
+    /// stored inline
     ///
     /// # Saftey
-    /// * `ptr` must point to the start of a `HeapBuffer` whose capacity is on the inline
+    /// * `ptr` must point to the start of a `HeapBuffer` whose capacity is on
+    ///   the inline
     pub unsafe fn dealloc(ptr: ptr::NonNull<u8>, capacity: usize) {
         let layout = layout(capacity);
         ::alloc::alloc::dealloc(ptr.as_ptr(), layout);
@@ -439,10 +443,7 @@ mod inline_capacity {
 mod test {
     use test_case::test_case;
 
-    use super::{
-        HeapBuffer,
-        MIN_HEAP_SIZE,
-    };
+    use super::{HeapBuffer, MIN_HEAP_SIZE};
 
     const EIGHTEEN_MB: usize = 18 * 1024 * 1024;
 

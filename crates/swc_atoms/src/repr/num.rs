@@ -3,14 +3,9 @@
 //! Adapted from the implemenation in the `std` library at
 //! <https://github.com/rust-lang/rust/blob/b8214dc6c6fc20d0a660fb5700dca9ebf51ebe89/src/libcore/fmt/num.rs#L188-L266>
 
-use core::{
-    mem,
-    num,
-    ptr,
-};
+use core::{mem, num, ptr};
 
-use super::traits::IntoRepr;
-use super::Repr;
+use super::{traits::IntoRepr, Repr};
 
 const DEC_DIGITS_LUT: &[u8] = b"\
       0001020304050607080910111213141516171819\
@@ -123,9 +118,9 @@ impl_IntoRepr!(usize, u64);
 #[cfg(target_pointer_width = "64")]
 impl_IntoRepr!(isize, u64);
 
-/// For 128-bit integer types we use the [`itoa`] crate because writing into a buffer, and then
-/// copying the amount of characters we've written, is faster than determining the number of
-/// characters and then writing.
+/// For 128-bit integer types we use the [`itoa`] crate because writing into a
+/// buffer, and then copying the amount of characters we've written, is faster
+/// than determining the number of characters and then writing.
 impl IntoRepr for u128 {
     #[inline]
     fn into_repr(self) -> Repr {
@@ -167,7 +162,8 @@ impl_NonZero_IntoRepr!(num::NonZeroIsize);
 impl_NonZero_IntoRepr!(num::NonZeroU128);
 impl_NonZero_IntoRepr!(num::NonZeroI128);
 
-/// All of these `num_chars(...)` methods are kind of crazy, but they are necessary.
+/// All of these `num_chars(...)` methods are kind of crazy, but they are
+/// necessary.
 ///
 /// An alternate way to calculate the number of digits in a value is to do:
 /// ```
@@ -177,7 +173,8 @@ impl_NonZero_IntoRepr!(num::NonZeroI128);
 /// ```
 /// But there are two problems with this approach:
 /// 1. floating point math is slow
-/// 2. results are dependent on floating point precision, which is too inaccurate for larger values
+/// 2. results are dependent on floating point precision, which is too
+///    inaccurate for larger values
 ///
 /// For example, consider this relatively large value...
 ///
