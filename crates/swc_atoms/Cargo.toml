@@ -27,10 +27,12 @@ rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
   "validation",
 ] }
 rustc-hash = "1.1.0"
+rustversion = "1.0.14"
 ryu = "1.0.15"
 serde = "1"
 static_assertions = "1.1.0"
 
 [dev-dependencies]
-rustversion = "1.0.14"
+quickcheck = "1.0.3"
+quickcheck_macros = "1.0.0"
 test-case = "3.2.1"
