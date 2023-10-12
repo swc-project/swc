@@ -168,9 +168,9 @@ checksum = "a4c527152e37cf757a3f78aae5a06fbeefdb07ccc535c980a3208ee3060dd544"
 
 [[package]]
 name = "arrayvec"
-version = "0.7.3"
+version = "0.7.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8868f09ff8cea88b079da74ae569d9b8c62a23c68c746240b704ee6f7525c89c"
+checksum = "96d30a06541fbafbc7f82ed10c06164cfbd2c401138f6addd8404629c4b16711"
 
 [[package]]
 name = "ast_node"
@@ -4215,6 +4215,7 @@ dependencies = [
 name = "swc_ecma_compat_es2015"
 version = "0.1.0"
 dependencies = [
+ "arrayvec",
  "indexmap 1.9.3",
  "is-macro",
  "serde",
