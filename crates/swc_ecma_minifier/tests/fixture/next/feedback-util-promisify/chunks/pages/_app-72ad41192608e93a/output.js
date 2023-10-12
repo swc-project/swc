@@ -31,7 +31,7 @@
             }
             __webpack_require__(6774);
             var initBranch = (fn = _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
-                return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function(_ctx) {
+                return _Users_kdy1_projects_lab_swc_minify_issue_node_modules_next_dist_compiled_regenerator_runtime_runtime_js__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_ctx) {
                     for(;;)switch(_ctx.prev = _ctx.next){
                         case 0:
                             try {
@@ -71,7 +71,7 @@
                     }
                     _next(void 0);
                 });
-            }, function() {
+            }, function initBranch() {
                 return _ref.apply(this, arguments);
             });
             __webpack_exports__.default = function(param) {
@@ -378,9 +378,9 @@
                             return allocUnsafe(e);
                         }, Buffer.allocUnsafeSlow = function(e) {
                             return allocUnsafe(e);
-                        }, Buffer.isBuffer = function(e) {
+                        }, Buffer.isBuffer = function isBuffer(e) {
                             return null != e && !0 === e._isBuffer && e !== Buffer.prototype;
-                        }, Buffer.compare = function(e, r) {
+                        }, Buffer.compare = function compare(e, r) {
                             if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), isInstance(r, Uint8Array) && (r = Buffer.from(r, r.offset, r.byteLength)), !Buffer.isBuffer(e) || !Buffer.isBuffer(r)) throw TypeError('The "buf1", "buf2" arguments must be one of type Buffer or Uint8Array');
                             if (e === r) return 0;
                             for(var t = e.length, f = r.length, n = 0, i = Math.min(t, f); n < i; ++n)if (e[n] !== r[n]) {
@@ -388,7 +388,7 @@
                                 break;
                             }
                             return t < f ? -1 : f < t ? 1 : 0;
-                        }, Buffer.isEncoding = function(e) {
+                        }, Buffer.isEncoding = function isEncoding(e) {
                             switch(String(e).toLowerCase()){
                                 case "hex":
                                 case "utf8":
@@ -405,7 +405,7 @@
                                 default:
                                     return !1;
                             }
-                        }, Buffer.concat = function(e, r) {
+                        }, Buffer.concat = function concat(e, r) {
                             if (!Array.isArray(e)) throw TypeError('"list" argument must be an Array of Buffers');
                             if (0 === e.length) return Buffer.alloc(0);
                             if (void 0 === r) for(t = 0, r = 0; t < e.length; ++t)r += e[t].length;
@@ -416,31 +416,31 @@
                                 i.copy(f, n), n += i.length;
                             }
                             return f;
-                        }, Buffer.byteLength = byteLength, Buffer.prototype._isBuffer = !0, Buffer.prototype.swap16 = function() {
+                        }, Buffer.byteLength = byteLength, Buffer.prototype._isBuffer = !0, Buffer.prototype.swap16 = function swap16() {
                             var e = this.length;
                             if (e % 2 != 0) throw RangeError("Buffer size must be a multiple of 16-bits");
                             for(var r = 0; r < e; r += 2)swap(this, r, r + 1);
                             return this;
-                        }, Buffer.prototype.swap32 = function() {
+                        }, Buffer.prototype.swap32 = function swap32() {
                             var e = this.length;
                             if (e % 4 != 0) throw RangeError("Buffer size must be a multiple of 32-bits");
                             for(var r = 0; r < e; r += 4)swap(this, r, r + 3), swap(this, r + 1, r + 2);
                             return this;
-                        }, Buffer.prototype.swap64 = function() {
+                        }, Buffer.prototype.swap64 = function swap64() {
                             var e = this.length;
                             if (e % 8 != 0) throw RangeError("Buffer size must be a multiple of 64-bits");
                             for(var r = 0; r < e; r += 8)swap(this, r, r + 7), swap(this, r + 1, r + 6), swap(this, r + 2, r + 5), swap(this, r + 3, r + 4);
                             return this;
-                        }, Buffer.prototype.toString = function() {
+                        }, Buffer.prototype.toString = function toString() {
                             var e = this.length;
                             return 0 === e ? "" : 0 == arguments.length ? utf8Slice(this, 0, e) : slowToString.apply(this, arguments);
-                        }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function(e) {
+                        }, Buffer.prototype.toLocaleString = Buffer.prototype.toString, Buffer.prototype.equals = function equals(e) {
                             if (!Buffer.isBuffer(e)) throw TypeError("Argument must be a Buffer");
                             return this === e || 0 === Buffer.compare(this, e);
-                        }, Buffer.prototype.inspect = function() {
+                        }, Buffer.prototype.inspect = function inspect() {
                             var e = "", t = r.INSPECT_MAX_BYTES;
                             return e = this.toString("hex", 0, t).replace(/(.{2})/g, "$1 ").trim(), this.length > t && (e += " ... "), "<Buffer " + e + ">";
-                        }, i && (Buffer.prototype[i] = Buffer.prototype.inspect), Buffer.prototype.compare = function(e, r, t, f, n) {
+                        }, i && (Buffer.prototype[i] = Buffer.prototype.inspect), Buffer.prototype.compare = function compare(e, r, t, f, n) {
                             if (isInstance(e, Uint8Array) && (e = Buffer.from(e, e.offset, e.byteLength)), !Buffer.isBuffer(e)) throw TypeError('The "target" argument must be one of type Buffer or Uint8Array. Received type ' + typeof e);
                             if (void 0 === r && (r = 0), void 0 === t && (t = e ? e.length : 0), void 0 === f && (f = 0), void 0 === n && (n = this.length), r < 0 || t > e.length || f < 0 || n > this.length) throw RangeError("out of range index");
                             if (f >= n && r >= t) return 0;
@@ -452,13 +452,13 @@
                                 break;
                             }
                             return i < o ? -1 : o < i ? 1 : 0;
-                        }, Buffer.prototype.includes = function(e, r, t) {
+                        }, Buffer.prototype.includes = function includes(e, r, t) {
                             return -1 !== this.indexOf(e, r, t);
-                        }, Buffer.prototype.indexOf = function(e, r, t) {
+                        }, Buffer.prototype.indexOf = function indexOf(e, r, t) {
                             return bidirectionalIndexOf(this, e, r, t, !0);
-                        }, Buffer.prototype.lastIndexOf = function(e, r, t) {
+                        }, Buffer.prototype.lastIndexOf = function lastIndexOf(e, r, t) {
                             return bidirectionalIndexOf(this, e, r, t, !1);
-                        }, Buffer.prototype.write = function(e, r, t, f) {
+                        }, Buffer.prototype.write = function write(e, r, t, f) {
                             if (void 0 === r) f = "utf8", t = this.length, r = 0;
                             else if (void 0 === t && "string" == typeof r) f = r, t = this.length, r = 0;
                             else if (isFinite(r)) r >>>= 0, isFinite(t) ? (t >>>= 0, void 0 === f && (f = "utf8")) : (f = t, t = void 0);
@@ -503,65 +503,65 @@
                                     if (i) throw TypeError("Unknown encoding: " + f);
                                     f = ("" + f).toLowerCase(), i = !0;
                             }
-                        }, Buffer.prototype.toJSON = function() {
+                        }, Buffer.prototype.toJSON = function toJSON() {
                             return {
                                 type: "Buffer",
                                 data: Array.prototype.slice.call(this._arr || this, 0)
                             };
-                        }, Buffer.prototype.slice = function(e, r) {
+                        }, Buffer.prototype.slice = function slice(e, r) {
                             var t = this.length;
                             e = ~~e, r = void 0 === r ? t : ~~r, e < 0 ? (e += t) < 0 && (e = 0) : e > t && (e = t), r < 0 ? (r += t) < 0 && (r = 0) : r > t && (r = t), r < e && (r = e);
                             var f = this.subarray(e, r);
                             return Object.setPrototypeOf(f, Buffer.prototype), f;
-                        }, Buffer.prototype.readUIntLE = function(e, r, t) {
+                        }, Buffer.prototype.readUIntLE = function readUIntLE(e, r, t) {
                             e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
                             for(var f = this[e], n = 1, i = 0; ++i < r && (n *= 256);)f += this[e + i] * n;
                             return f;
-                        }, Buffer.prototype.readUIntBE = function(e, r, t) {
+                        }, Buffer.prototype.readUIntBE = function readUIntBE(e, r, t) {
                             e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
                             for(var f = this[e + --r], n = 1; r > 0 && (n *= 256);)f += this[e + --r] * n;
                             return f;
-                        }, Buffer.prototype.readUInt8 = function(e, r) {
+                        }, Buffer.prototype.readUInt8 = function readUInt8(e, r) {
                             return e >>>= 0, r || checkOffset(e, 1, this.length), this[e];
-                        }, Buffer.prototype.readUInt16LE = function(e, r) {
+                        }, Buffer.prototype.readUInt16LE = function readUInt16LE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 2, this.length), this[e] | this[e + 1] << 8;
-                        }, Buffer.prototype.readUInt16BE = function(e, r) {
+                        }, Buffer.prototype.readUInt16BE = function readUInt16BE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 2, this.length), this[e] << 8 | this[e + 1];
-                        }, Buffer.prototype.readUInt32LE = function(e, r) {
+                        }, Buffer.prototype.readUInt32LE = function readUInt32LE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 4, this.length), (this[e] | this[e + 1] << 8 | this[e + 2] << 16) + 16777216 * this[e + 3];
-                        }, Buffer.prototype.readUInt32BE = function(e, r) {
+                        }, Buffer.prototype.readUInt32BE = function readUInt32BE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 4, this.length), 16777216 * this[e] + (this[e + 1] << 16 | this[e + 2] << 8 | this[e + 3]);
-                        }, Buffer.prototype.readIntLE = function(e, r, t) {
+                        }, Buffer.prototype.readIntLE = function readIntLE(e, r, t) {
                             e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
                             for(var f = this[e], n = 1, i = 0; ++i < r && (n *= 256);)f += this[e + i] * n;
                             return f >= (n *= 128) && (f -= Math.pow(2, 8 * r)), f;
-                        }, Buffer.prototype.readIntBE = function(e, r, t) {
+                        }, Buffer.prototype.readIntBE = function readIntBE(e, r, t) {
                             e >>>= 0, r >>>= 0, t || checkOffset(e, r, this.length);
                             for(var f = r, n = 1, i = this[e + --f]; f > 0 && (n *= 256);)i += this[e + --f] * n;
                             return i >= (n *= 128) && (i -= Math.pow(2, 8 * r)), i;
-                        }, Buffer.prototype.readInt8 = function(e, r) {
+                        }, Buffer.prototype.readInt8 = function readInt8(e, r) {
                             return (e >>>= 0, r || checkOffset(e, 1, this.length), 128 & this[e]) ? -((255 - this[e] + 1) * 1) : this[e];
-                        }, Buffer.prototype.readInt16LE = function(e, r) {
+                        }, Buffer.prototype.readInt16LE = function readInt16LE(e, r) {
                             e >>>= 0, r || checkOffset(e, 2, this.length);
                             var t = this[e] | this[e + 1] << 8;
                             return 32768 & t ? 4294901760 | t : t;
-                        }, Buffer.prototype.readInt16BE = function(e, r) {
+                        }, Buffer.prototype.readInt16BE = function readInt16BE(e, r) {
                             e >>>= 0, r || checkOffset(e, 2, this.length);
                             var t = this[e + 1] | this[e] << 8;
                             return 32768 & t ? 4294901760 | t : t;
-                        }, Buffer.prototype.readInt32LE = function(e, r) {
+                        }, Buffer.prototype.readInt32LE = function readInt32LE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 4, this.length), this[e] | this[e + 1] << 8 | this[e + 2] << 16 | this[e + 3] << 24;
-                        }, Buffer.prototype.readInt32BE = function(e, r) {
+                        }, Buffer.prototype.readInt32BE = function readInt32BE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 4, this.length), this[e] << 24 | this[e + 1] << 16 | this[e + 2] << 8 | this[e + 3];
-                        }, Buffer.prototype.readFloatLE = function(e, r) {
+                        }, Buffer.prototype.readFloatLE = function readFloatLE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 4, this.length), n.read(this, e, !0, 23, 4);
-                        }, Buffer.prototype.readFloatBE = function(e, r) {
+                        }, Buffer.prototype.readFloatBE = function readFloatBE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 4, this.length), n.read(this, e, !1, 23, 4);
-                        }, Buffer.prototype.readDoubleLE = function(e, r) {
+                        }, Buffer.prototype.readDoubleLE = function readDoubleLE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !0, 52, 8);
-                        }, Buffer.prototype.readDoubleBE = function(e, r) {
+                        }, Buffer.prototype.readDoubleBE = function readDoubleBE(e, r) {
                             return e >>>= 0, r || checkOffset(e, 8, this.length), n.read(this, e, !1, 52, 8);
-                        }, Buffer.prototype.writeUIntLE = function(e, r, t, f) {
+                        }, Buffer.prototype.writeUIntLE = function writeUIntLE(e, r, t, f) {
                             if (e = +e, r >>>= 0, t >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t) - 1;
                                 checkInt(this, e, r, t, n, 0);
@@ -569,7 +569,7 @@
                             var i = 1, o = 0;
                             for(this[r] = 255 & e; ++o < t && (i *= 256);)this[r + o] = e / i & 255;
                             return r + t;
-                        }, Buffer.prototype.writeUIntBE = function(e, r, t, f) {
+                        }, Buffer.prototype.writeUIntBE = function writeUIntBE(e, r, t, f) {
                             if (e = +e, r >>>= 0, t >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t) - 1;
                                 checkInt(this, e, r, t, n, 0);
@@ -577,17 +577,17 @@
                             var i = t - 1, o = 1;
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)this[r + i] = e / o & 255;
                             return r + t;
-                        }, Buffer.prototype.writeUInt8 = function(e, r, t) {
+                        }, Buffer.prototype.writeUInt8 = function writeUInt8(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 1, 255, 0), this[r] = 255 & e, r + 1;
-                        }, Buffer.prototype.writeUInt16LE = function(e, r, t) {
+                        }, Buffer.prototype.writeUInt16LE = function writeUInt16LE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
-                        }, Buffer.prototype.writeUInt16BE = function(e, r, t) {
+                        }, Buffer.prototype.writeUInt16BE = function writeUInt16BE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 65535, 0), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
-                        }, Buffer.prototype.writeUInt32LE = function(e, r, t) {
+                        }, Buffer.prototype.writeUInt32LE = function writeUInt32LE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r + 3] = e >>> 24, this[r + 2] = e >>> 16, this[r + 1] = e >>> 8, this[r] = 255 & e, r + 4;
-                        }, Buffer.prototype.writeUInt32BE = function(e, r, t) {
+                        }, Buffer.prototype.writeUInt32BE = function writeUInt32BE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 4294967295, 0), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
-                        }, Buffer.prototype.writeIntLE = function(e, r, t, f) {
+                        }, Buffer.prototype.writeIntLE = function writeIntLE(e, r, t, f) {
                             if (e = +e, r >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t - 1);
                                 checkInt(this, e, r, t, n - 1, -n);
@@ -595,7 +595,7 @@
                             var i = 0, o = 1, u = 0;
                             for(this[r] = 255 & e; ++i < t && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i - 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
                             return r + t;
-                        }, Buffer.prototype.writeIntBE = function(e, r, t, f) {
+                        }, Buffer.prototype.writeIntBE = function writeIntBE(e, r, t, f) {
                             if (e = +e, r >>>= 0, !f) {
                                 var n = Math.pow(2, 8 * t - 1);
                                 checkInt(this, e, r, t, n - 1, -n);
@@ -603,25 +603,25 @@
                             var i = t - 1, o = 1, u = 0;
                             for(this[r + i] = 255 & e; --i >= 0 && (o *= 256);)e < 0 && 0 === u && 0 !== this[r + i + 1] && (u = 1), this[r + i] = (e / o >> 0) - u & 255;
                             return r + t;
-                        }, Buffer.prototype.writeInt8 = function(e, r, t) {
+                        }, Buffer.prototype.writeInt8 = function writeInt8(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 1, 127, -128), e < 0 && (e = 255 + e + 1), this[r] = 255 & e, r + 1;
-                        }, Buffer.prototype.writeInt16LE = function(e, r, t) {
+                        }, Buffer.prototype.writeInt16LE = function writeInt16LE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = 255 & e, this[r + 1] = e >>> 8, r + 2;
-                        }, Buffer.prototype.writeInt16BE = function(e, r, t) {
+                        }, Buffer.prototype.writeInt16BE = function writeInt16BE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 2, 32767, -32768), this[r] = e >>> 8, this[r + 1] = 255 & e, r + 2;
-                        }, Buffer.prototype.writeInt32LE = function(e, r, t) {
+                        }, Buffer.prototype.writeInt32LE = function writeInt32LE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), this[r] = 255 & e, this[r + 1] = e >>> 8, this[r + 2] = e >>> 16, this[r + 3] = e >>> 24, r + 4;
-                        }, Buffer.prototype.writeInt32BE = function(e, r, t) {
+                        }, Buffer.prototype.writeInt32BE = function writeInt32BE(e, r, t) {
                             return e = +e, r >>>= 0, t || checkInt(this, e, r, 4, 2147483647, -2147483648), e < 0 && (e = 4294967295 + e + 1), this[r] = e >>> 24, this[r + 1] = e >>> 16, this[r + 2] = e >>> 8, this[r + 3] = 255 & e, r + 4;
-                        }, Buffer.prototype.writeFloatLE = function(e, r, t) {
+                        }, Buffer.prototype.writeFloatLE = function writeFloatLE(e, r, t) {
                             return writeFloat(this, e, r, !0, t);
-                        }, Buffer.prototype.writeFloatBE = function(e, r, t) {
+                        }, Buffer.prototype.writeFloatBE = function writeFloatBE(e, r, t) {
                             return writeFloat(this, e, r, !1, t);
-                        }, Buffer.prototype.writeDoubleLE = function(e, r, t) {
+                        }, Buffer.prototype.writeDoubleLE = function writeDoubleLE(e, r, t) {
                             return writeDouble(this, e, r, !0, t);
-                        }, Buffer.prototype.writeDoubleBE = function(e, r, t) {
+                        }, Buffer.prototype.writeDoubleBE = function writeDoubleBE(e, r, t) {
                             return writeDouble(this, e, r, !1, t);
-                        }, Buffer.prototype.copy = function(e, r, t, f) {
+                        }, Buffer.prototype.copy = function copy(e, r, t, f) {
                             if (!Buffer.isBuffer(e)) throw TypeError("argument should be a Buffer");
                             if (t || (t = 0), f || 0 === f || (f = this.length), r >= e.length && (r = e.length), r || (r = 0), f > 0 && f < t && (f = t), f === t || 0 === e.length || 0 === this.length) return 0;
                             if (r < 0) throw RangeError("targetStart out of bounds");
@@ -633,7 +633,7 @@
                             else if (this === e && t < r && r < f) for(var i = n - 1; i >= 0; --i)e[i + r] = this[i + t];
                             else Uint8Array.prototype.set.call(e, this.subarray(t, f), r);
                             return n;
-                        }, Buffer.prototype.fill = function(e, r, t, f) {
+                        }, Buffer.prototype.fill = function fill(e, r, t, f) {
                             if ("string" == typeof e) {
                                 if ("string" == typeof r ? (f = r, r = 0, t = this.length) : "string" == typeof t && (f = t, t = this.length), void 0 !== f && "string" != typeof f) throw TypeError("encoding must be a string");
                                 if ("string" == typeof f && !Buffer.isEncoding(f)) throw TypeError("Unknown encoding: " + f);
@@ -871,7 +871,7 @@
                     749: function(r, t, e) {
                         "use strict";
                         var o = e(91), n = e(112), i = n(o("String.prototype.indexOf"));
-                        r.exports = function(r, t) {
+                        r.exports = function callBoundIntrinsic(r, t) {
                             var e = o(r, !!t);
                             return "function" == typeof e && i(r, ".prototype.") > -1 ? n(e) : e;
                         };
@@ -886,7 +886,7 @@
                         } catch (r) {
                             f = null;
                         }
-                        r.exports = function(r) {
+                        r.exports = function callBind(r) {
                             var t = y(o, a, arguments);
                             return p && f && p(t, "length").configurable && f(t, "length", {
                                 value: 1 + u(0, r.length - (arguments.length - 1))
@@ -1225,7 +1225,7 @@
                             }
                             throw new n("intrinsic " + r + " does not exist!");
                         };
-                        r.exports = function(r, t) {
+                        r.exports = function GetIntrinsic(r, t) {
                             if ("string" != typeof r || 0 === r.length) throw new a("intrinsic name must be a non-empty string");
                             if (arguments.length > 1 && "boolean" != typeof t) throw new a('"allowMissing" argument must be a boolean');
                             var e = E(r), i = e.length > 0 ? e[0] : "", p = j("%" + i + "%", t), f = p.name, u = p.value, s = !1, c = p.alias;
@@ -1254,7 +1254,7 @@
                     },
                     219: function(r) {
                         var t = Object.prototype.hasOwnProperty, e = Object.prototype.toString;
-                        r.exports = function(r, o, n) {
+                        r.exports = function forEach(r, o, n) {
                             if ("[object Function]" !== e.call(o)) throw TypeError("iterator must be a function");
                             var i = r.length;
                             if (i === +i) for(var a = 0; a < i; a++)o.call(n, r[a], a, r);
@@ -1264,7 +1264,7 @@
                     733: function(r) {
                         "use strict";
                         var e = Array.prototype.slice, o = Object.prototype.toString;
-                        r.exports = function(r) {
+                        r.exports = function bind(r) {
                             var y, i = this;
                             if ("function" != typeof i || "[object Function]" !== o.call(i)) throw TypeError("Function.prototype.bind called on incompatible " + i);
                             for(var a = e.call(arguments, 1), p = Math.max(0, i.length - a.length), f = [], u = 0; u < p; u++)f.push("$" + u);
@@ -1623,7 +1623,7 @@
                             }
                             throw new n("intrinsic " + r + " does not exist!");
                         };
-                        r.exports = function(r, t) {
+                        r.exports = function GetIntrinsic(r, t) {
                             if ("string" != typeof r || 0 === r.length) throw new a("intrinsic name must be a non-empty string");
                             if (arguments.length > 1 && "boolean" != typeof t) throw new a('"allowMissing" argument must be a boolean');
                             var e = w(r), i = e.length > 0 ? e[0] : "", p = E("%" + i + "%", t), f = p.name, u = p.value, s = !1, c = p.alias;
@@ -1653,13 +1653,13 @@
                     449: function(r, t, e) {
                         "use strict";
                         var o = __webpack_require__.g.Symbol, n = e(545);
-                        r.exports = function() {
+                        r.exports = function hasNativeSymbols() {
                             return "function" == typeof o && "function" == typeof Symbol && "symbol" == typeof o("foo") && "symbol" == typeof Symbol("bar") && n();
                         };
                     },
                     545: function(r) {
                         "use strict";
-                        r.exports = function() {
+                        r.exports = function hasSymbols() {
                             if ("function" != typeof Symbol || "function" != typeof Object.getOwnPropertySymbols) return !1;
                             if ("symbol" == typeof Symbol.iterator) return !0;
                             var r = {}, t = Symbol("test"), e = Object(t);
@@ -1681,7 +1681,7 @@
                         r.exports = o.call(Function.call, Object.prototype.hasOwnProperty);
                     },
                     526: function(r) {
-                        "function" == typeof Object.create ? r.exports = function(r, t) {
+                        "function" == typeof Object.create ? r.exports = function inherits(r, t) {
                             t && (r.super_ = t, r.prototype = Object.create(t.prototype, {
                                 constructor: {
                                     value: r,
@@ -1690,7 +1690,7 @@
                                     configurable: !0
                                 }
                             }));
-                        } : r.exports = function(r, t) {
+                        } : r.exports = function inherits(r, t) {
                             if (t) {
                                 r.super_ = t;
                                 var TempCtor = function() {};
@@ -1717,13 +1717,13 @@
                                 return Function("return function*() {}")();
                             } catch (r) {}
                         }(), y = a ? i(a) : {};
-                        r.exports = function(r) {
+                        r.exports = function isGeneratorFunction(r) {
                             return "function" == typeof r && (!!o.test(e.call(r)) || (n ? i(r) === y : "[object GeneratorFunction]" === t.call(r)));
                         };
                     },
                     234: function(r, t, e) {
                         "use strict";
-                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("Array.prototype.indexOf", !0) || function(r, t) {
+                        var o = e(219), n = e(627), i = e(749), a = i("Object.prototype.toString"), p = e(449)() && "symbol" == typeof Symbol.toStringTag, f = n(), u = i("Array.prototype.indexOf", !0) || function indexOf(r, t) {
                             for(var e = 0; e < r.length; e += 1)if (r[e] === t) return e;
                             return -1;
                         }, s = i("String.prototype.slice"), c = {}, l = e(982), d = Object.getPrototypeOf;
@@ -1741,7 +1741,7 @@
                                 } catch (r) {}
                             }), t;
                         };
-                        r.exports = function(r) {
+                        r.exports = function isTypedArray(r) {
                             return !!r && "object" == typeof r && (p ? !!l && g(r) : u(f, s(a(r), 8, -1)) > -1);
                         };
                     },
@@ -1756,7 +1756,7 @@
                         r.exports = n;
                     },
                     536: function(r) {
-                        r.exports = function(r) {
+                        r.exports = function isBuffer(r) {
                             return r instanceof Buffer;
                         };
                     },
@@ -1886,7 +1886,7 @@
                         });
                     },
                     650: function(r, t, e) {
-                        var o = Object.getOwnPropertyDescriptors || function(r) {
+                        var o = Object.getOwnPropertyDescriptors || function getOwnPropertyDescriptors(r) {
                             for(var t = Object.keys(r), e = {}, o = 0; o < t.length; o++)e[t[o]] = Object.getOwnPropertyDescriptor(r, t[o]);
                             return e;
                         }, n = /%[sdj%]/g;
@@ -2169,7 +2169,7 @@
                             }
                             return t(r);
                         }
-                        t.promisify = function(r) {
+                        t.promisify = function promisify(r) {
                             if ("function" != typeof r) throw TypeError('The "original" argument must be of type Function');
                             if (f && r[f]) {
                                 var t = r[f];
@@ -2239,7 +2239,7 @@
                                 } catch (r) {}
                             }), t;
                         }, g = e(234);
-                        r.exports = function(r) {
+                        r.exports = function whichTypedArray(r) {
                             return !!g(r) && (p ? d(r) : u(a(r), 8, -1));
                         };
                     },
@@ -2566,7 +2566,7 @@
                             }
                             throw new n("intrinsic " + r + " does not exist!");
                         };
-                        r.exports = function(r, t) {
+                        r.exports = function GetIntrinsic(r, t) {
                             if ("string" != typeof r || 0 === r.length) throw new a("intrinsic name must be a non-empty string");
                             if (arguments.length > 1 && "boolean" != typeof t) throw new a('"allowMissing" argument must be a boolean');
                             var e = w(r), o = e.length > 0 ? e[0] : "", n = E("%" + o + "%", t), i = n.name, p = n.value, f = !1, u = n.alias;
@@ -2602,7 +2602,7 @@
                     627: function(r, t, e) {
                         "use strict";
                         var o = e(901);
-                        r.exports = function() {
+                        r.exports = function availableTypedArrays() {
                             return o([
                                 "BigInt64Array",
                                 "BigUint64Array",

@@ -470,7 +470,7 @@
                                 rootMargin: rootMargin
                             })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
                                 return isVisible && setVisible(isVisible);
-                            }), observer.observe(element), function() {
+                            }), observer.observe(element), function unobserve() {
                                 if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
                                     observer.disconnect(), observers.delete(id);
                                     var index = idList.findIndex(function(obj) {

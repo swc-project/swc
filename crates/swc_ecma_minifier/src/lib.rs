@@ -178,25 +178,30 @@ pub fn optimize(
     if let Some(ref mut t) = timings {
         t.section("compress");
     }
-    if let Some(options) = &options.compress {
+    if let Some(c) = &options.compress {
         {
             let _timer = timer!("compress ast");
 
-            n.visit_mut_with(&mut compressor(marks, options, &Minification))
+            n.visit_mut_with(&mut compressor(
+                marks,
+                c,
+                options.mangle.as_ref(),
+                &Minification,
+            ))
         }
 
         // Again, we don't need to validate ast
 
         let _timer = timer!("postcompress");
 
-        n.visit_mut_with(&mut postcompress_optimizer(options));
+        n.visit_mut_with(&mut postcompress_optimizer(c));
 
         let mut pass = 0;
         loop {
             pass += 1;
 
             let mut v = pure_optimizer(
-                options,
+                c,
                 None,
                 marks,
                 PureOptimizerConfig {
@@ -207,7 +212,7 @@ pub fn optimize(
                 },
             );
             n.visit_mut_with(&mut v);
-            if !v.changed() || options.passes <= pass {
+            if !v.changed() || c.passes <= pass {
                 break;
             }
         }
