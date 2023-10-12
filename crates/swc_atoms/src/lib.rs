@@ -40,6 +40,7 @@ mod repr;
 ///  - Drop must be fast, and concurrent drop must be also fast.
 ///
 ///
+/// Our atom is a fork of `compact_str`, but with a precomputed hash value.
 ///
 /// # Compaison with other libraries
 ///
