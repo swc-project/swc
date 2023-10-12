@@ -1,8 +1,13 @@
 [package]
-name = "swc_ecma_compat_bugfixes"
-version = "0.1.0"
-edition = "2021"
-
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Compatibility fixes for browser bugs"
+documentation = "https://rustdoc.swc.rs/swc_ecma_compat_bugfixes/"
+edition       = "2021"
+include       = ["Cargo.toml", "src/**/*.rs"]
+license       = "Apache-2.0"
+name          = "swc_ecma_compat_bugfixes"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.1.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
