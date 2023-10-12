@@ -3750,11 +3750,13 @@ name = "swc_atoms"
 version = "0.6.0"
 dependencies = [
  "bytecheck",
+ "cfg-if",
  "compact_str",
  "once_cell",
  "rkyv",
  "rustc-hash",
  "serde",
+ "static_assertions",
 ]
 
 [[package]]
