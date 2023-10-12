@@ -11,13 +11,14 @@ extern crate alloc;
 use std::{
     borrow::{Borrow, Cow},
     fmt::{self, Display, Formatter},
-    hash::Hash,
+    hash::{Hash, Hasher},
     ops::Deref,
     rc::Rc,
 };
 
 use compact_str::CompactString;
 use once_cell::sync::Lazy;
+use rustc_hash::FxHasher;
 use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
@@ -64,7 +65,7 @@ mod repr;
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(CompactString);
+pub struct Atom((u32, CompactString));
 
 /// Safety: We do not perform slicing of single [Atom] from multiple threads.
 /// In other words, typically [Atom] is created in a single thread (and in the
@@ -79,14 +80,18 @@ impl Atom {
     /// Creates a new [Atom] from a string.
     pub fn new<S>(s: S) -> Self
     where
-        S: AsRef<str>,
+        S: Into<CompactString>,
     {
-        Atom(s.as_ref().into())
+        let s = s.into();
+        let mut hasher = FxHasher::default();
+        s.hash(&mut hasher);
+        let hash = hasher.finish();
+        Atom((hash as _, s))
     }
 
     #[inline]
     pub fn to_ascii_lowercase(&self) -> Self {
-        Self(self.0.to_ascii_lowercase().into())
+        Self::new((self.0).1.to_ascii_lowercase())
     }
 }
 
@@ -98,7 +103,7 @@ impl Deref for Atom {
 
     #[inline]
     fn deref(&self) -> &Self::Target {
-        &self.0
+        &self.0 .1
     }
 }
 
@@ -190,7 +195,7 @@ impl Eq for Atom {}
 
 impl Hash for Atom {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.0.hash(state)
+        state.write_u32(self.0 .0);
     }
 }
 
