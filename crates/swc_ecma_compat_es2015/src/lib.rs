@@ -1,4 +1,5 @@
 #![allow(clippy::vec_box)]
+#![allow(clippy::boxed_local)]
 
 use serde::Deserialize;
 use swc_common::{chain, comments::Comments, pass::Optional, Mark};
