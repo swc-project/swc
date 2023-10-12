@@ -98,8 +98,9 @@ mod tests {
         let repr = f64::into_repr(val);
         let roundtrip = repr.as_str().parse::<f64>().unwrap();
 
-        // Note: The formatting of floats by `ryu` sometimes differs from that of `std`, so instead
-        // of asserting equality with `std` we just make sure the value roundtrips
+        // Note: The formatting of floats by `ryu` sometimes differs from that of `std`,
+        // so instead of asserting equality with `std` we just make sure the
+        // value roundtrips
 
         if val.is_nan() != roundtrip.is_nan() {
             assert_eq!(val, roundtrip);
@@ -142,8 +143,9 @@ mod tests {
         let repr = f32::into_repr(val);
         let roundtrip = repr.as_str().parse::<f32>().unwrap();
 
-        // Note: The formatting of floats by `ryu` sometimes differs from that of `std`, so instead
-        // of asserting equality with `std` we just make sure the value roundtrips
+        // Note: The formatting of floats by `ryu` sometimes differs from that of `std`,
+        // so instead of asserting equality with `std` we just make sure the
+        // value roundtrips
 
         if val.is_nan() != roundtrip.is_nan() {
             assert_eq!(val, roundtrip);
