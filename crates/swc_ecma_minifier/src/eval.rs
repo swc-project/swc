@@ -87,6 +87,7 @@ impl Evaluator {
                     top_level: Some(TopLevelOptions { functions: true }),
                     ..Default::default()
                 },
+                None,
                 &data,
             ));
         }

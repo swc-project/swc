@@ -283,7 +283,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.59.4"
+version = "0.59.5"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1055,7 +1055,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.88.10"
+version = "0.88.11"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3668,7 +3668,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.268.4"
+version = "0.268.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3739,7 +3739,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.221.5"
+version = "0.221.6"
 dependencies = [
  "anyhow",
  "crc",
@@ -3794,7 +3794,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "anyhow",
  "atty",
@@ -3852,7 +3852,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.2.5"
+version = "0.2.6"
 dependencies = [
  "anyhow",
  "base64 0.13.1",
@@ -3895,7 +3895,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.85.4"
+version = "0.85.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4252,7 +4252,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.188.5"
+version = "0.188.6"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4692,7 +4692,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.235.5"
+version = "0.235.6"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4740,7 +4740,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.193.4"
+version = "0.193.5"
 dependencies = [
  "ahash 0.8.3",
  "anyhow",
@@ -4788,7 +4788,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.133.4"
+version = "0.133.5"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -4839,7 +4839,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.130.4"
+version = "0.130.5"
 dependencies = [
  "criterion",
  "once_cell",
@@ -4925,7 +4925,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.57.4"
+version = "0.57.5"
 dependencies = [
  "anyhow",
  "dashmap",

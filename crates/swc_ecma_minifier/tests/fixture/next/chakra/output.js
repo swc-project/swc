@@ -111,37 +111,37 @@
             var chakra_ui_system_esm = __webpack_require__(2846), chakra_ui_color_mode_esm = __webpack_require__(949), ssrDocument = {
                 body: {
                     classList: {
-                        add: function() {},
-                        remove: function() {}
+                        add: function add() {},
+                        remove: function remove() {}
                     }
                 },
-                addEventListener: function() {},
-                removeEventListener: function() {},
+                addEventListener: function addEventListener() {},
+                removeEventListener: function removeEventListener() {},
                 activeElement: {
-                    blur: function() {},
+                    blur: function blur() {},
                     nodeName: ""
                 },
-                querySelector: function() {
+                querySelector: function querySelector() {
                     return null;
                 },
-                querySelectorAll: function() {
+                querySelectorAll: function querySelectorAll() {
                     return [];
                 },
-                getElementById: function() {
+                getElementById: function getElementById() {
                     return null;
                 },
-                createEvent: function() {
+                createEvent: function createEvent() {
                     return {
-                        initEvent: function() {}
+                        initEvent: function initEvent() {}
                     };
                 },
-                createElement: function() {
+                createElement: function createElement() {
                     return {
                         children: [],
                         childNodes: [],
                         style: {},
-                        setAttribute: function() {},
-                        getElementsByTagName: function() {
+                        setAttribute: function setAttribute() {},
+                        getElementsByTagName: function getElementsByTagName() {
                             return [];
                         }
                     };
@@ -155,36 +155,36 @@
                     navigator: {
                         userAgent: ""
                     },
-                    CustomEvent: function() {
+                    CustomEvent: function CustomEvent() {
                         return this;
                     },
                     addEventListener: noop,
                     removeEventListener: noop,
-                    getComputedStyle: function() {
+                    getComputedStyle: function getComputedStyle() {
                         return {
-                            getPropertyValue: function() {
+                            getPropertyValue: function getPropertyValue() {
                                 return "";
                             }
                         };
                     },
-                    matchMedia: function() {
+                    matchMedia: function matchMedia() {
                         return {
                             matches: !1,
                             addListener: noop,
                             removeListener: noop
                         };
                     },
-                    requestAnimationFrame: function(callback) {
+                    requestAnimationFrame: function requestAnimationFrame(callback) {
                         return "undefined" == typeof setTimeout ? (callback(), null) : setTimeout(callback, 0);
                     },
-                    cancelAnimationFrame: function(id) {
+                    cancelAnimationFrame: function cancelAnimationFrame(id) {
                         "undefined" != typeof setTimeout && clearTimeout(id);
                     },
-                    setTimeout: function() {
+                    setTimeout: function setTimeout1() {
                         return 0;
                     },
                     clearTimeout: noop,
-                    setInterval: function() {
+                    setInterval: function setInterval() {
                         return 0;
                     },
                     clearInterval: noop
@@ -207,7 +207,7 @@
                 }, children, react.createElement("span", {
                     hidden: !0,
                     className: "chakra-env",
-                    ref: function(el) {
+                    ref: function ref(el) {
                         (0, react.startTransition)(function() {
                             el && setNode(el);
                         });
@@ -1225,7 +1225,7 @@
                 }
             }
             var Anatomy = function() {
-                var staticProps;
+                var Constructor, protoProps, staticProps;
                 function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
@@ -1262,16 +1262,16 @@
                         return {
                             className: className,
                             selector: "." + className,
-                            toString: function() {
+                            toString: function toString() {
                                 return part;
                             }
                         };
                     }, this.__type = {};
                 }
-                return _defineProperties(Anatomy.prototype, [
+                return Constructor = Anatomy, protoProps = [
                     {
                         key: "selectors",
-                        get: function() {
+                        get: function get() {
                             return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref) {
                                 return [
                                     _ref[0],
@@ -1282,7 +1282,7 @@
                     },
                     {
                         key: "classNames",
-                        get: function() {
+                        get: function get() {
                             return (0, chakra_ui_utils_esm.sq)(Object.entries(this.map).map(function(_ref2) {
                                 return [
                                     _ref2[0],
@@ -1293,11 +1293,11 @@
                     },
                     {
                         key: "keys",
-                        get: function() {
+                        get: function get() {
                             return Object.keys(this.map);
                         }
                     }
-                ]), staticProps && _defineProperties(Anatomy, staticProps), Object.defineProperty(Anatomy, "prototype", {
+                ], _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Object.defineProperty(Constructor, "prototype", {
                     writable: !1
                 }), Anatomy;
             }();
@@ -1335,34 +1335,34 @@
                 return null == value || Number.isNaN(parseFloat(value)) ? _multiply(value, -1) : String(value).startsWith("-") ? String(value).slice(1) : "-" + value;
             }, calc = Object.assign(function(x) {
                 return {
-                    add: function() {
+                    add: function add() {
                         for(var _len6 = arguments.length, operands = Array(_len6), _key6 = 0; _key6 < _len6; _key6++)operands[_key6] = arguments[_key6];
                         return calc(_add.apply(void 0, [
                             x
                         ].concat(operands)));
                     },
-                    subtract: function() {
+                    subtract: function subtract() {
                         for(var _len7 = arguments.length, operands = Array(_len7), _key7 = 0; _key7 < _len7; _key7++)operands[_key7] = arguments[_key7];
                         return calc(_subtract.apply(void 0, [
                             x
                         ].concat(operands)));
                     },
-                    multiply: function() {
+                    multiply: function multiply() {
                         for(var _len8 = arguments.length, operands = Array(_len8), _key8 = 0; _key8 < _len8; _key8++)operands[_key8] = arguments[_key8];
                         return calc(_multiply.apply(void 0, [
                             x
                         ].concat(operands)));
                     },
-                    divide: function() {
+                    divide: function divide() {
                         for(var _len9 = arguments.length, operands = Array(_len9), _key9 = 0; _key9 < _len9; _key9++)operands[_key9] = arguments[_key9];
                         return calc(_divide.apply(void 0, [
                             x
                         ].concat(operands)));
                     },
-                    negate: function() {
+                    negate: function negate() {
                         return calc(_negate(x));
                     },
-                    toString: function() {
+                    toString: function toString() {
                         return x.toString();
                     }
                 };
@@ -2471,15 +2471,15 @@
             }, baseStyle$f = sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
                 textAlign: "center"
             }), variants$4 = {
-                outline: function(props) {
+                outline: function outline(props) {
                     var _Input$variants$outli;
                     return null != (_Input$variants$outli = Input.variants.outline(props).field) ? _Input$variants$outli : {};
                 },
-                flushed: function(props) {
+                flushed: function flushed(props) {
                     var _Input$variants$flush;
                     return null != (_Input$variants$flush = Input.variants.flushed(props).field) ? _Input$variants$flush : {};
                 },
-                filled: function(props) {
+                filled: function filled(props) {
                     var _Input$variants$fille;
                     return null != (_Input$variants$fille = Input.variants.filled(props).field) ? _Input$variants$fille : {};
                 },
@@ -3251,17 +3251,17 @@
             }, Tag = {
                 parts: tagAnatomy.keys,
                 variants: {
-                    subtle: function(props) {
+                    subtle: function subtle(props) {
                         return {
                             container: Badge.variants.subtle(props)
                         };
                     },
-                    solid: function(props) {
+                    solid: function solid(props) {
                         return {
                             container: Badge.variants.solid(props)
                         };
                     },
-                    outline: function(props) {
+                    outline: function outline(props) {
                         return {
                             container: Badge.variants.outline(props)
                         };
@@ -3347,15 +3347,15 @@
                 lineHeight: "short",
                 verticalAlign: "top"
             }), variants = {
-                outline: function(props) {
+                outline: function outline(props) {
                     var _Input$variants$outli;
                     return null != (_Input$variants$outli = Input.variants.outline(props).field) ? _Input$variants$outli : {};
                 },
-                flushed: function(props) {
+                flushed: function flushed(props) {
                     var _Input$variants$flush;
                     return null != (_Input$variants$flush = Input.variants.flushed(props).field) ? _Input$variants$flush : {};
                 },
-                filled: function(props) {
+                filled: function filled(props) {
                     var _Input$variants$fille;
                     return null != (_Input$variants$fille = Input.variants.filled(props).field) ? _Input$variants$fille : {};
                 },
@@ -4408,17 +4408,17 @@
                     return l();
                 });
             }, {
-                getState: function() {
+                getState: function getState() {
                     return state;
                 },
-                subscribe: function(listener) {
+                subscribe: function subscribe(listener) {
                     return listeners.add(listener), function() {
                         setState(function() {
                             return initialState;
                         }), listeners.delete(listener);
                     };
                 },
-                removeToast: function(id, position) {
+                removeToast: function removeToast(id, position) {
                     setState(function(prevState) {
                         var _extends2;
                         return chakra_ui_toast_esm_extends({}, prevState, ((_extends2 = {})[position] = prevState[position].filter(function(toast) {
@@ -4426,14 +4426,14 @@
                         }), _extends2));
                     });
                 },
-                notify: function(message, options) {
+                notify: function notify(message, options) {
                     var options1, _options$id, _options$position, id, position, toast = (void 0 === (options1 = options) && (options1 = {}), counter += 1, {
                         id: id = null != (_options$id = options1.id) ? _options$id : counter,
                         message: message,
                         position: position = null != (_options$position = options1.position) ? _options$position : "bottom",
                         duration: options1.duration,
                         onCloseComplete: options1.onCloseComplete,
-                        onRequestRemove: function() {
+                        onRequestRemove: function onRequestRemove() {
                             return toastStore.removeToast(String(id), position);
                         },
                         status: options1.status,
@@ -4449,7 +4449,7 @@
                         return chakra_ui_toast_esm_extends({}, prevToasts, ((_extends3 = {})[position1] = toasts, _extends3));
                     }), id1;
                 },
-                update: function(id, options) {
+                update: function update(id, options) {
                     id && setState(function(prevState) {
                         var options1, _options, render, _options$toastCompone, ToastComponent, nextState = chakra_ui_toast_esm_extends({}, prevState), _findToast = findToast(nextState, id), position = _findToast.position, index = _findToast.index;
                         return position && -1 !== index && (nextState[position][index] = chakra_ui_toast_esm_extends({}, nextState[position][index], options, {
@@ -4459,7 +4459,7 @@
                         })), nextState;
                     });
                 },
-                closeAll: function(_temp) {
+                closeAll: function closeAll(_temp) {
                     var positions = (void 0 === _temp ? {} : _temp).positions;
                     setState(function(prev) {
                         return (null != positions ? positions : [
@@ -4478,7 +4478,7 @@
                         }, chakra_ui_toast_esm_extends({}, prev));
                     });
                 },
-                close: function(id) {
+                close: function close(id) {
                     setState(function(prevState) {
                         var _extends4, position = getToastPosition(prevState, id);
                         return position ? chakra_ui_toast_esm_extends({}, prevState, ((_extends4 = {})[position] = prevState[position].map(function(toast) {
@@ -4488,7 +4488,7 @@
                         }), _extends4)) : prevState;
                     });
                 },
-                isActive: function(id) {
+                isActive: function isActive(id) {
                     return !!findToast(toastStore.getState(), id).position;
                 }
             }), counter = 0, Toast = function(props) {
@@ -4519,7 +4519,7 @@
                     top: 1
                 }));
             }, toastMotionVariants = {
-                initial: function(props) {
+                initial: function initial(props) {
                     var _ref, position = props.position, dir = [
                         "top",
                         "bottom"
