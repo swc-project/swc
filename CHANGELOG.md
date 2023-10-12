@@ -1,6 +1,34 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI action ([#8107](https://github.com/swc-project/swc/issues/8107)) ([fe0bf57](https://github.com/swc-project/swc/commit/fe0bf5746fb40ec66719858f149a4e5c45f10749))
+
+
+- **(xtask)** Bump version correctly ([11f31da](https://github.com/swc-project/swc/commit/11f31da3862399d1998fd788f597a9dcdeaf6858))
+
+## [1.3.93-nightly-20231012.1] - 2023-10-12
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Don't inline functions if `keep_fnames` is enabled ([#8093](https://github.com/swc-project/swc/issues/8093)) ([94bb42e](https://github.com/swc-project/swc/commit/94bb42e29418a8697ba0ab41dad2ffe63f1c32c7))
+
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Use `--tag` of `npm publish` ([5779a7e](https://github.com/swc-project/swc/commit/5779a7e26ce4bc0bd8e5a3be38228fdc960eb2b2))
+
+
+- **(xtask)** Typo ([372f78c](https://github.com/swc-project/swc/commit/372f78ce12d7b5e54ea71de642658aead7c2ead7))
+
+## [1.3.93-nightly.20231011.1] - 2023-10-11
+
 ### Bug Fixes
 
 
@@ -24,6 +52,9 @@
 
 
 - **(es/parser)** Fix parsing of `await using` ([#8101](https://github.com/swc-project/swc/issues/8101)) ([e1043fa](https://github.com/swc-project/swc/commit/e1043fae77ca9e33b2d65ce6edc9559917a895ec))
+
+
+- **(xtask)** Fix nightly command ([#8105](https://github.com/swc-project/swc/issues/8105)) ([db4ca65](https://github.com/swc-project/swc/commit/db4ca650e445e602f289f7964b24f7e2647beacd))
 
 ### Features
 
@@ -53,7 +84,19 @@
 - **(xtask)** Add a command for nigjtly build ([#8104](https://github.com/swc-project/swc/issues/8104)) ([9d773bf](https://github.com/swc-project/swc/commit/9d773bfa12bd22fc042f2c9a2d798d9c43adc228))
 
 
+- **(xtask)** Create a git tag ([bd254f6](https://github.com/swc-project/swc/commit/bd254f67d4367bf550088f89bb021fc97c503a26))
+
+
+- **(xtask)** Preaerve version ([e0c07e2](https://github.com/swc-project/swc/commit/e0c07e25a15a4087382c96eb72077d817917944e))
+
+
+- **(xtask)** Inherit stderr ([b8c5787](https://github.com/swc-project/swc/commit/b8c57870fa55840d8f7045b1b1f31bd0095bc6c1))
+
+
 - Use `cargo xtask` ([#8068](https://github.com/swc-project/swc/issues/8068)) ([6420aef](https://github.com/swc-project/swc/commit/6420aefca5bd22af3a75b7ad34741509ed35377a))
+
+
+- Restore versions ([ff65a5c](https://github.com/swc-project/swc/commit/ff65a5cd20defda0ae9c58f07103e2369cedf3b3))
 
 ### Refactor
 
@@ -1910,9 +1953,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/minifier)** Optimize calls to `Boolean`/`Number`/`String`/`Symbol` ([#7006](https://github.com/swc-project/swc/issues/7006)) ([06cbb90](https://github.com/swc-project/swc/commit/06cbb9002da2bdc04440b6ace28432839f42ccdf))
 
 
-- **(es/parser)** Support auto accessors ([#6981](https://github.com/swc-project/swc/issues/6981)) ([37533a2](https://github.com/swc-project/swc/commit/37533a23fde30fe054bf321e7ca7a10a346c2f79))
-
-
 - **(es/parser)** Add an option to disallow ambiguous jsx ([#6913](https://github.com/swc-project/swc/issues/6913)) ([a6471f3](https://github.com/swc-project/swc/commit/a6471f34c0786bd0e80b3b4c5356929ebb0a8483))
 
 
@@ -1920,9 +1960,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/transforms)** Support namespace imports from `const_modules` ([#7013](https://github.com/swc-project/swc/issues/7013)) ([3cb03d5](https://github.com/swc-project/swc/commit/3cb03d5299d3c6be56f8b7f8c42ba86122640424))
-
-
-- **(es/typescript)** Support `export type * from "mod"` ([#6867](https://github.com/swc-project/swc/issues/6867)) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
 
 ### Miscellaneous Tasks
 
@@ -1935,31 +1972,5 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/parser)** Make lexer not generic over `Input` ([#6993](https://github.com/swc-project/swc/issues/6993)) ([367ac82](https://github.com/swc-project/swc/commit/367ac825f6bfab65cf8bcb21e68500daef8ad177))
-
-## [1.3.37] - 2023-02-28
-
-### Bug Fixes
-
-
-
-- **(bindings/cli)** Implement `source-file-name` and `source-root` options ([#6973](https://github.com/swc-project/swc/issues/6973)) ([3e3e41a](https://github.com/swc-project/swc/commit/3e3e41a1756519515df193db903f6992995420e9))
-
-
-- **(css/utils)** Fix minification of class names with whitespace ([#6983](https://github.com/swc-project/swc/issues/6983)) ([cc1d9bd](https://github.com/swc-project/swc/commit/cc1d9bd567340203d5d2bd228a4d0b19f8052202))
-
-
-- **(es/decorator)** Preserve evaluation order ([#6972](https://github.com/swc-project/swc/issues/6972)) ([703b340](https://github.com/swc-project/swc/commit/703b340d39c3efb69f4a0d375ab6e5a2f9a4acd9))
-
-### Miscellaneous Tasks
-
-
-
-- **(es/parser)** Reduce pre-allocation to reduce memory usage ([#6979](https://github.com/swc-project/swc/issues/6979)) ([f1e7a2a](https://github.com/swc-project/swc/commit/f1e7a2a9cc74b19597e9d7105852daf4672514a2))
-
-### Testing
-
-
-
-- **(es/tsc)** Update tsc test suite ([#6982](https://github.com/swc-project/swc/issues/6982)) ([b887b30](https://github.com/swc-project/swc/commit/b887b30092c77ec67eedb7f1dd0b5570a1a16eea))
 
 <!-- generated by git-cliff -->

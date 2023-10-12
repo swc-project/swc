@@ -85,6 +85,10 @@ fn find_first_nightly(prev_version: &semver::Version, date: &str) -> Result<Vers
     for i in 1.. {
         ver.pre = Prerelease::new(&format!("nightly-{}.{}", date, i))?;
 
+        if ver <= *prev_version {
+            continue;
+        }
+
         let tag = format!("v{}", ver);
 
         let output = Command::new("git")
