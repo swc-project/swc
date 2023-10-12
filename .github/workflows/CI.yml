@@ -319,6 +319,39 @@ jobs:
           - crate: swc_ecma_codegen_macros
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_ecma_compat_bugfixes
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_common
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2015
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2016
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2017
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2018
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2019
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2020
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2021
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es2022
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_ecma_compat_es3
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_ecma_dep_graph
             os: ubuntu-latest
             runner: ubuntu-latest
@@ -536,6 +569,9 @@ jobs:
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: testing_macros
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: xtask
             os: ubuntu-latest
             runner: ubuntu-latest
     steps:
