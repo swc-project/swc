@@ -18,8 +18,8 @@ pub use swc_ecma_compat_es2022 as es2022;
 pub use swc_ecma_compat_es3 as es3;
 
 pub use self::{
-    bugfixes::bugfixes, es2015::es2015, es2016::es2016, es2017::es2017, es2018::es2018,
-    es2019::es2019, es2020::es2020, es2021::es2021, es2022::es2022, es3::es3,
+    bugfixes::bugfixes, es2015::es2015, es2017::es2017, es2018::es2018, es2019::es2019,
+    es2020::es2020, es2021::es2021, es2022::es2022, es2s016::es2016, es3::es3,
 };
 pub mod class_fields_use_set;
 pub mod reserved_words;
