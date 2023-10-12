@@ -4261,9 +4261,11 @@ dependencies = [
 name = "swc_ecma_compat_es2018"
 version = "0.1.0"
 dependencies = [
+ "serde",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
+ "swc_ecma_compat_common",
  "swc_ecma_transforms_base",
  "swc_ecma_utils",
  "swc_ecma_visit",
