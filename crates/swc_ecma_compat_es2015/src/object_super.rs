@@ -490,9 +490,8 @@ mod tests {
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
-    use crate::{shorthand, function_name};
-
     use super::*;
+    use crate::{function_name, shorthand};
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| {
