@@ -4203,6 +4203,13 @@ dependencies = [
 [[package]]
 name = "swc_ecma_compat_common"
 version = "0.1.0"
+dependencies = [
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "swc_trace_macro",
+]
 
 [[package]]
 name = "swc_ecma_compat_es2015"
