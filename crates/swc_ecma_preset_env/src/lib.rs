@@ -352,7 +352,7 @@ where
             targets,
             includes: included_modules,
             excludes: excluded_modules,
-            global_mark: unresolved_mark,
+            unresolved_mark,
         })
     )
 }
@@ -366,7 +366,7 @@ struct Polyfills {
     regenerator: bool,
     includes: AHashSet<String>,
     excludes: AHashSet<String>,
-    global_mark: Mark,
+    unresolved_mark: Mark,
 }
 impl Polyfills {
     fn collect<T>(&mut self, m: &mut T) -> Vec<JsWord>
@@ -506,7 +506,7 @@ impl VisitMut for Polyfills {
                         expr: CallExpr {
                             span,
                             callee: Expr::Ident(Ident {
-                                span: DUMMY_SP.apply_mark(self.global_mark),
+                                span: DUMMY_SP.apply_mark(self.unresolved_mark),
                                 sym: "require".into(),
                                 optional: false,
                             })
@@ -532,7 +532,7 @@ impl VisitMut for Polyfills {
                         expr: CallExpr {
                             span,
                             callee: Expr::Ident(Ident {
-                                span: DUMMY_SP.apply_mark(self.global_mark),
+                                span: DUMMY_SP.apply_mark(self.unresolved_mark),
                                 sym: "require".into(),
                                 optional: false,
                             })
