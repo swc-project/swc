@@ -21,6 +21,7 @@ bytecheck = { version = "0.6.10", optional = true }
 cfg-if = "1.0.0"
 compact_str = "0.7.1"
 once_cell = "1"
+rayon = "1.8.0"
 rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
   "strict",
   "validation",
@@ -31,4 +32,5 @@ serde = "1"
 static_assertions = "1.1.0"
 
 [dev-dependencies]
+rustversion = "1.0.14"
 test-case = "3.2.1"
