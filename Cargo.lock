@@ -4240,6 +4240,15 @@ dependencies = [
 [[package]]
 name = "swc_ecma_compat_es2016"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "swc_trace_macro",
+]
 
 [[package]]
 name = "swc_ecma_compat_es2017"
@@ -4293,6 +4302,15 @@ dependencies = [
 [[package]]
 name = "swc_ecma_compat_es2020"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_transforms_base",
+ "swc_ecma_utils",
+ "swc_ecma_visit",
+ "swc_trace_macro",
+]
 
 [[package]]
 name = "swc_ecma_compat_es2021"
