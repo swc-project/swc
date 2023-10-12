@@ -1,3 +1,5 @@
+#![allow(clippy::vec_box)]
+
 use serde::Deserialize;
 use swc_common::chain;
 use swc_ecma_compat_common::regexp::{self, regexp};

@@ -60,14 +60,7 @@ impl MemberInitRecord {
         // there shouldn't be many class field, so n^2 should be fine
         if let MemberInit::PrivAccessor(accessor) = member {
             if let Some(MemberInit::PrivAccessor(previous)) =
-                self.record.iter_mut().find(|item| match item {
-                    MemberInit::PrivAccessor(PrivAccessor { name, .. })
-                        if name.sym == accessor.name.sym =>
-                    {
-                        true
-                    }
-                    _ => false,
-                })
+                self.record.iter_mut().find(|item| matches!(item, MemberInit::PrivAccessor(PrivAccessor { name, .. }) if name.sym == accessor.name.sym))
             {
                 previous.getter = previous.getter.take().or(accessor.getter);
                 previous.setter = previous.setter.take().or(accessor.setter);
