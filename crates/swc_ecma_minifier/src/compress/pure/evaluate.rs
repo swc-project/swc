@@ -330,7 +330,7 @@ impl Pure<'_> {
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(0f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                let f = precision.trunc() as usize;
+                let f = precision.trunc() as u8;
 
                 // 4. If f is not finite, throw a RangeError exception.
                 // 5. If f < 0 or f > 100, throw a RangeError exception.
@@ -341,33 +341,8 @@ impl Pure<'_> {
                     return;
                 }
 
-                // 6. If x is not finite, return Number::toString(x, 10).
-
-                let x = {
-                    let x = num.value;
-                    // 7. Set x to ℝ(x).
-                    if x == -0. {
-                        0.
-                    } else {
-                        x
-                    }
-                };
-                // 8. Let s be the empty String.
-                // 9. If x < 0, then a. Set s to "-". b. Set x to -x.
-                // 10. If x ≥ 10**21, then a. Let m be ! ToString(𝔽(x)).
-                let value = if x >= 1e21 || x <= -1e21 {
-                    format!("{:e}", x).replace('e', "e+")
-                } else {
-                    // 11. Else,
-
-                    if x.fract() != 0. || f != 0 {
-                        // TODO: rust built-in format cannot handle ecma262 `1.25.toFixed(1)`
-
-                        return;
-                    } else {
-                        format!("{:.*}", f, x)
-                    }
-                };
+                let mut buffer = ryu_js::Buffer::new();
+                let value = buffer.format_to_fixed(num.value, f);
 
                 self.changed = true;
                 report_change!(
