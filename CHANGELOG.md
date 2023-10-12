@@ -1,6 +1,17 @@
 # Changelog
 ## [unreleased]
 
+### Miscellaneous Tasks
+
+
+
+- **(ci)** Fix CI action ([#8107](https://github.com/swc-project/swc/issues/8107)) ([fe0bf57](https://github.com/swc-project/swc/commit/fe0bf5746fb40ec66719858f149a4e5c45f10749))
+
+
+- **(xtask)** Bump version correctly ([11f31da](https://github.com/swc-project/swc/commit/11f31da3862399d1998fd788f597a9dcdeaf6858))
+
+## [1.3.93-nightly-20231012.1] - 2023-10-12
+
 ### Bug Fixes
 
 
@@ -9,6 +20,9 @@
 
 ### Miscellaneous Tasks
 
+
+
+- **(ci)** Use `--tag` of `npm publish` ([5779a7e](https://github.com/swc-project/swc/commit/5779a7e26ce4bc0bd8e5a3be38228fdc960eb2b2))
 
 
 - **(xtask)** Typo ([372f78c](https://github.com/swc-project/swc/commit/372f78ce12d7b5e54ea71de642658aead7c2ead7))
@@ -1939,9 +1953,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/minifier)** Optimize calls to `Boolean`/`Number`/`String`/`Symbol` ([#7006](https://github.com/swc-project/swc/issues/7006)) ([06cbb90](https://github.com/swc-project/swc/commit/06cbb9002da2bdc04440b6ace28432839f42ccdf))
 
 
-- **(es/parser)** Support auto accessors ([#6981](https://github.com/swc-project/swc/issues/6981)) ([37533a2](https://github.com/swc-project/swc/commit/37533a23fde30fe054bf321e7ca7a10a346c2f79))
-
-
 - **(es/parser)** Add an option to disallow ambiguous jsx ([#6913](https://github.com/swc-project/swc/issues/6913)) ([a6471f3](https://github.com/swc-project/swc/commit/a6471f34c0786bd0e80b3b4c5356929ebb0a8483))
 
 
@@ -1949,9 +1960,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/transforms)** Support namespace imports from `const_modules` ([#7013](https://github.com/swc-project/swc/issues/7013)) ([3cb03d5](https://github.com/swc-project/swc/commit/3cb03d5299d3c6be56f8b7f8c42ba86122640424))
-
-
-- **(es/typescript)** Support `export type * from "mod"` ([#6867](https://github.com/swc-project/swc/issues/6867)) ([beb38d3](https://github.com/swc-project/swc/commit/beb38d34a26016051eb0ed364ea1112f416955ac))
 
 ### Miscellaneous Tasks
 
