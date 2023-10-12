@@ -36,7 +36,7 @@ mod regenerator;
 mod transform_data;
 
 pub fn preset_env<C>(
-    global_mark: Mark,
+    unresolved_mark: Mark,
     comments: Option<C>,
     c: Config,
     assumptions: Assumptions,
@@ -178,7 +178,7 @@ where
                 no_document_all: loose || assumptions.no_document_all,
                 pure_getter: loose || assumptions.pure_getters
             },
-            global_mark
+            unresolved_mark
         )
     );
 
@@ -206,7 +206,7 @@ where
                 ignore_function_length: loose || assumptions.ignore_function_length,
             },
             comments.clone(),
-            global_mark
+            unresolved_mark
         )
     );
 
@@ -245,7 +245,7 @@ where
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
     let pass = add!(pass, FunctionName, es2015::function_name());
-    let pass = add!(pass, ArrowFunctions, es2015::arrow(global_mark));
+    let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
     let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
     let pass = add!(pass, StickyRegex, es2015::sticky_regex());
     // TODO:    InstanceOf,
@@ -258,7 +258,7 @@ where
             es2015::parameters::Config {
                 ignore_function_length: loose || assumptions.ignore_function_length
             },
-            global_mark
+            unresolved_mark
         )
     );
     let pass = add!(
@@ -282,8 +282,18 @@ where
         es2015::destructuring(es2015::destructuring::Config { loose }),
         true
     );
-    let pass = add!(pass, BlockScoping, es2015::block_scoping(global_mark), true);
-    let pass = add!(pass, Regenerator, generator(global_mark, comments), true);
+    let pass = add!(
+        pass,
+        BlockScoping,
+        es2015::block_scoping(unresolved_mark),
+        true
+    );
+    let pass = add!(
+        pass,
+        Regenerator,
+        generator(unresolved_mark, comments),
+        true
+    );
 
     let pass = add!(pass, NewTarget, es2015::new_target(), true);
 
@@ -311,7 +321,7 @@ where
     let pass = add!(
         pass,
         BugfixAsyncArrowsInClass,
-        bugfixes::async_arrows_in_class(global_mark)
+        bugfixes::async_arrows_in_class(unresolved_mark)
     );
     let pass = add!(
         pass,
@@ -342,7 +352,7 @@ where
             targets,
             includes: included_modules,
             excludes: excluded_modules,
-            global_mark
+            unresolved_mark,
         })
     )
 }
@@ -356,7 +366,7 @@ struct Polyfills {
     regenerator: bool,
     includes: AHashSet<String>,
     excludes: AHashSet<String>,
-    global_mark: Mark,
+    unresolved_mark: Mark,
 }
 impl Polyfills {
     fn collect<T>(&mut self, m: &mut T) -> Vec<JsWord>
@@ -496,7 +506,7 @@ impl VisitMut for Polyfills {
                         expr: CallExpr {
                             span,
                             callee: Expr::Ident(Ident {
-                                span: DUMMY_SP.apply_mark(self.global_mark),
+                                span: DUMMY_SP.apply_mark(self.unresolved_mark),
                                 sym: "require".into(),
                                 optional: false,
                             })
@@ -522,7 +532,7 @@ impl VisitMut for Polyfills {
                         expr: CallExpr {
                             span,
                             callee: Expr::Ident(Ident {
-                                span: DUMMY_SP.apply_mark(self.global_mark),
+                                span: DUMMY_SP.apply_mark(self.unresolved_mark),
                                 sym: "require".into(),
                                 optional: false,
                             })
