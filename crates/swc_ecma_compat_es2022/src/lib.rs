@@ -1,3 +1,5 @@
+#![allow(clippy::vec_box)]
+
 use swc_common::{chain, comments::Comments};
 use swc_ecma_compat_common::regexp::{self, regexp};
 use swc_ecma_visit::Fold;
