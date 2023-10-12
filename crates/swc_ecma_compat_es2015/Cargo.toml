@@ -14,6 +14,7 @@ version       = "0.1.0"
 
 [dependencies]
 indexmap     = "1.9.3"
+is-macro     = "0.3.0"
 serde        = "1.0.188"
 serde_derive = "1.0.188"
 smallvec     = "1.8.0"
