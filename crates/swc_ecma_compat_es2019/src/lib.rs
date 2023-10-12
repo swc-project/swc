@@ -1,14 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use swc_ecma_visit::Fold;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub use self::optional_catch_binding::optional_catch_binding;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+mod optional_catch_binding;
+
+pub fn es2019() -> impl Fold {
+    optional_catch_binding()
 }

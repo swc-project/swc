@@ -1,14 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use swc_ecma_visit::{Fold, VisitMut};
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub use self::logical_assignments::logical_assignments;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+mod logical_assignments;
+
+pub fn es2021() -> impl Fold + VisitMut {
+    logical_assignments()
 }

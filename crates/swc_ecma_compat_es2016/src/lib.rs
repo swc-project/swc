@@ -1,14 +1,9 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use swc_ecma_visit::Fold;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub use self::exponentiation::exponentiation;
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+mod exponentiation;
+
+pub fn es2016() -> impl Fold {
+    exponentiation()
 }

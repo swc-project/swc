@@ -1,14 +1,21 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+use serde::Deserialize;
+use swc_common::{comments::Comments, Mark};
+use swc_ecma_visit::Fold;
+
+pub use self::async_to_generator::async_to_generator;
+
+pub mod async_to_generator;
+
+pub fn es2017<C: Comments + Clone>(
+    c: Config,
+    comments: Option<C>,
+    unresolved_mark: Mark,
+) -> impl Fold {
+    async_to_generator(c.async_to_generator, comments, unresolved_mark)
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+#[derive(Debug, Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct Config {
+    pub async_to_generator: async_to_generator::Config,
 }
