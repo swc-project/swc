@@ -1,9 +1,9 @@
 use serde::Deserialize;
 use swc_common::chain;
+use swc_ecma_compat_common::regexp::{self, regexp};
 use swc_ecma_visit::Fold;
 
 pub use self::object_rest_spread::object_rest_spread;
-use crate::regexp::{self, regexp};
 
 mod object_rest;
 pub mod object_rest_spread;

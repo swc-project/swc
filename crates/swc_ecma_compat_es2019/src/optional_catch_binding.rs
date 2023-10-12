@@ -30,7 +30,7 @@ mod tests {
     use swc_ecma_transforms_testing::test;
     use swc_ecma_visit::{as_folder, Fold};
 
-    use crate::es2019::optional_catch_binding::OptionalCatchBinding;
+    use crate::optional_catch_binding::OptionalCatchBinding;
 
     pub fn tr() -> impl Fold {
         chain!(
