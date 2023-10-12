@@ -1,3 +1,5 @@
+/// Not a public API
+#[macro_export]
 macro_rules! impl_visit_mut_fn {
     () => {
         fn visit_mut_function(&mut self, f: &mut Function) {
