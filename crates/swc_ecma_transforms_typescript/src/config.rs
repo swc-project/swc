@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
     #[serde(default)]
     pub verbatim_module_syntax: bool,
@@ -18,6 +18,26 @@ pub struct Config {
 
     #[serde(default)]
     pub import_export_assign_config: TsImportExportAssignConfig,
+
+    /// Whether TS enum member values should be inlined if possible
+    /// within the same module. This assumes the enum member values
+    /// are never modified.
+    ///
+    /// Defaults to true.
+    #[serde(default = "true_by_default")]
+    pub ts_enum_is_readonly: bool,
+}
+
+impl Default for Config {
+    fn default() -> Self {
+        Self {
+            verbatim_module_syntax: false,
+            import_not_used_as_values: Default::default(),
+            no_empty_export: false,
+            import_export_assign_config: Default::default(),
+            ts_enum_is_readonly: true,
+        }
+    }
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -70,3 +90,7 @@ pub enum ImportsNotUsedAsValues {
 
 #[deprecated = "ImportNotUsedAsValues is renamed to ImportsNotUsedAsValues"]
 pub type ImportNotUsedAsValues = ImportsNotUsedAsValues;
+
+const fn true_by_default() -> bool {
+    true
+}
