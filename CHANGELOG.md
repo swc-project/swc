@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.93] - 2023-10-13
 
 ### Bug Fixes
 
@@ -41,43 +41,7 @@
 
 
 
-- **(ci)** Remove unused concurrency tests ([#8100](https://github.com/swc-project/swc/issues/8100)) ([226b17f](https://github.com/swc-project/swc/commit/226b17fa868f8d9580c7ed61dd32f5db1c838982))
-
-
-- **(ci)** Use `--tag` of `npm publish` ([5779a7e](https://github.com/swc-project/swc/commit/5779a7e26ce4bc0bd8e5a3be38228fdc960eb2b2))
-
-
-- **(ci)** Fix CI action ([#8107](https://github.com/swc-project/swc/issues/8107)) ([fe0bf57](https://github.com/swc-project/swc/commit/fe0bf5746fb40ec66719858f149a4e5c45f10749))
-
-
 - **(es/minifier)** Fix script for extracting test cases from next.js app ([#8092](https://github.com/swc-project/swc/issues/8092)) ([a2d0779](https://github.com/swc-project/swc/commit/a2d077958f071752dbc347fbf414622e0146e1fd))
-
-
-- **(xtask)** Migrate scripts to xtask ([#8072](https://github.com/swc-project/swc/issues/8072)) ([a5621bb](https://github.com/swc-project/swc/commit/a5621bb30a665c8022d7004ccde53f574443cbe1))
-
-
-- **(xtask)** Add `git reduce core-ver` ([#8088](https://github.com/swc-project/swc/issues/8088)) ([3b449e3](https://github.com/swc-project/swc/commit/3b449e3bcaaf90ae72493133e7c88099b0733ebc))
-
-
-- **(xtask)** Add `--features` to `xtask bench` ([#8094](https://github.com/swc-project/swc/issues/8094)) ([f5d7acf](https://github.com/swc-project/swc/commit/f5d7acfa10b579e031c8f64deabe0ee39e4461ab))
-
-
-- **(xtask)** Add a command for nigjtly build ([#8104](https://github.com/swc-project/swc/issues/8104)) ([9d773bf](https://github.com/swc-project/swc/commit/9d773bfa12bd22fc042f2c9a2d798d9c43adc228))
-
-
-- **(xtask)** Create a git tag ([bd254f6](https://github.com/swc-project/swc/commit/bd254f67d4367bf550088f89bb021fc97c503a26))
-
-
-- **(xtask)** Preaerve version ([e0c07e2](https://github.com/swc-project/swc/commit/e0c07e25a15a4087382c96eb72077d817917944e))
-
-
-- **(xtask)** Inherit stderr ([b8c5787](https://github.com/swc-project/swc/commit/b8c57870fa55840d8f7045b1b1f31bd0095bc6c1))
-
-
-- **(xtask)** Typo ([372f78c](https://github.com/swc-project/swc/commit/372f78ce12d7b5e54ea71de642658aead7c2ead7))
-
-
-- **(xtask)** Bump version correctly ([11f31da](https://github.com/swc-project/swc/commit/11f31da3862399d1998fd788f597a9dcdeaf6858))
 
 ### Refactor
 
@@ -113,18 +77,6 @@
 
 
 - **(es/module)** Handle directives ([#8048](https://github.com/swc-project/swc/issues/8048)) ([4d8e101](https://github.com/swc-project/swc/commit/4d8e1013bb7775f60d463276cc3233ecd7849b31))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix publish action ([8ddb0da](https://github.com/swc-project/swc/commit/8ddb0dafa25e21020f6378ee4c29fa286654ea30))
-
-
-- **(ci)** Prepare multi-package repository ([#8043](https://github.com/swc-project/swc/issues/8043)) ([f2bc6a3](https://github.com/swc-project/swc/commit/f2bc6a3fcc7367726afe55b4fa4c6bde839fbd70))
-
-
-- **(ci)** Fix publish action for minifier ([77b8591](https://github.com/swc-project/swc/commit/77b8591d86dee33c92277b4b2d301d8cb253c16b))
 
 ### Refactor
 
@@ -166,18 +118,6 @@
 
 
 - **(bindings)** Create a minifier-only package ([#7993](https://github.com/swc-project/swc/issues/7993)) ([64d8f4b](https://github.com/swc-project/swc/commit/64d8f4b59f81c71bffbb906595bafa356f326924))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Prepare `@swc/minifier` ([#8027](https://github.com/swc-project/swc/issues/8027)) ([8214b9e](https://github.com/swc-project/swc/commit/8214b9ed4e214dc6a52e7d2c80cd3b8ca87d3a12))
-
-
-- **(ci)** Expose more crates to JS ([#8033](https://github.com/swc-project/swc/issues/8033)) ([186ecfa](https://github.com/swc-project/swc/commit/186ecfadb55430405d1a4e1400574a6e958f9458))
-
-
-- **(ci)** Remove wrong `if`s ([dec68c3](https://github.com/swc-project/swc/commit/dec68c32126e38066feb813fce4635e7d40a8429))
 
 ### Refactor
 
@@ -449,12 +389,6 @@
 
 - **(css/ast)** Support `@scope` at-rule ([#7837](https://github.com/swc-project/swc/issues/7837)) ([a34f359](https://github.com/swc-project/swc/commit/a34f3592b3fd2731b63a5c58c5022e12a403850b))
 
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix CI ([#7857](https://github.com/swc-project/swc/issues/7857)) ([854e2e7](https://github.com/swc-project/swc/commit/854e2e78b38699fd09c65074a38a21d1d9836002))
-
 ### Refactor
 
 
@@ -557,12 +491,6 @@
 
 - **(es/minifier)** Support `mangle.eval` ([#7777](https://github.com/swc-project/swc/issues/7777)) ([eff0cac](https://github.com/swc-project/swc/commit/eff0caca2b6bfd383c8369cf0f4cdad86bb9e575))
 
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Cleanup CI ([#7787](https://github.com/swc-project/swc/issues/7787)) ([ab39f1c](https://github.com/swc-project/swc/commit/ab39f1c3c83c7156e6e9979773bf542a59d9b4f4))
-
 ### Performance
 
 
@@ -597,12 +525,6 @@
 
 
 - **(es)** Alias `format` as `output` for `minify()` ([#7746](https://github.com/swc-project/swc/issues/7746)) ([28dfc51](https://github.com/swc-project/swc/commit/28dfc518879b9125a382b48e8310895e137d4fd4))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix permissions of publish action ([#7768](https://github.com/swc-project/swc/issues/7768)) ([fa7e428](https://github.com/swc-project/swc/commit/fa7e4289bd04320b9a88bda81538fc394bda23f9))
 
 ### Refactor
 
@@ -707,12 +629,6 @@
 
 
 - **(css/parser)** Support `@starting-style` ([#7677](https://github.com/swc-project/swc/issues/7677)) ([cfb7b51](https://github.com/swc-project/swc/commit/cfb7b511eebe068b3c57f4540b90cb59c922d7e9))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix CI ([#7679](https://github.com/swc-project/swc/issues/7679)) ([57398af](https://github.com/swc-project/swc/commit/57398af2708ebd72c489fa81b9573259b0a71d15))
 
 ### Refactor
 
@@ -878,18 +794,6 @@
 
 - **(testing)** Add `CARGO_TARGET_DIR` and use it from other crates ([#7552](https://github.com/swc-project/swc/issues/7552)) ([46fb461](https://github.com/swc-project/swc/commit/46fb4619bafd56dfa3edd9064c1fe2ae4b6b78de))
 
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Make `cargo deny` happy ([#7560](https://github.com/swc-project/swc/issues/7560)) ([c8d9338](https://github.com/swc-project/swc/commit/c8d933858333209ecf786b64948ac3c88e401be6))
-
-
-- **(ci)** Change condition for `ci` testing ([#7533](https://github.com/swc-project/swc/issues/7533)) ([724e75d](https://github.com/swc-project/swc/commit/724e75d2569d3c210d4e0d3c6861e17c906babed))
-
-
-- **(ci)** Fix CI ([#7589](https://github.com/swc-project/swc/issues/7589)) ([c51eac6](https://github.com/swc-project/swc/commit/c51eac6075c161bdf4e8211fd6f96df8bd902e7d))
-
 ### Refactor
 
 
@@ -1037,15 +941,6 @@
 
 
 - **(es/minifier)** Don't generate generator arrows ([#7466](https://github.com/swc-project/swc/issues/7466)) ([e506635](https://github.com/swc-project/swc/commit/e506635f74e38cb7eb88a2fa540d8c4f71c7323a))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Publish npm packages with provenance option ([#7481](https://github.com/swc-project/swc/issues/7481)) ([e4e77fd](https://github.com/swc-project/swc/commit/e4e77fd84fdfb9472f9a19fe7e8b1a850954d67c))
-
-
-- **(ci)** Fix publish action ([#7485](https://github.com/swc-project/swc/issues/7485)) ([0e37c18](https://github.com/swc-project/swc/commit/0e37c18c9ca0e8d011acb728ba8dcd879f15920a))
 
 ### Performance
 
@@ -1413,12 +1308,6 @@
 
 
 - **(es/modules)** Use function instead of arrow function unconditionally ([#7273](https://github.com/swc-project/swc/issues/7273)) ([5d3313a](https://github.com/swc-project/swc/commit/5d3313aa7e696a5c4c28e513062b8ba92bd40e5f))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix crev action ([#7272](https://github.com/swc-project/swc/issues/7272)) ([578960d](https://github.com/swc-project/swc/commit/578960d32186f7d5fdf2dc99599aa49a01c5d7a3))
 
 ### Refactor
 
@@ -1791,12 +1680,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 - **(es/compat)** Simplify static blocks in classes ([#7056](https://github.com/swc-project/swc/issues/7056)) ([b78ce8b](https://github.com/swc-project/swc/commit/b78ce8b7c20f7c62523a017f4066776ada9d779d))
 
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix CI ([#7070](https://github.com/swc-project/swc/issues/7070)) ([97945d0](https://github.com/swc-project/swc/commit/97945d02b8ea7936d7b30142807999da53fec96b))
-
 ### Performance
 
 
@@ -1831,12 +1714,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(common)** Add an API to create a `SourceFile` without allocation ([#7029](https://github.com/swc-project/swc/issues/7029)) ([81495f5](https://github.com/swc-project/swc/commit/81495f5f21d56df7a187847337c9fdd2ff8ee73b))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix bot ([691a8c1](https://github.com/swc-project/swc/commit/691a8c1a5490cc6fa05ad2bb59cfc7c4d370056f))
 
 ### Performance
 
@@ -1889,18 +1766,9 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 
-- **(es/minifier)** Optimize calls to `Boolean`/`Number`/`String`/`Symbol` ([#7006](https://github.com/swc-project/swc/issues/7006)) ([06cbb90](https://github.com/swc-project/swc/commit/06cbb9002da2bdc04440b6ace28432839f42ccdf))
-
-
 - **(es/transforms)** Add an option to drop unused imports ([#6962](https://github.com/swc-project/swc/issues/6962)) ([67d0a89](https://github.com/swc-project/swc/commit/67d0a89ae65d0efb07a43040b962735b5cc25ea8))
 
 
 - **(es/transforms)** Support namespace imports from `const_modules` ([#7013](https://github.com/swc-project/swc/issues/7013)) ([3cb03d5](https://github.com/swc-project/swc/commit/3cb03d5299d3c6be56f8b7f8c42ba86122640424))
-
-### Miscellaneous Tasks
-
-
-
-- **(ci)** Fix CI ([#7014](https://github.com/swc-project/swc/issues/7014)) ([a431a3a](https://github.com/swc-project/swc/commit/a431a3a204faebd283cb7db8359b048d9fcc9a87))
 
 <!-- generated by git-cliff -->
