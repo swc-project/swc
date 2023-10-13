@@ -5,7 +5,6 @@ use swc_ecma_ast::EsVersion;
 #[derive(Debug, Clone, Copy)]
 #[cfg_attr(feature = "serde-impl", derive(Serialize, Deserialize))]
 #[cfg_attr(feature = "serde-impl", serde(rename_all = "camelCase"))]
-#[non_exhaustive]
 pub struct Config {
     /// The target runtime environment.
     ///
