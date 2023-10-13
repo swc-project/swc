@@ -64,6 +64,8 @@ commit_parsers = [
     { message = "^style", group = "Styling" },
     { message = "^test", group = "Testing" },
     { message = "^chore: Publish", skip = true },
+    { message = "^chore(ci):", skip = true },
+    { message = "^chore(xtask):", skip = true },
     { message = "^chore", group = "Miscellaneous Tasks" },
     { body = ".*security", group = "Security" },
 ]
