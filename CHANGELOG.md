@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/minifier)** Evaluate more `toFixed` expressions ([#8109](https://github.com/swc-project/swc/issues/8109)) ([7da3f52](https://github.com/swc-project/swc/commit/7da3f52485062eb23c719e1236b2fee90c228bdd))
+
 ## [1.3.93] - 2023-10-13
 
 ### Bug Fixes
@@ -1749,9 +1757,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es)** Allow any kind of input source maps if it's enabled ([#7002](https://github.com/swc-project/swc/issues/7002)) ([da5367b](https://github.com/swc-project/swc/commit/da5367b3fbac2cf4ab7d7f4562d58be3cff0edf8))
-
-
-- **(es/minifier)** Don't create invalid property names ([#7010](https://github.com/swc-project/swc/issues/7010)) ([bb2486c](https://github.com/swc-project/swc/commit/bb2486c4592214c19ee6a1aa747dda5e58a1b07d))
 
 
 - **(es/parser)** Fix parsing of an array spread in tsx properties ([#7011](https://github.com/swc-project/swc/issues/7011)) ([6d6731f](https://github.com/swc-project/swc/commit/6d6731f355ed3bc314be31061b971f9317bea713))
