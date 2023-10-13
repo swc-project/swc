@@ -46,7 +46,7 @@ impl VisitMut for TypeScript {
         n.visit_mut_with(&mut transform(
             self.top_level_mark,
             self.config.import_export_assign_config,
-            self.config.ts_enum_is_readonly,
+            self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
         ));
 

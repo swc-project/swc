@@ -51,7 +51,7 @@ pub(crate) struct Transform {
     top_level_ctxt: SyntaxContext,
 
     import_export_assign_config: TsImportExportAssignConfig,
-    ts_enum_is_readonly: bool,
+    ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
 
     namespace_id: Option<Id>,
@@ -65,14 +65,14 @@ pub(crate) struct Transform {
 pub fn transform(
     top_level_mark: Mark,
     import_export_assign_config: TsImportExportAssignConfig,
-    ts_enum_is_readonly: bool,
+    ts_enum_is_mutable: bool,
     verbatim_module_syntax: bool,
 ) -> impl Fold + VisitMut {
     as_folder(Transform {
         top_level_mark,
         top_level_ctxt: SyntaxContext::empty().apply_mark(top_level_mark),
         import_export_assign_config,
-        ts_enum_is_readonly,
+        ts_enum_is_mutable,
         verbatim_module_syntax,
         ..Default::default()
     })
@@ -84,7 +84,7 @@ impl VisitMut for Transform {
     fn visit_mut_program(&mut self, n: &mut Program) {
         n.visit_mut_children_with(self);
 
-        if self.ts_enum_is_readonly && !self.record.is_empty() {
+        if !self.ts_enum_is_mutable && !self.record.is_empty() {
             let record = mem::take(&mut self.record);
             n.visit_mut_children_with(&mut InlineEnum::new(record));
         }

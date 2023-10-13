@@ -4557,13 +4557,13 @@ test!(
     Syntax::Typescript(TsConfig::default()),
     |_| tr_config(
         Some(typescript::Config {
-            ts_enum_is_readonly: false,
+            ts_enum_is_mutable: true,
             ..Default::default()
         }),
         None,
         true,
     ),
-    ts_enum_is_readonly_false,
+    ts_enum_is_mutable_true,
     r#"
     enum D {
       A,
