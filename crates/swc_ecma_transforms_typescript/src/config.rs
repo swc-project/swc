@@ -19,9 +19,9 @@ pub struct Config {
     #[serde(default)]
     pub import_export_assign_config: TsImportExportAssignConfig,
 
-    /// Whether TS enum member values should be inlined if possible
-    /// within the same module. This assumes the enum member values
-    /// are never modified.
+    /// An optimization that inlines TS enum member values within
+    /// the same module. This assumes the enum member values are
+    /// never modified.
     ///
     /// Defaults to true.
     #[serde(default = "true_by_default")]

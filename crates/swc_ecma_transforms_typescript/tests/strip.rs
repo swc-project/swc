@@ -4552,3 +4552,34 @@ test!(
     }
       "
 );
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(
+        Some(typescript::Config {
+            ts_enum_is_readonly: false,
+            ..Default::default()
+        }),
+        None,
+        true,
+    ),
+    ts_enum_is_readonly_false,
+    r#"
+    enum D {
+      A,
+      B,
+    }
+
+    (D as any).A = 5;
+    console.log(D.A);
+    "#,
+    r#"
+    var D;
+    (function(D) {
+        D[D["A"] = 0] = "A";
+        D[D["B"] = 1] = "B";
+    })(D || (D = {}));
+    D.A = 5;
+    console.log(D.A);
+    "#
+);
