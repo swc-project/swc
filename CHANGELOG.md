@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Evaluate more `toFixed` expressions ([#8109](https://github.com/swc-project/swc/issues/8109)) ([7da3f52](https://github.com/swc-project/swc/commit/7da3f52485062eb23c719e1236b2fee90c228bdd))
 
+
+- **(es/typescript)** Add `ts_enum_is_mutable` to disable enum inlining ([#8115](https://github.com/swc-project/swc/issues/8115)) ([57b171d](https://github.com/swc-project/swc/commit/57b171dcbe55a8d285d5bc477844b24fdf48835a))
+
 ## [1.3.93] - 2023-10-13
 
 ### Bug Fixes
@@ -1769,9 +1772,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Features
 
-
-
-- **(es/transforms)** Add an option to drop unused imports ([#6962](https://github.com/swc-project/swc/issues/6962)) ([67d0a89](https://github.com/swc-project/swc/commit/67d0a89ae65d0efb07a43040b962735b5cc25ea8))
 
 
 - **(es/transforms)** Support namespace imports from `const_modules` ([#7013](https://github.com/swc-project/swc/issues/7013)) ([3cb03d5](https://github.com/swc-project/swc/commit/3cb03d5299d3c6be56f8b7f8c42ba86122640424))
