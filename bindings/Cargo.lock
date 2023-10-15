@@ -229,7 +229,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.3.93-nightly-20231013.1"
+version = "1.3.94-nightly-20231015.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -242,9 +242,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.59.7"
+version = "0.59.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8be06e614b2ba91ce6066081593dc4ad943ddb4f4a07ef45904e1998e8ce0ec7"
+checksum = "c5e34ba3cc1a7d2a142d97e05a9c9da4762884e2d952038b2296cfa4bd6b1371"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -289,7 +289,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.3.93-nightly-20231013.1"
+version = "1.3.94-nightly-20231015.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2394,6 +2394,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6518fc26bced4d53678a22d6e423e9d8716377def84545fe328236e3af070e7f"
 
 [[package]]
+name = "ryu-js"
+version = "1.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4950d85bc52415f8432144c97c4791bd0c4f7954de32a7270ee9cccd3c22b12b"
+
+[[package]]
 name = "same-file"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2839,9 +2845,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.268.7"
+version = "0.268.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5c0f38e760a7427682f38ee4b3a1454e7fffefb8bf899feea00d993fd80c3ac6"
+checksum = "c84ceb845ff85056c93ccc24d27037acfcf5839085c2b34f089f64981b0c0c55"
 dependencies = [
  "anyhow",
  "base64 0.13.1",
@@ -2907,9 +2913,9 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.221.7"
+version = "0.221.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "19cd7176ae010f7ec3f7c4c0c8c0d55fb7bc283ae526f0ff6183aa2747d6eda4"
+checksum = "f81a3127895451bdecc5d2f33962b4435c5bf9593eae85120d8058e64098aac9"
 dependencies = [
  "anyhow",
  "crc",
@@ -2953,7 +2959,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.81"
+version = "0.91.83"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -2961,9 +2967,9 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.3.6"
+version = "0.3.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6043bf9d4fe2f0239bb1774df1d17f0c84676796fcc5fc553d38f1f74ec5b6cf"
+checksum = "3cbe7f841c513aaec4446ec624a160812c1215bbabcb6bc136f22e00cf9a67ab"
 dependencies = [
  "anyhow",
  "atty",
@@ -3017,9 +3023,9 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.2.7"
+version = "0.2.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6d6a44aa824c4c572bef137ee61009d7c90565f52bd3165e3a8d6db519f8b80e"
+checksum = "0c9c750cfc2b37779dfc50a37311b0c5a13155453ec80eaa9c2b94da9e7c3dd8"
 dependencies = [
  "anyhow",
  "base64 0.13.1",
@@ -3066,9 +3072,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.85.7"
+version = "0.85.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "273a67434f2fde2e4176ab11c910fcb517029262c6c6c25fdd1feb48b916b658"
+checksum = "f7dad3a255025c7ae04576ade40dfdeb03f2229159ea6b112ed180a206a9d5a0"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3392,9 +3398,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.188.7"
+version = "0.188.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f6058566588988a7463bab250215e6205d258184a0c23e38da96ce92d88079ee"
+checksum = "4e15ead8e8a1f7e84b15c8800fc27f9b578544c6086396a06a8e58104fffbbd7"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -3406,7 +3412,7 @@ dependencies = [
  "rayon",
  "regex",
  "rustc-hash",
- "ryu-js",
+ "ryu-js 1.0.0",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -3681,7 +3687,7 @@ version = "0.184.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c96270280171c483bb4ba07c86d632fdad972e166218b8bf7d318e973a0b8d7e"
 dependencies = [
- "ryu-js",
+ "ryu-js 0.2.2",
  "serde",
  "swc_atoms",
  "swc_common",
@@ -3817,9 +3823,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.57.7"
+version = "0.57.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ab564e566690c6992429b6753ac3cca5df1df3bdcdd0555692d15e3541555ac0"
+checksum = "62dfb2abade10019650253748f35792f31a8abbdc95acc353ccd25fe0062a42d"
 dependencies = [
  "anyhow",
  "dashmap",
