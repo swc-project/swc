@@ -1,25 +1,29 @@
 extern crate swc_node_base;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
+use rayon::prelude::*;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 
 fn bench_module(b: &mut Bencher, syntax: Syntax, src: &'static str) {
     let _ = ::testing::run_test(false, |cm, _| {
-        let comments = SingleThreadedComments::default();
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
         b.iter(|| {
-            let _ = black_box({
-                let lexer = Lexer::new(
-                    syntax,
-                    Default::default(),
-                    StringInput::from(&*fm),
-                    Some(&comments),
-                );
-                let mut parser = Parser::new_from(lexer);
-                parser.parse_module()
-            });
+            (0..100).into_par_iter().for_each(|_| {
+                let comments = SingleThreadedComments::default();
+
+                let _ = black_box({
+                    let lexer = Lexer::new(
+                        syntax,
+                        Default::default(),
+                        StringInput::from(&*fm),
+                        Some(&comments),
+                    );
+                    let mut parser = Parser::new_from(lexer);
+                    parser.parse_module()
+                });
+            })
         });
         Ok(())
     });

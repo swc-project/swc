@@ -14,6 +14,7 @@ use std::{
     rc::Rc,
 };
 
+use compact_str::CompactString;
 use once_cell::sync::Lazy;
 use serde::Serializer;
 
@@ -26,7 +27,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(string_cache::Atom<InternalWordStaticSet>);
+pub struct Atom(CompactString);
 
 /// Safety: We do not perform slicing of single [Atom] from multiple threads.
 /// In other words, typically [Atom] is created in a single thread (and in the
@@ -41,14 +42,14 @@ impl Atom {
     /// Creates a new [Atom] from a string.
     pub fn new<S>(s: S) -> Self
     where
-        S: AsRef<str>,
+        CompactString: From<S>,
     {
-        Atom(s.as_ref().into())
+        Atom(s.into())
     }
 
     #[inline]
     pub fn to_ascii_lowercase(&self) -> Self {
-        Self(self.0.to_ascii_lowercase())
+        Self(self.0.to_ascii_lowercase().into())
     }
 }
 

@@ -53,6 +53,7 @@ swc_ecma_ast = { version = "0.110.0", path = "../swc_ecma_ast", features = [
 swc_ecma_visit = { version = "0.96.0", path = "../swc_ecma_visit" }
 swc_node_base = { version = "0.5.8", path = "../swc_node_base" }
 testing = { version = "0.35.0", path = "../testing" }
+rayon = "1.8.0"
 
 [[example]]
 name = "lexer"
