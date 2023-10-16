@@ -7,7 +7,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{atom, Atom, JsWord};
+use swc_atoms::{atom, Atom, AtomStore, JsWord};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 
@@ -504,38 +504,17 @@ pub enum IdentLike {
     Other(JsWord),
 }
 
+impl IdentLike {
+    pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> IdentLike {
+        s.parse::<KnownIdent>()
+            .map(Self::Known)
+            .unwrap_or_else(|_| Self::Other(atoms.atom(s)))
+    }
+}
+
 impl Word {
-    pub(crate) fn kind(&self) -> WordKind {
-        match self {
-            Word::Keyword(k) => WordKind::Keyword(*k),
-            Word::Null => WordKind::Null,
-            Word::True => WordKind::True,
-            Word::False => WordKind::False,
-            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(*i)),
-            Word::Ident(IdentLike::Other(..)) => WordKind::Ident(IdentKind::Other),
-        }
-    }
-}
-
-impl WordKind {
-    pub(crate) const fn before_expr(self) -> bool {
-        match self {
-            Self::Keyword(k) => k.before_expr(),
-            _ => false,
-        }
-    }
-
-    pub(crate) const fn starts_expr(self) -> bool {
-        match self {
-            Self::Keyword(k) => k.starts_expr(),
-            _ => true,
-        }
-    }
-}
-
-impl From<&'_ str> for Word {
-    fn from(i: &str) -> Self {
-        match i {
+    pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> Self {
+        match s {
             "null" => Word::Null,
             "true" => Word::True,
             "false" => Word::False,
@@ -574,7 +553,18 @@ impl From<&'_ str> for Word {
             "typeof" => TypeOf.into(),
             "void" => Void.into(),
             "delete" => Delete.into(),
-            _ => Word::Ident(i.into()),
+            _ => Word::Ident(IdentLike::from_str(atoms, s)),
+        }
+    }
+
+    pub(crate) fn kind(&self) -> WordKind {
+        match self {
+            Word::Keyword(k) => WordKind::Keyword(*k),
+            Word::Null => WordKind::Null,
+            Word::True => WordKind::True,
+            Word::False => WordKind::False,
+            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(*i)),
+            Word::Ident(IdentLike::Other(..)) => WordKind::Ident(IdentKind::Other),
         }
     }
 }
@@ -585,6 +575,19 @@ impl From<&'_ str> for IdentLike {
         s.parse::<KnownIdent>()
             .map(Self::Known)
             .unwrap_or_else(|_| Self::Other(s.into()))
+impl WordKind {
+    pub(crate) const fn before_expr(self) -> bool {
+        match self {
+            Self::Keyword(k) => k.before_expr(),
+            _ => false,
+        }
+    }
+
+    pub(crate) const fn starts_expr(self) -> bool {
+        match self {
+            Self::Keyword(k) => k.starts_expr(),
+            _ => true,
+        }
     }
 }
 

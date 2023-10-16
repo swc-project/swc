@@ -792,6 +792,13 @@ impl<'a> Lexer<'a> {
 
             Word::Ident(IdentLike::Other(s.into()))
             Word::Ident(IdentLike::from_str(self.atoms.borrow_mut(), s))
+        let atoms = self.atoms.clone();
+        let (word, has_escape) = self.read_word_as_str_with(|s| {
+            if let Some(word) = KNOWN_WORDS.get(s) {
+                return word.clone();
+            }
+
+            Word::Ident(IdentLike::from_str(&mut *atoms.borrow_mut(), s))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -801,9 +808,7 @@ impl<'a> Lexer<'a> {
         if has_escape && self.ctx.is_reserved(&word) {
             self.error(
                 start,
-                SyntaxError::EscapeInReservedWord {
-                    word: self.atoms.borrow_mut().atom(word),
-                },
+                SyntaxError::EscapeInReservedWord { word: word.into() },
             )?
         } else {
             Ok(Some(Token::Word(word)))
@@ -1007,6 +1012,7 @@ impl<'a> Lexer<'a> {
 
         self.bump(); // '"'
 
+        let atoms = self.atoms.clone();
         self.with_buf(|l, out| {
             while let Some(c) = {
                 // Optimization
@@ -1026,8 +1032,8 @@ impl<'a> Lexer<'a> {
                         l.bump();
 
                         return Ok(Token::Str {
-                            value: self.atoms.borrow_mut().atom(&*out),
-                            raw: self.atoms.borrow_mut().atom(raw),
+                            value: atoms.borrow_mut().atom(&*out),
+                            raw: atoms.borrow_mut().atom(raw),
                         });
                     }
                     '\\' => {
@@ -1060,8 +1066,8 @@ impl<'a> Lexer<'a> {
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
             Ok(Token::Str {
-                value: self.atoms.borrow_mut().atom(&*out),
-                raw: self.atoms.borrow_mut().atom(raw),
+                value: atoms.borrow_mut().atom(&*out),
+                raw: atoms.borrow_mut().atom(raw),
             })
         })
     }
