@@ -504,6 +504,14 @@ pub enum IdentLike {
     Other(JsWord),
 }
 
+impl From<&'_ str> for IdentLike {
+    fn from(s: &str) -> Self {
+        s.parse::<KnownIdent>()
+            .map(Self::Known)
+            .unwrap_or_else(|_| Self::Other(s.into()))
+    }
+}
+
 impl IdentLike {
     pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> IdentLike {
         s.parse::<KnownIdent>()
