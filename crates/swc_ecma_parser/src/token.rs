@@ -513,7 +513,7 @@ impl IdentLike {
 }
 
 impl Word {
-    pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> Self {
+    pub fn from_str(atoms: &mut AtomStore, s: &str) -> Self {
         match s {
             "null" => Word::Null,
             "true" => Word::True,
