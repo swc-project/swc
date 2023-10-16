@@ -6,7 +6,7 @@ function foo(arr) {
 }
 let a;
 
-if (Math.random() > 0.5) {
+if (Math.random() > 1.00000) {
     a = true;
 }
 
