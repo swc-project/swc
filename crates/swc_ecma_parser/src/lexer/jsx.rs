@@ -327,7 +327,7 @@ impl<'a> Lexer<'a> {
         raw.push(quote);
 
         Ok(Token::Str {
-            value: out.into(),
+            value: self.atoms.borrow_mut().atom(out),
             raw: self.atoms.borrow_mut().atom(raw),
         })
     }
@@ -353,7 +353,9 @@ impl<'a> Lexer<'a> {
             }
         });
 
-        Ok(Token::JSXName { name: slice.into() })
+        Ok(Token::JSXName {
+            name: self.atoms.borrow_mut().atom(slice),
+        })
     }
 }
 

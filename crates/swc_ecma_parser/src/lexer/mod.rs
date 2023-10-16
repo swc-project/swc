@@ -21,6 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
+    token::{BinOpToken, Keyword, Token, Word},
     token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
@@ -790,6 +791,7 @@ impl<'a> Lexer<'a> {
             }
 
             Word::Ident(IdentLike::Other(s.into()))
+            Word::Ident(IdentLike::from_str(self.atoms.borrow_mut(), s))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -799,7 +801,9 @@ impl<'a> Lexer<'a> {
         if has_escape && self.ctx.is_reserved(&word) {
             self.error(
                 start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
+                SyntaxError::EscapeInReservedWord {
+                    word: self.atoms.borrow_mut().atom(word),
+                },
             )?
         } else {
             Ok(Some(Token::Word(word)))
@@ -1022,8 +1026,8 @@ impl<'a> Lexer<'a> {
                         l.bump();
 
                         return Ok(Token::Str {
-                            value: (&**out).into(),
-                            raw: raw.into(),
+                            value: self.atoms.borrow_mut().atom(&*out),
+                            raw: self.atoms.borrow_mut().atom(raw),
                         });
                     }
                     '\\' => {
@@ -1056,8 +1060,8 @@ impl<'a> Lexer<'a> {
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
             Ok(Token::Str {
-                value: (&**out).into(),
-                raw: raw.into(),
+                value: self.atoms.borrow_mut().atom(&*out),
+                raw: self.atoms.borrow_mut().atom(raw),
             })
         })
     }
@@ -1130,6 +1134,9 @@ impl<'a> Lexer<'a> {
                 Some(c) if c.is_ident_start() => {
                     self.read_word_as_str_with(|s, _, _| s.into()).map(Some)
                 }
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with(|s| self.atoms.borrow_mut().atom(s))
+                    .map(Some),
                 _ => Ok(None),
             }
         }?

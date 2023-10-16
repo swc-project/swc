@@ -257,7 +257,7 @@ impl<'a> Lexer<'a> {
             let cmt = Comment {
                 kind: CommentKind::Line,
                 span: Span::new(start, end, SyntaxContext::empty()),
-                text: s.into(),
+                text: self.atoms.borrow_mut().atom(s),
             };
 
             if is_for_next {
@@ -312,6 +312,29 @@ impl<'a> Lexer<'a> {
                 }
 
                 self.store_comment(is_for_next, start, end, slice_start);
+                if let Some(comments) = self.comments_buffer.as_mut() {
+                    let src = unsafe {
+                        // Safety: We got slice_start and end from self.input so those are valid.
+                        self.input.slice(slice_start, end)
+                    };
+                    let s = &src[..src.len() - 2];
+                    let cmt = Comment {
+                        kind: CommentKind::Block,
+                        span: Span::new(start, end, SyntaxContext::empty()),
+                        text: self.atoms.borrow_mut().atom(s),
+                    };
+
+                    let _ = self.input.peek();
+                    if is_for_next {
+                        comments.push_pending_leading(cmt);
+                    } else {
+                        comments.push(BufferedComment {
+                            kind: BufferedCommentKind::Trailing,
+                            pos: self.state.prev_hi,
+                            comment: cmt,
+                        });
+                    }
+                }
 
                 return Ok(());
             }
