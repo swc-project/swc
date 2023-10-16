@@ -40,6 +40,9 @@ const bindings: typeof import('./binding') = (() => {
  */
 export const version: string = require("./package.json").version;
 
+/**
+ * @deprecated JavaScript API is deprecated. Please use Wasm plugin instead.
+ */
 export function plugins(ps: Plugin[]): Plugin {
   return mod => {
     let m = mod;
