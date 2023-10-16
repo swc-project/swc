@@ -2469,13 +2469,13 @@ impl Optimizer<'_> {
     /// 1, arr[i]`
     //
     fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> Result<bool, ()> {
+        if b.op.may_short_circuit() {
+            return Ok(true);
+        }
+
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
-                Mergable::Expr(Expr::Assign(AssignExpr {
-                    op: op!("||=") | op!("&&=") | op!("??="),
-                    ..
-                })) => return Ok(true),
                 Mergable::Expr(Expr::Assign(..)) => {
                     let used_by_b = idents_used_by(&*b.right);
                     if used_by_b.contains(&a_id) {
