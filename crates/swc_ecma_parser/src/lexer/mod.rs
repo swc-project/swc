@@ -798,7 +798,7 @@ impl<'a> Lexer<'a> {
                 return word.clone();
             }
 
-            Word::Ident(IdentLike::from_str(&mut *atoms.borrow_mut(), s))
+            Word::Ident(IdentLike::from_str(&mut atoms.borrow_mut(), s))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -1141,7 +1141,7 @@ impl<'a> Lexer<'a> {
                     self.read_word_as_str_with(|s, _, _| s.into()).map(Some)
                 }
                 Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s| self.atoms.borrow_mut().atom(s))
+                    .read_word_as_str_with(|s| atoms.borrow_mut().atom(s))
                     .map(Some),
                 _ => Ok(None),
             }
