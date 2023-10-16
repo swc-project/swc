@@ -9,8 +9,9 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
-    prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt, IdentRenamer,
+    alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
+    private_ident, prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt,
+    IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -53,6 +54,8 @@ struct ClassState {
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
+
+    super_class: Option<Ident>,
 }
 
 impl Decorator202203 {
@@ -153,6 +156,10 @@ impl Decorator202203 {
             }
             .as_arg(),
         );
+
+        if let Some(super_class) = self.state.super_class.as_ref() {
+            combined_args.push(super_class.clone().as_arg());
+        }
 
         let e_pat = if e_lhs.is_empty() {
             None
@@ -323,6 +330,27 @@ impl Decorator202203 {
         unreachable!()
     }
 
+    fn handle_super_class(&mut self, class: &mut Class) {
+        if let Some(super_class) = class.super_class.take() {
+            let id = alias_ident_for(&super_class, "_super");
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(id.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: AssignOp::Assign,
+                left: PatOrExpr::Pat(Box::new(Pat::Ident(id.clone().into()))),
+                right: super_class,
+            })));
+
+            self.state.super_class = Some(id);
+        }
+    }
+
     fn handle_class_expr(&mut self, class: &mut Class, ident: Option<&Ident>) -> Ident {
         debug_assert!(
             !class.decorators.is_empty(),
@@ -361,6 +389,7 @@ impl Decorator202203 {
 
         let decorators = self.preserve_side_effect_of_decorators(class.decorators.take());
         self.state.class_decorators.extend(decorators);
+        self.handle_super_class(class);
 
         {
             let call_stmt = CallExpr {
@@ -417,6 +446,7 @@ impl Decorator202203 {
             self.state.class_lhs.push(Some(init_class.clone().into()));
 
             self.state.class_decorators.extend(decorators);
+            self.handle_super_class(&mut c.class);
 
             let mut body = c.class.body.take();
 

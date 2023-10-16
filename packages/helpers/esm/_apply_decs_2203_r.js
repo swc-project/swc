@@ -18,7 +18,7 @@
   CLASS = 10; // only used in assertValidReturnValue
 */
 
-export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
+export function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
     function createAddInitializerMethod(initializers, decoratorFinishedRef) {
         return function addInitializer(initializer) {
             assertNotFinished(decoratorFinishedRef, "addInitializer");
@@ -27,7 +27,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         };
     }
 
-    function memberDec(dec, name, desc, initializers, kind, isStatic, isPrivate, value) {
+    function memberDec(dec, name, desc, initializers, kind, isStatic, isPrivate, metadata, value) {
         var kindStr;
 
         switch (kind) {
@@ -136,7 +136,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         }
     }
 
-    function applyMemberDec(ret, base, decInfo, name, kind, isStatic, isPrivate, initializers) {
+    function applyMemberDec(ret, base, decInfo, name, kind, isStatic, isPrivate, initializers, metadata) {
         var decs = decInfo[0];
 
         var desc, init, value;
@@ -168,7 +168,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         var newValue, get, set;
 
         if (typeof decs === "function") {
-            newValue = memberDec(decs, name, desc, initializers, kind, isStatic, isPrivate, value);
+            newValue = memberDec(decs, name, desc, initializers, kind, isStatic, isPrivate, metadata, value);
 
             if (newValue !== void 0) {
                 assertValidReturnValue(kind, newValue);
@@ -189,7 +189,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
             for (var i = decs.length - 1; i >= 0; i--) {
                 var dec = decs[i];
 
-                newValue = memberDec(dec, name, desc, initializers, kind, isStatic, isPrivate, value);
+                newValue = memberDec(dec, name, desc, initializers, kind, isStatic, isPrivate, metadata, value);
 
                 if (newValue !== void 0) {
                     assertValidReturnValue(kind, newValue);
@@ -280,7 +280,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         }
     }
 
-    function applyMemberDecs(Class, decInfos) {
+    function applyMemberDecs(Class, decInfos, metadata) {
         var ret = [];
         var protoInitializers;
         var staticInitializers;
@@ -336,7 +336,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 }
             }
 
-            applyMemberDec(ret, base, decInfo, name, kind, isStatic, isPrivate, initializers);
+            applyMemberDec(ret, base, decInfo, name, kind, isStatic, isPrivate, initializers, metadata);
         }
 
         pushInitializers(ret, protoInitializers);
@@ -353,7 +353,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
         }
     }
 
-    function applyClassDecs(targetClass, classDecs) {
+    function applyClassDecs(targetClass, classDecs, metadata) {
         if (classDecs.length > 0) {
             var initializers = [];
             var newClass = targetClass;
@@ -363,7 +363,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 var decoratorFinishedRef = { v: false };
 
                 try {
-                    var nextNewClass = classDecs[i](newClass, { kind: "class", name: name, addInitializer: createAddInitializerMethod(initializers, decoratorFinishedRef) });
+                    var nextNewClass = classDecs[i](newClass, { kind: "class", name: name, addInitializer: createAddInitializerMethod(initializers, decoratorFinishedRef), metadata });
                 } finally {
                     decoratorFinishedRef.v = true;
                 }
@@ -374,12 +374,16 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
                 }
             }
 
-            return [newClass, function() {
+            return [defineMetadata(newClass, metadata), function() {
                 for (var i = 0; i < initializers.length; i++) initializers[i].call(newClass);
             }];
         }
         // The transformer will not emit assignment when there are no class decorators,
         // so we don't have to return an empty array here.
+    }
+
+    function defineMetadata(Class, metadata) {
+        return Object.defineProperty(Class, Symbol.metadata || Symbol.for("Symbol.metadata"), { configurable: true, enumerable: true, value: metadata });
     }
 
     /**
@@ -528,17 +532,23 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
     initializeClass(Class);
    */
 
-    _apply_decs_2203_r = function(targetClass, memberDecs, classDecs) {
+    _apply_decs_2203_r = function(targetClass, memberDecs, classDecs, parentClass) {
+        if (parentClass !== void 0) {
+            var parentMetadata = parentClass[Symbol.metadata || Symbol.for("Symbol.metadata")];
+        }
+        var metadata = Object.create(parentMetadata === void 0 ? null : parentMetadata);
+        var e = applyMemberDecs(targetClass, memberDecs, metadata);
+        if (!classDecs.length) defineMetadata(targetClass, metadata);
         return {
-            e: applyMemberDecs(targetClass, memberDecs),
+            e: e,
             // Lazily apply class decorations so that member init locals can be properly bound.
             get c() {
-                return applyClassDecs(targetClass, classDecs);
+                return applyClassDecs(targetClass, classDecs, metadata);
             }
         };
     };
 
-    return _apply_decs_2203_r(targetClass, memberDecs, classDecs);
+    return _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass);
 }
 
 export { _apply_decs_2203_r as _ };
