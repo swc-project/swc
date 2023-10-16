@@ -7327,7 +7327,7 @@
                     }, P1.squareRoot = P1.sqrt = function() {
                         var m1, n2, r3, rep1, t3, x3 = this, c5 = x3.c, s3 = x3.s, e1 = x3.e, dp1 = DECIMAL_PLACES1 + 4, half1 = new BigNumber1('0.5');
                         if (1 !== s3 || !c5 || !c5[0]) return new BigNumber1(!s3 || s3 < 0 && (!c5 || c5[0]) ? NaN : c5 ? x3 : 1 / 0);
-                        if (0 == (s3 = Math.sqrt(+valueOf1(x3))) || s3 == 1 / 0 ? (((n2 = coeffToString1(c5)).length + e1) % 2 == 0 && (n2 += '0'), s3 = Math.sqrt(+n2), e1 = bitFloor1((e1 + 1) / 2) - (e1 < 0 || e1 % 2), n2 = s3 == 1 / 0 ? '5e' + e1 : (n2 = s3.toExponential()).slice(0, n2.indexOf('e') + 1) + e1, r3 = new BigNumber1(n2)) : r3 = new BigNumber1(s3 + ''), r3.c[0]) {
+                        if (0 == (s3 = Math.sqrt(+valueOf1(x3))) || s3 == 1 / 0 ? (((n2 = coeffToString1(c5)).length + e1) % 2 == 0 && (n2 += '0'), s3 = Math.sqrt(+n2), e1 = bitFloor1((e1 + 1) / 2) - (e1 < 0 || e1 % 2), r3 = new BigNumber1(n2 = s3 == 1 / 0 ? '5e' + e1 : (n2 = s3.toExponential()).slice(0, n2.indexOf('e') + 1) + e1)) : r3 = new BigNumber1(s3 + ''), r3.c[0]) {
                             for((s3 = (e1 = r3.e) + dp1) < 3 && (s3 = 0);;)if (t3 = r3, r3 = half1.times(t3.plus(div1(x3, t3, dp1, 1))), coeffToString1(t3.c).slice(0, s3) === (n2 = coeffToString1(r3.c)).slice(0, s3)) {
                                 if (r3.e < e1 && --s3, '9999' != (n2 = n2.slice(s3 - 3, s3 + 1)) && (rep1 || '4999' != n2)) {
                                     +n2 && (+n2.slice(1) || '5' != n2.charAt(0)) || (round1(r3, r3.e + DECIMAL_PLACES1 + 2, 1), m1 = !r3.times(r3).eq(x3));
@@ -17305,10 +17305,7 @@
                         function getHighWaterMark1(e1, t3, r3, i2) {
                             var a10 = highWaterMarkFrom1(t3, i2, r3);
                             if (null != a10) {
-                                if (!(isFinite(a10) && Math.floor(a10) === a10) || a10 < 0) {
-                                    var o1 = i2 ? r3 : "highWaterMark";
-                                    throw new n2(o1, a10);
-                                }
+                                if (!(isFinite(a10) && Math.floor(a10) === a10) || a10 < 0) throw new n2(i2 ? r3 : "highWaterMark", a10);
                                 return Math.floor(a10);
                             }
                             return e1.objectMode ? 16 : 16384;

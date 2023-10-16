@@ -2071,13 +2071,13 @@
             ], tb = [
                 function(e) {
                     return e.map(function(e) {
-                        var t, r = (t = e.attributes.font, tv.reduce(function(e, r) {
+                        var t, r = new RegExp((t = e.attributes.font, tv.reduce(function(e, r) {
                             return t && t.hasGlyphForCodePoint && t.hasGlyphForCodePoint(r) ? e : [].concat(e, [
                                 String.fromCharCode(r)
                             ]);
-                        }, [])), n = new RegExp(r.join("|"));
+                        }, [])).join("|"));
                         return {
-                            string: e.string.replace(n, ""),
+                            string: e.string.replace(r, ""),
                             attributes: e.attributes
                         };
                     });
@@ -7109,8 +7109,7 @@
                     {
                         key: "fromJS",
                         value: function t(t) {
-                            var r = t.width, n = t.height;
-                            return new e(r, n);
+                            return new e(t.width, t.height);
                         }
                     }
                 ]), i(e, [
@@ -8517,9 +8516,7 @@
                                     }
                                 }), t)
                             };
-                            r.url = "responseURL" in u ? u.responseURL : r.headers.get("X-Request-URL");
-                            var n = "response" in u ? u.response : u.responseText;
-                            i(new v(n, r));
+                            r.url = "responseURL" in u ? u.responseURL : r.headers.get("X-Request-URL"), i(new v("response" in u ? u.response : u.responseText, r));
                         }, u.onerror = function() {
                             o(TypeError("Network request failed"));
                         }, u.ontimeout = function() {
@@ -15438,13 +15435,13 @@
                                     "string" == typeof e[i] && v(t[i]) && t[i].test(e[i]) || function(e, t, r, n, i, o) {
                                         if (!(r in e) || !a(e[r], t[r])) {
                                             if (!n) {
-                                                var u = new k(e, i), l = new k(t, i, e), s = new p({
-                                                    actual: u,
-                                                    expected: l,
+                                                var u = new p({
+                                                    actual: new k(e, i),
+                                                    expected: new k(t, i, e),
                                                     operator: "deepStrictEqual",
                                                     stackStartFn: o
                                                 });
-                                                throw s.actual = e, s.expected = t, s.operator = o.name, s;
+                                                throw u.actual = e, u.expected = t, u.operator = o.name, u;
                                             }
                                             x({
                                                 actual: e,
@@ -21872,10 +21869,7 @@
                             getHighWaterMark: function(e, t, r, i) {
                                 var o = null != t.highWaterMark ? t.highWaterMark : i ? t[r] : null;
                                 if (null != o) {
-                                    if (!(isFinite(o) && Math.floor(o) === o) || o < 0) {
-                                        var a = i ? r : "highWaterMark";
-                                        throw new n(a, o);
-                                    }
+                                    if (!(isFinite(o) && Math.floor(o) === o) || o < 0) throw new n(i ? r : "highWaterMark", o);
                                     return Math.floor(o);
                                 }
                                 return e.objectMode ? 16 : 16384;

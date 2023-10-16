@@ -464,7 +464,7 @@
             }).call(commonjsGlobal), require$$8 = version$2 && version$2.default || version$2, splice = [].splice, RedisDatastore$1 = ()=>console.log('You must import the full version of Bottleneck in order to use this feature.'), Bottleneck_1 = (function() {
                 class Bottleneck {
                     constructor(options = {}, ...invalid){
-                        var storeInstanceOptions, storeOptions;
+                        var storeOptions;
                         this._addToQueue = this._addToQueue.bind(this), this._validateOptions(options, invalid), parser.load(options, this.instanceDefaults, this), this._queues = new Queues(10), this._scheduled = {}, this._states = new States([
                             "RECEIVED",
                             "QUEUED",
@@ -473,8 +473,8 @@
                         ].concat(this.trackDoneStatus ? [
                             "DONE"
                         ] : [])), this._limiter = null, this.Events = new Events(this), this._submitLock = new Sync("submit", this.Promise), this._registerLock = new Sync("register", this.Promise), storeOptions = parser.load(options, this.storeDefaults, {}), this._store = (function() {
-                            if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return storeInstanceOptions = parser.load(options, this.redisStoreDefaults, {}), new RedisDatastore$1(this, storeOptions, storeInstanceOptions);
-                            if ("local" === this.datastore) return storeInstanceOptions = parser.load(options, this.localStoreDefaults, {}), new LocalDatastore(this, storeOptions, storeInstanceOptions);
+                            if ("redis" === this.datastore || "ioredis" === this.datastore || null != this.connection) return new RedisDatastore$1(this, storeOptions, parser.load(options, this.redisStoreDefaults, {}));
+                            if ("local" === this.datastore) return new LocalDatastore(this, storeOptions, parser.load(options, this.localStoreDefaults, {}));
                             throw new Bottleneck.prototype.BottleneckError(`Invalid datastore type: ${this.datastore}`);
                         }).call(this), this._queues.on("leftzero", ()=>{
                             var ref;
