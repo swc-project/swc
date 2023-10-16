@@ -26,7 +26,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 #[derive(Clone, Default)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
-pub struct Atom(string_cache::Atom<InternalWordStaticSet>);
+pub struct Atom(hstr::Atom);
 
 /// Safety: We do not perform slicing of single [Atom] from multiple threads.
 /// In other words, typically [Atom] is created in a single thread (and in the
@@ -51,9 +51,6 @@ impl Atom {
         Self(self.0.to_ascii_lowercase())
     }
 }
-
-/// API wrappers for [tendril].
-impl Atom {}
 
 impl Deref for Atom {
     type Target = str;
@@ -236,9 +233,7 @@ where
 #[doc(hidden)]
 pub type CahcedAtom = Lazy<Atom>;
 
-include!(concat!(env!("OUT_DIR"), "/internal_word.rs"));
-
 /// This should be used as a key for hash maps and hash sets.
 ///
 /// This will be replaced with [Atom] in the future.
-pub type StaticString = String;
+pub type StaticString = Atom;
