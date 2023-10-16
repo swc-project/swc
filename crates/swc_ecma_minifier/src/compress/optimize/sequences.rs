@@ -2378,6 +2378,10 @@ impl Optimizer<'_> {
                 }
             }
             Expr::Assign(b) => {
+                if b.op.may_short_circuit() {
+                    return Ok(false);
+                }
+
                 if let Some(b_left) = b.left.as_ident() {
                     let a_op = match a {
                         Mergable::Var(_) => Some(op!("=")),
