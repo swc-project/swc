@@ -237,3 +237,13 @@ pub type CahcedAtom = Lazy<Atom>;
 ///
 /// This will be replaced with [Atom] in the future.
 pub type StaticString = Atom;
+
+#[derive(Default)]
+pub struct AtomStore(hstr::AtomStore);
+
+impl AtomStore {
+    #[inline]
+    pub fn atom<'a>(&mut self, s: impl Into<Cow<'a, str>>) -> Atom {
+        Atom(self.0.atom(s))
+    }
+}
