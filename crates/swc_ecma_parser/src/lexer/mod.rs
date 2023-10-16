@@ -5,7 +5,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomStore};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion};
 
@@ -132,6 +132,8 @@ pub struct Lexer<'a> {
     module_errors: Rc<RefCell<Vec<Error>>>,
 
     buf: Rc<RefCell<String>>,
+
+    atoms: Rc<RefCell<AtomStore>>,
 }
 
 impl FusedIterator for Lexer<'_> {}
@@ -157,6 +159,7 @@ impl<'a> Lexer<'a> {
             errors: Default::default(),
             module_errors: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
+            atoms: Default::default(),
         }
     }
 
@@ -1074,6 +1077,8 @@ impl<'a> Lexer<'a> {
 
         let (mut escaped, mut in_class) = (false, false);
 
+        let atoms = self.atoms.clone();
+
         let content = self.with_buf(|l, buf| {
             while let Some(c) = l.cur() {
                 // This is ported from babel.
@@ -1102,7 +1107,7 @@ impl<'a> Lexer<'a> {
                 buf.push(c);
             }
 
-            Ok(Atom::new(&**buf))
+            Ok(atoms.borrow_mut().atom(&**buf))
         })?;
 
         // input is terminated without following `/`
@@ -1145,7 +1150,7 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(Atom::new(s)))
+        Ok(Some(self.atoms.borrow_mut().atom(s)))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
@@ -1170,7 +1175,7 @@ impl<'a> Lexer<'a> {
                 // TODO: Handle error
                 return Ok(Token::Template {
                     cooked: cooked.map(Atom::from),
-                    raw: Atom::new(&*raw),
+                    raw: self.atoms.borrow_mut().atom(&*raw),
                 });
             }
 

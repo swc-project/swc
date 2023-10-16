@@ -39,11 +39,11 @@ unsafe impl Sync for Atom {}
 
 impl Atom {
     /// Creates a new [Atom] from a string.
-    pub fn new<S>(s: S) -> Self
+    pub fn new<'i, S>(s: S) -> Self
     where
-        S: AsRef<str>,
+        S: Into<Cow<'i, str>>,
     {
-        Atom(s.as_ref().into())
+        Atom(hstr::Atom::from(s.into()))
     }
 
     #[inline]
