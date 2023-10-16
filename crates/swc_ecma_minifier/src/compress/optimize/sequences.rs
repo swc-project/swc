@@ -2472,6 +2472,10 @@ impl Optimizer<'_> {
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}
+                Mergable::Expr(Expr::Assign(AssignExpr {
+                    op: op!("||=") | op!("&&=") | op!("??="),
+                    ..
+                })) => {}
                 Mergable::Expr(Expr::Assign(..)) => {
                     let used_by_b = idents_used_by(&*b.right);
                     if used_by_b.contains(&a_id) {
