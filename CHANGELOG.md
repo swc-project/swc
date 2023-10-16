@@ -19,6 +19,12 @@
 
 - **(es/typescript)** Add `ts_enum_is_mutable` to disable enum inlining ([#8115](https://github.com/swc-project/swc/issues/8115)) ([57b171d](https://github.com/swc-project/swc/commit/57b171dcbe55a8d285d5bc477844b24fdf48835a))
 
+### Miscellaneous Tasks
+
+
+
+- **(bindings)** Add `@deprecated` to JS plugins ([#8132](https://github.com/swc-project/swc/issues/8132)) ([1e9b4e0](https://github.com/swc-project/swc/commit/1e9b4e027cabba88c8a0cfd6b62f9ca6c00b29a8))
+
 ## [1.3.93] - 2023-10-13
 
 ### Bug Fixes
@@ -1766,9 +1772,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(es)** Allow any kind of input source maps if it's enabled ([#7002](https://github.com/swc-project/swc/issues/7002)) ([da5367b](https://github.com/swc-project/swc/commit/da5367b3fbac2cf4ab7d7f4562d58be3cff0edf8))
 
 
 - **(es/typescript)** Treat export default declarations as declarations ([#7017](https://github.com/swc-project/swc/issues/7017)) ([34f9ad3](https://github.com/swc-project/swc/commit/34f9ad3778527a40e6ede50e2e3e2f34f405ff11))
