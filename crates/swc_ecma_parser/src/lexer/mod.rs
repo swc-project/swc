@@ -1031,9 +1031,10 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
+                        let mut b = atoms.borrow_mut();
                         return Ok(Token::Str {
-                            value: atoms.borrow_mut().atom(&*out),
-                            raw: atoms.borrow_mut().atom(raw),
+                            value: b.atom(&*out),
+                            raw: b.atom(raw),
                         });
                     }
                     '\\' => {

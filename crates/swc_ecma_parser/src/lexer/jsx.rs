@@ -326,9 +326,10 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
+        let mut b = self.atoms.borrow_mut();
         Ok(Token::Str {
-            value: self.atoms.borrow_mut().atom(out),
-            raw: self.atoms.borrow_mut().atom(raw),
+            value: b.atom(out),
+            raw: b.atom(raw),
         })
     }
 
