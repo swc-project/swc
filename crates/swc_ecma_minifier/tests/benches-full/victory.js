@@ -944,7 +944,7 @@
                 return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
             }
             function rgbConvert(o) {
-                return (o instanceof Color || (o = color(o)), o) ? (o = o.rgb(), new Rgb(o.r, o.g, o.b, o.opacity)) : new Rgb;
+                return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
             }
             function rgb(r, g, b, opacity) {
                 return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
@@ -8436,10 +8436,7 @@
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if ('function' != typeof typeChecker) return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
                             var propValue = props[propName];
-                            if (!Array.isArray(propValue)) {
-                                var propType = getPropType(propValue);
-                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected an array.');
-                            }
+                            if (!Array.isArray(propValue)) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPropType(propValue)) + '` supplied to `' + componentName + '`, expected an array.');
                             for(var i = 0; i < propValue.length; i++){
                                 var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
                                 if (error instanceof Error) return error;
@@ -8449,25 +8446,17 @@
                     },
                     element: createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                         var propValue = props[propName];
-                        if (!isValidElement(propValue)) {
-                            var propType = getPropType(propValue);
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected a single ReactElement.');
-                        }
-                        return null;
+                        return isValidElement(propValue) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPropType(propValue)) + '` supplied to `' + componentName + '`, expected a single ReactElement.');
                     }),
                     elementType: createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                         var propValue = props[propName];
-                        if (!ReactIs.isValidElementType(propValue)) {
-                            var propType = getPropType(propValue);
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected a single ReactElement type.');
-                        }
-                        return null;
+                        return ReactIs.isValidElementType(propValue) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPropType(propValue)) + '` supplied to `' + componentName + '`, expected a single ReactElement type.');
                     }),
                     instanceOf: function(expectedClass) {
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if (!(props[propName] instanceof expectedClass)) {
-                                var propValue, expectedClassName = expectedClass.name || ANONYMOUS, actualClassName = (propValue = props[propName]).constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS;
-                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + actualClassName) + '` supplied to `' + componentName + "`, expected instance of `" + expectedClassName + '`.');
+                                var propValue, expectedClassName = expectedClass.name || ANONYMOUS;
+                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + ((propValue = props[propName]).constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS)) + '` supplied to `' + componentName + "`, expected instance of `" + expectedClassName + '`.');
                             }
                             return null;
                         });
@@ -8600,11 +8589,7 @@
                 function createPrimitiveTypeChecker(expectedType) {
                     return createChainableTypeChecker(function(props, propName, componentName, location, propFullName, secret) {
                         var propValue = props[propName];
-                        if (getPropType(propValue) !== expectedType) {
-                            var preciseType = getPreciseType(propValue);
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + preciseType) + '` supplied to `' + componentName + "`, expected `" + expectedType + '`.');
-                        }
-                        return null;
+                        return getPropType(propValue) !== expectedType ? new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPreciseType(propValue)) + '` supplied to `' + componentName + "`, expected `" + expectedType + '`.') : null;
                     });
                 }
                 function getPropType(propValue) {

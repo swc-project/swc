@@ -1523,10 +1523,10 @@
                 }
                 {
                     const AccessorClass = "get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter;
-                    return name = get_symbol_ast(name), new AccessorClass({
+                    return new AccessorClass({
                         start,
                         static: is_static,
-                        key: name,
+                        key: name = get_symbol_ast(name),
                         quote: name instanceof AST_SymbolMethod ? property_token.quote : void 0,
                         value: create_accessor(),
                         end: prev()
@@ -18003,7 +18003,7 @@
                     var entries = fs.readdirSync(dir);
                 } catch (ex) {}
                 if (entries) {
-                    var pattern = "^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", mod = "win32" === process.platform ? "i" : "", rx = new RegExp(pattern, mod), results = entries.filter(function(name) {
+                    var rx = RegExp("^" + path.basename(glob).replace(/[.+^$[\]\\(){}]/g, "\\$&").replace(/\*/g, "[^/\\\\]*").replace(/\?/g, "[^/\\\\]") + "$", "win32" === process.platform ? "i" : ""), results = entries.filter(function(name) {
                         return rx.test(name);
                     }).map(function(name) {
                         return path.join(dir, name);

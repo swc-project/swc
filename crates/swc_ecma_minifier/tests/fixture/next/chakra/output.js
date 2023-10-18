@@ -786,13 +786,13 @@
                     return hsl.h = hue < 0 ? 360 + hue : hue, new TinyColor(hsl);
                 }, TinyColor.prototype.mix = function(color, amount) {
                     void 0 === amount && (amount = 50);
-                    var rgb1 = this.toRgb(), rgb2 = new TinyColor(color).toRgb(), p = amount / 100, rgba = {
+                    var rgb1 = this.toRgb(), rgb2 = new TinyColor(color).toRgb(), p = amount / 100;
+                    return new TinyColor({
                         r: (rgb2.r - rgb1.r) * p + rgb1.r,
                         g: (rgb2.g - rgb1.g) * p + rgb1.g,
                         b: (rgb2.b - rgb1.b) * p + rgb1.b,
                         a: (rgb2.a - rgb1.a) * p + rgb1.a
-                    };
-                    return new TinyColor(rgba);
+                    });
                 }, TinyColor.prototype.analogous = function(results, slices) {
                     void 0 === results && (results = 6), void 0 === slices && (slices = 30);
                     var hsl = this.toHsl(), part = 360 / slices, ret = [
@@ -1190,8 +1190,7 @@
                 return new module_TinyColor(hex).isValid ? hex : fallback;
             }, transparentize = function(color, opacity) {
                 return function(theme) {
-                    var raw = getColor(theme, color);
-                    return new module_TinyColor(raw).setAlpha(opacity).toRgbString();
+                    return new module_TinyColor(getColor(theme, color)).setAlpha(opacity).toRgbString();
                 };
             };
             function generateStripe(size, color) {
@@ -1584,7 +1583,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var hex, list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
@@ -1682,7 +1681,7 @@
                     for(var i = 0; i < str.length; i += 1)hash = str.charCodeAt(i) + ((hash << 5) - hash), hash &= hash;
                     for(var color = "#", j = 0; j < 3; j += 1)color += ("00" + (hash >> 8 * j & 255).toString(16)).substr(-2);
                     return color;
-                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (hex = getColor(theme, bg), new module_TinyColor(hex).isDark() ? "dark" : "light"), color = "white";
+                }(opts.string) : opts.colors && !opts.string ? (list = opts.colors)[Math.floor(Math.random() * list.length)] : fallback) : "gray.400", isBgDark = "dark" == (new module_TinyColor(getColor(theme, bg)).isDark() ? "dark" : "light"), color = "white";
                 return isBgDark || (color = "gray.800"), {
                     bg: bg,
                     color: color,

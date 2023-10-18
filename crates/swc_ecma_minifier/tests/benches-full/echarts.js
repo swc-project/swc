@@ -2769,8 +2769,8 @@
         return null == width && (width = methods$1.measureText(text, font).width, cacheOfFont.put(text, width)), width;
     }
     function innerGetBoundingRect(text, font, textAlign, textBaseline) {
-        var width = getWidth(text, font), height = getLineHeight(font), x = adjustTextX(0, width, textAlign), y = adjustTextY(0, height, textBaseline);
-        return new BoundingRect(x, y, width, height);
+        var width = getWidth(text, font), height = getLineHeight(font);
+        return new BoundingRect(adjustTextX(0, width, textAlign), adjustTextY(0, height, textBaseline), width, height);
     }
     function getBoundingRect(text, font, textAlign, textBaseline) {
         var textLines = ((text || '') + '').split('\n');
@@ -7359,8 +7359,8 @@
             }
             return val;
         }, Model.prototype.getModel = function(path, parentModel) {
-            var hasPath = null != path, pathFinal = hasPath ? this.parsePath(path) : null, obj = hasPath ? this._doGet(pathFinal) : this.option;
-            return parentModel = parentModel || this.parentModel && this.parentModel.getModel(this.resolveParentPath(pathFinal)), new Model(obj, parentModel, this.ecModel);
+            var hasPath = null != path, pathFinal = hasPath ? this.parsePath(path) : null;
+            return new Model(hasPath ? this._doGet(pathFinal) : this.option, parentModel = parentModel || this.parentModel && this.parentModel.getModel(this.resolveParentPath(pathFinal)), this.ecModel);
         }, Model.prototype.isEmpty = function() {
             return null == this.option;
         }, Model.prototype.restoreData = function() {}, Model.prototype.clone = function() {
@@ -9693,15 +9693,15 @@
             }(transformOption, upSourceList, {
                 datasetIndex: datasetModel.componentIndex
             }) : null != fromTransformResult && (sourceList = [
-                (source = upSourceList[0], new SourceImpl({
-                    data: source.data,
+                new SourceImpl({
+                    data: (source = upSourceList[0]).data,
                     sourceFormat: source.sourceFormat,
                     seriesLayoutBy: source.seriesLayoutBy,
                     dimensionsDefine: clone(source.dimensionsDefine),
                     startIndex: source.startIndex,
                     dimensionsDetectedCount: source.dimensionsDetectedCount,
                     encodeDefine: (encodeDefine = source.encodeDefine) ? createHashMap(encodeDefine) : null
-                }))
+                })
             ]), {
                 sourceList: sourceList,
                 upstreamSignList: upstreamSignList
@@ -12029,17 +12029,17 @@
                 return inheritStyle(parentGroup, g), parseAttributes(xmlNode, g, this._defsUsePending, !1, !0), this._textX += parseFloat(dx), this._textY += parseFloat(dy), g;
             },
             path: function(xmlNode, parentGroup) {
-                var str, path = (str = xmlNode.getAttribute('d') || '', new SVGPath(createPathOptions(str, void 0)));
+                var path = new SVGPath(createPathOptions(xmlNode.getAttribute('d') || '', void 0));
                 return inheritStyle(parentGroup, path), parseAttributes(xmlNode, path, this._defsUsePending, !1, !1), path.silent = !0, path;
             }
         }), SVGParser;
     }(), paintServerParsers = {
         lineargradient: function(xmlNode) {
-            var x1 = parseInt(xmlNode.getAttribute('x1') || '0', 10), y1 = parseInt(xmlNode.getAttribute('y1') || '0', 10), x2 = parseInt(xmlNode.getAttribute('x2') || '10', 10), y2 = parseInt(xmlNode.getAttribute('y2') || '0', 10), gradient = new LinearGradient(x1, y1, x2, y2);
+            var gradient = new LinearGradient(parseInt(xmlNode.getAttribute('x1') || '0', 10), parseInt(xmlNode.getAttribute('y1') || '0', 10), parseInt(xmlNode.getAttribute('x2') || '10', 10), parseInt(xmlNode.getAttribute('y2') || '0', 10));
             return parsePaintServerUnit(xmlNode, gradient), parseGradientColorStops(xmlNode, gradient), gradient;
         },
         radialgradient: function(xmlNode) {
-            var cx = parseInt(xmlNode.getAttribute('cx') || '0', 10), cy = parseInt(xmlNode.getAttribute('cy') || '0', 10), r = parseInt(xmlNode.getAttribute('r') || '0', 10), gradient = new RadialGradient(cx, cy, r);
+            var gradient = new RadialGradient(parseInt(xmlNode.getAttribute('cx') || '0', 10), parseInt(xmlNode.getAttribute('cy') || '0', 10), parseInt(xmlNode.getAttribute('r') || '0', 10));
             return parsePaintServerUnit(xmlNode, gradient), parseGradientColorStops(xmlNode, gradient), gradient;
         }
     };
@@ -14519,8 +14519,8 @@
             }
             return newIndices[sampledIndex++] = this.getRawIndex(len - 1), list._count = sampledIndex, list._indices = newIndices, list.getRawIndex = getRawIndexWithIndices, list;
         }, List.prototype.getItemModel = function(idx) {
-            var hostModel = this.hostModel, dataItem = this.getRawDataItem(idx);
-            return new Model(dataItem, hostModel, hostModel && hostModel.ecModel);
+            var hostModel = this.hostModel;
+            return new Model(this.getRawDataItem(idx), hostModel, hostModel && hostModel.ecModel);
         }, List.prototype.diff = function(otherList) {
             var thisList = this;
             return new DataDiffer(otherList ? otherList.getIndices() : [], this.getIndices(), function(idx) {
@@ -14576,11 +14576,7 @@
                 el && cb && cb.call(context, el, idx);
             });
         }, List.prototype.cloneShallow = function(list) {
-            if (!list) {
-                var dimensionInfoList = map(this.dimensions, this.getDimensionInfo, this);
-                list = new List(dimensionInfoList, this.hostModel);
-            }
-            if (list._storage = this._storage, list._storageArr = this._storageArr, transferProperties(list, this), this._indices) {
+            if (list || (list = new List(map(this.dimensions, this.getDimensionInfo, this), this.hostModel)), list._storage = this._storage, list._storageArr = this._storageArr, transferProperties(list, this), this._indices) {
                 var Ctor = this._indices.constructor;
                 if (Ctor === Array) {
                     var thisCount = this._indices.length;
@@ -17674,12 +17670,12 @@
             'lineStyle',
             'width'
         ]) || 2;
-        x -= lineWidth / 2, y -= lineWidth / 2, width += lineWidth, height += lineWidth, x = Math.floor(x), width = Math.round(width);
+        x -= lineWidth / 2, y -= lineWidth / 2, width += lineWidth, height += lineWidth;
         var clipPath = new Rect({
             shape: {
-                x: x,
+                x: x = Math.floor(x),
                 y: y,
-                width: width,
+                width: width = Math.round(width),
                 height: height
             }
         });
@@ -18570,9 +18566,9 @@
             return rect.__dataIndex = newIndex, rect.name = 'item', animationModel && (rect.shape[isHorizontal ? 'height' : 'width'] = 0), rect;
         },
         polar: function(seriesModel, data, newIndex, layout, isRadial, animationModel, axisModel, isUpdate, roundCap) {
-            var clockwise = layout.startAngle < layout.endAngle, sector = new (!isRadial && roundCap ? SausagePath : Sector)({
+            var sector = new (!isRadial && roundCap ? SausagePath : Sector)({
                 shape: defaults({
-                    clockwise: clockwise
+                    clockwise: layout.startAngle < layout.endAngle
                 }, layout),
                 z2: 1
             });
@@ -19121,7 +19117,7 @@
         opt = isArray(opt) && {
             coordDimensions: opt
         } || extend({}, opt);
-        var source = seriesModel.getSource(), dimensionsInfo = createDimensions(source, opt), list = new List(dimensionsInfo, seriesModel);
+        var source = seriesModel.getSource(), list = new List(createDimensions(source, opt), seriesModel);
         return list.initData(source, nameList), list;
     }
     var LegendVisualProvider = function() {
@@ -20145,8 +20141,8 @@
                             'axisLine',
                             'lineStyle',
                             'color'
-                        ]), tickCoord = axis.dataToCoord(tickValue), textEl = new ZRText({
-                            x: tickCoord,
+                        ]), textEl = new ZRText({
+                            x: axis.dataToCoord(tickValue),
                             y: opt.labelOffset + opt.labelDirection * labelMargin,
                             rotation: labelLayout.rotation,
                             silent: silent,
@@ -21764,10 +21760,10 @@
                     mapModelGroupBySeries[mapType] = mapModelGroupBySeries[mapType] || [], mapModelGroupBySeries[mapType].push(seriesModel);
                 }
             }), each(mapModelGroupBySeries, function(mapSeries, mapType) {
-                var nameMapList = map(mapSeries, function(singleMapSeries) {
-                    return singleMapSeries.get('nameMap');
-                }), geo = new Geo(mapType, mapType, {
-                    nameMap: mergeAll(nameMapList),
+                var geo = new Geo(mapType, mapType, {
+                    nameMap: mergeAll(map(mapSeries, function(singleMapSeries) {
+                        return singleMapSeries.get('nameMap');
+                    })),
                     nameProperty: mapSeries[0].get('nameProperty'),
                     aspectScale: mapSeries[0].get('aspectScale')
                 });
@@ -22488,12 +22484,12 @@
                 var children1 = dataNode.children;
                 if (children1) for(var i = 0; i < children1.length; i++)buildHierarchy(children1[i], node);
             })(dataRoot), tree.root.updateDepthAndHeight(0);
-            var dimensionsInfo = createDimensions(listData, {
+            var list = new List(createDimensions(listData, {
                 coordDimensions: [
                     'value'
                 ],
                 dimensionsCount: dimMax
-            }), list = new List(dimensionsInfo, hostModel);
+            }), hostModel);
             return list.initData(listData), beforeLink && beforeLink(list), linkList({
                 mainData: list,
                 struct: tree,
@@ -22509,7 +22505,7 @@
             var root = {
                 name: option.name,
                 children: option.data
-            }, leaves = option.leaves || {}, leavesModel = new Model(leaves, this, this.ecModel), tree = Tree.createTree(root, this, function(nodeData) {
+            }, leavesModel = new Model(option.leaves || {}, this, this.ecModel), tree = Tree.createTree(root, this, function(nodeData) {
                 nodeData.wrapMethod('getItemModel', function(model, idx) {
                     var node = tree.getNodeByDataIndex(idx);
                     return node.children.length && node.isExpand || (model.parentModel = leavesModel), model;
@@ -22737,8 +22733,8 @@
                 var thisValue = dataNode.value;
                 isArray(thisValue) && (thisValue = thisValue[0]), (null == thisValue || isNaN(thisValue)) && (thisValue = sum), thisValue < 0 && (thisValue = 0), isArray(dataNode.value) ? dataNode.value[0] = thisValue : dataNode.value = thisValue;
             })(root);
-            var levels = option.levels || [], designatedVisualItemStyle = this.designatedVisualItemStyle = {}, designatedVisualModel = new Model({
-                itemStyle: designatedVisualItemStyle
+            var levels = option.levels || [], designatedVisualModel = new Model({
+                itemStyle: this.designatedVisualItemStyle = {}
             }, this, ecModel), levelModels = map((levels = option.levels = function(levels, ecModel) {
                 var hasColorDefine, hasDecalDefine, globalColorList = normalizeToArray(ecModel.get('color')), globalDecalList = normalizeToArray(ecModel.get([
                     'aria',
@@ -25013,11 +25009,9 @@
             var coordSysCtor = CoordinateSystemManager.get(coordSys), coordDimensions = coordSysCtor && coordSysCtor.dimensions || [];
             0 > indexOf(coordDimensions, 'value') && coordDimensions.concat([
                 'value'
-            ]);
-            var dimensionNames = createDimensions(nodes, {
+            ]), (nodeData = new List(createDimensions(nodes, {
                 coordDimensions: coordDimensions
-            });
-            (nodeData = new List(dimensionNames, seriesModel)).initData(nodes);
+            }), seriesModel)).initData(nodes);
         }
         var edgeData = new List([
             'value'
@@ -25236,11 +25230,10 @@
             this._renderMain(seriesModel, ecModel, api, colorList, posInfo), this._data = seriesModel.getData();
         }, GaugeView.prototype.dispose = function() {}, GaugeView.prototype._renderMain = function(seriesModel, ecModel, api, colorList, posInfo) {
             for(var group = this.group, clockwise = seriesModel.get('clockwise'), startAngle = -seriesModel.get('startAngle') / 180 * Math.PI, endAngle = -seriesModel.get('endAngle') / 180 * Math.PI, axisLineModel = seriesModel.getModel('axisLine'), MainPath = axisLineModel.get('roundCap') ? SausagePath : Sector, showAxis = axisLineModel.get('show'), lineStyleModel = axisLineModel.getModel('lineStyle'), axisLineWidth = lineStyleModel.get('width'), angleRangeSpan = (endAngle - startAngle) % PI2$9 || endAngle === startAngle ? (endAngle - startAngle) % PI2$9 : PI2$9, prevEndAngle = startAngle, i = 0; showAxis && i < colorList.length; i++){
-                endAngle = startAngle + angleRangeSpan * Math.min(Math.max(colorList[i][0], 0), 1);
                 var sector = new MainPath({
                     shape: {
                         startAngle: prevEndAngle,
-                        endAngle: endAngle,
+                        endAngle: endAngle = startAngle + angleRangeSpan * Math.min(Math.max(colorList[i][0], 0), 1),
                         cx: posInfo.cx,
                         cy: posInfo.cy,
                         clockwise: clockwise,
@@ -25303,11 +25296,10 @@
                     var distance = tickModel.get('distance');
                     distance = distance ? distance + axisLineWidth : axisLineWidth;
                     for(var j = 0; j <= subSplitNumber; j++){
-                        unitX = Math.cos(angle), unitY = Math.sin(angle);
                         var tickLine = new Line({
                             shape: {
-                                x1: unitX * (r - distance) + cx,
-                                y1: unitY * (r - distance) + cy,
+                                x1: (unitX = Math.cos(angle)) * (r - distance) + cx,
+                                y1: (unitY = Math.sin(angle)) * (r - distance) + cy,
                                 x2: unitX * (r - tickLen - distance) + cx,
                                 y2: unitY * (r - tickLen - distance) + cy
                             },
@@ -25929,9 +25921,9 @@
                 dataGroup.remove(line);
             }).execute(), !this._initialized) {
                 this._initialized = !0;
-                var parallelModel, rect, rectEl, dim, clipPath = (parallelModel = coordSys.model, rect = coordSys.getRect(), rectEl = new Rect({
+                var parallelModel, rect, rectEl, dim, clipPath = (parallelModel = coordSys.model, rectEl = new Rect({
                     shape: {
-                        x: rect.x,
+                        x: (rect = coordSys.getRect()).x,
                         y: rect.y,
                         width: rect.width,
                         height: rect.height
@@ -25968,9 +25960,9 @@
         return points;
     }
     function addEl(data, dataGroup, dataIndex, dimensions, coordSys) {
-        var points = createLinePoints(data, dataIndex, dimensions, coordSys), line = new Polyline({
+        var line = new Polyline({
             shape: {
-                points: points
+                points: createLinePoints(data, dataIndex, dimensions, coordSys)
             },
             z2: 10
         });
@@ -27257,9 +27249,9 @@
                 }, el.ondragend = function() {
                     sankeyView._focusAdjacencyDisabled = !1;
                 }, el.draggable = !0, el.cursor = 'move');
-            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((rect = group.getBoundingRect(), initProps(rectEl = new Rect({
+            }), !this._data && seriesModel.isAnimationEnabled() && group.setClipPath((initProps(rectEl = new Rect({
                 shape: {
-                    x: rect.x - 10,
+                    x: (rect = group.getBoundingRect()).x - 10,
                     y: rect.y - 10,
                     width: 0,
                     height: rect.height + 20
@@ -28440,9 +28432,9 @@
             return _this._createPolyline(lineData, idx, seriesScope), _this;
         }
         return __extends(Polyline$1, _super), Polyline$1.prototype._createPolyline = function(lineData, idx, seriesScope) {
-            var points = lineData.getItemLayout(idx), line = new Polyline({
+            var line = new Polyline({
                 shape: {
-                    points: points
+                    points: lineData.getItemLayout(idx)
                 }
             });
             this.add(line), this._updateCommonStl(lineData, idx, seriesScope);
@@ -29468,9 +29460,9 @@
                             smoothConstraint: !1
                         },
                         z2: 0
-                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((rect = polygon.getBoundingRect(), initProps(rectEl = new Rect({
+                    }), layerGroup.add(polygon), group.add(layerGroup), seriesModel.isAnimationEnabled() && polygon.setClipPath((initProps(rectEl = new Rect({
                         shape: {
-                            x: rect.x - 10,
+                            x: (rect = polygon.getBoundingRect()).x - 10,
                             y: rect.y - 10,
                             width: 0,
                             height: rect.height + 20
@@ -29543,7 +29535,7 @@
             for(var axisType = this.getReferringComponents('singleAxis', SINGLE_REFERRING).models[0].get('type'), filterData = filter(option.data, function(dataItem) {
                 return void 0 !== dataItem[2];
             }), data = this.fixData(filterData || []), nameList = [], nameMap = this.nameMap = createHashMap(), count = 0, i = 0; i < data.length; ++i)nameList.push(data[i][2]), !nameMap.get(data[i][2]) && (nameMap.set(data[i][2], count), count++);
-            var dimensionsInfo = createDimensions(data, {
+            var list = new List(createDimensions(data, {
                 coordDimensions: [
                     'single'
                 ],
@@ -29566,7 +29558,7 @@
                     value: 1,
                     itemName: 2
                 }
-            }), list = new List(dimensionsInfo, this);
+            }), this);
             return list.initData(data), list;
         }, ThemeRiverSeriesModel.prototype.getLayerSeries = function() {
             for(var data = this.getData(), lenCount = data.count(), indexArr = [], i = 0; i < lenCount; ++i)indexArr[i] = i;
@@ -32934,7 +32926,7 @@
             ], this.axisPointerEnabled = !0, this.model = axisModel, this._init(axisModel, ecModel, api);
         }
         return Single.prototype._init = function(axisModel, ecModel, api) {
-            var dim = this.dimension, axis = new SingleAxis(dim, createScaleByModel(axisModel), [
+            var axis = new SingleAxis(this.dimension, createScaleByModel(axisModel), [
                 0,
                 0
             ], axisModel.get('type'), axisModel.get('position')), isCategory = 'category' === axis.type;
@@ -33385,10 +33377,10 @@
                     start: rangeData.start.y,
                     end: rangeData.end.y,
                     nameMap: name
-                }, content = this._formatterLabel(formatter, params), yearText = new ZRText({
+                }, yearText = new ZRText({
                     z2: 30,
                     style: createTextStyle(yearLabel, {
-                        text: content
+                        text: this._formatterLabel(formatter, params)
                     })
                 });
                 yearText.attr(this._yearTextPositionControl(yearText, posPoints[pos], orient, pos, margin)), group.add(yearText);
@@ -33423,10 +33415,10 @@
                         MM: firstDay.m,
                         M: +firstDay.m,
                         nameMap: name_1
-                    }, content = this._formatterLabel(formatter, params), monthText = new ZRText({
+                    }, monthText = new ZRText({
                         z2: 30,
                         style: extend(createTextStyle(monthLabel, {
-                            text: content
+                            text: this._formatterLabel(formatter, params)
                         }), this._monthTextPositionControl(tmp, isCenter, orient, pos, margin))
                     });
                     group.add(monthText);
@@ -33453,12 +33445,10 @@
                 for(var i = 0; i < 7; i++){
                     var tmpD = coordSys.getNextNDay(start, i), point = coordSys.dataToRect([
                         tmpD.time
-                    ], !1).center, day = i;
-                    day = Math.abs((i + firstDayOfWeek) % 7);
-                    var weekText = new ZRText({
+                    ], !1).center, weekText = new ZRText({
                         z2: 30,
                         style: extend(createTextStyle(dayLabel, {
-                            text: nameMap[day]
+                            text: nameMap[Math.abs((i + firstDayOfWeek) % 7)]
                         }), this._weekTextPositionControl(point, orient, pos, margin, cellSize))
                     });
                     group.add(weekText);
@@ -36955,8 +36945,8 @@
                     ]), progressLabelModel = itemModel.getModel([
                         'progress',
                         'label'
-                    ]), tickCoord = axis.dataToCoord(labelItem.tickValue), textEl = new ZRText({
-                        x: tickCoord,
+                    ]), textEl = new ZRText({
+                        x: axis.dataToCoord(labelItem.tickValue),
                         y: 0,
                         rotation: layoutInfo.labelRotation - layoutInfo.rotation,
                         onclick: bind(_this._changeTimeline, _this, dataIndex),
@@ -37360,7 +37350,7 @@
                 mpModel && (updateMarkerLayout(mpModel.getData(), seriesModel, api), this.markerGroupMap.get(seriesModel.id).updateLayout());
             }, this);
         }, MarkPointView.prototype.renderSeries = function(seriesModel, mpModel, ecModel, api) {
-            var coordDimsInfos, mpData, dataOpt, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), symbolDrawMap = this.markerGroupMap, symbolDraw = symbolDrawMap.get(seriesId) || symbolDrawMap.set(seriesId, new SymbolDraw()), mpData1 = (coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
+            var mpData, dataOpt, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), symbolDrawMap = this.markerGroupMap, symbolDraw = symbolDrawMap.get(seriesId) || symbolDrawMap.set(seriesId, new SymbolDraw()), mpData1 = (mpData = new List(coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
                 var info = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {};
                 return defaults({
                     name: coordDim
@@ -37370,7 +37360,7 @@
                     name: 'value',
                     type: 'float'
                 }
-            ], mpData = new List(coordDimsInfos, mpModel), dataOpt = map(mpModel.get('data'), curry(dataTransform, seriesModel)), coordSys && (dataOpt = filter(dataOpt, curry(dataFilter$1, coordSys))), mpData.initData(dataOpt, null, coordSys ? dimValueGetter : function(item) {
+            ], mpModel), dataOpt = map(mpModel.get('data'), curry(dataTransform, seriesModel)), coordSys && (dataOpt = filter(dataOpt, curry(dataFilter$1, coordSys))), mpData.initData(dataOpt, null, coordSys ? dimValueGetter : function(item) {
                 return item.value;
             }), mpData);
             mpModel.setData(mpData1), updateMarkerLayout(mpModel.getData(), seriesModel, api), mpData1.each(function(idx) {
@@ -37529,7 +37519,7 @@
         }, MarkLineView.prototype.renderSeries = function(seriesModel, mlModel, ecModel, api) {
             var coordDimsInfos, fromData, toData, lineData, optData, dimValueGetter$1, coordSys = seriesModel.coordinateSystem, seriesId = seriesModel.id, seriesData = seriesModel.getData(), lineDrawMap = this.markerGroupMap, lineDraw = lineDrawMap.get(seriesId) || lineDrawMap.set(seriesId, new LineDraw());
             this.group.add(lineDraw.group);
-            var mlData = (coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
+            var mlData = (fromData = new List(coordDimsInfos = coordSys ? map(coordSys && coordSys.dimensions, function(coordDim) {
                 var info = seriesModel.getData().getDimensionInfo(seriesModel.getData().mapDimension(coordDim)) || {};
                 return defaults({
                     name: coordDim
@@ -37539,7 +37529,7 @@
                     name: 'value',
                     type: 'float'
                 }
-            ], fromData = new List(coordDimsInfos, mlModel), toData = new List(coordDimsInfos, mlModel), lineData = new List([], mlModel), optData = map(mlModel.get('data'), curry(markLineTransform, seriesModel, coordSys, mlModel)), coordSys && (optData = filter(optData, curry(markLineFilter, coordSys))), dimValueGetter$1 = coordSys ? dimValueGetter : function(item) {
+            ], mlModel), toData = new List(coordDimsInfos, mlModel), lineData = new List([], mlModel), optData = map(mlModel.get('data'), curry(markLineTransform, seriesModel, coordSys, mlModel)), coordSys && (optData = filter(optData, curry(markLineFilter, coordSys))), dimValueGetter$1 = coordSys ? dimValueGetter : function(item) {
                 return item.value;
             }, fromData.initData(map(optData, function(item) {
                 return item[0];
@@ -37742,12 +37732,12 @@
                     name: dim,
                     type: coordDimsInfos[idx % 2].type
                 };
-            }), maModel)) : (coordDimsInfos = [
+            }), maModel)) : areaData = new List(coordDimsInfos = [
                 {
                     name: 'value',
                     type: 'float'
                 }
-            ], areaData = new List(coordDimsInfos, maModel)), optData = map(maModel.get('data'), curry(markAreaTransform, seriesModel, coordSys, maModel)), coordSys && (optData = filter(optData, curry(markAreaFilter, coordSys))), dimValueGetter = coordSys ? function(item, dimName, dataIndex, dimIndex) {
+            ], maModel), optData = map(maModel.get('data'), curry(markAreaTransform, seriesModel, coordSys, maModel)), coordSys && (optData = filter(optData, curry(markAreaFilter, coordSys))), dimValueGetter = coordSys ? function(item, dimName, dataIndex, dimIndex) {
                 return item.coord[Math.floor(dimIndex / 2)][dimIndex % 2];
             } : function(item) {
                 return item.value;
@@ -40871,7 +40861,7 @@
     }(), filterTransform = {
         type: 'echarts:filter',
         transform: function(params) {
-            for(var exprOption, getters, rawItem, upstream = params.upstream, condition = (exprOption = params.config, getters = {
+            for(var rawItem, upstream = params.upstream, condition = new ConditionalExpressionParsed(params.config, {
                 valueGetterAttrMap: createHashMap({
                     dimension: !0
                 }),
@@ -40886,7 +40876,7 @@
                 getValue: function(param) {
                     return upstream.retrieveValueFromItem(rawItem, param.dimIdx);
                 }
-            }, new ConditionalExpressionParsed(exprOption, getters)), resultData = [], i = 0, len = upstream.count(); i < len; i++)rawItem = upstream.getRawDataItem(i), condition.evaluate() && resultData.push(rawItem);
+            }), resultData = [], i = 0, len = upstream.count(); i < len; i++)rawItem = upstream.getRawDataItem(i), condition.evaluate() && resultData.push(rawItem);
             return {
                 data: resultData
             };

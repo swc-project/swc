@@ -7232,7 +7232,7 @@
         },
         clone: function(data) {
             void 0 === data.arrayBuffers && (data.arrayBuffers = {}), void 0 === this.array.buffer._uuid && (this.array.buffer._uuid = MathUtils.generateUUID()), void 0 === data.arrayBuffers[this.array.buffer._uuid] && (data.arrayBuffers[this.array.buffer._uuid] = this.array.slice(0).buffer);
-            var array = new this.array.constructor(data.arrayBuffers[this.array.buffer._uuid]), ib = new InterleavedBuffer(array, this.stride);
+            var ib = new InterleavedBuffer(new this.array.constructor(data.arrayBuffers[this.array.buffer._uuid]), this.stride);
             return ib.setUsage(this.usage), ib;
         },
         onUpload: function(callback) {
@@ -7339,7 +7339,7 @@
     function Sprite(material) {
         if (Object3D.call(this), this.type = 'Sprite', void 0 === _geometry) {
             _geometry = new BufferGeometry();
-            var float32Array = new Float32Array([
+            var interleavedBuffer = new InterleavedBuffer(new Float32Array([
                 -0.5,
                 -0.5,
                 0,
@@ -7360,7 +7360,7 @@
                 0,
                 0,
                 1
-            ]), interleavedBuffer = new InterleavedBuffer(float32Array, 5);
+            ]), 5);
             _geometry.setIndex([
                 0,
                 1,
@@ -11148,9 +11148,9 @@
             return this.curves.push(curve), this.currentPoint.set(aX, aY), this;
         },
         splineThru: function(pts) {
-            var npts = [
+            var curve = new SplineCurve([
                 this.currentPoint.clone()
-            ].concat(pts), curve = new SplineCurve(npts);
+            ].concat(pts));
             return this.curves.push(curve), this.currentPoint.copy(pts[pts.length - 1]), this;
         },
         arc: function(aX, aY, aRadius, aStartAngle, aEndAngle, aClockwise) {
@@ -11550,7 +11550,7 @@
                     if (void 0 !== arrayBufferMap[uuid]) return arrayBufferMap[uuid];
                     var arrayBuffer = json.arrayBuffers[uuid], ab = new Uint32Array(arrayBuffer).buffer;
                     return arrayBufferMap[uuid] = ab, ab;
-                }(json, interleavedBuffer.buffer), array = getTypedArray(interleavedBuffer.type, buffer), ib = new InterleavedBuffer(array, interleavedBuffer.stride);
+                }(json, interleavedBuffer.buffer), ib = new InterleavedBuffer(getTypedArray(interleavedBuffer.type, buffer), interleavedBuffer.stride);
                 return ib.uuid = interleavedBuffer.uuid, interleavedBufferMap[uuid] = ib, ib;
             }
             var geometry = json.isInstancedBufferGeometry ? new InstancedBufferGeometry() : new BufferGeometry(), index = json.data.index;
@@ -11561,10 +11561,8 @@
             var attributes = json.data.attributes;
             for(var key in attributes){
                 var attribute = attributes[key], bufferAttribute = void 0;
-                if (attribute.isInterleavedBufferAttribute) {
-                    var interleavedBuffer = getInterleavedBuffer(json.data, attribute.data);
-                    bufferAttribute = new InterleavedBufferAttribute(interleavedBuffer, attribute.itemSize, attribute.offset, attribute.normalized);
-                } else {
+                if (attribute.isInterleavedBufferAttribute) bufferAttribute = new InterleavedBufferAttribute(getInterleavedBuffer(json.data, attribute.data), attribute.itemSize, attribute.offset, attribute.normalized);
+                else {
                     var _typedArray = getTypedArray(attribute.type, attribute.array);
                     bufferAttribute = new (attribute.isInstancedBufferAttribute ? InstancedBufferAttribute : BufferAttribute)(_typedArray, attribute.itemSize, attribute.normalized);
                 }
@@ -11574,14 +11572,7 @@
             if (morphAttributes) for(var _key in morphAttributes){
                 for(var attributeArray = morphAttributes[_key], array = [], i = 0, il = attributeArray.length; i < il; i++){
                     var _attribute = attributeArray[i], _bufferAttribute = void 0;
-                    if (_attribute.isInterleavedBufferAttribute) {
-                        var _interleavedBuffer = getInterleavedBuffer(json.data, _attribute.data);
-                        _bufferAttribute = new InterleavedBufferAttribute(_interleavedBuffer, _attribute.itemSize, _attribute.offset, _attribute.normalized);
-                    } else {
-                        var _typedArray2 = getTypedArray(_attribute.type, _attribute.array);
-                        _bufferAttribute = new BufferAttribute(_typedArray2, _attribute.itemSize, _attribute.normalized);
-                    }
-                    void 0 !== _attribute.name && (_bufferAttribute.name = _attribute.name), array.push(_bufferAttribute);
+                    _bufferAttribute = _attribute.isInterleavedBufferAttribute ? new InterleavedBufferAttribute(getInterleavedBuffer(json.data, _attribute.data), _attribute.itemSize, _attribute.offset, _attribute.normalized) : new BufferAttribute(getTypedArray(_attribute.type, _attribute.array), _attribute.itemSize, _attribute.normalized), void 0 !== _attribute.name && (_bufferAttribute.name = _attribute.name), array.push(_bufferAttribute);
                 }
                 geometry.morphAttributes[_key] = array;
             }
@@ -11792,8 +11783,7 @@
                 } : null;
             }
             if (void 0 !== json && json.length > 0) {
-                var manager = new LoadingManager(onLoad);
-                (loader = new ImageLoader(manager)).setCrossOrigin(this.crossOrigin);
+                (loader = new ImageLoader(new LoadingManager(onLoad))).setCrossOrigin(this.crossOrigin);
                 for(var i = 0, il = json.length; i < il; i++){
                     var image = json[i], url = image.url;
                     if (Array.isArray(url)) {
@@ -11869,10 +11859,10 @@
                     object = new LightProbe().fromJSON(data);
                     break;
                 case 'SkinnedMesh':
-                    geometry = getGeometry(data.geometry), material = getMaterial(data.material), object = new SkinnedMesh(geometry, material), void 0 !== data.bindMode && (object.bindMode = data.bindMode), void 0 !== data.bindMatrix && object.bindMatrix.fromArray(data.bindMatrix), void 0 !== data.skeleton && (object.skeleton = data.skeleton);
+                    object = new SkinnedMesh(geometry = getGeometry(data.geometry), material = getMaterial(data.material)), void 0 !== data.bindMode && (object.bindMode = data.bindMode), void 0 !== data.bindMatrix && object.bindMatrix.fromArray(data.bindMatrix), void 0 !== data.skeleton && (object.skeleton = data.skeleton);
                     break;
                 case 'Mesh':
-                    geometry = getGeometry(data.geometry), material = getMaterial(data.material), object = new Mesh(geometry, material);
+                    object = new Mesh(geometry = getGeometry(data.geometry), material = getMaterial(data.material));
                     break;
                 case 'InstancedMesh':
                     geometry = getGeometry(data.geometry), material = getMaterial(data.material);
@@ -13972,8 +13962,7 @@
         new Vector3(-PHI, INV_PHI, 0)
     ], PMREMGenerator = function() {
         function PMREMGenerator(renderer) {
-            var weights, poleAxis;
-            this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = (weights = new Float32Array(20), poleAxis = new Vector3(0, 1, 0), new RawShaderMaterial({
+            this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = new RawShaderMaterial({
                 name: 'SphericalGaussianBlur',
                 defines: {
                     n: 20
@@ -13986,7 +13975,7 @@
                         value: 1
                     },
                     weights: {
-                        value: weights
+                        value: new Float32Array(20)
                     },
                     latitudinal: {
                         value: !1
@@ -13998,7 +13987,7 @@
                         value: 0
                     },
                     poleAxis: {
-                        value: poleAxis
+                        value: new Vector3(0, 1, 0)
                     },
                     inputEncoding: {
                         value: ENCODINGS[3000]
@@ -14012,7 +14001,7 @@
                 blending: 0,
                 depthTest: !1,
                 depthWrite: !1
-            })), this._equirectShader = null, this._cubemapShader = null, this._compileMaterial(this._blurMaterial);
+            }), this._equirectShader = null, this._cubemapShader = null, this._compileMaterial(this._blurMaterial);
         }
         var _proto = PMREMGenerator.prototype;
         return _proto.fromScene = function(scene, sigma, near, far) {
@@ -14119,7 +14108,6 @@
         target.viewport.set(x, y, width, height), target.scissor.set(x, y, width, height);
     }
     function _getEquirectShader() {
-        var texelSize = new Vector2(1, 1);
         return new RawShaderMaterial({
             name: 'EquirectangularToCubeUV',
             uniforms: {
@@ -14127,7 +14115,7 @@
                     value: null
                 },
                 texelSize: {
-                    value: texelSize
+                    value: new Vector2(1, 1)
                 },
                 inputEncoding: {
                     value: ENCODINGS[3000]

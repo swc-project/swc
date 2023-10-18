@@ -12500,7 +12500,7 @@
                                 playlist: segmentInfo.playlist.id,
                                 start: start,
                                 end: end
-                            }, data = JSON.stringify(value), cue = new Cue(start, end, data);
+                            }, cue = new Cue(start, end, JSON.stringify(value));
                             cue.value = value, this.segmentMetadataTrack_.addCue(cue);
                         }
                     }
@@ -13426,8 +13426,8 @@
                     }), transferable;
                 };
                 self.onmessage = function(event) {
-                    var data = event.data, encrypted = new Uint8Array(data.encrypted.bytes, data.encrypted.byteOffset, data.encrypted.byteLength), key = new Uint32Array(data.key.bytes, data.key.byteOffset, data.key.byteLength / 4), iv = new Uint32Array(data.iv.bytes, data.iv.byteOffset, data.iv.byteLength / 4);
-                    new Decrypter(encrypted, key, iv, function(err, bytes) {
+                    var data = event.data;
+                    new Decrypter(new Uint8Array(data.encrypted.bytes, data.encrypted.byteOffset, data.encrypted.byteLength), new Uint32Array(data.key.bytes, data.key.byteOffset, data.key.byteLength / 4), new Uint32Array(data.iv.bytes, data.iv.byteOffset, data.iv.byteLength / 4), function(err, bytes) {
                         self.postMessage(createTransferableMessage({
                             source: data.source,
                             decrypted: bytes
