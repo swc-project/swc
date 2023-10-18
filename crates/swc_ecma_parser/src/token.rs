@@ -583,6 +583,15 @@ impl From<&'_ str> for IdentLike {
     }
 }
 
+impl AsRef<str> for IdentLike {
+    fn as_ref(&self) -> &str {
+        match self {
+            IdentLike::Known(k) => (*k).into(),
+            IdentLike::Other(s) => s.as_ref(),
+        }
+    }
+}
+
 impl From<Keyword> for Word {
     fn from(kwd: Keyword) -> Self {
         Word::Keyword(kwd)
