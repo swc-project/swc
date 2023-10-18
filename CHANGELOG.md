@@ -23,6 +23,9 @@
 - **(es/minifier)** Inline into the arguments of `new` using seq inliner ([#8127](https://github.com/swc-project/swc/issues/8127)) ([4f67794](https://github.com/swc-project/swc/commit/4f67794223cf2848ac3c3e42e1e43acec4533246))
 
 
+- **(es/parser)** Implement `AsRef<str>` for `IdentLike` ([#8133](https://github.com/swc-project/swc/issues/8133)) ([bffe33a](https://github.com/swc-project/swc/commit/bffe33a27036d01d409bad3fcc69d35157665662))
+
+
 - **(es/typescript)** Add `ts_enum_is_mutable` to disable enum inlining ([#8115](https://github.com/swc-project/swc/issues/8115)) ([57b171d](https://github.com/swc-project/swc/commit/57b171dcbe55a8d285d5bc477844b24fdf48835a))
 
 ### Miscellaneous Tasks
@@ -1725,9 +1728,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(es/transforms)** Handle member object in missing else branch ([#7027](https://github.com/swc-project/swc/issues/7027)) ([5c7c8e0](https://github.com/swc-project/swc/commit/5c7c8e073634ff6347194fa0e3fae8c83b64718c))
 
 
 - **(es/transforms)** Handle object shorthand in `const_modules` ([#7022](https://github.com/swc-project/swc/issues/7022)) ([0314869](https://github.com/swc-project/swc/commit/0314869464f59748a6a44980ade4dc1eda39ac3b))
