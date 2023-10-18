@@ -4926,7 +4926,7 @@
                             length = byteLength / BYTES;
                         } else if (isTypedArray(data)) return fromList(TypedArrayConstructor, data);
                         else return typedArrayFrom.call(TypedArrayConstructor, data);
-                    } else byteLength = (length = toIndex(data)) * BYTES, buffer = new ArrayBuffer1(byteLength);
+                    } else buffer = new ArrayBuffer1(byteLength = (length = toIndex(data)) * BYTES);
                     for(setInternalState(that, {
                         buffer: buffer,
                         byteOffset: byteOffset,

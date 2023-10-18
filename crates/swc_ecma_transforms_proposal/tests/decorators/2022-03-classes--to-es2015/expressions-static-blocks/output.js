@@ -1,5 +1,5 @@
 var _A, __, __1, __2, _C, __3, __11, __21, _class, __4, __12, __22, _class1, __5, __13, __23, _G, __6, __14, __24, _class2, __7, __15, __25, _class3, __8, __16, __26, _K, __9, __17, __27;
-var _initClass, _A1, _initClass1, _C1, _initClass2, _class4, _initClass3, _class5, _initClass4, _G1, _initClass5, _class6, _initClass6, _class7, _initClass7, _K1;
+var _initClass, _A1, _initClass1, _C1, _initClass2, _class4, _initClass3, _class5, _initClass4, _G1, _initClass5, _class6, _initClass6, _class7, _I, _initClass7, _K1, _L;
 const dec = ()=>{};
 const A = ((_A = class A {
 }, __ = {
@@ -81,12 +81,12 @@ const F = [
         value: _initClass5()
     }, _class2), _class6)
 ];
-const H = ((_class3 = class extends I {
+const H = ((_class3 = class extends (_I = I) {
 }, __8 = {
     writable: true,
     value: { c: [_class7, _initClass6] } = _apply_decs_2203_r(_class3, [], [
         dec
-    ])
+    ], _I)
 }, __16 = {
     writable: true,
     value: (()=>{})()
@@ -94,12 +94,12 @@ const H = ((_class3 = class extends I {
     writable: true,
     value: _initClass6()
 }, _class3), _class7);
-const J = ((_K = class K extends L {
+const J = ((_K = class K extends (_L = L) {
 }, __9 = {
     writable: true,
     value: { c: [_K1, _initClass7] } = _apply_decs_2203_r(_K, [], [
         dec
-    ])
+    ], _L)
 }, __17 = {
     writable: true,
     value: (()=>{})()
