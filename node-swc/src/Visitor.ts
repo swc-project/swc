@@ -175,6 +175,10 @@ import {
   YieldExpression,
 } from "@swc/types";
 
+
+/**
+ * @deprecated JavaScript API is deprecated. Please use Wasm plugin instead.
+ */
 export class Visitor {
   visitProgram(n: Program): Program {
     switch (n.type) {

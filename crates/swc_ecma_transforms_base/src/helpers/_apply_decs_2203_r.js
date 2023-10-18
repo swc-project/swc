@@ -35,6 +35,7 @@ function applyDecs2203RFactory() {
         kind,
         isStatic,
         isPrivate,
+        metadata,
         value
     ) {
         var kindStr;
@@ -61,6 +62,7 @@ function applyDecs2203RFactory() {
             name: isPrivate ? "#" + name : name,
             static: isStatic,
             private: isPrivate,
+            metadata: metadata,
         };
 
         var decoratorFinishedRef = { v: false };
@@ -168,7 +170,8 @@ function applyDecs2203RFactory() {
         kind,
         isStatic,
         isPrivate,
-        initializers
+        initializers,
+        metadata
     ) {
         var decs = decInfo[0];
 
@@ -221,6 +224,7 @@ function applyDecs2203RFactory() {
                 kind,
                 isStatic,
                 isPrivate,
+                metadata,
                 value
             );
 
@@ -251,6 +255,7 @@ function applyDecs2203RFactory() {
                     kind,
                     isStatic,
                     isPrivate,
+                    metadata,
                     value
                 );
 
@@ -345,7 +350,7 @@ function applyDecs2203RFactory() {
         }
     }
 
-    function applyMemberDecs(Class, decInfos) {
+    function applyMemberDecs(Class, decInfos, metadata) {
         var ret = [];
         var protoInitializers;
         var staticInitializers;
@@ -415,7 +420,8 @@ function applyDecs2203RFactory() {
                 kind,
                 isStatic,
                 isPrivate,
-                initializers
+                initializers,
+                metadata
             );
         }
 
@@ -435,7 +441,7 @@ function applyDecs2203RFactory() {
         }
     }
 
-    function applyClassDecs(targetClass, classDecs) {
+    function applyClassDecs(targetClass, classDecs, metadata) {
         if (classDecs.length > 0) {
             var initializers = [];
             var newClass = targetClass;
@@ -452,6 +458,7 @@ function applyDecs2203RFactory() {
                             initializers,
                             decoratorFinishedRef
                         ),
+                        metadata,
                     });
                 } finally {
                     decoratorFinishedRef.v = true;
@@ -464,7 +471,7 @@ function applyDecs2203RFactory() {
             }
 
             return [
-                newClass,
+                defineMetadata(newClass, metadata),
                 function () {
                     for (var i = 0; i < initializers.length; i++) {
                         initializers[i].call(newClass);
@@ -474,6 +481,14 @@ function applyDecs2203RFactory() {
         }
         // The transformer will not emit assignment when there are no class decorators,
         // so we don't have to return an empty array here.
+    }
+
+    function defineMetadata(Class, metadata) {
+        return Object.defineProperty(
+            Class,
+            Symbol.metadata || Symbol.for("Symbol.metadata"),
+            { configurable: true, enumerable: true, value: metadata }
+        );
     }
 
     /**
@@ -622,21 +637,31 @@ function applyDecs2203RFactory() {
     initializeClass(Class);
    */
 
-    return function applyDecs2203R(targetClass, memberDecs, classDecs) {
+    return function applyDecs2203R(targetClass, memberDecs, classDecs, parentClass) {
+        if (parentClass !== void 0) {
+            var parentMetadata =
+                parentClass[Symbol.metadata || Symbol.for("Symbol.metadata")];
+        }
+        var metadata = Object.create(
+            parentMetadata === void 0 ? null : parentMetadata
+        );
+        var e = applyMemberDecs(targetClass, memberDecs, metadata);
+        if (!classDecs.length) defineMetadata(targetClass, metadata);
         return {
-            e: applyMemberDecs(targetClass, memberDecs),
+            e: e,
             // Lazily apply class decorations so that member init locals can be properly bound.
             get c() {
-                return applyClassDecs(targetClass, classDecs);
+                return applyClassDecs(targetClass, classDecs, metadata);
             },
         };
     };
 }
 
-function _apply_decs_2203_r(targetClass, memberDecs, classDecs) {
+function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentClass) {
     return (_apply_decs_2203_r = applyDecs2203RFactory())(
         targetClass,
         memberDecs,
-        classDecs
+        classDecs,
+        parentClass
     );
 }
