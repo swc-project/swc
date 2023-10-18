@@ -10,20 +10,20 @@ var __ = {
         dec1
     ])
 };
-var __1 = {
+var __2 = {
     writable: true,
     value: _initClass()
 };
 let _Foo;
 class Foo extends (_Bar = _Bar1) {
 }
-var __2 = {
+var __1 = {
     writable: true,
     value: { c: [_Foo, _initClass1] } = _apply_decs_2203_r(Foo, [], [
         dec2
     ], _Bar)
 };
-var __11 = {
+var __21 = {
     writable: true,
     value: _initClass1()
 };
