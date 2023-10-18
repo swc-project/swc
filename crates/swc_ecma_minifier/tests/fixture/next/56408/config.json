@@ -2,6 +2,8 @@
     "defaults": true,
     "toplevel": true,
     "inline": false,
+    "negate_iife": false,
+    "booleans": false,
     "conditionals": false,
     "sequences": false,
     "unused": false,
