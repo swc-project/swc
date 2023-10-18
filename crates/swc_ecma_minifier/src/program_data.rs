@@ -64,6 +64,7 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) declared_as_for_init: bool,
 
+    /// The number of assign and initialization to this identifier.
     pub(crate) assign_count: u32,
 
     /// The number of direct and indirect reference to this identifier.
@@ -171,7 +172,7 @@ impl VarUsageInfo {
 
     /// The variable itself or a property of it is modified.
     pub(crate) fn mutated(&self) -> bool {
-        self.assign_count > 0 || self.has_property_mutation
+        self.assign_count > 1 || self.has_property_mutation
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
@@ -221,11 +222,16 @@ impl Storage for ProgramData {
                     let var_assigned = var_info.assign_count > 0
                         || (var_info.var_initialized && !e.get().var_initialized);
 
+                    if var_info.assign_count > 0 {
+                        if e.get().initialized() {
+                            e.get_mut().reassigned = true
+                        }
+                    }
+
                     if var_info.var_initialized {
                         // If it is inited in some other child scope and also inited in current
                         // scope
                         if e.get().var_initialized || e.get().ref_count > 0 {
-                            e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true;
                         } else {
                             // If it is referred outside child scope, it will
@@ -237,7 +243,6 @@ impl Storage for ProgramData {
                         // current child scope
                         if !inited && e.get().var_initialized && var_info.ref_count > 0 {
                             e.get_mut().var_initialized = false;
-                            e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true
                         }
                     }
@@ -245,12 +250,6 @@ impl Storage for ProgramData {
                     e.get_mut().ref_count += var_info.ref_count;
 
                     e.get_mut().reassigned |= var_info.reassigned;
-
-                    if var_info.assign_count > 0 {
-                        if e.get().initialized() {
-                            e.get_mut().reassigned = true
-                        }
-                    }
 
                     e.get_mut().has_property_access |= var_info.has_property_access;
                     e.get_mut().has_property_mutation |= var_info.has_property_mutation;
@@ -349,13 +348,16 @@ impl Storage for ProgramData {
         v.is_top_level |= ctx.is_top_level;
 
         // assigned or declared before this declaration
-        if has_init && (v.declared || v.var_initialized || v.assign_count > 0) {
-            #[cfg(feature = "debug")]
-            {
-                tracing::trace!("declare_decl(`{}`): Already declared", i);
+        if has_init {
+            if v.declared || v.var_initialized || v.assign_count > 0 {
+                #[cfg(feature = "debug")]
+                {
+                    tracing::trace!("declare_decl(`{}`): Already declared", i);
+                }
+
+                v.reassigned = true;
             }
 
-            v.reassigned = true;
             v.assign_count += 1;
         }
 
@@ -403,7 +405,7 @@ impl Storage for ProgramData {
 
         for other in to_mark_mutate {
             let other = self.vars.entry(other).or_insert_with(|| {
-                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+                let simple_assign = ctx.is_exact_assignment && !ctx.is_op_assign;
 
                 VarUsageInfo {
                     used_above_decl: !simple_assign,
@@ -570,7 +572,7 @@ impl ProgramData {
         let e = self.vars.entry(i.clone()).or_insert_with(|| {
             // trace!("insert({}{:?})", i.0, i.1);
 
-            let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+            let simple_assign = ctx.is_exact_assignment && !ctx.is_op_assign;
 
             VarUsageInfo {
                 used_above_decl: !simple_assign,
@@ -601,7 +603,7 @@ impl ProgramData {
         e.executed_multiple_time |= ctx.executed_multiple_time;
         e.used_in_cond |= ctx.in_cond;
 
-        if is_modify && ctx.is_exact_reassignment {
+        if is_modify && ctx.is_exact_assignment {
             if is_first {
                 if e.assign_count > 0 || e.initialized() {
                     e.reassigned = true
@@ -610,13 +612,8 @@ impl ProgramData {
                 e.assign_count += 1;
 
                 if !ctx.is_op_assign {
-                    if e.ref_count == 1
-                        && ctx.in_assign_lhs
-                        && e.var_kind != Some(VarDeclKind::Const)
-                        && !inited
-                    {
+                    if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
                         self.initialized_vars.insert(i.clone());
-                        e.assign_count -= 1;
                         e.var_initialized = true;
                     } else {
                         e.reassigned = true

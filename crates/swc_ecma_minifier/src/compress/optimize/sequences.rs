@@ -2327,8 +2327,7 @@ impl Optimizer<'_> {
                             if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                                 // We are eliminating one usage, so we use 1 instead of
                                 // 0
-                                if !$force_drop && usage.usage_count == 1 && usage.assign_count == 0
-                                {
+                                if !$force_drop && usage.usage_count == 1 && !usage.reassigned {
                                     report_change!("sequences: Dropping inlined variable");
                                     a.name.take();
                                 }

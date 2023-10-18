@@ -174,7 +174,7 @@ impl Optimizer<'_> {
             // new variant is added for multi inline, think carefully
             if is_inline_enabled
                 && usage.declared_count == 1
-                && usage.assign_count == 0
+                && usage.assign_count == 1
                 && (!usage.has_property_mutation || !usage.reassigned)
                 && match init {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
@@ -326,7 +326,7 @@ impl Optimizer<'_> {
                 && usage.declared
                 && may_remove
                 && !usage.reassigned
-                && usage.assign_count == 0
+                && usage.assign_count == 1
                 && ref_count == 1
             {
                 match init {
