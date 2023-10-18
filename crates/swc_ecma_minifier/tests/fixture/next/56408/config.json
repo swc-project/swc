@@ -2,6 +2,7 @@
     "defaults": true,
     "toplevel": true,
     "inline": false,
+    "conditionals": false,
     "sequences": false,
     "keep_classnames": true,
     "keep_fnames": true
