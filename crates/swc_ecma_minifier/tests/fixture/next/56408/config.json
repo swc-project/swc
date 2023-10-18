@@ -4,6 +4,7 @@
     "inline": false,
     "conditionals": false,
     "sequences": false,
+    "unused": false,
     "keep_classnames": true,
     "keep_fnames": true
 }
