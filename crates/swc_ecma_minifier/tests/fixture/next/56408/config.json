@@ -1,0 +1,7 @@
+{
+    "defaults": true,
+    "toplevel": true,
+    "inline": false,
+    "keep_classnames": true,
+    "keep_fnames": true
+}
