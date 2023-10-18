@@ -112,8 +112,11 @@ impl Optimizer<'_> {
 
     ///
     /// - `"undefined" == typeof value;` => `void 0 === value`
+    /// - `"undefined" != typeof value;` => `void 0 !== value`
+    /// - `"u" < typeof value;` => `void 0 === value`
+    /// - `"u" > typeof value;` => `void 0 !== value`
     pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
-        fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr) -> bool {
+        fn opt(o: &mut Optimizer, l: &mut Expr, r: &mut Expr, op: BinaryOp) -> bool {
             match (&mut *l, &mut *r) {
                 (
                     Expr::Lit(Lit::Str(Str { value: l_v, .. })),
@@ -122,7 +125,7 @@ impl Optimizer<'_> {
                         arg,
                         ..
                     }),
-                ) if &**l_v == "undefined" => {
+                ) if cmp_undefined(&*l_v, op) => {
                     // TODO?
                     if let Expr::Ident(arg) = &**arg {
                         if let Some(usage) = o.data.vars.get(&arg.to_id()) {
@@ -140,17 +143,26 @@ impl Optimizer<'_> {
             }
         }
 
+        fn cmp_undefined(value: &str, op: BinaryOp) -> bool {
+            match op {
+                op!("==") | op!("!=") | op!("===") | op!("!==") => value == "undefined",
+                op!("<") | op!(">") => value == "u",
+                _ => false,
+            }
+        }
+
         match e.op {
-            op!("==") | op!("!=") | op!("===") | op!("!==") => {}
+            op!("==") | op!("!=") | op!("===") | op!("!==") | op!("<") | op!(">") => {}
             _ => return,
         }
 
-        if opt(self, &mut e.left, &mut e.right) || opt(self, &mut e.right, &mut e.left) {
+        if opt(self, &mut e.left, &mut e.right, e.op) || opt(self, &mut e.right, &mut e.left, e.op)
+        {
             e.op = match e.op {
-                op!("==") => {
+                op!("==") | op!("<") => {
                     op!("===")
                 }
-                op!("!=") => {
+                op!("!=") | op!(">") => {
                     op!("!==")
                 }
                 _ => e.op,

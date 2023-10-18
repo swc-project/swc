@@ -271,6 +271,7 @@ impl VisitMut for Pure<'_> {
         self.visit_mut_expr(&mut e.left);
         self.visit_mut_expr(&mut e.right);
 
+        self.compress_typeof_undefined(e);
         self.compress_cmp_with_long_op(e);
 
         if e.op == op!(bin, "+") {

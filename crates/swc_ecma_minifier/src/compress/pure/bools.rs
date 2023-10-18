@@ -127,6 +127,36 @@ impl Pure<'_> {
         }
     }
 
+    /// `"undefined" == typeof a` => `"u" < typeof a`
+    /// `"undefined" != typeof a` => `"u" > typeof a`
+    /// We only handle `undefined` on the left,
+    /// make sure `swap_bin_operands` was called before.
+    pub(super) fn compress_typeof_undefined(&mut self, e: &mut BinExpr) {
+        if !matches!(e.op, op!("===") | op!("!==") | op!("==") | op!("!=")) {
+            return;
+        }
+
+        match (&mut *e.left, &mut *e.right) {
+            (
+                Expr::Lit(Lit::Str(Str { value, raw, .. })),
+                Expr::Unary(UnaryExpr {
+                    op: op!("typeof"), ..
+                }),
+            ) if value == "undefined" => {
+                *value = "u".into();
+                *raw = None;
+                e.op = match e.op {
+                    op!("===") | op!("==") => op!("<"),
+                    op!("!==") | op!("!=") => op!(">"),
+                    _ => unreachable!(),
+                };
+
+                report_change!("bools: Compressing comparison of `typeof` with `undefined`");
+            }
+            _ => {}
+        }
+    }
+
     ///
     /// - `!condition() || !-3.5` => `!condition()`
     ///
