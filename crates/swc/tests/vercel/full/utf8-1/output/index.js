@@ -1,15 +1,15 @@
 /* globals __webpack_hash__ */ import { _ as e } from "@swc/helpers/_/_async_to_generator";
 import { _ as t } from "@swc/helpers/_/_ts_generator";
 import { displayContent as a } from "./fouc";
-import n from "./on-demand-entries-client";
-import { addMessageListener as r, connectHMR as c } from "./error-overlay/websocket";
+import r from "./on-demand-entries-client";
+import { addMessageListener as n, connectHMR as c } from "./error-overlay/websocket";
 var o = JSON.parse(document.getElementById("__NEXT_DATA__").textContent);
 window.__NEXT_DATA__ = o;
 var s = o.assetPrefix, i = o.page;
 s = s || "";
-var _ = null, u = __webpack_hash__, d = s + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
-function p() {
-    return (p = // This function reads code updates on the fly and hard
+var _ = null, u = __webpack_hash__, p = s + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
+function d() {
+    return (d = // This function reads code updates on the fly and hard
     // reloads the page when it has changed.
     e(function() {
         var e, a;
@@ -28,7 +28,7 @@ function p() {
                         5
                     ]), [
                         4,
-                        fetch("undefined" != typeof __webpack_runtime_id__ ? "".concat(d).concat(u, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(d).concat(u, ".hot-update.json"))
+                        fetch("u" > typeof __webpack_runtime_id__ ? "".concat(p).concat(u, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(p).concat(u, ".hot-update.json"))
                     ];
                 case 2:
                     return [
@@ -55,13 +55,13 @@ function p() {
         });
     })).apply(this, arguments);
 }
-r(function(e) {
+n(function(e) {
     if ("\uD83D\uDC93" !== e.data) try {
         var t = JSON.parse(e.data);
         if ("sync" === t.action || "built" === t.action) {
             if (!t.hash) return;
             _ = t.hash, function() {
-                p.apply(this, arguments);
+                d.apply(this, arguments);
             }();
         } else "reloadPage" === t.action && document.location.reload(!0);
     } catch (t) {
@@ -70,4 +70,4 @@ r(function(e) {
 }), c({
     assetPrefix: s,
     path: "/_next/webpack-hmr"
-}), a(), n(o.page);
+}), a(), r(o.page);

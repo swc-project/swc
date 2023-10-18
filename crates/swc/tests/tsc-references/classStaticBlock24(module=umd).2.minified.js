@@ -16,4 +16,4 @@ global = this, factory = function(exports1, _class_call_check) {
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports, require("@swc/helpers/_/_class_call_check")) : "function" == typeof define && define.amd ? define([
     "exports",
     "@swc/helpers/_/_class_call_check"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.classStaticBlock24Ts = {}, global.classCallCheck);
+], factory) : (global = "u" > typeof globalThis ? globalThis : global || self) && factory(global.classStaticBlock24Ts = {}, global.classCallCheck);

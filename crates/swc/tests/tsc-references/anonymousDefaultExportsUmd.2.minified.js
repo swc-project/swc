@@ -13,7 +13,7 @@ global = this, factory = function(exports1) {
     }
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.aTs = {});
+], factory) : (global = "u" > typeof globalThis ? globalThis : global || self) && factory(global.aTs = {});
 //// [b.ts]
 var global, factory;
 global = this, factory = function(exports1) {
@@ -28,4 +28,4 @@ global = this, factory = function(exports1) {
     });
 }, "object" == typeof module && "object" == typeof module.exports ? factory(exports) : "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.bTs = {});
+], factory) : (global = "u" > typeof globalThis ? globalThis : global || self) && factory(global.bTs = {});
