@@ -1855,11 +1855,31 @@ impl Optimizer<'_> {
             }
 
             Expr::New(NewExpr {
-                callee: b_callee, ..
+                callee: b_callee,
+                args: b_args,
+                ..
             }) => {
                 trace_op!("seq: Try callee of new");
                 if self.merge_sequential_expr(a, b_callee)? {
                     return Ok(true);
+                }
+
+                if !self.is_skippable_for_seq(Some(a), b_callee) {
+                    return Ok(false);
+                }
+
+                if let Some(b_args) = b_args {
+                    for arg in b_args {
+                        trace_op!("seq: Try arg of new exp");
+
+                        if self.merge_sequential_expr(a, &mut arg.expr)? {
+                            return Ok(true);
+                        }
+
+                        if !self.is_skippable_for_seq(Some(a), &arg.expr) {
+                            return Ok(false);
+                        }
+                    }
                 }
 
                 return Ok(false);
@@ -2469,6 +2489,10 @@ impl Optimizer<'_> {
     /// 1, arr[i]`
     //
     fn should_not_check_rhs_of_assign(&self, a: &Mergable, b: &mut AssignExpr) -> Result<bool, ()> {
+        if b.op.may_short_circuit() {
+            return Ok(true);
+        }
+
         if let Some(a_id) = a.id() {
             match a {
                 Mergable::Expr(Expr::Assign(AssignExpr { op: op!("="), .. })) => {}

@@ -1869,9 +1869,9 @@
             }
             function Hn(t, e) {
                 var t1;
-                return t1 = t.databaseId, new ht([
+                return new ht([
                     "projects",
-                    t1.projectId,
+                    (t1 = t.databaseId).projectId,
                     "databases",
                     t1.database
                 ]).child("documents").child(e).canonicalString();
@@ -2359,8 +2359,7 @@
                     const s = e.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            var e1;
-                            const o = (e1 = r.child(s), new fe(e1, null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt));
+                            const o = new fe(r.child(s), null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt);
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -2508,20 +2507,20 @@
                         query: function(t) {
                             var e;
                             const e1 = function(t) {
-                                var t1, t2, e, n, s, i, o, c;
-                                let e1, e2 = function(t) {
+                                var t1;
+                                let e, e1 = function(t) {
                                     const e = Wn(t);
                                     return 4 === e.length ? ht.emptyPath() : Xn(e);
                                 }(t.parent);
-                                const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
-                                let i1 = null;
-                                if (s1 > 0) {
-                                    1 === s1 || L();
-                                    const t = n1.from[0];
-                                    t.allDescendants ? i1 = t.collectionId : e2 = e2.child(t.collectionId);
+                                const n = t.structuredQuery, s = n.from ? n.from.length : 0;
+                                let i = null;
+                                if (s > 0) {
+                                    1 === s || L();
+                                    const t = n.from[0];
+                                    t.allDescendants ? i = t.collectionId : e1 = e1.child(t.collectionId);
                                 }
                                 let r = [];
-                                n1.where && (r = function hs(t) {
+                                n.where && (r = function hs(t) {
                                     return t ? void 0 !== t.unaryFilter ? [
                                         function(t) {
                                             switch(t.unaryFilter.op){
@@ -2577,9 +2576,9 @@
                                             }
                                         }(t.fieldFilter.op), t.fieldFilter.value)
                                     ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                }(n1.where));
-                                let o1 = [];
-                                n1.orderBy && (o1 = n1.orderBy.map((t)=>new ae(ms(t.field), function(t) {
+                                }(n.where));
+                                let o = [];
+                                n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), function(t) {
                                         switch(t){
                                             case "ASCENDING":
                                                 return "asc";
@@ -2589,12 +2588,12 @@
                                                 return;
                                         }
                                     }(t.direction))));
-                                let c1 = null;
-                                n1.limit && (c1 = At(e1 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e1);
+                                let c = null;
+                                n.limit && (c = At(e = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e);
                                 let a = null;
-                                n1.startAt && (a = fs(n1.startAt));
+                                n.startAt && (a = fs(n.startAt));
                                 let u = null;
-                                return n1.endAt && (u = fs(n1.endAt)), t2 = e2, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
+                                return n.endAt && (u = fs(n.endAt)), new fe(e1, i, o, r, c, "F", a, u);
                             }({
                                 parent: t.parent,
                                 structuredQuery: t.structuredQuery
@@ -2896,8 +2895,7 @@
             }
             class Cr {
                 constructor(t, e){
-                    var t1;
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, new Vr(t1, (t)=>this.referenceDelegate.Ps(t))), this.N = new ri(e), this.Je = new Rr(this.N);
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = new Vr(this.Ht, (t)=>this.referenceDelegate.Ps(t)), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -4162,11 +4160,10 @@
             }
             function yc(t) {
                 for(; t.Mo.size > 0 && t.Lo.size < t.maxConcurrentLimboResolutions;){
-                    var t1;
                     const e = t.Mo.values().next().value;
                     t.Mo.delete(e);
                     const n = new Pt(ht.fromString(e)), s = t.jo.next();
-                    t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee((t1 = n.path, new fe(t1))), s, 2, X.T));
+                    t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee(new fe(n.path)), s, 2, X.T));
                 }
             }
             async function pc(t, e, n) {
@@ -4225,15 +4222,13 @@
                     this.synchronizeTabs = !1;
                 }
                 async initialize(t) {
-                    var t1;
-                    this.N = (t1 = t.databaseInfo.databaseId, new Bn(t1, !0)), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
+                    this.N = new Bn(t.databaseInfo.databaseId, !0), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
                 }
                 Yo(t) {
                     return null;
                 }
                 Xo(t) {
-                    var t1, e, n, s;
-                    return t1 = this.persistence, e = new cr(), n = t.initialUser, s = this.N, new ar(t1, e, n, s);
+                    return new ar(this.persistence, new cr(), t.initialUser, this.N);
                 }
                 Jo(t) {
                     return new Cr(xr.Ns, this.N);
@@ -4253,13 +4248,11 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1, t2;
-                    const e = (t1 = t.databaseInfo.databaseId, new Bn(t1, !0)), n = (s = t.databaseInfo, new zr(s));
-                    return t2 = t.credentials, new no(t2, n, e);
+                    const e = new Bn(t.databaseInfo.databaseId, !0), n = new zr(t.databaseInfo);
+                    return new no(t.credentials, n, e);
                 }
                 createRemoteStore(t) {
-                    var e, n, s, r;
-                    return e = this.localStore, n = this.datastore, s = t.asyncQueue, r = Qr.bt() ? new Qr() : new jr(), new io(e, n, s, (t)=>cc(this.syncEngine, t, 0), r);
+                    return new io(this.localStore, this.datastore, t.asyncQueue, (t)=>cc(this.syncEngine, t, 0), Qr.bt() ? new Qr() : new jr());
                 }
                 createSyncEngine(t, e) {
                     return function(t, e, n, s, i, r, o) {
@@ -4631,8 +4624,8 @@
                 }
             }
             function Ma(t) {
-                var e, t1, e1, n;
-                const n1 = t._freezeSettings(), s = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, new ua(t1, e1, n, n1.host, n1.ssl, n1.experimentalForceLongPolling, n1.experimentalAutoDetectLongPolling, n1.useFetchStreams));
+                var e;
+                const n = t._freezeSettings(), s = new ua(t._databaseId, (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             class Ja {

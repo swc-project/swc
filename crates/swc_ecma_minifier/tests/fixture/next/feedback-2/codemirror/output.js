@@ -2864,7 +2864,7 @@
             if (!(this.children.length <= 10)) {
                 var me = this;
                 do {
-                    var spilled = me.children.splice(me.children.length - 5, 5), sibling = new BranchChunk(spilled);
+                    var sibling = new BranchChunk(me.children.splice(me.children.length - 5, 5));
                     if (me.parent) {
                         me.size -= sibling.size, me.height -= sibling.height;
                         var myIndex = indexOf(me.parent.children, me);

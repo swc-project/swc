@@ -229,7 +229,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.3.94-nightly-20231017.1"
+version = "1.3.94-nightly-20231018.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -289,7 +289,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.3.94-nightly-20231017.1"
+version = "1.3.94-nightly-20231018.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2953,7 +2953,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.85"
+version = "0.91.86"
 dependencies = [
  "anyhow",
  "swc_cli_impl",

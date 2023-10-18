@@ -4582,8 +4582,8 @@
                 }, t.allocateGSInstance = function(e) {
                     return this.gs[e] = (this.gs[e] || 0) + 1;
                 }, t.getTag = function() {
-                    var e, t, n, r, o;
-                    return this.tag || (this.tag = (n = (t = this.options).isServer, r = t.useCSSOMInjection, o = t.target, e = n ? new U(o) : r ? new $(o) : new W(o), new T(e)));
+                    var t, n, r, o;
+                    return this.tag || (this.tag = (n = (t = this.options).isServer, r = t.useCSSOMInjection, o = t.target, new T(n ? new U(o) : r ? new $(o) : new W(o))));
                 }, t.hasNameForId = function(e, t) {
                     return this.names.has(e) && this.names.get(e).has(t);
                 }, t.registerName = function(e, t) {

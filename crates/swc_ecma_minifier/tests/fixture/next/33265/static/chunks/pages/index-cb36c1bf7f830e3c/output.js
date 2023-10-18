@@ -4534,7 +4534,7 @@
                     font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
                 };
                 !function() {
-                    for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
+                    for(var styleBox, cue, i = 0; i < cues.length; i++)styleBox = new CueStyleBox(window1, cue = cues[i], styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
                         var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
                             if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                             if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
