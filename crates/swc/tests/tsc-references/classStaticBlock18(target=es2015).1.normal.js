@@ -5,8 +5,6 @@ function foo() {
     }, _class.foo = 1, (()=>{
         var _class;
         const c = (_class = class {
-        }, _class.bar = 2, (()=>{
-        // do
-        })(), _class);
+        }, _class.bar = 2, _class);
     })(), _class;
 }
