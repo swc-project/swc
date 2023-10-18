@@ -1,5 +1,5 @@
 import { D, F, y, b as s } from "../index.f66dda46.js";
-var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK = "L", TEMPLATE = "P", SCRIPT = "S", applyTitleTemplate = function(title, template) {
+var isServerSide = "u" < typeof document, META = "M", TITLE = "T", LINK = "L", TEMPLATE = "P", SCRIPT = "S", applyTitleTemplate = function(title, template) {
     return template ? template.replace(/%s/g, title || "") : title;
 }, changeOrCreateMetaTag = function(meta) {
     var result = document.head.querySelectorAll(meta.charset ? "meta[" + meta.keyword + "]" : "meta[" + meta.keyword + '="' + meta[meta.keyword] + '"]');

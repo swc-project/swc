@@ -725,7 +725,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0;
-            const requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
+            const requestIdleCallback = "u" > typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
                 let start = Date.now();
                 return setTimeout(function() {
                     cb({
@@ -737,7 +737,7 @@
                 }, 1);
             };
             exports.requestIdleCallback = requestIdleCallback;
-            const cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
+            const cancelIdleCallback = "u" > typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
                 return clearTimeout(id);
             };
             exports.cancelIdleCallback = cancelIdleCallback, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
@@ -2863,7 +2863,7 @@
                 })).apply(this, arguments);
             }
             exports.isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
-            const SP = "undefined" != typeof performance;
+            const SP = "u" > typeof performance;
             exports.SP = SP;
             const ST = SP && [
                 "mark",
@@ -2896,7 +2896,7 @@
             }, n.o = function(n, y) {
                 return Object.prototype.hasOwnProperty.call(n, y);
             }, n.r = function(n) {
-                "undefined" != typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
+                "u" > typeof Symbol && Symbol.toStringTag && Object.defineProperty(n, Symbol.toStringTag, {
                     value: "Module"
                 }), Object.defineProperty(n, "__esModule", {
                     value: !0

@@ -6,10 +6,10 @@
         4444: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             function getUA() {
-                return "undefined" != typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
+                return "u" > typeof navigator && "string" == typeof navigator.userAgent ? navigator.userAgent : "";
             }
             function isMobileCordova() {
-                return "undefined" != typeof window && !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
+                return "u" > typeof window && !!(window.cordova || window.phonegap || window.PhoneGap) && /ios|iphone|ipod|ipad|android|blackberry|iemobile/i.test(getUA());
             }
             function isBrowserExtension() {
                 const runtime = "object" == typeof chrome ? chrome.runtime : "object" == typeof browser ? browser.runtime : void 0;
@@ -107,7 +107,7 @@
                     return getStatEventTarget;
                 }
             });
-            var a, x, Na, Ab, cc, k, commonjsGlobal = "undefined" != typeof globalThis ? globalThis : "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
+            var a, x, Na, Ab, cc, k, commonjsGlobal = "u" > typeof globalThis ? globalThis : "u" > typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "u" > typeof self ? self : {}, esm = {}, goog = goog || {}, l = commonjsGlobal || self;
             function aa() {}
             function ba(a) {
                 var b = typeof a;
@@ -850,7 +850,7 @@
                                 a = "";
                                 var e = d.length, f = 4 == O(this.g);
                                 if (!this.h.i) {
-                                    if ("undefined" == typeof TextDecoder) {
+                                    if ("u" < typeof TextDecoder) {
                                         P(this), rc(this);
                                         var h = "";
                                         break b;
@@ -2128,7 +2128,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         },
         6978: function(__unused_webpack_module, exports) {
             "use strict";

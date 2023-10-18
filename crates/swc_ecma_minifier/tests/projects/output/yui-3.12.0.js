@@ -2,7 +2,7 @@ void 0 !== YUI && (YUI._YUI = YUI);
 var YUI = function() {
     var i = 0, Y = this, args = arguments, l = args.length, instanceOf = function(o, type) {
         return o && o.hasOwnProperty && o instanceof type;
-    }, gconf = "undefined" != typeof YUI_config && YUI_config;
+    }, gconf = "u" > typeof YUI_config && YUI_config;
     if (instanceOf(Y, YUI) ? (Y._init(), YUI.GlobalConfig && Y.applyConfig(YUI.GlobalConfig), gconf && Y.applyConfig(gconf), l || Y._setup()) : Y = new YUI(), l) {
         for(; i < l; i++)Y.applyConfig(args[i]);
         Y._setup();
@@ -14,7 +14,7 @@ var YUI = function() {
         "io.xdrReady": 1,
         "io.xdrResponse": 1,
         "SWF.eventHandler": 1
-    }, hasWin = "undefined" != typeof window, win = hasWin ? window : null, doc = hasWin ? win.document : null, docEl = doc && doc.documentElement, docClass = docEl && docEl.className, instances = {}, time = new Date().getTime(), add = function(el, type, fn, capture) {
+    }, hasWin = "u" > typeof window, win = hasWin ? window : null, doc = hasWin ? win.document : null, docEl = doc && doc.documentElement, docClass = docEl && docEl.className, instances = {}, time = new Date().getTime(), add = function(el, type, fn, capture) {
         el && el.addEventListener ? el.addEventListener(type, fn, capture) : el && el.attachEvent && el.attachEvent("on" + type, fn);
     }, remove = function(el, type, fn, capture) {
         if (el && el.removeEventListener) try {
@@ -549,7 +549,7 @@ var YUI = function() {
             secure: !1,
             os: null,
             nodejs: 0,
-            winjs: !!("undefined" != typeof Windows && Windows.System),
+            winjs: !!("u" > typeof Windows && Windows.System),
             touchEnabled: !1
         }, ua = subUA || nav && nav.userAgent, loc = win && win.location, href = loc && loc.href;
         return o.userAgent = ua, o.secure = href && 0 === href.toLowerCase().indexOf("https"), ua && (/windows|win32/i.test(ua) ? o.os = "windows" : /macintosh|mac_powerpc/i.test(ua) ? o.os = "macintosh" : /android/i.test(ua) ? o.os = "android" : /symbos/i.test(ua) ? o.os = "symbos" : /linux/i.test(ua) ? o.os = "linux" : /rhino/i.test(ua) && (o.os = "rhino"), /KHTML/.test(ua) && (o.webkit = 1), /IEMobile|XBLWP7/.test(ua) && (o.mobile = "windows"), /Fennec/.test(ua) && (o.mobile = "gecko"), (m = ua.match(/AppleWebKit\/([^\s]*)/)) && m[1] && (o.webkit = numberify(m[1]), o.safari = o.webkit, /PhantomJS/.test(ua) && (m = ua.match(/PhantomJS\/([^\s]*)/)) && m[1] && (o.phantomjs = numberify(m[1])), / Mobile\//.test(ua) || /iPad|iPod|iPhone/.test(ua) ? (o.mobile = "Apple", (m = ua.match(/OS ([^\s]*)/)) && m[1] && (m = numberify(m[1].replace("_", "."))), o.ios = m, o.os = "ios", o.ipad = o.ipod = o.iphone = 0, (m = ua.match(/iPad|iPod|iPhone/)) && m[0] && (o[m[0].toLowerCase()] = o.ios)) : ((m = ua.match(/NokiaN[^\/]*|webOS\/\d\.\d/)) && (o.mobile = m[0]), /webOS/.test(ua) && (o.mobile = "WebOS", (m = ua.match(/webOS\/([^\s]*);/)) && m[1] && (o.webos = numberify(m[1]))), / Android/.test(ua) && (/Mobile/.test(ua) && (o.mobile = "Android"), (m = ua.match(/Android ([^\s]*);/)) && m[1] && (o.android = numberify(m[1]))), /Silk/.test(ua) && ((m = ua.match(/Silk\/([^\s]*)\)/)) && m[1] && (o.silk = numberify(m[1])), o.android || (o.android = 2.34, o.os = "Android"), /Accelerated=true/.test(ua) && (o.accel = !0))), (m = ua.match(/OPR\/(\d+\.\d+)/)) && m[1] ? o.opera = numberify(m[1]) : (m = ua.match(/(Chrome|CrMo|CriOS)\/([^\s]*)/)) && m[1] && m[2] ? (o.chrome = numberify(m[2]), o.safari = 0, "CrMo" === m[1] && (o.mobile = "chrome")) : (m = ua.match(/AdobeAIR\/([^\s]*)/)) && (o.air = m[0])), !o.webkit && (/Opera/.test(ua) ? ((m = ua.match(/Opera[\s\/]([^\s]*)/)) && m[1] && (o.opera = numberify(m[1])), (m = ua.match(/Version\/([^\s]*)/)) && m[1] && (o.opera = numberify(m[1])), /Opera Mobi/.test(ua) && (o.mobile = "opera", (m = ua.replace("Opera Mobi", "").match(/Opera ([^\s]*)/)) && m[1] && (o.opera = numberify(m[1]))), (m = ua.match(/Opera Mini[^;]*/)) && (o.mobile = m[0])) : (m = ua.match(/MSIE ([^;]*)|Trident.*; rv:([0-9.]+)/)) && (m[1] || m[2]) ? o.ie = numberify(m[1] || m[2]) : (m = ua.match(/Gecko\/([^\s]*)/)) && (o.gecko = 1, (m = ua.match(/rv:([^\s\)]*)/)) && m[1] && (o.gecko = numberify(m[1]), /Mobile|Tablet/.test(ua) && (o.mobile = "ffos"))))), win && nav && !(o.chrome && o.chrome < 6) && (o.touchEnabled = "ontouchstart" in win || "msMaxTouchPoints" in nav && nav.msMaxTouchPoints > 0), subUA || ("object" == typeof process && process.versions && process.versions.node && (o.os = process.platform, o.nodejs = numberify(process.versions.node)), YUI.Env.UA = o), o;

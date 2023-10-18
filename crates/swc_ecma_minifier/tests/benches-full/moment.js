@@ -1,5 +1,5 @@
 !function(global, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : global.moment = factory();
+    'object' == typeof exports && "u" > typeof module ? module.exports = factory() : 'function' == typeof define && define.amd ? define(factory) : global.moment = factory();
 }(this, function() {
     'use strict';
     function hooks() {
@@ -93,7 +93,7 @@
         return obj instanceof Moment || null != obj && null != obj._isAMomentObject;
     }
     function warn(msg) {
-        !1 === hooks.suppressDeprecationWarnings && 'undefined' != typeof console && console.warn && console.warn('Deprecation warning: ' + msg);
+        !1 === hooks.suppressDeprecationWarnings && "u" > typeof console && console.warn && console.warn('Deprecation warning: ' + msg);
     }
     function deprecate(msg, fn) {
         var firstTime = !0;
@@ -117,7 +117,7 @@
         null != hooks.deprecationHandler && hooks.deprecationHandler(name, msg), deprecations[name] || (warn(msg), deprecations[name] = !0);
     }
     function isFunction(input) {
-        return 'undefined' != typeof Function && input instanceof Function || '[object Function]' === Object.prototype.toString.call(input);
+        return "u" > typeof Function && input instanceof Function || '[object Function]' === Object.prototype.toString.call(input);
     }
     function mergeConfigs(parentConfig, childConfig) {
         var prop, res = extend({}, parentConfig);
@@ -536,7 +536,7 @@
     }
     function loadLocale(name) {
         var oldLocale = null;
-        if (void 0 === locales[name] && 'undefined' != typeof module && module && module.exports) try {
+        if (void 0 === locales[name] && "u" > typeof module && module && module.exports) try {
             oldLocale = globalLocale._abbr, require('./locale/' + name), getSetGlobalLocale(oldLocale);
         } catch (e) {
             locales[name] = null;
@@ -545,7 +545,7 @@
     }
     function getSetGlobalLocale(key, values) {
         var data;
-        return key && ((data = isUndefined(values) ? getLocale(key) : defineLocale(key, values)) ? globalLocale = data : 'undefined' != typeof console && console.warn && console.warn('Locale ' + key + ' not found. Did you forget to load it?')), globalLocale._abbr;
+        return key && ((data = isUndefined(values) ? getLocale(key) : defineLocale(key, values)) ? globalLocale = data : "u" > typeof console && console.warn && console.warn('Locale ' + key + ' not found. Did you forget to load it?')), globalLocale._abbr;
     }
     function defineLocale(name, config) {
         if (null === config) return delete locales[name], null;
@@ -1392,7 +1392,7 @@
         if (!this.isValid()) return 'moment.invalid(/* ' + this._i + ' */)';
         var prefix, year, suffix, func = 'moment', zone = '';
         return this.isLocal() || (func = 0 === this.utcOffset() ? 'moment.utc' : 'moment.parseZone', zone = 'Z'), prefix = '[' + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? 'YYYY' : 'YYYYYY', suffix = zone + '[")]', this.format(prefix + year + '-MM-DD[T]HH:mm:ss.SSS' + suffix);
-    }, 'undefined' != typeof Symbol && null != Symbol.for && (proto[Symbol.for('nodejs.util.inspect.custom')] = function() {
+    }, "u" > typeof Symbol && null != Symbol.for && (proto[Symbol.for('nodejs.util.inspect.custom')] = function() {
         return 'Moment<' + this.format() + '>';
     }), proto.toJSON = function() {
         return this.isValid() ? this.toISOString() : null;

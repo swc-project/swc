@@ -198,7 +198,7 @@
                     let n = "";
                     for(; n.length < 20;){
                         const s = function(t) {
-                            const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
+                            const e = "u" > typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
                             if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
                             else for(let e = 0; e < t; e++)n[e] = Math.floor(256 * Math.random());
                             return n;
@@ -3071,7 +3071,7 @@
                     for (const t of ($("ConnectivityMonitor", "Network connectivity changed: UNAVAILABLE"), this.bi))t(1);
                 }
                 static bt() {
-                    return "undefined" != typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
+                    return "u" > typeof window && void 0 !== window.addEventListener && void 0 !== window.removeEventListener;
                 }
             }
             const Wr = {
@@ -3246,7 +3246,7 @@
                 }
             }
             function Jr() {
-                return "undefined" != typeof document ? document : null;
+                return "u" > typeof document ? document : null;
             }
             class Xr {
                 constructor(t, e, n = 1e3, s = 1.5, i = 6e4){

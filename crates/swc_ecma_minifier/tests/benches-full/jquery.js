@@ -4,7 +4,7 @@
         if (!w.document) throw Error("jQuery requires a window with a document");
         return factory(w);
     } : factory(global);
-}("undefined" != typeof window ? window : this, function(window1, noGlobal) {
+}("u" > typeof window ? window : this, function(window1, noGlobal) {
     "use strict";
     var body, arr = [], getProto = Object.getPrototypeOf, slice = arr.slice, flat = arr.flat ? function(array) {
         return arr.flat.call(array);

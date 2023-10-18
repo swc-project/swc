@@ -175,10 +175,10 @@
                         };
                     },
                     requestAnimationFrame: function requestAnimationFrame(callback) {
-                        return "undefined" == typeof setTimeout ? (callback(), null) : setTimeout(callback, 0);
+                        return "u" < typeof setTimeout ? (callback(), null) : setTimeout(callback, 0);
                     },
                     cancelAnimationFrame: function cancelAnimationFrame(id) {
-                        "undefined" != typeof setTimeout && clearTimeout(id);
+                        "u" > typeof setTimeout && clearTimeout(id);
                     },
                     setTimeout: function setTimeout1() {
                         return 0;

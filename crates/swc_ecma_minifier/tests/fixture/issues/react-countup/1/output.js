@@ -519,7 +519,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         },
         6978: function(__unused_webpack_module, exports) {
             "use strict";
@@ -631,7 +631,7 @@
                 }
                 return target;
             }
-            var useIsomorphicLayoutEffect = "undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement ? React.useLayoutEffect : React.useEffect;
+            var useIsomorphicLayoutEffect = "u" > typeof window && void 0 !== window.document && void 0 !== window.document.createElement ? React.useLayoutEffect : React.useEffect;
             function useEventCallback(fn) {
                 var ref = React.useRef(fn);
                 return useIsomorphicLayoutEffect(function() {

@@ -1,5 +1,5 @@
 !function(global, factory) {
-    "object" == typeof exports && "undefined" != typeof module ? factory(exports, require("react")) : "function" == typeof define && define.amd ? define([
+    "object" == typeof exports && "u" > typeof module ? factory(exports, require("react")) : "function" == typeof define && define.amd ? define([
         "exports",
         "react"
     ], factory) : factory((global = global || self).ReactDOM = {}, global.React);
@@ -33,7 +33,7 @@
         registrationNameDependencies[registrationName] && error("EventRegistry: More than one plugin attempted to publish the same registration name, `%s`.", registrationName), registrationNameDependencies[registrationName] = dependencies, possibleRegistrationNames[registrationName.toLowerCase()] = registrationName, "onDoubleClick" === registrationName && (possibleRegistrationNames.ondblclick = registrationName);
         for(var i = 0; i < dependencies.length; i++)allNativeEvents.add(dependencies[i]);
     }
-    var canUseDOM = !!("undefined" != typeof window && void 0 !== window.document && void 0 !== window.document.createElement), ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {}, validatedAttributeNameCache = {};
+    var canUseDOM = !!("u" > typeof window && void 0 !== window.document && void 0 !== window.document.createElement), ATTRIBUTE_NAME_START_CHAR = ":A-Z_a-z\\u00C0-\\u00D6\\u00D8-\\u00F6\\u00F8-\\u02FF\\u0370-\\u037D\\u037F-\\u1FFF\\u200C-\\u200D\\u2070-\\u218F\\u2C00-\\u2FEF\\u3001-\\uD7FF\\uF900-\\uFDCF\\uFDF0-\\uFFFD", ATTRIBUTE_NAME_CHAR = ATTRIBUTE_NAME_START_CHAR + "\\-.0-9\\u00B7\\u0300-\\u036F\\u203F-\\u2040", ROOT_ATTRIBUTE_NAME = "data-reactroot", VALID_ATTRIBUTE_NAME_REGEX = RegExp("^[" + ATTRIBUTE_NAME_START_CHAR + "][" + ATTRIBUTE_NAME_CHAR + "]*$"), hasOwnProperty = Object.prototype.hasOwnProperty, illegalAttributeNameCache = {}, validatedAttributeNameCache = {};
     function isAttributeNameSafe(attributeName) {
         return !!hasOwnProperty.call(validatedAttributeNameCache, attributeName) || !hasOwnProperty.call(illegalAttributeNameCache, attributeName) && (VALID_ATTRIBUTE_NAME_REGEX.test(attributeName) ? (validatedAttributeNameCache[attributeName] = !0, !0) : (illegalAttributeNameCache[attributeName] = !0, error("Invalid attribute name: `%s`", attributeName), !1));
     }
@@ -612,7 +612,7 @@
         return nextValue !== lastValue && (tracker.setValue(nextValue), !0);
     }
     function getActiveElement(doc) {
-        if (void 0 === (doc = doc || ("undefined" != typeof document ? document : void 0))) return null;
+        if (void 0 === (doc = doc || ("u" > typeof document ? document : void 0))) return null;
         try {
             return doc.activeElement || doc.body;
         } catch (e) {
@@ -795,7 +795,7 @@
             return;
         }
         node.innerHTML = html;
-    }, "undefined" != typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
+    }, "u" > typeof MSApp && MSApp.execUnsafeLocalFunction ? function(arg0, arg1, arg2, arg3) {
         MSApp.execUnsafeLocalFunction(function() {
             return func(arg0, arg1, arg2, arg3);
         });
@@ -1866,10 +1866,10 @@
         }
     }
     var invokeGuardedCallbackImpl = invokeGuardedCallbackProd;
-    if ("undefined" != typeof window && "function" == typeof window.dispatchEvent && "undefined" != typeof document && "function" == typeof document.createEvent) {
+    if ("u" > typeof window && "function" == typeof window.dispatchEvent && "u" > typeof document && "function" == typeof document.createEvent) {
         var fakeNode = document.createElement("react");
         invokeGuardedCallbackImpl = function(name, func, context, a, b, c, d, e, f) {
-            if (!("undefined" != typeof document)) throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
+            if (!("u" > typeof document)) throw Error("The `document` global was defined when React was initialized, but is not defined anymore. This can happen in a test environment if a component schedules an update from an asynchronous callback, but the test has already finished running. To solve this, you can either unmount the component at the end of your test (and ensure that any asynchronous operations get canceled in `componentWillUnmount`), or you can change the test itself to be asynchronous.");
             var error, evt = document.createEvent("Event"), didCall = !1, didError = !0, windowEvent = window.event, windowEventDescriptor = Object.getOwnPropertyDescriptor(window, "event");
             function restoreAfterDispatch() {
                 fakeNode.removeEventListener(evtType, callCallback, !1), void 0 !== window.event && window.hasOwnProperty("event") && (window.event = windowEvent);
@@ -4035,7 +4035,7 @@
             instance.__reactInternalMemoizedMergedChildContext = mergedContext, pop(didPerformWorkStackCursor, workInProgress), pop(contextStackCursor, workInProgress), push(contextStackCursor, mergedContext, workInProgress), push(didPerformWorkStackCursor, didChange, workInProgress);
         } else pop(didPerformWorkStackCursor, workInProgress), push(didPerformWorkStackCursor, didChange, workInProgress);
     }
-    var rendererID = null, injectedHook = null, hasLoggedError = !1, isDevToolsPresent = "undefined" != typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
+    var rendererID = null, injectedHook = null, hasLoggedError = !1, isDevToolsPresent = "u" > typeof __REACT_DEVTOOLS_GLOBAL_HOOK__;
     if (!(null != __interactionsRef && null != __interactionsRef.current)) throw Error("It is not supported to run the profiling version of a renderer (for example, `react-dom/profiling`) without also replacing the `scheduler/tracing` module with `scheduler/tracing-profiling`. Your bundler might have a setting for aliasing both modules. Learn more at https://reactjs.org/link/profiling");
     var fakeCallbackNode = {}, requestPaint = void 0 !== unstable_requestPaint ? unstable_requestPaint : function() {}, syncQueue = null, immediateQueueCallbackNode = null, isFlushingSyncQueue = !1, initialTimeMs$1 = unstable_now(), now = initialTimeMs$1 < 10000 ? unstable_now : function() {
         return unstable_now() - initialTimeMs$1;
@@ -5367,10 +5367,10 @@
         currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, destroy, nextDeps);
     }
     function mountEffect(create, deps) {
-        return "undefined" != typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), mountEffectImpl(516, 4, create, deps);
+        return "u" > typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), mountEffectImpl(516, 4, create, deps);
     }
     function updateEffect(create, deps) {
-        return "undefined" != typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), updateEffectImpl(516, 4, create, deps);
+        return "u" > typeof jest && warnIfNotCurrentlyActingEffectsInDEV(currentlyRenderingFiber$1), updateEffectImpl(516, 4, create, deps);
     }
     function mountLayoutEffect(create, deps) {
         return mountEffectImpl(4, 2, create, deps);
@@ -5564,7 +5564,7 @@
                     }
                 }
             }
-            "undefined" != typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
+            "u" > typeof jest && (warnIfNotScopedWithMatchingAct(fiber), warnIfNotCurrentlyActingUpdatesInDev(fiber)), scheduleUpdateOnFiber(fiber, lane, eventTime);
         }
     }
     var ContextOnlyDispatcher = {
@@ -8811,7 +8811,7 @@
             }
         }(container, element);
         var current$1 = container.current, eventTime = requestEventTime();
-        "undefined" != typeof jest && (!1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & current$1.mode || 4 & current$1.mode) && (didWarnAboutUnmockedScheduler = !0, error("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
+        "u" > typeof jest && (!1 === didWarnAboutUnmockedScheduler && void 0 === unstable_flushAllWithoutAsserting && (2 & current$1.mode || 4 & current$1.mode) && (didWarnAboutUnmockedScheduler = !0, error("In Concurrent or Sync modes, the \"scheduler\" module needs to be mocked to guarantee consistent behaviour across tests and browsers. For example, with jest: \njest.mock('scheduler', () => require('scheduler/unstable_mock'));\n\nFor more info, visit https://reactjs.org/link/mock-scheduler")), warnIfNotScopedWithMatchingAct(current$1));
         var lane = requestUpdateLane(current$1), context = function(parentComponent) {
             if (!parentComponent) return emptyContextObject;
             var fiber = get(parentComponent), parentContext = function(fiber) {
@@ -9103,7 +9103,7 @@
         version: ReactVersion,
         rendererPackageName: "react-dom"
     }).findFiberByHostInstance, ReactCurrentDispatcher = ReactSharedInternals.ReactCurrentDispatcher, !function(internals) {
-        if ("undefined" == typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
+        if ("u" < typeof __REACT_DEVTOOLS_GLOBAL_HOOK__) return !1;
         var hook = __REACT_DEVTOOLS_GLOBAL_HOOK__;
         if (hook.isDisabled) return !0;
         if (!hook.supportsFiber) return error("The installed version of React DevTools is too old and will not work with the current version of React. Please update React DevTools. https://reactjs.org/link/react-devtools"), !0;

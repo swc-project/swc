@@ -5,9 +5,9 @@
     {
         3239: function(module, __unused_webpack_exports, __webpack_require__) {
             var global, define, _require, require, normalizeModule, lookup, root;
-            module = __webpack_require__.nmd(module), (global = function() {
+            module = __webpack_require__.nmd(module), !(global = function() {
                 return this;
-            }()) || "undefined" == typeof window || (global = window), (define = function(module, deps, payload) {
+            }()) && "u" > typeof window && (global = window), (define = function(module, deps, payload) {
                 if ("string" != typeof module) {
                     define.original ? define.original.apply(this, arguments) : (console.error("dropping module because define wasn't a string."), console.trace());
                     return;
@@ -62,7 +62,7 @@
                 "module"
             ], function(require, exports, module) {
                 "use strict";
-                "undefined" == typeof Element || Element.prototype.remove || Object.defineProperty(Element.prototype, "remove", {
+                "u" > typeof Element && !Element.prototype.remove && Object.defineProperty(Element.prototype, "remove", {
                     enumerable: !1,
                     writable: !0,
                     configurable: !0,
@@ -159,7 +159,7 @@
                     });
                 }
                 function importCssString(cssText, id, target) {
-                    if ("undefined" != typeof document) {
+                    if (!("u" < typeof document)) {
                         if (cssCache) {
                             if (target) insertPendingStyles();
                             else if (!1 === target) return cssCache.push([
@@ -203,7 +203,7 @@
                     return window.getComputedStyle(element, "") || {};
                 }, exports.setStyle = function(styles, property, value) {
                     styles[property] !== value && (styles[property] = value);
-                }, exports.HAS_CSS_ANIMATION = !1, exports.HAS_CSS_TRANSFORMS = !1, exports.HI_DPI = !useragent.isWin || "undefined" != typeof window && window.devicePixelRatio >= 1.5, useragent.isChromeOS && (exports.HI_DPI = !1), "undefined" != typeof document) {
+                }, exports.HAS_CSS_ANIMATION = !1, exports.HAS_CSS_TRANSFORMS = !1, exports.HI_DPI = !useragent.isWin || "u" > typeof window && window.devicePixelRatio >= 1.5, useragent.isChromeOS && (exports.HI_DPI = !1), "u" > typeof document) {
                     var div = document.createElement("div");
                     exports.HI_DPI && void 0 !== div.style.transform && (exports.HAS_CSS_TRANSFORMS = !0), useragent.isEdge || void 0 === div.style.animationName || (exports.HAS_CSS_ANIMATION = !0), div = null;
                 }
@@ -1702,7 +1702,7 @@
                     }
                 };
                 function warn(message) {
-                    "undefined" != typeof console && console.warn && console.warn.apply(console, arguments);
+                    "u" > typeof console && console.warn && console.warn.apply(console, arguments);
                 }
                 function reportError(msg, data) {
                     var e = Error(msg);
@@ -1754,7 +1754,7 @@
                 var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
                 module.exports = exports = new AppConfig();
                 var global = function() {
-                    return this || "undefined" != typeof window && window;
+                    return this || "u" > typeof window && window;
                 }(), options = {
                     packaged: !1,
                     workerPath: null,
@@ -6596,7 +6596,7 @@
                         };
                         for(var hashId = 0, i = parts.length; i--;){
                             var modifier = keyUtil.KEY_MODS[parts[i]];
-                            if (null == modifier) return "undefined" != typeof console && console.error("invalid modifier " + parts[i] + " in " + keys), !1;
+                            if (null == modifier) return "u" > typeof console && console.error("invalid modifier " + parts[i] + " in " + keys), !1;
                             hashId |= modifier;
                         }
                         return {
@@ -11039,7 +11039,7 @@ margin: 0 10px;\
                 "use strict";
                 var oop = require("../lib/oop"), net = require("../lib/net"), EventEmitter = require("../lib/event_emitter").EventEmitter, config = require("../config");
                 function createWorker(workerUrl) {
-                    if ("undefined" == typeof Worker) return {
+                    if ("u" < typeof Worker) return {
                         postMessage: function() {},
                         terminate: function() {}
                     };

@@ -1,8 +1,8 @@
 !function(global1, factory) {
-    'object' == typeof exports && 'undefined' != typeof module ? factory(exports, require('source-map')) : 'function' == typeof define && define.amd ? define([
+    'object' == typeof exports && "u" > typeof module ? factory(exports, require('source-map')) : 'function' == typeof define && define.amd ? define([
         'exports',
         'source-map'
-    ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).Terser = {}, global1.sourceMap);
+    ], factory) : factory((global1 = "u" > typeof globalThis ? globalThis : global1 || self).Terser = {}, global1.sourceMap);
 }(this, function(exports1, MOZ_SourceMap) {
     'use strict';
     let mangle_options;
@@ -17480,9 +17480,9 @@
             return node instanceof AST_Sequence ? addStrings(node.tail_node(), add) : node instanceof AST_String ? add(node.value) : node instanceof AST_Conditional && (addStrings(node.consequent, add), addStrings(node.alternative, add)), !0;
         }));
     }
-    var to_ascii = "undefined" == typeof atob ? function(b64) {
+    var to_ascii = "u" < typeof atob ? function(b64) {
         return Buffer.from(b64, "base64").toString();
-    } : atob, to_base64 = "undefined" == typeof btoa ? function(str) {
+    } : atob, to_base64 = "u" < typeof btoa ? function(str) {
         return Buffer.from(str).toString("base64");
     } : btoa;
     function set_shorthand(name, options, keys) {

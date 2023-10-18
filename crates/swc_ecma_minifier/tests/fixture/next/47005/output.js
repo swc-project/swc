@@ -33,7 +33,7 @@
             (0, A.createContext)({});
             function V(m = "DEFAULT_TOOLTIP_ID") {}
             M(F());
-            var W = "undefined" != typeof window ? A.useLayoutEffect : A.useEffect;
+            var W = "u" > typeof window ? A.useLayoutEffect : A.useEffect;
             var X = async ()=>{};
             var Y = (m)=>({});
             var z = function() {};

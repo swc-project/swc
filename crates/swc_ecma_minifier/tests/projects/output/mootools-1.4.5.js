@@ -1182,7 +1182,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     Slick1.parse = function(expression1) {
         return parse1(expression1);
     }, Slick1.escapeRegExp = escapeRegExp1, this.Slick || (this.Slick = Slick1);
-}).apply("undefined" != typeof exports ? exports : this), (function() {
+}).apply("u" > typeof exports ? exports : this), (function() {
     var local1 = {}, featuresCache1 = {}, toString1 = Object.prototype.toString;
     local1.isNativeCode = function(fn1) {
         return /\{\s*\[native code\]\s*\}/.test("" + fn1);
@@ -1672,7 +1672,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
     }, Slick1.isXML = local1.isXML, Slick1.uidOf = function(node1) {
         return local1.getUIDHTML(node1);
     }, this.Slick || (this.Slick = Slick1);
-}).apply("undefined" != typeof exports ? exports : this);
+}).apply("u" > typeof exports ? exports : this);
 var Element = function(tag1, props1) {
     var konstructor1 = Element.Constructors[tag1];
     if (konstructor1) return konstructor1(props1);
@@ -3548,7 +3548,7 @@ Elements.prototype = {
             url: Type.isString
         })), this;
     }
-}), "undefined" == typeof JSON && (this.JSON = {}), JSON = new Hash({
+}), "u" < typeof JSON && (this.JSON = {}), JSON = new Hash({
     stringify: JSON.stringify,
     parse: JSON.parse
 }), function() {

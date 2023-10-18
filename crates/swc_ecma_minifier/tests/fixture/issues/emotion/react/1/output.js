@@ -484,7 +484,7 @@
                 };
             };
             Object.prototype.hasOwnProperty;
-            var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
+            var EmotionCacheContext = (0, react.createContext)("u" > typeof HTMLElement ? function(options) {
                 var collection, length, callback, container, currentSheet, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
@@ -901,7 +901,7 @@
                     visible
                 ];
             };
-            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "undefined" != typeof IntersectionObserver, observers = new Map();
+            var _react = __webpack_require__(7294), _requestIdleCallback = __webpack_require__(9311), hasIntersectionObserver = "u" > typeof IntersectionObserver, observers = new Map();
         },
         9008: function(module, __unused_webpack_exports, __webpack_require__) {
             module.exports = __webpack_require__(5443);

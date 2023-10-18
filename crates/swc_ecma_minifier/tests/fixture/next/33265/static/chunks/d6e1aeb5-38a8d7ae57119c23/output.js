@@ -7667,7 +7667,7 @@
                         trex: [],
                         tkhd: [],
                         vmhd: []
-                    }, "undefined" != typeof Uint8Array) {
+                    }, !("u" < typeof Uint8Array)) {
                         for(i in types)types.hasOwnProperty(i) && (types[i] = [
                             i.charCodeAt(0),
                             i.charCodeAt(1),
@@ -8946,7 +8946,7 @@
                 }, Cea708Service.prototype.setCurrentWindow = function(windowNum) {
                     this.currentWindow = this.windows[windowNum];
                 }, Cea708Service.prototype.createTextDecoder = function(encoding) {
-                    if ("undefined" == typeof TextDecoder) this.stream.trigger("log", {
+                    if ("u" < typeof TextDecoder) this.stream.trigger("log", {
                         level: "warn",
                         message: "The `encoding` option is unsupported without TextDecoder support"
                     });
