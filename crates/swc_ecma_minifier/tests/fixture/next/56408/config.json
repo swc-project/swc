@@ -5,6 +5,9 @@
     "conditionals": false,
     "sequences": false,
     "unused": false,
+    "collapse_vars": false,
+    "if_return": false,
+    "dead_code": false,
     "keep_classnames": true,
     "keep_fnames": true
 }
