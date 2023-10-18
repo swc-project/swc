@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Abort seq inliner if `b` can short-circuit ([#8128](https://github.com/swc-project/swc/issues/8128)) ([111de26](https://github.com/swc-project/swc/commit/111de264b0ec04ec7a693b0006050df21513b583))
+
+
 - **(es/utils)** Skip var declarator name in `RefRewriter` ([#8125](https://github.com/swc-project/swc/issues/8125)) ([fb81a36](https://github.com/swc-project/swc/commit/fb81a36adcebdc269ae89677977220e9b21b072f))
 
 ### Features
@@ -1722,9 +1725,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Bailout regex optimization on invalid flags ([#7020](https://github.com/swc-project/swc/issues/7020)) ([1318afe](https://github.com/swc-project/swc/commit/1318afe2b4a7a25233db5760b785605019b9f06b))
 
 
 - **(es/transforms)** Handle member object in missing else branch ([#7027](https://github.com/swc-project/swc/issues/7027)) ([5c7c8e0](https://github.com/swc-project/swc/commit/5c7c8e073634ff6347194fa0e3fae8c83b64718c))
