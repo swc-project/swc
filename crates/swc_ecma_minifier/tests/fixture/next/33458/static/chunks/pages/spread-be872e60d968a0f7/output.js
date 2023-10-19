@@ -41,24 +41,28 @@
                     return PageWithSpread;
                 }
             });
-            var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Form = __webpack_require__(2726), components_Container = function(props) {
-                return (0, jsx_runtime.jsx)(Form.Z, function(target) {
-                    for(var i = 1; i < arguments.length; i++){
-                        var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
-                        "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
-                            return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-                        }))), ownKeys.forEach(function(key) {
-                            var value;
-                            value = source[key], key in target ? Object.defineProperty(target, key, {
-                                value: value,
-                                enumerable: !0,
-                                configurable: !0,
-                                writable: !0
-                            }) : target[key] = value;
-                        });
-                    }
-                    return target;
-                }({}, props));
+            var jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), Form = __webpack_require__(2726);
+            function _defineProperty(obj, key, value) {
+                return key in obj ? Object.defineProperty(obj, key, {
+                    value: value,
+                    enumerable: !0,
+                    configurable: !0,
+                    writable: !0
+                }) : obj[key] = value, obj;
+            }
+            function _objectSpread(target) {
+                for(var i = 1; i < arguments.length; i++){
+                    var source = null != arguments[i] ? arguments[i] : {}, ownKeys = Object.keys(source);
+                    "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
+                        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+                    }))), ownKeys.forEach(function(key) {
+                        _defineProperty(target, key, source[key]);
+                    });
+                }
+                return target;
+            }
+            var components_Container = function(props) {
+                return (0, jsx_runtime.jsx)(Form.Z, _objectSpread({}, props));
             };
             function PageWithSpread() {
                 var ref = (0, react.useState)(""), text = ref[0], setText = ref[1], handleChange = (0, react.useCallback)(function(e) {

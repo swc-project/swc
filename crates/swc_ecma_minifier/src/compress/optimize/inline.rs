@@ -706,10 +706,17 @@ impl Optimizer<'_> {
                     }
                 }
 
-                self.changed = true;
-                #[cfg(feature = "debug")]
+                #[allow(unused)]
                 match &decl {
                     Decl::Class(c) => {
+                        if self.options.keep_classnames
+                            || self.mangle_options.map_or(false, |v| v.keep_class_names)
+                        {
+                            log_abort!("inline: [x] Keep fn names");
+                            return;
+                        }
+
+                        self.changed = true;
                         report_change!(
                             "inline: Decided to inline class `{}{:?}` as it's used only once",
                             c.ident.sym,
@@ -717,6 +724,14 @@ impl Optimizer<'_> {
                         );
                     }
                     Decl::Fn(f) => {
+                        if self.options.keep_fnames
+                            || self.mangle_options.map_or(false, |v| v.keep_fn_names)
+                        {
+                            log_abort!("inline: [x] Keep fn names");
+                            return;
+                        }
+
+                        self.changed = true;
                         report_change!(
                             "inline: Decided to inline function `{}{:?}` as it's used only once",
                             f.ident.sym,
