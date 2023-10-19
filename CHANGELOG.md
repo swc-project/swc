@@ -5,6 +5,9 @@
 
 
 
+- **(css/ast)** Make `.hash()` of `Token` not recursive ([#8151](https://github.com/swc-project/swc/issues/8151)) ([8d7894c](https://github.com/swc-project/swc/commit/8d7894c71f86ef6b1813b69a15d72bb7911ed7ca))
+
+
 - **(es/minifier)** Abort seq inliner if `b` can short-circuit ([#8128](https://github.com/swc-project/swc/issues/8128)) ([111de26](https://github.com/swc-project/swc/commit/111de264b0ec04ec7a693b0006050df21513b583))
 
 
@@ -1743,9 +1746,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Performance
 
-
-
-- **(atoms)** Update `string-cache` for per-bucket mutex ([#6980](https://github.com/swc-project/swc/issues/6980)) ([9841f0b](https://github.com/swc-project/swc/commit/9841f0b5d14736d780c9864eb9bf7609f9ff2840))
 
 
 - **(es/ast)** Shrink size of `Expr` ([#7041](https://github.com/swc-project/swc/issues/7041)) ([a9fe1d2](https://github.com/swc-project/swc/commit/a9fe1d2d2228ba89fccb2a5d91f5ac4008f09d01))
