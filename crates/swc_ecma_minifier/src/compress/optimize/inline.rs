@@ -706,7 +706,6 @@ impl Optimizer<'_> {
                     }
                 }
 
-                self.changed = true;
                 #[cfg(feature = "debug")]
                 match &decl {
                     Decl::Class(c) => {
@@ -717,6 +716,7 @@ impl Optimizer<'_> {
                             return;
                         }
 
+                        self.changed = true;
                         report_change!(
                             "inline: Decided to inline class `{}{:?}` as it's used only once",
                             c.ident.sym,
@@ -731,6 +731,7 @@ impl Optimizer<'_> {
                             return;
                         }
 
+                        self.changed = true;
                         report_change!(
                             "inline: Decided to inline function `{}{:?}` as it's used only once",
                             f.ident.sym,
