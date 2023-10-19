@@ -218,7 +218,7 @@ where
     fn visit_assign_expr(&mut self, n: &AssignExpr) {
         let ctx = Ctx {
             in_assign_lhs: true,
-            is_exact_reassignment: true,
+            is_exact_assignment: true,
             is_op_assign: n.op != op!("="),
             is_delete_arg: false,
             ..self.ctx
@@ -227,7 +227,7 @@ where
 
         let ctx = Ctx {
             in_assign_lhs: false,
-            is_exact_reassignment: false,
+            is_exact_assignment: false,
             is_delete_arg: false,
             // We mark bar in
             //
@@ -407,7 +407,7 @@ where
                 },
                 is_delete_arg: false,
                 is_exact_arg: true,
-                is_exact_reassignment: false,
+                is_exact_assignment: false,
                 is_callee: false,
                 is_id_ref: true,
                 ..self.ctx
@@ -750,7 +750,7 @@ where
 
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
-                is_exact_reassignment: true,
+                is_exact_assignment: true,
                 is_delete_arg: false,
                 in_left_of_for_loop: true,
                 ..child.ctx
@@ -777,7 +777,7 @@ where
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             let ctx = Ctx {
                 in_left_of_for_loop: true,
-                is_exact_reassignment: true,
+                is_exact_assignment: true,
                 is_delete_arg: false,
                 ..child.ctx
             };
@@ -884,7 +884,7 @@ where
         {
             let ctx = Ctx {
                 is_exact_arg: false,
-                is_exact_reassignment: false,
+                is_exact_assignment: false,
                 is_callee: false,
                 is_id_ref: false,
                 ..self.ctx
@@ -895,7 +895,7 @@ where
         if let MemberProp::Computed(c) = &e.prop {
             let ctx = Ctx {
                 is_exact_arg: false,
-                is_exact_reassignment: false,
+                is_exact_assignment: false,
                 is_callee: false,
                 is_delete_arg: false,
                 ..self.ctx
@@ -1067,7 +1067,7 @@ where
     fn visit_prop(&mut self, n: &Prop) {
         let ctx = Ctx {
             is_exact_arg: false,
-            is_exact_reassignment: false,
+            is_exact_assignment: false,
             is_id_ref: true,
             ..self.ctx
         };
@@ -1151,7 +1151,7 @@ where
         if let SuperProp::Computed(c) = &e.prop {
             let ctx = Ctx {
                 is_exact_arg: false,
-                is_exact_reassignment: false,
+                is_exact_assignment: false,
                 is_delete_arg: false,
                 is_id_ref: false,
                 ..self.ctx
@@ -1217,7 +1217,7 @@ where
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
         let ctx = Ctx {
             in_update_arg: false,
-            is_exact_reassignment: false,
+            is_exact_assignment: false,
             is_delete_arg: n.op == op!("delete"),
             ..self.ctx
         };
@@ -1228,7 +1228,7 @@ where
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         let ctx = Ctx {
             in_update_arg: true,
-            is_exact_reassignment: true,
+            is_exact_assignment: true,
             is_delete_arg: false,
             ..self.ctx
         };
