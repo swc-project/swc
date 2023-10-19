@@ -40,6 +40,12 @@
 
 - **(bindings)** Add `@deprecated` to JS plugins ([#8132](https://github.com/swc-project/swc/issues/8132)) ([1e9b4e0](https://github.com/swc-project/swc/commit/1e9b4e027cabba88c8a0cfd6b62f9ca6c00b29a8))
 
+### Refactor
+
+
+
+- **(es/minifier)** Decouple `assign_count` from `reassigned` ([#8137](https://github.com/swc-project/swc/issues/8137)) ([13106e0](https://github.com/swc-project/swc/commit/13106e0d2eaa08c4c74f58205f57c4f2d7d4479f))
+
 ## [1.3.93] - 2023-10-13
 
 ### Bug Fixes
@@ -1752,9 +1758,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/lexer)** Use string searcher for lexing line comments ([#7043](https://github.com/swc-project/swc/issues/7043)) ([962b0fc](https://github.com/swc-project/swc/commit/962b0fc8af6084ade064d189ed7cd7f0e2b25ee8))
-
-
-- **(es/parser)** Use Cow for `_` in numeric literals ([#7031](https://github.com/swc-project/swc/issues/7031)) ([30546a2](https://github.com/swc-project/swc/commit/30546a28f21eb90bbbaef33ce4bc0448cd062a72))
 
 
 - **(es/parser)** Use `SmartString` as the buffer ([#7033](https://github.com/swc-project/swc/issues/7033)) ([f378a14](https://github.com/swc-project/swc/commit/f378a14888b5a6457ade3991e2754f235d4e3d85))
