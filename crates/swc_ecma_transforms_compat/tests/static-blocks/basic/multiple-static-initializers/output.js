@@ -5,5 +5,5 @@ class Foo {
         this.qux1 = this.qux;
     })();
     static qux = 21;
-    static #_1 = this.qux2 = this.qux;
+    static #_2 = this.qux2 = this.qux;
 }

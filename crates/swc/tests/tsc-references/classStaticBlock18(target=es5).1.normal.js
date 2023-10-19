@@ -10,8 +10,6 @@ function foo() {
         var c = (_class = function _class() {
             "use strict";
             _class_call_check(this, _class);
-        }, _class.bar = 2, function() {
-        // do
-        }(), _class);
+        }, _class.bar = 2, _class);
     }(), _class;
 }

@@ -1,4 +1,4 @@
-var _Bar, __, __1;
+var _Bar, __, __2;
 var _initClass, _Bar1;
 const dec = ()=>{};
 const Foo = ((_Bar = class Bar {
@@ -10,7 +10,7 @@ const Foo = ((_Bar = class Bar {
     value: { c: [_Bar1, _initClass] } = _apply_decs_2203_r(_Bar, [], [
         dec
     ])
-}, __1 = {
+}, __2 = {
     writable: true,
     value: _initClass()
 }, _Bar), _Bar1);

@@ -15,7 +15,7 @@ pub fn static_blocks(mark: Mark) -> impl Fold + VisitMut {
 
 #[swc_trace]
 impl ClassStaticBlock {
-    fn visit_mut_static_block(
+    fn transform_static_block(
         &mut self,
         mut static_block: StaticBlock,
         private_id: JsWord,
@@ -86,22 +86,36 @@ impl VisitMut for ClassStaticBlock {
             }
         }
 
+        let mut count = 0;
         for member in class.body.iter_mut() {
             if let ClassMember::StaticBlock(static_block) = member {
-                let static_block_private_id: JsWord = {
-                    let mut id_value: JsWord = "_".into();
-                    let mut count = 0;
-                    while private_names.contains(&id_value) {
-                        count += 1;
-                        id_value = format!("_{}", count).into();
-                    }
-                    private_names.insert(id_value.clone());
-                    id_value
-                };
-                *member = ClassMember::PrivateProp(
-                    self.visit_mut_static_block(static_block.take(), static_block_private_id),
-                )
+                if static_block.body.stmts.is_empty() {
+                    *member = ClassMember::dummy();
+                    continue;
+                }
+
+                let static_block_private_id = generate_uid(&private_names, &mut count);
+                *member = self
+                    .transform_static_block(static_block.take(), static_block_private_id)
+                    .into();
             };
         }
     }
+}
+
+fn generate_uid(deny_list: &AHashSet<JsWord>, i: &mut u32) -> JsWord {
+    *i += 1;
+
+    let mut uid: JsWord = if *i == 1 {
+        "_".to_string()
+    } else {
+        format!("_{i}")
+    }
+    .into();
+    while deny_list.contains(&uid) {
+        *i += 1;
+        uid = format!("_{i}").into();
+    }
+
+    uid
 }
