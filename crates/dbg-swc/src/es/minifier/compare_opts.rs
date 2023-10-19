@@ -35,7 +35,7 @@ impl CompareOptsCommand {
 
             let new_record = get_minified_with_opts(
                 cm.clone(),
-                &self.path,
+                &file,
                 Some(CompressOptions {
                     keep_classnames: true,
                     keep_fnames: true,
