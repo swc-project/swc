@@ -706,7 +706,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                #[cfg(feature = "debug")]
+                #[allow(unused)]
                 match &decl {
                     Decl::Class(c) => {
                         if self.options.keep_classnames
