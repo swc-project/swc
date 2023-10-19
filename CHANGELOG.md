@@ -11,6 +11,9 @@
 - **(es/minifier)** Abort seq inliner if `b` can short-circuit ([#8128](https://github.com/swc-project/swc/issues/8128)) ([111de26](https://github.com/swc-project/swc/commit/111de264b0ec04ec7a693b0006050df21513b583))
 
 
+- **(es/minifier)** Abort function inliner if `keep_fnames` is `true` ([#8145](https://github.com/swc-project/swc/issues/8145)) ([35601e4](https://github.com/swc-project/swc/commit/35601e4dcb7bb65e16d217c50d6065958cbd8e6d))
+
+
 - **(es/utils)** Skip var declarator name in `RefRewriter` ([#8125](https://github.com/swc-project/swc/issues/8125)) ([fb81a36](https://github.com/swc-project/swc/commit/fb81a36adcebdc269ae89677977220e9b21b072f))
 
 ### Features
@@ -1761,9 +1764,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/parser)** Use `SmartString` as the buffer ([#7033](https://github.com/swc-project/swc/issues/7033)) ([f378a14](https://github.com/swc-project/swc/commit/f378a14888b5a6457ade3991e2754f235d4e3d85))
-
-
-- **(es/utils)** Introduce `NodeIgnoringSpan` ([#7030](https://github.com/swc-project/swc/issues/7030)) ([8bfef35](https://github.com/swc-project/swc/commit/8bfef35c1be5790b32fea253f28961271fe7f619))
 
 ### Testing
 
