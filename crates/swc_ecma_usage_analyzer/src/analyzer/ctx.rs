@@ -112,7 +112,7 @@ pub struct Ctx {
     pub in_pat_of_param: bool,
     pub in_catch_param: bool,
     /// `true` for `foo.bar` and `false` for `foo` in `foo.bar++`
-    pub is_exact_reassignment: bool,
+    pub is_exact_assignment: bool,
 
     pub is_callee: bool,
 

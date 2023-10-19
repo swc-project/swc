@@ -1,21 +1,21 @@
 module.exports = (function t(e, r, c) {
-    function i(a, l) {
-        if (!r[a]) {
-            if (!e[a]) {
-                if (f) return f(a, !0);
-                var s = Error("Cannot find module '" + a + "'");
-                throw s.code = "MODULE_NOT_FOUND", s;
+    function i(l, p) {
+        if (!r[l]) {
+            if (!e[l]) {
+                if (f) return f(l, !0);
+                var y = Error("Cannot find module '" + l + "'");
+                throw y.code = "MODULE_NOT_FOUND", y;
             }
-            var p = r[a] = {
+            var h = r[l] = {
                 exports: {}
             };
-            e[a][0].call(p.exports, function(r) {
-                return i(e[a][1][r] || r);
-            }, p, p.exports, t, e, r, c);
+            e[l][0].call(h.exports, function(r) {
+                return i(e[l][1][r] || r);
+            }, h, h.exports, t, e, r, c);
         }
-        return r[a].exports;
+        return r[l].exports;
     }
-    for(var f = void 0, a = 0; a < c.length; a++)i(c[a]);
+    for(var f = void 0, l = 0; l < c.length; l++)i(c[l]);
     return i;
 })({
     40: [
@@ -39,6 +39,31 @@ module.exports = (function t(e, r, c) {
                     return e.__proto__ = r, e;
                 })(e, r);
             }
+            function a(e) {
+                var r = function() {
+                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
+                    if ("function" == typeof Proxy) return !0;
+                    try {
+                        return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
+                    } catch (e) {
+                        return !1;
+                    }
+                }();
+                return function() {
+                    var c, f = u(e);
+                    if (r) {
+                        var l = u(this).constructor;
+                        c = Reflect.construct(f, arguments, l);
+                    } else c = f.apply(this, arguments);
+                    return s(this, c);
+                };
+            }
+            function s(e, r) {
+                return r && ("object" === n(r) || "function" == typeof r) ? r : function(e) {
+                    if (void 0 === e) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+                    return e;
+                }(e);
+            }
             function u(e) {
                 return (u = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
                     return e.__proto__ || Object.getPrototypeOf(e);
@@ -55,32 +80,14 @@ module.exports = (function t(e, r, c) {
                         }
                     }), r && o(e, r);
                 }(u, e);
-                var r, c, f, a, l = (r = u, c = function() {
-                    if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
-                    if ("function" == typeof Proxy) return !0;
-                    try {
-                        return Date.prototype.toString.call(Reflect.construct(Date, [], function() {})), !0;
-                    } catch (e) {
-                        return !1;
-                    }
-                }(), function() {
-                    var e, f, a = u(r);
-                    if (c) {
-                        var l = u(this).constructor;
-                        f = Reflect.construct(a, arguments, l);
-                    } else f = a.apply(this, arguments);
-                    return (e = f) && ("object" === n(e) || "function" == typeof e) ? e : function(e) {
-                        if (void 0 === e) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
-                        return e;
-                    }(this);
-                });
+                var r, c, f = a(u);
                 function u(e) {
                     var r;
                     return function(e, r) {
                         if (!(e instanceof r)) throw TypeError("Cannot call a class as a function");
-                    }(this, u), (r = l.call(this))._model = e, r;
+                    }(this, u), (r = f.call(this))._model = e, r;
                 }
-                return i((f = u).prototype, [
+                return i((r = u).prototype, [
                     {
                         key: "render",
                         value: function(e, r, c) {
@@ -109,7 +116,7 @@ module.exports = (function t(e, r, c) {
                             return this._model && this._model.tag;
                         }
                     }
-                ]), a && i(f, a), u;
+                ]), c && i(r, c), u;
             }(e("../../base-xform"));
             r.exports = f;
         },

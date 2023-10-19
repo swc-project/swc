@@ -390,19 +390,20 @@
             ], function(require, exports, module) {
                 "use strict";
                 var activeListenerOptions, keys = require("./keys"), useragent = require("./useragent"), pressedKeys = null, ts = 0;
+                function detectListenerOptionsSupport() {
+                    activeListenerOptions = !1;
+                    try {
+                        document.createComment("").addEventListener("test", function() {}, {
+                            get passive () {
+                                activeListenerOptions = {
+                                    passive: !1
+                                };
+                            }
+                        });
+                    } catch (e) {}
+                }
                 function getListenerOptions() {
-                    return void 0 == activeListenerOptions && function() {
-                        activeListenerOptions = !1;
-                        try {
-                            document.createComment("").addEventListener("test", function() {}, {
-                                get passive () {
-                                    activeListenerOptions = {
-                                        passive: !1
-                                    };
-                                }
-                            });
-                        } catch (e) {}
-                    }(), activeListenerOptions;
+                    return void 0 == activeListenerOptions && detectListenerOptionsSupport(), activeListenerOptions;
                 }
                 function EventListener(elem, type, callback) {
                     this.elem = elem, this.type = type, this.callback = callback;
@@ -759,7 +760,7 @@
                 "use strict";
                 var event = require("../lib/event"), useragent = require("../lib/useragent"), dom = require("../lib/dom"), lang = require("../lib/lang"), clipboard = require("../clipboard"), BROKEN_SETDATA = useragent.isChrome < 18, USE_IE_MIME_TYPE = useragent.isIE, HAS_FOCUS_ARGS = useragent.isChrome > 63, KEYS = require("../lib/keys"), MODS = KEYS.KEY_MODS, isIOS = useragent.isIOS, valueResetRegex = isIOS ? /\s/ : /\n/, isMobile = useragent.isMobile;
                 exports.TextInput = function(parentNode, host) {
-                    var typingResetTimeout, typing, detectArrowKeys, closeTimeout, text = dom.createElement("textarea");
+                    var closeTimeout, text = dom.createElement("textarea");
                     text.className = "ace_text-input", text.setAttribute("wrap", "off"), text.setAttribute("autocorrect", "off"), text.setAttribute("autocapitalize", "off"), text.setAttribute("spellcheck", !1), text.style.opacity = "0", parentNode.insertBefore(text, parentNode.firstChild);
                     var copied = !1, pasted = !1, inComposition = !1, sendingText = !1, tempStyle = "";
                     isMobile || (text.style.fontSize = "1px");
@@ -920,6 +921,9 @@
                         ignoreFocusEvents = !0, text.blur(), text.focus(), ignoreFocusEvents = !1;
                     }
                     var syncComposition = lang.delayedCall(onCompositionUpdate, 50).schedule.bind(null, null);
+                    function onKeyup(e) {
+                        27 == e.keyCode && text.value.length < text.selectionStart && (inComposition || (lastValue = text.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
+                    }
                     function onContextMenuClose() {
                         clearTimeout(closeTimeout), closeTimeout = setTimeout(function() {
                             tempStyle && (text.style.cssText = tempStyle, tempStyle = ""), host.renderer.$isMousePressed = !1, host.renderer.$keepTextAreaAtCursor && host.renderer.$moveTextAreaToCursor();
@@ -931,9 +935,7 @@
                             var range = host.getSelectionRange();
                             range.end.row = range.start.row, range.end.column = range.start.column, inComposition.markerRange = range, inComposition.selectionStart = lastSelectionStart, host.onCompositionStart(inComposition), inComposition.useTextareaForIME ? (lastValue = text.value = "", lastSelectionStart = 0, lastSelectionEnd = 0) : (text.msGetInputContext && (inComposition.context = text.msGetInputContext()), text.getInputContext && (inComposition.context = text.getInputContext()));
                         }
-                    }, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", function(e) {
-                        27 == e.keyCode && text.value.length < text.selectionStart && (inComposition || (lastValue = text.value), lastSelectionStart = lastSelectionEnd = -1, resetSelection()), syncComposition();
-                    }, host), event.addListener(text, "keydown", syncComposition, host), event.addListener(text, "compositionend", onCompositionEnd, host), this.getElement = function() {
+                    }, host), event.addListener(text, "compositionupdate", onCompositionUpdate, host), event.addListener(text, "keyup", onKeyup, host), event.addListener(text, "keydown", syncComposition, host), event.addListener(text, "compositionend", onCompositionEnd, host), this.getElement = function() {
                         return text;
                     }, this.setCommandMode = function(value) {
                         commandMode = value, text.readOnly = !1;
@@ -954,29 +956,35 @@
                     var onContextMenu = function(e) {
                         host.textInput.onContextMenu(e), onContextMenuClose();
                     };
+                    function addIosSelectionHandler(parentNode, host, text) {
+                        var typingResetTimeout = null, typing = !1;
+                        text.addEventListener("keydown", function(e) {
+                            typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
+                        }, !0), text.addEventListener("keyup", function(e) {
+                            typingResetTimeout = setTimeout(function() {
+                                typing = !1;
+                            }, 100);
+                        }, !0);
+                        var detectArrowKeys = function(e) {
+                            if (document.activeElement === text && !typing && !inComposition && !host.$mouseHandler.isMousePressed && !copied) {
+                                var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, key = null, modifier = 0;
+                                if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : selectionStart < lastSelectionStart || selectionStart == lastSelectionStart && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd ? key = KEYS.left : selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right), selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
+                                    if (!host.onCommandKey({}, modifier, key) && host.commands) {
+                                        key = KEYS.keyCodeToString(key);
+                                        var command = host.commands.findKeyCommand(modifier, key);
+                                        command && host.execCommand(command);
+                                    }
+                                    lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd, resetSelection("");
+                                }
+                            }
+                        };
+                        document.addEventListener("selectionchange", detectArrowKeys), host.on("destroy", function() {
+                            document.removeEventListener("selectionchange", detectArrowKeys);
+                        });
+                    }
                     event.addListener(text, "mouseup", onContextMenu, host), event.addListener(text, "mousedown", function(e) {
                         e.preventDefault(), onContextMenuClose();
-                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && (typingResetTimeout = null, typing = !1, text.addEventListener("keydown", function(e) {
-                        typingResetTimeout && clearTimeout(typingResetTimeout), typing = !0;
-                    }, !0), text.addEventListener("keyup", function(e) {
-                        typingResetTimeout = setTimeout(function() {
-                            typing = !1;
-                        }, 100);
-                    }, !0), detectArrowKeys = function(e) {
-                        if (document.activeElement === text && !typing && !inComposition && !host.$mouseHandler.isMousePressed && !copied) {
-                            var selectionStart = text.selectionStart, selectionEnd = text.selectionEnd, key = null, modifier = 0;
-                            if (0 == selectionStart ? key = KEYS.up : 1 == selectionStart ? key = KEYS.home : selectionEnd > lastSelectionEnd && "\n" == lastValue[selectionEnd] ? key = KEYS.end : selectionStart < lastSelectionStart && " " == lastValue[selectionStart - 1] ? (key = KEYS.left, modifier = MODS.option) : selectionStart < lastSelectionStart || selectionStart == lastSelectionStart && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd ? key = KEYS.left : selectionEnd > lastSelectionEnd && lastValue.slice(0, selectionEnd).split("\n").length > 2 ? key = KEYS.down : selectionEnd > lastSelectionEnd && " " == lastValue[selectionEnd - 1] ? (key = KEYS.right, modifier = MODS.option) : (selectionEnd > lastSelectionEnd || selectionEnd == lastSelectionEnd && lastSelectionEnd != lastSelectionStart && selectionStart == selectionEnd) && (key = KEYS.right), selectionStart !== selectionEnd && (modifier |= MODS.shift), key) {
-                                if (!host.onCommandKey({}, modifier, key) && host.commands) {
-                                    key = KEYS.keyCodeToString(key);
-                                    var command = host.commands.findKeyCommand(modifier, key);
-                                    command && host.execCommand(command);
-                                }
-                                lastSelectionStart = selectionStart, lastSelectionEnd = selectionEnd, resetSelection("");
-                            }
-                        }
-                    }, document.addEventListener("selectionchange", detectArrowKeys), host.on("destroy", function() {
-                        document.removeEventListener("selectionchange", detectArrowKeys);
-                    }));
+                    }, host), event.addListener(host.renderer.scroller, "contextmenu", onContextMenu, host), event.addListener(text, "contextmenu", onContextMenu, host), isIOS && addIosSelectionHandler(parentNode, host, text);
                 }, exports.$setUserAgentForTests = function(_isMobile, _isIOS) {
                     isMobile = _isMobile, isIOS = _isIOS;
                 };
@@ -1004,6 +1012,9 @@
                     ].forEach(function(x) {
                         mouseHandler[x] = this[x];
                     }, this), mouseHandler.selectByLines = this.extendSelectionBy.bind(mouseHandler, "getLineRange"), mouseHandler.selectByWords = this.extendSelectionBy.bind(mouseHandler, "getWordRange");
+                }
+                function calcDistance(ax, ay, bx, by) {
+                    return Math.sqrt(Math.pow(bx - ax, 2) + Math.pow(by - ay, 2));
                 }
                 function calcRangeOrientation(range, cursor) {
                     if (range.start.row == range.end.row) var cmp = 2 * cursor.column - range.start.column - range.end.column;
@@ -1065,7 +1076,7 @@
                     }, this.selectEnd = this.selectAllEnd = this.selectByWordsEnd = this.selectByLinesEnd = function() {
                         this.$clickSelection = null, this.editor.unsetStyle("ace_selecting"), this.editor.renderer.scroller.releaseCapture && this.editor.renderer.scroller.releaseCapture();
                     }, this.focusWait = function() {
-                        var ax, ay, distance = (ax = this.mousedownEvent.x, ay = this.mousedownEvent.y, Math.sqrt(Math.pow(this.x - ax, 2) + Math.pow(this.y - ay, 2))), time = Date.now();
+                        var distance = calcDistance(this.mousedownEvent.x, this.mousedownEvent.y, this.x, this.y), time = Date.now();
                         (distance > 0 || time - this.mousedownEvent.time > this.$focusTimeout) && this.startSelect(this.mousedownEvent.getDocumentPosition());
                     }, this.onDoubleClick = function(ev) {
                         var pos = ev.getDocumentPosition(), editor = this.editor, range = editor.session.getBracketRange(pos);
@@ -1144,16 +1155,23 @@
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom"), oop = require("../lib/oop"), event = require("../lib/event"), Tooltip = require("../tooltip").Tooltip;
-                function GutterTooltip(parentNode) {
-                    Tooltip.call(this, parentNode);
-                }
-                oop.inherits(GutterTooltip, Tooltip), (function() {
-                    this.setPosition = function(x, y) {
-                        var windowWidth = window.innerWidth || document.documentElement.clientWidth, windowHeight = window.innerHeight || document.documentElement.clientHeight, width = this.getWidth(), height = this.getHeight();
-                        y += 15, (x += 15) + width > windowWidth && (x -= x + width - windowWidth), y + height > windowHeight && (y -= 20 + height), Tooltip.prototype.setPosition.call(this, x, y);
-                    };
-                }).call(GutterTooltip.prototype), exports.GutterHandler = function(mouseHandler) {
+                function GutterHandler(mouseHandler) {
                     var tooltipTimeout, mouseEvent, tooltipAnnotation, editor = mouseHandler.editor, gutter = editor.renderer.$gutterLayer, tooltip = new GutterTooltip(editor.container);
+                    function showTooltip() {
+                        var row = mouseEvent.getDocumentPosition().row, annotation = gutter.$annotations[row];
+                        if (!annotation) return hideTooltip();
+                        if (row == editor.session.getLength()) {
+                            var screenRow = editor.renderer.pixelToScreenCoordinates(0, mouseEvent.y).row, pos = mouseEvent.$pos;
+                            if (screenRow > editor.session.documentToScreenRow(pos.row, pos.column)) return hideTooltip();
+                        }
+                        if (tooltipAnnotation != annotation) {
+                            if (tooltipAnnotation = annotation.text.join("<br/>"), tooltip.setHtml(tooltipAnnotation), tooltip.show(), editor._signal("showGutterTooltip", tooltip), editor.on("mousewheel", hideTooltip), mouseHandler.$tooltipFollowsMouse) moveTooltip(mouseEvent);
+                            else {
+                                var rect = mouseEvent.domEvent.target.getBoundingClientRect(), style = tooltip.getElement().style;
+                                style.left = rect.right + "px", style.top = rect.bottom + "px";
+                            }
+                        }
+                    }
                     function hideTooltip() {
                         tooltipTimeout && (tooltipTimeout = clearTimeout(tooltipTimeout)), tooltipAnnotation && (tooltip.hide(), tooltipAnnotation = null, editor._signal("hideGutterTooltip", tooltip), editor.off("mousewheel", hideTooltip));
                     }
@@ -1174,28 +1192,23 @@
                         var target = e.domEvent.target || e.domEvent.srcElement;
                         if (dom.hasCssClass(target, "ace_fold-widget")) return hideTooltip();
                         tooltipAnnotation && mouseHandler.$tooltipFollowsMouse && moveTooltip(e), mouseEvent = e, tooltipTimeout || (tooltipTimeout = setTimeout(function() {
-                            tooltipTimeout = null, mouseEvent && !mouseHandler.isMousePressed ? function() {
-                                var row = mouseEvent.getDocumentPosition().row, annotation = gutter.$annotations[row];
-                                if (!annotation) return hideTooltip();
-                                if (row == editor.session.getLength()) {
-                                    var screenRow = editor.renderer.pixelToScreenCoordinates(0, mouseEvent.y).row, pos = mouseEvent.$pos;
-                                    if (screenRow > editor.session.documentToScreenRow(pos.row, pos.column)) return hideTooltip();
-                                }
-                                if (tooltipAnnotation != annotation) {
-                                    if (tooltipAnnotation = annotation.text.join("<br/>"), tooltip.setHtml(tooltipAnnotation), tooltip.show(), editor._signal("showGutterTooltip", tooltip), editor.on("mousewheel", hideTooltip), mouseHandler.$tooltipFollowsMouse) moveTooltip(mouseEvent);
-                                    else {
-                                        var rect = mouseEvent.domEvent.target.getBoundingClientRect(), style = tooltip.getElement().style;
-                                        style.left = rect.right + "px", style.top = rect.bottom + "px";
-                                    }
-                                }
-                            }() : hideTooltip();
+                            tooltipTimeout = null, mouseEvent && !mouseHandler.isMousePressed ? showTooltip() : hideTooltip();
                         }, 50));
                     }), event.addListener(editor.renderer.$gutter, "mouseout", function(e) {
                         mouseEvent = null, tooltipAnnotation && !tooltipTimeout && (tooltipTimeout = setTimeout(function() {
                             tooltipTimeout = null, hideTooltip();
                         }, 50));
                     }, editor), editor.on("changeSession", hideTooltip);
-                };
+                }
+                function GutterTooltip(parentNode) {
+                    Tooltip.call(this, parentNode);
+                }
+                oop.inherits(GutterTooltip, Tooltip), (function() {
+                    this.setPosition = function(x, y) {
+                        var windowWidth = window.innerWidth || document.documentElement.clientWidth, windowHeight = window.innerHeight || document.documentElement.clientHeight, width = this.getWidth(), height = this.getHeight();
+                        y += 15, (x += 15) + width > windowWidth && (x -= x + width - windowWidth), y + height > windowHeight && (y -= 20 + height), Tooltip.prototype.setPosition.call(this, x, y);
+                    };
+                }).call(GutterTooltip.prototype), exports.GutterHandler = GutterHandler;
             }), ace.define("ace/mouse/mouse_event", [
                 "require",
                 "exports",
@@ -1257,12 +1270,15 @@
                         mouseHandler[x] = this[x];
                     }, this), editor.on("mousedown", this.onMouseDown.bind(mouseHandler));
                     var dragSelectionMarker, x, y, timerId, range, dragCursor, mouseTarget = editor.container, counter = 0;
-                    function onDragInterval() {
-                        var cursor, now, vMovement, hMovement, cursor1, now1, lineHeight, characterWidth, editorRect, offsets, nearestXOffset, nearestYOffset, scrollCursor, vScroll, hScroll, vMovement1, prevCursor = dragCursor;
-                        cursor = dragCursor = editor.renderer.screenToTextCoordinates(x, y), now = Date.now(), vMovement = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column, !cursorMovedTime || vMovement || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now, cursorPointOnCaretMoved = {
+                    function scrollCursorIntoView(cursor, prevCursor) {
+                        var now = Date.now(), vMovement = !prevCursor || cursor.row != prevCursor.row, hMovement = !prevCursor || cursor.column != prevCursor.column;
+                        !cursorMovedTime || vMovement || hMovement ? (editor.moveCursorToPosition(cursor), cursorMovedTime = now, cursorPointOnCaretMoved = {
                             x: x,
                             y: y
-                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null), cursor1 = dragCursor, now1 = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), nearestXOffset = Math.min((offsets = {
+                        }) : calcDistance(cursorPointOnCaretMoved.x, cursorPointOnCaretMoved.y, x, y) > 5 ? cursorMovedTime = null : now - cursorMovedTime >= 200 && (editor.renderer.scrollCursorIntoView(), cursorMovedTime = null);
+                    }
+                    function autoScroll(cursor, prevCursor) {
+                        var now = Date.now(), lineHeight = editor.renderer.layerConfig.lineHeight, characterWidth = editor.renderer.layerConfig.characterWidth, editorRect = editor.renderer.scroller.getBoundingClientRect(), offsets = {
                             x: {
                                 left: x - editorRect.left,
                                 right: editorRect.right - x
@@ -1271,10 +1287,17 @@
                                 top: y - editorRect.top,
                                 bottom: editorRect.bottom - y
                             }
-                        }).x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
-                            row: cursor1.row,
-                            column: cursor1.column
-                        }, nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1), vScroll = cursor1.row != scrollCursor.row, hScroll = cursor1.column != scrollCursor.column, vMovement1 = !prevCursor || cursor1.row != prevCursor.row, vScroll || hScroll && !vMovement1 ? autoScrollStartTime ? now1 - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now1 : autoScrollStartTime = null;
+                        }, nearestXOffset = Math.min(offsets.x.left, offsets.x.right), nearestYOffset = Math.min(offsets.y.top, offsets.y.bottom), scrollCursor = {
+                            row: cursor.row,
+                            column: cursor.column
+                        };
+                        nearestXOffset / characterWidth <= 2 && (scrollCursor.column += offsets.x.left < offsets.x.right ? -3 : 2), nearestYOffset / lineHeight <= 1 && (scrollCursor.row += offsets.y.top < offsets.y.bottom ? -1 : 1);
+                        var vScroll = cursor.row != scrollCursor.row, hScroll = cursor.column != scrollCursor.column, vMovement = !prevCursor || cursor.row != prevCursor.row;
+                        vScroll || hScroll && !vMovement ? autoScrollStartTime ? now - autoScrollStartTime >= 200 && editor.renderer.scrollCursorIntoView(scrollCursor) : autoScrollStartTime = now : autoScrollStartTime = null;
+                    }
+                    function onDragInterval() {
+                        var prevCursor = dragCursor;
+                        scrollCursorIntoView(dragCursor = editor.renderer.screenToTextCoordinates(x, y), prevCursor), autoScroll(dragCursor, prevCursor);
                     }
                     function addDragMarker() {
                         range = editor.selection.toOrientedRange(), dragSelectionMarker = editor.session.addMarker(range, "ace_selection", editor.getSelectionStyle()), editor.clearSelection(), editor.isFocused() && editor.renderer.$cursorLayer.setBlinking(!1), clearInterval(timerId), onDragInterval(), timerId = setInterval(onDragInterval, 20), counter = 0, event.addListener(document, "mousemove", onMouseMove);
@@ -1412,103 +1435,104 @@
                 var MouseEvent = require("./mouse_event").MouseEvent, event = require("../lib/event"), dom = require("../lib/dom");
                 exports.addTouchListeners = function(el, editor) {
                     var startX, startY, touchStartT, lastT, longTouchTimer, animationTimer, pos, pressed, contextMenu, mode = "scroll", animationSteps = 0, clickCount = 0, vX = 0, vY = 0;
-                    function showContextMenu() {
-                        if (!contextMenu) {
-                            var clipboard, isOpen, updateMenu, handleClick;
-                            clipboard = window.navigator && window.navigator.clipboard, isOpen = !1, updateMenu = function() {
-                                var selected = editor.getCopyText(), hasUndo = editor.session.getUndoManager().hasUndo();
-                                contextMenu.replaceChild(dom.buildDom(isOpen ? [
+                    function createContextMenu() {
+                        var clipboard = window.navigator && window.navigator.clipboard, isOpen = !1, updateMenu = function() {
+                            var selected = editor.getCopyText(), hasUndo = editor.session.getUndoManager().hasUndo();
+                            contextMenu.replaceChild(dom.buildDom(isOpen ? [
+                                "span",
+                                !selected && [
                                     "span",
-                                    !selected && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "selectall"
-                                        },
-                                        "Select All"
-                                    ],
-                                    selected && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "copy"
-                                        },
-                                        "Copy"
-                                    ],
-                                    selected && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "cut"
-                                        },
-                                        "Cut"
-                                    ],
-                                    clipboard && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "paste"
-                                        },
-                                        "Paste"
-                                    ],
-                                    hasUndo && [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "undo"
-                                        },
-                                        "Undo"
-                                    ],
-                                    [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "find"
-                                        },
-                                        "Find"
-                                    ],
-                                    [
-                                        "span",
-                                        {
-                                            class: "ace_mobile-button",
-                                            action: "openCommandPallete"
-                                        },
-                                        "Pallete"
-                                    ]
-                                ] : [
-                                    "span"
-                                ]), contextMenu.firstChild);
-                            }, handleClick = function(e) {
-                                var action = e.target.getAttribute("action");
-                                if ("more" == action || !isOpen) return isOpen = !isOpen, updateMenu();
-                                "paste" == action ? clipboard.readText().then(function(text) {
-                                    editor.execCommand(action, text);
-                                }) : action && (("cut" == action || "copy" == action) && (clipboard ? clipboard.writeText(editor.getCopyText()) : document.execCommand("copy")), editor.execCommand(action)), contextMenu.firstChild.style.display = "none", isOpen = !1, "openCommandPallete" != action && editor.focus();
-                            }, contextMenu = dom.buildDom([
-                                "div",
-                                {
-                                    class: "ace_mobile-menu",
-                                    ontouchstart: function(e) {
-                                        mode = "menu", e.stopPropagation(), e.preventDefault(), editor.textInput.focus();
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "selectall"
                                     },
-                                    ontouchend: function(e) {
-                                        e.stopPropagation(), e.preventDefault(), handleClick(e);
+                                    "Select All"
+                                ],
+                                selected && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "copy"
                                     },
-                                    onclick: handleClick
-                                },
-                                [
-                                    "span"
+                                    "Copy"
+                                ],
+                                selected && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "cut"
+                                    },
+                                    "Cut"
+                                ],
+                                clipboard && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "paste"
+                                    },
+                                    "Paste"
+                                ],
+                                hasUndo && [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "undo"
+                                    },
+                                    "Undo"
                                 ],
                                 [
                                     "span",
                                     {
                                         class: "ace_mobile-button",
-                                        action: "more"
+                                        action: "find"
                                     },
-                                    "..."
+                                    "Find"
+                                ],
+                                [
+                                    "span",
+                                    {
+                                        class: "ace_mobile-button",
+                                        action: "openCommandPallete"
+                                    },
+                                    "Pallete"
                                 ]
-                            ], editor.container);
-                        }
+                            ] : [
+                                "span"
+                            ]), contextMenu.firstChild);
+                        }, handleClick = function(e) {
+                            var action = e.target.getAttribute("action");
+                            if ("more" == action || !isOpen) return isOpen = !isOpen, updateMenu();
+                            "paste" == action ? clipboard.readText().then(function(text) {
+                                editor.execCommand(action, text);
+                            }) : action && (("cut" == action || "copy" == action) && (clipboard ? clipboard.writeText(editor.getCopyText()) : document.execCommand("copy")), editor.execCommand(action)), contextMenu.firstChild.style.display = "none", isOpen = !1, "openCommandPallete" != action && editor.focus();
+                        };
+                        contextMenu = dom.buildDom([
+                            "div",
+                            {
+                                class: "ace_mobile-menu",
+                                ontouchstart: function(e) {
+                                    mode = "menu", e.stopPropagation(), e.preventDefault(), editor.textInput.focus();
+                                },
+                                ontouchend: function(e) {
+                                    e.stopPropagation(), e.preventDefault(), handleClick(e);
+                                },
+                                onclick: handleClick
+                            },
+                            [
+                                "span"
+                            ],
+                            [
+                                "span",
+                                {
+                                    class: "ace_mobile-button",
+                                    action: "more"
+                                },
+                                "..."
+                            ]
+                        ], editor.container);
+                    }
+                    function showContextMenu() {
+                        contextMenu || createContextMenu();
                         var cursor = editor.selection.cursor, pagePos = editor.renderer.textToScreenCoordinates(cursor.row, cursor.column), leftOffset = editor.renderer.textToScreenCoordinates(0, 0).pageX, scrollLeft = editor.renderer.scrollLeft, rect = editor.container.getBoundingClientRect();
                         contextMenu.style.top = pagePos.pageY - rect.top - 3 + "px", pagePos.pageX - rect.left < rect.width - 70 ? (contextMenu.style.left = "", contextMenu.style.right = "10px") : (contextMenu.style.right = "", contextMenu.style.left = leftOffset + scrollLeft - rect.left + "px"), contextMenu.style.display = "", contextMenu.firstChild.style.display = "none", editor.on("input", hideContextMenu);
                     }
@@ -1520,10 +1544,22 @@
                         var range = editor.selection.getRange(), inSelection = range.contains(pos.row, pos.column);
                         (range.isEmpty() || !inSelection) && (editor.selection.moveToPosition(pos), editor.selection.selectWord()), mode = "wait", showContextMenu();
                     }
+                    function switchToSelectionMode() {
+                        clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos);
+                        var range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos);
+                        range && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
+                    }
+                    function animate() {
+                        animationSteps += 60, animationTimer = setInterval(function() {
+                            animationSteps-- <= 0 && (clearInterval(animationTimer), animationTimer = null), 0.01 > Math.abs(vX) && (vX = 0), 0.01 > Math.abs(vY) && (vY = 0), animationSteps < 20 && (vX *= 0.9), animationSteps < 20 && (vY *= 0.9);
+                            var oldScrollTop = editor.session.getScrollTop();
+                            editor.renderer.scrollBy(10 * vX, 10 * vY), oldScrollTop == editor.session.getScrollTop() && (animationSteps = 0);
+                        }, 10);
+                    }
                     event.addListener(el, "contextmenu", function(e) {
                         pressed && editor.textInput.getElement().focus();
                     }, editor), event.addListener(el, "touchstart", function(e) {
-                        var range, touches = e.touches;
+                        var touches = e.touches;
                         if (longTouchTimer || touches.length > 1) {
                             clearTimeout(longTouchTimer), longTouchTimer = null, touchStartT = -1, mode = "zoom";
                             return;
@@ -1532,7 +1568,7 @@
                         var h = editor.renderer.layerConfig.lineHeight, w = editor.renderer.layerConfig.lineHeight, t = e.timeStamp;
                         lastT = t;
                         var touchObj = touches[0], x = touchObj.clientX, y = touchObj.clientY;
-                        if (Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0, pos = new MouseEvent(e, editor).getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
+                        if (Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0, pos = new MouseEvent(e, editor).getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, switchToSelectionMode();
                         else {
                             clickCount = 0;
                             var cursor = editor.selection.cursor, anchor = editor.selection.isEmpty() ? cursor : editor.selection.anchor, cursorPos = editor.renderer.$cursorLayer.getPixelPosition(cursor, !0), anchorPos = editor.renderer.$cursorLayer.getPixelPosition(anchor, !0), rect = editor.renderer.scroller.getBoundingClientRect(), offsetTop = editor.renderer.layerConfig.offset, offsetLeft = editor.renderer.scrollLeft, weightedDistance = function(x, y) {
@@ -1547,11 +1583,7 @@
                         }
                         touchStartT = t;
                     }, editor), event.addListener(el, "touchend", function(e) {
-                        pressed = editor.$mouseHandler.isMousePressed = !1, animationTimer && clearInterval(animationTimer), "zoom" == mode ? (mode = "", animationSteps = 0) : longTouchTimer ? (editor.selection.moveToPosition(pos), animationSteps = 0, showContextMenu()) : "scroll" == mode ? (animationSteps += 60, animationTimer = setInterval(function() {
-                            animationSteps-- <= 0 && (clearInterval(animationTimer), animationTimer = null), 0.01 > Math.abs(vX) && (vX = 0), 0.01 > Math.abs(vY) && (vY = 0), animationSteps < 20 && (vX *= 0.9), animationSteps < 20 && (vY *= 0.9);
-                            var oldScrollTop = editor.session.getScrollTop();
-                            editor.renderer.scrollBy(10 * vX, 10 * vY), oldScrollTop == editor.session.getScrollTop() && (animationSteps = 0);
-                        }, 10), hideContextMenu()) : showContextMenu(), clearTimeout(longTouchTimer), longTouchTimer = null;
+                        pressed = editor.$mouseHandler.isMousePressed = !1, animationTimer && clearInterval(animationTimer), "zoom" == mode ? (mode = "", animationSteps = 0) : longTouchTimer ? (editor.selection.moveToPosition(pos), animationSteps = 0, showContextMenu()) : "scroll" == mode ? (animate(), hideContextMenu()) : showContextMenu(), clearTimeout(longTouchTimer), longTouchTimer = null;
                     }, editor), event.addListener(el, "touchmove", function(e) {
                         longTouchTimer && (clearTimeout(longTouchTimer), longTouchTimer = null);
                         var touches = e.touches;
@@ -1824,9 +1856,7 @@
                             if (src) {
                                 for(var attributes = script.attributes, j = 0, l = attributes.length; j < l; j++){
                                     var attr = attributes[j];
-                                    0 === attr.name.indexOf("data-ace-") && (scriptOptions[attr.name.replace(/^data-ace-/, "").replace(/-(.)/g, function(m, m1) {
-                                        return m1.toUpperCase();
-                                    })] = attr.value);
+                                    0 === attr.name.indexOf("data-ace-") && (scriptOptions[deHyphenate(attr.name.replace(/^data-ace-/, ""))] = attr.value);
                                 }
                                 var m = src.match(/^(.*)\/ace(\-\w+)?\.js(\?|$)/);
                                 m && (scriptUrl = m[1]);
@@ -1834,6 +1864,11 @@
                         }
                         for(var key in scriptUrl && (scriptOptions.base = scriptOptions.base || scriptUrl, scriptOptions.packaged = !0), scriptOptions.basePath = scriptOptions.base, scriptOptions.workerPath = scriptOptions.workerPath || scriptOptions.base, scriptOptions.modePath = scriptOptions.modePath || scriptOptions.base, scriptOptions.themePath = scriptOptions.themePath || scriptOptions.base, delete scriptOptions.base, scriptOptions)void 0 !== scriptOptions[key] && exports.set(key, scriptOptions[key]);
                     }
+                }
+                function deHyphenate(str) {
+                    return str.replace(/-(.)/g, function(m, m1) {
+                        return m1.toUpperCase();
+                    });
                 }
                 init(!0), exports.init = init, exports.version = "1.4.13";
             }), ace.define("ace/mouse/mouse_handler", [
@@ -1944,7 +1979,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var dom = require("../lib/dom");
-                exports.FoldHandler = function(editor) {
+                function FoldHandler(editor) {
                     editor.on("click", function(e) {
                         var position = e.getDocumentPosition(), session = editor.session, fold = session.getFoldAt(position.row, position.column, 1);
                         fold && (e.getAccelKey() ? session.removeFold(fold) : session.expandFold(fold), e.stop());
@@ -1969,7 +2004,8 @@
                             e.stop();
                         }
                     });
-                };
+                }
+                exports.FoldHandler = FoldHandler;
             }), ace.define("ace/keyboard/keybinding", [
                 "require",
                 "exports",
@@ -2409,6 +2445,31 @@
                     4,
                     8
                 ];
+                function _computeLevels(chars, levels, len, charTypes) {
+                    var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
+                    if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
+                    for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
+                        if (prevState = newState, classes[ix] = newClass = _getCharClass(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
+                            if (0x10 == action) {
+                                for(i = condPos; i < ix; i++)levels[i] = 1;
+                                condPos = -1;
+                            } else condPos = -1;
+                        }
+                        if (impTab[newState][6]) -1 == condPos && (condPos = ix);
+                        else if (condPos > -1) {
+                            for(i = condPos; i < ix; i++)levels[i] = newLevel;
+                            condPos = -1;
+                        }
+                        5 == charTypes[ix] && (levels[ix] = 0), hiLevel |= newLevel;
+                    }
+                    if (hasUBAT_S) {
+                        for(i = 0; i < len; i++)if (6 == charTypes[i]) {
+                            levels[i] = dir;
+                            for(var j = i - 1; j >= 0; j--)if (8 == charTypes[j]) levels[j] = dir;
+                            else break;
+                        }
+                    }
+                }
                 function _invertLevel(lev, levels, _array) {
                     if (!(hiLevel < lev)) {
                         if (1 == lev && 1 == dir && !hasUBAT_B) {
@@ -2425,6 +2486,55 @@
                         }
                     }
                 }
+                function _getCharClass(chars, types, classes, ix) {
+                    var wType, nType, len, i, cType = types[ix];
+                    switch(cType){
+                        case 0:
+                        case 1:
+                            lastArabic = !1;
+                        case 4:
+                        case 3:
+                            return cType;
+                        case 2:
+                            return lastArabic ? 3 : 2;
+                        case 7:
+                            return lastArabic = !0, 1;
+                        case 8:
+                            return 4;
+                        case 9:
+                            if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
+                            return lastArabic && (nType = 3), nType == wType ? nType : 4;
+                        case 10:
+                            if (2 == (wType = ix > 0 ? classes[ix - 1] : 5) && ix + 1 < types.length && 2 == types[ix + 1]) return 2;
+                            return 4;
+                        case 11:
+                            if (ix > 0 && 2 == classes[ix - 1]) return 2;
+                            if (lastArabic) return 4;
+                            for(i = ix + 1, len = types.length; i < len && 11 == types[i];)i++;
+                            if (i < len && 2 == types[i]) return 2;
+                            return 4;
+                        case 12:
+                            for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
+                            if (i < len) {
+                                var c = chars[ix];
+                                if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
+                            }
+                            if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
+                            return classes[ix - 1];
+                        case 5:
+                            return lastArabic = !1, hasUBAT_B = !0, dir;
+                        case 6:
+                            return hasUBAT_S = !0, 4;
+                        case 13:
+                        case 14:
+                        case 16:
+                        case 17:
+                        case 15:
+                            lastArabic = !1;
+                        case 18:
+                            return 4;
+                    }
+                }
                 function _getCharacterType(ch) {
                     var uc = ch.charCodeAt(0), hi = uc >> 8;
                     return 0 == hi ? uc > 0x00bf ? 0 : UnicodeTBL00[uc] : 5 == hi ? /[\u0591-\u05f4]/.test(ch) ? 1 : 0 : 6 == hi ? /[\u0610-\u061a\u064b-\u065f\u06d6-\u06e4\u06e7-\u06ed]/.test(ch) ? 12 : /[\u0660-\u0669\u066b-\u066c]/.test(ch) ? 3 : 0x066a == uc ? 11 : /[\u06f0-\u06f9]/.test(ch) ? 2 : 7 : 0x20 == hi && uc <= 0x205f ? UnicodeTBL20[0xff & uc] : 0xfe == hi && uc >= 0xfe70 ? 7 : 4;
@@ -2432,79 +2542,7 @@
                 exports.L = 0, exports.R = 1, exports.EN = 2, exports.ON_R = 3, exports.AN = 4, exports.R_H = 5, exports.B = 6, exports.RLE = 7, exports.DOT = "\xB7", exports.doBidiReorder = function(text, textCharTypes, isRtl) {
                     if (text.length < 2) return {};
                     var chars = text.split(""), logicalFromVisual = Array(chars.length), bidiLevels = Array(chars.length), levels = [];
-                    dir = isRtl ? 1 : 0, function(chars, levels, len, charTypes) {
-                        var impTab = dir ? impTab_RTL : impTab_LTR, prevState = null, newClass = null, newLevel = null, newState = 0, action = null, condPos = -1, i = null, ix = null, classes = [];
-                        if (!charTypes) for(i = 0, charTypes = []; i < len; i++)charTypes[i] = _getCharacterType(chars[i]);
-                        for(ix = 0, hiLevel = dir, lastArabic = !1, hasUBAT_B = !1, hasUBAT_S = !1; ix < len; ix++){
-                            if (prevState = newState, classes[ix] = newClass = function(chars, types, classes, ix) {
-                                var wType, nType, len, i, cType = types[ix];
-                                switch(cType){
-                                    case 0:
-                                    case 1:
-                                        lastArabic = !1;
-                                    case 4:
-                                    case 3:
-                                        return cType;
-                                    case 2:
-                                        return lastArabic ? 3 : 2;
-                                    case 7:
-                                        return lastArabic = !0, 1;
-                                    case 8:
-                                        return 4;
-                                    case 9:
-                                        if (ix < 1 || ix + 1 >= types.length || 2 != (wType = classes[ix - 1]) && 3 != wType || 2 != (nType = types[ix + 1]) && 3 != nType) return 4;
-                                        return lastArabic && (nType = 3), nType == wType ? nType : 4;
-                                    case 10:
-                                        if (2 == (wType = ix > 0 ? classes[ix - 1] : 5) && ix + 1 < types.length && 2 == types[ix + 1]) return 2;
-                                        return 4;
-                                    case 11:
-                                        if (ix > 0 && 2 == classes[ix - 1]) return 2;
-                                        if (lastArabic) return 4;
-                                        for(i = ix + 1, len = types.length; i < len && 11 == types[i];)i++;
-                                        if (i < len && 2 == types[i]) return 2;
-                                        return 4;
-                                    case 12:
-                                        for(len = types.length, i = ix + 1; i < len && 12 == types[i];)i++;
-                                        if (i < len) {
-                                            var c = chars[ix];
-                                            if (wType = types[i], (c >= 0x0591 && c <= 0x08ff || 0xfb1e == c) && (1 == wType || 7 == wType)) return 1;
-                                        }
-                                        if (ix < 1 || 5 == (wType = types[ix - 1])) return 4;
-                                        return classes[ix - 1];
-                                    case 5:
-                                        return lastArabic = !1, hasUBAT_B = !0, dir;
-                                    case 6:
-                                        return hasUBAT_S = !0, 4;
-                                    case 13:
-                                    case 14:
-                                    case 16:
-                                    case 17:
-                                    case 15:
-                                        lastArabic = !1;
-                                    case 18:
-                                        return 4;
-                                }
-                            }(chars, charTypes, classes, ix), action = 0xf0 & (newState = impTab[prevState][newClass]), newState &= 0x0f, levels[ix] = newLevel = impTab[newState][5], action > 0) {
-                                if (0x10 == action) {
-                                    for(i = condPos; i < ix; i++)levels[i] = 1;
-                                    condPos = -1;
-                                } else condPos = -1;
-                            }
-                            if (impTab[newState][6]) -1 == condPos && (condPos = ix);
-                            else if (condPos > -1) {
-                                for(i = condPos; i < ix; i++)levels[i] = newLevel;
-                                condPos = -1;
-                            }
-                            5 == charTypes[ix] && (levels[ix] = 0), hiLevel |= newLevel;
-                        }
-                        if (hasUBAT_S) {
-                            for(i = 0; i < len; i++)if (6 == charTypes[i]) {
-                                levels[i] = dir;
-                                for(var j = i - 1; j >= 0; j--)if (8 == charTypes[j]) levels[j] = dir;
-                                else break;
-                            }
-                        }
-                    }(chars, levels, chars.length, textCharTypes);
+                    dir = isRtl ? 1 : 0, _computeLevels(chars, levels, chars.length, textCharTypes);
                     for(var i = 0; i < logicalFromVisual.length; logicalFromVisual[i] = i, i++);
                     _invertLevel(2, levels, logicalFromVisual), _invertLevel(1, levels, logicalFromVisual);
                     for(var i = 0; i < logicalFromVisual.length - 1; i++)3 === textCharTypes[i] ? levels[i] = exports.AN : 1 === levels[i] && (textCharTypes[i] > 7 && textCharTypes[i] < 13 || 4 === textCharTypes[i] || 18 === textCharTypes[i]) ? levels[i] = exports.ON_R : i > 0 && "\u0644" === chars[i - 1] && /\u0622|\u0623|\u0625|\u0627/.test(chars[i]) && (levels[i - 1] = levels[i] = exports.R_H, i++);
@@ -3067,7 +3105,7 @@
                     };
                     this.normalizeRules = function() {
                         var id = 0, rules = this.$rules;
-                        Object.keys(rules).forEach(function processState(key) {
+                        function processState(key) {
                             var state = rules[key];
                             state.processed = !0;
                             for(var i = 0; i < state.length; i++){
@@ -3099,7 +3137,8 @@
                                 }
                                 rule.keywordMap && (rule.token = this.createKeywordMapper(rule.keywordMap, rule.defaultToken || "text", rule.caseInsensitive), delete rule.defaultToken);
                             }
-                        }, this);
+                        }
+                        Object.keys(rules).forEach(processState, this);
                     }, this.createKeywordMapper = function(map, defaultToken, ignoreCase, splitChar) {
                         var keywords = Object.create(null);
                         return this.$keywordList = [], Object.keys(map).forEach(function(className) {
@@ -4513,26 +4552,30 @@
                         var bColIsAfter = equalPointsInOrder ? point1.column <= point2.column : point1.column < point2.column;
                         return point1.row < point2.row || point1.row == point2.row && bColIsAfter;
                     }
+                    function $getTransformedPoint(delta, point, moveIfEqual) {
+                        var deltaIsInsert = "insert" == delta.action, deltaRowShift = (deltaIsInsert ? 1 : -1) * (delta.end.row - delta.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta.end.column - delta.start.column), deltaStart = delta.start, deltaEnd = deltaIsInsert ? deltaStart : delta.end;
+                        return $pointsInOrder(point, deltaStart, moveIfEqual) ? {
+                            row: point.row,
+                            column: point.column
+                        } : $pointsInOrder(deltaEnd, point, !moveIfEqual) ? {
+                            row: point.row + deltaRowShift,
+                            column: point.column + (point.row == deltaEnd.row ? deltaColShift : 0)
+                        } : {
+                            row: deltaStart.row,
+                            column: deltaStart.column
+                        };
+                    }
                     oop.implement(this, EventEmitter), this.getPosition = function() {
                         return this.$clipPositionToDocument(this.row, this.column);
                     }, this.getDocument = function() {
                         return this.document;
                     }, this.$insertRight = !1, this.onChange = function(delta) {
                         if ((delta.start.row != delta.end.row || delta.start.row == this.row) && !(delta.start.row > this.row)) {
-                            var point, moveIfEqual, deltaIsInsert, deltaRowShift, deltaColShift, deltaStart, deltaEnd, point1 = (point = {
+                            var point = $getTransformedPoint(delta, {
                                 row: this.row,
                                 column: this.column
-                            }, moveIfEqual = this.$insertRight, deltaRowShift = ((deltaIsInsert = "insert" == delta.action) ? 1 : -1) * (delta.end.row - delta.start.row), deltaColShift = (deltaIsInsert ? 1 : -1) * (delta.end.column - delta.start.column), deltaStart = delta.start, deltaEnd = deltaIsInsert ? deltaStart : delta.end, $pointsInOrder(point, deltaStart, moveIfEqual) ? {
-                                row: point.row,
-                                column: point.column
-                            } : $pointsInOrder(deltaEnd, point, !moveIfEqual) ? {
-                                row: point.row + deltaRowShift,
-                                column: point.column + (point.row == deltaEnd.row ? deltaColShift : 0)
-                            } : {
-                                row: deltaStart.row,
-                                column: deltaStart.column
-                            });
-                            this.setPosition(point1.row, point1.column, !0);
+                            }, this.$insertRight);
+                            this.setPosition(point.row, point.column, !0);
                         }
                     }, this.setPosition = function(row, column, noClip) {
                         if (pos = noClip ? {
@@ -5094,8 +5137,14 @@
                 function consumePoint(point, anchor) {
                     point.row -= anchor.row, 0 == point.row && (point.column -= anchor.column);
                 }
+                function consumeRange(range, anchor) {
+                    consumePoint(range.start, anchor), consumePoint(range.end, anchor);
+                }
                 function restorePoint(point, anchor) {
                     0 == point.row && (point.column += anchor.column), point.row += anchor.row;
+                }
+                function restoreRange(range, anchor) {
+                    restorePoint(range.start, anchor), restorePoint(range.end, anchor);
                 }
                 oop.inherits(Fold, RangeList), (function() {
                     this.toString = function() {
@@ -5111,8 +5160,8 @@
                         }), fold.collapseChildren = this.collapseChildren, fold;
                     }, this.addSubFold = function(fold) {
                         if (!this.range.isEqual(fold)) {
-                            anchor = this.start, consumePoint(fold.start, anchor), consumePoint(fold.end, anchor);
-                            for(var anchor, row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
+                            consumeRange(fold, this.start);
+                            for(var row = fold.start.row, column = fold.start.column, i = 0, cmp = -1; i < this.subFolds.length && 1 == (cmp = this.subFolds[i].range.compare(row, column)); i++);
                             var afterStart = this.subFolds[i], firstConsumed = 0;
                             if (0 == cmp) {
                                 if (afterStart.range.containsRange(fold)) return afterStart.addSubFold(fold);
@@ -5124,8 +5173,7 @@
                             return fold.setFoldLine(this.foldLine), fold;
                         }
                     }, this.restoreRange = function(range) {
-                        var anchor;
-                        return anchor = this.start, void (restorePoint(range.start, anchor), restorePoint(range.end, anchor));
+                        return restoreRange(range, this.start);
                     };
                 }).call(Fold.prototype);
             }), ace.define("ace/edit_session/folding", [
@@ -5139,7 +5187,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var Range = require("../range").Range, FoldLine = require("./fold_line").FoldLine, Fold = require("./fold").Fold, TokenIterator = require("../token_iterator").TokenIterator;
-                exports.Folding = function() {
+                function Folding() {
                     this.getFoldAt = function(row, column, side) {
                         var foldLine = this.getFoldLine(row);
                         if (!foldLine) return null;
@@ -5482,7 +5530,8 @@
                         var rows = e.data;
                         rows.first != rows.last && this.foldWidgets.length > rows.first && this.foldWidgets.splice(rows.first, this.foldWidgets.length);
                     };
-                };
+                }
+                exports.Folding = Folding;
             }), ace.define("ace/edit_session/bracket_match", [
                 "require",
                 "exports",
@@ -5492,7 +5541,7 @@
             ], function(require, exports, module) {
                 "use strict";
                 var TokenIterator = require("../token_iterator").TokenIterator, Range = require("../range").Range;
-                exports.BracketMatch = function() {
+                function BracketMatch() {
                     this.findMatchingBracket = function(position, chr) {
                         if (0 == position.column) return null;
                         var charBeforeCursor = chr || this.getLine(position.row).charAt(position.column - 1);
@@ -5582,7 +5631,8 @@
                             return null;
                         }
                     };
-                };
+                }
+                exports.BracketMatch = BracketMatch;
             }), ace.define("ace/edit_session", [
                 "require",
                 "exports",
@@ -6077,23 +6127,24 @@
                     this.$computeWrapSplits = function(tokens, wrapLimit, tabSize) {
                         if (0 == tokens.length) return [];
                         var splits = [], displayLength = tokens.length, lastSplit = 0, lastDocSplit = 0, isCode = this.$wrapAsCode, indentedSoftWrap = this.$indentedSoftWrap, maxIndent = wrapLimit <= Math.max(2 * tabSize, 8) || !1 === indentedSoftWrap ? 0 : Math.floor(wrapLimit / 2);
+                        function getWrapIndent() {
+                            var indentation = 0;
+                            if (0 === maxIndent) return indentation;
+                            if (indentedSoftWrap) for(var i = 0; i < tokens.length; i++){
+                                var token = tokens[i];
+                                if (10 == token) indentation += 1;
+                                else if (11 == token) indentation += tabSize;
+                                else if (12 == token) continue;
+                                else break;
+                            }
+                            return isCode && !1 !== indentedSoftWrap && (indentation += tabSize), Math.min(indentation, maxIndent);
+                        }
                         function addSplit(screenPos) {
                             for(var len = screenPos - lastSplit, i = lastSplit; i < screenPos; i++){
                                 var ch = tokens[i];
                                 (12 === ch || 2 === ch) && (len -= 1);
                             }
-                            splits.length || (indent = function() {
-                                var indentation = 0;
-                                if (0 === maxIndent) return indentation;
-                                if (indentedSoftWrap) for(var i = 0; i < tokens.length; i++){
-                                    var token = tokens[i];
-                                    if (10 == token) indentation += 1;
-                                    else if (11 == token) indentation += tabSize;
-                                    else if (12 == token) continue;
-                                    else break;
-                                }
-                                return isCode && !1 !== indentedSoftWrap && (indentation += tabSize), Math.min(indentation, maxIndent);
-                            }(), splits.indent = indent), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
+                            splits.length || (indent = getWrapIndent(), splits.indent = indent), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
                         }
                         for(var indent = 0; displayLength - lastSplit > wrapLimit - indent;){
                             var split = lastSplit + wrapLimit - indent;
@@ -6354,6 +6405,12 @@
                 var lang = require("./lib/lang"), oop = require("./lib/oop"), Range = require("./range").Range, Search = function() {
                     this.$options = {};
                 };
+                function addWordBoundary(needle, options) {
+                    function wordBoundary(c) {
+                        return /\w/.test(c) || options.regExp ? "\\b" : "";
+                    }
+                    return wordBoundary(needle[0]) + needle + wordBoundary(needle[needle.length - 1]);
+                }
                 (function() {
                     this.set = function(options) {
                         return oop.mixin(this.$options, options), this;
@@ -6410,12 +6467,7 @@
                         if (options.needle instanceof RegExp) return options.re = options.needle;
                         var needle = options.needle;
                         if (!options.needle) return options.re = !1;
-                        options.regExp || (needle = lang.escapeRegExp(needle)), options.wholeWord && (needle = function(needle, options) {
-                            function wordBoundary(c) {
-                                return /\w/.test(c) || options.regExp ? "\\b" : "";
-                            }
-                            return wordBoundary(needle[0]) + needle + wordBoundary(needle[needle.length - 1]);
-                        }(needle, options));
+                        options.regExp || (needle = lang.escapeRegExp(needle)), options.wholeWord && (needle = addWordBoundary(needle, options));
                         var modifier = options.caseSensitive ? "gm" : "gmi";
                         if (options.$isMultiLine = !$disableFakeMultiline && /[\n\r]/.test(needle), options.$isMultiLine) return options.re = this.$assembleMultilineRegExp(needle, modifier);
                         try {
@@ -8880,6 +8932,18 @@
                 var UndoManager = function() {
                     this.$maxRev = 0, this.$fromUndo = !1, this.reset();
                 };
+                function rearrangeUndoStack(stack, pos) {
+                    for(var i = pos; i--;){
+                        var deltaSet = stack[i];
+                        if (deltaSet && !deltaSet[0].ignore) {
+                            for(; i < pos - 1;){
+                                var swapped = swapGroups(stack[i], stack[i + 1]);
+                                stack[i] = swapped[0], stack[i + 1] = swapped[1], i++;
+                            }
+                            return !0;
+                        }
+                    }
+                }
                 (function() {
                     this.addSession = function(session) {
                         this.$session = session;
@@ -8924,33 +8988,7 @@
                     }, this.undo = function(session, dontSelect) {
                         this.lastDeltas = null;
                         var stack = this.$undoStack;
-                        if (function(stack, pos) {
-                            for(var i = pos; i--;){
-                                var deltaSet = stack[i];
-                                if (deltaSet && !deltaSet[0].ignore) {
-                                    for(; i < pos - 1;){
-                                        var swapped = function(ds1, ds2) {
-                                            for(var i = ds1.length; i--;)for(var j = 0; j < ds2.length; j++)if (!swap(ds1[i], ds2[j])) {
-                                                for(; i < ds1.length;){
-                                                    for(; j--;)swap(ds2[j], ds1[i]);
-                                                    j = ds2.length, i++;
-                                                }
-                                                return [
-                                                    ds1,
-                                                    ds2
-                                                ];
-                                            }
-                                            return ds1.selectionBefore = ds2.selectionBefore = ds1.selectionAfter = ds2.selectionAfter = null, [
-                                                ds2,
-                                                ds1
-                                            ];
-                                        }(stack[i], stack[i + 1]);
-                                        stack[i] = swapped[0], stack[i + 1] = swapped[1], i++;
-                                    }
-                                    return !0;
-                                }
-                            }
-                        }(stack, stack.length)) {
+                        if (rearrangeUndoStack(stack, stack.length)) {
                             session || (session = this.$session), this.$redoStackBaseRev !== this.$rev && this.$redoStack.length && (this.$redoStack = []), this.$fromUndo = !0;
                             var deltaSet = stack.pop(), undoSelectionRange = null;
                             return deltaSet && (undoSelectionRange = session.undoChanges(deltaSet, dontSelect), this.$redoStack.push(deltaSet), this.$syncRev()), this.$fromUndo = !1, undoSelectionRange;
@@ -8958,44 +8996,7 @@
                     }, this.redo = function(session, dontSelect) {
                         if (this.lastDeltas = null, session || (session = this.$session), this.$fromUndo = !0, this.$redoStackBaseRev != this.$rev) {
                             var diff = this.getDeltas(this.$redoStackBaseRev, this.$rev + 1);
-                            (function(redoStack, deltaSets) {
-                                for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)!function(redoStack, d) {
-                                    var d1;
-                                    d = {
-                                        start: clonePos((d1 = d).start),
-                                        end: clonePos(d1.end),
-                                        action: d1.action,
-                                        lines: d1.lines.slice()
-                                    };
-                                    for(var j = redoStack.length; j--;){
-                                        for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
-                                            var xformed = function(d1, c1) {
-                                                var before, after, i1 = "insert" == d1.action, i2 = "insert" == c1.action;
-                                                if (i1 && i2) 0 > cmp(d1.start, c1.start) ? shift(c1, d1, 1) : shift(d1, c1, 1);
-                                                else if (i1 && !i2) cmp(d1.start, c1.end) >= 0 ? shift(d1, c1, -1) : (0 >= cmp(d1.start, c1.start) || shift(d1, Range.fromPoints(c1.start, d1.start), -1), shift(c1, d1, 1));
-                                                else if (!i1 && i2) cmp(c1.start, d1.end) >= 0 ? shift(c1, d1, -1) : (0 >= cmp(c1.start, d1.start) || shift(c1, Range.fromPoints(d1.start, c1.start), -1), shift(d1, c1, 1));
-                                                else if (!i1 && !i2) {
-                                                    if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
-                                                    else {
-                                                        if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
-                                                            c1,
-                                                            before,
-                                                            after
-                                                        ].filter(Boolean);
-                                                        shift(d1, c1, -1);
-                                                    }
-                                                }
-                                                return [
-                                                    c1,
-                                                    d1
-                                                ];
-                                            }(deltaSet[i], d);
-                                            d = xformed[0], 2 != xformed.length && (xformed[2] ? (deltaSet.splice(i + 1, 1, xformed[1], xformed[2]), i++) : !xformed[1] && (deltaSet.splice(i, 1), i--));
-                                        }
-                                        deltaSet.length || redoStack.splice(j, 1);
-                                    }
-                                }(redoStack, deltas[j]);
-                            })(this.$redoStack, diff), this.$redoStackBaseRev = this.$rev, this.$redoStack.forEach(function(x) {
+                            rebaseRedoStack(this.$redoStack, diff), this.$redoStackBaseRev = this.$rev, this.$redoStack.forEach(function(x) {
                                 x[0].id = ++this.$maxRev;
                             }, this);
                         }
@@ -9023,6 +9024,14 @@
                     return {
                         row: pos.row,
                         column: pos.column
+                    };
+                }
+                function cloneDelta(d) {
+                    return {
+                        start: clonePos(d.start),
+                        end: clonePos(d.end),
+                        action: d.action,
+                        lines: d.lines.slice()
                     };
                 }
                 function stringifyDelta(d) {
@@ -9065,6 +9074,43 @@
                         d1
                     ];
                 }
+                function swapGroups(ds1, ds2) {
+                    for(var i = ds1.length; i--;)for(var j = 0; j < ds2.length; j++)if (!swap(ds1[i], ds2[j])) {
+                        for(; i < ds1.length;){
+                            for(; j--;)swap(ds2[j], ds1[i]);
+                            j = ds2.length, i++;
+                        }
+                        return [
+                            ds1,
+                            ds2
+                        ];
+                    }
+                    return ds1.selectionBefore = ds2.selectionBefore = ds1.selectionAfter = ds2.selectionAfter = null, [
+                        ds2,
+                        ds1
+                    ];
+                }
+                function xform(d1, c1) {
+                    var before, after, i1 = "insert" == d1.action, i2 = "insert" == c1.action;
+                    if (i1 && i2) 0 > cmp(d1.start, c1.start) ? shift(c1, d1, 1) : shift(d1, c1, 1);
+                    else if (i1 && !i2) cmp(d1.start, c1.end) >= 0 ? shift(d1, c1, -1) : (0 >= cmp(d1.start, c1.start) || shift(d1, Range.fromPoints(c1.start, d1.start), -1), shift(c1, d1, 1));
+                    else if (!i1 && i2) cmp(c1.start, d1.end) >= 0 ? shift(c1, d1, -1) : (0 >= cmp(c1.start, d1.start) || shift(c1, Range.fromPoints(d1.start, c1.start), -1), shift(d1, c1, 1));
+                    else if (!i1 && !i2) {
+                        if (cmp(c1.start, d1.end) >= 0) shift(c1, d1, -1);
+                        else {
+                            if (!(0 >= cmp(c1.end, d1.start))) return 0 > cmp(d1.start, c1.start) && (before = d1, d1 = splitDelta(d1, c1.start)), cmp(d1.end, c1.end) > 0 && (after = splitDelta(d1, c1.end)), shiftPos(c1.end, d1.start, d1.end, -1), after && !before && (d1.lines = after.lines, d1.start = after.start, d1.end = after.end, after = d1), [
+                                c1,
+                                before,
+                                after
+                            ].filter(Boolean);
+                            shift(d1, c1, -1);
+                        }
+                    }
+                    return [
+                        c1,
+                        d1
+                    ];
+                }
                 function shift(d1, d2, dir) {
                     shiftPos(d1.start, d2.start, d2.end, dir), shiftPos(d1.end, d2.start, d2.end, dir);
                 }
@@ -9081,6 +9127,20 @@
                         lines: otherLines,
                         action: c.action
                     };
+                }
+                function moveDeltasByOne(redoStack, d) {
+                    d = cloneDelta(d);
+                    for(var j = redoStack.length; j--;){
+                        for(var deltaSet = redoStack[j], i = 0; i < deltaSet.length; i++){
+                            var xformed = xform(deltaSet[i], d);
+                            d = xformed[0], 2 != xformed.length && (xformed[2] ? (deltaSet.splice(i + 1, 1, xformed[1], xformed[2]), i++) : !xformed[1] && (deltaSet.splice(i, 1), i--));
+                        }
+                        deltaSet.length || redoStack.splice(j, 1);
+                    }
+                    return redoStack;
+                }
+                function rebaseRedoStack(redoStack, deltaSets) {
+                    for(var i = 0; i < deltaSets.length; i++)for(var deltas = deltaSets[i], j = 0; j < deltas.length; j++)moveDeltasByOne(redoStack, deltas[j]);
                 }
                 Range.comparePoints, exports.UndoManager = UndoManager;
             }), ace.define("ace/layer/lines", [
@@ -9302,6 +9362,9 @@
                     this.element = dom.createElement("div"), this.element.className = "ace_layer ace_marker-layer", parentEl.appendChild(this.element);
                 };
                 (function() {
+                    function getBorderClass(tl, tr, br, bl) {
+                        return (tl ? 1 : 0) | (tr ? 2 : 0) | (br ? 4 : 0) | (bl ? 8 : 0);
+                    }
                     this.$padding = 0, this.setPadding = function(padding) {
                         this.$padding = padding;
                     }, this.setSession = function(session) {
@@ -9332,7 +9395,7 @@
                     }, this.$getTop = function(row, layerConfig) {
                         return (row - layerConfig.firstRowScreen) * layerConfig.lineHeight;
                     }, this.drawTextMarker = function(stringBuilder, range, clazz, layerConfig, extraStyle) {
-                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + ((row == start || row == start + 1 && range.start.column ? 1 : 0) | (prev < curr ? 2 : 0) | (curr > next ? 4 : 0) | (row == end ? 8 : 0)), layerConfig, row == end ? 0 : 1, extraStyle);
+                        for(var session = this.session, start = range.start.row, end = range.end.row, row = start, prev = 0, curr = 0, next = session.getScreenLastRowColumn(row), lineRange = new Range(row, range.start.column, row, curr); row <= end; row++)lineRange.start.row = lineRange.end.row = row, lineRange.start.column = row == start ? range.start.column : session.getRowWrapIndent(row), lineRange.end.column = next, prev = curr, curr = next, next = row + 1 < end ? session.getScreenLastRowColumn(row + 1) : row == end ? 0 : range.end.column, this.drawSingleLineMarker(stringBuilder, lineRange, clazz + (row == start ? " ace_start" : "") + " ace_br" + getBorderClass(row == start || row == start + 1 && range.start.column, prev < curr, curr > next, row == end), layerConfig, row == end ? 0 : 1, extraStyle);
                     }, this.drawMultiLineMarker = function(stringBuilder, range, clazz, config, extraStyle) {
                         var padding = this.$padding, height = config.lineHeight, top = this.$getTop(range.start.row, config), left = padding + range.start.column * config.characterWidth;
                         if (extraStyle = extraStyle || "", this.session.$bidiHandler.isBidiRow(range.start.row)) {
@@ -9568,28 +9631,30 @@
                             invisibleEl.className = "ace_invisible ace_invisible_eol", invisibleEl.textContent = row == this.session.getLength() - 1 ? this.EOF_CHAR : this.EOL_CHAR, lastLineEl.appendChild(invisibleEl);
                         }
                     }, this.$getFoldLineTokens = function(row, foldLine) {
-                        var session = this.session, renderTokens = [], tokens = session.getTokens(row);
+                        var session = this.session, renderTokens = [];
+                        function addTokens(tokens, from, to) {
+                            for(var idx = 0, col = 0; col + tokens[idx].value.length < from;)if (col += tokens[idx].value.length, ++idx == tokens.length) return;
+                            if (col != from) {
+                                var value = tokens[idx].value.substring(from - col);
+                                value.length > to - from && (value = value.substring(0, to - from)), renderTokens.push({
+                                    type: tokens[idx].type,
+                                    value: value
+                                }), col = from + value.length, idx += 1;
+                            }
+                            for(; col < to && idx < tokens.length;){
+                                var value = tokens[idx].value;
+                                value.length + col > to ? renderTokens.push({
+                                    type: tokens[idx].type,
+                                    value: value.substring(0, to - col)
+                                }) : renderTokens.push(tokens[idx]), col += value.length, idx += 1;
+                            }
+                        }
+                        var tokens = session.getTokens(row);
                         return foldLine.walk(function(placeholder, row, column, lastColumn, isNewRow) {
                             null != placeholder ? renderTokens.push({
                                 type: "fold",
                                 value: placeholder
-                            }) : (isNewRow && (tokens = session.getTokens(row)), tokens.length && function(tokens, from, to) {
-                                for(var idx = 0, col = 0; col + tokens[idx].value.length < from;)if (col += tokens[idx].value.length, ++idx == tokens.length) return;
-                                if (col != from) {
-                                    var value = tokens[idx].value.substring(from - col);
-                                    value.length > to - from && (value = value.substring(0, to - from)), renderTokens.push({
-                                        type: tokens[idx].type,
-                                        value: value
-                                    }), col = from + value.length, idx += 1;
-                                }
-                                for(; col < to && idx < tokens.length;){
-                                    var value = tokens[idx].value;
-                                    value.length + col > to ? renderTokens.push({
-                                        type: tokens[idx].type,
-                                        value: value.substring(0, to - col)
-                                    }) : renderTokens.push(tokens[idx]), col += value.length, idx += 1;
-                                }
-                            }(tokens, lastColumn, column));
+                            }) : (isNewRow && (tokens = session.getTokens(row)), tokens.length && addTokens(tokens, lastColumn, column));
                         }, foldLine.end.row, this.session.getLine(foldLine.end.row).length), renderTokens;
                     }, this.$useLineGroups = function() {
                         return this.session.getUseWrapMode();
@@ -11038,25 +11103,26 @@ margin: 0 10px;\
             ], function(require, exports, module) {
                 "use strict";
                 var oop = require("../lib/oop"), net = require("../lib/net"), EventEmitter = require("../lib/event_emitter").EventEmitter, config = require("../config");
+                function $workerBlob(workerUrl) {
+                    var script = "importScripts('" + net.qualifyURL(workerUrl) + "');";
+                    try {
+                        return new Blob([
+                            script
+                        ], {
+                            type: "application/javascript"
+                        });
+                    } catch (e) {
+                        var blobBuilder = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
+                        return blobBuilder.append(script), blobBuilder.getBlob("application/javascript");
+                    }
+                }
                 function createWorker(workerUrl) {
                     if ("undefined" == typeof Worker) return {
                         postMessage: function() {},
                         terminate: function() {}
                     };
                     if (config.get("loadWorkerFromBlob")) {
-                        var blob = function(workerUrl) {
-                            var script = "importScripts('" + net.qualifyURL(workerUrl) + "');";
-                            try {
-                                return new Blob([
-                                    script
-                                ], {
-                                    type: "application/javascript"
-                                });
-                            } catch (e) {
-                                var blobBuilder = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
-                                return blobBuilder.append(script), blobBuilder.getBlob("application/javascript");
-                            }
-                        }(workerUrl), blobURL = (window.URL || window.webkitURL).createObjectURL(blob);
+                        var blob = $workerBlob(workerUrl), blobURL = (window.URL || window.webkitURL).createObjectURL(blob);
                         return new Worker(blobURL);
                     }
                     return new Worker(workerUrl);
@@ -11285,7 +11351,7 @@ margin: 0 10px;\
                 function isSamePoint(p1, p2) {
                     return p1.row == p2.row && p1.column == p2.column;
                 }
-                exports.onMouseDown = function(e) {
+                function onMouseDown(e) {
                     var ev = e.domEvent, alt = ev.altKey, shift = ev.shiftKey, ctrl = ev.ctrlKey, accel = e.getAccelKey(), button = e.getButton();
                     if (ctrl && useragent.isMac && (button = ev.button), e.editor.inMultiSelectMode && 2 == button) {
                         e.editor.textInput.onContextMenu(e.domEvent);
@@ -11336,7 +11402,8 @@ margin: 0 10px;\
                             return e.preventDefault();
                         }
                     }
-                };
+                }
+                exports.onMouseDown = onMouseDown;
             }), ace.define("ace/commands/multi_select_commands", [
                 "require",
                 "exports",
@@ -11529,6 +11596,9 @@ margin: 0 10px;\
                 var RangeList = require("./range_list").RangeList, Range = require("./range").Range, Selection = require("./selection").Selection, onMouseDown = require("./mouse/multi_select_handler").onMouseDown, event = require("./lib/event"), lang = require("./lib/lang"), commands = require("./commands/multi_select_commands");
                 exports.commands = commands.defaultCommands.concat(commands.multiSelectCommands);
                 var search = new (require("./search")).Search();
+                function find(session, needle, dir) {
+                    return search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir, search.find(session);
+                }
                 (function() {
                     this.getSelectionMarkers = function() {
                         return this.$selectionMarkers;
@@ -11611,9 +11681,9 @@ margin: 0 10px;\
                         else var startRow = screenAnchor.row, endRow = screenCursor.row;
                         startColumn < 0 && (startColumn = 0), startRow < 0 && (startRow = 0), startRow == endRow && (includeEmptyLines = !0);
                         for(var row = startRow; row <= endRow; row++){
-                            var p1, p2, range = Range.fromPoints(this.session.screenToDocumentPosition(row, startColumn, startOffsetX), this.session.screenToDocumentPosition(row, endColumn, endOffsetX));
+                            var range = Range.fromPoints(this.session.screenToDocumentPosition(row, startColumn, startOffsetX), this.session.screenToDocumentPosition(row, endColumn, endOffsetX));
                             if (range.isEmpty()) {
-                                if (docEnd && (p1 = range.end, p2 = docEnd, p1.row == p2.row && p1.column == p2.column)) break;
+                                if (docEnd && isSamePoint(range.end, docEnd)) break;
                                 docEnd = range.end;
                             }
                             range.cursor = xBackwards ? range.start : range.end, rectSel.push(range);
@@ -11627,19 +11697,23 @@ margin: 0 10px;\
                     };
                 }).call(Selection.prototype);
                 var Editor = require("./editor").Editor;
+                function isSamePoint(p1, p2) {
+                    return p1.row == p2.row && p1.column == p2.column;
+                }
                 function MultiSelect(editor) {
-                    editor.$multiselectOnSessionChange || (editor.$onAddRange = editor.$onAddRange.bind(editor), editor.$onRemoveRange = editor.$onRemoveRange.bind(editor), editor.$onMultiSelect = editor.$onMultiSelect.bind(editor), editor.$onSingleSelect = editor.$onSingleSelect.bind(editor), editor.$multiselectOnSessionChange = exports.onSessionChange.bind(editor), editor.$checkMultiselectChange = editor.$checkMultiselectChange.bind(editor), editor.$multiselectOnSessionChange(editor), editor.on("changeSession", editor.$multiselectOnSessionChange), editor.on("mousedown", onMouseDown), editor.commands.addCommands(commands.defaultCommands), function(editor) {
-                        if (editor.textInput) {
-                            var el = editor.textInput.getElement(), altCursor = !1;
-                            event.addListener(el, "keydown", function(e) {
-                                var altDown = 18 == e.keyCode && !(e.ctrlKey || e.shiftKey || e.metaKey);
-                                editor.$blockSelectEnabled && altDown ? altCursor || (editor.renderer.setMouseCursor("crosshair"), altCursor = !0) : altCursor && reset();
-                            }, editor), event.addListener(el, "keyup", reset, editor), event.addListener(el, "blur", reset, editor);
-                        }
-                        function reset(e) {
-                            altCursor && (editor.renderer.setMouseCursor(""), altCursor = !1);
-                        }
-                    }(editor));
+                    editor.$multiselectOnSessionChange || (editor.$onAddRange = editor.$onAddRange.bind(editor), editor.$onRemoveRange = editor.$onRemoveRange.bind(editor), editor.$onMultiSelect = editor.$onMultiSelect.bind(editor), editor.$onSingleSelect = editor.$onSingleSelect.bind(editor), editor.$multiselectOnSessionChange = exports.onSessionChange.bind(editor), editor.$checkMultiselectChange = editor.$checkMultiselectChange.bind(editor), editor.$multiselectOnSessionChange(editor), editor.on("changeSession", editor.$multiselectOnSessionChange), editor.on("mousedown", onMouseDown), editor.commands.addCommands(commands.defaultCommands), addAltCursorListeners(editor));
+                }
+                function addAltCursorListeners(editor) {
+                    if (editor.textInput) {
+                        var el = editor.textInput.getElement(), altCursor = !1;
+                        event.addListener(el, "keydown", function(e) {
+                            var altDown = 18 == e.keyCode && !(e.ctrlKey || e.shiftKey || e.metaKey);
+                            editor.$blockSelectEnabled && altDown ? altCursor || (editor.renderer.setMouseCursor("crosshair"), altCursor = !0) : altCursor && reset();
+                        }, editor), event.addListener(el, "keyup", reset, editor), event.addListener(el, "blur", reset, editor);
+                    }
+                    function reset(e) {
+                        altCursor && (editor.renderer.setMouseCursor(""), altCursor = !1);
+                    }
                 }
                 (function() {
                     this.updateSelectionMarkers = function() {
@@ -11769,7 +11843,7 @@ margin: 0 10px;\
                     }, this.selectMore = function(dir, skip, stopAtFirst) {
                         var session = this.session, range = session.multiSelect.toOrientedRange();
                         if (!range.isEmpty() || ((range = session.getWordRange(range.start.row, range.start.column)).cursor = -1 == dir ? range.start : range.end, this.multiSelect.addRange(range), !stopAtFirst)) {
-                            var needle = session.getTextRange(range), newRange = (search.$options.wrap = !0, search.$options.needle = needle, search.$options.backwards = -1 == dir, search.find(session));
+                            var needle = session.getTextRange(range), newRange = find(session, needle, dir);
                             newRange && (newRange.cursor = -1 == dir ? newRange.start : newRange.end, this.session.unfold(newRange), this.multiSelect.addRange(newRange), this.renderer.scrollCursorIntoView(null, 0.5)), skip && this.multiSelect.substractPoint(range.cursor);
                         }
                     }, this.alignCursors = function() {
@@ -11812,16 +11886,18 @@ margin: 0 10px;\
                             return m ? (null == startW ? (startW = m[1].length, textW = m[2].length, endW = m[3].length) : (startW + textW + endW != m[1].length + m[2].length + m[3].length && (isRightAligned = !1), startW != m[1].length && (isLeftAligned = !1), startW > m[1].length && (startW = m[1].length), textW < m[2].length && (textW = m[2].length), endW > m[3].length && (endW = m[3].length)), m) : [
                                 line
                             ];
-                        }).map(forceLeft ? alignLeft : isLeftAligned ? isRightAligned ? function(m) {
-                            return m[2] ? spaces(startW + textW - m[2].length) + m[2] + spaces(endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
-                        } : alignLeft : function(m) {
-                            return m[2] ? spaces(startW) + m[2] + spaces(endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
-                        });
+                        }).map(forceLeft ? alignLeft : isLeftAligned ? isRightAligned ? alignRight : alignLeft : unAlign);
                         function spaces(n) {
                             return lang.stringRepeat(" ", n);
                         }
                         function alignLeft(m) {
                             return m[2] ? spaces(startW) + m[2] + spaces(textW - m[2].length + endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
+                        }
+                        function alignRight(m) {
+                            return m[2] ? spaces(startW + textW - m[2].length) + m[2] + spaces(endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
+                        }
+                        function unAlign(m) {
+                            return m[2] ? spaces(startW) + m[2] + spaces(endW) + m[4].replace(/^([=:])\s+/, "$1 ") : m[0];
                         }
                     };
                 }).call(Editor.prototype), exports.onSessionChange = function(e) {
@@ -12186,6 +12262,40 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
             ], function(require, exports, module) {
                 "use strict";
                 var LineWidgets = require("../line_widgets").LineWidgets, dom = require("../lib/dom"), Range = require("../range").Range;
+                function binarySearch(array, needle, comparator) {
+                    for(var first = 0, last = array.length - 1; first <= last;){
+                        var mid = first + last >> 1, c = comparator(needle, array[mid]);
+                        if (c > 0) first = mid + 1;
+                        else {
+                            if (!(c < 0)) return mid;
+                            last = mid - 1;
+                        }
+                    }
+                    return -(first + 1);
+                }
+                function findAnnotations(session, row, dir) {
+                    var annotations = session.getAnnotations().sort(Range.comparePoints);
+                    if (annotations.length) {
+                        var i = binarySearch(annotations, {
+                            row: row,
+                            column: -1
+                        }, Range.comparePoints);
+                        i < 0 && (i = -i - 1), i >= annotations.length ? i = dir > 0 ? 0 : annotations.length - 1 : 0 === i && dir < 0 && (i = annotations.length - 1);
+                        var annotation = annotations[i];
+                        if (annotation && dir) {
+                            if (annotation.row === row) {
+                                do annotation = annotations[i += dir];
+                                while (annotation && annotation.row === row)
+                                if (!annotation) return annotations.slice();
+                            }
+                            var matched = [];
+                            row = annotation.row;
+                            do matched[dir < 0 ? "unshift" : "push"](annotation), annotation = annotations[i += dir];
+                            while (annotation && annotation.row == row)
+                            return matched.length && matched;
+                        }
+                    }
+                }
                 exports.showErrorMarker = function(editor, dir) {
                     var gutterAnno, session = editor.session;
                     session.widgetManager || (session.widgetManager = new LineWidgets(session), session.widgetManager.attach(editor));
@@ -12193,39 +12303,7 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         return "errorMarker" == w.type;
                     })[0];
                     oldWidget ? oldWidget.destroy() : row -= dir;
-                    var annotations = function(session, row, dir) {
-                        var annotations = session.getAnnotations().sort(Range.comparePoints);
-                        if (annotations.length) {
-                            var i = function(array, needle, comparator) {
-                                for(var first = 0, last = array.length - 1; first <= last;){
-                                    var mid = first + last >> 1, c = comparator(needle, array[mid]);
-                                    if (c > 0) first = mid + 1;
-                                    else {
-                                        if (!(c < 0)) return mid;
-                                        last = mid - 1;
-                                    }
-                                }
-                                return -(first + 1);
-                            }(annotations, {
-                                row: row,
-                                column: -1
-                            }, Range.comparePoints);
-                            i < 0 && (i = -i - 1), i >= annotations.length ? i = dir > 0 ? 0 : annotations.length - 1 : 0 === i && dir < 0 && (i = annotations.length - 1);
-                            var annotation = annotations[i];
-                            if (annotation && dir) {
-                                if (annotation.row === row) {
-                                    do annotation = annotations[i += dir];
-                                    while (annotation && annotation.row === row)
-                                    if (!annotation) return annotations.slice();
-                                }
-                                var matched = [];
-                                row = annotation.row;
-                                do matched[dir < 0 ? "unshift" : "push"](annotation), annotation = annotations[i += dir];
-                                while (annotation && annotation.row == row)
-                                return matched.length && matched;
-                            }
-                        }
-                    }(session, row, dir);
+                    var annotations = findAnnotations(session, row, dir);
                     if (annotations) {
                         var annotation = annotations[0];
                         pos.column = (annotation.pos && "number" != typeof annotation.column ? annotation.pos.sc : annotation.column) || 0, pos.row = annotation.row, gutterAnno = editor.renderer.$gutterLayer.$annotations[pos.row];

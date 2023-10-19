@@ -57,7 +57,8 @@
                 for(var _i = 0; _i < browserApi.length; _i++)FullscreenApi[specApi[_i]] = browserApi[_i];
                 FullscreenApi.prefixed = browserApi[0] !== specApi[0];
             }
-            var history = [], log$1 = function createLogger$1(name) {
+            var history = [];
+            function createLogger$1(name) {
                 var logByType, level = "info", log = function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     logByType("log", level, args);
@@ -111,13 +112,19 @@
                     for(var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
                     return logByType("debug", level, args);
                 }, log;
-            }("VIDEOJS"), createLogger = log$1.createLogger, toString = Object.prototype.toString, keys = function(object) {
+            }
+            var log$1 = createLogger$1("VIDEOJS"), createLogger = log$1.createLogger, toString = Object.prototype.toString, keys = function(object) {
                 return isObject(object) ? Object.keys(object) : [];
             };
             function each(object, fn) {
                 keys(object).forEach(function(key) {
                     return fn(object[key], key);
                 });
+            }
+            function reduce(object, fn, initial) {
+                return void 0 === initial && (initial = 0), keys(object).reduce(function(accum, key) {
+                    return fn(accum, object[key], key);
+                }, initial);
             }
             function assign(target) {
                 for(var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)sources[_key - 1] = arguments[_key];
@@ -179,6 +186,9 @@
             function throwIfWhitespace(str) {
                 if (str.indexOf(" ") >= 0) throw Error("class has illegal whitespace characters");
             }
+            function classRegExp(className) {
+                return RegExp("(^|\\s)" + className + "($|\\s)");
+            }
             function isReal() {
                 return global_document__WEBPACK_IMPORTED_MODULE_1___default() === global_window__WEBPACK_IMPORTED_MODULE_0___default().document;
             }
@@ -217,7 +227,7 @@
                 parent.firstChild ? parent.insertBefore(child, parent.firstChild) : parent.appendChild(child);
             }
             function hasClass(element, classToCheck) {
-                return (throwIfWhitespace(classToCheck), element.classList) ? element.classList.contains(classToCheck) : RegExp("(^|\\s)" + classToCheck + "($|\\s)").test(element.className);
+                return (throwIfWhitespace(classToCheck), element.classList) ? element.classList.contains(classToCheck) : classRegExp(classToCheck).test(element.className);
             }
             function addClass(element, classToAdd) {
                 return element.classList ? element.classList.add(classToAdd) : hasClass(element, classToAdd) || (element.className = (element.className + " " + classToAdd).trim()), element;
@@ -1073,10 +1083,11 @@
                     if (name && Component.components_) return Component.components_[name];
                 }, Component;
             }();
+            function rangeCheck(fnName, index, maxIndex) {
+                if ("number" != typeof index || index < 0 || index > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
+            }
             function getRange(fnName, valueIndex, ranges, rangeIndex) {
-                return !function(fnName, index, maxIndex) {
-                    if ("number" != typeof index || index < 0 || index > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
-                }(fnName, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
+                return rangeCheck(fnName, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
             }
             function createTimeRangesObj(ranges) {
                 var timeRangesObj;
@@ -1753,6 +1764,13 @@
                     privateName: "remoteTextTrackEls_"
                 }
             }, ALL = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, NORMAL, REMOTE);
+            function createTrackHelper(self1, kind, label, language, options) {
+                void 0 === options && (options = {});
+                var tracks = self1.textTracks();
+                options.kind = kind, label && (options.label = label), language && (options.language = language), options.tech = self1;
+                var track = new ALL.text.TrackClass(options);
+                return tracks.addTrack(track), track;
+            }
             REMOTE.names = Object.keys(REMOTE), NORMAL.names = Object.keys(NORMAL), ALL.names = [].concat(REMOTE.names).concat(NORMAL.names);
             var Tech = function(_Component) {
                 function Tech(options, ready) {
@@ -1903,9 +1921,8 @@
                         for(var i = 0; i < tracks.length; i++)tracks[i].removeEventListener("cuechange", updateDisplay);
                     });
                 }, _proto.addTextTrack = function addTextTrack(kind, label, language) {
-                    var options, tracks, track;
                     if (!kind) throw Error("TextTrack kind is required but was not provided");
-                    return void 0 === options && (options = {}), tracks = this.textTracks(), options.kind = kind, label && (options.label = label), language && (options.language = language), options.tech = this, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
+                    return createTrackHelper(this, kind, label, language);
                 }, _proto.createRemoteTextTrack = function createRemoteTextTrack(options) {
                     var track = mergeOptions$3(options, {
                         tech: this
@@ -1983,15 +2000,29 @@
                 };
             }, Component$1.registerComponent("Tech", Tech), Tech.registerTech("Tech", Tech), Tech.defaultTechOrder_ = [];
             var middlewares = {}, middlewareInstances = {}, TERMINATOR = {};
+            function use(type, middleware) {
+                middlewares[type] = middlewares[type] || [], middlewares[type].push(middleware);
+            }
+            function setSource(player, src, next) {
+                player.setTimeout(function() {
+                    return setSourceHelper(src, middlewares[src.type], next, player);
+                }, 1);
+            }
+            function setTech(middleware, tech) {
+                middleware.forEach(function(mw) {
+                    return mw.setTech && mw.setTech(tech);
+                });
+            }
+            function get(middleware, tech, method) {
+                return middleware.reduceRight(middlewareIterator(method), tech[method]());
+            }
+            function set(middleware, tech, method, arg) {
+                return tech[method](middleware.reduce(middlewareIterator(method), arg));
+            }
             function mediate(middleware, tech, method, arg) {
                 void 0 === arg && (arg = null);
                 var callMethod = "call" + toTitleCase$1(method), middlewareValue = middleware.reduce(middlewareIterator(callMethod), arg), terminated = middlewareValue === TERMINATOR, returnValue = terminated ? null : tech[method](middlewareValue);
-                return function(mws, method, value, terminated) {
-                    for(var i = mws.length - 1; i >= 0; i--){
-                        var mw = mws[i];
-                        mw[method] && mw[method](terminated, value);
-                    }
-                }(middleware, method, returnValue, terminated), returnValue;
+                return executeRight(middleware, method, returnValue, terminated), returnValue;
             }
             var allowedGetters = {
                 buffered: 1,
@@ -2015,6 +2046,45 @@
                 return function(value, mw) {
                     return value === TERMINATOR ? TERMINATOR : mw[method] ? mw[method](value) : value;
                 };
+            }
+            function executeRight(mws, method, value, terminated) {
+                for(var i = mws.length - 1; i >= 0; i--){
+                    var mw = mws[i];
+                    mw[method] && mw[method](terminated, value);
+                }
+            }
+            function clearCacheForPlayer(player) {
+                middlewareInstances[player.id()] = null;
+            }
+            function getOrCreateFactory(player, mwFactory) {
+                var mws = middlewareInstances[player.id()], mw = null;
+                if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
+                    [
+                        mwFactory,
+                        mw
+                    ]
+                ], mw;
+                for(var i = 0; i < mws.length; i++){
+                    var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
+                    mwf === mwFactory && (mw = mwi);
+                }
+                return null === mw && (mw = mwFactory(player), mws.push([
+                    mwFactory,
+                    mw
+                ])), mw;
+            }
+            function setSourceHelper(src, middleware, next, player, acc, lastRun) {
+                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
+                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1);
+                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun);
+                else if (mwFactory) {
+                    var mw = getOrCreateFactory(player, mwFactory);
+                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                    mw.setSource(assign({}, src), function(err, _src) {
+                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                        acc.push(mw), setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
+                    });
+                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
             }
             var MimetypesKind = {
                 opus: "video/ogg",
@@ -2440,6 +2510,12 @@
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600);
                 return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || Math.floor(guide / 3600) > 0 ? h + ":" : "") || Math.floor(guide / 60 % 60) >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
             }, implementation = defaultImplementation;
+            function setFormatTime(customImplementation) {
+                implementation = customImplementation;
+            }
+            function resetFormatTime() {
+                implementation = defaultImplementation;
+            }
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
             }
@@ -4226,6 +4302,17 @@
             function parseOptionValue(value, parser) {
                 if (parser && (value = parser(value)), value && "none" !== value) return value;
             }
+            function getSelectedOptionValue(el, parser) {
+                return parseOptionValue(el.options[el.options.selectedIndex].value, parser);
+            }
+            function setSelectedOption(el, value, parser) {
+                if (value) {
+                    for(var i = 0; i < el.options.length; i++)if (parseOptionValue(el.options[i].value, parser) === value) {
+                        el.selectedIndex = i;
+                        break;
+                    }
+                }
+            }
             selectConfigs.windowColor.options = selectConfigs.backgroundColor.options;
             var TextTrackSettings = function(_ModalDialog) {
                 function TextTrackSettings(player, options) {
@@ -4354,24 +4441,15 @@
                 }, _proto.buildCSSClass = function buildCSSClass() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
                 }, _proto.getValues = function getValues() {
-                    var fn, _this3 = this;
-                    return fn = function(accum, config, key) {
-                        var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
+                    var _this3 = this;
+                    return reduce(selectConfigs, function(accum, config, key) {
+                        var value = getSelectedOptionValue(_this3.$(config.selector), config.parser);
                         return void 0 !== value && (accum[key] = value), accum;
-                    }, keys(selectConfigs).reduce(function(accum, key) {
-                        return fn(accum, selectConfigs[key], key);
                     }, {});
                 }, _proto.setValues = function setValues(values) {
                     var _this4 = this;
                     each(selectConfigs, function(config, key) {
-                        !function(el, value, parser) {
-                            if (value) {
-                                for(var i = 0; i < el.options.length; i++)if (parseOptionValue(el.options[i].value, parser) === value) {
-                                    el.selectedIndex = i;
-                                    break;
-                                }
-                            }
-                        }(_this4.$(config.selector), values[key], config.parser);
+                        setSelectedOption(_this4.$(config.selector), values[key], config.parser);
                     });
                 }, _proto.setDefaults = function setDefaults() {
                     var _this5 = this;
@@ -5213,7 +5291,7 @@
                 var _proto = Player.prototype;
                 return _proto.dispose = function dispose() {
                     var _this2 = this;
-                    this.trigger("dispose"), this.off("dispose"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), this.fsApi_.fullscreenchange, this.boundDocumentFullscreenChange_), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), this.styleEl_ && this.styleEl_.parentNode && (this.styleEl_.parentNode.removeChild(this.styleEl_), this.styleEl_ = null), Player.players[this.id_] = null, this.tag && this.tag.player && (this.tag.player = null), this.el_ && this.el_.player && (this.el_.player = null), this.tech_ && (this.tech_.dispose(), this.isPosterFromTech_ = !1, this.poster_ = ""), this.playerElIngest_ && (this.playerElIngest_ = null), this.tag && (this.tag = null), middlewareInstances[this.id()] = null, ALL.names.forEach(function(name) {
+                    this.trigger("dispose"), this.off("dispose"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), this.fsApi_.fullscreenchange, this.boundDocumentFullscreenChange_), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), this.styleEl_ && this.styleEl_.parentNode && (this.styleEl_.parentNode.removeChild(this.styleEl_), this.styleEl_ = null), Player.players[this.id_] = null, this.tag && this.tag.player && (this.tag.player = null), this.el_ && this.el_.player && (this.el_.player = null), this.tech_ && (this.tech_.dispose(), this.isPosterFromTech_ = !1, this.poster_ = ""), this.playerElIngest_ && (this.playerElIngest_ = null), this.tag && (this.tag = null), clearCacheForPlayer(this), ALL.names.forEach(function(name) {
                         var list = _this2[ALL[name].getterName]();
                         list && list.off && list.off();
                     }), _Component.prototype.dispose.call(this);
@@ -5550,10 +5628,7 @@
                     };
                 }, _proto.techCall_ = function techCall_(method, arg) {
                     this.ready(function() {
-                        if (method in allowedSetters) {
-                            var middleware;
-                            return middleware = this.middleware_, this.tech_[method](middleware.reduce(middlewareIterator(method), arg));
-                        }
+                        if (method in allowedSetters) return set(this.middleware_, this.tech_, method, arg);
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method, arg);
                         try {
                             this.tech_ && this.tech_[method](arg);
@@ -5563,10 +5638,7 @@
                     }, !0);
                 }, _proto.techGet_ = function techGet_(method) {
                     if (this.tech_ && this.tech_.isReady_) {
-                        if (method in allowedGetters) {
-                            var middleware, tech;
-                            return middleware = this.middleware_, tech = this.tech_, middleware.reduceRight(middlewareIterator(method), tech[method]());
-                        }
+                        if (method in allowedGetters) return get(this.middleware_, this.tech_, method);
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method);
                         try {
                             return this.tech_[method]();
@@ -5829,50 +5901,14 @@
                         }, 0);
                         return;
                     }
-                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), function(player, src, next) {
-                        player.setTimeout(function() {
-                            return function setSourceHelper(src, middleware, next, player, acc, lastRun) {
-                                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
-                                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1);
-                                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun);
-                                else if (mwFactory) {
-                                    var mw = function(player, mwFactory) {
-                                        var mws = middlewareInstances[player.id()], mw = null;
-                                        if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
-                                            [
-                                                mwFactory,
-                                                mw
-                                            ]
-                                        ], mw;
-                                        for(var i = 0; i < mws.length; i++){
-                                            var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
-                                            mwf === mwFactory && (mw = mwi);
-                                        }
-                                        return null === mw && (mw = mwFactory(player), mws.push([
-                                            mwFactory,
-                                            mw
-                                        ])), mw;
-                                    }(player, mwFactory);
-                                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                                    mw.setSource(assign({}, src), function(err, _src) {
-                                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                                        acc.push(mw), setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
-                                    });
-                                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
-                            }(src, middlewares[src.type], next, player);
-                        }, 1);
-                    }(this, sources[0], function(middlewareSource, mws) {
+                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), setSource(this, sources[0], function(middlewareSource, mws) {
                         if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
                         }, 0), void _this14.triggerReady());
-                        !function(middleware, tech) {
-                            middleware.forEach(function(mw) {
-                                return mw.setTech && mw.setTech(tech);
-                            });
-                        }(mws, _this14.tech_);
+                        setTech(mws, _this14.tech_);
                     }), this.options_.retryOnError && sources.length > 1) {
                         var retry = function() {
                             _this14.error(null), _this14.handleSrc_(sources.slice(1), !0);
@@ -6341,9 +6377,7 @@
                 }).filter(Boolean);
             }, videojs.players = Player.players, videojs.getComponent = Component$1.getComponent, videojs.registerComponent = function(name, comp) {
                 Tech.isTech(comp) && log$1.warn("The " + name + " tech was registered as a component. It should instead be registered using videojs.registerTech(name, tech)"), Component$1.registerComponent.call(Component$1, name, comp);
-            }, videojs.getTech = Tech.getTech, videojs.registerTech = Tech.registerTech, videojs.use = function(type, middleware) {
-                middlewares[type] = middlewares[type] || [], middlewares[type].push(middleware);
-            }, Object.defineProperty(videojs, "middleware", {
+            }, videojs.getTech = Tech.getTech, videojs.registerTech = Tech.registerTech, videojs.use = use, Object.defineProperty(videojs, "middleware", {
                 value: {},
                 writeable: !1,
                 enumerable: !0
@@ -6363,11 +6397,7 @@
             }, videojs.getPlugins = Plugin.getPlugins, videojs.getPlugin = Plugin.getPlugin, videojs.getPluginVersion = Plugin.getPluginVersion, videojs.addLanguage = function(code, data) {
                 var _mergeOptions;
                 return code = ("" + code).toLowerCase(), videojs.options.languages = mergeOptions$3(videojs.options.languages, ((_mergeOptions = {})[code] = data, _mergeOptions)), videojs.options.languages[code];
-            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = function(customImplementation) {
-                implementation = customImplementation;
-            }, videojs.resetFormatTime = function() {
-                implementation = defaultImplementation;
-            }, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack, videojs.AudioTrack = AudioTrack, videojs.VideoTrack = VideoTrack, [
+            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = resetFormatTime, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack, videojs.AudioTrack = AudioTrack, videojs.VideoTrack = VideoTrack, [
                 "isEl",
                 "isTextNode",
                 "createEl",
@@ -13266,11 +13296,12 @@
                         path: basedir,
                         exports: {},
                         require: function require(path, base) {
-                            return function() {
-                                throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
-                            }(path, null == base ? module.path : base);
+                            return commonjsRequire(path, null == base ? module.path : base);
                         }
                     }, module.exports), module.exports;
+                }
+                function commonjsRequire() {
+                    throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
                 }
                 var createClass = createCommonjsModule(function(module) {
                     function _defineProperties(target, props) {
@@ -13279,9 +13310,10 @@
                             descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    module.exports = function(Constructor, protoProps, staticProps) {
+                    function _createClass(Constructor, protoProps, staticProps) {
                         return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-                    }, module.exports.default = module.exports, module.exports.__esModule = !0;
+                    }
+                    module.exports = _createClass, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), setPrototypeOf = createCommonjsModule(function(module) {
                     function _setPrototypeOf(o, p) {
                         return module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
@@ -13290,9 +13322,10 @@
                     }
                     module.exports = _setPrototypeOf, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), inheritsLoose = createCommonjsModule(function(module) {
-                    module.exports = function(subClass, superClass) {
+                    function _inheritsLoose(subClass, superClass) {
                         subClass.prototype = Object.create(superClass.prototype), subClass.prototype.constructor = subClass, setPrototypeOf(subClass, superClass);
-                    }, module.exports.default = module.exports, module.exports.__esModule = !0;
+                    }
+                    module.exports = _inheritsLoose, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), Stream = function() {
                     function Stream() {
                         this.listeners = {};
@@ -13317,7 +13350,11 @@
                             destination.push(data);
                         });
                     }, Stream;
-                }(), precompute = function() {
+                }();
+                function unpad(padded) {
+                    return padded.subarray(0, padded.byteLength - padded[padded.byteLength - 1]);
+                }
+                var precompute = function() {
                     var i, x, xInv, x2, x4, s, tEnc, tDec, tables = [
                         [
                             [],
@@ -13398,7 +13435,7 @@
                             ntoh(encrypted32[i - 1])
                         ]), this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted));
                         this.asyncStream_.push(function() {
-                            done(null, decrypted.subarray(0, decrypted.byteLength - decrypted[decrypted.byteLength - 1]));
+                            done(null, unpad(decrypted));
                         });
                     }
                     return Decrypter.prototype.decryptChunk_ = function decryptChunk_(encrypted, key, initVector, decrypted) {

@@ -5,7 +5,13 @@
 
 
 
+- **(css/ast)** Make `.hash()` of `Token` not recursive ([#8151](https://github.com/swc-project/swc/issues/8151)) ([8d7894c](https://github.com/swc-project/swc/commit/8d7894c71f86ef6b1813b69a15d72bb7911ed7ca))
+
+
 - **(es/minifier)** Abort seq inliner if `b` can short-circuit ([#8128](https://github.com/swc-project/swc/issues/8128)) ([111de26](https://github.com/swc-project/swc/commit/111de264b0ec04ec7a693b0006050df21513b583))
+
+
+- **(es/minifier)** Abort function inliner if `keep_fnames` is `true` ([#8145](https://github.com/swc-project/swc/issues/8145)) ([35601e4](https://github.com/swc-project/swc/commit/35601e4dcb7bb65e16d217c50d6065958cbd8e6d))
 
 
 - **(es/utils)** Skip var declarator name in `RefRewriter` ([#8125](https://github.com/swc-project/swc/issues/8125)) ([fb81a36](https://github.com/swc-project/swc/commit/fb81a36adcebdc269ae89677977220e9b21b072f))
@@ -36,6 +42,12 @@
 
 
 - **(bindings)** Add `@deprecated` to JS plugins ([#8132](https://github.com/swc-project/swc/issues/8132)) ([1e9b4e0](https://github.com/swc-project/swc/commit/1e9b4e027cabba88c8a0cfd6b62f9ca6c00b29a8))
+
+### Refactor
+
+
+
+- **(es/minifier)** Decouple `assign_count` from `reassigned` ([#8137](https://github.com/swc-project/swc/issues/8137)) ([13106e0](https://github.com/swc-project/swc/commit/13106e0d2eaa08c4c74f58205f57c4f2d7d4479f))
 
 ## [1.3.93] - 2023-10-13
 
@@ -1745,22 +1757,13 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 
-- **(atoms)** Update `string-cache` for per-bucket mutex ([#6980](https://github.com/swc-project/swc/issues/6980)) ([9841f0b](https://github.com/swc-project/swc/commit/9841f0b5d14736d780c9864eb9bf7609f9ff2840))
-
-
 - **(es/ast)** Shrink size of `Expr` ([#7041](https://github.com/swc-project/swc/issues/7041)) ([a9fe1d2](https://github.com/swc-project/swc/commit/a9fe1d2d2228ba89fccb2a5d91f5ac4008f09d01))
 
 
 - **(es/lexer)** Use string searcher for lexing line comments ([#7043](https://github.com/swc-project/swc/issues/7043)) ([962b0fc](https://github.com/swc-project/swc/commit/962b0fc8af6084ade064d189ed7cd7f0e2b25ee8))
 
 
-- **(es/parser)** Use Cow for `_` in numeric literals ([#7031](https://github.com/swc-project/swc/issues/7031)) ([30546a2](https://github.com/swc-project/swc/commit/30546a28f21eb90bbbaef33ce4bc0448cd062a72))
-
-
 - **(es/parser)** Use `SmartString` as the buffer ([#7033](https://github.com/swc-project/swc/issues/7033)) ([f378a14](https://github.com/swc-project/swc/commit/f378a14888b5a6457ade3991e2754f235d4e3d85))
-
-
-- **(es/utils)** Introduce `NodeIgnoringSpan` ([#7030](https://github.com/swc-project/swc/issues/7030)) ([8bfef35](https://github.com/swc-project/swc/commit/8bfef35c1be5790b32fea253f28961271fe7f619))
 
 ### Testing
 
