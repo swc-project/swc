@@ -264,9 +264,7 @@ impl Hash for Token {
             | Token::LParen
             | Token::RParen
             | Token::LBrace
-            | Token::RBrace => {
-                self.hash(state);
-            }
+            | Token::RBrace => {}
         }
     }
 }
