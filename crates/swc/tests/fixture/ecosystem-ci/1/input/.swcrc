@@ -4,6 +4,9 @@
             "syntax": "typescript",
             "tsx": true
         },
-        "target": "es2022"
+        "target": "es2022",
+    },
+    "module": {
+        "type": "commonjs"
     }
 }
