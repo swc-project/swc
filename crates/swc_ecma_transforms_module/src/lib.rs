@@ -22,7 +22,7 @@ mod top_level_this;
 pub mod umd;
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 pub struct EsModuleConfig {
     #[serde(default)]
     pub resolve_fully: bool,
