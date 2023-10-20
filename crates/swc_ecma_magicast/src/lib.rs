@@ -1,14 +1,17 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
+pub struct ModuleNode<'a> {
+    pub exports: ModuleExports<'a>,
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub struct ModuleExports<'a> {
+    pub default: OptionalNode<ExportItemNode<'a>>,
+}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+pub struct OptionalNode<T> {
+    node: Option<T>,
+}
+
+pub struct ExportItemNode<'a> {}
+
+fn usage() {
+    let m: ModuleNode;
 }
