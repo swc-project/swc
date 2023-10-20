@@ -406,39 +406,13 @@
                 "param": {
                   "type": "Identifier",
                   "span": {
-                    "start": 267,
-                    "end": 276,
+                    "start": 278,
+                    "end": 279,
                     "ctxt": 0
                   },
-                  "value": "this",
+                  "value": "n",
                   "optional": false,
-                  "typeAnnotation": {
-                    "type": "TsTypeAnnotation",
-                    "span": {
-                      "start": 271,
-                      "end": 276,
-                      "ctxt": 0
-                    },
-                    "typeAnnotation": {
-                      "type": "TsTypeReference",
-                      "span": {
-                        "start": 273,
-                        "end": 276,
-                        "ctxt": 0
-                      },
-                      "typeName": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 273,
-                          "end": 276,
-                          "ctxt": 0
-                        },
-                        "value": "Bar",
-                        "optional": false
-                      },
-                      "typeParams": null
-                    }
-                  }
+                  "typeAnnotation": null
                 },
                 "body": {
                   "type": "BlockStatement",
