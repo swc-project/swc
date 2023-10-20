@@ -6,7 +6,7 @@ var explicit = {
     get x () {
         return this.n;
     },
-    set x (_this){
+    set x (n){
         this.n = n;
     }
 };
@@ -24,7 +24,7 @@ var copiedFromSetter = {
     get x () {
         return this.n;
     },
-    set x (_this){
+    set x (n){
         this.n = n;
     }
 };
@@ -33,7 +33,7 @@ var copiedFromGetterUnannotated = {
     get x () {
         return this.n;
     },
-    set x (_this){
+    set x (n){
         this.n = n;
     }
 };
