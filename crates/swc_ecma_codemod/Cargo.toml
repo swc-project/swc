@@ -12,3 +12,4 @@ swc_ecma_ast = { version = "0.110.0", path = "../swc_ecma_ast" }
 
 [dev-dependencies]
 swc_ecma_visit = { path = "../swc_ecma_visit" }
+testing = { path = "../testing" }
