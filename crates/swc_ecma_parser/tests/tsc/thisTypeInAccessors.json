@@ -277,37 +277,27 @@
                 "param": {
                   "type": "Identifier",
                   "span": {
-                    "start": 204,
-                    "end": 213,
+                    "start": 215,
+                    "end": 224,
                     "ctxt": 0
                   },
-                  "value": "this",
+                  "value": "n",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 208,
-                      "end": 213,
+                      "start": 216,
+                      "end": 224,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
-                      "type": "TsTypeReference",
+                      "type": "TsKeywordType",
                       "span": {
-                        "start": 210,
-                        "end": 213,
+                        "start": 218,
+                        "end": 224,
                         "ctxt": 0
                       },
-                      "typeName": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 210,
-                          "end": 213,
-                          "ctxt": 0
-                        },
-                        "value": "Foo",
-                        "optional": false
-                      },
-                      "typeParams": null
+                      "kind": "number"
                     }
                   }
                 },
@@ -759,37 +749,27 @@
                 "param": {
                   "type": "Identifier",
                   "span": {
-                    "start": 441,
-                    "end": 450,
+                    "start": 452,
+                    "end": 461,
                     "ctxt": 0
                   },
-                  "value": "this",
+                  "value": "n",
                   "optional": false,
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 445,
-                      "end": 450,
+                      "start": 453,
+                      "end": 461,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
-                      "type": "TsTypeReference",
+                      "type": "TsKeywordType",
                       "span": {
-                        "start": 447,
-                        "end": 450,
+                        "start": 455,
+                        "end": 461,
                         "ctxt": 0
                       },
-                      "typeName": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 447,
-                          "end": 450,
-                          "ctxt": 0
-                        },
-                        "value": "Foo",
-                        "optional": false
-                      },
-                      "typeParams": null
+                      "kind": "number"
                     }
                   }
                 },
@@ -1005,11 +985,11 @@
                 "param": {
                   "type": "Identifier",
                   "span": {
-                    "start": 580,
-                    "end": 584,
+                    "start": 586,
+                    "end": 587,
                     "ctxt": 0
                   },
-                  "value": "this",
+                  "value": "n",
                   "optional": false,
                   "typeAnnotation": null
                 },
