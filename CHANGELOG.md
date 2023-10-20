@@ -14,6 +14,9 @@
 - **(es/minifier)** Abort function inliner if `keep_fnames` is `true` ([#8145](https://github.com/swc-project/swc/issues/8145)) ([35601e4](https://github.com/swc-project/swc/commit/35601e4dcb7bb65e16d217c50d6065958cbd8e6d))
 
 
+- **(es/parser)** Skip `this` parameters in setter ([#8158](https://github.com/swc-project/swc/issues/8158)) ([826386f](https://github.com/swc-project/swc/commit/826386f49a1226ff3f7d352a75ccdc65c982b4be))
+
+
 - **(es/utils)** Skip var declarator name in `RefRewriter` ([#8125](https://github.com/swc-project/swc/issues/8125)) ([fb81a36](https://github.com/swc-project/swc/commit/fb81a36adcebdc269ae89677977220e9b21b072f))
 
 
@@ -1746,18 +1749,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 - **(es/lexer)** Use jump table for `read_token` ([#7058](https://github.com/swc-project/swc/issues/7058)) ([9beefaa](https://github.com/swc-project/swc/commit/9beefaa1d5e711b63293d52a6c77e8aaf5e8f4c1))
 
 ## [1.3.39] - 2023-03-10
-
-### Bug Fixes
-
-
-
-- **(es/transforms)** Handle object shorthand in `const_modules` ([#7022](https://github.com/swc-project/swc/issues/7022)) ([0314869](https://github.com/swc-project/swc/commit/0314869464f59748a6a44980ade4dc1eda39ac3b))
-
-### Documentation
-
-
-
-- MSRV ([32bc2f5](https://github.com/swc-project/swc/commit/32bc2f57be06997497d2ad43c2168efb3daaa435))
 
 ### Performance
 
