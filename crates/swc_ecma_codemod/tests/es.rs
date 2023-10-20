@@ -27,7 +27,7 @@ impl Visit for TestVisitor {
         n.visit_children_with(self);
 
         self.mods
-            .push(modifications::prepend_stmt(n, "\"use server\";"));
+            .push(modifications::prepend_stmt(n, "  \"use server\";"));
     }
 }
 
