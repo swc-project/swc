@@ -40,7 +40,7 @@ impl Operator {
                 let start = edit.span.lo.0 as isize + offset;
                 let end = edit.span.hi.0 as isize + offset;
 
-                if start < 0 || end > (result.len() as isize) || end > start {
+                if start < 0 || end > (result.len() as isize) || end < start {
                     return Err(Error::InvalidRange {
                         start: start as usize,
                         end: end as usize,
