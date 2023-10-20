@@ -1,5 +1,7 @@
 use swc_common::Span;
 
+pub mod modifications;
+
 #[derive(Debug)]
 pub struct TextEdit {
     pub span: Span,
