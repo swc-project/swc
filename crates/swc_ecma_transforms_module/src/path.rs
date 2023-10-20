@@ -122,7 +122,7 @@ where
                 base_dir.is_absolute(),
                 "base_dir(`{}`) must be absolute. Please ensure that `jsc.baseUrl` is specified \
                  correctly. This cannot be deduced by SWC itself because SWC is a transpiler and \
-                 it does not try to resolve project details. In other works, SWC does not know \
+                 it does not try to resolve project details. In other words, SWC does not know \
                  which directory should be used as a base directory. It can be deduced if \
                  `.swcrc` is used, but if not, there are many candidates. e.g. the directory \
                  containing `package.json`, or the current working directory. Because of that, \
