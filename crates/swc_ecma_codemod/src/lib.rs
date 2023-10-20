@@ -12,3 +12,12 @@ pub struct TextEdit {
 pub struct Modification {
     pub edits: Vec<TextEdit>,
 }
+
+pub struct Operator {
+    /// The modifications to apply to the file.
+    ///
+    /// These are applied in order.
+    pub modifications: Vec<Modification>,
+}
+
+impl Operator {}
