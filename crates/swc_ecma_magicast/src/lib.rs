@@ -26,6 +26,25 @@ impl<N> OptionalNode<N> {
 
 pub struct ExportItemNode<'a> {}
 
+pub struct ArrayNode<'a> {}
+
+pub struct ObjectNode<'a> {}
+
+pub trait ExprLike {}
+
+pub struct ExprNode<'a> {}
+
+impl ExprNode<'a> {
+    pub fn cast<T>(&self) -> &T
+    where
+        T: ExprLike,
+    {
+        unimplemented!()
+    }
+}
+
 fn usage() {
     let m: ModuleNode;
 }
+
+pub struct Value;
