@@ -20,6 +20,7 @@ pub struct Operator {
     pub modifications: Vec<Modification>,
 }
 
+#[derive(Debug)]
 pub enum Error {
     InvalidRange {
         start: usize,
