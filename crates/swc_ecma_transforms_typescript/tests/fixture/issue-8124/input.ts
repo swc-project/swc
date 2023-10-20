@@ -1,6 +1,6 @@
 namespace Foo {
     export var a = 1;
-    for (var a; a < 5; a++) {}
+    for (var a; a < 5; a++) { }
 }
 
 namespace Bar {

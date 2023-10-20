@@ -3063,6 +3063,10 @@ where
     }
 
     fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        if !n.name.is_ident() {
+            n.name.visit_mut_with(self);
+        }
+
         // skip var declarator name
         n.init.visit_mut_with(self);
     }
