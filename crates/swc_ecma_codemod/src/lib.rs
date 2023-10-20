@@ -20,4 +20,39 @@ pub struct Operator {
     pub modifications: Vec<Modification>,
 }
 
-impl Operator {}
+pub enum Error {
+    InvalidRange {
+        start: usize,
+        end: usize,
+        offset: isize,
+    },
+}
+
+impl Operator {
+    pub fn apply(&self, to: &str) -> Result<String, Error> {
+        let mut result = to.to_string();
+
+        let mut offset = 0isize;
+
+        for modification in &self.modifications {
+            for edit in &modification.edits {
+                let start = edit.span.lo.0 as isize + offset;
+                let end = edit.span.hi.0 as isize + offset;
+
+                if start < 0 || end > (result.len() as isize) || end > start {
+                    return Err(Error::InvalidRange {
+                        start: start as usize,
+                        end: end as usize,
+                        offset,
+                    });
+                }
+
+                result.replace_range((start as usize)..(end as usize), &edit.new_text);
+
+                offset += edit.new_text.len() as isize - (end - start) as isize;
+            }
+        }
+
+        Ok(result)
+    }
+}
