@@ -37,8 +37,8 @@ impl Operator {
 
         for modification in &self.modifications {
             for edit in &modification.edits {
-                let start = edit.span.lo.0 as isize + offset;
-                let end = edit.span.hi.0 as isize + offset;
+                let start = edit.span.lo.0 as isize + offset - 1;
+                let end = edit.span.hi.0 as isize + offset - 1;
 
                 if start < 0 || end > (result.len() as isize) || end < start {
                     return Err(Error::InvalidRange {
