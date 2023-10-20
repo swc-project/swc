@@ -49,7 +49,7 @@ impl Operator {
 
                 result.replace_range((start as usize)..(end as usize), &edit.new_text);
 
-                offset += edit.new_text.len() as isize - (end - start) as isize;
+                offset += edit.new_text.len() as isize - (end - start);
             }
         }
 
