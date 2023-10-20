@@ -351,19 +351,28 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     false,
                                 )
                                 .map(|v| *v)
-                                .map(|Function { params, body, .. }| {
-                                    // debug_assert_eq!(params.len(), 1);
-                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                        span: span!(parser, start),
-                                        key,
-                                        body,
-                                        param: Box::new(
-                                            params.into_iter().map(|p| p.pat).next().unwrap_or(
-                                                Pat::Invalid(Invalid { span: key_span }),
+                                .map(
+                                    |Function {
+                                         mut params, body, ..
+                                     }| {
+                                        params.retain(|p| match &p.pat {
+                                            Pat::Ident(p) => p.sym != "this",
+                                            _ => true,
+                                        });
+
+                                        // debug_assert_eq!(params.len(), 1);
+                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                            span: span!(parser, start),
+                                            key,
+                                            body,
+                                            param: Box::new(
+                                                params.into_iter().map(|p| p.pat).next().unwrap_or(
+                                                    Pat::Invalid(Invalid { span: key_span }),
+                                                ),
                                             ),
-                                        ),
-                                    })))
-                                })
+                                        })))
+                                    },
+                                )
                         }
                         "async" => parser
                             .parse_fn_args_body(
