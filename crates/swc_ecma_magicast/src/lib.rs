@@ -1,4 +1,4 @@
-use std::ops::{Index, IndexMut};
+use std::ops::{Index, IndexMut, Shl};
 
 pub struct ModuleNode<'a> {
     pub exports: ModuleExports<'a>,
@@ -47,4 +47,12 @@ fn usage() {
     let m: ModuleNode;
 }
 
-pub struct Value;
+pub struct Value<T>(T);
+
+impl<'a, T> Shl<T> for &'a mut Value<T> {
+    type Output = ();
+
+    fn shl(self, rhs: T) -> Self::Output {
+        self.0 = rhs
+    }
+}
