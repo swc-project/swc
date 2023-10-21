@@ -53,9 +53,22 @@ fn usage() {
 
     m.imports[ModuleSpecifier("foo")];
     m.imports["foo".as_module_specifier()];
-    m.imports.from("foo");
-    m.imports.named("foo");
+    m.imports.from("foo"); // OptionalNode<ImportFrom> where ImportFrom is ensurable
+    m.imports.named("foo"); // OPtionalNode<ImportNamed> where ImportNamed is
+                            // not ensurable, and derefs to BindingRef
 }
+
+pub struct ImportNamed {}
+
+impl Deref for ImportNamed {
+    type Target = BindingRef;
+}
+
+pub struct ImportFrom {}
+
+impl Ensurable for ImportFrom {}
+
+pub struct BindingRef {}
 
 pub trait Proxy {
     type Item;
