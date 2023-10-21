@@ -5,12 +5,11 @@ function f1() {
 function f2(a) {
     b;
 }
-function f3(a) {
-}
+function f3(a) {}
 function f4() {
     var a = b;
-    return (a *= c);
+    return a *= c;
 }
 function f5(a) {
-    x((a /= b));
+    x(a /= b);
 }

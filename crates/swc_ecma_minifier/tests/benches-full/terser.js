@@ -4293,10 +4293,7 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            if (options.beautify) {
-                var back;
-                print((back = half ? 0.5 : 0, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
-            }
+            options.beautify && print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;

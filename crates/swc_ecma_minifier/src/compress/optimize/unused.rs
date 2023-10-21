@@ -151,7 +151,7 @@ impl Optimizer<'_> {
             if v.ref_count == 0
                 && v.usage_count == 0
                 && !v.reassigned
-                && !v.has_property_mutation
+                && v.property_mutation_count == 0
                 && !v.declared_as_catch_param
             {
                 self.changed = true;
@@ -435,7 +435,7 @@ impl Optimizer<'_> {
                     .data
                     .vars
                     .get(&ident.to_id())
-                    .map(|v| v.usage_count == 0 && !v.has_property_mutation)
+                    .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
                     self.changed = true;
@@ -475,7 +475,7 @@ impl Optimizer<'_> {
                     .data
                     .vars
                     .get(&ident.to_id())
-                    .map(|v| v.usage_count == 0 && !v.has_property_mutation)
+                    .map(|v| v.usage_count == 0 && v.property_mutation_count == 0)
                     .unwrap_or(false)
                 {
                     self.changed = true;

@@ -3500,10 +3500,10 @@
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
-                var _options = options, _options$manifestUri = _options.manifestUri, manifestUri = void 0 === _options$manifestUri ? "" : _options$manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
+                var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
                 if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
-                    manifestUri
+                    void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
                 mpdAttributes.type = mpdAttributes.type || "static", mpdAttributes.sourceDuration = mpdAttributes.mediaPresentationDuration || 0, mpdAttributes.NOW = NOW, mpdAttributes.clientOffset = void 0 === _options$clientOffset ? 0 : _options$clientOffset, locations.length && (mpdAttributes.locations = locations.map(getContent));
                 var periods = [];

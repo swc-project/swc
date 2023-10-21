@@ -6768,8 +6768,8 @@
                 }, NumericTextBox.prototype.correctRounding = function(value, step, result) {
                     var floatExp = RegExp('[,.](.*)'), floatValue = floatExp.test(value.toString()), floatStep = floatExp.test(step.toString());
                     if (floatValue || floatStep) {
-                        var max = Math.max(floatValue ? floatExp.exec(value.toString())[0].length : 0, floatStep ? floatExp.exec(step.toString())[0].length : 0);
-                        return value = this.roundValue(result, max);
+                        var valueCount = floatValue ? floatExp.exec(value.toString())[0].length : 0, stepCount = floatStep ? floatExp.exec(step.toString())[0].length : 0;
+                        return value = this.roundValue(result, Math.max(valueCount, stepCount));
                     }
                     return result;
                 }, NumericTextBox.prototype.roundValue = function(result, precision) {
@@ -21468,8 +21468,7 @@
                     var decimalPart = value.toString().split('.')[1];
                     return decimalPart && decimalPart.length ? decimalPart.length : 0;
                 }, Slider.prototype.makeRoundNumber = function(value, precision) {
-                    var decimals = precision || 0;
-                    return Number(value.toFixed(decimals));
+                    return Number(value.toFixed(precision || 0));
                 }, Slider.prototype.fractionalToInteger = function(value) {
                     value = 0 === this.numberOfDecimals(value) ? Number(value).toFixed(this.noOfDecimals) : value;
                     for(var tens = 1, i = 0; i < this.noOfDecimals; i++)tens *= 10;

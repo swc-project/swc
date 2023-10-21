@@ -568,10 +568,7 @@
     function determinant(rows, rank, rowStart, rowMask, colMask, detCache) {
         var cacheKey = rowMask + '-' + colMask, fullRank = rows.length;
         if (detCache.hasOwnProperty(cacheKey)) return detCache[cacheKey];
-        if (1 === rank) {
-            var colStart = Math.round(Math.log((1 << fullRank) - 1 & ~colMask) / LN2);
-            return rows[rowStart][colStart];
-        }
+        if (1 === rank) return rows[rowStart][Math.round(Math.log((1 << fullRank) - 1 & ~colMask) / LN2)];
         for(var subRowMask = rowMask | 1 << rowStart, subRowStart = rowStart + 1; rowMask & 1 << subRowStart;)subRowStart++;
         for(var sum = 0, j = 0, colLocalIdx = 0; j < fullRank; j++){
             var colTag = 1 << j;
@@ -5709,10 +5706,10 @@
         }, ZRText.prototype._updatePlainTexts = function() {
             var fill, style = this.style, textFont = style.font || DEFAULT_FONT, textPadding = style.padding, contentBlock = function(text, style) {
                 null != text && (text += '');
-                var lines, overflow = style.overflow, padding = style.padding, font = style.font, truncate = 'truncate' === overflow, calculatedLineHeight = getLineHeight(font), lineHeight = retrieve2(style.lineHeight, calculatedLineHeight), truncateLineOverflow = 'truncate' === style.lineOverflow, width = style.width, contentHeight = (lines = null != width && 'break' === overflow || 'breakAll' === overflow ? text ? wrapText(text, style.font, width, 'breakAll' === overflow, 0).lines : [] : text ? text.split('\n') : []).length * lineHeight, height = retrieve2(style.height, contentHeight);
+                var lines, overflow = style.overflow, padding = style.padding, font = style.font, calculatedLineHeight = getLineHeight(font), lineHeight = retrieve2(style.lineHeight, calculatedLineHeight), truncateLineOverflow = 'truncate' === style.lineOverflow, width = style.width, contentHeight = (lines = null != width && 'break' === overflow || 'breakAll' === overflow ? text ? wrapText(text, style.font, width, 'breakAll' === overflow, 0).lines : [] : text ? text.split('\n') : []).length * lineHeight, height = retrieve2(style.height, contentHeight);
                 contentHeight > height && truncateLineOverflow && (lines = lines.slice(0, Math.floor(height / lineHeight)));
                 var outerHeight = height, outerWidth = width;
-                if (padding && (outerHeight += padding[0] + padding[2], null != outerWidth && (outerWidth += padding[1] + padding[3])), text && truncate && null != outerWidth) for(var options = prepareTruncateOptions(width, font, style.ellipsis, {
+                if (padding && (outerHeight += padding[0] + padding[2], null != outerWidth && (outerWidth += padding[1] + padding[3])), text && 'truncate' === overflow && null != outerWidth) for(var options = prepareTruncateOptions(width, font, style.ellipsis, {
                     minChar: style.truncateMinChar,
                     placeholder: style.placeholder
                 }), i = 0; i < lines.length; i++)lines[i] = truncateSingleLine(lines[i], options);
@@ -8096,10 +8093,9 @@
             }
             return fields.defaultOption;
         }, ComponentModel.prototype.getReferringComponents = function(mainType, opt) {
-            var indexKey = mainType + 'Index', idKey = mainType + 'Id';
             return queryReferringComponents(this.ecModel, mainType, {
-                index: this.get(indexKey, !0),
-                id: this.get(idKey, !0)
+                index: this.get(mainType + 'Index', !0),
+                id: this.get(mainType + 'Id', !0)
             }, opt);
         }, ComponentModel.prototype.getBoxLayoutParams = function() {
             return {
@@ -16565,9 +16561,7 @@
             var domChild = shadowDom.children[0], style = displayable.style, globalScale = displayable.getGlobalScale(), scaleX = globalScale[0], scaleY = globalScale[1];
             if (scaleX && scaleY) {
                 var offsetX = style.shadowOffsetX || 0, offsetY = style.shadowOffsetY || 0, blur = style.shadowBlur, color = style.shadowColor;
-                domChild.setAttribute('dx', offsetX / scaleX + ''), domChild.setAttribute('dy', offsetY / scaleY + ''), domChild.setAttribute('flood-color', color);
-                var stdDx = blur / 2 / scaleX, stdDy = blur / 2 / scaleY;
-                domChild.setAttribute('stdDeviation', stdDx + ' ' + stdDy), shadowDom.setAttribute('x', '-100%'), shadowDom.setAttribute('y', '-100%'), shadowDom.setAttribute('width', '300%'), shadowDom.setAttribute('height', '300%'), displayable._shadowDom = shadowDom;
+                domChild.setAttribute('dx', offsetX / scaleX + ''), domChild.setAttribute('dy', offsetY / scaleY + ''), domChild.setAttribute('flood-color', color), domChild.setAttribute('stdDeviation', blur / 2 / scaleX + ' ' + blur / 2 / scaleY), shadowDom.setAttribute('x', '-100%'), shadowDom.setAttribute('y', '-100%'), shadowDom.setAttribute('width', '300%'), shadowDom.setAttribute('height', '300%'), displayable._shadowDom = shadowDom;
                 var id = shadowDom.getAttribute('id');
                 svgElement.style.filter = 'url(#' + id + ')';
             }
@@ -23100,12 +23094,16 @@
                                             var blurStyle = getStateItemStyle(itemStyleBlurModel);
                                             blurStyle.fill = itemStyleBlurModel.get('borderColor');
                                             var selectStyle = getStateItemStyle(itemStyleSelectModel);
-                                            selectStyle.fill = itemStyleSelectModel.get('borderColor'), useUpperLabel ? prepareText(bg, visualBorderColor, style.opacity, {
-                                                x: borderWidth,
-                                                y: 0,
-                                                width: thisWidth - 2 * borderWidth,
-                                                height: upperHeight
-                                            }) : bg.removeTextContent(), bg.setStyle(normalStyle), bg.ensureState('emphasis').style = emphasisStyle, bg.ensureState('blur').style = blurStyle, bg.ensureState('select').style = selectStyle, setDefaultStateProxy(bg);
+                                            if (selectStyle.fill = itemStyleSelectModel.get('borderColor'), useUpperLabel) {
+                                                var upperLabelWidth = thisWidth - 2 * borderWidth;
+                                                prepareText(bg, visualBorderColor, style.opacity, {
+                                                    x: borderWidth,
+                                                    y: 0,
+                                                    width: upperLabelWidth,
+                                                    height: upperHeight
+                                                });
+                                            } else bg.removeTextContent();
+                                            bg.setStyle(normalStyle), bg.ensureState('emphasis').style = emphasisStyle, bg.ensureState('blur').style = blurStyle, bg.ensureState('select').style = selectStyle, setDefaultStateProxy(bg);
                                         }
                                         group.add(bg);
                                     }(group, bg, isParent && thisLayout.upperLabelHeight);
@@ -23121,11 +23119,13 @@
                                         var content = giveGraphic('content', Rect, depth, 30);
                                         content && function(group, content) {
                                             var ecData = getECData(content);
-                                            if (ecData.dataIndex = thisNode.dataIndex, ecData.seriesIndex = seriesModel.seriesIndex, content.culling = !0, content.setShape({
+                                            ecData.dataIndex = thisNode.dataIndex, ecData.seriesIndex = seriesModel.seriesIndex;
+                                            var contentWidth = Math.max(thisWidth - 2 * borderWidth, 0), contentHeight = Math.max(thisHeight - 2 * borderWidth, 0);
+                                            if (content.culling = !0, content.setShape({
                                                 x: borderWidth,
                                                 y: borderWidth,
-                                                width: Math.max(thisWidth - 2 * borderWidth, 0),
-                                                height: Math.max(thisHeight - 2 * borderWidth, 0),
+                                                width: contentWidth,
+                                                height: contentHeight,
                                                 r: borderRadius
                                             }), thisInvisible) processInvisible(content);
                                             else {
@@ -25218,14 +25218,14 @@
         }
         return __extends(GaugeView, _super), GaugeView.prototype.render = function(seriesModel, ecModel, api) {
             this.group.removeAll();
-            var center, size, colorList = seriesModel.get([
+            var center, width, height, colorList = seriesModel.get([
                 'axisLine',
                 'lineStyle',
                 'color'
-            ]), posInfo = (center = seriesModel.get('center'), size = Math.min(api.getWidth(), api.getHeight()), {
+            ]), posInfo = (center = seriesModel.get('center'), width = api.getWidth(), height = api.getHeight(), {
                 cx: parsePercent$1(center[0], api.getWidth()),
                 cy: parsePercent$1(center[1], api.getHeight()),
-                r: parsePercent$1(seriesModel.get('radius'), size / 2)
+                r: parsePercent$1(seriesModel.get('radius'), Math.min(width, height) / 2)
             });
             this._renderMain(seriesModel, ecModel, api, colorList, posInfo), this._data = seriesModel.getData();
         }, GaugeView.prototype.dispose = function() {}, GaugeView.prototype._renderMain = function(seriesModel, ecModel, api, colorList, posInfo) {
@@ -30124,8 +30124,8 @@
                     for(var step = (anticlockwise ? -1 : 1) * Math.PI / 2, angle = startAngle; anticlockwise ? angle > endAngle : angle < endAngle; angle += step){
                         var nextAngle = anticlockwise ? Math.max(angle + step, endAngle) : Math.min(angle + step, endAngle);
                         !function(startAngle, endAngle, cx, cy, rx, ry) {
-                            var len = 4 * Math.tan(Math.abs(endAngle - startAngle) / 4) / 3, dir = endAngle < startAngle ? -1 : 1, c1 = Math.cos(startAngle), s1 = Math.sin(startAngle), c2 = Math.cos(endAngle), s2 = Math.sin(endAngle), x1 = c1 * rx + cx, y1 = s1 * ry + cy, x4 = c2 * rx + cx, y4 = s2 * ry + cy, hx = rx * len * dir, hy = ry * len * dir;
-                            currentSubpath.push(x1 - hx * s1, y1 + hy * c1, x4 + hx * s2, y4 - hy * c2, x4, y4);
+                            var len = 4 * Math.tan(Math.abs(endAngle - startAngle) / 4) / 3, dir = endAngle < startAngle ? -1 : 1, c1 = Math.cos(startAngle), s1 = Math.sin(startAngle), c2 = Math.cos(endAngle), s2 = Math.sin(endAngle), x4 = c2 * rx + cx, y4 = s2 * ry + cy, hx = rx * len * dir, hy = ry * len * dir;
+                            currentSubpath.push(c1 * rx + cx - hx * s1, s1 * ry + cy + hy * c1, x4 + hx * s2, y4 - hy * c2, x4, y4);
                         }(angle, nextAngle, cx, cy, rx, ry);
                     }
                     break;
@@ -36967,10 +36967,10 @@
             ]).getItemStyle(), playState = timelineModel.getPlayState(), inverse = timelineModel.get('inverse', !0);
             function makeBtn(position, iconName, onclick, willRotate) {
                 if (position) {
-                    var objPath, rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
+                    var rect, opts, style, icon, iconSize = parsePercent(retrieve2(timelineModel.get([
                         'controlStyle',
                         iconName + 'BtnSize'
-                    ]), controlSize), controlSize), btn = (objPath = iconName + 'Icon', rect = [
+                    ]), controlSize), controlSize), btn = (rect = [
                         0,
                         -iconSize / 2,
                         iconSize,
@@ -36986,7 +36986,7 @@
                         onclick: onclick
                     }).style, icon = createIcon(timelineModel.get([
                         'controlStyle',
-                        objPath
+                        iconName + 'Icon'
                     ]), opts || {}, new BoundingRect(rect[0], rect[1], rect[2], rect[3])), style && icon.setStyle(style), icon);
                     btn.ensureState('emphasis').style = hoverStyle, group.add(btn), enableHoverEmphasis(btn);
                 }
@@ -38299,8 +38299,8 @@
             createPageButton('pagePrev', 0);
             var pageTextStyleModel = legendModel.getModel('pageTextStyle');
             function createPageButton(name, iconIdx) {
-                var pageDataIndexName = name + 'DataIndex', icon = createIcon(legendModel.get('pageIcons', !0)[legendModel.getOrient().name][iconIdx], {
-                    onclick: bind(self1._pageGo, self1, pageDataIndexName, legendModel, api)
+                var icon = createIcon(legendModel.get('pageIcons', !0)[legendModel.getOrient().name][iconIdx], {
+                    onclick: bind(self1._pageGo, self1, name + 'DataIndex', legendModel, api)
                 }, {
                     x: -pageIconSizeArr[0] / 2,
                     y: -pageIconSizeArr[1] / 2,

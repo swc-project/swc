@@ -1240,20 +1240,20 @@ exports.modules = {
                     eb && e.stopPropagation();
                 }, eW = t.useMemo(function() {
                     return function() {
-                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t = e.refKey, n = void 0 === t ? "ref" : t, i = e.role, w = e.onKeyDown, R = e.onFocus, T = e.onBlur, I = e.onClick, M = e.onDragEnter, L = e.onDragOver, q = e.onDragLeave, et = e.onDrop, en = l(e, er);
+                        var e = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t = e.refKey, n = e.role, i = e.onKeyDown, w = e.onFocus, R = e.onBlur, T = e.onClick, I = e.onDragEnter, M = e.onDragOver, L = e.onDragLeave, q = e.onDrop, et = l(e, er);
                         return c(c(u({
-                            onKeyDown: Oe(X(w, eX)),
-                            onFocus: Oe(X(R, eH)),
-                            onBlur: Oe(X(T, eN)),
-                            onClick: Ae(X(I, eU)),
-                            onDragEnter: Ee(X(M, eM)),
-                            onDragOver: Ee(X(L, eL)),
-                            onDragLeave: Ee(X(q, e_)),
-                            onDrop: Ee(X(et, eK)),
-                            role: "string" == typeof i && "" !== i ? i : "presentation"
-                        }, n, eF), b || eg ? {} : {
+                            onKeyDown: Oe(X(i, eX)),
+                            onFocus: Oe(X(w, eH)),
+                            onBlur: Oe(X(R, eN)),
+                            onClick: Ae(X(T, eU)),
+                            onDragEnter: Ee(X(I, eM)),
+                            onDragOver: Ee(X(M, eL)),
+                            onDragLeave: Ee(X(L, e_)),
+                            onDrop: Ee(X(q, eK)),
+                            role: "string" == typeof n && "" !== n ? n : "presentation"
+                        }, void 0 === t ? "ref" : t, eF), b || eg ? {} : {
                             tabIndex: 0
-                        }), en);
+                        }), et);
                     };
                 }, [
                     eF,

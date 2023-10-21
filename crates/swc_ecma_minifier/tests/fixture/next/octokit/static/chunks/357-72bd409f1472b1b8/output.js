@@ -576,10 +576,7 @@
                         });
                     }
                     _drainAll(capacity, total = 0) {
-                        return this._drainOne(capacity).then((drained)=>{
-                            var newCapacity;
-                            return null != drained ? (newCapacity = null != capacity ? capacity - drained : capacity, this._drainAll(newCapacity, total + drained)) : this.Promise.resolve(total);
-                        }).catch((e)=>this.Events.trigger("error", e));
+                        return this._drainOne(capacity).then((drained)=>null != drained ? this._drainAll(null != capacity ? capacity - drained : capacity, total + drained) : this.Promise.resolve(total)).catch((e)=>this.Events.trigger("error", e));
                     }
                     _dropAllQueued(message) {
                         return this._queues.shiftAll(function(job) {

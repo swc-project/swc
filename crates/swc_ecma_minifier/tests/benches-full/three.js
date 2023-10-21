@@ -581,12 +581,11 @@
             var s = Math.sqrt(1 - q.w * q.w);
             return s < 0.0001 ? (this.x = 1, this.y = 0, this.z = 0) : (this.x = q.x / s, this.y = q.y / s, this.z = q.z / s), this;
         }, _proto.setAxisAngleFromRotationMatrix = function(m) {
-            var angle, x, y, z, te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10];
+            var x, y, z, te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10];
             if (0.01 > Math.abs(m12 - m21) && 0.01 > Math.abs(m13 - m31) && 0.01 > Math.abs(m23 - m32)) {
                 if (0.1 > Math.abs(m12 + m21) && 0.1 > Math.abs(m13 + m31) && 0.1 > Math.abs(m23 + m32) && 0.1 > Math.abs(m11 + m22 + m33 - 3)) return this.set(1, 0, 0, 0), this;
-                angle = Math.PI;
                 var xx = (m11 + 1) / 2, yy = (m22 + 1) / 2, zz = (m33 + 1) / 2, xy = (m12 + m21) / 4, xz = (m13 + m31) / 4, yz = (m23 + m32) / 4;
-                return xx > yy && xx > zz ? xx < 0.01 ? (x = 0, y = 0.707106781, z = 0.707106781) : (y = xy / (x = Math.sqrt(xx)), z = xz / x) : yy > zz ? yy < 0.01 ? (x = 0.707106781, y = 0, z = 0.707106781) : (x = xy / (y = Math.sqrt(yy)), z = yz / y) : zz < 0.01 ? (x = 0.707106781, y = 0.707106781, z = 0) : (x = xz / (z = Math.sqrt(zz)), y = yz / z), this.set(x, y, z, angle), this;
+                return xx > yy && xx > zz ? xx < 0.01 ? (x = 0, y = 0.707106781, z = 0.707106781) : (y = xy / (x = Math.sqrt(xx)), z = xz / x) : yy > zz ? yy < 0.01 ? (x = 0.707106781, y = 0, z = 0.707106781) : (x = xy / (y = Math.sqrt(yy)), z = yz / y) : zz < 0.01 ? (x = 0.707106781, y = 0.707106781, z = 0) : (x = xz / (z = Math.sqrt(zz)), y = yz / z), this.set(x, y, z, Math.PI), this;
             }
             var s = Math.sqrt((m32 - m23) * (m32 - m23) + (m13 - m31) * (m13 - m31) + (m21 - m12) * (m21 - m12));
             return 0.001 > Math.abs(s) && (s = 1), this.x = (m32 - m23) / s, this.y = (m13 - m31) / s, this.z = (m21 - m12) / s, this.w = Math.acos((m11 + m22 + m33 - 1) / 2), this;
@@ -774,9 +773,7 @@
             return 2 * Math.acos(Math.abs(MathUtils.clamp(this.dot(q), -1, 1)));
         }, _proto.rotateTowards = function(q, step) {
             var angle = this.angleTo(q);
-            if (0 === angle) return this;
-            var t = Math.min(1, step / angle);
-            return this.slerp(q, t), this;
+            return 0 === angle || this.slerp(q, Math.min(1, step / angle)), this;
         }, _proto.identity = function() {
             return this.set(0, 0, 0, 1);
         }, _proto.invert = function() {
@@ -6673,8 +6670,8 @@
                 cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld);
                 var ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], leftFov = (projL[8] - 1) / projL[0], rightFov = (projR[8] + 1) / projR[0], zOffset = ipd / (-leftFov + rightFov), xOffset = -(zOffset * leftFov);
                 cameraL.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale), camera.translateX(xOffset), camera.translateZ(zOffset), camera.matrixWorld.compose(camera.position, camera.quaternion, camera.scale), camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-                var near2 = near + zOffset, far2 = far + zOffset, left2 = near * leftFov - xOffset, right2 = near * rightFov + (ipd - xOffset), top2 = topFov * far / far2 * near2, bottom2 = bottomFov * far / far2 * near2;
-                camera.projectionMatrix.makePerspective(left2, right2, top2, bottom2, near2, far2);
+                var near2 = near + zOffset, far2 = far + zOffset;
+                camera.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2);
             }(cameraVR, cameraL, cameraR) : cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
@@ -8391,7 +8388,8 @@
     }(BufferGeometry), DodecahedronBufferGeometry = function(_PolyhedronBufferGeom) {
         function DodecahedronBufferGeometry(radius, detail) {
             void 0 === radius && (radius = 1), void 0 === detail && (detail = 0);
-            var _this, t = (1 + Math.sqrt(5)) / 2, r = 1 / t, vertices = [
+            var _this, t = (1 + Math.sqrt(5)) / 2, r = 1 / t;
+            return (_this = _PolyhedronBufferGeom.call(this, [
                 -1,
                 -1,
                 -1,
@@ -8452,8 +8450,7 @@
                 t,
                 0,
                 r
-            ];
-            return (_this = _PolyhedronBufferGeom.call(this, vertices, [
+            ], [
                 3,
                 11,
                 7,
@@ -9038,7 +9035,8 @@
     }(Geometry), IcosahedronBufferGeometry = function(_PolyhedronBufferGeom) {
         function IcosahedronBufferGeometry(radius, detail) {
             void 0 === radius && (radius = 1), void 0 === detail && (detail = 0);
-            var _this, t = (1 + Math.sqrt(5)) / 2, vertices = [
+            var _this, t = (1 + Math.sqrt(5)) / 2;
+            return (_this = _PolyhedronBufferGeom.call(this, [
                 -1,
                 t,
                 0,
@@ -9075,8 +9073,7 @@
                 -t,
                 0,
                 1
-            ];
-            return (_this = _PolyhedronBufferGeom.call(this, vertices, [
+            ], [
                 0,
                 11,
                 5,
@@ -12127,8 +12124,8 @@
     }
     function HemisphereLightProbe(skyColor, groundColor, intensity) {
         LightProbe.call(this, void 0, intensity);
-        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI), c1 = c0 * Math.sqrt(0.75);
-        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c1);
+        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI);
+        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c0 * Math.sqrt(0.75));
     }
     function AmbientLightProbe(color, intensity) {
         LightProbe.call(this, void 0, intensity);
