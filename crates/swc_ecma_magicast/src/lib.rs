@@ -1,6 +1,7 @@
-use std::ops::{Index, IndexMut, Shl};
+use std::ops::{Deref, Index, IndexMut, Shl};
 
 pub struct ModuleNode<'a> {
+    pub imports: ModuleImports<'a>,
     pub exports: ModuleExports<'a>,
 }
 
@@ -26,7 +27,9 @@ impl<N> OptionalNode<N> {
 
 pub struct ExportItemNode<'a> {}
 
-pub struct ArrayNode<'a> {}
+pub struct ArrayNode<'a> {
+    elems: VecNode<'a, ArrayElemeNode<'a>>,
+}
 
 pub struct ObjectNode<'a> {}
 
@@ -45,7 +48,26 @@ impl ExprNode<'a> {
 
 fn usage() {
     let m: ModuleNode;
+
+    m.exports.default;
+
+    m.imports[ModuleSpecifier("foo")];
+    m.imports["foo".as_module_specifier()];
+    m.imports.from("foo");
+    m.imports.named("foo");
 }
+
+pub trait Proxy {
+    type Item;
+}
+
+pub trait Ensurable: Proxy {
+    fn ensure(&mut self) -> Self::Item;
+}
+
+struct ModuleSpecifier<'a>(&'a str);
+
+struct Identifier<'a>(&'a str);
 
 pub struct Value<T>(T);
 
@@ -54,5 +76,13 @@ impl<'a, T> Shl<T> for &'a mut Value<T> {
 
     fn shl(self, rhs: T) -> Self::Output {
         self.0 = rhs
+    }
+}
+
+impl<T> Deref for Value<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        &self.0
     }
 }
