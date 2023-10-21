@@ -1,4 +1,7 @@
-use std::ops::{Deref, Index, IndexMut, Shl};
+use std::{
+    cell::RefCell,
+    ops::{Deref, Index, IndexMut, Shl},
+};
 
 pub struct ModuleNode<'a> {
     pub imports: ModuleImports<'a>,
@@ -51,11 +54,15 @@ fn usage() {
 
     m.exports.default;
 
-    m.imports[ModuleSpecifier("foo")];
-    m.imports["foo".as_module_specifier()];
     m.imports.from("foo"); // OptionalNode<ImportFrom> where ImportFrom is ensurable
     m.imports.named("foo"); // OPtionalNode<ImportNamed> where ImportNamed is
                             // not ensurable, and derefs to BindingRef
+
+    m.imports.named("foo").remove();
+
+    obj.props;
+
+    arr.elems;
 }
 
 pub struct ImportNamed {}
