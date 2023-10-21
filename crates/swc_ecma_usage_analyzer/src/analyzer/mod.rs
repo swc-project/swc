@@ -277,6 +277,12 @@ where
             };
             p.right.visit_with(&mut *self.with_ctx(ctx))
         }
+
+        let ids = find_pat_ids(&p.left);
+
+        for id in ids {
+            self.report_usage(&id, true);
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
