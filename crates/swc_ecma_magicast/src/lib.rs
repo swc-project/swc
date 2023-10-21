@@ -99,3 +99,6 @@ impl<T> Deref for Value<T> {
         &self.0
     }
 }
+
+/// Required for moving .cast() calls from the user code to our code
+pub trait CastableTo<T>: Proxy {}
