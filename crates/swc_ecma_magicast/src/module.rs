@@ -1,6 +1,6 @@
 use std::ops::{Deref, Index, IndexMut};
 
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{ImportDecl, Module};
 
 use crate::{data::Data, BindingRef, Ensurable, OptionalNode, Proxy};
 
@@ -12,7 +12,7 @@ impl ModuleNode {
     pub fn exports(&self) -> ModuleExports {}
 }
 
-pub struct ModuleImports {}
+pub struct ModuleImports(Data<Module>);
 
 impl ModuleImports {
     pub fn named(&self, name: &str) -> ImportNamed {}
@@ -32,8 +32,10 @@ impl Proxy for ImportFrom {}
 
 impl Ensurable for ImportFrom {}
 
-pub struct ModuleExports {
-    pub default: OptionalNode<ExportItemNode>,
+pub struct ModuleExports(Data<Module>);
+
+impl ModuleExports {
+    pub fn default(&self) -> ExportDefaultItemNode {}
 }
 
 impl Index<String> for ModuleExports {
