@@ -5,6 +5,9 @@ use swc_ecma_ast::Module;
 use crate::data::Data;
 
 mod data;
+mod expr;
+mod traits;
+mod vec;
 
 pub struct ModuleNode(Data<Module>);
 
