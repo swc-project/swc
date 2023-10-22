@@ -5,7 +5,7 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, ModuleItem, Str};
 use swc_ecma_utils::prepend_stmt;
 
-use crate::{data::Data, option::WithDefault, BindingRef, OptionalNode, Proxy};
+use crate::{data::Data, option::WithDefault, BindingRef, ExprNode, OptionalNode, Proxy};
 
 pub struct ModuleNode(Data<Module>);
 
@@ -178,5 +178,10 @@ pub struct ExportItemNode {}
 impl Proxy for ExportItemNode {}
 
 pub struct ExportDefaultItemNode {}
+
+impl ExportDefaultItemNode {
+    /// Optional because we can export declarations as `default`.`
+    pub fn expr(&self) -> OptionalNode<ExprNode> {}
+}
 
 impl Proxy for ExportDefaultItemNode {}
