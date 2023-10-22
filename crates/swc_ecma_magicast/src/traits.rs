@@ -1,1 +1,2 @@
-pub trait Proxy {}
+/// Should be cheap to clone.
+pub trait Proxy: Clone {}

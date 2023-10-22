@@ -1,3 +1,5 @@
+use std::cell::RefCell;
+
 use crate::Proxy;
 
 pub type WithDefault<'a, T> = OptionalNode<T, Defaultable<'a, T>>;
@@ -6,7 +8,7 @@ pub struct OptionalNode<T, M = NoDefault>
 where
     T: Proxy,
 {
-    data: Option<T>,
+    data: RefCell<Option<T>>,
     default: M,
 }
 
@@ -31,6 +33,20 @@ where
             data,
             default: Defaultable(default),
         }
+    }
+
+    pub fn ensure(&self) -> T {
+        let mut data = self.data.borrow_mut();
+
+        if let Some(data) = &*data {
+            return data.clone();
+        }
+
+        let data = (self.default.0)();
+
+        *data.borrow_mut() = Some(data.clone());
+
+        data
     }
 }
 

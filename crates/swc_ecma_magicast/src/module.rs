@@ -176,7 +176,7 @@ impl Proxy for ImportFromNode<'_> {}
 pub struct ModuleExports<'a>(Data<'a, Module>);
 
 impl<'a> ModuleExports<'a> {
-    pub fn default(&self) -> ExportDefaultItemNode {
+    pub fn default(&self) -> WithDefault<ExportDefaultItemNode> {
         todo!()
     }
 
