@@ -1,6 +1,6 @@
 use std::ops::{Deref, Shl};
 
-pub use crate::{module::*, option::OptionalNode, traits::*, vec::VecNode};
+pub use crate::{expr::*, module::*, option::OptionalNode, traits::*, vec::VecNode};
 
 mod data;
 mod expr;
@@ -8,25 +8,6 @@ mod module;
 mod option;
 mod traits;
 mod vec;
-
-pub struct ArrayNode {
-    elems: VecNode<ArrayElemNode>,
-}
-
-pub struct ObjectNode {}
-
-pub trait ExprLike {}
-
-pub struct ExprNode {}
-
-impl ExprNode {
-    pub fn cast<T>(&self) -> &T
-    where
-        T: ExprLike,
-    {
-        unimplemented!()
-    }
-}
 
 pub struct BindingRef {}
 
