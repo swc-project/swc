@@ -3,7 +3,7 @@ use std::ops::Deref;
 use swc_atoms::Atom;
 use swc_ecma_ast::Module;
 
-use crate::{data::Data, BindingRef, Ensurable, OptionalNode, Proxy};
+use crate::{data::Data, option::WithDefault, BindingRef, OptionalNode, Proxy};
 
 pub struct ModuleNode(Data<Module>);
 
@@ -41,13 +41,11 @@ impl Deref for NamedImportNode {
 }
 
 pub struct ImportFromNode {
-    import: OptionalNode<BaseImportNode>,
+    import: WithDefault<BaseImportNode>,
     module_specifier: Atom,
 }
 
 impl Proxy for ImportFromNode {}
-
-impl Ensurable for ImportFromNode {}
 
 pub struct ModuleExportsNode(Data<Module>);
 
