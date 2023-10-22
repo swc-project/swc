@@ -27,11 +27,19 @@ impl<T> Data<T> {
         )
     }
 
-    pub fn with(&self, f: impl FnOnce(&T)) {
+    pub fn map<N>(&self, f1: impl FnOnce(&T) -> &N, f2: impl FnOnce(&mut T) -> &mut N) -> Data<N> {
+        Data(
+            self.0.clone(),
+            Box::new(|data| f1((self.1)(data))),
+            Box::new(|data| f2((self.2)(data))),
+        )
+    }
+
+    pub fn with<Ret>(&self, f: impl FnOnce(&T) -> Ret) -> Ret {
         f((self.1)(&mut self.0.borrow()))
     }
 
-    pub fn with_mut(&self, f: impl FnOnce(&mut T)) {
+    pub fn with_mut<Ret>(&self, f: impl FnOnce(&mut T) -> Ret) -> Ret {
         f((self.2)(&mut self.0.borrow_mut()))
     }
 }

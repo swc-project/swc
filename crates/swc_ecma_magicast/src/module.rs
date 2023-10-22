@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use swc_atoms::Atom;
-use swc_ecma_ast::{ImportDecl, Module};
+use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, ModuleItem};
 
 use crate::{data::Data, option::WithDefault, BindingRef, OptionalNode, Proxy};
 
@@ -20,12 +20,67 @@ impl ModuleNode {
 pub struct ModuleImportsNode(Data<Module>);
 
 impl ModuleImportsNode {
-    pub fn named(&self, name: &str) -> OptionalNode<NamedImportNode> {}
+    pub fn named(&self, name: &str) -> OptionalNode<NamedImportNode> {
+        let name = Atom::from(name);
+
+        let index = self.0.with(|module| {
+            module.body.iter().position(|item| match item {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { specifiers, .. })) => {
+                    for s in specifiers {
+                        match s {
+                            ImportSpecifier::Named(n) => {
+                                if n.local.sym == name {
+                                    return true;
+                                }
+                            }
+
+                            _ => {}
+                        }
+                    }
+
+                    false
+                }
+                _ => false,
+            })
+        });
+
+        OptionalNode::new(index.map(|index| NamedImportNode {
+            import: BaseImportNode {
+                data: self.0.map(
+                    |module| {
+                        module
+                            .body
+                            .iter()
+                            .nth(index)
+                            .unwrap()
+                            .as_mut_module_decl()
+                            .unwrap()
+                            .as_mut_import()
+                            .unwrap()
+                    },
+                    |module| {
+                        module
+                            .body
+                            .iter_mut()
+                            .nth(index)
+                            .unwrap()
+                            .as_mut_module_decl()
+                            .unwrap()
+                            .as_mut_import()
+                            .unwrap()
+                    },
+                ),
+            },
+            name,
+        }))
+    }
 
     pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromNode> {}
 }
 
-pub struct BaseImportNode(Data<ImportDecl>);
+pub struct BaseImportNode {
+    data: Data<ImportDecl>,
+}
 
 impl Proxy for BaseImportNode {}
 
