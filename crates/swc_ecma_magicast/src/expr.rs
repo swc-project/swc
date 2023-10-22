@@ -8,6 +8,7 @@ pub struct ObjectNode {}
 
 pub trait ExprLike {}
 
+#[derive(Clone)]
 pub struct ExprNode {}
 
 impl Proxy for ExprNode {}
@@ -21,6 +22,7 @@ impl ExprNode {
     }
 }
 
+#[derive(Clone)]
 pub struct SpreadNode<T>
 where
     T: Proxy,

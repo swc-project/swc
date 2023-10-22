@@ -2,6 +2,7 @@ use std::ops::Index;
 
 use crate::Proxy;
 
+#[derive(Clone)]
 pub struct VecNode<T>
 where
     T: Proxy,

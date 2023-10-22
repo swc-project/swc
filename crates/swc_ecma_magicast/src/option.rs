@@ -50,6 +50,18 @@ where
     }
 }
 
+impl<T> Clone for OptionalNode<T>
+where
+    T: Proxy,
+{
+    fn clone(&self) -> Self {
+        Self {
+            data: self.data.clone(),
+            default: self.default.clone(),
+        }
+    }
+}
+
 impl<T> Proxy for OptionalNode<T> where T: Proxy {}
 
 pub struct NoDefault;

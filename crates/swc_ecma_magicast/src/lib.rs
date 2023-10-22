@@ -34,6 +34,7 @@ impl ProgramNode {
     }
 }
 
+#[derive(Clone)]
 pub struct BindingRef {
     sym: Atom,
 }

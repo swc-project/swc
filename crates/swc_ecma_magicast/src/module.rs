@@ -116,6 +116,7 @@ impl<'a> ModuleImports<'a> {
     }
 }
 
+#[derive(Clone)]
 pub struct BaseImportNode<'a> {
     data: Data<'a, ImportDecl>,
 }
@@ -151,6 +152,7 @@ impl<'a> BaseImportNode<'a> {
 
 impl Proxy for BaseImportNode<'_> {}
 
+#[derive(Clone)]
 pub struct NamedImportNode<'a> {
     import: BaseImportNode<'a>,
     name: BindingRef,
@@ -166,6 +168,7 @@ impl<'a> Deref for NamedImportNode<'a> {
     }
 }
 
+#[derive(Clone)]
 pub struct ImportFromNode<'a> {
     import: BaseImportNode<'a>,
     module_specifier: Atom,
@@ -185,10 +188,12 @@ impl<'a> ModuleExports<'a> {
     }
 }
 
+#[derive(Clone)]
 pub struct ExportItemNode {}
 
 impl Proxy for ExportItemNode {}
 
+#[derive(Clone)]
 pub struct ExportDefaultItemNode {}
 
 impl ExportDefaultItemNode {
