@@ -23,7 +23,11 @@ impl<'a, T: 'static> Data<'a, T> {
         )
     }
 
-    pub fn map<N>(&self, f1: impl 'a + Fn(&T) -> &N, f2: impl 'a + Fn(&mut T) -> &mut N) -> Data<N>
+    pub fn map<N>(
+        &'a self,
+        f1: impl 'a + Fn(&T) -> &N,
+        f2: impl 'a + Fn(&mut T) -> &mut N,
+    ) -> Data<'a, N>
     where
         N: 'static,
     {

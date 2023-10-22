@@ -47,7 +47,7 @@ impl<'a> ModuleImports<'a> {
         });
 
         OptionalNode::new(index.map(|index| NamedImportNode {
-            import: BaseImportNode::from_index(self.0.clone(), index),
+            import: BaseImportNode::from_index(&self.0, index),
             name: BindingRef { sym: name.clone() },
         }))
     }
@@ -66,7 +66,7 @@ impl<'a> ModuleImports<'a> {
 
         OptionalNode::new_with_default(
             index.map(|index| ImportFromNode {
-                import: BaseImportNode::from_index(self.0.clone(), index),
+                import: BaseImportNode::from_index(&self.0, index),
                 module_specifier: module_specifier.clone(),
             }),
             Box::new(move || {
@@ -102,7 +102,7 @@ impl<'a> ModuleImports<'a> {
                     .expect("Failed to find newly added import");
 
                 ImportFromNode {
-                    import: BaseImportNode::from_index(self.0.clone(), index),
+                    import: BaseImportNode::from_index(&self.0, index),
                     module_specifier: module_specifier.clone(),
                 }
             }),
@@ -115,7 +115,7 @@ pub struct BaseImportNode<'a> {
 }
 
 impl<'a> BaseImportNode<'a> {
-    pub(crate) fn from_index(data: Data<'a, Module>, index: usize) -> Self {
+    pub(crate) fn from_index(data: &'a Data<'a, Module>, index: usize) -> Self {
         BaseImportNode {
             data: data.map(
                 move |module| {
