@@ -19,8 +19,6 @@ impl<N> OptionalNode<N> {
     }
 }
 
-pub struct ExportItemNode {}
-
 pub struct ArrayNode {
     elems: VecNode<ArrayElemNode>,
 }
@@ -40,21 +38,7 @@ impl ExprNode {
     }
 }
 
-pub struct ImportNamed {}
-
-impl Deref for ImportNamed {
-    type Target = BindingRef;
-}
-
-pub struct ImportFrom {}
-
-impl Ensurable for ImportFrom {}
-
 pub struct BindingRef {}
-
-struct ModuleSpecifier(&'a str);
-
-struct Identifier(&'a str);
 
 pub struct Value<T>(T);
 
