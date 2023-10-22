@@ -1,9 +1,10 @@
-use std::cell::RefCell;
+use std::{cell::RefCell, rc::Rc};
 
 use crate::Proxy;
 
 pub type WithDefault<'a, T> = OptionalNode<T, Defaultable<'a, T>>;
 
+#[derive(Clone)]
 pub struct OptionalNode<T, M = NoDefault>
 where
     T: Proxy,
@@ -18,7 +19,7 @@ where
 {
     pub fn new(data: Option<T>) -> Self {
         OptionalNode {
-            data,
+            data: RefCell::new(data),
             default: NoDefault,
         }
     }
@@ -28,10 +29,10 @@ impl<'a, T> OptionalNode<T, Defaultable<'a, T>>
 where
     T: Proxy,
 {
-    pub fn new_with_default(data: Option<T>, default: Box<dyn 'a + Fn() -> T>) -> Self {
+    pub fn new_with_default(data: Option<T>, default: impl 'a + Fn() -> T) -> Self {
         OptionalNode {
-            data,
-            default: Defaultable(default),
+            data: RefCell::new(data),
+            default: Defaultable(Rc::new(default)),
         }
     }
 
@@ -42,34 +43,29 @@ where
             return data.clone();
         }
 
-        let data = (self.default.0)();
+        let new_data = (self.default.0)();
 
-        *data.borrow_mut() = Some(data.clone());
+        *data = Some(new_data.clone());
 
-        data
-    }
-}
-
-impl<T> Clone for OptionalNode<T>
-where
-    T: Proxy,
-{
-    fn clone(&self) -> Self {
-        Self {
-            data: self.data.clone(),
-            default: self.default.clone(),
-        }
+        new_data
     }
 }
 
 impl<T> Proxy for OptionalNode<T> where T: Proxy {}
 
+#[derive(Clone)]
 pub struct NoDefault;
 
 impl<T> Mode<T> for NoDefault {}
 
-pub struct Defaultable<'a, T>(Box<dyn 'a + Fn() -> T>);
+pub struct Defaultable<'a, T>(Rc<dyn 'a + Fn() -> T>);
 
-pub trait Mode<T> {}
+pub trait Mode<T>: Clone {}
+
+impl<T> Clone for Defaultable<'_, T> {
+    fn clone(&self) -> Self {
+        Defaultable(self.0.clone())
+    }
+}
 
 impl<T> Mode<T> for Defaultable<'_, T> {}

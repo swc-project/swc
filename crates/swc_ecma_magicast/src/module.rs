@@ -75,7 +75,7 @@ impl<'a> ModuleImports<'a> {
                 import: BaseImportNode::from_index(&self.0, index),
                 module_specifier: module_specifier.clone(),
             }),
-            Box::new(move || {
+            move || {
                 let new_import = ImportDecl {
                     span: DUMMY_SP,
                     specifiers: Default::default(),
@@ -111,7 +111,7 @@ impl<'a> ModuleImports<'a> {
                     import: BaseImportNode::from_index(&self.0, index),
                     module_specifier: module_specifier.clone(),
                 }
-            }),
+            },
         )
     }
 }
