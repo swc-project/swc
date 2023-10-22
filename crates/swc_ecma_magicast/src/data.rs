@@ -8,6 +8,16 @@ pub(crate) struct Data<T>(
     Box<dyn Fn(&mut Program) -> &mut T>,
 );
 
+impl<T> Clone for Data<T> {
+    fn clone(&self) -> Self {
+        Data(
+            self.0.clone(),
+            Box::new(|data| (self.1)(data)),
+            Box::new(|data| (self.2)(data)),
+        )
+    }
+}
+
 impl<T> Data<T> {
     pub fn new_root(root: Program) -> Data<Program> {
         Data(
