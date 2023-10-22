@@ -1,15 +1,19 @@
 use std::ops::{Deref, Index, IndexMut};
 
-use swc_ecma_ast::{ImportDecl, Module};
+use swc_ecma_ast::Module;
 
-use crate::{data::Data, BindingRef, Ensurable, OptionalNode, Proxy};
+use crate::{data::Data, BindingRef, Ensurable, Proxy};
 
 pub struct ModuleNode(Data<Module>);
 
 impl ModuleNode {
-    pub fn imports(&self) -> ModuleImports {}
+    pub fn imports(&self) -> ModuleImports {
+        ModuleImports(self.0.clone())
+    }
 
-    pub fn exports(&self) -> ModuleExports {}
+    pub fn exports(&self) -> ModuleExports {
+        ModuleExports(self.0.clone())
+    }
 }
 
 pub struct ModuleImports(Data<Module>);
