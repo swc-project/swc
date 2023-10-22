@@ -1,3 +1,5 @@
+use std::ops::Index;
+
 use crate::Proxy;
 
 pub struct VecNode<T>
@@ -8,3 +10,14 @@ where
 }
 
 impl<T> Proxy for VecNode<T> where T: Proxy {}
+
+impl<T> Index<usize> for VecNode<T>
+where
+    T: Proxy,
+{
+    type Output = T;
+
+    fn index(&self, index: usize) -> &Self::Output {
+        &self.elems[index]
+    }
+}
