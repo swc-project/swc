@@ -58,7 +58,7 @@ impl<'a> ModuleImports<'a> {
         }))
     }
 
-    pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromNode> {
+    pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromModule> {
         let module_specifier = Atom::from(module_specifier);
 
         let index = self.0.with(|module| {
@@ -71,7 +71,7 @@ impl<'a> ModuleImports<'a> {
         });
 
         OptionalNode::new_with_default(
-            index.map(|index| ImportFromNode {
+            index.map(|index| ImportFromModule {
                 import: BaseImportNode::from_index(&self.0, index),
                 module_specifier: module_specifier.clone(),
             }),
@@ -107,7 +107,7 @@ impl<'a> ModuleImports<'a> {
                     })
                     .expect("Failed to find newly added import");
 
-                ImportFromNode {
+                ImportFromModule {
                     import: BaseImportNode::from_index(&self.0, index),
                     module_specifier: module_specifier.clone(),
                 }
@@ -169,12 +169,12 @@ impl<'a> Deref for NamedImportNode<'a> {
 }
 
 #[derive(Clone)]
-pub struct ImportFromNode<'a> {
+pub struct ImportFromModule<'a> {
     import: BaseImportNode<'a>,
     module_specifier: Atom,
 }
 
-impl Proxy for ImportFromNode<'_> {}
+impl Proxy for ImportFromModule<'_> {}
 
 pub struct ModuleExports<'a>(Data<'a, Module>);
 
