@@ -20,9 +20,9 @@ impl ModuleNode {
 pub struct ModuleImportsNode(Data<Module>);
 
 impl ModuleImportsNode {
-    pub fn named(&self, name: &str) -> NamedImportNode {}
+    pub fn named(&self, name: &str) -> OptionalNode<NamedImportNode> {}
 
-    pub fn from(&self, module_specifier: &str) -> ImportFromNode {}
+    pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromNode> {}
 }
 
 pub struct BaseImportNode {}
@@ -30,7 +30,7 @@ pub struct BaseImportNode {}
 impl Proxy for BaseImportNode {}
 
 pub struct NamedImportNode {
-    import: OptionalNode<BaseImportNode>,
+    import: BaseImportNode,
     name: BindingRef,
 }
 
@@ -41,7 +41,7 @@ impl Deref for NamedImportNode {
 }
 
 pub struct ImportFromNode {
-    import: WithDefault<BaseImportNode>,
+    import: BaseImportNode,
     module_specifier: Atom,
 }
 
