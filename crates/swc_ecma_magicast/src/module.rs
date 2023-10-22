@@ -66,7 +66,7 @@ impl<'a> ModuleImports<'a> {
 
         OptionalNode::new_with_default(
             index.map(|index| ImportFromNode {
-                import: BaseImportNode::from_index(&self.0, index),
+                import: BaseImportNode::from_index(self.0.clone(), index),
                 module_specifier: module_specifier.clone(),
             }),
             Box::new(move || {
@@ -102,7 +102,7 @@ impl<'a> ModuleImports<'a> {
                     .expect("Failed to find newly added import");
 
                 ImportFromNode {
-                    import: BaseImportNode::from_index(&self.0, index),
+                    import: BaseImportNode::from_index(self.0.clone(), index),
                     module_specifier: module_specifier.clone(),
                 }
             }),
