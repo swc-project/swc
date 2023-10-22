@@ -36,6 +36,12 @@ impl<'a> ModuleImports<'a> {
                                 }
                             }
 
+                            ImportSpecifier::Default(n) => {
+                                if n.local.sym == name {
+                                    return true;
+                                }
+                            }
+
                             _ => {}
                         }
                     }
