@@ -1,5 +1,3 @@
-use std::marker::PhantomData;
-
 use crate::Proxy;
 
 pub type WithDefault<T> = OptionalNode<T, Defaultable<T>>;
