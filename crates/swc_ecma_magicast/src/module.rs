@@ -2,7 +2,7 @@ use std::ops::{Deref, Index, IndexMut};
 
 use swc_ecma_ast::Module;
 
-use crate::{data::Data, OptionalNode};
+use crate::{data::Data, BindingRef, Ensurable, OptionalNode, Proxy};
 
 pub struct ModuleNode(Data<Module>);
 
@@ -16,6 +16,8 @@ pub struct ModuleImports {}
 
 impl ModuleImports {
     pub fn named(&self, name: &str) -> ImportNamed {}
+
+    pub fn from(&self, module_specifier: &str) -> ImportFrom {}
 }
 
 pub struct ImportNamed {}
@@ -25,6 +27,8 @@ impl Deref for ImportNamed {
 }
 
 pub struct ImportFrom {}
+
+impl Proxy for ImportFrom {}
 
 impl Ensurable for ImportFrom {}
 
