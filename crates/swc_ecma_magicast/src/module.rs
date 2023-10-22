@@ -1,6 +1,8 @@
+use std::ops::{Index, IndexMut};
+
 use swc_ecma_ast::Module;
 
-use crate::data::Data;
+use crate::{data::Data, option::OptionalNode};
 
 pub struct ModuleNode(Data<Module>);
 
