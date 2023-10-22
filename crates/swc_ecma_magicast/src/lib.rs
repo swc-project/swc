@@ -23,6 +23,15 @@ impl ProgramNode {
             data: Data::<Program>::new_root(root),
         }
     }
+
+    /// This will panic if the program is not a module.
+    pub fn as_module(&self) -> ModuleNode {
+        let data = self.data.map(
+            |program| program.as_module().unwrap(),
+            |program| program.as_mut_module().unwrap(),
+        );
+        ModuleNode(data)
+    }
 }
 
 pub struct BindingRef {
