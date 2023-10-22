@@ -7,9 +7,9 @@ use swc_ecma_utils::prepend_stmt;
 
 use crate::{data::Data, option::WithDefault, BindingRef, ExprNode, OptionalNode, Proxy};
 
-pub struct ModuleNode(Data<Module>);
+pub struct ModuleNode<'a>(Data<'a, Module>);
 
-impl ModuleNode {
+impl<'a> ModuleNode<'a> {
     pub fn imports(&self) -> ModuleImports {
         ModuleImports(self.0.clone())
     }
@@ -19,9 +19,9 @@ impl ModuleNode {
     }
 }
 
-pub struct ModuleImports(Data<Module>);
+pub struct ModuleImports<'a>(Data<'a, Module>);
 
-impl ModuleImports {
+impl<'a> ModuleImports<'a> {
     pub fn named(&self, name: &str) -> OptionalNode<NamedImportNode> {
         let name = Atom::from(name);
 
@@ -110,11 +110,11 @@ impl ModuleImports {
     }
 }
 
-pub struct BaseImportNode {
-    data: Data<ImportDecl>,
+pub struct BaseImportNode<'a> {
+    data: Data<'a, ImportDecl>,
 }
 
-impl BaseImportNode {
+impl<'a> BaseImportNode<'a> {
     pub(crate) fn from_index(data: &Data<Module>, index: usize) -> Self {
         BaseImportNode {
             data: data.map(
@@ -145,16 +145,16 @@ impl BaseImportNode {
     }
 }
 
-impl Proxy for BaseImportNode {}
+impl Proxy for BaseImportNode<'_> {}
 
-pub struct NamedImportNode {
-    import: BaseImportNode,
+pub struct NamedImportNode<'a> {
+    import: BaseImportNode<'a>,
     name: BindingRef,
 }
 
-impl Proxy for NamedImportNode {}
+impl Proxy for NamedImportNode<'_> {}
 
-impl Deref for NamedImportNode {
+impl<'a> Deref for NamedImportNode<'a> {
     type Target = BindingRef;
 
     fn deref(&self) -> &Self::Target {
@@ -162,16 +162,16 @@ impl Deref for NamedImportNode {
     }
 }
 
-pub struct ImportFromNode {
-    import: BaseImportNode,
+pub struct ImportFromNode<'a> {
+    import: BaseImportNode<'a>,
     module_specifier: Atom,
 }
 
-impl Proxy for ImportFromNode {}
+impl Proxy for ImportFromNode<'_> {}
 
-pub struct ModuleExports(Data<Module>);
+pub struct ModuleExports<'a>(Data<'a, Module>);
 
-impl ModuleExports {
+impl<'a> ModuleExports<'a> {
     pub fn default(&self) -> ExportDefaultItemNode {
         todo!()
     }
