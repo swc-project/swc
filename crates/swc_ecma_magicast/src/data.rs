@@ -26,4 +26,12 @@ impl<T> Data<T> {
             Box::new(|root| root),
         )
     }
+
+    pub fn with(&self, f: impl FnOnce(&T)) {
+        f((self.1)(&mut self.0.borrow()))
+    }
+
+    pub fn with_mut(&self, f: impl FnOnce(&mut T)) {
+        f((self.2)(&mut self.0.borrow_mut()))
+    }
 }
