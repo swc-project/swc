@@ -45,41 +45,66 @@ impl ModuleImportsNode {
         });
 
         OptionalNode::new(index.map(|index| NamedImportNode {
-            import: BaseImportNode {
-                data: self.0.map(
-                    |module| {
-                        module
-                            .body
-                            .iter()
-                            .nth(index)
-                            .unwrap()
-                            .as_mut_module_decl()
-                            .unwrap()
-                            .as_mut_import()
-                            .unwrap()
-                    },
-                    |module| {
-                        module
-                            .body
-                            .iter_mut()
-                            .nth(index)
-                            .unwrap()
-                            .as_mut_module_decl()
-                            .unwrap()
-                            .as_mut_import()
-                            .unwrap()
-                    },
-                ),
-            },
+            import: BaseImportNode::from_index(&self.0, index),
             name,
         }))
     }
 
-    pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromNode> {}
+    pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromNode> {
+        let module_specifier = Atom::from(module_specifier);
+
+        let index = self.0.with(|module| {
+            module.body.iter().position(|item| match item {
+                ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. })) => {
+                    src.value == module_specifier
+                }
+                _ => false,
+            })
+        });
+
+        OptionalNode::new_with_default(
+            index.map(|index| ImportFromNode {
+                import: BaseImportNode::from_index(&self.0, index),
+                module_specifier: module_specifier.clone(),
+            }),
+            default,
+        )
+    }
 }
 
 pub struct BaseImportNode {
     data: Data<ImportDecl>,
+}
+
+impl BaseImportNode {
+    pub(crate) fn from_index(data: &Data<Module>, index: usize) -> Self {
+        BaseImportNode {
+            data: data.map(
+                |module| {
+                    module
+                        .body
+                        .iter()
+                        .nth(index)
+                        .unwrap()
+                        .as_mut_module_decl()
+                        .unwrap()
+                        .as_mut_import()
+                        .unwrap()
+                },
+                |module| {
+                    module
+                        .body
+                        .iter_mut()
+                        .nth(index)
+                        .unwrap()
+                        .as_mut_module_decl()
+                        .unwrap()
+                        .as_mut_import()
+                        .unwrap()
+                },
+            ),
+        }
+    }
 }
 
 impl Proxy for BaseImportNode {}
