@@ -175,7 +175,7 @@ impl Optimizer<'_> {
             if is_inline_enabled
                 && usage.declared_count == 1
                 && usage.assign_count == 1
-                && (!usage.has_property_mutation || !usage.reassigned)
+                && !usage.reassigned
                 && match init {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
