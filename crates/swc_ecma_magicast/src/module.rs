@@ -1,7 +1,7 @@
 use std::ops::Deref;
 
 use swc_atoms::Atom;
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{ImportDecl, Module};
 
 use crate::{data::Data, option::WithDefault, BindingRef, OptionalNode, Proxy};
 
@@ -25,7 +25,7 @@ impl ModuleImportsNode {
     pub fn from(&self, module_specifier: &str) -> WithDefault<ImportFromNode> {}
 }
 
-pub struct BaseImportNode {}
+pub struct BaseImportNode(Data<ImportDecl>);
 
 impl Proxy for BaseImportNode {}
 
