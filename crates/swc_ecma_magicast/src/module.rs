@@ -121,8 +121,7 @@ impl<'a> BaseImportNode<'a> {
                 move |module| {
                     module
                         .body
-                        .iter()
-                        .nth(index)
+                        .get(index)
                         .unwrap()
                         .as_module_decl()
                         .unwrap()
@@ -132,8 +131,7 @@ impl<'a> BaseImportNode<'a> {
                 move |module| {
                     module
                         .body
-                        .iter_mut()
-                        .nth(index)
+                        .get_mut(index)
                         .unwrap()
                         .as_mut_module_decl()
                         .unwrap()
