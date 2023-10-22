@@ -1,7 +1,9 @@
-use crate::{Proxy, VecNode};
+use swc_ecma_ast::Expr;
 
-pub struct ArrayNode {
-    elems: VecNode<SpreadNode<ExprNode>>,
+use crate::{data::Data, Proxy, VecNode};
+
+pub struct ArrayNode<'a> {
+    elems: VecNode<SpreadNode<ExprNode<'a>>>,
 }
 
 pub struct ObjectNode {}
@@ -9,16 +11,16 @@ pub struct ObjectNode {}
 pub trait ExprLike {}
 
 #[derive(Clone)]
-pub struct ExprNode {}
+pub struct ExprNode<'a>(pub(crate) Data<'a, Box<Expr>>);
 
-impl Proxy for ExprNode {}
+impl Proxy for ExprNode<'_> {}
 
-impl ExprNode {
-    pub fn cast<T>(&self) -> &T
+impl<'a> ExprNode<'a> {
+    pub fn cast<T>(&self) -> T
     where
         T: ExprLike,
     {
-        unimplemented!()
+        todo!()
     }
 }
 

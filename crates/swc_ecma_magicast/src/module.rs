@@ -194,13 +194,20 @@ pub struct ExportItemNode {}
 impl Proxy for ExportItemNode {}
 
 #[derive(Clone)]
-pub struct ExportDefaultItemNode {}
+pub struct ExportDefaultItemNode<'a>(Data<'a, ModuleDecl>);
 
-impl ExportDefaultItemNode {
+impl<'a> ExportDefaultItemNode<'a> {
     /// Optional because we can export declarations as `default`.`
     pub fn expr(&self) -> OptionalNode<ExprNode> {
-        todo!()
+        OptionalNode::new(
+            self.0
+                .map_opt(
+                    |decl| Some(&decl.as_export_default_expr()?.expr),
+                    |decl| Some(&mut decl.as_mut_export_default_expr()?.expr),
+                )
+                .map(ExprNode),
+        )
     }
 }
 
-impl Proxy for ExportDefaultItemNode {}
+impl Proxy for ExportDefaultItemNode<'_> {}
