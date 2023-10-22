@@ -1,7 +1,9 @@
 use std::ops::{Deref, Shl};
 
 use swc_atoms::Atom;
+use swc_ecma_ast::Program;
 
+use crate::data::Data;
 pub use crate::{expr::*, module::*, option::OptionalNode, traits::*, vec::VecNode};
 
 mod data;
@@ -10,6 +12,18 @@ mod module;
 mod option;
 mod traits;
 mod vec;
+
+pub struct ProgramNode {
+    data: Data<'static, Program>,
+}
+
+impl ProgramNode {
+    pub fn new(root: Program) -> Self {
+        Self {
+            data: Data::<Program>::new_root(root),
+        }
+    }
+}
 
 pub struct BindingRef {
     sym: Atom,
