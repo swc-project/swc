@@ -38,6 +38,26 @@ impl<'a, T: 'static> Data<'a, T> {
         )
     }
 
+    pub fn map_opt<N>(
+        &'a self,
+        f1: impl 'a + Fn(&T) -> Option<&N>,
+        f2: impl 'a + Fn(&mut T) -> Option<&mut N>,
+    ) -> Option<Data<'a, N>>
+    where
+        N: 'static,
+    {
+        {
+            let data = self.0.borrow();
+            // Check it using actual data
+            f1((self.1)(&data))?;
+        }
+        Some(Data(
+            self.0.clone(),
+            Rc::new(move |data| f1((self.1)(data)).unwrap()),
+            Rc::new(move |data| f2((self.2)(data)).unwrap()),
+        ))
+    }
+
     pub fn with<Ret>(&self, f: impl FnOnce(&T) -> Ret) -> Ret {
         f((self.1)(&mut self.0.borrow()))
     }
