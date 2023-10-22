@@ -4,17 +4,13 @@ use swc_ecma_ast::Program;
 
 pub(crate) struct Data<T>(
     Rc<RefCell<Program>>,
-    Box<dyn Fn(&Program) -> &T>,
-    Box<dyn Fn(&mut Program) -> &mut T>,
+    Rc<dyn Fn(&Program) -> &T>,
+    Rc<dyn Fn(&mut Program) -> &mut T>,
 );
 
 impl<T> Clone for Data<T> {
     fn clone(&self) -> Self {
-        Data(
-            self.0.clone(),
-            Box::new(|data| (self.1)(data)),
-            Box::new(|data| (self.2)(data)),
-        )
+        Data(self.0.clone(), self.1.clone(), self.2.clone())
     }
 }
 
@@ -22,16 +18,16 @@ impl<T> Data<T> {
     pub fn new_root(root: Program) -> Data<Program> {
         Data(
             Rc::new(RefCell::new(root)),
-            Box::new(|root| root),
-            Box::new(|root| root),
+            Rc::new(|root| root),
+            Rc::new(|root| root),
         )
     }
 
-    pub fn map<N>(&self, f1: impl FnOnce(&T) -> &N, f2: impl FnOnce(&mut T) -> &mut N) -> Data<N> {
+    pub fn map<N>(&self, f1: impl Fn(&T) -> &N, f2: impl Fn(&mut T) -> &mut N) -> Data<N> {
         Data(
             self.0.clone(),
-            Box::new(|data| f1((self.1)(data))),
-            Box::new(|data| f2((self.2)(data))),
+            Rc::new(|data| f1((self.1)(data))),
+            Rc::new(|data| f2((self.2)(data))),
         )
     }
 
