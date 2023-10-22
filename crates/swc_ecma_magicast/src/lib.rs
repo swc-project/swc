@@ -1,6 +1,6 @@
 use std::ops::{Deref, Shl};
 
-pub use crate::{module::*, traits::*, vec::VecNode};
+pub use crate::{module::*, option::OptionalNode, traits::*, vec::VecNode};
 
 mod data;
 mod expr;
@@ -8,16 +8,6 @@ mod module;
 mod option;
 mod traits;
 mod vec;
-
-pub struct OptionalNode<T> {
-    node: Option<T>,
-}
-
-impl<N> OptionalNode<N> {
-    pub fn ensure(&mut self) -> &mut N {
-        self.node.get_or_insert_with(|| panic!("unreachable"))
-    }
-}
 
 pub struct ArrayNode {
     elems: VecNode<ArrayElemNode>,
