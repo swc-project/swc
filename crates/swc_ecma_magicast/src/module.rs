@@ -1,5 +1,6 @@
 use std::ops::{Deref, Index, IndexMut};
 
+use swc_atoms::Atom;
 use swc_ecma_ast::Module;
 
 use crate::{data::Data, BindingRef, Ensurable, Proxy};
@@ -24,13 +25,18 @@ impl ModuleImports {
     pub fn from(&self, module_specifier: &str) -> ImportFrom {}
 }
 
-pub struct ImportNamed {}
+pub struct ImportNamed {
+    import: Option<ImportFrom>,
+    name: BindingRef,
+}
 
 impl Deref for ImportNamed {
     type Target = BindingRef;
 }
 
-pub struct ImportFrom {}
+pub struct ImportFrom {
+    module_specifier: Atom,
+}
 
 impl Proxy for ImportFrom {}
 
@@ -49,3 +55,5 @@ impl Index<String> for ModuleExports {
 impl IndexMut<String> for ModuleExports {}
 
 pub struct ExportItemNode {}
+
+pub struct ExportDefaultItemNode {}
