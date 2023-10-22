@@ -27,10 +27,14 @@ impl ModuleImportsNode {
 
 pub struct BaseImportNode {}
 
+impl Proxy for BaseImportNode {}
+
 pub struct NamedImportNode {
     import: OptionalNode<BaseImportNode>,
     name: BindingRef,
 }
+
+impl Proxy for NamedImportNode {}
 
 impl Deref for NamedImportNode {
     type Target = BindingRef;
@@ -55,4 +59,8 @@ impl ModuleExportsNode {
 
 pub struct ExportItemNode {}
 
+impl Proxy for ExportItemNode {}
+
 pub struct ExportDefaultItemNode {}
+
+impl Proxy for ExportDefaultItemNode {}
