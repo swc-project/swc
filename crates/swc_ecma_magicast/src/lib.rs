@@ -1,34 +1,13 @@
-use std::ops::{Deref, Index, IndexMut, Shl};
+use std::ops::{Deref, Shl};
 
-use swc_ecma_ast::Module;
-
-pub use crate::traits::*;
-use crate::{data::Data, vec::VecNode};
+pub use crate::{module::*, traits::*, vec::VecNode};
 
 mod data;
 mod expr;
+mod module;
+mod option;
 mod traits;
 mod vec;
-
-pub struct ModuleNode(Data<Module>);
-
-impl ModuleNode {
-    pub fn imports(&self) -> ModuleImports {}
-
-    pub fn exports(&self) -> ModuleExports {}
-}
-
-pub struct ModuleImports {}
-
-pub struct ModuleExports {
-    pub default: OptionalNode<ExportItemNode>,
-}
-
-impl Index<String> for ModuleExports {
-    type Output = ExportItemNode;
-}
-
-impl IndexMut<String> for ModuleExports {}
 
 pub struct OptionalNode<T> {
     node: Option<T>,
@@ -43,7 +22,7 @@ impl<N> OptionalNode<N> {
 pub struct ExportItemNode {}
 
 pub struct ArrayNode {
-    elems: VecNode<ArrayElemeNode>,
+    elems: VecNode<ArrayElemNode>,
 }
 
 pub struct ObjectNode {}
@@ -59,22 +38,6 @@ impl ExprNode {
     {
         unimplemented!()
     }
-}
-
-fn usage() {
-    let m: ModuleNode;
-
-    m.exports.default;
-
-    m.imports.from("foo"); // OptionalNode<ImportFrom> where ImportFrom is ensurable
-    m.imports.named("foo"); // OPtionalNode<ImportNamed> where ImportNamed is
-                            // not ensurable, and derefs to BindingRef
-
-    m.imports.named("foo").remove();
-
-    obj.props;
-
-    arr.elems;
 }
 
 pub struct ImportNamed {}
