@@ -1,7 +1,9 @@
 use std::ops::Deref;
 
 use swc_atoms::Atom;
-use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, ModuleItem};
+use swc_common::DUMMY_SP;
+use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, ModuleItem, Str};
+use swc_ecma_utils::prepend_stmt;
 
 use crate::{data::Data, option::WithDefault, BindingRef, OptionalNode, Proxy};
 
@@ -67,7 +69,43 @@ impl ModuleImportsNode {
                 import: BaseImportNode::from_index(&self.0, index),
                 module_specifier: module_specifier.clone(),
             }),
-            default,
+            Box::new(|| {
+                let new_import = ImportDecl {
+                    span: DUMMY_SP,
+                    specifiers: Default::default(),
+                    src: Box::new(Str {
+                        value: module_specifier.clone(),
+                        span: DUMMY_SP,
+                        raw: None,
+                    }),
+                    type_only: false,
+                    with: None,
+                };
+
+                self.0.with_mut(|module| {
+                    prepend_stmt(
+                        &mut module.body,
+                        ModuleItem::ModuleDecl(ModuleDecl::Import(new_import)),
+                    );
+                });
+
+                let index = self
+                    .0
+                    .with(|module| {
+                        module.body.iter().position(|item| match item {
+                            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+                                src, ..
+                            })) => src.value == module_specifier,
+                            _ => false,
+                        })
+                    })
+                    .expect("Failed to find newly added import");
+
+                ImportFromNode {
+                    import: BaseImportNode::from_index(&self.0, index),
+                    module_specifier: module_specifier.clone(),
+                }
+            }),
         )
     }
 }
