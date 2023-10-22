@@ -3,6 +3,8 @@ use std::{
     ops::{Deref, Index, IndexMut, Shl},
 };
 
+mod node;
+
 pub struct ModuleNode<'a> {
     pub imports: ModuleImports<'a>,
     pub exports: ModuleExports<'a>,
