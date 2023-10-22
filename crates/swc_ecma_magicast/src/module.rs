@@ -47,7 +47,7 @@ impl<'a> ModuleImports<'a> {
         });
 
         OptionalNode::new(index.map(|index| NamedImportNode {
-            import: BaseImportNode::from_index(&self.0, index),
+            import: BaseImportNode::from_index(self.0.clone(), index),
             name: BindingRef { sym: name.clone() },
         }))
     }
@@ -69,7 +69,7 @@ impl<'a> ModuleImports<'a> {
                 import: BaseImportNode::from_index(&self.0, index),
                 module_specifier: module_specifier.clone(),
             }),
-            Box::new(|| {
+            Box::new(move || {
                 let new_import = ImportDecl {
                     span: DUMMY_SP,
                     specifiers: Default::default(),
@@ -115,10 +115,10 @@ pub struct BaseImportNode<'a> {
 }
 
 impl<'a> BaseImportNode<'a> {
-    pub(crate) fn from_index(data: &Data<Module>, index: usize) -> Self {
+    pub(crate) fn from_index(data: Data<'a, Module>, index: usize) -> Self {
         BaseImportNode {
             data: data.map(
-                |module| {
+                move |module| {
                     module
                         .body
                         .iter()
@@ -129,7 +129,7 @@ impl<'a> BaseImportNode<'a> {
                         .as_mut_import()
                         .unwrap()
                 },
-                |module| {
+                move |module| {
                     module
                         .body
                         .iter_mut()

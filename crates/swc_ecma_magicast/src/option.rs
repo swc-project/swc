@@ -1,6 +1,6 @@
 use crate::Proxy;
 
-pub type WithDefault<T> = OptionalNode<T, Defaultable<T>>;
+pub type WithDefault<'a, T> = OptionalNode<T, Defaultable<'a, T>>;
 
 pub struct OptionalNode<T, M = NoDefault>
 where
@@ -22,11 +22,11 @@ where
     }
 }
 
-impl<T> OptionalNode<T, Defaultable<T>>
+impl<'a, T> OptionalNode<T, Defaultable<'a, T>>
 where
     T: Proxy,
 {
-    pub fn new_with_default(data: Option<T>, default: Box<dyn Fn() -> T>) -> Self {
+    pub fn new_with_default(data: Option<T>, default: Box<dyn 'a + Fn() -> T>) -> Self {
         OptionalNode {
             data,
             default: Defaultable(default),
@@ -40,8 +40,8 @@ pub struct NoDefault;
 
 impl<T> Mode<T> for NoDefault {}
 
-pub struct Defaultable<T>(Box<dyn Fn() -> T>);
+pub struct Defaultable<'a, T>(Box<dyn 'a + Fn() -> T>);
 
 pub trait Mode<T> {}
 
-impl<T> Mode<T> for Defaultable<T> {}
+impl<T> Mode<T> for Defaultable<'_, T> {}
