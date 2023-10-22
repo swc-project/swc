@@ -124,9 +124,9 @@ impl<'a> BaseImportNode<'a> {
                         .iter()
                         .nth(index)
                         .unwrap()
-                        .as_mut_module_decl()
+                        .as_module_decl()
                         .unwrap()
-                        .as_mut_import()
+                        .as_import()
                         .unwrap()
                 },
                 move |module| {
