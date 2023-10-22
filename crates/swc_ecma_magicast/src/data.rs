@@ -2,19 +2,19 @@ use std::{cell::RefCell, rc::Rc};
 
 use swc_ecma_ast::Program;
 
-pub(crate) struct Data<'a, T>(
+pub(crate) struct Data<'a, T: 'static>(
     Rc<RefCell<Program>>,
     Rc<dyn 'a + Fn(&Program) -> &T>,
     Rc<dyn 'a + Fn(&mut Program) -> &mut T>,
 );
 
-impl<T> Clone for Data<'_, T> {
+impl<T: 'static> Clone for Data<'_, T> {
     fn clone(&self) -> Self {
         Data(self.0.clone(), self.1.clone(), self.2.clone())
     }
 }
 
-impl<'a, T> Data<'a, T> {
+impl<'a, T: 'static> Data<'a, T> {
     pub fn new_root(root: Program) -> Data<'a, Program> {
         Data(
             Rc::new(RefCell::new(root)),
@@ -23,11 +23,14 @@ impl<'a, T> Data<'a, T> {
         )
     }
 
-    pub fn map<N>(&self, f1: impl Fn(&T) -> &N, f2: impl Fn(&mut T) -> &mut N) -> Data<N> {
+    pub fn map<N>(&self, f1: impl 'a + Fn(&T) -> &N, f2: impl 'a + Fn(&mut T) -> &mut N) -> Data<N>
+    where
+        N: 'static,
+    {
         Data(
             self.0.clone(),
-            Rc::new(|data| f1((self.1)(data))),
-            Rc::new(|data| f2((self.2)(data))),
+            Rc::new(move |data| f1((self.1)(data))),
+            Rc::new(move |data| f2((self.2)(data))),
         )
     }
 
