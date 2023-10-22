@@ -1,4 +1,5 @@
 pub trait Proxy {
+    /// Inner item
     type Item;
 
     /// Creates a new proxied data using self as the context, and new_data as

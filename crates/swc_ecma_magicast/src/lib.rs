@@ -43,7 +43,7 @@ impl<N> OptionalNode<N> {
 pub struct ExportItemNode {}
 
 pub struct ArrayNode {
-    elems: VecNode<'a, ArrayElemeNode>,
+    elems: VecNode<ArrayElemeNode>,
 }
 
 pub struct ObjectNode {}
