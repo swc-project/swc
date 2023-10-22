@@ -1,13 +1,10 @@
-use std::{
-    cell::RefCell,
-    ops::{Deref, Index, IndexMut, Shl},
-};
+use std::ops::{Deref, Index, IndexMut, Shl};
 
 use swc_ecma_ast::Module;
 
-use crate::node::Data;
+use crate::data::Data;
 
-mod node;
+mod data;
 
 pub struct ModuleNode(Data<Module>);
 
