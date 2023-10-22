@@ -10,9 +10,9 @@ fn test1() {
         shebang: None,
     }));
 
-    root.as_module().exports().default();
+    root.as_module().exports().default().ensure();
 
     root.as_module().imports().named("foo");
 
-    root.as_module().imports().from("foo");
+    root.as_module().imports().from("foo").ensure();
 }
