@@ -1,5 +1,7 @@
 use std::ops::{Deref, Shl};
 
+use swc_atoms::Atom;
+
 pub use crate::{expr::*, module::*, option::OptionalNode, traits::*, vec::VecNode};
 
 mod data;
@@ -9,7 +11,9 @@ mod option;
 mod traits;
 mod vec;
 
-pub struct BindingRef {}
+pub struct BindingRef {
+    sym: Atom,
+}
 
 pub struct Value<T>(T);
 

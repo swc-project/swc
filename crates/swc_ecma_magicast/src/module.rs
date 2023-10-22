@@ -48,7 +48,7 @@ impl ModuleImports {
 
         OptionalNode::new(index.map(|index| NamedImportNode {
             import: BaseImportNode::from_index(&self.0, index),
-            name,
+            name: BindingRef { sym: name.clone() },
         }))
     }
 
@@ -156,6 +156,10 @@ impl Proxy for NamedImportNode {}
 
 impl Deref for NamedImportNode {
     type Target = BindingRef;
+
+    fn deref(&self) -> &Self::Target {
+        &self.name
+    }
 }
 
 pub struct ImportFromNode {
@@ -168,9 +172,13 @@ impl Proxy for ImportFromNode {}
 pub struct ModuleExports(Data<Module>);
 
 impl ModuleExports {
-    pub fn default(&self) -> ExportDefaultItemNode {}
+    pub fn default(&self) -> ExportDefaultItemNode {
+        todo!()
+    }
 
-    pub fn from_exported(&self, symbol: &str) -> ExportItemNode {}
+    pub fn from_exported(&self, symbol: &str) -> ExportItemNode {
+        todo!()
+    }
 }
 
 pub struct ExportItemNode {}
@@ -181,7 +189,9 @@ pub struct ExportDefaultItemNode {}
 
 impl ExportDefaultItemNode {
     /// Optional because we can export declarations as `default`.`
-    pub fn expr(&self) -> OptionalNode<ExprNode> {}
+    pub fn expr(&self) -> OptionalNode<ExprNode> {
+        todo!()
+    }
 }
 
 impl Proxy for ExportDefaultItemNode {}
