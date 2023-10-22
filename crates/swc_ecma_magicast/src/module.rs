@@ -10,18 +10,18 @@ use crate::{data::Data, option::WithDefault, BindingRef, ExprNode, OptionalNode,
 pub struct ModuleNode(Data<Module>);
 
 impl ModuleNode {
-    pub fn imports(&self) -> ModuleImportsNode {
-        ModuleImportsNode(self.0.clone())
+    pub fn imports(&self) -> ModuleImports {
+        ModuleImports(self.0.clone())
     }
 
-    pub fn exports(&self) -> ModuleExportsNode {
-        ModuleExportsNode(self.0.clone())
+    pub fn exports(&self) -> ModuleExports {
+        ModuleExports(self.0.clone())
     }
 }
 
-pub struct ModuleImportsNode(Data<Module>);
+pub struct ModuleImports(Data<Module>);
 
-impl ModuleImportsNode {
+impl ModuleImports {
     pub fn named(&self, name: &str) -> OptionalNode<NamedImportNode> {
         let name = Atom::from(name);
 
@@ -165,9 +165,9 @@ pub struct ImportFromNode {
 
 impl Proxy for ImportFromNode {}
 
-pub struct ModuleExportsNode(Data<Module>);
+pub struct ModuleExports(Data<Module>);
 
-impl ModuleExportsNode {
+impl ModuleExports {
     pub fn default(&self) -> ExportDefaultItemNode {}
 
     pub fn from_exported(&self, symbol: &str) -> ExportItemNode {}
