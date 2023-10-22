@@ -5,11 +5,11 @@ use std::{
 
 use swc_ecma_ast::Module;
 
-use crate::node::Node;
+use crate::node::Data;
 
 mod node;
 
-pub struct ModuleNode(Node<Module>);
+pub struct ModuleNode(Data<Module>);
 
 impl ModuleNode {
     pub fn imports(&self) -> ModuleImports {}

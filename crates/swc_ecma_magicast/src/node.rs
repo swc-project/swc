@@ -1,3 +1,9 @@
 use std::{cell::RefCell, rc::Rc};
 
-pub(crate) struct Node<T>(Rc<RefCell<Module>>, Box<dyn Fn(RefCell<Module>) -> T>);
+use swc_ecma_ast::Program;
+
+pub(crate) struct Data<T>(Rc<RefCell<Program>>, Box<dyn Fn(RefCell<Program>) -> T>);
+
+impl<T> Data<T> {
+    pub fn new_root(root: Program) -> Data<Program> {}
+}
