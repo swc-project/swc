@@ -8,51 +8,53 @@ use crate::{data::Data, BindingRef, Ensurable, Proxy};
 pub struct ModuleNode(Data<Module>);
 
 impl ModuleNode {
-    pub fn imports(&self) -> ModuleImports {
-        ModuleImports(self.0.clone())
+    pub fn imports(&self) -> ModuleImportsNode {
+        ModuleImportsNode(self.0.clone())
     }
 
-    pub fn exports(&self) -> ModuleExports {
-        ModuleExports(self.0.clone())
+    pub fn exports(&self) -> ModuleExportsNode {
+        ModuleExportsNode(self.0.clone())
     }
 }
 
-pub struct ModuleImports(Data<Module>);
+pub struct ModuleImportsNode(Data<Module>);
 
-impl ModuleImports {
-    pub fn named(&self, name: &str) -> ImportNamed {}
+impl ModuleImportsNode {
+    pub fn named(&self, name: &str) -> NamedImportNode {}
 
-    pub fn from(&self, module_specifier: &str) -> ImportFrom {}
+    pub fn from(&self, module_specifier: &str) -> ImportFromNode {}
 }
 
-pub struct ImportNamed {
-    import: Option<ImportFrom>,
+pub struct NamedImportNode {
+    import: Option<ImportFromNode>,
     name: BindingRef,
 }
 
-impl Deref for ImportNamed {
+impl Deref for NamedImportNode {
     type Target = BindingRef;
 }
 
-pub struct ImportFrom {
+pub struct ImportFromNode {
     module_specifier: Atom,
 }
 
-impl Proxy for ImportFrom {}
+impl Proxy for ImportFromNode {}
 
-impl Ensurable for ImportFrom {}
+impl Ensurable for ImportFromNode {}
 
-pub struct ModuleExports(Data<Module>);
+pub struct ModuleExportsNode(Data<Module>);
 
-impl ModuleExports {
+impl ModuleExportsNode {
     pub fn default(&self) -> ExportDefaultItemNode {}
+
+    pub fn from_exported(&self, symbol: &str) -> ExportItemNode {}
 }
 
-impl Index<String> for ModuleExports {
+impl Index<String> for ModuleExportsNode {
     type Output = ExportItemNode;
 }
 
-impl IndexMut<String> for ModuleExports {}
+impl IndexMut<String> for ModuleExportsNode {}
 
 pub struct ExportItemNode {}
 
