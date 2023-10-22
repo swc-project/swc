@@ -3,22 +3,31 @@ use std::{
     ops::{Deref, Index, IndexMut, Shl},
 };
 
+use swc_ecma_ast::Module;
+
+use crate::node::Node;
+
 mod node;
 
-pub struct ModuleNode<'a> {
-    pub imports: ModuleImports<'a>,
-    pub exports: ModuleExports<'a>,
+pub struct ModuleNode(Node<Module>);
+
+impl ModuleNode {
+    pub fn imports(&self) -> ModuleImports {}
+
+    pub fn exports(&self) -> ModuleExports {}
 }
 
-pub struct ModuleExports<'a> {
-    pub default: OptionalNode<ExportItemNode<'a>>,
+pub struct ModuleImports {}
+
+pub struct ModuleExports {
+    pub default: OptionalNode<ExportItemNode>,
 }
 
-impl<'a> Index<String> for ModuleExports<'a> {
-    type Output = ExportItemNode<'a>;
+impl Index<String> for ModuleExports {
+    type Output = ExportItemNode;
 }
 
-impl<'a> IndexMut<String> for ModuleExports<'a> {}
+impl IndexMut<String> for ModuleExports {}
 
 pub struct OptionalNode<T> {
     node: Option<T>,
@@ -30,19 +39,19 @@ impl<N> OptionalNode<N> {
     }
 }
 
-pub struct ExportItemNode<'a> {}
+pub struct ExportItemNode {}
 
-pub struct ArrayNode<'a> {
-    elems: VecNode<'a, ArrayElemeNode<'a>>,
+pub struct ArrayNode {
+    elems: VecNode<'a, ArrayElemeNode>,
 }
 
-pub struct ObjectNode<'a> {}
+pub struct ObjectNode {}
 
 pub trait ExprLike {}
 
-pub struct ExprNode<'a> {}
+pub struct ExprNode {}
 
-impl ExprNode<'a> {
+impl ExprNode {
     pub fn cast<T>(&self) -> &T
     where
         T: ExprLike,
@@ -91,9 +100,9 @@ pub trait Ensurable: Proxy {
     fn ensure(&mut self) -> Self::Item;
 }
 
-struct ModuleSpecifier<'a>(&'a str);
+struct ModuleSpecifier(&'a str);
 
-struct Identifier<'a>(&'a str);
+struct Identifier(&'a str);
 
 pub struct Value<T>(T);
 
