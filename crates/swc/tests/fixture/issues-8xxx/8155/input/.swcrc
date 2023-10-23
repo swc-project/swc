@@ -11,9 +11,10 @@
         "target": "es2016",
         "minify": {
             "compress": true,
-            "mangle": false
+            "mangle": true
         },
         "loose": false
     },
-    "isModule": true
+    "isModule": true,
+    "minify": true
 }
