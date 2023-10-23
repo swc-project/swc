@@ -1164,11 +1164,15 @@ impl Generator {
                             .unwrap()
                             .make_member(quote_ident!("concat"))
                             .as_callee(),
-                        args: expressions
-                            .take()
-                            .into_iter()
-                            .map(|expr| ExprOrSpread { spread: None, expr })
-                            .collect(),
+                        args: vec![Box::new(Expr::Array(ArrayLit {
+                            span: DUMMY_SP,
+                            elems: expressions
+                                .take()
+                                .into_iter()
+                                .map(|expr| Some(ExprOrSpread { spread: None, expr }))
+                                .collect(),
+                        }))
+                        .as_arg()],
                         type_args: Default::default(),
                     }))
                 } else {
