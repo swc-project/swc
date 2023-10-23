@@ -1,7 +1,9 @@
 use std::iter;
 
 use serde::Deserialize;
-use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    comments::Comments, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
@@ -359,7 +361,11 @@ impl<C: Comments> Actual<C> {
                 *expr = wrapper.into();
                 if !in_iife {
                     if let Some(c) = &mut self.comments {
-                        c.add_pure_comment(expr.span().lo)
+                        let mut lo = expr.span().lo;
+                        if lo.is_dummy() {
+                            lo = Span::dummy_with_cmt().lo;
+                        }
+                        c.add_pure_comment(lo);
                     }
                 }
             }
@@ -377,7 +383,11 @@ impl<C: Comments> Actual<C> {
                 *expr = wrapper.into();
                 if !in_iife {
                     if let Some(c) = &mut self.comments {
-                        c.add_pure_comment(expr.span().lo)
+                        let mut lo = expr.span().lo;
+                        if lo.is_dummy() {
+                            lo = Span::dummy_with_cmt().lo;
+                        }
+                        c.add_pure_comment(lo)
                     }
                 }
             }
