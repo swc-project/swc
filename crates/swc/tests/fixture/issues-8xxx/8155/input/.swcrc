@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "tsx": false
+        },
+        "transform": {
+            "legacyDecorator": true
+        },
+        "target": "es2016",
+        "minify": {
+            "compress": true,
+            "mangle": false
+        },
+        "loose": false
+    },
+    "isModule": true
+}
