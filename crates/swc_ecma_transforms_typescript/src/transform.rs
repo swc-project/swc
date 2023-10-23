@@ -84,7 +84,7 @@ impl VisitMut for Transform {
     fn visit_mut_program(&mut self, n: &mut Program) {
         n.visit_mut_children_with(self);
 
-        if !self.ts_enum_is_mutable && !self.record.is_empty() {
+        if !self.record.is_empty() {
             let record = mem::take(&mut self.record);
             n.visit_mut_children_with(&mut InlineEnum::new(record));
         }
@@ -487,6 +487,12 @@ impl Transform {
 
         let mut default_init = 0.0.into();
         let mut member_list = vec![];
+        let mut local_record = if self.ts_enum_is_mutable && !is_const {
+            Some(TsEnumRecord::default())
+        } else {
+            None
+        };
+        let record = local_record.as_mut().unwrap_or(&mut self.record);
 
         for m in members {
             let span = m.span;
@@ -496,7 +502,7 @@ impl Transform {
                 m,
                 &id.to_id(),
                 &default_init,
-                &self.record,
+                record,
                 self.top_level_mark,
             );
 
@@ -514,7 +520,7 @@ impl Transform {
                     TsEnumRecordValue::Void
                 };
 
-                self.record.insert(key, value);
+                record.insert(key, value);
             }
 
             let item = EnumMemberItem { span, name, value };
