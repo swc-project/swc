@@ -848,7 +848,7 @@ test!(
     _ts_decorate([
         DefineAction()
     ], Child.prototype, "action", void 0);
-
+    
     "#,
     ok_if_code_eq
 );
@@ -4469,7 +4469,7 @@ test!(
     import { createRequire as _createRequire } from "module";
     const __require = _createRequire(import.meta.url);
     const foo = __require("foo");
-
+    
     foo();
     "#
 );
