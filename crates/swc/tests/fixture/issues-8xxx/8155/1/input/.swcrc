@@ -15,8 +15,5 @@
         "loose": false,
         "externalHelpers": false
     },
-    "module": {
-        "type": "commonjs"
-    },
     "isModule": true
 }
