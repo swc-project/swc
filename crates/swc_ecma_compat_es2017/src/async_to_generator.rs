@@ -383,7 +383,11 @@ impl<C: Comments> Actual<C> {
                 *expr = wrapper.into();
                 if !in_iife {
                     if let Some(c) = &mut self.comments {
-                        c.add_pure_comment(expr.span().lo)
+                        let mut lo = expr.span().lo;
+                        if lo.is_dummy() {
+                            lo = Span::dummy_with_cmt().lo;
+                        }
+                        c.add_pure_comment(lo)
                     }
                 }
             }
