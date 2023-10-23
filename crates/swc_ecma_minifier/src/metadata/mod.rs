@@ -305,6 +305,10 @@ where
 }
 
 fn has_flag(comments: Option<&dyn Comments>, span: Span, text: &'static str) -> bool {
+    if span.is_dummy_ignoring_cmt() {
+        return false;
+    }
+
     find_comment(comments, span, |c| {
         if c.kind == CommentKind::Block {
             for line in c.text.lines() {
