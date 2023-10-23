@@ -41,15 +41,16 @@ dependencies = [
 
 [[package]]
 name = "ahash"
-version = "0.8.3"
+version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2c99f64d1e06488f620f932677e24bc6e2897582980441ae90a671415bd7ec2f"
+checksum = "cd7d5a2cecb58716e47d67d5703a249964b14c7be1ec3cad3affc295b2d1c35d"
 dependencies = [
  "cfg-if",
  "const-random",
  "getrandom",
  "once_cell",
  "version_check",
+ "zerocopy",
 ]
 
 [[package]]
@@ -1566,7 +1567,7 @@ version = "0.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "43a3c133739dddd0d2990f9a4bdf8eb4b21ef50e4851ca85ab661199821d510e"
 dependencies = [
- "ahash 0.8.3",
+ "ahash 0.8.5",
 ]
 
 [[package]]
@@ -2728,7 +2729,7 @@ checksum = "925383efa346730478fb4838dbe9137d2a47675ad789c546d150a6e1dd4ab31c"
 name = "preset_env_base"
 version = "0.4.5"
 dependencies = [
- "ahash 0.8.3",
+ "ahash 0.8.5",
  "anyhow",
  "browserslist-rs",
  "dashmap",
@@ -3784,7 +3785,7 @@ dependencies = [
 name = "swc_cached"
 version = "0.3.17"
 dependencies = [
- "ahash 0.8.3",
+ "ahash 0.8.5",
  "anyhow",
  "dashmap",
  "once_cell",
@@ -3818,7 +3819,7 @@ dependencies = [
 name = "swc_common"
 version = "0.33.1"
 dependencies = [
- "ahash 0.8.3",
+ "ahash 0.8.5",
  "anyhow",
  "arbitrary",
  "ast_node",
@@ -4940,7 +4941,7 @@ dependencies = [
 name = "swc_estree_compat"
 version = "0.194.14"
 dependencies = [
- "ahash 0.8.3",
+ "ahash 0.8.5",
  "anyhow",
  "copyless",
  "criterion",
@@ -6843,6 +6844,26 @@ name = "yansi"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "09041cd90cf85f7f8b2df60c646f853b7f535ce68f85244eb6731cf89fa498ec"
+
+[[package]]
+name = "zerocopy"
+version = "0.7.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c19fae0c8a9efc6a8281f2e623db8af1db9e57852e04cde3e754dd2dc29340f"
+dependencies = [
+ "zerocopy-derive",
+]
+
+[[package]]
+name = "zerocopy-derive"
+version = "0.7.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc56589e9ddd1f1c28d4b4b5c773ce232910a6bb67a70133d61c9e347585efe9"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.37",
+]
 
 [[package]]
 name = "zeroize"
