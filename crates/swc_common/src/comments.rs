@@ -317,6 +317,8 @@ where
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
+        assert_ne!(pos, BytePos(0), "cannot add pure comment to zero position");
+
         if let Some(c) = self {
             c.add_pure_comment(pos)
         }
@@ -439,6 +441,8 @@ impl Comments for SingleThreadedComments {
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
+        assert_ne!(pos, BytePos(0), "cannot add pure comment to zero position");
+
         let mut leading_map = self.leading.borrow_mut();
         let leading = leading_map.entry(pos).or_default();
         let pure_comment = Comment {
