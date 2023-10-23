@@ -848,7 +848,7 @@ test!(
     _ts_decorate([
         DefineAction()
     ], Child.prototype, "action", void 0);
-    
+
     "#,
     ok_if_code_eq
 );
@@ -4469,7 +4469,7 @@ test!(
     import { createRequire as _createRequire } from "module";
     const __require = _createRequire(import.meta.url);
     const foo = __require("foo");
-    
+
     foo();
     "#
 );
@@ -4572,6 +4572,11 @@ test!(
 
     (D as any).A = 5;
     console.log(D.A);
+    const enum E {
+      A,
+      B,
+    }
+    console.log(E.A);
     "#,
     r#"
     var D;
@@ -4581,5 +4586,7 @@ test!(
     })(D || (D = {}));
     D.A = 5;
     console.log(D.A);
+    var E;
+    console.log(0);
     "#
 );
