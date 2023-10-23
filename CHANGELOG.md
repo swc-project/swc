@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Always consider `reassigned` when inlining ([#8168](https://github.com/swc-project/swc/issues/8168)) ([c26a225](https://github.com/swc-project/swc/commit/c26a2252b6cfbc659fdd935a7282cec27bcb527b))
+
+
+- **(es/typescript)** Support `ts_enum_is_mutable` with const enums ([#8171](https://github.com/swc-project/swc/issues/8171)) ([02d0613](https://github.com/swc-project/swc/commit/02d0613a35a3875ad3b0c0b008cf063bd162bc07))
+
 ## [1.3.94] - 2023-10-21
 
 ### Bug Fixes
@@ -1729,18 +1740,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/compat)** Insert the variable declaration nearest to the available statements ([#7067](https://github.com/swc-project/swc/issues/7067)) ([ae348e3](https://github.com/swc-project/swc/commit/ae348e32e18e07c277c358746e3ba3a78b9251c4))
-
-
-- **(es/parser)** Handle class members with `accessor` as the name ([#7046](https://github.com/swc-project/swc/issues/7046)) ([9acaf4d](https://github.com/swc-project/swc/commit/9acaf4deeb412d9d3966223acbda673e8e686f06))
-
-
-- **(es/preset-env)** Update data for core-js3 ([#7023](https://github.com/swc-project/swc/issues/7023)) ([3730463](https://github.com/swc-project/swc/commit/37304638742238c97d2c87d6ac2dc5f4347da973))
-
-### Features
-
-
-
-- **(es/compat)** Simplify static blocks in classes ([#7056](https://github.com/swc-project/swc/issues/7056)) ([b78ce8b](https://github.com/swc-project/swc/commit/b78ce8b7c20f7c62523a017f4066776ada9d779d))
 
 ### Performance
 
