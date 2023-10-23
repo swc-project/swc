@@ -10,13 +10,11 @@
         },
         "target": "es2016",
         "minify": {
-            "compress": true,
-            "mangle": true
+            "compress": true
         },
         "loose": false,
         "externalHelpers": false
     },
-    "minify": true,
     "module": {
         "type": "commonjs"
     },
