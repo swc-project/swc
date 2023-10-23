@@ -13,8 +13,12 @@
             "compress": true,
             "mangle": true
         },
-        "loose": false
+        "loose": false,
+        "externalHelpers": false
     },
-    "isModule": true,
-    "minify": true
+    "minify": true,
+    "module": {
+        "type": "commonjs"
+    },
+    "isModule": true
 }
