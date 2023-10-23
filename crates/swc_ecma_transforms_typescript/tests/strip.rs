@@ -4567,7 +4567,7 @@ test!(
     r#"
     enum D {
       A,
-      B,
+      B = 2,
     }
 
     (D as any).A = 5;
@@ -4576,17 +4576,48 @@ test!(
       A,
       B,
     }
-    console.log(E.A);
+    console.log(E.B);
+
+    const enum F {
+      A = 2,
+    }
+    enum G {
+      A = F.A
+    }
+    console.log(G.A);
+
+    enum H {
+      A = 2,
+    }
+    const enum I {
+      A = H.A
+    }
+    console.log(I.A);
     "#,
     r#"
     var D;
     (function(D) {
         D[D["A"] = 0] = "A";
-        D[D["B"] = 1] = "B";
+        D[D["B"] = 2] = "B";
     })(D || (D = {}));
     D.A = 5;
     console.log(D.A);
     var E;
-    console.log(0);
+    console.log(1);
+    var F;
+    var G;
+    (function(G) {
+        G[G["A"] = 2] = "A";
+    })(G || (G = {}));
+    console.log(G.A);
+    var H;
+    (function(H) {
+        H[H["A"] = 2] = "A";
+    })(H || (H = {}));
+    var I;
+    (function(I) {
+        I[I["A"] = H.A] = "A";
+    })(I || (I = {}));
+    console.log(I.A);
     "#
 );
