@@ -13,6 +13,12 @@
 
 - **(es/typescript)** Support `ts_enum_is_mutable` with const enums ([#8171](https://github.com/swc-project/swc/issues/8171)) ([02d0613](https://github.com/swc-project/swc/commit/02d0613a35a3875ad3b0c0b008cf063bd162bc07))
 
+### Build
+
+
+
+- **(deps)** Update `ahash` ([#8174](https://github.com/swc-project/swc/issues/8174)) ([5ca3b63](https://github.com/swc-project/swc/commit/5ca3b6358219ec71a000fa30d8be14ee2c3f2fc8))
+
 ## [1.3.94] - 2023-10-21
 
 ### Bug Fixes
@@ -1728,9 +1734,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(bindings/cli)** Update `swc_ecma_ast` ([#7060](https://github.com/swc-project/swc/issues/7060)) ([1b40689](https://github.com/swc-project/swc/commit/1b40689c3a754ce4a038ea98d7e9f41b1e9cf7a7))
-
-
-- **(es)** Support stable rustc again ([#7057](https://github.com/swc-project/swc/issues/7057)) ([fbb3016](https://github.com/swc-project/swc/commit/fbb3016870cb6378743170b6833be6bbb7b4a73a))
 
 
 - **(es)** Respect the value of assumptions ([#7065](https://github.com/swc-project/swc/issues/7065)) ([11d4874](https://github.com/swc-project/swc/commit/11d4874a2ea173a43e0a1fcdf8a1390d4320b7ee))

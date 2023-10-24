@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.131.15"
+version = "0.131.16"
 
 [lib]
 bench = false
@@ -21,7 +21,7 @@ serde      = { version = "1.0.118", features = ["derive"] }
 serde_json = "1.0.61"
 
 swc_atoms = { version = "0.6.0", path = "../swc_atoms" }
-swc_cached = { version = "0.3.17", path = "../swc_cached" }
+swc_cached = { version = "0.3.18", path = "../swc_cached" }
 swc_common = { version = "0.33.1", path = "../swc_common" }
 swc_css_ast = { version = "0.140.2", path = "../swc_css_ast" }
 swc_css_codegen = { version = "0.151.2", path = "../swc_css_codegen" }

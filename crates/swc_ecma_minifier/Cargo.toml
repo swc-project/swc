@@ -51,7 +51,7 @@ serde_json        = "1.0.61"
 tracing           = "0.1.37"
 
 swc_atoms = { version = "0.6.0", path = "../swc_atoms" }
-swc_cached = { version = "0.3.17", path = "../swc_cached" }
+swc_cached = { version = "0.3.18", path = "../swc_cached" }
 swc_common = { version = "0.33.1", path = "../swc_common" }
 swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.110.1", path = "../swc_ecma_ast", features = [
@@ -60,7 +60,7 @@ swc_ecma_ast = { version = "0.110.1", path = "../swc_ecma_ast", features = [
 swc_ecma_codegen = { version = "0.146.4", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.141.4", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.134.9", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.195.9", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.195.10", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "0.20.9", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "0.124.8", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.96.1", path = "../swc_ecma_visit" }

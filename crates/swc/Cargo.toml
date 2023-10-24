@@ -67,27 +67,27 @@ tracing      = "0.1.37"
 url          = "2.4.0"
 
 swc_atoms = { version = "0.6.0", path = "../swc_atoms" }
-swc_cached = { version = "0.3.17", path = "../swc_cached" }
+swc_cached = { version = "0.3.18", path = "../swc_cached" }
 swc_common = { version = "0.33.1", path = "../swc_common", features = [
   "ahash",
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "0.3.15", path = "../swc_compiler_base" }
+swc_compiler_base = { version = "0.3.16", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.110.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.146.4", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.110.8", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "0.89.9", path = "../swc_ecma_lints" }
-swc_ecma_loader = { version = "0.45.1", path = "../swc_ecma_loader", features = [
+swc_ecma_loader = { version = "0.45.2", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
   "tsc",
 ] }
 swc_ecma_minifier = { version = "0.189.15", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.141.4", path = "../swc_ecma_parser" }
-swc_ecma_preset_env = { version = "0.203.9", path = "../swc_ecma_preset_env" }
-swc_ecma_transforms = { version = "0.226.9", path = "../swc_ecma_transforms", features = [
+swc_ecma_preset_env = { version = "0.203.10", path = "../swc_ecma_preset_env" }
+swc_ecma_transforms = { version = "0.226.10", path = "../swc_ecma_transforms", features = [
   "compat",
   "module",
   "optimization",
@@ -97,7 +97,7 @@ swc_ecma_transforms = { version = "0.226.9", path = "../swc_ecma_transforms", fe
 ] }
 swc_ecma_transforms_base = { version = "0.134.9", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "0.160.11", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_optimization = { version = "0.195.9", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.195.10", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.124.8", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.96.1", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.17.1", path = "../swc_error_reporters" }
