@@ -1,0 +1,119 @@
+
+  x Module
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Callee
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x MemberExpr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^^^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Ident
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   : ^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x Ident
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | React.useEffect(() => {
+   :       ^^^^^^^^^
+ 2 |     // @refresh reset
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x ArrowExpr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x BlockStmtOrExpr
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
+
+  x BlockStmt
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
+   `----
