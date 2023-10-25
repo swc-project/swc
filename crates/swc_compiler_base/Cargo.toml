@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_compiler_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.3.16"
+version       = "0.3.17"
 
 [features]
 node = ["napi", "napi-derive"]
@@ -19,16 +19,16 @@ pathdiff = "0.2.0"
 serde = { version = "1.0.188", features = ["derive"] }
 sourcemap = "6.2"
 swc_atoms = { version = "0.6.0", path = "../swc_atoms" }
-swc_common = { version = "0.33.1", path = "../swc_common", features = [
+swc_common = { version = "0.33.2", path = "../swc_common", features = [
     "sourcemap",
 ] }
 swc_config = { version = "0.1.7", path = "../swc_config" }
-swc_ecma_ast = { version = "0.110.1", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.146.4", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.189.15", path = "../swc_ecma_minifier" }
-swc_ecma_parser = { version = "0.141.4", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.96.1", path = "../swc_ecma_visit" }
-swc_timer = { version = "0.21.1", path = "../swc_timer" }
+swc_ecma_ast = { version = "0.110.2", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.146.5", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "0.189.16", path = "../swc_ecma_minifier" }
+swc_ecma_parser = { version = "0.141.5", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "0.96.2", path = "../swc_ecma_visit" }
+swc_timer = { version = "0.21.2", path = "../swc_timer" }
 
     [dependencies.napi-derive]
     default-features = false

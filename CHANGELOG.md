@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Performance
+
+
+
+- **(es/minifier)** Add `has_flag` to `Comments` ([#8182](https://github.com/swc-project/swc/issues/8182)) ([7530e90](https://github.com/swc-project/swc/commit/7530e9051d67d8721126e48c39f0a8ac27d980a5))
+
 ## [1.3.95] - 2023-10-24
 
 ### Bug Fixes
@@ -1734,12 +1742,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es)** Respect the value of assumptions ([#7065](https://github.com/swc-project/swc/issues/7065)) ([11d4874](https://github.com/swc-project/swc/commit/11d4874a2ea173a43e0a1fcdf8a1390d4320b7ee))
-
-
-- **(es/ast)** Fix memory layout ([#7062](https://github.com/swc-project/swc/issues/7062)) ([085c6f3](https://github.com/swc-project/swc/commit/085c6f35f1f298a7863a99f3adfeb48b2dddbcb8))
-
-
-- **(es/compat)** Handle `useDefineForClassFields: false` ([#7055](https://github.com/swc-project/swc/issues/7055)) ([bb6dde7](https://github.com/swc-project/swc/commit/bb6dde794326838b2069c7f86fb900eee36027bc))
 
 
 - **(es/compat)** Insert the variable declaration nearest to the available statements ([#7067](https://github.com/swc-project/swc/issues/7067)) ([ae348e3](https://github.com/swc-project/swc/commit/ae348e32e18e07c277c358746e3ba3a78b9251c4))
