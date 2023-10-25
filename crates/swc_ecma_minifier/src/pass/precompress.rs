@@ -26,14 +26,6 @@ impl Parallel for PrecompressOptimizer {
 impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        if let Expr::Paren(p) = e {
-            *e = *p.expr.take();
-        }
-    }
-
     fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
         n.visit_mut_children_with(self);
 

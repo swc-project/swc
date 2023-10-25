@@ -58,47 +58,29 @@ struct InfoMarker<'a> {
     state: State,
 }
 
-impl VisitMut for InfoMarker<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
-        n.visit_mut_children_with(self);
-
-        if has_noinline(self.comments, n.span) {
-            n.span = n.span.apply_mark(self.marks.noinline);
-        }
-
-        // We check callee in some cases because we move comments
-        // See https://github.com/swc-project/swc/issues/7241
-        if match &n.callee {
-            Callee::Expr(e) => match &**e {
-                Expr::Ident(callee) => self.pure_callee.contains(&callee.to_id()),
-                _ => false,
-            },
-            _ => false,
-        } || has_pure(self.comments, n.span)
-            || match &n.callee {
-                Callee::Expr(e) => match &**e {
-                    Expr::Seq(callee) => has_pure(self.comments, callee.span),
-                    _ => false,
-                },
-                _ => false,
+impl InfoMarker<'_> {
+    fn mark_inner_as_pure(&self, inner: &mut Expr) {
+        match inner {
+            Expr::Paren(p) => {
+                p.span = p.span.apply_mark(self.marks.pure);
+                self.mark_inner_as_pure(&mut p.expr);
             }
-        {
-            if !n.span.is_dummy_ignoring_cmt() {
+
+            Expr::Call(n) => {
                 n.span = n.span.apply_mark(self.marks.pure);
             }
-        } else if let Some(pure_fns) = &self.pure_funcs {
-            if let Callee::Expr(e) = &n.callee {
-                // Check for pure_funcs
-                Ident::within_ignored_ctxt(|| {
-                    if pure_fns.contains(&NodeIgnoringSpan::borrowed(e)) {
-                        n.span = n.span.apply_mark(self.marks.pure);
-                    };
-                })
+
+            Expr::New(n) => {
+                n.span = n.span.apply_mark(self.marks.pure);
             }
+
+            _ => {}
         }
     }
+}
+
+impl VisitMut for InfoMarker<'_> {
+    noop_visit_mut_type!();
 
     fn visit_mut_export_default_decl(&mut self, e: &mut ExportDefaultDecl) {
         self.state.is_in_export = true;
@@ -110,6 +92,45 @@ impl VisitMut for InfoMarker<'_> {
         self.state.is_in_export = true;
         e.visit_mut_children_with(self);
         self.state.is_in_export = false;
+    }
+
+    fn visit_mut_expr(&mut self, e: &mut Expr) {
+        e.visit_mut_children_with(self);
+
+        let is_pure = expr_has_pure(self.comments, &*e);
+
+        match e {
+            Expr::Paren(p) => {
+                if has_pure(self.comments, p.span) {
+                    self.mark_inner_as_pure(&mut p.expr);
+                }
+            }
+
+            Expr::Call(call) => {
+                if has_noinline(self.comments, call.span) {
+                    call.span = call.span.apply_mark(self.marks.noinline);
+                }
+
+                // We check callee in some cases because we move comments
+                // See https://github.com/swc-project/swc/issues/7241
+                if is_pure {
+                    if !call.span.is_dummy_ignoring_cmt() {
+                        call.span = call.span.apply_mark(self.marks.pure);
+                    }
+                } else if let Some(pure_fns) = &self.pure_funcs {
+                    if let Callee::Expr(e) = &call.callee {
+                        // Check for pure_funcs
+                        Ident::within_ignored_ctxt(|| {
+                            if pure_fns.contains(&NodeIgnoringSpan::borrowed(e)) {
+                                call.span = call.span.apply_mark(self.marks.pure);
+                            };
+                        })
+                    }
+                }
+            }
+
+            _ => (),
+        }
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
@@ -279,6 +300,32 @@ pub(super) fn has_const_ann(comments: Option<&dyn Comments>, span: Span) -> bool
 /// Check for `/*#__NOINLINE__*/`
 pub(super) fn has_noinline(comments: Option<&dyn Comments>, span: Span) -> bool {
     has_flag(comments, span, "NOINLINE")
+}
+
+pub(super) fn expr_has_pure(comments: Option<&dyn Comments>, e: &Expr) -> bool {
+    let span = e.span();
+    if has_pure(comments, span) {
+        return true;
+    }
+
+    match e {
+        Expr::Seq(e) => {
+            if let Some(e) = e.exprs.last() {
+                return expr_has_pure(comments, e);
+            }
+
+            false
+        }
+
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(callee),
+            ..
+        }) => expr_has_pure(comments, callee),
+
+        Expr::Paren(e) => expr_has_pure(comments, &e.expr),
+
+        _ => false,
+    }
 }
 
 /// Check for `/*#__PURE__*/`
