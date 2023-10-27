@@ -275,9 +275,9 @@ class Shard extends _utils.Emitter {
      * Called whenever the websocket opens.
      * @private
      */ _open() {
-        var _this;
+        var _class_private_field_get1;
         this.status = _utils.Status.HANDSHAKING;
-        this._debug(`Connected. ${(_this = _class_private_field_get._(this, _ws1)) === null || _this === void 0 ? void 0 : _this.url} in ${Date.now() - this.connectedAt}`);
+        this._debug(`Connected. ${(_class_private_field_get1 = _class_private_field_get._(this, _ws1)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.url} in ${Date.now() - this.connectedAt}`);
         if (_class_private_field_get._(this, _queue).length) {
             this._debug(`${_class_private_field_get._(this, _queue).length} packets waiting... sending all now.`);
             while(_class_private_field_get._(this, _queue).length){

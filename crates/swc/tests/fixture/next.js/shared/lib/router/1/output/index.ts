@@ -13,7 +13,7 @@ var Router = /*#__PURE__*/ function() {
             value: function change(method, url, as, options, forcedScroll) {
                 var _this = this;
                 return _async_to_generator(function() {
-                    var _this_locales, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
+                    var shouldResolveHref, prevLocale, parsedAs, localePathResult, didNavigate, _this_locales, detectedDomain, asNoBasePath, _options_shallow, shallow, routeProps, cleanedAs, localeChange, parsed, pathname, query, pages, rewrites, ref, err, resolvedAs, rewritesResult, route, parsedAs1, asPathname, routeRegex, routeMatch, shouldInterpolate, interpolatedAs, missingParams, _self___NEXT_DATA___props_pageProps, _self___NEXT_DATA___props, routeInfo, error, props, __N_SSG, __N_SSP, destination, parsedHref, _prepareUrlAs, newUrl, newAs, notFoundRoute, _, isValidShallowRoute, _options_scroll, shouldScroll, resetScroll, err1;
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
@@ -48,6 +48,7 @@ var Router = /*#__PURE__*/ function() {
                                     // we need to wrap this in the env check again since regenerator runtime
                                     // moves this on its own due to the return
                                     if (process.env.__NEXT_I18N_SUPPORT) {
+                                        ;
                                         // if the locale isn't configured hard navigate to show 404 page
                                         if (!((_this_locales = _this.locales) === null || _this_locales === void 0 ? void 0 : _this_locales.includes(_this.locale))) {
                                             parsedAs.pathname = addLocale(parsedAs.pathname, _this.locale);

@@ -54,7 +54,6 @@ class RequestHandler {
      *
      * @returns {string} The created route.
      */ static makeRoute(method, url) {
-        var _exec;
         const route = url.replace(/\/([a-z-]+)\/(?:\d{17,19})/g, (match, p)=>[
                 "channels",
                 "guilds",
@@ -62,6 +61,7 @@ class RequestHandler {
             ].includes(p) ? match : `/${p}/:id`).replace(/\/reactions\/[^/]+/g, "/reactions/:id").replace(/\/webhooks\/(\d+)\/[\w-]{64,}/, "webhooks/$1/:token").replace(/\?.*$/, "");
         let ending = ";";
         if (method === "delete" && route.endsWith("/message/:id")) {
+            var _exec;
             const id = (_exec = /\d{16,19}$/.exec(route)) === null || _exec === void 0 ? void 0 : _exec[0];
             const snowflake = _utils.Snowflake.deconstruct(id);
             if (Date.now() - snowflake.timestamp > 1000 * 60 * 60 * 24 * 14) {
