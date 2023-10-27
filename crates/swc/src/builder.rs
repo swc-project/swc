@@ -223,8 +223,10 @@ impl<'a, 'b, P: swc_ecma_visit::Fold> PassBuilder<'a, 'b, P> {
                                 set_public_fields: assumptions.set_public_class_fields,
                                 no_document_all: assumptions.no_document_all,
                                 static_blocks_mark: Mark::new(),
+                                pure_getter: assumptions.pure_getters,
                             }
-                        }
+                        },
+                        self.unresolved_mark
                     ),
                     should_enable(self.target, EsVersion::Es2022)
                 ),
