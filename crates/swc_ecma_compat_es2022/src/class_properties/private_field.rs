@@ -237,6 +237,22 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             return;
         }
 
+        // We cannot handle private names after optional chaining from the
+        // `optional_chaining` pass.
+        //
+        // https://github.com/swc-project/swc/issues/7561
+        if let Expr::OptChain(OptChainExpr {
+            span,
+            optional,
+            base,
+        }) = e
+        {
+            match &mut **base {
+                OptChainBase::Member(base) => {}
+                OptChainBase::Call(base) => {}
+            }
+        }
+
         match e {
             Expr::Update(UpdateExpr { arg, .. }) if arg.is_member() => {
                 let old_access_type = self.private_access_type;
