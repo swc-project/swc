@@ -8,11 +8,11 @@ use std::{
 use is_macro::Is;
 use swc_atoms::JsWord;
 use swc_common::{
-    comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned,
-    SyntaxContext, DUMMY_SP,
+    comments::Comments, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
+use swc_ecma_transforms_base::{ext::AsOptExpr, helper, TransformContext};
 use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, undefined,
     ExprFactory,
@@ -23,9 +23,13 @@ use swc_ecma_visit::{
 use tracing::debug;
 
 /// Generator based on tsc generator at https://github.com/microsoft/TypeScript/blob/162224763681465b417274383317ca9a0a573835/src/compiler/transformers/generators.ts
-pub fn generator<C>(unresolved_mark: Mark, _comments: C) -> impl VisitMut + Fold
+pub fn generator<C>(
+    TransformContext {
+        unresolved_mark, ..
+    }: TransformContext<C>,
+) -> impl VisitMut + Fold
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     as_folder(Wrapper {
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),

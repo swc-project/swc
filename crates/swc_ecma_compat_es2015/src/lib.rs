@@ -87,7 +87,7 @@ where
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(context.clone()),
-        generator::generator(unresolved_mark, comments),
+        generator::generator(context),
     )
 }
 
