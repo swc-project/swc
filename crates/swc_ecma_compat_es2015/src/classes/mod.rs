@@ -91,16 +91,11 @@ where
     args: Vec<ExprOrSpread>,
 }
 
-#[derive(Debug, Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct Config {
-    #[serde(default)]
     pub constant_super: bool,
-    #[serde(default)]
     pub no_class_calls: bool,
-    #[serde(default)]
     pub set_class_methods: bool,
-    #[serde(default)]
     pub super_is_callable_constructor: bool,
 }
 
