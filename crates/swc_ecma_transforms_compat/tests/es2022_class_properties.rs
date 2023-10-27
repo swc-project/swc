@@ -27,7 +27,11 @@ fn tr(t: &Tester) -> impl Fold {
     chain!(
         resolver(unresolved_mark, top_level_mark, false),
         function_name(),
-        class_properties(Some(t.comments.clone()), Default::default()),
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark
+        ),
         classes(Some(t.comments.clone()), Default::default()),
         block_scoping(unresolved_mark),
         reserved_words(false),
