@@ -1,7 +1,8 @@
 use std::mem;
 
-use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::TransformContext;
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
     prepend_stmt,
@@ -57,7 +58,14 @@ use swc_trace_macro::swc_trace;
 /// };
 /// console.log(bob.printFriends());
 /// ```
-pub fn arrow(unresolved_mark: Mark) -> impl Fold + VisitMut + InjectVars {
+pub fn arrow<C>(
+    TransformContext {
+        unresolved_mark, ..
+    }: TransformContext<C>,
+) -> impl Fold + VisitMut + InjectVars
+where
+    C: Comments + Clone,
+{
     as_folder(Arrow {
         in_subclass: false,
         hoister: FnEnvHoister::new(SyntaxContext::empty().apply_mark(unresolved_mark)),

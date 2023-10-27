@@ -36,9 +36,12 @@ mod sticky_regex;
 pub mod template_literal;
 mod typeof_symbol;
 
-fn exprs(unresolved_mark: Mark) -> impl Fold {
+fn exprs<C>(context: TransformContext<C>) -> impl Fold
+where
+    C: Comments + Clone,
+{
     chain!(
-        arrow(unresolved_mark),
+        arrow(context.clone()),
         duplicate_keys(),
         sticky_regex(),
         instance_of(),
