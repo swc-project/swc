@@ -288,7 +288,8 @@ fn fixture(input: PathBuf) {
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         ..Default::default()
-                    }
+                    },
+                    unresolved_mark
                 ),
                 optional_chaining(Default::default(), unresolved_mark)
             )
@@ -315,7 +316,8 @@ fn fixture_loose(input: PathBuf) {
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         ..Default::default()
-                    }
+                    },
+                    unresolved_mark
                 ),
                 optional_chaining(
                     Config {
