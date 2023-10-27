@@ -315,6 +315,8 @@ fn fixture_loose(input: PathBuf) {
                     Some(t.comments.clone()),
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
+                        pure_getter: true,
+
                         ..Default::default()
                     },
                     unresolved_mark
