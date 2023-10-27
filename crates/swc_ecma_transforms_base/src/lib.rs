@@ -39,7 +39,7 @@ mod tests;
 ///
 /// pub fn bugfixes<C>(c: TransformContext<C>) -> impl Fold
 /// where
-///     C: Comments,
+///     C: Comments + Clone,
 /// {
 ///     chain!(
 ///         async_arrows_in_class(c.unresolved_mark),
@@ -52,7 +52,7 @@ mod tests;
 #[derive(Debug, Clone, Copy)]
 pub struct TransformContext<C>
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     /// See [Assumptions]
     pub assumptions: Assumptions,
