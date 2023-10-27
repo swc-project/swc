@@ -2503,10 +2503,19 @@ static A = 123;
 // regression_6153
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        arrow(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            arrow(Mark::new())
+        )
+    },
     regression_6153,
     r#"
 () => {
@@ -2544,10 +2553,19 @@ var qux = function() {
 // regression_7371
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        arrow(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            arrow(unresolved_mark),
+        )
+    },
     regression_7371,
     r#"
 "use strict";
@@ -2670,7 +2688,16 @@ class A {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     private_optional_chain_member,
     r#"
 class MyClass {

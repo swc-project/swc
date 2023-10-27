@@ -2000,13 +2000,22 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_object_properties_numeric_props_exec,
     r#"
 function dec(target, name, descriptor){

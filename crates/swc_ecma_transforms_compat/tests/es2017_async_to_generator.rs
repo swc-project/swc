@@ -1362,10 +1362,19 @@ test!(
 
 test_exec!(
     Syntax::default(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+        )
+    },
     issue_1341_1_exec,
     "
     class A {
@@ -2068,7 +2077,11 @@ fn exec(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(Some(t.comments.clone()), Default::default()),
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark
+                ),
                 async_to_generator(
                     Default::default(),
                     Some(t.comments.clone()),
