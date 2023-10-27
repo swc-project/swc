@@ -1,9 +1,8 @@
 var _x = /*#__PURE__*/ new WeakMap();
 class Foo {
     test() {
-        var _this;
-        var _this_y, _this_y1;
-        _this_y === null || _this_y === void 0 ? void 0 : _class_private_field_get(_this_y1 = (_this = this) == null ? void 0 : _this.y, _x);
+        var _this, _this_y;
+        (_this = this) == null ? void 0 : _class_private_field_get(_this_y = _this.y, _x);
     }
     constructor(){
         _class_private_field_init(this, _x, {
