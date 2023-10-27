@@ -3009,7 +3009,11 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(Some(t.comments.clone()), Default::default())
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
     },
     public_computed_without_block_exec,
     r#"
@@ -4077,13 +4081,19 @@ class Foo {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            set_public_fields: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            },
+            unresolved_mark,
+        )
+    },
     set_public_static_undefined,
     r#"
 class Foo {
