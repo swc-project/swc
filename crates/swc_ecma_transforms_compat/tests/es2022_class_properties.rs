@@ -4147,7 +4147,12 @@ class A {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     issue_3229_2,
     "
 class A {
@@ -4164,7 +4169,12 @@ class A {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     issue_3368,
     "
 class A {
@@ -4184,7 +4194,12 @@ class A {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     nested_class_in_arrow,
     "
 const a = () => class {
@@ -4223,7 +4238,12 @@ class Foo {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     issue_4473,
     "
 var test1 = class X {
@@ -4264,13 +4284,18 @@ class A extends class B {} {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                constant_super: true,
+                ..Default::default()
+            },
+        )
+    },
     constant_super_field,
     "
 class A extends B {
@@ -4282,13 +4307,18 @@ class A extends B {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            no_document_all: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                no_document_all: true,
+                ..Default::default()
+            },
+        )
+    },
     private_optional_chain_member_loose,
     r#"
 class MyClass {
@@ -4302,13 +4332,18 @@ class MyClass {
 
 test_exec!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            set_public_fields: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            },
+        )
+    },
     set_public_fields_initialization_order,
     r#"
 const actualOrder = [];
@@ -4354,13 +4389,18 @@ expect(inst[9]).toBe(15);
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            set_public_fields: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                set_public_fields: true,
+                ..Default::default()
+            },
+        )
+    },
     set_public_fields_computed,
     r#"
 const foo = "foo";
@@ -4404,7 +4444,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             )
         )
     },
@@ -4449,13 +4490,19 @@ class Foo {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            private_as_properties: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                private_as_properties: true,
+                ..Default::default()
+            },
+            unresolved_mark,
+        )
+    },
     private_as_properties_basic,
     r#"
 class Cl {
