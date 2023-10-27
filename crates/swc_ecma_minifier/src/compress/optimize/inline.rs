@@ -176,6 +176,7 @@ impl Optimizer<'_> {
                 && usage.declared_count == 1
                 && usage.assign_count == 1
                 && !usage.reassigned
+                && (usage.property_mutation_count == 0 || !usage.reassigned)
                 && match init {
                     Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => false,
 
@@ -238,7 +239,7 @@ impl Optimizer<'_> {
                     Expr::This(..) => usage.is_fn_local,
                     Expr::Arrow(arr) => {
                         is_arrow_simple_enough_for_copy(arr)
-                            && !(usage.has_property_mutation
+                            && !(usage.property_mutation_count > 0
                                 || usage.executed_multiple_time
                                 || usage.used_as_arg && ref_count > 1)
                             && ref_count - 1 <= usage.callee_count
@@ -254,7 +255,7 @@ impl Optimizer<'_> {
                     indexed_with_dynamic_key,
                     usage_count,
                     has_property_access,
-                    has_property_mutation,
+                    property_mutation_count,
                     used_above_decl,
                     executed_multiple_time,
                     used_in_cond,
@@ -269,7 +270,7 @@ impl Optimizer<'_> {
                             u.used_as_ref |= used_as_ref;
                             u.indexed_with_dynamic_key |= indexed_with_dynamic_key;
                             u.has_property_access |= has_property_access;
-                            u.has_property_mutation |= has_property_mutation;
+                            u.property_mutation_count += property_mutation_count;
                             u.used_above_decl |= used_above_decl;
                             u.executed_multiple_time |= executed_multiple_time;
                             u.used_in_cond |= used_in_cond;
@@ -433,7 +434,10 @@ impl Optimizer<'_> {
                     _ => {
                         for id in idents_used_by(init) {
                             if let Some(v_usage) = self.data.vars.get(&id) {
-                                if v_usage.reassigned || v_usage.has_property_mutation {
+                                if v_usage.reassigned
+                                    || v_usage.property_mutation_count
+                                        > usage.property_mutation_count
+                                {
                                     return;
                                 }
                             }
@@ -692,8 +696,7 @@ impl Optimizer<'_> {
             //
             if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
                 && usage.ref_count == 1
-                && (usage.can_inline_fn_once())
-                && !usage.inline_prevented
+                && usage.can_inline_fn_once()
                 && (match decl {
                     Decl::Class(..) => !usage.used_above_decl,
                     Decl::Fn(..) => true,

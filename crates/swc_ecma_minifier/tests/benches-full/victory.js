@@ -6668,8 +6668,8 @@
                         ids[j + 1] = temp;
                     }
                     else {
-                        var median = left + right >> 1, i$1 = left + 1, j$1 = right;
-                        swap(ids, median, i$1), dists[ids[left]] > dists[ids[right]] && swap(ids, left, right), dists[ids[i$1]] > dists[ids[right]] && swap(ids, i$1, right), dists[ids[left]] > dists[ids[i$1]] && swap(ids, left, i$1);
+                        var i$1 = left + 1, j$1 = right;
+                        swap(ids, left + right >> 1, i$1), dists[ids[left]] > dists[ids[right]] && swap(ids, left, right), dists[ids[i$1]] > dists[ids[right]] && swap(ids, i$1, right), dists[ids[left]] > dists[ids[i$1]] && swap(ids, left, i$1);
                         for(var temp$1 = ids[i$1], tempDist$1 = dists[temp$1];;){
                             do i$1++;
                             while (dists[ids[i$1]] < tempDist$1)
@@ -9560,8 +9560,8 @@
                         key: "renderGridAndTicks",
                         value: function(props) {
                             var _this = this, tickComponent = props.tickComponent, tickLabelComponent = props.tickLabelComponent, gridComponent = props.gridComponent, name = props.name, shouldRender = function(componentProps) {
-                                var _componentProps$style = componentProps.style, style = void 0 === _componentProps$style ? {} : _componentProps$style, _componentProps$event = componentProps.events, events = void 0 === _componentProps$event ? {} : _componentProps$event;
-                                return "transparent" !== style.stroke && "none" !== style.stroke && 0 !== style.strokeWidth || !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default()(events);
+                                var _componentProps$style = componentProps.style, style = void 0 === _componentProps$style ? {} : _componentProps$style, _componentProps$event = componentProps.events;
+                                return "transparent" !== style.stroke && "none" !== style.stroke && 0 !== style.strokeWidth || !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default()(void 0 === _componentProps$event ? {} : _componentProps$event);
                             };
                             return this.dataKeys.map(function(key, index) {
                                 var tickProps = _this.getComponentProps(tickComponent, "ticks", index), BaseTickComponent = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(tickComponent, tickProps), TickComponent = shouldRender(BaseTickComponent.props) ? BaseTickComponent : void 0, gridProps = _this.getComponentProps(gridComponent, "grid", index), BaseGridComponent = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(gridComponent, gridProps), GridComponent = shouldRender(BaseGridComponent.props) ? BaseGridComponent : void 0, tickLabelProps = _this.getComponentProps(tickLabelComponent, "tickLabels", index), children = [
@@ -10382,8 +10382,8 @@
                     bottomPoints[2]
                 ]);
             }, getVerticalBarPath = function(props, width, cornerRadius) {
-                var position = getPosition(props, width), sign = position.y0 > position.y1 ? 1 : -1, direction = sign > 0 ? "0 0 1" : "0 0 0";
-                return mapPointsToPath(getVerticalBarPoints(position, sign, cornerRadius), cornerRadius, direction);
+                var position = getPosition(props, width), sign = position.y0 > position.y1 ? 1 : -1;
+                return mapPointsToPath(getVerticalBarPoints(position, sign, cornerRadius), cornerRadius, sign > 0 ? "0 0 1" : "0 0 0");
             }, getHorizontalBarPath = function(props, width, cornerRadius) {
                 var position = getPosition(props, width), sign = position.x0 < position.x1 ? 1 : -1, cr = {
                     topRight: sign > 0 ? cornerRadius.topLeft : cornerRadius.bottomLeft,
@@ -11063,7 +11063,7 @@
                                 }, []);
                             })), labelComponents = lodash_flatten__WEBPACK_IMPORTED_MODULE_1___default()(types.map(function(type) {
                                 return _this.dataKeys.map(function(key, index) {
-                                    var name = "".concat(type, "Labels"), baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, name, index);
+                                    var baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, "".concat(type, "Labels"), index);
                                     if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_2___default.a.cloneElement(baseComponent, labelProps);
                                 }).filter(Boolean);
                             })), children = _toConsumableArray(dataComponents).concat(_toConsumableArray(labelComponents));
@@ -12771,9 +12771,9 @@
                 };
             }, getDataStyles = function(datum, style, props) {
                 style = style || {};
-                var candleColor = datum._open > datum._close ? props.candleColors.negative : props.candleColors.positive, fill = style.fill || candleColor, strokeColor = style.stroke;
+                var candleColor = datum._open > datum._close ? props.candleColors.negative : props.candleColors.positive, fill = style.fill || candleColor, strokeColor = style.stroke, stroke = "none" === strokeColor || "transparent" === strokeColor ? fill : strokeColor || "black";
                 return lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, style, {
-                    stroke: "none" === strokeColor || "transparent" === strokeColor ? fill : strokeColor || "black",
+                    stroke: stroke,
                     fill: fill
                 });
             }, getText = function(props, type) {
@@ -13060,7 +13060,7 @@
                                 "high"
                             ].map(function(type) {
                                 return _this.dataKeys.map(function(key, index) {
-                                    var name = "".concat(type, "Labels"), baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, name, index);
+                                    var baseComponent = props["".concat(type, "LabelComponent")], labelProps = _this.getComponentProps(baseComponent, "".concat(type, "Labels"), index);
                                     if (void 0 !== labelProps.text && null !== labelProps.text) return react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(baseComponent, labelProps);
                                 }).filter(Boolean);
                             })), labelsComponents = this.dataKeys.map(function(_dataKey, index) {
@@ -14800,14 +14800,14 @@
                 }, 0);
                 return "end" === anchor ? dy + allHeights : dy + allHeights / 2 + capHeight / 2 * lineHeights[length - 1] * fontSizes[length - 1];
             }, getTransform = function(props, x, y) {
-                var polar = props.polar, style = getSingleValue(props.style), defaultAngle = polar ? _victory_util_label_helpers__WEBPACK_IMPORTED_MODULE_9__.default.getPolarAngle(props) : 0, baseAngle = void 0 === style.angle ? _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.evaluateProp(props.angle, props) : style.angle, angle = void 0 === baseAngle ? defaultAngle : baseAngle, transform = props.transform || style.transform, transformPart = transform && _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.evaluateProp(transform, props), rotatePart = angle && {
+                var polar = props.polar, style = getSingleValue(props.style), defaultAngle = polar ? _victory_util_label_helpers__WEBPACK_IMPORTED_MODULE_9__.default.getPolarAngle(props) : 0, baseAngle = void 0 === style.angle ? _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.evaluateProp(props.angle, props) : style.angle, angle = void 0 === baseAngle ? defaultAngle : baseAngle, transform = props.transform || style.transform, transformPart = transform && _victory_util_helpers__WEBPACK_IMPORTED_MODULE_8__.default.evaluateProp(transform, props);
+                return transformPart || angle ? _victory_util_style__WEBPACK_IMPORTED_MODULE_10__.default.toTransformString(transformPart, angle && {
                     rotate: [
                         angle,
                         x,
                         y
                     ]
-                };
-                return transformPart || angle ? _victory_util_style__WEBPACK_IMPORTED_MODULE_10__.default.toTransformString(transformPart, rotatePart) : void 0;
+                }) : void 0;
             }, getXCoordinate = function(calculatedProps, labelSizeWidth) {
                 var direction = calculatedProps.direction, textAnchor = calculatedProps.textAnchor, x = calculatedProps.x, dx = calculatedProps.dx;
                 if ("rtl" === direction) return x - labelSizeWidth;
@@ -14995,10 +14995,10 @@
                     };
                 }), label = renderLabel(calculatedProps, tspanValues);
                 if (props.backgroundStyle) {
-                    var children = [
-                        useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues),
+                    var backgroundElement = useMultiLineBackgrounds(calculatedProps) ? getChildBackgrounds(calculatedProps, tspanValues) : getFullBackground(calculatedProps, tspanValues), backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, [
+                        backgroundElement,
                         label
-                    ], backgroundWithLabel = react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
+                    ]);
                     return props.renderInPortal ? react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_victory_portal_victory_portal__WEBPACK_IMPORTED_MODULE_5__.default, null, backgroundWithLabel) : backgroundWithLabel;
                 }
                 return props.renderInPortal ? react__WEBPACK_IMPORTED_MODULE_3___default.a.createElement(_victory_portal_victory_portal__WEBPACK_IMPORTED_MODULE_5__.default, null, label) : label;
@@ -15164,7 +15164,7 @@
                 return self1;
             }
             var Portal = function(_React$Component) {
-                var protoProps, staticProps;
+                var staticProps;
                 function Portal(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -15181,7 +15181,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), protoProps = [
+                }(Portal, _React$Component), _defineProperties(Portal.prototype, [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -15218,7 +15218,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ], _defineProperties(Portal.prototype, protoProps), staticProps && _defineProperties(Portal, staticProps), Portal;
+                ]), staticProps && _defineProperties(Portal, staticProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -15697,12 +15697,12 @@
                     return "M ".concat(x, ", ").concat(y + length, "\n      l ").concat(length, ", -").concat(length, "\n      l -").concat(length, ", -").concat(length, "\n      l -").concat(length, ", ").concat(length, "\n      l ").concat(length, ", ").concat(length, "\n      z");
                 },
                 triangleDown: function(x, y, size) {
-                    var height = size / 2 * Math.sqrt(3), x0 = x - size, x1 = x + size, y0 = y - size;
-                    return "M ".concat(x0, ", ").concat(y0, "\n      L ").concat(x1, ", ").concat(y0, "\n      L ").concat(x, ", ").concat(y + height, "\n      z");
+                    var height = size / 2 * Math.sqrt(3), x0 = x - size, y0 = y - size;
+                    return "M ".concat(x0, ", ").concat(y0, "\n      L ").concat(x + size, ", ").concat(y0, "\n      L ").concat(x, ", ").concat(y + height, "\n      z");
                 },
                 triangleUp: function(x, y, size) {
-                    var height = size / 2 * Math.sqrt(3), x0 = x - size, x1 = x + size, y1 = y + size;
-                    return "M ".concat(x0, ", ").concat(y1, "\n      L ").concat(x1, ", ").concat(y1, "\n      L ").concat(x, ", ").concat(y - height, "\n      z");
+                    var height = size / 2 * Math.sqrt(3), x0 = x - size, y1 = y + size;
+                    return "M ".concat(x0, ", ").concat(y1, "\n      L ").concat(x + size, ", ").concat(y1, "\n      L ").concat(x, ", ").concat(y - height, "\n      z");
                 },
                 plus: function(x, y, size) {
                     var baseSize = 1.1 * size, distance = baseSize / 1.5;
@@ -15713,8 +15713,8 @@
                     return "\n      M ".concat(x - distance / 2, ", ").concat(y + baseSize + distance, "\n      v-").concat(2 * distance, "\n      h-").concat(distance, "\n      v-").concat(distance, "\n      h").concat(distance, "\n      v-").concat(distance, "\n      h").concat(distance, "\n      v").concat(distance, "\n      h").concat(distance, "\n      v").concat(distance, "\n      h-").concat(distance, "\n      v").concat(2 * distance, "\n      z");
                 },
                 minus: function(x, y, size) {
-                    var baseSize = 1.1 * size, lineHeight = baseSize - 0.3 * baseSize, x0 = x - baseSize, y1 = y + lineHeight / 2, distance = x + baseSize - x0;
-                    return "M ".concat(x0, ", ").concat(y1, "\n      h").concat(distance, "\n      v-").concat(lineHeight, "\n      h-").concat(distance, "\n      z");
+                    var baseSize = 1.1 * size, lineHeight = baseSize - 0.3 * baseSize, x0 = x - baseSize, distance = x + baseSize - x0;
+                    return "M ".concat(x0, ", ").concat(y + lineHeight / 2, "\n      h").concat(distance, "\n      v-").concat(lineHeight, "\n      h-").concat(distance, "\n      z");
                 },
                 star: function(x, y, size) {
                     var baseSize = 1.35 * size, angle = Math.PI / 5, starCoords = lodash_range__WEBPACK_IMPORTED_MODULE_0___default()(10).map(function(index) {
@@ -17044,7 +17044,7 @@
                     }) : void 0;
                     if (tickValues) return downsampleTicks(tickValues, tickCount);
                     if (scale.ticks && lodash_isFunction__WEBPACK_IMPORTED_MODULE_8___default()(scale.ticks)) {
-                        var defaultTickCount = tickCount || 5, scaleTicks = scale.ticks(defaultTickCount), ticks = downsampleTicks(Array.isArray(scaleTicks) && scaleTicks.length ? scaleTicks : scale.domain(), tickCount);
+                        var scaleTicks = scale.ticks(tickCount || 5), ticks = downsampleTicks(Array.isArray(scaleTicks) && scaleTicks.length ? scaleTicks : scale.domain(), tickCount);
                         if (filterZero) {
                             var filteredTicks = lodash_includes__WEBPACK_IMPORTED_MODULE_1___default()(ticks, 0) ? lodash_without__WEBPACK_IMPORTED_MODULE_0___default()(ticks, 0) : ticks;
                             return filteredTicks.length ? filteredTicks : ticks;
@@ -18334,10 +18334,10 @@
                 modifyProps: function(props, fallbackProps, role) {
                     var themeProps = omit(props.theme && props.theme[role] ? props.theme[role] : {}, [
                         "style"
-                    ]), horizontal = isHorizontal(props), defaultObject = void 0 === horizontal ? {} : {
+                    ]), horizontal = isHorizontal(props);
+                    return lodash_defaults__WEBPACK_IMPORTED_MODULE_5___default()(void 0 === horizontal ? {} : {
                         horizontal: horizontal
-                    };
-                    return lodash_defaults__WEBPACK_IMPORTED_MODULE_5___default()(defaultObject, props, themeProps, fallbackProps);
+                    }, props, themeProps, fallbackProps);
                 },
                 getCurrentAxis: function(axis, horizontal) {
                     return horizontal ? "x" === axis ? "y" : "x" : axis;
@@ -22516,11 +22516,7 @@
                         var childTransitions = childrenTransitions[index] || childrenTransitions[0];
                         if (nodesDoneLoad) {
                             if (nodesWillExit) {
-                                var after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit"), _animation = exitingNodes ? {
-                                    duration: exit
-                                } : {
-                                    delay: exit
-                                };
+                                var after, exitingNodes = childTransitions && childTransitions.exiting, exit = void 0 !== transitionDurations.exit ? transitionDurations.exit : getChildTransitionDuration(child, "onExit");
                                 return function(animate, child, data, exitingNodes, cb) {
                                     var onExit = animate && animate.onExit;
                                     if (animate = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, onExit), exitingNodes) {
@@ -22534,7 +22530,11 @@
                                         animate: animate,
                                         data: data
                                     };
-                                }(lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, _animation), 0, data, exitingNodes, function() {
+                                }(lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, animate, exitingNodes ? {
+                                    duration: exit
+                                } : {
+                                    delay: exit
+                                }), 0, data, exitingNodes, function() {
                                     setState({
                                         nodesWillExit: !1
                                     });
@@ -23035,7 +23035,7 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = function(_NaiveCombinedContain) {
-                    var protoProps, staticProps;
+                    var staticProps;
                     function VictoryCombinedContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23055,7 +23055,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), _defineProperties(VictoryCombinedContainer.prototype, [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -23066,7 +23066,7 @@
                                 }, props.children);
                             }
                         }
-                    ], _defineProperties(VictoryCombinedContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
+                    ]), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -23650,7 +23650,7 @@
                 var x = dataProps.x, y = dataProps.y, index = dataProps.index, scale = dataProps.scale, errorY = dataProps.errorY, errorX = dataProps.errorX, horizontal = dataProps.horizontal, labelComponent = dataProps.labelComponent, theme = dataProps.theme, getError = function() {
                     var type = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : "x", baseError = "y" === type ? errorY : errorX;
                     return (baseError && Array.isArray(baseError) ? baseError[0] : baseError) || dataProps[type];
-                }, labelStyle = style.labels || {}, padding = labelStyle.padding || 0, textAnchor = horizontal ? "start" : "middle", verticalAnchor = horizontal ? "middle" : "end", labelProps = {
+                }, labelStyle = style.labels || {}, padding = labelStyle.padding || 0, labelProps = {
                     style: labelStyle,
                     y: horizontal ? y : getError("y"),
                     x: horizontal ? getError("x") : x,
@@ -23661,8 +23661,8 @@
                     scale: scale,
                     datum: dataProps.datum,
                     data: dataProps.data,
-                    textAnchor: labelStyle.textAnchor || textAnchor,
-                    verticalAnchor: labelStyle.verticalAnchor || verticalAnchor,
+                    textAnchor: labelStyle.textAnchor || (horizontal ? "start" : "middle"),
+                    verticalAnchor: labelStyle.verticalAnchor || (horizontal ? "middle" : "end"),
                     angle: labelStyle.angle,
                     horizontal: horizontal
                 };
@@ -27189,8 +27189,8 @@
                         key: "renderAxis",
                         value: function(props) {
                             var _this = this, tickComponent = props.tickComponent, tickLabelComponent = props.tickLabelComponent, name = props.name, shouldRender = function(componentProps) {
-                                var _componentProps$style = componentProps.style, style = void 0 === _componentProps$style ? {} : _componentProps$style, _componentProps$event = componentProps.events, events = void 0 === _componentProps$event ? {} : _componentProps$event;
-                                return "transparent" !== style.stroke && "none" !== style.stroke && 0 !== style.strokeWidth || !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default()(events);
+                                var _componentProps$style = componentProps.style, style = void 0 === _componentProps$style ? {} : _componentProps$style, _componentProps$event = componentProps.events;
+                                return "transparent" !== style.stroke && "none" !== style.stroke && 0 !== style.strokeWidth || !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default()(void 0 === _componentProps$event ? {} : _componentProps$event);
                             }, gridComponent = "radial" == (props.dependentAxis ? "radial" : "angular") ? props.circularGridComponent : props.gridComponent, tickComponents = this.dataKeys.map(function(key, index) {
                                 var tickProps = lodash_assign__WEBPACK_IMPORTED_MODULE_1___default()({
                                     key: "".concat(name, "-tick-").concat(key)
@@ -29150,7 +29150,11 @@
                                 dy: void 0 === _calculatedValues$dy ? 0 : _calculatedValues$dy,
                                 dx: void 0 === _calculatedValues$dx ? 0 : _calculatedValues$dx,
                                 style: style,
-                                x: (textAnchor && "middle" !== textAnchor ? flyoutCenter.x - ("end" === textAnchor ? -1 : 1) * (labelSize.width / 2) : flyoutCenter.x) + (flyoutPadding.left - flyoutPadding.right) / 2,
+                                x: function() {
+                                    if (!textAnchor || "middle" === textAnchor) return flyoutCenter.x;
+                                    var sign = "end" === textAnchor ? -1 : 1;
+                                    return flyoutCenter.x - sign * (labelSize.width / 2);
+                                }() + (flyoutPadding.left - flyoutPadding.right) / 2,
                                 y: flyoutCenter.y + (flyoutPadding.top - flyoutPadding.bottom) / 2,
                                 verticalAnchor: "middle",
                                 angle: style.angle
@@ -30391,14 +30395,14 @@
                             value: function(props, child, domain) {
                                 var childProps, data, x, y, defaultGetData, downsample = props.downsample, data1 = (data = (childProps = child.props).data, x = childProps.x, y = childProps.y, defaultGetData = child.type && lodash_isFunction__WEBPACK_IMPORTED_MODULE_0___default()(child.type.getData) ? child.type.getData : function() {}, !Array.isArray(data) || x || y ? defaultGetData(childProps) : data);
                                 if (downsample && domain && data1) {
-                                    var maxPoints = !0 === downsample ? 150 : downsample, dimension = props.zoomDimension || "x", startIndex = data1.findIndex(function(d) {
+                                    var dimension = props.zoomDimension || "x", startIndex = data1.findIndex(function(d) {
                                         return d[dimension] >= domain[dimension][0];
                                     }), endIndex = data1.findIndex(function(d) {
                                         return d[dimension] > domain[dimension][1];
                                     });
                                     0 !== startIndex && (startIndex -= 1), -1 !== endIndex && (endIndex += 1);
                                     var visibleData = data1.slice(startIndex, endIndex);
-                                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.downsample(visibleData, maxPoints, startIndex);
+                                    return victory_core__WEBPACK_IMPORTED_MODULE_5__.Data.downsample(visibleData, !0 === downsample ? 150 : downsample, startIndex);
                                 }
                             }
                         },
@@ -30552,7 +30556,7 @@
                 scale: function(currentDomain, evt, props, axis) {
                     var _currentDomain = _slicedToArray(currentDomain, 2), from = _currentDomain[0], range = Math.abs(_currentDomain[1] - from), minimumZoom = props.minimumZoom && props.minimumZoom[axis], factor = this.getScaleFactor(evt);
                     if (minimumZoom && range <= minimumZoom && factor < 1) return currentDomain;
-                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), point = factor * from + percent * (factor * range), minDomain = this.getMinimumDomain(point, props, axis), _getScaledDomain2 = _slicedToArray(this.getScaledDomain(currentDomain, factor, percent), 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
+                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), minDomain = this.getMinimumDomain(factor * from + percent * (factor * range), props, axis), _getScaledDomain2 = _slicedToArray(this.getScaledDomain(currentDomain, factor, percent), 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
                         newMin > fromBound && newMin < toBound ? newMin : fromBound,
                         newMax < toBound && newMax > fromBound ? newMax : toBound
                     ], domain = Math.abs(minDomain[1] - minDomain[0]) > Math.abs(newDomain[1] - newDomain[0]) ? minDomain : newDomain;

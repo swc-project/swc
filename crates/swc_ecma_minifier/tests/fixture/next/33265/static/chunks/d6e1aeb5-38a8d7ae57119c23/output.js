@@ -3166,8 +3166,8 @@
                         className: "vjs-mouse-display"
                     });
                 }, _proto.update = function update(rangeBarRect, rangeBarPoint, vertical) {
-                    var _this2 = this, volume = 100 * rangeBarPoint;
-                    this.getChild("volumeLevelTooltip").updateVolume(rangeBarRect, rangeBarPoint, vertical, volume, function() {
+                    var _this2 = this;
+                    this.getChild("volumeLevelTooltip").updateVolume(rangeBarRect, rangeBarPoint, vertical, 100 * rangeBarPoint, function() {
                         vertical ? _this2.el_.style.bottom = rangeBarRect.height * rangeBarPoint + "px" : _this2.el_.style.left = rangeBarRect.width * rangeBarPoint + "px";
                     });
                 }, MouseVolumeLevelDisplay;
@@ -3297,10 +3297,7 @@
                     return "vjs-mute-control " + _Button.prototype.buildCSSClass.call(this);
                 }, _proto.handleClick = function handleClick(event) {
                     var vol = this.player_.volume(), lastVolume = this.player_.lastVolume_();
-                    if (0 === vol) {
-                        var volumeToSet = lastVolume < 0.1 ? 0.1 : lastVolume;
-                        this.player_.volume(volumeToSet), this.player_.muted(!1);
-                    } else this.player_.muted(!this.player_.muted());
+                    0 === vol ? (this.player_.volume(lastVolume < 0.1 ? 0.1 : lastVolume), this.player_.muted(!1)) : this.player_.muted(!this.player_.muted());
                 }, _proto.update = function update(event) {
                     this.updateIcon_(), this.updateControlText_();
                 }, _proto.updateIcon_ = function updateIcon_() {
@@ -9423,7 +9420,7 @@
                         }
                     };
                 }).prototype = new Stream();
-                var TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
+                var metadataStream = _MetadataStream, TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
                 (_TransportPacketStream = function TransportPacketStream() {
                     var buffer = new Uint8Array(188), bytesInBuffer = 0;
                     _TransportPacketStream.prototype.init.call(this), this.push = function(bytes) {
@@ -9581,7 +9578,7 @@
                     CaptionStream: captionStream.CaptionStream,
                     Cea608Stream: captionStream.Cea608Stream,
                     Cea708Stream: captionStream.Cea708Stream,
-                    MetadataStream: _MetadataStream
+                    MetadataStream: metadataStream
                 };
                 for(var type in streamTypes)streamTypes.hasOwnProperty(type) && (m2ts[type] = streamTypes[type]);
                 var ONE_SECOND_IN_TS$2 = clock.ONE_SECOND_IN_TS, ADTS_SAMPLING_FREQUENCIES$1 = [
@@ -9637,7 +9634,7 @@
                         buffer = void 0, this.trigger("endedtimeline");
                     };
                 }).prototype = new Stream();
-                var expGolomb = function(workingData) {
+                var adts = _AdtsStream, expGolomb = function(workingData) {
                     var workingBytesAvailable = workingData.byteLength, workingWord = 0, workingBitsAvailable = 0;
                     this.length = function() {
                         return 8 * workingBytesAvailable;
@@ -9906,7 +9903,9 @@
                         };
                     };
                 }).prototype = new Stream();
-                var ADTS_SAMPLING_FREQUENCIES = [
+                var h264 = {
+                    H264Stream: _H264Stream
+                }, ADTS_SAMPLING_FREQUENCIES = [
                     96000,
                     88200,
                     64000,
@@ -10008,7 +10007,7 @@
                         everything = new Uint8Array(), this.trigger("endedtimeline");
                     };
                 }).prototype = new Stream();
-                var audioProperties = [
+                var aac = _AacStream, audioProperties = [
                     "audioobjecttype",
                     "channelcount",
                     "samplerate",
@@ -10021,7 +10020,7 @@
                     "levelIdc",
                     "profileCompatibility",
                     "sarRatio"
-                ], isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
+                ], H264Stream = h264.H264Stream, isLikelyAacData = utils.isLikelyAacData, ONE_SECOND_IN_TS$1 = clock.ONE_SECOND_IN_TS, retriggerForStream = function(key, event) {
                     event.stream = key, this.trigger("log", event);
                 }, addPipelineLogRetriggers = function(transmuxer, pipeline) {
                     for(var keys = Object.keys(pipeline), i = 0; i < keys.length; i++){
@@ -10202,7 +10201,7 @@
                     var videoTrack, audioTrack, self1 = this, hasFlushed = !0;
                     _Transmuxer.prototype.init.call(this), options = options || {}, this.baseMediaDecodeTime = options.baseMediaDecodeTime || 0, this.transmuxPipeline_ = {}, this.setupAacPipeline = function() {
                         var pipeline = {};
-                        this.transmuxPipeline_ = pipeline, pipeline.type = "aac", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.aacStream = new _AacStream(), pipeline.audioTimestampRolloverStream = new m2ts.TimestampRolloverStream("audio"), pipeline.timedMetadataTimestampRolloverStream = new m2ts.TimestampRolloverStream("timed-metadata"), pipeline.adtsStream = new _AdtsStream(), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.aacStream, pipeline.aacStream.pipe(pipeline.audioTimestampRolloverStream).pipe(pipeline.adtsStream), pipeline.aacStream.pipe(pipeline.timedMetadataTimestampRolloverStream).pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.metadataStream.on("timestamp", function(frame) {
+                        this.transmuxPipeline_ = pipeline, pipeline.type = "aac", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.aacStream = new aac(), pipeline.audioTimestampRolloverStream = new m2ts.TimestampRolloverStream("audio"), pipeline.timedMetadataTimestampRolloverStream = new m2ts.TimestampRolloverStream("timed-metadata"), pipeline.adtsStream = new adts(), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.aacStream, pipeline.aacStream.pipe(pipeline.audioTimestampRolloverStream).pipe(pipeline.adtsStream), pipeline.aacStream.pipe(pipeline.timedMetadataTimestampRolloverStream).pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.metadataStream.on("timestamp", function(frame) {
                             pipeline.aacStream.setTimestamp(frame.timeStamp);
                         }), pipeline.aacStream.on("data", function(data) {
                             "timed-metadata" !== data.type && "audio" !== data.type || pipeline.audioSegmentStream || (audioTrack = audioTrack || {
@@ -10218,7 +10217,7 @@
                         }), pipeline.coalesceStream.on("data", this.trigger.bind(this, "data")), pipeline.coalesceStream.on("done", this.trigger.bind(this, "done")), addPipelineLogRetriggers(this, pipeline);
                     }, this.setupTsPipeline = function() {
                         var pipeline = {};
-                        this.transmuxPipeline_ = pipeline, pipeline.type = "ts", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.packetStream = new m2ts.TransportPacketStream(), pipeline.parseStream = new m2ts.TransportParseStream(), pipeline.elementaryStream = new m2ts.ElementaryStream(), pipeline.timestampRolloverStream = new m2ts.TimestampRolloverStream(), pipeline.adtsStream = new _AdtsStream(), pipeline.h264Stream = new _H264Stream(), pipeline.captionStream = new m2ts.CaptionStream(options), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.packetStream, pipeline.packetStream.pipe(pipeline.parseStream).pipe(pipeline.elementaryStream).pipe(pipeline.timestampRolloverStream), pipeline.timestampRolloverStream.pipe(pipeline.h264Stream), pipeline.timestampRolloverStream.pipe(pipeline.adtsStream), pipeline.timestampRolloverStream.pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.h264Stream.pipe(pipeline.captionStream).pipe(pipeline.coalesceStream), pipeline.elementaryStream.on("data", function(data) {
+                        this.transmuxPipeline_ = pipeline, pipeline.type = "ts", pipeline.metadataStream = new m2ts.MetadataStream(), pipeline.packetStream = new m2ts.TransportPacketStream(), pipeline.parseStream = new m2ts.TransportParseStream(), pipeline.elementaryStream = new m2ts.ElementaryStream(), pipeline.timestampRolloverStream = new m2ts.TimestampRolloverStream(), pipeline.adtsStream = new adts(), pipeline.h264Stream = new H264Stream(), pipeline.captionStream = new m2ts.CaptionStream(options), pipeline.coalesceStream = new _CoalesceStream(options, pipeline.metadataStream), pipeline.headOfPipeline = pipeline.packetStream, pipeline.packetStream.pipe(pipeline.parseStream).pipe(pipeline.elementaryStream).pipe(pipeline.timestampRolloverStream), pipeline.timestampRolloverStream.pipe(pipeline.h264Stream), pipeline.timestampRolloverStream.pipe(pipeline.adtsStream), pipeline.timestampRolloverStream.pipe(pipeline.metadataStream).pipe(pipeline.coalesceStream), pipeline.h264Stream.pipe(pipeline.captionStream).pipe(pipeline.coalesceStream), pipeline.elementaryStream.on("data", function(data) {
                             var i;
                             if ("metadata" === data.type) {
                                 for(i = data.tracks.length; i--;)videoTrack || "video" !== data.tracks[i].type ? audioTrack || "audio" !== data.tracks[i].type || ((audioTrack = data.tracks[i]).timelineStartInfo.baseMediaDecodeTime = self1.baseMediaDecodeTime) : (videoTrack = data.tracks[i]).timelineStartInfo.baseMediaDecodeTime = self1.baseMediaDecodeTime;

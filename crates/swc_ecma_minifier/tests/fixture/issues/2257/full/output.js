@@ -244,8 +244,7 @@
                     value: [
                         state,
                         function(param) {
-                            var value = void 0 === param ? {} : param;
-                            setState(swcHelpers.objectSpread({}, state, value));
+                            setState(swcHelpers.objectSpread({}, state, void 0 === param ? {} : param));
                         }
                     ],
                     children: children
@@ -5291,11 +5290,11 @@
         },
         5607: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var $ = __webpack_require__(35437), IndexedObject = __webpack_require__(51478), toIndexedObject = __webpack_require__(74981), arrayMethodIsStrict = __webpack_require__(12707), nativeJoin = [].join, ES3_STRINGS = IndexedObject != Object, STRICT_METHOD = arrayMethodIsStrict("join", ",");
+            var $ = __webpack_require__(35437), IndexedObject = __webpack_require__(51478), toIndexedObject = __webpack_require__(74981), arrayMethodIsStrict = __webpack_require__(12707), nativeJoin = [].join, STRICT_METHOD = arrayMethodIsStrict("join", ",");
             $({
                 target: "Array",
                 proto: !0,
-                forced: ES3_STRINGS || !STRICT_METHOD
+                forced: IndexedObject != Object || !STRICT_METHOD
             }, {
                 join: function(separator) {
                     return nativeJoin.call(toIndexedObject(this), void 0 === separator ? "," : separator);
@@ -5543,8 +5542,8 @@
             }, {
                 setYear: function(year) {
                     getTime.call(this);
-                    var yi = toInteger(year), yyyy = 0 <= yi && yi <= 99 ? yi + 1900 : yi;
-                    return setFullYear.call(this, yyyy);
+                    var yi = toInteger(year);
+                    return setFullYear.call(this, 0 <= yi && yi <= 99 ? yi + 1900 : yi);
                 }
             });
         },
@@ -9801,14 +9800,14 @@
                 void 0 === props && (props = {});
                 var _props = props, getUserConfirmation = _props.getUserConfirmation, _props$initialEntries = _props.initialEntries, initialEntries = void 0 === _props$initialEntries ? [
                     "/"
-                ] : _props$initialEntries, _props$initialIndex = _props.initialIndex, initialIndex = void 0 === _props$initialIndex ? 0 : _props$initialIndex, _props$keyLength = _props.keyLength, keyLength = void 0 === _props$keyLength ? 6 : _props$keyLength, transitionManager = createTransitionManager();
+                ] : _props$initialEntries, _props$initialIndex = _props.initialIndex, _props$keyLength = _props.keyLength, keyLength = void 0 === _props$keyLength ? 6 : _props$keyLength, transitionManager = createTransitionManager();
                 function setState(nextState) {
                     (0, esm_extends.Z)(history, nextState), history.length = history.entries.length, transitionManager.notifyListeners(history.location, history.action);
                 }
                 function createKey() {
                     return Math.random().toString(36).substr(2, keyLength);
                 }
-                var index = clamp(initialIndex, 0, initialEntries.length - 1), entries = initialEntries.map(function(entry) {
+                var index = clamp(void 0 === _props$initialIndex ? 0 : _props$initialIndex, 0, initialEntries.length - 1), entries = initialEntries.map(function(entry) {
                     return "string" == typeof entry ? createLocation(entry, void 0, createKey()) : createLocation(entry, void 0, entry.key || createKey());
                 });
                 function go(n) {
@@ -11507,58 +11506,7 @@
                 return a;
             }
             fa && (Gc = document.createElement("div").style, "AnimationEvent" in window || (delete Ec.animationend.animation, delete Ec.animationiteration.animation, delete Ec.animationstart.animation), "TransitionEvent" in window || delete Ec.transitionend.transition);
-            var Ic = Hc("animationend"), Jc = Hc("animationiteration"), Kc = Hc("animationstart"), Lc = Hc("transitionend"), Mc = new Map(), Nc = new Map(), Oc = [
-                "abort",
-                "abort",
-                Ic,
-                "animationEnd",
-                Jc,
-                "animationIteration",
-                Kc,
-                "animationStart",
-                "canplay",
-                "canPlay",
-                "canplaythrough",
-                "canPlayThrough",
-                "durationchange",
-                "durationChange",
-                "emptied",
-                "emptied",
-                "encrypted",
-                "encrypted",
-                "ended",
-                "ended",
-                "error",
-                "error",
-                "gotpointercapture",
-                "gotPointerCapture",
-                "load",
-                "load",
-                "loadeddata",
-                "loadedData",
-                "loadedmetadata",
-                "loadedMetadata",
-                "loadstart",
-                "loadStart",
-                "lostpointercapture",
-                "lostPointerCapture",
-                "playing",
-                "playing",
-                "progress",
-                "progress",
-                "seeking",
-                "seeking",
-                "stalled",
-                "stalled",
-                "suspend",
-                "suspend",
-                "timeupdate",
-                "timeUpdate",
-                Lc,
-                "transitionEnd",
-                "waiting",
-                "waiting"
-            ];
+            var Ic = Hc("animationend"), Jc = Hc("animationiteration"), Kc = Hc("animationstart"), Lc = Hc("transitionend"), Mc = new Map(), Nc = new Map();
             function Pc(a, b) {
                 for(var c = 0; c < a.length; c += 2){
                     var d = a[c], e = a[c + 1];
@@ -12076,7 +12024,58 @@
                     listeners: d
                 }), b.target = Qe)));
             }
-            Pc("cancel cancel click click close close contextmenu contextMenu copy copy cut cut auxclick auxClick dblclick doubleClick dragend dragEnd dragstart dragStart drop drop focusin focus focusout blur input input invalid invalid keydown keyDown keypress keyPress keyup keyUp mousedown mouseDown mouseup mouseUp paste paste pause pause play play pointercancel pointerCancel pointerdown pointerDown pointerup pointerUp ratechange rateChange reset reset seeked seeked submit submit touchcancel touchCancel touchend touchEnd touchstart touchStart volumechange volumeChange".split(" "), 0), Pc("drag drag dragenter dragEnter dragexit dragExit dragleave dragLeave dragover dragOver mousemove mouseMove mouseout mouseOut mouseover mouseOver pointermove pointerMove pointerout pointerOut pointerover pointerOver scroll scroll toggle toggle touchmove touchMove wheel wheel".split(" "), 1), Pc(Oc, 2);
+            Pc("cancel cancel click click close close contextmenu contextMenu copy copy cut cut auxclick auxClick dblclick doubleClick dragend dragEnd dragstart dragStart drop drop focusin focus focusout blur input input invalid invalid keydown keyDown keypress keyPress keyup keyUp mousedown mouseDown mouseup mouseUp paste paste pause pause play play pointercancel pointerCancel pointerdown pointerDown pointerup pointerUp ratechange rateChange reset reset seeked seeked submit submit touchcancel touchCancel touchend touchEnd touchstart touchStart volumechange volumeChange".split(" "), 0), Pc("drag drag dragenter dragEnter dragexit dragExit dragleave dragLeave dragover dragOver mousemove mouseMove mouseout mouseOut mouseover mouseOver pointermove pointerMove pointerout pointerOut pointerover pointerOver scroll scroll toggle toggle touchmove touchMove wheel wheel".split(" "), 1), Pc([
+                "abort",
+                "abort",
+                Ic,
+                "animationEnd",
+                Jc,
+                "animationIteration",
+                Kc,
+                "animationStart",
+                "canplay",
+                "canPlay",
+                "canplaythrough",
+                "canPlayThrough",
+                "durationchange",
+                "durationChange",
+                "emptied",
+                "emptied",
+                "encrypted",
+                "encrypted",
+                "ended",
+                "ended",
+                "error",
+                "error",
+                "gotpointercapture",
+                "gotPointerCapture",
+                "load",
+                "load",
+                "loadeddata",
+                "loadedData",
+                "loadedmetadata",
+                "loadedMetadata",
+                "loadstart",
+                "loadStart",
+                "lostpointercapture",
+                "lostPointerCapture",
+                "playing",
+                "playing",
+                "progress",
+                "progress",
+                "seeking",
+                "seeking",
+                "stalled",
+                "stalled",
+                "suspend",
+                "suspend",
+                "timeupdate",
+                "timeUpdate",
+                Lc,
+                "transitionEnd",
+                "waiting",
+                "waiting"
+            ], 2);
             for(var Ve = "change selectionchange textInput compositionstart compositionend compositionupdate".split(" "), We = 0; We < Ve.length; We++)Nc.set(Ve[We], 0);
             ea("onMouseEnter", [
                 "mouseout",

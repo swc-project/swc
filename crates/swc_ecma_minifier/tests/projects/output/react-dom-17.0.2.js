@@ -2208,58 +2208,7 @@
         return eventName;
     }
     !canUseDOM || (style = document.createElement("div").style, "AnimationEvent" in window || (delete vendorPrefixes.animationend.animation, delete vendorPrefixes.animationiteration.animation, delete vendorPrefixes.animationstart.animation), "TransitionEvent" in window || delete vendorPrefixes.transitionend.transition);
-    var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = new Map(), eventPriorities = new Map(), continuousPairsForSimpleEventPlugin = [
-        "abort",
-        "abort",
-        ANIMATION_END,
-        "animationEnd",
-        ANIMATION_ITERATION,
-        "animationIteration",
-        ANIMATION_START,
-        "animationStart",
-        "canplay",
-        "canPlay",
-        "canplaythrough",
-        "canPlayThrough",
-        "durationchange",
-        "durationChange",
-        "emptied",
-        "emptied",
-        "encrypted",
-        "encrypted",
-        "ended",
-        "ended",
-        "error",
-        "error",
-        "gotpointercapture",
-        "gotPointerCapture",
-        "load",
-        "load",
-        "loadeddata",
-        "loadedData",
-        "loadedmetadata",
-        "loadedMetadata",
-        "loadstart",
-        "loadStart",
-        "lostpointercapture",
-        "lostPointerCapture",
-        "playing",
-        "playing",
-        "progress",
-        "progress",
-        "seeking",
-        "seeking",
-        "stalled",
-        "stalled",
-        "suspend",
-        "suspend",
-        "timeupdate",
-        "timeUpdate",
-        TRANSITION_END,
-        "transitionEnd",
-        "waiting",
-        "waiting"
-    ];
+    var ANIMATION_END = getVendorPrefixedEventName("animationend"), ANIMATION_ITERATION = getVendorPrefixedEventName("animationiteration"), ANIMATION_START = getVendorPrefixedEventName("animationstart"), TRANSITION_END = getVendorPrefixedEventName("transitionend"), topLevelEventsToReactNames = new Map(), eventPriorities = new Map();
     function registerSimplePluginEventsAndSetTheirPriorities(eventTypes, priority) {
         for(var i = 0; i < eventTypes.length; i += 2){
             var topEvent = eventTypes[i], event = eventTypes[i + 1], reactName = "on" + (event[0].toUpperCase() + event.slice(1));
@@ -2974,7 +2923,58 @@
         'touchMove',
         'wheel',
         'wheel'
-    ], 1), registerSimplePluginEventsAndSetTheirPriorities(continuousPairsForSimpleEventPlugin, 2), function(eventTypes, priority) {
+    ], 1), registerSimplePluginEventsAndSetTheirPriorities([
+        "abort",
+        "abort",
+        ANIMATION_END,
+        "animationEnd",
+        ANIMATION_ITERATION,
+        "animationIteration",
+        ANIMATION_START,
+        "animationStart",
+        "canplay",
+        "canPlay",
+        "canplaythrough",
+        "canPlayThrough",
+        "durationchange",
+        "durationChange",
+        "emptied",
+        "emptied",
+        "encrypted",
+        "encrypted",
+        "ended",
+        "ended",
+        "error",
+        "error",
+        "gotpointercapture",
+        "gotPointerCapture",
+        "load",
+        "load",
+        "loadeddata",
+        "loadedData",
+        "loadedmetadata",
+        "loadedMetadata",
+        "loadstart",
+        "loadStart",
+        "lostpointercapture",
+        "lostPointerCapture",
+        "playing",
+        "playing",
+        "progress",
+        "progress",
+        "seeking",
+        "seeking",
+        "stalled",
+        "stalled",
+        "suspend",
+        "suspend",
+        "timeupdate",
+        "timeUpdate",
+        TRANSITION_END,
+        "transitionEnd",
+        "waiting",
+        "waiting"
+    ], 2), function(eventTypes, priority) {
         for(var i = 0; i < eventTypes.length; i++)eventPriorities.set(eventTypes[i], 0);
     }([
         "change",
@@ -3268,7 +3268,7 @@
                             case "pointerup":
                                 SyntheticEventCtor = SyntheticPointerEvent;
                         }
-                        var inCapturePhase = (4 & eventSystemFlags) != 0, accumulateTargetOnly = !inCapturePhase && "scroll" === domEventName, _listeners = function(targetFiber, reactName, nativeEventType, inCapturePhase, accumulateTargetOnly) {
+                        var inCapturePhase = (4 & eventSystemFlags) != 0, _listeners = function(targetFiber, reactName, nativeEventType, inCapturePhase, accumulateTargetOnly) {
                             for(var reactEventName = inCapturePhase ? null !== reactName ? reactName + "Capture" : null : reactName, listeners = [], instance = targetFiber, lastHostComponent = null; null !== instance;){
                                 var _instance2 = instance, stateNode = _instance2.stateNode;
                                 if (5 === _instance2.tag && null !== stateNode && (lastHostComponent = stateNode, null !== reactEventName)) {
@@ -3279,7 +3279,7 @@
                                 instance = instance.return;
                             }
                             return listeners;
-                        }(targetInst, reactName, nativeEvent.type, inCapturePhase, accumulateTargetOnly);
+                        }(targetInst, reactName, nativeEvent.type, inCapturePhase, !inCapturePhase && "scroll" === domEventName);
                         if (_listeners.length > 0) {
                             var _event = new SyntheticEventCtor(reactName, reactEventType, null, nativeEvent, nativeEventTarget);
                             dispatchQueue.push({
@@ -5352,8 +5352,8 @@
         return updateWorkInProgressHook().memoizedState;
     }
     function mountEffectImpl(fiberFlags, hookFlags, create, deps) {
-        var hook = mountWorkInProgressHook(), nextDeps = void 0 === deps ? null : deps;
-        currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, void 0, nextDeps);
+        var hook = mountWorkInProgressHook();
+        currentlyRenderingFiber$1.flags |= fiberFlags, hook.memoizedState = pushEffect(1 | hookFlags, create, void 0, void 0 === deps ? null : deps);
     }
     function updateEffectImpl(fiberFlags, hookFlags, create, deps) {
         var hook = updateWorkInProgressHook(), nextDeps = void 0 === deps ? null : deps, destroy = void 0;

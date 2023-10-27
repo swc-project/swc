@@ -902,7 +902,7 @@ impl Optimizer<'_> {
                 if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
                     if usage.ref_count == 1
                         && !usage.reassigned
-                        && !usage.has_property_mutation
+                        && usage.property_mutation_count == 0
                         && matches!(
                             &*arg,
                             Expr::Lit(

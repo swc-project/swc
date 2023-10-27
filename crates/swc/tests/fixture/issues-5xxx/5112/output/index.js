@@ -1,8 +1,8 @@
 function c(r, n) {
-    let e = new Uint8Array(4 * r * r), c = (r - n) / 2;
+    let e = new Uint8Array(4 * r * r);
     return {
         e,
         s: Math.sqrt(1.25),
-        c
+        c: (r - n) / 2
     };
 }

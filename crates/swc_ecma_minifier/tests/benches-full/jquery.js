@@ -218,10 +218,9 @@
         }
         function createCache() {
             var keys = [];
-            function cache(key, value) {
+            return function cache(key, value) {
                 return keys.push(key + " ") > Expr.cacheLength && delete cache[keys.shift()], cache[key + " "] = value;
-            }
-            return cache;
+            };
         }
         function markFunction(fn) {
             return fn[expando] = !0, fn;

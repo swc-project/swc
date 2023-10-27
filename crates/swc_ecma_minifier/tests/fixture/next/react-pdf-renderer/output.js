@@ -2037,13 +2037,13 @@
                     value: "" + t
                 };
                 if (!ts(t.type)) return e(t.type(t.props));
-                var r = t.type, n = t.props, i = n.style, o = n.children, l = void 0 === o ? [] : o;
+                var r = t.type, n = t.props, i = n.style, o = n.children;
                 return {
                     type: r,
                     style: void 0 === i ? {} : i,
                     props: V.default(n, tl),
                     box: {},
-                    children: a.castArray(l).map(e)
+                    children: a.castArray(void 0 === o ? [] : o).map(e)
                 };
             }, tf = function(e) {
                 var t = 0, r = 1 / 0;
@@ -3160,19 +3160,19 @@
                     E
                 ];
             }, F = function(e) {
-                var t = e.px, r = e.py, n = e.cx, i = e.cy, o = e.rx, a = e.ry, u = e.xAxisRotation, l = void 0 === u ? 0 : u, s = e.largeArcFlag, c = void 0 === s ? 0 : s, f = e.sweepFlag, d = void 0 === f ? 0 : f, p = [];
+                var t = e.px, r = e.py, n = e.cx, i = e.cy, o = e.rx, a = e.ry, u = e.xAxisRotation, l = void 0 === u ? 0 : u, s = e.largeArcFlag, c = e.sweepFlag, f = [];
                 if (0 === o || 0 === a) return [];
-                var h = Math.sin(l * k / 360), y = Math.cos(l * k / 360), g = y * (t - n) / 2 + h * (r - i) / 2, v = -h * (t - n) / 2 + y * (r - i) / 2;
-                if (0 === g && 0 === v) return [];
-                var b = Math.pow(g, 2) / Math.pow(o = Math.abs(o), 2) + Math.pow(v, 2) / Math.pow(a = Math.abs(a), 2);
-                b > 1 && (o *= Math.sqrt(b), a *= Math.sqrt(b));
-                var m = A(P(t, r, n, i, o, a, c, d, h, y, g, v), 4), D = m[0], w = m[1], E = m[2], _ = m[3], x = Math.abs(_) / (k / 4);
-                0.0000001 > Math.abs(1.0 - x) && (x = 1.0);
-                var S = Math.max(Math.ceil(x), 1);
-                _ /= S;
-                for(var C = 0; C < S; C++)p.push(O(E, _)), E += _;
-                return p.map(function(e) {
-                    var t = T(e[0], o, a, y, h, D, w), r = t.x, n = t.y, i = T(e[1], o, a, y, h, D, w), u = i.x, l = i.y, s = T(e[2], o, a, y, h, D, w);
+                var d = Math.sin(l * k / 360), p = Math.cos(l * k / 360), h = p * (t - n) / 2 + d * (r - i) / 2, y = -d * (t - n) / 2 + p * (r - i) / 2;
+                if (0 === h && 0 === y) return [];
+                var g = Math.pow(h, 2) / Math.pow(o = Math.abs(o), 2) + Math.pow(y, 2) / Math.pow(a = Math.abs(a), 2);
+                g > 1 && (o *= Math.sqrt(g), a *= Math.sqrt(g));
+                var v = A(P(t, r, n, i, o, a, void 0 === s ? 0 : s, void 0 === c ? 0 : c, d, p, h, y), 4), b = v[0], m = v[1], D = v[2], w = v[3], E = Math.abs(w) / (k / 4);
+                0.0000001 > Math.abs(1.0 - E) && (E = 1.0);
+                var _ = Math.max(Math.ceil(E), 1);
+                w /= _;
+                for(var x = 0; x < _; x++)f.push(O(D, w)), D += w;
+                return f.map(function(e) {
+                    var t = T(e[0], o, a, p, d, b, m), r = t.x, n = t.y, i = T(e[1], o, a, p, d, b, m), u = i.x, l = i.y, s = T(e[2], o, a, p, d, b, m);
                     return {
                         x1: r,
                         y1: n,
@@ -3622,11 +3622,11 @@
                     opacity: t.value[3]
                 };
             }, eO = /^#.+/, eC = function(e, t) {
-                var r = t.xOffset, n = void 0 === r ? 0 : r, i = t.yOffset, o = void 0 === i ? 0 : i, a = t.width, u = t.height, l = t.image;
-                e.translate(-a + n, -u + o), e.image(l, 0, 0, {
+                var r = t.xOffset, n = t.yOffset, i = t.width, o = t.height, a = t.image;
+                e.translate(-i + (void 0 === r ? 0 : r), -o + (void 0 === n ? 0 : n)), e.image(a, 0, 0, {
                     fit: [
-                        a,
-                        u
+                        i,
+                        o
                     ],
                     align: "center",
                     valign: "bottom"
@@ -3783,11 +3783,11 @@
                     } else console.warn("Image with src '" + JSON.stringify(t.props.src) + "' skipped due to invalid dimensions");
                 }
             }, eV = function(e, t) {
-                var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = r.paddingLeft, l = void 0 === u ? 0 : u, s = r.paddingTop, c = void 0 === s ? 0 : s, f = r.paddingRight, d = void 0 === f ? 0 : f, p = r.paddingBottom, h = void 0 === p ? 0 : p, y = r.borderLeftWidth, g = void 0 === y ? 0 : y, v = r.borderTopWidth, b = void 0 === v ? 0 : v, m = r.borderRightWidth, D = void 0 === m ? 0 : m, w = r.borderBottomWidth, E = void 0 === w ? 0 : w;
-                e.fillColor("#a1c6e7").opacity(0.5).rect(n + l + g, i + c + b, o - l - d - D - g, a - c - h - b - E).fill();
+                var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = r.paddingLeft, l = void 0 === u ? 0 : u, s = r.paddingTop, c = void 0 === s ? 0 : s, f = r.paddingRight, d = r.paddingBottom, p = r.borderLeftWidth, h = void 0 === p ? 0 : p, y = r.borderTopWidth, g = void 0 === y ? 0 : y, v = r.borderRightWidth, b = r.borderBottomWidth;
+                e.fillColor("#a1c6e7").opacity(0.5).rect(n + l + h, i + c + g, o - l - (void 0 === f ? 0 : f) - (void 0 === v ? 0 : v) - h, a - c - (void 0 === d ? 0 : d) - g - (void 0 === b ? 0 : b)).fill();
             }, eH = function(e, t) {
-                var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = r.paddingLeft, l = void 0 === u ? 0 : u, s = r.paddingTop, c = void 0 === s ? 0 : s, f = r.paddingRight, d = void 0 === f ? 0 : f, p = r.paddingBottom, h = void 0 === p ? 0 : p, y = r.borderLeftWidth, g = void 0 === y ? 0 : y, v = r.borderTopWidth, b = void 0 === v ? 0 : v, m = r.borderRightWidth, D = void 0 === m ? 0 : m, w = r.borderBottomWidth, E = void 0 === w ? 0 : w;
-                e.fillColor("#c4deb9").opacity(0.5), e.rect(n + l + g, i + b, o - d - l - g - D, c).fill(), e.rect(n + g, i + b, l, a - b - E).fill(), e.rect(n + o - d - D, i + b, d, a - b - E).fill(), e.rect(n + l + g, i + a - h - E, o - d - l - g - D, h).fill();
+                var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = r.paddingLeft, l = void 0 === u ? 0 : u, s = r.paddingTop, c = r.paddingRight, f = void 0 === c ? 0 : c, d = r.paddingBottom, p = void 0 === d ? 0 : d, h = r.borderLeftWidth, y = void 0 === h ? 0 : h, g = r.borderTopWidth, v = void 0 === g ? 0 : g, b = r.borderRightWidth, m = void 0 === b ? 0 : b, D = r.borderBottomWidth, w = void 0 === D ? 0 : D;
+                e.fillColor("#c4deb9").opacity(0.5), e.rect(n + l + y, i + v, o - f - l - y - m, void 0 === s ? 0 : s).fill(), e.rect(n + y, i + v, l, a - v - w).fill(), e.rect(n + o - f - m, i + v, f, a - v - w).fill(), e.rect(n + l + y, i + a - p - w, o - f - l - y - m, p).fill();
             }, eZ = function(e) {
                 return {
                     marginLeft: "auto" === e.marginLeft ? 0 : e.marginLeft,
@@ -3796,8 +3796,8 @@
                     marginBottom: "auto" === e.marginBottom ? 0 : e.marginBottom
                 };
             }, eX = function(e, t) {
-                var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = eZ(t.box), l = u.marginLeft, s = void 0 === l ? 0 : l, c = u.marginTop, f = void 0 === c ? 0 : c, d = u.marginRight, p = void 0 === d ? 0 : d, h = u.marginBottom, y = void 0 === h ? 0 : h;
-                e.fillColor("#f8cca1").opacity(0.5), e.rect(n, i - f, o, f).fill(), e.rect(n - s, i - f, s, a + f + y).fill(), e.rect(n + o, i - f, p, a + f + y).fill(), e.rect(n, i + a, o, y).fill();
+                var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = eZ(t.box), l = u.marginLeft, s = void 0 === l ? 0 : l, c = u.marginTop, f = void 0 === c ? 0 : c, d = u.marginRight, p = u.marginBottom, h = void 0 === p ? 0 : p;
+                e.fillColor("#f8cca1").opacity(0.5), e.rect(n, i - f, o, f).fill(), e.rect(n - s, i - f, s, a + f + h).fill(), e.rect(n + o, i - f, void 0 === d ? 0 : d, a + f + h).fill(), e.rect(n, i + a, o, h).fill();
             }, eJ = function(e, t) {
                 var r = t.box, n = r.left, i = r.top, o = r.width, a = r.height, u = eZ(t.box), l = u.marginLeft, s = void 0 === l ? 0 : l, c = u.marginTop, f = void 0 === c ? 0 : c, d = u.marginRight, p = u.marginBottom, h = Math.round(o + s + (void 0 === d ? 0 : d)), y = Math.round(a + f + (void 0 === p ? 0 : p));
                 e.fontSize(6).opacity(1).fillColor("black").text(h + " x " + y, n - s, Math.max(i - f - 4, 1));
@@ -3856,18 +3856,18 @@
                 e.bezierCurveTo(a + u - d, o, a + u, o + d, a + u, o + n);
                 var p = o + Math.max(s, n);
                 e.lineTo(a + u, p), e.lineTo(a + u - c, p);
-                var h = Math.max(n - c, 0), y = Math.max(n - s, 0), g = h * (1.0 - e0);
-                e.bezierCurveTo(a + u - c, o + s + y * (1.0 - e0), a + u - c - g, o + s, a + u - c - h, o + s), e.lineTo(a + Math.max(i, f), o + s);
-                var v = Math.max(i - f, 0), b = Math.max(i - s, 0), m = o + Math.max(s, i);
-                e.bezierCurveTo(a + f + v * (1.0 - e0), o + s, a + f, o + s + b * (1.0 - e0), a + f, m), e.lineTo(a, m), e.lineTo(a, o + i);
-                var D = i * (1.0 - e0);
-                if (e.bezierCurveTo(a, o + D, a + D, o, a + i, o), e.closePath(), e.clip(), c) {
-                    var w = -s / c;
-                    e.moveTo(a + u / 2, w * (-u / 2) + o), e.lineTo(a + u, o), e.lineTo(a, o), e.lineTo(a, o + l), e.closePath(), e.clip();
+                var h = Math.max(n - c, 0), y = Math.max(n - s, 0);
+                e.bezierCurveTo(a + u - c, o + s + y * (1.0 - e0), a + u - c - h * (1.0 - e0), o + s, a + u - c - h, o + s), e.lineTo(a + Math.max(i, f), o + s);
+                var g = Math.max(i - f, 0), v = Math.max(i - s, 0), b = o + Math.max(s, i);
+                e.bezierCurveTo(a + f + g * (1.0 - e0), o + s, a + f, o + s + v * (1.0 - e0), a + f, b), e.lineTo(a, b), e.lineTo(a, o + i);
+                var m = i * (1.0 - e0);
+                if (e.bezierCurveTo(a, o + m, a + m, o, a + i, o), e.closePath(), e.clip(), c) {
+                    var D = -s / c;
+                    e.moveTo(a + u / 2, D * (-u / 2) + o), e.lineTo(a + u, o), e.lineTo(a, o), e.lineTo(a, o + l), e.closePath(), e.clip();
                 }
                 if (f) {
-                    var E = -s / f;
-                    e.moveTo(a + u / 2, E * (-u / 2) + o), e.lineTo(a, o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.closePath(), e.clip();
+                    var w = -s / f;
+                    e.moveTo(a + u / 2, w * (-u / 2) + o), e.lineTo(a, o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.closePath(), e.clip();
                 }
             }, e2 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = r.borderTopColor, s = r.borderTopWidth, c = r.borderTopStyle, f = r.borderRightWidth, d = r.borderLeftWidth, p = i * (1.0 - e0), h = n * (1.0 - e0);
@@ -3910,18 +3910,18 @@
                 e.bezierCurveTo(a + d, o + l, a, o + l - d, a, o + l - n);
                 var p = o + l - Math.max(s, n);
                 e.lineTo(a, p), e.lineTo(a + f, p);
-                var h = Math.max(n - f, 0), y = Math.max(n - s, 0), g = h * (1.0 - e0);
-                e.bezierCurveTo(a + f, o + l - s - y * (1.0 - e0), a + f + g, o + l - s, a + f + h, o + l - s), e.lineTo(a + u - Math.max(i, c), o + l - s);
-                var v = Math.max(i - c, 0), b = Math.max(i - s, 0), m = o + l - Math.max(s, i);
-                e.bezierCurveTo(a + u - c - v * (1.0 - e0), o + l - s, a + u - c, o + l - s - b * (1.0 - e0), a + u - c, m), e.lineTo(a + u, m), e.lineTo(a + u, o + l - i);
-                var D = i * (1.0 - e0);
-                if (e.bezierCurveTo(a + u, o + l - D, a + u - D, o + l, a + u - i, o + l), e.closePath(), e.clip(), c) {
-                    var w = s / c;
-                    e.moveTo(a + u / 2, w * (-u / 2) + o + l), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.closePath(), e.clip();
+                var h = Math.max(n - f, 0), y = Math.max(n - s, 0);
+                e.bezierCurveTo(a + f, o + l - s - y * (1.0 - e0), a + f + h * (1.0 - e0), o + l - s, a + f + h, o + l - s), e.lineTo(a + u - Math.max(i, c), o + l - s);
+                var g = Math.max(i - c, 0), v = Math.max(i - s, 0), b = o + l - Math.max(s, i);
+                e.bezierCurveTo(a + u - c - g * (1.0 - e0), o + l - s, a + u - c, o + l - s - v * (1.0 - e0), a + u - c, b), e.lineTo(a + u, b), e.lineTo(a + u, o + l - i);
+                var m = i * (1.0 - e0);
+                if (e.bezierCurveTo(a + u, o + l - m, a + u - m, o + l, a + u - i, o + l), e.closePath(), e.clip(), c) {
+                    var D = s / c;
+                    e.moveTo(a + u / 2, D * (-u / 2) + o + l), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.closePath(), e.clip();
                 }
                 if (f) {
-                    var E = -s / f;
-                    e.moveTo(a + u / 2, E * (u / 2) + o + l), e.lineTo(a, o + l), e.lineTo(a + u, o + l), e.lineTo(a + u, o), e.closePath(), e.clip();
+                    var w = -s / f;
+                    e.moveTo(a + u / 2, w * (u / 2) + o + l), e.lineTo(a, o + l), e.lineTo(a + u, o + l), e.lineTo(a + u, o), e.closePath(), e.clip();
                 }
             }, e8 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderBottomColor, c = r.borderBottomStyle, f = r.borderBottomWidth, d = r.borderRightWidth, p = r.borderLeftWidth, h = n * (1.0 - e0), y = i * (1.0 - e0);
