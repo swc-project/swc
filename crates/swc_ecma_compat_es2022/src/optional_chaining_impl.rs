@@ -29,6 +29,7 @@ impl OptionalChaining {
     }
 }
 
+/// Not a public API and may break any time. Don't use it directly.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Config {
     pub no_document_all: bool,
