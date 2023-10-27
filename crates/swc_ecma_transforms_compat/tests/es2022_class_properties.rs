@@ -1847,10 +1847,19 @@ class foo {
 // public_regression_t7364
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+        )
+    },
     public_regression_t7364,
     r#"
 class MyClass {
