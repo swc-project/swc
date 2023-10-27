@@ -4558,13 +4558,19 @@ class Cl {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            private_as_properties: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                private_as_properties: true,
+                ..Default::default()
+            },
+            unresolved_mark,
+        )
+    },
     private_as_properties_getter_only,
     r#"
 class Cl {
@@ -4584,14 +4590,20 @@ class Cl {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            private_as_properties: true,
-            set_public_fields: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                private_as_properties: true,
+                set_public_fields: true,
+                ..Default::default()
+            },
+            unresolved_mark,
+        )
+    },
     loose_update,
     r#"
 class Cl {
@@ -4646,7 +4658,16 @@ class Cl {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     set_only_getter,
     r#"
 class Cl {
@@ -4674,7 +4695,16 @@ const cl = new Cl();
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     get_only_setter,
     r#"
 class Cl {
@@ -4696,7 +4726,16 @@ fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();
     compare_stdout(
         Default::default(),
-        |t| class_properties(Some(t.comments.clone()), Default::default()),
+        |t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark,
+            )
+        },
         &src,
     );
 }
@@ -4726,7 +4765,16 @@ fn fixture(input: PathBuf) {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     issue_6305,
     "class x { static #x = super.x = 0 }"
 );
