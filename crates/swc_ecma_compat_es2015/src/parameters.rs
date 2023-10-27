@@ -48,7 +48,6 @@ struct Params {
 
 #[derive(Debug, Clone, Copy, Default)]
 struct Config {
-    #[serde(default)]
     pub ignore_function_length: bool,
 }
 
