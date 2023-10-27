@@ -82,7 +82,8 @@ fn simple_strip(t: &Tester, config: Config) -> impl Fold {
             class_properties::Config {
                 set_public_fields: true,
                 ..Default::default()
-            }
+            },
+            unresolved_mark
         )
     )
 }

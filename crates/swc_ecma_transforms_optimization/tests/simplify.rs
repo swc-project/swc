@@ -554,7 +554,11 @@ test!(
             decorators(Default::default()),
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             Repeat::new(chain!(
                 expr_simplifier(unresolved_mark, Default::default()),
                 inlining::inlining(Default::default()),
