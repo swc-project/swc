@@ -240,15 +240,14 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
         }
 
         match e {
-            Expr::OptChain(opt) => {
-                opt.visit_mut_with(&mut optional_chaining_impl(
+            Expr::OptChain(..) => {
+                e.visit_mut_with(&mut optional_chaining_impl(
                     crate::optional_chaining_impl::Config {
                         no_document_all: self.c.no_document_all,
                         pure_getter: self.c.pure_getter,
                     },
                     self.unresolved_mark,
                 ));
-                return;
             }
 
             _ => {}
