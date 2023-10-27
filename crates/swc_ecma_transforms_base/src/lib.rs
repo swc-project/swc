@@ -33,9 +33,13 @@ pub struct TransformContext<C>
 where
     C: Comments,
 {
+    /// See [Assumptions]
     pub assumptions: Assumptions,
 
+    /// Typically [swc_common::comments::SingleThreadedComments],
+    /// [swc_common::comments::NoopComments], or `&dyn Comments`.
     pub comments: C,
 
+    /// The [Mark] passed to [crate::resolver::resolver].
     pub unresolved_mark: Mark,
 }
