@@ -5,6 +5,7 @@ import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
+var _this, _this1;
 class C extends B {
     constructor(...args){
         super(...args);
@@ -17,9 +18,9 @@ class C extends B {
 C.x = undefined;
 C.y1 = C.x;
 C.y2 = C.x();
-C.y3 = C === null || C === void 0 ? void 0 : C.x();
+C.y3 = (_this = C) === null || _this === void 0 ? void 0 : _this.x();
 C.y4 = C["x"]();
-C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
+C.y5 = (_this1 = C) === null || _this1 === void 0 ? void 0 : _this1["x"]();
 C.z1 = _get(_get_prototype_of(C), "a", C);
 C.z2 = _get(_get_prototype_of(C), "a", C);
 C.z3 = _get(_get_prototype_of(C), "f", C).call(C);

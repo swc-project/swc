@@ -5,6 +5,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
+var _this, _this1;
 var C = /*#__PURE__*/ function(B1) {
     "use strict";
     _inherits(C, B1);
@@ -24,8 +25,8 @@ var C = /*#__PURE__*/ function(B1) {
 C.x = undefined;
 C.y1 = C.x;
 C.y2 = C.x();
-C.y3 = C === null || C === void 0 ? void 0 : C.x();
+C.y3 = (_this = C) === null || _this === void 0 ? void 0 : _this.x();
 C.y4 = C["x"]();
-C.y5 = C === null || C === void 0 ? void 0 : C["x"]();
+C.y5 = (_this1 = C) === null || _this1 === void 0 ? void 0 : _this1["x"]();
 C.z3 = _get(_get_prototype_of(C), "f", C).call(C);
 C.z4 = _get(_get_prototype_of(C), "f", C).call(C);

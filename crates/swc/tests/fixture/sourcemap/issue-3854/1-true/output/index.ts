@@ -68,7 +68,7 @@ class BodyBuilder extends _AbstractBuilders.AbstractBuilder {
         return this;
     }
     disclaimer(disclaimer) {
-        _class_private_field_set._(this, _disclaimer, disclaimer?.map(_Builderutils.mapBuildArg));
+        _class_private_field_set._(this, _disclaimer, disclaimer === null || disclaimer === void 0 ? void 0 : disclaimer.map(_Builderutils.mapBuildArg));
         return this;
     }
     articleSources(articleSources) {

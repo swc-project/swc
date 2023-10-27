@@ -43,7 +43,7 @@ define([
         constructor(uriOrMessage, code = FileSystemProviderErrorCode.Unknown, terminator){
             super(URI.isUri(uriOrMessage) ? uriOrMessage.toString(true) : uriOrMessage);
             _define_property._(this, "code", void 0);
-            this.code = terminator?.name ?? 'Unknown';
+            this.code = (terminator === null || terminator === void 0 ? void 0 : terminator.name) ?? 'Unknown';
             // mark the error as file system provider error so that
             // we can extract the error code on the receiving side
             markAsFileSystemProviderError(this, code);
