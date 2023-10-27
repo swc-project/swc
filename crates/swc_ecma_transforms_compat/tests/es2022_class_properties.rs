@@ -121,7 +121,11 @@ test!(
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
             function_name(),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
         )
     },
     private_class_method,
@@ -1790,7 +1794,11 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             classes(Some(t.comments.clone()), Default::default())
         )
     },
@@ -1869,10 +1877,15 @@ export default class MyClass3 {
 // private_regression_t6719
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_regression_t6719,
     r#"
 function withContext(ComposedComponent) {
@@ -2090,10 +2103,15 @@ expect(foo.z).toBe('bar');
 // private_static_undefined
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_static_undefined,
     r#"
 class Foo {
@@ -2114,11 +2132,16 @@ class Foo {
 // private_destructuring_array_pattern
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(Some(t.comments.clone()), Default::default()),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_destructuring_array_pattern,
     r#"
 class Foo {
@@ -2135,10 +2158,15 @@ class Foo {
 // private_regression_t2983
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            class_properties(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_regression_t2983,
     r#"
 call(class {
@@ -2157,6 +2185,8 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
             async_to_generator(
@@ -2245,7 +2275,12 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     regression_8882_exec_2,
     r#"
 const classes = [];
@@ -3660,7 +3695,16 @@ const a = () => class {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     issue_2481,
     "
 class Foo {
@@ -3692,13 +3736,19 @@ function a() {
 
 test!(
     syntax(),
-    |t| class_properties(
-        Some(t.comments.clone()),
-        class_properties::Config {
-            constant_super: true,
-            ..Default::default()
-        }
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            class_properties::Config {
+                constant_super: true,
+                ..Default::default()
+            },
+            unresolved_mark,
+        )
+    },
     constant_super_complex_super,
     "
 class A extends class B {} {
