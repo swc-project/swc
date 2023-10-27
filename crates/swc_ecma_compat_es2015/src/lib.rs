@@ -81,7 +81,7 @@ where
         Optional::new(object_super(), !context.is_typescript),
         shorthand(),
         function_name(),
-        exprs(context.unresolved_mark),
+        exprs(context.clone()),
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
