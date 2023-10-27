@@ -316,6 +316,7 @@ fn fixture_loose(input: PathBuf) {
                     swc_ecma_transforms_compat::es2022::class_properties::Config {
                         private_as_properties: false,
                         pure_getter: true,
+                        no_document_all: true,
 
                         ..Default::default()
                     },
