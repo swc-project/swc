@@ -3117,10 +3117,19 @@ class Foo {
 // static_property_tdz_general
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default())
+        )
+    },
     static_property_tdz_general,
     r#"
 class C {
@@ -3175,10 +3184,19 @@ test!(
     // Seems useless, while being hard to implement.
     ignore,
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            block_scoping(Mark::new())
+        )
+    },
     private_static_infer_name,
     r#"
 var Foo = class {
