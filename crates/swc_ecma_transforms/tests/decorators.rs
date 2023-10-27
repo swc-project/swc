@@ -2181,13 +2181,22 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_object_properties_return_descriptor_exec,
     r#"
 function dec(target, name, descriptor) {
@@ -2725,13 +2734,22 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(true),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_object_methods_mutate_descriptor_exec,
     r#"
 function dec(target, name, descriptor) {
@@ -2854,13 +2872,22 @@ expect(inst._()).toBe("__8__");
 // legacy_class_static_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_static_methods_return_descriptor_exec,
     r#"
 function dec(target, name, descriptor) {
