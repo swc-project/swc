@@ -3369,13 +3369,18 @@ expect(inst.prop2).toBe("__4__");
 // legacy_class_static_methods_mutate_descriptor
 test_exec!(
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(Some(t.comments.clone()), Default::default()),
+        )
+    },
     legacy_class_static_methods_mutate_descriptor_exec,
     r#"
 function dec(target, name, descriptor) {
