@@ -2371,7 +2371,11 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(Some(t.comments.clone()), Default::default())
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
     },
     regression_8882_exec_2,
     r#"
@@ -2541,10 +2545,19 @@ expect(() => new Derived(foo)).toThrow()
 // private_static_export
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            block_scoping(Mark::new())
+        )
+    },
     private_static_export,
     r#"
 export class MyClass {
@@ -2585,10 +2598,19 @@ class A {
 
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default())
+        )
+    },
     static_property_tdz_false_alarm,
     r#"
 class A {
@@ -4434,10 +4456,16 @@ test!(
 test!(
     syntax(),
     |t| {
-        let unresolved = Mark::new();
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
-            optional_chaining(Default::default(), unresolved)
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            optional_chaining(Default::default(), unresolved_mark)
         )
     },
     issue_8003,
