@@ -87,7 +87,7 @@ fn fixture(input: PathBuf) {
                                         pure_getter: loose,
                                         static_blocks_mark: Mark::new(),
                                     },
-                                    unresolve_mark,
+                                    unresolved_mark,
                                 )
                             ));
                         }
