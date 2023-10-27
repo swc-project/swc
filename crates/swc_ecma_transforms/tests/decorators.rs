@@ -1621,13 +1621,22 @@ expect(el).toEqual(Object.defineProperty({
 // legacy_class_constructors_return_new_constructor
 test_exec!(
     syntax(true),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_constructors_return_new_constructor_exec,
     r#"
 function dec(cls){
@@ -3130,13 +3139,22 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_object_methods_return_descriptor_exec,
     r#"
 function dec(target, name, descriptor) {
@@ -3261,13 +3279,22 @@ test_exec!(
     // Legacy decorator for object literals
     ignore,
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_object_methods_string_props_exec,
     r#"
 function dec(target, name, descriptor){
