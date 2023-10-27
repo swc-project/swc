@@ -28,6 +28,27 @@ mod tests;
 /// Storage for common configurations like assumptions or comemnts.
 ///
 /// This is used to reduce the number of breaking changes.
+///
+/// ## For transform authors
+///
+/// If you don't need extra field, **drop it from the construcctor function of
+/// yout transform**.
+///
+/// ```ignore
+/// 
+///
+/// pub fn bugfixes<C>(c: TransformContext<C>) -> impl Fold
+/// where
+///     C: Comments,
+/// {
+///     chain!(
+///         async_arrows_in_class(c.unresolved_mark),
+///         edge_default_param(),
+///         template_literal_caching(),
+///         safari_id_destructuring_collision_in_function_expression()
+///     )
+/// }
+/// ```
 #[derive(Debug, Clone, Copy)]
 pub struct TransformContext<C>
 where
