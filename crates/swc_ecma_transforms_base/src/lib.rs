@@ -59,7 +59,7 @@ where
 
     /// Typically [swc_common::comments::SingleThreadedComments],
     /// [swc_common::comments::NoopComments], or `&dyn Comments`.
-    pub comments: C,
+    pub comments: Option<C>,
 
     /// The [Mark] passed to [crate::resolver::resolver].
     pub unresolved_mark: Mark,
