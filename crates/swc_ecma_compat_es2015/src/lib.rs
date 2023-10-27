@@ -56,14 +56,7 @@ fn exprs(unresolved_mark: Mark) -> impl Fold {
 /// Used to generate `require` calls.
 /// See the documentation of [regenerator](self::regenerator::regenerator) for
 /// more details.
-pub fn es2015<C>(
-    TransformContext {
-        comments,
-        unresolved_mark,
-        ..
-    }: TransformContext<C>,
-    c: Config,
-) -> impl Fold
+pub fn es2015<C>(context: TransformContext<C>, c: Config) -> impl Fold
 where
     C: Comments + Clone,
 {
@@ -79,14 +72,14 @@ where
         }),
         block_scoped_functions(),
         template_literal(c.template_literal),
-        classes(comments.clone(), c.classes),
+        classes(context.clone()),
         new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441
         Optional::new(object_super(), !c.typescript),
         shorthand(),
         function_name(),
-        exprs(unresolved_mark),
+        exprs(context.unresolved_mark),
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
