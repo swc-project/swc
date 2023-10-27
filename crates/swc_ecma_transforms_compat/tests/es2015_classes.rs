@@ -4019,11 +4019,20 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
         )
     },
     issue_1959_1,
@@ -4039,11 +4048,20 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
         )
     },
     issue_1959_2,

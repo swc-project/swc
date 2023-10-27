@@ -45,7 +45,8 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
                             private_as_properties: loose,
                             no_document_all: loose,
                             static_blocks_mark: Mark::new(),
-                        }
+                        },
+                        unresolved_mark,
                     )
                 ));
             }

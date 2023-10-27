@@ -1762,7 +1762,11 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Some(t.comments.clone()), Default::default())
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            )
         )
     },
     issue_308,
@@ -1810,7 +1814,11 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             block_scoping(unresolved_mark)
         )
     },
