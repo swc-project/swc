@@ -2905,7 +2905,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(Some(t.comments.clone()), Default::default())
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
     },
     staic_private_destructuring_array_pattern,
     r#"
@@ -2921,7 +2925,16 @@ class A {
 // public_static_super_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     public_static_super_exec,
     r#"
 class A {
@@ -3028,12 +3041,21 @@ expect(instance.foo).toBe(2);
 // private_instance
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        exponentiation(),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            exponentiation(),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new()),
+        )
+    },
     private_instance,
     r#"
 class Foo {
@@ -3117,7 +3139,11 @@ test!(
 
         chain!(
             resolver(unresolved_mark, top_level_mark, false),
-            class_properties(Some(t.comments.clone()), Default::default())
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            )
         )
     },
     regression_7951,
@@ -3159,11 +3185,20 @@ class Foo {
 // public_computed_without_block
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     public_computed_without_block,
     r#"
 const createClass = (k) => class { [k()] = 2 };
