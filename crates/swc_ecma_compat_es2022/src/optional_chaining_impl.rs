@@ -7,6 +7,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
+/// Not a public API and may break any time. Don't use it directly.
 pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> OptionalChaining {
     OptionalChaining {
         c,
