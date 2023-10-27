@@ -2035,11 +2035,20 @@ expect(Foo.test()).toBe("foo")
 // private_destructuring_object_pattern_1
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_destructuring_object_pattern_1,
     r#"
 class Foo {

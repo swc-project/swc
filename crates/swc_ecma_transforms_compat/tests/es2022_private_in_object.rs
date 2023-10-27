@@ -61,9 +61,9 @@ fn fixture(input: PathBuf) {
                                         no_document_all: loose,
                                         private_as_properties: loose,
                                         static_blocks_mark: Mark::new(),
-                                    }
+                                    },
+                                    unresolved_mark
                                 ),
-                                unresolved_mark,
                             ));
                         }
                     }
