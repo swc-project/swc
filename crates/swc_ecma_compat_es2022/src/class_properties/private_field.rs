@@ -248,6 +248,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 self.unresolved_mark,
             );
             e.visit_mut_with(&mut v);
+            assert!(!e.is_opt_chain(), "optional chaining should be removed");
             self.vars.extend(v.take_vars());
         }
 
