@@ -1696,7 +1696,11 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
         )
     },
     legacy_class_static_properties_mutate_descriptor_exec,

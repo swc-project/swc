@@ -3333,7 +3333,16 @@ class B extends A {
 // private_destructuring_array_pattern_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     private_destructuring_array_pattern_exec,
     r#"
 class Foo {
@@ -3623,7 +3632,16 @@ test!(
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     issue_1333_6,
     "
     class Test {
