@@ -1,12 +1,11 @@
 use std::iter;
 
-use serde::Deserialize;
 use swc_common::{
     collections::ARandomState, comments::Comments, util::take::Take, BytePos, Mark, Span, Spanned,
     DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, native::is_native, perf::Check};
+use swc_ecma_transforms_base::{helper, native::is_native, perf::Check, TransformContext};
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
@@ -31,14 +30,25 @@ use self::{
 mod constructor;
 mod prop_name;
 
-pub fn classes<C>(comments: Option<C>, config: Config) -> impl Fold + VisitMut
+pub fn classes<C>(
+    TransformContext {
+        assumptions,
+        comments,
+        ..
+    }: TransformContext<C>,
+) -> impl Fold + VisitMut
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     as_folder(Classes {
         in_strict: false,
         comments,
-        config,
+        config: Config {
+            constant_super: assumptions.constant_super,
+            no_class_calls: assumptions.no_class_calls,
+            set_class_methods: assumptions.set_class_methods,
+            super_is_callable_constructor: assumptions.super_is_callable_constructor,
+        },
 
         params: Default::default(),
         args: Default::default(),
@@ -78,7 +88,7 @@ type IndexMap<K, V> = indexmap::IndexMap<K, V, ARandomState>;
 ///   return Test;
 /// }();
 /// ```
-#[derive(Default, Clone)]
+#[derive(Clone)]
 struct Classes<C>
 where
     C: Comments,
@@ -92,7 +102,7 @@ where
 }
 
 #[derive(Debug, Clone, Copy, Default)]
-pub struct Config {
+struct Config {
     pub constant_super: bool,
     pub no_class_calls: bool,
     pub set_class_methods: bool,
