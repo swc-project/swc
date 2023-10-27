@@ -252,7 +252,13 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 prop: MemberProp::PrivateName(prop),
                 ..
             }) = &mut **base
-            {}
+            {
+                assert!(
+                    obj.is_opt_chain(),
+                    "parser bug: obj of an opt chain with a private name as a property should be \
+                     opt chain"
+                );
+            }
         }
 
         match e {
