@@ -4062,11 +4062,15 @@ fn exec(input: PathBuf) {
     compare_stdout(
         Default::default(),
         |t| {
-            let unresolver_mark = Mark::new();
+            let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
             chain!(
-                class_properties(Some(t.comments.clone()), Default::default()),
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark
+                ),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },
@@ -4081,11 +4085,15 @@ fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
         &|t| {
-            let unresolver_mark = Mark::new();
+            let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
             chain!(
-                class_properties(Some(t.comments.clone()), Default::default()),
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark
+                ),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },
