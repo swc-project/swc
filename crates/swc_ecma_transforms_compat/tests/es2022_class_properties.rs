@@ -2098,7 +2098,16 @@ class Sub2 extends Base {}
 // private_destructuring_object_pattern_1_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     private_destructuring_object_pattern_1_exec,
     r#"
 class Foo {
@@ -2835,7 +2844,12 @@ class Foo {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     staic_private_destructuring_array_pattern,
     r#"
 class A {
@@ -2934,7 +2948,12 @@ class A {
 // public_computed_without_block_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(Some(t.comments.clone()), Default::default())
+    },
     public_computed_without_block_exec,
     r#"
 const createClass = (k) => class { [k()] = 2 };
