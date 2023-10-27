@@ -2297,11 +2297,20 @@ export default class MyClass3 {
 // private_destructuring_array_pattern_1
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_destructuring_array_pattern_1,
     r#"
 class Foo {
@@ -2318,7 +2327,16 @@ class Foo {
 // regression_8882_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     regression_8882_exec,
     r#"
 const classes = [];
