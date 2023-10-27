@@ -511,23 +511,28 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         unreachable!()
                     }
                 };
-                member.visit_mut_children_with(self);
-                let (ident, aliased) = alias_if_required(&member.obj, "_ref");
-                if aliased {
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: ident.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-                }
+                // member.visit_mut_children_with(self);
+                let ident = alias_ident_for(&member.obj, "_ref");
+                self.vars.push(VarDeclarator {
+                    span: DUMMY_SP,
+                    name: ident.clone().into(),
+                    init: None,
+                    definite: false,
+                });
+                let obj = member.obj.clone();
+                assert!(
+                    obj.is_opt_chain(),
+                    "parser bug: The object of an optional chaining should be an optional \
+                     chaining expression"
+                );
+
                 let (expr, _) = self.visit_mut_private_get(member, None);
 
                 *e = Expr::Cond(CondExpr {
                     span: *span,
                     test: Box::new(opt_chain_test(
                         Box::new(ident.clone().into()),
-                        Box::new(ident.into()),
+                        obj,
                         *span,
                         self.c.no_document_all,
                     )),
