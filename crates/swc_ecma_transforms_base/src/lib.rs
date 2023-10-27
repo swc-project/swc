@@ -63,4 +63,7 @@ where
 
     /// The [Mark] passed to [crate::resolver::resolver].
     pub unresolved_mark: Mark,
+
+    /// Is the input file TypeScript?
+    pub is_typescript: bool,
 }
