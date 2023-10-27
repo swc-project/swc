@@ -75,7 +75,7 @@ where
         new_target(),
         spread(c.spread),
         // https://github.com/Microsoft/TypeScript/issues/5441
-        Optional::new(object_super(), !c.typescript),
+        Optional::new(object_super(), !context.is_typescript),
         shorthand(),
         function_name(),
         exprs(context.unresolved_mark),
@@ -107,9 +107,6 @@ pub struct Config {
 
     #[serde(default)]
     pub template_literal: template_literal::Config,
-
-    #[serde(default)]
-    pub typescript: bool,
 }
 
 #[cfg(test)]
