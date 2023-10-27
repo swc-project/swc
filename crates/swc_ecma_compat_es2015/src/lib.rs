@@ -30,7 +30,6 @@ mod instanceof;
 pub mod new_target;
 mod object_super;
 pub mod parameters;
-pub mod regenerator;
 mod shorthand_property;
 pub mod spread;
 mod sticky_regex;
@@ -105,9 +104,6 @@ pub struct Config {
 
     #[serde(flatten)]
     pub spread: spread::Config,
-
-    #[serde(default)]
-    pub regenerator: regenerator::Config,
 
     #[serde(default)]
     pub template_literal: template_literal::Config,
