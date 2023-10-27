@@ -6,11 +6,12 @@ use swc_atoms::JsWord;
 use swc_common::{
     chain,
     collections::{AHashMap, AHashSet},
+    comments::Comments,
     util::take::Take,
     Mark, Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{helper, TransformContext};
 use swc_ecma_utils::{
     find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
     undefined, ExprFactory, StmtLike,
@@ -37,7 +38,14 @@ mod vars;
 ///    });
 /// }
 /// ```
-pub fn block_scoping(unresolved_mark: Mark) -> impl VisitMut + Fold {
+pub fn block_scoping<C>(
+    TransformContext {
+        unresolved_mark, ..
+    }: TransformContext<C>,
+) -> impl VisitMut + Fold
+where
+    C: Comments + Clone,
+{
     as_folder(chain!(
         self::vars::block_scoped_vars(),
         BlockScoping {
