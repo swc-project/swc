@@ -4231,7 +4231,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(Some(t.comments.clone()), Default::default())
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
     },
     issue_3368,
     "
@@ -4256,7 +4260,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(Some(t.comments.clone()), Default::default())
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
     },
     nested_class_in_arrow,
     "

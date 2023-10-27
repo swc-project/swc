@@ -11,6 +11,9 @@ use swc_ecma_transforms_testing::{exec_tr, parse_options, test, test_fixture, Te
 use swc_ecma_visit::Fold;
 
 fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     let mut pass: Box<dyn Fold> = Box::new(noop());
 
     for plugin in plugins {
@@ -45,6 +48,7 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
                             private_as_properties: loose,
                             no_document_all: loose,
                             static_blocks_mark: Mark::new(),
+                            pure_getter: loose,
                         },
                         unresolved_mark,
                     )
