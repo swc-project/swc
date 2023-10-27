@@ -10,6 +10,7 @@ pub use self::{
 };
 
 pub mod class_properties;
+pub mod optional_chaining_impl;
 pub mod private_in_object;
 pub mod static_blocks;
 
