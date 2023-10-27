@@ -94,9 +94,6 @@ where
 #[derive(Debug, Clone, Default, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Config {
-    #[serde(default)]
-    pub classes: classes::Config,
-
     #[serde(flatten)]
     pub computed_props: computed_props::Config,
 
@@ -114,9 +111,6 @@ pub struct Config {
 
     #[serde(default)]
     pub template_literal: template_literal::Config,
-
-    #[serde(default)]
-    pub parameters: parameters::Config,
 
     #[serde(default)]
     pub typescript: bool,
