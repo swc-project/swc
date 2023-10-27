@@ -1,6 +1,9 @@
 #![cfg_attr(test, deny(warnings))]
 #![allow(clippy::mutable_key_type)]
 
+use assumptions::Assumptions;
+use swc_common::{comments::Comments, Mark};
+
 pub use self::resolver::resolver;
 
 #[doc(hidden)]
@@ -21,3 +24,18 @@ mod resolver;
 pub mod scope;
 #[cfg(test)]
 mod tests;
+
+/// Storage for common configurations like assumptions or comemnts.
+///
+/// This is used to reduce the number of breaking changes.
+#[derive(Debug, Clone, Copy)]
+pub struct TransformContext<C>
+where
+    C: Comments,
+{
+    pub assumptions: Assumptions,
+
+    pub comments: C,
+
+    pub unresolved_mark: Mark,
+}
