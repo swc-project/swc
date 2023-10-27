@@ -4,6 +4,7 @@
 use serde::Deserialize;
 use swc_common::{chain, comments::Comments, pass::Optional, Mark};
 use swc_ecma_compat_common::regexp::{self, regexp};
+use swc_ecma_transforms_base::TransformContext;
 use swc_ecma_visit::Fold;
 
 pub use self::{
@@ -55,7 +56,14 @@ fn exprs(unresolved_mark: Mark) -> impl Fold {
 /// Used to generate `require` calls.
 /// See the documentation of [regenerator](self::regenerator::regenerator) for
 /// more details.
-pub fn es2015<C>(unresolved_mark: Mark, comments: Option<C>, c: Config) -> impl Fold
+pub fn es2015<C>(
+    TransformContext {
+        comments,
+        unresolved_mark,
+        ..
+    }: TransformContext<C>,
+    c: Config,
+) -> impl Fold
 where
     C: Comments + Clone,
 {

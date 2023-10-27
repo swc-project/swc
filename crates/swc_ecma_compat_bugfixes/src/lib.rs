@@ -1,4 +1,5 @@
-use swc_common::{chain, Mark};
+use swc_common::{chain, comments::Comments};
+use swc_ecma_transforms_base::TransformContext;
 use swc_ecma_visit::Fold;
 
 pub use self::{
@@ -12,9 +13,12 @@ mod edge_default_param;
 mod safari_id_destructuring_collision_in_function_expression;
 mod template_literal_caching;
 
-pub fn bugfixes(unresolved_mark: Mark) -> impl Fold {
+pub fn bugfixes<C>(c: TransformContext<C>) -> impl Fold
+where
+    C: Comments,
+{
     chain!(
-        async_arrows_in_class(unresolved_mark),
+        async_arrows_in_class(c.unresolved_mark),
         edge_default_param(),
         template_literal_caching(),
         safari_id_destructuring_collision_in_function_expression()
