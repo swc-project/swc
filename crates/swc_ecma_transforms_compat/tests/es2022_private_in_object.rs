@@ -33,6 +33,9 @@ fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
         &|t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
             let mut pass: Box<dyn Fold> = Box::new(noop());
 
             let mut class_props = false;
@@ -60,6 +63,7 @@ fn fixture(input: PathBuf) {
                                         constant_super: loose,
                                         no_document_all: loose,
                                         private_as_properties: loose,
+                                        pure_getter: loose,
                                         static_blocks_mark: Mark::new(),
                                     },
                                     unresolved_mark
@@ -80,6 +84,7 @@ fn fixture(input: PathBuf) {
                                         constant_super: loose,
                                         no_document_all: loose,
                                         private_as_properties: loose,
+                                        pure_getter: loose,
                                         static_blocks_mark: Mark::new(),
                                     },
                                     unresolve_mark,

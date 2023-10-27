@@ -1856,13 +1856,22 @@ class Example {
 test_exec!(
     ignore,
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_prototype_properties_string_literal_properties_exec,
     r#"
 function dec(target, name, descriptor) {
@@ -3378,7 +3387,11 @@ test_exec!(
                 legacy: true,
                 ..Default::default()
             }),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
         )
     },
     legacy_class_static_methods_mutate_descriptor_exec,
@@ -3584,14 +3597,23 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     Default::default(),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default())
+        )
+    },
     decorators_legacy_interop_local_define_property,
     r#"
 function dec() {}

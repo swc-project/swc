@@ -4308,7 +4308,11 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(Some(t.comments.clone()), Default::default())
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
     },
     issue_4473,
     "
@@ -4360,6 +4364,7 @@ test!(
                 constant_super: true,
                 ..Default::default()
             },
+            unresolved_mark,
         )
     },
     constant_super_field,
@@ -4383,6 +4388,7 @@ test!(
                 no_document_all: true,
                 ..Default::default()
             },
+            unresolved_mark,
         )
     },
     private_optional_chain_member_loose,
@@ -4408,6 +4414,7 @@ test_exec!(
                 set_public_fields: true,
                 ..Default::default()
             },
+            unresolved_mark,
         )
     },
     set_public_fields_initialization_order,
@@ -4465,6 +4472,7 @@ test!(
                 set_public_fields: true,
                 ..Default::default()
             },
+            unresolved_mark,
         )
     },
     set_public_fields_computed,
