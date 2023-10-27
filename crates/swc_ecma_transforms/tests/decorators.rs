@@ -2687,13 +2687,22 @@ expect(calls).toEqual(["Foo"]);
 // legacy_class_ordering_reverse_order
 test_exec!(
     syntax(true),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_ordering_reverse_order_exec,
     r#"
 const calls = [];
