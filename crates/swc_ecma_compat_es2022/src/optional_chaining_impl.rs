@@ -10,7 +10,7 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
-        unresolved: SyntaxContext::empty().apply_mark(unresolved_mark),
+        unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         ..Default::default()
     })
 }
@@ -18,7 +18,7 @@ pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> impl Fold + V
 #[derive(Default)]
 struct OptChaining {
     vars: Vec<VarDeclarator>,
-    unresolved: SyntaxContext,
+    unresolved_ctxt: SyntaxContext,
     c: Config,
 }
 
@@ -359,7 +359,7 @@ impl OptChaining {
         }
 
         match expr {
-            Expr::Ident(i) if i.span.ctxt != self.unresolved => false,
+            Expr::Ident(i) if i.span.ctxt != self.unresolved_ctxt => false,
             _ => {
                 if is_call && self.c.pure_getter {
                     !is_simple_member(expr)

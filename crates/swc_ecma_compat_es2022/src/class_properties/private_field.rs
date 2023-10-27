@@ -239,18 +239,14 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             return;
         }
 
-        match e {
-            Expr::OptChain(..) => {
-                e.visit_mut_with(&mut optional_chaining_impl(
-                    crate::optional_chaining_impl::Config {
-                        no_document_all: self.c.no_document_all,
-                        pure_getter: self.c.pure_getter,
-                    },
-                    self.unresolved_mark,
-                ));
-            }
-
-            _ => {}
+        if let Expr::OptChain(..) = e {
+            e.visit_mut_with(&mut optional_chaining_impl(
+                crate::optional_chaining_impl::Config {
+                    no_document_all: self.c.no_document_all,
+                    pure_getter: self.c.pure_getter,
+                },
+                self.unresolved_mark,
+            ));
         }
 
         match e {
