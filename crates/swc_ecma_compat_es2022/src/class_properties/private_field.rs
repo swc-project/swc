@@ -17,7 +17,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 use super::Config;
-use crate::optional_chaining_impl::optional_chaining;
+use crate::optional_chaining_impl::optional_chaining_impl;
 
 pub(super) struct Private {
     pub mark: Mark,
@@ -237,6 +237,21 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 e.visit_mut_children_with(self)
             }
             return;
+        }
+
+        match e {
+            Expr::OptChain(opt) => {
+                opt.visit_mut_with(&mut optional_chaining_impl(
+                    crate::optional_chaining_impl::Config {
+                        no_document_all: self.c.no_document_all,
+                        pure_getter: self.c.pure_getter,
+                    },
+                    self.unresolved_mark,
+                ));
+                return;
+            }
+
+            _ => {}
         }
 
         match e {
@@ -488,6 +503,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 member_expr.visit_mut_children_with(self);
                 *e = self.visit_mut_private_get(member_expr, None).0;
             }
+
             Expr::OptChain(OptChainExpr { base, span, .. })
                 if matches!(
                     &**base,
@@ -513,28 +529,16 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         unreachable!()
                     }
                 };
-                // member.visit_mut_children_with(self);
-                let ident = alias_ident_for(&member.obj, "_ref");
-                self.vars.push(VarDeclarator {
-                    span: DUMMY_SP,
-                    name: ident.clone().into(),
-                    init: None,
-                    definite: false,
-                });
-
-                let mut obj = member.obj.clone();
-                assert!(
-                    obj.is_opt_chain(),
-                    "parser bug: The object of an optional chaining should be an optional \
-                     chaining expression"
-                );
-                obj.visit_mut_with(&mut optional_chaining(
-                    crate::optional_chaining_impl::Config {
-                        no_document_all: self.c.no_document_all,
-                        pure_getter: self.c.pure_getter,
-                    },
-                    self.unresolved_mark,
-                ));
+                member.visit_mut_children_with(self);
+                let (ident, aliased) = alias_if_required(&member.obj, "_ref");
+                if aliased {
+                    self.vars.push(VarDeclarator {
+                        span: DUMMY_SP,
+                        name: ident.clone().into(),
+                        init: None,
+                        definite: false,
+                    });
+                }
 
                 let (expr, _) = self.visit_mut_private_get(member, None);
 
@@ -542,7 +546,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     span: *span,
                     test: Box::new(opt_chain_test(
                         Box::new(ident.clone().into()),
-                        obj,
+                        Box::new(ident.into()),
                         *span,
                         self.c.no_document_all,
                     )),

@@ -7,7 +7,7 @@ use swc_ecma_utils::{
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
-pub fn optional_chaining(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
+pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
     as_folder(OptChaining {
         c,
         unresolved: SyntaxContext::empty().apply_mark(unresolved_mark),
