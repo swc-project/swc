@@ -247,10 +247,12 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             base,
         }) = e
         {
-            match &mut **base {
-                OptChainBase::Member(base) => {}
-                OptChainBase::Call(base) => {}
-            }
+            if let OptChainBase::Member(MemberExpr {
+                obj,
+                prop: MemberProp::PrivateName(prop),
+                ..
+            }) = &mut **base
+            {}
         }
 
         match e {
