@@ -2959,11 +2959,20 @@ expect(getPropA()).toBe(1);
 // private_destructuring_array_pattern_2
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     private_destructuring_array_pattern_2,
     r#"
 class Foo {
@@ -3209,7 +3218,16 @@ const createClass = (k) => class { [k()] = 2 };
 // private_destructuring_array_pattern_2_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     private_destructuring_array_pattern_2_exec,
     r#"
 class Foo {
@@ -3234,11 +3252,20 @@ expect(foo.getClient()).toEqual(['bar', 'baz', 'quu']);
 // public_static_super
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default()),
+            block_scoping(Mark::new())
+        )
+    },
     public_static_super,
     r#"
 class A {
