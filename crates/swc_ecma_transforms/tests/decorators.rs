@@ -37,10 +37,18 @@ fn syntax(decorators_before_export: bool) -> Syntax {
 }
 
 fn tr(t: &Tester) -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
+        resolver(unresolved_mark, top_level_mark, true),
         decorators(Default::default()),
         class_fields_use_set(true),
-        class_properties(Some(t.comments.clone()), Default::default()),
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark
+        ),
     )
 }
 

@@ -147,7 +147,9 @@ where
                 constant_super: loose || assumptions.constant_super,
                 no_document_all: loose || assumptions.no_document_all,
                 static_blocks_mark,
-            }
+                pure_getter: loose || assumptions.pure_getters,
+            },
+            unresolved_mark
         )
     );
     let pass = add!(pass, PrivatePropertyInObject, es2022::private_in_object());

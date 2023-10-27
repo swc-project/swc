@@ -17,6 +17,7 @@ use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 use super::Config;
+use crate::optional_chaining_impl::optional_chaining;
 
 pub(super) struct Private {
     pub mark: Mark,
@@ -171,6 +172,7 @@ pub(super) struct PrivateAccessVisitor<'a> {
     pub private: &'a PrivateRecord,
     pub private_access_type: PrivateAccessType,
     pub c: Config,
+    pub unresolved_mark: Mark,
 }
 
 macro_rules! take_vars {
@@ -519,12 +521,20 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     init: None,
                     definite: false,
                 });
-                let obj = member.obj.clone();
+
+                let mut obj = member.obj.clone();
                 assert!(
                     obj.is_opt_chain(),
                     "parser bug: The object of an optional chaining should be an optional \
                      chaining expression"
                 );
+                obj.visit_mut_with(&mut optional_chaining(
+                    crate::optional_chaining_impl::Config {
+                        no_document_all: self.c.no_document_all,
+                        pure_getter: self.c.pure_getter,
+                    },
+                    self.unresolved_mark,
+                ));
 
                 let (expr, _) = self.visit_mut_private_get(member, None);
 
@@ -567,12 +577,14 @@ pub(super) fn visit_private_in_expr(
     expr: &mut Expr,
     private: &PrivateRecord,
     config: Config,
+    unresolved_mark: Mark,
 ) -> Vec<VarDeclarator> {
     let mut priv_visitor = PrivateAccessVisitor {
         private,
         vars: vec![],
         private_access_type: Default::default(),
         c: config,
+        unresolved_mark,
     };
 
     expr.visit_mut_with(&mut priv_visitor);

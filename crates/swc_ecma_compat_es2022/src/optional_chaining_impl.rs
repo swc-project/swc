@@ -1,6 +1,5 @@
 use std::mem;
 
-use serde::Deserialize;
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -23,12 +22,9 @@ struct OptChaining {
     c: Config,
 }
 
-#[derive(Debug, Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "camelCase")]
+#[derive(Debug, Clone, Copy, Default)]
 pub struct Config {
-    #[serde(default)]
     pub no_document_all: bool,
-    #[serde(default)]
     pub pure_getter: bool,
 }
 

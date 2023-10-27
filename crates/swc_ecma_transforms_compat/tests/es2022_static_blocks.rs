@@ -18,7 +18,7 @@ fn fixture(input: PathBuf) {
             let pass: Box<dyn Fold> = if input.to_string_lossy().contains("class-properties") {
                 Box::new(chain!(
                     static_blocks(config.static_blocks_mark),
-                    class_properties(Some(t.comments.clone()), config)
+                    class_properties(Some(t.comments.clone()), config, unresolved_mark)
                 ))
             } else {
                 Box::new(static_blocks(config.static_blocks_mark))
