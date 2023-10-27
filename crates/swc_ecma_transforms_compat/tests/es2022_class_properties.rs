@@ -2074,10 +2074,19 @@ class Foo {
 // private_static_inherited
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            block_scoping(Mark::new())
+        )
+    },
     private_static_inherited,
     r#"
 class Base {
@@ -2157,7 +2166,11 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             block_scoping(Mark::new())
         )
     },
@@ -2186,7 +2199,11 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             classes(Some(t.comments.clone()), Default::default()),
             block_scoping(Mark::new())
         )
@@ -2241,7 +2258,11 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             async_to_generator(
                 Default::default(),
                 Some(t.comments.clone()),
