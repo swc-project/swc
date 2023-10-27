@@ -1891,7 +1891,11 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             block_scoping(Mark::new())
         )
     },
