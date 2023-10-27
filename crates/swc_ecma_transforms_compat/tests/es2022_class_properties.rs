@@ -3587,7 +3587,16 @@ test!(
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     issue_1333_4,
     "
   class Test {
@@ -3702,7 +3711,16 @@ export class Node {
 
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     issue_3618,
     "
 class MyClass {
@@ -3716,10 +3734,19 @@ class MyClass {
 
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            async_to_generator(Default::default(), Some(t.comments.clone()), Mark::new())
+        )
+    },
     issue_1694_1,
     "
     class MyClass {
