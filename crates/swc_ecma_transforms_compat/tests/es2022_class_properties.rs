@@ -2163,7 +2163,11 @@ test!(
         let top_level_makr = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             block_scoping(Mark::new())
         )
     },
@@ -2311,7 +2315,16 @@ for(let i=0; i<= 10; ++i) {
 
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_makr = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     private_field_reinitialized,
     r#"
 class Base {
@@ -4147,7 +4160,11 @@ fn fixture(input: PathBuf) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
-                class_properties(Some(t.comments.clone()), Default::default())
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark
+                )
             )
         },
         &input,
