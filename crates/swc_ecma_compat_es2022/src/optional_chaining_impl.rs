@@ -5,21 +5,27 @@ use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
 };
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
-pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> impl Fold + VisitMut {
-    as_folder(OptChaining {
+pub fn optional_chaining_impl(c: Config, unresolved_mark: Mark) -> OptionalChaining {
+    OptionalChaining {
         c,
         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
         ..Default::default()
-    })
+    }
 }
 
 #[derive(Default)]
-struct OptChaining {
+pub struct OptionalChaining {
     vars: Vec<VarDeclarator>,
     unresolved_ctxt: SyntaxContext,
     c: Config,
+}
+
+impl OptionalChaining {
+    pub fn take_vars(&mut self) -> Vec<VarDeclarator> {
+        mem::take(&mut self.vars)
+    }
 }
 
 #[derive(Debug, Clone, Copy, Default)]
@@ -28,7 +34,7 @@ pub struct Config {
     pub pure_getter: bool,
 }
 
-impl VisitMut for OptChaining {
+impl VisitMut for OptionalChaining {
     noop_visit_mut_type!();
 
     fn visit_mut_block_stmt_or_expr(&mut self, expr: &mut BlockStmtOrExpr) {
@@ -166,7 +172,7 @@ enum Gathering {
     OptMember(MemberExpr, Memo),
 }
 
-impl OptChaining {
+impl OptionalChaining {
     /// Transforms the left-nested structure into a flat vec. The obj/callee
     /// of every node in the chain will be Invalid, to be replaced with a
     /// constructed node in the construct step.
