@@ -1364,7 +1364,7 @@ test_exec!(
     Syntax::default(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(

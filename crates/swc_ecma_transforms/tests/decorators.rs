@@ -2002,7 +2002,7 @@ test_exec!(
     syntax(false),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {
@@ -2183,7 +2183,7 @@ test_exec!(
     syntax(false),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {
@@ -2466,7 +2466,7 @@ test_exec!(
     syntax(false),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {
@@ -2698,7 +2698,7 @@ test_exec!(
     syntax(true),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {
@@ -2754,7 +2754,7 @@ test_exec!(
     syntax(true),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {
@@ -2892,7 +2892,7 @@ test_exec!(
     syntax(false),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {
@@ -3193,7 +3193,7 @@ test_exec!(
     syntax(false),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             decorators(decorators::Config {

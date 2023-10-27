@@ -1849,7 +1849,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(
@@ -1888,7 +1888,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
@@ -1994,10 +1994,19 @@ function classFactory() {
 // private_static
 test!(
     syntax(),
-    |t| chain!(
-        class_properties(Some(t.comments.clone()), Default::default()),
-        block_scoping(Mark::new())
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            block_scoping(Mark::new())
+        )
+    },
     private_static,
     r#"
 class Foo {
@@ -2114,7 +2123,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
@@ -2143,7 +2152,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
@@ -2169,7 +2178,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(
@@ -2198,7 +2207,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(Some(t.comments.clone()), Default::default()),
@@ -2290,7 +2299,7 @@ test_exec!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         class_properties(Some(t.comments.clone()), Default::default())
     },
@@ -2326,7 +2335,7 @@ test_exec!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         class_properties(
             Some(t.comments.clone()),
@@ -2523,7 +2532,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(
@@ -2573,7 +2582,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
             class_properties(
@@ -2708,7 +2717,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         class_properties(
             Some(t.comments.clone()),
@@ -2764,7 +2773,16 @@ class Point {
 // regression_8882
 test!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     regression_8882,
     r#"
 const classes = [];
@@ -3755,7 +3773,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         class_properties(
             Some(t.comments.clone()),
@@ -3796,7 +3814,7 @@ test!(
     syntax(),
     |t| {
         let unresolved_mark = Mark::new();
-        let top_level_makr = Mark::new();
+        let top_level_mark = Mark::new();
 
         class_properties(
             Some(t.comments.clone()),
