@@ -2356,13 +2356,22 @@ class Example {
 // legacy_class_prototype_methods_return_descriptor
 test_exec!(
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_prototype_methods_return_descriptor_exec,
     r#"
 function dec(target, name, descriptor) {
@@ -2693,13 +2702,22 @@ test_exec!(
     // below correctly.
     ignore,
     syntax(true),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_export_default_exec,
     r#"
 const calls = [];
