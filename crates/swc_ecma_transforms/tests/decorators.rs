@@ -1650,13 +1650,22 @@ expect(typeof Parent.prototype.child).toBe("function");
 // legacy_class_prototype_methods_numeric_props
 test_exec!(
     syntax(false),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+        )
+    },
     legacy_class_prototype_methods_numeric_props_exec,
     r#"
 function dec(target, name, descriptor) {
