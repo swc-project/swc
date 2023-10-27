@@ -1,9 +1,9 @@
 use std::mem;
 
 use arrayvec::ArrayVec;
-use serde::Deserialize;
-use swc_common::{util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_transforms_base::TransformContext;
 // use swc_ecma_transforms_base::perf::Parallel;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
@@ -14,10 +14,21 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWit
 use swc_trace_macro::swc_trace;
 use tracing::trace;
 
-pub fn parameters(c: Config, unresolved_mark: Mark) -> impl 'static + Fold {
+pub fn parameters<C>(
+    TransformContext {
+        assumptions,
+        unresolved_mark,
+        ..
+    }: TransformContext<C>,
+) -> impl 'static + Fold
+where
+    C: Comments + Clone,
+{
     let unresolved_ctxt = SyntaxContext::empty().apply_mark(unresolved_mark);
     as_folder(Params {
-        c,
+        c: Config {
+            ignore_function_length: assumptions.ignore_function_length,
+        },
         unresolved_ctxt,
         hoister: FnEnvHoister::new(unresolved_ctxt),
         ..Default::default()
@@ -35,9 +46,8 @@ struct Params {
     c: Config,
 }
 
-#[derive(Debug, Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct Config {
+#[derive(Debug, Clone, Copy, Default)]
+struct Config {
     #[serde(default)]
     pub ignore_function_length: bool,
 }

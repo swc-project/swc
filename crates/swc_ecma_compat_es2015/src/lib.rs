@@ -83,7 +83,7 @@ where
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
-        parameters(c.parameters, unresolved_mark),
+        parameters(context.clone()),
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(unresolved_mark),
