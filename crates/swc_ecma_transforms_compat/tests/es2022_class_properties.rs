@@ -3317,7 +3317,16 @@ expect(foo.getClient()).toBe('bar');
 // private_destructuring_array_pattern_1_exec
 test_exec!(
     syntax(),
-    |t| class_properties(Some(t.comments.clone()), Default::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        class_properties(
+            Some(t.comments.clone()),
+            Default::default(),
+            unresolved_mark,
+        )
+    },
     private_destructuring_array_pattern_1_exec,
     r#"
 class Foo {
