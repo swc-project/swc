@@ -51,6 +51,7 @@ fn properties(t: &Tester, loose: bool) -> impl Fold {
     let top_level_mark = Mark::new();
 
     chain!(
+        resolver(unresolved_mark, top_level_mark, false),
         static_blocks(static_blocks_mark),
         class_properties(
             Some(t.comments.clone()),
