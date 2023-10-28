@@ -3960,6 +3960,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -4091,6 +4092,7 @@ test_exec!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -4481,13 +4483,16 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                constant_super: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    constant_super: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     constant_super_complex_super,
@@ -4504,13 +4509,16 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                constant_super: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    constant_super: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     constant_super_field,
@@ -4528,13 +4536,16 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                no_document_all: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    no_document_all: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     private_optional_chain_member_loose,
@@ -4554,13 +4565,16 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                set_public_fields: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     set_public_fields_initialization_order,
@@ -4612,13 +4626,16 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                set_public_fields: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     set_public_fields_computed,
@@ -4691,13 +4708,16 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                set_public_fields: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    set_public_fields: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     set_public_static_undefined,
@@ -4823,14 +4843,17 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            class_properties::Config {
-                private_as_properties: true,
-                set_public_fields: true,
-                ..Default::default()
-            },
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    private_as_properties: true,
+                    set_public_fields: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
         )
     },
     loose_update,
@@ -4965,10 +4988,13 @@ fn exec(input: PathBuf) {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
-            class_properties(
-                Some(t.comments.clone()),
-                Default::default(),
-                unresolved_mark,
+            chain!(
+                resolver(unresolved_mark, top_level_mark, false),
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark,
+                )
             )
         },
         &src,
@@ -5024,6 +5050,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, false),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
