@@ -2704,6 +2704,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2850,10 +2851,13 @@ test!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark,
+            )
         )
     },
     private_optional_chain_member,
