@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use serde::Deserialize;
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::{pass::noop, resolver};
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::classes,
     es2022::{class_properties, private_in_object},

@@ -3156,6 +3156,7 @@ test_exec!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
@@ -3335,6 +3336,7 @@ test_exec!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, false),
             decorators(decorators::Config {
                 legacy: true,
                 ..Default::default()
