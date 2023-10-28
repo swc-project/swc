@@ -1367,6 +1367,7 @@ test_exec!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -1414,6 +1415,7 @@ test_exec!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),

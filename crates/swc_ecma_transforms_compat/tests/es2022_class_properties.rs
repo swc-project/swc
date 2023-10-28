@@ -1852,6 +1852,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -1891,6 +1892,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -1968,6 +1970,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2012,6 +2015,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2049,6 +2053,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2079,6 +2084,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2129,10 +2135,13 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark,
+            )
         )
     },
     private_destructuring_object_pattern_1_exec,
@@ -2166,6 +2175,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2199,6 +2209,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2229,6 +2240,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2258,6 +2270,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2302,6 +2315,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -2331,10 +2345,13 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark,
+            )
         )
     },
     regression_8882_exec,
@@ -3424,10 +3441,13 @@ test_exec!(
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();
 
-        class_properties(
-            Some(t.comments.clone()),
-            Default::default(),
-            unresolved_mark,
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark,
+            )
         )
     },
     private_destructuring_array_pattern_1_exec,
