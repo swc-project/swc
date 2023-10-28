@@ -2,7 +2,7 @@ use std::{fs::read_to_string, path::PathBuf};
 
 use serde::Deserialize;
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::pass::noop;
+use swc_ecma_transforms_base::{pass::noop, resolver};
 use swc_ecma_transforms_compat::{
     es2015::{arrow, classes, new_target::new_target},
     es2022::class_properties,
@@ -14,7 +14,7 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut pass: Box<dyn Fold> = Box::new(noop());
+    let mut pass: Box<dyn Fold> = Box::new(resolver(unresolved_mark, top_level_mark, true));
 
     for plugin in plugins {
         let (name, option) = match plugin {

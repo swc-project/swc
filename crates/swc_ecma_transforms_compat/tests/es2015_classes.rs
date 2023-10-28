@@ -3944,6 +3944,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             es2022::es2022(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -3976,6 +3977,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -4023,6 +4025,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -4052,6 +4055,7 @@ test!(
         let top_level_mark = Mark::new();
 
         chain!(
+            resolver(unresolved_mark, top_level_mark, true),
             class_properties(
                 Some(t.comments.clone()),
                 Default::default(),
@@ -4084,6 +4088,7 @@ fn exec(input: PathBuf) {
             let top_level_mark = Mark::new();
 
             chain!(
+                resolver(unresolved_mark, top_level_mark, true),
                 class_properties(
                     Some(t.comments.clone()),
                     Default::default(),
@@ -4107,6 +4112,7 @@ fn fixture(input: PathBuf) {
             let top_level_mark = Mark::new();
 
             chain!(
+                resolver(unresolved_mark, top_level_mark, true),
                 class_properties(
                     Some(t.comments.clone()),
                     Default::default(),
