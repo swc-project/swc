@@ -39,21 +39,7 @@ test!(
 
             baz(key, qux, fog);
         }",
-    "for (var key in obj) {
-            var bar = obj[key];
-
-            var qux = void 0;
-            var fog = void 0;
-
-            if (Array.isArray(bar)) {
-            qux = bar[0];
-            fog = bar[1];
-            } else {
-            qux = bar;
-            }
-
-            baz(key, qux, fog);
-        }"
+    
 );
 
 test!(
@@ -68,17 +54,7 @@ for (let i = 0; i < 10; i++) {
 }
 functions[0]();
 functions[7]();",
-    "
-var _loop = function(i) {
-    functions.push(function() {
-        console.log(i);
-    });
-};
-var functions = [];
-for(var i = 0; i < 10; i++)_loop(i);
-functions[0]();
-functions[7]();
-"
+    
 );
 
 test_exec!(
@@ -151,27 +127,7 @@ test!(
 }
 
 foo();",
-    "function foo(parts) {
-  var match = null;
-
-  for (var i = 1; i >= 0; i--) {
-    for (var j = 0; j >= 0; j--) {
-      match = parts[i][j];
-
-      if (match) {
-        break;
-      }
-    }
-
-    if (match) {
-      break;
-    }
-  }
-
-  return match;
-}
-
-foo();"
+    
 );
 
 test!(
@@ -215,43 +171,7 @@ test!(
       }
       return vars;
     };",
-    "module.exports = function(values) {
-      var vars = [];
-      var elem = null, name, val;
-      for (var i = 0; i < this.elements.length; i++) {
-        elem = this.elements[i];
-        name = elem.name;
-        if (!name) continue;
-        val = values[name];
-        if (val == null) val = '';
-        switch (elem.type) {
-        case 'submit':
-          break;
-        case 'radio':
-        case 'checkbox':
-          elem.checked = val.some(function(str) {
-            return str.toString() == elem.value;
-          });
-          break;
-        case 'select-multiple':
-          elem.fill(val);
-          break;
-        case 'textarea':
-          elem.innerText = val;
-          break;
-        case 'hidden':
-          break;
-        default:
-          if (elem.fill) {
-            elem.fill(val);
-          } else {
-            elem.value = val;
-          }
-          break;
-        }
-      }
-      return vars;
-    };"
+    
 );
 
 test_exec!(
@@ -311,17 +231,7 @@ test!(
             console.log(i++, [2].every(x => x != i))
         }
         ",
-    r#"
-        var _loop = function(i1) {
-            console.log(i1++, [
-                2
-            ].every(function(x) {
-                return x != i1;
-            }));
-            i = i1, void 0;
-        };
-        for(var i = 0; i < 5; i++)_loop(i);
-        "#
+    
 );
 
 test!(
@@ -337,18 +247,7 @@ test!(
             if (i % 2 === 0) continue
         }
         ",
-    r#"
-        var _loop = function(i1) {
-            console.log(i1++, [
-                2
-            ].every(function(x) {
-                return x != i1;
-            }));
-            if (i1 % 2 === 0) return i = i1, "continue";
-            i = i1, void 0;
-        };
-        for(var i = 0; i < 5; i++)_loop(i);
-        "#
+    
 );
 
 test!(
@@ -364,21 +263,7 @@ test!(
             if (i % 2 === 0) break
         }
         ",
-    r#"
-        var _loop = function(i1) {
-            console.log(i1++, [
-                2
-            ].every(function(x) {
-                return x != i1;
-            }));
-            if (i1 % 2 === 0) return i = i1, "break";
-            i = i1, void 0;
-        };
-        for(var i = 0; i < 5; i++){
-            var _ret = _loop(i);
-            if (_ret === "break") break;
-        }
-        "#
+    
 );
 
 test!(
@@ -395,28 +280,7 @@ test!(
             }
         }
         ",
-    r#"
-        var C = function() {
-            "use strict";
-            function C() {
-                _class_call_check(this, C);
-            }
-            _create_class(C, [
-                {
-                    key: "m",
-                    value: function m() {
-                        var _this = this, _loop = function(x) {
-                            console.log(_this, function(y) {
-                                return y != x;
-                            });
-                        };
-                        for(var x = 0; x < 10; x++)_loop(x);
-                    }
-                }
-            ]);
-            return C;
-        }();
-        "#
+    
 );
 
 test!(
@@ -433,26 +297,7 @@ test!(
             )
         }
         ",
-    "
-        async function foo() {
-            await Promise.all([
-                [
-                    1
-                ],
-                [
-                    2
-                ],
-                [
-                    3
-                ]
-            ].map(async function(param) {
-                var _param = _sliced_to_array(param, 1), a = _param[0];
-                return Promise.resolve().then(function() {
-                    return a * 2;
-                });
-            }));
-        }
-        "
+    
 );
 
 test!(
@@ -472,56 +317,7 @@ test!(
             )
         }
         ",
-    r#"
-    function foo() {
-        return _foo.apply(this, arguments);
-    }
-    function _foo() {
-        _foo = _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        return [
-                            4,
-                            Promise.all([
-                                [
-                                    1
-                                ],
-                                [
-                                    2
-                                ],
-                                [
-                                    3
-                                ]
-                            ].map(function() {
-                                var _ref = _async_to_generator(function(param) {
-                                    var _param, a;
-                                    return _ts_generator(this, function(_state) {
-                                        _param = _sliced_to_array(param, 1), a = _param[0];
-                                        return [
-                                            2,
-                                            Promise.resolve().then(function() {
-                                                return a * 2;
-                                            })
-                                        ];
-                                    });
-                                });
-                                return function(_) {
-                                    return _ref.apply(this, arguments);
-                                };
-                            }()))
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return _foo.apply(this, arguments);
-    }
-"#
+    
 );
 
 test_exec!(
@@ -573,28 +369,7 @@ test!(
 
     combineOverlappingMatches([1])
     ",
-    "
-    function combineOverlappingMatches(matches) {
-        var _loop = function(i) {
-            var currentMatch = matches[i];
-            var overlap = matches.find((match)=>{
-                return match !== currentMatch && match.itemsType === currentMatch.itemsType;
-            });
-            if (overlap) {
-                hasOverlaps = true;
-                matches.splice(i, 1);
-            }
-        };
-        var hasOverlaps = false;
-        for(var i = matches.length - 1; i >= 0; i--)_loop(i);
-        if (hasOverlaps) {
-            combineOverlappingMatches(matches);
-        }
-    }
-    combineOverlappingMatches([
-        1
-    ]);
-    "
+    
 );
 
 test!(
@@ -635,40 +410,7 @@ test!(
         }
     }
     ",
-    "
-    export function test(items) {
-        var _loop = function(i) {
-            var item = items[i];
-            var info = void 0;
-            switch(item.type){
-                case 'branch1':
-                    info = item.method1();
-                    break;
-                case 'branch2':
-                    info = item.method2();
-                    break;
-                case 'branch3':
-                    info = item.method3(Object.fromEntries(item.subItems.map((t)=>[
-                            item.alias ?? t.name,
-                            getInfo(t)
-                        ]
-                    )));
-                    break;
-                default:
-                    throw new Error('boom');
-            }
-            infoMap.set(item, info);
-        };
-        var infoMap = new WeakMap();
-        for(var i = 0; i < items.length; i += 1)_loop(i);
-        function getInfo(item) {
-            if (!infoMap.has(item)) {
-                throw new Error('no info yet');
-            }
-            return infoMap.get(item);
-        }
-    }
-    "
+    
 );
 
 test!(
@@ -689,16 +431,7 @@ test!(
             }
         }
         ",
-    "
-        function test() {
-            for (var i = 0; i < arguments.length; i++) {
-              var arg = arguments[i];
-              console.log(function () {
-                return arg
-              }());
-            }
-        }
-        "
+    
 );
 
 test!(
@@ -716,16 +449,7 @@ test!(
             }
         }
         ",
-    "
-        function test(a) {
-            for (var i = 0; i < a.arguments.length; i++) {
-              var arg = a.arguments[i];
-              console.log(function () {
-                return arg
-              }());
-            }
-        }
-        "
+    
 );
 
 compare_stdout!(
@@ -763,13 +487,7 @@ test!(
             }
         }
         ",
-    "
-        function test() {
-            for (var i = 0; i < arguments.length; i++) {
-              console.log(function () { return arguments[i] }());
-            }
-        }
-        "
+    
 );
 
 test!(
@@ -796,26 +514,7 @@ test!(
         return target;
     }
     ",
-    "
-    export default function _object_spread(target) {
-        for (var i = 1; i < arguments.length; i++) {
-            var source = arguments[i] != null ? arguments[i] : {};
-            var ownKeys = Object.keys(source);
-
-            if (typeof Object.getOwnPropertySymbols === 'function') {
-            ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
-                return Object.getOwnPropertyDescriptor(source, sym).enumerable;
-            }));
-            }
-
-            ownKeys.forEach(function (key) {
-                defineProperty(target, key, source[key]);
-            });
-        }
-
-        return target;
-    }
-    "
+    
 );
 
 test!(
@@ -836,20 +535,7 @@ test!(
         }
       }
     ",
-    "
-    var _loop = function(key) {
-        controller[key] = (c, ...d)=>{
-            console.log(keys[key]);
-        };
-    };
-    var keys = {
-        a: 1,
-        b: 2
-    };
-    var controller = {
-    };
-    for(var key in keys)_loop(key);
-    "
+    
 );
 
 test!(
@@ -874,24 +560,7 @@ test!(
         }
       }
     ",
-    "
-    var _loop = function(key) {
-        controller[key] = function(c) {
-            for(var _len = arguments.length, d = new Array(_len > 1 ? _len - 1 : 0), _key = 1; \
-     _key < _len; _key++){
-                d[_key - 1] = arguments[_key];
-            }
-            console.log(keys[key]);
-        };
-    };
-    var keys = {
-        a: 1,
-        b: 2
-    };
-    var controller = {
-    };
-    for(var key in keys)_loop(key);
-    "
+    
 );
 
 test!(
@@ -905,13 +574,7 @@ for (let b = 0; b < a; b++) {
     console.log(b);
 }
     ",
-    "
-    var a = 5;
-for(var b = 0; b < a; b++){
-    var c = 0, b1 = 10, d = 100;
-    console.log(b1);
-}
-    "
+    
 );
 
 test!(
@@ -922,10 +585,7 @@ test!(
     for (var a; ;) { }
     for (var a = ['a', 'b']; ;) { }
     ",
-    "
-    for (var a; ;) { }
-    for (var a = ['a', 'b']; ;) { }
-    "
+    
 );
 
 test!(
@@ -942,21 +602,7 @@ test!(
         })
     }
     ",
-    r#"
-    var _loop = function(i) {
-        if (i === 0) return "continue";
-        if (i === 1) return "break";
-        [
-            1
-        ].forEach((_)=>{
-            console.log(i);
-        });
-    };
-    for(var i = 0; i < 2; i++){
-        var _ret = _loop(i);
-        if (_ret === "break") break;
-    }
-    "#
+    
 );
 
 test!(
@@ -975,26 +621,7 @@ test!(
         })
     }
     ",
-    r#"
-    var _loop = function(i) {
-        if (i === 0) return "continue|a";
-        if (i === 1) return "break|b";
-        [
-            1
-        ].forEach((_)=>{
-            console.log(i);
-        });
-    };
-    a: b: for(var i = 0; i < 2; i++){
-        var _ret = _loop(i);
-        switch(_ret){
-            case "continue|a":
-                continue a;
-            case "break|b":
-                break b;
-        }
-    }
-    "#
+    
 );
 
 test_exec!(

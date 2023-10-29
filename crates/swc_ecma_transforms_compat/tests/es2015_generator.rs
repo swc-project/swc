@@ -50,19 +50,7 @@ var o = {
 };
 
 "#,
-    r#"
-    var o = {
-        foo () {
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    "foo"
-                ];
-            });
-        }
-    };
-
-"#
+    
 );
 
 // class_argument_scope_example
@@ -124,15 +112,7 @@ test!(
     empty_fn_decl_1,
     "function* foo(a,b,c){}
 ",
-    r#"
-    function foo(a, b, c) {
-        return _ts_generator(this, function(_state) {
-            return [
-                2
-            ];
-        });
-    }
-"#
+    
 );
 
 test_exec!(
@@ -1020,28 +1000,7 @@ test!(
     "export function* myGenerator() {
         yield* [1,2,3];
     }",
-    "
-    export function myGenerator() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    return [
-                        5,
-                        _ts_values([
-                            1,
-                            2,
-                            3
-                        ])
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        2
-                    ];
-            }
-        });
-    }
-"
+    
 );
 
 test_exec!(
@@ -1112,34 +1071,7 @@ test!(
         )
     }
     ",
-    r#"
-    const x = function() {
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                Promise.all([
-                    [
-                        1
-                    ],
-                    [
-                        2
-                    ],
-                    [
-                        3
-                    ]
-                ].map(function([a]) {
-                    return _ts_generator(this, function(_state) {
-                        Promise.resolve().then(()=>a * 2);
-                        return [
-                            2
-                        ];
-                    });
-                }))
-            ];
-        });
-    };
     
-    "#
 );
 
 test_exec!(
@@ -1186,17 +1118,7 @@ function* foo() {
     function bar() { }
 }
 "#,
-    r#"
-    function foo() {
-        function bar() {}
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                bar
-            ];
-        });
-    }
-"#
+    
 );
 
 test_exec!(
@@ -1243,48 +1165,7 @@ function requester() {
     }
 }
 "#,
-    r#"
-
-    function requester() {
-        return pureRequester;
-        function pureRequester() {
-            return _pureRequester.apply(this, arguments);
-        }
-        function _pureRequester() {
-            _pureRequester = _async_to_generator(function() {
-                function refreshThenRequest() {
-                    return _refreshThenRequest.apply(this, arguments);
-                }
-                function _refreshThenRequest() {
-                    _refreshThenRequest = _async_to_generator(function() {
-                        return _ts_generator(this, function(_state) {
-                            return [
-                                2
-                            ];
-                        });
-                    });
-                    return _refreshThenRequest.apply(this, arguments);
-                }
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            return [
-                                4,
-                                refreshThenRequest()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2,
-                                true
-                            ];
-                    }
-                });
-            });
-            return _pureRequester.apply(this, arguments);
-        }
-    }
-"#
+    
 );
 
 test_exec!(
@@ -1382,39 +1263,7 @@ foo(1)
     .then((t) => t(2))
     .then(console.log);
 "#,
-    r#"
-function foo(a) {
-    return _foo.apply(this, arguments);
-}
-function _foo() {
-    _foo = _async_to_generator(function(a) {
-        function bar1(b) {
-            return _bar1.apply(this, arguments);
-        }
-        function _bar1() {
-            _bar1 = _async_to_generator(function(b) {
-                return _ts_generator(this, function(_state) {
-                    return [
-                        2,
-                        a + b
-                    ];
-                });
-            });
-            return _bar1.apply(this, arguments);
-        }
-        return _ts_generator(this, function(_state) {
-            return [
-                2,
-                bar1
-            ];
-        });
-    });
-    return _foo.apply(this, arguments);
-}
-foo(1)
-    .then((t) => t(2))
-    .then(console.log);
-"#
+    
 );
 
 test_exec!(
@@ -1459,61 +1308,7 @@ async function init() {
     }
 }
 "#,
-    r#"
-    var fib = function fib() {
-        return 42;
-    };
-    function init() {
-        return _init.apply(this, arguments);
-    }
-    function _init() {
-        _init = _async_to_generator(function() {
-            function fib(n) {
-                return _fib.apply(this, arguments);
-            }
-            function _fib() {
-                _fib = _async_to_generator(function(n) {
-                    var x, y;
-                    return _ts_generator(this, function(_state) {
-                        switch(_state.label){
-                            case 0:
-                                if (n <= 1) {
-                                    return [
-                                        2,
-                                        n
-                                    ];
-                                }
-                                return [
-                                    4,
-                                    fib(n - 1)
-                                ];
-                            case 1:
-                                x = _state.sent();
-                                return [
-                                    4,
-                                    fib(n - 2)
-                                ];
-                            case 2:
-                                y = _state.sent();
-                                return [
-                                    2,
-                                    x + y
-                                ];
-                        }
-                    });
-                });
-                return _fib.apply(this, arguments);
-            }
-            return _ts_generator(this, function(_state) {
-                return [
-                    2,
-                    fib
-                ];
-            });
-        });
-        return _init.apply(this, arguments);
-    }
-"#
+    
 );
 
 test!(
@@ -1538,47 +1333,7 @@ test!(
 
     test();
     ",
-    "
-    function _test() {
-        _test = _async_to_generator(function() {
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        _state.trys.push([
-                            0,
-                            ,
-                            2,
-                            3
-                        ]);
-                        return [
-                            4,
-                            1
-                        ];
-                    case 1:
-                        _state.sent();
-                        return [
-                            3,
-                            3
-                        ];
-                    case 2:
-                        console.log(2);
-                        return [
-                            7
-                        ];
-                    case 3:
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return _test.apply(this, arguments);
-    }
-    function test() {
-        return _test.apply(this, arguments);
-    }
-    test();
-    "
+    
 );
 
 test!(
@@ -1594,40 +1349,7 @@ test!(
         }
     }
     ",
-    "
-    function foo() {
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    _state.trys.push([
-                        0,
-                        ,
-                        2,
-                        3
-                    ]);
-                    return [
-                        4,
-                        1
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        3,
-                        3
-                    ];
-                case 2:
-                    console.log(2);
-                    return [
-                        7
-                    ];
-                case 3:
-                    return [
-                        2
-                    ];
-            }
-        });
-    }
-    "
+    
 );
 
 test!(
@@ -1643,43 +1365,7 @@ test!(
         }
     }
     ",
-    "
-    function foo() {
-        var e;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    _state.trys.push([
-                        0,
-                        2,
-                        ,
-                        3
-                    ]);
-                    return [
-                        4,
-                        1
-                    ];
-                case 1:
-                    _state.sent();
-                    return [
-                        3,
-                        3
-                    ];
-                case 2:
-                    e = _state.sent();
-                    console.log(2);
-                    return [
-                        3,
-                        3
-                    ];
-                case 3:
-                    return [
-                        2
-                    ];
-            }
-        });
-    }
-    "
+    
 );
 
 test!(
@@ -1691,31 +1377,7 @@ test!(
         return call(async (e) => { await doSomething(); })
     }
     ",
-    "
-    export default function Foo() {
-        return call(function() {
-            var _ref = _async_to_generator(function(e) {
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
-                    }
-                });
-            });
-            return function(e) {
-                return _ref.apply(this, arguments);
-            };
-        }());
-    }
-"
+    
 );
 
 test!(
@@ -1733,31 +1395,7 @@ test!(
         return call(async (e) => { await doSomething(); })
     }
     ",
-    "
-    export default function Foo() {
-        return call(function() {
-            var _ref = _async_to_generator(function(e) {
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
-                    }
-                });
-            });
-            return function(e) {
-                return _ref.apply(this, arguments);
-            };
-        }());
-    }
-"
+    
 );
 
 test!(
@@ -1776,31 +1414,7 @@ test!(
         return call(async (e) => { await doSomething(); })
     }
     ",
-    "
-    export default function Foo() {
-        return call(function() {
-            var _ref = _async_to_generator(function(e) {
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
-                    }
-                });
-            });
-            return function(e) {
-                return _ref.apply(this, arguments);
-            };
-        }());
-    }
-"
+    
 );
 
 test!(
@@ -1822,31 +1436,7 @@ test!(
         return call(async (e) => { await doSomething(); })
     }
     ",
-    "
-    export default function Foo() {
-        return call(function() {
-            var _ref = _async_to_generator(function(e) {
-                return _ts_generator(this, function(_state) {
-                    switch(_state.label){
-                        case 0:
-                            return [
-                                4,
-                                doSomething()
-                            ];
-                        case 1:
-                            _state.sent();
-                            return [
-                                2
-                            ];
-                    }
-                });
-            });
-            return function(e) {
-                return _ref.apply(this, arguments);
-            };
-        }());
-    }
-"
+    
 );
 
 test!(
@@ -1863,33 +1453,7 @@ test!(
         console.log(result);
     })();
     ",
-    "
-    _async_to_generator(function() {
-        var sleep, result;
-        return _ts_generator(this, function(_state) {
-            switch(_state.label){
-                case 0:
-                    sleep = function() {
-                        return new Promise(function(resolve) {
-                            return setTimeout(function() {
-                                return resolve(undefined);
-                            }, 500);
-                        });
-                    };
-                    return [
-                        4,
-                        sleep()
-                    ];
-                case 1:
-                    result = _state.sent() || 'fallback';
-                    console.log(result);
-                    return [
-                        2
-                    ];
-            }
-        });
-    })();    
-    "
+    
 );
 
 test_exec!(
@@ -1956,28 +1520,5 @@ test!(
         return _a.apply(this, arguments);
     }    
     "#,
-    r#"
-    function a(fn) {
-        return _a.apply(this, arguments);
-    }
-    function _a() {
-        _a = _async_to_generator(function(fn) {
-            return _ts_generator(this, function(_state) {
-                switch(_state.label){
-                    case 0:
-                        return [
-                            4,
-                            fn()
-                        ];
-                    case 1:
-                        _state.sent().a = 1;
-                        return [
-                            2
-                        ];
-                }
-            });
-        });
-        return _a.apply(this, arguments);
-    }           
-    "#
+    
 );

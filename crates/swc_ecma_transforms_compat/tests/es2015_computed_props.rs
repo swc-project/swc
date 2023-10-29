@@ -21,10 +21,7 @@ test!(
 const b = {[a]: 1}
 export const c = {[a]: 1}
 ",
-    "const b = _define_property({
-}, a, 1);
-export const c = _define_property({
-}, a, 1);"
+    
 );
 
 test!(
@@ -34,10 +31,7 @@ test!(
     "
 const b = {1n: 1, [x]: 'x', 2n: 2}
 ",
-    "var _obj;
-const b = (_obj = {
-    1n: 1
-}, _define_property(_obj, x, 'x'), _define_property(_obj, 2n, 2), _obj);"
+    
 );
 
 test!(
@@ -59,22 +53,7 @@ test!(
   }
 };
 "#,
-    r#"var _obj, _mutatorMap = {
-};
-var obj = ( _obj = {
-}, _mutatorMap[foobar] = _mutatorMap[foobar] || {
-}, _mutatorMap[foobar].get = function() {
-    return "foobar";
-}, _mutatorMap[foobar] = _mutatorMap[foobar] || {
-}, _mutatorMap[foobar].set = function(x) {
-    console.log(x);
-}, _mutatorMap["test"] = _mutatorMap["test"] || {
-}, _mutatorMap["test"].get = function() {
-    return "regular getter after computed property";
-}, _mutatorMap["test"] = _mutatorMap["test"] || {
-}, _mutatorMap["test"].set = function(x) {
-    console.log(x);
-}, _define_enumerable_properties(_obj, _mutatorMap), _obj);"#
+    
 );
 
 test!(
@@ -86,16 +65,7 @@ const obj = {
     get [1]() {}
 };
 "#,
-    "
-var _obj, _mutatorMap = {};
-const obj = (
-    _obj = {},
-    _mutatorMap[1] = _mutatorMap[1] || {},
-    _mutatorMap[1].get = function() {},
-    _define_enumerable_properties(_obj, _mutatorMap), 
-    _obj
-);
-"
+    
 );
 
 test_exec!(
@@ -156,23 +126,7 @@ const obj = {
   },
 };
 "#,
-    "
-const obj = {
-  foo() {
-    var _obj, _mutatorMap = {};
-    const obj2 = (
-        _obj = {},
-        _mutatorMap[1] = _mutatorMap[1] || {},
-        _mutatorMap[1].get = function () {
-            return 42;
-        },
-        _define_enumerable_properties(_obj, _mutatorMap),
-        _obj
-    );
-    return obj2;
-  },
-};
-"
+    
 );
 
 test!(
@@ -182,8 +136,7 @@ test!(
     r#"foo({
   [bar]: "foobar"
 });"#,
-    r#"foo(_define_property({}, bar, "foobar"));
-"#
+    
 );
 
 test!(
@@ -193,7 +146,7 @@ test!(
     r#"foo = {
   [bar]: "foobar"
 };"#,
-    r#"foo = _define_property({}, bar, "foobar");"#
+    
 );
 
 test!(
@@ -208,13 +161,7 @@ test!(
     return "regular method after computed property";
   }
 };"#,
-    r#"var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, foobar, function () {
-  return "foobar";
-}), _define_property(_obj, "test", function () {
-  return "regular method after computed property";
-}), _obj);"#
+    
 );
 
 test!(
@@ -227,10 +174,7 @@ test!(
   foo: "foo",
   bar: "bar"
 };"#,
-    r#"var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"), _define_property(_obj,
- "y" + bar, "noo"), _define_property(_obj, "foo", "foo"), _define_property(_obj, "bar", "bar"), _obj);"#
+    
 );
 
 test!(
@@ -241,10 +185,7 @@ test!(
   ["x" + foo]: "heh",
   ["y" + bar]: "noo"
 };"#,
-    r#"var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"),
-_define_property(_obj, "y" + bar, "noo"), _obj);"#
+    
 );
 
 test!(
@@ -254,7 +195,7 @@ test!(
     r#"var obj = {
   ["x" + foo]: "heh"
 };"#,
-    r#"var obj = _define_property({}, "x" + foo, "heh");"#
+    
 );
 
 test!(
@@ -269,14 +210,7 @@ var foo = {
   }
 };
 "#,
-    r#"var k = Symbol();
-var _obj, _mutatorMap = {
-};
-var foo = ( _obj = {
-}, _define_property(_obj, Symbol.iterator, "foobar"), _mutatorMap[k] = _mutatorMap[k] || {
-}, _mutatorMap[k].get = function() {
-    return k;
-}, _define_enumerable_properties(_obj, _mutatorMap), _obj);"#
+    
 );
 
 test_exec!(
@@ -303,7 +237,7 @@ test!(
     r#"var obj = {
   ["x" + foo.bar]: "heh"
 };"#,
-    r#"var obj = _define_property({}, "x" + foo.bar, "heh");"#
+    
 );
 
 test!(
@@ -324,16 +258,7 @@ test!(
 
 export function corge() {}
 ",
-    "
-_define_property({
-    foo: _define_property({
-        bar: null
-    }, baz, null)
-}, bon, {
-    flab: null
-});
-export function corge() {
-}"
+    
 );
 
 test!(
@@ -343,9 +268,7 @@ test!(
     "
 export function corge() {}
 ",
-    "
-export function corge() {}
-"
+    
 );
 
 test!(
@@ -366,17 +289,7 @@ export function corge() {}
   }
 });
 ",
-    "
-export function corge() {
-}
-_define_property({
-    foo: _define_property({
-        bar: null
-    }, baz, null)
-}, bon, {
-    flab: null
-});
-"
+    
 );
 
 test!(
@@ -397,17 +310,7 @@ export class Foo {}
   }
 });
 ",
-    "
-export class Foo {}
-
-_define_property({
-    foo: _define_property({
-        bar: null
-    }, baz, null)
-}, bon, {
-    flab: null
-});
-"
+    
 );
 
 // spec_mixed
@@ -424,12 +327,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"), _define_property(_obj, "y" + bar, "noo"), _define_property(_obj, "foo", "foo"), _define_property(_obj, "bar", "bar"), _obj);
-
-"#
+    
 );
 
 // spec_single
@@ -443,10 +341,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var obj = _define_property({}, "x" + foo, "heh");
-
-"#
+    
 );
 
 // spec
@@ -462,12 +357,7 @@ export default {
   [c]: d
 };
 "#,
-    r#"
-var _obj;
-
-export default (_obj = {}, _define_property(_obj, a, b), _define_property(_obj, c, d), _obj);
-
-"#
+    
 );
 
 // spec_multiple
@@ -482,12 +372,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, "x" + foo, "heh"), _define_property(_obj, "y" + bar, "noo"), _obj);
-
-"#
+    
 );
 
 // spec_this
@@ -501,10 +386,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var obj = _define_property({}, "x" + foo.bar, "heh");
-
-"#
+    
 );
 
 // spec_method
@@ -523,16 +405,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, foobar, function () {
-  return "foobar";
-}), _define_property(_obj, "test", function () {
-  return "regular method after computed property";
-}), _obj);
-
-"#
+    
 );
 
 // spec_assignment
@@ -546,10 +419,7 @@ foo = {
 };
 
 "#,
-    r#"
-foo = _define_property({}, bar, "foobar");
-
-"#
+    
 );
 
 // spec_argument
@@ -563,10 +433,7 @@ foo({
 });
 
 "#,
-    r#"
-foo(_define_property({}, bar, "foobar"));
-
-"#
+    
 );
 
 // spec_two
@@ -581,12 +448,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var obj = _define_property({
-  first: "first"
-}, "second", "second");
-
-"#
+    
 );
 
 // spec_variable
@@ -600,10 +462,7 @@ var foo = {
 };
 
 "#,
-    r#"
-var foo = _define_property({}, bar, "foobar");
-
-"#
+    
 );
 
 // spec_symbol_exec
@@ -635,11 +494,7 @@ foo = {
   [bar]: "foobar"
 };
 "#,
-    r#"
-var _obj;
-
-foo = (_obj = {}, _obj[bar] = "foobar", _obj);
-"#
+    
 );
 
 test!(
@@ -651,11 +506,7 @@ foo({
   [bar]: "foobar"
 });
 "#,
-    r#"
-var _obj;
-
-foo((_obj = {}, _obj[bar] = "foobar", _obj));
-"#
+    
 );
 
 test!(
@@ -668,13 +519,7 @@ var obj = {
   [bar]: "foo"
 };
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {
-  foo: "bar"
-}, _obj[bar] = "foo", _obj);
-"#
+    
 );
 
 test!(
@@ -691,15 +536,7 @@ var obj = {
   }
 };
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj[foobar] = function () {
-  return "foobar";
-}, _obj.test = function () {
-  return "regular method after computed property";
-}, _obj);
-"#
+    
 );
 
 test!(
@@ -714,11 +551,7 @@ var obj = {
   bar: "bar"
 };
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj["y" + bar] = "noo", _obj.foo = "foo", _obj.bar = "bar", _obj);
-"#
+    
 );
 
 test!(
@@ -731,11 +564,7 @@ var obj = {
   ["y" + bar]: "noo"
 };
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj["y" + bar] = "noo", _obj);
-"#
+    
 );
 
 test!(
@@ -747,11 +576,7 @@ var obj = {
   ["x" + foo]: "heh"
 };
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj);
-"#
+    
 );
 
 test!(
@@ -763,11 +588,7 @@ var obj = {
   ["x" + foo.bar]: "heh"
 };
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo.bar] = "heh", _obj);
-"#
+    
 );
 
 test!(
@@ -780,13 +601,7 @@ var obj = {
   [second]: "second",
 }
 "#,
-    r#"
-var _obj;
-
-var obj = (_obj = {
-  first: "first"
-}, _obj[second] = "second", _obj);
-"#
+    
 );
 
 test!(
@@ -798,11 +613,7 @@ var foo = {
   [bar]: "foobar"
 };
 "#,
-    r#"
-var _obj;
-
-var foo = (_obj = {}, _obj[bar] = "foobar", _obj);
-"#
+    
 );
 
 test!(
@@ -814,11 +625,7 @@ var foo = {
 ["213"]: "foobar",
 };
 "#,
-    r#"
-var _obj;
-var foo = (_obj = {
-}, _obj["213"] = "foobar", _obj);
-"#
+    
 );
 
 test_exec!(

@@ -24,8 +24,7 @@ test!(
     |_| tr(),
     issue_270,
     "instance[name](...args);",
-    "var _instance;
-(_instance = instance)[name].apply(_instance, _to_consumable_array(args));"
+    
 );
 
 test!(
@@ -33,7 +32,7 @@ test!(
     |_| tr(),
     custom_call,
     "ca(a, b, c, ...d, e)",
-    "ca.apply(void 0, [a, b, c].concat(_to_consumable_array(d), [e]));"
+    
 );
 
 test!(
@@ -41,7 +40,7 @@ test!(
     |_| tr(),
     custom_call_multi_spread,
     "ca(a, b, ...d, e, f, ...h)",
-    "ca.apply(void 0, [a, b].concat(_to_consumable_array(d), [e, f], _to_consumable_array(h)));"
+    
 );
 
 test!(
@@ -49,7 +48,7 @@ test!(
     |_| tr(),
     custom_call_noop,
     "ca(a, b, c, d, e)",
-    "ca(a, b, c, d, e);"
+    
 );
 
 test!(
@@ -57,7 +56,7 @@ test!(
     |_| tr(),
     custom_array,
     "[a, b, c, ...d, e]",
-    "[a, b, c].concat(_to_consumable_array(d), [e])"
+    
 );
 
 test!(
@@ -65,7 +64,7 @@ test!(
     |_| tr(),
     custom_array_empty,
     "[a,, b, c, ...d,,, e]",
-    "[a,, b, c].concat(_to_consumable_array(d), [,, e])"
+    
 );
 
 test!(
@@ -73,7 +72,7 @@ test!(
     |_| tr(),
     custom_new_noop,
     "new C(a, b, c, c, d, e)",
-    "new C(a, b, c, c, d, e);"
+    
 );
 
 // this_context
@@ -90,15 +89,7 @@ var obj = {
 }
 
 "#,
-    r#"
-var obj = {
-  foo: function foo() {
-    this.bar.apply(this, arguments);
-    this.blah.apply(this, arguments);
-  }
-};
-
-"#
+    
 );
 
 // arguments_array
@@ -118,18 +109,7 @@ function bar(one, two, three) {
 foo("foo", "bar");
 
 "#,
-    r#"
-function foo() {
-  return bar(Array.prototype.slice.call(arguments));
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#
+    
 );
 
 // single_exec
@@ -166,18 +146,7 @@ function bar(one, two, three) {
 foo("foo", "bar");
 
 "#,
-    r#"
-function foo() {
-  return bar.apply(void 0, ["test"].concat(Array.prototype.slice.call(arguments)));
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#
+    
 );
 
 // contexted_method_call_super_multiple_args
@@ -193,15 +162,7 @@ class Foo {
 }
 
 "#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, [arg1, arg2].concat(_to_consumable_array(args)));
-  }
-
-}
-
-"#
+    
 );
 
 // array_literal_first
@@ -213,10 +174,7 @@ test!(
 var lyrics = [...parts, "head", "and", "toes"];
 
 "#,
-    r#"
-var lyrics = _to_consumable_array(parts).concat(["head", "and", "toes"]);
-
-"#
+    
 );
 
 // regression_t6761
@@ -237,26 +195,7 @@ switch (true){
 }
 
 "#,
-    r#"
-
-function fn() {}
-
-var args = [1, 2, 3];
-var obj = {
-  obj: {
-    fn
-  }
-};
-
-switch (true) {
-  case true:
-    var _obj_obj;
-    (_obj_obj = obj.obj).fn.apply(_obj_obj, _to_consumable_array(args));
-
-    break;
-}
-
-"#
+    
 );
 
 // method_call_middle
@@ -268,10 +207,7 @@ test!(
 add(foo, ...numbers, bar);
 
 "#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar]));
-
-"#
+    
 );
 
 // contexted_method_call_multiple_args
@@ -284,14 +220,7 @@ foob.add(foo, bar, ...numbers);
 foob.test.add(foo, bar, ...numbers);
 
 "#,
-    r#"
-var _foob, _foob_test;
-
-(_foob = foob).add.apply(_foob, [foo, bar].concat(_to_consumable_array(numbers)));
-
-(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_to_consumable_array(numbers)));
-
-"#
+    
 );
 
 // contexted_computed_method_call_multiple_args
@@ -303,12 +232,7 @@ test!(
 obj[method](foo, bar, ...args);
 
 "#,
-    r#"
-var _obj;
-
-(_obj = obj)[method].apply(_obj, [foo, bar].concat(_to_consumable_array(args)));
-
-"#
+    
 );
 
 // regression_6647
@@ -322,10 +246,7 @@ test!(
 add(foo, bar, ...numbers);
 
 "#,
-    r#"
-add.apply(void 0, [foo, bar].concat(_to_consumable_array(numbers)));
-
-"#
+    
 );
 
 // array_literal_middle
@@ -337,10 +258,7 @@ test!(
 var a = [b, ...c, d];
 
 "#,
-    r#"
-var a = [b].concat(_to_consumable_array(c), [d]);
-
-"#
+    
 );
 
 // array_literal_with_hole
@@ -352,10 +270,7 @@ test!(
 var arr = [ 'a',, 'b', ...c ];
 
 "#,
-    r#"
-var arr = ['a',, 'b'].concat(_to_consumable_array(c));
-
-"#
+    
 );
 
 // regression_issue_8907
@@ -373,16 +288,7 @@ arr.concat = () => {
 const x = [...arr];
 
 "#,
-    r#"
-const arr = [];
-
-arr.concat = () => {
-  throw new Error('Should not be called');
-};
-
-const x = _to_consumable_array(arr);
-
-"#
+    
 );
 
 // regression_issue_8907
@@ -402,16 +308,7 @@ arr.concat = () => {
 const x = [...arr];
 
 "#,
-    r#"
-const arr = [];
-
-arr.concat = () => {
-  throw new Error('Should not be called');
-};
-
-const x = [].concat(arr);
-
-"#
+    
 );
 
 // method_call_multiple
@@ -423,10 +320,7 @@ test!(
 add(foo, ...numbers, bar, what, ...test);
 
 "#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar, what], _to_consumable_array(test)));
-
-"#
+    
 );
 
 // arguments
@@ -446,18 +340,7 @@ function bar(one, two, three) {
 foo("foo", "bar");
 
 "#,
-    r#"
-function foo() {
-  return bar.apply(void 0, arguments);
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#
+    
 );
 
 // regression_issue_8907_exec
@@ -490,10 +373,7 @@ test!(
 var a = [b, ...c, d, e, ...f];
 
 "#,
-    r#"
-var a = [b].concat(_to_consumable_array(c), [d, e], _to_consumable_array(f));
-
-"#
+    
 );
 
 // arguments_array_exec
@@ -524,10 +404,7 @@ test!(
 var lyrics = ["head", "and", "toes", ...parts];
 
 "#,
-    r#"
-var lyrics = ["head", "and", "toes"].concat(_to_consumable_array(parts));
-
-"#
+    
 );
 
 // regression
@@ -542,11 +419,7 @@ new Numbers(...nums);
 new Numbers(1, ...nums);
 
 "#,
-    r#"
-_construct(Numbers, _to_consumable_array(nums));
-_construct(Numbers, [1].concat(_to_consumable_array(nums)));
-
-"#
+    
 );
 
 // spread_array_literal_with_hole
@@ -558,10 +431,7 @@ test!(
 var arr = [ 'a',, 'b', ...c ];
 
 "#,
-    r#"
-var arr = ['a',, 'b'].concat(_to_consumable_array(c));
-
-"#
+    
 );
 
 // spread_single
@@ -591,11 +461,7 @@ foob.add(foo, bar, ...numbers);
 foob.test.add(foo, bar, ...numbers);
 
 "#,
-    r#"
-var _foob, _foob_test;
-(_foob = foob).add.apply(_foob, [foo, bar].concat(_to_consumable_array(numbers)));
-(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_to_consumable_array(numbers)))
-"#
+    
 );
 
 // spread_method_call_array_literal
@@ -607,10 +473,7 @@ test!(
 f(...[1, 2, 3]);
 
 "#,
-    r#"
-f.apply(void 0, [1, 2, 3]);
-
-"#
+    
 );
 
 // spread_method_call_single_arg
@@ -622,10 +485,7 @@ test!(
 add(...numbers);
 
 "#,
-    r#"
-add.apply(void 0, _to_consumable_array(numbers));
-
-"#
+    
 );
 
 // spread_known_rest
@@ -651,16 +511,7 @@ function foo(...bar) {
 }
 
 "#,
-    r#"
-function foo() {
-  for (var _len = arguments.length, bar = new Array(_len), _key = 0; _key < _len; _key++) {
-    bar[_key] = arguments[_key];
-  }
-
-  return [].concat(bar);
-}
-
-"#
+    
 );
 
 // spread_method_call_middle
@@ -672,10 +523,7 @@ test!(
 add(foo, ...numbers, bar);
 
 "#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar]));
-
-"#
+    
 );
 
 // spread_method_call_first
@@ -687,10 +535,7 @@ test!(
 add(...numbers, foo, bar);
 
 "#,
-    r#"
-add.apply(void 0, _to_consumable_array(numbers).concat([foo, bar]));
-
-"#
+    
 );
 
 // spread_contexted_method_call_super_single_arg
@@ -706,15 +551,7 @@ class Foo {
 }
 
 "#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, _to_consumable_array(args));
-  }
-
-}
-
-"#
+    
 );
 
 // spread_contexted_method_call_single_arg
@@ -727,11 +564,7 @@ foob.add(...numbers);
 foob.test.add(...numbers);
 
 "#,
-    r#"
-var _foob, _foob_test;
-(_foob = foob).add.apply(_foob, _to_consumable_array(numbers));
-(_foob_test = foob.test).add.apply(_foob_test, _to_consumable_array(numbers));
-"#
+    
 );
 
 // spread_array_literal_middle
@@ -743,10 +576,7 @@ test!(
 var a = [b, ...c, d];
 
 "#,
-    r#"
-var a = [b].concat(_to_consumable_array(c), [d]);
-
-"#
+    
 );
 
 // spread_array_literals
@@ -758,10 +588,7 @@ test!(
 var lyrics = ["head", "and", "toes", ...parts];
 
 "#,
-    r#"
-var lyrics = ["head", "and", "toes"].concat(_to_consumable_array(parts));
-
-"#
+    
 );
 
 // regression_10416
@@ -777,14 +604,7 @@ export default function () {
   return [...someVar];
 }
 "#,
-    r#"
-const E_ARR = [];
-export default function () {
-  const someVar = E_ARR;
-  return _to_consumable_array(someVar);
-}
-
-"#
+    
 );
 
 // spread_method_call_multiple
@@ -796,10 +616,7 @@ test!(
 add(foo, ...numbers, bar, what, ...test);
 
 "#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar, what], _to_consumable_array(test)));
-
-"#
+    
 );
 
 // spread_arguments
@@ -819,18 +636,7 @@ function bar(one, two, three) {
 foo("foo", "bar");
 
 "#,
-    r#"
-function foo() {
-  return bar.apply(void 0, arguments);
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#
+    
 );
 
 // spread_contexted_method_call_super_multiple_args
@@ -846,15 +652,7 @@ class Foo {
 }
 
 "#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, [arg1, arg2].concat(_to_consumable_array(args)));
-  }
-
-}
-
-"#
+    
 );
 
 // spread_contexted_computed_method_call_single_arg
@@ -866,12 +664,7 @@ test!(
 obj[method](...args);
 
 "#,
-    r#"
-var _obj;
-
-(_obj = obj)[method].apply(_obj, _to_consumable_array(args));
-
-"#
+    
 );
 
 // spread_arguments_concat
@@ -891,18 +684,7 @@ function bar(one, two, three) {
 foo("foo", "bar");
 
 "#,
-    r#"
-function foo() {
-  return bar.apply(void 0, ["test"].concat(Array.prototype.slice.call(arguments)));
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#
+    
 );
 
 test!(
@@ -912,14 +694,7 @@ test!(
     "
     String.raw({ raw: 'abcd' }, ...'___');
     ",
-    r#"
-var _String;
-(_String = String).raw.apply(_String, [
-    {
-        raw: 'abcd'
-    }
-].concat(Array.from('___')));
-"#
+    
 );
 
 test!(
@@ -929,20 +704,7 @@ test!(
     "
     f({ x: 0 }, ...[1, 2], [3], ...'456');
     ",
-    r#"
-f.apply(void 0, [
-    {
-        x: 0
-    }
-].concat(_to_consumable_array([
-    1,
-    2
-]), [
-    [
-        3
-    ]
-], Array.from('456')));
-"#
+    
 );
 
 test!(
@@ -953,24 +715,7 @@ test!(
     f(1, ...[2, 3], ...[...[4, 5]], ...[6, ...[7]]);
     f(1, ..."123", ...[..."456", ..."789"]);
     "#,
-    r#"
-f.apply(void 0, [
-    1
-].concat(_to_consumable_array([
-    2,
-    3
-]), _to_consumable_array(_to_consumable_array([
-    4,
-    5
-])), _to_consumable_array([
-    6
-].concat(_to_consumable_array([
-    7
-])))));
-f.apply(void 0, [
-    1
-].concat(Array.from("123"), _to_consumable_array(Array.from("456").concat(Array.from("789")))));
-"#
+    
 );
 
 test!(
@@ -981,24 +726,5 @@ test!(
     f(1, ...[2, , 3], ...[...[4, ,]]);
     f(...[2, , 3], ...[...[4, ,]]);
     "#,
-    "
-    f.apply(void 0, [
-        1
-    ].concat(_to_consumable_array([
-        2,
-        ,
-        3
-    ]), _to_consumable_array(_to_consumable_array([
-        4,
-        ,
-    ]))));
-    f.apply(void 0, _to_consumable_array([
-        2,
-        ,
-        3
-    ]).concat(_to_consumable_array(_to_consumable_array([
-        4,
-        ,
-    ]))));
-    "
+    
 );

@@ -237,15 +237,7 @@ for (elm of array) {
 }
 
 "#,
-    r#"
-let elm;
-
-for(let _i = 0; _i < array.length; _i++){
-  elm = array[_i];
-  console.log(elm);
-}
-
-"#
+    
 );
 
 // for_of_as_array_for_of_array_pattern
@@ -263,15 +255,7 @@ for ([elm] of array) {
 }
 
 "#,
-    r#"
-let elm;
-
-for(let _i = 0; _i < array.length; _i++){
-  [elm] = array[_i];
-  console.log(elm);
-}
-
-"#
+    
 );
 
 // regression_redeclare_array_8913
@@ -290,15 +274,7 @@ function f(...t) {
 }
 
 "#,
-    r#"
-function f(...t) {
-  for(let _i = 0; _i < t.length; _i++){
-    let o = t[_i];
-    const t = o;
-  }
-}
-
-"#
+    
 );
 
 // for_of_as_array_for_of_declaration_array_pattern
@@ -315,12 +291,7 @@ for (const [elm] of array) {
 }
 
 "#,
-    r#"
-for(let _i = 0; _i < array.length; _i++){
-    const [elm] = array[_i];
-    console.log(elm);
-}
-"#
+    
 );
 
 // for_of_as_array_for_of_expression
@@ -336,15 +307,7 @@ let i;
 for (i of items) i;
 
 "#,
-    r#"
-let i;
-
-for(let _i = 0; _i < items.length; _i++){
-  i = items[_i];
-  i;
-}
-
-"#
+    
 );
 
 // for_of_as_array_for_of_declaration
@@ -361,13 +324,7 @@ for (const elm of array) {
 }
 
 "#,
-    r#"
-for(let _i = 0; _i < array.length; _i++){
-  const elm = array[_i];
-  console.log(elm);
-}
-
-"#
+    
 );
 
 // regression_scope_9696
@@ -405,15 +362,7 @@ for (const elm of array) {
 }
 
 "#,
-    r#"
-const array = [];
-
-for(let _i = 0; _i < array.length; _i++){
-  const elm = array[_i];
-  console.log(elm);
-}
-
-"#
+    
 );
 
 // for_of_as_array_for_of_static
@@ -433,16 +382,7 @@ for (elm of array) {
 }
 
 "#,
-    r#"
-const array = [];
-let elm;
-
-for (let _i = 0; _i < array.length; _i++) {
-  elm = array[_i];
-  console.log(elm);
-}
-
-"#
+    
 );
 
 // for_of_as_array_for_of_import_es2015
@@ -461,15 +401,7 @@ for (const elm of array) {
 }
 
 "#,
-    r#"
-import { array } from "foo";
-
-for(let _i = 0; _i < array.length; _i++){
-  const elm = array[_i];
-  console.log(elm);
-}
-
-"#
+    
 );
 
 // regression_label_object_with_comment_4995
@@ -484,31 +416,7 @@ for (let a of b) {
 }
 
 "#,
-    r#"
-var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  myLabel: //woops
-  for (var _iterator = b[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    let a = _step.value;
-    continue myLabel;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}
-
-"#
+    
 );
 
 // regression_if_label_3858
@@ -526,13 +434,7 @@ if ( true )
 
 
 "#,
-    r#"
-if (true) loop: for(let _i = 0, _iter = []; _i < _iter.length; _i++){
-    let ch = _iter[_i];
-  }
-
-
-"#
+    
 );
 
 #[testing::fixture("tests/for-of/**/exec.js")]

@@ -49,7 +49,7 @@ test!(
     |_| tr(Default::default()),
     multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
-    r#"var foo = "test ".concat(foo, " ").concat(bar);"#
+    
 );
 
 test!(
@@ -57,7 +57,7 @@ test!(
     |_| tr(Default::default()),
     none,
     r#"var foo = `test`;"#,
-    r#"var foo = "test";"#
+    
 );
 
 test!(
@@ -65,7 +65,7 @@ test!(
     |_| tr(Default::default()),
     only,
     r#"var foo = `${test}`;"#,
-    r#"var foo = "".concat(test);"#
+    
 );
 
 test_exec!(
@@ -127,7 +127,7 @@ test!(
     |_| tr(Default::default()),
     single,
     r#"var foo = `test ${foo}`;"#,
-    r#"var foo = "test ".concat(foo);"#
+    
 );
 
 test!(
@@ -322,10 +322,7 @@ test!(
 var foo = `${test}`;
 
 "#,
-    r#"
-var foo = "".concat(test);
-
-"#
+    
 );
 
 // default_single
@@ -337,10 +334,7 @@ test!(
 var foo = `test ${foo}`;
 
 "#,
-    r#"
-var foo = "test ".concat(foo);
-
-"#
+    
 );
 
 // default_statement
@@ -352,10 +346,7 @@ test!(
 var foo = `test ${foo + bar}`;
 
 "#,
-    r#"
-var foo = "test ".concat(foo + bar);
-
-"#
+    
 );
 
 // default_expression_first
@@ -375,17 +366,7 @@ var example4 = 1 + `${foo}bar${baz}`;
 var example5 = `${""}`;
 
 "#,
-    r#"
-var foo = 5;
-var bar = 10;
-var baz = 15;
-var example = "a";
-var example2 = "".concat(1);
-var example3 = 1 + "".concat(foo).concat(bar).concat(baz);
-var example4 = 1 + "".concat(foo, "bar").concat(baz);
-var example5 = "";
-
-"#
+    
 );
 
 // default_literals
@@ -397,10 +378,7 @@ test!(
 var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
 
 "#,
-    r#"
-var foo = "".concat(1).concat(f, "oo", true).concat(b, "ar", 0).concat(baz);
-
-"#
+    
 );
 
 // default_multiline
@@ -444,103 +422,7 @@ function a() {
 }
 
 ",
-    r#"
-function _templateObject8() {
-  const data = _tagged_template_literal([void 0], ["\\01"]);
-
-  _templateObject8 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject7() {
-  const data = _tagged_template_literal(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
-
-  _templateObject7 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject6() {
-  const data = _tagged_template_literal(["left", void 0, "right"], ["left", "\\u000g", "right"]);
-
-  _templateObject6 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject5() {
-  const data = _tagged_template_literal(["left", void 0, "right"], ["left", "\\xg", "right"]);
-
-  _templateObject5 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject4() {
-  const data = _tagged_template_literal(["left", void 0], ["left", "\\xg"]);
-
-  _templateObject4 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject3() {
-  const data = _tagged_template_literal([void 0, "right"], ["\\xg", "right"]);
-
-  _templateObject3 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _tagged_template_literal([void 0], ["\\01"]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  const data = _tagged_template_literal([void 0], ["\\unicode and \\u{55}"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _tagged_template_literal(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-tag(_templateObject());
-tag(_templateObject2());
-tag(_templateObject3(), 0);
-tag(_templateObject4(), 0);
-tag(_templateObject5(), 0, 1);
-tag(_templateObject6(), 0, 1);
-tag(_templateObject7(), 0, 1);
-
-function a() {
-  var undefined = 4;
-  tag(_templateObject8());
-}
-
-"#
+    
 );
 
 // default_order2_exec
@@ -606,10 +488,7 @@ test!(
 var foo = `test ${_.test(foo)} ${bar}`;
 
 "#,
-    r#"
-var foo = "test ".concat(_.test(foo), " ").concat(bar);
-
-"#
+    
 );
 
 // default_none
@@ -621,10 +500,7 @@ test!(
 var foo = `test`;
 
 "#,
-    r#"
-var foo = "test";
-
-"#
+    
 );
 
 // default_symbol_exec
@@ -663,44 +539,7 @@ expect(bar()).toEqual(["some template"]);
 expect(bar()).not.toBe(foo());
 
 "#,
-    r#"
-function _templateObject() {
-  const data = _tagged_template_literal(["some template"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject1() {
-  const data = _tagged_template_literal(["some template"]);
-
-  _templateObject1 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-var tag = v => v;
-
-function foo() {
-  return tag(_templateObject());
-}
-
-function bar() {
-  return tag(_templateObject1());
-}
-
-expect(foo()).toBe(foo());
-expect(foo()).toEqual(["some template"]);
-expect(bar()).toBe(bar());
-expect(bar()).toEqual(["some template"]);
-expect(bar()).not.toBe(foo());
-
-"#
+    
 );
 
 // default_tag
@@ -714,43 +553,7 @@ var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 
 ",
-    r#"
-function _templateObject() {
-  const data = _tagged_template_literal(["wow\na", "b ", ""], ["wow\\na", "b ", ""]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject1() {
-  const data = _tagged_template_literal(["wow\nab", " ", ""], ["wow\\nab", " ", ""]);
-
-  _templateObject1 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject2() {
-  const data = _tagged_template_literal(["wow\naB", " ", ""], ["wow\\naB", " ", ""]);
-
-  _templateObject2 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-
-var foo = bar(_templateObject(), 42, _.foobar());
-var bar = bar(_templateObject1(), 42, _.foobar());
-var bar = bar(_templateObject2(), 42, _.baz());
-
-"#
+    
 );
 
 // default_simple_tag
@@ -763,31 +566,7 @@ var foo = tag`wow`;
 var bar = tag`first${1}second`;
 
 "#,
-    r#"
-function _templateObject() {
-  const data = _tagged_template_literal(["wow"]);
-
-  _templateObject = function () {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject1() {
-  const data = _tagged_template_literal(["first", "second"]);
-
-  _templateObject1 = function () {
-    return data;
-  };
-
-  return data;
-}
-
-var foo = tag(_templateObject());
-var bar = tag(_templateObject1(), 1);
-
-"#
+    
 );
 
 test!(
@@ -800,29 +579,7 @@ test!(
     console.log(i18n`Nobody will ever see this.`);
   }
 ",
-    "function _templateObject() {
-      const data = _tagged_template_literal([
-          \"Hello World\"
-      ]);
-      _templateObject = function() {
-          return data;
-      };
-      return data;
-  }
-  function _templateObject1() {
-      const data = _tagged_template_literal([
-          \"Nobody will ever see this.\"
-      ]);
-      _templateObject1 = function() {
-          return data;
-      };
-      return data;
-  }
-  export function foo() {
-      console.log(i18n(_templateObject()));
-      console.log(i18n(_templateObject1()));
-  }
-  "
+    
 );
 
 test!(
@@ -956,9 +713,7 @@ test!(
     "
     `\\``
     ",
-    "
-    \"`\"
-    "
+    
 );
 
 test!(
@@ -975,7 +730,7 @@ test!(
     |_| tr(Default::default()),
     issue_1549_2,
     "const a = \"\\r\\n\";",
-    "const a = \"\\r\\n\";"
+    
 );
 
 test!(
@@ -988,21 +743,7 @@ test!(
     }
     foo`template`
     ",
-    "
-    function _templateObject() {
-      const data = _tagged_template_literal([
-          \"template\"
-      ]);
-      _templateObject = function() {
-          return data;
-      };
-      return data;
-    }
-    function foo() {
-        return this;
-    }
-    foo(_templateObject());
-    "
+    
 );
 
 test_exec!(
@@ -1027,7 +768,7 @@ test!(
     }),
     loose_escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#,
-    r#"var t = "'" + foo + "' \"" + bar + '"';"#
+    
 );
 
 test!(
@@ -1047,15 +788,7 @@ var example2 = `${1}`;
 var example3 = 1 + `${foo}${bar}${baz}`;
 var example4 = 1 + `${foo}bar${baz}`;
 var example5 = `${""}`;"#,
-    r#"
-var foo = 5;
-var bar = 10;
-var baz = 15;
-var example = "a";
-var example2 = "" + 1;
-var example3 = 1 + ("" + foo + bar + baz);
-var example4 = 1 + (foo + "bar" + baz);
-var example5 = "";"#
+    
 );
 
 test!(
@@ -1066,7 +799,7 @@ test!(
     }),
     loose_function,
     r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
-    r#"var foo = "test " + _.test(foo) + " " + bar;"#
+    
 );
 
 test!(
@@ -1077,7 +810,7 @@ test!(
     }),
     loose_literals,
     r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-    r#"var foo = "" + 1 + f + "oo" + true + b + "ar" + 0 + baz;"#
+    
 );
 
 test!(
@@ -1092,7 +825,7 @@ var o = `wow
 this is
 actually multiline!`;
     "#,
-    r#"var o = "wow\nthis is\nactually multiline!";"#
+    
 );
 
 test!(
@@ -1103,7 +836,7 @@ test!(
     }),
     loose_multiple,
     r#"var foo = `test ${foo} ${bar}`;"#,
-    r#"var foo = "test " + foo + " " + bar;"#
+    
 );
 
 test!(
@@ -1114,7 +847,7 @@ test!(
     }),
     loose_none,
     r#"var foo = `test`;"#,
-    r#"var foo = "test";"#
+    
 );
 
 test!(
@@ -1125,7 +858,7 @@ test!(
     }),
     loose_only,
     r#"var foo = `${test}`;"#,
-    r#"var foo = "" + test;"#
+    
 );
 
 test!(
@@ -1136,7 +869,7 @@ test!(
     }),
     loose_single,
     r#"var foo = `test ${foo}`;"#,
-    r#"var foo = "test " + foo;"#
+    
 );
 
 test!(
@@ -1147,7 +880,7 @@ test!(
     }),
     loose_statement,
     r#"var foo = `test ${foo + bar}`;"#,
-    r#"var foo = "test " + (foo + bar);"#
+    
 );
 
 test_exec!(
@@ -1235,7 +968,7 @@ test!(
     }),
     loose_no_tag,
     "`foo ${bar} baz`;",
-    "\"foo \".concat(bar, \" baz\");"
+    
 );
 
 test!(
@@ -1250,56 +983,7 @@ var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
     ",
-    r#"
-function _templateObject() {
-    const data = _tagged_template_literal_loose([
-        "wow\na",
-        "b ",
-        ""
-    ], [
-        "wow\\na",
-        "b ",
-        ""
-    ]);
-    _templateObject = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject1() {
-    const data = _tagged_template_literal_loose([
-        "wow\nab",
-        " ",
-        ""
-    ], [
-        "wow\\nab",
-        " ",
-        ""
-    ]);
-    _templateObject1 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject2() {
-    const data = _tagged_template_literal_loose([
-        "wow\naB",
-        " ",
-        ""
-    ], [
-        "wow\\naB",
-        " ",
-        ""
-    ]);
-    _templateObject2 = function() {
-        return data;
-    };
-    return data;
-}
-var foo = bar(_templateObject(), 42, _.foobar());
-var bar = bar(_templateObject1(), 42, _.foobar());
-var bar = bar(_templateObject2(), 42, _.baz());
-    "#
+    
 );
 
 test!(
@@ -1319,97 +1003,5 @@ function a() {
 var undefined = 4;
 tag`\01`;
 }",
-    r#"
-function _templateObject8() {
-const data = _tagged_template_literal_loose([void 0], ["\\01"]);
-
-_templateObject8 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject7() {
-const data = _tagged_template_literal_loose(["left", void 0, "right"], ["left", "\\u{-0}", "right"]);
-
-_templateObject7 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject6() {
-const data = _tagged_template_literal_loose(["left", void 0, "right"], ["left", "\\u000g", "right"]);
-
-_templateObject6 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject5() {
-const data = _tagged_template_literal_loose(["left", void 0, "right"], ["left", "\\xg", "right"]);
-
-_templateObject5 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject4() {
-const data = _tagged_template_literal_loose(["left", void 0], ["left", "\\xg"]);
-
-_templateObject4 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject3() {
-const data = _tagged_template_literal_loose([void 0, "right"], ["\\xg", "right"]);
-
-_templateObject3 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject2() {
-const data = _tagged_template_literal_loose([void 0], ["\\01"]);
-
-_templateObject2 = function () {
-  return data;
-};
-
-return data;
-}
-
-function _templateObject() {
-const data = _tagged_template_literal_loose([void 0], ["\\unicode and \\u{55}"]);
-
-_templateObject = function () {
-  return data;
-};
-
-return data;
-}
-
-tag(_templateObject());
-tag(_templateObject2());
-tag(_templateObject3(), 0);
-tag(_templateObject4(), 0);
-tag(_templateObject5(), 0, 1);
-tag(_templateObject6(), 0, 1);
-tag(_templateObject7(), 0, 1);
-
-function a() {
-var undefined = 4;
-tag(_templateObject8());
-}"#
+    
 );
