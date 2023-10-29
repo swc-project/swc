@@ -4,7 +4,9 @@ use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
+use swc_ecma_transforms_base::{
+    assumptions::Assumptions, fixer::fixer, hygiene::hygiene, resolver,
+};
 use swc_ecma_visit::Fold;
 
 use crate::parse_options;
@@ -54,7 +56,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
             assumptions: options.assumptions,
             unresolved_mark: Mark::new(),
             top_level_mark: Mark::new(),
-            comments,
+            comments: comments.clone(),
         };
 
         let mut pass: Box<dyn 'a + Fold> = Box::new(resolver(
@@ -86,7 +88,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
             }
         }
 
-        pass = Box::new(chain!(pass, hygiene(), fixer()));
+        pass = Box::new(chain!(pass, hygiene(), fixer(Some(&comments.clone()))));
 
         // Run pass
     }
