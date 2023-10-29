@@ -547,30 +547,7 @@ test!(
 
     new A();
     ",
-    "
-    function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    class A {
-        a() {
-            this.s.resolve();
-        }
-        b() {
-            this.s = d();
-        }
-        constructor(){
-            this.s = d();
-        }
-    }
-    new A();
-    "
+    
 );
 
 test!(
@@ -618,19 +595,7 @@ test!(
 import Foo from 'foo';
 Foo.bar = true;
 ",
-    "
-\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-    value: true
-});
-var _foo = _interop_require_default(require(\"foo\"));
-function _interop_require_default(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
-_foo.default.bar = true;
-"
+    
 );
 
 test!(
@@ -672,16 +637,7 @@ test!(
     X.run();
     (0, X.run)();
     ",
-    "
-    const X = {
-        run() {
-            console.log(this === globalThis);
-        },
-    };
-
-    X.run();
-    (0, X.run)();
-    "
+    
 );
 
 test!(
@@ -698,12 +654,7 @@ test!(
         return t !== i && (e, t = t), e = t;
     }
     ",
-    "
-    function oe() {
-        var e, t;
-        return t !== i && (e, t), e = t;
-    }
-    "
+    
 );
 
 test!(
@@ -731,10 +682,5 @@ function emit(type) {
     }
 }
 ",
-    "
-function emit(type) {
-    const e = events[type];
-    if (Array.isArray(e)) for(let i = 0; i < e.length; i += 1)e[i].apply(this);
-}
-"
+    
 );

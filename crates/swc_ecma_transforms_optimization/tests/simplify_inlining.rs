@@ -20,7 +20,7 @@ fn simple_strip(top_level_mark: Mark) -> impl Fold {
 }
 
 macro_rules! to {
-    ($name:ident, $src:expr, $expected:expr) => {
+    ($name:ident, $src:expr) => {
         test!(
             Default::default(),
             |_| chain!(
@@ -28,12 +28,11 @@ macro_rules! to {
                 inlining(Default::default())
             ),
             $name,
-            $src,
-            $expected
+            $src
         );
     };
 
-    (ignore, $name:ident, $src:expr, $expected:expr) => {
+    (ignore, $name:ident, $src:expr) => {
         test!(
             ignore,
             Default::default(),
@@ -42,8 +41,7 @@ macro_rules! to {
                 inlining(Default::default())
             ),
             $name,
-            $src,
-            $expected
+            $src
         );
     };
 }
@@ -2199,18 +2197,6 @@ test!(
         return Object.assign(promise, methods);
     }
     ",
-    "
-    export function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    "
 );
 
 test!(
@@ -2263,30 +2249,6 @@ test!(
 
     new A();
     ",
-    "
-    function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    class A {
-        a() {
-            this.s.resolve();
-        }
-        b() {
-            this.s = d();
-        }
-        constructor(){
-            this.s = d();
-        }
-    }
-    new A();
-    "
 );
 
 test!(
@@ -2321,24 +2283,6 @@ const STATUS_TEXT = new Map([
     ]
 ]);
     "#,
-    r#"
-    var Status;
-    (function(Status) {
-        Status[Status["Continue"] = 100] = "Continue";
-        Status[Status["SwitchingProtocols"] = 101] = "SwitchingProtocols";
-    })(Status || (Status = {
-    }));
-    const STATUS_TEXT = new Map([
-        [
-            Status.Continue,
-            "Continue"
-        ],
-        [
-            Status.SwitchingProtocols,
-            "Switching Protocols"
-        ]
-    ]);
-    "#
 );
 
 test!(
@@ -2363,11 +2307,4 @@ test!(
      Uint8Array(A.memory.buffer)), I
     }
     ",
-    "
-    let A, I = null;
-    function g() {
-        return null !== I && I.buffer === A.memory.buffer || (I = new \
-     Uint8Array(A.memory.buffer)), I;
-    }
-    "
 );

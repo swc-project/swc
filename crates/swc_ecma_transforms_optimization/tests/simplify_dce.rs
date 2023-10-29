@@ -462,20 +462,7 @@ test!(
     }
 }
 ",
-    "
-    var X;
-    X =  class X {
-        anything = 0;
-        x() {
-            const localVar = aFunctionSomewhere();
-            return localVar;
-        }
-    }
-    _ts_decorate([
-        whatever
-    ], X.prototype, \"anything\", void 0);
-    export { X as default };
-    "
+    
 );
 
 test!(
@@ -503,12 +490,7 @@ test!(
     const a = 1;
     export const d = { a };
     ",
-    "
-    const a = 1;
-    export const d = {
-        a
-    };
-    "
+    
 );
 
 test!(
@@ -544,23 +526,7 @@ class A {
 }
 new A();
     ",
-    "
-    class A {
-        constructor(o: AOptions = {
-        }){
-            const { a = defaultA , c  } = o;
-            this.#a = a;
-            this.#c = c;
-        }
-        a() {
-            this.#a();
-        }
-        c() {
-            console.log(this.#c);
-        }
-    }
-    new A();
-    "
+    
 );
 
 test!(
@@ -600,18 +566,7 @@ test!(
         return Object.assign(promise, methods);
     }
     ",
-    "
-    export function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    "
+    
 );
 
 test!(
@@ -665,30 +620,7 @@ test!(
 
     new A();
     ",
-    "
-    function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    class A {
-        a() {
-            this.s.resolve();
-        }
-        b() {
-            this.s = d();
-        }
-        constructor(){
-            this.s = d();
-        }
-    }
-    new A();
-    "
+    
 );
 
 test!(
@@ -718,19 +650,7 @@ test!(
 
     d()
     ",
-    "
-    function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    d();
-    "
+    
 );
 
 test!(
@@ -780,27 +700,7 @@ test!(
 
     new A();
     ",
-    "
-    function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    class A {
-        a() {
-            this.s.resolve();
-        }
-        constructor(){
-            this.s = d();
-        }
-    }
-    new A();
-    "
+    
 );
 
 optimized_out!(
