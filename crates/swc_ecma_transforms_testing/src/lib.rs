@@ -349,8 +349,6 @@ pub fn test_transform<F, P>(
 
 /// Test transformation.
 #[macro_export]
-#[deprecated = "Use fixture testing instead. Inlining tests are hard to update, and it does not \
-                support testing comments."]
 macro_rules! test {
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
         #[test]
