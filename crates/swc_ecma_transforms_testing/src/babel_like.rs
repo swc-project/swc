@@ -2,8 +2,9 @@ use std::path::Path;
 
 use serde::Deserialize;
 use serde_json::Value;
-use swc_common::{chain, comments::SingleThreadedComments, Mark};
-use swc_ecma_ast::EsVersion;
+use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
+use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_transforms_base::{
     assumptions::Assumptions, fixer::fixer, hygiene::hygiene, resolver,
@@ -29,10 +30,9 @@ pub struct BabelLikeFixtureTest<'a> {
 }
 
 impl<'a> BabelLikeFixtureTest<'a> {
-    pub fn new(input: &'a Path, output: &'a Path) -> Self {
+    pub fn new(input: &'a Path) -> Self {
         Self {
             input,
-            output,
             syntax: Default::default(),
             factories: Default::default(),
             source_map: false,
@@ -57,12 +57,13 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
-    fn run(self) -> TestOutput {
+    fn run(self, execute_mode: bool) {
         let output = testing::run_test(false, |cm, handler| {
             let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
             let comments = SingleThreadedComments::default();
             let mut builder = BabelPassBuilder {
+                cm: cm.clone(),
                 assumptions: options.assumptions,
                 unresolved_mark: Mark::new(),
                 top_level_mark: Mark::new(),
@@ -98,7 +99,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 }
             }
 
-            pass = Box::new(chain!(pass, hygiene(), fixer(Some(&comments.clone()))));
+            pass = Box::new(chain!(pass, hygiene(), fixer(Some(&comments))));
 
             // Run pass
 
@@ -133,10 +134,12 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
             let output_program = input_program.fold_with(&mut *pass);
 
-            Ok(())
-        });
+            // Print output
+            let code = builder.print(&output_program);
 
-        TestOutput { code: () }
+            Ok(())
+        })
+        .unwrap();
     }
 
     /// Execute ussing node.js
@@ -144,10 +147,6 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
     /// Run a fixture test
     pub fn fixture(self, output: &Path) {}
-}
-
-struct TestOutput {
-    code: String,
 }
 
 #[derive(Debug, Deserialize)]
@@ -168,10 +167,36 @@ enum BabelPluginEntry {
 
 #[derive(Clone)]
 pub struct BabelPassBuilder {
+    pub cm: Lrc<SourceMap>,
+
     pub assumptions: Assumptions,
     pub unresolved_mark: Mark,
     pub top_level_mark: Mark,
 
     /// [SingleThreadedComments] is cheap to clone.
     pub comments: SingleThreadedComments,
+}
+
+impl BabelPassBuilder {
+    fn print(&mut self, program: &Program) -> String {
+        let mut buf = vec![];
+        {
+            let mut emitter = Emitter {
+                cfg: Default::default(),
+                cm: self.cm.clone(),
+                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                    self.cm.clone(),
+                    "\n",
+                    &mut buf,
+                    None,
+                )),
+                comments: Some(&self.comments),
+            };
+
+            emitter.emit_program(program).unwrap();
+        }
+
+        let s = String::from_utf8_lossy(&buf);
+        s.to_string()
+    }
 }
