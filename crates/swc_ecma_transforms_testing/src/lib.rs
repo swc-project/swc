@@ -268,20 +268,7 @@ where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
-    let expected = "";
-
     Tester::run(|tester| {
-        let expected = tester.apply_transform(
-            as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }),
-            "output.js",
-            syntax,
-            expected,
-        )?;
-
-        let expected_comments = take(&mut tester.comments);
-
         println!("----- Actual -----");
 
         let tr = make_tr(tr, tester);
@@ -701,7 +688,6 @@ pub struct FixtureTestConfig {
     /// Defaults to false.
     pub allow_error: bool,
 }
-
 /// You can do `UPDATE=1 cargo test` to update fixtures.
 pub fn test_fixture<P>(
     syntax: Syntax,
@@ -712,6 +698,24 @@ pub fn test_fixture<P>(
 ) where
     P: Fold,
 {
+    let input = fs::read_to_string(input).unwrap();
+
+    test_fixture_inner(
+        syntax,
+        &|tester| Box::new(tr(tester)),
+        &input,
+        output,
+        config,
+    );
+}
+
+fn test_fixture_inner(
+    syntax: Syntax,
+    tr: &dyn Fn(&mut Tester) -> Box<dyn Fold>,
+    input: &str,
+    output: &Path,
+    config: FixtureTestConfig,
+) {
     let _logger = testing::init();
 
     let expected = read_to_string(output);
