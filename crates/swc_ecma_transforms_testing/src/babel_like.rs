@@ -10,8 +10,9 @@ use swc_ecma_transforms_base::{
     assumptions::Assumptions, fixer::fixer, hygiene::hygiene, resolver,
 };
 use swc_ecma_visit::{Fold, FoldWith};
+use testing::NormalizedOutput;
 
-use crate::parse_options;
+use crate::{parse_options, stdout_of};
 
 /// These tests use `options.json`.
 ///
@@ -57,7 +58,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
-    fn run(self, execute_mode: bool) {
+    fn run(self, output_path: Option<&Path>) {
         let output = testing::run_test(false, |cm, handler| {
             let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
@@ -136,6 +137,20 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
             // Print output
             let code = builder.print(&output_program);
+
+            if let Some(output_path) = output_path {
+                // Fixture test
+
+                NormalizedOutput::from(code).compare_to_file(output_path);
+            } else {
+                // Execution test
+
+                let actual_stdout = stdout_of(&code).expect("failed to execute transfomred code");
+                let expected_stdout =
+                    stdout_of(&fm.src).expect("failed to execute transfomred code");
+
+                testing::assert_eq!(actual_stdout, expected_stdout);
+            }
 
             Ok(())
         })
