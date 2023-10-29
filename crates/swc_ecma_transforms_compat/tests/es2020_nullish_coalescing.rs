@@ -45,7 +45,6 @@ test!(
     r#"
  function foo(foo, qux = foo.bar ?? "qux") {}
 "#,
-    
 );
 
 test!(
@@ -58,7 +57,6 @@ function foo(opts) {
   var foo = opts.foo ?? "default";
 }
 "#,
-    
 );
 
 test!(
@@ -70,7 +68,6 @@ test!(
 function foo(foo, bar = foo ?? "bar") {}
 
 "#,
-    
 );
 
 test!(
@@ -83,7 +80,6 @@ function foo() {
 }
 
 "#,
-    
 );
 
 test!(
@@ -92,8 +88,7 @@ test!(
     assign_01,
     "
     a ??= b;
-    ",
-    
+    "
 );
 
 test!(
@@ -103,8 +98,7 @@ test!(
     "
     const a = {}
     a.b ??= '1'
-    ",
-    
+    "
 );
 
 test_exec!(
@@ -129,15 +123,13 @@ function foo(opts) {
     var foo = opts.foo ?? "default";
 }
 "#,
-    
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_6328,
-    "switch ( 0 ) { case 0 ?? 0 : }",
-    
+    "switch ( 0 ) { case 0 ?? 0 : }"
 );
 
 test!(
@@ -156,8 +148,7 @@ test!(
         location: null,
         radius: null
     }
-    ",
-    
+    "
 );
 
 compare_stdout!(

@@ -18,8 +18,7 @@ test!(
     "
     a ||= b
     a &&= b
-    ",
-    
+    "
 );
 
 test!(
@@ -30,7 +29,6 @@ test!(
     a.b ||= b
     a.b &&= b
     "#,
-    
 );
 
 test!(
@@ -43,25 +41,12 @@ test!(
             return super.f ||= b
         }
     }
-    ",
-    
+    "
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    nullish_ident,
-    "a ??= b",
-    
-);
+test!(syntax(), |_| tr(), nullish_ident, "a ??= b");
 
-test!(
-    syntax(),
-    |_| tr(),
-    nullish_member,
-    "a.b ??= b",
-    
-);
+test!(syntax(), |_| tr(), nullish_member, "a.b ??= b");
 
 test!(
     syntax(),
@@ -70,8 +55,7 @@ test!(
     "function myFunc(options) {
       options.context ||= {}
       const closure = function() {}
-    }",
-    
+    }"
 );
 
 test_exec!(

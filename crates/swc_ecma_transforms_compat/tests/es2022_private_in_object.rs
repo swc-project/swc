@@ -94,7 +94,7 @@ fn fixture(input: PathBuf) {
                     }
 
                     _ => {
-                        panic!("unknown pass: {}", name)
+                        panic!("unknown pass: {}" name)
                     }
                 }
             }

@@ -143,21 +143,9 @@ expect(() => {
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_1,
-    "obj?.a",
-    
-);
+test!(syntax(), |_| tr(Default::default()), simple_1, "obj?.a");
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_2,
-    "obj?.a?.b",
-    
-);
+test!(syntax(), |_| tr(Default::default()), simple_2, "obj?.a?.b");
 
 test_exec!(
     syntax(),
@@ -185,7 +173,6 @@ test!(
     |_| tr(Default::default()),
     pr_2791,
     r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
-    
 );
 
 test_exec!(

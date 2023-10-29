@@ -38,7 +38,6 @@ test!(
         },
     };
     Object.setPrototypeOf(obj, Base);"#,
-    
 );
 
 test!(
@@ -58,7 +57,6 @@ test!(
         },
     };
     Object.setPrototypeOf(obj, Base);"#,
-    
 );
 
 test!(
@@ -84,7 +82,6 @@ test!(
         }
     };
     Object.setPrototypeOf(Outer, Hello);"#,
-    
 );
 
 test!(
@@ -92,7 +89,7 @@ test!(
     |_| tr(),
     super_increment_postfix,
     r#"var Base = {
-        test: "1",
+        test: "1"
     };
       
     var obj = {
@@ -101,7 +98,6 @@ test!(
         }
       };
     Object.setPrototypeOf(obj, Base);"#,
-    
 );
 
 test!(
@@ -109,7 +105,7 @@ test!(
     |_| tr(),
     super_increment_postfix2,
     r#"var Base = {
-        test: "1",
+        test: "1"
     };
       
     var obj = {
@@ -118,7 +114,6 @@ test!(
         }
       };
     Object.setPrototypeOf(obj, Base);"#,
-    
 );
 
 test!(
@@ -126,7 +121,7 @@ test!(
     |_| tr(),
     super_increment_prefix,
     r#"var Base = {
-        test: "1",
+        test: "1"
     };
       
     var obj = {
@@ -135,7 +130,6 @@ test!(
         }
     };
     Object.setPrototypeOf(obj, Base);"#,
-    
 );
 
 test!(
@@ -158,5 +152,4 @@ f0.prototype = {
     }
 };
 "#,
-    
 );

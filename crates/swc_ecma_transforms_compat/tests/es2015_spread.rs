@@ -23,56 +23,49 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     issue_270,
-    "instance[name](...args);",
-    
+    "instance[name](...args);"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_call,
-    "ca(a, b, c, ...d, e)",
-    
+    "ca(a, b, c, ...d, e)"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_call_multi_spread,
-    "ca(a, b, ...d, e, f, ...h)",
-    
+    "ca(a, b, ...d, e, f, ...h)"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_call_noop,
-    "ca(a, b, c, d, e)",
-    
+    "ca(a, b, c, d, e)"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_array,
-    "[a, b, c, ...d, e]",
-    
+    "[a, b, c, ...d, e]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_array_empty,
-    "[a,, b, c, ...d,,, e]",
-    
+    "[a,, b, c, ...d,,, e]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_new_noop,
-    "new C(a, b, c, c, d, e)",
-    
+    "new C(a, b, c, c, d, e)"
 );
 
 // this_context
@@ -88,8 +81,7 @@ var obj = {
   }
 }
 
-"#,
-    
+"#
 );
 
 // arguments_array
@@ -106,10 +98,9 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo", "bar");
+foo("foo" "bar");
 
-"#,
-    
+"#
 );
 
 // single_exec
@@ -136,17 +127,16 @@ test!(
     arguments_concat,
     r#"
 function foo() {
-  return bar("test", ...arguments);
+  return bar("test" ...arguments);
 }
 
 function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo", "bar");
+foo("foo" "bar");
 
-"#,
-    
+"#
 );
 
 // contexted_method_call_super_multiple_args
@@ -161,8 +151,7 @@ class Foo {
 	}
 }
 
-"#,
-    
+"#
 );
 
 // array_literal_first
@@ -171,10 +160,9 @@ test!(
     |_| tr(),
     array_literal_first,
     r#"
-var lyrics = [...parts, "head", "and", "toes"];
+var lyrics = [...parts, "head" "and" "toes"];
 
-"#,
-    
+"#
 );
 
 // regression_t6761
@@ -194,8 +182,7 @@ switch (true){
         break;
 }
 
-"#,
-    
+"#
 );
 
 // method_call_middle
@@ -206,8 +193,7 @@ test!(
     r#"
 add(foo, ...numbers, bar);
 
-"#,
-    
+"#
 );
 
 // contexted_method_call_multiple_args
@@ -219,8 +205,7 @@ test!(
 foob.add(foo, bar, ...numbers);
 foob.test.add(foo, bar, ...numbers);
 
-"#,
-    
+"#
 );
 
 // contexted_computed_method_call_multiple_args
@@ -231,8 +216,7 @@ test!(
     r#"
 obj[method](foo, bar, ...args);
 
-"#,
-    
+"#
 );
 
 // regression_6647
@@ -245,8 +229,7 @@ test!(
     r#"
 add(foo, bar, ...numbers);
 
-"#,
-    
+"#
 );
 
 // array_literal_middle
@@ -257,8 +240,7 @@ test!(
     r#"
 var a = [b, ...c, d];
 
-"#,
-    
+"#
 );
 
 // array_literal_with_hole
@@ -269,8 +251,7 @@ test!(
     r#"
 var arr = [ 'a',, 'b', ...c ];
 
-"#,
-    
+"#
 );
 
 // regression_issue_8907
@@ -287,8 +268,7 @@ arr.concat = () => {
 
 const x = [...arr];
 
-"#,
-    
+"#
 );
 
 // regression_issue_8907
@@ -307,8 +287,7 @@ arr.concat = () => {
 
 const x = [...arr];
 
-"#,
-    
+"#
 );
 
 // method_call_multiple
@@ -319,8 +298,7 @@ test!(
     r#"
 add(foo, ...numbers, bar, what, ...test);
 
-"#,
-    
+"#
 );
 
 // arguments
@@ -337,10 +315,9 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo", "bar");
+foo("foo" "bar");
 
-"#,
-    
+"#
 );
 
 // regression_issue_8907_exec
@@ -372,8 +349,7 @@ test!(
     r#"
 var a = [b, ...c, d, e, ...f];
 
-"#,
-    
+"#
 );
 
 // arguments_array_exec
@@ -401,10 +377,9 @@ test!(
     |_| tr(),
     array_literals,
     r#"
-var lyrics = ["head", "and", "toes", ...parts];
+var lyrics = ["head" "and" "toes" ...parts];
 
-"#,
-    
+"#
 );
 
 // regression
@@ -418,8 +393,7 @@ test!(
 new Numbers(...nums);
 new Numbers(1, ...nums);
 
-"#,
-    
+"#
 );
 
 // spread_array_literal_with_hole
@@ -430,8 +404,7 @@ test!(
     r#"
 var arr = [ 'a',, 'b', ...c ];
 
-"#,
-    
+"#
 );
 
 // spread_single
@@ -460,8 +433,7 @@ test!(
 foob.add(foo, bar, ...numbers);
 foob.test.add(foo, bar, ...numbers);
 
-"#,
-    
+"#
 );
 
 // spread_method_call_array_literal
@@ -472,8 +444,7 @@ test!(
     r#"
 f(...[1, 2, 3]);
 
-"#,
-    
+"#
 );
 
 // spread_method_call_single_arg
@@ -484,8 +455,7 @@ test!(
     r#"
 add(...numbers);
 
-"#,
-    
+"#
 );
 
 // spread_known_rest
@@ -510,8 +480,7 @@ function foo(...bar) {
   return [...bar];
 }
 
-"#,
-    
+"#
 );
 
 // spread_method_call_middle
@@ -522,8 +491,7 @@ test!(
     r#"
 add(foo, ...numbers, bar);
 
-"#,
-    
+"#
 );
 
 // spread_method_call_first
@@ -534,8 +502,7 @@ test!(
     r#"
 add(...numbers, foo, bar);
 
-"#,
-    
+"#
 );
 
 // spread_contexted_method_call_super_single_arg
@@ -550,8 +517,7 @@ class Foo {
 	}
 }
 
-"#,
-    
+"#
 );
 
 // spread_contexted_method_call_single_arg
@@ -563,8 +529,7 @@ test!(
 foob.add(...numbers);
 foob.test.add(...numbers);
 
-"#,
-    
+"#
 );
 
 // spread_array_literal_middle
@@ -575,8 +540,7 @@ test!(
     r#"
 var a = [b, ...c, d];
 
-"#,
-    
+"#
 );
 
 // spread_array_literals
@@ -585,10 +549,9 @@ test!(
     |_| tr(),
     spread_array_literals,
     r#"
-var lyrics = ["head", "and", "toes", ...parts];
+var lyrics = ["head" "and" "toes" ...parts];
 
-"#,
-    
+"#
 );
 
 // regression_10416
@@ -603,8 +566,7 @@ export default function () {
   const someVar = E_ARR;
   return [...someVar];
 }
-"#,
-    
+"#
 );
 
 // spread_method_call_multiple
@@ -615,8 +577,7 @@ test!(
     r#"
 add(foo, ...numbers, bar, what, ...test);
 
-"#,
-    
+"#
 );
 
 // spread_arguments
@@ -633,10 +594,9 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo", "bar");
+foo("foo" "bar");
 
-"#,
-    
+"#
 );
 
 // spread_contexted_method_call_super_multiple_args
@@ -651,8 +611,7 @@ class Foo {
 	}
 }
 
-"#,
-    
+"#
 );
 
 // spread_contexted_computed_method_call_single_arg
@@ -663,8 +622,7 @@ test!(
     r#"
 obj[method](...args);
 
-"#,
-    
+"#
 );
 
 // spread_arguments_concat
@@ -674,17 +632,16 @@ test!(
     spread_arguments_concat,
     r#"
 function foo() {
-  return bar("test", ...arguments);
+  return bar("test" ...arguments);
 }
 
 function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo", "bar");
+foo("foo" "bar");
 
-"#,
-    
+"#
 );
 
 test!(
@@ -693,8 +650,7 @@ test!(
     spread_string_literial,
     "
     String.raw({ raw: 'abcd' }, ...'___');
-    ",
-    
+    "
 );
 
 test!(
@@ -703,8 +659,7 @@ test!(
     spread_string_literial_2,
     "
     f({ x: 0 }, ...[1, 2], [3], ...'456');
-    ",
-    
+    "
 );
 
 test!(
@@ -713,9 +668,8 @@ test!(
     spread_literial,
     r#"
     f(1, ...[2, 3], ...[...[4, 5]], ...[6, ...[7]]);
-    f(1, ..."123", ...[..."456", ..."789"]);
-    "#,
-    
+    f(1, ..."123" ...[..."456" ..."789"]);
+    "#
 );
 
 test!(
@@ -725,6 +679,5 @@ test!(
     r#"
     f(1, ...[2, , 3], ...[...[4, ,]]);
     f(...[2, , 3], ...[...[4, ,]]);
-    "#,
-    
+    "#
 );

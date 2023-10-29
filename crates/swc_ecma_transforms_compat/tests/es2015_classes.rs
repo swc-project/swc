@@ -204,7 +204,7 @@ var BaseView = class {
   }
 }
 
-"#,
+"#
 );
 
 // get_set_set_semantics_getter_defined_on_parent
@@ -241,7 +241,7 @@ expect(Base.prototype.test).toBe(1);
 expect(Obj.prototype.test).toBe(2);
 expect(obj.test).toBe(2);
 
-"#,
+"#
 );
 
 // spec_derived_constructor_must_call_super
@@ -256,7 +256,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // get_set_get_semantics_data_defined_on_parent
@@ -312,7 +312,7 @@ expect(constructor).toBe(CustomElement);
 
 
 
-"#,
+"#
 );
 
 // regression_5817
@@ -330,7 +330,7 @@ class A extends B {
   }
 }
 
-"#,
+"#
 );
 
 // spec_super_reference_before_in_lambda_3
@@ -364,7 +364,7 @@ expect(Obj.prototype.test).toBeUndefined();
 expect(value).toBe(2);
 expect(obj.test).toBe(3);
 
-"#,
+"#
 );
 
 // get_set_get_semantics_setter_defined_on_parent
@@ -395,7 +395,7 @@ const obj = new Obj();
 expect(obj.test).toBe(2);
 expect(obj.get()).toBeUndefined();
 
-"#,
+"#
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_4
@@ -412,7 +412,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // spec_calling_super_properties
@@ -433,7 +433,7 @@ class Test extends Foo {
   }
 }
 
-"#,
+"#
 );
 
 // spec_super_reference_before_bare_super
@@ -455,7 +455,7 @@ class Test {
   }
 }
 
-"#,
+"#
 );
 
 // regression_2941
@@ -468,7 +468,7 @@ test!(
     r#"
 export default class {}
 
-"#,
+"#
 );
 
 // regression_t2494
@@ -481,7 +481,7 @@ var x = {
   Foo: class extends Foo {}
 };
 
-"#,
+"#
 );
 
 // spec_inferred_expression_name
@@ -492,7 +492,7 @@ test!(
     r#"
 var o = { foo: class foo {} };
 
-"#,
+"#
 );
 
 // regression_8499_exec
@@ -548,7 +548,7 @@ expect(new Test()).toBe(Object);
 expect(Object.getPrototypeOf(Test)).toBe(Function.prototype);
 expect(Test.test()).toBe(Function);
 
-"#,
+"#
 );
 
 // spec_default_super
@@ -562,7 +562,7 @@ class Test {
     return super.constructor;
   }
 }
-"#,
+"#
 );
 
 // get_set_get_semantics_getter_defined_on_parent
@@ -594,7 +594,7 @@ const obj = new Obj();
 expect(obj.test).toBe(2);
 expect(obj.get()).toBe(1);
 
-"#,
+"#
 );
 
 // spec
@@ -612,7 +612,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // get_set_call_semantics_getter_defined_on_parent
@@ -649,7 +649,7 @@ class Obj extends Base {
 const obj = new Obj();
 expect(obj.call(1, 2, 3)).toBe(1);
 
-"#,
+"#
 );
 
 // spec_derived_constructor_must_call_super_4_exec
@@ -681,7 +681,7 @@ test!(
     r#"
 export default class Foo {}
 
-"#,
+"#
 );
 
 // get_set_call_semantics_data_defined_on_parent
@@ -715,7 +715,7 @@ class Obj extends Base {
 const obj = new Obj();
 expect(obj.call(1, 2, 3)).toBe(1);
 
-"#,
+"#
 );
 
 // spec_static
@@ -738,7 +738,7 @@ class A {
   }
 }
 
-"#,
+"#
 );
 
 // regression_t6755
@@ -791,7 +791,7 @@ expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
-"#,
+"#
 );
 
 // spec_nested_class_super_property_in_key
@@ -822,7 +822,7 @@ class Outer extends Hello {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#,
+"#
 );
 
 // spec_super_reference_in_prop_expression
@@ -836,7 +836,7 @@ class Foo extends Bar {
     super[super().method]();
   }
 }
-"#,
+"#
 );
 
 // spec_super_reference_before_in_lambda_exec
@@ -927,7 +927,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // spec_accessing_super_properties
@@ -944,7 +944,7 @@ class Test extends Foo {
   }
 }
 
-"#,
+"#
 );
 
 // exec_shadow
@@ -962,7 +962,7 @@ class Foo {
   [bar + "foo"]() {}
 }
 
-"#,
+"#
 );
 
 // extend_builtins_shadowed
@@ -999,7 +999,7 @@ expect(Base.prototype.test).toBe(1);
 expect(Obj.prototype.test).toBe(2);
 expect(obj.test).toBe(3);
 
-"#,
+"#
 );
 
 // get_set_set_semantics_not_defined_on_parent_getter_on_obj
@@ -1026,7 +1026,7 @@ expect(Base.prototype.test).toBeUndefined();
 expect(Obj.prototype.test).toBeUndefined();
 expect(obj.test).toBe(3);
 
-"#,
+"#
 );
 
 // get_set
@@ -1130,7 +1130,7 @@ class ColorPoint extends Point {
 const cp = new ColorPoint();
 cp.m();
 
-"#,
+"#
 );
 
 // spec_super_function_fallback
@@ -1145,7 +1145,7 @@ class Test {
   }
 }
 
-"#,
+"#
 );
 
 // regression_t7537
@@ -1175,7 +1175,7 @@ export default class a2 extends b {
   }
 }
 
-"#,
+"#
 );
 
 // spec_super_illegal_non_constructor_call
@@ -1192,7 +1192,7 @@ class Test {
   }
 }
 
-"#,
+"#
 );
 
 // spec_nested_object_super_call_in_key
@@ -1226,7 +1226,7 @@ class Outer extends Hello {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#,
+"#
 );
 
 // get_set_set_semantics_not_defined_on_parent_not_on_obj
@@ -1251,7 +1251,7 @@ expect(Base.prototype.test).toBeUndefined();
 expect(Obj.prototype.test).toBeUndefined();
 expect(obj.test).toBe(3);
 
-"#,
+"#
 );
 
 // spec_derived_constructor_no_super_return_falsy
@@ -1266,7 +1266,7 @@ class Child extends Base {
     }
 }
 
-"#,
+"#
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_5
@@ -1281,7 +1281,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // exec_super_change
@@ -1314,7 +1314,7 @@ class ConstructorScoping {
   }
 }
 
-"#,
+"#
 );
 
 // spec_preserves_directives
@@ -1346,7 +1346,7 @@ class MyCtrl3 {
   }
 }
 
-"#,
+"#
 );
 
 // spec_super_reference_before_in_lambda
@@ -1363,7 +1363,7 @@ class Child extends Base {
     }
 }
 
-"#,
+"#
 );
 
 // regression_t6750
@@ -1381,7 +1381,7 @@ export default function() {
   }
 }
 
-"#,
+"#
 );
 
 // spec_instance_method
@@ -1396,7 +1396,7 @@ class Test {
   }
 }
 
-"#,
+"#
 );
 
 // regression_t2997
@@ -1413,7 +1413,7 @@ class B extends A {
   }
 }
 
-"#,
+"#
 );
 
 // spec_constructor_binding_collision
@@ -1430,7 +1430,7 @@ class Example {
 
 var t = new Example();
 
-"#,
+"#
 );
 
 // spec_super_class_anonymous
@@ -1459,7 +1459,7 @@ class TestMultipleMethods extends (class {
   m2() {}
 }) {}
 
-"#,
+"#
 );
 
 // spec_method_return_type_annotation
@@ -1495,7 +1495,7 @@ class Outer extends Hello {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#,
+"#
 );
 
 // extend_builtins_builtin_objects_throw_when_wrapped
@@ -1532,7 +1532,7 @@ export default class Connection extends EventEmitter {
     }
 }
 
-"#,
+"#
 );
 
 // get_set_set_semantics_setter_defined_on_parent_exec
@@ -1610,7 +1610,7 @@ class Test {
   }
 }
 
-"#,
+"#
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_3
@@ -1627,7 +1627,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // spec_accessing_super_class
@@ -1645,26 +1645,26 @@ class Test extends Foo {
     super.test();
 
     super(...arguments);
-    super("test", ...arguments);
+    super("test" ...arguments);
 
     super.test(...arguments);
-    super.test("test", ...arguments);
+    super.test("test" ...arguments);
   }
 
   test() {
     super.test();
     super.test(...arguments);
-    super.test("test", ...arguments);
+    super.test("test" ...arguments);
   }
 
   static foo() {
     super.foo();
     super.foo(...arguments);
-    super.foo("test", ...arguments);
+    super.foo("test" ...arguments);
   }
 }
 
-"#,
+"#
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_exec
@@ -1730,7 +1730,7 @@ class A {
   }
 }
 
-"#,
+"#
 );
 
 // get_set_set_semantics_setter_defined_on_parent
@@ -1765,7 +1765,7 @@ expect(Base.prototype.test).toBeUndefined();
 expect(Obj.prototype.test).toBe(2);
 expect(obj.test).toBe(2);
 
-"#,
+"#
 );
 
 // get_set_call_semantics_not_defined_on_parent
@@ -1796,7 +1796,7 @@ expect(() => {
   // Obj.p.test's error that is thrown
 }).toThrowError(TypeError)
 
-"#,
+"#
 );
 
 // spec_derived_constructor_must_call_super_2_exec
@@ -1848,7 +1848,7 @@ class Outer extends Hello {
 
 expect(new Outer().hello()).toBe('hello');
 
-"#,
+"#
 );
 
 test!(
@@ -1871,7 +1871,7 @@ class Outer extends B {
     return new Inner();
   }
 }
-"#,
+"#
 );
 
 // get_set_set_semantics_not_defined_on_parent_setter_on_obj_exec
@@ -1976,7 +1976,7 @@ expect(() => {
   // a gobbledygook error that is thrown
 }).toThrowError(TypeError)
 
-"#,
+"#
 );
 
 // spec_super_class
@@ -1987,7 +1987,7 @@ test!(
     r#"
 class Test extends Foo { }
 
-"#,
+"#
 );
 
 // spec_super_call_only_allowed_in_derived_constructor
@@ -2038,7 +2038,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // spec_derived_constructor_must_call_super_3
@@ -2054,7 +2054,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // spec_this_not_allowed_before_super_in_derived_classes_3_exec
@@ -2105,7 +2105,7 @@ expect(Base.prototype.test).toBeUndefined();
 expect(Obj.prototype.test).toBe(2);
 expect(obj.test).toBe(3);
 
-"#,
+"#
 );
 
 // get_set_memoized_assign
@@ -2156,7 +2156,7 @@ expect(i).toBe(1);
 expect(obj[0]).toBe(1);
 expect(obj[1]).toBe(2);
 
-"#,
+"#
 );
 
 // spec_nested_class_super_property_in_key_exec
@@ -2203,7 +2203,7 @@ class Foo {
   [Symbol()]() {}
 }
 
-"#,
+"#
 );
 
 // spec_derived_constructor_must_call_super_3_exec
@@ -2265,7 +2265,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // spec_super_class_id_member_expression
@@ -2282,7 +2282,7 @@ class BaseController2 extends Chaplin.Controller.Another {
 
 }
 
-"#,
+"#
 );
 
 // spec_delay_arrow_function_for_bare_super_derived
@@ -2299,7 +2299,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 // extend_builtins_overwritten_null
@@ -2381,7 +2381,7 @@ const obj = new Obj();
 expect(obj.test).toBe(2);
 expect(obj.get()).toBeUndefined();
 
-"#,
+"#
 );
 
 // extend_builtins_super_called
@@ -2394,7 +2394,7 @@ test!(
     r#"
 class Test { }
 
-"#,
+"#
 );
 
 // spec_super_reference_before_bare_super_exec
@@ -2469,7 +2469,7 @@ test!(
     r#"
 export default class extends A {}
 
-"#,
+"#
 );
 
 // extend_builtins_wrap_native_super_exec
@@ -2585,7 +2585,7 @@ test!(
     issue_454_followup,
     "if (true){
     class Foo extends Bar { }
-}",
+}"
 );
 
 test!(
@@ -2597,7 +2597,7 @@ test!(
     class Foo extends Bar { }
     return hello(...foo)
   }
-}",
+}"
 );
 
 test!(
@@ -2614,7 +2614,7 @@ class Foo extends Bar {
     console.log(Foo)
   }
 }
-"#,
+"#
 );
 
 //// regression_3028
@@ -2622,7 +2622,7 @@ class Foo extends Bar {
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_3028,
@@ -2644,11 +2644,11 @@ class Foo extends Bar {
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports["default"] = void 0;
@@ -2711,7 +2711,7 @@ class Foo extends Bar {
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_t2997,
@@ -2724,7 +2724,7 @@ class Foo extends Bar {
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //var A = function A() {
 //  "use strict";
@@ -2763,7 +2763,7 @@ test!(
 class Array {}
 
 class List extends Array {}
-"#,
+"#
 );
 
 //// regression_2694
@@ -2785,11 +2785,11 @@ class List extends Array {}
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports["default"] = void 0;
@@ -2807,9 +2807,9 @@ class List extends Array {}
 // _get_prototype_of(SubFoo).apply(this, arguments));  }
 //
 //  _create_class(SubFoo, null, [{
-//    key: "talk",
+//    key: "talk"
 //    value: function talk() {
-//      _get(_get_prototype_of(SubFoo), "talk", this).call(this);
+//      _get(_get_prototype_of(SubFoo), "talk" this).call(this);
 //      console.log('SubFoo.talk');
 //    }
 //  }]);
@@ -2826,7 +2826,7 @@ class List extends Array {}
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_t2494,
@@ -2835,7 +2835,7 @@ class List extends Array {}
 //  Foo: class extends Foo {}
 //};
 //
-//"#,
+//"#
 //    r#"
 //var x = {
 //  Foo:
@@ -3011,7 +3011,7 @@ expect(obj.test).toBe(3);
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_t6712,
@@ -3022,7 +3022,7 @@ expect(obj.test).toBe(3);
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //var A =
 // /*#__PURE__*/
@@ -3034,7 +3034,7 @@ expect(obj.test).toBe(3);
 //  }
 //
 //  _create_class(A, [{
-//    key: "foo",
+//    key: "foo"
 //    value: function foo() {
 //      var foo = 2;
 //    }
@@ -3080,7 +3080,7 @@ expect(obj.test).toBe(3);
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_2663,
@@ -3109,11 +3109,11 @@ expect(obj.test).toBe(3);
 //    }
 //}
 //
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports["default"] = void 0;
@@ -3143,12 +3143,12 @@ expect(obj.test).toBe(3);
 //  }
 //
 //  _create_class(Connection, [{
-//    key: "send",
+//    key: "send"
 //    value: function send(message) {
 //      this.sock.write(_binarySerializer["default"].serializeMessage(message));
 //    }
 //  }, {
-//    key: "disconnect",
+//    key: "disconnect"
 //    value: function disconnect() {
 //      this.sock.close();
 //    }
@@ -3268,7 +3268,7 @@ expect(obj[1]).toBe(2);
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_5769_exec,
@@ -3348,7 +3348,7 @@ expect(obj.get()).toBeUndefined();
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //function _typeof(obj) { if (typeof Symbol === "function" && typeof
 // Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return
@@ -3429,7 +3429,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 //// regression_2941
@@ -3437,18 +3437,18 @@ class Foo {
 //    syntax(),
 //    |_| tr(r#"{
 //  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env", "react"]
+//  "presets": ["env" "react"]
 //}
 //"#),
 //    regression_2941,
 //    r#"
 //export default class {}
 //
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports["default"] = void 0;
@@ -3807,7 +3807,7 @@ test!(
         hidden = super.createFacets(hidden);
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -3820,7 +3820,7 @@ test!(
       super.createFacets(hidden);
     }
   }
-  ",
+  "
 );
 
 test!(
@@ -3834,7 +3834,7 @@ test!(
       console.log(Foo)
     }
   }
-  ",
+  "
 );
 
 test_exec!(
@@ -3863,7 +3863,7 @@ test!(
         super.foo(), bar();
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -3876,7 +3876,7 @@ test!(
       super.foo();
     }
   }
-  ",
+  "
 );
 
 test!(
@@ -3887,7 +3887,7 @@ test!(
     class A {
 
     }
-    ",
+    "
 );
 
 test!(
@@ -3903,7 +3903,7 @@ class A extends B {
     super[quz] -= 456;
   }
 }
-  ",
+  "
 );
 
 test!(
@@ -3916,7 +3916,7 @@ class A extends B {
     --super[baz];
   }
 }
-",
+"
 );
 
 test!(
@@ -3925,7 +3925,7 @@ test!(
     issue_1660_2,
     "
     const foo = class {run(){}};
-    ",
+    "
 );
 
 test!(
@@ -3934,7 +3934,7 @@ test!(
     issue_1660_3,
     "
     console.log(class { run() { } });
-    ",
+    "
 );
 
 test!(
@@ -3961,7 +3961,7 @@ test!(
     issue_1660_4,
     "
   console.log(class { run() { } });
-  ",
+  "
 );
 
 test!(
@@ -3977,7 +3977,7 @@ test!(
     issue_1660_5,
     "
     console.log(class { run() { } });
-    ",
+    "
 );
 
 test!(
@@ -3988,7 +3988,7 @@ test!(
     class Foo {
       let() {}
     }
-"#,
+"#
 );
 
 test!(
@@ -3999,7 +3999,7 @@ test!(
     export default function Foo() {
       return call(async (e) => { await doSomething(); })
     }
-    ",
+    "
 );
 
 test!(
@@ -4019,7 +4019,7 @@ test!(
         return super.getNext(114514) + 114514
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -4039,7 +4039,7 @@ test!(
         return super.getNext(114514)
       }
     }
-    ",
+    "
 );
 
 #[testing::fixture("tests/classes/**/exec.js")]
@@ -4093,13 +4093,13 @@ class Test extends Foo {
     super.test();
 
     super(...arguments);
-    super("test", ...arguments);
+    super("test" ...arguments);
 
     super.test(...arguments);
-    super.test("test", ...arguments);
+    super.test("test" ...arguments);
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4120,7 +4120,7 @@ class Test extends Foo {
     super.test.whatever;
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4145,7 +4145,7 @@ class Test extends Foo {
     return super.wow();
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4169,7 +4169,7 @@ class Test {
     return super.constructor;
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4191,7 +4191,7 @@ class A extends B {
     super[quz] -= 456
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4204,7 +4204,7 @@ test!(
         }
     ),
     no_class_call,
-    "class A {}",
+    "class A {}"
 );
 
 test!(
@@ -4229,7 +4229,7 @@ class B {
     console.log('b');
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4251,7 +4251,7 @@ class A extends B {
     else super();
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4269,7 +4269,7 @@ class Foo {
   "bar"() {
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4288,7 +4288,7 @@ class Test {
   static b() {}
   c() {}
 }
-"#,
+"#
 );
 
 test!(
@@ -4309,7 +4309,7 @@ class Test extends Foo {
 
   set foo(a) {}
 }
-"#,
+"#
 );
 
 test!(
@@ -4326,7 +4326,7 @@ test!(
 class BaseController extends Chaplin.Controller { }
 
 class BaseController2 extends Chaplin.Controller.Another { }
-"#,
+"#
 );
 
 test!(
@@ -4339,7 +4339,7 @@ test!(
         }
     ),
     super_callable_super,
-    r#"class Test extends Foo { }"#,
+    r#"class Test extends Foo { }"#
 );
 
 test!(
@@ -4359,7 +4359,7 @@ class Thing extends B {
     this.name = n
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4374,7 +4374,7 @@ let C = class {}
 D = class {}
 C ||= class /* C */ {}; 
 D ??= class /* D */ {}; 
-"#,
+"#
 );
 
 test_exec!(

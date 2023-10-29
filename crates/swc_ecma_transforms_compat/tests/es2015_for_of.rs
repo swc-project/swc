@@ -186,7 +186,7 @@ try {
         }
     }
 }
-    ",
+    "
     ok_if_code_eq
 );
 
@@ -237,7 +237,6 @@ for (elm of array) {
 }
 
 "#,
-    
 );
 
 // for_of_as_array_for_of_array_pattern
@@ -255,7 +254,6 @@ for ([elm] of array) {
 }
 
 "#,
-    
 );
 
 // regression_redeclare_array_8913
@@ -274,7 +272,6 @@ function f(...t) {
 }
 
 "#,
-    
 );
 
 // for_of_as_array_for_of_declaration_array_pattern
@@ -291,7 +288,6 @@ for (const [elm] of array) {
 }
 
 "#,
-    
 );
 
 // for_of_as_array_for_of_expression
@@ -307,7 +303,6 @@ let i;
 for (i of items) i;
 
 "#,
-    
 );
 
 // for_of_as_array_for_of_declaration
@@ -324,7 +319,6 @@ for (const elm of array) {
 }
 
 "#,
-    
 );
 
 // regression_scope_9696
@@ -362,7 +356,6 @@ for (const elm of array) {
 }
 
 "#,
-    
 );
 
 // for_of_as_array_for_of_static
@@ -382,7 +375,6 @@ for (elm of array) {
 }
 
 "#,
-    
 );
 
 // for_of_as_array_for_of_import_es2015
@@ -401,7 +393,6 @@ for (const elm of array) {
 }
 
 "#,
-    
 );
 
 // regression_label_object_with_comment_4995
@@ -416,7 +407,6 @@ for (let a of b) {
 }
 
 "#,
-    
 );
 
 // regression_if_label_3858
@@ -434,7 +424,6 @@ if ( true )
 
 
 "#,
-    
 );
 
 #[testing::fixture("tests/for-of/**/exec.js")]

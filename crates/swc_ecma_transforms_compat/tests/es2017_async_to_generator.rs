@@ -80,7 +80,7 @@ test!(
     async_arrow_in_method,
     r#"
 let TestClass = {
-  name: "John Doe",
+  name: "John Doe"
 
   testMethodFailure() {
     return new Promise(async (resolve) => {
@@ -407,7 +407,7 @@ test!(
     async f() {
         await g();
     }
-});",
+});"
 );
 
 test_exec!(
@@ -717,12 +717,12 @@ test!(
 //test!(syntax(),|_| tr("{
 //  "presets": [
 //    [
-//      "env",
+//      "env"
 //      {
 //        "targets": {
-//          "chrome": "62",
-//          "edge": "15",
-//          "firefox": "52",
+//          "chrome": "62"
+//          "edge": "15"
+//          "firefox": "52"
 //          "safari": "11"
 //        }
 //      }
@@ -894,7 +894,7 @@ test!(
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
-  name: "John Doe",
+  name: "John Doe"
 
   testMethodFailure() {
     return new Promise(async (resolve) => {
@@ -1282,7 +1282,7 @@ test!(
           )
       );
     }
-    ",
+    "
 );
 
 test_exec!(
@@ -1323,7 +1323,7 @@ test!(
 
         console.log({ obj });
     })();
-    ",
+    "
 );
 
 test!(
@@ -1339,7 +1339,7 @@ async function test() {
     }
 }
 test()
-",
+"
 );
 
 test!(
@@ -1357,7 +1357,7 @@ test!(
           }
       }
     }
-    ",
+    "
 );
 
 test_exec!(
@@ -1395,7 +1395,7 @@ test!(
       return await (async (x) => x + this.val)('a');
     }
   }
-  ",
+  "
 );
 
 test_exec!(
@@ -1434,7 +1434,7 @@ test!(
     };
 
     obj.byPlatform('foo').then(v => console.log(v))
-    ",
+    "
 );
 
 test_exec!(
@@ -1481,7 +1481,7 @@ test!(
     (async function main() {
       console.log(1)
     })(foo);
-    ",
+    "
 );
 
 test!(
@@ -1494,7 +1494,7 @@ test!(
         console.log(x);
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -1506,7 +1506,7 @@ test!(
       yield 1;
       yield 2;
     }
-    ",
+    "
 );
 
 test!(
@@ -1524,7 +1524,7 @@ test!(
     function fetchThing(key) {
       return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
     }
-    ",
+    "
 );
 
 test!(
@@ -1548,7 +1548,7 @@ test!(
     function fetchThing(key) {
       return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
     }
-    ",
+    "
 );
 
 test_exec!(
@@ -1666,7 +1666,7 @@ test!(
   tmp.fun().then((res) => {
     console.log('fun result | item', res);
   });
-",
+"
 );
 
 test_exec!(
@@ -1735,7 +1735,7 @@ test!(
 
     const myclass = new MyClass()
     myclass.handle()
-  ",
+  "
 );
 
 test!(
@@ -1759,7 +1759,7 @@ export async function otherCall() {
 export default async function someCall() {
   await region();
 }
-  ",
+  "
 );
 
 test!(
@@ -1779,7 +1779,7 @@ async function region() {
 export default async function() {
   await region();
 }
-",
+"
 );
 
 test_exec!(
@@ -1981,7 +1981,7 @@ export class Quirk {
     return { foo: null, ...args[0] };
   }
 }
-",
+"
 );
 
 test!(
@@ -1995,7 +1995,7 @@ class Foo {
     super['abc'] *= 456;
   }
 }
-",
+"
 );
 
 test!(
@@ -2010,7 +2010,7 @@ class A extends B {
     })();
   }
 }
-",
+"
 );
 
 test!(
@@ -2026,7 +2026,7 @@ class A extends B {
     -- super['bar'];
   }
 }
-",
+"
 );
 
 test!(
@@ -2041,7 +2041,7 @@ const p = Z(
         async (n = 0) =>
             n <= 1 ? 1 : n * (await f(n - 1))
 )(5);
-",
+"
 );
 
 test!(
@@ -2054,7 +2054,7 @@ test!(
             console.log(this);
         }
     }
-    ",
+    "
 );
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]

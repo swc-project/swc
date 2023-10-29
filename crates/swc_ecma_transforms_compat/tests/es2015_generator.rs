@@ -49,8 +49,7 @@ var o = {
   }
 };
 
-"#,
-    
+"#
 );
 
 // class_argument_scope_example
@@ -83,7 +82,7 @@ expect(test.iter().next().value).toBe(test);
 //
 //function * fn(){}
 //
-//"#,
+//"#
 //    r#"
 //var _regeneratorRuntime = require("regenerator-runtime");
 //
@@ -111,8 +110,7 @@ test!(
     |_| tr(Default::default()),
     empty_fn_decl_1,
     "function* foo(a,b,c){}
-",
-    
+"
 );
 
 test_exec!(
@@ -999,8 +997,7 @@ test!(
     issue_831_3,
     "export function* myGenerator() {
         yield* [1,2,3];
-    }",
-    
+    }"
 );
 
 test_exec!(
@@ -1070,8 +1067,7 @@ test!(
             })
         )
     }
-    ",
-    
+    "
 );
 
 test_exec!(
@@ -1117,8 +1113,7 @@ function* foo() {
     return bar;
     function bar() { }
 }
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -1164,8 +1159,7 @@ function requester() {
         }
     }
 }
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -1262,8 +1256,7 @@ async function foo(a) {
 foo(1)
     .then((t) => t(2))
     .then(console.log);
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -1307,8 +1300,7 @@ async function init() {
         return x + y;
     }
 }
-"#,
-    
+"#
 );
 
 test!(
@@ -1332,8 +1324,7 @@ test!(
     }
 
     test();
-    ",
-    
+    "
 );
 
 test!(
@@ -1348,8 +1339,7 @@ test!(
             console.log(2);
         }
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -1364,8 +1354,7 @@ test!(
             console.log(2);
         }
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -1376,8 +1365,7 @@ test!(
     export default function Foo() {
         return call(async (e) => { await doSomething(); })
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -1394,8 +1382,7 @@ test!(
     export default function Foo() {
         return call(async (e) => { await doSomething(); })
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -1413,8 +1400,7 @@ test!(
     export default function Foo() {
         return call(async (e) => { await doSomething(); })
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -1435,8 +1421,7 @@ test!(
     export default function Foo() {
         return call(async (e) => { await doSomething(); })
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -1452,8 +1437,7 @@ test!(
         const result = (yield sleep()) || 'fallback';
         console.log(result);
     })();
-    ",
-    
+    "
 );
 
 test_exec!(
@@ -1519,6 +1503,5 @@ test!(
         });
         return _a.apply(this, arguments);
     }    
-    "#,
-    
+    "#
 );

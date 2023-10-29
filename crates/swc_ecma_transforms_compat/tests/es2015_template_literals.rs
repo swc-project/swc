@@ -39,8 +39,8 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#,
-    r#"var t = "'".concat(foo, "' \"").concat(bar, '"');"#,
+    r#"var t = `'${foo}' "${bar}"`;"#
+    r#"var t = "'".concat(foo, "' \"").concat(bar, '"');"#
     ok_if_code_eq
 );
 
@@ -48,24 +48,21 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#,
-    
+    r#"var foo = `test ${foo} ${bar}`;"#
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     none,
-    r#"var foo = `test`;"#,
-    
+    r#"var foo = `test`;"#
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     only,
-    r#"var foo = `${test}`;"#,
-    
+    r#"var foo = `${test}`;"#
 );
 
 test_exec!(
@@ -126,16 +123,15 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     single,
-    r#"var foo = `test ${foo}`;"#,
-    
+    r#"var foo = `test ${foo}`;"#
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     statement,
-    r#"var foo = `test ${foo + bar}`;"#,
-    r#"var foo = "test ".concat(foo + bar);"#,
+    r#"var foo = `test ${foo + bar}`;"#
+    r#"var foo = "test ".concat(foo + bar);"#
     ok_if_code_eq
 );
 
@@ -162,7 +158,7 @@ tag`left${0}\u{-0}${1}right`;
 function a() {
   var undefined = 4;
   tag`\01`;
-}",
+}"
     r#"function _templateObject() {
     const data = _tagged_template_literal([
         void 0
@@ -190,7 +186,7 @@ function _templateObject2() {
         void 0,
         "right"
     ], [
-        "\\xg",
+        "\\xg"
         "right"
     ]);
     _templateObject2 = function() {
@@ -200,10 +196,10 @@ function _templateObject2() {
 }
 function _templateObject3() {
     const data = _tagged_template_literal([
-        "left",
+        "left"
         void 0
     ], [
-        "left",
+        "left"
         "\\xg"
     ]);
     _templateObject3 = function() {
@@ -213,12 +209,12 @@ function _templateObject3() {
 }
 function _templateObject4() {
     const data = _tagged_template_literal([
-        "left",
+        "left"
         void 0,
         "right"
     ], [
-        "left",
-        "\\xg",
+        "left"
+        "\\xg"
         "right"
     ]);
     _templateObject4 = function() {
@@ -228,12 +224,12 @@ function _templateObject4() {
 }
 function _templateObject5() {
     const data = _tagged_template_literal([
-        "left",
+        "left"
         void 0,
         "right"
     ], [
-        "left",
-        "\\u000g",
+        "left"
+        "\\u000g"
         "right"
     ]);
     _templateObject5 = function() {
@@ -243,12 +239,12 @@ function _templateObject5() {
 }
 function _templateObject6() {
     const data = _tagged_template_literal([
-        "left",
+        "left"
         void 0,
         "right"
     ], [
-        "left",
-        "\\u{-0}",
+        "left"
+        "\\u{-0}"
         "right"
     ]);
     _templateObject6 = function() {
@@ -277,7 +273,7 @@ tag(_templateObject6(), 0, 1);
 function a() {
     var undefined = 4;
     tag(_templateObject7());
-}"#,
+}"#
     ok_if_code_eq
 );
 
@@ -321,8 +317,7 @@ test!(
     r#"
 var foo = `${test}`;
 
-"#,
-    
+"#
 );
 
 // default_single
@@ -333,8 +328,7 @@ test!(
     r#"
 var foo = `test ${foo}`;
 
-"#,
-    
+"#
 );
 
 // default_statement
@@ -345,8 +339,7 @@ test!(
     r#"
 var foo = `test ${foo + bar}`;
 
-"#,
-    
+"#
 );
 
 // default_expression_first
@@ -365,8 +358,7 @@ var example3 = 1 + `${foo}${bar}${baz}`;
 var example4 = 1 + `${foo}bar${baz}`;
 var example5 = `${""}`;
 
-"#,
-    
+"#
 );
 
 // default_literals
@@ -377,8 +369,7 @@ test!(
     r#"
 var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;
 
-"#,
-    
+"#
 );
 
 // default_multiline
@@ -391,11 +382,11 @@ var o = `wow
 this is
 actually multiline!`;
 
-"#,
+"#
     r#"
 var o = "wow\nthis is\nactually multiline!";
 
-"#,
+"#
     ok_if_code_eq
 );
 
@@ -421,8 +412,7 @@ function a() {
   tag`\01`;
 }
 
-",
-    
+"
 );
 
 // default_order2_exec
@@ -487,8 +477,7 @@ test!(
     r#"
 var foo = `test ${_.test(foo)} ${bar}`;
 
-"#,
-    
+"#
 );
 
 // default_none
@@ -499,8 +488,7 @@ test!(
     r#"
 var foo = `test`;
 
-"#,
-    
+"#
 );
 
 // default_symbol_exec
@@ -538,8 +526,7 @@ expect(bar()).toEqual(["some template"]);
 
 expect(bar()).not.toBe(foo());
 
-"#,
-    
+"#
 );
 
 // default_tag
@@ -552,8 +539,7 @@ var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
 
-",
-    
+"
 );
 
 // default_simple_tag
@@ -565,8 +551,7 @@ test!(
 var foo = tag`wow`;
 var bar = tag`first${1}second`;
 
-"#,
-    
+"#
 );
 
 test!(
@@ -578,16 +563,15 @@ test!(
     console.log(i18n`Hello World`);
     console.log(i18n`Nobody will ever see this.`);
   }
-",
-    
+"
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_01,
-    "`\"`",
-    r#"'"'"#,
+    "`\"`"
+    r#"'"'"#
     ok_if_code_eq
 );
 
@@ -595,10 +579,10 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_02,
-    "`\"\"`",
+    "`\"\"`"
     r#"
     '""'
-    "#,
+    "#
     ok_if_code_eq
 );
 
@@ -606,10 +590,10 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_03,
-    "`\"${foo}`",
+    "`\"${foo}`"
     r#"
     '"'.concat(foo);
-    "#,
+    "#
     ok_if_code_eq
 );
 
@@ -617,10 +601,10 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_04,
-    "`\"${foo}\"`",
+    "`\"${foo}\"`"
     r#"
     '"'.concat(foo, '"');
-    "#,
+    "#
     ok_if_code_eq
 );
 
@@ -628,10 +612,10 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_05,
-    "`\"\"${foo}\"\"`",
+    "`\"\"${foo}\"\"`"
     r#"
     '""'.concat(foo, '""');
-    "#,
+    "#
     ok_if_code_eq
 );
 
@@ -639,8 +623,8 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_06,
-    "\"``\"",
-    "\"``\"",
+    "\"``\""
+    "\"``\""
     ok_if_code_eq
 );
 
@@ -648,8 +632,8 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_07,
-    r#"`The ${argumentName} has unexpected type of "`"#,
-    r#""The ".concat(argumentName, ' has unexpected type of "');"#,
+    r#"`The ${argumentName} has unexpected type of "`"#
+    r#""The ".concat(argumentName, ' has unexpected type of "');"#
     ok_if_code_eq
 );
 
@@ -657,8 +641,8 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_08,
-    r#"`". Expected argument to be an object with the following `"#,
-    r#"'". Expected argument to be an object with the following ';"#,
+    r#"`". Expected argument to be an object with the following `"#
+    r#"'". Expected argument to be an object with the following ';"#
     ok_if_code_eq
 );
 
@@ -666,8 +650,8 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_09,
-    r#"`keys: "${reducerKeys.join('", "')}"`"#,
-    r#"'keys: "'.concat(reducerKeys.join('", "'), '"');"#,
+    r#"`keys: "${reducerKeys.join('" "')}"`"#
+    r#"'keys: "'.concat(reducerKeys.join('" "'), '"');"#
     ok_if_code_eq
 );
 
@@ -678,8 +662,8 @@ test!(
     r#"`The ${argumentName} has unexpected type of "` +
   matchType +
   `". Expected argument to be an object with the following ` +
-  `keys: "${reducerKeys.join('", "')}"`"#,
-    r#""The ".concat(argumentName, ' has unexpected type of "') + matchType + '". Expected argument to be an object with the following ' + 'keys: "'.concat(reducerKeys.join('", "'), '"')"#,
+  `keys: "${reducerKeys.join('" "')}"`"#
+    r#""The ".concat(argumentName, ' has unexpected type of "') + matchType + '". Expected argument to be an object with the following ' + 'keys: "'.concat(reducerKeys.join('" "'), '"')"#
     ok_if_code_eq
 );
 
@@ -689,7 +673,7 @@ test!(
     issue_1280,
     "
     const myVar = T`'Hello'`;
-    ",
+    "
     "
     function _templateObject() {
       const data = _tagged_template_literal([
@@ -702,7 +686,7 @@ test!(
     }
 
     const myVar = T(_templateObject());
-    ",
+    "
     ok_if_code_eq
 );
 
@@ -712,16 +696,15 @@ test!(
     issue_1488_1,
     "
     `\\``
-    ",
-    
+    "
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1549_1,
-    "const a = `\r\n`;",
-    "const a = \"\\n\";",
+    "const a = `\r\n`;"
+    "const a = \"\\n\";"
     ok_if_code_eq
 );
 
@@ -729,8 +712,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     issue_1549_2,
-    "const a = \"\\r\\n\";",
-    
+    "const a = \"\\r\\n\";"
 );
 
 test!(
@@ -742,8 +724,7 @@ test!(
       return this;
     }
     foo`template`
-    ",
-    
+    "
 );
 
 test_exec!(
@@ -767,8 +748,7 @@ test!(
         mutable_template: false
     }),
     loose_escape_quotes,
-    r#"var t = `'${foo}' "${bar}"`;"#,
-    
+    r#"var t = `'${foo}' "${bar}"`;"#
 );
 
 test!(
@@ -787,8 +767,7 @@ var example = `${"a"}`;
 var example2 = `${1}`;
 var example3 = 1 + `${foo}${bar}${baz}`;
 var example4 = 1 + `${foo}bar${baz}`;
-var example5 = `${""}`;"#,
-    
+var example5 = `${""}`;"#
 );
 
 test!(
@@ -798,8 +777,7 @@ test!(
         mutable_template: false
     }),
     loose_function,
-    r#"var foo = `test ${_.test(foo)} ${bar}`;"#,
-    
+    r#"var foo = `test ${_.test(foo)} ${bar}`;"#
 );
 
 test!(
@@ -809,8 +787,7 @@ test!(
         mutable_template: false
     }),
     loose_literals,
-    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#,
-    
+    r#"var foo = `${1}${f}oo${true}${b}ar${0}${baz}`;"#
 );
 
 test!(
@@ -824,8 +801,7 @@ test!(
 var o = `wow
 this is
 actually multiline!`;
-    "#,
-    
+    "#
 );
 
 test!(
@@ -835,8 +811,7 @@ test!(
         mutable_template: false
     }),
     loose_multiple,
-    r#"var foo = `test ${foo} ${bar}`;"#,
-    
+    r#"var foo = `test ${foo} ${bar}`;"#
 );
 
 test!(
@@ -846,8 +821,7 @@ test!(
         mutable_template: false
     }),
     loose_none,
-    r#"var foo = `test`;"#,
-    
+    r#"var foo = `test`;"#
 );
 
 test!(
@@ -857,8 +831,7 @@ test!(
         mutable_template: false
     }),
     loose_only,
-    r#"var foo = `${test}`;"#,
-    
+    r#"var foo = `${test}`;"#
 );
 
 test!(
@@ -868,8 +841,7 @@ test!(
         mutable_template: false
     }),
     loose_single,
-    r#"var foo = `test ${foo}`;"#,
-    
+    r#"var foo = `test ${foo}`;"#
 );
 
 test!(
@@ -879,8 +851,7 @@ test!(
         mutable_template: false
     }),
     loose_statement,
-    r#"var foo = `test ${foo + bar}`;"#,
-    
+    r#"var foo = `test ${foo + bar}`;"#
 );
 
 test_exec!(
@@ -967,8 +938,7 @@ test!(
         mutable_template: true
     }),
     loose_no_tag,
-    "`foo ${bar} baz`;",
-    
+    "`foo ${bar} baz`;"
 );
 
 test!(
@@ -982,8 +952,7 @@ test!(
 var foo = bar`wow\na${ 42 }b ${_.foobar()}`;
 var bar = bar`wow\nab${ 42 } ${_.foobar()}`;
 var bar = bar`wow\naB${ 42 } ${_.baz()}`;
-    ",
-    
+    "
 );
 
 test!(
@@ -1002,6 +971,5 @@ tag`left${0}\u{-0}${1}right`;
 function a() {
 var undefined = 4;
 tag`\01`;
-}",
-    
+}"
 );

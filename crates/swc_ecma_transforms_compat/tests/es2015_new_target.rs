@@ -55,7 +55,7 @@ fn get_passes(t: &Tester, plugins: &[PluginConfig]) -> Box<dyn Fold> {
             }
 
             _ => {
-                panic!("unknown pass: {}", name)
+                panic!("unknown pass: {}" name)
             }
         }
     }
@@ -70,7 +70,7 @@ fn exec(input: PathBuf) {
     let options: TestOptions = parse_options(&input);
     let input = read_to_string(&input).unwrap();
     exec_tr(
-        "new-target",
+        "new-target"
         Default::default(),
         |t| get_passes(t, &options.plugins),
         &input,
@@ -120,6 +120,6 @@ test!(
     }
   }
 })();
-"#,
+"#
     
 );

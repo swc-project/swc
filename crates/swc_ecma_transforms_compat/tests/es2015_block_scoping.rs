@@ -241,7 +241,7 @@ test!(
             console.log(i++, [2].every(x => x != i))
             if (i % 2 === 0) continue
         }
-        ",
+        "
 );
 
 test!(
@@ -256,7 +256,7 @@ test!(
             console.log(i++, [2].every(x => x != i))
             if (i % 2 === 0) break
         }
-        ",
+        "
 );
 
 test!(
@@ -272,7 +272,7 @@ test!(
                 for (let x = 0; x < 10; x++) console.log(this, y => y != x)
             }
         }
-        ",
+        "
 );
 
 test!(
@@ -288,7 +288,7 @@ test!(
                 async ([a]) => Promise.resolve().then(() => a * 2))
             )
         }
-        ",
+        "
 );
 
 test!(
@@ -307,7 +307,7 @@ test!(
                 async ([a]) => Promise.resolve().then(() => a * 2))
             )
         }
-        ",
+        "
 );
 
 test_exec!(
@@ -358,7 +358,7 @@ test!(
     }
 
     combineOverlappingMatches([1])
-    ",
+    "
 );
 
 test!(
@@ -398,7 +398,7 @@ test!(
             return infoMap.get(item);
         }
     }
-    ",
+    "
 );
 
 test!(
@@ -418,7 +418,7 @@ test!(
               console.log((() => arg)());
             }
         }
-        ",
+        "
 );
 
 test!(
@@ -435,7 +435,7 @@ test!(
               console.log((() => arg)());
             }
         }
-        ",
+        "
 );
 
 compare_stdout!(
@@ -472,7 +472,7 @@ test!(
               console.log((function () { return arguments[i] })());
             }
         }
-        ",
+        "
 );
 
 test!(
@@ -498,7 +498,7 @@ test!(
 
         return target;
     }
-    ",
+    "
 );
 
 test!(
@@ -518,7 +518,7 @@ test!(
             console.log(keys[key])
         }
       }
-    ",
+    "
 );
 
 test!(
@@ -542,7 +542,7 @@ test!(
             console.log(keys[key])
         }
       }
-    ",
+    "
 );
 
 test!(
@@ -555,7 +555,7 @@ for (let b = 0; b < a; b++) {
     let c = 0, b = 10, d = 100;
     console.log(b);
 }
-    ",
+    "
 );
 
 test!(
@@ -565,7 +565,7 @@ test!(
     "
     for (var a; ;) { }
     for (var a = ['a', 'b']; ;) { }
-    ",
+    "
 );
 
 test!(
@@ -581,7 +581,7 @@ test!(
           console.log(i)
         })
     }
-    ",
+    "
 );
 
 test!(
@@ -599,7 +599,7 @@ test!(
           console.log(i)
         })
     }
-    ",
+    "
 );
 
 test_exec!(
@@ -677,12 +677,12 @@ impl VisitMut for TsHygiene {
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         if SyntaxContext::empty().apply_mark(self.unresolved_mark) == i.span.ctxt {
-            println!("ts_hygiene: {} is unresolved", i.sym);
+            println!("ts_hygiene: {} is unresolved" i.sym);
             return;
         }
 
-        let ctxt = format!("{:?}", i.span.ctxt).replace('#', "");
-        i.sym = format!("{}__{}", i.sym, ctxt).into();
+        let ctxt = format!("{:?}" i.span.ctxt).replace('#', "");
+        i.sym = format!("{}__{}" i.sym, ctxt).into();
         i.span = i.span.with_ctxt(SyntaxContext::empty());
     }
 

@@ -1731,7 +1731,7 @@ class Foo {
         ++this.#x;
     }
 }
-",
+"
 );
 
 test!(
@@ -1747,7 +1747,7 @@ class Foo {
         ++Foo.#x;
     }
 }
-",
+"
 );
 
 test!(
@@ -1771,7 +1771,7 @@ class Foo {
   onBar = () => {
     bar();
   };
-}",
+}"
 );
 
 test!(
@@ -1795,7 +1795,7 @@ test!(
   qux = {
     frob: (bar) => {},
   };
-}",
+}"
 );
 
 test!(
@@ -1821,7 +1821,7 @@ class foo {
     this.mode = MODE;
   }
 }
-",
+"
 );
 
 // public_regression_t7364
@@ -1912,7 +1912,7 @@ function withContext(ComposedComponent) {
 //    _this = _possible_constructor_return(this,
 // _get_prototype_of(Child).call(this));
 //    _define_property(_assert_this_initialized(_this),
-// "scopedFunctionWithThis", function () {      _this.name = {};
+// "scopedFunctionWithThis" function () {      _this.name = {};
 //    });
 //    return _this;
 //  }
@@ -2373,8 +2373,8 @@ expect(() => new Derived(foo)).toThrow()
 // _get_prototype_of(Other)).call.apply(_get_prototype_of2,
 // [this].concat(args)));
 //
-//      _define_property(_assert_this_initialized(_this), "a", function () {
-//        return _get(_get_prototype_of(Other.prototype), "test",
+//      _define_property(_assert_this_initialized(_this), "a" function () {
+//        return _get(_get_prototype_of(Other.prototype), "test"
 // _assert_this_initialized(_this));      });
 //
 //      return _this;
@@ -2383,8 +2383,8 @@ expect(() => new Derived(foo)).toThrow()
 //    return Other;
 //  }(Test);
 //
-//  _define_property(Other, "a", function () {
-//    return _get(_get_prototype_of(Other), "test", Other);
+//  _define_property(Other, "a" function () {
+//    return _get(_get_prototype_of(Other), "test" Other);
 //  });
 //};
 //
@@ -3113,7 +3113,7 @@ test!(
         return this.#ws2 && this.#ws.readyState === _ws1.default.OPEN;
     }
   }
-  ",
+  "
 );
 
 test!(
@@ -3208,7 +3208,7 @@ test!(
         }
     }
   }
-  ",
+  "
 );
 
 test!(
@@ -3237,7 +3237,7 @@ test!(
         }
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -3259,7 +3259,7 @@ test!(
       }
     }
   }
-  ",
+  "
 );
 
 test!(
@@ -3273,7 +3273,7 @@ test!(
         pak = this.#serialization.decode(raw);
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -3287,7 +3287,7 @@ test!(
         this.#serialization.decode(raw);
       }
     }
-    ",
+    "
 );
 
 test!(
@@ -3296,7 +3296,7 @@ test!(
     issue_1660_1,
     "
     console.log(class { run() { } });
-    ",
+    "
 );
 
 test!(
@@ -3316,7 +3316,7 @@ export class Node {
 
     #baz(child) { }
 }
-",
+"
 );
 
 test!(
@@ -3330,7 +3330,7 @@ class MyClass {
   static get #b() {}
   static set #b(x) {}
 }
-",
+"
 );
 
 test!(
@@ -3349,7 +3349,7 @@ test!(
             this.#get(foo);
         }
     }
-    ",
+    "
 );
 
 test!(
@@ -3368,7 +3368,7 @@ class MyClass {
         MyClass.#get(foo);
     }
 }
-",
+"
 );
 
 test!(
@@ -3395,7 +3395,7 @@ test!(
     }
 
     const instance = new Foo();
-    ",
+    "
 );
 
 test!(
@@ -3413,7 +3413,7 @@ test!(
         return target.#value;
       }
     }
-    ",
+    "
 );
 
 test_exec!(
@@ -3522,7 +3522,7 @@ test!(
       }
     }
     new Foo();
-    ",
+    "
 );
 
 test!(
@@ -3541,7 +3541,7 @@ test!(
     function someClassDecorator(c) {
         return c;
     }
-    ",
+    "
 );
 
 test!(
@@ -3559,7 +3559,7 @@ test!(
     function someClassDecorator(c) {
         return c;
     }
-    ",
+    "
 );
 
 test!(
@@ -3574,7 +3574,7 @@ test!(
 
       input = this.props.item;
     }
-    ",
+    "
 );
 
 test!(
@@ -3590,7 +3590,7 @@ class A {
     E(function() {});
   }
 }
-  ",
+  "
 );
 
 test!(
@@ -3607,7 +3607,7 @@ class A {
         }
     }
 }
-",
+"
 );
 
 test!(
@@ -3627,7 +3627,7 @@ class A {
   }
   #bar() {}
 }
-",
+"
 );
 
 test!(
@@ -3643,7 +3643,7 @@ const a = () => class {
     }
   }
 }
-",
+"
 );
 
 test!(
@@ -3657,7 +3657,7 @@ class Foo {
         console.log(this.#prop1);
     })();
 }
-",
+"
 );
 
 test!(
@@ -3675,7 +3675,7 @@ function a() {
     }
   }
 }
-",
+"
 );
 
 test!(
@@ -3692,7 +3692,7 @@ test!(
 class A extends class B {} {
   static x = super.x;
 }
-",
+"
 );
 
 test!(
@@ -3710,7 +3710,7 @@ class A extends B {
   foo = super.bar;
   static foo = super.bar;
 }
-",
+"
 );
 
 test!(
@@ -4079,7 +4079,7 @@ test!(
     syntax(),
     |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_6305,
-    "class x { static #x = super.x = 0 }",
+    "class x { static #x = super.x = 0 }"
 );
 
 test!(
@@ -4100,5 +4100,5 @@ class Foo {
   }
 }
     
-console.log(new Foo().search())",
+console.log(new Foo().search())"
 );
