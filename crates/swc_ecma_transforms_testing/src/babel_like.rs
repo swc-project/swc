@@ -16,7 +16,7 @@ use swc_ecma_transforms_base::{
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::NormalizedOutput;
 
-use crate::{exec_with_node_test_runner, parse_options, stdout_of};
+use crate::{exec_with_node_test_runner, parse_options};
 
 pub type PassFactory<'a> =
     Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>;

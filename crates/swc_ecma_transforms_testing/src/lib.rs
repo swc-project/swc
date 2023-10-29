@@ -423,7 +423,7 @@ where
 }
 
 /// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -470,7 +470,7 @@ where
             src_without_helpers
         );
 
-        exec_with_node_test_runner(&src)
+        exec_with_node_test_runner(&src).map(|_| {})
     })
 }
 
@@ -482,7 +482,7 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
-fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
+fn exec_with_node_test_runner(src: &str) -> Result<String, ()> {
     let root = CARGO_TARGET_DIR.join("swc-es-exec-testing");
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
@@ -493,9 +493,9 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     if env::var("SWC_CACHE_TEST").unwrap_or_default() == "1" {
         println!("Trying cache as `SWC_CACHE_TEST` is `1`");
 
-        if success_cache.exists() {
+        if let Ok(s) = fs::read_to_string(&success_cache) {
             println!("Cache: success");
-            return Ok(());
+            return Ok(s);
         }
     }
 
@@ -535,8 +535,9 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     println!("{}", String::from_utf8_lossy(&output.stderr));
 
     if output.status.success() {
-        fs::write(&success_cache, "").unwrap();
-        return Ok(());
+        let s = String::from_utf8_lossy(&output.stdout);
+        fs::write(&success_cache, s.as_bytes()).unwrap();
+        return Ok(s.into_owned());
     }
     let dir_name = path.display().to_string();
     ::std::mem::forget(tmp_dir);
