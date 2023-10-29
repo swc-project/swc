@@ -20,11 +20,7 @@ test!(
     "
 const b = {[a]: 1}
 export const c = {[a]: 1}
-",
-    "const b = _define_property({
-}, a, 1);
-export const c = _define_property({
-}, a, 1);"
+"
 );
 
 test!(
@@ -33,11 +29,7 @@ test!(
     big_int,
     "
 const b = {1n: 1, [x]: 'x', 2n: 2}
-",
-    "var _obj;
-const b = (_obj = {
-    1n: 1
-}, _define_property(_obj, x, 'x'), _define_property(_obj, 2n, 2), _obj);"
+"
 );
 
 test!(
@@ -58,23 +50,7 @@ test!(
     console.log(x);
   }
 };
-"#,
-    r#"var _obj, _mutatorMap = {
-};
-var obj = ( _obj = {
-}, _mutatorMap[foobar] = _mutatorMap[foobar] || {
-}, _mutatorMap[foobar].get = function() {
-    return "foobar";
-}, _mutatorMap[foobar] = _mutatorMap[foobar] || {
-}, _mutatorMap[foobar].set = function(x) {
-    console.log(x);
-}, _mutatorMap["test"] = _mutatorMap["test"] || {
-}, _mutatorMap["test"].get = function() {
-    return "regular getter after computed property";
-}, _mutatorMap["test"] = _mutatorMap["test"] || {
-}, _mutatorMap["test"].set = function(x) {
-    console.log(x);
-}, _define_enumerable_properties(_obj, _mutatorMap), _obj);"#
+"#
 );
 
 test!(
@@ -85,17 +61,7 @@ test!(
 const obj = {
     get [1]() {}
 };
-"#,
-    "
-var _obj, _mutatorMap = {};
-const obj = (
-    _obj = {},
-    _mutatorMap[1] = _mutatorMap[1] || {},
-    _mutatorMap[1].get = function() {},
-    _define_enumerable_properties(_obj, _mutatorMap), 
-    _obj
-);
-"
+"#
 );
 
 test_exec!(
@@ -155,24 +121,7 @@ const obj = {
       return obj2;
   },
 };
-"#,
-    "
-const obj = {
-  foo() {
-    var _obj, _mutatorMap = {};
-    const obj2 = (
-        _obj = {},
-        _mutatorMap[1] = _mutatorMap[1] || {},
-        _mutatorMap[1].get = function () {
-            return 42;
-        },
-        _define_enumerable_properties(_obj, _mutatorMap),
-        _obj
-    );
-    return obj2;
-  },
-};
-"
+"#
 );
 
 test!(
