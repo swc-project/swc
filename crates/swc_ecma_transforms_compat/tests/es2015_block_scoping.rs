@@ -38,6 +38,21 @@ test!(
             }
 
             baz(key, qux, fog);
+        }",
+    "for (var key in obj) {
+            var bar = obj[key];
+
+            var qux = void 0;
+            var fog = void 0;
+
+            if (Array.isArray(bar)) {
+            qux = bar[0];
+            fog = bar[1];
+            } else {
+            qux = bar;
+            }
+
+            baz(key, qux, fog);
         }"
 );
 
@@ -52,7 +67,18 @@ for (let i = 0; i < 10; i++) {
 	});
 }
 functions[0]();
-functions[7]();"
+functions[7]();",
+    "
+var _loop = function(i) {
+    functions.push(function() {
+        console.log(i);
+    });
+};
+var functions = [];
+for(var i = 0; i < 10; i++)_loop(i);
+functions[0]();
+functions[7]();
+"
 );
 
 test_exec!(

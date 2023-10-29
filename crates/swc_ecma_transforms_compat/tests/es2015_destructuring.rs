@@ -31,6 +31,7 @@ test!(
     |_| tr(),
     issue_2819,
     r#"const [first, , third] = ["red", "yellow", "green"]"#,
+    r#"const first = "red", third = "green";"#,
     ok_if_code_eq
 );
 
@@ -39,6 +40,9 @@ test!(
     |_| tr(),
     issue_2821,
     r#"const [x, y, ...z] = [1];"#,
+    r#"const _ref = [
+    1
+], x = _ref[0], y = _ref[1], z = _ref.slice(2)"#,
     ok_if_code_eq
 );
 

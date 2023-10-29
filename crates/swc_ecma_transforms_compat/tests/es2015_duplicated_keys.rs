@@ -22,6 +22,19 @@ obj.prop = {
     delta: true
   }
 };
+"#,
+    r#"
+const obj = {};
+
+obj.prop = {
+  alpha: {
+    charlie: true
+  },
+  beta: {
+    charlie: true,
+    delta: true
+  }
+};
 "#
 );
 
@@ -30,13 +43,17 @@ test!(
     syntax(),
     |_| duplicate_keys(),
     combination_dupes,
-    r#"var x = { a: 5, a: 6 };"#
+    r#"var x = { a: 5, a: 6 };"#,
+    r#"var x = _define_property({
+  a: 5
+}, "a", 6);"#
 );
 
 test!(
     syntax(),
     |_| duplicate_keys(),
     combination_no_dupes,
+    r#"var x = { a: 5, b: 6 };"#,
     r#"var x = { a: 5, b: 6 };"#
 );
 
@@ -44,7 +61,11 @@ test!(
     syntax(),
     |_| duplicate_keys(),
     dup_keys_both_quoted,
-    r#"var x = { "a\n b": 5, "a\n b": 6 };"#
+    r#"var x = { "a\n b": 5, "a\n b": 6 };"#,
+    r#"var x = {
+  "a\n b": 5,
+  ["a\n b"]: 6
+};"#
 );
 
 test!(
