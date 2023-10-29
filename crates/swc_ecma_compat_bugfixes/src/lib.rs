@@ -18,7 +18,7 @@ where
     C: Comments + Clone,
 {
     chain!(
-        async_arrows_in_class(c.unresolved_mark),
+        async_arrows_in_class(c),
         edge_default_param(),
         template_literal_caching(),
         safari_id_destructuring_collision_in_function_expression()
