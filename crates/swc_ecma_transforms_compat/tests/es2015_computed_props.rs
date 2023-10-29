@@ -20,8 +20,7 @@ test!(
     "
 const b = {[a]: 1}
 export const c = {[a]: 1}
-",
-    
+"
 );
 
 test!(
@@ -30,8 +29,7 @@ test!(
     big_int,
     "
 const b = {1n: 1, [x]: 'x', 2n: 2}
-",
-    
+"
 );
 
 test!(
@@ -52,8 +50,7 @@ test!(
     console.log(x);
   }
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -64,8 +61,7 @@ test!(
 const obj = {
     get [1]() {}
 };
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -125,8 +121,7 @@ const obj = {
       return obj2;
   },
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -135,8 +130,7 @@ test!(
     argument,
     r#"foo({
   [bar]: "foobar"
-});"#,
-    
+});"#
 );
 
 test!(
@@ -145,8 +139,7 @@ test!(
     assignment,
     r#"foo = {
   [bar]: "foobar"
-};"#,
-    
+};"#
 );
 
 test!(
@@ -160,8 +153,7 @@ test!(
   test() {
     return "regular method after computed property";
   }
-};"#,
-    
+};"#
 );
 
 test!(
@@ -169,12 +161,11 @@ test!(
     |_| computed_properties(Default::default()),
     mixed,
     r#"var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-  foo: "foo",
+  ["x" + foo]: "heh"
+  ["y" + bar]: "noo"
+  foo: "foo"
   bar: "bar"
-};"#,
-    
+};"#
 );
 
 test!(
@@ -182,10 +173,9 @@ test!(
     |_| computed_properties(Default::default()),
     multiple,
     r#"var obj = {
-  ["x" + foo]: "heh",
+  ["x" + foo]: "heh"
   ["y" + bar]: "noo"
-};"#,
-    
+};"#
 );
 
 test!(
@@ -194,8 +184,7 @@ test!(
     single,
     r#"var obj = {
   ["x" + foo]: "heh"
-};"#,
-    
+};"#
 );
 
 test!(
@@ -204,13 +193,12 @@ test!(
     symbol,
     r#"var k = Symbol();
 var foo = {
-  [Symbol.iterator]: "foobar",
+  [Symbol.iterator]: "foobar"
   get [k]() {
     return k;
   }
 };
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -220,7 +208,7 @@ test_exec!(
     r#"
 var k = Symbol();
 var foo = {
-  [Symbol.iterator]: "foobar",
+  [Symbol.iterator]: "foobar"
   get [k]() {
     return k;
   }
@@ -236,8 +224,7 @@ test!(
     this,
     r#"var obj = {
   ["x" + foo.bar]: "heh"
-};"#,
-    
+};"#
 );
 
 test!(
@@ -257,8 +244,7 @@ test!(
 });
 
 export function corge() {}
-",
-    
+"
 );
 
 test!(
@@ -267,8 +253,7 @@ test!(
     issue_315_2,
     "
 export function corge() {}
-",
-    
+"
 );
 
 test!(
@@ -288,8 +273,7 @@ export function corge() {}
     flab: null
   }
 });
-",
-    
+"
 );
 
 test!(
@@ -309,8 +293,7 @@ export class Foo {}
     flab: null
   }
 });
-",
-    
+"
 );
 
 // spec_mixed
@@ -320,14 +303,13 @@ test!(
     spec_mixed,
     r#"
 var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-  foo: "foo",
+  ["x" + foo]: "heh"
+  ["y" + bar]: "noo"
+  foo: "foo"
   bar: "bar"
 };
 
-"#,
-    
+"#
 );
 
 // spec_single
@@ -340,8 +322,7 @@ var obj = {
   ["x" + foo]: "heh"
 };
 
-"#,
-    
+"#
 );
 
 // spec
@@ -356,8 +337,7 @@ export default {
   [a]: b,
   [c]: d
 };
-"#,
-    
+"#
 );
 
 // spec_multiple
@@ -367,12 +347,11 @@ test!(
     spec_multiple,
     r#"
 var obj = {
-  ["x" + foo]: "heh",
+  ["x" + foo]: "heh"
   ["y" + bar]: "noo"
 };
 
-"#,
-    
+"#
 );
 
 // spec_this
@@ -385,8 +364,7 @@ var obj = {
   ["x" + foo.bar]: "heh"
 };
 
-"#,
-    
+"#
 );
 
 // spec_method
@@ -404,8 +382,7 @@ var obj = {
   }
 };
 
-"#,
-    
+"#
 );
 
 // spec_assignment
@@ -418,8 +395,7 @@ foo = {
   [bar]: "foobar"
 };
 
-"#,
-    
+"#
 );
 
 // spec_argument
@@ -432,8 +408,7 @@ foo({
   [bar]: "foobar"
 });
 
-"#,
-    
+"#
 );
 
 // spec_two
@@ -443,12 +418,11 @@ test!(
     spec_two,
     r#"
 var obj = {
-  first: "first",
-  ["second"]: "second",
+  first: "first"
+  ["second"]: "second"
 };
 
-"#,
-    
+"#
 );
 
 // spec_variable
@@ -461,8 +435,7 @@ var foo = {
   [bar]: "foobar"
 };
 
-"#,
-    
+"#
 );
 
 // spec_symbol_exec
@@ -473,7 +446,7 @@ test_exec!(
     r#"
 var k = Symbol();
 var foo = {
-  [Symbol.iterator]: "foobar",
+  [Symbol.iterator]: "foobar"
   get [k]() {
     return k;
   }
@@ -493,8 +466,7 @@ test!(
 foo = {
   [bar]: "foobar"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -505,8 +477,7 @@ test!(
 foo({
   [bar]: "foobar"
 });
-"#,
-    
+"#
 );
 
 test!(
@@ -515,11 +486,10 @@ test!(
     loose_coerce,
     r#"
 var obj = {
-  foo: "bar",
+  foo: "bar"
   [bar]: "foo"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -535,8 +505,7 @@ var obj = {
     return "regular method after computed property";
   }
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -545,13 +514,12 @@ test!(
     loose_mixed,
     r#"
 var obj = {
-  ["x" + foo]: "heh",
-  ["y" + bar]: "noo",
-  foo: "foo",
+  ["x" + foo]: "heh"
+  ["y" + bar]: "noo"
+  foo: "foo"
   bar: "bar"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -560,11 +528,10 @@ test!(
     loose_multiple,
     r#"
 var obj = {
-  ["x" + foo]: "heh",
+  ["x" + foo]: "heh"
   ["y" + bar]: "noo"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -575,8 +542,7 @@ test!(
 var obj = {
   ["x" + foo]: "heh"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -587,8 +553,7 @@ test!(
 var obj = {
   ["x" + foo.bar]: "heh"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -597,11 +562,10 @@ test!(
     loose_two,
     r#"
 var obj = {
-  first: "first",
-  [second]: "second",
+  first: "first"
+  [second]: "second"
 }
-"#,
-    
+"#
 );
 
 test!(
@@ -612,8 +576,7 @@ test!(
 var foo = {
   [bar]: "foobar"
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -622,10 +585,9 @@ test!(
     loose_str_lit,
     r#"
 var foo = {
-["213"]: "foobar",
+["213"]: "foobar"
 };
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -635,7 +597,7 @@ test_exec!(
     r#"
 var k = Symbol();
 var foo = {
-[Symbol.iterator]: "foobar",
+[Symbol.iterator]: "foobar"
 get [k]() {
   return k;
 }
