@@ -30,6 +30,7 @@ pub struct BabelLikeFixtureTest<'a> {
     >,
 
     source_map: bool,
+    allow_error: bool,
 }
 
 impl<'a> BabelLikeFixtureTest<'a> {
@@ -39,6 +40,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
             syntax: Default::default(),
             factories: Default::default(),
             source_map: false,
+            allow_error: false,
         }
     }
 
@@ -52,6 +54,11 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
+    pub fn allow_error(mut self) -> Self {
+        self.source_map = true;
+        self
+    }
+
     pub fn add_factory(
         mut self,
         factory: impl 'a + FnMut(&PassContext, String, Option<Value>) -> Option<Box<dyn Fold>>,
@@ -61,7 +68,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
     }
 
     fn run(mut self, output_path: Option<&Path>) {
-        testing::run_test(false, |cm, handler| {
+        let err = testing::run_test(false, |cm, handler| {
             let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
             let comments = SingleThreadedComments::default();
@@ -127,12 +134,12 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 Ok(v) => v,
                 Err(err) => {
                     err.into_diagnostic(handler).emit();
-                    panic!("failed to parse file");
+                    return Err(());
                 }
             };
 
             if errored {
-                panic!("failed to parse file");
+                return Err(());
             }
 
             let output_program = input_program.fold_with(&mut *pass);
@@ -142,6 +149,10 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
             if let Some(output_path) = output_path {
                 // Fixture test
+
+                if !self.allow_error && handler.has_errors() {
+                    return Err(());
+                }
 
                 NormalizedOutput::from(code)
                     .compare_to_file(output_path)
@@ -157,8 +168,17 @@ impl<'a> BabelLikeFixtureTest<'a> {
             }
 
             Ok(())
-        })
-        .unwrap();
+        });
+
+        if self.allow_error {
+            match err {
+                Ok(_) => {}
+                Err(err) => {
+                    err.compare_to_file(self.input.with_extension("stderr"))
+                        .unwrap();
+                }
+            }
+        }
     }
 
     /// Execute ussing node.js
