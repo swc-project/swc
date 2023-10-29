@@ -7,7 +7,11 @@ use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_transforms_base::{
-    assumptions::Assumptions, fixer::fixer, hygiene::hygiene, resolver,
+    assumptions::Assumptions,
+    fixer::fixer,
+    helpers::{inject_helpers, Helpers, HELPERS},
+    hygiene::hygiene,
+    resolver,
 };
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::NormalizedOutput;
@@ -145,7 +149,11 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 return Err(());
             }
 
-            let output_program = input_program.fold_with(&mut *pass);
+            let output_program = HELPERS.set(&Helpers::new(false), || {
+                input_program
+                    .fold_with(&mut *pass)
+                    .fold_with(&mut inject_helpers(builder.unresolved_mark))
+            });
 
             // Print output
             let code = builder.print(&output_program);
