@@ -8,7 +8,7 @@ use swc_ecma_parser::{parse_file_as_program, Syntax};
 use swc_ecma_transforms_base::{
     assumptions::Assumptions, fixer::fixer, hygiene::hygiene, resolver,
 };
-use swc_ecma_visit::Fold;
+use swc_ecma_visit::{Fold, FoldWith};
 
 use crate::parse_options;
 
@@ -130,6 +130,8 @@ impl<'a> BabelLikeFixtureTest<'a> {
             if errored {
                 panic!("failed to parse file");
             }
+
+            let output_program = input_program.fold_with(&mut *pass);
 
             Ok(())
         });
