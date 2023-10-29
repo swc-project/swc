@@ -102,14 +102,7 @@ mod tests {
   }
 }
 
-name("Steve");"#,
-        r#"{
-  let name = function name(n) {
-    return n;
-  };
-}
-name("Steve");
-"#
+name("Steve");"#
     );
 
     test!(
