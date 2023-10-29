@@ -2,9 +2,9 @@ use std::path::Path;
 
 use serde::Deserialize;
 use serde_json::Value;
-use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
-use swc_ecma_transforms_base::assumptions::Assumptions;
+use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_visit::Fold;
 
 use crate::parse_options;
@@ -20,7 +20,7 @@ pub struct BabelLikeFixtureTest<'a> {
     /// Default to [`Syntax::default`]
     syntax: Syntax,
 
-    factories: Vec<Box<dyn 'a + FnMut(String, Option<Value>) -> Box<dyn 'a + Fold>>>,
+    factories: Vec<Box<dyn 'a + FnMut(String, Option<Value>) -> Option<Box<dyn 'a + Fold>>>>,
 }
 
 impl<'a> BabelLikeFixtureTest<'a> {
@@ -40,7 +40,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
     pub fn add_factory(
         mut self,
-        factory: impl 'a + FnMut(String, Option<Value>) -> Box<dyn 'a + Fold>,
+        factory: impl 'a + FnMut(String, Option<Value>) -> Option<Box<dyn 'a + Fold>>,
     ) -> Self {
         self.factories.push(Box::new(factory));
         self
@@ -56,6 +56,33 @@ impl<'a> BabelLikeFixtureTest<'a> {
             top_level_mark: Mark::new(),
             comments,
         };
+
+        let mut pass: Box<dyn 'a + Fold> = Box::new(resolver(
+            builder.unresolved_mark,
+            builder.top_level_mark,
+            self.syntax.typescript(),
+        ));
+
+        // Build pass using babel options
+
+        //
+        for plugin in options.plugins {
+            let (name, options) = match plugin {
+                BabelPluginEntry::NameOnly(name) => (name, None),
+                BabelPluginEntry::WithConfig(name, options) => (name, Some(options)),
+            };
+
+            for factory in &mut self.factories {
+                if let Some(built) = factory(name.clone(), options.clone()) {
+                    pass = Box::new(chain!(pass, built));
+                    break;
+                }
+            }
+        }
+
+        pass = Box::new(chain!(pass, hygiene(), fixer()));
+
+        // Run pass
     }
 
     /// Execute ussing node.js
