@@ -149,7 +149,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 return Err(());
             }
 
-            let output_program = HELPERS.set(&Helpers::new(false), || {
+            let output_program = HELPERS.set(&Helpers::new(output_path.is_some()), || {
                 input_program
                     .fold_with(&mut *pass)
                     .fold_with(&mut inject_helpers(builder.unresolved_mark))
