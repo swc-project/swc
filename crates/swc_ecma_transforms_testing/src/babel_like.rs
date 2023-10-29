@@ -59,7 +59,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
     }
 
     fn run(self, output_path: Option<&Path>) {
-        let output = testing::run_test(false, |cm, handler| {
+        testing::run_test(false, |cm, handler| {
             let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
             let comments = SingleThreadedComments::default();
