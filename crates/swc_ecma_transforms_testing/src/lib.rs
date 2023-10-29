@@ -263,16 +263,13 @@ where
 }
 
 #[track_caller]
-pub fn test_transform<F, P>(
-    syntax: Syntax,
-    tr: F,
-    input: &str,
-    expected: &str,
-    _always_ok_if_code_eq: bool,
-) where
+pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, _always_ok_if_code_eq: bool)
+where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
+    let expected = "";
+
     Tester::run(|tester| {
         let expected = tester.apply_transform(
             as_folder(::swc_ecma_utils::DropSpan {
