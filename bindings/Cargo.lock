@@ -230,7 +230,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.3.96-nightly-20231028.1"
+version = "1.3.96-nightly-20231029.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -290,7 +290,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.3.96-nightly-20231028.1"
+version = "1.3.96-nightly-20231029.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2840,9 +2840,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.269.18"
+version = "0.269.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "100a5bca31262c0639c297107b31bd858e9d3e3c517b5aa9822ad318db478f5a"
+checksum = "d92731e11c4813d3692f4a6db15270e7087fa624577ac6fec8485c4bcbc9a5a8"
 dependencies = [
  "anyhow",
  "base64 0.13.1",
@@ -2954,7 +2954,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.84"
+version = "0.91.85"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3067,9 +3067,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.86.18"
+version = "0.86.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "802091be25e9e6df1b1dcb15b70267e586c870a5b059a44b07101dd70e85867a"
+checksum = "7b172ed75a67441b211e806e34d6ee3dc975d1893bb234e340bbbb077314301b"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3393,9 +3393,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.189.17"
+version = "0.189.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e17cee0ef32c6f4afb32158a56b6cd12cba4fc4042642f92066361c25eceebc3"
+checksum = "959ee58c7689e0c6b961928adf1493f6c5dc18fb1667edf16e08c31afe6220d6"
 dependencies = [
  "arrayvec",
  "indexmap",
@@ -3695,9 +3695,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.20.10"
+version = "0.20.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "27607e1e5d61437161679ca1762e45e72cabc7b15e9472c268da818fe8800f13"
+checksum = "c243cd4a4234c31f33ac19dc7382c419af1e9953af3712e2751f155d9982350c"
 dependencies = [
  "indexmap",
  "rustc-hash",
