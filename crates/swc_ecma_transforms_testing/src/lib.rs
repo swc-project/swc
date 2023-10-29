@@ -482,7 +482,7 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
-fn exec_with_node_test_runner(src: &str) -> Result<String, ()> {
+fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
     let root = CARGO_TARGET_DIR.join("swc-es-exec-testing");
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
@@ -493,9 +493,9 @@ fn exec_with_node_test_runner(src: &str) -> Result<String, ()> {
     if env::var("SWC_CACHE_TEST").unwrap_or_default() == "1" {
         println!("Trying cache as `SWC_CACHE_TEST` is `1`");
 
-        if let Ok(s) = fs::read_to_string(&success_cache) {
+        if success_cache.exists() {
             println!("Cache: success");
-            return Ok(s);
+            return Ok(());
         }
     }
 
@@ -535,9 +535,8 @@ fn exec_with_node_test_runner(src: &str) -> Result<String, ()> {
     println!("{}", String::from_utf8_lossy(&output.stderr));
 
     if output.status.success() {
-        let s = String::from_utf8_lossy(&output.stdout);
-        fs::write(&success_cache, s.as_bytes()).unwrap();
-        return Ok(s.into_owned());
+        fs::write(&success_cache, "").unwrap();
+        return Ok(());
     }
     let dir_name = path.display().to_string();
     ::std::mem::forget(tmp_dir);
