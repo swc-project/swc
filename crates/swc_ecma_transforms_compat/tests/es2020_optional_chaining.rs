@@ -172,7 +172,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     pr_2791,
-    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
+    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#
 );
 
 test_exec!(

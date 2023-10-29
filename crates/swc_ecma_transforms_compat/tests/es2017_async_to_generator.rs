@@ -71,7 +71,7 @@ test!(
 async function foo(bar) {
   bar && await bar();
 }
-"#,
+"#
 );
 
 test!(
@@ -89,7 +89,7 @@ let TestClass = {
     });
   }
 };
-"#,
+"#
 );
 
 test!(
@@ -104,7 +104,7 @@ function mandatory(paramName) {
 async function foo({ a, b = mandatory("b") }) {
   return Promise.resolve(b);
 }
-"#,
+"#
 );
 
 test!(
@@ -116,7 +116,7 @@ test!(
 (async () => { await 'ok' })();
 (async function notIIFE() { await 'ok' });
 (async () => { await 'not iife' });
-"#,
+"#
 );
 
 test!(
@@ -129,7 +129,7 @@ class Foo {
     var wat = await bar();
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -153,7 +153,7 @@ async function s(x, ...args) {
   await t();
   return this.h(t);
 }
-"#,
+"#
 );
 
 test!(
@@ -171,7 +171,7 @@ var foo2 = async function () {
 bar = async function () {
   var wat = await foo();
 };
-"#,
+"#
 );
 
 test!(
@@ -182,7 +182,7 @@ test!(
 var foo = async function bar() {
   console.log(bar);
 };
-"#,
+"#
 );
 
 test!(
@@ -191,7 +191,7 @@ test!(
     no_parameters_and_no_id,
     r#"
 foo(async function () {
-});"#,
+});"#
 );
 
 test!(
@@ -219,7 +219,7 @@ class Class {
     }
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -232,7 +232,7 @@ test!(
 
     var arrow = () => super.method();
   }
-}"#,
+}"#
 );
 
 test_exec!(
@@ -374,7 +374,7 @@ let obj = {
   async foo(bar) {
     return await baz(bar);
   }
-}"#,
+}"#
 );
 
 test!(
@@ -385,7 +385,7 @@ test!(
 async function foo(bar) {
 
 }
-"#,
+"#
 );
 
 test!(
@@ -396,7 +396,7 @@ test!(
 async function foo() {
   var wat = await bar();
 }
-"#,
+"#
 );
 
 test!(
@@ -519,7 +519,7 @@ return (new A()).print();"
 //  return <Contact title={title} />;
 //}
 //
-//"#,
+//"#
 //    r#"
 //const title = "Neem contact op";
 //
@@ -554,7 +554,7 @@ var foo = async function bar() {
   console.log(bar);
 };
 
-"#,
+"#
 );
 
 // export_async_lone_export
@@ -567,7 +567,7 @@ test!(
     r#"
 export async function foo () { }
 
-"#,
+"#
 );
 
 // bluebird_coroutines_arrow_function
@@ -579,7 +579,7 @@ test!(
     r#"
 (async () => { await foo(); })()
 
-"#,
+"#
 );
 
 // regression_t6882
@@ -611,7 +611,7 @@ function f() {
   })()
 }).call('foo')
 
-"#,
+"#
 );
 
 // async_to_generator_shadowed_promise
@@ -627,7 +627,7 @@ async function foo() {
   await new Promise(resolve => { resolve() });
 }
 
-"#,
+"#
 );
 
 // async_to_generator_object_method_with_arrows
@@ -656,7 +656,7 @@ class Class {
     }
   }
 }
-"#,
+"#
 );
 
 // async_to_generator_object_method
@@ -672,7 +672,7 @@ let obj = {
   }
 }
 
-"#,
+"#
 );
 
 // bluebird_coroutines_class
@@ -688,7 +688,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 // async_to_generator_async_iife_with_regenerator
@@ -710,7 +710,7 @@ test!(
 (async function notIIFE() { await 'ok' });
 (async () => { await 'not iife' });
 
-"#,
+"#
 );
 
 //// regression_gh_6923
@@ -735,7 +735,7 @@ test!(
 //		const tmp = number
 //	})
 //}
-//"#, r#"
+//"# r#"
 //function foo() {
 //  return _foo.apply(this, arguments);
 //}
@@ -791,7 +791,7 @@ var foo = async function bar() {
   console.log(bar);
 };
 
-"#,
+"#
 );
 
 //// async_to_generator_async_iife_with_regenerator_spec
@@ -805,7 +805,7 @@ var foo = async function bar() {
 //(async function notIIFE() { await 'ok' });
 //(async () => { await 'not iife' });
 //
-//"#,
+//"#
 //    r#"
 //var _this = this;
 //
@@ -904,7 +904,7 @@ let TestClass = {
   }
 };
 
-"#,
+"#
 );
 
 // bluebird_coroutines_statement
@@ -918,7 +918,7 @@ async function foo() {
   var wat = await bar();
 }
 
-"#,
+"#
 );
 
 // regression_4943
@@ -947,7 +947,7 @@ async function foo({ a, b = mandatory("b") }) {
   return Promise.resolve(b);
 }
 
-"#,
+"#
 );
 
 // export_async_default_arrow_export
@@ -960,7 +960,7 @@ test!(
     r#"
 export default async () => { return await foo(); }
 
-"#,
+"#
 );
 
 // async_to_generator_function_arity
@@ -976,7 +976,7 @@ async function four(a, b = 1, c, ...d) {}
 async function five(a, {b}){}
 async function six(a, {b} = {}){}
 
-"#,
+"#
 );
 
 // async_to_generator_object_method_with_super
@@ -993,7 +993,7 @@ class Foo extends class {} {
   }
 }
 
-"#,
+"#
 );
 
 // export_async_default_export
@@ -1006,7 +1006,7 @@ test!(
     r#"
 export default async function myFunc() {}
 
-"#,
+"#
 );
 
 // async_to_generator_async
@@ -1021,7 +1021,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 // regression_8783
@@ -1034,7 +1034,7 @@ test!(
   console.log(await Promise.resolve('Hello'))
   setTimeout(poll, 1000);
 })();
-"#,
+"#
 );
 
 // async_to_generator_deeply_nested_asyncs
@@ -1060,7 +1060,7 @@ async function s(x, ...args) {
   return this.h(t);
 }
 
-"#,
+"#
 );
 
 // export_async_import_and_export
@@ -1075,7 +1075,7 @@ import bar from 'bar';
 
 export async function foo () { }
 
-"#,
+"#
 );
 
 // async_to_generator_shadowed_promise_nested
@@ -1098,7 +1098,7 @@ async function foo() {
   }
 }
 
-"#,
+"#
 );
 
 // bluebird_coroutines
@@ -1115,7 +1115,7 @@ async () => await promise
 
 async () => { await promise }
 
-"#,
+"#
 );
 
 // regression_4943_exec
@@ -1176,7 +1176,7 @@ var foo = async function () {
   var wat = await bar();
 };
 
-"#,
+"#
 );
 
 // async_to_generator_expression
@@ -1196,7 +1196,7 @@ bar = async function () {
   var wat = await foo();
 };
 
-"#,
+"#
 );
 
 // async_to_generator_statement
@@ -1209,7 +1209,7 @@ async function foo() {
   var wat = await bar();
 }
 
-"#,
+"#
 );
 
 // async_to_generator_shadowed_promise_import
@@ -1226,7 +1226,7 @@ async function foo() {
   await Promise.resolve();
 }
 
-"#,
+"#
 );
 
 // async_to_generator_parameters
@@ -1239,7 +1239,7 @@ async function foo(bar) {
 
 }
 
-"#,
+"#
 );
 
 // async_to_generator
@@ -1267,7 +1267,7 @@ async function foo() {
 for (let a of b) {
 }
 }
-"#,
+"#
 );
 
 test!(
@@ -1813,7 +1813,7 @@ test!(
 async function foo(x, y, ...z) {
     return 42;
 }
-"#,
+"#
 );
 
 test!(
@@ -1824,7 +1824,7 @@ test!(
 async function* foo(x, y, ...z) {
     return 42;
 }
-"#,
+"#
 );
 
 test!(
@@ -1835,7 +1835,7 @@ test!(
 const foo = async function (x, y, ...z) {
     return 42;
 }
-"#,
+"#
 );
 
 test!(
@@ -1846,7 +1846,7 @@ test!(
 const foo = async function* (x, y, ...z) {
     return 42;
 }
-"#,
+"#
 );
 
 test!(
@@ -1860,7 +1860,7 @@ const foo = async function foo(x, y, ...z) {
     }
     return 0;
 };
-"#,
+"#
 );
 
 test!(
@@ -1874,7 +1874,7 @@ const foo = async function* foo(x, y, ...z) {
   }
   return 0;
 };
-"#,
+"#
 );
 
 test!(
@@ -1885,7 +1885,7 @@ test!(
 const foo = async (x, y, ...z) => {
     return this;
 };
-"#,
+"#
 );
 
 test!(
@@ -1896,7 +1896,7 @@ test!(
 const foo = async (x, y, ...z) => {
     return this;
 };
-"#,
+"#
 );
 
 test!(

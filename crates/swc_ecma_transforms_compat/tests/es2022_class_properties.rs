@@ -89,7 +89,7 @@ function test(x) {
 
 test('foo');
 
-"#,
+"#
 );
 
 test!(
@@ -105,7 +105,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -125,7 +125,7 @@ test!(
 class Foo {
     #foo () {}
 }
-"#,
+"#
 );
 
 test!(
@@ -143,7 +143,7 @@ class Child extends Parent {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -187,7 +187,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -294,7 +294,7 @@ function withContext(ComposedComponent) {
     };
 }
 
-"#,
+"#
 );
 
 test!(
@@ -309,7 +309,7 @@ class A {
   constructor(force) {}
 }
 
-"#,
+"#
 );
 
 test!(
@@ -328,7 +328,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -367,7 +367,7 @@ expect(() => {
   new C();
 }).toThrow();
 
-"#,
+"#
 );
 
 test!(
@@ -398,7 +398,7 @@ class Outer extends Hello {
 
 expect(new Outer().hello).toBe('hello');
 
-"#,
+"#
 );
 
 test!(
@@ -410,7 +410,7 @@ class Foo {
   bar;
 }
 
-"#,
+"#
 );
 
 test!(
@@ -430,7 +430,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -473,7 +473,7 @@ export default class {
   static test = true
 }
 
-"#,
+"#
 );
 
 test!(
@@ -485,7 +485,7 @@ class Foo {
   static bar = "foo";
 }
 
-"#,
+"#
 );
 
 test!(
@@ -497,7 +497,7 @@ class Foo {
   #bar;
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -533,7 +533,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -551,7 +551,7 @@ class B extends A {
   foo = super.foo();
 }
 
-"#,
+"#
 );
 
 test!(
@@ -569,7 +569,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -589,7 +589,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -623,7 +623,7 @@ class MyClass {
   [`template${expression}`] = "template-with-expression";
 }
 
-"#,
+"#
 );
 
 test!(
@@ -644,7 +644,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -899,7 +899,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -916,7 +916,7 @@ class Outer {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -935,7 +935,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -951,7 +951,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1083,7 +1083,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1099,7 +1099,7 @@ class Bar extends Foo {
   #prop = "bar";
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1117,7 +1117,7 @@ class B extends A {
   #foo = super.foo();
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1133,7 +1133,7 @@ class Foo {
   #four = this.#private;
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1161,7 +1161,7 @@ class Outer extends Hello {
 
 expect(new Outer().hello).toBe('hello');
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1234,7 +1234,7 @@ class Foo {
   1 = "bar";
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1253,7 +1253,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1295,7 +1295,7 @@ export default class MyClass2 {
   static property = value;
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1308,7 +1308,7 @@ class Foo {
   #y = this.#x;
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1320,7 +1320,7 @@ class Foo extends Bar {
   bar = "foo";
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1347,7 +1347,7 @@ class Foo {
   bar = "foo";
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1381,7 +1381,7 @@ export default param =>
     }
   }
 
-"#,
+"#
 );
 
 test!(
@@ -1393,7 +1393,7 @@ class Foo {
   static bar;
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1442,7 +1442,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1491,7 +1491,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1652,7 +1652,7 @@ class Foo {
 }
 
 
-"#,
+"#
 );
 
 test!(
@@ -1668,7 +1668,7 @@ class Foo extends Bar {
   }
 }
 
-"#,
+"#
 );
 
 test_exec!(
@@ -1851,7 +1851,7 @@ export default class MyClass3 {
   }
 }
 
-"#,
+"#
 );
 
 // private_regression_t6719
@@ -1878,7 +1878,7 @@ function withContext(ComposedComponent) {
     };
 }
 
-"#,
+"#
 );
 
 // public_foobar
@@ -1897,7 +1897,7 @@ function withContext(ComposedComponent) {
 //    }
 //}
 //
-//"#, r#"
+//"# r#"
 //var Child =
 // /*#__PURE__*/
 //function (_Parent) {
@@ -1954,7 +1954,7 @@ function classFactory() {
   };
 }
 
-"#,
+"#
 );
 
 // private_static
@@ -1982,7 +1982,7 @@ expect("bar" in Foo).toBe(false)
 expect(Foo.test()).toBe("foo")
 expect(Foo.test()).toBe("foo")
 
-"#,
+"#
 );
 
 // private_destructuring_object_pattern_1
@@ -2003,7 +2003,7 @@ class Foo {
     ({ x: this.x = this.#client, y: this.#client, z: this.z = this.#client } = props)
   }
 }
-"#,
+"#
 );
 
 // private_static_inherited
@@ -2045,7 +2045,7 @@ class Sub1 extends Base {
 
 class Sub2 extends Base {}
 
-"#,
+"#
 );
 
 // private_destructuring_object_pattern_1_exec
@@ -2096,7 +2096,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 // private_destructuring_array_pattern
@@ -2117,7 +2117,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 // private_regression_t2983
@@ -2137,7 +2137,7 @@ export default class {
   static #test = true
 }
 
-"#,
+"#
 );
 
 // private_regression_t7364
@@ -2175,7 +2175,7 @@ export default class MyClass3 {
   }
 }
 
-"#,
+"#
 );
 
 // private_destructuring_array_pattern_1
@@ -2196,7 +2196,7 @@ class Foo {
     ([this.x = this.#client, this.#client, this.y = this.#client] = props);
   }
 }
-"#,
+"#
 );
 
 // regression_8882_exec
@@ -2298,7 +2298,7 @@ expect(() => new Derived(foo)).toThrow()
 //  }
 //}
 //
-//"#, r#"
+//"# r#"
 //function _typeof(obj) { if (typeof Symbol === "function" && typeof
 // Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return
 // typeof obj; }; } else { _typeof = function _typeof(obj) { return obj &&
@@ -2407,7 +2407,7 @@ export default class MyClass2 {
   static #property = value;
 }
 
-"#,
+"#
 );
 
 // static_property_tdz_edgest_case
@@ -2423,7 +2423,7 @@ class A {
   static [{ x: A || 0 }.x];
 }
 
-"#,
+"#
 );
 
 test!(
@@ -2437,7 +2437,7 @@ test!(
 class A {
 static A = 123;
 }
-"#,
+"#
 );
 
 // regression_6153
@@ -2478,7 +2478,7 @@ var qux = function() {
   }
 }.bind(this)
 
-"#,
+"#
 );
 
 // regression_7371
@@ -2590,7 +2590,7 @@ class ComputedField extends Obj {
 
 new ComputedField();
 
-"#,
+"#
 );
 
 test!(
@@ -2605,7 +2605,7 @@ class A {
         this.#fieldFunc?.();
     }
 }
-"#,
+"#
 );
 
 test!(
@@ -2619,7 +2619,7 @@ class MyClass {
     o?.#a
   }
 }
-"#,
+"#
 );
 
 // private_canonical
@@ -2653,7 +2653,7 @@ class Point {
 
 }
 
-"#,
+"#
 );
 
 // regression_8882
@@ -2683,7 +2683,7 @@ for(let i = 0; i <= 10; ++i){
     }());
 }
 
-"#,
+"#
 );
 
 // private_destructuring_array_pattern_3
@@ -2703,7 +2703,7 @@ class Foo {
     ([this.#client = 5] = props);
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -2717,7 +2717,7 @@ class A {
     [a().#a] = []
   }
 }
-"#,
+"#
 );
 
 // public_static_super_exec
@@ -2762,7 +2762,7 @@ class Foo {
     ([x, ...this.#client] = props);
   }
 }
-"#,
+"#
 );
 
 // private_non_block_arrow_func
@@ -2786,7 +2786,7 @@ export default param =>
     }
   }
 
-"#,
+"#
 );
 
 // regression_8110
@@ -2801,7 +2801,7 @@ class A {
   [field] = 10;
 }
 
-"#,
+"#
 );
 
 // public_computed_without_block_exec
@@ -2833,7 +2833,7 @@ class Foo {
   #bar = "foo";
 }
 
-"#,
+"#
 );
 
 // static_property_tdz_general
@@ -2849,7 +2849,7 @@ class C {
   static [C + 3] = 3;
 }
 
-"#,
+"#
 );
 
 // public_native_classes
@@ -2866,7 +2866,7 @@ class Foo {
   bar = "bar";
 }
 
-"#,
+"#
 );
 
 // public_arrow_static_this_without_transform
@@ -2880,7 +2880,7 @@ class Foo {
   static fn = () => console.log(this);
 }
 
-"#,
+"#
 );
 
 // private_static_infer_name
@@ -2898,7 +2898,7 @@ var Foo = class {
   static #num = 0;
 }
 
-"#,
+"#
 );
 
 // regression_7951
@@ -2921,7 +2921,7 @@ export class Foo extends Bar {
   test = args;
 }
 
-"#,
+"#
 );
 
 // private_native_classes
@@ -2946,7 +2946,7 @@ class Foo {
   }
 }
 
-"#,
+"#
 );
 
 // public_computed_without_block
@@ -2961,7 +2961,7 @@ test!(
     r#"
 const createClass = (k) => class { [k()] = 2 };
 
-"#,
+"#
 );
 
 // private_destructuring_array_pattern_2_exec
@@ -3009,7 +3009,7 @@ class B extends A {
   static getPropA = () => super.prop;
 }
 
-"#,
+"#
 );
 
 // private_destructuring_array_pattern_exec
@@ -3079,7 +3079,7 @@ test!(
       return this.#name
     }
   }
-"#,
+"#
 );
 
 test!(
@@ -3098,7 +3098,7 @@ class Animal {
     return this.#name.toUpperCase()
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -3730,7 +3730,7 @@ class MyClass {
     o?.#a
   }
 }
-"#,
+"#
 );
 
 test_exec!(
@@ -3821,7 +3821,7 @@ class MyClass {
   [`template`] = "template";
   [`template${expression}`] = "template-with-expression";
 }
-"#,
+"#
 );
 
 test!(
@@ -3854,7 +3854,7 @@ class Foo {
     var baz = "baz";
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -3871,7 +3871,7 @@ test!(
 class Foo {
   static bar;
 }
-"#,
+"#
 );
 
 test!(
@@ -3908,7 +3908,7 @@ class Cl {
     this.#privateFieldValue = newValue;
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -3927,7 +3927,7 @@ class Cl {
   static #f = 123;
   static get #bar() {};
 }
-"#,
+"#
 );
 
 test!(
@@ -3953,7 +3953,7 @@ class Cl {
     ([this.#privateFieldValue] = [1]);
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4015,7 +4015,7 @@ class Cl {
     this.publicFieldValue = -(this.publicFieldValue ** this.publicFieldValue);
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -4043,7 +4043,7 @@ class Cl {
 }
 
 const cl = new Cl();
-"#,
+"#
 );
 
 test!(
@@ -4062,7 +4062,7 @@ class Cl {
     this.publicField = this.#privateFieldValue;
   }
 }
-"#,
+"#
 );
 
 #[testing::fixture("tests/classes/**/exec.js")]
