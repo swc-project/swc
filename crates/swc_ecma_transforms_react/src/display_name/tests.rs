@@ -14,14 +14,7 @@ test!(
 foo = createReactClass({});
 bar = React.createClass({});
 "#,
-    r#"
-foo = createReactClass({
-    displayName: "foo"
-});
-bar = React.createClass({
-    displayName: "bar"
-});
-"#
+    
 );
 
 test!(
@@ -32,14 +25,7 @@ test!(
 var foo = qux(createReactClass({}));
 var bar = qux(React.createClass({}));
 "#,
-    r#"
-var foo = qux(createReactClass({
-    displayName: "foo"
-}));
-var bar = qux(React.createClass({
-    displayName: "bar"
-}));
-"#
+    
 );
 
 test!(
@@ -54,17 +40,7 @@ test!(
     bar: React.createClass({})
 });
 "#,
-    r#"
-({
-    foo: createReactClass({
-        displayName: "foo"
-    })
-});
-({
-    bar: React.createClass({
-        displayName: "bar"
-    })
-});"#
+    
 );
 
 test!(
@@ -75,14 +51,7 @@ test!(
 var foo = createReactClass({});
 var bar = React.createClass({});
 "#,
-    r#"
-var foo = createReactClass({
-    displayName: "foo"
-});
-var bar = React.createClass({
-    displayName: "bar"
-});
-"#
+    
 );
 
 test!(
@@ -93,10 +62,5 @@ test!(
 foo.x = createReactClass({});
 class A extends B { render() { super.x = React.createClass({}) } };
 "#,
-    r#"
-foo.x = createReactClass({
-    displayName: "x"
-});
-class A extends B { render() { super.x = React.createClass({  displayName: "x" }) } };
-"#
+    
 );

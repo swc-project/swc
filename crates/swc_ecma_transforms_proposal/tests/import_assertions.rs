@@ -19,7 +19,7 @@ test!(
     |_| tr(),
     import_with_assertions,
     r#"import test from "./test.json" assert {type: "json"};"#,
-    r#"import test from "./test.json";"#
+    
 );
 
 test!(
@@ -27,7 +27,7 @@ test!(
     |_| tr(),
     side_effect_import_with_assertions,
     r#"import "./test.json" assert {type: "json"};"#,
-    r#"import "./test.json";"#
+    
 );
 
 test!(
@@ -35,7 +35,7 @@ test!(
     |_| tr(),
     named_export_with_assertions,
     r#"export {default as test} from "./test.json" assert {type: "json"};"#,
-    r#"export {default as test} from "./test.json";"#
+    
 );
 
 test!(
@@ -43,5 +43,5 @@ test!(
     |_| tr(),
     export_all_with_assertions,
     r#"export * from "./test.json" assert {type: "json"};"#,
-    r#"export * from "./test.json";"#
+    
 );
