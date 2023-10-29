@@ -363,7 +363,7 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input false)
+            $crate::test_transform($syntax, $tr, $input, false)
         }
     };
 
