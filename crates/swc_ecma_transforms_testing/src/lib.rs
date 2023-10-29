@@ -41,6 +41,8 @@ use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, V
 use tempfile::tempdir_in;
 use testing::{assert_eq, find_executable, NormalizedOutput};
 
+pub mod babel_like;
+
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
     pub handler: &'a Handler,
