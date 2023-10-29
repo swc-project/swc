@@ -135,7 +135,6 @@ mod tests {
                 |_| reserved_words(false),
                 $name,
                 $src,
-                $src
             );
         };
     }
@@ -152,15 +151,6 @@ function utf8CheckByte(byte) {
   else if (byte >> 3 === 0x1E) return 4;
   return -1;
 }
-"#,
-        r#"
-function utf8CheckByte(_byte) {
-  if (_byte <= 0x7F) return 0;
-  else if (_byte >> 5 === 0x06) return 2;
-  else if (_byte >> 4 === 0x0E) return 3;
-  else if (_byte >> 3 === 0x1E) return 4;
-  return -1;
-}
 "#
     );
 
@@ -174,11 +164,6 @@ function utf8CheckByte(_byte) {
         import { int } from './a.js'
         console.log(int)
         export { int };
-        "#,
-        r#"
-        import { int as _int } from './a.js';
-        console.log(_int);
-        export { _int as int };
         "#
     );
 
@@ -191,13 +176,6 @@ function utf8CheckByte(_byte) {
             console.log("char====char");
             return "";
         }
-        "#,
-        r#"
-        function _char() {
-            console.log("char====char");
-            return "";
-        }
-        export { _char as char };
         "#
     );
 }

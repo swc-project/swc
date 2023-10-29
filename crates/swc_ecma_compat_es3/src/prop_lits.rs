@@ -90,14 +90,6 @@ mod tests {
   [a]: 2,
   foo: 1
 };"#,
-        r#"var foo = {
-  bar: function () {},
-  "1": function () {},
-
-  "default": 1,
-  [a]: 2,
-  foo: 1
-};"#,
         ok_if_code_eq
     );
 
@@ -105,10 +97,6 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| PropertyLiteral,
         str_lit,
-        r#"'use strict';
-var x = {
-    'foo.bar': true
-};"#,
         r#"'use strict';
 var x = {
     'foo.bar': true
