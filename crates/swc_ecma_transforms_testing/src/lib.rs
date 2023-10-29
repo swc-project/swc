@@ -275,10 +275,15 @@ pub fn test_transform<F, P>(
 {
     let loc = panic::Location::caller();
 
-    let snapshot_dir = Path::new(env!("CARGO_MANIFEST_DIR"))
+    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let test_file_path = Path::new(loc.file())
+        .strip_prefix(manifest_dir)
+        .expect("test_transform does not support paths outside of the crate root");
+
+    let snapshot_dir = manifest_dir
         .join("tests")
         .join("__swc_snapshots__")
-        .join(loc.file());
+        .join(test_file_path);
 
     test_fixture_inner(
         syntax,
