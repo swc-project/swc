@@ -5,6 +5,7 @@ use serde_json::Value;
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::assumptions::Assumptions;
+use swc_ecma_visit::Fold;
 
 use crate::parse_options;
 
@@ -14,11 +15,13 @@ use crate::parse_options;
 /// Note: You should **not** use [resolver] by yourself.
 
 pub struct BabelLikeFixtureTest<'a> {
-    pub input: &'a Path,
-    pub output: &'a Path,
+    input: &'a Path,
+    output: &'a Path,
 
     /// Default to [`Syntax::default`]
-    pub syntax: Syntax,
+    syntax: Syntax,
+
+    factories: Vec<Box<dyn 'a + FnMut(String, Option<Value>) -> Box<dyn 'a + Fold>>>,
 }
 
 impl<'a> BabelLikeFixtureTest<'a> {
@@ -27,11 +30,20 @@ impl<'a> BabelLikeFixtureTest<'a> {
             input,
             output,
             syntax: Default::default(),
+            factories: Default::default(),
         }
     }
 
     pub fn syntax(mut self, syntax: Syntax) -> Self {
         self.syntax = syntax;
+        self
+    }
+
+    pub fn add_factory(
+        mut self,
+        factory: impl 'a + FnMut(String, Option<Value>) -> Box<dyn 'a + Fold>,
+    ) -> Self {
+        self.factories.push(Box::new(factory));
         self
     }
 
