@@ -7,6 +7,7 @@ use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
+    mem::take,
     panic,
     path::{Path, PathBuf},
     process::Command,
@@ -261,6 +262,91 @@ where
     P: Fold,
 {
     chain!(op(tester), as_folder(RegeneratorHandler))
+}
+
+#[track_caller]
+pub fn test_transform<F, P>(
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    expected: &str,
+    _always_ok_if_code_eq: bool,
+) where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    Tester::run(|tester| {
+        let expected = tester.apply_transform(
+            as_folder(::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            }),
+            "output.js",
+            syntax,
+            expected,
+        )?;
+
+        let expected_comments = take(&mut tester.comments);
+
+        println!("----- Actual -----");
+
+        let tr = make_tr(tr, tester);
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
+                println!("----- Hygiene -----\n{}", hygiene_src);
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut as_folder(::swc_ecma_utils::DropSpan {
+                preserve_ctxt: true,
+            }))
+            .fold_with(&mut hygiene::hygiene())
+            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
+
+        println!("{:?}", tester.comments);
+        println!("{:?}", expected_comments);
+
+        {
+            let (actual_leading, actual_trailing) = tester.comments.borrow_all();
+            let (expected_leading, expected_trailing) = expected_comments.borrow_all();
+
+            if actual == expected
+                && *actual_leading == *expected_leading
+                && *actual_trailing == *expected_trailing
+            {
+                return Ok(());
+            }
+        }
+
+        let (actual_src, expected_src) = (
+            tester.print(&actual, &tester.comments.clone()),
+            tester.print(&expected, &expected_comments),
+        );
+
+        if actual_src == expected_src {
+            return Ok(());
+        }
+
+        println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Orig"), input);
+        println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Code"), actual_src);
+
+        if actual_src != expected_src {
+            panic!(
+                r#"assertion failed: `(left == right)`
+            {}"#,
+                ::testing::diff(&actual_src, &expected_src),
+            );
+        }
+
+        Err(())
+    });
 }
 
 /// NOT A PUBLIC API. DO NOT USE.
