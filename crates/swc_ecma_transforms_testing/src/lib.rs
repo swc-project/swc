@@ -699,15 +699,13 @@ fn test_fixture_inner<'a>(
     let mut sourcemap = None;
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
-        let input_str = read_to_string(input).unwrap();
-        println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
 
         let tr = tr(tester);
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual =
-            tester.apply_transform(tr, "input.js", syntax, &read_to_string(input).unwrap())?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
