@@ -28,6 +28,11 @@ impl<'a> BabelLikeFixtureTest<'a> {
         }
     }
 
+    pub fn syntax(mut self, syntax: Syntax) -> Self {
+        self.syntax = syntax;
+        self
+    }
+
     pub fn run(self) {
         let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
