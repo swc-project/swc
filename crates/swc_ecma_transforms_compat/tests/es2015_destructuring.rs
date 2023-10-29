@@ -252,7 +252,7 @@ test!(
     |_| tr(),
     obj_assign_expr,
     r#"let a;
-[{ a = 1 }] = foo"#,
+[{ a = 1 }] = foo"#
 );
 
 test!(
