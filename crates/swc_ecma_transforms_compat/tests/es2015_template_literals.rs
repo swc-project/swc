@@ -155,122 +155,6 @@ function a() {
   var undefined = 4;
   tag`\01`;
 }"
-    r#"function _templateObject() {
-    const data = _tagged_template_literal([
-        void 0
-    ], [
-        "\\unicode and \\u{55}"
-    ]);
-    _templateObject = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject1() {
-    const data = _tagged_template_literal([
-        void 0
-    ], [
-        "\\01"
-    ]);
-    _templateObject1 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject2() {
-    const data = _tagged_template_literal([
-        void 0,
-        "right"
-    ], [
-        "\\xg"
-        "right"
-    ]);
-    _templateObject2 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject3() {
-    const data = _tagged_template_literal([
-        "left"
-        void 0
-    ], [
-        "left"
-        "\\xg"
-    ]);
-    _templateObject3 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject4() {
-    const data = _tagged_template_literal([
-        "left"
-        void 0,
-        "right"
-    ], [
-        "left"
-        "\\xg"
-        "right"
-    ]);
-    _templateObject4 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject5() {
-    const data = _tagged_template_literal([
-        "left"
-        void 0,
-        "right"
-    ], [
-        "left"
-        "\\u000g"
-        "right"
-    ]);
-    _templateObject5 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject6() {
-    const data = _tagged_template_literal([
-        "left"
-        void 0,
-        "right"
-    ], [
-        "left"
-        "\\u{-0}"
-        "right"
-    ]);
-    _templateObject6 = function() {
-        return data;
-    };
-    return data;
-}
-function _templateObject7() {
-    const data = _tagged_template_literal([
-        void 0
-    ], [
-        "\\01"
-    ]);
-    _templateObject7 = function() {
-        return data;
-    };
-    return data;
-}
-tag(_templateObject());
-tag(_templateObject1());
-tag(_templateObject2(), 0);
-tag(_templateObject3(), 0);
-tag(_templateObject4(), 0, 1);
-tag(_templateObject5(), 0, 1);
-tag(_templateObject6(), 0, 1);
-function a() {
-    var undefined = 4;
-    tag(_templateObject7());
-}"#
-    ok_if_code_eq
 );
 
 // default_order_exec
@@ -379,11 +263,6 @@ this is
 actually multiline!`;
 
 "#
-    r#"
-var o = "wow\nthis is\nactually multiline!";
-
-"#
-    ok_if_code_eq
 );
 
 // default_template_revision
@@ -562,35 +441,15 @@ test!(
 "
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_01,
-    "`\"`"
-    r#"'"'"#
-    ok_if_code_eq
-);
+test!(syntax(), |_| tr(Default::default()), codegen_01, "`\"`");
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_02,
-    "`\"\"`"
-    r#"
-    '""'
-    "#
-    ok_if_code_eq
-);
+test!(syntax(), |_| tr(Default::default()), codegen_02, "`\"\"`");
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_03,
     "`\"${foo}`"
-    r#"
-    '"'.concat(foo);
-    "#
-    ok_if_code_eq
 );
 
 test!(
@@ -598,10 +457,6 @@ test!(
     |_| tr(Default::default()),
     codegen_04,
     "`\"${foo}\"`"
-    r#"
-    '"'.concat(foo, '"');
-    "#
-    ok_if_code_eq
 );
 
 test!(
@@ -609,28 +464,15 @@ test!(
     |_| tr(Default::default()),
     codegen_05,
     "`\"\"${foo}\"\"`"
-    r#"
-    '""'.concat(foo, '""');
-    "#
-    ok_if_code_eq
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    codegen_06,
-    "\"``\""
-    "\"``\""
-    ok_if_code_eq
-);
+test!(syntax(), |_| tr(Default::default()), codegen_06, "\"``\"");
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     codegen_07,
     r#"`The ${argumentName} has unexpected type of "`"#
-    r#""The ".concat(argumentName, ' has unexpected type of "');"#
-    ok_if_code_eq
 );
 
 test!(
@@ -638,8 +480,6 @@ test!(
     |_| tr(Default::default()),
     codegen_08,
     r#"`". Expected argument to be an object with the following `"#
-    r#"'". Expected argument to be an object with the following ';"#
-    ok_if_code_eq
 );
 
 test!(
@@ -647,8 +487,6 @@ test!(
     |_| tr(Default::default()),
     codegen_09,
     r#"`keys: "${reducerKeys.join('" "')}"`"#
-    r#"'keys: "'.concat(reducerKeys.join('" "'), '"');"#
-    ok_if_code_eq
 );
 
 test!(
@@ -659,8 +497,6 @@ test!(
   matchType +
   `". Expected argument to be an object with the following ` +
   `keys: "${reducerKeys.join('" "')}"`"#
-    r#""The ".concat(argumentName, ' has unexpected type of "') + matchType + '". Expected argument to be an object with the following ' + 'keys: "'.concat(reducerKeys.join('" "'), '"')"#
-    ok_if_code_eq
 );
 
 test!(
@@ -670,20 +506,6 @@ test!(
     "
     const myVar = T`'Hello'`;
     "
-    "
-    function _templateObject() {
-      const data = _tagged_template_literal([
-          \"'Hello'\"
-      ]);
-      _templateObject = function() {
-          return data;
-      };
-      return data;
-    }
-
-    const myVar = T(_templateObject());
-    "
-    ok_if_code_eq
 );
 
 test!(
@@ -700,8 +522,6 @@ test!(
     |_| tr(Default::default()),
     issue_1549_1,
     "const a = `\r\n`;"
-    "const a = \"\\n\";"
-    ok_if_code_eq
 );
 
 test!(
