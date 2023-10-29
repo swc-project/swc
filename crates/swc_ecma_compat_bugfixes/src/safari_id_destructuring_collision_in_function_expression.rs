@@ -118,36 +118,28 @@ mod tests {
         basic,
         "(function a ([a]) { a });
          (function a({ ...a }) { a });
-         (function a({ a }) { a });",
-        "(function a([_a]) { _a; });
-         (function a({ ..._a }) { _a; });
-         (function a({ a: _a }) { _a; });"
+         (function a({ a }) { a });"
     );
 
     test!(
         Syntax::default(),
         |_| tr(),
         avoid_collision_1,
-        "(function a([a, _a]) { a + _a })",
-        "(function a([_a1, _a]) {
-          _a1 + _a;
-        });"
+        "(function a([a, _a]) { a + _a })"
     );
 
     test!(
         Syntax::default(),
         |_| tr(),
         use_duplicated_id,
-        "(function a([a]) { console.log(_a); })",
-        "(function a([_a1]) { console.log(_a); });"
+        "(function a([a]) { console.log(_a); })"
     );
 
     test!(
         Syntax::default(),
         |_| tr(),
         avoid_collision_2,
-        "(function _a([_a]) { console.log(_a); })",
-        "(function _a([__a]) { console.log(__a); });"
+        "(function _a([_a]) { console.log(_a); })"
     );
 
     test!(
@@ -157,10 +149,6 @@ mod tests {
         "let _a;
         (function a([a]) {
             _a = 3;
-        })",
-        "let _a;
-        (function a([_a1]) {
-            _a = 3;
         })"
     );
 
@@ -168,8 +156,7 @@ mod tests {
         Syntax::default(),
         |_| tr(),
         assignment_expr_in_default_value,
-        "(function a([a = a = 3]) {})",
-        "(function a([_a = _a = 3]) {})"
+        "(function a([a = a = 3]) {})"
     );
 
     test!(
@@ -189,20 +176,6 @@ mod tests {
             }
         
             return _type_of();
-        }
-        ",
-        "
-        export default function _type_of__2() {
-            if (Date__1.now() > 0) {
-                _type_of__2 = function _type_of__5() {
-                    console__1.log(0);
-                };
-            } else {
-                _type_of__2 = function _type_of__8() {
-                    console__1.log(2);
-                };
-            }
-            return _type_of__2();
         }
         "
     );
