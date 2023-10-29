@@ -40,30 +40,7 @@ class Foo {
   get 2n() {}
   set 3n(x) {}
 }
-",
-    r#"
-let Foo = function () {
-  "use strict";
-  function Foo() {
-    _class_call_check(this, Foo);
-  }
-  _create_class(Foo, [
-    {
-      key: "1",
-      value: function () {},
-    },
-    {
-      key: "2",
-      get: function () {},
-    },
-    {
-      key: "3",
-      set: function (x) {},
-    },
-  ]);
-  return Foo;
-}();
-"#
+"
 );
 
 test!(
@@ -72,18 +49,6 @@ test!(
     issue_189,
     r#"
 class HomePage extends React.Component {}
-"#,
-    r#"
-let HomePage = function(_React_Component) {
-    "use strict";
-    _inherits(HomePage, _React_Component);
-    var _super = _create_super(HomePage);
-    function HomePage() {
-        _class_call_check(this, HomePage);
-        return _super.apply(this, arguments);
-    }
-    return HomePage;
-}(React.Component);
 "#
 );
 
@@ -101,26 +66,6 @@ class Sub extends Foo {
     singleton = super();
   }
 }
-"#,
-    r#"
-let singleton;
-let Sub = function(Foo) {
-    "use strict";
-    _inherits(Sub, Foo);
-
-    var _super = _create_super(Sub);
-
-    function Sub() {
-        _class_call_check(this, Sub);
-        var _this;
-        if (singleton) {
-            return _possible_constructor_return(_this, singleton);
-        }
-        singleton = _this = _super.call(this);
-        return _possible_constructor_return(_this);
-    }
-    return Sub;
-}(Foo);
 "#
 );
 
@@ -130,18 +75,6 @@ test!(
     custom_native,
     r#"
     class List extends Array {}
-"#,
-    r#"
-let List = function(Array) {
-    "use strict";
-    _inherits(List, Array);
-    var _super = _create_super(List);
-    function List() {
-        _class_call_check(this, List);
-        return _super.apply(this, arguments);
-    }
-    return List;
-}(_wrap_native_super(Array));
 "#
 );
 
@@ -185,13 +118,6 @@ class Foo {
 
     }
 }
-"#,
-    r#"
-var Foo = function Foo() {
-  "use strict";
-_class_call_check(this, Foo);
-};
-
 "#
 );
 
