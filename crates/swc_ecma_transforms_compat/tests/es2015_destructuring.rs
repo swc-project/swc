@@ -245,7 +245,7 @@ expect(x).toBe(45);
 "#
 );
 
-test!(syntax(), |_| tr(), obj_assign_pat, r#"let { a = 1 } = foo"#,);
+test!(syntax(), |_| tr(), obj_assign_pat, r#"let { a = 1 } = foo"#);
 
 test!(
     syntax(),
@@ -259,14 +259,14 @@ test!(
     syntax(),
     |_| tr(),
     array1,
-    r#"var [a, [b], [c]] = ["hello" [" " "junk"], ["world"]];"#,
+    r#"var [a, [b], [c]] = ["hello" [" " "junk"], ["world"]];"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     array2,
-    r#"[a, [b], [c]] = ["hello" [" " "junk"], ["world"]];"#,
+    r#"[a, [b], [c]] = ["hello" [" " "junk"], ["world"]];"#
 );
 
 test!(
@@ -274,7 +274,7 @@ test!(
     |_| tr(),
     assign_expr_completion_record,
     r#"var x, y;
-[x, y] = [1, 2];"#,
+[x, y] = [1, 2];"#
 );
 
 test!(
@@ -282,14 +282,14 @@ test!(
     |_| tr(),
     assign_expr_pat,
     r#"var z = {};
-var { x: { y } = {} } = z;"#,
+var { x: { y } = {} } = z;"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     assign_expr,
-    r#"console.log([x] = [123]);"#,
+    r#"console.log([x] = [123]);"#
 );
 
 test_exec!(
@@ -308,7 +308,7 @@ test!(
     syntax(),
     |_| tr(),
     empty,
-    r#"var [, a, [b], [c], d] = ["foo" "hello" [" " "junk"], ["world"]];"#,
+    r#"var [, a, [b], [c], d] = ["foo" "hello" [" " "junk"], ["world"]];"#
 );
 
 test!(

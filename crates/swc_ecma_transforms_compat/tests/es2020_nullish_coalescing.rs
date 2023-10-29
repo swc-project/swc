@@ -44,7 +44,7 @@ test!(
     transform_in_default,
     r#"
  function foo(foo, qux = foo.bar ?? "qux") {}
-"#,
+"#
 );
 
 test!(
@@ -56,7 +56,7 @@ test!(
 function foo(opts) {
   var foo = opts.foo ?? "default";
 }
-"#,
+"#
 );
 
 test!(
@@ -67,7 +67,7 @@ test!(
 
 function foo(foo, bar = foo ?? "bar") {}
 
-"#,
+"#
 );
 
 test!(
@@ -79,7 +79,7 @@ function foo() {
   var foo = this ?? {};
 }
 
-"#,
+"#
 );
 
 test!(
@@ -122,7 +122,7 @@ test!(
 function foo(opts) {
     var foo = opts.foo ?? "default";
 }
-"#,
+"#
 );
 
 test!(

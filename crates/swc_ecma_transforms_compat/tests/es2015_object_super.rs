@@ -37,7 +37,7 @@ test!(
             return super.test;
         },
     };
-    Object.setPrototypeOf(obj, Base);"#,
+    Object.setPrototypeOf(obj, Base);"#
 );
 
 test!(
@@ -100,7 +100,7 @@ test!(
     Object.setPrototypeOf(obj, Base);"#,
 );
 
-test!(
+test!(#
     syntax(),
     |_| tr(),
     super_increment_postfix2,
@@ -117,7 +117,7 @@ test!(
 );
 
 test!(
-    syntax(),
+    syntax(),#
     |_| tr(),
     super_increment_prefix,
     r#"var Base = {

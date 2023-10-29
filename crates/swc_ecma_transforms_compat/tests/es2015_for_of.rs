@@ -161,12 +161,12 @@ for (const elm of array) {
   console.log(elm);
 }
 
-"#,
+"#
 );
 
 // regression_scope_9696
 test_exec!(
- # syntax(),
+    syntax(),
     |_| for_of(Default::default()),
     regression_scope_9696_exec,
     r#"
