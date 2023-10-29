@@ -184,7 +184,8 @@ impl<'a> BabelLikeFixtureTest<'a> {
             } else {
                 // Execution test
 
-                exec_with_node_test_runner(&code).expect("failed to execute transfomred code");
+                exec_with_node_test_runner(&format!("// {}\n{code}", self.input.display()))
+                    .expect("failed to execute transfomred code");
             }
 
             Ok(())
