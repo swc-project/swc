@@ -318,3 +318,12 @@ pub static CARGO_TARGET_DIR: Lazy<PathBuf> = Lazy::new(|| {
         .target_directory
         .into()
 });
+
+pub static CARGO_WORKSPACE_ROOT: Lazy<PathBuf> = Lazy::new(|| {
+    cargo_metadata::MetadataCommand::new()
+        .no_deps()
+        .exec()
+        .unwrap()
+        .workspace_root
+        .into()
+});

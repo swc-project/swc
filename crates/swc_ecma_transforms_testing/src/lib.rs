@@ -8,7 +8,7 @@ use std::{
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
     panic,
-    path::Path,
+    path::{Path, PathBuf},
     process::Command,
     rc::Rc,
 };
@@ -42,6 +42,7 @@ use tempfile::tempdir_in;
 use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR};
 
 pub mod babel_like;
+use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_WORKSPACE_ROOT};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -275,15 +276,15 @@ pub fn test_transform<F, P>(
 {
     let loc = panic::Location::caller();
 
-    let manifest_dir = Path::new(env!("CARGO_MANIFEST_DIR"));
-    let test_file_path = Path::new(loc.file())
-        .strip_prefix(manifest_dir)
-        .expect("test_transform does not support paths outside of the crate root");
+    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
 
-    let snapshot_dir = manifest_dir
-        .join("tests")
-        .join("__swc_snapshots__")
-        .join(test_file_path);
+    let test_file_path = CARGO_WORKSPACE_ROOT.join(loc.file());
+
+    let snapshot_dir = manifest_dir.join("tests").join("__swc_snapshots__").join(
+        test_file_path
+            .strip_prefix(&manifest_dir)
+            .expect("test_transform does not support paths outside of the crate root"),
+    );
 
     test_fixture_inner(
         syntax,
