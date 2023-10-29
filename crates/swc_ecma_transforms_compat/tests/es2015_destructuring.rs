@@ -30,38 +30,28 @@ test!(
     syntax(),
     |_| tr(),
     issue_2819,
-    r#"const [first, , third] = ["red" "yellow" "green"]"#,
-    r#"const first = "red" third = "green";"#,
-    ok_if_code_eq
+    r#"const [first, , third] = ["red" "yellow" "green"]"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     issue_2821,
-    r#"const [x, y, ...z] = [1];"#,
-    r#"const _ref = [
-    1
-], x = _ref[0], y = _ref[1], z = _ref.slice(2)"#,
-    ok_if_code_eq
+    r#"const [x, y, ...z] = [1];"#
 );
 
 test!(
     syntax(),
     |_| destructuring(Config { loose: false }),
     need_to_array,
-    r#"const [x, y, ...z] = o;"#,
-    r#"const _o = _to_array(o), x = _o[0], y = _o[1], z = _o.slice(2);"#,
-    ok_if_code_eq
+    r#"const [x, y, ...z] = o;"#
 );
 
 test!(
     syntax(),
     |_| destructuring(Config { loose: true }),
     need_to_array_loose,
-    r#"const [x, y, ...z] = o;"#,
-    r#"const x = o[0], y = o[1], z = o.slice(2);"#,
-    ok_if_code_eq
+    r#"const [x, y, ...z] = o;"#
 );
 
 test!(
@@ -71,12 +61,7 @@ test!(
     r#"function foo(a,b)
     {
         [a,b,...restParam] = arguments;
-    }"#,
-    r#"function foo(a, b) {
-    var ref;
-    ref = Array.prototype.slice.call(arguments), a = ref[0], b = ref[1], restParam = ref.slice(2), ref;
-}"#,
-    ok_if_code_eq
+    }"#
 );
 
 test!(
@@ -86,12 +71,7 @@ test!(
     r#"function foo(a,b)
     {
         [a,b,...restParam] = arguments;
-    }"#,
-    r#"function foo(a, b) {
-    var ref;
-    ref = arguments, a = ref[0], b = ref[1], restParam = ref.slice(2), ref;
-}"#,
-    ok_if_code_eq
+    }"#
 );
 
 test!(

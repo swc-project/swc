@@ -19,30 +19,7 @@ test!(
     spec_let,
     r#"for (let i of arr) {
 
-}"#,
-    r#"
-var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    let i = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
+}"#
 );
 
 test!(
@@ -51,29 +28,7 @@ test!(
     spec_member_expr,
     r#"for (obj.prop of arr) {
 
-}"#,
-    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    obj.prop = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
+}"#
 );
 
 test!(
@@ -87,7 +42,7 @@ test!(
 for (var i of numbers) {
 
 }
-"#,
+"#
     r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
@@ -130,7 +85,7 @@ try {
       throw _iteratorError1;
     }
   }
-}"#,
+}"#
     ok_if_code_eq
 );
 
@@ -142,7 +97,7 @@ test!(
   for (let e of f()) {
     continue b;
   }
-}"#,
+}"#
     "
     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
@@ -196,7 +151,7 @@ test!(
     spec_var,
     r#"for (var i of arr) {
 
-}"#,
+}"#
     r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 
 try {
@@ -217,7 +172,7 @@ try {
       throw _iteratorError;
     }
   }
-}"#,
+}"#
     ok_if_code_eq
 );
 
@@ -236,7 +191,7 @@ for (elm of array) {
   console.log(elm);
 }
 
-"#,
+"#
 );
 
 // for_of_as_array_for_of_array_pattern
@@ -254,7 +209,7 @@ for ([elm] of array) {
 }
 
 "#,
-);
+)#
 
 // regression_redeclare_array_8913
 test!(
@@ -273,7 +228,7 @@ function f(...t) {
 
 "#,
 );
-
+#
 // for_of_as_array_for_of_declaration_array_pattern
 test!(
     syntax(),
@@ -290,7 +245,7 @@ for (const [elm] of array) {
 "#,
 );
 
-// for_of_as_array_for_of_expression
+/#for_of_as_array_for_of_expression
 test!(
     syntax(),
     |_| for_of(Config {
@@ -306,7 +261,7 @@ for (i of items) i;
 );
 
 // for_of_as_array_for_of_declaration
-test!(
+t#t!(
     syntax(),
     |_| for_of(Config {
         assume_array: true,
@@ -323,7 +278,7 @@ for (const elm of array) {
 
 // regression_scope_9696
 test_exec!(
-    syntax(),
+ # syntax(),
     |_| for_of(Default::default()),
     regression_scope_9696_exec,
     r#"
@@ -361,7 +316,7 @@ for (const elm of array) {
 // for_of_as_array_for_of_static
 test!(
     syntax(),
-    |_| for_of(Config {
+ # |_| for_of(Config {
         assume_array: true,
         ..Default::default()
     }),
@@ -381,7 +336,7 @@ for (elm of array) {
 test!(
     syntax(),
     |_| for_of(Config {
-        assume_array: true,
+ #     assume_array: true,
         ..Default::default()
     }),
     for_of_as_array_for_of_import_es2015,
@@ -400,7 +355,7 @@ test!(
     syntax(),
     |_| for_of(Default::default()),
     regression_label_object_with_comment_4995,
-    r#"
+ # r#"
 myLabel: //woops
 for (let a of b) {
   continue myLabel;
@@ -415,7 +370,7 @@ test!(
     |_| for_of(Config {
         assume_array: true,
         ..Default::default()
-    }),
+ # }),
     regression_if_label_3858,
     r#"
 if ( true )
@@ -433,7 +388,7 @@ fn exec(input: PathBuf) {
     compare_stdout(
         Syntax::default(),
         |_| {
-            let top_level_mark = Mark::new();
+ #         let top_level_mark = Mark::new();
 
             chain!(
                 resolver(Mark::new(), top_level_mark, false),
