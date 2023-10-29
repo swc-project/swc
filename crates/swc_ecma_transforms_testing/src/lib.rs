@@ -347,6 +347,15 @@ pub fn test_transform<F, P>(
     });
 }
 
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[macro_export]
+macro_rules! test_location {
+    () => {{
+        $crate::TestLocation {}
+    }};
+}
+
 /// Test transformation.
 #[macro_export]
 macro_rules! test {
