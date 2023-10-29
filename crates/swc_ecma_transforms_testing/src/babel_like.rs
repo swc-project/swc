@@ -4,6 +4,8 @@ use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
+use crate::parse_options;
+
 /// These tests use `options.json`.
 ///
 ///
@@ -20,8 +22,11 @@ impl<'a> BabelLikeFixtureTest<'a> {
     }
 
     pub fn run(self) {
+        let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
+
         let comments = SingleThreadedComments::default();
         let mut builder = BabelPassBuilder {
+            assumptions: options.assumptions,
             unresolved_mark: Mark::new(),
             top_level_mark: Mark::new(),
             comments,
@@ -29,10 +34,8 @@ impl<'a> BabelLikeFixtureTest<'a> {
     }
 }
 
-fn read_options_json(input: &Path) -> BabelOptions {}
-
 #[derive(Deserialize)]
-struct BabelOptions {
+pub struct BabelOptions {
     #[serde(default)]
     pub assumptions: Assumptions,
 }
