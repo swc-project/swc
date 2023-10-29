@@ -39,7 +39,9 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, NormalizedOutput};
+use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR};
+
+pub mod babel_like;
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -421,7 +423,7 @@ where
 }
 
 /// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -468,7 +470,7 @@ where
             src_without_helpers
         );
 
-        exec_with_node_test_runner(test_name, &src)
+        exec_with_node_test_runner(&src).map(|_| {})
     })
 }
 
@@ -480,11 +482,8 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
-fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("target")
-        .join("testing")
-        .join(test_name);
+fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
+    let root = CARGO_TARGET_DIR.join("swc-es-exec-testing");
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
 
@@ -503,7 +502,7 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
     let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
     create_dir_all(&tmp_dir).unwrap();
 
-    let path = tmp_dir.path().join(format!("{}.test.js", test_name));
+    let path = tmp_dir.path().join(format!("{}.test.js", hash));
 
     let mut tmp = OpenOptions::new()
         .create(true)
@@ -644,26 +643,40 @@ pub fn parse_options<T>(dir: &Path) -> T
 where
     T: DeserializeOwned,
 {
-    let mut s = String::from("{}");
+    type Map = serde_json::Map<String, serde_json::Value>;
 
-    fn check(dir: &Path) -> Option<String> {
+    let mut value = Map::default();
+
+    fn check(dir: &Path) -> Option<Map> {
         let file = dir.join("options.json");
         if let Ok(v) = read_to_string(&file) {
             eprintln!("Using options.json at {}", file.display());
             eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
 
-            return Some(v);
+            return Some(serde_json::from_str(&v).unwrap_or_else(|err| {
+                panic!("failed to deserialize options.json: {}\n{}", err, v)
+            }));
         }
 
-        dir.parent().and_then(check)
+        None
     }
 
-    if let Some(content) = check(dir) {
-        s = content;
+    let mut c = Some(dir);
+
+    while let Some(dir) = c {
+        if let Some(new) = check(dir) {
+            for (k, v) in new {
+                if !value.contains_key(&k) {
+                    value.insert(k, v);
+                }
+            }
+        }
+
+        c = dir.parent();
     }
 
-    serde_json::from_str(&s)
-        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{}", err, s))
+    serde_json::from_value(serde_json::Value::Object(value.clone()))
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{:?}", err, value))
 }
 
 /// Config for [test_fixture]. See [test_fixture] for documentation.
