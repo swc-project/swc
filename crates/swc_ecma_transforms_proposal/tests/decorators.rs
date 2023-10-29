@@ -83,6 +83,8 @@ fn create_pass(
     static_block_mark: Mark,
 ) -> Option<Box<dyn Fold>> {
     match name {
+        "proposal-decorators" => Some(Box::new(decorator_2022_03())),
+
         "proposal-class-properties" => Some(Box::new(chain!(
             swc_ecma_transforms_compat::es2022::static_blocks(static_block_mark),
             swc_ecma_transforms_compat::es2022::class_properties(
