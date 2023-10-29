@@ -15,7 +15,7 @@ mod template_literal_caching;
 
 pub fn bugfixes<C>(c: TransformContext<C>) -> impl Fold
 where
-    C: Comments,
+    C: Comments + Clone,
 {
     chain!(
         async_arrows_in_class(c.unresolved_mark),

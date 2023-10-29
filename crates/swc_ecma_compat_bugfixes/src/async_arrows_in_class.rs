@@ -1,6 +1,7 @@
-use swc_common::{util::take::Take, Mark, DUMMY_SP};
+use swc_common::{comments::Comments, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_es2015::arrow;
+use swc_ecma_transforms_base::TransformContext;
 use swc_ecma_utils::prepend_stmt;
 use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, InjectVars};
 use swc_trace_macro::swc_trace;
@@ -10,22 +11,32 @@ use swc_trace_macro::swc_trace;
 /// instance via `this` within those methods would also throw. This is fixed by
 /// converting arrow functions in class methods into equivalent function
 /// expressions. See https://bugs.webkit.org/show_bug.cgi?id=166879
-pub fn async_arrows_in_class(unresolved_mark: Mark) -> impl Fold {
+pub fn async_arrows_in_class<C>(context: TransformContext<C>) -> impl Fold
+where
+    C: Comments + Clone,
+{
     AsyncArrowsInClass {
-        unresolved_mark,
-        ..Default::default()
+        context,
+        in_class_method: false,
+        vars: Default::default(),
     }
 }
-#[derive(Default, Clone)]
-struct AsyncArrowsInClass {
+#[derive(Clone)]
+struct AsyncArrowsInClass<C>
+where
+    C: Comments + Clone,
+{
+    context: TransformContext<C>,
     in_class_method: bool,
-    unresolved_mark: Mark,
     vars: Vec<VarDeclarator>,
 }
 
 /// TODO: VisitMut
 #[swc_trace]
-impl Fold for AsyncArrowsInClass {
+impl<C> Fold for AsyncArrowsInClass<C>
+where
+    C: Comments + Clone,
+{
     noop_fold_type!();
 
     fn fold_class_method(&mut self, n: ClassMethod) -> ClassMethod {
@@ -51,7 +62,7 @@ impl Fold for AsyncArrowsInClass {
         match n {
             Expr::Arrow(ref a) => {
                 if a.is_async {
-                    let mut v = arrow(self.unresolved_mark);
+                    let mut v = arrow(self.context.clone());
                     let n = n.fold_with(&mut v);
                     self.vars.extend(v.take_vars());
                     n
@@ -102,7 +113,7 @@ impl Fold for AsyncArrowsInClass {
 
 #[cfg(test)]
 mod tests {
-    use swc_common::chain;
+    use swc_common::{chain, Mark};
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
