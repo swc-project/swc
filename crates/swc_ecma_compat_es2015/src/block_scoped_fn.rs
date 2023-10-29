@@ -126,24 +126,6 @@ name("Steve");"#
                 }
             }
         }
-        "#,
-        r#"
-        {
-            let foo = function foo() {
-                return function bar() {
-                    {
-                        let baz = function baz() {};
-                    }
-                };
-                function baz() {}
-                {
-                    let bar = function bar() {};
-                    {
-                        let bar = function bar() {};
-                    }
-                }
-            };
-        }
         "#
     );
 
@@ -155,14 +137,6 @@ name("Steve");"#
 function foo(scope) {
     scope.startOperation = startOperation;
 
-    function startOperation(operation) {
-        scope.agentOperation = operation;
-    }
-}
-",
-        "
-function foo(scope) {
-    scope.startOperation = startOperation;
     function startOperation(operation) {
         scope.agentOperation = operation;
     }
@@ -180,13 +154,6 @@ function foo(scope) {
          target[key] = source[key]; } } } return target; }; return \
          components_Link_extends.apply(this, arguments); }
 
-",
-        "function components_Link_extends() { components_Link_extends = Object.assign || function \
-         (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for \
-         (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { \
-         target[key] = source[key]; } } } return target; }; return \
-         components_Link_extends.apply(this, arguments); }
-
 "
     );
 
@@ -194,24 +161,6 @@ function foo(scope) {
         ::swc_ecma_parser::Syntax::default(),
         |_| block_scoped_functions(),
         issue_288_2,
-        "function _extends() {
-  module.exports = _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-",
         "function _extends() {
   module.exports = _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -243,13 +192,6 @@ function foo(scope) {
                 default: obj
               };
             }
-        }",
-        "function foo() {
-            'use strict';
-            function _interop_require_default(obj) {
-                return obj && obj.__esModule ? obj : { default: obj };
-            }
-        }
-"
+        }"
     );
 }
