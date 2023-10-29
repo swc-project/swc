@@ -39,7 +39,7 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, NormalizedOutput};
+use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR};
 
 pub mod babel_like;
 
@@ -483,10 +483,7 @@ fn calc_hash(s: &str) -> String {
 }
 
 fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("target")
-        .join("testing")
-        .join(test_name);
+    let root = CARGO_TARGET_DIR.join("testing").join(test_name);
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
 
