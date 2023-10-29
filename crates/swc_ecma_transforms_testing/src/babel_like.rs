@@ -158,10 +158,14 @@ impl<'a> BabelLikeFixtureTest<'a> {
     }
 
     /// Execute ussing node.js
-    pub fn execute(self) {}
+    pub fn execute(self) {
+        self.run(None)
+    }
 
     /// Run a fixture test
-    pub fn fixture(self, output: &Path) {}
+    pub fn fixture(self, output: &Path) {
+        self.run(Some(output))
+    }
 }
 
 #[derive(Debug, Deserialize)]
