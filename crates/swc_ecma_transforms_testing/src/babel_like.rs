@@ -1,4 +1,4 @@
-use std::path::Path;
+use std::{fs::read_to_string, path::Path};
 
 use serde::Deserialize;
 use serde_json::Value;
@@ -120,7 +120,17 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
             // Run pass
 
-            let fm = cm.load_file(self.input).expect("failed to load file");
+            let src = read_to_string(self.input).expect("failed to read file");
+            let src = if output_path.is_none() && !compare_stdout {
+                format!(
+                    "it('should work', async function () {{
+                    {src}
+                }})",
+                )
+            } else {
+                src
+            };
+            let fm = cm.new_source_file(swc_common::FileName::Real(self.input.to_path_buf()), src);
 
             let mut errors = vec![];
             let input_program = parse_file_as_program(
