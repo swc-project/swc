@@ -19,7 +19,7 @@ fn tr() -> impl Fold {
 }
 
 macro_rules! to {
-    ($name:ident, $src:expr, $expected:expr) => {
+    ($name:ident, $src:expr) => {
         test!(
             Syntax::Es(EsConfig {
                 decorators: true,
@@ -27,21 +27,20 @@ macro_rules! to {
             }),
             |_| chain!(resolver(Mark::new(), Mark::new(), false), tr()),
             $name,
-            $src,
-            $expected
+            $src
         );
     };
 }
 
 macro_rules! optimized_out {
     ($name:ident, $src:expr) => {
-        to!($name, $src, "");
+        to!($name, $src);
     };
 }
 
 macro_rules! noop {
     ($name:ident, $src:expr) => {
-        to!($name, $src, $src);
+        to!($name, $src);
     };
 }
 
