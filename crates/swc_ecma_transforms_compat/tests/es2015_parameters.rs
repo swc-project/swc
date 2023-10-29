@@ -54,7 +54,7 @@ class Foo {
 		return {a};
 	}
 }
-"#,
+"#
 );
 
 test!(
@@ -64,14 +64,14 @@ test!(
     r#"const a = 'bar';
 function foo(...a) {
   return a;
-}"#,
+}"#
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     default_before_last,
-    r#"function foo({x,y} = "foo" b) {}"#,
+    r#"function foo({x,y} = "foo" b) {}"#
 );
 
 test_exec!(
@@ -118,7 +118,7 @@ function outer(a = () => eval("x")) {
   let x = "inside";
   return a();
 }
-outer();"#,
+outer();"#
 );
 
 test_exec!(
@@ -148,7 +148,7 @@ test!(
     this.id = id
   }
 }
-Ref.nextID = 0"#,
+Ref.nextID = 0"#
 );
 
 test_exec!(
@@ -185,7 +185,7 @@ class X {
   constructor(x = foo) {
     this.x = x
   }
-}"#,
+}"#
 );
 
 test_exec!(
@@ -211,7 +211,7 @@ test!(
 
 var a = function (e, f = 5) {
   return e + " bar " + f;
-};"#,
+};"#
 );
 
 test!(
@@ -223,7 +223,7 @@ test!(
   a2 = 4,
   {a3, a4},
   a5,
-  {a6, a7} = {}) {}"#,
+  {a6, a7} = {}) {}"#
 );
 
 test!(
@@ -234,7 +234,7 @@ test!(
 function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
-rest(undefined, 2)"#,
+rest(undefined, 2)"#
 );
 
 test!(
@@ -245,7 +245,7 @@ test!(
   function rest2(b = a, ...a) {
   expect(a[0]).toBe(2);
 }
-rest2(undefined, 2);"#,
+rest2(undefined, 2);"#
 );
 
 test!(
@@ -256,7 +256,7 @@ test!(
     function rest3(b = a, ...a) {
   expect(a).toHaveLength(1);
 }
-rest3(undefined, 2)"#,
+rest3(undefined, 2)"#
 );
 
 test_exec!(
@@ -288,7 +288,7 @@ test!(
   set field(num = 1) {
     this.num = num;
   }
-};"#,
+};"#
 );
 
 test!(
@@ -302,7 +302,7 @@ set obj({ a, b } = {}) {
 set arr([x, y] = []) {
   this.num = { x, y }
 }
-};"#,
+};"#
 );
 
 test_exec!(
@@ -326,7 +326,7 @@ test!(
     default_single,
     r#"var t = function (f = "foo") {
   return f + " bar";
-};"#,
+};"#
 );
 
 test!(
@@ -336,7 +336,7 @@ test!(
     r#"// #3861
 function t(x = "default" { a, b }, ...args) {
   console.log(x, a, b, args);
-}"#,
+}"#
 );
 
 test!(
@@ -346,7 +346,7 @@ test!(
     r#"const args = 'bar';
 function foo(...args) {
   return args;
-}"#,
+}"#
 );
 
 test!(
@@ -356,7 +356,7 @@ test!(
     r#"function first(...values) {
   var index = 0;
   return values[index++];
-}"#,
+}"#
 );
 
 test!(
@@ -370,7 +370,7 @@ test!(
     return nodes[0];
   }
   return ((new OneOfNode(nodes)): any)
-}"#,
+}"#
 );
 
 test!(
@@ -386,7 +386,7 @@ test!(
 
 function f(a, ...rest) {
   return rest[-1];
-}"#,
+}"#
 );
 
 test_exec!(
@@ -413,7 +413,7 @@ test!(
     rest_args_deoptimiazation,
     r#"function x (...rest) {
   arguments;
-}"#,
+}"#
 );
 
 test!(
@@ -457,7 +457,7 @@ var innerclassproperties = (...args) => (
     static args = args;
     args = args;
   }
-);"#,
+);"#
 );
 
 test!(
@@ -473,7 +473,7 @@ test!(
 var x = async (...rest) => {
   if (noNeedToWork) return 0;
   return rest;
-};"#,
+};"#
 );
 
 test!(
@@ -492,7 +492,7 @@ test!(
     },
     rest_binding_deoptimisation,
     r#"const deepAssign = (...args) => args = [];
-"#,
+"#
 );
 
 test!(
@@ -574,7 +574,7 @@ function r(...rest){
   if (noNeedToWork) return 0;
   [rest[0]] = x;
   return rest;
-}"#,
+}"#
 );
 
 test!(
@@ -590,7 +590,7 @@ function t(f, ...items) {
   items;
   items[0];
   items[items.length - 1];
-}"#,
+}"#
 );
 
 test_exec!(
@@ -636,7 +636,7 @@ function t(...items) {
   for (let i = 0; i < items.length; i++) {
     return items[i];
   }
-}"#,
+}"#
 );
 
 test!(
@@ -668,7 +668,7 @@ function t(...items) {
   for (let i = 0; i < items.length; i++) {
     return items[i];
   }
-}"#,
+}"#
 );
 
 test!(
@@ -693,7 +693,7 @@ function u(f, g, ...items) {
     x[12] = items[0];
     y.prop = items[1];
     var z = items[2] | 0 || 12;
-}"#,
+}"#
 );
 
 test!(
@@ -723,7 +723,7 @@ function d(thing, ...args) {
     let args = thing;
     foo(thing);
   }
-}"#,
+}"#
 );
 
 test!(
@@ -739,14 +739,14 @@ test!(
     class Foo extends Bar { }
     return hello(...foo)
   }
-}"#,
+}"#
 );
 
 test!(
     syntax(),
     |_| tr(Default::default()),
     rest_patterns,
-    r#"function foo(...[a]) {}"#,
+    r#"function foo(...[a]) {}"#
 );
 
 test_exec!(
@@ -786,7 +786,7 @@ function foo(...b) {
 function foo(...args){
   args.pop()
   foo(...args);
-}"#,
+}"#
 );
 
 //// regression_6057_expanded
@@ -809,7 +809,7 @@ function foo(...args){
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
@@ -926,7 +926,7 @@ function foo(...args){
 //    console.log(this)
 //  }
 //}
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
@@ -994,7 +994,7 @@ var concat = async (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
-"#,
+"#
 );
 
 // parameters_rest_async_arrow_functions
@@ -1019,7 +1019,7 @@ var x = async (...rest) => {
   return rest;
 };
 
-"#,
+"#
 );
 
 // regression_6057_simple
@@ -1041,7 +1041,7 @@ function foo(...a) {
 }
 
 
-"#,
+"#
 );
 
 // parameters_regression_4333
@@ -1063,7 +1063,7 @@ function foo(...args) {
   return args;
 }
 
-"#,
+"#
 );
 
 test!(
@@ -1349,7 +1349,7 @@ test!(
 
     var a = function (e, f = 5) {
       return e + " bar " + f;
-    };"#,
+    };"#
 );
 
 test_exec!(
@@ -1393,7 +1393,7 @@ test!(
       a5,
       {a6, a7} = {}) {
 
-    }"#,
+    }"#
 );
 
 test_exec!(
@@ -1428,7 +1428,7 @@ test!(
     r#"
     var t = function (f = "foo") {
       return f + " bar";
-    };"#,
+    };"#
 );
 
 test!(
@@ -1440,7 +1440,7 @@ test!(
     r#"
     function t(x = "default" { a, b }, ...args) {
       console.log(x, a, b, args);
-    }"#,
+    }"#
 );
 
 test_exec!(
@@ -1465,7 +1465,7 @@ test!(
     r#"
     let v0 = (Array, Int8Array, ...Int32Array) => (NaN + Infinity) * Int32Array.length;
     console.log(v0(1, 2, 'hello', true, 7));
-  "#,
+  "#
 );
 
 #[testing::fixture("tests/parameters/**/input.js")]

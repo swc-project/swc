@@ -40,8 +40,6 @@ test!(
     |_| tr(Default::default()),
     escape_quotes,
     r#"var t = `'${foo}' "${bar}"`;"#
-    r#"var t = "'".concat(foo, "' \"").concat(bar, '"');"#
-    ok_if_code_eq
 );
 
 test!(
@@ -131,8 +129,6 @@ test!(
     |_| tr(Default::default()),
     statement,
     r#"var foo = `test ${foo + bar}`;"#
-    r#"var foo = "test ".concat(foo + bar);"#
-    ok_if_code_eq
 );
 
 test_exec!(

@@ -56,7 +56,7 @@ test!(
             return super.test = 3;
         },
     };
-    Object.setPrototypeOf(obj, Base);"#,
+    Object.setPrototypeOf(obj, Base);"#
 );
 
 test!(
@@ -81,7 +81,7 @@ test!(
         return Inner;
         }
     };
-    Object.setPrototypeOf(Outer, Hello);"#,
+    Object.setPrototypeOf(Outer, Hello);"#
 );
 
 test!(
@@ -97,10 +97,10 @@ test!(
             return super.test++;
         }
       };
-    Object.setPrototypeOf(obj, Base);"#,
+    Object.setPrototypeOf(obj, Base);"#
 );
 
-test!(#
+test!(
     syntax(),
     |_| tr(),
     super_increment_postfix2,
@@ -113,11 +113,11 @@ test!(#
             return super[test]++;
         }
       };
-    Object.setPrototypeOf(obj, Base);"#,
+    Object.setPrototypeOf(obj, Base);"#
 );
 
 test!(
-    syntax(),#
+    syntax(),
     |_| tr(),
     super_increment_prefix,
     r#"var Base = {
@@ -129,7 +129,7 @@ test!(
             return ++super.test;
         }
     };
-    Object.setPrototypeOf(obj, Base);"#,
+    Object.setPrototypeOf(obj, Base);"#
 );
 
 test!(
@@ -151,5 +151,5 @@ f0.prototype = {
         });
     }
 };
-"#,
+"#
 );
