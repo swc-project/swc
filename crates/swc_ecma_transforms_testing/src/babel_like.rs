@@ -46,9 +46,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
-    pub fn execute(self) {}
-
-    pub fn fixture(self, output: &Path) {
+    fn run(self) -> TestOutput {
         let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
         let comments = SingleThreadedComments::default();
@@ -59,6 +57,16 @@ impl<'a> BabelLikeFixtureTest<'a> {
             comments,
         };
     }
+
+    /// Execute ussing node.js
+    pub fn execute(self) {}
+
+    /// Run a fixture test
+    pub fn fixture(self, output: &Path) {}
+}
+
+struct TestOutput {
+    code: String,
 }
 
 #[derive(Debug, Deserialize)]
