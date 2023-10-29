@@ -43,23 +43,20 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         issue_411,
-        "try {} catch {}",
-        "try {} catch(e) {}"
+        "try {} catch {}"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         catch_binding_name_collision_1,
-        "try { throw new Error(); } catch { log(e); }",
-        "try { throw new Error(); } catch (e1) { log(e); }"
+        "try { throw new Error(); } catch { log(e); }"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         catch_binding_name_collision_2,
-        "var e; try {} catch { log(e); }",
-        "var e; try {} catch (e1) { log(e); }"
+        "var e; try {} catch { log(e); }"
     );
 }
