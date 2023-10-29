@@ -263,8 +263,10 @@ where
     chain!(op(tester), as_folder(RegeneratorHandler))
 }
 
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
 #[track_caller]
-pub fn test_transform<F, P>(
+pub fn test_inlined_transform<F, P>(
     test_name: &str,
     syntax: Syntax,
     tr: F,
@@ -283,7 +285,7 @@ pub fn test_transform<F, P>(
     let snapshot_dir = manifest_dir.join("tests").join("__swc_snapshots__").join(
         test_file_path
             .strip_prefix(&manifest_dir)
-            .expect("test_transform does not support paths outside of the crate root"),
+            .expect("test_inlined_transform does not support paths outside of the crate root"),
     );
 
     test_fixture_inner(
@@ -311,21 +313,21 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform(stringify!($test_name), $syntax, $tr, $input, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform(stringify!($test_name), $syntax, $tr, $input, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform(stringify!($test_name), $syntax, $tr, $input, true)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, true)
         }
     };
 }
