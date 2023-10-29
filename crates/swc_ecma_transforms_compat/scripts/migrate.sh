@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
 set -eux
 
-
-sg -p 'test!($A, $B, $C, $D)' -l rs
+(cd tests && sg -p 'test!($$$ARGS)' -l rs)
