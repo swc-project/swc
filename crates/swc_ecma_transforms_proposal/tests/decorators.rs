@@ -32,14 +32,16 @@ fn exec(input: PathBuf) {
 }
 
 fn exec_inner(input: PathBuf) {
-    let static_block_mark = Mark::new();
-
     BabelLikeFixtureTest::new(&input)
         .syntax(Syntax::Typescript(TsConfig {
             decorators: true,
             ..Default::default()
         }))
-        .add_factory(|c, name, opts| create_pass(c, name, opts, static_block_mark))
+        .add_factory(|| {
+            let static_block_mark = Mark::new();
+
+            Box::new(move |c, name, opts| create_pass(c, name, opts, static_block_mark))
+        })
         .execute();
 }
 
@@ -57,8 +59,6 @@ fn fixture_inner(input: PathBuf) {
         input.extension().unwrap().to_string_lossy()
     ));
 
-    let static_block_mark = Mark::new();
-
     BabelLikeFixtureTest::new(&input)
         .syntax(Syntax::Es(EsConfig {
             decorators: true,
@@ -67,7 +67,11 @@ fn fixture_inner(input: PathBuf) {
             decorators_before_export: true,
             ..Default::default()
         }))
-        .add_factory(|c, name, opts| create_pass(c, name, opts, static_block_mark))
+        .add_factory(|| {
+            let static_block_mark = Mark::new();
+
+            Box::new(move |c, name, opts| create_pass(c, name, opts, static_block_mark))
+        })
         .allow_error()
         .fixture(&output);
 }
