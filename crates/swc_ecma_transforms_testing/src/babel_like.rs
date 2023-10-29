@@ -23,6 +23,8 @@ pub struct BabelLikeFixtureTest<'a> {
     syntax: Syntax,
 
     factories: Vec<Box<dyn 'a + FnMut(String, Option<Value>) -> Option<Box<dyn 'a + Fold>>>>,
+
+    source_map: bool,
 }
 
 impl<'a> BabelLikeFixtureTest<'a> {
@@ -32,11 +34,17 @@ impl<'a> BabelLikeFixtureTest<'a> {
             output,
             syntax: Default::default(),
             factories: Default::default(),
+            source_map: false,
         }
     }
 
     pub fn syntax(mut self, syntax: Syntax) -> Self {
         self.syntax = syntax;
+        self
+    }
+
+    pub fn source_map(mut self) -> Self {
+        self.source_map = true;
         self
     }
 
