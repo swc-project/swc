@@ -30,7 +30,7 @@ test!(
     syntax(),
     |_| tr(),
     issue_2819,
-    r#"const [first, , third] = ["red", "yellow", "green"]"#
+    r#"const [first, , third] = ["red", "yellow", "green"]"#,
     ok_if_code_eq
 );
 
