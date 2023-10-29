@@ -1735,12 +1735,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 - **(testing)** Ignore `non_snake_case` for generated test names ([#7087](https://github.com/swc-project/swc/issues/7087)) ([1c254b1](https://github.com/swc-project/swc/commit/1c254b1c44f72f5e66698f78d76796d5a7f66146))
 
-### Performance
-
-
-
-- **(es/lexer)** Use jump table for `skip_space` ([#7073](https://github.com/swc-project/swc/issues/7073)) ([f854d51](https://github.com/swc-project/swc/commit/f854d51343dcbdf43acd87f51e2288a052e39a0b))
-
 ### Refactor
 
 
