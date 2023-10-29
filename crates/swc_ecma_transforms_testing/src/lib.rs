@@ -470,7 +470,7 @@ where
             src_without_helpers
         );
 
-        exec_with_node_test_runner(test_name, &src)
+        exec_with_node_test_runner(&src)
     })
 }
 
@@ -482,8 +482,8 @@ fn calc_hash(s: &str) -> String {
     hex::encode(sum)
 }
 
-fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
-    let root = CARGO_TARGET_DIR.join("testing").join(test_name);
+fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
+    let root = CARGO_TARGET_DIR.join("swc-es-exec-testing");
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
 
@@ -502,7 +502,7 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
     let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
     create_dir_all(&tmp_dir).unwrap();
 
-    let path = tmp_dir.path().join(format!("{}.test.js", test_name));
+    let path = tmp_dir.path().join(format!("{}.test.js", hash));
 
     let mut tmp = OpenOptions::new()
         .create(true)

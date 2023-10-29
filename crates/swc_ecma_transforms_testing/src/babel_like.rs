@@ -16,7 +16,7 @@ use swc_ecma_transforms_base::{
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::NormalizedOutput;
 
-use crate::{parse_options, stdout_of};
+use crate::{exec_with_node_test_runner, parse_options, stdout_of};
 
 pub type PassFactory<'a> =
     Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>;
@@ -171,9 +171,10 @@ impl<'a> BabelLikeFixtureTest<'a> {
             } else {
                 // Execution test
 
-                let actual_stdout = stdout_of(&code).expect("failed to execute transfomred code");
-                let expected_stdout =
-                    stdout_of(&fm.src).expect("failed to execute transfomred code");
+                let actual_stdout =
+                    exec_with_node_test_runner(&code).expect("failed to execute transfomred code");
+                let expected_stdout = exec_with_node_test_runner(&fm.src)
+                    .expect("failed to execute transfomred code");
 
                 testing::assert_eq!(actual_stdout, expected_stdout);
             }
