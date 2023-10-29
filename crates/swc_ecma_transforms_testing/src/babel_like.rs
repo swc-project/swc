@@ -1,5 +1,6 @@
 use std::{fs::read_to_string, path::Path};
 
+use ansi_term::Color;
 use serde::Deserialize;
 use serde_json::Value;
 use swc_common::{chain, comments::SingleThreadedComments, sync::Lrc, Mark, SourceMap};
@@ -159,18 +160,29 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 return Err(());
             }
 
-            let output_program = HELPERS.set(&Helpers::new(output_path.is_some()), || {
+            let helpers = Helpers::new(output_path.is_some());
+            let (code_without_helper, output_program) = HELPERS.set(&helpers, || {
                 let mut p = input_program.fold_with(&mut *pass);
+
+                let code_without_helper = builder.print(&p);
 
                 if output_path.is_none() {
                     p.visit_mut_with(&mut inject_helpers(builder.unresolved_mark))
                 }
 
-                p
+                (code_without_helper, p)
             });
 
             // Print output
             let code = builder.print(&output_program);
+
+            println!(
+                "\t>>>>> {} <<<<<\n{}\n\t>>>>> {} <<<<<\n{}",
+                Color::Green.paint("Orig"),
+                fm.src,
+                Color::Green.paint("Code"),
+                code_without_helper
+            );
 
             if let Some(output_path) = output_path {
                 // Fixture test
