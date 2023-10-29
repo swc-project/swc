@@ -322,7 +322,7 @@ var { x, ...y } = z;
 var { [x]: x, ...y } = z;
 (function({ x, ...y }) { });
 
-({ x, y, ...z } = o);"#,
+({ x, y, ...z } = o);"#
 );
 
 test!(
@@ -336,21 +336,21 @@ var { x, ...y } = z;
 var { [x]: x, ...y } = z;
 (function({ x, ...y }) { });
 
-({ x, y, ...z } = o);"#,
+({ x, y, ...z } = o);"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     export_variable_issue_2858_1,
-    r#"export const { a: a2, b: b2 } = { a: 1, b: 2 };"#,
+    r#"export const { a: a2, b: b2 } = { a: 1, b: 2 };"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     export_variable_issue_2858_2,
-    r#"export const { a: b } = { a: 1 }"#,
+    r#"export const { a: b } = { a: 1 }"#
 );
 
 test!(
@@ -363,7 +363,7 @@ export const {
     b: b1,
     b: { c: c1 },
 } = { a: 1, b: { c: 1 } };
-"#,
+"#
 );
 
 test!(
@@ -371,7 +371,7 @@ test!(
     syntax(),
     |_| tr(),
     export_variable,
-    r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#,
+    r#"export let {a, b, c: {d, e: {f = 4}}} = {};"#
 );
 
 test!(
@@ -380,14 +380,14 @@ test!(
     for_in,
     r#"for (var [name, value] in obj) {
   print("Name: " + name + " Value: " + value);
-}"#,
+}"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     for_let,
-    r#"for (let [ i, n ] = range; ; ) {}"#,
+    r#"for (let [ i, n ] = range; ; ) {}"#
 );
 
 test!(
@@ -396,7 +396,7 @@ test!(
     for_of,
     r#"for (var [ name, before, after ] of test.expectation.registers) {
 
-}"#,
+}"#
 );
 
 test_exec!(
@@ -417,7 +417,7 @@ test!(
     r#"let list = [1, 2, 3, 4];
 for (let i = 0, { length } = list; i < length; i++) {
   list[i];
-}"#,
+}"#
 );
 
 test_exec!(
@@ -445,14 +445,14 @@ test!(
   let w;
   let e;
   if (true) [q, w, e] = [1, 2, 3].map(()=>123);
-})();"#,
+})();"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     babel_issue_5744,
-    r#"if (true) [a, b] = [b, a];"#,
+    r#"if (true) [a, b] = [b, a];"#
 );
 
 test!(
@@ -462,7 +462,7 @@ test!(
     babel_issue_6373,
     r#"import { NestedObjects } from "./some-module"
 
-const { Foo, Bar } = NestedObjects"#,
+const { Foo, Bar } = NestedObjects"#
 );
 
 test!(
@@ -470,14 +470,14 @@ test!(
     |_| tr(),
     known_array,
     r#"var z = [];
-var [x, ...y] = z;"#,
+var [x, ...y] = z;"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     member_expr,
-    r#"[foo.foo, foo.bar] = [1, 2];"#,
+    r#"[foo.foo, foo.bar] = [1, 2];"#
 );
 
 test!(
@@ -486,7 +486,7 @@ test!(
     multiple,
     r#"var coords = [1, 2];
 var { x, y } = coords,
-    foo = "bar";"#,
+    foo = "bar";"#
 );
 
 test_exec!(
@@ -528,7 +528,7 @@ test!(
   if (!zs.length) return true
   if (y > x) return isSorted(zs)
   return false
-}"#,
+}"#
 );
 
 test!(
@@ -644,7 +644,7 @@ function isBetween(x, a, b) {
   return x > a && x < b;
 }
 
-"#,
+"#
 );
 
 // destructuring_for_of
@@ -666,7 +666,7 @@ for ([ name, before, after ] of test.expectation.registers) {
 
 }
 
-"#,
+"#
 );
 
 // destructuring_object_basic
@@ -690,7 +690,7 @@ test!(
 var coords = [1, 2];
 var { x, y } = coords;
 
-"#,
+"#
 );
 
 // destructuring_assignment_arrow_function_block
@@ -713,7 +713,7 @@ test!(
     r#"
 () => { [a, b] = [1, 2] }
 
-"#,
+"#
 );
 
 // destructuring_non_iterable
@@ -950,7 +950,7 @@ expect(f2({a: 1})).toEqual([1, 1, 1]);
 //
 //({ x, y, ...z } = o);
 //
-//"#,
+//"#
 //    r#"
 //var z = {};
 //var _z = z,
@@ -1010,7 +1010,7 @@ var unpackArray = function ([a, b, c], [x, y, z]) {
 
 console.log(unpackArray(["hello" " " "world"], [1, 2, 3]));
 
-"#,
+"#
 );
 
 // destructuring_array_unpack_optimisation
@@ -1049,7 +1049,7 @@ test!(
     [a, b] = [, 2];
     ; // Avoid completion record special case
 
-    "#,
+    "#
 );
 
 // destructuring_known_array
@@ -1075,7 +1075,7 @@ test!(
 var z = [];
 var [x, ...y] = z;
 
-"#,
+"#
 );
 
 // destructuring_es7_object_rest
@@ -1105,7 +1105,7 @@ var { [x]: x, ...y } = z;
 
 ({ x, y, ...z } = o);
 
-"#,
+"#
 );
 
 // destructuring_const
@@ -1144,7 +1144,7 @@ test!(
 var z = {};
 var { x: { y } = {} } = z;
 
-"#,
+"#
 );
 
 // destructuring_object_advanced
@@ -1169,7 +1169,7 @@ var rect = {};
 var {topLeft: {x: x1, y: y1}, bottomRight: {x: x2, y: y2}} = rect;
 var { 3: foo, 5: bar } = [0, 1, 2, 3, 4, 5, 6];
 
-"#,
+"#
 );
 
 // destructuring_spread
@@ -1196,7 +1196,7 @@ function isSorted([x, y, ...wow]) {
   return false
 }
 
-"#,
+"#
 );
 
 // destructuring_mixed
@@ -1220,7 +1220,7 @@ test!(
 var rect = {};
 var {topLeft: [x1, y1], bottomRight: [x2, y2] } = rect;
 
-"#,
+"#
 );
 
 // destructuring_assignment_statement
@@ -1235,7 +1235,7 @@ test!(
     destructuring_assignment_statement_no_loose,
     r#"
 [a, b] = f();
-"#,
+"#
 );
 
 // destructuring_assignment_statement_loose
@@ -1250,7 +1250,7 @@ test!(
     destructuring_assignment_statement,
     r#"
 [a, b] = f();
-"#,
+"#
 );
 
 // destructuring_array
@@ -1274,7 +1274,7 @@ test!(
 var [a, [b], [c]] = ["hello" [" " "junk"], ["world"]];
 [a, [b], [c]] = ["hello" [" " "junk"], ["world"]];
 
-"#,
+"#
 );
 
 // destructuring_assignment_arrow_function_no_block
@@ -1297,7 +1297,7 @@ test!(
     r#"
 () => [a, b] = [1, 2]
 
-"#,
+"#
 );
 
 // destructuring_issue_9834
@@ -1330,7 +1330,7 @@ const {
   ...rest
 } = input;
 
-"#,
+"#
 );
 
 // destructuring_number_key_with_object_rest_spread
@@ -1375,7 +1375,7 @@ for ([name, value] in obj) {
   print("Name: " + name + " Value: " + value);
 }
 
-"#,
+"#
 );
 
 // destructuring_for_in_loose
@@ -1397,7 +1397,7 @@ for ([name, value] in obj) {
   print("Name: " + name + " Value: " + value);
 }
 
-"#,
+"#
 );
 
 // destructuring_issue_5744
@@ -1420,7 +1420,7 @@ test!(
     r#"
 if (true) [a, b] = [b, a];
 
-"#,
+"#
 );
 
 // destructuring_spread_generator
