@@ -25,7 +25,9 @@ pub struct BabelLikeFixtureTest<'a> {
     /// Default to [`Syntax::default`]
     syntax: Syntax,
 
-    factories: Vec<Box<dyn 'a + FnMut(String, Option<Value>) -> Option<Box<dyn 'a + Fold>>>>,
+    factories: Vec<
+        Box<dyn 'a + FnMut(&PassContext, String, Option<Value>) -> Option<Box<dyn 'static + Fold>>>,
+    >,
 
     source_map: bool,
 }
@@ -52,18 +54,18 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
     pub fn add_factory(
         mut self,
-        factory: impl 'a + FnMut(String, Option<Value>) -> Option<Box<dyn 'a + Fold>>,
+        factory: impl 'a + FnMut(&PassContext, String, Option<Value>) -> Option<Box<dyn Fold>>,
     ) -> Self {
         self.factories.push(Box::new(factory));
         self
     }
 
-    fn run(self, output_path: Option<&Path>) {
+    fn run(mut self, output_path: Option<&Path>) {
         testing::run_test(false, |cm, handler| {
             let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
             let comments = SingleThreadedComments::default();
-            let mut builder = BabelPassBuilder {
+            let mut builder = PassContext {
                 cm: cm.clone(),
                 assumptions: options.assumptions,
                 unresolved_mark: Mark::new(),
@@ -71,7 +73,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 comments: comments.clone(),
             };
 
-            let mut pass: Box<dyn 'a + Fold> = Box::new(resolver(
+            let mut pass: Box<dyn Fold> = Box::new(resolver(
                 builder.unresolved_mark,
                 builder.top_level_mark,
                 self.syntax.typescript(),
@@ -88,7 +90,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
                 let mut done = false;
                 for factory in &mut self.factories {
-                    if let Some(built) = factory(name.clone(), options.clone()) {
+                    if let Some(built) = factory(&builder, name.clone(), options.clone()) {
                         pass = Box::new(chain!(pass, built));
                         done = true;
                         break;
@@ -118,13 +120,13 @@ impl<'a> BabelLikeFixtureTest<'a> {
             let errored = !errors.is_empty();
 
             for e in errors {
-                e.into_diagnostic(&handler).emit();
+                e.into_diagnostic(handler).emit();
             }
 
             let input_program = match input_program {
                 Ok(v) => v,
                 Err(err) => {
-                    err.into_diagnostic(&handler).emit();
+                    err.into_diagnostic(handler).emit();
                     panic!("failed to parse file");
                 }
             };
@@ -141,7 +143,9 @@ impl<'a> BabelLikeFixtureTest<'a> {
             if let Some(output_path) = output_path {
                 // Fixture test
 
-                NormalizedOutput::from(code).compare_to_file(output_path);
+                NormalizedOutput::from(code)
+                    .compare_to_file(output_path)
+                    .unwrap();
             } else {
                 // Execution test
 
@@ -185,7 +189,7 @@ enum BabelPluginEntry {
 }
 
 #[derive(Clone)]
-pub struct BabelPassBuilder {
+pub struct PassContext {
     pub cm: Lrc<SourceMap>,
 
     pub assumptions: Assumptions,
@@ -196,7 +200,7 @@ pub struct BabelPassBuilder {
     pub comments: SingleThreadedComments,
 }
 
-impl BabelPassBuilder {
+impl PassContext {
     fn print(&mut self, program: &Program) -> String {
         let mut buf = vec![];
         {
