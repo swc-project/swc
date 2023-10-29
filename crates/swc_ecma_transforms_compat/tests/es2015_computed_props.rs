@@ -130,9 +130,7 @@ test!(
     argument,
     r#"foo({
   [bar]: "foobar"
-});"#,
-    r#"foo(_define_property({}, bar, "foobar"));
-"#
+});"#
 );
 
 test!(
@@ -141,8 +139,7 @@ test!(
     assignment,
     r#"foo = {
   [bar]: "foobar"
-};"#,
-    r#"foo = _define_property({}, bar, "foobar");"#
+};"#
 );
 
 test!(
@@ -156,14 +153,7 @@ test!(
   test() {
     return "regular method after computed property";
   }
-};"#,
-    r#"var _obj;
-
-var obj = (_obj = {}, _define_property(_obj, foobar, function () {
-  return "foobar";
-}), _define_property(_obj, "test", function () {
-  return "regular method after computed property";
-}), _obj);"#
+};"#
 );
 
 test!(
@@ -511,10 +501,6 @@ foo({
   [bar]: "foobar"
 });
 
-"#,
-    r#"
-foo(_define_property({}, bar, "foobar"));
-
 "#
 );
 
@@ -529,12 +515,6 @@ var obj = {
   ["second"]: "second",
 };
 
-"#,
-    r#"
-var obj = _define_property({
-  first: "first"
-}, "second", "second");
-
 "#
 );
 
@@ -547,10 +527,6 @@ test!(
 var foo = {
   [bar]: "foobar"
 };
-
-"#,
-    r#"
-var foo = _define_property({}, bar, "foobar");
 
 "#
 );
@@ -583,11 +559,6 @@ test!(
 foo = {
   [bar]: "foobar"
 };
-"#,
-    r#"
-var _obj;
-
-foo = (_obj = {}, _obj[bar] = "foobar", _obj);
 "#
 );
 
@@ -599,11 +570,6 @@ test!(
 foo({
   [bar]: "foobar"
 });
-"#,
-    r#"
-var _obj;
-
-foo((_obj = {}, _obj[bar] = "foobar", _obj));
 "#
 );
 
@@ -616,13 +582,6 @@ var obj = {
   foo: "bar",
   [bar]: "foo"
 };
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {
-  foo: "bar"
-}, _obj[bar] = "foo", _obj);
 "#
 );
 
@@ -639,15 +598,6 @@ var obj = {
     return "regular method after computed property";
   }
 };
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj[foobar] = function () {
-  return "foobar";
-}, _obj.test = function () {
-  return "regular method after computed property";
-}, _obj);
 "#
 );
 
@@ -662,11 +612,6 @@ var obj = {
   foo: "foo",
   bar: "bar"
 };
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj["y" + bar] = "noo", _obj.foo = "foo", _obj.bar = "bar", _obj);
 "#
 );
 
@@ -679,11 +624,6 @@ var obj = {
   ["x" + foo]: "heh",
   ["y" + bar]: "noo"
 };
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj["y" + bar] = "noo", _obj);
 "#
 );
 
@@ -695,11 +635,6 @@ test!(
 var obj = {
   ["x" + foo]: "heh"
 };
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo] = "heh", _obj);
 "#
 );
 
@@ -711,11 +646,6 @@ test!(
 var obj = {
   ["x" + foo.bar]: "heh"
 };
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {}, _obj["x" + foo.bar] = "heh", _obj);
 "#
 );
 
@@ -728,13 +658,6 @@ var obj = {
   first: "first",
   [second]: "second",
 }
-"#,
-    r#"
-var _obj;
-
-var obj = (_obj = {
-  first: "first"
-}, _obj[second] = "second", _obj);
 "#
 );
 
@@ -746,11 +669,6 @@ test!(
 var foo = {
   [bar]: "foobar"
 };
-"#,
-    r#"
-var _obj;
-
-var foo = (_obj = {}, _obj[bar] = "foobar", _obj);
 "#
 );
 
@@ -762,11 +680,6 @@ test!(
 var foo = {
 ["213"]: "foobar",
 };
-"#,
-    r#"
-var _obj;
-var foo = (_obj = {
-}, _obj["213"] = "foobar", _obj);
 "#
 );
 
