@@ -134,7 +134,7 @@ mod tests {
                 ::swc_ecma_parser::Syntax::default(),
                 |_| reserved_words(false),
                 $name,
-                $src,
+                $src
             );
         };
     }
