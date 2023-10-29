@@ -1,6 +1,7 @@
 use std::path::Path;
 
 use serde::Deserialize;
+use serde_json::Value;
 use swc_common::{comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::assumptions::Assumptions;
@@ -47,10 +48,20 @@ impl<'a> BabelLikeFixtureTest<'a> {
     }
 }
 
-#[derive(Deserialize)]
-pub struct BabelOptions {
+#[derive(Debug, Deserialize)]
+struct BabelOptions {
     #[serde(default)]
-    pub assumptions: Assumptions,
+    assumptions: Assumptions,
+
+    #[serde(default)]
+    plugins: Vec<BabelPluginEntry>,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields, rename_all = "camelCase", untagged)]
+enum BabelPluginEntry {
+    NameOnly(String),
+    WithConfig(String, Value),
 }
 
 #[derive(Clone)]
