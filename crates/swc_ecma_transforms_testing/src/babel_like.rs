@@ -16,6 +16,7 @@ pub struct BabelLikeFixtureTest<'a> {
     pub input: &'a Path,
     pub output: &'a Path,
 
+    /// Default to [`Syntax::default`]
     pub syntax: Syntax,
 }
 
