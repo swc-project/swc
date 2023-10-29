@@ -38,8 +38,7 @@ test!(
             }
 
             baz(key, qux, fog);
-        }",
-    
+        }"
 );
 
 test!(
@@ -53,8 +52,7 @@ for (let i = 0; i < 10; i++) {
 	});
 }
 functions[0]();
-functions[7]();",
-    
+functions[7]();"
 );
 
 test_exec!(
@@ -126,8 +124,7 @@ test!(
   return match;
 }
 
-foo();",
-    
+foo();"
 );
 
 test!(
@@ -170,8 +167,7 @@ test!(
         }
       }
       return vars;
-    };",
-    
+    };"
 );
 
 test_exec!(
@@ -230,8 +226,7 @@ test!(
         for (let i = 0; i < 5; i++) {
             console.log(i++, [2].every(x => x != i))
         }
-        ",
-    
+        "
 );
 
 test!(
@@ -247,7 +242,6 @@ test!(
             if (i % 2 === 0) continue
         }
         ",
-    
 );
 
 test!(
@@ -263,7 +257,6 @@ test!(
             if (i % 2 === 0) break
         }
         ",
-    
 );
 
 test!(
@@ -280,7 +273,6 @@ test!(
             }
         }
         ",
-    
 );
 
 test!(
@@ -297,7 +289,6 @@ test!(
             )
         }
         ",
-    
 );
 
 test!(
@@ -317,7 +308,6 @@ test!(
             )
         }
         ",
-    
 );
 
 test_exec!(
@@ -369,7 +359,6 @@ test!(
 
     combineOverlappingMatches([1])
     ",
-    
 );
 
 test!(
@@ -410,7 +399,6 @@ test!(
         }
     }
     ",
-    
 );
 
 test!(
@@ -431,7 +419,6 @@ test!(
             }
         }
         ",
-    
 );
 
 test!(
@@ -449,7 +436,6 @@ test!(
             }
         }
         ",
-    
 );
 
 compare_stdout!(
@@ -487,7 +473,6 @@ test!(
             }
         }
         ",
-    
 );
 
 test!(
@@ -514,7 +499,6 @@ test!(
         return target;
     }
     ",
-    
 );
 
 test!(
@@ -535,7 +519,6 @@ test!(
         }
       }
     ",
-    
 );
 
 test!(
@@ -560,7 +543,6 @@ test!(
         }
       }
     ",
-    
 );
 
 test!(
@@ -574,7 +556,6 @@ for (let b = 0; b < a; b++) {
     console.log(b);
 }
     ",
-    
 );
 
 test!(
@@ -585,7 +566,6 @@ test!(
     for (var a; ;) { }
     for (var a = ['a', 'b']; ;) { }
     ",
-    
 );
 
 test!(
@@ -602,7 +582,6 @@ test!(
         })
     }
     ",
-    
 );
 
 test!(
@@ -621,7 +600,6 @@ test!(
         })
     }
     ",
-    
 );
 
 test_exec!(

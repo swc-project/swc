@@ -72,7 +72,6 @@ async function foo(bar) {
   bar && await bar();
 }
 "#,
-    
 );
 
 test!(
@@ -91,7 +90,6 @@ let TestClass = {
   }
 };
 "#,
-    
 );
 
 test!(
@@ -107,7 +105,6 @@ async function foo({ a, b = mandatory("b") }) {
   return Promise.resolve(b);
 }
 "#,
-    
 );
 
 test!(
@@ -120,7 +117,6 @@ test!(
 (async function notIIFE() { await 'ok' });
 (async () => { await 'not iife' });
 "#,
-    
 );
 
 test!(
@@ -134,7 +130,6 @@ class Foo {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -159,7 +154,6 @@ async function s(x, ...args) {
   return this.h(t);
 }
 "#,
-    
 );
 
 test!(
@@ -178,7 +172,6 @@ bar = async function () {
   var wat = await foo();
 };
 "#,
-    
 );
 
 test!(
@@ -190,7 +183,6 @@ var foo = async function bar() {
   console.log(bar);
 };
 "#,
-    
 );
 
 test!(
@@ -200,7 +192,6 @@ test!(
     r#"
 foo(async function () {
 });"#,
-    
 );
 
 test!(
@@ -229,7 +220,6 @@ class Class {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -243,7 +233,6 @@ test!(
     var arrow = () => super.method();
   }
 }"#,
-    
 );
 
 test_exec!(
@@ -386,7 +375,6 @@ let obj = {
     return await baz(bar);
   }
 }"#,
-    
 );
 
 test!(
@@ -398,7 +386,6 @@ async function foo(bar) {
 
 }
 "#,
-    
 );
 
 test!(
@@ -410,7 +397,6 @@ async function foo() {
   var wat = await bar();
 }
 "#,
-    
 );
 
 test!(
@@ -422,7 +408,6 @@ test!(
         await g();
     }
 });",
-    
 );
 
 test_exec!(
@@ -570,7 +555,6 @@ var foo = async function bar() {
 };
 
 "#,
-    
 );
 
 // export_async_lone_export
@@ -584,7 +568,6 @@ test!(
 export async function foo () { }
 
 "#,
-    
 );
 
 // bluebird_coroutines_arrow_function
@@ -597,7 +580,6 @@ test!(
 (async () => { await foo(); })()
 
 "#,
-    
 );
 
 // regression_t6882
@@ -630,7 +612,6 @@ function f() {
 }).call('foo')
 
 "#,
-    
 );
 
 // async_to_generator_shadowed_promise
@@ -647,7 +628,6 @@ async function foo() {
 }
 
 "#,
-    
 );
 
 // async_to_generator_object_method_with_arrows
@@ -677,7 +657,6 @@ class Class {
   }
 }
 "#,
-    
 );
 
 // async_to_generator_object_method
@@ -694,7 +673,6 @@ let obj = {
 }
 
 "#,
-    
 );
 
 // bluebird_coroutines_class
@@ -711,7 +689,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // async_to_generator_async_iife_with_regenerator
@@ -734,7 +711,6 @@ test!(
 (async () => { await 'not iife' });
 
 "#,
-    
 );
 
 //// regression_gh_6923
@@ -816,7 +792,6 @@ var foo = async function bar() {
 };
 
 "#,
-    
 );
 
 //// async_to_generator_async_iife_with_regenerator_spec
@@ -930,7 +905,6 @@ let TestClass = {
 };
 
 "#,
-    
 );
 
 // bluebird_coroutines_statement
@@ -945,7 +919,6 @@ async function foo() {
 }
 
 "#,
-    
 );
 
 // regression_4943
@@ -975,7 +948,6 @@ async function foo({ a, b = mandatory("b") }) {
 }
 
 "#,
-    
 );
 
 // export_async_default_arrow_export
@@ -989,7 +961,6 @@ test!(
 export default async () => { return await foo(); }
 
 "#,
-    
 );
 
 // async_to_generator_function_arity
@@ -1006,7 +977,6 @@ async function five(a, {b}){}
 async function six(a, {b} = {}){}
 
 "#,
-    
 );
 
 // async_to_generator_object_method_with_super
@@ -1024,7 +994,6 @@ class Foo extends class {} {
 }
 
 "#,
-    
 );
 
 // export_async_default_export
@@ -1038,7 +1007,6 @@ test!(
 export default async function myFunc() {}
 
 "#,
-    
 );
 
 // async_to_generator_async
@@ -1054,7 +1022,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // regression_8783
@@ -1068,7 +1035,6 @@ test!(
   setTimeout(poll, 1000);
 })();
 "#,
-    
 );
 
 // async_to_generator_deeply_nested_asyncs
@@ -1095,7 +1061,6 @@ async function s(x, ...args) {
 }
 
 "#,
-    
 );
 
 // export_async_import_and_export
@@ -1111,7 +1076,6 @@ import bar from 'bar';
 export async function foo () { }
 
 "#,
-    
 );
 
 // async_to_generator_shadowed_promise_nested
@@ -1135,7 +1099,6 @@ async function foo() {
 }
 
 "#,
-    
 );
 
 // bluebird_coroutines
@@ -1153,7 +1116,6 @@ async () => await promise
 async () => { await promise }
 
 "#,
-    
 );
 
 // regression_4943_exec
@@ -1215,7 +1177,6 @@ var foo = async function () {
 };
 
 "#,
-    
 );
 
 // async_to_generator_expression
@@ -1236,7 +1197,6 @@ bar = async function () {
 };
 
 "#,
-    
 );
 
 // async_to_generator_statement
@@ -1250,7 +1210,6 @@ async function foo() {
 }
 
 "#,
-    
 );
 
 // async_to_generator_shadowed_promise_import
@@ -1268,7 +1227,6 @@ async function foo() {
 }
 
 "#,
-    
 );
 
 // async_to_generator_parameters
@@ -1282,7 +1240,6 @@ async function foo(bar) {
 }
 
 "#,
-    
 );
 
 // async_to_generator
@@ -1311,7 +1268,6 @@ for (let a of b) {
 }
 }
 "#,
-    
 );
 
 test!(
@@ -1327,7 +1283,6 @@ test!(
       );
     }
     ",
-    
 );
 
 test_exec!(
@@ -1369,7 +1324,6 @@ test!(
         console.log({ obj });
     })();
     ",
-    
 );
 
 test!(
@@ -1386,7 +1340,6 @@ async function test() {
 }
 test()
 ",
-    
 );
 
 test!(
@@ -1405,7 +1358,6 @@ test!(
       }
     }
     ",
-    
 );
 
 test_exec!(
@@ -1444,7 +1396,6 @@ test!(
     }
   }
   ",
-    
 );
 
 test_exec!(
@@ -1484,7 +1435,6 @@ test!(
 
     obj.byPlatform('foo').then(v => console.log(v))
     ",
-    
 );
 
 test_exec!(
@@ -1532,7 +1482,6 @@ test!(
       console.log(1)
     })(foo);
     ",
-    
 );
 
 test!(
@@ -1546,7 +1495,6 @@ test!(
       }
     }
     ",
-    
 );
 
 test!(
@@ -1559,7 +1507,6 @@ test!(
       yield 2;
     }
     ",
-    
 );
 
 test!(
@@ -1578,7 +1525,6 @@ test!(
       return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
     }
     ",
-    
 );
 
 test!(
@@ -1603,7 +1549,6 @@ test!(
       return Promise.resolve(key.toUpperCase()).then(val => (cache[key] = val))
     }
     ",
-    
 );
 
 test_exec!(
@@ -1722,7 +1667,6 @@ test!(
     console.log('fun result | item', res);
   });
 ",
-    
 );
 
 test_exec!(
@@ -1792,7 +1736,6 @@ test!(
     const myclass = new MyClass()
     myclass.handle()
   ",
-    
 );
 
 test!(
@@ -1817,7 +1760,6 @@ export default async function someCall() {
   await region();
 }
   ",
-    
 );
 
 test!(
@@ -1838,7 +1780,6 @@ export default async function() {
   await region();
 }
 ",
-    
 );
 
 test_exec!(
@@ -1873,7 +1814,6 @@ async function foo(x, y, ...z) {
     return 42;
 }
 "#,
-    
 );
 
 test!(
@@ -1885,7 +1825,6 @@ async function* foo(x, y, ...z) {
     return 42;
 }
 "#,
-    
 );
 
 test!(
@@ -1897,7 +1836,6 @@ const foo = async function (x, y, ...z) {
     return 42;
 }
 "#,
-    
 );
 
 test!(
@@ -1909,7 +1847,6 @@ const foo = async function* (x, y, ...z) {
     return 42;
 }
 "#,
-    
 );
 
 test!(
@@ -1924,7 +1861,6 @@ const foo = async function foo(x, y, ...z) {
     return 0;
 };
 "#,
-    
 );
 
 test!(
@@ -1939,7 +1875,6 @@ const foo = async function* foo(x, y, ...z) {
   return 0;
 };
 "#,
-    
 );
 
 test!(
@@ -1951,7 +1886,6 @@ const foo = async (x, y, ...z) => {
     return this;
 };
 "#,
-    
 );
 
 test!(
@@ -1963,7 +1897,6 @@ const foo = async (x, y, ...z) => {
     return this;
 };
 "#,
-    
 );
 
 test!(
@@ -1976,8 +1909,7 @@ function foo() {
         return arguments;
     };
 }
-"#,
-    
+"#
 );
 
 test!(
@@ -1998,8 +1930,7 @@ class Foo {
         };
     }
 }
-"#,
-    
+"#
 );
 
 test!(
@@ -2012,8 +1943,7 @@ export default async function foo(x) {
         y(x);
     }
 }
-",
-    
+"
 );
 
 test!(
@@ -2026,8 +1956,7 @@ export default async function (x) {
         (async (z) => x(y)(z))();
     }
 }
-",
-    
+"
 );
 
 test!(
@@ -2037,8 +1966,7 @@ test!(
     "
 (async function (a = 10, ...rest) {})();
 (async (a = 10, ...rest) => {})()
-",
-    
+"
 );
 
 test!(
@@ -2054,7 +1982,6 @@ export class Quirk {
   }
 }
 ",
-    
 );
 
 test!(
@@ -2069,7 +1996,6 @@ class Foo {
   }
 }
 ",
-    
 );
 
 test!(
@@ -2085,7 +2011,6 @@ class A extends B {
   }
 }
 ",
-    
 );
 
 test!(
@@ -2102,7 +2027,6 @@ class A extends B {
   }
 }
 ",
-    
 );
 
 test!(
@@ -2118,7 +2042,6 @@ const p = Z(
             n <= 1 ? 1 : n * (await f(n - 1))
 )(5);
 ",
-    
 );
 
 test!(
@@ -2132,7 +2055,6 @@ test!(
         }
     }
     ",
-    
 );
 
 #[testing::fixture("tests/async-to-generator/**/exec.js")]

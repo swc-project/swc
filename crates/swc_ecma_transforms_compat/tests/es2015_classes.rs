@@ -40,7 +40,7 @@ class Foo {
   get 2n() {}
   set 3n(x) {}
 }
-",
+"
 );
 
 test!(
@@ -49,7 +49,7 @@ test!(
     issue_189,
     r#"
 class HomePage extends React.Component {}
-"#,
+"#
 );
 
 test!(
@@ -66,7 +66,7 @@ class Sub extends Foo {
     singleton = super();
   }
 }
-"#,
+"#
 );
 
 test!(
@@ -75,7 +75,7 @@ test!(
     custom_native,
     r#"
     class List extends Array {}
-"#,
+"#
 );
 
 test_exec!(
@@ -118,7 +118,7 @@ class Foo {
 
     }
 }
-"#,
+"#
 );
 
 // extend_builtins_wrap_native_super
@@ -281,7 +281,7 @@ const obj = new Obj();
 expect(obj.test).toBe(2);
 expect(obj.get()).toBe(1);
 
-"#,
+"#
 );
 
 // extend_builtins_spec

@@ -43,8 +43,7 @@ var Foo = class {
   static num = 0;
 }
 
-"#,
-    
+"#
 );
 
 test_exec!(
@@ -91,7 +90,6 @@ function test(x) {
 test('foo');
 
 "#,
-    
 );
 
 test!(
@@ -108,7 +106,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test!(
@@ -129,7 +126,6 @@ class Foo {
     #foo () {}
 }
 "#,
-    
 );
 
 test!(
@@ -148,7 +144,6 @@ class Child extends Parent {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -193,7 +188,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -301,7 +295,6 @@ function withContext(ComposedComponent) {
 }
 
 "#,
-    
 );
 
 test!(
@@ -317,7 +310,6 @@ class A {
 }
 
 "#,
-    
 );
 
 test!(
@@ -337,7 +329,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -377,7 +368,6 @@ expect(() => {
 }).toThrow();
 
 "#,
-    
 );
 
 test!(
@@ -409,7 +399,6 @@ class Outer extends Hello {
 expect(new Outer().hello).toBe('hello');
 
 "#,
-    
 );
 
 test!(
@@ -422,7 +411,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -443,7 +431,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -487,7 +474,6 @@ export default class {
 }
 
 "#,
-    
 );
 
 test!(
@@ -500,7 +486,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -513,7 +498,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -550,7 +534,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -569,7 +552,6 @@ class B extends A {
 }
 
 "#,
-    
 );
 
 test!(
@@ -588,7 +570,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -609,7 +590,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -644,7 +624,6 @@ class MyClass {
 }
 
 "#,
-    
 );
 
 test!(
@@ -666,7 +645,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -922,7 +900,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test!(
@@ -940,7 +917,6 @@ class Outer {
 }
 
 "#,
-    
 );
 
 test!(
@@ -960,7 +936,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -977,7 +952,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1110,7 +1084,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1127,7 +1100,6 @@ class Bar extends Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1146,7 +1118,6 @@ class B extends A {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1163,7 +1134,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1192,7 +1162,6 @@ class Outer extends Hello {
 expect(new Outer().hello).toBe('hello');
 
 "#,
-    
 );
 
 test_exec!(
@@ -1266,7 +1235,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1286,7 +1254,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1329,7 +1296,6 @@ export default class MyClass2 {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1343,7 +1309,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test!(
@@ -1356,7 +1321,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1384,7 +1348,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1419,7 +1382,6 @@ export default param =>
   }
 
 "#,
-    
 );
 
 test!(
@@ -1432,7 +1394,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1482,7 +1443,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1532,7 +1492,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1694,7 +1653,6 @@ class Foo {
 
 
 "#,
-    
 );
 
 test!(
@@ -1711,7 +1669,6 @@ class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 test_exec!(
@@ -1775,7 +1732,6 @@ class Foo {
     }
 }
 ",
-    
 );
 
 test!(
@@ -1792,7 +1748,6 @@ class Foo {
     }
 }
 ",
-    
 );
 
 test!(
@@ -1817,7 +1772,6 @@ class Foo {
     bar();
   };
 }",
-    
 );
 
 test!(
@@ -1842,7 +1796,6 @@ test!(
     frob: (bar) => {},
   };
 }",
-    
 );
 
 test!(
@@ -1869,7 +1822,6 @@ class foo {
   }
 }
 ",
-    
 );
 
 // public_regression_t7364
@@ -1900,7 +1852,6 @@ export default class MyClass3 {
 }
 
 "#,
-    
 );
 
 // private_regression_t6719
@@ -1928,7 +1879,6 @@ function withContext(ComposedComponent) {
 }
 
 "#,
-    
 );
 
 // public_foobar
@@ -2005,7 +1955,6 @@ function classFactory() {
 }
 
 "#,
-    
 );
 
 // private_static
@@ -2034,7 +1983,6 @@ expect(Foo.test()).toBe("foo")
 expect(Foo.test()).toBe("foo")
 
 "#,
-    
 );
 
 // private_destructuring_object_pattern_1
@@ -2056,7 +2004,6 @@ class Foo {
   }
 }
 "#,
-    
 );
 
 // private_static_inherited
@@ -2099,7 +2046,6 @@ class Sub1 extends Base {
 class Sub2 extends Base {}
 
 "#,
-    
 );
 
 // private_destructuring_object_pattern_1_exec
@@ -2151,7 +2097,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // private_destructuring_array_pattern
@@ -2173,7 +2118,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // private_regression_t2983
@@ -2194,7 +2138,6 @@ export default class {
 }
 
 "#,
-    
 );
 
 // private_regression_t7364
@@ -2233,7 +2176,6 @@ export default class MyClass3 {
 }
 
 "#,
-    
 );
 
 // private_destructuring_array_pattern_1
@@ -2255,7 +2197,6 @@ class Foo {
   }
 }
 "#,
-    
 );
 
 // regression_8882_exec
@@ -2467,7 +2408,6 @@ export default class MyClass2 {
 }
 
 "#,
-    
 );
 
 // static_property_tdz_edgest_case
@@ -2484,7 +2424,6 @@ class A {
 }
 
 "#,
-    
 );
 
 test!(
@@ -2499,7 +2438,6 @@ class A {
 static A = 123;
 }
 "#,
-    
 );
 
 // regression_6153
@@ -2541,7 +2479,6 @@ var qux = function() {
 }.bind(this)
 
 "#,
-    
 );
 
 // regression_7371
@@ -2654,7 +2591,6 @@ class ComputedField extends Obj {
 new ComputedField();
 
 "#,
-    
 );
 
 test!(
@@ -2670,7 +2606,6 @@ class A {
     }
 }
 "#,
-    
 );
 
 test!(
@@ -2685,7 +2620,6 @@ class MyClass {
   }
 }
 "#,
-    
 );
 
 // private_canonical
@@ -2720,7 +2654,6 @@ class Point {
 }
 
 "#,
-    
 );
 
 // regression_8882
@@ -2751,7 +2684,6 @@ for(let i = 0; i <= 10; ++i){
 }
 
 "#,
-    
 );
 
 // private_destructuring_array_pattern_3
@@ -2772,7 +2704,6 @@ class Foo {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -2787,7 +2718,6 @@ class A {
   }
 }
 "#,
-    
 );
 
 // public_static_super_exec
@@ -2833,7 +2763,6 @@ class Foo {
   }
 }
 "#,
-    
 );
 
 // private_non_block_arrow_func
@@ -2858,7 +2787,6 @@ export default param =>
   }
 
 "#,
-    
 );
 
 // regression_8110
@@ -2874,7 +2802,6 @@ class A {
 }
 
 "#,
-    
 );
 
 // public_computed_without_block_exec
@@ -2907,7 +2834,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // static_property_tdz_general
@@ -2924,7 +2850,6 @@ class C {
 }
 
 "#,
-    
 );
 
 // public_native_classes
@@ -2942,7 +2867,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // public_arrow_static_this_without_transform
@@ -2957,7 +2881,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // private_static_infer_name
@@ -2976,7 +2899,6 @@ var Foo = class {
 }
 
 "#,
-    
 );
 
 // regression_7951
@@ -3000,7 +2922,6 @@ export class Foo extends Bar {
 }
 
 "#,
-    
 );
 
 // private_native_classes
@@ -3026,7 +2947,6 @@ class Foo {
 }
 
 "#,
-    
 );
 
 // public_computed_without_block
@@ -3042,7 +2962,6 @@ test!(
 const createClass = (k) => class { [k()] = 2 };
 
 "#,
-    
 );
 
 // private_destructuring_array_pattern_2_exec
@@ -3091,7 +3010,6 @@ class B extends A {
 }
 
 "#,
-    
 );
 
 // private_destructuring_array_pattern_exec
@@ -3162,7 +3080,6 @@ test!(
     }
   }
 "#,
-    
 );
 
 test!(
@@ -3182,7 +3099,6 @@ class Animal {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -3198,7 +3114,6 @@ test!(
     }
   }
   ",
-    
 );
 
 test!(
@@ -3294,7 +3209,6 @@ test!(
     }
   }
   ",
-    
 );
 
 test!(
@@ -3324,7 +3238,6 @@ test!(
       }
     }
     ",
-    
 );
 
 test!(
@@ -3347,7 +3260,6 @@ test!(
     }
   }
   ",
-    
 );
 
 test!(
@@ -3362,7 +3274,6 @@ test!(
       }
     }
     ",
-    
 );
 
 test!(
@@ -3377,7 +3288,6 @@ test!(
       }
     }
     ",
-    
 );
 
 test!(
@@ -3387,7 +3297,6 @@ test!(
     "
     console.log(class { run() { } });
     ",
-    
 );
 
 test!(
@@ -3408,7 +3317,6 @@ export class Node {
     #baz(child) { }
 }
 ",
-    
 );
 
 test!(
@@ -3423,7 +3331,6 @@ class MyClass {
   static set #b(x) {}
 }
 ",
-    
 );
 
 test!(
@@ -3443,7 +3350,6 @@ test!(
         }
     }
     ",
-    
 );
 
 test!(
@@ -3463,7 +3369,6 @@ class MyClass {
     }
 }
 ",
-    
 );
 
 test!(
@@ -3491,7 +3396,6 @@ test!(
 
     const instance = new Foo();
     ",
-    
 );
 
 test!(
@@ -3510,7 +3414,6 @@ test!(
       }
     }
     ",
-    
 );
 
 test_exec!(
@@ -3620,7 +3523,6 @@ test!(
     }
     new Foo();
     ",
-    
 );
 
 test!(
@@ -3640,7 +3542,6 @@ test!(
         return c;
     }
     ",
-    
 );
 
 test!(
@@ -3659,7 +3560,6 @@ test!(
         return c;
     }
     ",
-    
 );
 
 test!(
@@ -3675,7 +3575,6 @@ test!(
       input = this.props.item;
     }
     ",
-    
 );
 
 test!(
@@ -3692,7 +3591,6 @@ class A {
   }
 }
   ",
-    
 );
 
 test!(
@@ -3710,7 +3608,6 @@ class A {
     }
 }
 ",
-    
 );
 
 test!(
@@ -3731,7 +3628,6 @@ class A {
   #bar() {}
 }
 ",
-    
 );
 
 test!(
@@ -3748,7 +3644,6 @@ const a = () => class {
   }
 }
 ",
-    
 );
 
 test!(
@@ -3763,7 +3658,6 @@ class Foo {
     })();
 }
 ",
-    
 );
 
 test!(
@@ -3782,7 +3676,6 @@ function a() {
   }
 }
 ",
-    
 );
 
 test!(
@@ -3800,7 +3693,6 @@ class A extends class B {} {
   static x = super.x;
 }
 ",
-    
 );
 
 test!(
@@ -3819,7 +3711,6 @@ class A extends B {
   static foo = super.bar;
 }
 ",
-    
 );
 
 test!(
@@ -3840,7 +3731,6 @@ class MyClass {
   }
 }
 "#,
-    
 );
 
 test_exec!(
@@ -3932,7 +3822,6 @@ class MyClass {
   [`template${expression}`] = "template-with-expression";
 }
 "#,
-    
 );
 
 test!(
@@ -3966,7 +3855,6 @@ class Foo {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -3984,7 +3872,6 @@ class Foo {
   static bar;
 }
 "#,
-    
 );
 
 test!(
@@ -4022,7 +3909,6 @@ class Cl {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -4042,7 +3928,6 @@ class Cl {
   static get #bar() {};
 }
 "#,
-    
 );
 
 test!(
@@ -4069,7 +3954,6 @@ class Cl {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -4132,7 +4016,6 @@ class Cl {
   }
 }
 "#,
-    
 );
 
 test!(
@@ -4161,7 +4044,6 @@ class Cl {
 
 const cl = new Cl();
 "#,
-    
 );
 
 test!(
@@ -4181,7 +4063,6 @@ class Cl {
   }
 }
 "#,
-    
 );
 
 #[testing::fixture("tests/classes/**/exec.js")]
@@ -4199,7 +4080,6 @@ test!(
     |t| class_properties(Some(t.comments.clone()), Default::default()),
     issue_6305,
     "class x { static #x = super.x = 0 }",
-    
 );
 
 test!(
@@ -4221,5 +4101,4 @@ class Foo {
 }
     
 console.log(new Foo().search())",
-    
 );
