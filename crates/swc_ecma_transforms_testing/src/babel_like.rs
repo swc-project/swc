@@ -2,6 +2,7 @@ use std::path::Path;
 
 use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, Mark};
+use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::assumptions::Assumptions;
 
 use crate::parse_options;
@@ -14,11 +15,17 @@ use crate::parse_options;
 pub struct BabelLikeFixtureTest<'a> {
     pub input: &'a Path,
     pub output: &'a Path,
+
+    pub syntax: Syntax,
 }
 
 impl<'a> BabelLikeFixtureTest<'a> {
     pub fn new(input: &'a Path, output: &'a Path) -> Self {
-        Self { input, output }
+        Self {
+            input,
+            output,
+            syntax: Default::default(),
+        }
     }
 
     pub fn run(self) {
