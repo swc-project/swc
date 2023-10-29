@@ -350,25 +350,25 @@ pub fn test_transform<F, P>(
 /// Test transformation.
 #[macro_export]
 macro_rules! test {
-    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, false)
+            $crate::test_transform($syntax, $tr, $input false)
         }
     };
 
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, false)
+            $crate::test_transform($syntax, $tr, $input, false)
         }
     };
 
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, true)
+            $crate::test_transform($syntax, $tr, $input, true)
         }
     };
 }
