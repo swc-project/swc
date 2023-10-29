@@ -7,7 +7,7 @@ use std::{
     env,
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
-    mem::take,
+    panic,
     path::Path,
     process::Command,
     rc::Rc,
@@ -263,72 +263,30 @@ where
 }
 
 #[track_caller]
-pub fn test_transform<F, P>(syntax: Syntax, tr: F, input: &str, _always_ok_if_code_eq: bool)
-where
+pub fn test_transform<F, P>(
+    test_name: &str,
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    _always_ok_if_code_eq: bool,
+) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
-    Tester::run(|tester| {
-        println!("----- Actual -----");
+    let loc = panic::Location::caller();
 
-        let tr = make_tr(tr, tester);
-        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+    let snapshot_dir = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests")
+        .join("__swc_snapshots__")
+        .join(loc.file());
 
-        match ::std::env::var("PRINT_HYGIENE") {
-            Ok(ref s) if s == "1" => {
-                let hygiene_src = tester.print(
-                    &actual.clone().fold_with(&mut HygieneVisualizer),
-                    &tester.comments.clone(),
-                );
-                println!("----- Hygiene -----\n{}", hygiene_src);
-            }
-            _ => {}
-        }
-
-        let actual = actual
-            .fold_with(&mut as_folder(::swc_ecma_utils::DropSpan {
-                preserve_ctxt: true,
-            }))
-            .fold_with(&mut hygiene::hygiene())
-            .fold_with(&mut fixer::fixer(Some(&tester.comments)));
-
-        println!("{:?}", tester.comments);
-        println!("{:?}", expected_comments);
-
-        {
-            let (actual_leading, actual_trailing) = tester.comments.borrow_all();
-            let (expected_leading, expected_trailing) = expected_comments.borrow_all();
-
-            if actual == expected
-                && *actual_leading == *expected_leading
-                && *actual_trailing == *expected_trailing
-            {
-                return Ok(());
-            }
-        }
-
-        let (actual_src, expected_src) = (
-            tester.print(&actual, &tester.comments.clone()),
-            tester.print(&expected, &expected_comments),
-        );
-
-        if actual_src == expected_src {
-            return Ok(());
-        }
-
-        println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Orig"), input);
-        println!(">>>>> {} <<<<<\n{}", Color::Green.paint("Code"), actual_src);
-
-        if actual_src != expected_src {
-            panic!(
-                r#"assertion failed: `(left == right)`
-            {}"#,
-                ::testing::diff(&actual_src, &expected_src),
-            );
-        }
-
-        Err(())
-    });
+    test_fixture_inner(
+        syntax,
+        Box::new(move |tester| Box::new(tr(tester))),
+        input,
+        &snapshot_dir.join(format!("{test_name}.js")),
+        Default::default(),
+    )
 }
 
 /// NOT A PUBLIC API. DO NOT USE.
@@ -347,21 +305,21 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, false)
+            $crate::test_transform(stringify!($test_name), $syntax, $tr, $input, false)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, false)
+            $crate::test_transform(stringify!($test_name), $syntax, $tr, $input, false)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, true)
+            $crate::test_transform(stringify!($test_name), $syntax, $tr, $input, true)
         }
     };
 }
@@ -702,16 +660,16 @@ pub fn test_fixture<P>(
 
     test_fixture_inner(
         syntax,
-        &|tester| Box::new(tr(tester)),
+        Box::new(|tester| Box::new(tr(tester))),
         &input,
         output,
         config,
     );
 }
 
-fn test_fixture_inner(
+fn test_fixture_inner<'a>(
     syntax: Syntax,
-    tr: &dyn Fn(&mut Tester) -> Box<dyn Fold>,
+    tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Fold>>,
     input: &str,
     output: &Path,
     config: FixtureTestConfig,
