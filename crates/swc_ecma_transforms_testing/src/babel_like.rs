@@ -16,7 +16,6 @@ use crate::parse_options;
 
 pub struct BabelLikeFixtureTest<'a> {
     input: &'a Path,
-    output: &'a Path,
 
     /// Default to [`Syntax::default`]
     syntax: Syntax,
@@ -47,7 +46,9 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
-    pub fn run(self) {
+    pub fn execute(self) {}
+
+    pub fn fixture(self, output: &Path) {
         let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
         let comments = SingleThreadedComments::default();
