@@ -14,6 +14,9 @@ use testing::NormalizedOutput;
 
 use crate::{parse_options, stdout_of};
 
+pub type PassFactory<'a> =
+    Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>;
+
 /// These tests use `options.json`.
 ///
 ///
@@ -25,9 +28,7 @@ pub struct BabelLikeFixtureTest<'a> {
     /// Default to [`Syntax::default`]
     syntax: Syntax,
 
-    factories: Vec<
-        Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>,
-    >,
+    factories: Vec<Box<dyn 'a + FnOnce() -> PassFactory<'a>>>,
 
     source_map: bool,
     allow_error: bool,
@@ -59,16 +60,18 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
-    pub fn add_factory(
-        mut self,
-        factory: impl 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn Fold>>,
-    ) -> Self {
+    /// This takes a closure which returns a [PassFactory]. This is because you
+    /// may need to create [Mark], which requires [swc_common::GLOBALS] to be
+    /// configured.
+    pub fn add_factory(mut self, factory: impl 'a + FnOnce() -> PassFactory<'a>) -> Self {
         self.factories.push(Box::new(factory));
         self
     }
 
-    fn run(mut self, output_path: Option<&Path>) {
+    fn run(self, output_path: Option<&Path>) {
         let err = testing::run_test(false, |cm, handler| {
+            let mut factories = self.factories.into_iter().map(|f| f()).collect::<Vec<_>>();
+
             let options = parse_options::<BabelOptions>(self.input.parent().unwrap());
 
             let comments = SingleThreadedComments::default();
@@ -96,7 +99,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 };
 
                 let mut done = false;
-                for factory in &mut self.factories {
+                for factory in &mut factories {
                     if let Some(built) = factory(&builder, &name, options.clone()) {
                         pass = Box::new(chain!(pass, built));
                         done = true;
