@@ -1,43 +1,6 @@
-function _check_private_redeclaration(obj, privateCollection) {
-    if (privateCollection.has(obj)) {
-        throw new TypeError("Cannot initialize the same private elements twice on an object");
-    }
-}
-function _class_apply_descriptor_get(receiver, descriptor) {
-    if (descriptor.get) {
-        return descriptor.get.call(receiver);
-    }
-    return descriptor.value;
-}
-function _class_apply_descriptor_set(receiver, descriptor, value) {
-    if (descriptor.set) {
-        descriptor.set.call(receiver, value);
-    } else {
-        if (!descriptor.writable) {
-            throw new TypeError("attempted to set read only private field");
-        }
-        descriptor.value = value;
-    }
-}
-function _class_extract_field_descriptor(receiver, privateMap, action) {
-    if (!privateMap.has(receiver)) {
-        throw new TypeError("attempted to " + action + " private field on non-instance");
-    }
-    return privateMap.get(receiver);
-}
-function _class_private_field_get(receiver, privateMap) {
-    var descriptor = _class_extract_field_descriptor(receiver, privateMap, "get");
-    return _class_apply_descriptor_get(receiver, descriptor);
-}
-function _class_private_field_init(obj, privateMap, value) {
-    _check_private_redeclaration(obj, privateMap);
-    privateMap.set(obj, value);
-}
-function _class_private_field_set(receiver, privateMap, value) {
-    var descriptor = _class_extract_field_descriptor(receiver, privateMap, "set");
-    _class_apply_descriptor_set(receiver, descriptor, value);
-    return value;
-}
+var _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");
+var _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");
+var _class_private_field_set = require("@swc/helpers/_/_class_private_field_set");
 var _computedKey;
 const dec = ()=>{};
 _computedKey = 'c';
