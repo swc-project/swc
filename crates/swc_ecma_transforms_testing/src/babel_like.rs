@@ -26,7 +26,7 @@ pub struct BabelLikeFixtureTest<'a> {
     syntax: Syntax,
 
     factories: Vec<
-        Box<dyn 'a + FnMut(&PassContext, String, Option<Value>) -> Option<Box<dyn 'static + Fold>>>,
+        Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>,
     >,
 
     source_map: bool,
@@ -61,7 +61,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
     pub fn add_factory(
         mut self,
-        factory: impl 'a + FnMut(&PassContext, String, Option<Value>) -> Option<Box<dyn Fold>>,
+        factory: impl 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn Fold>>,
     ) -> Self {
         self.factories.push(Box::new(factory));
         self
@@ -97,7 +97,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
 
                 let mut done = false;
                 for factory in &mut self.factories {
-                    if let Some(built) = factory(&builder, name.clone(), options.clone()) {
+                    if let Some(built) = factory(&builder, &name, options.clone()) {
                         pass = Box::new(chain!(pass, built));
                         done = true;
                         break;
