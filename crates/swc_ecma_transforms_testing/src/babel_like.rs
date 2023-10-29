@@ -72,11 +72,17 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 BabelPluginEntry::WithConfig(name, options) => (name, Some(options)),
             };
 
+            let mut done = false;
             for factory in &mut self.factories {
                 if let Some(built) = factory(name.clone(), options.clone()) {
                     pass = Box::new(chain!(pass, built));
+                    done = true;
                     break;
                 }
+            }
+
+            if !done {
+                panic!("Unknown plugin: {}", name);
             }
         }
 
