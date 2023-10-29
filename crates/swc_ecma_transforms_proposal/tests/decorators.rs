@@ -42,7 +42,7 @@ fn exec_inner(input: PathBuf) {
 
             Box::new(move |c, name, opts| create_pass(c, name, opts, static_block_mark))
         })
-        .execute();
+        .exec_with_test_runner();
 }
 
 #[testing::fixture("tests/decorators/**/input.js")]

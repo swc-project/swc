@@ -16,7 +16,7 @@ use swc_ecma_transforms_base::{
 use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use testing::NormalizedOutput;
 
-use crate::{exec_with_node_test_runner, parse_options};
+use crate::{exec_with_node_test_runner, parse_options, stdout_of};
 
 pub type PassFactory<'a> =
     Box<dyn 'a + FnMut(&PassContext, &str, Option<Value>) -> Option<Box<dyn 'static + Fold>>>;
@@ -72,7 +72,7 @@ impl<'a> BabelLikeFixtureTest<'a> {
         self
     }
 
-    fn run(self, output_path: Option<&Path>) {
+    fn run(self, output_path: Option<&Path>, compare_stdout: bool) {
         let err = testing::run_test(false, |cm, handler| {
             let mut factories = self.factories.into_iter().map(|f| f()).collect::<Vec<_>>();
 
@@ -172,15 +172,19 @@ impl<'a> BabelLikeFixtureTest<'a> {
                 NormalizedOutput::from(code)
                     .compare_to_file(output_path)
                     .unwrap();
+            } else if compare_stdout {
+                // Execution test, but compare stdout
+
+                let actual_stdout: String =
+                    stdout_of(&code).expect("failed to execute transfomred code");
+                let expected_stdout =
+                    stdout_of(&fm.src).expect("failed to execute transfomred code");
+
+                testing::assert_eq!(actual_stdout, expected_stdout);
             } else {
                 // Execution test
 
-                let actual_stdout =
-                    exec_with_node_test_runner(&code).expect("failed to execute transfomred code");
-                let expected_stdout = exec_with_node_test_runner(&fm.src)
-                    .expect("failed to execute transfomred code");
-
-                testing::assert_eq!(actual_stdout, expected_stdout);
+                exec_with_node_test_runner(&code).expect("failed to execute transfomred code");
             }
 
             Ok(())
@@ -197,14 +201,19 @@ impl<'a> BabelLikeFixtureTest<'a> {
         }
     }
 
-    /// Execute ussing node.js
-    pub fn execute(self) {
-        self.run(None)
+    /// Execute using node.js and mocha
+    pub fn exec_with_test_runner(self) {
+        self.run(None, false)
+    }
+
+    /// Execute using node.js
+    pub fn compare_stdout(self) {
+        self.run(None, true)
     }
 
     /// Run a fixture test
     pub fn fixture(self, output: &Path) {
-        self.run(Some(output))
+        self.run(Some(output), false)
     }
 }
 
