@@ -2,7 +2,7 @@ var _initProto, _initProto1;
 const dec = ()=>{};
 class A extends B {
     static{
-        ({ e: [_initProto] } = _apply_decs_2203_r(this, [
+        ({ e: [_initProto]  } = _apply_decs_2203_r(this, [
             [
                 deco,
                 2,
@@ -23,7 +23,7 @@ class A extends B {
 }
 class C extends B {
     static{
-        ({ e: [_initProto1] } = _apply_decs_2203_r(this, [
+        ({ e: [_initProto1]  } = _apply_decs_2203_r(this, [
             [
                 deco,
                 2,

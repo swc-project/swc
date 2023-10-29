@@ -12,7 +12,7 @@ var _a = {
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_call_a, _initStatic] } = _apply_decs_2203_r(Foo, [
+        ({ e: [_call_a, _initStatic]  } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 8,

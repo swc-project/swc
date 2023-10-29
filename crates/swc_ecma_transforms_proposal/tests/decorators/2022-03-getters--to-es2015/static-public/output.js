@@ -13,7 +13,7 @@ class Foo {
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_initStatic] } = _apply_decs_2203_r(Foo, [
+        ({ e: [_initStatic]  } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 8,

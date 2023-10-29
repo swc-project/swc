@@ -2,11 +2,11 @@ var _initClass, _initClass1, _Bar;
 const dec1 = ()=>{};
 const dec2 = ()=>{};
 let _Bar1;
-class Bar1 {
+class Bar {
 }
 var __ = {
     writable: true,
-    value: { c: [_Bar1, _initClass] } = _apply_decs_2203_r(Bar1, [], [
+    value: { c: [_Bar1, _initClass] } = _apply_decs_2203_r(Bar, [], [
         dec1
     ])
 };
@@ -15,7 +15,7 @@ var __2 = {
     value: _initClass()
 };
 let _Foo;
-class Foo extends (_Bar = Bar) {
+class Foo extends (_Bar = _Bar1) {
 }
 var __1 = {
     writable: true,

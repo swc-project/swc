@@ -3,7 +3,7 @@ const dec = ()=>{};
 _computedKey = 'b', _computedKey1 = 'b';
 class Foo {
     static{
-        ({ e: [_initStatic] } = _apply_decs_2203_r(this, [
+        ({ e: [_initStatic]  } = _apply_decs_2203_r(this, [
             [
                 dec,
                 8,

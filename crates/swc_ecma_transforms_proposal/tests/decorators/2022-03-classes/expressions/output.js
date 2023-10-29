@@ -74,7 +74,7 @@ const H = (class extends (_I = I) {
 }, _class3);
 const J = (class K extends (_L = L) {
     static{
-        ({ c: [_K, _initClass7] } = _apply_decs_2203_r(this, [], [
+        ({ c: [_K, _initClass7]  } = _apply_decs_2203_r(this, [], [
             dec
         ], _L));
     }

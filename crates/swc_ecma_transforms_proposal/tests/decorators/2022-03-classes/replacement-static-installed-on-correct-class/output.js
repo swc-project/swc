@@ -4,15 +4,15 @@ let hasX, hasM;
 let _Foo;
 new class extends _identity {
     constructor(){
-        super(Foo), (()=>{
+        super(_Foo), (()=>{
             hasX = (o)=>#x in o;
             hasM = (o)=>#m in o;
         })(), _initClass();
     }
     static{
-        class Foo1 {
+        class Foo {
             static{
-                ({ c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [], [
+                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
                     dec
                 ]));
             }

@@ -2,7 +2,7 @@ var _initClass, _Bar;
 const dec = ()=>{};
 const Foo = (class Bar {
     static{
-        ({ c: [_Bar, _initClass] } = _apply_decs_2203_r(this, [], [
+        ({ c: [_Bar, _initClass]  } = _apply_decs_2203_r(this, [], [
             dec
         ]));
     }

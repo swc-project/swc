@@ -3,10 +3,10 @@ let _A;
 _dec = logDecoratorRun(0, 35, 45), _dec1 = logDecoratorRun(1, 34, 44), _dec2 = logDecoratorRun(2, 27, 47), _dec3 = logDecoratorRun(3, 26, 46), _dec4 = logDecoratorRun(4, 19, 37), _dec5 = logDecoratorRun(5, 18, 36), _dec6 = logDecoratorRun(6, 21, 39), _dec7 = logDecoratorRun(7, 20, 38), _dec8 = logDecoratorRun(8, 29, 49), _dec9 = logDecoratorRun(9, 28, 48), _dec10 = logDecoratorRun(10, 31, 51), _dec11 = logDecoratorRun(11, 30, 50), _dec12 = logDecoratorRun(12, 23, 41), _dec13 = logDecoratorRun(13, 22, 40), _dec14 = logDecoratorRun(14, 25, 43), _dec15 = logDecoratorRun(15, 24, 42), _dec16 = logDecoratorRun(16, 33, 53), _dec17 = logDecoratorRun(17, 32, 52);
 new class extends _identity {
     constructor(){
-        super(A), _initClass();
+        super(_A), _initClass();
     }
     static{
-        class A1 {
+        class A {
             static{
                 ({ e: [_call_c, _init_f, _init_g, _get___g, _set___g, _call_d, _init_e, _init_h, _get___h, _set___h, _initProto, _initStatic], c: [_A, _initClass] } = _apply_decs_2203_r(this, [
                     [

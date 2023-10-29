@@ -2,7 +2,7 @@ var _init_a, _init_b;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _init_b] } = _apply_decs_2203_r(this, [
+        ({ e: [_init_a, _init_b]  } = _apply_decs_2203_r(this, [
             [
                 dec,
                 0,

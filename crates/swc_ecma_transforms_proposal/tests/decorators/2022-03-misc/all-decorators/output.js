@@ -3,10 +3,10 @@ const dec = ()=>{};
 let _Class;
 new class extends _identity {
     constructor(){
-        super(Class), _initClass();
+        super(_Class), _initClass();
     }
     static{
-        class Class1 {
+        class Class {
             static{
                 ({ e: [_init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_i, _init_n, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_a, _init_e, _initProto, _initStatic], c: [_Class, _initClass] } = _apply_decs_2203_r(this, [
                     [

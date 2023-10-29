@@ -2,7 +2,7 @@ var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic] } = _apply_decs_2203_r(this, [
+        ({ e: [_init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic]  } = _apply_decs_2203_r(this, [
             [
                 dec,
                 6,

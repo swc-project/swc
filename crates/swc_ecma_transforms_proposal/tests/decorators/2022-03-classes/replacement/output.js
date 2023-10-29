@@ -3,12 +3,12 @@ const dec = ()=>{};
 let _Foo;
 new class extends _identity {
     constructor(){
-        super(Foo), _initClass();
+        super(_Foo), _initClass();
     }
     static{
-        class Foo1 {
+        class Foo {
             static{
-                ({ c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [], [
+                ({ c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [], [
                     dec
                 ]));
             }
@@ -16,4 +16,4 @@ new class extends _identity {
         }
     }
 }();
-const foo = new Foo();
+const foo = new _Foo();

@@ -2,7 +2,7 @@ var _call_a, _initStatic;
 const dec = ()=>{};
 class Foo {
     static{
-        ({ e: [_call_a, _initStatic] } = _apply_decs_2203_r(this, [
+        ({ e: [_call_a, _initStatic]  } = _apply_decs_2203_r(this, [
             [
                 dec,
                 8,

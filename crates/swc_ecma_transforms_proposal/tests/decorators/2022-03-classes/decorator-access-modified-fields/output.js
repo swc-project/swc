@@ -8,7 +8,7 @@ const memberDec = ()=>()=>42;
 let _C;
 class C {
     static{
-        ({ e: [_init_m], c: [_C, _initClass] } = _apply_decs_2203_r(this, [
+        ({ e: [_init_m] , c: [_C, _initClass]  } = _apply_decs_2203_r(this, [
             [
                 memberDec,
                 0,
