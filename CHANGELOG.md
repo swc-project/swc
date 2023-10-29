@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(es/testing)** Support babel-like fixture testing officially ([#8190](https://github.com/swc-project/swc/issues/8190)) ([e960614](https://github.com/swc-project/swc/commit/e9606147fc560cac2ffa75b917a08413b7c94908))
+
 ### Performance
 
 
