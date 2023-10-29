@@ -13,7 +13,7 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
     resolver,
 };
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::{Fold, FoldWith, VisitMutWith};
 use testing::NormalizedOutput;
 
 use crate::{exec_with_node_test_runner, parse_options};
@@ -150,9 +150,13 @@ impl<'a> BabelLikeFixtureTest<'a> {
             }
 
             let output_program = HELPERS.set(&Helpers::new(output_path.is_some()), || {
-                input_program
-                    .fold_with(&mut *pass)
-                    .fold_with(&mut inject_helpers(builder.unresolved_mark))
+                let mut p = input_program.fold_with(&mut *pass);
+
+                if output_path.is_none() {
+                    p.visit_mut_with(&mut inject_helpers(builder.unresolved_mark))
+                }
+
+                p
             });
 
             // Print output
