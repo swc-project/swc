@@ -98,7 +98,7 @@ test!(
     r#"
 var x = { a: 5, get a() {return 6;} };
 
-"#,
+"#
 );
 
 // duplicate_keys_dupes
@@ -109,7 +109,7 @@ test!(
     r#"
 var x = { a: 5, a: 6 };
 
-"#,
+"#
 );
 
 // duplicate_keys_both_quoted
@@ -120,7 +120,7 @@ test!(
     r#"
 var x = { "a\n b": 5, "a\n b": 6 };
 
-"#,
+"#
 );
 
 // duplicate_keys_no_dupes
@@ -131,7 +131,7 @@ test!(
     r#"
 var x = { a: 5, b: 6 };
 
-"#,
+"#
 );
 
 // duplicate_keys_getters_and_setters
@@ -157,7 +157,7 @@ var x = {
   get d() {}
 };
 
-"#,
+"#
 );
 
 // duplicate_keys_one_quoted
@@ -168,5 +168,5 @@ test!(
     r#"
 var x = { a: 5, "a": 6 };
 
-"#,
+"#
 );

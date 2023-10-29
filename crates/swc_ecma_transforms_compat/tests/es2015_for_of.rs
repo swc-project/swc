@@ -131,7 +131,7 @@ for (const [elm] of array) {
   console.log(elm);
 }
 
-"#,
+"#
 );
 
 test!(
@@ -145,7 +145,7 @@ test!(
 let i;
 for (i of items) i;
 
-"#,
+"#
 );
 
 // for_of_as_array_for_of_declaration
@@ -198,13 +198,13 @@ for (const elm of array) {
   console.log(elm);
 }
 
-"#,
+"#
 );
 
 // for_of_as_array_for_of_static
 test!(
     syntax(),
- # |_| for_of(Config {
+    |_| for_of(Config {
         assume_array: true,
         ..Default::default()
     }),
@@ -217,14 +217,14 @@ for (elm of array) {
   console.log(elm);
 }
 
-"#,
+"#
 );
 
 // for_of_as_array_for_of_import_es2015
 test!(
     syntax(),
     |_| for_of(Config {
- #     assume_array: true,
+        assume_array: true,
         ..Default::default()
     }),
     for_of_as_array_for_of_import_es2015,
@@ -235,7 +235,7 @@ for (const elm of array) {
   console.log(elm);
 }
 
-"#,
+"#
 );
 
 // regression_label_object_with_comment_4995
@@ -243,13 +243,13 @@ test!(
     syntax(),
     |_| for_of(Default::default()),
     regression_label_object_with_comment_4995,
- # r#"
+    r#"
 myLabel: //woops
 for (let a of b) {
   continue myLabel;
 }
 
-"#,
+"#
 );
 
 // regression_if_label_3858
@@ -258,7 +258,7 @@ test!(
     |_| for_of(Config {
         assume_array: true,
         ..Default::default()
- # }),
+    }),
     regression_if_label_3858,
     r#"
 if ( true )
@@ -266,7 +266,7 @@ if ( true )
   }
 
 
-"#,
+"#
 );
 
 #[testing::fixture("tests/for-of/**/exec.js")]
