@@ -1,7 +1,3 @@
-var _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");
-var _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");
-var _class_private_field_set = require("@swc/helpers/_/_class_private_field_set");
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initProto;
 const dec = ()=>{};
 var ___a = /*#__PURE__*/ new WeakMap(), _a = /*#__PURE__*/ new WeakMap(), ___b = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakMap();

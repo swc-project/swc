@@ -1,4 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _computedKey, _computedKey1, _initProto;
 const dec = ()=>{};
 _computedKey = 'b', _computedKey1 = 'b';

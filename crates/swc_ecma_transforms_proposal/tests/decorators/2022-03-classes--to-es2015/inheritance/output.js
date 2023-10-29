@@ -1,4 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _initClass, _initClass1, _Bar;
 const dec1 = ()=>{};
 const dec2 = ()=>{};

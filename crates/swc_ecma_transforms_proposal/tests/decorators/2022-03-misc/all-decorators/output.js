@@ -1,5 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
-var _identity = require("@swc/helpers/_/_identity");
 var _initClass, _init_d, _call_f, _call_g, _call_g1, _init_h, _get___h, _set___h, _init_m, _call_o, _call_p, _call_q, _init_r, _get___r, _set___r, _init_a, _init_e, _init_i, _init_n, _initProto, _initStatic;
 const dec = ()=>{};
 let _Class;

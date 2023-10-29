@@ -1,7 +1,3 @@
-var _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");
-var _class_private_field_set = require("@swc/helpers/_/_class_private_field_set");
-var _define_property = require("@swc/helpers/_/_define_property");
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _call_a, _initProto;
 const dec = ()=>{};
 var _a = /*#__PURE__*/ new WeakMap();

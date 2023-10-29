@@ -1,6 +1,3 @@
-var _class_static_private_field_spec_get = require("@swc/helpers/_/_class_static_private_field_spec_get");
-var _class_static_private_field_spec_set = require("@swc/helpers/_/_class_static_private_field_spec_set");
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _init_a, _get___a, _set___a, _init_b, _get___b, _set___b, _initStatic;
 const dec = ()=>{};
 class Foo {

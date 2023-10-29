@@ -1,4 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _initClass, _init_b, _init_c, _get___c, _set___c, _call_d, _initProto, _initStatic;
 let _A;
 class A {

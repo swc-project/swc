@@ -1,4 +1,3 @@
-import { _ as _apply_decs_2203_r } from "@swc/helpers/_/_apply_decs_2203_r";
 var _dec, _initClass, _dec1, _dec2, _initProto;
 let _Foo;
 _dec = decorate(), _dec1 = decorate(), _dec2 = decorate();

@@ -1,5 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
-var _identity = require("@swc/helpers/_/_identity");
 var _initClass, _initClass1, _Foo;
 const dec = ()=>{};
 let _Foo1;

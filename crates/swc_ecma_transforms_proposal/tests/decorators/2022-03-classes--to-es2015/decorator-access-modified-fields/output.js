@@ -1,5 +1,3 @@
-var _define_property = require("@swc/helpers/_/_define_property");
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _initClass, _init_m;
 var value;
 const classDec = (Class)=>{

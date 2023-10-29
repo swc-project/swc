@@ -1,5 +1,3 @@
-var _define_property = require("@swc/helpers/_/_define_property");
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _computedKey, _init_a, _init_b, _init__computedKey;
 const dec = ()=>{};
 _computedKey = 'c';

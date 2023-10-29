@@ -1,5 +1,3 @@
-var _class_static_private_field_spec_get = require("@swc/helpers/_/_class_static_private_field_spec_get");
-var _class_static_private_field_spec_set = require("@swc/helpers/_/_class_static_private_field_spec_set");
 var _computedKey;
 const dec = ()=>{};
 _computedKey = 'c';

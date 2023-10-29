@@ -1,4 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _A, __, __2, _C, __1, __21, _class, __3, __22, _class1, __4, __23, _G, __5, __24, _class2, __6, __25, _class3, __7, __26, _K, __8, __27;
 var _initClass, _A1, _initClass1, _C1, _initClass2, _class4, _initClass3, _class5, _initClass4, _G1, _initClass5, _class6, _initClass6, _class7, _I, _initClass7, _K1, _L;
 const dec = ()=>{};

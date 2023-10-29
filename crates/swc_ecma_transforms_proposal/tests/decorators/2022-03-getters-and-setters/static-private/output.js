@@ -1,4 +1,3 @@
-var _apply_decs_2203_r = require("@swc/helpers/_/_apply_decs_2203_r");
 var _call_a, _call_a1, _initStatic;
 const dec = ()=>{};
 class Foo {
