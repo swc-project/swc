@@ -248,39 +248,35 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         null,
-        "const a = { b: null };",
+        "const a = { b: null };"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         boolean,
-        "const a = { b: false };",
-        r#"const a = JSON.parse('{"b":false}');"#
+        "const a = { b: false };"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         array,
-        "const a = { b: [1, 'b_val', null] };",
-        r#"const a = JSON.parse('{"b":[1,"b_val",null]}');"#
+        "const a = { b: [1, 'b_val', null] };"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         nested_array,
-        "const a = { b: [1, ['b_val', { a: 1 }], null] };",
-        r#"const a = JSON.parse('{"b":[1,["b_val",{"a":1}],null]}');"#
+        "const a = { b: [1, ['b_val', { a: 1 }], null] };"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),
         object,
-        "const a = { b: { c: 1 } };",
-        r#"const a = JSON.parse('{"b":{"c":1}}');"#
+        "const a = { b: { c: 1 } };"
     );
 
     test!(
