@@ -169,22 +169,14 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         single_tag,
-        "t`a`;",
-        r#"
-        let _ = t1 => t1, t1;
-        t(t1 || (t1 = _`a`));
-        "#
+        "t`a`;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         single_tag_empty,
-        "x``;",
-        r#"
-        let _ = t => t, t;
-        x(t || (t = _``));
-        "#
+        "x``;"
     );
 
     test!(
@@ -194,11 +186,6 @@ mod tests {
         r#"
         t`a`;
         x``;
-        "#,
-        r#"
-        let _ = t1 => t1, t1, t2;
-        t(t1 || (t1 = _`a`));
-        x(t2 || (t2 = _``));
         "#
     );
 
@@ -206,67 +193,41 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         function_scoped_tag,
-        "const f = t => t`a`;",
-        r#"
-        let _ = t => t, t;
-        const f = t1 => t1(t || (t = _`a`));
-        "#
+        "const f = t => t`a`;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         dynamic_tag,
-        "fn()``;",
-        r#"
-        let _ = t => t, t;
-        fn()(t || (t = _``));
-        "#
+        "fn()``;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         dynamic_expressions,
-        "const f = t => t`a${1}b${t}${[\"hello\"]}`;",
-        r#"
-        let _ = t => t, t;
-        const f = t1 => t1(t || (t = _`a${0}b${0}${0}`), 1, t1, ["hello"]);
-        "#
+        "const f = t => t`a${1}b${t}${[\"hello\"]}`;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         same_tag_safari_11,
-        "x`a` === x`a`;",
-        r#"
-        let _ = t => t, t, t1;
-        x(t || (t = _`a`)) === x(t1 || (t1 = _`a`));
-        "#
+        "x`a` === x`a`;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         shared_strings_safari_11,
-        "x`a` === y`a`;",
-        r#"
-        let _ = t => t, t, t1;
-        x(t || (t = _`a`)) === y(t1 || (t1 = _`a`));
-        "#
+        "x`a` === y`a`;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         template_literals,
-        r#"
-        `a`;
-        t(`a`);
-        t;
-        `a`;
-        "#,
         r#"
         `a`;
         t(`a`);
@@ -282,12 +243,6 @@ mod tests {
         r#"
         const _ = 1;
         t``;
-        "#,
-        r#"
-        let _ = t1 => t1, t1;
-
-        const _1 = 1;
-        t(t1 || (t1 = _``));
         "#
     );
 
@@ -295,10 +250,6 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         block_scoped_tag,
-        "for (let t of []) t`a`;",
-        r#"
-        let _ = t => t, t;
-        for (let t1 of []) t1(t || (t = _`a`));
-        "#
+        "for (let t of []) t`a`;"
     );
 }

@@ -76,15 +76,13 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         destructured_default_value,
-        "const f = ({ a = 1 }) => a;",
-        "const f = ({ a: a = 1 }) => a;"
+        "const f = ({ a = 1 }) => a;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         destructured_no_default_value,
-        "const f = ({ a }) => a;",
         "const f = ({ a }) => a;"
     );
 
@@ -92,15 +90,13 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         nested_default_value,
-        "const f = ({ a: { b = 1 } }) => [a, b];",
-        "const f = ({ a: { b: b = 1 } }) => [a, b];"
+        "const f = ({ a: { b = 1 } }) => [a, b];"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         non_arguments,
-        "const f = () => { const { a = 1 } = {}; };",
         "const f = () => { const { a = 1 } = {}; };"
     );
 }
