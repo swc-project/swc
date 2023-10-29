@@ -647,26 +647,40 @@ pub fn parse_options<T>(dir: &Path) -> T
 where
     T: DeserializeOwned,
 {
-    let mut s = String::from("{}");
+    type Map = serde_json::Map<String, serde_json::Value>;
 
-    fn check(dir: &Path) -> Option<String> {
+    let mut value = Map::default();
+
+    fn check(dir: &Path) -> Option<Map> {
         let file = dir.join("options.json");
         if let Ok(v) = read_to_string(&file) {
             eprintln!("Using options.json at {}", file.display());
             eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
 
-            return Some(v);
+            return Some(serde_json::from_str(&v).unwrap_or_else(|err| {
+                panic!("failed to deserialize options.json: {}\n{}", err, v)
+            }));
         }
 
-        dir.parent().and_then(check)
+        None
     }
 
-    if let Some(content) = check(dir) {
-        s = content;
+    let mut c = Some(dir);
+
+    while let Some(dir) = c {
+        if let Some(new) = check(dir) {
+            for (k, v) in new {
+                if !value.contains_key(&k) {
+                    value.insert(k, v);
+                }
+            }
+        }
+
+        c = dir.parent();
     }
 
-    serde_json::from_str(&s)
-        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{}", err, s))
+    serde_json::from_value(serde_json::Value::Object(value.clone()))
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{:?}", err, value))
 }
 
 /// Config for [test_fixture]. See [test_fixture] for documentation.
