@@ -11,6 +11,9 @@
 
 
 
+- **(es/preset-env)** Update compat data ([#8194](https://github.com/swc-project/swc/issues/8194)) ([3dc4e1e](https://github.com/swc-project/swc/commit/3dc4e1e02d3e594da6301ca4c80aaee582642fd7))
+
+
 - **(es/testing)** Support babel-like fixture testing officially ([#8190](https://github.com/swc-project/swc/issues/8190)) ([e960614](https://github.com/swc-project/swc/commit/e9606147fc560cac2ffa75b917a08413b7c94908))
 
 
@@ -1722,9 +1725,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 
 - **(es/codegen)** Emit `type_params` for `TsConstructSignatureDecl` ([#7080](https://github.com/swc-project/swc/issues/7080)) ([8353acc](https://github.com/swc-project/swc/commit/8353accb1315a8847e4dabcd36274cde5856e763))
-
-
-- **(es/minifier)** Preserve `delete` of unresolved variables ([#7072](https://github.com/swc-project/swc/issues/7072)) ([86295ba](https://github.com/swc-project/swc/commit/86295ba8f26fbe3829c2c08fd8034975f05f60b5))
 
 
 - **(es/minifier)** Accept `keep_fnames` and `keep_classnames` ([#7090](https://github.com/swc-project/swc/issues/7090)) ([0086914](https://github.com/swc-project/swc/commit/00869147d3ac62db323cdf2a06cc8cc17dcdd1f3))

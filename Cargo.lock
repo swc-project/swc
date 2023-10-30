@@ -284,7 +284,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.60.22"
+version = "0.60.23"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -3669,7 +3669,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.269.21"
+version = "0.269.22"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3795,7 +3795,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.4.21"
+version = "0.4.22"
 dependencies = [
  "anyhow",
  "atty",
@@ -3896,7 +3896,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.86.22"
+version = "0.86.23"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4507,7 +4507,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.203.14"
+version = "0.203.15"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4891,7 +4891,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.236.21"
+version = "0.236.22"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -4939,7 +4939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.194.20"
+version = "0.194.21"
 dependencies = [
  "ahash 0.8.5",
  "anyhow",
@@ -5124,7 +5124,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.58.21"
+version = "0.58.22"
 dependencies = [
  "anyhow",
  "dashmap",
