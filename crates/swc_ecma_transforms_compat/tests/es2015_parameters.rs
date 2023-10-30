@@ -71,7 +71,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_before_last,
-    r#"function foo({x,y} = "foo" b) {}"#
+    r#"function foo({x,y} = "foo", b) {}"#
 );
 
 test_exec!(
@@ -205,7 +205,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_multiple,
-    r#"var t = function (e = "foo" f = 5) {
+    r#"var t = function (e = "foo", f = 5) {
   return e + " bar " + f;
 };
 
@@ -334,7 +334,7 @@ test!(
     |_| tr(Default::default()),
     destructuring_rest,
     r#"// #3861
-function t(x = "default" { a, b }, ...args) {
+function t(x = "default", { a, b }, ...args) {
   console.log(x, a, b, args);
 }"#
 );
@@ -1343,7 +1343,7 @@ test!(
     }),
     fn_len_default_multiple,
     r#"
-    var t = function (e = "foo" f = 5) {
+    var t = function (e = "foo", f = 5) {
       return e + " bar " + f;
     };
 
@@ -1438,7 +1438,7 @@ test!(
     }),
     fn_len_destructing_rest,
     r#"
-    function t(x = "default" { a, b }, ...args) {
+    function t(x = "default", { a, b }, ...args) {
       console.log(x, a, b, args);
     }"#
 );
