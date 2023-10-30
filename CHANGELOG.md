@@ -7,6 +7,9 @@
 
 - **(es/testing)** Support babel-like fixture testing officially ([#8190](https://github.com/swc-project/swc/issues/8190)) ([e960614](https://github.com/swc-project/swc/commit/e9606147fc560cac2ffa75b917a08413b7c94908))
 
+
+- **(es/testing)** Use `__swc_snapshots__` for `test!` macro ([#8191](https://github.com/swc-project/swc/issues/8191)) ([0aafa75](https://github.com/swc-project/swc/commit/0aafa75fef43beb6630b143e9d71f129300e7614))
+
 ### Performance
 
 
@@ -1707,12 +1710,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(bindings/cli)** Change order of checking inputs to workaround a Windows issue ([#7077](https://github.com/swc-project/swc/issues/7077)) ([7bbec92](https://github.com/swc-project/swc/commit/7bbec92d234ddb47b51a014937d1ec7c1cb571c7))
-
-
-- **(css/codegen)** Respect `raw` of `Str` ([#7078](https://github.com/swc-project/swc/issues/7078)) ([7849a2d](https://github.com/swc-project/swc/commit/7849a2d75d57bf3b6242f5f472a06a30c9fb948d))
 
 
 - **(css/parser)** Fix parsing of `:global(> *)` ([#7082](https://github.com/swc-project/swc/issues/7082)) ([60f74ea](https://github.com/swc-project/swc/commit/60f74ea0769c2be764af8eb5320343f77ea78c1a))
