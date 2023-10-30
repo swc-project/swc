@@ -44,8 +44,7 @@ test!(
     basic,
     r#"var number = function (x) {
   return x;
-};"#,
-    
+};"#
 );
 
 test!(
@@ -54,8 +53,7 @@ test!(
     assign,
     r#"number = function (x) {
   return x;
-};"#,
-    
+};"#
 );
 
 test!(
@@ -73,8 +71,7 @@ let TestClass = {
     });
   }
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -92,8 +89,7 @@ var Foo = function() {
 expect(Foo.num).toBe(0);
 expect(Foo.num = 1).toBe(1);
 expect(Foo.name).toBe('Foo');
-"#,
-    
+"#
 );
 
 test!(
@@ -110,8 +106,7 @@ test!(
   };
 
   return extendStatics(d, b);
-};",
-    
+};"
 );
 
 //identical!(
@@ -133,8 +128,7 @@ test!(
 export const x = ({x}) => x;
 export const y = function () {};
 
-"#,
-    
+"#
 );
 
 //// function_name_export_default_arrow_renaming_module_system
@@ -151,7 +145,7 @@ export const y = function () {};
 //  return { a() { return a } };
 //}
 //
-//"#, r#"
+//"# r#"
 //System.register([], function (_export, _context) {
 //  "use strict";
 //
@@ -180,7 +174,7 @@ export const y = function () {};
 //  x: ({x}) => {}
 //})
 //
-//"#, r#"
+//"# r#"
 //"use strict";
 //
 //Object.defineProperty(exports, "__esModule", {
@@ -211,8 +205,7 @@ const x = () => x;
 const y = x => x();
 const z = { z: () => y(x) }.z;
 
-"#,
-    
+"#
 );
 
 // function_name_modules_3
@@ -248,8 +241,7 @@ export default class Login extends React.Component {
   }
 }
 
-"#,
-    
+"#
 );
 
 // function_name_basic
@@ -275,8 +267,7 @@ var g = function () {
   doSmth();
 };
 
-"#,
-    
+"#
 );
 
 // function_name_export_default_arrow_renaming
@@ -303,8 +294,7 @@ export default (a) => {
   return { a() { return a } };
 }
 
-"#,
-    
+"#
 );
 
 // issues_7199
@@ -324,8 +314,7 @@ const x = {
   [false]: function () {},
 };
 
-"#,
-    
+"#
 );
 
 //// function_name_export_default_arrow_renaming_3
@@ -338,7 +327,7 @@ const x = {
 //)
 //
 //
-//"#, r#"
+//"# r#"
 //"use strict";
 //
 //Object.defineProperty(exports, "__esModule", {
@@ -372,7 +361,7 @@ const x = {
 //  return { a() { return a } };
 //}
 //
-//"#, r#"
+//"# r#"
 //"use strict";
 //
 //Object.defineProperty(exports, "__esModule", {
@@ -419,8 +408,7 @@ var f = function () {
 
 f = null;
 
-"#,
-    
+"#
 );
 
 // function_name_with_arrow_functions_transform_spec
@@ -435,8 +423,7 @@ const x = () => x;
 const y = x => x();
 const z = { z: () => y(x) }.z;
 
-"#,
-    
+"#
 );
 
 // function_name_method_definition
@@ -460,8 +447,7 @@ test!(
     r#"
 ({ x() {} });
 
-"#,
-    
+"#
 );
 
 // function_name_export_default_arrow_renaming_module_es6
@@ -475,8 +461,7 @@ export default (a) => {
   return { a() { return a } };
 }
 
-"#,
-    
+"#
 );
 
 // function_name_assignment
@@ -497,8 +482,7 @@ var j = function () {
   ;
 };
 
-"#,
-    
+"#
 );
 
 // function_name_own_bindings
@@ -536,8 +520,7 @@ f;
 }
 };
 
-"#,
-    
+"#
 );
 
 // decorators_legacy_interop_strict
@@ -565,8 +548,7 @@ class A {
 c = 456;
 }
 
-"#,
-    
+"#
 );
 
 // function_name_function_collision
@@ -613,8 +595,7 @@ b();
 }
 });
 
-"#,
-    
+"#
 );
 
 // function_name_collisions
@@ -646,8 +627,7 @@ function search({search}) {
     console.log(search);
 }
 
-"#,
-    
+"#
 );
 
 // function_name_modules_2
@@ -688,8 +668,7 @@ return last(this.tokens.get(key))
 }
 }
 
-"#,
-    
+"#
 );
 
 // function_name_await
@@ -715,6 +694,5 @@ export {};
 
 var obj = { await: function () {} };
 
-"#,
-    
+"#
 );
