@@ -115,7 +115,7 @@ test!(
     fn_len_default_assignment_with_types,
     "export function transformFileSync(
       filename: string,
-      opts?: Object = {},
+      opts: Object = {},
     ): string {}"
 );
 
