@@ -4093,10 +4093,10 @@ class Test extends Foo {
     super.test();
 
     super(...arguments);
-    super("test" ...arguments);
+    super("test", ...arguments);
 
     super.test(...arguments);
-    super.test("test" ...arguments);
+    super.test("test", ...arguments);
   }
 }
 "#

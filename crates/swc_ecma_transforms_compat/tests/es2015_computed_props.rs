@@ -486,7 +486,7 @@ test!(
     loose_coerce,
     r#"
 var obj = {
-  foo: "bar"
+  foo: "bar",
   [bar]: "foo"
 };
 "#
@@ -514,10 +514,10 @@ test!(
     loose_mixed,
     r#"
 var obj = {
-  ["x" + foo]: "heh"
-  ["y" + bar]: "noo"
-  foo: "foo"
-  bar: "bar"
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
+  foo: "foo",
+  bar: "bar",
 };
 "#
 );
@@ -528,8 +528,8 @@ test!(
     loose_multiple,
     r#"
 var obj = {
-  ["x" + foo]: "heh"
-  ["y" + bar]: "noo"
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
 };
 "#
 );
