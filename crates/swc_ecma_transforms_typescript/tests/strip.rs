@@ -75,13 +75,13 @@ macro_rules! to {
 }
 
 macro_rules! test_with_config {
-    ($name:ident, $config:expr, SET, $from:expr, $to:expr) => {
-        test_with_config!($name, $config, false, $from, $to);
+    ($name:ident, $config:expr, SET, $from:expr) => {
+        test_with_config!($name, $config, false, $from);
     };
-    ($name:ident, $config:expr, $from:expr, $to:expr) => {
-        test_with_config!($name, $config, true, $from, $to);
+    ($name:ident, $config:expr, $from:expr) => {
+        test_with_config!($name, $config, true, $from);
     };
-    ($name:ident, $config:expr, $use_define:expr,$from:expr, $to:expr) => {
+    ($name:ident, $config:expr, $use_define:expr,$from:expr) => {
         test!(
             Syntax::Typescript(TsConfig {
                 decorators: true,
@@ -89,9 +89,7 @@ macro_rules! test_with_config {
             }),
             |_| tr_config(Some($config), None, $use_define),
             $name,
-            $from,
-            $to,
-            ok_if_code_eq
+            $from
         );
     };
 }
