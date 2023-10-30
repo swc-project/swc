@@ -127,7 +127,7 @@ test!(
     arguments_concat,
     r#"
 function foo() {
-  return bar("test" ...arguments);
+  return bar("test", ...arguments);
 }
 
 function bar(one, two, three) {
@@ -160,7 +160,7 @@ test!(
     |_| tr(),
     array_literal_first,
     r#"
-var lyrics = [...parts, "head" "and" "toes"];
+var lyrics = [...parts, "head", "and", "toes"];
 
 "#
 );
@@ -377,7 +377,7 @@ test!(
     |_| tr(),
     array_literals,
     r#"
-var lyrics = ["head" "and" "toes" ...parts];
+var lyrics = ["head", "and", "toes", ...parts];
 
 "#
 );
@@ -549,7 +549,7 @@ test!(
     |_| tr(),
     spread_array_literals,
     r#"
-var lyrics = ["head" "and" "toes" ...parts];
+var lyrics = ["head", "and", "toes", ...parts];
 
 "#
 );
@@ -632,7 +632,7 @@ test!(
     spread_arguments_concat,
     r#"
 function foo() {
-  return bar("test" ...arguments);
+  return bar("test", ...arguments);
 }
 
 function bar(one, two, three) {
@@ -668,7 +668,7 @@ test!(
     spread_literial,
     r#"
     f(1, ...[2, 3], ...[...[4, 5]], ...[6, ...[7]]);
-    f(1, ..."123" ...[..."456" ..."789"]);
+    f(1, ..."123", ...[..."456", ..."789"]);
     "#
 );
 
