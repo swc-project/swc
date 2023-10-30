@@ -213,7 +213,7 @@ expect(z).toBe(3);
 
 // pure, computed property should remain as-is
 key = 2;
-({ [key]: y, z, ...x } = {2: "two" z: "zee"});
+({ [key]: y, z, ...x } = {2: "two", z: "zee"});
 expect(y).toBe("two");
 expect(x).toEqual({});
 expect(z).toBe("zee");
@@ -243,7 +243,7 @@ expect(z).toBe(3);
 
 // pure, computed property should remain as-is
 key = 2;
-({ [key]: y, z, ...x } = {2: "two" z: "zee"});
+({ [key]: y, z, ...x } = {2: "two", z: "zee"});
 expect(y).toBe("two");
 expect(x).toEqual({});
 expect(z).toBe("zee");
@@ -509,7 +509,7 @@ const sym = Symbol("test");
 const sym2 = Symbol("not enumerable");
 
 const src = { a: "string" };
-Object.defineProperty(src, "b" { value: "not enumerable" })
+Object.defineProperty(src, "b", { value: "not enumerable" })
 Object.defineProperty(src, sym, { enumerable: true, value: "symbol" });
 Object.defineProperty(src, sym2, { value: "not enumerable" });
 
@@ -825,7 +825,7 @@ const sym = Symbol("test");
 const sym2 = Symbol("not enumerable");
 
 const src = { a: "string" };
-Object.defineProperty(src, "b" { value: "not enumerable" })
+Object.defineProperty(src, "b", { value: "not enumerable" })
 Object.defineProperty(src, sym, { enumerable: true, value: "symbol" });
 Object.defineProperty(src, sym2, { value: "not enumerable" });
 
@@ -871,7 +871,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //
 //// pure, computed property should remain as-is
 //key = 2;
-//({ [key]: y, z, ...x } = {2: "two" z: "zee"});
+//({ [key]: y, z, ...x } = {2: "two", z: "zee"});
 //expect(y).toBe("two");
 //expect(x).toEqual({});
 //expect(z).toBe("zee");
@@ -1494,7 +1494,7 @@ expect(z).toBe(3);
 
 // pure, computed property should remain as-is
 key = 2;
-({ [key]: y, z, ...x } = {2: "two" z: "zee"});
+({ [key]: y, z, ...x } = {2: "two", z: "zee"});
 expect(y).toBe("two");
 expect(x).toEqual({});
 expect(z).toBe("zee");
@@ -1510,7 +1510,7 @@ function right() {
   return {};
 }
 var { [left()]: y, ...x} = right();
-expect(order).toEqual(["right" "left"]);
+expect(order).toEqual(["right", "left"]);
 
 "#
 );
@@ -1842,8 +1842,8 @@ test_exec!(
     object_rest_non_string_computed_exec_exec,
     r#"
 const a = {
-  "3": "three"
-  "foo": "bar"
+  "3": "three",
+  "foo": "bar",
 }
 
 const {
@@ -1856,11 +1856,11 @@ expect(omit).toBe("three");
 
 const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
 const c = {
-  [k1]: "1"
-  [k2]: "2"
-  [k3]: "3"
-  [k4]: "4"
-  [k5]: "5"
+  [k1]: "1",
+  [k2]: "2",
+  [k3]: "3",
+  [k4]: "4",
+  [k5]: "5",
 };
 
 const {
@@ -1884,8 +1884,8 @@ const sx = Symbol();
 const sy = Symbol();
 
 const d = {
-  [sx]: "sx"
-  [sy]: "sy"
+  [sx]: "sx",
+  [sy]: "sy",
 }
 
 const {
