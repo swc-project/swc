@@ -30,7 +30,7 @@ test!(
     syntax(),
     |_| tr(),
     issue_2819,
-    r#"const [first, , third] = ["red" "yellow" "green"]"#
+    r#"const [first, , third] = ["red", "yellow", "green"]"#
 );
 
 test!(
@@ -216,7 +216,7 @@ let foo = 1;
 let bar = 2;
 let x;
 let y;
-({ [++foo]: x = "c" [++bar]: y = "d" } = { 2: "a" });
+({ [++foo]: x = "c", [++bar]: y = "d" } = { 2: "a" });
 
 expect(foo).toBe(2);
 expect(bar).toBe(3);
@@ -259,14 +259,14 @@ test!(
     syntax(),
     |_| tr(),
     array1,
-    r#"var [a, [b], [c]] = ["hello" [" " "junk"], ["world"]];"#
+    r#"var [a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];"#
 );
 
 test!(
     syntax(),
     |_| tr(),
     array2,
-    r#"[a, [b], [c]] = ["hello" [" " "junk"], ["world"]];"#
+    r#"[a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];"#
 );
 
 test!(
@@ -308,7 +308,7 @@ test!(
     syntax(),
     |_| tr(),
     empty,
-    r#"var [, a, [b], [c], d] = ["foo" "hello" [" " "junk"], ["world"]];"#
+    r#"var [, a, [b], [c], d] = ["foo", "hello", [" ", "junk"], ["world"]];"#
 );
 
 test!(
@@ -835,7 +835,7 @@ expect(z).toBe(3);
 
 // pure, computed property should remain as-is
 key = 2;
-({ [key]: y, z, ...x } = {2: "two" z: "zee"});
+({ [key]: y, z, ...x } = {2: "two", z: "zee"});
 expect(y).toBe("two");
 expect(x).toEqual({});
 expect(z).toBe("zee");
@@ -851,7 +851,7 @@ function right() {
   return {};
 }
 var { [left()]: y, ...x} = right();
-expect(order).toEqual(["right" "left"]);
+expect(order).toEqual(["right", "left"]);
 
 "#
 );
@@ -1002,13 +1002,13 @@ function unpackObject({title: title, author: author}) {
   return title + " " + author;
 }
 
-console.log(unpackObject({title: "title" author: "author"}));
+console.log(unpackObject({title: "title", author: "author"}));
 
 var unpackArray = function ([a, b, c], [x, y, z]) {
   return a+b+c;
 };
 
-console.log(unpackArray(["hello" " " "world"], [1, 2, 3]));
+console.log(unpackArray(["hello", " ", "world"], [1, 2, 3]));
 
 "#
 );
@@ -1271,8 +1271,8 @@ test!(
     },
     destructuring_array,
     r#"
-var [a, [b], [c]] = ["hello" [" " "junk"], ["world"]];
-[a, [b], [c]] = ["hello" [" " "junk"], ["world"]];
+var [a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];
+[a, [b], [c]] = ["hello", [" ", "junk"], ["world"]];
 
 "#
 );
@@ -1343,15 +1343,15 @@ test_exec!(
     destructuring_number_key_with_object_rest_spread_exec,
     r#"
 const foo = {
-  1: "a"
-  2: "b"
-  3: "c"
+  1: "a",
+  2: "b",
+  3: "c",
 };
 
 const { [1]: bar, ...rest } = foo;
 
 expect(bar).toBe("a");
-expect(rest).toEqual({ 2: "b" 3: "c" });
+expect(rest).toEqual({ 2: "b", 3: "c" });
 
 "#
 );
