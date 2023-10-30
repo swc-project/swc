@@ -128,18 +128,6 @@ mod tests {
             bar() {
                 (async () => { })();
             }
-        }"#,
-        r#"
-        class Foo {
-            constructor() {
-                this.x = async function () {
-                    return await 1;
-                };
-            }
-
-            bar() {
-                (async function () {})();
-            }
         }"#
     );
 
@@ -152,14 +140,6 @@ mod tests {
             foo() {
                 bar(async () => await 1);
             }
-        }"#,
-        r#"
-        class Foo {
-            foo() {
-              bar(async function () {
-                  return await 1;
-              });
-            }
         }"#
     );
 
@@ -171,15 +151,6 @@ mod tests {
         class Foo {
             constructor() {
                 this.x = () => async () => await this;
-            }
-        }"#,
-        r#"
-        class Foo {
-            constructor() {
-                var _this = this;
-                this.x = () => async function () {
-                    return await _this;
-                };
             }
         }"#
     );
@@ -196,12 +167,6 @@ mod tests {
             constructor() {
                 this.x = () => {};
             }
-        }"#,
-        r#"
-        class Foo {
-            constructor() {
-                this.x = () => {};
-            }
         }"#
     );
 
@@ -209,7 +174,6 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| tr(),
         non_class_async_arrow,
-        "let x = async () => await 1;",
         "let x = async () => await 1;"
     );
 }

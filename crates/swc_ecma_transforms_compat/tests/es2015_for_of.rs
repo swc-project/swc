@@ -19,30 +19,7 @@ test!(
     spec_let,
     r#"for (let i of arr) {
 
-}"#,
-    r#"
-var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    let i = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
+}"#
 );
 
 test!(
@@ -51,29 +28,7 @@ test!(
     spec_member_expr,
     r#"for (obj.prop of arr) {
 
-}"#,
-    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    obj.prop = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
+}"#
 );
 
 test!(
@@ -87,51 +42,7 @@ test!(
 for (var i of numbers) {
 
 }
-"#,
-    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    var i = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}
-
-var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = undefined;
-
-try {
-  for (var _iterator1 = numbers[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 =
-      (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true) {
-    var i = _step1.value;
-  }
-} catch (err) {
-  _didIteratorError1 = true;
-  _iteratorError1 = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion1 && _iterator1.return != null) {
-      _iterator1.return();
-    }
-  } finally {
-    if (_didIteratorError1) {
-      throw _iteratorError1;
-    }
-  }
-}"#,
-    ok_if_code_eq
+"#
 );
 
 test!(
@@ -142,52 +53,7 @@ test!(
   for (let e of f()) {
     continue b;
   }
-}"#,
-    "
-    var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-try {
-    b: for(var _iterator = d()[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = \
-     _iterator.next()).done); _iteratorNormalCompletion = true){
-        let c = _step.value;
-        var _iteratorNormalCompletion1 = true, _didIteratorError1 = false, _iteratorError1 = \
-     undefined;
-        try {
-            for(var _iterator1 = f()[Symbol.iterator](), _step1; !(_iteratorNormalCompletion1 = \
-     (_step1 = _iterator1.next()).done); _iteratorNormalCompletion1 = true){
-                let e = _step1.value;
-                continue b;
-            }
-        } catch (err) {
-            _didIteratorError1 = true;
-            _iteratorError1 = err;
-        } finally{
-            try {
-                if (!_iteratorNormalCompletion1 && _iterator1.return != null) {
-                    _iterator1.return();
-                }
-            } finally{
-                if (_didIteratorError1) {
-                    throw _iteratorError1;
-                }
-            }
-        }
-    }
-} catch (err) {
-    _didIteratorError = true;
-    _iteratorError = err;
-} finally{
-    try {
-        if (!_iteratorNormalCompletion && _iterator.return != null) {
-            _iterator.return();
-        }
-    } finally{
-        if (_didIteratorError) {
-            throw _iteratorError;
-        }
-    }
-}
-    ",
-    ok_if_code_eq
+}"#
 );
 
 test!(
@@ -196,29 +62,7 @@ test!(
     spec_var,
     r#"for (var i of arr) {
 
-}"#,
-    r#"var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  for (var _iterator = arr[Symbol.iterator](), _step; !(_iteratorNormalCompletion =
-      (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    var i = _step.value;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
-}"#,
-    ok_if_code_eq
+}"#
 );
 
 // for_of_as_array_for_of
@@ -236,15 +80,6 @@ for (elm of array) {
   console.log(elm);
 }
 
-"#,
-    r#"
-let elm;
-
-for(let _i = 0; _i < array.length; _i++){
-  elm = array[_i];
-  console.log(elm);
-}
-
 "#
 );
 
@@ -259,15 +94,6 @@ test!(
     r#"
 let elm;
 for ([elm] of array) {
-  console.log(elm);
-}
-
-"#,
-    r#"
-let elm;
-
-for(let _i = 0; _i < array.length; _i++){
-  [elm] = array[_i];
   console.log(elm);
 }
 
@@ -289,15 +115,6 @@ function f(...t) {
   }
 }
 
-"#,
-    r#"
-function f(...t) {
-  for(let _i = 0; _i < t.length; _i++){
-    let o = t[_i];
-    const t = o;
-  }
-}
-
 "#
 );
 
@@ -314,16 +131,9 @@ for (const [elm] of array) {
   console.log(elm);
 }
 
-"#,
-    r#"
-for(let _i = 0; _i < array.length; _i++){
-    const [elm] = array[_i];
-    console.log(elm);
-}
 "#
 );
 
-// for_of_as_array_for_of_expression
 test!(
     syntax(),
     |_| for_of(Config {
@@ -334,15 +144,6 @@ test!(
     r#"
 let i;
 for (i of items) i;
-
-"#,
-    r#"
-let i;
-
-for(let _i = 0; _i < items.length; _i++){
-  i = items[_i];
-  i;
-}
 
 "#
 );
@@ -357,13 +158,6 @@ test!(
     for_of_as_array_for_of_declaration,
     r#"
 for (const elm of array) {
-  console.log(elm);
-}
-
-"#,
-    r#"
-for(let _i = 0; _i < array.length; _i++){
-  const elm = array[_i];
   console.log(elm);
 }
 
@@ -404,15 +198,6 @@ for (const elm of array) {
   console.log(elm);
 }
 
-"#,
-    r#"
-const array = [];
-
-for(let _i = 0; _i < array.length; _i++){
-  const elm = array[_i];
-  console.log(elm);
-}
-
 "#
 );
 
@@ -429,16 +214,6 @@ const array = [];
 let elm;
 
 for (elm of array) {
-  console.log(elm);
-}
-
-"#,
-    r#"
-const array = [];
-let elm;
-
-for (let _i = 0; _i < array.length; _i++) {
-  elm = array[_i];
   console.log(elm);
 }
 
@@ -460,15 +235,6 @@ for (const elm of array) {
   console.log(elm);
 }
 
-"#,
-    r#"
-import { array } from "foo";
-
-for(let _i = 0; _i < array.length; _i++){
-  const elm = array[_i];
-  console.log(elm);
-}
-
 "#
 );
 
@@ -481,31 +247,6 @@ test!(
 myLabel: //woops
 for (let a of b) {
   continue myLabel;
-}
-
-"#,
-    r#"
-var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
-
-try {
-  myLabel: //woops
-  for (var _iterator = b[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-    let a = _step.value;
-    continue myLabel;
-  }
-} catch (err) {
-  _didIteratorError = true;
-  _iteratorError = err;
-} finally {
-  try {
-    if (!_iteratorNormalCompletion && _iterator.return != null) {
-      _iterator.return();
-    }
-  } finally {
-    if (_didIteratorError) {
-      throw _iteratorError;
-    }
-  }
 }
 
 "#
@@ -522,13 +263,6 @@ test!(
     r#"
 if ( true )
   loop: for (let ch of []) {
-  }
-
-
-"#,
-    r#"
-if (true) loop: for(let _i = 0, _iter = []; _i < _iter.length; _i++){
-    let ch = _iter[_i];
   }
 
 

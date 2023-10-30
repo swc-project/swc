@@ -44,10 +44,6 @@ test!(
     transform_in_default,
     r#"
  function foo(foo, qux = foo.bar ?? "qux") {}
-"#,
-    r#"
-var _foo_bar;
-function foo(foo, qux = (_foo_bar = foo.bar) !== null && _foo_bar !== void 0 ? _foo_bar : "qux") {}
 "#
 );
 
@@ -60,13 +56,6 @@ test!(
 function foo(opts) {
   var foo = opts.foo ?? "default";
 }
-"#,
-    r#"
-function foo(opts) {
-  var _opts_foo;
-
-  var foo = (_opts_foo = opts.foo) !== null && _opts_foo !== void 0 ? _opts_foo : "default";
-}
 "#
 );
 
@@ -77,10 +66,6 @@ test!(
     r#"
 
 function foo(foo, bar = foo ?? "bar") {}
-
-"#,
-    r#"
-function foo(foo, bar = foo !== null && foo !== void 0 ? foo : "bar") {}
 
 "#
 );
@@ -94,14 +79,6 @@ function foo() {
   var foo = this ?? {};
 }
 
-"#,
-    r#"
-function foo() {
-    var _this;
-    var foo = (_this = this) !== null && _this !== void 0 ? _this : {
-    };
-}
-
 "#
 );
 
@@ -111,9 +88,6 @@ test!(
     assign_01,
     "
     a ??= b;
-    ",
-    "
-    a = a !== null && a !== void 0 ? a : b;
     "
 );
 
@@ -124,12 +98,6 @@ test!(
     "
     const a = {}
     a.b ??= '1'
-    ",
-    "
-    const a = {
-    };
-    var _a_b;
-    _a_b = (_a_b = a.b) !== null && _a_b !== void 0 ? _a_b : a.b = '1';
     "
 );
 
@@ -154,13 +122,6 @@ test!(
 function foo(opts) {
     var foo = opts.foo ?? "default";
 }
-"#,
-    r#"
-function foo(opts) {
-  var _opts_foo;
-
-  var foo = (_opts_foo = opts.foo) != null ? _opts_foo : "default";
-}
 "#
 );
 
@@ -168,11 +129,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     issue_6328,
-    "switch ( 0 ) { case 0 ?? 0 : }",
-    r#"
-    var _ref;
-    switch ( 0 ) { case (_ref = 0) !== null && _ref !== void 0 ? _ref : 0: }
-"#
+    "switch ( 0 ) { case 0 ?? 0 : }"
 );
 
 test!(
@@ -191,21 +148,6 @@ test!(
         location: null,
         radius: null
     }
-    ",
-    "
-    var filter = clone(initialFilter);
-    var _filter_start_point;
-    _filter_start_point = (_filter_start_point = filter.start_point) !== null && \
-     _filter_start_point !== void 0 ? _filter_start_point : filter.start_point = {
-        location: null,
-        radius: null
-    };
-    var _filter_end_point;
-    _filter_end_point = (_filter_end_point = filter.end_point) !== null && _filter_end_point !== \
-     void 0 ? _filter_end_point : filter.end_point = {
-        location: null,
-        radius: null
-    };
     "
 );
 

@@ -143,24 +143,9 @@ expect(() => {
 "#
 );
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_1,
-    "obj?.a",
-    "var _obj;
-    (_obj = obj) === null || _obj === void 0 ? void 0 : _obj.a;"
-);
+test!(syntax(), |_| tr(Default::default()), simple_1, "obj?.a");
 
-test!(
-    syntax(),
-    |_| tr(Default::default()),
-    simple_2,
-    "obj?.a?.b",
-    "var _obj_a, _obj;
-    (_obj = obj) === null || _obj === void 0 ? void 0 : (_obj_a = _obj.a) === null || _obj_a === \
-     void 0 ? void 0 : _obj_a.b;"
-);
+test!(syntax(), |_| tr(Default::default()), simple_2, "obj?.a?.b");
 
 test_exec!(
     syntax(),
@@ -187,11 +172,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     pr_2791,
-    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#,
-    r#"
-var _UNCONFIRMED_CALLBACK_MAP_get;
-(_UNCONFIRMED_CALLBACK_MAP_get = UNCONFIRMED_CALLBACK_MAP.get(pid)) === null || _UNCONFIRMED_CALLBACK_MAP_get === void 0 ? void 0 : _UNCONFIRMED_CALLBACK_MAP_get(error, response);
-  "#
+    r#"UNCONFIRMED_CALLBACK_MAP.get(pid)?.(error, response)"#
 );
 
 test_exec!(

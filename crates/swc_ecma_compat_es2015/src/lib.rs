@@ -143,25 +143,6 @@ export class Foo {
 		return {a};
 	}
 }
-"#,
-        r#"
-export var Foo = function() {
-    "use strict";
-    function Foo() {
-        _class_call_check(this, Foo);
-    }
-
-    _create_class(Foo, [{
-            key: "func",
-            value: function func(a) {
-                var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Date.now();
-                return {
-                    a: a
-                };
-            }
-        }]);
-    return Foo;
-}();
 "#
     );
 
@@ -175,22 +156,6 @@ export var Foo = function() {
         issue_189,
         r#"
 class HomePage extends React.Component {}
-"#,
-        r#"
-        var HomePage = /*#__PURE__*/function (_React_Component) {
-            "use strict";
-            _inherits(HomePage, _React_Component);
-
-            var _super = _create_super(HomePage);
-
-            function HomePage() {
-              _class_call_check(this, HomePage);
-
-              return _super.apply(this, arguments);
-            }
-
-            return HomePage;
-          }(React.Component);
 "#
     );
 
@@ -204,15 +169,7 @@ class HomePage extends React.Component {}
         issue_227,
         "export default function fn1(...args) {
   fn2(...args);
-}",
-        "
-export default function fn1() {
-    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-        args[_key] = arguments[_key];
-    }
-    fn2.apply(void 0, _to_consumable_array(args));
-}
-"
+}"
     );
 
     test!(
@@ -226,14 +183,6 @@ export default function fn1() {
 function foo(scope) {
     scope.startOperation = startOperation;
 
-    function startOperation(operation) {
-        scope.agentOperation = operation;
-    }
-}
-",
-        "
-function foo(scope) {
-    scope.startOperation = startOperation;
     function startOperation(operation) {
         scope.agentOperation = operation;
     }
@@ -279,13 +228,7 @@ function foo(scope) {
         r#"
 export const getBadgeBorderRadius = (text, color) => {
   return (text && style) || {}
-}"#,
-        r#"
-export var getBadgeBorderRadius = function(text, color) {
-    return text && style || {
-    };
-};
-"#
+}"#
     );
 
     test!(
@@ -317,41 +260,7 @@ class B extends A {
         super.print();
     }
 }
-",
-        "var A = function() {
-    \"use strict\";
-    function A() {
-        _class_call_check(this, A);
-        this.a_num = 10;
-    }
-    _create_class(A, [{
-            key: \"print\",
-            value: function print() {
-                expect(this.a_num).toBe(10);
-            }
-        }]);
-    return A;
-}();
-var B = function(A) {
-    \"use strict\";
-    _inherits(B, A);
-    var _super = _create_super(B);
-    function B(num) {
-        _class_call_check(this, B);
-        var _this;
-        _this = _super.call(this);
-        _this.b_num = num;
-        return _this;
-    }
-    _create_class(B, [{
-            key: \"print\",
-            value: function print() {
-                expect(this.b_num).toBe(20);
-                _get(_get_prototype_of(B.prototype), \"print\", this).call(this);
-            }
-        }]);
-    return B;
-}(A);"
+"
     );
 
     test_exec!(
@@ -397,22 +306,6 @@ return new B(20).print()"
         issue_1660_1,
         "
         console.log(class {run(){}});
-        ",
-        "
-        console.log(function() {
-            \"use strict\";
-            function _class() {
-                _class_call_check(this, _class);
-            }
-            _create_class(_class, [
-                {
-                    key: \"run\",
-                    value: function run() {
-                    }
-                }
-            ]);
-            return _class;
-        }());
         "
     );
 
@@ -452,17 +345,6 @@ return new B(20).print()"
 export class Foo {
 	let() {}
 }
-"#,
-        r#"
-export var Foo = function() {
-    "use strict";
-    function Foo() {
-        _class_call_check(this, Foo);
-    }
-    var _proto = Foo.prototype;
-    _proto.let = function _let() {};
-    return Foo;
-}();
 "#
     );
 }

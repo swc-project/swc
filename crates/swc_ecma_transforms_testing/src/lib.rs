@@ -8,7 +8,8 @@ use std::{
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
     mem::take,
-    path::Path,
+    panic,
+    path::{Path, PathBuf},
     process::Command,
     rc::Rc,
 };
@@ -39,7 +40,9 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR};
+use testing::{
+    assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT,
+};
 
 pub mod babel_like;
 
@@ -347,28 +350,71 @@ pub fn test_transform<F, P>(
     });
 }
 
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[track_caller]
+pub fn test_inlined_transform<F, P>(
+    test_name: &str,
+    syntax: Syntax,
+    tr: F,
+    input: &str,
+    _always_ok_if_code_eq: bool,
+) where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    let loc = panic::Location::caller();
+
+    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
+
+    let test_file_path = CARGO_WORKSPACE_ROOT.join(loc.file());
+
+    let snapshot_dir = manifest_dir.join("tests").join("__swc_snapshots__").join(
+        test_file_path
+            .strip_prefix(&manifest_dir)
+            .expect("test_inlined_transform does not support paths outside of the crate root"),
+    );
+
+    test_fixture_inner(
+        syntax,
+        Box::new(move |tester| Box::new(tr(tester))),
+        input,
+        &snapshot_dir.join(format!("{test_name}.js")),
+        Default::default(),
+    )
+}
+
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[macro_export]
+macro_rules! test_location {
+    () => {{
+        $crate::TestLocation {}
+    }};
+}
+
 /// Test transformation.
 #[macro_export]
 macro_rules! test {
-    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
         }
     };
 
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
         }
     };
 
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, true)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, true)
         }
     };
 }
@@ -695,7 +741,6 @@ pub struct FixtureTestConfig {
     /// Defaults to false.
     pub allow_error: bool,
 }
-
 /// You can do `UPDATE=1 cargo test` to update fixtures.
 pub fn test_fixture<P>(
     syntax: Syntax,
@@ -706,6 +751,24 @@ pub fn test_fixture<P>(
 ) where
     P: Fold,
 {
+    let input = fs::read_to_string(input).unwrap();
+
+    test_fixture_inner(
+        syntax,
+        Box::new(|tester| Box::new(tr(tester))),
+        &input,
+        output,
+        config,
+    );
+}
+
+fn test_fixture_inner<'a>(
+    syntax: Syntax,
+    tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Fold>>,
+    input: &str,
+    output: &Path,
+    config: FixtureTestConfig,
+) {
     let _logger = testing::init();
 
     let expected = read_to_string(output);
@@ -731,15 +794,13 @@ pub fn test_fixture<P>(
     let mut sourcemap = None;
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
-        let input_str = read_to_string(input).unwrap();
-        println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
 
         let tr = tr(tester);
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual =
-            tester.apply_transform(tr, "input.js", syntax, &read_to_string(input).unwrap())?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
