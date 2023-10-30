@@ -80,7 +80,7 @@ test!(
     async_arrow_in_method,
     r#"
 let TestClass = {
-  name: "John Doe"
+  name: "John Doe",
 
   testMethodFailure() {
     return new Promise(async (resolve) => {
@@ -894,7 +894,7 @@ test!(
     async_to_generator_async_arrow_in_method,
     r#"
 let TestClass = {
-  name: "John Doe"
+  name: "John Doe",
 
   testMethodFailure() {
     return new Promise(async (resolve) => {
