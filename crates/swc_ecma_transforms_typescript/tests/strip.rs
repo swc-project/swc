@@ -61,7 +61,7 @@ fn properties(t: &Tester, loose: bool) -> impl Fold {
 }
 
 macro_rules! to {
-    ($name:ident, $from:expr, $to:expr) => {
+    ($name:ident, $from:expr) => {
         test!(
             Syntax::Typescript(TsConfig {
                 decorators: true,
@@ -70,8 +70,6 @@ macro_rules! to {
             |t| chain!(tr(), properties(t, true)),
             $name,
             $from,
-            $to,
-            ok_if_code_eq
         );
     };
 }
@@ -121,7 +119,6 @@ test!(
       filename: string,
       opts?: Object = {},
     ): string {}",
-    
 );
 
 // TODO: Test function / variable hoisting
@@ -134,7 +131,6 @@ test!(
 import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
 ",
-    
 );
 
 test!(
@@ -144,7 +140,6 @@ test!(
     "for (let x in ['']) {
   (x => 0)(x);
 }",
-    
 );
 
 test!(
@@ -154,7 +149,6 @@ test!(
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
       tView.data[adjustedIndex] as TElementNode",
-    
 );
 
 test!(
@@ -164,7 +158,6 @@ test!(
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
       tView.data[adjustedIndex] as TElementNode",
-    
 );
 
 test!(
@@ -173,7 +166,6 @@ test!(
     issue_468_3,
     "tView.firstCreatePass ?
       getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode",
-    
 );
 
 test!(
@@ -181,7 +173,6 @@ test!(
     |_| tr(),
     issue_468_4,
     "a ? b : c",
-    
 );
 
 test!(
@@ -189,7 +180,6 @@ test!(
     |_| tr(),
     issue_468_5,
     "a ? b : c as T",
-    
 );
 
 test!(
@@ -197,7 +187,6 @@ test!(
     |_| tr(),
     issue_468_6,
     "a.b ? c() : d.e[f] as T",
-    
 );
 
 test!(
@@ -205,7 +194,6 @@ test!(
     |_| tr(),
     issue_468_7,
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
-    
 );
 
 test!(
@@ -293,15 +281,7 @@ to!(
         c = b + 1,
         d = c
     }",
-    "
-var x;
-var Foo;
-(function (Foo) {
-    Foo[Foo[\"a\"] = 0] = \"a\";
-    Foo[Foo[\"b\"] = 0] = \"b\";
-    Foo[Foo[\"c\"] = 1] = \"c\";
-    Foo[Foo[\"d\"] = 1] = \"d\";
-})(Foo || (Foo = {}));"
+    
 );
 
 test!(
@@ -323,16 +303,16 @@ test!(
     ok_if_code_eq
 );
 
-to!(import_type, "import type foo from 'foo'", "");
+to!(import_type, "import type foo from 'foo'", );
 
-to!(export_type, "export type { foo }", "");
+to!(export_type, "export type { foo }", );
 
 to!(
     issue_685,
     "
     type MyType = string;
     export default MyType;",
-    ""
+    
 );
 
 to!(
@@ -341,9 +321,7 @@ to!(
     class MyType {}
     type MyType = string;
     export default MyType;",
-    "
-    class MyType {}
-    export default MyType;"
+    
 );
 
 to!(
@@ -352,9 +330,7 @@ to!(
     var MyType = function(){};
     type MyType = string;
     export default MyType;",
-    "
-    var MyType = function(){};
-    export default MyType;"
+    
 );
 
 to!(
@@ -364,7 +340,7 @@ to!(
         other: number;
     }
     export default MyType;",
-    ""
+    
 );
 
 to!(
@@ -373,12 +349,7 @@ to!(
   md = 'md',
   lg = 'lg',
 }",
-    "var FlexSize;
-(function (FlexSize) {
-    FlexSize[\"md\"] = \"md\";
-    FlexSize[\"lg\"] = \"lg\";
-})(FlexSize || (FlexSize = {}));
-"
+    
 );
 
 to!(
@@ -387,17 +358,12 @@ to!(
   md,
   lg,
 }",
-    "var FlexSize;
-(function (FlexSize) {
-    FlexSize[FlexSize[\"md\"] = 0] = \"md\";
-    FlexSize[FlexSize[\"lg\"] = 1] = \"lg\";
-})(FlexSize || (FlexSize = {}));
-"
+    
 );
 
-to!(module_01, "module 'foo'{ }", "");
+to!(module_01, "module 'foo'{ }", );
 
-to!(declare_01, "declare var env: FOO", "");
+to!(declare_01, "declare var env: FOO", );
 
 to!(
     issue_757,
@@ -409,13 +375,7 @@ enum Foo {
 
 export default Foo;
 ",
-    "var Foo;
-    (function(Foo) {
-        Foo[Foo[\"A\"] = 0] = \"A\";
-        Foo[Foo[\"B\"] = 1] = \"B\";
-    })(Foo || (Foo = {
-    }));
-    export default Foo;"
+    
 );
 
 to!(
@@ -424,9 +384,7 @@ to!(
      export function createPerson(person: IPerson) {
         const a = {} as IPerson
       }",
-    "export function createPerson(person) {
-        const a = {};
-      }"
+    
 );
 
 to!(
@@ -435,9 +393,7 @@ to!(
      function createPerson(person: IPerson) {
         const a = {} as IPerson
       }",
-    "function createPerson(person) {
-        const a = {};
-      }"
+    
 );
 
 to!(
@@ -450,9 +406,7 @@ to!(
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
      }",
-    "export function createPerson(person) {
-       const a = {}
-     }"
+    
 );
 
 to!(
@@ -465,11 +419,7 @@ to!(
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
      }",
-    "export class Employee {
-     }
-     export function createPerson(person) {
-       const a = {}
-     }"
+    
 );
 
 to!(
@@ -481,9 +431,7 @@ to!(
      export function createPerson(person: MyPerson) {
        const a = {} as MyPerson
      }",
-    "export function createPerson(person) {
-       const a = {}
-     }"
+    
 );
 
 to!(
@@ -492,11 +440,7 @@ to!(
 
      export class Child extends A implements B {
      }",
-    "import { A } from '../types/types'
-
-    export class Child extends A {
-    }
-    "
+    
 );
 
 to!(
@@ -505,9 +449,7 @@ to!(
      export function createPerson(person) {
         const a = {} as IPerson
       }",
-    "export function createPerson(person) {
-        const a = {};
-      }"
+    
 );
 
 to!(
@@ -516,9 +458,7 @@ to!(
      export function createPerson(person) {
         const a = <IPerson>{};
       }",
-    "export function createPerson(person) {
-        const a = {};
-      }"
+    
 );
 
 to!(
@@ -528,11 +468,7 @@ to!(
         console.log(a)
     }
 }",
-    "export class FeatureSet {
-    log(a) {
-        console.log(a)
-    }
-}"
+    
 );
 
 to!(
@@ -542,11 +478,7 @@ to!(
         console.log(a)
     }
 }",
-    "class FeatureSet {
-    log(a) {
-        console.log(a)
-    }
-}"
+    
 );
 
 to!(
@@ -556,12 +488,7 @@ to!(
         console.log(a)
     }
 }",
-    "class FeatureSet {
-    log(a) {
-        console.log(a)
-    }
-}
-export { FeatureSet as default };"
+    
 );
 
 to!(
@@ -571,12 +498,7 @@ to!(
     Down = 2,
     Left = Up + Down,
 }",
-    "var Direction;
-(function (Direction) {
-    Direction[Direction[\"Up\"] = 1] = \"Up\";
-    Direction[Direction[\"Down\"] = 2] = \"Down\";
-    Direction[Direction[\"Left\"] = 3] = \"Left\";
-})(Direction || (Direction = {}));"
+    
 );
 
 to!(
@@ -596,28 +518,7 @@ to!(
         this.#handlers = options.handlers || [];
     }
 }",
-    "
-    var _level = new WeakMap(), _handlers = new WeakMap(), _loggerName = new WeakMap();
-    export class Logger {
-    constructor(loggerName, levelName, options = {
-    }){
-        _class_private_field_init(this, _level, {
-            writable: true,
-            value: void 0
-        });
-        _class_private_field_init(this, _handlers, {
-            writable: true,
-            value: void 0
-        });
-        _class_private_field_init(this, _loggerName, {
-            writable: true,
-            value: void 0
-        });
-        _class_private_field_set(this, _loggerName, loggerName);
-        _class_private_field_set(this, _level, getLevelByName(levelName));
-        _class_private_field_set(this, _handlers, options.handlers || []);
-    }
-}"
+    
 );
 
 to!(
@@ -630,16 +531,7 @@ to!(
     end,
   }
 });"#,
-    r#"Deno.test("[ws] WebSocket should act as asyncIterator", async ()=>{
-    let Frames;
-    (function(Frames) {
-        Frames[Frames["ping"] = 0] = "ping";
-        Frames[Frames["hello"] = 1] = "hello";
-        Frames[Frames["close"] = 2] = "close";
-        Frames[Frames["end"] = 3] = "end";
-    })(Frames || (Frames = {
-    }));
-});"#
+    
 );
 
 to!(
@@ -647,11 +539,7 @@ to!(
     r#"export class MultipartReader {
     readonly newLine = encoder.encode("\r\n");
 }"#,
-    r#"export class MultipartReader {
-      constructor(){
-          this.newLine = encoder.encode("\r\n");
-      }
-}"#
+    
 );
 
 to!(
@@ -661,12 +549,7 @@ to!(
       super(message)
     }
 }"#,
-    r#"export class BadRequestError extends Error {
-    constructor(message) {
-      super(message)
-      this.message = message
-    }
-}"#
+    
 );
 
 to!(
@@ -674,7 +557,7 @@ to!(
     "export abstract class Kernel {
   [key: string]: any
 }",
-    "export abstract class Kernel {}"
+    
 );
 
 to!(
@@ -684,13 +567,7 @@ to!(
     super();
   }
 }",
-    "class A extends Object {
-    constructor(a, b){
-        super();
-        this.a = a;
-        this.b = b;
-    }
-}"
+    
 );
 
 test!(
@@ -702,7 +579,6 @@ test!(
         constructor(readonly a){
         }
     }",
-    
 );
 
 test!(
@@ -714,7 +590,6 @@ test!(
         constructor(a){
         }
     }",
-    
 );
 
 test!(
@@ -728,7 +603,6 @@ test!(
           this.foo.subscribe()
         }
       }",
-    
 );
 
 test!(
@@ -747,7 +621,6 @@ test!(
                 this.foo.subscribe()
             }
           }",
-    
 );
 
 test!(
@@ -757,7 +630,6 @@ test!(
     "export class Test {
         constructor(readonly test?: string) {}
     }",
-    
 );
 
 test!(
@@ -2992,7 +2864,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     ok_if_code_eq
 );
 
-to!(bin_01, "a!!!! + b!!!!!! + c!!!!!", "a + b + c");
+to!(bin_01, "a!!!! + b!!!!!! + c!!!!!", );
 
 test!(
     Syntax::Typescript(TsConfig {
@@ -3005,7 +2877,6 @@ test!(
     import { a } from './foo';
     import { Type } from './types';
     ",
-    
 );
 
 test!(
@@ -3018,7 +2889,6 @@ test!(
     "
     import './foo';
     ",
-    
 );
 
 test!(
@@ -3042,7 +2912,6 @@ test!(
     import { a } from './foo';
     import { Type } from './types';
     ",
-    
 );
 
 test!(
@@ -3056,7 +2925,6 @@ test!(
     import { Type } from './types';
     export type { Type };
     ",
-    
 );
 
 test!(
@@ -3084,7 +2952,6 @@ test!(
     }
     (async() => {  await (new Service()).is('ABC'); })();
     ",
-    
 );
 
 test!(
@@ -3110,7 +2977,6 @@ test!(
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
     ",
-    
 );
 
 test!(
@@ -3144,7 +3010,6 @@ test!(
 
       console.log(submissions);
     "#,
-    
 );
 
 // compile_to_class_constructor_collision_ignores_types
@@ -3168,7 +3033,6 @@ class C {
 }
 
 "#,
-    
 );
 
 test!(
@@ -3194,7 +3058,6 @@ class A {
     return 1;
   }
 }",
-    
 );
 
 to!(
@@ -3205,11 +3068,7 @@ to!(
     export { any };
     export type { any as t };
     ",
-    "
-    import { any } from './dep.ts';
-
-    export { any };
-    "
+    
 );
 
 to!(
@@ -3248,19 +3107,7 @@ to!(
         };
     }
     ",
-    "
-    export var util;
-    (function (util) {
-        function assertNever(_x) {
-            throw new Error();
-        }
-        util.assertNever = assertNever;
-        util.arrayToEnum = (items)=>{};
-        util.getValidEnumValues = (obj)=>{};
-        util.getValues = (obj)=>{};
-        util.objectValues = (obj)=>{};
-    })(util || (util = {}));
-    "
+    
 );
 
 to!(
@@ -3271,13 +3118,7 @@ to!(
         export const [a, b] = [1, 2, 3];
     }
     ",
-    "
-    export var util;
-    (function (util) {
-        const c = 3;
-        [util.a, util.b] = [1, 2, 3];
-    })(util || (util = {}));
-    "
+    
 );
 
 to!(
@@ -3294,17 +3135,7 @@ to!(
         }
     }
     ",
-    "
-    export var util;
-    (function (util) {
-        const c = 3;
-        function foo() {
-        }
-        util.foo = foo;
-        function bar() {
-        }
-    })(util || (util = {}));
-    "
+    
 );
 
 to!(
@@ -3317,14 +3148,7 @@ to!(
         export interface Test {}
     }
     ",
-    "
-    var Test;
-    (function (Test) {
-        (function (Inner) {
-            Inner.c = 3;
-        })(Test.Inner || (Test.Inner = {}));
-    })(Test || (Test = {}));
-    "
+    
 );
 
 to!(
@@ -3354,38 +3178,7 @@ to!(
         }
     }
     ",
-    r#"
-    var MyNamespace;
-    (function (MyNamespace) {
-        let MyEnum;
-        (function (MyEnum) {
-            MyEnum[MyEnum["A"] = 1] = "A";
-        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
-        let MyInnerNamespace;
-        (function (MyInnerNamespace) {
-            let MyEnum;
-            (function (MyEnum) {
-                MyEnum[MyEnum["A"] = 1] = "A";
-            })(MyEnum = MyInnerNamespace.MyEnum || (MyInnerNamespace.MyEnum = {}));
-        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
-    })(MyNamespace || (MyNamespace = {}));
-    (function (MyNamespace) {
-        let MyEnum;
-        (function (MyEnum) {
-            MyEnum[MyEnum["B"] = 1] = "B";
-        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
-        let MyInnerNamespace;
-        (function (MyInnerNamespace) {
-            MyInnerNamespace.Dec2 = 2;
-        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
-    })(MyNamespace || (MyNamespace = {}));
-    (function (MyNamespace) {
-        let MyEnum;
-        (function (MyEnum) {
-            MyEnum[MyEnum["A"] = 2] = "A";
-        })(MyEnum || (MyEnum = {}));
-    })(MyNamespace || (MyNamespace = {}));
-    "#
+    
 );
 
 to!(
@@ -3401,21 +3194,7 @@ to!(
         console.log(b.Test);
     }
     ",
-    r#"
-    var A;
-    (function (A) {
-        class Test {
-        }
-        A.Test = Test;
-    })(A || (A = {}));
-    var B;
-    (function (B) {
-        B.a = A;
-        console.log(B.a.Test);
-        const b = A;
-        console.log(b.Test);
-    })(B || (B = {}));
-    "#
+    
 );
 
 to!(
@@ -3430,18 +3209,7 @@ to!(
 
     console(Test.DummyValues.A);
     ",
-    "
-    var Test;
-    (function(Test) {
-        let DummyValues;
-        (function(DummyValues) {
-            DummyValues[\"A\"] = \"A\";
-            DummyValues[\"B\"] = \"B\";
-        })(DummyValues = Test.DummyValues || (Test.DummyValues = {}));
-    })(Test || (Test = {
-    }));
-    console(Test.DummyValues.A);
-    "
+    
 );
 
 to!(
@@ -3460,13 +3228,7 @@ to!(
         }
     }
     ",
-    "
-    export class TestClass {
-        testMethod(args) {
-            return args.param1;
-        }
-    }
-    "
+    
 );
 
 to!(
@@ -3478,8 +3240,7 @@ to!(
         }
     }
     ",
-    "
-    "
+    
 );
 
 to!(
@@ -3491,8 +3252,7 @@ to!(
 
     export {}
     ",
-    "
-    "
+    
 );
 
 test_with_config!(
@@ -3556,19 +3316,7 @@ to!(
         static [(console.log(2), 'b')] = 2;
     }
     ",
-    "
-    let prop, prop1;
-    class A {
-        constructor() {
-            this[prop] = 1;
-        }
-    }
-    (()=>{
-        prop = (console.log(1), 'a');
-        prop1 = (console.log(2), 'b');
-    })();
-    A[prop1] = 2;
-    "
+    
 );
 
 to!(
@@ -3580,21 +3328,7 @@ to!(
         [(console.log(3), 'c')]() {}
     }
     ",
-    "
-    let prop, prop1;
-    let _tmp = (console.log(3), 'c');
-    class A {
-        [_tmp]() {}
-        constructor() {
-            this[prop] = 1;
-        }
-    }
-    (()=>{
-        prop = (console.log(1), 'a');
-        prop1 = (console.log(2), 'b');
-    })();
-    A[prop1] = 2;
-    "
+    
 );
 
 to!(
@@ -3605,15 +3339,7 @@ to!(
         export class B extends A {}
     }
 ",
-    "
-    export class A {
-    }
-    (function(A) {
-        class B extends A {
-        }
-        A.B = B;
-    })(A || (A = {}));
-    "
+    
 );
 
 to!(
@@ -3624,15 +3350,7 @@ to!(
     }
     export enum A {}
 ",
-    "
-    export var A;
-    (function(A) {
-        class B extends A {
-        }
-        A.B = B;
-    })(A || (A = {}));
-    (function(A) {})(A || (A = {}));
-    "
+    
 );
 
 to!(
@@ -3641,13 +3359,7 @@ to!(
     export class A {}
     export enum A {}
 ",
-    "
-    export class A {
-    }
-    (function(A) {
-    })(A || (A = {
-    }));
-    "
+    
 );
 
 to!(
@@ -3657,12 +3369,7 @@ to!(
         static a = 1;
     }
     ",
-    "
-    var _class;
-    const A = (_class = class {},
-        _class.a = 1,
-        _class);
-    "
+    
 );
 
 to!(
@@ -3672,7 +3379,7 @@ to!(
         export const txt: typeof import('twitter-text')
     }
     ",
-    ""
+    
 );
 
 to!(
@@ -3683,7 +3390,7 @@ to!(
         set foo(v: string | number);
     }
     ",
-    ""
+    
 );
 
 to!(
@@ -3694,7 +3401,7 @@ to!(
         set bar(v: string | number);
     }
     ",
-    ""
+    
 );
 
 to!(
@@ -3704,10 +3411,7 @@ to!(
     const Test = 2;
     console.log(Test);
     ",
-    "
-    const Test = 2;
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3717,10 +3421,7 @@ to!(
     const Test = 2;
     console.log(Test);
     ",
-    "
-    const Test = 2;
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3730,10 +3431,7 @@ to!(
     const Test = 2;
     console.log(Test);
     ",
-    "
-    const Test = 2;
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3743,10 +3441,7 @@ to!(
     const [Test] = [];
     console.log(a);
     ",
-    "
-    const [Test] = [];
-    console.log(a);
-    "
+    
 );
 
 to!(
@@ -3756,11 +3451,7 @@ to!(
     const [a = Test] = [];
     console.log(a);
     ",
-    "
-    import { Test } from 'test';
-    const [a = Test] = [];
-    console.log(a);
-    "
+    
 );
 
 to!(
@@ -3770,10 +3461,7 @@ to!(
     const {Test: a} = {};
     console.log(a);
     ",
-    "
-    const {Test: a} = {};
-    console.log(a);
-    "
+    
 );
 
 to!(
@@ -3783,11 +3471,7 @@ to!(
     const {a = Test} = {};
     console.log(Test);
     ",
-    "
-    import { Test } from 'test';
-    const {a = Test} = {};
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3796,7 +3480,7 @@ to!(
     import { Test } from 'test';
     interface Test {}
     ",
-    ""
+    
 );
 
 to!(
@@ -3805,10 +3489,7 @@ to!(
     import { Test } from 'test';
     console.log(Test);
     ",
-    "
-    import { Test } from 'test';
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3818,10 +3499,7 @@ to!(
     interface Test {}
     console.log(Test);
     ",
-    "
-    import { Test } from 'test';
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3830,10 +3508,7 @@ to!(
     console.log(Test);
     import { Test } from 'test';
     ",
-    "
-    console.log(Test);
-    import { Test } from 'test';
-    "
+    
 );
 
 //
@@ -3844,10 +3519,7 @@ to!(
     console.log(Test);
     import { Test } from 'test';
     ",
-    "
-    const Test = 2;
-    console.log(Test);
-    "
+    
 );
 
 to!(
@@ -3856,7 +3528,7 @@ to!(
     interface Test {}
     import { Test } from 'test';
     ",
-    ""
+    
 );
 
 to!(
@@ -3866,10 +3538,7 @@ to!(
     console.log(Test);
     import { Test } from 'test';
     ",
-    "
-    console.log(Test);
-    import { Test } from 'test';
-    "
+    
 );
 
 to!(
@@ -3878,10 +3547,7 @@ to!(
     import F = require('yaml')
     console.log(F)
     ",
-    "
-    const F = require('yaml');
-    console.log(F)
-    "
+    
 );
 
 to!(
@@ -3894,9 +3560,7 @@ to!(
         constructor(config: QueryObjectConfig);
         constructor(text: string, ...args: unknown[]);
     }",
-    "
-    export class Query {
-    }"
+    
 );
 
 to!(
@@ -3924,31 +3588,7 @@ to!(
           }
         }
     }",
-    "
-    var _store = new WeakMap(), _body = new WeakMap();
-    export class Context {
-        constructor(optionsOrContext){
-            _class_private_field_init(this, _store, {
-                writable: true,
-                value: void 0
-            });
-            _class_private_field_init(this, _body, {
-                writable: true,
-                value: void 0
-            });
-            this.response = {
-                headers: new Headers()
-            };
-            this.params = {
-            };
-            if (optionsOrContext instanceof Context) {
-                Object.assign(this, optionsOrContext);
-                this.customContext = this;
-                return;
-            }
-        }
-    }
-    "
+    
 );
 
 to!(
@@ -3956,9 +3596,7 @@ to!(
     "
     export = 'something';
     ",
-    "
-    module.exports = 'something';
-    "
+    
 );
 
 to!(
@@ -3969,10 +3607,7 @@ to!(
     const _: foo = null;
     console.log({ foo: 1 });
     ",
-    "
-    const _ = null;
-    console.log({ foo: 1 });
-    "
+    
 );
 
 to!(
@@ -3987,15 +3622,7 @@ to!(
 
     console.log(A, AB, CB);
     "#,
-    r#"
-    import { A } from "./a";
-    import { B } from "./b";
-    import { C } from "./c";
-
-    const { A: AB } = B;
-    const { CB = C } = B;
-
-    console.log(A, AB, CB);"#
+    
 );
 
 to!(
@@ -4008,14 +3635,7 @@ to!(
     const b = { Foo: 1 };
     console.log(b.Foo)
     ",
-    "
-    const a = null;
-    console.log(a);
-    const b = {
-        Foo: 1
-    };
-    console.log(b.Foo);
-    "
+    
 );
 
 to!(
@@ -4032,17 +3652,7 @@ to!(
         return c;
     }
     ",
-    "
-    var _TestClass;
-    var _class;
-    let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
-        firstProp: _TestClass.Something
-    }, _TestClass)) || _class) || _class;
-    function someClassDecorator(c) {
-        return c;
-    }
-    "
+    
 );
 
 to!(
@@ -4052,9 +3662,7 @@ to!(
 
     export { TestInfo }
     ",
-    "
-
-    "
+    
 );
 
 to!(
@@ -4066,8 +3674,7 @@ to!(
         get [foo](): number
     }
     ",
-    "
-    "
+    
 );
 
 to!(
@@ -4079,14 +3686,7 @@ class Foo {
   identifier = 5;
 }
 ",
-    "
-    const identifier = 'bar';
-    class Foo {
-        constructor(){
-            this.identifier = 5;
-        }
-    }
-    "
+    
 );
 
 to!(
@@ -4098,12 +3698,7 @@ class Foo {
   static identifier = 5;
 }
   ",
-    "
-const identifier = 'bar';
-class Foo {
-}
-Foo.identifier = 5;
-  "
+    
 );
 
 to!(
@@ -4113,11 +3708,7 @@ to!(
     import MongoClient = mongo.MongoClient;
     const mongoClient = new MongoClient();
     ",
-    "
-    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-    const MongoClient = mongo.MongoClient;
-    const mongoClient = new MongoClient();
-    "
+    
 );
 
 to!(
@@ -4127,10 +3718,7 @@ to!(
     import MongoClient = mongo.MongoClient;
     const mongoClient: MongoClient = {};
     ",
-    "
-    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-    const mongoClient = {};
-    "
+    
 );
 
 test_with_config!(
@@ -4175,11 +3763,7 @@ to!(
         return true
     };
     ",
-    "
-    module.exports = function (foo, bar) {
-        return true
-    };
-    "
+    
 );
 
 to!(
@@ -4188,11 +3772,7 @@ to!(
     Aqua = '#00ffff',
     Cyan = Aqua,
 }",
-    r##"var Color;
-(function (Color) {
-    Color["Aqua"] = "#00ffff";
-    Color["Cyan"] = "#00ffff";
-})(Color || (Color = {}));"##
+    
 );
 
 to!(
@@ -4230,51 +3810,7 @@ namespace Namespace {
     }
 }
 ",
-    r#"
-export var Enum;
-(function (Enum) {
-    Enum[Enum["test"] = 1] = "test";
-})(Enum || (Enum = {}));
-var Namespace;
-(function(Namespace) {
-    let Enum;
-    (function(Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    (function(Enum) {
-        Enum[Enum["test2"] = 1] = "test2";
-    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-})(Namespace || (Namespace = {
-}));
-{
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace;
-    (function(Namespace) {
-        let Enum;
-        (function(Enum) {
-            Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace || (Namespace = {
-    }));
-}
-{
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace;
-    (function(Namespace) {
-        let Enum;
-        (function(Enum) {
-            Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace || (Namespace = {
-    }));
-}
-    "#
+    
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]
@@ -4306,22 +3842,7 @@ let b = class {
     constructor(public a = 1) {}
 }
     ",
-    "
-let _console_log = console.log(123);
-class A {
-    constructor(a = 1){
-        this.a = a;
-        this[_console_log] = 456;
-    }
-}
-let _console_log1;
-let b = (_console_log1 = console.log(456), class {
-    constructor(a = 1){
-        this.a = a;
-        this[_console_log1] = 123;
-    }
-});
-"
+    
 );
 
 test!(
@@ -4333,7 +3854,6 @@ test!(
 
     foo();
     "#,
-    
 );
 
 test!(
@@ -4352,7 +3872,6 @@ test!(
 
     foo();
     "#,
-    
 );
 
 test!(
@@ -4371,7 +3890,6 @@ test!(
 
     foo();
     "#,
-    
 );
 
 test_with_config!(
@@ -4396,7 +3914,6 @@ test!(
     "enum A{
         a=a,
     }",
-    
 );
 
 test!(
@@ -4413,7 +3930,6 @@ test!(
         }
     }
       ",
-    
 );
 
 test!(
@@ -4457,5 +3973,4 @@ test!(
     }
     console.log(I.A);
     "#,
-    
 );
