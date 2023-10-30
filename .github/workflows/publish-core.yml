@@ -39,7 +39,6 @@ jobs:
               strip -x *.node
           - host: windows-latest
             build: |
-              export CARGO_PROFILE_RELEASE_LTO=false
               yarn build
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
               cp ./bindings/target/release/swc .
@@ -47,7 +46,6 @@ jobs:
           - host: windows-latest
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              export CARGO_PROFILE_RELEASE_LTO=false
               cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
               cp bindings/target/i686-pc-windows-msvc/release/swc .
               yarn build --target i686-pc-windows-msvc --cargo-flags="--no-default-features" --features swc_v1
@@ -65,11 +63,9 @@ jobs:
               strip swc.linux-x64-gnu.node
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
-            # musl build is slow, let's disable the LTO
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
               set -e &&
-              export CARGO_PROFILE_RELEASE_LTO=false &&
               RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
               rm -rf target/release/.cargo-lock &&
               cp bindings/target/release/swc . && chmod +x ./swc &&

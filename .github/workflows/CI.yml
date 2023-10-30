@@ -16,7 +16,6 @@ env:
   RUST_LOG: "off"
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
-  CARGO_PROFILE_RELEASE_LTO: true
 
 jobs:
   cargo-fmt:
