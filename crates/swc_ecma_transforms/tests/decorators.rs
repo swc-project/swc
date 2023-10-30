@@ -93,24 +93,7 @@ test!(
 @dec()
 class A {}
 "#,
-    r#"
-let A = _decorate([dec()], function (_initialize) {
-
-
-  class A {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: A,
-    d: []
-  };
-});
-
-"#
+    
 );
 // transformation_initialize_after_super_multiple
 test!(
@@ -134,46 +117,7 @@ class B extends A {
 
 
 "#,
-    r#"
-let B = _decorate([dec], function (_initialize, _A) {
-
-
-  class B extends _A {
-    constructor() {
-      const foo = () => {
-        super();
-
-        _initialize(this);
-      };
-
-      if (a) {
-        super();
-
-        _initialize(this);
-      } else {
-        foo();
-      }
-
-      while (0) {
-        super();
-
-        _initialize(this);
-      }
-
-      super();
-
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: B,
-    d: []
-  };
-}, A);
-
-"#
+    
 );
 // transformation_export_default_anonymous
 test!(
@@ -184,22 +128,7 @@ test!(
 export default @dec() class {}
 
 "#,
-    r#"
-export default _decorate([dec()], function (_initialize) {
-  class _class {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: _class,
-    d: []
-  };
-});
-
-"#
+    
 );
 // transformation_initialize_after_super_statement
 test!(
@@ -215,26 +144,7 @@ class B extends A {
 }
 
 "#,
-    r#"
-let B = _decorate([dec], function (_initialize, _A) {
-
-
-  class B extends _A {
-    constructor() {
-      super();
-
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: B,
-    d: []
-  };
-}, A);
-
-"#
+    
 );
 // element_descriptors_created_own_method_exec
 test_exec!(
@@ -314,31 +224,7 @@ class Foo {
 }
 
 "#,
-    r#"
-var method = 1;
-let Foo = _decorate([decorator], function (_initialize) {
-
-
-  class Foo {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: Foo,
-    d: [{
-      kind: "method",
-      key: "method",
-      value: function method1() {
-        return method;
-      }
-    }]
-  };
-});
-
-"#
+    
 );
 // element_descriptors_original_class_exec
 test_exec!(
@@ -450,36 +336,7 @@ class Foo {
 }
 
 "#,
-    r#"
-let Foo = _decorate([_ => desc = _], function (_initialize) {
-
-
-  class Foo {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: Foo,
-    d: [{
-      kind: "method",
-      key: getKeyI(),
-      value: function () {
-        return 1;
-      }
-    }, {
-      kind: "method",
-      key: getKeyJ(),
-      value: function () {
-        return 2;
-      }
-    }]
-  };
-});
-
-"#
+    
 );
 // transformation_only_decorated
 test!(
@@ -493,16 +350,7 @@ class B {
 }
 
 "#,
-    r#"
-class B {
-  bar() {}
-  constructor() {
-    this.foo = 2;
-  }
-
-}
-
-"#
+    
 );
 // ordering_finishers_exec
 test_exec!(
@@ -560,26 +408,7 @@ class Sub extends Super {
   }
 }
 "#,
-    r#"
-let Sub = _decorate([decorator(parameter)], function (_initialize, _Super) {
-
-
-  class Sub extends _Super {
-    constructor() {
-      var _temp;
-
-      (_temp = super(), _initialize(this), _temp).method();
-    }
-
-  }
-
-  return {
-    F: Sub,
-    d: []
-  };
-}, Super);
-
-"#
+    
 );
 // duplicated_keys_original_method_overwritten_no_decorators_exec
 test_exec!(
@@ -617,29 +446,7 @@ class A {
   @dec(a, b, ...c) method() {}
 }
 "#,
-    r#"
-let A = _decorate([dec(a, b, ...c)], function (_initialize) {
-
-
-  class A {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: A,
-    d: [{
-      kind: "method",
-      decorators: [dec(a, b, ...c)],
-      key: "method",
-      value: function method() {}
-    }]
-  };
-});
-
-"#
+    
 );
 // duplicated_keys_original_method_overwritten_both_decorated_exec
 test_exec!(
@@ -741,26 +548,7 @@ class B extends A {
 }
 
 "#,
-    r#"
-let B = _decorate([dec], function (_initialize, _A) {
-
-
-  class B extends _A {
-    constructor() {
-      var _temp;
-
-      _temp = super(), _initialize(this), _temp;
-    }
-
-  }
-
-  return {
-    F: B,
-    d: []
-  };
-}, A);
-
-"#
+    
 );
 // element_descriptors_not_reused_field_exec
 test_exec!(
@@ -793,23 +581,7 @@ test!(
 export default @dec() class Foo {}
 
 "#,
-    r#"
-let Foo = _decorate([dec()], function (_initialize) {
-  class Foo {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: Foo,
-    d: []
-  };
-});
-export { Foo as default };
-
-"#
+    
 );
 // element_descriptors_original_own_field_exec
 test_exec!(
@@ -974,52 +746,7 @@ test!(
 });
 
 "#,
-    r#"
-() => {
-
-
-  let Foo = _decorate([dec], function (_initialize) {
-    class Foo {
-      constructor() {
-        _initialize(this);
-      }
-
-    }
-
-    return {
-      F: Foo,
-      d: [{
-        kind: "method",
-        key: "method",
-        value: function method() {}
-      }]
-    };
-  });
-};
-
-() => {
-  let Foo = _decorate([dec], function (_initialize2) {
-
-
-    class Foo {
-      constructor() {
-        _initialize2(this);
-      }
-
-    }
-
-    return {
-      F: Foo,
-      d: [{
-        kind: "method",
-        key: "method",
-        value: function method() {}
-      }]
-    };
-  });
-};
-
-"#
+    
 );
 // element_descriptors_created_static_method_exec
 test_exec!(
@@ -1190,26 +917,7 @@ test!(
 @dec class A extends B {}
 
 "#,
-    r#"
-let A = _decorate([dec], function (_initialize, _B) {
-
-
-  class A extends _B {
-    constructor(...args) {
-      super(...args);
-
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: A,
-    d: []
-  };
-}, B);
-
-"#
+    
 );
 // finishers
 // transformation_extends_await
@@ -1223,28 +931,7 @@ async function g() {
 }
 
 "#,
-    r#"
-async function g() {
-  let A = _decorate([dec], function (_initialize, _super) {
-
-
-    class A extends _super {
-      constructor(...args) {
-        super(...args);
-
-        _initialize(this);
-      }
-
-    }
-
-    return {
-      F: A,
-      d: []
-    };
-  }, await B);
-}
-
-"#
+    
 );
 // transformation_extends_yield
 test!(
@@ -1257,28 +944,7 @@ function* g() {
 }
 
 "#,
-    r#"
-function* g() {
-  let A = _decorate([dec], function (_initialize, _super) {
-
-
-    class A extends _super {
-      constructor(...args) {
-        super(...args);
-
-        _initialize(this);
-      }
-
-    }
-
-    return {
-      F: A,
-      d: []
-    };
-  }, (yield B));
-}
-
-"#
+    
 );
 // element_descriptors_created_static_field_exec
 test_exec!(
@@ -1449,28 +1115,7 @@ class B extends A {
 }
 
 "#,
-    r#"
-let B = _decorate([dec], function (_initialize, _A) {
-
-
-  class B extends _A {
-    constructor() {
-      super();
-
-      _initialize(this);
-
-      [];
-    }
-
-  }
-
-  return {
-    F: B,
-    d: []
-  };
-}, A);
-
-"#
+    
 );
 // duplicated_keys
 // ordering_static_field_initializers_after_methods_exec
@@ -1690,24 +1335,7 @@ test!(
     r#"
 (@dec() class {});
 "#,
-    r#"
-_decorate([dec()], function (_initialize) {
-
-
-  class _class {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: _class,
-    d: []
-  };
-});
-
-"#
+    
 );
 // duplicated_keys_original_method_prototype_and_static_exec
 test_exec!(
@@ -1754,36 +1382,7 @@ class Foo {
 }
 
 "#,
-    r#"
-let Foo = _decorate([_ => desc = _], function (_initialize) {
-
-
-  class Foo {
-    constructor() {
-      _initialize(this);
-    }
-
-  }
-
-  return {
-    F: Foo,
-    d: [{
-      kind: "method",
-      key: getKey(),
-      value: function () {
-        return 1;
-      }
-    }, {
-      kind: "method",
-      key: getKey(),
-      value: function () {
-        return 2;
-      }
-    }]
-  };
-});
-
-"#
+    
 );
 // element_descriptors_created_prototype_method_exec
 test_exec!(
@@ -3824,39 +3423,7 @@ c = 456;
 }
 
 "#,
-    r#"
-var _class, _descriptor, _descriptor2, _temp;
-
-function dec() {} // Create a local function binding so babel has to change the name of the helper
-
-
-function _define_property() {}
-
-let A = (_class = (_temp = function A() {
-"use strict";
-
-_class_call_check(this, A);
-
-_initializer_define_property(this, "a", _descriptor, this);
-
-_initializer_define_property(this, "b", _descriptor2, this);
-
-_define_property2(this, "c", 456);
-}, _temp), (_descriptor = _apply_decorated_descriptor(_class.prototype, "a", [dec], {
-configurable: true,
-enumerable: true,
-writable: true,
-initializer: null
-}), _descriptor2 = _apply_decorated_descriptor(_class.prototype, "b", [dec], {
-configurable: true,
-enumerable: true,
-writable: true,
-initializer: function () {
-  return 123;
-}
-})), _class);
-
-"#
+    
 );
 
 fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
@@ -3893,23 +3460,7 @@ class Demo {
  }
 }
 ",
-    "
-\"use strict\";
-var _moduleA = require(\"./moduleA.js\");
-let Demo = _decorate([(0, _moduleA.default)('0.0.1')], function(_initialize) {
-  class Demo{
-      constructor(){
-          _initialize(this);
-          this.author = 'alan';
-      }
-  }
-  return {
-      F: Demo,
-      d: []
-  };
-});
-
-"
+    
 );
 
 test!(
@@ -3938,21 +3489,7 @@ return (target) => {
 
 export default Test
 ",
-    "
-\"use strict\";
-Object.defineProperty(exports, \"default\", {
-  enumerable: true,
-  get: function() {
-      return _default;
-  }
-});
-const Test = (version)=>{
-  return (target)=>{
-      target.version = version;
-  };
-};
-var _default = Test;
-"
+    
 );
 
 // function_name_function_assignment
@@ -3990,34 +3527,7 @@ bar();
 };
 
 "#,
-    r#"
-var foo;
-
-foo = function foo() {};
-
-var _baz;
-
-_baz = function baz() {
-_baz();
-};
-
-_baz = 12;
-
-bar = function (_bar) {
-function bar() {
-  return _bar.apply(this, arguments);
-}
-
-bar.toString = function () {
-  return _bar.toString();
-};
-
-return bar;
-}(function () {
-bar();
-});
-
-"#
+    
 );
 
 // function_name_shorthand_property
@@ -4063,31 +3573,7 @@ var obj = {
 };
 
 "#,
-    r#"
-var Utils = {
-get: function get() {}
-};
-var {
-get: _get
-} = Utils;
-var bar = {
-get: function get(arg) {
-  _get(arg, "baz");
-}
-};
-
-var f = function f({
-foo: _foo = "bar"
-}) {
-var obj = {
-  // same name as parameter
-  foo: function foo() {
-    _foo;
-  }
-};
-};
-
-"#
+    
 );
 
 // function_name_object
@@ -4127,32 +3613,7 @@ m: function () {
 };
 
 "#,
-    r#"
-var obj = {
-f: function f() {
-  (function f() {
-    console.log(f);
-  })();
-},
-h: function (_h) {
-  function h() {
-    return _h.apply(this, arguments);
-  }
-
-  h.toString = function () {
-    return _h.toString();
-  };
-
-  return h;
-}(function () {
-  console.log(h);
-}),
-m: function m() {
-  doSmth();
-}
-};
-
-"#
+    
 );
 
 // function_name_export
@@ -4197,31 +3658,7 @@ wowzers: function () {
 };
 
 "#,
-    r#"
-var _foo = "yes",
-  foob = "no";
-export { _foo as foo, foob };
-
-function _whatever() {}
-
-export { _whatever as whatever };
-
-function _wowzers() {}
-
-export { _wowzers as default };
-var bar = {
-foo: function foo() {
-  _foo;
-},
-whatever: function whatever() {
-  _whatever;
-},
-wowzers: function wowzers() {
-  _wowzers;
-}
-};
-
-"#
+    
 );
 
 // function_name_global
@@ -4252,24 +3689,7 @@ setInterval: function(fn, ms) {
 };
 
 "#,
-    r#"
-var test = {
-setInterval: function (_setInterval) {
-  function setInterval(_x, _x2) {
-    return _setInterval.apply(this, arguments);
-  }
-
-  setInterval.toString = function () {
-    return _setInterval.toString();
-  };
-
-  return setInterval;
-}(function (fn, ms) {
-  setInterval(fn, ms);
-})
-};
-
-"#
+    
 );
 
 // function_name_modules
@@ -4308,33 +3728,7 @@ events() {
 console.log(new Template().events());
 
 "#,
-    r#"
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _events = _interop_require_default(require("events"));
-
-let Template =
-/*#__PURE__*/
-function () {
-"use strict";
-function Template() {
-  _class_call_check(this, Template);
-}
-
-_create_class(Template, [{
-  key: "events",
-  value: function events() {
-    return _events.default;
-  }
-}]);
-return Template;
-}();
-
-console.log(new Template().events());
-
-"#
+    
 );
 
 // function_name_eval
@@ -4363,14 +3757,7 @@ eval: function () {
 };
 
 "#,
-    r#"
-var a = {
-eval: function _eval() {
-  return eval;
-}
-};
-
-"#
+    
 );
 
 test!(
@@ -4390,53 +3777,7 @@ test!(
     }
   }
   ",
-    "
-  let SomeClass = _decorate([], function(_initialize) {
-        class SomeClass {
-            constructor(){
-                _initialize(this);
-            }
-        }
-        return {
-            F: SomeClass,
-            d: [
-                {
-                    kind: \"method\",
-                    decorators: [
-                        dec
-                    ],
-                    key: \"someMethod\",
-                    value: function someMethod() {
-                    }
-                }
-            ]
-        };
-    });
-    let OtherClass = _decorate([], function(_initialize, _SomeClass) {
-        class OtherClass extends _SomeClass {
-            constructor(...args){
-                super(...args);
-                _initialize(this);
-            }
-        }
-        return {
-            F: OtherClass,
-            d: [
-                {
-                    kind: \"method\",
-                    decorators: [
-                        dec
-                    ],
-                    key: \"anotherMethod\",
-                    value: function anotherMethod() {
-                        _get(_get_prototype_of(OtherClass.prototype), \"someMethod\", \
-     this).call(this);
-                    }
-                }
-            ]
-        };
-    }, SomeClass);
-  "
+    
 );
 
 test_exec!(

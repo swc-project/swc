@@ -121,9 +121,7 @@ test!(
       filename: string,
       opts?: Object = {},
     ): string {}",
-    "export function transformFileSync(filename, opts) {
-      if (opts === void 0) opts = {};
-    }"
+    
 );
 
 // TODO: Test function / variable hoisting
@@ -136,8 +134,7 @@ test!(
 import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
 ",
-    "
-const dict = {};"
+    
 );
 
 test!(
@@ -147,10 +144,7 @@ test!(
     "for (let x in ['']) {
   (x => 0)(x);
 }",
-    "for(let x in ['']){
-    ((x)=>0
-    )(x);
-}"
+    
 );
 
 test!(
@@ -160,8 +154,7 @@ test!(
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
       tView.data[adjustedIndex] as TElementNode",
-    "tView.firstCreatePass ? getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, \
-     null, null) : tView.data[adjustedIndex];"
+    
 );
 
 test!(
@@ -171,8 +164,7 @@ test!(
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
       tView.data[adjustedIndex] as TElementNode",
-    "tView.firstCreatePass ? getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, \
-     null, null) : tView.data[adjustedIndex];"
+    
 );
 
 test!(
@@ -181,7 +173,7 @@ test!(
     issue_468_3,
     "tView.firstCreatePass ?
       getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode",
-    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
+    
 );
 
 test!(
@@ -189,7 +181,7 @@ test!(
     |_| tr(),
     issue_468_4,
     "a ? b : c",
-    "a ? b : c"
+    
 );
 
 test!(
@@ -197,7 +189,7 @@ test!(
     |_| tr(),
     issue_468_5,
     "a ? b : c as T",
-    "a ? b : c"
+    
 );
 
 test!(
@@ -205,7 +197,7 @@ test!(
     |_| tr(),
     issue_468_6,
     "a.b ? c() : d.e[f] as T",
-    "a.b ? c() : d.e[f];"
+    
 );
 
 test!(
@@ -213,7 +205,7 @@ test!(
     |_| tr(),
     issue_468_7,
     "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
-    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
+    
 );
 
 test!(
@@ -710,12 +702,7 @@ test!(
         constructor(readonly a){
         }
     }",
-    "class A {
-    constructor(a) {
-        this.a = a;
-        this.b = this.a;
-    }
-}"
+    
 );
 
 test!(
@@ -727,11 +714,7 @@ test!(
         constructor(a){
         }
     }",
-    "class A {
-        constructor(a) {
-        }
-    }
-    A.b = 'foo';"
+    
 );
 
 test!(
@@ -745,12 +728,7 @@ test!(
           this.foo.subscribe()
         }
       }",
-    "class A {
-        constructor() {
-            this.foo = new Subject()
-            this.foo.subscribe()
-        }
-      }"
+    
 );
 
 test!(
@@ -769,17 +747,7 @@ test!(
                 this.foo.subscribe()
             }
           }",
-    "class A extends B {
-        constructor(a, c, d = 1) {
-            super();
-            this.a = a;
-            this.c = c;
-            this.d = d;
-            this.foo = 'foo';
-            this.b = this.a;
-            this.foo.subscribe();
-        }
-    }"
+    
 );
 
 test!(
@@ -789,11 +757,7 @@ test!(
     "export class Test {
         constructor(readonly test?: string) {}
     }",
-    "export class Test {
-        constructor(test){
-            this.test = test;
-        }
-    }"
+    
 );
 
 test!(
@@ -3041,8 +3005,7 @@ test!(
     import { a } from './foo';
     import { Type } from './types';
     ",
-    "
-    "
+    
 );
 
 test!(
@@ -3055,9 +3018,7 @@ test!(
     "
     import './foo';
     ",
-    "
-    import './foo';
-    "
+    
 );
 
 test!(
@@ -3081,10 +3042,7 @@ test!(
     import { a } from './foo';
     import { Type } from './types';
     ",
-    "
-    import './foo';
-    import './types';
-    "
+    
 );
 
 test!(
@@ -3098,8 +3056,7 @@ test!(
     import { Type } from './types';
     export type { Type };
     ",
-    "
-    "
+    
 );
 
 test!(
@@ -3127,20 +3084,7 @@ test!(
     }
     (async() => {  await (new Service()).is('ABC'); })();
     ",
-    "
-    class Service {
-      is(a) {
-        return _async_to_generator(function* () {
-          return a.toUpperCase() === a;
-        })();
-      }
-
-    }
-
-    _async_to_generator(function* () {
-      yield new Service().is('ABC');
-    })();
-    "
+    
 );
 
 test!(
@@ -3166,10 +3110,7 @@ test!(
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
     ",
-    "
-    var _tt
-const tmp = (_tt = tt) === null || _tt === void 0 ? void 0 : _tt.map((t)=>t).join((v)=>v);
-    "
+    
 );
 
 test!(
@@ -3203,22 +3144,7 @@ test!(
 
       console.log(submissions);
     "#,
-    r#"
-    const normalizedQuestionSet = {
-    };
-    var _normalizedQuestionSet_submissionIds;
-    const submissions = ((_normalizedQuestionSet_submissionIds = normalizedQuestionSet.submissionIds) !== null && _normalizedQuestionSet_submissionIds !== void 0 ? _normalizedQuestionSet_submissionIds : []).map((id, index)=>{
-        const submission = normalizedQuestionSet.submissions?.[id];
-        var _submission_answers;
-        const submissionAnswers = ((_submission_answers = submission.answers) !== null && _submission_answers !== void 0 ? _submission_answers : []).map((answerId)=>normalizedQuestionSet.answers?.[answerId]
-        );
-        console.log(id, index);
-        return {
-            type: "super-submission"
-        };
-    });
-    console.log(submissions);
-    "#
+    
 );
 
 // compile_to_class_constructor_collision_ignores_types
@@ -3242,17 +3168,7 @@ class C {
 }
 
 "#,
-    r#"
-class C {
-    x;
-    y = 0;
-  // Output should not use `_initialiseProps`
-  constructor(T) {
-  }
-
-}
-
-"#
+    
 );
 
 test!(
@@ -3278,33 +3194,7 @@ class A {
     return 1;
   }
 }",
-    "import { bind } from 'some';
-let A = _decorate([], function(_initialize) {
-    class A {
-        constructor(){
-            _initialize(this);
-        }
-    }
-    return {
-        F: A,
-        d: [{
-                kind: \"get\",
-                decorators: [bind],
-                key: \"foo\",
-                value: function foo() {
-                    return 1;
-                }
-            }, {
-                kind: \"method\",
-                decorators: [bind],
-                key: \"bar\",
-                value: function bar() {
-                    return 1;
-                }
-            }]
-    };
-});
-"
+    
 );
 
 to!(
@@ -4443,10 +4333,7 @@ test!(
 
     foo();
     "#,
-    r#"
-    const foo = exports.foo = require("foo");
-    foo();
-    "#
+    
 );
 
 test!(
@@ -4465,13 +4352,7 @@ test!(
 
     foo();
     "#,
-    r#"
-    import { createRequire as _createRequire } from "module";
-    const __require = _createRequire(import.meta.url);
-    const foo = __require("foo");
     
-    foo();
-    "#
 );
 
 test!(
@@ -4490,13 +4371,7 @@ test!(
 
     foo();
     "#,
-    r#"
-    import { createRequire as _createRequire } from "module";
-    const __require = _createRequire(import.meta.url);
-    export const foo = __require("foo");
-
-    foo();
-    "#
+    
 );
 
 test_with_config!(
@@ -4521,10 +4396,7 @@ test!(
     "enum A{
         a=a,
     }",
-    r#"var A;
-    (function(A) {
-        A[A["a"] = a] = "a";
-    })(A || (A = {}))"#
+    
 );
 
 test!(
@@ -4541,16 +4413,7 @@ test!(
         }
     }
       ",
-    "
-    export class test {
-        #throw() {}
-        #new() {}
-        test() {
-          this.#throw();
-          this.#new();
-        }
-    }
-      "
+    
 );
 
 test!(
@@ -4594,30 +4457,5 @@ test!(
     }
     console.log(I.A);
     "#,
-    r#"
-    var D;
-    (function(D) {
-        D[D["A"] = 0] = "A";
-        D[D["B"] = 2] = "B";
-    })(D || (D = {}));
-    D.A = 5;
-    console.log(D.A);
-    var E;
-    console.log(1);
-    var F;
-    var G;
-    (function(G) {
-        G[G["A"] = 2] = "A";
-    })(G || (G = {}));
-    console.log(G.A);
-    var H;
-    (function(H) {
-        H[H["A"] = 2] = "A";
-    })(H || (H = {}));
-    var I;
-    (function(I) {
-        I[I["A"] = H.A] = "A";
-    })(I || (I = {}));
-    console.log(I.A);
-    "#
+    
 );

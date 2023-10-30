@@ -120,12 +120,7 @@ test!(
   {...props}
   sound="moo" />
 "#,
-    r#"
-React.createElement(Component, {
-  ...props,
-  sound: "moo"
-});
-"#
+    
 );
 
 test!(
@@ -144,20 +139,7 @@ var bar = function () {
   return () => <this.foo />;
 };
 "#,
-    r#"
-var foo = function() {
-    var _this = this;
-    return function() {
-        return React.createElement(_this, null);
-    };
-};
-var bar = function() {
-    var _this = this;
-    return function() {
-        return React.createElement(_this.foo, null);
-    };
-};
-"#
+    
 );
 
 test!(
@@ -182,19 +164,7 @@ var x =
     quack
   </div>
   "#,
-    r#"
-var x = React.createElement(
-  "div",
-  null,
-  "foo",
-  "bar",
-  "baz",
-  React.createElement("div", null, "buz bang"),
-  "qux",
-  null,
-  "quack"
-);
-"#
+    
 );
 
 test!(
@@ -210,14 +180,7 @@ Component = React.createClass({
   return null;
   }
 });"#,
-    r#"
-var Component;
-Component = React.createClass({
-  render: function render() {
-    return null;
-  },
-  displayName: "Component",
-});"#
+    
 );
 
 test!(
@@ -234,14 +197,7 @@ export default React.createClass({
   }
 });
 "#,
-    r#"
-export default React.createClass({
-  render: function render() {
-    return null;
-  },
-  displayName: "input",
-});
-"#
+    
 );
 
 test!(
@@ -266,20 +222,7 @@ var Bar = React.createClass({
   }
 });
 "#,
-    r#"
-var Whateva = React.createClass({
-  displayName: "Whatever",
-  render: function render() {
-    return null;
-  }
-});
-var Bar = React.createClass({
-  "displayName": "Ba",
-  render: function render() {
-    return null;
-  }
-});
-"#
+    
 );
 
 test!(
@@ -297,15 +240,7 @@ exports = {
     }
   })
 };"#,
-    r#"
-exports = {
-  Component: React.createClass({
-    render: function render() {
-      return null;
-    },
-    displayName: "Component",
-  })
-};"#
+    
 );
 
 test!(
@@ -322,14 +257,7 @@ exports.Component = React.createClass({
   }
 });
 "#,
-    r#"
-exports.Component = React.createClass({
-  render: function render() {
-    return null;
-  },
-  displayName: "Component",
-});
-"#
+    
 );
 
 test!(
@@ -346,14 +274,7 @@ var Component = React.createClass({
   }
 });
 "#,
-    r#"
-var Component = React.createClass({
-  render: function render() {
-    return null;
-  },
-  displayName: "Component",
-});
-"#
+    
 );
 
 test!(
@@ -369,14 +290,7 @@ test!(
   Press Cmd+R to reload
 </Text>
 "#,
-    r#"React.createElement(
-  Text,
-  null,
-  "To get started, edit index.ios.js!!!",
-  "\n",
-  "Press Cmd+R to reload"
-);
-"#
+    
 );
 
 test!(
@@ -394,13 +308,7 @@ var profile = <div>
   <img src="avatar.png" className="profile" />
   <h3>{[user.firstName, user.lastName].join(" ")}</h3>
 </div>;"#,
-    r#"/** @jsx dom */
-dom(Foo, null);
-var profile = dom("div", null, dom("img", {
-  src: "avatar.png",
-  className: "profile"
-}), dom("h3", null, [user.firstName, user.lastName].join(" ")));
-"#
+    
 );
 
 test!(
@@ -420,14 +328,7 @@ var profile = <div>
   <h3>{[user.firstName, user.lastName].join(" ")}</h3>
 </div>;
 "#,
-    r#"
-/** @jsx dom */
-dom(Foo, null);
-var profile = dom("div", null, dom("img", {
-  src: "avatar.png",
-  className: "profile"
-}), dom("h3", null, [user.firstName, user.lastName].join(" ")));
-"#
+    
 );
 
 test!(
@@ -452,12 +353,7 @@ var profile = <div>
   <img src="avatar.png" className="profile" />
   <h3>{[user.firstName, user.lastName].join(" ")}</h3>
 </div>;"#,
-    r#"
-dom(Foo, null);
-var profile = dom("div", null, dom("img", {
-  src: "avatar.png",
-  className: "profile"
-}), dom("h3", null, [user.firstName, user.lastName].join(" ")));"#
+    
 );
 
 test!(
@@ -468,7 +364,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_jsx_with_retainlines_option,
     r#"var div = <div>test</div>;"#,
-    r#"var div = React.createElement("div", null, "test");"#
+    
 );
 
 test!(
@@ -479,7 +375,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_jsx_without_retainlines_option,
     r#"var div = <div>test</div>;"#,
-    r#"var div = React.createElement("div", null, "test");"#
+    
 );
 
 test!(
@@ -510,42 +406,7 @@ class App extends React.Component {
   }
 }
 "#,
-    r#"
-var _ref =
-/*#__PURE__*/
-<div className="navbar-header">
-      <a className="navbar-brand" href="/">
-        <img src="/img/logo/logo-96x36.png" />
-      </a>
-    </div>;
-
-let App =
-/*#__PURE__*/
-function (_React$Component) {
-  "use strict";
-
-  _inherits(App, _React$Component);
-
-  function App() {
-    _class_call_check(this, App);
-    return _possible_constructor_return(this, _get_prototype_of(App).apply(this, arguments));
-  }
-
-  _create_class(App, [{
-    key: "render",
-    value: function render() {
-      const navbarHeader = _ref;
-      return <div>
-      <nav className="navbar navbar-default">
-        <div className="container">
-          {navbarHeader}
-        </div>
-      </nav>
-    </div>;
-    }
-  }]);
-  return App;
-}(React.Component);"#
+    
 );
 
 test!(
@@ -559,16 +420,7 @@ test!(
     ),
     react_should_add_quotes_es3,
     r#"var es3 = <F aaa new const var default foo-bar/>;"#,
-    r#"
-var es3 = React.createElement(F, {
-  aaa: true,
-  "new": true,
-  "const": true,
-  "var": true,
-  "default": true,
-  "foo-bar": true
-});
-"#
+    
 );
 
 test!(
@@ -579,11 +431,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_constructor_as_prop,
     r#"<Component constructor="foo" />;"#,
-    r#"
-React.createElement(Component, {
-  constructor: "foo"
-});
-"#
+    
 );
 
 test!(
@@ -594,7 +442,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_deeper_js_namespacing,
     r#"<Namespace.DeepNamespace.Component />;"#,
-    r#"React.createElement(Namespace.DeepNamespace.Component, null);"#
+    
 );
 
 test!(
@@ -605,10 +453,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_elements_as_attributes,
     r#"<div attr=<div /> />"#,
-    r#"
-React.createElement("div", {
-  attr: React.createElement("div", null)
-});"#
+    
 );
 
 test!(
@@ -619,7 +464,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_js_namespacing,
     r#"<Namespace.Component />;"#,
-    r#"React.createElement(Namespace.Component, null);"#
+    
 );
 
 test!(
@@ -643,18 +488,7 @@ test!(
   </>
 </div>
 "#,
-    r#"
-React.createElement("div", null, React.createElement(
-    React.Fragment, null, React.createElement(React.Fragment, null,
-        React.createElement("span", null, "Hello"),
-        React.createElement("span", null, "world")
-    ),
-    React.createElement(React.Fragment, null, React.createElement("span", null, "Goodbye"),
-        React.createElement("span", null, "world")
-    )
-    )
-);
-"#
+    
 );
 
 test!(
@@ -669,10 +503,7 @@ test!(
 
 <div>no fragment is used</div>
 "#,
-    r#"
-/** @jsx dom */
-dom("div", null, "no fragment is used");
-"#
+    
 );
 
 test!(
@@ -688,12 +519,7 @@ test!(
 
 <></>
 "#,
-    r#"
-/** @jsx dom */
-/** @jsxFrag DomFrag */
-
-dom(DomFrag, null);
-"#
+    
 );
 
 test!(
@@ -720,12 +546,7 @@ var x = <Composite>
   <Composite2 />
 </Composite>;
 "#,
-    r#"
-var x = React.createElement("div", null, React.createElement(Component, null));
-var x = React.createElement("div", null, props.children);
-var x = React.createElement(Composite, null, props.children);
-var x = React.createElement(Composite, null, React.createElement(Composite2, null));
-"#
+    
 );
 
 test!(
@@ -736,7 +557,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_tags,
     r#"var x = <div></div>;"#,
-    r#"var x = React.createElement("div", null);"#
+    
 );
 
 test!(
@@ -747,7 +568,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_text,
     r#"var x = <div>text</div>;"#,
-    r#"var x = React.createElement("div", null, "text");"#
+    
 );
 
 test!(
@@ -831,9 +652,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_unicode_chars_in_attribute,
     r#"<Bla title="Ú"/>"#,
-    r#"React.createElement(Bla, {
-    title: "\xda"
-});"#
+    
 );
 
 test!(
@@ -848,9 +667,7 @@ test!(
     r#"
 <div>this should parse as nbsp:   </div>;
 "#,
-    r#"
-React.createElement("div", null, "this should parse as nbsp: \xa0 ");
-"#
+    
 );
 
 test!(
@@ -873,20 +690,7 @@ React.render(<HelloMessage name={
   </span>
 } />, mountNode);
 "#,
-    r#"
-var HelloMessage = React.createClass({
-  render: function() {
-    return React.createElement("div", null, "Hello ", this.props.name);
-  },
-  displayName: "HelloMessage",
-});
-React.render(
-  React.createElement(HelloMessage, {
-    name: React.createElement("span", null, "Sebastian")
-  }),
-  mountNode
-);
-"#
+    
 );
 
 test!(
@@ -897,7 +701,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_handle_has_own_property_correctly,
     r#"<hasOwnProperty>testing</hasOwnProperty>;"#,
-    r#"React.createElement("hasOwnProperty", null, "testing");"#
+    
 );
 
 test!(
@@ -914,14 +718,7 @@ var x = <div>
   <br />
 </div>;
 "#,
-    r#"
-var x = React.createElement("div", null,
-    React.createElement("div", null, React.createElement("br", null)),
-    React.createElement(Component, null, foo,
-        React.createElement("br", null), bar
-    ), React.createElement("br", null)
-);
-"#
+    
 );
 
 test!(
@@ -949,14 +746,7 @@ var x =
     attr4="baz">
   </div>
 "#,
-    r#"
-var x = React.createElement("div", {
-  attr1: "foo" + "bar",
-  attr2: "foo" + "bar" + "baz" + "bug",
-  attr3: "foo" + "bar" + "baz" + "bug",
-  attr4: "baz"
-});
-"#
+    
 );
 
 test!(
@@ -967,16 +757,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_add_quotes_to_identifier_names,
     r#"var e = <F aaa new const var default foo-bar/>;"#,
-    r#"
-var e = React.createElement(F, {
-  aaa: true,
-  new: true,
-  const: true,
-  var: true,
-  default: true,
-  "foo-bar": true
-});
-"#
+    
 );
 
 test!(
@@ -987,11 +768,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_mangle_expressioncontainer_attribute_values,
     r#"<button data-value={"a value\n  with\nnewlines\n   and spaces"}>Button</button>;"#,
-    r#"
-React.createElement("button", {
-  "data-value": "a value\n  with\nnewlines\n   and spaces"
-}, "Button");
-"#
+    
 );
 
 test!(
@@ -1038,16 +815,7 @@ var x = (
   </div>
 );
 "#,
-    r#"
-var x = React.createElement("div", {
-  /* a multi-line
-     comment */
-  attr1: "foo"
-}, React.createElement("span", {
-  // a double-slash comment
-  attr2: "bar"
-}));
-"#
+    
 );
 
 test!(
@@ -1058,11 +826,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_quote_jsx_attributes,
     r#"<button data-value='a value'>Button</button>;"#,
-    r#"
-React.createElement("button", {
-  "data-value": "a value"
-}, "Button");
-"#
+    
 );
 
 test!(
@@ -1081,9 +845,7 @@ test!(
     ),
     react_should_support_xml_namespaces_if_flag,
     r#"<f:image n:attr />;"#,
-    r#"h("f:image", {
-  "n:attr": true
-});"#
+    
 );
 
 test!(
@@ -1094,7 +856,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_transform_known_hyphenated_tags,
     r#"<font-face />;"#,
-    r#"React.createElement("font-face", null);"#
+    
 );
 
 test!(
@@ -1108,13 +870,7 @@ test!(
 <Component { ... x } y
 ={2 } z />
 "#,
-    r#"
-React.createElement(Component, {
-  ...x,
-  y: 2,
-  z: true
-});
-"#
+    
 );
 
 test!(
@@ -1125,13 +881,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_last_spread_attributes,
     r#"<Component y={2} z { ... x } />"#,
-    r#"
-React.createElement(Component, {
-  y: 2,
-  z: true,
-  ...x
-});
-"#
+    
 );
 
 test!(
@@ -1142,12 +892,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_middle_spread_attributes,
     r#"<Component y={2} { ... x } z />"#,
-    r#"
-React.createElement(Component, {
-    y: 2,
-    ...x,
-    z: true
-});"#
+    
 );
 
 test!(
@@ -1158,10 +903,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_attribute_html_entity_quote,
     r#"<Component text="Hello &quot;World&quot;" />"#,
-    r#"
-React.createElement(Component, {
-  text: 'Hello "World"'
-});"#
+    
 );
 
 test!(
@@ -1172,11 +914,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     use_builtins_assignment,
     r#"var div = <Component {...props} foo="bar" />"#,
-    r#"
-var div = React.createElement(Component, {
-    ...props,
-    foo: "bar"
-});"#
+    
 );
 
 test!(
@@ -1187,8 +925,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     use_spread_assignment,
     r#"<Component y={2} { ...x } z />"#,
-    r#"
-React.createElement(Component, {y: 2, ...x, z: true});"#
+    
 );
 
 test!(
@@ -1200,8 +937,7 @@ test!(
     issue_229,
     "const a = <>test</>
 const b = <div>test</div>",
-    "const a = React.createElement(React.Fragment, null, \"test\");
-const b = React.createElement(\"div\", null, \"test\");"
+    
 );
 
 test!(
@@ -1225,12 +961,7 @@ test!(
     "import React from 'react';
 
 <div />;",
-    "\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-    value: true
-});
-var _react = _interop_require_default(require(\"react\"));
-_react.default.createElement(\"div\", null);"
+    
 );
 
 test!(
@@ -1241,7 +972,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     issue_481,
     "<span> {foo}</span>;",
-    "React.createElement(\"span\", null, \" \", foo);"
+    
 );
 
 // https://github.com/swc-project/swc/issues/517
@@ -1265,14 +996,7 @@ test!(
     issue_517,
     "import React from 'react';
 <div style='white-space: pre'>Hello World</div>;",
-    "\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-    value: true
-});
-var _react = _interop_require_default(require(\"react\"));
-_react.default.createElement(\"div\", {
-    style: \"white-space: pre\"
-}, \"Hello World\");"
+    
 );
 
 #[test]
@@ -1291,8 +1015,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     issue_542,
     "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
-    "let page = React.createElement(\"p\", null, \"Click \", React.createElement(\"em\", null, \
-     \"New melody\"), \" listen to a randomly generated melody\");"
+    
 );
 
 // regression_2775
@@ -1337,40 +1060,7 @@ return (
 }
 
 "#,
-    r#"
-
-
-Object.defineProperty(exports, "__esModule", {
-value: true
-});
-exports.default = void 0;
-
-var _react = _interop_require_default(require("react"));
-
-var RandomComponent =
-/*#__PURE__*/
-function (_Component) {
-_inherits(RandomComponent, _Component);
-
-function RandomComponent() {
-_class_call_check(this, RandomComponent);
-return _possible_constructor_return(this, _get_prototype_of(RandomComponent).call(this));
-}
-
-_create_class(RandomComponent, [{
-key: "render",
-value: function render() {
-  return _react.default.createElement("div", {
-    className: "sui-RandomComponent"
-  }, _react.default.createElement("h2", null, "Hi there!"));
-}
-}]);
-return RandomComponent;
-}(_react.Component);
-
-exports.default = RandomComponent;
-
-"#
+    
 );
 
 test!(
@@ -1397,11 +1087,7 @@ test!(
     "
     <div title=\"\u{2028}\"/>
     ",
-    r#"
-    React.createElement("div", {
-      title: "\u2028"
-    });
-  "#
+    
 );
 
 #[testing::fixture("tests/jsx/fixture/**/input.js")]

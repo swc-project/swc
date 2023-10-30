@@ -111,10 +111,7 @@ test!(
   import {forwardRef} from 'react';
   const Comp = forwardRef((props, ref) => null);
   "#,
-    r#"
-  import {forwardRef} from 'react';
-  const Comp = /*#__PURE__*/ forwardRef((props, ref) => null);
-  "#
+    
 );
 
 test!(
@@ -123,10 +120,7 @@ test!(
   import React from 'react';
   React.createElement('div');
   "#,
-    r#"
-  import React from 'react';
-  /*#__PURE__*/ React.createElement('div');
-  "#
+    
 );
 
 test!(
@@ -135,10 +129,7 @@ test!(
   import React from 'react';
   const x = <div />;
   "#,
-    r#"
-  import React from 'react';
-  const x = /*#__PURE__*/ React.createElement("div", null);
-  "#
+    
 );
 
 test!(
@@ -147,10 +138,7 @@ test!(
   import React from 'react';
   const x = <><div /></>;
   "#,
-    r#"
-  import React from 'react';
-  const x = /*#__PURE__*/ React.createElement(React.Fragment, null, /*#__PURE__*/ React.createElement("div", null));
-  "#
+    
 );
 
 test!(
@@ -159,10 +147,7 @@ test!(
   import React from 'react';
   React.cloneElement(React.createElement('div'));
   "#,
-    r#"
-  import React from 'react';
-  /*#__PURE__*/ React.cloneElement(/*#__PURE__*/ React.createElement('div'));
-  "#
+    
 );
 
 test!(
@@ -171,10 +156,7 @@ test!(
   import { createContext } from 'react';
   const context = createContext({});
   "#,
-    r#"
-  import { createContext } from 'react';
-  const context = /*#__PURE__*/createContext({});
-  "#
+    
 );
 
 test!(
@@ -183,10 +165,7 @@ test!(
   import {createFactory} from 'react';
   const div = createFactory('div');
   "#,
-    r#"
-  import { createFactory } from 'react';
-  const div = /*#__PURE__*/createFactory('div');
-  "#
+    
 );
 
 test!(
@@ -195,10 +174,7 @@ test!(
   import React from 'react';
   React.createRef();
   "#,
-    r#"
-  import React from 'react';
-  /*#__PURE__*/ React.createRef();
-  "#
+    
 );
 
 test!(
@@ -207,10 +183,7 @@ test!(
   import React from 'react';
   const isElement = React.isValidElement(React.createElement('div'));
   "#,
-    r#"
-  import React from 'react';
-  const isElement = /*#__PURE__*/React.isValidElement( /*#__PURE__*/React.createElement('div'));
-  "#
+    
 );
 
 test!(
@@ -219,10 +192,7 @@ test!(
   import React from 'react';
   const SomeComponent = React.lazy(() => import('./SomeComponent'));
   "#,
-    r#"
-  import React from 'react';
-  const SomeComponent = /*#__PURE__*/React.lazy(() => import('./SomeComponent'));
-  "#
+    
 );
 
 test!(
@@ -231,10 +201,7 @@ test!(
   import React from 'react';
   const Comp = React.memo((props) => null);
   "#,
-    r#"
-  import React from 'react';
-  const Comp = /*#__PURE__*/React.memo(props => null);
-  "#
+    
 );
 
 test!(
@@ -244,11 +211,7 @@ test!(
   import ReactDOM from 'react-dom';
   const Portal = ReactDOM.createPortal(React.createElement('div'), document.getElementById('test'));
   "#,
-    r#"
-  import * as React from 'react';
-  import ReactDOM from 'react-dom';
-  const Portal = /*#__PURE__*/ReactDOM.createPortal( /*#__PURE__*/React.createElement('div'), document.getElementById('test'));
-  "#
+    
 );
 
 test!(
@@ -257,10 +220,7 @@ test!(
   import {useState} from 'react';
   useState(2);
   "#,
-    r#"
-  import {useState} from 'react';
-  useState(2);
-  "#
+    
 );
 
 test!(
@@ -270,11 +230,7 @@ test!(
   import ReactDOM from 'react-dom';
   ReactDOM.render(React.createElement('div'));
   "#,
-    r#"
-  import React from 'react';
-  import ReactDOM from 'react-dom';
-  ReactDOM.render(/*#__PURE__*/React.createElement('div'));
-  "#
+    
 );
 
 test!(
@@ -283,10 +239,7 @@ test!(
   import {createElement} from 'foo';
   createElement('hi');
   "#,
-    r#"
-  import {createElement} from 'foo';
-  createElement('hi');
-  "#
+    
 );
 
 test!(
@@ -295,10 +248,7 @@ test!(
   import * as foo from 'foo';
   foo.createElement('hi');
   "#,
-    r#"
-  import * as foo from 'foo';
-  foo.createElement('hi');
-  "#
+    
 );
 
 test!(
@@ -307,8 +257,5 @@ test!(
   import foo from 'foo';
   foo.createElement('hi');
   "#,
-    r#"
-  import foo from 'foo';
-  foo.createElement('hi');
-  "#
+    
 );
