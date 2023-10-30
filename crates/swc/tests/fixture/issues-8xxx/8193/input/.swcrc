@@ -14,7 +14,7 @@
             "not op_mini all"
         ],
         "mode": "usage",
-        "coreJs": "3"
+        "coreJs": "3.33.1"
     },
     "isModule": "unknown",
 }
