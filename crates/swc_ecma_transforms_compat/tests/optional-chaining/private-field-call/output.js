@@ -1,3 +1,4 @@
+// @target: es2015
 var _fieldFunc = /*#__PURE__*/ new WeakMap();
 class A {
     test() {
@@ -7,7 +8,9 @@ class A {
     constructor(){
         _class_private_field_init(this, _fieldFunc, {
             writable: true,
-            value: void 0
+            value: function() {
+                this.x = 10;
+            }
         });
         _define_property(this, "x", 1);
     }
