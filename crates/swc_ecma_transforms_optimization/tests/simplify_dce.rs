@@ -52,10 +52,6 @@ to!(
     if (a) {
         const b = 2;
     }
-    ",
-    "
-    const a = 1;
-    if (a) {}
     "
 );
 
@@ -110,35 +106,18 @@ to!(
 
     let c;
     if (2) c = 3
-    console.log(c)",
-    "
-    2
-    let c;
-    if (2) c = 3;
-    console.log(c);"
+    console.log(c)"
 );
 
 optimized_out!(simple_const, "{const x = 1}");
 
 noop!(assign_op, "x *= 2; use(x)");
 
-to!(
-    import_default_unused,
-    "import foo from 'foo'",
-    "import'foo'"
-);
+to!(import_default_unused, "import foo from 'foo'");
 
-to!(
-    import_specific_unused,
-    "import {foo} from 'foo'",
-    "import 'foo'"
-);
+to!(import_specific_unused, "import {foo} from 'foo'");
 
-to!(
-    import_mixed_unused,
-    "import foo, { bar } from 'foo'",
-    "import 'foo'"
-);
+to!(import_mixed_unused, "import foo, { bar } from 'foo'");
 
 noop!(export_named, "export { x };");
 
@@ -151,8 +130,7 @@ noop!(
 
 to!(
     import_unused_export_named,
-    "import foo, { bar } from 'src'; export { foo }; ",
-    "import foo from 'src'; export { foo }; "
+    "import foo, { bar } from 'src'; export { foo }; "
 );
 
 noop!(
@@ -206,27 +184,7 @@ to!(
           value: RESOURCE_INSTAGRAM,
           label: 'Instagram',
       },
-  ]",
-    "import {
-    RESOURCE_FACEBOOK,
-    RESOURCE_INSTAGRAM,
-    RESOURCE_WEBSITE,
-} from '../../../../consts'
-
-  export const resources = [
-    {
-        value: RESOURCE_WEBSITE,
-        label: 'Webové stránky',
-    },
-    {
-        value: RESOURCE_FACEBOOK,
-        label: 'Facebook',
-    },
-    {
-        value: RESOURCE_INSTAGRAM,
-        label: 'Instagram',
-    },
-]"
+  ]"
 );
 
 to!(
@@ -252,28 +210,6 @@ to!(
           label: 'Instagram',
       },
   ]
-
-resources.map(console.log.bind(console));",
-    "import {
-    RESOURCE_FACEBOOK,
-    RESOURCE_INSTAGRAM,
-    RESOURCE_WEBSITE,
-} from '../../../../consts'
-
- const resources = [
-    {
-        value: RESOURCE_WEBSITE,
-        label: 'Webové stránky',
-    },
-    {
-        value: RESOURCE_FACEBOOK,
-        label: 'Facebook',
-    },
-    {
-        value: RESOURCE_INSTAGRAM,
-        label: 'Instagram',
-    },
-];
 
 resources.map(console.log.bind(console));"
 );
@@ -355,8 +291,6 @@ noop!(
 to!(
     spack_issue_004,
     "const FOO = 'foo', BAR = 'bar';
-        export default BAR;",
-    "const BAR = 'bar';
         export default BAR;"
 );
 
@@ -461,7 +395,7 @@ test!(
         return localVar;
     }
 }
-",
+"
 );
 
 test!(
@@ -488,7 +422,7 @@ test!(
     "
     const a = 1;
     export const d = { a };
-    ",
+    "
 );
 
 test!(
@@ -523,7 +457,7 @@ class A {
     }
 }
 new A();
-    ",
+    "
 );
 
 test!(
@@ -562,7 +496,7 @@ test!(
         });
         return Object.assign(promise, methods);
     }
-    ",
+    "
 );
 
 test!(
@@ -615,7 +549,7 @@ test!(
     }
 
     new A();
-    ",
+    "
 );
 
 test!(
@@ -644,7 +578,7 @@ test!(
     }
 
     d()
-    ",
+    "
 );
 
 test!(
@@ -693,7 +627,7 @@ test!(
     }
 
     new A();
-    ",
+    "
 );
 
 optimized_out!(
