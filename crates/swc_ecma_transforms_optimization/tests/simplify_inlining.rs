@@ -97,7 +97,7 @@ to!(
     ignore,
     unresolved_inline_in_fn,
     "var a = new obj();
-    result = a;",
+    result = a;"
 );
 
 // GitHub issue #1234: https://github.com/google/closure-compiler/issues/1234
@@ -144,7 +144,7 @@ to!(
         y;
     }
     y;
-",
+"
 );
 
 to!(
@@ -175,7 +175,7 @@ to!(regex, "var b;b=/ab/;(b)?x=1:x=2;");
 
 to!(
     generator_let_yield,
-    "function* f() {  let x = 1; yield x; }",
+    "function* f() {  let x = 1; yield x; }"
 );
 
 // TODO: Inline single use
@@ -283,14 +283,14 @@ let a = 1;
 a = 2;
 
 let c;
-if (a) c = 3",
+if (a) c = 3"
 );
 
 to!(
     custom_loop_3,
     "let c;
 c = 3;
-console.log(c);",
+console.log(c);"
 );
 
 #[test]
@@ -2091,7 +2091,7 @@ test!(
         });
         return Object.assign(promise, methods);
     }
-    ",
+    "
 );
 
 test!(
@@ -2143,7 +2143,7 @@ test!(
     }
 
     new A();
-    ",
+    "
 );
 
 test!(
@@ -2177,7 +2177,7 @@ const STATUS_TEXT = new Map([
         "Switching Protocols"
     ]
 ]);
-    "#,
+    "#
 );
 
 test!(
@@ -2201,5 +2201,5 @@ test!(
         return null !== I && I.buffer === A.memory.buffer || (I = new \
      Uint8Array(A.memory.buffer)), I
     }
-    ",
+    "
 );

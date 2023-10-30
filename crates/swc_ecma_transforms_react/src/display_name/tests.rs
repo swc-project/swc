@@ -13,8 +13,7 @@ test!(
     r#"
 foo = createReactClass({});
 bar = React.createClass({});
-"#,
-    
+"#
 );
 
 test!(
@@ -24,8 +23,7 @@ test!(
     r#"
 var foo = qux(createReactClass({}));
 var bar = qux(React.createClass({}));
-"#,
-    
+"#
 );
 
 test!(
@@ -40,7 +38,6 @@ test!(
     bar: React.createClass({})
 });
 "#,
-    
 );
 
 test!(
@@ -51,7 +48,6 @@ test!(
 var foo = createReactClass({});
 var bar = React.createClass({});
 "#,
-    
 );
 
 test!(
@@ -62,5 +58,4 @@ test!(
 foo.x = createReactClass({});
 class A extends B { render() { super.x = React.createClass({}) } };
 "#,
-    
 );
