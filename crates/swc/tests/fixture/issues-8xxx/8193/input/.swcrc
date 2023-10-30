@@ -8,13 +8,8 @@
         },
     },
     "env": {
-        "targets": [
-            "> 0.01%",
-            "not dead",
-            "not op_mini all"
-        ],
         "mode": "usage",
-        "coreJs": "3.33.1"
+        "coreJs": "3.31"
     },
     "isModule": "unknown",
 }
