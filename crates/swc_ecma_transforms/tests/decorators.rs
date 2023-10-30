@@ -92,8 +92,7 @@ test!(
     r#"
 @dec()
 class A {}
-"#,
-    
+"#
 );
 // transformation_initialize_after_super_multiple
 test!(
@@ -116,8 +115,7 @@ class B extends A {
 }
 
 
-"#,
-    
+"#
 );
 // transformation_export_default_anonymous
 test!(
@@ -127,8 +125,7 @@ test!(
     r#"
 export default @dec() class {}
 
-"#,
-    
+"#
 );
 // transformation_initialize_after_super_statement
 test!(
@@ -143,8 +140,7 @@ class B extends A {
   }
 }
 
-"#,
-    
+"#
 );
 // element_descriptors_created_own_method_exec
 test_exec!(
@@ -223,8 +219,7 @@ class Foo {
   }
 }
 
-"#,
-    
+"#
 );
 // element_descriptors_original_class_exec
 test_exec!(
@@ -335,8 +330,7 @@ class Foo {
   }
 }
 
-"#,
-    
+"#
 );
 // transformation_only_decorated
 test!(
@@ -349,8 +343,7 @@ class B {
   bar() {}
 }
 
-"#,
-    
+"#
 );
 // ordering_finishers_exec
 test_exec!(
@@ -407,8 +400,7 @@ class Sub extends Super {
     super().method();
   }
 }
-"#,
-    
+"#
 );
 // duplicated_keys_original_method_overwritten_no_decorators_exec
 test_exec!(
@@ -445,8 +437,7 @@ test!(
 class A {
   @dec(a, b, ...c) method() {}
 }
-"#,
-    
+"#
 );
 // duplicated_keys_original_method_overwritten_both_decorated_exec
 test_exec!(
@@ -547,8 +538,7 @@ class B extends A {
   }
 }
 
-"#,
-    
+"#
 );
 // element_descriptors_not_reused_field_exec
 test_exec!(
@@ -580,8 +570,7 @@ test!(
     r#"
 export default @dec() class Foo {}
 
-"#,
-    
+"#
 );
 // element_descriptors_original_own_field_exec
 test_exec!(
@@ -745,8 +734,7 @@ test!(
   }
 });
 
-"#,
-    
+"#
 );
 // element_descriptors_created_static_method_exec
 test_exec!(
@@ -916,8 +904,7 @@ test!(
     r#"
 @dec class A extends B {}
 
-"#,
-    
+"#
 );
 // finishers
 // transformation_extends_await
@@ -930,8 +917,7 @@ async function g() {
   @dec class A extends (await B) {}
 }
 
-"#,
-    
+"#
 );
 // transformation_extends_yield
 test!(
@@ -943,8 +929,7 @@ function* g() {
   @dec class A extends (yield B) {}
 }
 
-"#,
-    
+"#
 );
 // element_descriptors_created_static_field_exec
 test_exec!(
@@ -1114,8 +1099,7 @@ class B extends A {
   }
 }
 
-"#,
-    
+"#
 );
 // duplicated_keys
 // ordering_static_field_initializers_after_methods_exec
@@ -1334,8 +1318,7 @@ test!(
     transformation_expression,
     r#"
 (@dec() class {});
-"#,
-    
+"#
 );
 // duplicated_keys_original_method_prototype_and_static_exec
 test_exec!(
@@ -1381,8 +1364,7 @@ class Foo {
   }
 }
 
-"#,
-    
+"#
 );
 // element_descriptors_created_prototype_method_exec
 test_exec!(
@@ -3422,8 +3404,7 @@ class A {
 c = 456;
 }
 
-"#,
-    
+"#
 );
 
 fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
@@ -3459,8 +3440,7 @@ class Demo {
     this.author = 'alan'
  }
 }
-",
-    
+"
 );
 
 test!(
@@ -3488,8 +3468,7 @@ return (target) => {
 }
 
 export default Test
-",
-    
+"
 );
 
 // function_name_function_assignment
@@ -3526,8 +3505,7 @@ bar = function() {
 bar();
 };
 
-"#,
-    
+"#
 );
 
 // function_name_shorthand_property
@@ -3572,8 +3550,7 @@ var obj = {
 };
 };
 
-"#,
-    
+"#
 );
 
 // function_name_object
@@ -3612,8 +3589,7 @@ m: function () {
 }
 };
 
-"#,
-    
+"#
 );
 
 // function_name_export
@@ -3657,8 +3633,7 @@ wowzers: function () {
 }
 };
 
-"#,
-    
+"#
 );
 
 // function_name_global
@@ -3688,8 +3663,7 @@ setInterval: function(fn, ms) {
 }
 };
 
-"#,
-    
+"#
 );
 
 // function_name_modules
@@ -3727,8 +3701,7 @@ events() {
 
 console.log(new Template().events());
 
-"#,
-    
+"#
 );
 
 // function_name_eval
@@ -3756,8 +3729,7 @@ eval: function () {
 }
 };
 
-"#,
-    
+"#
 );
 
 test!(
@@ -3776,8 +3748,7 @@ test!(
       super.someMethod()
     }
   }
-  ",
-    
+  "
 );
 
 test_exec!(

@@ -281,7 +281,6 @@ to!(
         c = b + 1,
         d = c
     }",
-    
 );
 
 test!(
@@ -303,16 +302,15 @@ test!(
     ok_if_code_eq
 );
 
-to!(import_type, "import type foo from 'foo'", );
+to!(import_type, "import type foo from 'foo'",);
 
-to!(export_type, "export type { foo }", );
+to!(export_type, "export type { foo }",);
 
 to!(
     issue_685,
     "
     type MyType = string;
     export default MyType;",
-    
 );
 
 to!(
@@ -321,7 +319,6 @@ to!(
     class MyType {}
     type MyType = string;
     export default MyType;",
-    
 );
 
 to!(
@@ -330,7 +327,6 @@ to!(
     var MyType = function(){};
     type MyType = string;
     export default MyType;",
-    
 );
 
 to!(
@@ -340,7 +336,6 @@ to!(
         other: number;
     }
     export default MyType;",
-    
 );
 
 to!(
@@ -349,7 +344,6 @@ to!(
   md = 'md',
   lg = 'lg',
 }",
-    
 );
 
 to!(
@@ -358,12 +352,11 @@ to!(
   md,
   lg,
 }",
-    
 );
 
-to!(module_01, "module 'foo'{ }", );
+to!(module_01, "module 'foo'{ }",);
 
-to!(declare_01, "declare var env: FOO", );
+to!(declare_01, "declare var env: FOO",);
 
 to!(
     issue_757,
@@ -375,7 +368,6 @@ enum Foo {
 
 export default Foo;
 ",
-    
 );
 
 to!(
@@ -384,7 +376,6 @@ to!(
      export function createPerson(person: IPerson) {
         const a = {} as IPerson
       }",
-    
 );
 
 to!(
@@ -393,7 +384,6 @@ to!(
      function createPerson(person: IPerson) {
         const a = {} as IPerson
       }",
-    
 );
 
 to!(
@@ -406,7 +396,6 @@ to!(
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
      }",
-    
 );
 
 to!(
@@ -419,7 +408,6 @@ to!(
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
      }",
-    
 );
 
 to!(
@@ -431,7 +419,6 @@ to!(
      export function createPerson(person: MyPerson) {
        const a = {} as MyPerson
      }",
-    
 );
 
 to!(
@@ -440,7 +427,6 @@ to!(
 
      export class Child extends A implements B {
      }",
-    
 );
 
 to!(
@@ -449,7 +435,6 @@ to!(
      export function createPerson(person) {
         const a = {} as IPerson
       }",
-    
 );
 
 to!(
@@ -458,7 +443,6 @@ to!(
      export function createPerson(person) {
         const a = <IPerson>{};
       }",
-    
 );
 
 to!(
@@ -468,7 +452,6 @@ to!(
         console.log(a)
     }
 }",
-    
 );
 
 to!(
@@ -478,7 +461,6 @@ to!(
         console.log(a)
     }
 }",
-    
 );
 
 to!(
@@ -488,7 +470,6 @@ to!(
         console.log(a)
     }
 }",
-    
 );
 
 to!(
@@ -498,7 +479,6 @@ to!(
     Down = 2,
     Left = Up + Down,
 }",
-    
 );
 
 to!(
@@ -518,7 +498,6 @@ to!(
         this.#handlers = options.handlers || [];
     }
 }",
-    
 );
 
 to!(
@@ -531,7 +510,6 @@ to!(
     end,
   }
 });"#,
-    
 );
 
 to!(
@@ -539,7 +517,6 @@ to!(
     r#"export class MultipartReader {
     readonly newLine = encoder.encode("\r\n");
 }"#,
-    
 );
 
 to!(
@@ -549,7 +526,6 @@ to!(
       super(message)
     }
 }"#,
-    
 );
 
 to!(
@@ -557,7 +533,6 @@ to!(
     "export abstract class Kernel {
   [key: string]: any
 }",
-    
 );
 
 to!(
@@ -567,7 +542,6 @@ to!(
     super();
   }
 }",
-    
 );
 
 test!(
@@ -2864,7 +2838,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     ok_if_code_eq
 );
 
-to!(bin_01, "a!!!! + b!!!!!! + c!!!!!", );
+to!(bin_01, "a!!!! + b!!!!!! + c!!!!!",);
 
 test!(
     Syntax::Typescript(TsConfig {
@@ -3068,7 +3042,6 @@ to!(
     export { any };
     export type { any as t };
     ",
-    
 );
 
 to!(
@@ -3107,7 +3080,6 @@ to!(
         };
     }
     ",
-    
 );
 
 to!(
@@ -3118,7 +3090,6 @@ to!(
         export const [a, b] = [1, 2, 3];
     }
     ",
-    
 );
 
 to!(
@@ -3135,7 +3106,6 @@ to!(
         }
     }
     ",
-    
 );
 
 to!(
@@ -3148,7 +3118,6 @@ to!(
         export interface Test {}
     }
     ",
-    
 );
 
 to!(
@@ -3178,7 +3147,6 @@ to!(
         }
     }
     ",
-    
 );
 
 to!(
@@ -3194,7 +3162,6 @@ to!(
         console.log(b.Test);
     }
     ",
-    
 );
 
 to!(
@@ -3209,7 +3176,6 @@ to!(
 
     console(Test.DummyValues.A);
     ",
-    
 );
 
 to!(
@@ -3228,7 +3194,6 @@ to!(
         }
     }
     ",
-    
 );
 
 to!(
@@ -3240,7 +3205,6 @@ to!(
         }
     }
     ",
-    
 );
 
 to!(
@@ -3252,7 +3216,6 @@ to!(
 
     export {}
     ",
-    
 );
 
 test_with_config!(
@@ -3316,7 +3279,6 @@ to!(
         static [(console.log(2), 'b')] = 2;
     }
     ",
-    
 );
 
 to!(
@@ -3328,7 +3290,6 @@ to!(
         [(console.log(3), 'c')]() {}
     }
     ",
-    
 );
 
 to!(
@@ -3339,7 +3300,6 @@ to!(
         export class B extends A {}
     }
 ",
-    
 );
 
 to!(
@@ -3350,7 +3310,6 @@ to!(
     }
     export enum A {}
 ",
-    
 );
 
 to!(
@@ -3359,7 +3318,6 @@ to!(
     export class A {}
     export enum A {}
 ",
-    
 );
 
 to!(
@@ -3369,7 +3327,6 @@ to!(
         static a = 1;
     }
     ",
-    
 );
 
 to!(
@@ -3379,7 +3336,6 @@ to!(
         export const txt: typeof import('twitter-text')
     }
     ",
-    
 );
 
 to!(
@@ -3390,7 +3346,6 @@ to!(
         set foo(v: string | number);
     }
     ",
-    
 );
 
 to!(
@@ -3401,7 +3356,6 @@ to!(
         set bar(v: string | number);
     }
     ",
-    
 );
 
 to!(
@@ -3411,7 +3365,6 @@ to!(
     const Test = 2;
     console.log(Test);
     ",
-    
 );
 
 to!(
@@ -3421,7 +3374,6 @@ to!(
     const Test = 2;
     console.log(Test);
     ",
-    
 );
 
 to!(
@@ -3431,7 +3383,6 @@ to!(
     const Test = 2;
     console.log(Test);
     ",
-    
 );
 
 to!(
@@ -3441,7 +3392,6 @@ to!(
     const [Test] = [];
     console.log(a);
     ",
-    
 );
 
 to!(
@@ -3451,7 +3401,6 @@ to!(
     const [a = Test] = [];
     console.log(a);
     ",
-    
 );
 
 to!(
@@ -3461,7 +3410,6 @@ to!(
     const {Test: a} = {};
     console.log(a);
     ",
-    
 );
 
 to!(
@@ -3471,7 +3419,6 @@ to!(
     const {a = Test} = {};
     console.log(Test);
     ",
-    
 );
 
 to!(
@@ -3480,7 +3427,6 @@ to!(
     import { Test } from 'test';
     interface Test {}
     ",
-    
 );
 
 to!(
@@ -3489,7 +3435,6 @@ to!(
     import { Test } from 'test';
     console.log(Test);
     ",
-    
 );
 
 to!(
@@ -3499,7 +3444,6 @@ to!(
     interface Test {}
     console.log(Test);
     ",
-    
 );
 
 to!(
@@ -3508,7 +3452,6 @@ to!(
     console.log(Test);
     import { Test } from 'test';
     ",
-    
 );
 
 //
@@ -3519,7 +3462,6 @@ to!(
     console.log(Test);
     import { Test } from 'test';
     ",
-    
 );
 
 to!(
@@ -3528,7 +3470,6 @@ to!(
     interface Test {}
     import { Test } from 'test';
     ",
-    
 );
 
 to!(
@@ -3538,7 +3479,6 @@ to!(
     console.log(Test);
     import { Test } from 'test';
     ",
-    
 );
 
 to!(
@@ -3547,7 +3487,6 @@ to!(
     import F = require('yaml')
     console.log(F)
     ",
-    
 );
 
 to!(
@@ -3560,7 +3499,6 @@ to!(
         constructor(config: QueryObjectConfig);
         constructor(text: string, ...args: unknown[]);
     }",
-    
 );
 
 to!(
@@ -3588,7 +3526,6 @@ to!(
           }
         }
     }",
-    
 );
 
 to!(
@@ -3596,7 +3533,6 @@ to!(
     "
     export = 'something';
     ",
-    
 );
 
 to!(
@@ -3607,7 +3543,6 @@ to!(
     const _: foo = null;
     console.log({ foo: 1 });
     ",
-    
 );
 
 to!(
@@ -3622,7 +3557,6 @@ to!(
 
     console.log(A, AB, CB);
     "#,
-    
 );
 
 to!(
@@ -3635,7 +3569,6 @@ to!(
     const b = { Foo: 1 };
     console.log(b.Foo)
     ",
-    
 );
 
 to!(
@@ -3652,7 +3585,6 @@ to!(
         return c;
     }
     ",
-    
 );
 
 to!(
@@ -3662,7 +3594,6 @@ to!(
 
     export { TestInfo }
     ",
-    
 );
 
 to!(
@@ -3674,7 +3605,6 @@ to!(
         get [foo](): number
     }
     ",
-    
 );
 
 to!(
@@ -3686,7 +3616,6 @@ class Foo {
   identifier = 5;
 }
 ",
-    
 );
 
 to!(
@@ -3698,7 +3627,6 @@ class Foo {
   static identifier = 5;
 }
   ",
-    
 );
 
 to!(
@@ -3708,7 +3636,6 @@ to!(
     import MongoClient = mongo.MongoClient;
     const mongoClient = new MongoClient();
     ",
-    
 );
 
 to!(
@@ -3718,7 +3645,6 @@ to!(
     import MongoClient = mongo.MongoClient;
     const mongoClient: MongoClient = {};
     ",
-    
 );
 
 test_with_config!(
@@ -3763,7 +3689,6 @@ to!(
         return true
     };
     ",
-    
 );
 
 to!(
@@ -3772,7 +3697,6 @@ to!(
     Aqua = '#00ffff',
     Cyan = Aqua,
 }",
-    
 );
 
 to!(
@@ -3810,7 +3734,6 @@ namespace Namespace {
     }
 }
 ",
-    
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]
@@ -3842,7 +3765,6 @@ let b = class {
     constructor(public a = 1) {}
 }
     ",
-    
 );
 
 test!(
