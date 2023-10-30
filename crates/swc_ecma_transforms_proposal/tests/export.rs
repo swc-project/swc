@@ -23,16 +23,14 @@ test!(
     syntax_default(),
     |_| tr(),
     default_es6,
-    r#"export foo from "bar";"#,
-    
+    r#"export foo from "bar";"#
 );
 
 test!(
     syntax_default(),
     |_| tr(),
     default_compounded_es6,
-    r#"export v, { x, y as w } from "mod";"#,
-    
+    r#"export v, { x, y as w } from "mod";"#
 );
 
 test!(
@@ -40,21 +38,18 @@ test!(
     |_| tr(),
     namespace_compound_es6,
     r"export * as foo, { bar } from 'bar';",
-    
 );
 
 test!(
     syntax_namespace(),
     |_| tr(),
     namespace_default,
-    "export * as default from 'foo';",
-    
+    "export * as default from 'foo';"
 );
 
 test!(
     syntax_namespace(),
     |_| tr(),
     namespace_es6,
-    "export * as foo from 'bar';",
-    
+    "export * as foo from 'bar';"
 );

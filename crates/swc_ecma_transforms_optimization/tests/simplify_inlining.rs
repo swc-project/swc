@@ -76,7 +76,7 @@ fn test_same(s: &str) {
     test(s, s)
 }
 
-to!(top_level_simple_var, "var a = 1; var b = a;",);
+to!(top_level_simple_var, "var a = 1; var b = a;");
 
 to!(
     function_scope_simple_var,
@@ -91,7 +91,7 @@ identical!(top_level_decrement, "var x = 1; x--;");
 
 identical!(top_level_assign_op, "var x = 1; x += 3;");
 
-to!(simple_inline_in_fn, "var x = 1; var z = x; use(z)",);
+to!(simple_inline_in_fn, "var x = 1; var z = x; use(z)");
 
 to!(
     ignore,
@@ -171,7 +171,7 @@ to!(
 ",
 );
 
-to!(regex, "var b;b=/ab/;(b)?x=1:x=2;",);
+to!(regex, "var b;b=/ab/;(b)?x=1:x=2;");
 
 to!(
     generator_let_yield,
@@ -188,14 +188,14 @@ identical!(for_of_1, "var i = 0; for(i of n) {}");
 
 identical!(for_of_2, "for( var i of n) { var x = i; }");
 
-to!(tpl_lit_1, "var name = 'Foo'; `Hello ${name}`",);
+to!(tpl_lit_1, "var name = 'Foo'; `Hello ${name}`");
 
 to!(
     tpl_lit_2,
-    "var name = 'Foo'; var foo = name; `Hello ${foo}`",
+    "var name = 'Foo'; var foo = name; `Hello ${foo}`"
 );
 
-to!(tpl_lit_3, "var age = 3; `Age: ${age}`",);
+to!(tpl_lit_3, "var age = 3; `Age: ${age}`");
 
 to!(
     ignore,
@@ -211,16 +211,6 @@ to!(
         "  }",
         "}",
         "var output = myTag`My name is ${name} ${3}`;",
-    ),
-    concat!(
-        "var output = function myTag(strings, nameExp, numExp) {",
-        "  var modStr;",
-        "  if (numExp > 2) {",
-        "    modStr = nameExp + 'Bar'",
-        "  } else { ",
-        "    modStr = nameExp + 'BarBar'",
-        "  }",
-        "}`My name is ${'Foo'} ${3}`;",
     )
 );
 
@@ -238,19 +228,6 @@ to!(
         "}",
         "var output = myTag`My name is ${name} ${3}`;",
         "output = myTag`My name is ${name} ${2}`;",
-    ),
-    concat!(
-        "var name;",
-        "function myTag(strings, nameExp, numExp) {",
-        "  var modStr;",
-        "  if (numExp > 2) {",
-        "    modStr = nameExp + 'Bar'",
-        "  } else { ",
-        "    modStr = nameExp + 'BarBar'",
-        "  }",
-        "}",
-        "var output = myTag`My name is ${'Foo'} ${3}`;",
-        "output = myTag`My name is ${'Foo'} ${2}`;",
     )
 );
 
