@@ -39,8 +39,7 @@ test!(
     function Bar() {
         return <Hello />;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -65,8 +64,7 @@ test!(
     export { Baz, NotAComp };
     export function sum() {}
     export const Bad = 42;
-"#,
-    
+"#
 );
 
 test!(
@@ -87,8 +85,7 @@ test!(
       // You should name your components.
       return <Hello />;
     };
-"#,
-    
+"#
 );
 
 test!(
@@ -104,8 +101,7 @@ test!(
       return <h1>Hi</h1>;
     }
     Hello = connect(Hello);
-"#,
-    
+"#
 );
 
 test!(
@@ -119,8 +115,7 @@ test!(
     function hello() {
       return 2 * 2;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -141,8 +136,7 @@ test!(
     function sum() {}
     let Baz = 10;
     var Qux;
-"#,
-    
+"#
 );
 
 test!(
@@ -162,8 +156,7 @@ test!(
     };
     var Baz = () => <div />;
     var sum = () => {};
-"#,
-    
+"#
 );
 
 test!(
@@ -189,8 +182,7 @@ test!(
         return <h1 onClick={handleClick}>Hi</h1>;
       }
     };
-"#,
-    
+"#
 );
 
 test!(
@@ -213,8 +205,7 @@ test!(
     let D = bar && (() => {
       return <h1>Hi</h1>;
     });
-"#,
-    
+"#
 );
 
 test!(
@@ -224,8 +215,7 @@ test!(
     }),
     tr,
     ignore_unnamed_function_declarations,
-    r#"export default function() {}"#,
-    
+    r#"export default function() {}"#
 );
 
 test!(
@@ -245,8 +235,7 @@ test!(
     export default React.memo(forwardRef((props, ref) => {
       return <h1>Foo</h1>;
     }));
-"#,
-    
+"#
 );
 
 test!(
@@ -260,8 +249,7 @@ test!(
     export default React.memo(forwardRef(function (props, ref) {
       return <h1>Foo</h1>;
     }));
-"#,
-    
+"#
 );
 
 test!(
@@ -275,8 +263,7 @@ test!(
     export default React.memo(forwardRef(function Named(props, ref) {
       return <h1>Foo</h1>;
     }));
-"#,
-    
+"#
 );
 
 test!(
@@ -292,8 +279,7 @@ test!(
     }
 
     export default memo(Foo)
-"#,
-    
+"#
 );
 
 test!(
@@ -311,8 +297,7 @@ test!(
     if (cond) {
       const Foo = thing(() => {});
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -343,8 +328,7 @@ test!(
     // This is currently registered as a false positive:
     const NotAComponent = wow(A);
     // We could avoid it but it also doesn't hurt.
-"#,
-    
+"#
 );
 
 // When in doubt, register variables that were used in JSX.
@@ -388,8 +372,7 @@ test!(
     // This is currently registered as a false positive:
     const NotAComponent = wow(A);
     // We could avoid it but it also doesn't hurt.
-"#,
-    
+"#
 );
 
 test!(
@@ -406,8 +389,7 @@ test!(
     const A = () => null
     return <A />
   }
-"#,
-    
+"#
 );
 
 test!(
@@ -424,8 +406,7 @@ test!(
     export default hoc(Foo);
     export const A = hoc(Foo);
     const B = hoc(Foo);
-"#,
-    
+"#
 );
 
 test!(
@@ -441,8 +422,7 @@ test!(
       React.useEffect(() => {});
       return <h1>{foo}</h1>;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -467,8 +447,7 @@ test!(
     function baz() {
       return (useState(), useState())
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -497,8 +476,7 @@ test!(
       };
     }
     export let C = hoc();
-"#,
-    
+"#
 );
 
 test!(
@@ -514,8 +492,7 @@ test!(
   }, B = () => {
     const [foo, setFoo] = useState(0);
   }
-"#,
-    
+"#
 );
 
 test!(
@@ -532,8 +509,7 @@ test!(
     const Bar = () => useContext(X);
     const Baz = memo(() => useContext(X));
     const Qux = () => (0, useContext(X));
-"#,
-    
+"#
 );
 
 test!(
@@ -556,8 +532,7 @@ test!(
       const bar = useFancyState();
       return <h1>{bar}</h1>;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -598,8 +573,7 @@ test!(
       const foo = useFoo()
       return <h1>{bar}</h1>;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -623,8 +597,7 @@ test!(
       useThePlatform();
       return <h1>{bar}{baz}</h1>;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -651,8 +624,7 @@ test!(
         </div>
       );
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -675,8 +647,7 @@ test!(
       });
       return <h1>{foo}</h1>;
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -692,8 +663,7 @@ test!(
         useFoo();
       })(item);
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -726,8 +696,7 @@ test!(
       useContext(X)
       return <Foo />
     }
-"#,
-    
+"#
 );
 
 test!(
@@ -743,8 +712,7 @@ test!(
     }
 
     declare module 'x' {}
-"#,
-    
+"#
 );
 
 test!(
@@ -755,8 +723,7 @@ test!(
     import dynamic from 'next/dynamic'
 
     export const Comp = dynamic(() => import('../Content'), { ssr: false })
-    ",
-    
+    "
 );
 
 test!(
@@ -769,8 +736,7 @@ test!(
 
       return null;
     }
-  ",
-    
+  "
 );
 
 test!(
@@ -788,8 +754,7 @@ const a = (a) => {
       return useState(123);
     };
 }
-"#,
-    
+"#
 );
 
 test!(
@@ -809,6 +774,5 @@ test!(
         <button type="button" onClick={() => setCount(c => c + 1)}>{count}</button>
       );
     }
-"#,
-    
+"#
 );

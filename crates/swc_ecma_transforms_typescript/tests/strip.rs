@@ -69,7 +69,7 @@ macro_rules! to {
             }),
             |t| chain!(tr(), properties(t, true)),
             $name,
-            $from,
+            $from
         );
     };
 }
@@ -116,7 +116,7 @@ test!(
     "export function transformFileSync(
       filename: string,
       opts?: Object = {},
-    ): string {}",
+    ): string {}"
 );
 
 // TODO: Test function / variable hoisting
@@ -128,7 +128,7 @@ test!(
     "
 import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
-",
+"
 );
 
 test!(
@@ -137,7 +137,7 @@ test!(
     issue_461,
     "for (let x in ['']) {
   (x => 0)(x);
-}",
+}"
 );
 
 test!(
@@ -146,7 +146,7 @@ test!(
     issue_468_1,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
-      tView.data[adjustedIndex] as TElementNode",
+      tView.data[adjustedIndex] as TElementNode"
 );
 
 test!(
@@ -155,7 +155,7 @@ test!(
     issue_468_2,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
-      tView.data[adjustedIndex] as TElementNode",
+      tView.data[adjustedIndex] as TElementNode"
 );
 
 test!(
@@ -278,7 +278,7 @@ to!(
         b = a,
         c = b + 1,
         d = c
-    }",
+    }"
 );
 
 test!(
@@ -286,23 +286,19 @@ test!(
     |_| tr(),
     issue_640,
     "import { Handler } from 'aws-lambda';
-export const handler: Handler = async (event, context) => {};",
-    "export const handler = async (event, context) => {};",
-    ok_if_code_eq
+export const handler: Handler = async (event, context) => {};"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_656,
-    "export const x = { text: 'hello' } as const;",
-    "export const x = { text: 'hello' };",
-    ok_if_code_eq
+    "export const x = { text: 'hello' } as const;"
 );
 
-to!(import_type, "import type foo from 'foo'",);
+to!(import_type, "import type foo from 'foo'");
 
-to!(export_type, "export type { foo }",);
+to!(export_type, "export type { foo }");
 
 to!(
     issue_685,
@@ -352,9 +348,9 @@ to!(
 }",
 );
 
-to!(module_01, "module 'foo'{ }",);
+to!(module_01, "module 'foo'{ }");
 
-to!(declare_01, "declare var env: FOO",);
+to!(declare_01, "declare var env: FOO");
 
 to!(
     issue_757,
@@ -365,7 +361,7 @@ enum Foo {
 }
 
 export default Foo;
-",
+"
 );
 
 to!(
@@ -373,7 +369,7 @@ to!(
     "import { IPerson } from '../types/types'
      export function createPerson(person: IPerson) {
         const a = {} as IPerson
-      }",
+      }"
 );
 
 to!(
@@ -381,7 +377,7 @@ to!(
     "import { IPerson } from '../types/types'
      function createPerson(person: IPerson) {
         const a = {} as IPerson
-      }",
+      }"
 );
 
 to!(
@@ -393,7 +389,7 @@ to!(
 
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
-     }",
+     }"
 );
 
 to!(
@@ -405,7 +401,7 @@ to!(
 
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
-     }",
+     }"
 );
 
 to!(
@@ -416,7 +412,7 @@ to!(
 
      export function createPerson(person: MyPerson) {
        const a = {} as MyPerson
-     }",
+     }"
 );
 
 to!(
@@ -424,7 +420,7 @@ to!(
     "import { A, B } from '../types/types'
 
      export class Child extends A implements B {
-     }",
+     }"
 );
 
 to!(
@@ -432,7 +428,7 @@ to!(
     "import { IPerson } from '../types/types'
      export function createPerson(person) {
         const a = {} as IPerson
-      }",
+      }"
 );
 
 to!(
@@ -440,7 +436,7 @@ to!(
     "import { IPerson } from '../types/types'
      export function createPerson(person) {
         const a = <IPerson>{};
-      }",
+      }"
 );
 
 to!(
@@ -449,7 +445,7 @@ to!(
     log(a: Name) {
         console.log(a)
     }
-}",
+}"
 );
 
 to!(
@@ -458,7 +454,7 @@ to!(
     log(a: Name) {
         console.log(a)
     }
-}",
+}"
 );
 
 to!(
@@ -2836,7 +2832,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     ok_if_code_eq
 );
 
-to!(bin_01, "a!!!! + b!!!!!! + c!!!!!",);
+to!(bin_01, "a!!!! + b!!!!!! + c!!!!!");
 
 test!(
     Syntax::Typescript(TsConfig {
