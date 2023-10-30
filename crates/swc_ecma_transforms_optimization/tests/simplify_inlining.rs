@@ -76,20 +76,13 @@ fn test_same(s: &str) {
     test(s, s)
 }
 
-to!(
-    top_level_simple_var,
-    "var a = 1; var b = a;",
-    "var a; var b;"
-);
+to!(top_level_simple_var, "var a = 1; var b = a;",);
 
 to!(
     function_scope_simple_var,
     "var a = 1;
     var b = a;
     use(b);",
-    "var a;
-    var b;
-    use(1);"
 );
 
 identical!(top_level_increment, "var x = 1; x++;");
@@ -98,18 +91,13 @@ identical!(top_level_decrement, "var x = 1; x--;");
 
 identical!(top_level_assign_op, "var x = 1; x += 3;");
 
-to!(
-    simple_inline_in_fn,
-    "var x = 1; var z = x; use(z)",
-    "var x; var z; use(1)"
-);
+to!(simple_inline_in_fn, "var x = 1; var z = x; use(z)",);
 
 to!(
     ignore,
     unresolved_inline_in_fn,
     "var a = new obj();
     result = a;",
-    "result = new obj()"
 );
 
 // GitHub issue #1234: https://github.com/google/closure-compiler/issues/1234
@@ -135,13 +123,6 @@ to!(
             y;
         }
     }",
-    "function f(x) {
-      if (true) {
-        let y;
-        x;
-        x;
-      }
-    }"
 );
 
 to!(
@@ -153,13 +134,6 @@ to!(
             y;
         }
     }",
-    "function f(x) {
-      if (true) {
-        const y = x;
-        x;
-        x;
-      }
-    }"
 );
 
 to!(
@@ -171,12 +145,6 @@ to!(
     }
     y;
 ",
-    "let y;
-    {
-        let y;
-        x;
-    }
-    y;"
 );
 
 to!(
@@ -186,10 +154,6 @@ to!(
     let y = g;
     y;
 ",
-    "const g = 3;
-    let y;
-    3;
-"
 );
 
 to!(
@@ -205,29 +169,13 @@ to!(
     y;
     g;
 ",
-    "let y;
-    x;
-    const g = 2;
-    {
-        const g = 3;
-        let y;
-        3;
-    }
-    x;
-    2;
-    "
 );
 
-to!(
-    regex,
-    "var b;b=/ab/;(b)?x=1:x=2;",
-    "var b;b=/ab/;/ab/?x=1:x=2;"
-);
+to!(regex, "var b;b=/ab/;(b)?x=1:x=2;",);
 
 to!(
     generator_let_yield,
     "function* f() {  let x = 1; yield x; }",
-    "function* f() {  let x; yield 1; }"
 );
 
 // TODO: Inline single use
@@ -240,23 +188,14 @@ identical!(for_of_1, "var i = 0; for(i of n) {}");
 
 identical!(for_of_2, "for( var i of n) { var x = i; }");
 
-to!(
-    tpl_lit_1,
-    "var name = 'Foo'; `Hello ${name}`",
-    "var name; `Hello ${'Foo'}`"
-);
+to!(tpl_lit_1, "var name = 'Foo'; `Hello ${name}`",);
 
 to!(
     tpl_lit_2,
     "var name = 'Foo'; var foo = name; `Hello ${foo}`",
-    "var name; var foo; `Hello ${'Foo'}`"
 );
 
-to!(
-    tpl_lit_3,
-    "var age = 3; `Age: ${age}`",
-    "var age; `Age: ${3}`"
-);
+to!(tpl_lit_3, "var age = 3; `Age: ${age}`",);
 
 to!(
     ignore,
@@ -357,17 +296,6 @@ if (a) {
     c = 3;
 }
 ",
-    "let b;
-
-let a = 1;
-if (2) {
-    a = 2;
-}
-
-let c;
-if (a) {
-    c = 3;
-}"
 );
 
 to!(
@@ -379,13 +307,6 @@ a = 2;
 
 let c;
 if (a) c = 3",
-    "let b;
-
-let a;
-a = 2;
-
-let c;
-if (2) c = 3"
 );
 
 to!(
@@ -393,9 +314,6 @@ to!(
     "let c;
 c = 3;
 console.log(c);",
-    "let c;
-c = 3;
-console.log(3);"
 );
 
 #[test]
