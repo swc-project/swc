@@ -462,7 +462,6 @@ test!(
     }
 }
 ",
-    
 );
 
 test!(
@@ -490,7 +489,6 @@ test!(
     const a = 1;
     export const d = { a };
     ",
-    
 );
 
 test!(
@@ -526,7 +524,6 @@ class A {
 }
 new A();
     ",
-    
 );
 
 test!(
@@ -566,7 +563,6 @@ test!(
         return Object.assign(promise, methods);
     }
     ",
-    
 );
 
 test!(
@@ -620,7 +616,6 @@ test!(
 
     new A();
     ",
-    
 );
 
 test!(
@@ -650,7 +645,6 @@ test!(
 
     d()
     ",
-    
 );
 
 test!(
@@ -700,7 +694,6 @@ test!(
 
     new A();
     ",
-    
 );
 
 optimized_out!(

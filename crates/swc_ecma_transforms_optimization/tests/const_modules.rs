@@ -26,8 +26,7 @@ test!(
     r#"import { DEBUG } from '@ember/env-flags';
         if (DEBUG) {
             console.log('Foo!');
-        }"#,
-    
+        }"#
 );
 
 test!(
@@ -40,8 +39,7 @@ test!(
         }
         
         import { DEBUG } from '@ember/env-flags';
-        "#,
-    
+        "#
 );
 
 test!(
@@ -70,8 +68,7 @@ if (FEATURE_A) {
 } else if (FEATURE_B) {
   woot = () => 'toow';
 }
-",
-    
+"
 );
 
 test!(
@@ -81,8 +78,7 @@ test!(
     r#"
 import * as foo from 'foo';
 console.log(foo.bar)
-"#,
-    
+"#
 );
 
 test!(
@@ -92,8 +88,7 @@ test!(
     r#"
 import * as foo from 'foo';
 console.log(foo["bar"])
-"#,
-    
+"#
 );
 
 test!(
@@ -106,8 +101,7 @@ test!(
     r#"
     import { testMap } from "testModule";
     testMap['var'];
-"#,
-    
+"#
 );
 
 test!(
@@ -117,8 +111,7 @@ test!(
     r#"
 import { bar } from 'foo';
 console.log({ bar });
-"#,
-    
+"#
 );
 
 test!(
@@ -128,8 +121,7 @@ test!(
     r#"
 import something from 'my-mod';
 console.log(something);
-"#,
-    
+"#
 );
 
 #[testing::fixture("tests/const-modules/**/input.js")]
