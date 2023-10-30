@@ -161,10 +161,10 @@ test!(
     |_| computed_properties(Default::default()),
     mixed,
     r#"var obj = {
-  ["x" + foo]: "heh"
-  ["y" + bar]: "noo"
-  foo: "foo"
-  bar: "bar"
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
+  foo: "foo",
+  bar: "bar",
 };"#
 );
 
@@ -173,7 +173,7 @@ test!(
     |_| computed_properties(Default::default()),
     multiple,
     r#"var obj = {
-  ["x" + foo]: "heh"
+  ["x" + foo]: "heh",
   ["y" + bar]: "noo"
 };"#
 );
@@ -193,7 +193,7 @@ test!(
     symbol,
     r#"var k = Symbol();
 var foo = {
-  [Symbol.iterator]: "foobar"
+  [Symbol.iterator]: "foobar",
   get [k]() {
     return k;
   }
@@ -208,7 +208,7 @@ test_exec!(
     r#"
 var k = Symbol();
 var foo = {
-  [Symbol.iterator]: "foobar"
+  [Symbol.iterator]: "foobar",
   get [k]() {
     return k;
   }
@@ -223,7 +223,7 @@ test!(
     |_| computed_properties(Default::default()),
     this,
     r#"var obj = {
-  ["x" + foo.bar]: "heh"
+  ["x" + foo.bar]: "heh",
 };"#
 );
 
@@ -303,10 +303,10 @@ test!(
     spec_mixed,
     r#"
 var obj = {
-  ["x" + foo]: "heh"
-  ["y" + bar]: "noo"
-  foo: "foo"
-  bar: "bar"
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
+  foo: "foo",
+  bar: "bar",
 };
 
 "#
@@ -347,8 +347,8 @@ test!(
     spec_multiple,
     r#"
 var obj = {
-  ["x" + foo]: "heh"
-  ["y" + bar]: "noo"
+  ["x" + foo]: "heh",
+  ["y" + bar]: "noo",
 };
 
 "#
@@ -418,7 +418,7 @@ test!(
     spec_two,
     r#"
 var obj = {
-  first: "first"
+  first: "first",
   ["second"]: "second"
 };
 
@@ -446,7 +446,7 @@ test_exec!(
     r#"
 var k = Symbol();
 var foo = {
-  [Symbol.iterator]: "foobar"
+  [Symbol.iterator]: "foobar",
   get [k]() {
     return k;
   }
@@ -562,7 +562,7 @@ test!(
     loose_two,
     r#"
 var obj = {
-  first: "first"
+  first: "first",
   [second]: "second"
 }
 "#
@@ -574,7 +574,7 @@ test!(
     loose_variable,
     r#"
 var foo = {
-  [bar]: "foobar"
+  [bar]: "foobar",
 };
 "#
 );
@@ -585,7 +585,7 @@ test!(
     loose_str_lit,
     r#"
 var foo = {
-["213"]: "foobar"
+["213"]: "foobar",
 };
 "#
 );
@@ -597,7 +597,7 @@ test_exec!(
     r#"
 var k = Symbol();
 var foo = {
-[Symbol.iterator]: "foobar"
+[Symbol.iterator]: "foobar",
 get [k]() {
   return k;
 }
