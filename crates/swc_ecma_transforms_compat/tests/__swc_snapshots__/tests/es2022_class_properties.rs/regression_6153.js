@@ -27,7 +27,7 @@
 });
 (function() {
     class Baz {
-        constructor(force){
+        constructor(force1){
             var _this = this;
             _define_property(this, "fn", function() {
                 return console.log(_this);
