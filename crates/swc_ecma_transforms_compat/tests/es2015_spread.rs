@@ -98,7 +98,7 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo" "bar");
+foo("foo", "bar");
 
 "#
 );
@@ -134,7 +134,7 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo" "bar");
+foo("foo", "bar");
 
 "#
 );
@@ -315,7 +315,7 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo" "bar");
+foo("foo", "bar");
 
 "#
 );
@@ -594,7 +594,7 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo" "bar");
+foo("foo", "bar");
 
 "#
 );
@@ -639,7 +639,7 @@ function bar(one, two, three) {
   return [one, two, three];
 }
 
-foo("foo" "bar");
+foo("foo", "bar");
 
 "#
 );
