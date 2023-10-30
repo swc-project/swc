@@ -101,7 +101,7 @@ if (a) { // Removed by second run of remove_dead_branch
     c = 3; // It becomes `flat assignment` to c on third run of inlining.
 }
 console.log(c); // Prevent optimizing out.
-",
+"
 );
 
 #[test]
