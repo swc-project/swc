@@ -44,7 +44,7 @@ fn test_same(src: &str) {
 }
 
 macro_rules! to {
-    ($name:ident, $src:expr, $expected:expr) => {
+    ($name:ident, $src:expr) => {
         test!(
             Default::default(),
             |_| {
@@ -62,8 +62,7 @@ macro_rules! to {
                 )
             },
             $name,
-            $src,
-            $expected
+            $src
         );
     };
 }
@@ -546,8 +545,7 @@ test!(
     }
 
     new A();
-    ",
-    
+    "
 );
 
 test!(
@@ -594,8 +592,7 @@ test!(
     "
 import Foo from 'foo';
 Foo.bar = true;
-",
-    
+"
 );
 
 test!(
@@ -611,12 +608,7 @@ test!(
 
     console.log("\x00" + "\x31");
 
-    "#,
-    r#"
-    "use strict";
-    console.log("\x001");
-    "#,
-    ok_if_code_eq
+    "#
 );
 
 test!(
@@ -636,8 +628,7 @@ test!(
 
     X.run();
     (0, X.run)();
-    ",
-    
+    "
 );
 
 test!(
@@ -653,8 +644,7 @@ test!(
         var e, t;
         return t !== i && (e, t = t), e = t;
     }
-    ",
-    
+    "
 );
 
 test!(
@@ -681,6 +671,5 @@ function emit(type) {
         }
     }
 }
-",
-    
+"
 );
