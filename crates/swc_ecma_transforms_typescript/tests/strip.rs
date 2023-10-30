@@ -191,20 +191,14 @@ test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_7,
-    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
+    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     enum_simple,
-    "enum Foo{ a }",
-    "
-var Foo;
-(function (Foo) {
-    Foo[Foo[\"a\"] = 0] = \"a\";
-})(Foo || (Foo = {}));",
-    ok_if_code_eq
+    "enum Foo{ a }"
 );
 
 test!(
@@ -216,17 +210,7 @@ test!(
   opened = 'opened',
   mounted = 'mounted',
   unmounted = 'unmounted',
-}",
-    r#"
-var State;
-(function (State) {
-    State["closed"] = "closed";
-    State["opened"] = "opened";
-    State["mounted"] = "mounted";
-    State["unmounted"] = "unmounted";
-})(State || (State = {}));
-"#
-    ok_if_code_eq
+}"
 );
 
 test!(
@@ -237,16 +221,7 @@ test!(
   closed = 'cl0',
   opened = 'op1',
   mounted = 'mo2',
-}",
-    r#"
-var StateNum;
-(function (StateNum) {
-    StateNum["closed"] = "cl0";
-    StateNum["opened"] = "op1";
-    StateNum["mounted"] = "mo2";
-})(StateNum || (StateNum = {}));
-"#
-    ok_if_code_eq
+}"
 );
 
 test!(
@@ -258,16 +233,7 @@ test!(
   opened = 'opened',
   mounted = 'mounted',
   unmounted = 'unmounted',
-}",
-    r#"export var State;
-(function (State) {
-    State["closed"] = "closed";
-    State["opened"] = "opened";
-    State["mounted"] = "mounted";
-    State["unmounted"] = "unmounted";
-})(State || (State = {}));
-"#
-    ok_if_code_eq
+}"
 );
 
 to!(
@@ -304,7 +270,7 @@ to!(
     issue_685,
     "
     type MyType = string;
-    export default MyType;",
+    export default MyType;"
 );
 
 to!(
@@ -312,7 +278,7 @@ to!(
     "
     class MyType {}
     type MyType = string;
-    export default MyType;",
+    export default MyType;"
 );
 
 to!(
@@ -320,7 +286,7 @@ to!(
     "
     var MyType = function(){};
     type MyType = string;
-    export default MyType;",
+    export default MyType;"
 );
 
 to!(
@@ -329,7 +295,7 @@ to!(
     interface MyType {
         other: number;
     }
-    export default MyType;",
+    export default MyType;"
 );
 
 to!(
@@ -337,7 +303,7 @@ to!(
     "enum FlexSize {
   md = 'md',
   lg = 'lg',
-}",
+}"
 );
 
 to!(
@@ -345,7 +311,7 @@ to!(
     "enum FlexSize {
   md,
   lg,
-}",
+}"
 );
 
 to!(module_01, "module 'foo'{ }");
@@ -463,7 +429,7 @@ to!(
     log(a: Name) {
         console.log(a)
     }
-}",
+}"
 );
 
 to!(
@@ -472,7 +438,7 @@ to!(
     Up = 1,
     Down = 2,
     Left = Up + Down,
-}",
+}"
 );
 
 to!(
@@ -491,7 +457,7 @@ to!(
         this.#level = getLevelByName(levelName);
         this.#handlers = options.handlers || [];
     }
-}",
+}"
 );
 
 to!(
@@ -526,7 +492,7 @@ to!(
     issue_921,
     "export abstract class Kernel {
   [key: string]: any
-}",
+}"
 );
 
 to!(
@@ -535,7 +501,7 @@ to!(
   constructor(public a, private b) {
     super();
   }
-}",
+}"
 );
 
 test!(
@@ -546,7 +512,7 @@ test!(
         b = this.a;
         constructor(readonly a){
         }
-    }",
+    }"
 );
 
 test!(
@@ -557,7 +523,7 @@ test!(
         static b = 'foo';
         constructor(a){
         }
-    }",
+    }"
 );
 
 test!(
@@ -570,7 +536,7 @@ test!(
         constructor() {
           this.foo.subscribe()
         }
-      }",
+      }"
 );
 
 test!(
@@ -588,7 +554,7 @@ test!(
                 super()
                 this.foo.subscribe()
             }
-          }",
+          }"
 );
 
 test!(
@@ -597,7 +563,7 @@ test!(
     issue_958,
     "export class Test {
         constructor(readonly test?: string) {}
-    }",
+    }"
 );
 
 test!(
