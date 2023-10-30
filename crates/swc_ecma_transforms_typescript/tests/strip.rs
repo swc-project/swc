@@ -163,28 +163,28 @@ test!(
     |_| tr(),
     issue_468_3,
     "tView.firstCreatePass ?
-      getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode",
+      getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_4,
-    "a ? b : c",
+    "a ? b : c"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_5,
-    "a ? b : c as T",
+    "a ? b : c as T"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_6,
-    "a.b ? c() : d.e[f] as T",
+    "a.b ? c() : d.e[f] as T"
 );
 
 test!(
@@ -1755,7 +1755,7 @@ test!(
     "
     import { a } from './foo';
     import { Type } from './types';
-    ",
+    "
 );
 
 test!(
@@ -1767,7 +1767,7 @@ test!(
     deno_7413_2,
     "
     import './foo';
-    ",
+    "
 );
 
 test!(
@@ -1790,7 +1790,7 @@ test!(
     "
     import { a } from './foo';
     import { Type } from './types';
-    ",
+    "
 );
 
 test!(
@@ -1803,7 +1803,7 @@ test!(
     "
     import { Type } from './types';
     export type { Type };
-    ",
+    "
 );
 
 test!(
@@ -1830,7 +1830,7 @@ test!(
       }
     }
     (async() => {  await (new Service()).is('ABC'); })();
-    ",
+    "
 );
 
 test!(
@@ -1855,7 +1855,7 @@ test!(
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
-    ",
+    "
 );
 
 test!(
@@ -1936,7 +1936,7 @@ class A {
   public bar() {
     return 1;
   }
-}",
+}"
 );
 
 to!(
@@ -1946,7 +1946,7 @@ to!(
 
     export { any };
     export type { any as t };
-    ",
+    "
 );
 
 to!(
@@ -1984,7 +1984,7 @@ to!(
 
         };
     }
-    ",
+    "
 );
 
 to!(
@@ -1994,7 +1994,7 @@ to!(
         const c = 3;
         export const [a, b] = [1, 2, 3];
     }
-    ",
+    "
 );
 
 to!(
@@ -2010,7 +2010,7 @@ to!(
 
         }
     }
-    ",
+    "
 );
 
 to!(
@@ -2022,7 +2022,7 @@ to!(
     namespace Test.Other {
         export interface Test {}
     }
-    ",
+    "
 );
 
 to!(
@@ -2051,7 +2051,7 @@ to!(
             A = 2
         }
     }
-    ",
+    "
 );
 
 to!(
@@ -2066,7 +2066,7 @@ to!(
         import b = A;
         console.log(b.Test);
     }
-    ",
+    "
 );
 
 to!(
@@ -2080,7 +2080,7 @@ to!(
       }
 
     console(Test.DummyValues.A);
-    ",
+    "
 );
 
 to!(
@@ -2098,7 +2098,7 @@ to!(
             param1: boolean;
         }
     }
-    ",
+    "
 );
 
 to!(
@@ -2109,7 +2109,7 @@ to!(
             param1: boolean;
         }
     }
-    ",
+    "
 );
 
 to!(
@@ -2120,7 +2120,7 @@ to!(
     }
 
     export {}
-    ",
+    "
 );
 
 test_with_config!(
@@ -2134,17 +2134,6 @@ test_with_config!(
         a = 1;
         constructor(public b = 2) {
           super();
-        }
-    }
-    ",
-    "
-    class A extends Object {
-        b;
-        a;
-        constructor(b = 2){
-            super();
-            this.b = b;
-            this.a = 1;
         }
     }
     "
@@ -2164,15 +2153,6 @@ test_with_config!(
           super();
         }
     }
-    ",
-    "
-    class A extends Object {
-        constructor(b = 2){
-            super();
-            this.b = b;
-            this.a = 1;
-        }
-    }
     "
 );
 
@@ -2183,7 +2163,7 @@ to!(
         [(console.log(1), 'a')] = 1;
         static [(console.log(2), 'b')] = 2;
     }
-    ",
+    "
 );
 
 to!(
@@ -2194,7 +2174,7 @@ to!(
         static [(console.log(2), 'b')] = 2;
         [(console.log(3), 'c')]() {}
     }
-    ",
+    "
 );
 
 to!(
@@ -2204,7 +2184,7 @@ to!(
     export namespace A {
         export class B extends A {}
     }
-",
+"
 );
 
 to!(
@@ -2214,7 +2194,7 @@ to!(
         export class B extends A {}
     }
     export enum A {}
-",
+"
 );
 
 to!(
@@ -2222,7 +2202,7 @@ to!(
     "
     export class A {}
     export enum A {}
-",
+"
 );
 
 to!(
@@ -2231,7 +2211,7 @@ to!(
     const A = class {
         static a = 1;
     }
-    ",
+    "
 );
 
 to!(
@@ -2240,7 +2220,7 @@ to!(
     declare namespace twttr {
         export const txt: typeof import('twitter-text')
     }
-    ",
+    "
 );
 
 to!(
@@ -2250,7 +2230,7 @@ to!(
         get foo(): string;
         set foo(v: string | number);
     }
-    ",
+    "
 );
 
 to!(
