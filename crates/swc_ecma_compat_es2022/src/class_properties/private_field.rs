@@ -213,22 +213,16 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         if let Expr::OptChain(opt) = e {
-            if let OptChainBase::Member(MemberExpr {
-                prop: MemberProp::PrivateName(..),
-                ..
-            }) = &*opt.base
-            {
-                let mut v = optional_chaining_impl(
-                    crate::optional_chaining_impl::Config {
-                        no_document_all: self.c.no_document_all,
-                        pure_getter: self.c.pure_getter,
-                    },
-                    self.unresolved_mark,
-                );
-                e.visit_mut_with(&mut v);
-                assert!(!e.is_opt_chain(), "optional chaining should be removed");
-                self.vars.extend(v.take_vars());
-            }
+            let mut v = optional_chaining_impl(
+                crate::optional_chaining_impl::Config {
+                    no_document_all: self.c.no_document_all,
+                    pure_getter: self.c.pure_getter,
+                },
+                self.unresolved_mark,
+            );
+            e.visit_mut_with(&mut v);
+            assert!(!e.is_opt_chain(), "optional chaining should be removed");
+            self.vars.extend(v.take_vars());
         }
 
         if self.c.private_as_properties {
