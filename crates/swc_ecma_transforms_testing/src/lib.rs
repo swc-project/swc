@@ -40,10 +40,11 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR};
+use testing::{
+    assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT,
+};
 
 pub mod babel_like;
-use testing::{assert_eq, find_executable, NormalizedOutput, CARGO_WORKSPACE_ROOT};
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
