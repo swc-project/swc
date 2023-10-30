@@ -119,8 +119,7 @@ test!(
 <Component
   {...props}
   sound="moo" />
-"#,
-    
+"#
 );
 
 test!(
@@ -138,8 +137,7 @@ var foo = function () {
 var bar = function () {
   return () => <this.foo />;
 };
-"#,
-    
+"#
 );
 
 test!(
@@ -163,8 +161,7 @@ var x =
     {null}
     quack
   </div>
-  "#,
-    
+  "#
 );
 
 test!(
@@ -179,8 +176,7 @@ Component = React.createClass({
   render: function render() {
   return null;
   }
-});"#,
-    
+});"#
 );
 
 test!(
@@ -196,8 +192,7 @@ export default React.createClass({
     return null;
   }
 });
-"#,
-    
+"#
 );
 
 test!(
@@ -221,8 +216,7 @@ var Bar = React.createClass({
     return null;
   }
 });
-"#,
-    
+"#
 );
 
 test!(
@@ -239,8 +233,7 @@ exports = {
       return null;
     }
   })
-};"#,
-    
+};"#
 );
 
 test!(
@@ -256,8 +249,7 @@ exports.Component = React.createClass({
   return null;
   }
 });
-"#,
-    
+"#
 );
 
 test!(
@@ -273,8 +265,7 @@ var Component = React.createClass({
     return null;
   }
 });
-"#,
-    
+"#
 );
 
 test!(
@@ -289,8 +280,7 @@ test!(
   To get started, edit index.ios.js!!!{"\n"}
   Press Cmd+R to reload
 </Text>
-"#,
-    
+"#
 );
 
 test!(
@@ -307,8 +297,7 @@ test!(
 var profile = <div>
   <img src="avatar.png" className="profile" />
   <h3>{[user.firstName, user.lastName].join(" ")}</h3>
-</div>;"#,
-    
+</div>;"#
 );
 
 test!(
@@ -327,8 +316,7 @@ var profile = <div>
   <img src="avatar.png" className="profile" />
   <h3>{[user.firstName, user.lastName].join(" ")}</h3>
 </div>;
-"#,
-    
+"#
 );
 
 test!(
@@ -352,8 +340,7 @@ test!(
 var profile = <div>
   <img src="avatar.png" className="profile" />
   <h3>{[user.firstName, user.lastName].join(" ")}</h3>
-</div>;"#,
-    
+</div>;"#
 );
 
 test!(
@@ -363,8 +350,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_jsx_with_retainlines_option,
-    r#"var div = <div>test</div>;"#,
-    
+    r#"var div = <div>test</div>;"#
 );
 
 test!(
@@ -374,8 +360,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_jsx_without_retainlines_option,
-    r#"var div = <div>test</div>;"#,
-    
+    r#"var div = <div>test</div>;"#
 );
 
 test!(
@@ -405,8 +390,7 @@ class App extends React.Component {
     </div>;
   }
 }
-"#,
-    
+"#
 );
 
 test!(
@@ -419,8 +403,7 @@ test!(
         property_literals(),
     ),
     react_should_add_quotes_es3,
-    r#"var es3 = <F aaa new const var default foo-bar/>;"#,
-    
+    r#"var es3 = <F aaa new const var default foo-bar/>;"#
 );
 
 test!(
@@ -430,8 +413,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_constructor_as_prop,
-    r#"<Component constructor="foo" />;"#,
-    
+    r#"<Component constructor="foo" />;"#
 );
 
 test!(
@@ -441,8 +423,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_deeper_js_namespacing,
-    r#"<Namespace.DeepNamespace.Component />;"#,
-    
+    r#"<Namespace.DeepNamespace.Component />;"#
 );
 
 test!(
@@ -452,8 +433,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_elements_as_attributes,
-    r#"<div attr=<div /> />"#,
-    
+    r#"<div attr=<div /> />"#
 );
 
 test!(
@@ -463,8 +443,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_allow_js_namespacing,
-    r#"<Namespace.Component />;"#,
-    
+    r#"<Namespace.Component />;"#
 );
 
 test!(
@@ -487,8 +466,7 @@ test!(
     </>
   </>
 </div>
-"#,
-    
+"#
 );
 
 test!(
@@ -502,8 +480,7 @@ test!(
 /** @jsx dom */
 
 <div>no fragment is used</div>
-"#,
-    
+"#
 );
 
 test!(
@@ -518,8 +495,7 @@ test!(
 /** @jsxFrag DomFrag */
 
 <></>
-"#,
-    
+"#
 );
 
 test!(
@@ -545,8 +521,7 @@ var x = <Composite>
 var x = <Composite>
   <Composite2 />
 </Composite>;
-"#,
-    
+"#
 );
 
 test!(
@@ -556,8 +531,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_tags,
-    r#"var x = <div></div>;"#,
-    
+    r#"var x = <div></div>;"#
 );
 
 test!(
@@ -567,8 +541,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_convert_simple_text,
-    r#"var x = <div>text</div>;"#,
-    
+    r#"var x = <div>text</div>;"#
 );
 
 test!(
@@ -582,19 +555,7 @@ test!(
 <div id="wôw" />;
 <div id="\w" />;
 <div id="w &lt; w" />;
-"#,
-    r#"
-React.createElement("div", {
-  id: "w\xf4w"
-});
-React.createElement("div", {
-  id: "\\w"
-});
-React.createElement("div", {
-  id: "w < w"
-});
-"#,
-    ok_if_code_eq
+"#
 );
 
 test!(
@@ -615,17 +576,7 @@ test!(
 <div>this should parse as unicode: {'\u00a0 '}</div>;
 
 <div>w &lt; w</div>;
-",
-    r#"
-React.createElement("div", null, "wow");
-React.createElement("div", null, "w\xf4w");
-React.createElement("div", null, "w & w");
-React.createElement("div", null, "w & w");
-React.createElement("div", null, "w \xa0 w");
-React.createElement("div", null, "this should parse as unicode: ", '\u00a0 ');
-React.createElement("div", null, "w < w");
-"#,
-    ok_if_code_eq
+"
 );
 
 test!(
@@ -637,11 +588,7 @@ test!(
     react_should_escape_xhtml_jsxtext_2,
     r"
 <div>this should not parse as unicode: \u00a0</div>;
-",
-    r#"
-React.createElement("div", null, "this should not parse as unicode: \\u00a0");
-"#,
-    ok_if_code_eq
+"
 );
 
 test!(
@@ -651,8 +598,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_escape_unicode_chars_in_attribute,
-    r#"<Bla title="Ú"/>"#,
-    
+    r#"<Bla title="Ú"/>"#
 );
 
 test!(
@@ -666,8 +612,7 @@ test!(
     react_should_escape_xhtml_jsxtext_3,
     r#"
 <div>this should parse as nbsp:   </div>;
-"#,
-    
+"#
 );
 
 test!(
@@ -689,8 +634,7 @@ React.render(<HelloMessage name={
     Sebastian
   </span>
 } />, mountNode);
-"#,
-    
+"#
 );
 
 test!(
@@ -700,8 +644,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_handle_has_own_property_correctly,
-    r#"<hasOwnProperty>testing</hasOwnProperty>;"#,
-    
+    r#"<hasOwnProperty>testing</hasOwnProperty>;"#
 );
 
 test!(
@@ -717,8 +660,7 @@ var x = <div>
   <Component>{foo}<br />{bar}</Component>
   <br />
 </div>;
-"#,
-    
+"#
 );
 
 test!(
@@ -745,8 +687,7 @@ var x =
     }
     attr4="baz">
   </div>
-"#,
-    
+"#
 );
 
 test!(
@@ -756,8 +697,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_add_quotes_to_identifier_names,
-    r#"var e = <F aaa new const var default foo-bar/>;"#,
-    
+    r#"var e = <F aaa new const var default foo-bar/>;"#
 );
 
 test!(
@@ -767,8 +707,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_mangle_expressioncontainer_attribute_values,
-    r#"<button data-value={"a value\n  with\nnewlines\n   and spaces"}>Button</button>;"#,
-    
+    r#"<button data-value={"a value\n  with\nnewlines\n   and spaces"}>Button</button>;"#
 );
 
 test!(
@@ -778,9 +717,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_nbsp_even_coupled_with_other_whitespace,
-    r#"<div>&nbsp; </div>;"#,
-    r#"React.createElement("div", null, "\xa0 ");"#,
-    ok_if_code_eq
+    r#"<div>&nbsp; </div>;"#
 );
 
 test!(
@@ -790,9 +727,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_not_strip_tags_with_a_single_child_of_nbsp,
-    r#"<div>&nbsp;</div>;"#,
-    r#"React.createElement("div", null, "\xa0");"#,
-    ok_if_code_eq
+    r#"<div>&nbsp;</div>;"#
 );
 
 test!(
@@ -814,8 +749,7 @@ var x = (
     />
   </div>
 );
-"#,
-    
+"#
 );
 
 test!(
@@ -825,8 +759,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_quote_jsx_attributes,
-    r#"<button data-value='a value'>Button</button>;"#,
-    
+    r#"<button data-value='a value'>Button</button>;"#
 );
 
 test!(
@@ -844,8 +777,7 @@ test!(
         Mark::fresh(Mark::root())
     ),
     react_should_support_xml_namespaces_if_flag,
-    r#"<f:image n:attr />;"#,
-    
+    r#"<f:image n:attr />;"#
 );
 
 test!(
@@ -855,8 +787,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_should_transform_known_hyphenated_tags,
-    r#"<font-face />;"#,
-    
+    r#"<font-face />;"#
 );
 
 test!(
@@ -869,8 +800,7 @@ test!(
     r#"
 <Component { ... x } y
 ={2 } z />
-"#,
-    
+"#
 );
 
 test!(
@@ -880,8 +810,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_last_spread_attributes,
-    r#"<Component y={2} z { ... x } />"#,
-    
+    r#"<Component y={2} z { ... x } />"#
 );
 
 test!(
@@ -891,8 +820,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_wraps_props_in_react_spread_for_middle_spread_attributes,
-    r#"<Component y={2} { ... x } z />"#,
-    
+    r#"<Component y={2} { ... x } z />"#
 );
 
 test!(
@@ -902,8 +830,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     react_attribute_html_entity_quote,
-    r#"<Component text="Hello &quot;World&quot;" />"#,
-    
+    r#"<Component text="Hello &quot;World&quot;" />"#
 );
 
 test!(
@@ -913,8 +840,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     use_builtins_assignment,
-    r#"var div = <Component {...props} foo="bar" />"#,
-    
+    r#"var div = <Component {...props} foo="bar" />"#
 );
 
 test!(
@@ -924,8 +850,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     use_spread_assignment,
-    r#"<Component y={2} { ...x } z />"#,
-    
+    r#"<Component y={2} { ...x } z />"#
 );
 
 test!(
@@ -936,8 +861,7 @@ test!(
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     issue_229,
     "const a = <>test</>
-const b = <div>test</div>",
-    
+const b = <div>test</div>"
 );
 
 test!(
@@ -960,8 +884,7 @@ test!(
     issue_351,
     "import React from 'react';
 
-<div />;",
-    
+<div />;"
 );
 
 test!(
@@ -971,8 +894,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     issue_481,
-    "<span> {foo}</span>;",
-    
+    "<span> {foo}</span>;"
 );
 
 // https://github.com/swc-project/swc/issues/517
@@ -995,8 +917,7 @@ test!(
     },
     issue_517,
     "import React from 'react';
-<div style='white-space: pre'>Hello World</div>;",
-    
+<div style='white-space: pre'>Hello World</div>;"
 );
 
 #[test]
@@ -1014,8 +935,7 @@ test!(
     }),
     |t| tr(t, Default::default(), Mark::fresh(Mark::root())),
     issue_542,
-    "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>",
-    
+    "let page = <p>Click <em>New melody</em> listen to a randomly generated melody</p>"
 );
 
 // regression_2775
@@ -1059,8 +979,7 @@ return (
 }
 }
 
-"#,
-    
+"#
 );
 
 test!(
@@ -1086,8 +1005,7 @@ test!(
     issue_4956,
     "
     <div title=\"\u{2028}\"/>
-    ",
-    
+    "
 );
 
 #[testing::fixture("tests/jsx/fixture/**/input.js")]
