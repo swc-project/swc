@@ -69,7 +69,7 @@ macro_rules! to {
 
 macro_rules! optimized_out {
     ($name:ident, $src:expr) => {
-        to!($name, $src, "");
+        to!($name, $src);
     };
 }
 
@@ -81,10 +81,6 @@ to!(
     if (a) {
         const b = 2;
     }
-    ",
-    "
-    const a = 1;
-    a
     "
 );
 
@@ -106,7 +102,6 @@ if (a) { // Removed by second run of remove_dead_branch
 }
 console.log(c); // Prevent optimizing out.
 ",
-    "console.log(3)"
 );
 
 #[test]

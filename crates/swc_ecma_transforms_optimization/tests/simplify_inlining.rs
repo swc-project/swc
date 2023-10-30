@@ -48,7 +48,7 @@ macro_rules! to {
 
 macro_rules! identical {
     ($name:ident, $src:expr) => {
-        to!($name, $src, $src);
+        to!($name, $src);
     };
 }
 
@@ -82,7 +82,7 @@ to!(
     function_scope_simple_var,
     "var a = 1;
     var b = a;
-    use(b);",
+    use(b);"
 );
 
 identical!(top_level_increment, "var x = 1; x++;");
@@ -122,7 +122,7 @@ to!(
             y;
             y;
         }
-    }",
+    }"
 );
 
 to!(
@@ -133,7 +133,7 @@ to!(
             y;
             y;
         }
-    }",
+    }"
 );
 
 to!(
@@ -153,7 +153,7 @@ to!(
     const g = 3;
     let y = g;
     y;
-",
+"
 );
 
 to!(
@@ -168,7 +168,7 @@ to!(
     }
     y;
     g;
-",
+"
 );
 
 to!(regex, "var b;b=/ab/;(b)?x=1:x=2;");
@@ -272,7 +272,7 @@ let c;
 if (a) {
     c = 3;
 }
-",
+"
 );
 
 to!(
