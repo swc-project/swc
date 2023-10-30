@@ -2240,7 +2240,7 @@ to!(
         get bar(): string;
         set bar(v: string | number);
     }
-    ",
+    "
 );
 
 to!(
@@ -2249,7 +2249,7 @@ to!(
     import { Test } from 'test';
     const Test = 2;
     console.log(Test);
-    ",
+    "
 );
 
 to!(
@@ -2258,7 +2258,7 @@ to!(
     import Test from 'test';
     const Test = 2;
     console.log(Test);
-    ",
+    "
 );
 
 to!(
@@ -2267,7 +2267,7 @@ to!(
     import * as Test from 'test';
     const Test = 2;
     console.log(Test);
-    ",
+    "
 );
 
 to!(
@@ -2276,7 +2276,7 @@ to!(
     import { Test } from 'test';
     const [Test] = [];
     console.log(a);
-    ",
+    "
 );
 
 to!(
@@ -2285,7 +2285,7 @@ to!(
     import { Test } from 'test';
     const [a = Test] = [];
     console.log(a);
-    ",
+    "
 );
 
 to!(
@@ -2294,7 +2294,7 @@ to!(
     import { Test } from 'test';
     const {Test: a} = {};
     console.log(a);
-    ",
+    "
 );
 
 to!(
@@ -2303,7 +2303,7 @@ to!(
     import { Test } from 'test';
     const {a = Test} = {};
     console.log(Test);
-    ",
+    "
 );
 
 to!(
@@ -2311,7 +2311,7 @@ to!(
     "
     import { Test } from 'test';
     interface Test {}
-    ",
+    "
 );
 
 to!(
@@ -2319,7 +2319,7 @@ to!(
     "
     import { Test } from 'test';
     console.log(Test);
-    ",
+    "
 );
 
 to!(
@@ -2328,7 +2328,7 @@ to!(
     import { Test } from 'test';
     interface Test {}
     console.log(Test);
-    ",
+    "
 );
 
 to!(
@@ -2336,7 +2336,7 @@ to!(
     "
     console.log(Test);
     import { Test } from 'test';
-    ",
+    "
 );
 
 //
@@ -2346,7 +2346,7 @@ to!(
     const Test = 2;
     console.log(Test);
     import { Test } from 'test';
-    ",
+    "
 );
 
 to!(
@@ -2354,7 +2354,7 @@ to!(
     "
     interface Test {}
     import { Test } from 'test';
-    ",
+    "
 );
 
 to!(
@@ -2363,7 +2363,7 @@ to!(
     interface Test {}
     console.log(Test);
     import { Test } from 'test';
-    ",
+    "
 );
 
 to!(
@@ -2371,7 +2371,7 @@ to!(
     "
     import F = require('yaml')
     console.log(F)
-    ",
+    "
 );
 
 to!(
@@ -2383,7 +2383,7 @@ to!(
 
         constructor(config: QueryObjectConfig);
         constructor(text: string, ...args: unknown[]);
-    }",
+    }"
 );
 
 to!(
@@ -2410,14 +2410,14 @@ to!(
             return;
           }
         }
-    }",
+    }"
 );
 
 to!(
     issue_1593,
     "
     export = 'something';
-    ",
+    "
 );
 
 to!(
@@ -2427,7 +2427,7 @@ to!(
 
     const _: foo = null;
     console.log({ foo: 1 });
-    ",
+    "
 );
 
 to!(
@@ -2453,7 +2453,7 @@ to!(
     console.log(a);
     const b = { Foo: 1 };
     console.log(b.Foo)
-    ",
+    "
 );
 
 to!(
@@ -2469,7 +2469,7 @@ to!(
     function someClassDecorator(c) {
         return c;
     }
-    ",
+    "
 );
 
 to!(
@@ -2478,7 +2478,7 @@ to!(
     import type { TestInfo } from './config'
 
     export { TestInfo }
-    ",
+    "
 );
 
 to!(
@@ -2489,7 +2489,7 @@ to!(
     type A = {
         get [foo](): number
     }
-    ",
+    "
 );
 
 to!(
@@ -2500,7 +2500,7 @@ const identifier = 'bar';
 class Foo {
   identifier = 5;
 }
-",
+"
 );
 
 to!(
@@ -2511,7 +2511,7 @@ const identifier = 'bar';
 class Foo {
   static identifier = 5;
 }
-  ",
+  "
 );
 
 to!(
@@ -2520,7 +2520,7 @@ to!(
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     import MongoClient = mongo.MongoClient;
     const mongoClient = new MongoClient();
-    ",
+    "
 );
 
 to!(
@@ -2529,7 +2529,7 @@ to!(
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     import MongoClient = mongo.MongoClient;
     const mongoClient: MongoClient = {};
-    ",
+    "
 );
 
 test_with_config!(
@@ -2551,19 +2551,6 @@ test_with_config!(
             super(123);
         }
     }
-    ",
-    "
-    export class Foo {
-        x;
-        constructor(x){
-            this.x = x;
-        }
-    }
-    export class Bar extends Foo {
-        constructor() {
-            super(123);
-        }
-    }
     "
 );
 
@@ -2573,7 +2560,7 @@ to!(
     export = function (foo: string, bar: number): boolean {
         return true
     };
-    ",
+    "
 );
 
 to!(
@@ -2581,7 +2568,7 @@ to!(
     "enum Color {
     Aqua = '#00ffff',
     Cyan = Aqua,
-}",
+}"
 );
 
 to!(
@@ -2618,7 +2605,7 @@ namespace Namespace {
         }
     }
 }
-",
+"
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]
@@ -2649,7 +2636,7 @@ let b = class {
     [console.log(456)] = 123
     constructor(public a = 1) {}
 }
-    ",
+    "
 );
 
 test!(
@@ -2707,10 +2694,6 @@ test_with_config!(
         abstract height: number;
         abstract width: number;
     }
-    ",
-    "
-    class Shape {
-    }
     "
 );
 
@@ -2720,7 +2703,7 @@ test!(
     issue_6219,
     "enum A{
         a=a,
-    }",
+    }"
 );
 
 test!(
@@ -2736,7 +2719,7 @@ test!(
           this.#new();
         }
     }
-      ",
+      "
 );
 
 test!(
