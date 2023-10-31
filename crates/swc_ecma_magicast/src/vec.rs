@@ -10,6 +10,15 @@ where
     elems: Vec<T>,
 }
 
+impl<T> VecNode<T>
+where
+    T: AstProxyNode,
+{
+    pub fn new(elems: Vec<T>) -> Self {
+        Self { elems }
+    }
+}
+
 impl<T> AstProxyNode for VecNode<T> where T: AstProxyNode {}
 
 impl<T> Index<usize> for VecNode<T>
