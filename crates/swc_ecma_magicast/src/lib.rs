@@ -5,7 +5,8 @@ use swc_ecma_ast::Program;
 
 use crate::data::Data;
 pub use crate::{expr::*, module::*, option::OptionalNode, traits::*, vec::VecNode};
-
+#[macro_use]
+mod macros;
 mod data;
 mod expr;
 mod module;
