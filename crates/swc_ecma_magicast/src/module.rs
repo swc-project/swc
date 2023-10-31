@@ -179,31 +179,28 @@ impl Proxy for ImportFromModule<'_> {}
 pub struct ModuleExports<'a>(Data<'a, Module>);
 
 impl<'a> ModuleExports<'a> {
-    pub fn default(&self) -> OptionalNode<ExportDefaultItemNode> {
-        let data = self
-            .0
-            .map_opt(
-                |module| {
-                    module.body.iter().find_map(|v| match v.as_module_decl()? {
+    pub fn default(&self) -> ExportDefaultItemNode {
+        let data = self.0.map_opt(
+            |module| {
+                module.body.iter().find_map(|v| match v.as_module_decl()? {
+                    export @ ModuleDecl::ExportDefaultDecl(..)
+                    | export @ ModuleDecl::ExportDefaultExpr(..) => Some(export),
+                    _ => None,
+                })
+            },
+            |module: &mut Module| {
+                module
+                    .body
+                    .iter_mut()
+                    .find_map(|v| match v.as_mut_module_decl()? {
                         export @ ModuleDecl::ExportDefaultDecl(..)
                         | export @ ModuleDecl::ExportDefaultExpr(..) => Some(export),
                         _ => None,
                     })
-                },
-                |module: &mut Module| {
-                    module
-                        .body
-                        .iter_mut()
-                        .find_map(|v| match v.as_mut_module_decl()? {
-                            export @ ModuleDecl::ExportDefaultDecl(..)
-                            | export @ ModuleDecl::ExportDefaultExpr(..) => Some(export),
-                            _ => None,
-                        })
-                },
-            )
-            .map(ExportDefaultItemNode);
+            },
+        );
 
-        OptionalNode::new(data)
+        ExportDefaultItemNode { data }
     }
 
     pub fn from_exported(&self, symbol: &str) -> ExportItemNode {
@@ -217,19 +214,23 @@ pub struct ExportItemNode {}
 impl Proxy for ExportItemNode {}
 
 #[derive(Clone)]
-pub struct ExportDefaultItemNode<'a>(Data<'a, ModuleDecl>);
+pub struct ExportDefaultItemNode<'a> {
+    data: Option<Data<'a, ModuleDecl>>,
+}
 
 impl<'a> ExportDefaultItemNode<'a> {
     /// Optional because we can export declarations as `default`.`
     pub fn expr(&self) -> OptionalNode<ExprNode> {
-        OptionalNode::new(
-            self.0
-                .map_opt(
+        match &self.data {
+            Some(data) => OptionalNode::new(
+                data.map_opt(
                     |decl| Some(&decl.as_export_default_expr()?.expr),
                     |decl| Some(&mut decl.as_mut_export_default_expr()?.expr),
                 )
                 .map(ExprNode),
-        )
+            ),
+            None => OptionalNode::new(None),
+        }
     }
 }
 
