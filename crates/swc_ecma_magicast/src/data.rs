@@ -2,6 +2,7 @@ use std::{cell::RefCell, rc::Rc};
 
 use swc_ecma_ast::Program;
 
+/// TODO: Make this generic over the root.
 pub(crate) struct Data<'a, T: 'static>(
     Rc<RefCell<Program>>,
     Rc<dyn 'a + Fn(&Program) -> &T>,
