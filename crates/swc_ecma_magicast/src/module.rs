@@ -7,7 +7,16 @@ use swc_ecma_utils::prepend_stmt;
 
 use crate::{data::Data, option::WithDefault, BindingRef, ExprNode, OptionalNode, Proxy};
 
+#[derive(Clone)]
 pub struct ModuleNode<'a>(pub(crate) Data<'a, Module>);
+
+impl Proxy for ModuleNode<'_> {
+    type AstNode = Module;
+
+    fn data<'a>(&'a self) -> &Data<'a, Self::AstNode> {
+        &self.0
+    }
+}
 
 impl<'a> ModuleNode<'a> {
     pub fn imports(&self) -> ModuleImports {

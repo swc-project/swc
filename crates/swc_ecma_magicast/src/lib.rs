@@ -30,7 +30,7 @@ impl ProgramNode {
     }
 
     /// This will panic if the program is not a module.
-    pub fn as_module(&self) -> ModuleNode {
+    pub fn as_module(&self) -> ProxyNode<ModuleNode> {
         let data = self.data.map(
             |program| program.as_module().unwrap(),
             |program| program.as_mut_module().unwrap(),
