@@ -35,7 +35,7 @@ impl ProgramNode {
             |program| program.as_module().unwrap(),
             |program| program.as_mut_module().unwrap(),
         );
-        ModuleNode(data)
+        Proxy::new(ModuleNode(data))
     }
 }
 
