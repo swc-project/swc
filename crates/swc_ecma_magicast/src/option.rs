@@ -1,13 +1,13 @@
 use std::{cell::RefCell, rc::Rc};
 
-use crate::Proxy;
+use crate::AstProxyNode;
 
 pub type WithDefault<'a, T> = OptionalNode<T, Defaultable<'a, T>>;
 
 #[derive(Clone)]
 pub struct OptionalNode<T, M = NoDefault>
 where
-    T: Proxy,
+    T: AstProxyNode,
 {
     data: RefCell<Option<T>>,
     default: M,
@@ -15,7 +15,7 @@ where
 
 impl<T> OptionalNode<T, NoDefault>
 where
-    T: Proxy,
+    T: AstProxyNode,
 {
     pub fn new(data: Option<T>) -> Self {
         OptionalNode {
@@ -27,7 +27,7 @@ where
 
 impl<'a, T> OptionalNode<T, Defaultable<'a, T>>
 where
-    T: Proxy,
+    T: AstProxyNode,
 {
     pub fn new_with_default(data: Option<T>, default: impl 'a + Fn() -> T) -> Self {
         OptionalNode {
@@ -51,7 +51,7 @@ where
     }
 }
 
-impl<T> Proxy for OptionalNode<T> where T: Proxy {}
+impl<T> AstProxyNode for OptionalNode<T> where T: AstProxyNode {}
 
 #[derive(Clone)]
 pub struct NoDefault;

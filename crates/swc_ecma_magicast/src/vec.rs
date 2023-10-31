@@ -1,20 +1,20 @@
 use std::ops::Index;
 
-use crate::Proxy;
+use crate::AstProxyNode;
 
 #[derive(Clone)]
 pub struct VecNode<T>
 where
-    T: Proxy,
+    T: AstProxyNode,
 {
     elems: Vec<T>,
 }
 
-impl<T> Proxy for VecNode<T> where T: Proxy {}
+impl<T> AstProxyNode for VecNode<T> where T: AstProxyNode {}
 
 impl<T> Index<usize> for VecNode<T>
 where
-    T: Proxy,
+    T: AstProxyNode,
 {
     type Output = T;
 

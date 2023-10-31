@@ -1,10 +1,10 @@
 use std::ops::{Deref, DerefMut};
 
-use crate::{data::Data, Proxy};
+use crate::{data::Data, AstProxyNode};
 
 pub struct ProxyNode<'a, P>
 where
-    P: Proxy,
+    P: AstProxyNode,
 {
     data: Data<'a, P::AstNode>,
     inner: P,
@@ -12,7 +12,7 @@ where
 
 impl<'a, P> ProxyNode<'a, P>
 where
-    P: Proxy,
+    P: AstProxyNode,
 {
     pub fn new(inner: P) -> Self {
         let data = inner.data().clone();
@@ -22,7 +22,7 @@ where
 
 impl<P> Deref for ProxyNode<'_, P>
 where
-    P: Proxy,
+    P: AstProxyNode,
 {
     type Target = P;
 
@@ -33,7 +33,7 @@ where
 
 impl<P> DerefMut for ProxyNode<'_, P>
 where
-    P: Proxy,
+    P: AstProxyNode,
 {
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.inner

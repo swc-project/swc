@@ -39,7 +39,7 @@ impl ProgramNode {
     }
 }
 
-impl Proxy for ProgramNode {
+impl AstProxyNode for ProgramNode {
     type AstNode = Program;
 }
 

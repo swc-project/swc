@@ -5,12 +5,12 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, ModuleItem, Str};
 use swc_ecma_utils::prepend_stmt;
 
-use crate::{data::Data, option::WithDefault, BindingRef, ExprNode, OptionalNode, Proxy};
+use crate::{data::Data, option::WithDefault, AstProxyNode, BindingRef, ExprNode, OptionalNode};
 
 #[derive(Clone)]
 pub struct ModuleNode<'a>(pub(crate) Data<'a, Module>);
 
-impl Proxy for ModuleNode<'_> {
+impl AstProxyNode for ModuleNode<'_> {
     type AstNode = Module;
 
     fn data<'a>(&'a self) -> &Data<'a, Self::AstNode> {
@@ -159,7 +159,7 @@ impl<'a> BaseImportNode<'a> {
     }
 }
 
-impl Proxy for BaseImportNode<'_> {}
+impl AstProxyNode for BaseImportNode<'_> {}
 
 #[derive(Clone)]
 pub struct NamedImportNode<'a> {
@@ -167,7 +167,7 @@ pub struct NamedImportNode<'a> {
     name: BindingRef,
 }
 
-impl Proxy for NamedImportNode<'_> {}
+impl AstProxyNode for NamedImportNode<'_> {}
 
 impl<'a> Deref for NamedImportNode<'a> {
     type Target = BindingRef;
@@ -183,7 +183,7 @@ pub struct ImportFromModule<'a> {
     module_specifier: Atom,
 }
 
-impl Proxy for ImportFromModule<'_> {}
+impl AstProxyNode for ImportFromModule<'_> {}
 
 pub struct ModuleExports<'a>(Data<'a, Module>);
 
@@ -220,7 +220,7 @@ impl<'a> ModuleExports<'a> {
 #[derive(Clone)]
 pub struct ExportItemNode {}
 
-impl Proxy for ExportItemNode {}
+impl AstProxyNode for ExportItemNode {}
 
 #[derive(Clone)]
 pub struct ExportDefaultItemNode<'a> {
@@ -243,4 +243,4 @@ impl<'a> ExportDefaultItemNode<'a> {
     }
 }
 
-impl Proxy for ExportDefaultItemNode<'_> {}
+impl AstProxyNode for ExportDefaultItemNode<'_> {}
