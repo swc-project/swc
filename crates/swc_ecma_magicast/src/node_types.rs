@@ -10,6 +10,16 @@ where
     inner: P,
 }
 
+impl<'a, P> ProxyNode<'a, P>
+where
+    P: Proxy,
+{
+    pub fn new(inner: P) -> Self {
+        let data = inner.data().clone();
+        Self { data, inner }
+    }
+}
+
 impl<P> Deref for ProxyNode<'_, P>
 where
     P: Proxy,

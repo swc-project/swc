@@ -1,5 +1,6 @@
 use std::ops::{Deref, Shl};
 
+use node_types::ProxyNode;
 use swc_atoms::Atom;
 use swc_ecma_ast::Program;
 
@@ -15,15 +16,17 @@ mod option;
 mod traits;
 mod vec;
 
+#[derive(Clone)]
 pub struct ProgramNode {
     data: Data<'static, Program>,
 }
 
 impl ProgramNode {
-    pub fn new(root: Program) -> Self {
-        Self {
+    pub fn new(root: Program) -> ProxyNode<'static, Self> {
+        let data = Data::<Program>::new_root(root);
+        ProxyNode::new(Self {
             data: Data::<Program>::new_root(root),
-        }
+        })
     }
 
     /// This will panic if the program is not a module.
@@ -34,6 +37,10 @@ impl ProgramNode {
         );
         ModuleNode(data)
     }
+}
+
+impl Proxy for ProgramNode {
+    type AstNode = Program;
 }
 
 #[derive(Clone)]
