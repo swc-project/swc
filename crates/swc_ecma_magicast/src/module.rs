@@ -5,21 +5,12 @@ use swc_common::DUMMY_SP;
 use swc_ecma_ast::{ImportDecl, ImportSpecifier, Module, ModuleDecl, ModuleItem, Str};
 use swc_ecma_utils::prepend_stmt;
 
-use crate::{
-    data::Data, node_types::Proxy, option::WithDefault, AstProxyNode, BindingRef, ExprNode,
-    OptionalNode,
-};
+use crate::{data::Data, option::WithDefault, AstProxyNode, BindingRef, ExprNode, OptionalNode};
 
 #[derive(Clone)]
 pub struct ModuleNode<'a>(pub(crate) Data<'a, Module>);
 
-impl AstProxyNode for ModuleNode<'_> {
-    type AstNode = Module;
-
-    fn data<'a>(&'a self) -> &Data<'a, Self::AstNode> {
-        &self.0
-    }
-}
+impl AstProxyNode for ModuleNode<'_> {}
 
 impl<'a> ModuleNode<'a> {
     pub fn imports(&self) -> ModuleImports {
@@ -215,7 +206,7 @@ impl<'a> ModuleExports<'a> {
         ExportDefaultItemNode { data }
     }
 
-    pub fn from_exported(&self, symbol: &str) -> Proxy<ExportItemNode> {
+    pub fn from_exported(&self, symbol: &str) -> ExportItemNode {
         todo!()
     }
 }
