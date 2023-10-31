@@ -10,6 +10,7 @@ mod macros;
 mod data;
 mod expr;
 mod module;
+mod node_types;
 mod option;
 mod traits;
 mod vec;
