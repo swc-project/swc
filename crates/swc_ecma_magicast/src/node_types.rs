@@ -2,7 +2,7 @@ use std::ops::{Deref, DerefMut};
 
 use crate::{data::Data, AstProxyNode};
 
-pub struct ProxyNode<'a, P>
+pub struct Proxy<'a, P>
 where
     P: AstProxyNode,
 {
@@ -10,7 +10,7 @@ where
     inner: P,
 }
 
-impl<'a, P> ProxyNode<'a, P>
+impl<'a, P> Proxy<'a, P>
 where
     P: AstProxyNode,
 {
@@ -20,7 +20,7 @@ where
     }
 }
 
-impl<P> Deref for ProxyNode<'_, P>
+impl<P> Deref for Proxy<'_, P>
 where
     P: AstProxyNode,
 {
@@ -31,7 +31,7 @@ where
     }
 }
 
-impl<P> DerefMut for ProxyNode<'_, P>
+impl<P> DerefMut for Proxy<'_, P>
 where
     P: AstProxyNode,
 {

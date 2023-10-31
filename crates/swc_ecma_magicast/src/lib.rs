@@ -1,6 +1,6 @@
 use std::ops::{Deref, Shl};
 
-use node_types::ProxyNode;
+use node_types::Proxy;
 use swc_atoms::Atom;
 use swc_ecma_ast::Program;
 
@@ -22,15 +22,15 @@ pub struct ProgramNode {
 }
 
 impl ProgramNode {
-    pub fn new(root: Program) -> ProxyNode<'static, Self> {
+    pub fn new(root: Program) -> Proxy<'static, Self> {
         let data = Data::<Program>::new_root(root);
-        ProxyNode::new(Self {
+        Proxy::new(Self {
             data: Data::<Program>::new_root(root),
         })
     }
 
     /// This will panic if the program is not a module.
-    pub fn as_module(&self) -> ProxyNode<ModuleNode> {
+    pub fn as_module(&self) -> Proxy<ModuleNode> {
         let data = self.data.map(
             |program| program.as_module().unwrap(),
             |program| program.as_mut_module().unwrap(),
