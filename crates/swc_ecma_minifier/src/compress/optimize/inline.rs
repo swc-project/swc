@@ -205,11 +205,16 @@ impl Optimizer<'_> {
                             }
 
                             if u.declared_as_fn_decl || u.declared_as_fn_expr {
-                                if self.options.inline != 3
-                                    || self.options.keep_fnames
+                                if self.options.keep_fnames
                                     || self.mangle_options.map_or(false, |v| v.keep_fn_names)
                                 {
                                     should_inline = false
+                                }
+                            }
+
+                            if u.declared_as_fn_expr {
+                                if self.options.inline != 3 {
+                                    return;
                                 }
                             }
 
@@ -423,10 +428,14 @@ impl Optimizer<'_> {
                             }
 
                             if init_usage.declared_as_fn_decl || init_usage.declared_as_fn_expr {
-                                if self.options.inline != 3
-                                    || self.options.keep_fnames
+                                if self.options.keep_fnames
                                     || self.mangle_options.map_or(false, |v| v.keep_fn_names)
                                 {
+                                    return;
+                                }
+                            }
+                            if init_usage.declared_as_fn_expr {
+                                if self.options.inline != 3 {
                                     return;
                                 }
                             }
@@ -729,8 +738,7 @@ impl Optimizer<'_> {
                         );
                     }
                     Decl::Fn(f) => {
-                        if self.options.inline != 3
-                            || self.options.keep_fnames
+                        if self.options.keep_fnames
                             || self.mangle_options.map_or(false, |v| v.keep_fn_names)
                         {
                             log_abort!("inline: [x] Keep fn names");
