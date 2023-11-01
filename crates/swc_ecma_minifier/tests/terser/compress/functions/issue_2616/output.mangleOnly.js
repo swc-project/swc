@@ -1,8 +1,8 @@
 var n = "FAIL";
 (function() {
     function o() {
-        function o(NaN) {
-            (true << NaN) - 0 / 0 || (n = "PASS");
+        function o(o) {
+            (true << o) - 0 / 0 || (n = "PASS");
         }
         o([]);
     }

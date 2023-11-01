@@ -127,8 +127,8 @@
                 }
             }, BottleneckError_1 = class extends Error {
             }, Job = class {
-                constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise){
-                    this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise, this.options = parser.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
+                constructor(task, args, options, jobDefaults, rejectOnDrop, Events, _states, Promise1){
+                    this.task = task, this.args = args, this.rejectOnDrop = rejectOnDrop, this.Events = Events, this._states = _states, this.Promise = Promise1, this.options = parser.load(options, jobDefaults), this.options.priority = this._sanitizePriority(this.options.priority), this.options.id === jobDefaults.id && (this.options.id = `${this.options.id}-${this._randomIndex()}`), this.promise = new this.Promise((_resolve, _reject)=>{
                         this._resolve = _resolve, this._reject = _reject;
                     }), this.retryCount = 0;
                 }
@@ -324,8 +324,8 @@
                     return this.counts.reduce((acc, v, i)=>(acc[this.status[i]] = v, acc), {});
                 }
             }, Sync = class {
-                constructor(name, Promise){
-                    this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise, this._running = 0, this._queue = new DLList();
+                constructor(name, Promise1){
+                    this.schedule = this.schedule.bind(this), this.name = name, this.Promise = Promise1, this._running = 0, this._queue = new DLList();
                 }
                 isEmpty() {
                     return 0 === this._queue.length;

@@ -4,9 +4,9 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _wrap_native_super } from "@swc/helpers/_/_wrap_native_super";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var CustomError = /*#__PURE__*/ function _target(Error) {
+var CustomError = /*#__PURE__*/ function _target(Error1) {
     "use strict";
-    _inherits(CustomError, Error);
+    _inherits(CustomError, Error1);
     var _super = _create_super(CustomError);
     function CustomError(message) {
         _class_call_check(this, CustomError);

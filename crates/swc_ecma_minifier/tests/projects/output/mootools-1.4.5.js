@@ -21,7 +21,7 @@
             constructor1 = constructor1.parent;
         }
         return !!item1.hasOwnProperty && item1 instanceof object1;
-    }, Function = this.Function, enumerables1 = !0;
+    }, Function1 = this.Function, enumerables1 = !0;
     for(var i1 in {
         toString: 1
     })enumerables1 = null;
@@ -33,7 +33,7 @@
         "toLocaleString",
         "toString",
         "constructor"
-    ]), Function.prototype.overloadSetter = function(usePlural1) {
+    ]), Function1.prototype.overloadSetter = function(usePlural1) {
         var self1 = this;
         return function(a1, b1) {
             if (null == a1) return this;
@@ -43,7 +43,7 @@
             } else self1.call(this, a1, b1);
             return this;
         };
-    }, Function.prototype.overloadGetter = function(usePlural1) {
+    }, Function1.prototype.overloadGetter = function(usePlural1) {
         var self1 = this;
         return function(a1) {
             var args1, result1;
@@ -55,13 +55,13 @@
             } else result1 = self1.call(this, a1);
             return result1;
         };
-    }, Function.prototype.extend = (function(key1, value1) {
+    }, Function1.prototype.extend = (function(key1, value1) {
         this[key1] = value1;
-    }).overloadSetter(), Function.prototype.implement = (function(key1, value1) {
+    }).overloadSetter(), Function1.prototype.implement = (function(key1, value1) {
         this.prototype[key1] = value1;
     }).overloadSetter();
     var slice1 = Array.prototype.slice;
-    Function.from = function(item1) {
+    Function1.from = function(item1) {
         return "function" == typeOf1(item1) ? item1 : function() {
             return item1;
         };
@@ -74,7 +74,7 @@
         return isFinite(number1) ? number1 : null;
     }, String.from = function(item1) {
         return item1 + "";
-    }, Function.implement({
+    }, Function1.implement({
         hide: function() {
             return this.$hidden = !0, this;
         },
@@ -184,7 +184,7 @@
         "toFixed",
         "toLocaleString",
         "toPrecision"
-    ])("Function", Function, [
+    ])("Function", Function1, [
         "apply",
         "call",
         "bind"
@@ -337,7 +337,7 @@
     }, this.$merge = function() {
         var args1 = Array.slice(arguments);
         return args1.unshift({}), Object.merge.apply(null, args1);
-    }, this.$lambda = Function.from, this.$mixin = Object.merge, this.$random = Number.random, this.$splat = Array.from, this.$time = Date.now, this.$type = function(object1) {
+    }, this.$lambda = Function1.from, this.$mixin = Object.merge, this.$random = Number.random, this.$splat = Array.from, this.$time = Date.now, this.$type = function(object1) {
         var type1 = typeOf1(object1);
         return "elements" == type1 ? "array" : "null" != type1 && type1;
     }, this.$unlink = function(object1) {
@@ -3308,7 +3308,7 @@ Elements.prototype = {
         return Math.pow(p1, i1 + 2);
     });
 }), function() {
-    var empty1 = function() {}, progressSupport1 = "onprogress" in new Browser.Request(), Request = this.Request = new Class({
+    var empty1 = function() {}, progressSupport1 = "onprogress" in new Browser.Request(), Request1 = this.Request = new Class({
         Implements: [
             Chain,
             Events,
@@ -3478,13 +3478,13 @@ Elements.prototype = {
             };
             return null != data1 && (object1.data = data1), this.send(object1);
         };
-    }), Request.implement(methods1), Element.Properties.send = {
+    }), Request1.implement(methods1), Element.Properties.send = {
         set: function(options1) {
             return this.get("send").cancel().setOptions(options1), this;
         },
         get: function() {
             var send1 = this.retrieve("send");
-            return send1 || (send1 = new Request({
+            return send1 || (send1 = new Request1({
                 data: this,
                 link: "cancel",
                 method: this.get("method") || "post",

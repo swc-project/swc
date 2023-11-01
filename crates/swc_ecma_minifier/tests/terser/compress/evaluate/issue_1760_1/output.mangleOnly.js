@@ -1,7 +1,7 @@
 !(function(o) {
     try {
         throw 0;
-    } catch (NaN) {
+    } catch (c) {
         o = +"foo";
     }
     console.log(o);

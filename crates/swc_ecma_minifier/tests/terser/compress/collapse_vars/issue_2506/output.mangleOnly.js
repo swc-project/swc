@@ -1,8 +1,8 @@
 var n = 0;
 function a(a) {
     function f(a) {
-        function f(NaN) {
-            if ((false <= NaN) & (this >> 1 >= 0)) {
+        function f(a) {
+            if ((false <= a) & (this >> 1 >= 0)) {
                 n++;
             }
         }
