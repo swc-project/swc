@@ -14,7 +14,7 @@ use swc_ecma_ast::*;
 use tracing::debug;
 
 use super::reverse_map::ReverseMap;
-use crate::rename::{data::DOMPROPS, Renamer};
+use crate::{native::is_native, rename::Renamer};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
@@ -170,7 +170,7 @@ impl Scope {
             if to.get(&fid).is_some()
                 || previous.get(&fid).is_some()
                 || id.0 == "eval"
-                || DOMPROPS.contains(&id.0)
+                || is_native(&id.0)
             {
                 continue;
             }
@@ -310,7 +310,7 @@ impl Scope {
                 || to.get(&fid).is_some()
                 || previous.get(&fid).is_some()
                 || id.0 == "eval"
-                || DOMPROPS.contains(&id.0)
+                || is_native(&id.0)
             {
                 continue;
             }

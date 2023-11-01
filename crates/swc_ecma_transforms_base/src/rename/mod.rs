@@ -20,7 +20,6 @@ use crate::hygiene::Config;
 
 mod analyzer;
 mod collector;
-mod data;
 mod eval;
 mod ops;
 
