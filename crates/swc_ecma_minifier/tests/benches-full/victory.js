@@ -561,10 +561,10 @@
                 return prefix;
             });
             var prefix = "$";
-            function Map1() {}
+            function Map() {}
             function map(object, f) {
-                var map = new Map1;
-                if (object instanceof Map1) object.each(function(value, key) {
+                var map = new Map;
+                if (object instanceof Map) object.each(function(value, key) {
                     map.set(key, value);
                 });
                 else if (Array.isArray(object)) {
@@ -574,8 +574,8 @@
                 } else if (object) for(var key in object)map.set(key, object[key]);
                 return map;
             }
-            Map1.prototype = map.prototype = {
-                constructor: Map1,
+            Map.prototype = map.prototype = {
+                constructor: Map,
                 has: function(key) {
                     return prefix + key in this;
                 },
@@ -6949,8 +6949,8 @@
             ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module1.exports = ListCache;
         },
         "../../../node_modules/lodash/_Symbol.js": function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__("../../../node_modules/lodash/_root.js").Symbol;
-            module1.exports = Symbol1;
+            var Symbol = __webpack_require__("../../../node_modules/lodash/_root.js").Symbol;
+            module1.exports = Symbol;
         },
         "../../../node_modules/lodash/_apply.js": function(module1, exports1) {
             module1.exports = function(func, thisArg, args) {
@@ -7347,7 +7347,7 @@
             };
         },
         "../../../node_modules/lodash/_baseToString.js": function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__("../../../node_modules/lodash/_Symbol.js"), arrayMap = __webpack_require__("../../../node_modules/lodash/_arrayMap.js"), isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__("../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+            var Symbol = __webpack_require__("../../../node_modules/lodash/_Symbol.js"), arrayMap = __webpack_require__("../../../node_modules/lodash/_arrayMap.js"), isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), isSymbol = __webpack_require__("../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0, symbolProto = Symbol ? Symbol.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             module1.exports = function baseToString(value) {
                 if ('string' == typeof value) return value;
                 if (isArray(value)) return arrayMap(value, baseToString) + '';
@@ -7699,7 +7699,7 @@
             };
         },
         "../../../node_modules/lodash/_isFlattenable.js": function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__("../../../node_modules/lodash/_Symbol.js"), isArguments = __webpack_require__("../../../node_modules/lodash/isArguments.js"), isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), spreadableSymbol = Symbol1 ? Symbol1.isConcatSpreadable : void 0;
+            var Symbol = __webpack_require__("../../../node_modules/lodash/_Symbol.js"), isArguments = __webpack_require__("../../../node_modules/lodash/isArguments.js"), isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : void 0;
             module1.exports = function(value) {
                 return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
             };

@@ -509,12 +509,12 @@
         '&quot;': '"',
         '&#39;': "'"
     }), _ = function runInContext(context) {
-        var uid, result, cache, source, Array1 = (context = null == context ? root : _.defaults(root.Object(), context, _.pick(root, contextProps))).Array, Date = context.Date, Error = context.Error, Function1 = context.Function, Math = context.Math, Object1 = context.Object, RegExp1 = context.RegExp, String = context.String, TypeError = context.TypeError, arrayProto = Array1.prototype, funcProto = Function1.prototype, objectProto = Object1.prototype, coreJsData = context['__core-js_shared__'], funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, idCounter = 0, maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '')) ? 'Symbol(src)_1.' + uid : '', nativeObjectToString = objectProto.toString, objectCtorString = funcToString.call(Object1), oldDash = root._, reIsNative = RegExp1('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'), Buffer = moduleExports ? context.Buffer : undefined, Symbol = context.Symbol, Uint8Array = context.Uint8Array, allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined, getPrototype = overArg(Object1.getPrototypeOf, Object1), objectCreate = Object1.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined, symIterator = Symbol ? Symbol.iterator : undefined, symToStringTag = Symbol ? Symbol.toStringTag : undefined, defineProperty = function() {
+        var uid, result, cache, source, Array = (context = null == context ? root : _.defaults(root.Object(), context, _.pick(root, contextProps))).Array, Date = context.Date, Error = context.Error, Function = context.Function, Math = context.Math, Object = context.Object, RegExp = context.RegExp, String = context.String, TypeError = context.TypeError, arrayProto = Array.prototype, funcProto = Function.prototype, objectProto = Object.prototype, coreJsData = context['__core-js_shared__'], funcToString = funcProto.toString, hasOwnProperty = objectProto.hasOwnProperty, idCounter = 0, maskSrcKey = (uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '')) ? 'Symbol(src)_1.' + uid : '', nativeObjectToString = objectProto.toString, objectCtorString = funcToString.call(Object), oldDash = root._, reIsNative = RegExp('^' + funcToString.call(hasOwnProperty).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'), Buffer = moduleExports ? context.Buffer : undefined, Symbol = context.Symbol, Uint8Array = context.Uint8Array, allocUnsafe = Buffer ? Buffer.allocUnsafe : undefined, getPrototype = overArg(Object.getPrototypeOf, Object), objectCreate = Object.create, propertyIsEnumerable = objectProto.propertyIsEnumerable, splice = arrayProto.splice, spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : undefined, symIterator = Symbol ? Symbol.iterator : undefined, symToStringTag = Symbol ? Symbol.toStringTag : undefined, defineProperty = function() {
             try {
-                var func = getNative(Object1, 'defineProperty');
+                var func = getNative(Object, 'defineProperty');
                 return func({}, '', {}), func;
             } catch (e) {}
-        }(), ctxClearTimeout = context.clearTimeout !== root.clearTimeout && context.clearTimeout, ctxNow = Date && Date.now !== root.Date.now && Date.now, ctxSetTimeout = context.setTimeout !== root.setTimeout && context.setTimeout, nativeCeil = Math.ceil, nativeFloor = Math.floor, nativeGetSymbols = Object1.getOwnPropertySymbols, nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object1.keys, Object1), nativeMax = Math.max, nativeMin = Math.min, nativeNow = Date.now, nativeParseInt = context.parseInt, nativeRandom = Math.random, nativeReverse = arrayProto.reverse, DataView = getNative(context, 'DataView'), Map = getNative(context, 'Map'), Promise = getNative(context, 'Promise'), Set = getNative(context, 'Set'), WeakMap = getNative(context, 'WeakMap'), nativeCreate = getNative(Object1, 'create'), metaMap = WeakMap && new WeakMap, realNames = {}, dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise), setCtorString = toSource(Set), weakMapCtorString = toSource(WeakMap), symbolProto = Symbol ? Symbol.prototype : undefined, symbolValueOf = symbolProto ? symbolProto.valueOf : undefined, symbolToString = symbolProto ? symbolProto.toString : undefined;
+        }(), ctxClearTimeout = context.clearTimeout !== root.clearTimeout && context.clearTimeout, ctxNow = Date && Date.now !== root.Date.now && Date.now, ctxSetTimeout = context.setTimeout !== root.setTimeout && context.setTimeout, nativeCeil = Math.ceil, nativeFloor = Math.floor, nativeGetSymbols = Object.getOwnPropertySymbols, nativeIsBuffer = Buffer ? Buffer.isBuffer : undefined, nativeIsFinite = context.isFinite, nativeJoin = arrayProto.join, nativeKeys = overArg(Object.keys, Object), nativeMax = Math.max, nativeMin = Math.min, nativeNow = Date.now, nativeParseInt = context.parseInt, nativeRandom = Math.random, nativeReverse = arrayProto.reverse, DataView = getNative(context, 'DataView'), Map = getNative(context, 'Map'), Promise = getNative(context, 'Promise'), Set = getNative(context, 'Set'), WeakMap = getNative(context, 'WeakMap'), nativeCreate = getNative(Object, 'create'), metaMap = WeakMap && new WeakMap, realNames = {}, dataViewCtorString = toSource(DataView), mapCtorString = toSource(Map), promiseCtorString = toSource(Promise), setCtorString = toSource(Set), weakMapCtorString = toSource(WeakMap), symbolProto = Symbol ? Symbol.prototype : undefined, symbolValueOf = symbolProto ? symbolProto.valueOf : undefined, symbolToString = symbolProto ? symbolProto.toString : undefined;
         function lodash(value) {
             if (isObjectLike(value) && !isArray(value) && !(value instanceof LazyWrapper)) {
                 if (value instanceof LodashWrapper) return value;
@@ -605,7 +605,7 @@
             }) : object[key] = value;
         }
         function baseAt(object, paths) {
-            for(var index = -1, length = paths.length, result = Array1(length), skip = null == object; ++index < length;)result[index] = skip ? undefined : get(object, paths[index]);
+            for(var index = -1, length = paths.length, result = Array(length), skip = null == object; ++index < length;)result[index] = skip ? undefined : get(object, paths[index]);
             return result;
         }
         function baseClamp(number, lower, upper) {
@@ -655,7 +655,7 @@
                             case setTag:
                                 return new Ctor;
                             case symbolTag:
-                                return symbolValueOf ? Object1(symbolValueOf.call(object)) : {};
+                                return symbolValueOf ? Object(symbolValueOf.call(object)) : {};
                         }
                     }(value, tag, isDeep);
                 }
@@ -676,7 +676,7 @@
         function baseConformsTo(object, source, props) {
             var length = props.length;
             if (null == object) return !length;
-            for(object = Object1(object); length--;){
+            for(object = Object(object); length--;){
                 var key = props[length], predicate = source[key], value = object[key];
                 if (undefined === value && !(key in object) || !predicate(value)) return !1;
             }
@@ -834,7 +834,7 @@
             return isArray(object) ? result : arrayPush(result, symbolsFunc(object));
         }
         function baseGetTag(value) {
-            return null == value ? undefined === value ? '[object Undefined]' : '[object Null]' : symToStringTag && symToStringTag in Object1(value) ? function(value) {
+            return null == value ? undefined === value ? '[object Undefined]' : '[object Null]' : symToStringTag && symToStringTag in Object(value) ? function(value) {
                 var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
                 try {
                     value[symToStringTag] = undefined;
@@ -851,10 +851,10 @@
             return null != object && hasOwnProperty.call(object, key);
         }
         function baseHasIn(object, key) {
-            return null != object && key in Object1(object);
+            return null != object && key in Object(object);
         }
         function baseIntersection(arrays, iteratee, comparator) {
-            for(var includes = comparator ? arrayIncludesWith : arrayIncludes, length = arrays[0].length, othLength = arrays.length, othIndex = othLength, caches = Array1(othLength), maxLength = 1 / 0, result = []; othIndex--;){
+            for(var includes = comparator ? arrayIncludesWith : arrayIncludes, length = arrays[0].length, othLength = arrays.length, othIndex = othLength, caches = Array(othLength), maxLength = 1 / 0, result = []; othIndex--;){
                 var array = arrays[othIndex];
                 othIndex && iteratee && (array = arrayMap(array, baseUnary(iteratee))), maxLength = nativeMin(array.length, maxLength), caches[othIndex] = !comparator && (iteratee || length >= 120 && array.length >= 120) ? new SetCache(othIndex && array) : undefined;
             }
@@ -959,7 +959,7 @@
         function baseIsMatch(object, source, matchData, customizer) {
             var index = matchData.length, length = index, noCustomizer = !customizer;
             if (null == object) return !length;
-            for(object = Object1(object); index--;){
+            for(object = Object(object); index--;){
                 var data = matchData[index];
                 if (noCustomizer && data[2] ? data[1] !== object[data[0]] : !(data[0] in object)) return !1;
             }
@@ -984,14 +984,14 @@
         function baseKeys(object) {
             if (!isPrototype(object)) return nativeKeys(object);
             var result = [];
-            for(var key in Object1(object))hasOwnProperty.call(object, key) && 'constructor' != key && result.push(key);
+            for(var key in Object(object))hasOwnProperty.call(object, key) && 'constructor' != key && result.push(key);
             return result;
         }
         function baseLt(value, other) {
             return value < other;
         }
         function baseMap(collection, iteratee) {
-            var index = -1, result = isArrayLike(collection) ? Array1(collection.length) : [];
+            var index = -1, result = isArrayLike(collection) ? Array(collection.length) : [];
             return baseEach(collection, function(value, key, collection) {
                 result[++index] = iteratee(value, key, collection);
             }), result;
@@ -1130,7 +1130,7 @@
         function baseSlice(array, start, end) {
             var index = -1, length = array.length;
             start < 0 && (start = -start > length ? 0 : length + start), (end = end > length ? length : end) < 0 && (end += length), length = start > end ? 0 : end - start >>> 0, start >>>= 0;
-            for(var result = Array1(length); ++index < length;)result[index] = array[index + start];
+            for(var result = Array(length); ++index < length;)result[index] = array[index + start];
             return result;
         }
         function baseSome(collection, predicate) {
@@ -1219,7 +1219,7 @@
         function baseXor(arrays, iteratee, comparator) {
             var length = arrays.length;
             if (length < 2) return length ? baseUniq(arrays[0]) : [];
-            for(var index = -1, result = Array1(length); ++index < length;)for(var array = arrays[index], othIndex = -1; ++othIndex < length;)othIndex != index && (result[index] = baseDifference(result[index] || array, arrays[othIndex], iteratee, comparator));
+            for(var index = -1, result = Array(length); ++index < length;)for(var array = arrays[index], othIndex = -1; ++othIndex < length;)othIndex != index && (result[index] = baseDifference(result[index] || array, arrays[othIndex], iteratee, comparator));
             return baseUniq(baseFlatten(result, 1), iteratee, comparator);
         }
         function baseZipObject(props, values, assignFunc) {
@@ -1269,20 +1269,20 @@
             return 0;
         }
         function composeArgs(args, partials, holders, isCurried) {
-            for(var argsIndex = -1, argsLength = args.length, holdersLength = holders.length, leftIndex = -1, leftLength = partials.length, rangeLength = nativeMax(argsLength - holdersLength, 0), result = Array1(leftLength + rangeLength), isUncurried = !isCurried; ++leftIndex < leftLength;)result[leftIndex] = partials[leftIndex];
+            for(var argsIndex = -1, argsLength = args.length, holdersLength = holders.length, leftIndex = -1, leftLength = partials.length, rangeLength = nativeMax(argsLength - holdersLength, 0), result = Array(leftLength + rangeLength), isUncurried = !isCurried; ++leftIndex < leftLength;)result[leftIndex] = partials[leftIndex];
             for(; ++argsIndex < holdersLength;)(isUncurried || argsIndex < argsLength) && (result[holders[argsIndex]] = args[argsIndex]);
             for(; rangeLength--;)result[leftIndex++] = args[argsIndex++];
             return result;
         }
         function composeArgsRight(args, partials, holders, isCurried) {
-            for(var argsIndex = -1, argsLength = args.length, holdersIndex = -1, holdersLength = holders.length, rightIndex = -1, rightLength = partials.length, rangeLength = nativeMax(argsLength - holdersLength, 0), result = Array1(rangeLength + rightLength), isUncurried = !isCurried; ++argsIndex < rangeLength;)result[argsIndex] = args[argsIndex];
+            for(var argsIndex = -1, argsLength = args.length, holdersIndex = -1, holdersLength = holders.length, rightIndex = -1, rightLength = partials.length, rangeLength = nativeMax(argsLength - holdersLength, 0), result = Array(rangeLength + rightLength), isUncurried = !isCurried; ++argsIndex < rangeLength;)result[argsIndex] = args[argsIndex];
             for(var offset = argsIndex; ++rightIndex < rightLength;)result[offset + rightIndex] = partials[rightIndex];
             for(; ++holdersIndex < holdersLength;)(isUncurried || argsIndex < argsLength) && (result[offset + holders[holdersIndex]] = args[argsIndex++]);
             return result;
         }
         function copyArray(source, array) {
             var index = -1, length = source.length;
-            for(array || (array = Array1(length)); ++index < length;)array[index] = source[index];
+            for(array || (array = Array(length)); ++index < length;)array[index] = source[index];
             return array;
         }
         function copyObject(source, props, object, customizer) {
@@ -1303,7 +1303,7 @@
         function createAssigner(assigner) {
             return baseRest(function(object, sources) {
                 var index = -1, length = sources.length, customizer = length > 1 ? sources[length - 1] : undefined, guard = length > 2 ? sources[2] : undefined;
-                for(customizer = assigner.length > 3 && 'function' == typeof customizer ? (length--, customizer) : undefined, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? undefined : customizer, length = 1), object = Object1(object); ++index < length;){
+                for(customizer = assigner.length > 3 && 'function' == typeof customizer ? (length--, customizer) : undefined, guard && isIterateeCall(sources[0], sources[1], guard) && (customizer = length < 3 ? undefined : customizer, length = 1), object = Object(object); ++index < length;){
                     var source = sources[index];
                     source && assigner(object, source, index, customizer);
                 }
@@ -1314,13 +1314,13 @@
             return function(collection, iteratee) {
                 if (null == collection) return collection;
                 if (!isArrayLike(collection)) return eachFunc(collection, iteratee);
-                for(var length = collection.length, index = fromRight ? length : -1, iterable = Object1(collection); (fromRight ? index-- : ++index < length) && !1 !== iteratee(iterable[index], index, iterable););
+                for(var length = collection.length, index = fromRight ? length : -1, iterable = Object(collection); (fromRight ? index-- : ++index < length) && !1 !== iteratee(iterable[index], index, iterable););
                 return collection;
             };
         }
         function createBaseFor(fromRight) {
             return function(object, iteratee, keysFunc) {
-                for(var index = -1, iterable = Object1(object), props = keysFunc(object), length = props.length; length--;){
+                for(var index = -1, iterable = Object(object), props = keysFunc(object), length = props.length; length--;){
                     var key = props[fromRight ? length : ++index];
                     if (!1 === iteratee(iterable[key], key, iterable)) break;
                 }
@@ -1365,7 +1365,7 @@
         }
         function createFind(findIndexFunc) {
             return function(collection, predicate, fromIndex) {
-                var iterable = Object1(collection);
+                var iterable = Object(collection);
                 if (!isArrayLike(collection)) {
                     var iteratee = getIteratee(predicate, 3);
                     collection = keys(collection), predicate = function(key) {
@@ -1399,7 +1399,7 @@
         function createHybrid(func, bitmask, thisArg, partials, holders, partialsRight, holdersRight, argPos, ary, arity) {
             var isAry = 128 & bitmask, isBind = 1 & bitmask, isBindKey = 2 & bitmask, isCurried = 24 & bitmask, isFlip = 512 & bitmask, Ctor = isBindKey ? undefined : createCtor(func);
             return function wrapper() {
-                for(var length = arguments.length, args = Array1(length), index = length; index--;)args[index] = arguments[index];
+                for(var length = arguments.length, args = Array(length), index = length; index--;)args[index] = arguments[index];
                 if (isCurried) var placeholder = getHolder(wrapper), holdersCount = function(array, placeholder) {
                     for(var length = array.length, result = 0; length--;)array[length] === placeholder && ++result;
                     return result;
@@ -1456,7 +1456,7 @@
         function createRange(fromRight) {
             return function(start, end, step) {
                 return step && 'number' != typeof step && isIterateeCall(start, end, step) && (end = step = undefined), start = toFinite(start), undefined === end ? (end = start, start = 0) : end = toFinite(end), step = undefined === step ? start < end ? 1 : -1 : toFinite(step), function(start, end, step, fromRight) {
-                    for(var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result = Array1(length); length--;)result[fromRight ? length : ++index] = start, start += step;
+                    for(var index = -1, length = nativeMax(nativeCeil((end - start) / (step || 1)), 0), result = Array(length); length--;)result[fromRight ? length : ++index] = start, start += step;
                     return result;
                 }(start, end, step, fromRight);
             };
@@ -1547,11 +1547,11 @@
                     (value = source[5]) && (partials = data[5], data[5] = partials ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
                 }
             }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = undefined === newData[9] ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
-                for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
+                for(var length = arguments.length, args = Array(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
                 var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
                 return (length -= holders.length) < arity1 ? createRecurry(func1, bitmask1, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity1 - length) : apply(this && this !== root && this instanceof wrapper ? Ctor : func1, this, args);
             }) : 32 != bitmask && 33 != bitmask || holders.length ? result = createHybrid.apply(undefined, newData) : (func2 = func, bitmask2 = bitmask, thisArg1 = thisArg, partials1 = partials, isBind = 1 & bitmask2, Ctor1 = createCtor(func2), result = function wrapper() {
-                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array1(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor1 : func2; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
+                for(var argsIndex = -1, argsLength = arguments.length, leftIndex = -1, leftLength = partials1.length, args = Array(leftLength + argsLength), fn = this && this !== root && this instanceof wrapper ? Ctor1 : func2; ++leftIndex < leftLength;)args[leftIndex] = partials1[leftIndex];
                 for(; argsLength--;)args[leftIndex++] = arguments[++argsIndex];
                 return apply(fn, isBind ? thisArg1 : this, args);
             });
@@ -1643,7 +1643,7 @@
             return baseIsNative(value) ? value : undefined;
         }
         var getSymbols = nativeGetSymbols ? function(object) {
-            return null == object ? [] : arrayFilter(nativeGetSymbols(object = Object1(object)), function(symbol) {
+            return null == object ? [] : arrayFilter(nativeGetSymbols(object = Object(object)), function(symbol) {
                 return propertyIsEnumerable.call(object, symbol);
             });
         } : stubArray, getSymbolsIn = nativeGetSymbols ? function(object) {
@@ -1677,7 +1677,7 @@
         function isKey(value, object) {
             if (isArray(value)) return !1;
             var type = typeof value;
-            return !!('number' == type || 'symbol' == type || 'boolean' == type || null == value || isSymbol(value)) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) || null != object && value in Object1(object);
+            return !!('number' == type || 'symbol' == type || 'boolean' == type || null == value || isSymbol(value)) || reIsPlainProp.test(value) || !reIsDeepProp.test(value) || null != object && value in Object(object);
         }
         function isLaziable(func) {
             var funcName = getFuncName(func), other = lodash[funcName];
@@ -1709,14 +1709,14 @@
         }
         function matchesStrictComparable(key, srcValue) {
             return function(object) {
-                return null != object && object[key] === srcValue && (undefined !== srcValue || key in Object1(object));
+                return null != object && object[key] === srcValue && (undefined !== srcValue || key in Object(object));
             };
         }
         function overRest(func, start, transform) {
             return start = nativeMax(undefined === start ? func.length - 1 : start, 0), function() {
-                for(var args = arguments, index = -1, length = nativeMax(args.length - start, 0), array = Array1(length); ++index < length;)array[index] = args[start + index];
+                for(var args = arguments, index = -1, length = nativeMax(args.length - start, 0), array = Array(length); ++index < length;)array[index] = args[start + index];
                 index = -1;
-                for(var otherArgs = Array1(start + 1); ++index < start;)otherArgs[index] = args[index];
+                for(var otherArgs = Array(start + 1); ++index < start;)otherArgs[index] = args[index];
                 return otherArgs[start] = transform(array), apply(func, this, otherArgs);
             };
         }
@@ -1918,7 +1918,7 @@
                 value
             ]);
         }), invokeMap = baseRest(function(collection, path, args) {
-            var index = -1, isFunc = 'function' == typeof path, result = isArrayLike(collection) ? Array1(collection.length) : [];
+            var index = -1, isFunc = 'function' == typeof path, result = isArrayLike(collection) ? Array(collection.length) : [];
             return baseEach(collection, function(value) {
                 result[++index] = isFunc ? apply(path, value, args) : baseInvoke(value, path, args);
             }), result;
@@ -2059,7 +2059,7 @@
             return arguments;
         }()) ? baseIsArguments : function(value) {
             return isObjectLike(value) && hasOwnProperty.call(value, 'callee') && !propertyIsEnumerable.call(value, 'callee');
-        }, isArray = Array1.isArray, isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : function(value) {
+        }, isArray = Array.isArray, isArrayBuffer = nodeIsArrayBuffer ? baseUnary(nodeIsArrayBuffer) : function(value) {
             return isObjectLike(value) && baseGetTag(value) == arrayBufferTag;
         };
         function isArrayLike(value) {
@@ -2174,7 +2174,7 @@
         }), assignWith = createAssigner(function(object, source, srcIndex, customizer) {
             copyObject(source, keys(source), object, customizer);
         }), at = flatRest(baseAt), defaults = baseRest(function(object, sources) {
-            object = Object1(object);
+            object = Object(object);
             var index = -1, length = sources.length, guard = length > 2 ? sources[2] : undefined;
             for(guard && isIterateeCall(sources[0], sources[1], guard) && (length = 1); ++index < length;)for(var source = sources[index], props = keysIn(source), propsIndex = -1, propsLength = props.length; ++propsIndex < propsLength;){
                 var key = props[propsIndex], value = object[key];
@@ -2205,7 +2205,7 @@
             return isArrayLike(object) ? arrayLikeKeys(object, !0) : function(object) {
                 if (!isObject(object)) return function(object) {
                     var result = [];
-                    if (null != object) for(var key in Object1(object))result.push(key);
+                    if (null != object) for(var key in Object(object))result.push(key);
                     return result;
                 }(object);
                 var isProto = isPrototype(object), result = [];
@@ -2365,7 +2365,7 @@
             size = (guard ? isIterateeCall(array, size, guard) : undefined === size) ? 1 : nativeMax(toInteger(size), 0);
             var length = null == array ? 0 : array.length;
             if (!length || size < 1) return [];
-            for(var index = 0, resIndex = 0, result = Array1(nativeCeil(length / size)); index < length;)result[resIndex++] = baseSlice(array, index, index += size);
+            for(var index = 0, resIndex = 0, result = Array(nativeCeil(length / size)); index < length;)result[resIndex++] = baseSlice(array, index, index += size);
             return result;
         }, lodash.compact = function(array) {
             for(var index = -1, length = null == array ? 0 : array.length, resIndex = 0, result = []; ++index < length;){
@@ -2376,7 +2376,7 @@
         }, lodash.concat = function() {
             var length = arguments.length;
             if (!length) return [];
-            for(var args = Array1(length - 1), array = arguments[0], index = length; index--;)args[index - 1] = arguments[index];
+            for(var args = Array(length - 1), array = arguments[0], index = length; index--;)args[index - 1] = arguments[index];
             return arrayPush(isArray(array) ? copyArray(array) : [
                 array
             ], baseFlatten(args, 1));
@@ -2802,7 +2802,7 @@
         }, lodash.template = function(string, options, guard) {
             var settings = lodash.templateSettings;
             guard && isIterateeCall(string, options, guard) && (options = undefined), string = toString(string), options = assignInWith({}, options, settings, customDefaultsAssignIn);
-            var isEscaping, isEvaluating, imports = assignInWith({}, options.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys(imports), importsValues = baseValues(imports, importsKeys), index = 0, interpolate = options.interpolate || reNoMatch, source = "__p += '", reDelimiters = RegExp1((options.escape || reNoMatch).source + '|' + interpolate.source + '|' + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + '|' + (options.evaluate || reNoMatch).source + '|$', 'g'), sourceURL = '//# sourceURL=' + (hasOwnProperty.call(options, 'sourceURL') ? (options.sourceURL + '').replace(/\s/g, ' ') : 'lodash.templateSources[' + ++templateCounter + ']') + '\n';
+            var isEscaping, isEvaluating, imports = assignInWith({}, options.imports, settings.imports, customDefaultsAssignIn), importsKeys = keys(imports), importsValues = baseValues(imports, importsKeys), index = 0, interpolate = options.interpolate || reNoMatch, source = "__p += '", reDelimiters = RegExp((options.escape || reNoMatch).source + '|' + interpolate.source + '|' + (interpolate === reInterpolate ? reEsTemplate : reNoMatch).source + '|' + (options.evaluate || reNoMatch).source + '|$', 'g'), sourceURL = '//# sourceURL=' + (hasOwnProperty.call(options, 'sourceURL') ? (options.sourceURL + '').replace(/\s/g, ' ') : 'lodash.templateSources[' + ++templateCounter + ']') + '\n';
             string.replace(reDelimiters, function(match, escapeValue, interpolateValue, esTemplateValue, evaluateValue, offset) {
                 return interpolateValue || (interpolateValue = esTemplateValue), source += string.slice(index, offset).replace(reUnescapedString, escapeStringChar), escapeValue && (isEscaping = !0, source += "' +\n__e(" + escapeValue + ") +\n'"), evaluateValue && (isEvaluating = !0, source += "';\n" + evaluateValue + ";\n__p += '"), interpolateValue && (source += "' +\n((__t = (" + interpolateValue + ")) == null ? '' : __t) +\n'"), index = offset + match.length, match;
             }), source += "';\n";
@@ -2812,7 +2812,7 @@
             } else source = 'with (obj) {\n' + source + '\n}\n';
             source = (isEvaluating ? source.replace(reEmptyStringLeading, '') : source).replace(reEmptyStringMiddle, '$1').replace(reEmptyStringTrailing, '$1;'), source = 'function(' + (variable || 'obj') + ') {\n' + (variable ? '' : 'obj || (obj = {});\n') + "var __t, __p = ''" + (isEscaping ? ', __e = _.escape' : '') + (isEvaluating ? ", __j = Array.prototype.join;\nfunction print() { __p += __j.call(arguments, '') }\n" : ';\n') + source + 'return __p\n}';
             var result = attempt(function() {
-                return Function1(importsKeys, sourceURL + 'return ' + source).apply(undefined, importsValues);
+                return Function(importsKeys, sourceURL + 'return ' + source).apply(undefined, importsValues);
             });
             if (result.source = source, isError(result)) throw result;
             return result;
@@ -2862,7 +2862,7 @@
             if (strSymbols && (end += result.length - end), isRegExp(separator)) {
                 if (string.slice(end).search(separator)) {
                     var match, substring = result;
-                    for(separator.global || (separator = RegExp1(separator.source, toString(reFlags.exec(separator)) + 'g')), separator.lastIndex = 0; match = separator.exec(substring);)var newEnd = match.index;
+                    for(separator.global || (separator = RegExp(separator.source, toString(reFlags.exec(separator)) + 'g')), separator.lastIndex = 0; match = separator.exec(substring);)var newEnd = match.index;
                     result = result.slice(0, undefined === newEnd ? end : newEnd);
                 }
             } else if (string.indexOf(baseToString(separator), end) != end) {

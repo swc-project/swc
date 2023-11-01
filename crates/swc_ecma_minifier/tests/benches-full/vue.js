@@ -202,16 +202,16 @@
     }
     var hasSymbol = 'undefined' != typeof Symbol && isNative(Symbol) && 'undefined' != typeof Reflect && isNative(Reflect.ownKeys);
     _Set = 'undefined' != typeof Set && isNative(Set) ? Set : function() {
-        function Set1() {
+        function Set() {
             this.set = Object.create(null);
         }
-        return Set1.prototype.has = function(key) {
+        return Set.prototype.has = function(key) {
             return !0 === this.set[key];
-        }, Set1.prototype.add = function(key) {
+        }, Set.prototype.add = function(key) {
             this.set[key] = !0;
-        }, Set1.prototype.clear = function() {
+        }, Set.prototype.clear = function() {
             this.set = Object.create(null);
-        }, Set1;
+        }, Set;
     }();
     var warn = noop, tip = noop, generateComponentTrace = noop, formatComponentName = noop, hasConsole = 'undefined' != typeof console, classifyRE = /(?:^|[-_])(\w)/g;
     warn = function(msg, vm) {

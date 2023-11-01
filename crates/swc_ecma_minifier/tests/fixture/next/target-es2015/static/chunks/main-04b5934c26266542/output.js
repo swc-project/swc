@@ -1249,7 +1249,7 @@
                     padding: 0
                 }
             };
-            class Error1 extends (_Component = _react.default.Component) {
+            class Error extends (_Component = _react.default.Component) {
                 render() {
                     const { statusCode, withDarkMode = !0 } = this.props, title = this.props.title || statusCodes[statusCode] || "An unexpected error has occurred";
                     return _react.default.createElement("div", {
@@ -1268,7 +1268,7 @@
                     }, this.props.title || statusCode ? title : _react.default.createElement(_react.default.Fragment, null, "Application error: a client-side exception has occurred (see the browser console for more information)"), "."))));
                 }
             }
-            Error1.displayName = "ErrorPage", Error1.getInitialProps = _getInitialProps, Error1.origGetInitialProps = _getInitialProps, exports.default = Error1;
+            Error.displayName = "ErrorPage", Error.getInitialProps = _getInitialProps, Error.origGetInitialProps = _getInitialProps, exports.default = Error;
         },
         2227: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";

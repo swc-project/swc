@@ -7,7 +7,7 @@ Baz || (Baz = {});
 export default class {
 }
 //// [locals.ts]
-let Reflect, Reflect1;
+let Reflect, Reflect;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
@@ -44,7 +44,7 @@ C._ = [
         null
     ]; // collision (es2015-es2021 only)
     _get(_get_prototype_of(C), "w", C).call(C);
-})(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
+})(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticField1.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";

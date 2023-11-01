@@ -748,7 +748,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(27), getRawTag = __webpack_require__(103), objectToString = __webpack_require__(104), symToStringTag = Symbol1 ? Symbol1.toStringTag : void 0;
+            var Symbol = __webpack_require__(27), getRawTag = __webpack_require__(103), objectToString = __webpack_require__(104), symToStringTag = Symbol ? Symbol.toStringTag : void 0;
             module1.exports = function(value) {
                 return null == value ? void 0 === value ? "[object Undefined]" : "[object Null]" : symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
             };
@@ -1013,8 +1013,8 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(17).Symbol;
-            module1.exports = Symbol1;
+            var Symbol = __webpack_require__(17).Symbol;
+            module1.exports = Symbol;
         },
         function(module1, exports1, __webpack_require__) {
             var nativeCreate = __webpack_require__(35)(Object, "create");
@@ -1147,8 +1147,8 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Map1 = __webpack_require__(35)(__webpack_require__(17), "Map");
-            module1.exports = Map1;
+            var Map = __webpack_require__(35)(__webpack_require__(17), "Map");
+            module1.exports = Map;
         },
         function(module1, exports1, __webpack_require__) {
             (function(global) {
@@ -1772,12 +1772,12 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var ListCache = __webpack_require__(24), Map1 = __webpack_require__(44), MapCache = __webpack_require__(47);
+            var ListCache = __webpack_require__(24), Map = __webpack_require__(44), MapCache = __webpack_require__(47);
             module1.exports = function(key, value) {
                 var data = this.__data__;
                 if (data instanceof ListCache) {
                     var pairs = data.__data__;
-                    if (!Map1 || pairs.length < 199) return pairs.push([
+                    if (!Map || pairs.length < 199) return pairs.push([
                         key,
                         value
                     ]), this.size = ++data.size, this;
@@ -1793,7 +1793,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(27), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, nativeObjectToString = objectProto.toString, symToStringTag = Symbol1 ? Symbol1.toStringTag : void 0;
+            var Symbol = __webpack_require__(27), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, nativeObjectToString = objectProto.toString, symToStringTag = Symbol ? Symbol.toStringTag : void 0;
             module1.exports = function(value) {
                 var isOwn = hasOwnProperty.call(value, symToStringTag), tag = value[symToStringTag];
                 try {
@@ -1840,11 +1840,11 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Hash = __webpack_require__(110), ListCache = __webpack_require__(24), Map1 = __webpack_require__(44);
+            var Hash = __webpack_require__(110), ListCache = __webpack_require__(24), Map = __webpack_require__(44);
             module1.exports = function() {
                 this.size = 0, this.__data__ = {
                     hash: new Hash(),
-                    map: new (Map1 || ListCache)(),
+                    map: new (Map || ListCache)(),
                     string: new Hash()
                 };
             };
@@ -1978,15 +1978,15 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Uint8Array1 = __webpack_require__(127);
+            var Uint8Array = __webpack_require__(127);
             module1.exports = function(arrayBuffer) {
                 var result = new arrayBuffer.constructor(arrayBuffer.byteLength);
-                return new Uint8Array1(result).set(new Uint8Array1(arrayBuffer)), result;
+                return new Uint8Array(result).set(new Uint8Array(arrayBuffer)), result;
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Uint8Array1 = __webpack_require__(17).Uint8Array;
-            module1.exports = Uint8Array1;
+            var Uint8Array = __webpack_require__(17).Uint8Array;
+            module1.exports = Uint8Array;
         },
         function(module1, exports1) {
             module1.exports = function(source, array) {
@@ -2958,7 +2958,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol1 ? Symbol1.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
+            var Symbol = __webpack_require__(27), arrayMap = __webpack_require__(238), isArray = __webpack_require__(15), isSymbol = __webpack_require__(42), INFINITY = 1 / 0, symbolProto = Symbol ? Symbol.prototype : void 0, symbolToString = symbolProto ? symbolProto.toString : void 0;
             module1.exports = function baseToString(value) {
                 if ("string" == typeof value) return value;
                 if (isArray(value)) return arrayMap(value, baseToString) + "";
@@ -3043,7 +3043,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(27), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), spreadableSymbol = Symbol1 ? Symbol1.isConcatSpreadable : void 0;
+            var Symbol = __webpack_require__(27), isArguments = __webpack_require__(30), isArray = __webpack_require__(15), spreadableSymbol = Symbol ? Symbol.isConcatSpreadable : void 0;
             module1.exports = function(value) {
                 return isArray(value) || isArguments(value) || !!(spreadableSymbol && value && value[spreadableSymbol]);
             };

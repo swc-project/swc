@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
         return Task;
     }
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _wrap_native_super = require("@swc/helpers/_/_wrap_native_super"), _create_super = require("@swc/helpers/_/_create_super"), Task = function(Promise1) {
-    _inherits._(Task, Promise1);
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits = require("@swc/helpers/_/_inherits"), _wrap_native_super = require("@swc/helpers/_/_wrap_native_super"), _create_super = require("@swc/helpers/_/_create_super"), Task = function(Promise) {
+    _inherits._(Task, Promise);
     var _super = _create_super._(Task);
     function Task() {
         return _class_call_check._(this, Task), _super.apply(this, arguments);
