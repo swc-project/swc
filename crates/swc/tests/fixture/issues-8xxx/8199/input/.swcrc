@@ -1,0 +1,26 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true
+        },
+        "externalHelpers": true,
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    },
+    "minify": false,
+    "module": {
+        "type": "es6"
+    },
+    "env": {
+        "targets": "safari>15"
+    }
+}
