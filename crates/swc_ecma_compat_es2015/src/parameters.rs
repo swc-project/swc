@@ -582,7 +582,6 @@ impl VisitMut for Params {
                     }
                 }
 
-                let body_span = f.body.span();
                 let mut params = f
                     .params
                     .take()
