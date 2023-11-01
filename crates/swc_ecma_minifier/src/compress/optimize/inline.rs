@@ -694,7 +694,7 @@ impl Optimizer<'_> {
             // seems like a correct check, but it's way to aggressive.
             // It does not break the code, but everything like _asyncToGenerator is inlined.
             //
-            if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline != 0)
+            if (self.options.reduce_vars || self.options.collapse_vars || self.options.inline == 3)
                 && usage.ref_count == 1
                 && usage.can_inline_fn_once()
                 && (match decl {
