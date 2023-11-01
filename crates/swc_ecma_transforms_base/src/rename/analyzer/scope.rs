@@ -167,11 +167,7 @@ impl Scope {
 
         for id in queue {
             let fid = fast_id(id.clone());
-            if to.get(&fid).is_some()
-                || previous.get(&fid).is_some()
-                || id.0 == "eval"
-                || is_native(&id.0)
-            {
+            if to.get(&fid).is_some() || previous.get(&fid).is_some() || id.0 == "eval" {
                 continue;
             }
 
