@@ -491,7 +491,7 @@ jobs:
 
       - name: Tag npm release (nightly)
         if: ${{ contains(github.ref, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_EN
+        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Setup node
         uses: actions/setup-node@v3
@@ -540,7 +540,7 @@ jobs:
 
       - name: Tag npm release (nightly)
         if: ${{ contains(github.ref, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_EN
+        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Setup node
         uses: actions/setup-node@v3
