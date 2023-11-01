@@ -14,7 +14,7 @@ use swc_ecma_ast::*;
 use tracing::debug;
 
 use super::reverse_map::ReverseMap;
-use crate::rename::Renamer;
+use crate::rename::{data::DOMPROPS, Renamer};
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
@@ -167,7 +167,11 @@ impl Scope {
 
         for id in queue {
             let fid = fast_id(id.clone());
-            if to.get(&fid).is_some() || previous.get(&fid).is_some() || id.0 == "eval" {
+            if to.get(&fid).is_some()
+                || previous.get(&fid).is_some()
+                || id.0 == "eval"
+                || DOMPROPS.contains(&id.0)
+            {
                 continue;
             }
 
@@ -306,6 +310,7 @@ impl Scope {
                 || to.get(&fid).is_some()
                 || previous.get(&fid).is_some()
                 || id.0 == "eval"
+                || DOMPROPS.contains(&id.0)
             {
                 continue;
             }
