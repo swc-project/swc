@@ -353,7 +353,7 @@ impl Params {
                             arg: Box::new(idx_ident.clone().into()),
                         }))),
                         body: Box::new(Stmt::Block(BlockStmt {
-                            span,
+                            span: DUMMY_SP,
                             stmts: vec![{
                                 let prop = Box::new(Expr::Ident(idx_ident.clone()));
                                 // a1[_key - i] = arguments[_key];
@@ -597,7 +597,7 @@ impl VisitMut for Params {
                 let mut body = match *f.body.take() {
                     BlockStmtOrExpr::BlockStmt(block) => block,
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        span: body_span,
+                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr),
