@@ -57,8 +57,7 @@
                 for(var _i = 0; _i < browserApi.length; _i++)FullscreenApi[specApi[_i]] = browserApi[_i];
                 FullscreenApi.prefixed = browserApi[0] !== specApi[0];
             }
-            var history = [];
-            function createLogger$1(name) {
+            var history = [], log$1 = function createLogger$1(name) {
                 var logByType, level = "info", log = function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     logByType("log", level, args);
@@ -112,19 +111,13 @@
                     for(var _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
                     return logByType("debug", level, args);
                 }, log;
-            }
-            var log$1 = createLogger$1("VIDEOJS"), createLogger = log$1.createLogger, toString = Object.prototype.toString, keys = function(object) {
+            }("VIDEOJS"), createLogger = log$1.createLogger, toString = Object.prototype.toString, keys = function(object) {
                 return isObject(object) ? Object.keys(object) : [];
             };
             function each(object, fn) {
                 keys(object).forEach(function(key) {
                     return fn(object[key], key);
                 });
-            }
-            function reduce(object, fn, initial) {
-                return void 0 === initial && (initial = 0), keys(object).reduce(function(accum, key) {
-                    return fn(accum, object[key], key);
-                }, initial);
             }
             function assign(target) {
                 for(var _len = arguments.length, sources = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)sources[_key - 1] = arguments[_key];
@@ -186,9 +179,6 @@
             function throwIfWhitespace(str) {
                 if (str.indexOf(" ") >= 0) throw Error("class has illegal whitespace characters");
             }
-            function classRegExp(className) {
-                return RegExp("(^|\\s)" + className + "($|\\s)");
-            }
             function isReal() {
                 return global_document__WEBPACK_IMPORTED_MODULE_1___default() === global_window__WEBPACK_IMPORTED_MODULE_0___default().document;
             }
@@ -227,7 +217,7 @@
                 parent.firstChild ? parent.insertBefore(child, parent.firstChild) : parent.appendChild(child);
             }
             function hasClass(element, classToCheck) {
-                return (throwIfWhitespace(classToCheck), element.classList) ? element.classList.contains(classToCheck) : classRegExp(classToCheck).test(element.className);
+                return (throwIfWhitespace(classToCheck), element.classList) ? element.classList.contains(classToCheck) : RegExp("(^|\\s)" + classToCheck + "($|\\s)").test(element.className);
             }
             function addClass(element, classToAdd) {
                 return element.classList ? element.classList.add(classToAdd) : hasClass(element, classToAdd) || (element.className = (element.className + " " + classToAdd).trim()), element;
@@ -412,16 +402,16 @@
                     this.vdata = "vdata" + Math.floor(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() || Date.now()), this.data = {};
                 }
                 var _proto = FakeWeakMap.prototype;
-                return _proto.set = function set(key, value) {
+                return _proto.set = function(key, value) {
                     var access = key[this.vdata] || _guid++;
                     return key[this.vdata] || (key[this.vdata] = access), this.data[access] = value, this;
-                }, _proto.get = function get(key) {
+                }, _proto.get = function(key) {
                     var access = key[this.vdata];
                     if (access) return this.data[access];
                     log$1("We have no data for this element", key);
-                }, _proto.has = function has(key) {
+                }, _proto.has = function(key) {
                     return key[this.vdata] in this.data;
-                }, _proto.delete = function _delete(key) {
+                }, _proto.delete = function(key) {
                     var access = key[this.vdata];
                     access && (delete this.data[access], delete key[this.vdata]);
                 }, FakeWeakMap;
@@ -468,7 +458,7 @@
                     _supportsPassive = !1;
                     try {
                         var opts = Object.defineProperty({}, "passive", {
-                            get: function get() {
+                            get: function() {
                                 _supportsPassive = !0;
                             }
                         });
@@ -643,7 +633,7 @@
             }, listen = function(target, method, type, listener) {
                 validateTarget(target, target, method), target.nodeName ? Events[method](target, type, listener) : target[method](type, listener);
             }, EventedMixin = {
-                on: function on() {
+                on: function() {
                     for(var _this = this, _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
                     var _normalizeListenArgs = normalizeListenArgs(this, args, "on"), isTargetingSelf = _normalizeListenArgs.isTargetingSelf, target = _normalizeListenArgs.target, type = _normalizeListenArgs.type, listener = _normalizeListenArgs.listener;
                     if (listen(target, "on", type, listener), !isTargetingSelf) {
@@ -657,7 +647,7 @@
                         removeRemoverOnTargetDispose.guid = listener.guid, listen(this, "on", "dispose", removeListenerOnDispose), listen(target, "on", "dispose", removeRemoverOnTargetDispose);
                     }
                 },
-                one: function one() {
+                one: function() {
                     for(var _this2 = this, _len2 = arguments.length, args = Array(_len2), _key2 = 0; _key2 < _len2; _key2++)args[_key2] = arguments[_key2];
                     var _normalizeListenArgs2 = normalizeListenArgs(this, args, "one"), isTargetingSelf = _normalizeListenArgs2.isTargetingSelf, target = _normalizeListenArgs2.target, type = _normalizeListenArgs2.type, listener = _normalizeListenArgs2.listener;
                     if (isTargetingSelf) listen(target, "one", type, listener);
@@ -670,7 +660,7 @@
                         wrapper.guid = listener.guid, listen(target, "one", type, wrapper);
                     }
                 },
-                any: function any() {
+                any: function() {
                     for(var _this3 = this, _len4 = arguments.length, args = Array(_len4), _key4 = 0; _key4 < _len4; _key4++)args[_key4] = arguments[_key4];
                     var _normalizeListenArgs3 = normalizeListenArgs(this, args, "any"), isTargetingSelf = _normalizeListenArgs3.isTargetingSelf, target = _normalizeListenArgs3.target, type = _normalizeListenArgs3.type, listener = _normalizeListenArgs3.listener;
                     if (isTargetingSelf) listen(target, "any", type, listener);
@@ -683,10 +673,10 @@
                         wrapper.guid = listener.guid, listen(target, "any", type, wrapper);
                     }
                 },
-                off: function off$1(targetOrType, typeOrListener, listener) {
+                off: function(targetOrType, typeOrListener, listener) {
                     !targetOrType || isValidEventType(targetOrType) ? off(this.eventBusEl_, targetOrType, typeOrListener) : (validateTarget(targetOrType, this, "off"), validateEventType(typeOrListener, this, "off"), validateListener(listener, this, "off"), listener = bind(this, listener), this.off("dispose", listener), targetOrType.nodeName ? (off(targetOrType, typeOrListener, listener), off(targetOrType, "dispose", listener)) : isEvented(targetOrType) && (targetOrType.off(typeOrListener, listener), targetOrType.off("dispose", listener)));
                 },
-                trigger: function trigger$1(event, hash) {
+                trigger: function(event, hash) {
                     if (validateTarget(this.eventBusEl_, this, "trigger"), !isValidEventType(event && "string" != typeof event ? event.type : event)) {
                         var error = "Invalid event type for " + objName(this) + "#trigger; must be a non-empty string or object with a type key that has a non-empty value.";
                         if (event) (this.log || log$1).error(error);
@@ -720,7 +710,7 @@
             }
             var StatefulMixin = {
                 state: {},
-                setState: function setState(stateUpdates) {
+                setState: function(stateUpdates) {
                     var changes, _this = this;
                     return "function" == typeof stateUpdates && (stateUpdates = stateUpdates()), each(stateUpdates, function(value, key) {
                         _this.state[key] !== value && ((changes = changes || {})[key] = {
@@ -762,14 +752,14 @@
                     this.map_ = {};
                 }
                 var _proto = MapSham.prototype;
-                return _proto.has = function has(key) {
+                return _proto.has = function(key) {
                     return key in this.map_;
-                }, _proto.delete = function _delete(key) {
+                }, _proto.delete = function(key) {
                     var has = this.has(key);
                     return delete this.map_[key], has;
-                }, _proto.set = function set(key, value) {
+                }, _proto.set = function(key, value) {
                     return this.map_[key] = value, this;
-                }, _proto.forEach = function forEach(callback, thisArg) {
+                }, _proto.forEach = function(callback, thisArg) {
                     for(var key in this.map_)callback.call(thisArg, this.map_[key], key, this);
                 }, MapSham;
             }(), Map$1 = global_window__WEBPACK_IMPORTED_MODULE_0___default().Map ? global_window__WEBPACK_IMPORTED_MODULE_0___default().Map : MapSham, SetSham = function() {
@@ -777,14 +767,14 @@
                     this.set_ = {};
                 }
                 var _proto = SetSham.prototype;
-                return _proto.has = function has(key) {
+                return _proto.has = function(key) {
                     return key in this.set_;
-                }, _proto.delete = function _delete(key) {
+                }, _proto.delete = function(key) {
                     var has = this.has(key);
                     return delete this.set_[key], has;
-                }, _proto.add = function add(key) {
+                }, _proto.add = function(key) {
                     return this.set_[key] = 1, this;
-                }, _proto.forEach = function forEach(callback, thisArg) {
+                }, _proto.forEach = function(callback, thisArg) {
                     for(var key in this.set_)callback.call(thisArg, key, key, this);
                 }, SetSham;
             }(), Set = global_window__WEBPACK_IMPORTED_MODULE_0___default().Set ? global_window__WEBPACK_IMPORTED_MODULE_0___default().Set : SetSham, Component$1 = function() {
@@ -798,7 +788,7 @@
                     }), this.handleLanguagechange = this.handleLanguagechange.bind(this), this.on(this.player_, "languagechange", this.handleLanguagechange)), stateful(this, this.constructor.defaultState), this.children_ = [], this.childIndex_ = {}, this.childNameIndex_ = {}, this.setTimeoutIds_ = new Set(), this.setIntervalIds_ = new Set(), this.rafIds_ = new Set(), this.namedRafs_ = new Map$1(), this.clearingTimersOnDispose_ = !1, !1 !== options.initChildren && this.initChildren(), this.ready(ready), !1 !== options.reportTouchActivity && this.enableTouchActivity();
                 }
                 var _proto = Component.prototype;
-                return _proto.dispose = function dispose() {
+                return _proto.dispose = function() {
                     if (!this.isDisposed_) {
                         if (this.readyQueue_ && (this.readyQueue_.length = 0), this.trigger({
                             type: "dispose",
@@ -806,43 +796,43 @@
                         }), this.isDisposed_ = !0, this.children_) for(var i = this.children_.length - 1; i >= 0; i--)this.children_[i].dispose && this.children_[i].dispose();
                         this.children_ = null, this.childIndex_ = null, this.childNameIndex_ = null, this.parentComponent_ = null, this.el_ && (this.el_.parentNode && this.el_.parentNode.removeChild(this.el_), this.el_ = null), this.player_ = null;
                     }
-                }, _proto.isDisposed = function isDisposed() {
+                }, _proto.isDisposed = function() {
                     return !!this.isDisposed_;
-                }, _proto.player = function player() {
+                }, _proto.player = function() {
                     return this.player_;
-                }, _proto.options = function options(obj) {
+                }, _proto.options = function(obj) {
                     return obj && (this.options_ = mergeOptions$3(this.options_, obj)), this.options_;
-                }, _proto.el = function el() {
+                }, _proto.el = function() {
                     return this.el_;
-                }, _proto.createEl = function createEl$1(tagName, properties, attributes) {
+                }, _proto.createEl = function(tagName, properties, attributes) {
                     return createEl(tagName, properties, attributes);
-                }, _proto.localize = function localize(string, tokens, defaultValue) {
+                }, _proto.localize = function(string, tokens, defaultValue) {
                     void 0 === defaultValue && (defaultValue = string);
                     var code = this.player_.language && this.player_.language(), languages = this.player_.languages && this.player_.languages(), language = languages && languages[code], primaryCode = code && code.split("-")[0], primaryLang = languages && languages[primaryCode], localizedString = defaultValue;
                     return language && language[string] ? localizedString = language[string] : primaryLang && primaryLang[string] && (localizedString = primaryLang[string]), tokens && (localizedString = localizedString.replace(/\{(\d+)\}/g, function(match, index) {
                         var value = tokens[index - 1], ret = value;
                         return void 0 === value && (ret = match), ret;
                     })), localizedString;
-                }, _proto.handleLanguagechange = function handleLanguagechange() {}, _proto.contentEl = function contentEl() {
+                }, _proto.handleLanguagechange = function() {}, _proto.contentEl = function() {
                     return this.contentEl_ || this.el_;
-                }, _proto.id = function id() {
+                }, _proto.id = function() {
                     return this.id_;
-                }, _proto.name = function name() {
+                }, _proto.name = function() {
                     return this.name_;
-                }, _proto.children = function children() {
+                }, _proto.children = function() {
                     return this.children_;
-                }, _proto.getChildById = function getChildById(id) {
+                }, _proto.getChildById = function(id) {
                     return this.childIndex_[id];
-                }, _proto.getChild = function getChild(name) {
+                }, _proto.getChild = function(name) {
                     if (name) return this.childNameIndex_[name];
-                }, _proto.getDescendant = function getDescendant() {
+                }, _proto.getDescendant = function() {
                     for(var _len = arguments.length, names = Array(_len), _key = 0; _key < _len; _key++)names[_key] = arguments[_key];
                     names = names.reduce(function(acc, n) {
                         return acc.concat(n);
                     }, []);
                     for(var currentChild = this, i = 0; i < names.length; i++)if (!(currentChild = currentChild.getChild(names[i])) || !currentChild.getChild) return;
                     return currentChild;
-                }, _proto.addChild = function addChild(child, options, index) {
+                }, _proto.addChild = function(child, options, index) {
                     if (void 0 === options && (options = {}), void 0 === index && (index = this.children_.length), "string" == typeof child) {
                         componentName = toTitleCase$1(child);
                         var component, componentName, componentClassName = options.componentClass || componentName;
@@ -857,7 +847,7 @@
                         this.children_[index + 1] && (this.children_[index + 1].el_ ? refNode = this.children_[index + 1].el_ : isEl(this.children_[index + 1]) && (refNode = this.children_[index + 1])), this.contentEl().insertBefore(component.el(), refNode);
                     }
                     return component;
-                }, _proto.removeChild = function removeChild(component) {
+                }, _proto.removeChild = function(component) {
                     if ("string" == typeof component && (component = this.getChild(component)), component && this.children_) {
                         for(var childFound = !1, i = this.children_.length - 1; i >= 0; i--)if (this.children_[i] === component) {
                             childFound = !0, this.children_.splice(i, 1);
@@ -869,7 +859,7 @@
                             compEl && compEl.parentNode === this.contentEl() && this.contentEl().removeChild(component.el());
                         }
                     }
-                }, _proto.initChildren = function initChildren() {
+                }, _proto.initChildren = function() {
                     var _this = this, children = this.options_.children;
                     if (children) {
                         var workingChildren, parentOptions = this.options_, Tech = Component.getComponent("Tech");
@@ -895,9 +885,9 @@
                             }
                         });
                     }
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     return "";
-                }, _proto.ready = function ready(fn, sync) {
+                }, _proto.ready = function(fn, sync) {
                     if (void 0 === sync && (sync = !1), fn) {
                         if (!this.isReady_) {
                             this.readyQueue_ = this.readyQueue_ || [], this.readyQueue_.push(fn);
@@ -905,46 +895,46 @@
                         }
                         sync ? fn.call(this) : this.setTimeout(fn, 1);
                     }
-                }, _proto.triggerReady = function triggerReady() {
+                }, _proto.triggerReady = function() {
                     this.isReady_ = !0, this.setTimeout(function() {
                         var readyQueue = this.readyQueue_;
                         this.readyQueue_ = [], readyQueue && readyQueue.length > 0 && readyQueue.forEach(function(fn) {
                             fn.call(this);
                         }, this), this.trigger("ready");
                     }, 1);
-                }, _proto.$ = function $$1(selector, context) {
+                }, _proto.$ = function(selector, context) {
                     return $(selector, context || this.contentEl());
-                }, _proto.$$ = function $$$1(selector, context) {
+                }, _proto.$$ = function(selector, context) {
                     return $$(selector, context || this.contentEl());
-                }, _proto.hasClass = function hasClass$1(classToCheck) {
+                }, _proto.hasClass = function(classToCheck) {
                     return hasClass(this.el_, classToCheck);
-                }, _proto.addClass = function addClass$1(classToAdd) {
+                }, _proto.addClass = function(classToAdd) {
                     addClass(this.el_, classToAdd);
-                }, _proto.removeClass = function removeClass$1(classToRemove) {
+                }, _proto.removeClass = function(classToRemove) {
                     removeClass(this.el_, classToRemove);
-                }, _proto.toggleClass = function toggleClass$1(classToToggle, predicate) {
+                }, _proto.toggleClass = function(classToToggle, predicate) {
                     toggleClass(this.el_, classToToggle, predicate);
-                }, _proto.show = function show() {
+                }, _proto.show = function() {
                     this.removeClass("vjs-hidden");
-                }, _proto.hide = function hide() {
+                }, _proto.hide = function() {
                     this.addClass("vjs-hidden");
-                }, _proto.lockShowing = function lockShowing() {
+                }, _proto.lockShowing = function() {
                     this.addClass("vjs-lock-showing");
-                }, _proto.unlockShowing = function unlockShowing() {
+                }, _proto.unlockShowing = function() {
                     this.removeClass("vjs-lock-showing");
-                }, _proto.getAttribute = function getAttribute$1(attribute) {
+                }, _proto.getAttribute = function(attribute) {
                     return getAttribute(this.el_, attribute);
-                }, _proto.setAttribute = function setAttribute$1(attribute, value) {
+                }, _proto.setAttribute = function(attribute, value) {
                     setAttribute(this.el_, attribute, value);
-                }, _proto.removeAttribute = function removeAttribute$1(attribute) {
+                }, _proto.removeAttribute = function(attribute) {
                     removeAttribute(this.el_, attribute);
-                }, _proto.width = function width(num, skipListeners) {
+                }, _proto.width = function(num, skipListeners) {
                     return this.dimension("width", num, skipListeners);
-                }, _proto.height = function height(num, skipListeners) {
+                }, _proto.height = function(num, skipListeners) {
                     return this.dimension("height", num, skipListeners);
-                }, _proto.dimensions = function dimensions(width, height) {
+                }, _proto.dimensions = function(width, height) {
                     this.width(width, !0), this.height(height);
-                }, _proto.dimension = function dimension(widthOrHeight, num, skipListeners) {
+                }, _proto.dimension = function(widthOrHeight, num, skipListeners) {
                     if (void 0 !== num) {
                         (null === num || num != num) && (num = 0), -1 !== ("" + num).indexOf("%") || -1 !== ("" + num).indexOf("px") ? this.el_.style[widthOrHeight] = num : "auto" === num ? this.el_.style[widthOrHeight] = "" : this.el_.style[widthOrHeight] = num + "px", skipListeners || this.trigger("componentresize");
                         return;
@@ -952,7 +942,7 @@
                     if (!this.el_) return 0;
                     var val = this.el_.style[widthOrHeight], pxIndex = val.indexOf("px");
                     return -1 !== pxIndex ? parseInt(val.slice(0, pxIndex), 10) : parseInt(this.el_["offset" + toTitleCase$1(widthOrHeight)], 10);
-                }, _proto.currentDimension = function currentDimension(widthOrHeight) {
+                }, _proto.currentDimension = function(widthOrHeight) {
                     var computedWidthOrHeight = 0;
                     if ("width" !== widthOrHeight && "height" !== widthOrHeight) throw Error("currentDimension only accepts width or height value");
                     if (0 === (computedWidthOrHeight = parseFloat(computedWidthOrHeight = computedStyle(this.el_, widthOrHeight))) || isNaN(computedWidthOrHeight)) {
@@ -960,24 +950,24 @@
                         computedWidthOrHeight = this.el_[rule];
                     }
                     return computedWidthOrHeight;
-                }, _proto.currentDimensions = function currentDimensions() {
+                }, _proto.currentDimensions = function() {
                     return {
                         width: this.currentDimension("width"),
                         height: this.currentDimension("height")
                     };
-                }, _proto.currentWidth = function currentWidth() {
+                }, _proto.currentWidth = function() {
                     return this.currentDimension("width");
-                }, _proto.currentHeight = function currentHeight() {
+                }, _proto.currentHeight = function() {
                     return this.currentDimension("height");
-                }, _proto.focus = function focus() {
+                }, _proto.focus = function() {
                     this.el_.focus();
-                }, _proto.blur = function blur() {
+                }, _proto.blur = function() {
                     this.el_.blur();
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     this.player_ && (event.stopPropagation(), this.player_.handleKeyDown(event));
-                }, _proto.handleKeyPress = function handleKeyPress(event) {
+                }, _proto.handleKeyPress = function(event) {
                     this.handleKeyDown(event);
-                }, _proto.emitTapEvents = function emitTapEvents() {
+                }, _proto.emitTapEvents = function() {
                     var couldBeTap, touchStart = 0, firstTouch = null;
                     this.on("touchstart", function(event) {
                         1 === event.touches.length && (firstTouch = {
@@ -997,7 +987,7 @@
                     this.on("touchleave", noTap), this.on("touchcancel", noTap), this.on("touchend", function(event) {
                         firstTouch = null, !0 === couldBeTap && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() - touchStart < 200 && (event.preventDefault(), this.trigger("tap"));
                     });
-                }, _proto.enableTouchActivity = function enableTouchActivity() {
+                }, _proto.enableTouchActivity = function() {
                     if (this.player() && this.player().reportUserActivity) {
                         var touchHolding, report = bind(this.player(), this.player().reportUserActivity);
                         this.on("touchstart", function() {
@@ -1008,25 +998,25 @@
                         };
                         this.on("touchmove", report), this.on("touchend", touchEnd), this.on("touchcancel", touchEnd);
                     }
-                }, _proto.setTimeout = function setTimeout1(fn, timeout) {
+                }, _proto.setTimeout = function(fn, timeout) {
                     var timeoutId, _this2 = this;
                     return fn = bind(this, fn), this.clearTimersOnDispose_(), timeoutId = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                         _this2.setTimeoutIds_.has(timeoutId) && _this2.setTimeoutIds_.delete(timeoutId), fn();
                     }, timeout), this.setTimeoutIds_.add(timeoutId), timeoutId;
-                }, _proto.clearTimeout = function clearTimeout1(timeoutId) {
+                }, _proto.clearTimeout = function(timeoutId) {
                     return this.setTimeoutIds_.has(timeoutId) && (this.setTimeoutIds_.delete(timeoutId), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(timeoutId)), timeoutId;
-                }, _proto.setInterval = function setInterval(fn, interval) {
+                }, _proto.setInterval = function(fn, interval) {
                     fn = bind(this, fn), this.clearTimersOnDispose_();
                     var intervalId = global_window__WEBPACK_IMPORTED_MODULE_0___default().setInterval(fn, interval);
                     return this.setIntervalIds_.add(intervalId), intervalId;
-                }, _proto.clearInterval = function clearInterval(intervalId) {
+                }, _proto.clearInterval = function(intervalId) {
                     return this.setIntervalIds_.has(intervalId) && (this.setIntervalIds_.delete(intervalId), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearInterval(intervalId)), intervalId;
-                }, _proto.requestAnimationFrame = function requestAnimationFrame(fn) {
+                }, _proto.requestAnimationFrame = function(fn) {
                     var id, _this3 = this;
                     return this.supportsRaf_ ? (this.clearTimersOnDispose_(), fn = bind(this, fn), id = global_window__WEBPACK_IMPORTED_MODULE_0___default().requestAnimationFrame(function() {
                         _this3.rafIds_.has(id) && _this3.rafIds_.delete(id), fn();
                     }), this.rafIds_.add(id), id) : this.setTimeout(fn, 1000 / 60);
-                }, _proto.requestNamedAnimationFrame = function requestNamedAnimationFrame(name, fn) {
+                }, _proto.requestNamedAnimationFrame = function(name, fn) {
                     var _this4 = this;
                     if (!this.namedRafs_.has(name)) {
                         this.clearTimersOnDispose_(), fn = bind(this, fn);
@@ -1035,11 +1025,11 @@
                         });
                         return this.namedRafs_.set(name, id), name;
                     }
-                }, _proto.cancelNamedAnimationFrame = function cancelNamedAnimationFrame(name) {
+                }, _proto.cancelNamedAnimationFrame = function(name) {
                     this.namedRafs_.has(name) && (this.cancelAnimationFrame(this.namedRafs_.get(name)), this.namedRafs_.delete(name));
-                }, _proto.cancelAnimationFrame = function cancelAnimationFrame(id) {
+                }, _proto.cancelAnimationFrame = function(id) {
                     return this.supportsRaf_ ? (this.rafIds_.has(id) && (this.rafIds_.delete(id), global_window__WEBPACK_IMPORTED_MODULE_0___default().cancelAnimationFrame(id)), id) : this.clearTimeout(id);
-                }, _proto.clearTimersOnDispose_ = function clearTimersOnDispose_() {
+                }, _proto.clearTimersOnDispose_ = function() {
                     var _this5 = this;
                     this.clearingTimersOnDispose_ || (this.clearingTimersOnDispose_ = !0, this.one("dispose", function() {
                         [
@@ -1066,7 +1056,7 @@
                             });
                         }), _this5.clearingTimersOnDispose_ = !1;
                     }));
-                }, Component.registerComponent = function registerComponent(name, ComponentToRegister) {
+                }, Component.registerComponent = function(name, ComponentToRegister) {
                     if ("string" != typeof name || !name) throw Error('Illegal component name, "' + name + '"; must be a non-empty string.');
                     var Tech = Component.getComponent("Tech"), isTech = Tech && Tech.isTech(ComponentToRegister), isComp = Component === ComponentToRegister || Component.prototype.isPrototypeOf(ComponentToRegister.prototype);
                     if (isTech || !isComp) throw Error('Illegal component, "' + name + '"; ' + (isTech ? "techs must be registered using Tech.registerTech()" : "must be a Component subclass") + ".");
@@ -1079,24 +1069,23 @@
                         }).every(Boolean)) throw Error("Can not register Player component after player has been created.");
                     }
                     return Component.components_[name] = ComponentToRegister, Component.components_[toLowerCase(name)] = ComponentToRegister, ComponentToRegister;
-                }, Component.getComponent = function getComponent(name) {
+                }, Component.getComponent = function(name) {
                     if (name && Component.components_) return Component.components_[name];
                 }, Component;
             }();
-            function rangeCheck(fnName, index, maxIndex) {
-                if ("number" != typeof index || index < 0 || index > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
-            }
             function getRange(fnName, valueIndex, ranges, rangeIndex) {
-                return rangeCheck(fnName, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
+                return !function(fnName, index, maxIndex) {
+                    if ("number" != typeof index || index < 0 || index > maxIndex) throw Error("Failed to execute '" + fnName + "' on 'TimeRanges': The index provided (" + index + ") is non-numeric or out of bounds (0-" + maxIndex + ").");
+                }(fnName, rangeIndex, ranges.length - 1), ranges[rangeIndex][valueIndex];
             }
             function createTimeRangesObj(ranges) {
                 var timeRangesObj;
                 return timeRangesObj = void 0 === ranges || 0 === ranges.length ? {
                     length: 0,
-                    start: function start() {
+                    start: function() {
                         throw Error("This TimeRanges object is empty");
                     },
-                    end: function end() {
+                    end: function() {
                         throw Error("This TimeRanges object is empty");
                     }
                 } : {
@@ -1207,7 +1196,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ModalDialog, _Component);
                 var _proto = ModalDialog.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: this.buildCSSClass(),
                         tabIndex: -1
@@ -1217,28 +1206,28 @@
                         "aria-label": this.label(),
                         role: "dialog"
                     });
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.contentEl_ = null, this.descEl_ = null, this.previouslyActiveEl_ = null, _Component.prototype.dispose.call(this);
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     return MODAL_CLASS_NAME + " vjs-hidden " + _Component.prototype.buildCSSClass.call(this);
-                }, _proto.label = function label() {
+                }, _proto.label = function() {
                     return this.localize(this.options_.label || "Modal Window");
-                }, _proto.description = function description() {
+                }, _proto.description = function() {
                     var desc = this.options_.description || this.localize("This is a modal window.");
                     return this.closeable() && (desc += " " + this.localize("This modal can be closed by pressing the Escape key or activating the close button.")), desc;
-                }, _proto.open = function open() {
+                }, _proto.open = function() {
                     if (!this.opened_) {
                         var player = this.player();
                         this.trigger("beforemodalopen"), this.opened_ = !0, !this.options_.fillAlways && (this.hasBeenOpened_ || this.hasBeenFilled_) || this.fill(), this.wasPlaying_ = !player.paused(), this.options_.pauseOnOpen && this.wasPlaying_ && player.pause(), this.on("keydown", this.handleKeyDown_), this.hadControls_ = player.controls(), player.controls(!1), this.show(), this.conditionalFocus_(), this.el().setAttribute("aria-hidden", "false"), this.trigger("modalopen"), this.hasBeenOpened_ = !0;
                     }
-                }, _proto.opened = function opened(value) {
+                }, _proto.opened = function(value) {
                     return "boolean" == typeof value && this[value ? "open" : "close"](), this.opened_;
-                }, _proto.close = function close() {
+                }, _proto.close = function() {
                     if (this.opened_) {
                         var player = this.player();
                         this.trigger("beforemodalclose"), this.opened_ = !1, this.wasPlaying_ && this.options_.pauseOnOpen && player.play(), this.off("keydown", this.handleKeyDown_), this.hadControls_ && player.controls(!0), this.hide(), this.el().setAttribute("aria-hidden", "true"), this.trigger("modalclose"), this.conditionalBlur_(), this.options_.temporary && this.dispose();
                     }
-                }, _proto.closeable = function closeable(value) {
+                }, _proto.closeable = function(value) {
                     if ("boolean" == typeof value) {
                         var closeable = this.closeable_ = !!value, close = this.getChild("closeButton");
                         if (closeable && !close) {
@@ -1250,23 +1239,23 @@
                         !closeable && close && (this.off(close, "close", this.close_), this.removeChild(close), close.dispose());
                     }
                     return this.closeable_;
-                }, _proto.fill = function fill() {
+                }, _proto.fill = function() {
                     this.fillWith(this.content());
-                }, _proto.fillWith = function fillWith(content) {
+                }, _proto.fillWith = function(content) {
                     var contentEl = this.contentEl(), parentEl = contentEl.parentNode, nextSiblingEl = contentEl.nextSibling;
                     this.trigger("beforemodalfill"), this.hasBeenFilled_ = !0, parentEl.removeChild(contentEl), this.empty(), insertContent(contentEl, content), this.trigger("modalfill"), nextSiblingEl ? parentEl.insertBefore(contentEl, nextSiblingEl) : parentEl.appendChild(contentEl);
                     var closeButton = this.getChild("closeButton");
                     closeButton && parentEl.appendChild(closeButton.el_);
-                }, _proto.empty = function empty() {
+                }, _proto.empty = function() {
                     this.trigger("beforemodalempty"), emptyEl(this.contentEl()), this.trigger("modalempty");
-                }, _proto.content = function content(value) {
+                }, _proto.content = function(value) {
                     return void 0 !== value && (this.content_ = value), this.content_;
-                }, _proto.conditionalFocus_ = function conditionalFocus_() {
+                }, _proto.conditionalFocus_ = function() {
                     var activeEl = global_document__WEBPACK_IMPORTED_MODULE_1___default().activeElement, playerEl = this.player_.el_;
                     this.previouslyActiveEl_ = null, (playerEl.contains(activeEl) || playerEl === activeEl) && (this.previouslyActiveEl_ = activeEl, this.focus());
-                }, _proto.conditionalBlur_ = function conditionalBlur_() {
+                }, _proto.conditionalBlur_ = function() {
                     this.previouslyActiveEl_ && (this.previouslyActiveEl_.focus(), this.previouslyActiveEl_ = null);
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     if (event.stopPropagation(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Escape") && this.closeable()) {
                         event.preventDefault(), this.close();
                         return;
@@ -1278,7 +1267,7 @@
                         }
                         global_document__WEBPACK_IMPORTED_MODULE_1___default().activeElement === this.el_ && (focusIndex = 0), event.shiftKey && 0 === focusIndex ? (focusableEls[focusableEls.length - 1].focus(), event.preventDefault()) : event.shiftKey || focusIndex !== focusableEls.length - 1 || (focusableEls[0].focus(), event.preventDefault());
                     }
-                }, _proto.focusableEls_ = function focusableEls_() {
+                }, _proto.focusableEls_ = function() {
                     var allChildren = this.el_.querySelectorAll("*");
                     return Array.prototype.filter.call(allChildren, function(child) {
                         return (child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLAnchorElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLAreaElement) && child.hasAttribute("href") || (child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLInputElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLSelectElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLTextAreaElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLButtonElement) && !child.hasAttribute("disabled") || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLIFrameElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLObjectElement || child instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().HTMLEmbedElement || child.hasAttribute("tabindex") && -1 !== child.getAttribute("tabindex") || child.hasAttribute("contenteditable");
@@ -1293,7 +1282,7 @@
                 function TrackList(tracks) {
                     var _this;
                     void 0 === tracks && (tracks = []), (_this = _EventTarget.call(this) || this).tracks_ = [], Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "length", {
-                        get: function get() {
+                        get: function() {
                             return this.tracks_.length;
                         }
                     });
@@ -1302,10 +1291,10 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TrackList, _EventTarget);
                 var _proto = TrackList.prototype;
-                return _proto.addTrack = function addTrack(track) {
+                return _proto.addTrack = function(track) {
                     var _this2 = this, index = this.tracks_.length;
                     "" + index in this || Object.defineProperty(this, index, {
-                        get: function get() {
+                        get: function() {
                             return this.tracks_[index];
                         }
                     }), -1 === this.tracks_.indexOf(track) && (this.tracks_.push(track), this.trigger({
@@ -1319,7 +1308,7 @@
                             target: _this2
                         });
                     }, isEvented(track) && track.addEventListener("labelchange", track.labelchange_);
-                }, _proto.removeTrack = function removeTrack(rtrack) {
+                }, _proto.removeTrack = function(rtrack) {
                     for(var track, i = 0, l = this.length; i < l; i++)if (this[i] === rtrack) {
                         (track = this[i]).off && track.off(), this.tracks_.splice(i, 1);
                         break;
@@ -1329,7 +1318,7 @@
                         type: "removetrack",
                         target: this
                     });
-                }, _proto.getTrackById = function getTrackById(id) {
+                }, _proto.getTrackById = function(id) {
                     for(var result = null, i = 0, l = this.length; i < l; i++){
                         var track = this[i];
                         if (track.id === id) {
@@ -1360,12 +1349,12 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(AudioTrackList, _TrackList);
                 var _proto = AudioTrackList.prototype;
-                return _proto.addTrack = function addTrack(track) {
+                return _proto.addTrack = function(track) {
                     var _this2 = this;
                     track.enabled && disableOthers$1(this, track), _TrackList.prototype.addTrack.call(this, track), track.addEventListener && (track.enabledChange_ = function() {
                         _this2.changing_ || (_this2.changing_ = !0, disableOthers$1(_this2, track), _this2.changing_ = !1, _this2.trigger("change"));
                     }, track.addEventListener("enabledchange", track.enabledChange_));
-                }, _proto.removeTrack = function removeTrack(rtrack) {
+                }, _proto.removeTrack = function(rtrack) {
                     _TrackList.prototype.removeTrack.call(this, rtrack), rtrack.removeEventListener && rtrack.enabledChange_ && (rtrack.removeEventListener("enabledchange", rtrack.enabledChange_), rtrack.enabledChange_ = null);
                 }, AudioTrackList;
             }(TrackList), disableOthers = function(list, track) {
@@ -1379,21 +1368,21 @@
                         break;
                     }
                     return (_this = _TrackList.call(this, tracks) || this).changing_ = !1, Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "selectedIndex", {
-                        get: function get() {
+                        get: function() {
                             for(var _i = 0; _i < this.length; _i++)if (this[_i].selected) return _i;
                             return -1;
                         },
-                        set: function set() {}
+                        set: function() {}
                     }), _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VideoTrackList, _TrackList);
                 var _proto = VideoTrackList.prototype;
-                return _proto.addTrack = function addTrack(track) {
+                return _proto.addTrack = function(track) {
                     var _this2 = this;
                     track.selected && disableOthers(this, track), _TrackList.prototype.addTrack.call(this, track), track.addEventListener && (track.selectedChange_ = function() {
                         _this2.changing_ || (_this2.changing_ = !0, disableOthers(_this2, track), _this2.changing_ = !1, _this2.trigger("change"));
                     }, track.addEventListener("selectedchange", track.selectedChange_));
-                }, _proto.removeTrack = function removeTrack(rtrack) {
+                }, _proto.removeTrack = function(rtrack) {
                     _TrackList.prototype.removeTrack.call(this, rtrack), rtrack.removeEventListener && rtrack.selectedChange_ && (rtrack.removeEventListener("selectedchange", rtrack.selectedChange_), rtrack.selectedChange_ = null);
                 }, VideoTrackList;
             }(TrackList), TextTrackList = function(_TrackList) {
@@ -1402,7 +1391,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackList, _TrackList);
                 var _proto = TextTrackList.prototype;
-                return _proto.addTrack = function addTrack(track) {
+                return _proto.addTrack = function(track) {
                     var _this = this;
                     _TrackList.prototype.addTrack.call(this, track), this.queueChange_ || (this.queueChange_ = function() {
                         return _this.queueTrigger("change");
@@ -1412,33 +1401,33 @@
                         "metadata",
                         "chapters"
                     ].indexOf(track.kind) && track.addEventListener("modechange", this.triggerSelectedlanguagechange_);
-                }, _proto.removeTrack = function removeTrack(rtrack) {
+                }, _proto.removeTrack = function(rtrack) {
                     _TrackList.prototype.removeTrack.call(this, rtrack), rtrack.removeEventListener && (this.queueChange_ && rtrack.removeEventListener("modechange", this.queueChange_), this.selectedlanguagechange_ && rtrack.removeEventListener("modechange", this.triggerSelectedlanguagechange_));
                 }, TextTrackList;
             }(TrackList), HtmlTrackElementList = function() {
                 function HtmlTrackElementList(trackElements) {
                     void 0 === trackElements && (trackElements = []), this.trackElements_ = [], Object.defineProperty(this, "length", {
-                        get: function get() {
+                        get: function() {
                             return this.trackElements_.length;
                         }
                     });
                     for(var i = 0, length = trackElements.length; i < length; i++)this.addTrackElement_(trackElements[i]);
                 }
                 var _proto = HtmlTrackElementList.prototype;
-                return _proto.addTrackElement_ = function addTrackElement_(trackElement) {
+                return _proto.addTrackElement_ = function(trackElement) {
                     var index = this.trackElements_.length;
                     "" + index in this || Object.defineProperty(this, index, {
-                        get: function get() {
+                        get: function() {
                             return this.trackElements_[index];
                         }
                     }), -1 === this.trackElements_.indexOf(trackElement) && this.trackElements_.push(trackElement);
-                }, _proto.getTrackElementByTrack_ = function getTrackElementByTrack_(track) {
+                }, _proto.getTrackElementByTrack_ = function(track) {
                     for(var trackElement_, i = 0, length = this.trackElements_.length; i < length; i++)if (track === this.trackElements_[i].track) {
                         trackElement_ = this.trackElements_[i];
                         break;
                     }
                     return trackElement_;
-                }, _proto.removeTrackElement_ = function removeTrackElement_(trackElement) {
+                }, _proto.removeTrackElement_ = function(trackElement) {
                     for(var i = 0, length = this.trackElements_.length; i < length; i++)if (trackElement === this.trackElements_[i]) {
                         this.trackElements_[i].track && "function" == typeof this.trackElements_[i].track.off && this.trackElements_[i].track.off(), "function" == typeof this.trackElements_[i].off && this.trackElements_[i].off(), this.trackElements_.splice(i, 1);
                         break;
@@ -1447,24 +1436,24 @@
             }(), TextTrackCueList = function() {
                 function TextTrackCueList(cues) {
                     TextTrackCueList.prototype.setCues_.call(this, cues), Object.defineProperty(this, "length", {
-                        get: function get() {
+                        get: function() {
                             return this.length_;
                         }
                     });
                 }
                 var _proto = TextTrackCueList.prototype;
-                return _proto.setCues_ = function setCues_(cues) {
+                return _proto.setCues_ = function(cues) {
                     var oldLength = this.length || 0, i = 0, l = cues.length;
                     this.cues_ = cues, this.length_ = cues.length;
                     var defineProp = function(index) {
                         "" + index in this || Object.defineProperty(this, "" + index, {
-                            get: function get() {
+                            get: function() {
                                 return this.cues_[index];
                             }
                         });
                     };
                     if (oldLength < l) for(i = oldLength; i < l; i++)defineProp.call(this, i);
-                }, _proto.getCueById = function getCueById(id) {
+                }, _proto.getCueById = function(id) {
                     for(var result = null, i = 0, l = this.length; i < l; i++){
                         var cue = this[i];
                         if (cue.id === id) {
@@ -1507,18 +1496,18 @@
                         language: options.language || ""
                     }, label = options.label || "", _loop = function(key) {
                         Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), key, {
-                            get: function get() {
+                            get: function() {
                                 return trackProps[key];
                             },
-                            set: function set() {}
+                            set: function() {}
                         });
                     };
                     for(var key in trackProps)_loop(key);
                     return Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "label", {
-                        get: function get() {
+                        get: function() {
                             return label;
                         },
-                        set: function set(newLabel) {
+                        set: function(newLabel) {
                             newLabel !== label && (label = newLabel, this.trigger("labelchange"));
                         }
                     }), _this;
@@ -1607,27 +1596,27 @@
                         _this.tech_.off("timeupdate", timeupdateHandler);
                     }), "disabled" !== mode && _this.tech_.on("timeupdate", timeupdateHandler), Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), {
                         default: {
-                            get: function get() {
+                            get: function() {
                                 return default_;
                             },
-                            set: function set() {}
+                            set: function() {}
                         },
                         mode: {
-                            get: function get() {
+                            get: function() {
                                 return mode;
                             },
-                            set: function set(newMode) {
+                            set: function(newMode) {
                                 TextTrackMode[newMode] && mode !== newMode && (mode = newMode, this.preload_ || "disabled" === mode || 0 !== this.cues.length || loadTrack(this.src, this), this.tech_.off("timeupdate", timeupdateHandler), "disabled" !== mode && this.tech_.on("timeupdate", timeupdateHandler), this.trigger("modechange"));
                             }
                         },
                         cues: {
-                            get: function get() {
+                            get: function() {
                                 return this.loaded_ ? cues : null;
                             },
-                            set: function set() {}
+                            set: function() {}
                         },
                         activeCues: {
-                            get: function get() {
+                            get: function() {
                                 if (!this.loaded_) return null;
                                 if (0 === this.cues.length) return activeCues;
                                 for(var ct = this.tech_.currentTime(), active = [], i = 0, l = this.cues.length; i < l; i++){
@@ -1638,13 +1627,13 @@
                                 else for(var _i = 0; _i < active.length; _i++)-1 === this.activeCues_.indexOf(active[_i]) && (changed = !0);
                                 return this.activeCues_ = active, activeCues.setCues_(this.activeCues_), activeCues;
                             },
-                            set: function set() {}
+                            set: function() {}
                         }
                     }), settings.src ? (_this.src = settings.src, _this.preload_ || (_this.loaded_ = !0), (_this.preload_ || "subtitles" !== settings.kind && "captions" !== settings.kind) && loadTrack(_this.src, (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this))) : _this.loaded_ = !0, _this;
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrack, _Track);
                 var _proto = TextTrack.prototype;
-                return _proto.addCue = function addCue(originalCue) {
+                return _proto.addCue = function(originalCue) {
                     var cue = originalCue;
                     if (global_window__WEBPACK_IMPORTED_MODULE_0___default().vttjs && !(originalCue instanceof global_window__WEBPACK_IMPORTED_MODULE_0___default().vttjs.VTTCue)) {
                         for(var prop in cue = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).vttjs.VTTCue(originalCue.startTime, originalCue.endTime, originalCue.text), originalCue)prop in cue || (cue[prop] = originalCue[prop]);
@@ -1652,7 +1641,7 @@
                     }
                     for(var tracks = this.tech_.textTracks(), i = 0; i < tracks.length; i++)tracks[i] !== this && tracks[i].removeCue(cue);
                     this.cues_.push(cue), this.cues.setCues_(this.cues_);
-                }, _proto.removeCue = function removeCue(_removeCue) {
+                }, _proto.removeCue = function(_removeCue) {
                     for(var i = this.cues_.length; i--;){
                         var cue = this.cues_[i];
                         if (cue === _removeCue || cue.originalCue_ && cue.originalCue_ === _removeCue) {
@@ -1674,10 +1663,10 @@
                     _this = _Track.call(this, settings) || this;
                     var enabled = !1;
                     return Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "enabled", {
-                        get: function get() {
+                        get: function() {
                             return enabled;
                         },
-                        set: function set(newEnabled) {
+                        set: function(newEnabled) {
                             "boolean" == typeof newEnabled && newEnabled !== enabled && (enabled = newEnabled, this.trigger("enabledchange"));
                         }
                     }), settings.enabled && (_this.enabled = settings.enabled), _this.loaded_ = !0, _this;
@@ -1692,10 +1681,10 @@
                     _this = _Track.call(this, settings) || this;
                     var selected = !1;
                     return Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "selected", {
-                        get: function get() {
+                        get: function() {
                             return selected;
                         },
-                        set: function set(newSelected) {
+                        set: function(newSelected) {
                             "boolean" == typeof newSelected && newSelected !== selected && (selected = newSelected, this.trigger("selectedchange"));
                         }
                     }), settings.selected && (_this.selected = settings.selected), _this;
@@ -1707,12 +1696,12 @@
                     var _this, readyState, track = new TextTrack(options);
                     return _this.kind = track.kind, _this.src = track.src, _this.srclang = track.language, _this.label = track.label, _this.default = track.default, Object.defineProperties((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), {
                         readyState: {
-                            get: function get() {
+                            get: function() {
                                 return readyState;
                             }
                         },
                         track: {
-                            get: function get() {
+                            get: function() {
                                 return track;
                             }
                         }
@@ -1764,18 +1753,11 @@
                     privateName: "remoteTextTrackEls_"
                 }
             }, ALL = (0, _babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_15__.Z)({}, NORMAL, REMOTE);
-            function createTrackHelper(self1, kind, label, language, options) {
-                void 0 === options && (options = {});
-                var tracks = self1.textTracks();
-                options.kind = kind, label && (options.label = label), language && (options.language = language), options.tech = self1;
-                var track = new ALL.text.TrackClass(options);
-                return tracks.addTrack(track), track;
-            }
             REMOTE.names = Object.keys(REMOTE), NORMAL.names = Object.keys(NORMAL), ALL.names = [].concat(REMOTE.names).concat(NORMAL.names);
             var Tech = function(_Component) {
                 function Tech(options, ready) {
                     var _this;
-                    return void 0 === options && (options = {}), void 0 === ready && (ready = function ready() {}), options.reportTouchActivity = !1, (_this = _Component.call(this, null, options, ready) || this).onDurationChange_ = function(e) {
+                    return void 0 === options && (options = {}), void 0 === ready && (ready = function() {}), options.reportTouchActivity = !1, (_this = _Component.call(this, null, options, ready) || this).onDurationChange_ = function(e) {
                         return _this.onDurationChange(e);
                     }, _this.trackProgress_ = function(e) {
                         return _this.trackProgress(e);
@@ -1802,7 +1784,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Tech, _Component);
                 var _proto = Tech.prototype;
-                return _proto.triggerSourceset = function triggerSourceset(src) {
+                return _proto.triggerSourceset = function(src) {
                     var _this2 = this;
                     this.isReady_ || this.one("ready", function() {
                         return _this2.setTimeout(function() {
@@ -1812,28 +1794,28 @@
                         src: src,
                         type: "sourceset"
                     });
-                }, _proto.manualProgressOn = function manualProgressOn() {
+                }, _proto.manualProgressOn = function() {
                     this.on("durationchange", this.onDurationChange_), this.manualProgress = !0, this.one("ready", this.trackProgress_);
-                }, _proto.manualProgressOff = function manualProgressOff() {
+                }, _proto.manualProgressOff = function() {
                     this.manualProgress = !1, this.stopTrackingProgress(), this.off("durationchange", this.onDurationChange_);
-                }, _proto.trackProgress = function trackProgress(event) {
+                }, _proto.trackProgress = function(event) {
                     this.stopTrackingProgress(), this.progressInterval = this.setInterval(bind(this, function() {
                         var numBufferedPercent = this.bufferedPercent();
                         this.bufferedPercent_ !== numBufferedPercent && this.trigger("progress"), this.bufferedPercent_ = numBufferedPercent, 1 === numBufferedPercent && this.stopTrackingProgress();
                     }), 500);
-                }, _proto.onDurationChange = function onDurationChange(event) {
+                }, _proto.onDurationChange = function(event) {
                     this.duration_ = this.duration();
-                }, _proto.buffered = function buffered() {
+                }, _proto.buffered = function() {
                     return createTimeRanges(0, 0);
-                }, _proto.bufferedPercent = function bufferedPercent$1() {
+                }, _proto.bufferedPercent = function() {
                     return bufferedPercent(this.buffered(), this.duration_);
-                }, _proto.stopTrackingProgress = function stopTrackingProgress() {
+                }, _proto.stopTrackingProgress = function() {
                     this.clearInterval(this.progressInterval);
-                }, _proto.manualTimeUpdatesOn = function manualTimeUpdatesOn() {
+                }, _proto.manualTimeUpdatesOn = function() {
                     this.manualTimeUpdates = !0, this.on("play", this.trackCurrentTime_), this.on("pause", this.stopTrackingCurrentTime_);
-                }, _proto.manualTimeUpdatesOff = function manualTimeUpdatesOff() {
+                }, _proto.manualTimeUpdatesOff = function() {
                     this.manualTimeUpdates = !1, this.stopTrackingCurrentTime(), this.off("play", this.trackCurrentTime_), this.off("pause", this.stopTrackingCurrentTime_);
-                }, _proto.trackCurrentTime = function trackCurrentTime() {
+                }, _proto.trackCurrentTime = function() {
                     this.currentTimeInterval && this.stopTrackingCurrentTime(), this.currentTimeInterval = this.setInterval(function() {
                         this.trigger({
                             type: "timeupdate",
@@ -1841,15 +1823,15 @@
                             manuallyTriggered: !0
                         });
                     }, 250);
-                }, _proto.stopTrackingCurrentTime = function stopTrackingCurrentTime() {
+                }, _proto.stopTrackingCurrentTime = function() {
                     this.clearInterval(this.currentTimeInterval), this.trigger({
                         type: "timeupdate",
                         target: this,
                         manuallyTriggered: !0
                     });
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.clearTracks(NORMAL.names), this.manualProgress && this.manualProgressOff(), this.manualTimeUpdates && this.manualTimeUpdatesOff(), _Component.prototype.dispose.call(this);
-                }, _proto.clearTracks = function clearTracks(types) {
+                }, _proto.clearTracks = function(types) {
                     var _this3 = this;
                     (types = [].concat(types)).forEach(function(type) {
                         for(var list = _this3[type + "Tracks"]() || [], i = list.length; i--;){
@@ -1857,22 +1839,22 @@
                             "text" === type && _this3.removeRemoteTextTrack(track), list.removeTrack(track);
                         }
                     });
-                }, _proto.cleanupAutoTextTracks = function cleanupAutoTextTracks() {
+                }, _proto.cleanupAutoTextTracks = function() {
                     for(var list = this.autoRemoteTextTracks_ || [], i = list.length; i--;){
                         var track = list[i];
                         this.removeRemoteTextTrack(track);
                     }
-                }, _proto.reset = function reset() {}, _proto.crossOrigin = function crossOrigin() {}, _proto.setCrossOrigin = function setCrossOrigin() {}, _proto.error = function error(err) {
+                }, _proto.reset = function() {}, _proto.crossOrigin = function() {}, _proto.setCrossOrigin = function() {}, _proto.error = function(err) {
                     return void 0 !== err && (this.error_ = new MediaError(err), this.trigger("error")), this.error_;
-                }, _proto.played = function played() {
+                }, _proto.played = function() {
                     return this.hasStarted_ ? createTimeRanges(0, 0) : createTimeRanges();
-                }, _proto.play = function play() {}, _proto.setScrubbing = function setScrubbing() {}, _proto.scrubbing = function scrubbing() {}, _proto.setCurrentTime = function setCurrentTime() {
+                }, _proto.play = function() {}, _proto.setScrubbing = function() {}, _proto.scrubbing = function() {}, _proto.setCurrentTime = function() {
                     this.manualTimeUpdates && this.trigger({
                         type: "timeupdate",
                         target: this,
                         manuallyTriggered: !0
                     });
-                }, _proto.initTrackListeners = function initTrackListeners() {
+                }, _proto.initTrackListeners = function() {
                     var _this4 = this;
                     NORMAL.names.forEach(function(name) {
                         var props = NORMAL[name], trackListChanges = function() {
@@ -1882,7 +1864,7 @@
                             tracks.removeEventListener("removetrack", trackListChanges), tracks.removeEventListener("addtrack", trackListChanges);
                         });
                     });
-                }, _proto.addWebVttScript_ = function addWebVttScript_() {
+                }, _proto.addWebVttScript_ = function() {
                     var _this5 = this;
                     if (!global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT) {
                         if (global_document__WEBPACK_IMPORTED_MODULE_1___default().body.contains(this.el())) {
@@ -1900,7 +1882,7 @@
                             }), global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT = !0, this.el().parentNode.appendChild(script);
                         } else this.ready(this.addWebVttScript_);
                     }
-                }, _proto.emulateTextTracks = function emulateTextTracks() {
+                }, _proto.emulateTextTracks = function() {
                     var _this6 = this, tracks = this.textTracks(), remoteTracks = this.remoteTextTracks(), handleAddTrack = function(e) {
                         return tracks.addTrack(e.track);
                     }, handleRemoveTrack = function(e) {
@@ -1920,45 +1902,46 @@
                         remoteTracks.off("addtrack", handleAddTrack), remoteTracks.off("removetrack", handleRemoveTrack), tracks.removeEventListener("change", textTracksChanges), tracks.removeEventListener("addtrack", textTracksChanges), tracks.removeEventListener("removetrack", textTracksChanges);
                         for(var i = 0; i < tracks.length; i++)tracks[i].removeEventListener("cuechange", updateDisplay);
                     });
-                }, _proto.addTextTrack = function addTextTrack(kind, label, language) {
+                }, _proto.addTextTrack = function(kind, label, language) {
+                    var options, tracks, track;
                     if (!kind) throw Error("TextTrack kind is required but was not provided");
-                    return createTrackHelper(this, kind, label, language);
-                }, _proto.createRemoteTextTrack = function createRemoteTextTrack(options) {
+                    return void 0 === options && (options = {}), tracks = this.textTracks(), options.kind = kind, label && (options.label = label), language && (options.language = language), options.tech = this, track = new ALL.text.TrackClass(options), tracks.addTrack(track), track;
+                }, _proto.createRemoteTextTrack = function(options) {
                     var track = mergeOptions$3(options, {
                         tech: this
                     });
                     return new REMOTE.remoteTextEl.TrackClass(track);
-                }, _proto.addRemoteTextTrack = function addRemoteTextTrack(options, manualCleanup) {
+                }, _proto.addRemoteTextTrack = function(options, manualCleanup) {
                     var _this7 = this;
                     void 0 === options && (options = {});
                     var htmlTrackElement = this.createRemoteTextTrack(options);
                     return !0 !== manualCleanup && !1 !== manualCleanup && (log$1.warn('Calling addRemoteTextTrack without explicitly setting the "manualCleanup" parameter to `true` is deprecated and default to `false` in future version of video.js'), manualCleanup = !0), this.remoteTextTrackEls().addTrackElement_(htmlTrackElement), this.remoteTextTracks().addTrack(htmlTrackElement.track), !0 !== manualCleanup && this.ready(function() {
                         return _this7.autoRemoteTextTracks_.addTrack(htmlTrackElement.track);
                     }), htmlTrackElement;
-                }, _proto.removeRemoteTextTrack = function removeRemoteTextTrack(track) {
+                }, _proto.removeRemoteTextTrack = function(track) {
                     var trackElement = this.remoteTextTrackEls().getTrackElementByTrack_(track);
                     this.remoteTextTrackEls().removeTrackElement_(trackElement), this.remoteTextTracks().removeTrack(track), this.autoRemoteTextTracks_.removeTrack(track);
-                }, _proto.getVideoPlaybackQuality = function getVideoPlaybackQuality() {
+                }, _proto.getVideoPlaybackQuality = function() {
                     return {};
-                }, _proto.requestPictureInPicture = function requestPictureInPicture() {
+                }, _proto.requestPictureInPicture = function() {
                     var PromiseClass = this.options_.Promise || global_window__WEBPACK_IMPORTED_MODULE_0___default().Promise;
                     if (PromiseClass) return PromiseClass.reject();
-                }, _proto.disablePictureInPicture = function disablePictureInPicture() {
+                }, _proto.disablePictureInPicture = function() {
                     return !0;
-                }, _proto.setDisablePictureInPicture = function setDisablePictureInPicture() {}, _proto.setPoster = function setPoster() {}, _proto.playsinline = function playsinline() {}, _proto.setPlaysinline = function setPlaysinline() {}, _proto.overrideNativeAudioTracks = function overrideNativeAudioTracks() {}, _proto.overrideNativeVideoTracks = function overrideNativeVideoTracks() {}, _proto.canPlayType = function canPlayType() {
+                }, _proto.setDisablePictureInPicture = function() {}, _proto.setPoster = function() {}, _proto.playsinline = function() {}, _proto.setPlaysinline = function() {}, _proto.overrideNativeAudioTracks = function() {}, _proto.overrideNativeVideoTracks = function() {}, _proto.canPlayType = function() {
                     return "";
-                }, Tech.canPlayType = function canPlayType() {
+                }, Tech.canPlayType = function() {
                     return "";
-                }, Tech.canPlaySource = function canPlaySource(srcObj, options) {
+                }, Tech.canPlaySource = function(srcObj, options) {
                     return Tech.canPlayType(srcObj.type);
-                }, Tech.isTech = function isTech(component) {
+                }, Tech.isTech = function(component) {
                     return component.prototype instanceof Tech || component instanceof Tech || component === Tech;
-                }, Tech.registerTech = function registerTech(name, tech) {
+                }, Tech.registerTech = function(name, tech) {
                     if (Tech.techs_ || (Tech.techs_ = {}), !Tech.isTech(tech)) throw Error("Tech " + name + " must be a Tech");
                     if (!Tech.canPlayType) throw Error("Techs must have a static canPlayType method on them");
                     if (!Tech.canPlaySource) throw Error("Techs must have a static canPlaySource method on them");
                     return name = toTitleCase$1(name), Tech.techs_[name] = tech, Tech.techs_[toLowerCase(name)] = tech, "Tech" !== name && Tech.defaultTechOrder_.push(name), tech;
-                }, Tech.getTech = function getTech(name) {
+                }, Tech.getTech = function(name) {
                     return name ? Tech.techs_ && Tech.techs_[name] ? Tech.techs_[name] : (name = toTitleCase$1(name), global_window__WEBPACK_IMPORTED_MODULE_0___default() && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs && global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) ? (log$1.warn("The " + name + " tech was added to the videojs object when it should be registered using videojs.registerTech(name, tech)"), global_window__WEBPACK_IMPORTED_MODULE_0___default().videojs[name]) : void 0 : void 0;
                 }, Tech;
             }(Component$1);
@@ -2000,29 +1983,15 @@
                 };
             }, Component$1.registerComponent("Tech", Tech), Tech.registerTech("Tech", Tech), Tech.defaultTechOrder_ = [];
             var middlewares = {}, middlewareInstances = {}, TERMINATOR = {};
-            function use(type, middleware) {
-                middlewares[type] = middlewares[type] || [], middlewares[type].push(middleware);
-            }
-            function setSource(player, src, next) {
-                player.setTimeout(function() {
-                    return setSourceHelper(src, middlewares[src.type], next, player);
-                }, 1);
-            }
-            function setTech(middleware, tech) {
-                middleware.forEach(function(mw) {
-                    return mw.setTech && mw.setTech(tech);
-                });
-            }
-            function get(middleware, tech, method) {
-                return middleware.reduceRight(middlewareIterator(method), tech[method]());
-            }
-            function set(middleware, tech, method, arg) {
-                return tech[method](middleware.reduce(middlewareIterator(method), arg));
-            }
             function mediate(middleware, tech, method, arg) {
                 void 0 === arg && (arg = null);
                 var callMethod = "call" + toTitleCase$1(method), middlewareValue = middleware.reduce(middlewareIterator(callMethod), arg), terminated = middlewareValue === TERMINATOR, returnValue = terminated ? null : tech[method](middlewareValue);
-                return executeRight(middleware, method, returnValue, terminated), returnValue;
+                return function(mws, method, value, terminated) {
+                    for(var i = mws.length - 1; i >= 0; i--){
+                        var mw = mws[i];
+                        mw[method] && mw[method](terminated, value);
+                    }
+                }(middleware, method, returnValue, terminated), returnValue;
             }
             var allowedGetters = {
                 buffered: 1,
@@ -2046,45 +2015,6 @@
                 return function(value, mw) {
                     return value === TERMINATOR ? TERMINATOR : mw[method] ? mw[method](value) : value;
                 };
-            }
-            function executeRight(mws, method, value, terminated) {
-                for(var i = mws.length - 1; i >= 0; i--){
-                    var mw = mws[i];
-                    mw[method] && mw[method](terminated, value);
-                }
-            }
-            function clearCacheForPlayer(player) {
-                middlewareInstances[player.id()] = null;
-            }
-            function getOrCreateFactory(player, mwFactory) {
-                var mws = middlewareInstances[player.id()], mw = null;
-                if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
-                    [
-                        mwFactory,
-                        mw
-                    ]
-                ], mw;
-                for(var i = 0; i < mws.length; i++){
-                    var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
-                    mwf === mwFactory && (mw = mwi);
-                }
-                return null === mw && (mw = mwFactory(player), mws.push([
-                    mwFactory,
-                    mw
-                ])), mw;
-            }
-            function setSourceHelper(src, middleware, next, player, acc, lastRun) {
-                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
-                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1);
-                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun);
-                else if (mwFactory) {
-                    var mw = getOrCreateFactory(player, mwFactory);
-                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                    mw.setSource(assign({}, src), function(err, _src) {
-                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
-                        acc.push(mw), setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
-                    });
-                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
             }
             var MimetypesKind = {
                 opus: "video/ogg",
@@ -2176,7 +2106,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ClickableComponent, _Component);
                 var _proto = ClickableComponent.prototype;
-                return _proto.createEl = function createEl$1(tag, props, attributes) {
+                return _proto.createEl = function(tag, props, attributes) {
                     void 0 === tag && (tag = "div"), void 0 === props && (props = {}), void 0 === attributes && (attributes = {}), props = assign({
                         className: this.buildCSSClass(),
                         tabIndex: 0
@@ -2189,35 +2119,35 @@
                     }, {
                         "aria-hidden": !0
                     })), this.createControlTextEl(el), el;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.controlTextEl_ = null, _Component.prototype.dispose.call(this);
-                }, _proto.createControlTextEl = function createControlTextEl(el) {
+                }, _proto.createControlTextEl = function(el) {
                     return this.controlTextEl_ = createEl("span", {
                         className: "vjs-control-text"
                     }, {
                         "aria-live": "polite"
                     }), el && el.appendChild(this.controlTextEl_), this.controlText(this.controlText_, el), this.controlTextEl_;
-                }, _proto.controlText = function controlText(text, el) {
+                }, _proto.controlText = function(text, el) {
                     if (void 0 === el && (el = this.el()), void 0 === text) return this.controlText_ || "Need Text";
                     var localizedText = this.localize(text);
                     this.controlText_ = text, textContent(this.controlTextEl_, localizedText), this.nonIconControl || this.player_.options_.noUITitleAttributes || el.setAttribute("title", localizedText);
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     return "vjs-control vjs-button " + _Component.prototype.buildCSSClass.call(this);
-                }, _proto.enable = function enable() {
+                }, _proto.enable = function() {
                     this.enabled_ || (this.enabled_ = !0, this.removeClass("vjs-disabled"), this.el_.setAttribute("aria-disabled", "false"), void 0 !== this.tabIndex_ && this.el_.setAttribute("tabIndex", this.tabIndex_), this.on([
                         "tap",
                         "click"
                     ], this.handleClick_), this.on("keydown", this.handleKeyDown_));
-                }, _proto.disable = function disable() {
+                }, _proto.disable = function() {
                     this.enabled_ = !1, this.addClass("vjs-disabled"), this.el_.setAttribute("aria-disabled", "true"), void 0 !== this.tabIndex_ && this.el_.removeAttribute("tabIndex"), this.off("mouseover", this.handleMouseOver_), this.off("mouseout", this.handleMouseOut_), this.off([
                         "tap",
                         "click"
                     ], this.handleClick_), this.off("keydown", this.handleKeyDown_);
-                }, _proto.handleLanguagechange = function handleLanguagechange() {
+                }, _proto.handleLanguagechange = function() {
                     this.controlText(this.controlText_);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.options_.clickHandler && this.options_.clickHandler.call(this, arguments);
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Space") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Enter") ? (event.preventDefault(), event.stopPropagation(), this.trigger("click")) : _Component.prototype.handleKeyDown.call(this, event);
                 }, ClickableComponent;
             }(Component$1);
@@ -2231,20 +2161,20 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PosterImage, _ClickableComponent);
                 var _proto = PosterImage.prototype;
-                return _proto.dispose = function dispose() {
+                return _proto.dispose = function() {
                     this.player().off("posterchange", this.update_), _ClickableComponent.prototype.dispose.call(this);
-                }, _proto.createEl = function createEl$1() {
+                }, _proto.createEl = function() {
                     return createEl("div", {
                         className: "vjs-poster",
                         tabIndex: -1
                     });
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     var url = this.player().poster();
                     this.setSrc(url), url ? this.show() : this.hide();
-                }, _proto.setSrc = function setSrc(url) {
+                }, _proto.setSrc = function(url) {
                     var backgroundImage = "";
                     url && (backgroundImage = 'url("' + url + '")'), this.el_.style.backgroundImage = backgroundImage;
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     if (this.player_.controls()) {
                         var sourceIsEncrypted = this.player_.usingPlugin("eme") && this.player_.eme.sessions && this.player_.eme.sessions.length > 0;
                         this.player_.tech(!0) && !((IE_VERSION || IS_EDGE) && sourceIsEncrypted) && this.player_.tech(!0).focus(), this.player_.paused() ? silencePromise(this.player_.play()) : this.player_.pause();
@@ -2302,7 +2232,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackDisplay, _Component);
                 var _proto = TextTrackDisplay.prototype;
-                return _proto.preselectTrack = function preselectTrack() {
+                return _proto.preselectTrack = function() {
                     for(var firstDesc, firstCaptions, preferredTrack, modes = {
                         captions: 1,
                         subtitles: 1
@@ -2311,9 +2241,9 @@
                         userPref && userPref.enabled && userPref.language && userPref.language === track.language && track.kind in modes ? track.kind === userPref.kind ? preferredTrack = track : preferredTrack || (preferredTrack = track) : userPref && !userPref.enabled ? (preferredTrack = null, firstDesc = null, firstCaptions = null) : track.default && ("descriptions" !== track.kind || firstDesc ? track.kind in modes && !firstCaptions && (firstCaptions = track) : firstDesc = track);
                     }
                     preferredTrack ? preferredTrack.mode = "showing" : firstCaptions ? firstCaptions.mode = "showing" : firstDesc && (firstDesc.mode = "showing");
-                }, _proto.toggleDisplay = function toggleDisplay() {
+                }, _proto.toggleDisplay = function() {
                     this.player_.tech_ && this.player_.tech_.featuresNativeTextTracks ? this.hide() : this.show();
-                }, _proto.createEl = function createEl() {
+                }, _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-text-track-display"
                     }, {
@@ -2321,9 +2251,9 @@
                         "aria-live": "off",
                         "aria-atomic": "true"
                     });
-                }, _proto.clearDisplay = function clearDisplay() {
+                }, _proto.clearDisplay = function() {
                     "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT && global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT.processCues(global_window__WEBPACK_IMPORTED_MODULE_0___default(), [], this.el_);
-                }, _proto.updateDisplay = function updateDisplay() {
+                }, _proto.updateDisplay = function() {
                     var tracks = this.player_.textTracks(), allowMultipleShowingTracks = this.options_.allowMultipleShowingTracks;
                     if (this.clearDisplay(), allowMultipleShowingTracks) {
                         for(var showingTracks = [], _i = 0; _i < tracks.length; ++_i){
@@ -2338,7 +2268,7 @@
                         "showing" === _track.mode && ("descriptions" === _track.kind ? descriptionsTrack = _track : captionsSubtitlesTrack = _track);
                     }
                     captionsSubtitlesTrack ? ("off" !== this.getAttribute("aria-live") && this.setAttribute("aria-live", "off"), this.updateForTrack(captionsSubtitlesTrack)) : descriptionsTrack && ("assertive" !== this.getAttribute("aria-live") && this.setAttribute("aria-live", "assertive"), this.updateForTrack(descriptionsTrack));
-                }, _proto.updateDisplayState = function updateDisplayState(track) {
+                }, _proto.updateDisplayState = function(track) {
                     for(var overrides = this.player_.textTrackSettings.getValues(), cues = track.activeCues, i = cues.length; i--;){
                         var cue = cues[i];
                         if (cue) {
@@ -2350,7 +2280,7 @@
                             overrides.fontFamily && "default" !== overrides.fontFamily && ("small-caps" === overrides.fontFamily ? cueDiv.firstChild.style.fontVariant = "small-caps" : cueDiv.firstChild.style.fontFamily = fontMap[overrides.fontFamily]);
                         }
                     }
-                }, _proto.updateForTrack = function updateForTrack(tracks) {
+                }, _proto.updateForTrack = function(tracks) {
                     if (Array.isArray(tracks) || (tracks = [
                         tracks
                     ]), !("function" != typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT || tracks.every(function(track) {
@@ -2373,7 +2303,7 @@
                 function LoadingSpinner() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LoadingSpinner, _Component), LoadingSpinner.prototype.createEl = function createEl$1() {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LoadingSpinner, _Component), LoadingSpinner.prototype.createEl = function() {
                     var isAudio = this.player_.isAudio(), playerType = this.localize(isAudio ? "Audio Player" : "Video Player"), controlText = createEl("span", {
                         className: "vjs-control-text",
                         textContent: this.localize("{1} is loading.", [
@@ -2393,7 +2323,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Button, _ClickableComponent);
                 var _proto = Button.prototype;
-                return _proto.createEl = function createEl$1(tag, props, attributes) {
+                return _proto.createEl = function(tag, props, attributes) {
                     void 0 === props && (props = {}), void 0 === attributes && (attributes = {});
                     var el = createEl("button", props = assign({
                         className: this.buildCSSClass()
@@ -2405,15 +2335,15 @@
                     }, {
                         "aria-hidden": !0
                     })), this.createControlTextEl(el), el;
-                }, _proto.addChild = function addChild(child, options) {
+                }, _proto.addChild = function(child, options) {
                     void 0 === options && (options = {});
                     var className = this.constructor.name;
                     return log$1.warn("Adding an actionable (user controllable) child to a Button (" + className + ") is not supported; use a ClickableComponent instead."), Component$1.prototype.addChild.call(this, child, options);
-                }, _proto.enable = function enable() {
+                }, _proto.enable = function() {
                     _ClickableComponent.prototype.enable.call(this), this.el_.removeAttribute("disabled");
-                }, _proto.disable = function disable() {
+                }, _proto.disable = function() {
                     _ClickableComponent.prototype.disable.call(this), this.el_.setAttribute("disabled", "disabled");
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     if (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Space") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Enter")) {
                         event.stopPropagation();
                         return;
@@ -2431,9 +2361,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(BigPlayButton, _Button);
                 var _proto = BigPlayButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-big-play-button";
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     var playPromise = this.player_.play();
                     if (this.mouseused_ && event.clientX && event.clientY) {
                         var sourceIsEncrypted = this.player_.usingPlugin("eme") && this.player_.eme.sessions && this.player_.eme.sessions.length > 0;
@@ -2449,9 +2379,9 @@
                         return playToggle.focus();
                     };
                     isPromise(playPromise) ? playPromise.then(playFocus, function() {}) : this.setTimeout(playFocus, 1);
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     this.mouseused_ = !1, _Button.prototype.handleKeyDown.call(this, event);
-                }, _proto.handleMouseDown = function handleMouseDown(event) {
+                }, _proto.handleMouseDown = function(event) {
                     this.mouseused_ = !0;
                 }, BigPlayButton;
             }(Button);
@@ -2463,14 +2393,14 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CloseButton, _Button);
                 var _proto = CloseButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-close-button " + _Button.prototype.buildCSSClass.call(this);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.trigger({
                         type: "close",
                         bubbles: !1
                     });
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") ? (event.preventDefault(), event.stopPropagation(), this.trigger("click")) : _Button.prototype.handleKeyDown.call(this, event);
                 }, CloseButton;
             }(Button);
@@ -2488,17 +2418,17 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PlayToggle, _Button);
                 var _proto = PlayToggle.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-play-control " + _Button.prototype.buildCSSClass.call(this);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.player_.paused() ? silencePromise(this.player_.play()) : this.player_.pause();
-                }, _proto.handleSeeked = function handleSeeked(event) {
+                }, _proto.handleSeeked = function(event) {
                     this.removeClass("vjs-ended"), this.player_.paused() ? this.handlePause(event) : this.handlePlay(event);
-                }, _proto.handlePlay = function handlePlay(event) {
+                }, _proto.handlePlay = function(event) {
                     this.removeClass("vjs-ended"), this.removeClass("vjs-paused"), this.addClass("vjs-playing"), this.controlText("Pause");
-                }, _proto.handlePause = function handlePause(event) {
+                }, _proto.handlePause = function(event) {
                     this.removeClass("vjs-playing"), this.addClass("vjs-paused"), this.controlText("Play");
-                }, _proto.handleEnded = function handleEnded(event) {
+                }, _proto.handleEnded = function(event) {
                     var _this2 = this;
                     this.removeClass("vjs-playing"), this.addClass("vjs-ended"), this.controlText("Replay"), this.one(this.player_, "seeked", function(e) {
                         return _this2.handleSeeked(e);
@@ -2510,12 +2440,6 @@
                 var s = Math.floor((seconds = seconds < 0 ? 0 : seconds) % 60), m = Math.floor(seconds / 60 % 60), h = Math.floor(seconds / 3600);
                 return (isNaN(seconds) || seconds === 1 / 0) && (h = m = s = "-"), m = (((h = h > 0 || Math.floor(guide / 3600) > 0 ? h + ":" : "") || Math.floor(guide / 60 % 60) >= 10) && m < 10 ? "0" + m : m) + ":", h + m + (s = s < 10 ? "0" + s : s);
             }, implementation = defaultImplementation;
-            function setFormatTime(customImplementation) {
-                implementation = customImplementation;
-            }
-            function resetFormatTime() {
-                implementation = defaultImplementation;
-            }
             function formatTime(seconds, guide) {
                 return void 0 === guide && (guide = seconds), implementation(seconds, guide);
             }
@@ -2531,7 +2455,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeDisplay, _Component);
                 var _proto = TimeDisplay.prototype;
-                return _proto.createEl = function createEl$1() {
+                return _proto.createEl = function() {
                     var className = this.buildCSSClass(), el = _Component.prototype.createEl.call(this, "div", {
                         className: className + " vjs-time-control vjs-control"
                     }), span = createEl("span", {
@@ -2546,9 +2470,9 @@
                         "aria-live": "off",
                         role: "presentation"
                     }), el.appendChild(this.contentEl_), el;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.contentEl_ = null, this.textNode_ = null, _Component.prototype.dispose.call(this);
-                }, _proto.updateTextNode_ = function updateTextNode_(time) {
+                }, _proto.updateTextNode_ = function(time) {
                     var _this2 = this;
                     void 0 === time && (time = 0), time = formatTime(time), this.formattedTime_ !== time && (this.formattedTime_ = time, this.requestNamedAnimationFrame("TimeDisplay#updateTextNode_", function() {
                         if (_this2.contentEl_) {
@@ -2556,7 +2480,7 @@
                             oldNode && _this2.contentEl_.firstChild !== oldNode && (oldNode = null, log$1.warn("TimeDisplay#updateTextnode_: Prevented replacement of text node element since it was no longer a child of this node. Appending a new node instead.")), _this2.textNode_ = global_document__WEBPACK_IMPORTED_MODULE_1___default().createTextNode(_this2.formattedTime_), _this2.textNode_ && (oldNode ? _this2.contentEl_.replaceChild(_this2.textNode_, oldNode) : _this2.contentEl_.appendChild(_this2.textNode_));
                         }
                     }));
-                }, _proto.updateContent = function updateContent(event) {}, TimeDisplay;
+                }, _proto.updateContent = function(event) {}, TimeDisplay;
             }(Component$1);
             TimeDisplay.prototype.labelText_ = "Time", TimeDisplay.prototype.controlText_ = "Time", Component$1.registerComponent("TimeDisplay", TimeDisplay);
             var CurrentTimeDisplay = function(_TimeDisplay) {
@@ -2565,9 +2489,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CurrentTimeDisplay, _TimeDisplay);
                 var _proto = CurrentTimeDisplay.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-current-time";
-                }, _proto.updateContent = function updateContent(event) {
+                }, _proto.updateContent = function(event) {
                     var time;
                     time = this.player_.ended() ? this.player_.duration() : this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime(), this.updateTextNode_(time);
                 }, CurrentTimeDisplay;
@@ -2583,9 +2507,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(DurationDisplay, _TimeDisplay);
                 var _proto = DurationDisplay.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-duration";
-                }, _proto.updateContent = function updateContent(event) {
+                }, _proto.updateContent = function(event) {
                     var duration = this.player_.duration();
                     this.updateTextNode_(duration);
                 }, DurationDisplay;
@@ -2595,7 +2519,7 @@
                 function TimeDivider() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeDivider, _Component), TimeDivider.prototype.createEl = function createEl() {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeDivider, _Component), TimeDivider.prototype.createEl = function() {
                     var el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-time-control vjs-time-divider"
                     }, {
@@ -2616,14 +2540,14 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(RemainingTimeDisplay, _TimeDisplay);
                 var _proto = RemainingTimeDisplay.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-remaining-time";
-                }, _proto.createEl = function createEl$1() {
+                }, _proto.createEl = function() {
                     var el = _TimeDisplay.prototype.createEl.call(this);
                     return el.insertBefore(createEl("span", {}, {
                         "aria-hidden": !0
                     }, "-"), this.contentEl_), el;
-                }, _proto.updateContent = function updateContent(event) {
+                }, _proto.updateContent = function(event) {
                     var time;
                     "number" == typeof this.player_.duration() && (time = this.player_.ended() ? 0 : this.player_.remainingTimeDisplay ? this.player_.remainingTimeDisplay() : this.player_.remainingTime(), this.updateTextNode_(time));
                 }, RemainingTimeDisplay;
@@ -2638,7 +2562,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LiveDisplay, _Component);
                 var _proto = LiveDisplay.prototype;
-                return _proto.createEl = function createEl$1() {
+                return _proto.createEl = function() {
                     var el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-live-control vjs-control"
                     });
@@ -2650,9 +2574,9 @@
                         className: "vjs-control-text",
                         textContent: this.localize("Stream Type") + "\xA0"
                     })), this.contentEl_.appendChild(global_document__WEBPACK_IMPORTED_MODULE_1___default().createTextNode(this.localize("LIVE"))), el.appendChild(this.contentEl_), el;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.contentEl_ = null, _Component.prototype.dispose.call(this);
-                }, _proto.updateShowing = function updateShowing(event) {
+                }, _proto.updateShowing = function(event) {
                     this.player().duration() === 1 / 0 ? this.show() : this.hide();
                 }, LiveDisplay;
             }(Component$1);
@@ -2666,7 +2590,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SeekToLive, _Button);
                 var _proto = SeekToLive.prototype;
-                return _proto.createEl = function createEl$1() {
+                return _proto.createEl = function() {
                     var el = _Button.prototype.createEl.call(this, "button", {
                         className: "vjs-seek-to-live-control vjs-control"
                     });
@@ -2676,11 +2600,11 @@
                     }, {
                         "aria-hidden": "true"
                     }), el.appendChild(this.textEl_), el;
-                }, _proto.updateLiveEdgeStatus = function updateLiveEdgeStatus() {
+                }, _proto.updateLiveEdgeStatus = function() {
                     !this.player_.liveTracker || this.player_.liveTracker.atLiveEdge() ? (this.setAttribute("aria-disabled", !0), this.addClass("vjs-at-live-edge"), this.controlText("Seek to live, currently playing live")) : (this.setAttribute("aria-disabled", !1), this.removeClass("vjs-at-live-edge"), this.controlText("Seek to live, currently behind live"));
-                }, _proto.handleClick = function handleClick() {
+                }, _proto.handleClick = function() {
                     this.player_.liveTracker.seekToLiveEdge();
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.player_.liveTracker && this.off(this.player_.liveTracker, "liveedgechange", this.updateLiveEdgeStatusHandler_), this.textEl_ = null, _Button.prototype.dispose.call(this);
                 }, SeekToLive;
             }(Button);
@@ -2706,16 +2630,16 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Slider, _Component);
                 var _proto = Slider.prototype;
-                return _proto.enabled = function enabled() {
+                return _proto.enabled = function() {
                     return this.enabled_;
-                }, _proto.enable = function enable() {
+                }, _proto.enable = function() {
                     this.enabled() || (this.on("mousedown", this.handleMouseDown_), this.on("touchstart", this.handleMouseDown_), this.on("keydown", this.handleKeyDown_), this.on("click", this.handleClick_), this.on(this.player_, "controlsvisible", this.update), this.playerEvent && this.on(this.player_, this.playerEvent, this.update), this.removeClass("disabled"), this.setAttribute("tabindex", 0), this.enabled_ = !0);
-                }, _proto.disable = function disable() {
+                }, _proto.disable = function() {
                     if (this.enabled()) {
                         var doc = this.bar.el_.ownerDocument;
                         this.off("mousedown", this.handleMouseDown_), this.off("touchstart", this.handleMouseDown_), this.off("keydown", this.handleKeyDown_), this.off("click", this.handleClick_), this.off(this.player_, "controlsvisible", this.update_), this.off(doc, "mousemove", this.handleMouseMove_), this.off(doc, "mouseup", this.handleMouseUp_), this.off(doc, "touchmove", this.handleMouseMove_), this.off(doc, "touchend", this.handleMouseUp_), this.removeAttribute("tabindex"), this.addClass("disabled"), this.playerEvent && this.off(this.player_, this.playerEvent, this.update), this.enabled_ = !1;
                     }
-                }, _proto.createEl = function createEl(type, props, attributes) {
+                }, _proto.createEl = function(type, props, attributes) {
                     return void 0 === props && (props = {}), void 0 === attributes && (attributes = {}), props.className = props.className + " vjs-slider", props = assign({
                         tabIndex: 0
                     }, props), attributes = assign({
@@ -2725,13 +2649,13 @@
                         "aria-valuemax": 100,
                         tabIndex: 0
                     }, attributes), _Component.prototype.createEl.call(this, type, props, attributes);
-                }, _proto.handleMouseDown = function handleMouseDown(event) {
+                }, _proto.handleMouseDown = function(event) {
                     var doc = this.bar.el_.ownerDocument;
                     "mousedown" === event.type && event.preventDefault(), "touchstart" !== event.type || IS_CHROME || event.preventDefault(), blockTextSelection(), this.addClass("vjs-sliding"), this.trigger("slideractive"), this.on(doc, "mousemove", this.handleMouseMove_), this.on(doc, "mouseup", this.handleMouseUp_), this.on(doc, "touchmove", this.handleMouseMove_), this.on(doc, "touchend", this.handleMouseUp_), this.handleMouseMove(event);
-                }, _proto.handleMouseMove = function handleMouseMove(event) {}, _proto.handleMouseUp = function handleMouseUp() {
+                }, _proto.handleMouseMove = function(event) {}, _proto.handleMouseUp = function() {
                     var doc = this.bar.el_.ownerDocument;
                     unblockTextSelection(), this.removeClass("vjs-sliding"), this.trigger("sliderinactive"), this.off(doc, "mousemove", this.handleMouseMove_), this.off(doc, "mouseup", this.handleMouseUp_), this.off(doc, "touchmove", this.handleMouseMove_), this.off(doc, "touchend", this.handleMouseUp_), this.update();
-                }, _proto.update = function update() {
+                }, _proto.update = function() {
                     var _this2 = this;
                     if (this.el_ && this.bar) {
                         var progress = this.getProgress();
@@ -2740,16 +2664,16 @@
                             _this2.bar.el().style[sizeKey] = (100 * progress).toFixed(2) + "%";
                         })), progress;
                     }
-                }, _proto.getProgress = function getProgress() {
+                }, _proto.getProgress = function() {
                     return Number(clamp(this.getPercent(), 0, 1).toFixed(4));
-                }, _proto.calculateDistance = function calculateDistance(event) {
+                }, _proto.calculateDistance = function(event) {
                     var position = getPointerPosition(this.el_, event);
                     return this.vertical() ? position.y : position.x;
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Left") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down") ? (event.preventDefault(), event.stopPropagation(), this.stepBack()) : keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Right") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") ? (event.preventDefault(), event.stopPropagation(), this.stepForward()) : _Component.prototype.handleKeyDown.call(this, event);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     event.stopPropagation(), event.preventDefault();
-                }, _proto.vertical = function vertical(bool) {
+                }, _proto.vertical = function(bool) {
                     if (void 0 === bool) return this.vertical_ || !1;
                     this.vertical_ = !!bool, this.vertical_ ? this.addClass("vjs-slider-vertical") : this.addClass("vjs-slider-horizontal");
                 }, Slider;
@@ -2766,7 +2690,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LoadProgressBar, _Component);
                 var _proto = LoadProgressBar.prototype;
-                return _proto.createEl = function createEl$1() {
+                return _proto.createEl = function() {
                     var el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-load-progress"
                     }), wrapper = createEl("span", {
@@ -2778,9 +2702,9 @@
                         className: "vjs-control-text-loaded-percentage",
                         textContent: "0%"
                     }), el.appendChild(wrapper), wrapper.appendChild(loadedText), wrapper.appendChild(separator), wrapper.appendChild(this.percentageEl_), el;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.partEls_ = null, this.percentageEl_ = null, _Component.prototype.dispose.call(this);
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     var _this2 = this;
                     this.requestNamedAnimationFrame("LoadProgressBar#update", function() {
                         var liveTracker = _this2.player_.liveTracker, buffered = _this2.player_.buffered(), duration = liveTracker && liveTracker.isLive() ? liveTracker.seekableEnd() : _this2.player_.duration(), bufferedEnd = _this2.player_.bufferedEnd(), children = _this2.partEls_, percent = percentify(bufferedEnd, duration);
@@ -2802,21 +2726,21 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimeTooltip, _Component);
                 var _proto = TimeTooltip.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-time-tooltip"
                     }, {
                         "aria-hidden": "true"
                     });
-                }, _proto.update = function update(seekBarRect, seekBarPoint, content) {
+                }, _proto.update = function(seekBarRect, seekBarPoint, content) {
                     var tooltipRect = findPosition(this.el_), playerRect = getBoundingClientRect(this.player_.el()), seekBarPointPx = seekBarRect.width * seekBarPoint;
                     if (playerRect && tooltipRect) {
                         var spaceLeftOfPoint = seekBarRect.left - playerRect.left + seekBarPointPx, spaceRightOfPoint = seekBarRect.width - seekBarPointPx + (playerRect.right - seekBarRect.right), pullTooltipBy = tooltipRect.width / 2;
                         spaceLeftOfPoint < pullTooltipBy ? pullTooltipBy += pullTooltipBy - spaceLeftOfPoint : spaceRightOfPoint < pullTooltipBy && (pullTooltipBy = spaceRightOfPoint), pullTooltipBy < 0 ? pullTooltipBy = 0 : pullTooltipBy > tooltipRect.width && (pullTooltipBy = tooltipRect.width), pullTooltipBy = Math.round(pullTooltipBy), this.el_.style.right = "-" + pullTooltipBy + "px", this.write(content);
                     }
-                }, _proto.write = function write(content) {
+                }, _proto.write = function(content) {
                     textContent(this.el_, content);
-                }, _proto.updateTime = function updateTime(seekBarRect, seekBarPoint, time, cb) {
+                }, _proto.updateTime = function(seekBarRect, seekBarPoint, time, cb) {
                     var _this2 = this;
                     this.requestNamedAnimationFrame("TimeTooltip#updateTime", function() {
                         var content, duration = _this2.player_.duration();
@@ -2836,13 +2760,13 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PlayProgressBar, _Component);
                 var _proto = PlayProgressBar.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-play-progress vjs-slider-bar"
                     }, {
                         "aria-hidden": "true"
                     });
-                }, _proto.update = function update(seekBarRect, seekBarPoint) {
+                }, _proto.update = function(seekBarRect, seekBarPoint) {
                     var timeTooltip = this.getChild("timeTooltip");
                     if (timeTooltip) {
                         var time = this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime();
@@ -2860,11 +2784,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MouseTimeDisplay, _Component);
                 var _proto = MouseTimeDisplay.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-mouse-display"
                     });
-                }, _proto.update = function update(seekBarRect, seekBarPoint) {
+                }, _proto.update = function(seekBarRect, seekBarPoint) {
                     var _this2 = this, time = seekBarPoint * this.player_.duration();
                     this.getChild("timeTooltip").updateTime(seekBarRect, seekBarPoint, time, function() {
                         _this2.el_.style.left = seekBarRect.width * seekBarPoint + "px";
@@ -2883,7 +2807,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SeekBar, _Slider);
                 var _proto = SeekBar.prototype;
-                return _proto.setEventHandlers_ = function setEventHandlers_() {
+                return _proto.setEventHandlers_ = function() {
                     var _this2 = this;
                     this.update_ = bind(this, this.update), this.update = throttle(this.update_, 30), this.on(this.player_, [
                         "ended",
@@ -2900,19 +2824,19 @@
                         "pause",
                         "waiting"
                     ], this.disableIntervalHandler_), "hidden" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && "visibilityState" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && this.on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "visibilitychange", this.toggleVisibility_);
-                }, _proto.toggleVisibility_ = function toggleVisibility_(e) {
+                }, _proto.toggleVisibility_ = function(e) {
                     "hidden" === global_document__WEBPACK_IMPORTED_MODULE_1___default().visibilityState ? (this.cancelNamedAnimationFrame("SeekBar#update"), this.cancelNamedAnimationFrame("Slider#update"), this.disableInterval_(e)) : (this.player_.ended() || this.player_.paused() || this.enableInterval_(), this.update());
-                }, _proto.enableInterval_ = function enableInterval_() {
+                }, _proto.enableInterval_ = function() {
                     this.updateInterval || (this.updateInterval = this.setInterval(this.update, 30));
-                }, _proto.disableInterval_ = function disableInterval_(e) {
+                }, _proto.disableInterval_ = function(e) {
                     this.player_.liveTracker && this.player_.liveTracker.isLive() && e && "ended" !== e.type || !this.updateInterval || (this.clearInterval(this.updateInterval), this.updateInterval = null);
-                }, _proto.createEl = function createEl() {
+                }, _proto.createEl = function() {
                     return _Slider.prototype.createEl.call(this, "div", {
                         className: "vjs-progress-holder"
                     }, {
                         "aria-label": this.localize("Progress Bar")
                     });
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     var _this3 = this;
                     if ("hidden" !== global_document__WEBPACK_IMPORTED_MODULE_1___default().visibilityState) {
                         var percent = _Slider.prototype.update.call(this);
@@ -2924,16 +2848,16 @@
                             ], "{1} of {2}")), _this3.currentTime_ = currentTime, _this3.duration_ = duration), _this3.bar && _this3.bar.update(getBoundingClientRect(_this3.el()), _this3.getProgress());
                         }), percent;
                     }
-                }, _proto.userSeek_ = function userSeek_(ct) {
+                }, _proto.userSeek_ = function(ct) {
                     this.player_.liveTracker && this.player_.liveTracker.isLive() && this.player_.liveTracker.nextSeekedFromUser(), this.player_.currentTime(ct);
-                }, _proto.getCurrentTime_ = function getCurrentTime_() {
+                }, _proto.getCurrentTime_ = function() {
                     return this.player_.scrubbing() ? this.player_.getCache().currentTime : this.player_.currentTime();
-                }, _proto.getPercent = function getPercent() {
+                }, _proto.getPercent = function() {
                     var percent, currentTime = this.getCurrentTime_(), liveTracker = this.player_.liveTracker;
                     return liveTracker && liveTracker.isLive() ? (percent = (currentTime - liveTracker.seekableStart()) / liveTracker.liveWindow(), liveTracker.atLiveEdge() && (percent = 1)) : percent = currentTime / this.player_.duration(), percent;
-                }, _proto.handleMouseDown = function handleMouseDown(event) {
+                }, _proto.handleMouseDown = function(event) {
                     isSingleLeftClick(event) && (event.stopPropagation(), this.player_.scrubbing(!0), this.videoWasPlaying = !this.player_.paused(), this.player_.pause(), _Slider.prototype.handleMouseDown.call(this, event));
-                }, _proto.handleMouseMove = function handleMouseMove(event) {
+                }, _proto.handleMouseMove = function(event) {
                     if (isSingleLeftClick(event)) {
                         var newTime, distance = this.calculateDistance(event), liveTracker = this.player_.liveTracker;
                         if (liveTracker && liveTracker.isLive()) {
@@ -2946,27 +2870,27 @@
                         } else (newTime = distance * this.player_.duration()) === this.player_.duration() && (newTime -= 0.1);
                         this.userSeek_(newTime);
                     }
-                }, _proto.enable = function enable() {
+                }, _proto.enable = function() {
                     _Slider.prototype.enable.call(this);
                     var mouseTimeDisplay = this.getChild("mouseTimeDisplay");
                     mouseTimeDisplay && mouseTimeDisplay.show();
-                }, _proto.disable = function disable() {
+                }, _proto.disable = function() {
                     _Slider.prototype.disable.call(this);
                     var mouseTimeDisplay = this.getChild("mouseTimeDisplay");
                     mouseTimeDisplay && mouseTimeDisplay.hide();
-                }, _proto.handleMouseUp = function handleMouseUp(event) {
+                }, _proto.handleMouseUp = function(event) {
                     _Slider.prototype.handleMouseUp.call(this, event), event && event.stopPropagation(), this.player_.scrubbing(!1), this.player_.trigger({
                         type: "timeupdate",
                         target: this,
                         manuallyTriggered: !0
                     }), this.videoWasPlaying ? silencePromise(this.player_.play()) : this.update_();
-                }, _proto.stepForward = function stepForward() {
+                }, _proto.stepForward = function() {
                     this.userSeek_(this.player_.currentTime() + 5);
-                }, _proto.stepBack = function stepBack() {
+                }, _proto.stepBack = function() {
                     this.userSeek_(this.player_.currentTime() - 5);
-                }, _proto.handleAction = function handleAction(event) {
+                }, _proto.handleAction = function(event) {
                     this.player_.paused() ? this.player_.play() : this.player_.pause();
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     var liveTracker = this.player_.liveTracker;
                     if (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Space") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Enter")) event.preventDefault(), event.stopPropagation(), this.handleAction(event);
                     else if (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Home")) event.preventDefault(), event.stopPropagation(), this.userSeek_(0);
@@ -2976,7 +2900,7 @@
                         var gotoFraction = (keycode__WEBPACK_IMPORTED_MODULE_3___default().codes[keycode__WEBPACK_IMPORTED_MODULE_3___default()(event)] - keycode__WEBPACK_IMPORTED_MODULE_3___default().codes[0]) * 10.0 / 100.0;
                         liveTracker && liveTracker.isLive() ? this.userSeek_(liveTracker.seekableStart() + liveTracker.liveWindow() * gotoFraction) : this.userSeek_(this.player_.duration() * gotoFraction);
                     } else keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "PgDn") ? (event.preventDefault(), event.stopPropagation(), this.userSeek_(this.player_.currentTime() - 60)) : keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "PgUp") ? (event.preventDefault(), event.stopPropagation(), this.userSeek_(this.player_.currentTime() + 60)) : _Slider.prototype.handleKeyDown.call(this, event);
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.disableInterval_(), this.off(this.player_, [
                         "ended",
                         "durationchange",
@@ -3008,11 +2932,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ProgressControl, _Component);
                 var _proto = ProgressControl.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-progress-control vjs-control"
                     });
-                }, _proto.handleMouseMove = function handleMouseMove(event) {
+                }, _proto.handleMouseMove = function(event) {
                     var seekBar = this.getChild("seekBar");
                     if (seekBar) {
                         var playProgressBar = seekBar.getChild("playProgressBar"), mouseTimeDisplay = seekBar.getChild("mouseTimeDisplay");
@@ -3021,12 +2945,12 @@
                             seekBarPoint = clamp(seekBarPoint, 0, 1), mouseTimeDisplay && mouseTimeDisplay.update(seekBarRect, seekBarPoint), playProgressBar && playProgressBar.update(seekBarRect, seekBar.getProgress());
                         }
                     }
-                }, _proto.handleMouseSeek = function handleMouseSeek(event) {
+                }, _proto.handleMouseSeek = function(event) {
                     var seekBar = this.getChild("seekBar");
                     seekBar && seekBar.handleMouseMove(event);
-                }, _proto.enabled = function enabled() {
+                }, _proto.enabled = function() {
                     return this.enabled_;
-                }, _proto.disable = function disable() {
+                }, _proto.disable = function() {
                     if (this.children().forEach(function(child) {
                         return child.disable && child.disable();
                     }), this.enabled() && (this.off([
@@ -3036,20 +2960,20 @@
                         var seekBar = this.getChild("seekBar");
                         this.player_.scrubbing(!1), seekBar.videoWasPlaying && silencePromise(this.player_.play());
                     }
-                }, _proto.enable = function enable() {
+                }, _proto.enable = function() {
                     this.children().forEach(function(child) {
                         return child.enable && child.enable();
                     }), this.enabled() || (this.on([
                         "mousedown",
                         "touchstart"
                     ], this.handleMouseDownHandler_), this.on(this.el_, "mousemove", this.handleMouseMove), this.removeClass("disabled"), this.enabled_ = !0);
-                }, _proto.removeListenersAddedOnMousedownAndTouchstart = function removeListenersAddedOnMousedownAndTouchstart() {
+                }, _proto.removeListenersAddedOnMousedownAndTouchstart = function() {
                     var doc = this.el_.ownerDocument;
                     this.off(doc, "mousemove", this.throttledHandleMouseSeek), this.off(doc, "touchmove", this.throttledHandleMouseSeek), this.off(doc, "mouseup", this.handleMouseUpHandler_), this.off(doc, "touchend", this.handleMouseUpHandler_);
-                }, _proto.handleMouseDown = function handleMouseDown(event) {
+                }, _proto.handleMouseDown = function(event) {
                     var doc = this.el_.ownerDocument, seekBar = this.getChild("seekBar");
                     seekBar && seekBar.handleMouseDown(event), this.on(doc, "mousemove", this.throttledHandleMouseSeek), this.on(doc, "touchmove", this.throttledHandleMouseSeek), this.on(doc, "mouseup", this.handleMouseUpHandler_), this.on(doc, "touchend", this.handleMouseUpHandler_);
-                }, _proto.handleMouseUp = function handleMouseUp(event) {
+                }, _proto.handleMouseUp = function(event) {
                     var seekBar = this.getChild("seekBar");
                     seekBar && seekBar.handleMouseUp(event), this.removeListenersAddedOnMousedownAndTouchstart();
                 }, ProgressControl;
@@ -3076,13 +3000,13 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PictureInPictureToggle, _Button);
                 var _proto = PictureInPictureToggle.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-picture-in-picture-control " + _Button.prototype.buildCSSClass.call(this);
-                }, _proto.handlePictureInPictureEnabledChange = function handlePictureInPictureEnabledChange() {
+                }, _proto.handlePictureInPictureEnabledChange = function() {
                     global_document__WEBPACK_IMPORTED_MODULE_1___default().pictureInPictureEnabled && !1 === this.player_.disablePictureInPicture() ? this.enable() : this.disable();
-                }, _proto.handlePictureInPictureChange = function handlePictureInPictureChange(event) {
+                }, _proto.handlePictureInPictureChange = function(event) {
                     this.player_.isInPictureInPicture() ? this.controlText("Exit Picture-in-Picture") : this.controlText("Picture-in-Picture"), this.handlePictureInPictureEnabledChange();
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.player_.isInPictureInPicture() ? this.player_.exitPictureInPicture() : this.player_.requestPictureInPicture();
                 }, PictureInPictureToggle;
             }(Button);
@@ -3096,11 +3020,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(FullscreenToggle, _Button);
                 var _proto = FullscreenToggle.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-fullscreen-control " + _Button.prototype.buildCSSClass.call(this);
-                }, _proto.handleFullscreenChange = function handleFullscreenChange(event) {
+                }, _proto.handleFullscreenChange = function(event) {
                     this.player_.isFullscreen() ? this.controlText("Non-Fullscreen") : this.controlText("Fullscreen");
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.player_.isFullscreen() ? this.player_.exitFullscreen() : this.player_.requestFullscreen();
                 }, FullscreenToggle;
             }(Button);
@@ -3113,7 +3037,7 @@
                 function VolumeLevel() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeLevel, _Component), VolumeLevel.prototype.createEl = function createEl() {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeLevel, _Component), VolumeLevel.prototype.createEl = function() {
                     var el = _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-volume-level"
                     });
@@ -3130,13 +3054,13 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeLevelTooltip, _Component);
                 var _proto = VolumeLevelTooltip.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-volume-tooltip"
                     }, {
                         "aria-hidden": "true"
                     });
-                }, _proto.update = function update(rangeBarRect, rangeBarPoint, vertical, content) {
+                }, _proto.update = function(rangeBarRect, rangeBarPoint, vertical, content) {
                     if (!vertical) {
                         var tooltipRect = getBoundingClientRect(this.el_), playerRect = getBoundingClientRect(this.player_.el()), volumeBarPointPx = rangeBarRect.width * rangeBarPoint;
                         if (!playerRect || !tooltipRect) return;
@@ -3144,9 +3068,9 @@
                         spaceLeftOfPoint < pullTooltipBy ? pullTooltipBy += pullTooltipBy - spaceLeftOfPoint : spaceRightOfPoint < pullTooltipBy && (pullTooltipBy = spaceRightOfPoint), pullTooltipBy < 0 ? pullTooltipBy = 0 : pullTooltipBy > tooltipRect.width && (pullTooltipBy = tooltipRect.width), this.el_.style.right = "-" + pullTooltipBy + "px";
                     }
                     this.write(content + "%");
-                }, _proto.write = function write(content) {
+                }, _proto.write = function(content) {
                     textContent(this.el_, content);
-                }, _proto.updateVolume = function updateVolume(rangeBarRect, rangeBarPoint, vertical, volume, cb) {
+                }, _proto.updateVolume = function(rangeBarRect, rangeBarPoint, vertical, volume, cb) {
                     var _this2 = this;
                     this.requestNamedAnimationFrame("VolumeLevelTooltip#updateVolume", function() {
                         _this2.update(rangeBarRect, rangeBarPoint, vertical, volume.toFixed(0)), cb && cb();
@@ -3161,11 +3085,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MouseVolumeLevelDisplay, _Component);
                 var _proto = MouseVolumeLevelDisplay.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-mouse-display"
                     });
-                }, _proto.update = function update(rangeBarRect, rangeBarPoint, vertical) {
+                }, _proto.update = function(rangeBarRect, rangeBarPoint, vertical) {
                     var _this2 = this;
                     this.getChild("volumeLevelTooltip").updateVolume(rangeBarRect, rangeBarPoint, vertical, 100 * rangeBarPoint, function() {
                         vertical ? _this2.el_.style.bottom = rangeBarRect.height * rangeBarPoint + "px" : _this2.el_.style.left = rangeBarRect.width * rangeBarPoint + "px";
@@ -3190,36 +3114,36 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeBar, _Slider);
                 var _proto = VolumeBar.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Slider.prototype.createEl.call(this, "div", {
                         className: "vjs-volume-bar vjs-slider-bar"
                     }, {
                         "aria-label": this.localize("Volume Level"),
                         "aria-live": "polite"
                     });
-                }, _proto.handleMouseDown = function handleMouseDown(event) {
+                }, _proto.handleMouseDown = function(event) {
                     isSingleLeftClick(event) && _Slider.prototype.handleMouseDown.call(this, event);
-                }, _proto.handleMouseMove = function handleMouseMove(event) {
+                }, _proto.handleMouseMove = function(event) {
                     var mouseVolumeLevelDisplay = this.getChild("mouseVolumeLevelDisplay");
                     if (mouseVolumeLevelDisplay) {
                         var volumeBarEl = this.el(), volumeBarRect = getBoundingClientRect(volumeBarEl), vertical = this.vertical(), volumeBarPoint = getPointerPosition(volumeBarEl, event);
                         volumeBarPoint = clamp(volumeBarPoint = vertical ? volumeBarPoint.y : volumeBarPoint.x, 0, 1), mouseVolumeLevelDisplay.update(volumeBarRect, volumeBarPoint, vertical);
                     }
                     isSingleLeftClick(event) && (this.checkMuted(), this.player_.volume(this.calculateDistance(event)));
-                }, _proto.checkMuted = function checkMuted() {
+                }, _proto.checkMuted = function() {
                     this.player_.muted() && this.player_.muted(!1);
-                }, _proto.getPercent = function getPercent() {
+                }, _proto.getPercent = function() {
                     return this.player_.muted() ? 0 : this.player_.volume();
-                }, _proto.stepForward = function stepForward() {
+                }, _proto.stepForward = function() {
                     this.checkMuted(), this.player_.volume(this.player_.volume() + 0.1);
-                }, _proto.stepBack = function stepBack() {
+                }, _proto.stepBack = function() {
                     this.checkMuted(), this.player_.volume(this.player_.volume() - 0.1);
-                }, _proto.updateARIAAttributes = function updateARIAAttributes(event) {
+                }, _proto.updateARIAAttributes = function(event) {
                     var ariaValue = this.player_.muted() ? 0 : this.volumeAsPercentage_();
                     this.el_.setAttribute("aria-valuenow", ariaValue), this.el_.setAttribute("aria-valuetext", ariaValue + "%");
-                }, _proto.volumeAsPercentage_ = function volumeAsPercentage_() {
+                }, _proto.volumeAsPercentage_ = function() {
                     return Math.round(100 * this.player_.volume());
-                }, _proto.updateLastVolume_ = function updateLastVolume_() {
+                }, _proto.updateLastVolume_ = function() {
                     var _this2 = this, volumeBeforeDrag = this.player_.volume();
                     this.one("sliderinactive", function() {
                         0 === _this2.player_.volume() && _this2.player_.lastVolume_(volumeBeforeDrag);
@@ -3257,18 +3181,18 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumeControl, _Component);
                 var _proto = VolumeControl.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     var orientationClass = "vjs-volume-horizontal";
                     return this.options_.vertical && (orientationClass = "vjs-volume-vertical"), _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-volume-control vjs-control " + orientationClass
                     });
-                }, _proto.handleMouseDown = function handleMouseDown(event) {
+                }, _proto.handleMouseDown = function(event) {
                     var doc = this.el_.ownerDocument;
                     this.on(doc, "mousemove", this.throttledHandleMouseMove), this.on(doc, "touchmove", this.throttledHandleMouseMove), this.on(doc, "mouseup", this.handleMouseUpHandler_), this.on(doc, "touchend", this.handleMouseUpHandler_);
-                }, _proto.handleMouseUp = function handleMouseUp(event) {
+                }, _proto.handleMouseUp = function(event) {
                     var doc = this.el_.ownerDocument;
                     this.off(doc, "mousemove", this.throttledHandleMouseMove), this.off(doc, "touchmove", this.throttledHandleMouseMove), this.off(doc, "mouseup", this.handleMouseUpHandler_), this.off(doc, "touchend", this.handleMouseUpHandler_);
-                }, _proto.handleMouseMove = function handleMouseMove(event) {
+                }, _proto.handleMouseMove = function(event) {
                     this.volumeBar.handleMouseMove(event);
                 }, VolumeControl;
             }(Component$1);
@@ -3293,19 +3217,19 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MuteToggle, _Button);
                 var _proto = MuteToggle.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-mute-control " + _Button.prototype.buildCSSClass.call(this);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     var vol = this.player_.volume(), lastVolume = this.player_.lastVolume_();
                     0 === vol ? (this.player_.volume(lastVolume < 0.1 ? 0.1 : lastVolume), this.player_.muted(!1)) : this.player_.muted(!this.player_.muted());
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     this.updateIcon_(), this.updateControlText_();
-                }, _proto.updateIcon_ = function updateIcon_() {
+                }, _proto.updateIcon_ = function() {
                     var vol = this.player_.volume(), level = 3;
                     IS_IOS && this.player_.tech_ && this.player_.tech_.el_ && this.player_.muted(this.player_.tech_.el_.muted), 0 === vol || this.player_.muted() ? level = 0 : vol < 0.33 ? level = 1 : vol < 0.67 && (level = 2);
                     for(var i = 0; i < 4; i++)removeClass(this.el_, "vjs-vol-" + i);
                     addClass(this.el_, "vjs-vol-" + level);
-                }, _proto.updateControlText_ = function updateControlText_() {
+                }, _proto.updateControlText_ = function() {
                     var text = this.player_.muted() || 0 === this.player_.volume() ? "Unmute" : "Mute";
                     this.controlText() !== text && this.controlText(text);
                 }, MuteToggle;
@@ -3338,26 +3262,26 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VolumePanel, _Component);
                 var _proto = VolumePanel.prototype;
-                return _proto.sliderActive_ = function sliderActive_() {
+                return _proto.sliderActive_ = function() {
                     this.addClass("vjs-slider-active");
-                }, _proto.sliderInactive_ = function sliderInactive_() {
+                }, _proto.sliderInactive_ = function() {
                     this.removeClass("vjs-slider-active");
-                }, _proto.volumePanelState_ = function volumePanelState_() {
+                }, _proto.volumePanelState_ = function() {
                     this.volumeControl.hasClass("vjs-hidden") && this.muteToggle.hasClass("vjs-hidden") && this.addClass("vjs-hidden"), this.volumeControl.hasClass("vjs-hidden") && !this.muteToggle.hasClass("vjs-hidden") && this.addClass("vjs-mute-toggle-only");
-                }, _proto.createEl = function createEl() {
+                }, _proto.createEl = function() {
                     var orientationClass = "vjs-volume-panel-horizontal";
                     return this.options_.inline || (orientationClass = "vjs-volume-panel-vertical"), _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-volume-panel vjs-control " + orientationClass
                     });
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.handleMouseOut(), _Component.prototype.dispose.call(this);
-                }, _proto.handleVolumeControlKeyUp = function handleVolumeControlKeyUp(event) {
+                }, _proto.handleVolumeControlKeyUp = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") && this.muteToggle.focus();
-                }, _proto.handleMouseOver = function handleMouseOver(event) {
+                }, _proto.handleMouseOver = function(event) {
                     this.addClass("vjs-hover"), on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keyup", this.handleKeyPressHandler_);
-                }, _proto.handleMouseOut = function handleMouseOut(event) {
+                }, _proto.handleMouseOut = function(event) {
                     this.removeClass("vjs-hover"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keyup", this.handleKeyPressHandler_);
-                }, _proto.handleKeyPress = function handleKeyPress(event) {
+                }, _proto.handleKeyPress = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") && this.handleMouseOut();
                 }, VolumePanel;
             }(Component$1);
@@ -3380,22 +3304,22 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Menu, _Component);
                 var _proto = Menu.prototype;
-                return _proto.addEventListenerForItem = function addEventListenerForItem(component) {
+                return _proto.addEventListenerForItem = function(component) {
                     component instanceof Component$1 && (this.on(component, "blur", this.boundHandleBlur_), this.on(component, [
                         "tap",
                         "click"
                     ], this.boundHandleTapClick_));
-                }, _proto.removeEventListenerForItem = function removeEventListenerForItem(component) {
+                }, _proto.removeEventListenerForItem = function(component) {
                     component instanceof Component$1 && (this.off(component, "blur", this.boundHandleBlur_), this.off(component, [
                         "tap",
                         "click"
                     ], this.boundHandleTapClick_));
-                }, _proto.removeChild = function removeChild(component) {
+                }, _proto.removeChild = function(component) {
                     "string" == typeof component && (component = this.getChild(component)), this.removeEventListenerForItem(component), _Component.prototype.removeChild.call(this, component);
-                }, _proto.addItem = function addItem(component) {
+                }, _proto.addItem = function(component) {
                     var childComponent = this.addChild(component);
                     childComponent && this.addEventListenerForItem(childComponent);
-                }, _proto.createEl = function createEl$1() {
+                }, _proto.createEl = function() {
                     var contentElType = this.options_.contentElType || "ul";
                     this.contentEl_ = createEl(contentElType, {
                         className: "vjs-menu-content"
@@ -3407,9 +3331,9 @@
                     return el.appendChild(this.contentEl_), on(el, "click", function(event) {
                         event.preventDefault(), event.stopImmediatePropagation();
                     }), el;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.contentEl_ = null, this.boundHandleBlur_ = null, this.boundHandleTapClick_ = null, _Component.prototype.dispose.call(this);
-                }, _proto.handleBlur = function handleBlur(event) {
+                }, _proto.handleBlur = function(event) {
                     var relatedTarget = event.relatedTarget || global_document__WEBPACK_IMPORTED_MODULE_1___default().activeElement;
                     if (!this.children().some(function(element) {
                         return element.el() === relatedTarget;
@@ -3417,7 +3341,7 @@
                         var btn = this.menuButton_;
                         btn && btn.buttonPressed_ && relatedTarget !== btn.el().firstChild && btn.unpressButton();
                     }
-                }, _proto.handleTapClick = function handleTapClick(event) {
+                }, _proto.handleTapClick = function(event) {
                     if (this.menuButton_) {
                         this.menuButton_.unpressButton();
                         var childComponents = this.children();
@@ -3428,15 +3352,15 @@
                             foundComponent && "CaptionSettingsMenuItem" !== foundComponent.name() && this.menuButton_.focus();
                         }
                     }
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Left") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down") ? (event.preventDefault(), event.stopPropagation(), this.stepForward()) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Right") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up")) && (event.preventDefault(), event.stopPropagation(), this.stepBack());
-                }, _proto.stepForward = function stepForward() {
+                }, _proto.stepForward = function() {
                     var stepChild = 0;
                     void 0 !== this.focusedChild_ && (stepChild = this.focusedChild_ + 1), this.focus(stepChild);
-                }, _proto.stepBack = function stepBack() {
+                }, _proto.stepBack = function() {
                     var stepChild = 0;
                     void 0 !== this.focusedChild_ && (stepChild = this.focusedChild_ - 1), this.focus(stepChild);
-                }, _proto.focus = function focus(item) {
+                }, _proto.focus = function(item) {
                     void 0 === item && (item = 0);
                     var children = this.children().slice();
                     children.length && children[0].hasClass("vjs-menu-title") && children.shift(), children.length > 0 && (item < 0 ? item = 0 : item >= children.length && (item = children.length - 1), this.focusedChild_ = item, children[item].el_.focus());
@@ -3465,10 +3389,10 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MenuButton, _Component);
                 var _proto = MenuButton.prototype;
-                return _proto.update = function update() {
+                return _proto.update = function() {
                     var menu = this.createMenu();
                     this.menu && (this.menu.dispose(), this.removeChild(this.menu)), this.menu = menu, this.addChild(menu), this.buttonPressed_ = !1, this.menuButton_.el_.setAttribute("aria-expanded", "false"), this.items && this.items.length <= this.hideThreshold_ ? this.hide() : this.show();
-                }, _proto.createMenu = function createMenu() {
+                }, _proto.createMenu = function() {
                     var menu = new Menu(this.player_, {
                         menuButton: this
                     });
@@ -3484,43 +3408,43 @@
                     }
                     if (this.items = this.createItems(), this.items) for(var i = 0; i < this.items.length; i++)menu.addItem(this.items[i]);
                     return menu;
-                }, _proto.createItems = function createItems() {}, _proto.createEl = function createEl() {
+                }, _proto.createItems = function() {}, _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: this.buildWrapperCSSClass()
                     }, {});
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
                     return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + Button.prototype.buildCSSClass() + " " + _Component.prototype.buildCSSClass.call(this);
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     var menuButtonClass = "vjs-menu-button";
                     return !0 === this.options_.inline ? menuButtonClass += "-inline" : menuButtonClass += "-popup", "vjs-menu-button " + menuButtonClass + " " + _Component.prototype.buildCSSClass.call(this);
-                }, _proto.controlText = function controlText(text, el) {
+                }, _proto.controlText = function(text, el) {
                     return void 0 === el && (el = this.menuButton_.el()), this.menuButton_.controlText(text, el);
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.handleMouseLeave(), _Component.prototype.dispose.call(this);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.buttonPressed_ ? this.unpressButton() : this.pressButton();
-                }, _proto.handleMouseLeave = function handleMouseLeave(event) {
+                }, _proto.handleMouseLeave = function(event) {
                     this.removeClass("vjs-hover"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keyup", this.handleMenuKeyUp_);
-                }, _proto.focus = function focus() {
+                }, _proto.focus = function() {
                     this.menuButton_.focus();
-                }, _proto.blur = function blur() {
+                }, _proto.blur = function() {
                     this.menuButton_.blur();
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") ? (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus())) : (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Up") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Down")) && !this.buttonPressed_ && (event.preventDefault(), this.pressButton());
-                }, _proto.handleMenuKeyUp = function handleMenuKeyUp(event) {
+                }, _proto.handleMenuKeyUp = function(event) {
                     (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab")) && this.removeClass("vjs-hover");
-                }, _proto.handleSubmenuKeyPress = function handleSubmenuKeyPress(event) {
+                }, _proto.handleSubmenuKeyPress = function(event) {
                     this.handleSubmenuKeyDown(event);
-                }, _proto.handleSubmenuKeyDown = function handleSubmenuKeyDown(event) {
+                }, _proto.handleSubmenuKeyDown = function(event) {
                     (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab")) && (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus()));
-                }, _proto.pressButton = function pressButton() {
+                }, _proto.pressButton = function() {
                     this.enabled_ && (this.buttonPressed_ = !0, this.menu.show(), this.menu.lockShowing(), this.menuButton_.el_.setAttribute("aria-expanded", "true"), IS_IOS && isInFrame() || this.menu.focus());
-                }, _proto.unpressButton = function unpressButton() {
+                }, _proto.unpressButton = function() {
                     this.enabled_ && (this.buttonPressed_ = !1, this.menu.unlockShowing(), this.menu.hide(), this.menuButton_.el_.setAttribute("aria-expanded", "false"));
-                }, _proto.disable = function disable() {
+                }, _proto.disable = function() {
                     this.unpressButton(), this.enabled_ = !1, this.addClass("vjs-disabled"), this.menuButton_.disable();
-                }, _proto.enable = function enable() {
+                }, _proto.enable = function() {
                     this.enabled_ = !0, this.removeClass("vjs-disabled"), this.menuButton_.enable();
                 }, MenuButton;
             }(Component$1);
@@ -3551,7 +3475,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MenuItem, _ClickableComponent);
                 var _proto = MenuItem.prototype;
-                return _proto.createEl = function createEl$1(type, props, attrs) {
+                return _proto.createEl = function(type, props, attrs) {
                     this.nonIconControl = !0;
                     var el = _ClickableComponent.prototype.createEl.call(this, "li", assign({
                         className: "vjs-menu-item",
@@ -3561,13 +3485,13 @@
                         className: "vjs-menu-item-text",
                         textContent: this.localize(this.options_.label)
                     }), el.querySelector(".vjs-icon-placeholder")), el;
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     MenuKeys.some(function(key) {
                         return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, key);
                     }) || _ClickableComponent.prototype.handleKeyDown.call(this, event);
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     this.selected(!0);
-                }, _proto.selected = function selected(_selected) {
+                }, _proto.selected = function(_selected) {
                     this.selectable && (_selected ? (this.addClass("vjs-selected"), this.el_.setAttribute("aria-checked", "true"), this.controlText(", selected"), this.isSelected_ = !0) : (this.removeClass("vjs-selected"), this.el_.setAttribute("aria-checked", "false"), this.controlText(""), this.isSelected_ = !1));
                 }, MenuItem;
             }(ClickableComponent);
@@ -3605,16 +3529,16 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackMenuItem, _MenuItem);
                 var _proto = TextTrackMenuItem.prototype;
-                return _proto.handleClick = function handleClick(event) {
+                return _proto.handleClick = function(event) {
                     var referenceTrack = this.track, tracks = this.player_.textTracks();
                     if (_MenuItem.prototype.handleClick.call(this, event), tracks) for(var i = 0; i < tracks.length; i++){
                         var track = tracks[i];
                         -1 !== this.kinds.indexOf(track.kind) && (track === referenceTrack ? "showing" !== track.mode && (track.mode = "showing") : "disabled" !== track.mode && (track.mode = "disabled"));
                     }
-                }, _proto.handleTracksChange = function handleTracksChange(event) {
+                }, _proto.handleTracksChange = function(event) {
                     var shouldBeSelected = "showing" === this.track.mode;
                     shouldBeSelected !== this.isSelected_ && this.selected(shouldBeSelected);
-                }, _proto.handleSelectedLanguageChange = function handleSelectedLanguageChange(event) {
+                }, _proto.handleSelectedLanguageChange = function(event) {
                     if ("showing" === this.track.mode) {
                         var selectedLanguage = this.player_.cache_.selectedLanguage;
                         selectedLanguage && selectedLanguage.enabled && selectedLanguage.language === this.track.language && selectedLanguage.kind !== this.track.kind || (this.player_.cache_.selectedLanguage = {
@@ -3623,7 +3547,7 @@
                             kind: this.track.kind
                         });
                     }
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.track = null, _MenuItem.prototype.dispose.call(this);
                 }, TextTrackMenuItem;
             }(MenuItem);
@@ -3642,7 +3566,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(OffTextTrackMenuItem, _TextTrackMenuItem);
                 var _proto = OffTextTrackMenuItem.prototype;
-                return _proto.handleTracksChange = function handleTracksChange(event) {
+                return _proto.handleTracksChange = function(event) {
                     for(var tracks = this.player().textTracks(), shouldBeSelected = !0, i = 0, l = tracks.length; i < l; i++){
                         var track = tracks[i];
                         if (this.options_.kinds.indexOf(track.kind) > -1 && "showing" === track.mode) {
@@ -3651,7 +3575,7 @@
                         }
                     }
                     shouldBeSelected !== this.isSelected_ && this.selected(shouldBeSelected);
-                }, _proto.handleSelectedLanguageChange = function handleSelectedLanguageChange(event) {
+                }, _proto.handleSelectedLanguageChange = function(event) {
                     for(var tracks = this.player().textTracks(), allHidden = !0, i = 0, l = tracks.length; i < l; i++){
                         var track = tracks[i];
                         if ([
@@ -3673,7 +3597,7 @@
                 function TextTrackButton(player, options) {
                     return void 0 === options && (options = {}), options.tracks = player.textTracks(), _TrackButton.call(this, player, options) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackButton, _TrackButton), TextTrackButton.prototype.createItems = function createItems(items, TrackMenuItem) {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackButton, _TrackButton), TextTrackButton.prototype.createItems = function(items, TrackMenuItem) {
                     void 0 === items && (items = []), void 0 === TrackMenuItem && (TrackMenuItem = TextTrackMenuItem), this.label_ && (label = this.label_ + " off"), items.push(new OffTextTrackMenuItem(this.player_, {
                         kinds: this.kinds_,
                         kind: this.kind_,
@@ -3707,9 +3631,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ChaptersTrackMenuItem, _MenuItem);
                 var _proto = ChaptersTrackMenuItem.prototype;
-                return _proto.handleClick = function handleClick(event) {
+                return _proto.handleClick = function(event) {
                     _MenuItem.prototype.handleClick.call(this), this.player_.currentTime(this.cue.startTime), this.update(this.cue.startTime);
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     var cue = this.cue, currentTime = this.player_.currentTime();
                     this.selected(cue.startTime <= currentTime && currentTime < cue.endTime);
                 }, ChaptersTrackMenuItem;
@@ -3721,13 +3645,13 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ChaptersButton, _TextTrackButton);
                 var _proto = ChaptersButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-chapters-button " + _TextTrackButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-chapters-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     (!this.track_ || event && ("addtrack" === event.type || "removetrack" === event.type)) && this.setTrack(this.findChaptersTrack()), _TextTrackButton.prototype.update.call(this);
-                }, _proto.setTrack = function setTrack(track) {
+                }, _proto.setTrack = function(track) {
                     if (this.track_ !== track) {
                         if (this.updateHandler_ || (this.updateHandler_ = this.update.bind(this)), this.track_) {
                             var remoteTextTrackEl = this.player_.remoteTextTrackEls().getTrackElementByTrack_(this.track_);
@@ -3739,16 +3663,16 @@
                             _remoteTextTrackEl && _remoteTextTrackEl.addEventListener("load", this.updateHandler_);
                         }
                     }
-                }, _proto.findChaptersTrack = function findChaptersTrack() {
+                }, _proto.findChaptersTrack = function() {
                     for(var tracks = this.player_.textTracks() || [], i = tracks.length - 1; i >= 0; i--){
                         var track = tracks[i];
                         if (track.kind === this.kind_) return track;
                     }
-                }, _proto.getMenuCaption = function getMenuCaption() {
+                }, _proto.getMenuCaption = function() {
                     return this.track_ && this.track_.label ? this.track_.label : this.localize(toTitleCase$1(this.kind_));
-                }, _proto.createMenu = function createMenu() {
+                }, _proto.createMenu = function() {
                     return this.options_.title = this.getMenuCaption(), _TextTrackButton.prototype.createMenu.call(this);
-                }, _proto.createItems = function createItems() {
+                }, _proto.createItems = function() {
                     var items = [];
                     if (!this.track_) return items;
                     var cues = this.track_.cues;
@@ -3774,7 +3698,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(DescriptionsButton, _TextTrackButton);
                 var _proto = DescriptionsButton.prototype;
-                return _proto.handleTracksChange = function handleTracksChange(event) {
+                return _proto.handleTracksChange = function(event) {
                     for(var tracks = this.player().textTracks(), disabled = !1, i = 0, l = tracks.length; i < l; i++){
                         var track = tracks[i];
                         if (track.kind !== this.kind_ && "showing" === track.mode) {
@@ -3783,9 +3707,9 @@
                         }
                     }
                     disabled ? this.disable() : this.enable();
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     return "vjs-descriptions-button " + _TextTrackButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-descriptions-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
                 }, DescriptionsButton;
             }(TextTrackButton);
@@ -3796,9 +3720,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SubtitlesButton, _TextTrackButton);
                 var _proto = SubtitlesButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-subtitles-button " + _TextTrackButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-subtitles-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
                 }, SubtitlesButton;
             }(TextTrackButton);
@@ -3815,7 +3739,7 @@
                         mode: "disabled"
                     }, options.selectable = !1, options.name = "CaptionSettingsMenuItem", (_this = _TextTrackMenuItem.call(this, player, options) || this).addClass("vjs-texttrack-settings"), _this.controlText(", opens " + options.kind + " settings dialog"), _this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CaptionSettingsMenuItem, _TextTrackMenuItem), CaptionSettingsMenuItem.prototype.handleClick = function handleClick(event) {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CaptionSettingsMenuItem, _TextTrackMenuItem), CaptionSettingsMenuItem.prototype.handleClick = function(event) {
                     this.player().getChild("textTrackSettings").open();
                 }, CaptionSettingsMenuItem;
             }(TextTrackMenuItem);
@@ -3826,11 +3750,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CaptionsButton, _TextTrackButton);
                 var _proto = CaptionsButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-captions-button " + _TextTrackButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-captions-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
-                }, _proto.createItems = function createItems() {
+                }, _proto.createItems = function() {
                     var items = [];
                     return !(this.player().tech_ && this.player().tech_.featuresNativeTextTracks) && this.player().getChild("textTrackSettings") && (items.push(new CaptionSettingsMenuItem(this.player_, {
                         kind: this.kind_
@@ -3842,7 +3766,7 @@
                 function SubsCapsMenuItem() {
                     return _TextTrackMenuItem.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SubsCapsMenuItem, _TextTrackMenuItem), SubsCapsMenuItem.prototype.createEl = function createEl$1(type, props, attrs) {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SubsCapsMenuItem, _TextTrackMenuItem), SubsCapsMenuItem.prototype.createEl = function(type, props, attrs) {
                     var el = _TextTrackMenuItem.prototype.createEl.call(this, type, props, attrs), parentSpan = el.querySelector(".vjs-menu-item-text");
                     return "captions" === this.options_.track.kind && (parentSpan.appendChild(createEl("span", {
                         className: "vjs-icon-placeholder"
@@ -3867,11 +3791,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SubsCapsButton, _TextTrackButton);
                 var _proto = SubsCapsButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-subs-caps-button " + _TextTrackButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-subs-caps-button " + _TextTrackButton.prototype.buildWrapperCSSClass.call(this);
-                }, _proto.createItems = function createItems() {
+                }, _proto.createItems = function() {
                     var items = [];
                     return !(this.player().tech_ && this.player().tech_.featuresNativeTextTracks) && this.player().getChild("textTrackSettings") && (items.push(new CaptionSettingsMenuItem(this.player_, {
                         kind: this.label_
@@ -3896,7 +3820,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(AudioTrackMenuItem, _MenuItem);
                 var _proto = AudioTrackMenuItem.prototype;
-                return _proto.createEl = function createEl(type, props, attrs) {
+                return _proto.createEl = function(type, props, attrs) {
                     var el = _MenuItem.prototype.createEl.call(this, type, props, attrs), parentSpan = el.querySelector(".vjs-menu-item-text");
                     return "main-desc" === this.options_.track.kind && (parentSpan.appendChild(_MenuItem.prototype.createEl.call(this, "span", {
                         className: "vjs-icon-placeholder"
@@ -3906,9 +3830,9 @@
                         className: "vjs-control-text",
                         textContent: this.localize("Descriptions")
                     }))), el;
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     _MenuItem.prototype.handleClick.call(this, event), this.track.enabled = !0;
-                }, _proto.handleTracksChange = function handleTracksChange(event) {
+                }, _proto.handleTracksChange = function(event) {
                     this.selected(this.track.enabled);
                 }, AudioTrackMenuItem;
             }(MenuItem);
@@ -3919,11 +3843,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(AudioTrackButton, _TrackButton);
                 var _proto = AudioTrackButton.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-audio-button " + _TrackButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-audio-button " + _TrackButton.prototype.buildWrapperCSSClass.call(this);
-                }, _proto.createItems = function createItems(items) {
+                }, _proto.createItems = function(items) {
                     void 0 === items && (items = []), this.hideThreshold_ = 1;
                     for(var tracks = this.player_.audioTracks(), i = 0; i < tracks.length; i++){
                         var track = tracks[i];
@@ -3946,9 +3870,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PlaybackRateMenuItem, _MenuItem);
                 var _proto = PlaybackRateMenuItem.prototype;
-                return _proto.handleClick = function handleClick(event) {
+                return _proto.handleClick = function(event) {
                     _MenuItem.prototype.handleClick.call(this), this.player().playbackRate(this.rate);
-                }, _proto.update = function update(event) {
+                }, _proto.update = function(event) {
                     this.selected(this.player().playbackRate() === this.rate);
                 }, PlaybackRateMenuItem;
             }(MenuItem);
@@ -3966,42 +3890,42 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PlaybackRateMenuButton, _MenuButton);
                 var _proto = PlaybackRateMenuButton.prototype;
-                return _proto.createEl = function createEl$1() {
+                return _proto.createEl = function() {
                     var el = _MenuButton.prototype.createEl.call(this);
                     return this.labelElId_ = "vjs-playback-rate-value-label-" + this.id_, this.labelEl_ = createEl("div", {
                         className: "vjs-playback-rate-value",
                         id: this.labelElId_,
                         textContent: "1x"
                     }), el.appendChild(this.labelEl_), el;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.labelEl_ = null, _MenuButton.prototype.dispose.call(this);
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     return "vjs-playback-rate " + _MenuButton.prototype.buildCSSClass.call(this);
-                }, _proto.buildWrapperCSSClass = function buildWrapperCSSClass() {
+                }, _proto.buildWrapperCSSClass = function() {
                     return "vjs-playback-rate " + _MenuButton.prototype.buildWrapperCSSClass.call(this);
-                }, _proto.createItems = function createItems() {
+                }, _proto.createItems = function() {
                     for(var rates = this.playbackRates(), items = [], i = rates.length - 1; i >= 0; i--)items.push(new PlaybackRateMenuItem(this.player(), {
                         rate: rates[i] + "x"
                     }));
                     return items;
-                }, _proto.updateARIAAttributes = function updateARIAAttributes() {
+                }, _proto.updateARIAAttributes = function() {
                     this.el().setAttribute("aria-valuenow", this.player().playbackRate());
-                }, _proto.handleClick = function handleClick(event) {
+                }, _proto.handleClick = function(event) {
                     for(var currentRate = this.player().playbackRate(), rates = this.playbackRates(), newRate = rates[0], i = 0; i < rates.length; i++)if (rates[i] > currentRate) {
                         newRate = rates[i];
                         break;
                     }
                     this.player().playbackRate(newRate);
-                }, _proto.handlePlaybackRateschange = function handlePlaybackRateschange(event) {
+                }, _proto.handlePlaybackRateschange = function(event) {
                     this.update();
-                }, _proto.playbackRates = function playbackRates() {
+                }, _proto.playbackRates = function() {
                     var player = this.player();
                     return player.playbackRates && player.playbackRates() || [];
-                }, _proto.playbackRateSupported = function playbackRateSupported() {
+                }, _proto.playbackRateSupported = function() {
                     return this.player().tech_ && this.player().tech_.featuresPlaybackRate && this.playbackRates() && this.playbackRates().length > 0;
-                }, _proto.updateVisibility = function updateVisibility(event) {
+                }, _proto.updateVisibility = function(event) {
                     this.playbackRateSupported() ? this.removeClass("vjs-hidden") : this.addClass("vjs-hidden");
-                }, _proto.updateLabel = function updateLabel(event) {
+                }, _proto.updateLabel = function(event) {
                     this.playbackRateSupported() && (this.labelEl_.textContent = this.player().playbackRate() + "x");
                 }, PlaybackRateMenuButton;
             }(MenuButton);
@@ -4012,9 +3936,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Spacer, _Component);
                 var _proto = Spacer.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-spacer " + _Component.prototype.buildCSSClass.call(this);
-                }, _proto.createEl = function createEl(tag, props, attributes) {
+                }, _proto.createEl = function(tag, props, attributes) {
                     return void 0 === tag && (tag = "div"), void 0 === props && (props = {}), void 0 === attributes && (attributes = {}), props.className || (props.className = this.buildCSSClass()), _Component.prototype.createEl.call(this, tag, props, attributes);
                 }, Spacer;
             }(Component$1);
@@ -4025,9 +3949,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(CustomControlSpacer, _Spacer);
                 var _proto = CustomControlSpacer.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-custom-control-spacer " + _Spacer.prototype.buildCSSClass.call(this);
-                }, _proto.createEl = function createEl() {
+                }, _proto.createEl = function() {
                     return _Spacer.prototype.createEl.call(this, "div", {
                         className: this.buildCSSClass(),
                         textContent: "\xA0"
@@ -4039,7 +3963,7 @@
                 function ControlBar() {
                     return _Component.apply(this, arguments) || this;
                 }
-                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ControlBar, _Component), ControlBar.prototype.createEl = function createEl() {
+                return (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ControlBar, _Component), ControlBar.prototype.createEl = function() {
                     return _Component.prototype.createEl.call(this, "div", {
                         className: "vjs-control-bar",
                         dir: "ltr"
@@ -4075,9 +3999,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ErrorDisplay, _ModalDialog);
                 var _proto = ErrorDisplay.prototype;
-                return _proto.buildCSSClass = function buildCSSClass() {
+                return _proto.buildCSSClass = function() {
                     return "vjs-error-display " + _ModalDialog.prototype.buildCSSClass.call(this);
-                }, _proto.content = function content() {
+                }, _proto.content = function() {
                     var error = this.player().error();
                     return error ? this.localize(error.message) : "";
                 }, ErrorDisplay;
@@ -4267,7 +4191,7 @@
                         ]
                     ],
                     default: 2,
-                    parser: function parser(v) {
+                    parser: function(v) {
                         return "1.00" === v ? null : Number(v);
                     }
                 },
@@ -4299,17 +4223,6 @@
             function parseOptionValue(value, parser) {
                 if (parser && (value = parser(value)), value && "none" !== value) return value;
             }
-            function getSelectedOptionValue(el, parser) {
-                return parseOptionValue(el.options[el.options.selectedIndex].value, parser);
-            }
-            function setSelectedOption(el, value, parser) {
-                if (value) {
-                    for(var i = 0; i < el.options.length; i++)if (parseOptionValue(el.options[i].value, parser) === value) {
-                        el.selectedIndex = i;
-                        break;
-                    }
-                }
-            }
             selectConfigs.windowColor.options = selectConfigs.backgroundColor.options;
             var TextTrackSettings = function(_ModalDialog) {
                 function TextTrackSettings(player, options) {
@@ -4327,9 +4240,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TextTrackSettings, _ModalDialog);
                 var _proto = TextTrackSettings.prototype;
-                return _proto.dispose = function dispose() {
+                return _proto.dispose = function() {
                     this.endDialog = null, _ModalDialog.prototype.dispose.call(this);
-                }, _proto.createElSelect_ = function createElSelect_(key, legendId, type) {
+                }, _proto.createElSelect_ = function(key, legendId, type) {
                     var _this2 = this;
                     void 0 === legendId && (legendId = ""), void 0 === type && (type = "label");
                     var config = selectConfigs[key], id = config.id.replace("%s", this.id_), selectLabelledbyIds = [
@@ -4350,7 +4263,7 @@
                             "</option>"
                         ].join("");
                     })).concat("</select>").join("");
-                }, _proto.createElFgColor_ = function createElFgColor_() {
+                }, _proto.createElFgColor_ = function() {
                     var legendId = "captions-text-legend-" + this.id_;
                     return [
                         '<fieldset class="vjs-fg-color vjs-track-setting">',
@@ -4363,7 +4276,7 @@
                         "</span>",
                         "</fieldset>"
                     ].join("");
-                }, _proto.createElBgColor_ = function createElBgColor_() {
+                }, _proto.createElBgColor_ = function() {
                     var legendId = "captions-background-" + this.id_;
                     return [
                         '<fieldset class="vjs-bg-color vjs-track-setting">',
@@ -4376,7 +4289,7 @@
                         "</span>",
                         "</fieldset>"
                     ].join("");
-                }, _proto.createElWinColor_ = function createElWinColor_() {
+                }, _proto.createElWinColor_ = function() {
                     var legendId = "captions-window-" + this.id_;
                     return [
                         '<fieldset class="vjs-window-color vjs-track-setting">',
@@ -4389,7 +4302,7 @@
                         "</span>",
                         "</fieldset>"
                     ].join("");
-                }, _proto.createElColors_ = function createElColors_() {
+                }, _proto.createElColors_ = function() {
                     return createEl("div", {
                         className: "vjs-track-settings-colors",
                         innerHTML: [
@@ -4398,7 +4311,7 @@
                             this.createElWinColor_()
                         ].join("")
                     });
-                }, _proto.createElFont_ = function createElFont_() {
+                }, _proto.createElFont_ = function() {
                     return createEl("div", {
                         className: "vjs-track-settings-font",
                         innerHTML: [
@@ -4413,7 +4326,7 @@
                             "</fieldset>"
                         ].join("")
                     });
-                }, _proto.createElControls_ = function createElControls_() {
+                }, _proto.createElControls_ = function() {
                     var defaultsDescription = this.localize("restore all settings to the default values");
                     return createEl("div", {
                         className: "vjs-track-settings-controls",
@@ -4425,36 +4338,45 @@
                             '<button type="button" class="vjs-done-button">' + this.localize("Done") + "</button>"
                         ].join("")
                     });
-                }, _proto.content = function content() {
+                }, _proto.content = function() {
                     return [
                         this.createElColors_(),
                         this.createElFont_(),
                         this.createElControls_()
                     ];
-                }, _proto.label = function label() {
+                }, _proto.label = function() {
                     return this.localize("Caption Settings Dialog");
-                }, _proto.description = function description() {
+                }, _proto.description = function() {
                     return this.localize("Beginning of dialog window. Escape will cancel and close the window.");
-                }, _proto.buildCSSClass = function buildCSSClass() {
+                }, _proto.buildCSSClass = function() {
                     return _ModalDialog.prototype.buildCSSClass.call(this) + " vjs-text-track-settings";
-                }, _proto.getValues = function getValues() {
-                    var _this3 = this;
-                    return reduce(selectConfigs, function(accum, config, key) {
-                        var value = getSelectedOptionValue(_this3.$(config.selector), config.parser);
+                }, _proto.getValues = function() {
+                    var fn, _this3 = this;
+                    return fn = function(accum, config, key) {
+                        var el, parser, value = (el = _this3.$(config.selector), parser = config.parser, parseOptionValue(el.options[el.options.selectedIndex].value, parser));
                         return void 0 !== value && (accum[key] = value), accum;
+                    }, keys(selectConfigs).reduce(function(accum, key) {
+                        return fn(accum, selectConfigs[key], key);
                     }, {});
-                }, _proto.setValues = function setValues(values) {
+                }, _proto.setValues = function(values) {
                     var _this4 = this;
                     each(selectConfigs, function(config, key) {
-                        setSelectedOption(_this4.$(config.selector), values[key], config.parser);
+                        !function(el, value, parser) {
+                            if (value) {
+                                for(var i = 0; i < el.options.length; i++)if (parseOptionValue(el.options[i].value, parser) === value) {
+                                    el.selectedIndex = i;
+                                    break;
+                                }
+                            }
+                        }(_this4.$(config.selector), values[key], config.parser);
                     });
-                }, _proto.setDefaults = function setDefaults() {
+                }, _proto.setDefaults = function() {
                     var _this5 = this;
                     each(selectConfigs, function(config) {
                         var index = config.hasOwnProperty("default") ? config.default : 0;
                         _this5.$(config.selector).selectedIndex = index;
                     });
-                }, _proto.restoreSettings = function restoreSettings() {
+                }, _proto.restoreSettings = function() {
                     var values;
                     try {
                         values = JSON.parse(global_window__WEBPACK_IMPORTED_MODULE_0___default().localStorage.getItem(LOCAL_STORAGE_KEY$1));
@@ -4462,7 +4384,7 @@
                         log$1.warn(err);
                     }
                     values && this.setValues(values);
-                }, _proto.saveSettings = function saveSettings() {
+                }, _proto.saveSettings = function() {
                     if (this.options_.persistTextTrackSettings) {
                         var values = this.getValues();
                         try {
@@ -4471,10 +4393,10 @@
                             log$1.warn(err);
                         }
                     }
-                }, _proto.updateDisplay = function updateDisplay() {
+                }, _proto.updateDisplay = function() {
                     var ttDisplay = this.player_.getChild("textTrackDisplay");
                     ttDisplay && ttDisplay.updateDisplay();
-                }, _proto.conditionalBlur_ = function conditionalBlur_() {
+                }, _proto.conditionalBlur_ = function() {
                     this.previouslyActiveEl_ = null;
                     var cb = this.player_.controlBar, subsCapsBtn = cb && cb.subsCapsButton, ccBtn = cb && cb.captionsButton;
                     subsCapsBtn ? subsCapsBtn.focus() : ccBtn && ccBtn.focus();
@@ -4502,16 +4424,16 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(ResizeManager, _Component);
                 var _proto = ResizeManager.prototype;
-                return _proto.createEl = function createEl() {
+                return _proto.createEl = function() {
                     return _Component.prototype.createEl.call(this, "iframe", {
                         className: "vjs-resize-manager",
                         tabIndex: -1
                     }, {
                         "aria-hidden": "true"
                     });
-                }, _proto.resizeHandler = function resizeHandler() {
+                }, _proto.resizeHandler = function() {
                     this.player_ && this.player_.trigger && this.player_.trigger("playerresize");
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.debouncedHandler_ && this.debouncedHandler_.cancel(), this.resizeObserver_ && (this.player_.el() && this.resizeObserver_.unobserve(this.player_.el()), this.resizeObserver_.disconnect()), this.loadListener_ && this.off("load", this.loadListener_), this.el_ && this.el_.contentWindow && this.unloadListener_ && this.unloadListener_.call(this.el_.contentWindow), this.ResizeObserver = null, this.resizeObserver = null, this.debouncedHandler_ = null, this.loadListener_ = null, _Component.prototype.dispose.call(this);
                 }, ResizeManager;
             }(Component$1);
@@ -4544,9 +4466,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(LiveTracker, _Component);
                 var _proto = LiveTracker.prototype;
-                return _proto.handleVisibilityChange = function handleVisibilityChange() {
+                return _proto.handleVisibilityChange = function() {
                     this.player_.duration() === 1 / 0 && (global_document__WEBPACK_IMPORTED_MODULE_1___default().hidden ? this.stopTracking() : this.startTracking());
-                }, _proto.trackLive_ = function trackLive_() {
+                }, _proto.trackLive_ = function() {
                     var seekable = this.player_.seekable();
                     if (seekable && seekable.length) {
                         var newTime = Number(global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now().toFixed(4)), deltaTime = -1 === this.lastTime_ ? 0 : (newTime - this.lastTime_) / 1000;
@@ -4554,56 +4476,56 @@
                         var liveCurrentTime = this.liveCurrentTime(), currentTime = this.player_.currentTime(), isBehind = this.player_.paused() || this.seekedBehindLive_ || Math.abs(liveCurrentTime - currentTime) > this.options_.liveTolerance;
                         this.timeupdateSeen_ && liveCurrentTime !== 1 / 0 || (isBehind = !1), isBehind !== this.behindLiveEdge_ && (this.behindLiveEdge_ = isBehind, this.trigger("liveedgechange"));
                     }
-                }, _proto.handleDurationchange = function handleDurationchange() {
+                }, _proto.handleDurationchange = function() {
                     this.toggleTracking();
-                }, _proto.toggleTracking = function toggleTracking() {
+                }, _proto.toggleTracking = function() {
                     this.player_.duration() === 1 / 0 && this.liveWindow() >= this.options_.trackingThreshold ? (this.player_.options_.liveui && this.player_.addClass("vjs-liveui"), this.startTracking()) : (this.player_.removeClass("vjs-liveui"), this.stopTracking());
-                }, _proto.startTracking = function startTracking() {
+                }, _proto.startTracking = function() {
                     this.isTracking() || (this.timeupdateSeen_ || (this.timeupdateSeen_ = this.player_.hasStarted()), this.trackingInterval_ = this.setInterval(this.trackLiveHandler_, 30), this.trackLive_(), this.on(this.player_, [
                         "play",
                         "pause"
                     ], this.trackLiveHandler_), this.timeupdateSeen_ ? this.on(this.player_, "seeked", this.handleSeeked_) : (this.one(this.player_, "play", this.handlePlay_), this.one(this.player_, "timeupdate", this.handleFirstTimeupdate_)));
-                }, _proto.handleFirstTimeupdate = function handleFirstTimeupdate() {
+                }, _proto.handleFirstTimeupdate = function() {
                     this.timeupdateSeen_ = !0, this.on(this.player_, "seeked", this.handleSeeked_);
-                }, _proto.handleSeeked = function handleSeeked() {
+                }, _proto.handleSeeked = function() {
                     var timeDiff = Math.abs(this.liveCurrentTime() - this.player_.currentTime());
                     this.seekedBehindLive_ = this.nextSeekedFromUser_ && timeDiff > 2, this.nextSeekedFromUser_ = !1, this.trackLive_();
-                }, _proto.handlePlay = function handlePlay() {
+                }, _proto.handlePlay = function() {
                     this.one(this.player_, "timeupdate", this.seekToLiveEdge_);
-                }, _proto.reset_ = function reset_() {
+                }, _proto.reset_ = function() {
                     this.lastTime_ = -1, this.pastSeekEnd_ = 0, this.lastSeekEnd_ = -1, this.behindLiveEdge_ = !0, this.timeupdateSeen_ = !1, this.seekedBehindLive_ = !1, this.nextSeekedFromUser_ = !1, this.clearInterval(this.trackingInterval_), this.trackingInterval_ = null, this.off(this.player_, [
                         "play",
                         "pause"
                     ], this.trackLiveHandler_), this.off(this.player_, "seeked", this.handleSeeked_), this.off(this.player_, "play", this.handlePlay_), this.off(this.player_, "timeupdate", this.handleFirstTimeupdate_), this.off(this.player_, "timeupdate", this.seekToLiveEdge_);
-                }, _proto.nextSeekedFromUser = function nextSeekedFromUser() {
+                }, _proto.nextSeekedFromUser = function() {
                     this.nextSeekedFromUser_ = !0;
-                }, _proto.stopTracking = function stopTracking() {
+                }, _proto.stopTracking = function() {
                     this.isTracking() && (this.reset_(), this.trigger("liveedgechange"));
-                }, _proto.seekableEnd = function seekableEnd() {
+                }, _proto.seekableEnd = function() {
                     for(var seekable = this.player_.seekable(), seekableEnds = [], i = seekable ? seekable.length : 0; i--;)seekableEnds.push(seekable.end(i));
                     return seekableEnds.length ? seekableEnds.sort()[seekableEnds.length - 1] : 1 / 0;
-                }, _proto.seekableStart = function seekableStart() {
+                }, _proto.seekableStart = function() {
                     for(var seekable = this.player_.seekable(), seekableStarts = [], i = seekable ? seekable.length : 0; i--;)seekableStarts.push(seekable.start(i));
                     return seekableStarts.length ? seekableStarts.sort()[0] : 0;
-                }, _proto.liveWindow = function liveWindow() {
+                }, _proto.liveWindow = function() {
                     var liveCurrentTime = this.liveCurrentTime();
                     return liveCurrentTime === 1 / 0 ? 0 : liveCurrentTime - this.seekableStart();
-                }, _proto.isLive = function isLive() {
+                }, _proto.isLive = function() {
                     return this.isTracking();
-                }, _proto.atLiveEdge = function atLiveEdge() {
+                }, _proto.atLiveEdge = function() {
                     return !this.behindLiveEdge();
-                }, _proto.liveCurrentTime = function liveCurrentTime() {
+                }, _proto.liveCurrentTime = function() {
                     return this.pastSeekEnd() + this.seekableEnd();
-                }, _proto.pastSeekEnd = function pastSeekEnd() {
+                }, _proto.pastSeekEnd = function() {
                     var seekableEnd = this.seekableEnd();
                     return -1 !== this.lastSeekEnd_ && seekableEnd !== this.lastSeekEnd_ && (this.pastSeekEnd_ = 0), this.lastSeekEnd_ = seekableEnd, this.pastSeekEnd_;
-                }, _proto.behindLiveEdge = function behindLiveEdge() {
+                }, _proto.behindLiveEdge = function() {
                     return this.behindLiveEdge_;
-                }, _proto.isTracking = function isTracking() {
+                }, _proto.isTracking = function() {
                     return "number" == typeof this.trackingInterval_;
-                }, _proto.seekToLiveEdge = function seekToLiveEdge() {
+                }, _proto.seekToLiveEdge = function() {
                     this.seekedBehindLive_ = !1, this.atLiveEdge() || (this.nextSeekedFromUser_ = !1, this.player_.currentTime(this.liveCurrentTime()));
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "visibilitychange", this.handleVisibilityChange_), this.stopTracking(), _Component.prototype.dispose.call(this);
                 }, LiveTracker;
             }(Component$1);
@@ -4619,10 +4541,10 @@
                 }
                 return !!srcUrls.length && (1 === srcUrls.length && (src = srcUrls[0]), tech.triggerSourceset(src), !0);
             }, innerHTMLDescriptorPolyfill = Object.defineProperty({}, "innerHTML", {
-                get: function get() {
+                get: function() {
                     return this.cloneNode(!0).innerHTML;
                 },
-                set: function set(v) {
+                set: function(v) {
                     var dummy = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement(this.nodeName.toLowerCase());
                     dummy.innerHTML = v;
                     for(var docFrag = global_document__WEBPACK_IMPORTED_MODULE_1___default().createDocumentFragment(); dummy.childNodes.length;)docFrag.appendChild(dummy.childNodes[0]);
@@ -4661,10 +4583,10 @@
                     }, tech.one("sourceset", el.resetSourceWatch_);
                 }
             }, srcDescriptorPolyfill = Object.defineProperty({}, "src", {
-                get: function get() {
+                get: function() {
                     return this.hasAttribute("src") ? getAbsoluteURL(global_window__WEBPACK_IMPORTED_MODULE_0___default().Element.prototype.getAttribute.call(this, "src")) : "";
                 },
-                set: function set(v) {
+                set: function(v) {
                     return global_window__WEBPACK_IMPORTED_MODULE_0___default().Element.prototype.setAttribute.call(this, "src", v), v;
                 }
             }), setupSourceset = function(tech) {
@@ -4677,7 +4599,7 @@
                             srcDescriptorPolyfill
                         ], "src"), oldSetAttribute = el.setAttribute, oldLoad = el.load;
                         Object.defineProperty(el, "src", mergeOptions$3(srcDescriptor, {
-                            set: function set(v) {
+                            set: function(v) {
                                 var retval = srcDescriptor.set.call(el, v);
                                 return tech.triggerSourceset(el.src), retval;
                             }
@@ -4703,7 +4625,7 @@
                 }, options = {
                     configurable: !0,
                     enumerable: !0,
-                    get: function get() {
+                    get: function() {
                         var value = getValue();
                         return set(value), value;
                     }
@@ -4724,11 +4646,11 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Html5, _Tech);
                 var _proto = Html5.prototype;
-                return _proto.dispose = function dispose() {
+                return _proto.dispose = function() {
                     this.el_ && this.el_.resetSourceset_ && this.el_.resetSourceset_(), Html5.disposeMediaElement(this.el_), this.options_ = null, _Tech.prototype.dispose.call(this);
-                }, _proto.setupSourcesetHandling_ = function setupSourcesetHandling_() {
+                }, _proto.setupSourcesetHandling_ = function() {
                     setupSourceset(this);
-                }, _proto.restoreMetadataTracksInIOSNativePlayer_ = function restoreMetadataTracksInIOSNativePlayer_() {
+                }, _proto.restoreMetadataTracksInIOSNativePlayer_ = function() {
                     var metadataTracksPreFullscreenState, textTracks = this.textTracks(), takeMetadataTrackSnapshot = function() {
                         metadataTracksPreFullscreenState = [];
                         for(var i = 0; i < textTracks.length; i++){
@@ -4754,7 +4676,7 @@
                     }), this.on("webkitendfullscreen", function() {
                         textTracks.removeEventListener("change", takeMetadataTrackSnapshot), textTracks.addEventListener("change", takeMetadataTrackSnapshot), textTracks.removeEventListener("change", restoreTrackMode);
                     });
-                }, _proto.overrideNative_ = function overrideNative_(type, override) {
+                }, _proto.overrideNative_ = function(type, override) {
                     var _this2 = this;
                     if (override === this["featuresNative" + type + "Tracks"]) {
                         var lowerCaseType = type.toLowerCase();
@@ -4762,15 +4684,15 @@
                             _this2.el()[lowerCaseType + "Tracks"].removeEventListener(eventName, _this2[lowerCaseType + "TracksListeners_"][eventName]);
                         }), this["featuresNative" + type + "Tracks"] = !override, this[lowerCaseType + "TracksListeners_"] = null, this.proxyNativeTracksForType_(lowerCaseType);
                     }
-                }, _proto.overrideNativeAudioTracks = function overrideNativeAudioTracks(override) {
+                }, _proto.overrideNativeAudioTracks = function(override) {
                     this.overrideNative_("Audio", override);
-                }, _proto.overrideNativeVideoTracks = function overrideNativeVideoTracks(override) {
+                }, _proto.overrideNativeVideoTracks = function(override) {
                     this.overrideNative_("Video", override);
-                }, _proto.proxyNativeTracksForType_ = function proxyNativeTracksForType_(name) {
+                }, _proto.proxyNativeTracksForType_ = function(name) {
                     var _this3 = this, props = NORMAL[name], elTracks = this.el()[props.getterName], techTracks = this[props.getterName]();
                     if (this["featuresNative" + props.capitalName + "Tracks"] && elTracks && elTracks.addEventListener) {
                         var listeners = {
-                            change: function change(e) {
+                            change: function(e) {
                                 var event = {
                                     type: "change",
                                     target: techTracks,
@@ -4779,10 +4701,10 @@
                                 };
                                 techTracks.trigger(event), "text" === name && _this3[REMOTE.remoteText.getterName]().trigger(event);
                             },
-                            addtrack: function addtrack(e) {
+                            addtrack: function(e) {
                                 techTracks.addTrack(e.track);
                             },
-                            removetrack: function removetrack(e) {
+                            removetrack: function(e) {
                                 techTracks.removeTrack(e.track);
                             }
                         }, removeOldTracks = function() {
@@ -4804,12 +4726,12 @@
                             return _this3.off("loadstart", removeOldTracks);
                         });
                     }
-                }, _proto.proxyNativeTracks_ = function proxyNativeTracks_() {
+                }, _proto.proxyNativeTracks_ = function() {
                     var _this4 = this;
                     NORMAL.names.forEach(function(name) {
                         _this4.proxyNativeTracksForType_(name);
                     });
-                }, _proto.createEl = function createEl() {
+                }, _proto.createEl = function() {
                     var el = this.options_.tag;
                     if (!el || !(this.options_.playerElIngest || this.movingMediaElementInDOM)) {
                         if (el) {
@@ -4836,7 +4758,7 @@
                         void 0 !== value && (value ? setAttribute(el, attr, attr) : removeAttribute(el, attr), el[attr] = value);
                     }
                     return el;
-                }, _proto.handleLateInit_ = function handleLateInit_(el) {
+                }, _proto.handleLateInit_ = function(el) {
                     if (0 !== el.networkState && 3 !== el.networkState) {
                         if (0 === el.readyState) {
                             var loadstartFired = !1, setLoadstartFired = function() {
@@ -4860,26 +4782,26 @@
                             }, this);
                         });
                     }
-                }, _proto.setScrubbing = function setScrubbing(isScrubbing) {
+                }, _proto.setScrubbing = function(isScrubbing) {
                     this.isScrubbing_ = isScrubbing;
-                }, _proto.scrubbing = function scrubbing() {
+                }, _proto.scrubbing = function() {
                     return this.isScrubbing_;
-                }, _proto.setCurrentTime = function setCurrentTime(seconds) {
+                }, _proto.setCurrentTime = function(seconds) {
                     try {
                         this.isScrubbing_ && this.el_.fastSeek && IS_ANY_SAFARI ? this.el_.fastSeek(seconds) : this.el_.currentTime = seconds;
                     } catch (e) {
                         log$1(e, "Video is not ready. (Video.js)");
                     }
-                }, _proto.duration = function duration() {
+                }, _proto.duration = function() {
                     var _this5 = this;
                     return this.el_.duration === 1 / 0 && IS_ANDROID && IS_CHROME && 0 === this.el_.currentTime ? (this.on("timeupdate", function checkProgress() {
                         _this5.el_.currentTime > 0 && (_this5.el_.duration === 1 / 0 && _this5.trigger("durationchange"), _this5.off("timeupdate", checkProgress));
                     }), NaN) : this.el_.duration || NaN;
-                }, _proto.width = function width() {
+                }, _proto.width = function() {
                     return this.el_.offsetWidth;
-                }, _proto.height = function height() {
+                }, _proto.height = function() {
                     return this.el_.offsetHeight;
-                }, _proto.proxyWebkitFullscreen_ = function proxyWebkitFullscreen_() {
+                }, _proto.proxyWebkitFullscreen_ = function() {
                     var _this6 = this;
                     if ("webkitDisplayingFullscreen" in this.el_) {
                         var endFn = function() {
@@ -4896,13 +4818,13 @@
                             _this6.off("webkitbeginfullscreen", beginFn), _this6.off("webkitendfullscreen", endFn);
                         });
                     }
-                }, _proto.supportsFullScreen = function supportsFullScreen() {
+                }, _proto.supportsFullScreen = function() {
                     if ("function" == typeof this.el_.webkitEnterFullScreen) {
                         var userAgent = global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator && global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.userAgent || "";
                         if (/Android/.test(userAgent) || !/Chrome|Mac OS X 10.5/.test(userAgent)) return !0;
                     }
                     return !1;
-                }, _proto.enterFullScreen = function enterFullScreen() {
+                }, _proto.enterFullScreen = function() {
                     var video = this.el_;
                     if (video.paused && video.networkState <= video.HAVE_METADATA) silencePromise(this.el_.play()), this.setTimeout(function() {
                         video.pause();
@@ -4917,35 +4839,35 @@
                     } catch (e) {
                         this.trigger("fullscreenerror", e);
                     }
-                }, _proto.exitFullScreen = function exitFullScreen() {
+                }, _proto.exitFullScreen = function() {
                     if (!this.el_.webkitDisplayingFullscreen) {
                         this.trigger("fullscreenerror", Error("The video is not fullscreen"));
                         return;
                     }
                     this.el_.webkitExitFullScreen();
-                }, _proto.requestPictureInPicture = function requestPictureInPicture() {
+                }, _proto.requestPictureInPicture = function() {
                     return this.el_.requestPictureInPicture();
-                }, _proto.src = function src(_src) {
+                }, _proto.src = function(_src) {
                     if (void 0 === _src) return this.el_.src;
                     this.setSrc(_src);
-                }, _proto.reset = function reset() {
+                }, _proto.reset = function() {
                     Html5.resetMediaElement(this.el_);
-                }, _proto.currentSrc = function currentSrc() {
+                }, _proto.currentSrc = function() {
                     return this.currentSource_ ? this.currentSource_.src : this.el_.currentSrc;
-                }, _proto.setControls = function setControls(val) {
+                }, _proto.setControls = function(val) {
                     this.el_.controls = !!val;
-                }, _proto.addTextTrack = function addTextTrack(kind, label, language) {
+                }, _proto.addTextTrack = function(kind, label, language) {
                     return this.featuresNativeTextTracks ? this.el_.addTextTrack(kind, label, language) : _Tech.prototype.addTextTrack.call(this, kind, label, language);
-                }, _proto.createRemoteTextTrack = function createRemoteTextTrack(options) {
+                }, _proto.createRemoteTextTrack = function(options) {
                     if (!this.featuresNativeTextTracks) return _Tech.prototype.createRemoteTextTrack.call(this, options);
                     var htmlTrackElement = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("track");
                     return options.kind && (htmlTrackElement.kind = options.kind), options.label && (htmlTrackElement.label = options.label), (options.language || options.srclang) && (htmlTrackElement.srclang = options.language || options.srclang), options.default && (htmlTrackElement.default = options.default), options.id && (htmlTrackElement.id = options.id), options.src && (htmlTrackElement.src = options.src), htmlTrackElement;
-                }, _proto.addRemoteTextTrack = function addRemoteTextTrack(options, manualCleanup) {
+                }, _proto.addRemoteTextTrack = function(options, manualCleanup) {
                     var htmlTrackElement = _Tech.prototype.addRemoteTextTrack.call(this, options, manualCleanup);
                     return this.featuresNativeTextTracks && this.el().appendChild(htmlTrackElement), htmlTrackElement;
-                }, _proto.removeRemoteTextTrack = function removeRemoteTextTrack(track) {
+                }, _proto.removeRemoteTextTrack = function(track) {
                     if (_Tech.prototype.removeRemoteTextTrack.call(this, track), this.featuresNativeTextTracks) for(var tracks = this.$$("track"), i = tracks.length; i--;)(track === tracks[i] || track === tracks[i].track) && this.el().removeChild(tracks[i]);
-                }, _proto.getVideoPlaybackQuality = function getVideoPlaybackQuality() {
+                }, _proto.getVideoPlaybackQuality = function() {
                     if ("function" == typeof this.el().getVideoPlaybackQuality) return this.el().getVideoPlaybackQuality();
                     var videoPlaybackQuality = {};
                     return void 0 !== this.el().webkitDroppedFrameCount && void 0 !== this.el().webkitDecodedFrameCount && (videoPlaybackQuality.droppedVideoFrames = this.el().webkitDroppedFrameCount, videoPlaybackQuality.totalVideoFrames = this.el().webkitDecodedFrameCount), global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now ? videoPlaybackQuality.creationTime = global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.now() : global_window__WEBPACK_IMPORTED_MODULE_0___default().performance && global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.timing && "number" == typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.timing.navigationStart && (videoPlaybackQuality.creationTime = global_window__WEBPACK_IMPORTED_MODULE_0___default().Date.now() - global_window__WEBPACK_IMPORTED_MODULE_0___default().performance.timing.navigationStart), videoPlaybackQuality;
@@ -5286,13 +5208,13 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(Player, _Component);
                 var _proto = Player.prototype;
-                return _proto.dispose = function dispose() {
+                return _proto.dispose = function() {
                     var _this2 = this;
-                    this.trigger("dispose"), this.off("dispose"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), this.fsApi_.fullscreenchange, this.boundDocumentFullscreenChange_), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), this.styleEl_ && this.styleEl_.parentNode && (this.styleEl_.parentNode.removeChild(this.styleEl_), this.styleEl_ = null), Player.players[this.id_] = null, this.tag && this.tag.player && (this.tag.player = null), this.el_ && this.el_.player && (this.el_.player = null), this.tech_ && (this.tech_.dispose(), this.isPosterFromTech_ = !1, this.poster_ = ""), this.playerElIngest_ && (this.playerElIngest_ = null), this.tag && (this.tag = null), clearCacheForPlayer(this), ALL.names.forEach(function(name) {
+                    this.trigger("dispose"), this.off("dispose"), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), this.fsApi_.fullscreenchange, this.boundDocumentFullscreenChange_), off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), this.styleEl_ && this.styleEl_.parentNode && (this.styleEl_.parentNode.removeChild(this.styleEl_), this.styleEl_ = null), Player.players[this.id_] = null, this.tag && this.tag.player && (this.tag.player = null), this.el_ && this.el_.player && (this.el_.player = null), this.tech_ && (this.tech_.dispose(), this.isPosterFromTech_ = !1, this.poster_ = ""), this.playerElIngest_ && (this.playerElIngest_ = null), this.tag && (this.tag = null), middlewareInstances[this.id()] = null, ALL.names.forEach(function(name) {
                         var list = _this2[ALL[name].getterName]();
                         list && list.off && list.off();
                     }), _Component.prototype.dispose.call(this);
-                }, _proto.createEl = function createEl() {
+                }, _proto.createEl = function() {
                     var el, tag = this.tag, playerElIngest = this.playerElIngest_ = tag.parentNode && tag.parentNode.hasAttribute && tag.parentNode.hasAttribute("data-vjs-player"), divEmbed = "video-js" === this.tag.tagName.toLowerCase();
                     playerElIngest ? el = this.el_ = tag.parentNode : divEmbed || (el = this.el_ = _Component.prototype.createEl.call(this, "div"));
                     var attrs = getAttributes(tag);
@@ -5317,18 +5239,18 @@
                         addClass(linkEl, "vjs-hidden"), linkEl.setAttribute("hidden", "hidden");
                     }
                     return tag.initNetworkState_ = tag.networkState, tag.parentNode && !playerElIngest && tag.parentNode.insertBefore(el, tag), prependTo(tag, el), this.children_.unshift(tag), this.el_.setAttribute("lang", this.language_), this.el_.setAttribute("translate", "no"), this.el_ = el, el;
-                }, _proto.crossOrigin = function crossOrigin(value) {
+                }, _proto.crossOrigin = function(value) {
                     if (!value) return this.techGet_("crossOrigin");
                     if ("anonymous" !== value && "use-credentials" !== value) {
                         log$1.warn('crossOrigin must be "anonymous" or "use-credentials", given "' + value + '"');
                         return;
                     }
                     this.techCall_("setCrossOrigin", value);
-                }, _proto.width = function width(value) {
+                }, _proto.width = function(value) {
                     return this.dimension("width", value);
-                }, _proto.height = function height(value) {
+                }, _proto.height = function(value) {
                     return this.dimension("height", value);
-                }, _proto.dimension = function dimension(_dimension, value) {
+                }, _proto.dimension = function(_dimension, value) {
                     var privDimension = _dimension + "_";
                     if (void 0 === value) return this[privDimension] || 0;
                     if ("" === value || "auto" === value) {
@@ -5341,7 +5263,7 @@
                         return;
                     }
                     this[privDimension] = parsedVal, this.updateStyleEl_();
-                }, _proto.fluid = function fluid(bool) {
+                }, _proto.fluid = function(bool) {
                     var _this3 = this;
                     if (void 0 === bool) return !!this.fluid_;
                     this.fluid_ = !!bool, isEvented(this) && this.off([
@@ -5353,14 +5275,14 @@
                             "resize"
                         ], _this3.boundUpdateStyleEl_);
                     })) : this.removeClass("vjs-fluid"), this.updateStyleEl_();
-                }, _proto.fill = function fill(bool) {
+                }, _proto.fill = function(bool) {
                     if (void 0 === bool) return !!this.fill_;
                     this.fill_ = !!bool, bool ? (this.addClass("vjs-fill"), this.fluid(!1)) : this.removeClass("vjs-fill");
-                }, _proto.aspectRatio = function aspectRatio(ratio) {
+                }, _proto.aspectRatio = function(ratio) {
                     if (void 0 === ratio) return this.aspectRatio_;
                     if (!/^\d+\:\d+$/.test(ratio)) throw Error("Improper value supplied for aspect ratio. The format should be width:height, for example 16:9.");
                     this.aspectRatio_ = ratio, this.fluid(!0), this.updateStyleEl_();
-                }, _proto.updateStyleEl_ = function updateStyleEl_() {
+                }, _proto.updateStyleEl_ = function() {
                     if (!0 === global_window__WEBPACK_IMPORTED_MODULE_0___default().VIDEOJS_NO_DYNAMIC_STYLE) {
                         var width, height, idClass, _width = "number" == typeof this.width_ ? this.width_ : this.options_.width, _height = "number" == typeof this.height_ ? this.height_ : this.options_.height, techEl = this.tech_ && this.tech_.el();
                         techEl && (_width >= 0 && (techEl.width = _width), _height >= 0 && (techEl.height = _height));
@@ -5368,7 +5290,7 @@
                     }
                     var ratioParts = (void 0 !== this.aspectRatio_ && "auto" !== this.aspectRatio_ ? this.aspectRatio_ : this.videoWidth() > 0 ? this.videoWidth() + ":" + this.videoHeight() : "16:9").split(":"), ratioMultiplier = ratioParts[1] / ratioParts[0];
                     width = void 0 !== this.width_ ? this.width_ : void 0 !== this.height_ ? this.height_ / ratioMultiplier : this.videoWidth() || 300, height = void 0 !== this.height_ ? this.height_ : width * ratioMultiplier, idClass = /^[^a-zA-Z]/.test(this.id()) ? "dimensions-" + this.id() : this.id() + "-dimensions", this.addClass(idClass), setTextContent(this.styleEl_, "\n      ." + idClass + " {\n        width: " + width + "px;\n        height: " + height + "px;\n      }\n\n      ." + idClass + ".vjs-fluid {\n        padding-top: " + 100 * ratioMultiplier + "%;\n      }\n    ");
-                }, _proto.loadTech_ = function loadTech_(techName, source) {
+                }, _proto.loadTech_ = function(techName, source) {
                     var _this4 = this;
                     this.tech_ && this.unloadTech_();
                     var titleTechName = toTitleCase$1(techName), camelTechName = techName.charAt(0).toLowerCase() + techName.slice(1);
@@ -5450,23 +5372,23 @@
                     }), this.on(this.tech_, "ratechange", function(e) {
                         return _this4.handleTechRateChange_(e);
                     }), this.on(this.tech_, "loadedmetadata", this.boundUpdateStyleEl_), this.usingNativeControls(this.techGet_("controls")), this.controls() && !this.usingNativeControls() && this.addTechControlsListeners_(), this.tech_.el().parentNode === this.el() || "Html5" === titleTechName && this.tag || prependTo(this.tech_.el(), this.el()), this.tag && (this.tag.player = null, this.tag = null);
-                }, _proto.unloadTech_ = function unloadTech_() {
+                }, _proto.unloadTech_ = function() {
                     var _this5 = this;
                     ALL.names.forEach(function(name) {
                         var props = ALL[name];
                         _this5[props.privateName] = _this5[props.getterName]();
                     }), this.textTracksJson_ = textTrackConverter.textTracksToJson(this.tech_), this.isReady_ = !1, this.tech_.dispose(), this.tech_ = !1, this.isPosterFromTech_ && (this.poster_ = "", this.trigger("posterchange")), this.isPosterFromTech_ = !1;
-                }, _proto.tech = function tech(safety) {
+                }, _proto.tech = function(safety) {
                     return void 0 === safety && log$1.warn("Using the tech directly can be dangerous. I hope you know what you're doing.\nSee https://github.com/videojs/video.js/issues/2617 for more info.\n"), this.tech_;
-                }, _proto.addTechControlsListeners_ = function addTechControlsListeners_() {
+                }, _proto.addTechControlsListeners_ = function() {
                     this.removeTechControlsListeners_(), this.on(this.tech_, "click", this.boundHandleTechClick_), this.on(this.tech_, "dblclick", this.boundHandleTechDoubleClick_), this.on(this.tech_, "touchstart", this.boundHandleTechTouchStart_), this.on(this.tech_, "touchmove", this.boundHandleTechTouchMove_), this.on(this.tech_, "touchend", this.boundHandleTechTouchEnd_), this.on(this.tech_, "tap", this.boundHandleTechTap_);
-                }, _proto.removeTechControlsListeners_ = function removeTechControlsListeners_() {
+                }, _proto.removeTechControlsListeners_ = function() {
                     this.off(this.tech_, "tap", this.boundHandleTechTap_), this.off(this.tech_, "touchstart", this.boundHandleTechTouchStart_), this.off(this.tech_, "touchmove", this.boundHandleTechTouchMove_), this.off(this.tech_, "touchend", this.boundHandleTechTouchEnd_), this.off(this.tech_, "click", this.boundHandleTechClick_), this.off(this.tech_, "dblclick", this.boundHandleTechDoubleClick_);
-                }, _proto.handleTechReady_ = function handleTechReady_() {
+                }, _proto.handleTechReady_ = function() {
                     this.triggerReady(), this.cache_.volume && this.techCall_("setVolume", this.cache_.volume), this.handleTechPosterChange_(), this.handleTechDurationChange_();
-                }, _proto.handleTechLoadStart_ = function handleTechLoadStart_() {
+                }, _proto.handleTechLoadStart_ = function() {
                     this.removeClass("vjs-ended"), this.removeClass("vjs-seeking"), this.error(null), this.handleTechDurationChange_(), this.paused() ? (this.hasStarted(!1), this.trigger("loadstart")) : (this.trigger("loadstart"), this.trigger("firstplay")), this.manualAutoplay_(!0 === this.autoplay() && this.options_.normalizeAutoplay ? "play" : this.autoplay());
-                }, _proto.manualAutoplay_ = function manualAutoplay_(type) {
+                }, _proto.manualAutoplay_ = function(type) {
                     var promise, _this6 = this;
                     if (this.tech_ && "string" == typeof type) {
                         var resolveMuted = function() {
@@ -5493,7 +5415,7 @@
                             });
                         });
                     }
-                }, _proto.updateSourceCaches_ = function updateSourceCaches_(srcObj) {
+                }, _proto.updateSourceCaches_ = function(srcObj) {
                     void 0 === srcObj && (srcObj = "");
                     var src = srcObj, type = "";
                     "string" != typeof src && (src = srcObj.src, type = srcObj.type), this.cache_.source = this.cache_.source || {}, this.cache_.sources = this.cache_.sources || [], src && !type && (type = findMimetype(this, src)), this.cache_.source = mergeOptions$3({}, srcObj, {
@@ -5509,13 +5431,13 @@
                     matchingSourceEls.length && !matchingSources.length ? this.cache_.sources = sourceElSources : matchingSources.length || (this.cache_.sources = [
                         this.cache_.source
                     ]), this.cache_.src = src;
-                }, _proto.handleTechSourceset_ = function handleTechSourceset_(event) {
+                }, _proto.handleTechSourceset_ = function(event) {
                     var _this7 = this;
                     if (!this.changingSrc_) {
                         var updateSourceCaches = function(src) {
                             return _this7.updateSourceCaches_(src);
                         }, playerSrc = this.currentSource().src, eventSrc = event.src;
-                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function updateSourceCaches() {}), updateSourceCaches(eventSrc), event.src || this.tech_.any([
+                        playerSrc && !/^blob:/.test(playerSrc) && /^blob:/.test(eventSrc) && (!this.lastSource_ || this.lastSource_.tech !== eventSrc && this.lastSource_.player !== playerSrc) && (updateSourceCaches = function() {}), updateSourceCaches(eventSrc), event.src || this.tech_.any([
                             "sourceset",
                             "loadstart"
                         ], function(e) {
@@ -5532,83 +5454,83 @@
                         src: event.src,
                         type: "sourceset"
                     });
-                }, _proto.hasStarted = function hasStarted(request) {
+                }, _proto.hasStarted = function(request) {
                     if (void 0 === request) return this.hasStarted_;
                     request !== this.hasStarted_ && (this.hasStarted_ = request, this.hasStarted_ ? (this.addClass("vjs-has-started"), this.trigger("firstplay")) : this.removeClass("vjs-has-started"));
-                }, _proto.handleTechPlay_ = function handleTechPlay_() {
+                }, _proto.handleTechPlay_ = function() {
                     this.removeClass("vjs-ended"), this.removeClass("vjs-paused"), this.addClass("vjs-playing"), this.hasStarted(!0), this.trigger("play");
-                }, _proto.handleTechRateChange_ = function handleTechRateChange_() {
+                }, _proto.handleTechRateChange_ = function() {
                     this.tech_.playbackRate() > 0 && 0 === this.cache_.lastPlaybackRate && (this.queuedCallbacks_.forEach(function(queued) {
                         return queued.callback(queued.event);
                     }), this.queuedCallbacks_ = []), this.cache_.lastPlaybackRate = this.tech_.playbackRate(), this.trigger("ratechange");
-                }, _proto.handleTechWaiting_ = function handleTechWaiting_() {
+                }, _proto.handleTechWaiting_ = function() {
                     var _this8 = this;
                     this.addClass("vjs-waiting"), this.trigger("waiting");
                     var timeWhenWaiting = this.currentTime();
                     this.on("timeupdate", function timeUpdateListener() {
                         timeWhenWaiting !== _this8.currentTime() && (_this8.removeClass("vjs-waiting"), _this8.off("timeupdate", timeUpdateListener));
                     });
-                }, _proto.handleTechCanPlay_ = function handleTechCanPlay_() {
+                }, _proto.handleTechCanPlay_ = function() {
                     this.removeClass("vjs-waiting"), this.trigger("canplay");
-                }, _proto.handleTechCanPlayThrough_ = function handleTechCanPlayThrough_() {
+                }, _proto.handleTechCanPlayThrough_ = function() {
                     this.removeClass("vjs-waiting"), this.trigger("canplaythrough");
-                }, _proto.handleTechPlaying_ = function handleTechPlaying_() {
+                }, _proto.handleTechPlaying_ = function() {
                     this.removeClass("vjs-waiting"), this.trigger("playing");
-                }, _proto.handleTechSeeking_ = function handleTechSeeking_() {
+                }, _proto.handleTechSeeking_ = function() {
                     this.addClass("vjs-seeking"), this.trigger("seeking");
-                }, _proto.handleTechSeeked_ = function handleTechSeeked_() {
+                }, _proto.handleTechSeeked_ = function() {
                     this.removeClass("vjs-seeking"), this.removeClass("vjs-ended"), this.trigger("seeked");
-                }, _proto.handleTechFirstPlay_ = function handleTechFirstPlay_() {
+                }, _proto.handleTechFirstPlay_ = function() {
                     this.options_.starttime && (log$1.warn("Passing the `starttime` option to the player will be deprecated in 6.0"), this.currentTime(this.options_.starttime)), this.addClass("vjs-has-started"), this.trigger("firstplay");
-                }, _proto.handleTechPause_ = function handleTechPause_() {
+                }, _proto.handleTechPause_ = function() {
                     this.removeClass("vjs-playing"), this.addClass("vjs-paused"), this.trigger("pause");
-                }, _proto.handleTechEnded_ = function handleTechEnded_() {
+                }, _proto.handleTechEnded_ = function() {
                     this.addClass("vjs-ended"), this.removeClass("vjs-waiting"), this.options_.loop ? (this.currentTime(0), this.play()) : this.paused() || this.pause(), this.trigger("ended");
-                }, _proto.handleTechDurationChange_ = function handleTechDurationChange_() {
+                }, _proto.handleTechDurationChange_ = function() {
                     this.duration(this.techGet_("duration"));
-                }, _proto.handleTechClick_ = function handleTechClick_(event) {
+                }, _proto.handleTechClick_ = function(event) {
                     this.controls_ && (void 0 === this.options_ || void 0 === this.options_.userActions || void 0 === this.options_.userActions.click || !1 !== this.options_.userActions.click) && (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.click ? this.options_.userActions.click.call(this, event) : this.paused() ? silencePromise(this.play()) : this.pause());
-                }, _proto.handleTechDoubleClick_ = function handleTechDoubleClick_(event) {
+                }, _proto.handleTechDoubleClick_ = function(event) {
                     this.controls_ && (Array.prototype.some.call(this.$$(".vjs-control-bar, .vjs-modal-dialog"), function(el) {
                         return el.contains(event.target);
                     }) || void 0 !== this.options_ && void 0 !== this.options_.userActions && void 0 !== this.options_.userActions.doubleClick && !1 === this.options_.userActions.doubleClick || (void 0 !== this.options_ && void 0 !== this.options_.userActions && "function" == typeof this.options_.userActions.doubleClick ? this.options_.userActions.doubleClick.call(this, event) : this.isFullscreen() ? this.exitFullscreen() : this.requestFullscreen()));
-                }, _proto.handleTechTap_ = function handleTechTap_() {
+                }, _proto.handleTechTap_ = function() {
                     this.userActive(!this.userActive());
-                }, _proto.handleTechTouchStart_ = function handleTechTouchStart_() {
+                }, _proto.handleTechTouchStart_ = function() {
                     this.userWasActive = this.userActive();
-                }, _proto.handleTechTouchMove_ = function handleTechTouchMove_() {
+                }, _proto.handleTechTouchMove_ = function() {
                     this.userWasActive && this.reportUserActivity();
-                }, _proto.handleTechTouchEnd_ = function handleTechTouchEnd_(event) {
+                }, _proto.handleTechTouchEnd_ = function(event) {
                     event.cancelable && event.preventDefault();
-                }, _proto.handleStageClick_ = function handleStageClick_() {
+                }, _proto.handleStageClick_ = function() {
                     this.reportUserActivity();
-                }, _proto.toggleFullscreenClass_ = function toggleFullscreenClass_() {
+                }, _proto.toggleFullscreenClass_ = function() {
                     this.isFullscreen() ? this.addClass("vjs-fullscreen") : this.removeClass("vjs-fullscreen");
-                }, _proto.documentFullscreenChange_ = function documentFullscreenChange_(e) {
+                }, _proto.documentFullscreenChange_ = function(e) {
                     var targetPlayer = e.target.player;
                     if (!targetPlayer || targetPlayer === this) {
                         var el = this.el(), isFs = global_document__WEBPACK_IMPORTED_MODULE_1___default()[this.fsApi_.fullscreenElement] === el;
                         !isFs && el.matches ? isFs = el.matches(":" + this.fsApi_.fullscreen) : !isFs && el.msMatchesSelector && (isFs = el.msMatchesSelector(":" + this.fsApi_.fullscreen)), this.isFullscreen(isFs);
                     }
-                }, _proto.handleTechFullscreenChange_ = function handleTechFullscreenChange_(event, data) {
+                }, _proto.handleTechFullscreenChange_ = function(event, data) {
                     data && (data.nativeIOSFullscreen && this.toggleClass("vjs-ios-native-fs"), this.isFullscreen(data.isFullscreen));
-                }, _proto.handleTechFullscreenError_ = function handleTechFullscreenError_(event, err) {
+                }, _proto.handleTechFullscreenError_ = function(event, err) {
                     this.trigger("fullscreenerror", err);
-                }, _proto.togglePictureInPictureClass_ = function togglePictureInPictureClass_() {
+                }, _proto.togglePictureInPictureClass_ = function() {
                     this.isInPictureInPicture() ? this.addClass("vjs-picture-in-picture") : this.removeClass("vjs-picture-in-picture");
-                }, _proto.handleTechEnterPictureInPicture_ = function handleTechEnterPictureInPicture_(event) {
+                }, _proto.handleTechEnterPictureInPicture_ = function(event) {
                     this.isInPictureInPicture(!0);
-                }, _proto.handleTechLeavePictureInPicture_ = function handleTechLeavePictureInPicture_(event) {
+                }, _proto.handleTechLeavePictureInPicture_ = function(event) {
                     this.isInPictureInPicture(!1);
-                }, _proto.handleTechError_ = function handleTechError_() {
+                }, _proto.handleTechError_ = function() {
                     var error = this.tech_.error();
                     this.error(error);
-                }, _proto.handleTechTextData_ = function handleTechTextData_() {
+                }, _proto.handleTechTextData_ = function() {
                     var data = null;
                     arguments.length > 1 && (data = arguments[1]), this.trigger("textdata", data);
-                }, _proto.getCache = function getCache() {
+                }, _proto.getCache = function() {
                     return this.cache_;
-                }, _proto.resetCache_ = function resetCache_() {
+                }, _proto.resetCache_ = function() {
                     this.cache_ = {
                         currentTime: 0,
                         initTime: 0,
@@ -5623,9 +5545,12 @@
                         playbackRates: [],
                         volume: 1
                     };
-                }, _proto.techCall_ = function techCall_(method, arg) {
+                }, _proto.techCall_ = function(method, arg) {
                     this.ready(function() {
-                        if (method in allowedSetters) return set(this.middleware_, this.tech_, method, arg);
+                        if (method in allowedSetters) {
+                            var middleware;
+                            return middleware = this.middleware_, this.tech_[method](middleware.reduce(middlewareIterator(method), arg));
+                        }
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method, arg);
                         try {
                             this.tech_ && this.tech_[method](arg);
@@ -5633,9 +5558,12 @@
                             throw log$1(e), e;
                         }
                     }, !0);
-                }, _proto.techGet_ = function techGet_(method) {
+                }, _proto.techGet_ = function(method) {
                     if (this.tech_ && this.tech_.isReady_) {
-                        if (method in allowedGetters) return get(this.middleware_, this.tech_, method);
+                        if (method in allowedGetters) {
+                            var middleware, tech;
+                            return middleware = this.middleware_, tech = this.tech_, middleware.reduceRight(middlewareIterator(method), tech[method]());
+                        }
                         if (method in allowedMediators) return mediate(this.middleware_, this.tech_, method);
                         try {
                             return this.tech_[method]();
@@ -5645,12 +5573,12 @@
                             throw log$1(e), e;
                         }
                     }
-                }, _proto.play = function play() {
+                }, _proto.play = function() {
                     var _this9 = this, PromiseClass = this.options_.Promise || global_window__WEBPACK_IMPORTED_MODULE_0___default().Promise;
                     return PromiseClass ? new PromiseClass(function(resolve) {
                         _this9.play_(resolve);
                     }) : this.play_();
-                }, _proto.play_ = function play_(callback) {
+                }, _proto.play_ = function(callback) {
                     var _this10 = this;
                     void 0 === callback && (callback = silencePromise), this.playCallbacks_.push(callback);
                     var isSrcReady = !!(!this.changingSrc_ && (this.src() || this.currentSrc()));
@@ -5668,26 +5596,26 @@
                     }
                     var val = this.techGet_("play");
                     null === val ? this.runPlayTerminatedQueue_() : this.runPlayCallbacks_(val);
-                }, _proto.runPlayTerminatedQueue_ = function runPlayTerminatedQueue_() {
+                }, _proto.runPlayTerminatedQueue_ = function() {
                     var queue = this.playTerminatedQueue_.slice(0);
                     this.playTerminatedQueue_ = [], queue.forEach(function(q) {
                         q();
                     });
-                }, _proto.runPlayCallbacks_ = function runPlayCallbacks_(val) {
+                }, _proto.runPlayCallbacks_ = function(val) {
                     var callbacks = this.playCallbacks_.slice(0);
                     this.playCallbacks_ = [], this.playTerminatedQueue_ = [], callbacks.forEach(function(cb) {
                         cb(val);
                     });
-                }, _proto.pause = function pause() {
+                }, _proto.pause = function() {
                     this.techCall_("pause");
-                }, _proto.paused = function paused() {
+                }, _proto.paused = function() {
                     return !1 !== this.techGet_("paused");
-                }, _proto.played = function played() {
+                }, _proto.played = function() {
                     return this.techGet_("played") || createTimeRanges(0, 0);
-                }, _proto.scrubbing = function scrubbing(isScrubbing) {
+                }, _proto.scrubbing = function(isScrubbing) {
                     if (void 0 === isScrubbing) return this.scrubbing_;
                     this.scrubbing_ = !!isScrubbing, this.techCall_("setScrubbing", this.scrubbing_), isScrubbing ? this.addClass("vjs-scrubbing") : this.removeClass("vjs-scrubbing");
-                }, _proto.currentTime = function currentTime(seconds) {
+                }, _proto.currentTime = function(seconds) {
                     if (void 0 !== seconds) {
                         if (seconds < 0 && (seconds = 0), !this.isReady_ || this.changingSrc_ || !this.tech_ || !this.tech_.isReady_) {
                             this.cache_.initTime = seconds, this.off("canplay", this.boundApplyInitTime_), this.one("canplay", this.boundApplyInitTime_);
@@ -5697,54 +5625,54 @@
                         return;
                     }
                     return this.cache_.currentTime = this.techGet_("currentTime") || 0, this.cache_.currentTime;
-                }, _proto.applyInitTime_ = function applyInitTime_() {
+                }, _proto.applyInitTime_ = function() {
                     this.currentTime(this.cache_.initTime);
-                }, _proto.duration = function duration(seconds) {
+                }, _proto.duration = function(seconds) {
                     if (void 0 === seconds) return void 0 !== this.cache_.duration ? this.cache_.duration : NaN;
                     (seconds = parseFloat(seconds)) < 0 && (seconds = 1 / 0), seconds === this.cache_.duration || (this.cache_.duration = seconds, seconds === 1 / 0 ? this.addClass("vjs-live") : this.removeClass("vjs-live"), isNaN(seconds) || this.trigger("durationchange"));
-                }, _proto.remainingTime = function remainingTime() {
+                }, _proto.remainingTime = function() {
                     return this.duration() - this.currentTime();
-                }, _proto.remainingTimeDisplay = function remainingTimeDisplay() {
+                }, _proto.remainingTimeDisplay = function() {
                     return Math.floor(this.duration()) - Math.floor(this.currentTime());
-                }, _proto.buffered = function buffered() {
+                }, _proto.buffered = function() {
                     var buffered = this.techGet_("buffered");
                     return buffered && buffered.length || (buffered = createTimeRanges(0, 0)), buffered;
-                }, _proto.bufferedPercent = function bufferedPercent$1() {
+                }, _proto.bufferedPercent = function() {
                     return bufferedPercent(this.buffered(), this.duration());
-                }, _proto.bufferedEnd = function bufferedEnd() {
+                }, _proto.bufferedEnd = function() {
                     var buffered = this.buffered(), duration = this.duration(), end = buffered.end(buffered.length - 1);
                     return end > duration && (end = duration), end;
-                }, _proto.volume = function volume(percentAsDecimal) {
+                }, _proto.volume = function(percentAsDecimal) {
                     var vol;
                     if (void 0 !== percentAsDecimal) {
                         vol = Math.max(0, Math.min(1, parseFloat(percentAsDecimal))), this.cache_.volume = vol, this.techCall_("setVolume", vol), vol > 0 && this.lastVolume_(vol);
                         return;
                     }
                     return isNaN(vol = parseFloat(this.techGet_("volume"))) ? 1 : vol;
-                }, _proto.muted = function muted(_muted) {
+                }, _proto.muted = function(_muted) {
                     if (void 0 !== _muted) {
                         this.techCall_("setMuted", _muted);
                         return;
                     }
                     return this.techGet_("muted") || !1;
-                }, _proto.defaultMuted = function defaultMuted(_defaultMuted) {
+                }, _proto.defaultMuted = function(_defaultMuted) {
                     return void 0 !== _defaultMuted ? this.techCall_("setDefaultMuted", _defaultMuted) : this.techGet_("defaultMuted") || !1;
-                }, _proto.lastVolume_ = function lastVolume_(percentAsDecimal) {
+                }, _proto.lastVolume_ = function(percentAsDecimal) {
                     if (void 0 !== percentAsDecimal && 0 !== percentAsDecimal) {
                         this.cache_.lastVolume = percentAsDecimal;
                         return;
                     }
                     return this.cache_.lastVolume;
-                }, _proto.supportsFullScreen = function supportsFullScreen() {
+                }, _proto.supportsFullScreen = function() {
                     return this.techGet_("supportsFullScreen") || !1;
-                }, _proto.isFullscreen = function isFullscreen(isFS) {
+                }, _proto.isFullscreen = function(isFS) {
                     if (void 0 !== isFS) {
                         var oldValue = this.isFullscreen_;
                         this.isFullscreen_ = !!isFS, this.isFullscreen_ !== oldValue && this.fsApi_.prefixed && this.trigger("fullscreenchange"), this.toggleFullscreenClass_();
                         return;
                     }
                     return this.isFullscreen_;
-                }, _proto.requestFullscreen = function requestFullscreen(fullscreenOptions) {
+                }, _proto.requestFullscreen = function(fullscreenOptions) {
                     var PromiseClass = this.options_.Promise || global_window__WEBPACK_IMPORTED_MODULE_0___default().Promise;
                     if (PromiseClass) {
                         var self1 = this;
@@ -5764,7 +5692,7 @@
                         });
                     }
                     return this.requestFullscreenHelper_();
-                }, _proto.requestFullscreenHelper_ = function requestFullscreenHelper_(fullscreenOptions) {
+                }, _proto.requestFullscreenHelper_ = function(fullscreenOptions) {
                     var fsOptions, _this11 = this;
                     if (this.fsApi_.prefixed || (fsOptions = this.options_.fullscreen && this.options_.fullscreen.options || {}, void 0 === fullscreenOptions || (fsOptions = fullscreenOptions)), this.fsApi_.requestFullscreen) {
                         var promise = this.el_[this.fsApi_.requestFullscreen](fsOptions);
@@ -5775,7 +5703,7 @@
                         }), promise;
                     }
                     this.tech_.supportsFullScreen() && !0 == !this.options_.preferFullWindow ? this.techCall_("enterFullScreen") : this.enterFullWindow();
-                }, _proto.exitFullscreen = function exitFullscreen() {
+                }, _proto.exitFullscreen = function() {
                     var PromiseClass = this.options_.Promise || global_window__WEBPACK_IMPORTED_MODULE_0___default().Promise;
                     if (PromiseClass) {
                         var self1 = this;
@@ -5795,7 +5723,7 @@
                         });
                     }
                     return this.exitFullscreenHelper_();
-                }, _proto.exitFullscreenHelper_ = function exitFullscreenHelper_() {
+                }, _proto.exitFullscreenHelper_ = function() {
                     var _this12 = this;
                     if (this.fsApi_.requestFullscreen) {
                         var promise = global_document__WEBPACK_IMPORTED_MODULE_1___default()[this.fsApi_.exitFullscreen]();
@@ -5804,26 +5732,26 @@
                         })), promise;
                     }
                     this.tech_.supportsFullScreen() && !0 == !this.options_.preferFullWindow ? this.techCall_("exitFullScreen") : this.exitFullWindow();
-                }, _proto.enterFullWindow = function enterFullWindow() {
+                }, _proto.enterFullWindow = function() {
                     this.isFullscreen(!0), this.isFullWindow = !0, this.docOrigOverflow = global_document__WEBPACK_IMPORTED_MODULE_1___default().documentElement.style.overflow, on(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), global_document__WEBPACK_IMPORTED_MODULE_1___default().documentElement.style.overflow = "hidden", addClass(global_document__WEBPACK_IMPORTED_MODULE_1___default().body, "vjs-full-window"), this.trigger("enterFullWindow");
-                }, _proto.fullWindowOnEscKey = function fullWindowOnEscKey(event) {
+                }, _proto.fullWindowOnEscKey = function(event) {
                     keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") && !0 === this.isFullscreen() && (this.isFullWindow ? this.exitFullWindow() : this.exitFullscreen());
-                }, _proto.exitFullWindow = function exitFullWindow() {
+                }, _proto.exitFullWindow = function() {
                     this.isFullscreen(!1), this.isFullWindow = !1, off(global_document__WEBPACK_IMPORTED_MODULE_1___default(), "keydown", this.boundFullWindowOnEscKey_), global_document__WEBPACK_IMPORTED_MODULE_1___default().documentElement.style.overflow = this.docOrigOverflow, removeClass(global_document__WEBPACK_IMPORTED_MODULE_1___default().body, "vjs-full-window"), this.trigger("exitFullWindow");
-                }, _proto.disablePictureInPicture = function disablePictureInPicture(value) {
+                }, _proto.disablePictureInPicture = function(value) {
                     if (void 0 === value) return this.techGet_("disablePictureInPicture");
                     this.techCall_("setDisablePictureInPicture", value), this.options_.disablePictureInPicture = value, this.trigger("disablepictureinpicturechanged");
-                }, _proto.isInPictureInPicture = function isInPictureInPicture(isPiP) {
+                }, _proto.isInPictureInPicture = function(isPiP) {
                     if (void 0 !== isPiP) {
                         this.isInPictureInPicture_ = !!isPiP, this.togglePictureInPictureClass_();
                         return;
                     }
                     return !!this.isInPictureInPicture_;
-                }, _proto.requestPictureInPicture = function requestPictureInPicture() {
+                }, _proto.requestPictureInPicture = function() {
                     if ("pictureInPictureEnabled" in global_document__WEBPACK_IMPORTED_MODULE_1___default() && !1 === this.disablePictureInPicture()) return this.techGet_("requestPictureInPicture");
-                }, _proto.exitPictureInPicture = function exitPictureInPicture() {
+                }, _proto.exitPictureInPicture = function() {
                     if ("pictureInPictureEnabled" in global_document__WEBPACK_IMPORTED_MODULE_1___default()) return global_document__WEBPACK_IMPORTED_MODULE_1___default().exitPictureInPicture();
-                }, _proto.handleKeyDown = function handleKeyDown(event) {
+                }, _proto.handleKeyDown = function(event) {
                     var el, tagName, userActions = this.options_.userActions;
                     userActions && userActions.hotkeys && (tagName = (el = this.el_.ownerDocument.activeElement).tagName.toLowerCase(), el.isContentEditable || ("input" === tagName ? -1 === [
                         "button",
@@ -5835,7 +5763,7 @@
                     ].indexOf(el.type) : -1 !== [
                         "textarea"
                     ].indexOf(tagName)) || ("function" == typeof userActions.hotkeys ? userActions.hotkeys.call(this, event) : this.handleHotkeys(event)));
-                }, _proto.handleHotkeys = function handleHotkeys(event) {
+                }, _proto.handleHotkeys = function(event) {
                     var hotkeys = this.options_.userActions ? this.options_.userActions.hotkeys : {}, _hotkeys$fullscreenKe = hotkeys.fullscreenKey, fullscreenKey = void 0 === _hotkeys$fullscreenKe ? function(keydownEvent) {
                         return keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(keydownEvent, "f");
                     } : _hotkeys$fullscreenKe, _hotkeys$muteKey = hotkeys.muteKey, muteKey = void 0 === _hotkeys$muteKey ? function(keydownEvent) {
@@ -5848,7 +5776,7 @@
                         var FSToggle = Component$1.getComponent("FullscreenToggle");
                         !1 !== global_document__WEBPACK_IMPORTED_MODULE_1___default()[this.fsApi_.fullscreenEnabled] && FSToggle.prototype.handleClick.call(this, event);
                     } else muteKey.call(this, event) ? (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("MuteToggle").prototype.handleClick.call(this, event)) : playPauseKey.call(this, event) && (event.preventDefault(), event.stopPropagation(), Component$1.getComponent("PlayToggle").prototype.handleClick.call(this, event));
-                }, _proto.canPlayType = function canPlayType(type) {
+                }, _proto.canPlayType = function(type) {
                     for(var can, i = 0, j = this.options_.techOrder; i < j.length; i++){
                         var techName = j[i], tech = Tech.getTech(techName);
                         if (tech || (tech = Component$1.getComponent(techName)), !tech) {
@@ -5858,7 +5786,7 @@
                         if (tech.isSupported() && (can = tech.canPlayType(type))) return can;
                     }
                     return "";
-                }, _proto.selectSource = function selectSource(sources) {
+                }, _proto.selectSource = function(sources) {
                     var _this13 = this, techs = this.options_.techOrder.map(function(techName) {
                         return [
                             techName,
@@ -5884,7 +5812,7 @@
                     return (this.options_.sourceOrder ? findFirstPassingTechSourcePair(sources, techs, function(a, b) {
                         return finder(b, a);
                     }) : findFirstPassingTechSourcePair(techs, sources, finder)) || !1;
-                }, _proto.handleSrc_ = function handleSrc_(source, isRetry) {
+                }, _proto.handleSrc_ = function(source, isRetry) {
                     var _this14 = this;
                     if (void 0 === source) return this.cache_.src || "";
                     this.resetRetryOnError_ && this.resetRetryOnError_();
@@ -5898,14 +5826,50 @@
                         }, 0);
                         return;
                     }
-                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), setSource(this, sources[0], function(middlewareSource, mws) {
+                    if (this.changingSrc_ = !0, isRetry || (this.cache_.sources = sources), this.updateSourceCaches_(sources[0]), function(player, src, next) {
+                        player.setTimeout(function() {
+                            return function setSourceHelper(src, middleware, next, player, acc, lastRun) {
+                                void 0 === src && (src = {}), void 0 === middleware && (middleware = []), void 0 === acc && (acc = []), void 0 === lastRun && (lastRun = !1);
+                                var _middleware = middleware, mwFactory = _middleware[0], mwrest = _middleware.slice(1);
+                                if ("string" == typeof mwFactory) setSourceHelper(src, middlewares[mwFactory], next, player, acc, lastRun);
+                                else if (mwFactory) {
+                                    var mw = function(player, mwFactory) {
+                                        var mws = middlewareInstances[player.id()], mw = null;
+                                        if (null == mws) return mw = mwFactory(player), middlewareInstances[player.id()] = [
+                                            [
+                                                mwFactory,
+                                                mw
+                                            ]
+                                        ], mw;
+                                        for(var i = 0; i < mws.length; i++){
+                                            var _mws$i = mws[i], mwf = _mws$i[0], mwi = _mws$i[1];
+                                            mwf === mwFactory && (mw = mwi);
+                                        }
+                                        return null === mw && (mw = mwFactory(player), mws.push([
+                                            mwFactory,
+                                            mw
+                                        ])), mw;
+                                    }(player, mwFactory);
+                                    if (!mw.setSource) return acc.push(mw), setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                                    mw.setSource(assign({}, src), function(err, _src) {
+                                        if (err) return setSourceHelper(src, mwrest, next, player, acc, lastRun);
+                                        acc.push(mw), setSourceHelper(_src, src.type === _src.type ? mwrest : middlewares[_src.type], next, player, acc, lastRun);
+                                    });
+                                } else mwrest.length ? setSourceHelper(src, mwrest, next, player, acc, lastRun) : lastRun ? next(src, acc) : setSourceHelper(src, middlewares["*"], next, player, acc, !0);
+                            }(src, middlewares[src.type], next, player);
+                        }, 1);
+                    }(this, sources[0], function(middlewareSource, mws) {
                         if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
                         }, 0), void _this14.triggerReady());
-                        setTech(mws, _this14.tech_);
+                        !function(middleware, tech) {
+                            middleware.forEach(function(mw) {
+                                return mw.setTech && mw.setTech(tech);
+                            });
+                        }(mws, _this14.tech_);
                     }), this.options_.retryOnError && sources.length > 1) {
                         var retry = function() {
                             _this14.error(null), _this14.handleSrc_(sources.slice(1), !0);
@@ -5916,9 +5880,9 @@
                             _this14.off("error", retry), _this14.off("playing", stopListeningForErrors);
                         };
                     }
-                }, _proto.src = function src(source) {
+                }, _proto.src = function(source) {
                     return this.handleSrc_(source, !1);
-                }, _proto.src_ = function src_(source) {
+                }, _proto.src_ = function(source) {
                     var str1, str2, _this15 = this, sourceTech = this.selectSource([
                         source
                     ]);
@@ -5927,67 +5891,67 @@
                     })) : this.ready(function() {
                         this.tech_.constructor.prototype.hasOwnProperty("setSource") ? this.techCall_("setSource", source) : this.techCall_("src", source.src), this.changingSrc_ = !1;
                     }, !0), !1);
-                }, _proto.load = function load() {
+                }, _proto.load = function() {
                     this.techCall_("load");
-                }, _proto.reset = function reset() {
+                }, _proto.reset = function() {
                     var _this16 = this, PromiseClass = this.options_.Promise || global_window__WEBPACK_IMPORTED_MODULE_0___default().Promise;
                     this.paused() || !PromiseClass ? this.doReset_() : silencePromise(this.play().then(function() {
                         return _this16.doReset_();
                     }));
-                }, _proto.doReset_ = function doReset_() {
+                }, _proto.doReset_ = function() {
                     this.tech_ && this.tech_.clearTracks("text"), this.resetCache_(), this.poster(""), this.loadTech_(this.options_.techOrder[0], null), this.techCall_("reset"), this.resetControlBarUI_(), isEvented(this) && this.trigger("playerreset");
-                }, _proto.resetControlBarUI_ = function resetControlBarUI_() {
+                }, _proto.resetControlBarUI_ = function() {
                     this.resetProgressBar_(), this.resetPlaybackRate_(), this.resetVolumeBar_();
-                }, _proto.resetProgressBar_ = function resetProgressBar_() {
+                }, _proto.resetProgressBar_ = function() {
                     this.currentTime(0);
                     var _this$controlBar = this.controlBar, durationDisplay = _this$controlBar.durationDisplay, remainingTimeDisplay = _this$controlBar.remainingTimeDisplay;
                     durationDisplay && durationDisplay.updateContent(), remainingTimeDisplay && remainingTimeDisplay.updateContent();
-                }, _proto.resetPlaybackRate_ = function resetPlaybackRate_() {
+                }, _proto.resetPlaybackRate_ = function() {
                     this.playbackRate(this.defaultPlaybackRate()), this.handleTechRateChange_();
-                }, _proto.resetVolumeBar_ = function resetVolumeBar_() {
+                }, _proto.resetVolumeBar_ = function() {
                     this.volume(1.0), this.trigger("volumechange");
-                }, _proto.currentSources = function currentSources() {
+                }, _proto.currentSources = function() {
                     var source = this.currentSource(), sources = [];
                     return 0 !== Object.keys(source).length && sources.push(source), this.cache_.sources || sources;
-                }, _proto.currentSource = function currentSource() {
+                }, _proto.currentSource = function() {
                     return this.cache_.source || {};
-                }, _proto.currentSrc = function currentSrc() {
+                }, _proto.currentSrc = function() {
                     return this.currentSource() && this.currentSource().src || "";
-                }, _proto.currentType = function currentType() {
+                }, _proto.currentType = function() {
                     return this.currentSource() && this.currentSource().type || "";
-                }, _proto.preload = function preload(value) {
+                }, _proto.preload = function(value) {
                     if (void 0 !== value) {
                         this.techCall_("setPreload", value), this.options_.preload = value;
                         return;
                     }
                     return this.techGet_("preload");
-                }, _proto.autoplay = function autoplay(value) {
+                }, _proto.autoplay = function(value) {
                     var techAutoplay;
                     if (void 0 === value) return this.options_.autoplay || !1;
                     "string" == typeof value && /(any|play|muted)/.test(value) || !0 === value && this.options_.normalizeAutoplay ? (this.options_.autoplay = value, this.manualAutoplay_("string" == typeof value ? value : "play"), techAutoplay = !1) : value ? this.options_.autoplay = !0 : this.options_.autoplay = !1, techAutoplay = void 0 === techAutoplay ? this.options_.autoplay : techAutoplay, this.tech_ && this.techCall_("setAutoplay", techAutoplay);
-                }, _proto.playsinline = function playsinline(value) {
+                }, _proto.playsinline = function(value) {
                     return void 0 !== value ? (this.techCall_("setPlaysinline", value), this.options_.playsinline = value, this) : this.techGet_("playsinline");
-                }, _proto.loop = function loop(value) {
+                }, _proto.loop = function(value) {
                     if (void 0 !== value) {
                         this.techCall_("setLoop", value), this.options_.loop = value;
                         return;
                     }
                     return this.techGet_("loop");
-                }, _proto.poster = function poster(src) {
+                }, _proto.poster = function(src) {
                     if (void 0 === src) return this.poster_;
                     src || (src = ""), src !== this.poster_ && (this.poster_ = src, this.techCall_("setPoster", src), this.isPosterFromTech_ = !1, this.trigger("posterchange"));
-                }, _proto.handleTechPosterChange_ = function handleTechPosterChange_() {
+                }, _proto.handleTechPosterChange_ = function() {
                     if ((!this.poster_ || this.options_.techCanOverridePoster) && this.tech_ && this.tech_.poster) {
                         var newPoster = this.tech_.poster() || "";
                         newPoster !== this.poster_ && (this.poster_ = newPoster, this.isPosterFromTech_ = !0, this.trigger("posterchange"));
                     }
-                }, _proto.controls = function controls(bool) {
+                }, _proto.controls = function(bool) {
                     if (void 0 === bool) return !!this.controls_;
                     bool = !!bool, this.controls_ !== bool && (this.controls_ = bool, this.usingNativeControls() && this.techCall_("setControls", bool), this.controls_ ? (this.removeClass("vjs-controls-disabled"), this.addClass("vjs-controls-enabled"), this.trigger("controlsenabled"), this.usingNativeControls() || this.addTechControlsListeners_()) : (this.removeClass("vjs-controls-enabled"), this.addClass("vjs-controls-disabled"), this.trigger("controlsdisabled"), this.usingNativeControls() || this.removeTechControlsListeners_()));
-                }, _proto.usingNativeControls = function usingNativeControls(bool) {
+                }, _proto.usingNativeControls = function(bool) {
                     if (void 0 === bool) return !!this.usingNativeControls_;
                     bool = !!bool, this.usingNativeControls_ !== bool && (this.usingNativeControls_ = bool, this.usingNativeControls_ ? (this.addClass("vjs-using-native-controls"), this.trigger("usingnativecontrols")) : (this.removeClass("vjs-using-native-controls"), this.trigger("usingcustomcontrols")));
-                }, _proto.error = function error(err) {
+                }, _proto.error = function(err) {
                     var _this17 = this;
                     if (void 0 === err) return this.error_ || null;
                     if (hooks("beforeerror").forEach(function(hookFunction) {
@@ -6019,9 +5983,9 @@
                     this.error_ = new MediaError(err), this.addClass("vjs-error"), log$1.error("(CODE:" + this.error_.code + " " + MediaError.errorTypes[this.error_.code] + ")", this.error_.message, this.error_), this.trigger("error"), hooks("error").forEach(function(hookFunction) {
                         return hookFunction(_this17, _this17.error_);
                     });
-                }, _proto.reportUserActivity = function reportUserActivity(event) {
+                }, _proto.reportUserActivity = function(event) {
                     this.userActivity_ = !0;
-                }, _proto.userActive = function userActive(bool) {
+                }, _proto.userActive = function(bool) {
                     if (void 0 === bool) return this.userActive_;
                     if ((bool = !!bool) !== this.userActive_) {
                         if (this.userActive_ = bool, this.userActive_) {
@@ -6032,7 +5996,7 @@
                             e.stopPropagation(), e.preventDefault();
                         }), this.userActivity_ = !1, this.removeClass("vjs-user-active"), this.addClass("vjs-user-inactive"), this.trigger("userinactive");
                     }
-                }, _proto.listenForUserActivity_ = function listenForUserActivity_() {
+                }, _proto.listenForUserActivity_ = function() {
                     var mouseInProgress, lastMoveX, lastMoveY, inactivityTimeout, handleActivity = bind(this, this.reportUserActivity), handleMouseUpAndMouseLeave = function(event) {
                         handleActivity(), this.clearInterval(mouseInProgress);
                     };
@@ -6055,40 +6019,40 @@
                             }, timeout));
                         }
                     }, 250);
-                }, _proto.playbackRate = function playbackRate(rate) {
+                }, _proto.playbackRate = function(rate) {
                     if (void 0 !== rate) {
                         this.techCall_("setPlaybackRate", rate);
                         return;
                     }
                     return this.tech_ && this.tech_.featuresPlaybackRate ? this.cache_.lastPlaybackRate || this.techGet_("playbackRate") : 1.0;
-                }, _proto.defaultPlaybackRate = function defaultPlaybackRate(rate) {
+                }, _proto.defaultPlaybackRate = function(rate) {
                     return void 0 !== rate ? this.techCall_("setDefaultPlaybackRate", rate) : this.tech_ && this.tech_.featuresPlaybackRate ? this.techGet_("defaultPlaybackRate") : 1.0;
-                }, _proto.isAudio = function isAudio(bool) {
+                }, _proto.isAudio = function(bool) {
                     if (void 0 !== bool) {
                         this.isAudio_ = !!bool;
                         return;
                     }
                     return !!this.isAudio_;
-                }, _proto.addTextTrack = function addTextTrack(kind, label, language) {
+                }, _proto.addTextTrack = function(kind, label, language) {
                     if (this.tech_) return this.tech_.addTextTrack(kind, label, language);
-                }, _proto.addRemoteTextTrack = function addRemoteTextTrack(options, manualCleanup) {
+                }, _proto.addRemoteTextTrack = function(options, manualCleanup) {
                     if (this.tech_) return this.tech_.addRemoteTextTrack(options, manualCleanup);
-                }, _proto.removeRemoteTextTrack = function removeRemoteTextTrack(obj) {
+                }, _proto.removeRemoteTextTrack = function(obj) {
                     void 0 === obj && (obj = {});
                     var track = obj.track;
                     if (track || (track = obj), this.tech_) return this.tech_.removeRemoteTextTrack(track);
-                }, _proto.getVideoPlaybackQuality = function getVideoPlaybackQuality() {
+                }, _proto.getVideoPlaybackQuality = function() {
                     return this.techGet_("getVideoPlaybackQuality");
-                }, _proto.videoWidth = function videoWidth() {
+                }, _proto.videoWidth = function() {
                     return this.tech_ && this.tech_.videoWidth && this.tech_.videoWidth() || 0;
-                }, _proto.videoHeight = function videoHeight() {
+                }, _proto.videoHeight = function() {
                     return this.tech_ && this.tech_.videoHeight && this.tech_.videoHeight() || 0;
-                }, _proto.language = function language(code) {
+                }, _proto.language = function(code) {
                     if (void 0 === code) return this.language_;
                     this.language_ !== String(code).toLowerCase() && (this.language_ = String(code).toLowerCase(), isEvented(this) && this.trigger("languagechange"));
-                }, _proto.languages = function languages() {
+                }, _proto.languages = function() {
                     return mergeOptions$3(Player.prototype.options_.languages, this.languages_);
-                }, _proto.toJSON = function toJSON() {
+                }, _proto.toJSON = function() {
                     var options = mergeOptions$3(this.options_), tracks = options.tracks;
                     options.tracks = [];
                     for(var i = 0; i < tracks.length; i++){
@@ -6096,14 +6060,14 @@
                         (track = mergeOptions$3(track)).player = void 0, options.tracks[i] = track;
                     }
                     return options;
-                }, _proto.createModal = function createModal(content, options) {
+                }, _proto.createModal = function(content, options) {
                     var _this18 = this;
                     (options = options || {}).content = content || "";
                     var modal = new ModalDialog(this, options);
                     return this.addChild(modal), modal.on("dispose", function() {
                         _this18.removeChild(modal);
                     }), modal.open(), modal;
-                }, _proto.updateCurrentBreakpoint_ = function updateCurrentBreakpoint_() {
+                }, _proto.updateCurrentBreakpoint_ = function() {
                     if (this.responsive()) for(var currentBreakpoint = this.currentBreakpoint(), currentWidth = this.currentWidth(), i = 0; i < BREAKPOINT_ORDER.length; i++){
                         var candidateBreakpoint = BREAKPOINT_ORDER[i];
                         if (currentWidth <= this.breakpoints_[candidateBreakpoint]) {
@@ -6112,18 +6076,18 @@
                             break;
                         }
                     }
-                }, _proto.removeCurrentBreakpoint_ = function removeCurrentBreakpoint_() {
+                }, _proto.removeCurrentBreakpoint_ = function() {
                     var className = this.currentBreakpointClass();
                     this.breakpoint_ = "", className && this.removeClass(className);
-                }, _proto.breakpoints = function breakpoints(_breakpoints) {
+                }, _proto.breakpoints = function(_breakpoints) {
                     return void 0 === _breakpoints || (this.breakpoint_ = "", this.breakpoints_ = assign({}, DEFAULT_BREAKPOINTS, _breakpoints), this.updateCurrentBreakpoint_()), assign(this.breakpoints_);
-                }, _proto.responsive = function responsive(value) {
+                }, _proto.responsive = function(value) {
                     return void 0 === value ? this.responsive_ : (value = !!value) !== this.responsive_ ? (this.responsive_ = value, value ? (this.on("playerresize", this.boundUpdateCurrentBreakpoint_), this.updateCurrentBreakpoint_()) : (this.off("playerresize", this.boundUpdateCurrentBreakpoint_), this.removeCurrentBreakpoint_()), value) : void 0;
-                }, _proto.currentBreakpoint = function currentBreakpoint() {
+                }, _proto.currentBreakpoint = function() {
                     return this.breakpoint_;
-                }, _proto.currentBreakpointClass = function currentBreakpointClass() {
+                }, _proto.currentBreakpointClass = function() {
                     return BREAKPOINT_CLASSES[this.breakpoint_] || "";
-                }, _proto.loadMedia = function loadMedia(media, ready) {
+                }, _proto.loadMedia = function(media, ready) {
                     var _this19 = this;
                     if (media && "object" == typeof media) {
                         this.reset(), this.cache_.media = mergeOptions$3(media);
@@ -6137,7 +6101,7 @@
                             return _this19.addRemoteTextTrack(tt, !1);
                         }), this.ready(ready);
                     }
-                }, _proto.getMedia = function getMedia() {
+                }, _proto.getMedia = function() {
                     if (!this.cache_.media) {
                         var poster = this.poster(), media = {
                             src: this.currentSources(),
@@ -6158,7 +6122,7 @@
                         ]), media;
                     }
                     return mergeOptions$3(this.cache_.media);
-                }, Player.getTagSettings = function getTagSettings(tag) {
+                }, Player.getTagSettings = function(tag) {
                     var baseOptions = {
                         sources: [],
                         tracks: []
@@ -6172,13 +6136,13 @@
                         "source" === childName ? baseOptions.sources.push(getAttributes(child)) : "track" === childName && baseOptions.tracks.push(getAttributes(child));
                     }
                     return baseOptions;
-                }, _proto.flexNotSupported_ = function flexNotSupported_() {
+                }, _proto.flexNotSupported_ = function() {
                     var elem = global_document__WEBPACK_IMPORTED_MODULE_1___default().createElement("i");
                     return !("flexBasis" in elem.style || "webkitFlexBasis" in elem.style || "mozFlexBasis" in elem.style || "msFlexBasis" in elem.style || "msFlexOrder" in elem.style);
-                }, _proto.debug = function debug(enabled) {
+                }, _proto.debug = function(enabled) {
                     if (void 0 === enabled) return this.debugEnabled_;
                     enabled ? (this.trigger("debugon"), this.previousLogLevel_ = this.log.level, this.log.level("debug"), this.debugEnabled_ = !0) : (this.trigger("debugoff"), this.log.level(this.previousLogLevel_), this.previousLogLevel_ = void 0, this.debugEnabled_ = !1);
-                }, _proto.playbackRates = function playbackRates(newRates) {
+                }, _proto.playbackRates = function(newRates) {
                     if (void 0 === newRates) return this.cache_.playbackRates;
                     Array.isArray(newRates) && newRates.every(function(rate) {
                         return "number" == typeof rate;
@@ -6283,34 +6247,34 @@
                     this.player = player, this.log || (this.log = this.player.log.createLogger(this.name)), evented(this), delete this.trigger, stateful(this, this.constructor.defaultState), markPluginAsActive(player, this.name), this.dispose = this.dispose.bind(this), player.on("dispose", this.dispose);
                 }
                 var _proto = Plugin.prototype;
-                return _proto.version = function version() {
+                return _proto.version = function() {
                     return this.constructor.VERSION;
-                }, _proto.getEventHash = function getEventHash(hash) {
+                }, _proto.getEventHash = function(hash) {
                     return void 0 === hash && (hash = {}), hash.name = this.name, hash.plugin = this.constructor, hash.instance = this, hash;
-                }, _proto.trigger = function trigger$1(event, hash) {
+                }, _proto.trigger = function(event, hash) {
                     return void 0 === hash && (hash = {}), trigger(this.eventBusEl_, event, this.getEventHash(hash));
-                }, _proto.handleStateChanged = function handleStateChanged(e) {}, _proto.dispose = function dispose() {
+                }, _proto.handleStateChanged = function(e) {}, _proto.dispose = function() {
                     var name = this.name, player = this.player;
                     this.trigger("dispose"), this.off(), player.off("dispose", this.dispose), player[PLUGIN_CACHE_KEY][name] = !1, this.player = this.state = null, player[name] = createPluginFactory(name, pluginStorage[name]);
-                }, Plugin.isBasic = function isBasic(plugin) {
+                }, Plugin.isBasic = function(plugin) {
                     var p = "string" == typeof plugin ? getPlugin(plugin) : plugin;
                     return "function" == typeof p && !Plugin.prototype.isPrototypeOf(p.prototype);
-                }, Plugin.registerPlugin = function registerPlugin(name, plugin) {
+                }, Plugin.registerPlugin = function(name, plugin) {
                     if ("string" != typeof name) throw Error('Illegal plugin name, "' + name + '", must be a string, was ' + typeof name + ".");
                     if (pluginExists(name)) log$1.warn('A plugin named "' + name + '" already exists. You may want to avoid re-registering plugins!');
                     else if (Player.prototype.hasOwnProperty(name)) throw Error('Illegal plugin name, "' + name + '", cannot share a name with an existing player method!');
                     if ("function" != typeof plugin) throw Error('Illegal plugin for "' + name + '", must be a function, was ' + typeof plugin + ".");
                     return pluginStorage[name] = plugin, name !== BASE_PLUGIN_NAME && (Plugin.isBasic(plugin) ? Player.prototype[name] = createBasicPlugin(name, plugin) : Player.prototype[name] = createPluginFactory(name, plugin)), plugin;
-                }, Plugin.deregisterPlugin = function deregisterPlugin(name) {
+                }, Plugin.deregisterPlugin = function(name) {
                     if (name === BASE_PLUGIN_NAME) throw Error("Cannot de-register base plugin.");
                     pluginExists(name) && (delete pluginStorage[name], delete Player.prototype[name]);
-                }, Plugin.getPlugins = function getPlugins(names) {
+                }, Plugin.getPlugins = function(names) {
                     var result;
                     return void 0 === names && (names = Object.keys(pluginStorage)), names.forEach(function(name) {
                         var plugin = getPlugin(name);
                         plugin && ((result = result || {})[name] = plugin);
                     }), result;
-                }, Plugin.getPluginVersion = function getPluginVersion(name) {
+                }, Plugin.getPluginVersion = function(name) {
                     var plugin = getPlugin(name);
                     return plugin && plugin.VERSION || "";
                 }, Plugin;
@@ -6374,7 +6338,9 @@
                 }).filter(Boolean);
             }, videojs.players = Player.players, videojs.getComponent = Component$1.getComponent, videojs.registerComponent = function(name, comp) {
                 Tech.isTech(comp) && log$1.warn("The " + name + " tech was registered as a component. It should instead be registered using videojs.registerTech(name, tech)"), Component$1.registerComponent.call(Component$1, name, comp);
-            }, videojs.getTech = Tech.getTech, videojs.registerTech = Tech.registerTech, videojs.use = use, Object.defineProperty(videojs, "middleware", {
+            }, videojs.getTech = Tech.getTech, videojs.registerTech = Tech.registerTech, videojs.use = function(type, middleware) {
+                middlewares[type] = middlewares[type] || [], middlewares[type].push(middleware);
+            }, Object.defineProperty(videojs, "middleware", {
                 value: {},
                 writeable: !1,
                 enumerable: !0
@@ -6394,7 +6360,11 @@
             }, videojs.getPlugins = Plugin.getPlugins, videojs.getPlugin = Plugin.getPlugin, videojs.getPluginVersion = Plugin.getPluginVersion, videojs.addLanguage = function(code, data) {
                 var _mergeOptions;
                 return code = ("" + code).toLowerCase(), videojs.options.languages = mergeOptions$3(videojs.options.languages, ((_mergeOptions = {})[code] = data, _mergeOptions)), videojs.options.languages[code];
-            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = setFormatTime, videojs.resetFormatTime = resetFormatTime, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack, videojs.AudioTrack = AudioTrack, videojs.VideoTrack = VideoTrack, [
+            }, videojs.log = log$1, videojs.createLogger = createLogger, videojs.createTimeRange = videojs.createTimeRanges = createTimeRanges, videojs.formatTime = formatTime, videojs.setFormatTime = function(customImplementation) {
+                implementation = customImplementation;
+            }, videojs.resetFormatTime = function() {
+                implementation = defaultImplementation;
+            }, videojs.parseUrl = parseUrl, videojs.isCrossOrigin = isCrossOrigin, videojs.EventTarget = EventTarget$2, videojs.on = on, videojs.one = one, videojs.off = off, videojs.trigger = trigger, videojs.xhr = _videojs_xhr__WEBPACK_IMPORTED_MODULE_4___default(), videojs.TextTrack = TextTrack, videojs.AudioTrack = AudioTrack, videojs.VideoTrack = VideoTrack, [
                 "isEl",
                 "isTextNode",
                 "createEl",
@@ -6940,7 +6910,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(PlaylistLoader, _EventTarget);
                 var _proto = PlaylistLoader.prototype;
-                return _proto.handleMediaupdatetimeout_ = function handleMediaupdatetimeout_() {
+                return _proto.handleMediaupdatetimeout_ = function() {
                     var _this2 = this;
                     if ("HAVE_METADATA" === this.state) {
                         var media = this.media(), uri = resolveUrl(this.master.uri, media.uri);
@@ -6958,7 +6928,7 @@
                             }
                         });
                     }
-                }, _proto.playlistRequestError = function playlistRequestError(xhr, playlist, startingState) {
+                }, _proto.playlistRequestError = function(xhr, playlist, startingState) {
                     var uri = playlist.uri, id = playlist.id;
                     this.request = null, startingState && (this.state = startingState), this.error = {
                         playlist: this.master.playlists[id],
@@ -6967,14 +6937,14 @@
                         responseText: xhr.responseText,
                         code: xhr.status >= 500 ? 4 : 2
                     }, this.trigger("error");
-                }, _proto.parseManifest_ = function parseManifest_(_ref) {
+                }, _proto.parseManifest_ = function(_ref) {
                     var _this3 = this, url = _ref.url;
                     return parseManifest({
-                        onwarn: function onwarn(_ref2) {
+                        onwarn: function(_ref2) {
                             var message = _ref2.message;
                             return _this3.logger_("m3u8-parser warn for " + url + ": " + message);
                         },
-                        oninfo: function oninfo(_ref3) {
+                        oninfo: function(_ref3) {
                             var message = _ref3.message;
                             return _this3.logger_("m3u8-parser info for " + url + ": " + message);
                         },
@@ -6983,7 +6953,7 @@
                         customTagMappers: this.customTagMappers,
                         experimentalLLHLS: this.experimentalLLHLS
                     });
-                }, _proto.haveMetadata = function haveMetadata(_ref4) {
+                }, _proto.haveMetadata = function(_ref4) {
                     var playlistString = _ref4.playlistString, playlistObject = _ref4.playlistObject, url = _ref4.url, id = _ref4.id;
                     this.request = null, this.state = "HAVE_METADATA";
                     var playlist = playlistObject || this.parseManifest_({
@@ -6997,14 +6967,14 @@
                     });
                     var update = updateMaster$1(this.master, playlist);
                     this.targetDuration = playlist.partTargetDuration || playlist.targetDuration, this.pendingMedia_ = null, update ? (this.master = update, this.media_ = this.master.playlists[id]) : this.trigger("playlistunchanged"), this.updateMediaUpdateTimeout_(refreshDelay(this.media(), !!update)), this.trigger("loadedplaylist");
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.trigger("dispose"), this.stopRequest(), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.finalRenditionTimeout), this.off();
-                }, _proto.stopRequest = function stopRequest() {
+                }, _proto.stopRequest = function() {
                     if (this.request) {
                         var oldRequest = this.request;
                         this.request = null, oldRequest.onreadystatechange = null, oldRequest.abort();
                     }
-                }, _proto.media = function media(playlist, shouldDelay) {
+                }, _proto.media = function(playlist, shouldDelay) {
                     var _this4 = this;
                     if (!playlist) return this.media_;
                     if ("HAVE_NOTHING" === this.state) throw Error("Cannot switch media playlist from " + this.state);
@@ -7041,9 +7011,9 @@
                             }
                         });
                     }
-                }, _proto.pause = function pause() {
+                }, _proto.pause = function() {
                     this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), this.stopRequest(), "HAVE_NOTHING" === this.state && (this.started = !1), "SWITCHING_MEDIA" === this.state ? this.media_ ? this.state = "HAVE_METADATA" : this.state = "HAVE_MASTER" : "HAVE_CURRENT_METADATA" === this.state && (this.state = "HAVE_METADATA");
-                }, _proto.load = function load(shouldDelay) {
+                }, _proto.load = function(shouldDelay) {
                     var _this5 = this;
                     this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null);
                     var media = this.media();
@@ -7059,12 +7029,12 @@
                         return;
                     }
                     media && !media.endList ? this.trigger("mediaupdatetimeout") : this.trigger("loadedplaylist");
-                }, _proto.updateMediaUpdateTimeout_ = function updateMediaUpdateTimeout_(delay) {
+                }, _proto.updateMediaUpdateTimeout_ = function(delay) {
                     var _this6 = this;
                     this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), this.media() && !this.media().endList && (this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                         _this6.mediaUpdateTimeout = null, _this6.trigger("mediaupdatetimeout"), _this6.updateMediaUpdateTimeout_(delay);
                     }, delay));
-                }, _proto.start = function start() {
+                }, _proto.start = function() {
                     var _this7 = this;
                     if (this.started = !0, "object" == typeof this.src) {
                         this.src.uri || (this.src.uri = global_window__WEBPACK_IMPORTED_MODULE_0___default().location.href), this.src.resolvedUri = this.src.uri, setTimeout(function() {
@@ -7091,9 +7061,9 @@
                             _this7.setupInitialPlaylist(manifest);
                         }
                     });
-                }, _proto.srcUri = function srcUri() {
+                }, _proto.srcUri = function() {
                     return "string" == typeof this.src ? this.src : this.src.uri;
-                }, _proto.setupInitialPlaylist = function setupInitialPlaylist(manifest) {
+                }, _proto.setupInitialPlaylist = function(manifest) {
                     if (this.state = "HAVE_MASTER", manifest.playlists) {
                         this.master = manifest, addPropertiesToMaster(this.master, this.srcUri()), manifest.playlists.forEach(function(playlist) {
                             playlist.segments = getAllSegments(playlist), playlist.segments.forEach(function(segment) {
@@ -7295,7 +7265,7 @@
                     }
                 }, request = xhr({
                     uri: uri,
-                    beforeSend: function beforeSend(request) {
+                    beforeSend: function(request) {
                         request.overrideMimeType("text/plain; charset=x-user-defined"), request.addEventListener("progress", function(_ref) {
                             return _ref.total, _ref.loaded, callbackWrapper(request, null, {
                                 statusCode: request.status
@@ -7376,14 +7346,14 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(DashPlaylistLoader, _EventTarget);
                 var _proto = DashPlaylistLoader.prototype;
-                return _proto.requestErrored_ = function requestErrored_(err, request, startingState) {
+                return _proto.requestErrored_ = function(err, request, startingState) {
                     return !this.request || ((this.request = null, err) ? (this.error = "object" != typeof err || err instanceof Error ? {
                         status: request.status,
                         message: "DASH request error at URL: " + request.uri,
                         response: request.response,
                         code: 2
                     } : err, startingState && (this.state = startingState), this.trigger("error"), !0) : void 0);
-                }, _proto.addSidxSegments_ = function addSidxSegments_(playlist, startingState, cb) {
+                }, _proto.addSidxSegments_ = function(playlist, startingState, cb) {
                     var _this2 = this, sidxKey = playlist.sidx && (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__.mm)(playlist.sidx);
                     if (!playlist.sidx || !sidxKey || this.masterPlaylistLoader_.sidxMapping_[sidxKey]) {
                         this.mediaRequest_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
@@ -7431,16 +7401,16 @@
                             })
                         }, fin);
                     });
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.trigger("dispose"), this.stopRequest(), this.loadedPlaylists_ = {}, global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.minimumUpdatePeriodTimeout_), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaRequest_), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null, this.mediaRequest_ = null, this.minimumUpdatePeriodTimeout_ = null, this.masterPlaylistLoader_.createMupOnMedia_ && (this.off("loadedmetadata", this.masterPlaylistLoader_.createMupOnMedia_), this.masterPlaylistLoader_.createMupOnMedia_ = null), this.off();
-                }, _proto.hasPendingRequest = function hasPendingRequest() {
+                }, _proto.hasPendingRequest = function() {
                     return this.request || this.mediaRequest_;
-                }, _proto.stopRequest = function stopRequest() {
+                }, _proto.stopRequest = function() {
                     if (this.request) {
                         var oldRequest = this.request;
                         this.request = null, oldRequest.onreadystatechange = null, oldRequest.abort();
                     }
-                }, _proto.media = function media(playlist) {
+                }, _proto.media = function(playlist) {
                     var _this3 = this;
                     if (!playlist) return this.media_;
                     if ("HAVE_NOTHING" === this.state) throw Error("Cannot switch media playlist from " + this.state);
@@ -7460,12 +7430,12 @@
                             playlist: playlist
                         });
                     }));
-                }, _proto.haveMetadata = function haveMetadata(_ref2) {
+                }, _proto.haveMetadata = function(_ref2) {
                     var startingState = _ref2.startingState, playlist = _ref2.playlist;
                     this.state = "HAVE_METADATA", this.loadedPlaylists_[playlist.id] = playlist, this.mediaRequest_ = null, this.refreshMedia_(playlist.id), "HAVE_MASTER" === startingState ? this.trigger("loadedmetadata") : this.trigger("mediachange");
-                }, _proto.pause = function pause() {
+                }, _proto.pause = function() {
                     this.masterPlaylistLoader_.createMupOnMedia_ && (this.off("loadedmetadata", this.masterPlaylistLoader_.createMupOnMedia_), this.masterPlaylistLoader_.createMupOnMedia_ = null), this.stopRequest(), global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null, this.isMaster_ && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.masterPlaylistLoader_.minimumUpdatePeriodTimeout_), this.masterPlaylistLoader_.minimumUpdatePeriodTimeout_ = null), "HAVE_NOTHING" === this.state && (this.started = !1);
-                }, _proto.load = function load(isFinalRendition) {
+                }, _proto.load = function(isFinalRendition) {
                     var _this4 = this;
                     global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null;
                     var media = this.media();
@@ -7481,7 +7451,7 @@
                         return;
                     }
                     media && !media.endList ? (this.isMaster_ && !this.minimumUpdatePeriodTimeout_ && (this.trigger("minimumUpdatePeriod"), this.updateMinimumUpdatePeriodTimeout_()), this.trigger("mediaupdatetimeout")) : this.trigger("loadedplaylist");
-                }, _proto.start = function start() {
+                }, _proto.start = function() {
                     var _this5 = this;
                     if (this.started = !0, !this.isMaster_) {
                         this.mediaRequest_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
@@ -7492,7 +7462,7 @@
                     this.requestMaster_(function(req, masterChanged) {
                         _this5.haveMaster_(), _this5.hasPendingRequest() || _this5.media_ || _this5.media(_this5.masterPlaylistLoader_.master.playlists[0]);
                     });
-                }, _proto.requestMaster_ = function requestMaster_(cb) {
+                }, _proto.requestMaster_ = function(cb) {
                     var _this6 = this;
                     this.request = this.vhs_.xhr({
                         uri: this.masterPlaylistLoader_.srcUrl,
@@ -7511,7 +7481,7 @@
                         }
                         return cb(req, masterChanged);
                     });
-                }, _proto.syncClientServerClock_ = function syncClientServerClock_(done) {
+                }, _proto.syncClientServerClock_ = function(done) {
                     var _this7 = this, utcTiming = (0, mpd_parser__WEBPACK_IMPORTED_MODULE_9__.LG)(this.masterPlaylistLoader_.masterXml_);
                     return null === utcTiming ? (this.masterPlaylistLoader_.clientOffset_ = this.masterLoaded_ - Date.now(), done()) : "DIRECT" === utcTiming.method ? (this.masterPlaylistLoader_.clientOffset_ = utcTiming.value - Date.now(), done()) : void (this.request = this.vhs_.xhr({
                         uri: resolveUrl(this.masterPlaylistLoader_.srcUrl, utcTiming.value),
@@ -7524,9 +7494,9 @@
                             serverTime = "HEAD" === utcTiming.method ? req.responseHeaders && req.responseHeaders.date ? Date.parse(req.responseHeaders.date) : _this7.masterLoaded_ : Date.parse(req.responseText), _this7.masterPlaylistLoader_.clientOffset_ = serverTime - Date.now(), done();
                         }
                     }));
-                }, _proto.haveMaster_ = function haveMaster_() {
+                }, _proto.haveMaster_ = function() {
                     this.state = "HAVE_MASTER", this.isMaster_ ? this.trigger("loadedplaylist") : this.media_ || this.media(this.childPlaylist_);
-                }, _proto.handleMaster_ = function handleMaster_() {
+                }, _proto.handleMaster_ = function() {
                     this.mediaRequest_ = null;
                     var newMaster = parseMasterXml({
                         masterXml: this.masterPlaylistLoader_.masterXml_,
@@ -7537,7 +7507,7 @@
                     oldMaster && (newMaster = updateMaster(oldMaster, newMaster, this.masterPlaylistLoader_.sidxMapping_)), this.masterPlaylistLoader_.master = newMaster || oldMaster;
                     var location = this.masterPlaylistLoader_.master.locations && this.masterPlaylistLoader_.master.locations[0];
                     return location && location !== this.masterPlaylistLoader_.srcUrl && (this.masterPlaylistLoader_.srcUrl = location), (!oldMaster || newMaster && newMaster.minimumUpdatePeriod !== oldMaster.minimumUpdatePeriod) && this.updateMinimumUpdatePeriodTimeout_(), !!newMaster;
-                }, _proto.updateMinimumUpdatePeriodTimeout_ = function updateMinimumUpdatePeriodTimeout_() {
+                }, _proto.updateMinimumUpdatePeriodTimeout_ = function() {
                     var mpl = this.masterPlaylistLoader_;
                     mpl.createMupOnMedia_ && (mpl.off("loadedmetadata", mpl.createMupOnMedia_), mpl.createMupOnMedia_ = null), mpl.minimumUpdatePeriodTimeout_ && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(mpl.minimumUpdatePeriodTimeout_), mpl.minimumUpdatePeriodTimeout_ = null);
                     var mup = mpl.master && mpl.master.minimumUpdatePeriod;
@@ -7546,19 +7516,19 @@
                         return;
                     }
                     this.createMUPTimeout_(mup);
-                }, _proto.createMUPTimeout_ = function createMUPTimeout_(mup) {
+                }, _proto.createMUPTimeout_ = function(mup) {
                     var mpl = this.masterPlaylistLoader_;
                     mpl.minimumUpdatePeriodTimeout_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                         mpl.minimumUpdatePeriodTimeout_ = null, mpl.trigger("minimumUpdatePeriod"), mpl.createMUPTimeout_(mup);
                     }, mup);
-                }, _proto.refreshXml_ = function refreshXml_() {
+                }, _proto.refreshXml_ = function() {
                     var _this8 = this;
                     this.requestMaster_(function(req, masterChanged) {
                         masterChanged && (_this8.media_ && (_this8.media_ = _this8.masterPlaylistLoader_.master.playlists[_this8.media_.id]), _this8.masterPlaylistLoader_.sidxMapping_ = filterChangedSidxMappings(_this8.masterPlaylistLoader_.master, _this8.masterPlaylistLoader_.sidxMapping_), _this8.addSidxSegments_(_this8.media(), _this8.state, function(sidxChanged) {
                             _this8.refreshMedia_(_this8.media().id);
                         }));
                     });
-                }, _proto.refreshMedia_ = function refreshMedia_(mediaID) {
+                }, _proto.refreshMedia_ = function(mediaID) {
                     var _this9 = this;
                     if (!mediaID) throw Error("refreshMedia_ must take a media id");
                     this.media_ && this.isMaster_ && this.handleMaster_();
@@ -7862,15 +7832,15 @@
                             0x00
                         ]);
                     }
-                }(), box = function box(type) {
+                }(), box = function(type) {
                     var i, result, payload = [], size = 0;
                     for(i = 1; i < arguments.length; i++)payload.push(arguments[i]);
                     for(i = payload.length; i--;)size += payload[i].byteLength;
                     for(result = new Uint8Array(size + 8), new DataView(result.buffer, result.byteOffset, result.byteLength).setUint32(0, result.byteLength), result.set(type, 4), i = 0, size = 8; i < payload.length; i++)result.set(payload[i], size), size += payload[i].byteLength;
                     return result;
-                }, ftyp = function ftyp() {
+                }, ftyp = function() {
                     return box(types.ftyp, MAJOR_BRAND, MINOR_VERSION, MAJOR_BRAND, AVC1_BRAND);
-                }, mdhd = function mdhd(track) {
+                }, mdhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
                         0x00,
@@ -7898,23 +7868,23 @@
                         0x00
                     ]);
                     return track.samplerate && (result[12] = track.samplerate >>> 24 & 0xff, result[13] = track.samplerate >>> 16 & 0xff, result[14] = track.samplerate >>> 8 & 0xff, result[15] = 0xff & track.samplerate), box(types.mdhd, result);
-                }, mdia = function mdia(track) {
+                }, mdia = function(track) {
                     var type;
                     return box(types.mdia, mdhd(track), (type = track.type, box(types.hdlr, HDLR_TYPES[type])), minf(track));
-                }, minf = function minf(track) {
+                }, minf = function(track) {
                     return box(types.minf, "video" === track.type ? box(types.vmhd, VMHD) : box(types.smhd, SMHD), box(types.dinf, box(types.dref, DREF)), stbl(track));
-                }, moov = function moov(tracks) {
+                }, moov = function(tracks) {
                     for(var i = tracks.length, boxes = []; i--;)boxes[i] = trak(tracks[i]);
                     return box.apply(null, [
                         types.moov,
                         mvhd(0xffffffff)
                     ].concat(boxes).concat(mvex(tracks)));
-                }, mvex = function mvex(tracks) {
+                }, mvex = function(tracks) {
                     for(var i = tracks.length, boxes = []; i--;)boxes[i] = trex(tracks[i]);
                     return box.apply(null, [
                         types.mvex
                     ].concat(boxes));
-                }, mvhd = function mvhd(duration) {
+                }, mvhd = function(duration) {
                     var bytes = new Uint8Array([
                         0x00,
                         0x00,
@@ -8018,13 +7988,13 @@
                         0xff
                     ]);
                     return box(types.mvhd, bytes);
-                }, sdtp = function sdtp(track) {
+                }, sdtp = function(track) {
                     var flags, i, samples = track.samples || [], bytes = new Uint8Array(4 + samples.length);
                     for(i = 0; i < samples.length; i++)flags = samples[i].flags, bytes[i + 4] = flags.dependsOn << 4 | flags.isDependedOn << 2 | flags.hasRedundancy;
                     return box(types.sdtp, bytes);
-                }, stbl = function stbl(track) {
+                }, stbl = function(track) {
                     return box(types.stbl, stsd(track), box(types.stts, STTS), box(types.stsc, STSC), box(types.stsz, STSZ), box(types.stco, STCO));
-                }, stsd = function stsd(track) {
+                }, stsd = function(track) {
                     return box(types.stsd, new Uint8Array([
                         0x00,
                         0x00,
@@ -8035,7 +8005,7 @@
                         0x00,
                         0x01
                     ]), "video" === track.type ? videoSample(track) : audioSample(track));
-                }, videoSample = function videoSample(track) {
+                }, videoSample = function(track) {
                     var i, avc1Box, sps = track.sps || [], pps = track.pps || [], sequenceParameterSets = [], pictureParameterSets = [];
                     for(i = 0; i < sps.length; i++)sequenceParameterSets.push((0xff00 & sps[i].byteLength) >>> 8), sequenceParameterSets.push(0xff & sps[i].byteLength), sequenceParameterSets = sequenceParameterSets.concat(Array.prototype.slice.call(sps[i]));
                     for(i = 0; i < pps.length; i++)pictureParameterSets.push((0xff00 & pps[i].byteLength) >>> 8), pictureParameterSets.push(0xff & pps[i].byteLength), pictureParameterSets = pictureParameterSets.concat(Array.prototype.slice.call(pps[i]));
@@ -8160,7 +8130,7 @@
                         ])));
                     }
                     return box.apply(null, avc1Box);
-                }, audioSample = function audioSample(track) {
+                }, audioSample = function(track) {
                     return box(types.mp4a, new Uint8Array([
                         0x00,
                         0x00,
@@ -8223,7 +8193,7 @@
                         0x01,
                         0x02
                     ])));
-                }, tkhd = function tkhd(track) {
+                }, tkhd = function(track) {
                     var result = new Uint8Array([
                         0x00,
                         0x00,
@@ -8311,7 +8281,7 @@
                         0x00
                     ]);
                     return box(types.tkhd, result);
-                }, traf = function traf(track) {
+                }, traf = function(track) {
                     var trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable, upperWordBaseMediaDecodeTime, lowerWordBaseMediaDecodeTime;
                     return (trackFragmentHeader = box(types.tfhd, new Uint8Array([
                         0x00,
@@ -8352,9 +8322,9 @@
                         lowerWordBaseMediaDecodeTime >>> 8 & 0xff,
                         0xff & lowerWordBaseMediaDecodeTime
                     ])), "audio" === track.type) ? (trackFragmentRun = trun$1(track, 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun)) : (sampleDependencyTable = sdtp(track), trackFragmentRun = trun$1(track, sampleDependencyTable.length + 92), box(types.traf, trackFragmentHeader, trackFragmentDecodeTime, trackFragmentRun, sampleDependencyTable));
-                }, trak = function trak(track) {
+                }, trak = function(track) {
                     return track.duration = track.duration || 0xffffffff, box(types.trak, tkhd(track), mdia(track));
-                }, trex = function trex(track) {
+                }, trex = function(track) {
                     var result = new Uint8Array([
                         0x00,
                         0x00,
@@ -8382,7 +8352,7 @@
                         0x01
                     ]);
                     return "video" !== track.type && (result[result.length - 1] = 0x00), box(types.trex, result);
-                }, trunHeader = function trunHeader(samples, offset) {
+                }, trunHeader = function(samples, offset) {
                     var durationPresent = 0, sizePresent = 0, flagsPresent = 0, compositionTimeOffset = 0;
                     return samples.length && (void 0 !== samples[0].duration && (durationPresent = 0x1), void 0 !== samples[0].size && (sizePresent = 0x2), void 0 !== samples[0].flags && (flagsPresent = 0x4), void 0 !== samples[0].compositionTimeOffset && (compositionTimeOffset = 0x8)), [
                         0x00,
@@ -8398,23 +8368,23 @@
                         (0xff00 & offset) >>> 8,
                         0xff & offset
                     ];
-                }, videoTrun = function videoTrun(track, offset) {
+                }, videoTrun = function(track, offset) {
                     var bytesOffest, bytes, header, samples, sample, i;
                     for(offset += 20 + 16 * (samples = track.samples || []).length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 16 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size, bytes[bytesOffest++] = sample.flags.isLeading << 2 | sample.flags.dependsOn, bytes[bytesOffest++] = sample.flags.isDependedOn << 6 | sample.flags.hasRedundancy << 4 | sample.flags.paddingValue << 1 | sample.flags.isNonSyncSample, bytes[bytesOffest++] = 61440 & sample.flags.degradationPriority, bytes[bytesOffest++] = 0x0f & sample.flags.degradationPriority, bytes[bytesOffest++] = (0xff000000 & sample.compositionTimeOffset) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.compositionTimeOffset) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.compositionTimeOffset) >>> 8, bytes[bytesOffest++] = 0xff & sample.compositionTimeOffset;
                     return box(types.trun, bytes);
-                }, audioTrun = function audioTrun(track, offset) {
+                }, audioTrun = function(track, offset) {
                     var bytes, bytesOffest, header, samples, sample, i;
                     for(offset += 20 + 8 * (samples = track.samples || []).length, header = trunHeader(samples, offset), (bytes = new Uint8Array(header.length + 8 * samples.length)).set(header), bytesOffest = header.length, i = 0; i < samples.length; i++)sample = samples[i], bytes[bytesOffest++] = (0xff000000 & sample.duration) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.duration) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.duration) >>> 8, bytes[bytesOffest++] = 0xff & sample.duration, bytes[bytesOffest++] = (0xff000000 & sample.size) >>> 24, bytes[bytesOffest++] = (0xff0000 & sample.size) >>> 16, bytes[bytesOffest++] = (0xff00 & sample.size) >>> 8, bytes[bytesOffest++] = 0xff & sample.size;
                     return box(types.trun, bytes);
-                }, trun$1 = function trun(track, offset) {
+                }, trun$1 = function(track, offset) {
                     return "audio" === track.type ? audioTrun(track, offset) : videoTrun(track, offset);
                 };
                 var mp4Generator = {
                     ftyp: ftyp,
-                    mdat: function mdat(data) {
+                    mdat: function(data) {
                         return box(types.mdat, data);
                     },
-                    moof: function moof(sequenceNumber, tracks) {
+                    moof: function(sequenceNumber, tracks) {
                         for(var trackFragments = [], i = tracks.length; i--;)trackFragments[i] = traf(tracks[i]);
                         return box.apply(null, [
                             types.moof,
@@ -8431,7 +8401,7 @@
                         ].concat(trackFragments));
                     },
                     moov: moov,
-                    initSegment: function initSegment(tracks) {
+                    initSegment: function(tracks) {
                         var result, fileType = ftyp(), movie = moov(tracks);
                         return (result = new Uint8Array(fileType.byteLength + movie.byteLength)).set(fileType), result.set(movie, fileType.byteLength), result;
                     }
@@ -8738,25 +8708,25 @@
                     return silence;
                 }, clock = {
                     ONE_SECOND_IN_TS: 90000,
-                    secondsToVideoTs: secondsToVideoTs = function secondsToVideoTs(seconds) {
+                    secondsToVideoTs: secondsToVideoTs = function(seconds) {
                         return 90000 * seconds;
                     },
-                    secondsToAudioTs: secondsToAudioTs = function secondsToAudioTs(seconds, sampleRate) {
+                    secondsToAudioTs: secondsToAudioTs = function(seconds, sampleRate) {
                         return seconds * sampleRate;
                     },
-                    videoTsToSeconds: videoTsToSeconds = function videoTsToSeconds(timestamp) {
+                    videoTsToSeconds: videoTsToSeconds = function(timestamp) {
                         return timestamp / 90000;
                     },
-                    audioTsToSeconds: audioTsToSeconds = function audioTsToSeconds(timestamp, sampleRate) {
+                    audioTsToSeconds: audioTsToSeconds = function(timestamp, sampleRate) {
                         return timestamp / sampleRate;
                     },
-                    audioTsToVideoTs: function audioTsToVideoTs(timestamp, sampleRate) {
+                    audioTsToVideoTs: function(timestamp, sampleRate) {
                         return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
                     },
-                    videoTsToAudioTs: function videoTsToAudioTs(timestamp, sampleRate) {
+                    videoTsToAudioTs: function(timestamp, sampleRate) {
                         return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
                     },
-                    metadataTsToSeconds: function metadataTsToSeconds(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                    metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
                         return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
                     }
                 }, sumFrameByteLengths = function(array) {
@@ -9347,7 +9317,7 @@
                 }, parseSyncSafeInteger$1 = function(data) {
                     return data[0] << 21 | data[1] << 14 | data[2] << 7 | data[3];
                 }, tagParsers = {
-                    TXXX: function TXXX(tag) {
+                    TXXX: function(tag) {
                         var i;
                         if (3 === tag.data[0]) {
                             for(i = 1; i < tag.data.length; i++)if (0 === tag.data[i]) {
@@ -9357,7 +9327,7 @@
                             tag.data = tag.value;
                         }
                     },
-                    WXXX: function WXXX(tag) {
+                    WXXX: function(tag) {
                         var i;
                         if (3 === tag.data[0]) {
                             for(i = 1; i < tag.data.length; i++)if (0 === tag.data[i]) {
@@ -9366,7 +9336,7 @@
                             }
                         }
                     },
-                    PRIV: function PRIV(tag) {
+                    PRIV: function(tag) {
                         var i;
                         for(i = 0; i < tag.data.length; i++)if (0 === tag.data[i]) {
                             tag.owner = unescape(percentEncode$1(tag.data, 0, i));
@@ -9375,7 +9345,7 @@
                         tag.privateData = tag.data.subarray(i + 1), tag.data = tag.privateData;
                     }
                 };
-                (_MetadataStream = function MetadataStream(options) {
+                (_MetadataStream = function(options) {
                     var i, settings = {
                         descriptor: options && options.descriptor
                     }, tagSize = 0, buffer = [], bufferSize = 0;
@@ -9421,7 +9391,7 @@
                     };
                 }).prototype = new Stream();
                 var metadataStream = _MetadataStream, TimestampRolloverStream = timestampRolloverStream.TimestampRolloverStream;
-                (_TransportPacketStream = function TransportPacketStream() {
+                (_TransportPacketStream = function() {
                     var buffer = new Uint8Array(188), bytesInBuffer = 0;
                     _TransportPacketStream.prototype.init.call(this), this.push = function(bytes) {
                         var everything, startIndex = 0, endIndex = 188;
@@ -9440,14 +9410,14 @@
                     }, this.reset = function() {
                         bytesInBuffer = 0, this.trigger("reset");
                     };
-                }).prototype = new Stream(), (_TransportParseStream = function TransportParseStream() {
+                }).prototype = new Stream(), (_TransportParseStream = function() {
                     var parsePsi, parsePat, parsePmt, self1;
-                    _TransportParseStream.prototype.init.call(this), self1 = this, this.packetsWaitingForPmt = [], this.programMapTable = void 0, parsePsi = function parsePsi(payload, psi) {
+                    _TransportParseStream.prototype.init.call(this), self1 = this, this.packetsWaitingForPmt = [], this.programMapTable = void 0, parsePsi = function(payload, psi) {
                         var offset = 0;
                         psi.payloadUnitStartIndicator && (offset += payload[offset] + 1), "pat" === psi.type ? parsePat(payload.subarray(offset), psi) : parsePmt(payload.subarray(offset), psi);
-                    }, parsePat = function parsePat(payload, pat) {
+                    }, parsePat = function(payload, pat) {
                         pat.section_number = payload[7], pat.last_section_number = payload[8], self1.pmtPid = (0x1f & payload[10]) << 8 | payload[11], pat.pmtPid = self1.pmtPid;
-                    }, parsePmt = function parsePmt(payload, pmt) {
+                    }, parsePmt = function(payload, pmt) {
                         var tableEnd, offset;
                         if (0x01 & payload[5]) {
                             for(self1.programMapTable = {
@@ -9475,7 +9445,7 @@
                 }).prototype = new Stream(), _TransportParseStream.STREAM_TYPES = {
                     h264: 0x1b,
                     adts: 0x0f
-                }, (_ElementaryStream = function ElementaryStream() {
+                }, (_ElementaryStream = function() {
                     var programMapTable, self1 = this, segmentHadPmt = !1, video = {
                         data: [],
                         size: 0
@@ -9499,8 +9469,8 @@
                     };
                     _ElementaryStream.prototype.init.call(this), this.push = function(data) {
                         ({
-                            pat: function pat() {},
-                            pes: function pes() {
+                            pat: function() {},
+                            pes: function() {
                                 var stream, streamType;
                                 switch(data.streamType){
                                     case streamTypes.H264_STREAM_TYPE:
@@ -9517,7 +9487,7 @@
                                 }
                                 data.payloadUnitStartIndicator && flushStream(stream, streamType, !0), stream.data.push(data), stream.size += data.data.byteLength;
                             },
-                            pmt: function pmt() {
+                            pmt: function() {
                                 var event = {
                                     type: "metadata",
                                     tracks: []
@@ -9596,7 +9566,7 @@
                     8000,
                     7350
                 ];
-                (_AdtsStream = function AdtsStream(handlePartialSegments) {
+                (_AdtsStream = function(handlePartialSegments) {
                     var buffer, frameNum = 0;
                     _AdtsStream.prototype.init.call(this), this.skipWarn_ = function(start, end) {
                         this.trigger("log", {
@@ -9670,7 +9640,7 @@
                         return this.readBits(8);
                     }, this.loadWord();
                 };
-                (_NalByteStream = function NalByteStream() {
+                (_NalByteStream = function() {
                     var i, buffer, syncPoint = 0;
                     _NalByteStream.prototype.init.call(this), this.push = function(data) {
                         buffer ? ((swapBuffer = new Uint8Array(buffer.byteLength + data.data.byteLength)).set(buffer), swapBuffer.set(data.data, buffer.byteLength), buffer = swapBuffer) : buffer = data.data;
@@ -9724,7 +9694,7 @@
                     138: !0,
                     139: !0,
                     134: !0
-                }, (_H264Stream = function H264Stream() {
+                }, (_H264Stream = function() {
                     var self1, trackId, currentPts, currentDts, discardEmulationPreventionBytes, readSequenceParameterSet, skipScalingList, nalByteStream = new _NalByteStream();
                     _H264Stream.prototype.init.call(this), self1 = this, this.push = function(packet) {
                         "video" === packet.type && (trackId = packet.trackId, currentPts = packet.pts, currentDts = packet.dts, nalByteStream.push(packet));
@@ -9769,17 +9739,17 @@
                         nalByteStream.reset();
                     }, this.endTimeline = function() {
                         nalByteStream.endTimeline();
-                    }, skipScalingList = function skipScalingList(count, expGolombDecoder) {
+                    }, skipScalingList = function(count, expGolombDecoder) {
                         var j, lastScale = 8, nextScale = 8;
                         for(j = 0; j < count; j++)0 !== nextScale && (nextScale = (lastScale + expGolombDecoder.readExpGolomb() + 256) % 256), lastScale = 0 === nextScale ? lastScale : nextScale;
-                    }, discardEmulationPreventionBytes = function discardEmulationPreventionBytes(data) {
+                    }, discardEmulationPreventionBytes = function(data) {
                         for(var newLength, newData, length = data.byteLength, emulationPreventionBytesPositions = [], i = 1; i < length - 2;)0 === data[i] && 0 === data[i + 1] && 0x03 === data[i + 2] ? (emulationPreventionBytesPositions.push(i + 2), i += 2) : i++;
                         if (0 === emulationPreventionBytesPositions.length) return data;
                         newLength = length - emulationPreventionBytesPositions.length, newData = new Uint8Array(newLength);
                         var sourceIndex = 0;
                         for(i = 0; i < newLength; sourceIndex++, i++)sourceIndex === emulationPreventionBytesPositions[0] && (sourceIndex++, emulationPreventionBytesPositions.shift()), newData[i] = data[sourceIndex];
                         return newData;
-                    }, readSequenceParameterSet = function readSequenceParameterSet(data) {
+                    }, readSequenceParameterSet = function(data) {
                         var expGolombDecoder, profileIdc, levelIdc, profileCompatibility, chromaFormatIdc, picOrderCntType, numRefFramesInPicOrderCntCycle, picWidthInMbsMinus1, picHeightInMapUnitsMinus1, frameMbsOnlyFlag, scalingListCount, i, frameCropLeftOffset = 0, frameCropRightOffset = 0, frameCropTopOffset = 0, frameCropBottomOffset = 0, sarRatio = [
                             1,
                             1
@@ -9973,7 +9943,7 @@
                         return null;
                     }
                 };
-                (_AacStream = function AacStream() {
+                (_AacStream = function() {
                     var everything = new Uint8Array(), timeStamp = 0;
                     _AacStream.prototype.init.call(this), this.setTimestamp = function(timestamp) {
                         timeStamp = timestamp;
@@ -10046,7 +10016,7 @@
                         baseMediaDecodeTime: baseMediaDecodeTime
                     };
                 };
-                (_AudioSegmentStream = function AudioSegmentStream(track, options) {
+                (_AudioSegmentStream = function(track, options) {
                     var sequenceNumber, adtsFrames = [], earliestAllowedDts = 0, audioAppendStartTs = 0, videoBaseMediaDecodeTime = 1 / 0;
                     sequenceNumber = (options = options || {}).firstSequenceNumber || 0, _AudioSegmentStream.prototype.init.call(this), this.push = function(data) {
                         trackDecodeInfo.collectDtsInfo(track, data), track && audioProperties.forEach(function(prop) {
@@ -10076,7 +10046,7 @@
                     }, this.reset = function() {
                         trackDecodeInfo.clearDtsInfo(track), adtsFrames = [], this.trigger("reset");
                     };
-                }).prototype = new Stream(), (_VideoSegmentStream = function VideoSegmentStream(track, options) {
+                }).prototype = new Stream(), (_VideoSegmentStream = function(track, options) {
                     var sequenceNumber, config, pps, nalUnits = [], gopsToAlignWith = [];
                     sequenceNumber = (options = options || {}).firstSequenceNumber || 0, _VideoSegmentStream.prototype.init.call(this), delete track.minPTS, this.gopCache_ = [], this.push = function(nalUnit) {
                         trackDecodeInfo.collectDtsInfo(track, nalUnit), "seq_parameter_set_rbsp" !== nalUnit.nalUnitType || config || (config = nalUnit.config, track.sps = [
@@ -10165,7 +10135,7 @@
                     }, this.alignGopsWith = function(newGopsToAlignWith) {
                         gopsToAlignWith = newGopsToAlignWith;
                     };
-                }).prototype = new Stream(), (_CoalesceStream = function CoalesceStream(options, metadataStream) {
+                }).prototype = new Stream(), (_CoalesceStream = function(options, metadataStream) {
                     this.numberOfTracks = 0, this.metadataStream = metadataStream, void 0 !== (options = options || {}).remux ? this.remuxTracks = !!options.remux : this.remuxTracks = !0, "boolean" == typeof options.keepOriginalTimestamps ? this.keepOriginalTimestamps = options.keepOriginalTimestamps : this.keepOriginalTimestamps = !1, this.pendingTracks = [], this.videoTrack = null, this.pendingBoxes = [], this.pendingCaptions = [], this.pendingMetadata = [], this.pendingBytes = 0, this.emittedTracks = 0, _CoalesceStream.prototype.init.call(this), this.push = function(output) {
                         return output.text ? this.pendingCaptions.push(output) : output.frames ? this.pendingMetadata.push(output) : void (this.pendingTracks.push(output.track), this.pendingBytes += output.boxes.byteLength, "video" === output.track.type && (this.videoTrack = output.track, this.pendingBoxes.push(output.boxes)), "audio" === output.track.type && (this.audioTrack = output.track, this.pendingBoxes.unshift(output.boxes)));
                     };
@@ -10197,7 +10167,7 @@
                     this.emittedTracks >= this.numberOfTracks && (this.trigger("done"), this.emittedTracks = 0);
                 }, _CoalesceStream.prototype.setRemux = function(val) {
                     this.remuxTracks = val;
-                }, (_Transmuxer = function Transmuxer(options) {
+                }, (_Transmuxer = function(options) {
                     var videoTrack, audioTrack, self1 = this, hasFlushed = !0;
                     _Transmuxer.prototype.init.call(this), options = options || {}, this.baseMediaDecodeTime = options.baseMediaDecodeTime || 0, this.transmuxPipeline_ = {}, this.setupAacPipeline = function() {
                         var pipeline = {};
@@ -10440,7 +10410,7 @@
                 }, toUnsigned = bin.toUnsigned, toHexString = bin.toHexString, probe$2 = {
                     findBox: findBox_1,
                     parseType: parseType_1,
-                    timescale: function timescale(init) {
+                    timescale: function(init) {
                         return findBox_1(init, [
                             "moov",
                             "trak"
@@ -10454,7 +10424,7 @@
                             ])[0]) ? (index = 0 === mdhd[0] ? 12 : 20, result[id] = toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]), result) : null;
                         }, {});
                     },
-                    startTime: function startTime(timescale, fragment) {
+                    startTime: function(timescale, fragment) {
                         var trafs, baseTimes, result;
                         return trafs = findBox_1(fragment, [
                             "moof",
@@ -10473,7 +10443,7 @@
                             });
                         })), isFinite(result = Math.min.apply(null, baseTimes)) ? result : 0;
                     },
-                    compositionStartTime: function compositionStartTime(timescales, fragment) {
+                    compositionStartTime: function(timescales, fragment) {
                         var trackId, trafBoxes = findBox_1(fragment, [
                             "moof",
                             "traf"
@@ -10493,7 +10463,7 @@
                         }
                         return (baseMediaDecodeTime + compositionTimeOffset) / (timescales[trackId] || 90e3);
                     },
-                    videoTrackIds: function getVideoTrackIds(init) {
+                    videoTrackIds: function(init) {
                         var traks = findBox_1(init, [
                             "moov",
                             "trak"
@@ -10511,7 +10481,7 @@
                             });
                         }), videoTrackIds;
                     },
-                    tracks: function getTracks(init) {
+                    tracks: function(init) {
                         var traks = findBox_1(init, [
                             "moov",
                             "trak"
@@ -10550,7 +10520,7 @@
                             mdhd && (track.timescale = getTimescaleFromMediaHeader(mdhd)), tracks.push(track);
                         }), tracks;
                     },
-                    getTimescaleFromMediaHeader: getTimescaleFromMediaHeader = function getTimescaleFromMediaHeader(mdhd) {
+                    getTimescaleFromMediaHeader: getTimescaleFromMediaHeader = function(mdhd) {
                         var index = 0 === mdhd[0] ? 12 : 20;
                         return toUnsigned(mdhd[index] << 24 | mdhd[index + 1] << 16 | mdhd[index + 2] << 8 | mdhd[index + 3]);
                     }
@@ -10890,9 +10860,9 @@
                         this.options = options || {}, this.self = self1, this.init();
                     }
                     var _proto = MessageHandlers.prototype;
-                    return _proto.init = function init() {
+                    return _proto.init = function() {
                         this.transmuxer && this.transmuxer.dispose(), this.transmuxer = new transmuxer.Transmuxer(this.options), wireTransmuxerEvents(this.self, this.transmuxer);
-                    }, _proto.pushMp4Captions = function pushMp4Captions(data) {
+                    }, _proto.pushMp4Captions = function(data) {
                         this.captionParser || (this.captionParser = new captionParser(), this.captionParser.init());
                         var segment = new Uint8Array(data.data, data.byteOffset, data.byteLength), parsed = this.captionParser.parse(segment, data.trackIds, data.timescales);
                         this.self.postMessage({
@@ -10903,7 +10873,7 @@
                         }, [
                             segment.buffer
                         ]);
-                    }, _proto.probeMp4StartTime = function probeMp4StartTime(_ref) {
+                    }, _proto.probeMp4StartTime = function(_ref) {
                         var timescales = _ref.timescales, data = _ref.data, startTime = probe$2.startTime(timescales, data);
                         this.self.postMessage({
                             action: "probeMp4StartTime",
@@ -10912,7 +10882,7 @@
                         }, [
                             data.buffer
                         ]);
-                    }, _proto.probeMp4Tracks = function probeMp4Tracks(_ref2) {
+                    }, _proto.probeMp4Tracks = function(_ref2) {
                         var data = _ref2.data, tracks = probe$2.tracks(data);
                         this.self.postMessage({
                             action: "probeMp4Tracks",
@@ -10921,7 +10891,7 @@
                         }, [
                             data.buffer
                         ]);
-                    }, _proto.probeTs = function probeTs(_ref3) {
+                    }, _proto.probeTs = function(_ref3) {
                         var data = _ref3.data, baseStartTime = _ref3.baseStartTime, tsStartTime = "number" != typeof baseStartTime || isNaN(baseStartTime) ? void 0 : baseStartTime * clock.ONE_SECOND_IN_TS, timeInfo = tsInspector.inspect(data, tsStartTime), result = null;
                         timeInfo && ((result = {
                             hasVideo: timeInfo.video && 2 === timeInfo.video.length || !1,
@@ -10933,33 +10903,33 @@
                         }, [
                             data.buffer
                         ]);
-                    }, _proto.clearAllMp4Captions = function clearAllMp4Captions() {
+                    }, _proto.clearAllMp4Captions = function() {
                         this.captionParser && this.captionParser.clearAllCaptions();
-                    }, _proto.clearParsedMp4Captions = function clearParsedMp4Captions() {
+                    }, _proto.clearParsedMp4Captions = function() {
                         this.captionParser && this.captionParser.clearParsedCaptions();
-                    }, _proto.push = function push(data) {
+                    }, _proto.push = function(data) {
                         var segment = new Uint8Array(data.data, data.byteOffset, data.byteLength);
                         this.transmuxer.push(segment);
-                    }, _proto.reset = function reset() {
+                    }, _proto.reset = function() {
                         this.transmuxer.reset();
-                    }, _proto.setTimestampOffset = function setTimestampOffset(data) {
+                    }, _proto.setTimestampOffset = function(data) {
                         var timestampOffset = data.timestampOffset || 0;
                         this.transmuxer.setBaseMediaDecodeTime(Math.round(clock.secondsToVideoTs(timestampOffset)));
-                    }, _proto.setAudioAppendStart = function setAudioAppendStart(data) {
+                    }, _proto.setAudioAppendStart = function(data) {
                         this.transmuxer.setAudioAppendStart(Math.ceil(clock.secondsToVideoTs(data.appendStart)));
-                    }, _proto.setRemux = function setRemux(data) {
+                    }, _proto.setRemux = function(data) {
                         this.transmuxer.setRemux(data.remux);
-                    }, _proto.flush = function flush(data) {
+                    }, _proto.flush = function(data) {
                         this.transmuxer.flush(), self.postMessage({
                             action: "done",
                             type: "transmuxed"
                         });
-                    }, _proto.endTimeline = function endTimeline() {
+                    }, _proto.endTimeline = function() {
                         this.transmuxer.endTimeline(), self.postMessage({
                             action: "endedtimeline",
                             type: "transmuxed"
                         });
-                    }, _proto.alignGopsWith = function alignGopsWith(data) {
+                    }, _proto.alignGopsWith = function(data) {
                         this.transmuxer.alignGopsWith(data.gopsToAlignWith.slice());
                     }, MessageHandlers;
                 }();
@@ -11145,7 +11115,7 @@
                     action: "probeMp4Tracks",
                     data: segment.map.bytes,
                     transmuxer: segment.transmuxer,
-                    callback: function callback(_ref) {
+                    callback: function(_ref) {
                         var tracks = _ref.tracks, data = _ref.data;
                         return segment.map.bytes = data, tracks.forEach(function(track) {
                             segment.map.tracks = segment.map.tracks || {}, !segment.map.tracks[track.type] && (segment.map.tracks[track.type] = track, "number" == typeof track.id && track.timescale && (segment.map.timescales = segment.map.timescales || {}, segment.map.timescales[track.id] = track.timescale));
@@ -11183,7 +11153,7 @@
                     transmuxer: segment.transmuxer,
                     data: bytes,
                     baseStartTime: segment.baseStartTime,
-                    callback: function callback(data) {
+                    callback: function(data) {
                         segment.bytes = bytes = data.data;
                         var probeResult = data.result;
                         probeResult && (trackInfoFn(segment, {
@@ -11196,38 +11166,38 @@
                             audioAppendStart: segment.audioAppendStart,
                             gopsToAlignWith: segment.gopsToAlignWith,
                             remux: isMuxed,
-                            onData: function onData(result) {
+                            onData: function(result) {
                                 result.type = "combined" === result.type ? "video" : result.type, dataFn(segment, result);
                             },
-                            onTrackInfo: function onTrackInfo(trackInfo) {
+                            onTrackInfo: function(trackInfo) {
                                 trackInfoFn && (isMuxed && (trackInfo.isMuxed = !0), trackInfoFn(segment, trackInfo));
                             },
-                            onAudioTimingInfo: function onAudioTimingInfo(audioTimingInfo) {
+                            onAudioTimingInfo: function(audioTimingInfo) {
                                 audioStartFn && void 0 !== audioTimingInfo.start && (audioStartFn(audioTimingInfo.start), audioStartFn = null), audioEndFn && void 0 !== audioTimingInfo.end && audioEndFn(audioTimingInfo.end);
                             },
-                            onVideoTimingInfo: function onVideoTimingInfo(videoTimingInfo) {
+                            onVideoTimingInfo: function(videoTimingInfo) {
                                 videoStartFn && void 0 !== videoTimingInfo.start && (videoStartFn(videoTimingInfo.start), videoStartFn = null), videoEndFn && void 0 !== videoTimingInfo.end && videoEndFn(videoTimingInfo.end);
                             },
-                            onVideoSegmentTimingInfo: function onVideoSegmentTimingInfo(videoSegmentTimingInfo) {
+                            onVideoSegmentTimingInfo: function(videoSegmentTimingInfo) {
                                 videoSegmentTimingInfoFn(videoSegmentTimingInfo);
                             },
-                            onAudioSegmentTimingInfo: function onAudioSegmentTimingInfo(audioSegmentTimingInfo) {
+                            onAudioSegmentTimingInfo: function(audioSegmentTimingInfo) {
                                 audioSegmentTimingInfoFn(audioSegmentTimingInfo);
                             },
-                            onId3: function onId3(id3Frames, dispatchType) {
+                            onId3: function(id3Frames, dispatchType) {
                                 id3Fn(segment, id3Frames, dispatchType);
                             },
-                            onCaptions: function onCaptions(captions) {
+                            onCaptions: function(captions) {
                                 captionsFn(segment, [
                                     captions
                                 ]);
                             },
                             isEndOfTimeline: isEndOfTimeline,
-                            onEndedTimeline: function onEndedTimeline() {
+                            onEndedTimeline: function() {
                                 endedTimelineFn();
                             },
                             onTransmuxerLog: onTransmuxerLog,
-                            onDone: function onDone(result) {
+                            onDone: function(result) {
                                 doneFn && (result.type = "combined" === result.type ? "video" : result.type, doneFn(null, segment, result));
                             }
                         });
@@ -11254,7 +11224,7 @@
                         timescales: segment.map.timescales,
                         data: bytesAsUint8Array,
                         transmuxer: segment.transmuxer,
-                        callback: function callback(_ref6) {
+                        callback: function(_ref6) {
                             var data = _ref6.data, startTime = _ref6.startTime;
                             if (bytes = data.buffer, segment.bytes = bytesAsUint8Array = data, trackInfo.hasAudio && !trackInfo.isMuxed && timingInfoFn(segment, "audio", "start", startTime), trackInfo.hasVideo && timingInfoFn(segment, "video", "start", startTime), !tracks.video || !data.byteLength || !segment.transmuxer) {
                                 finishLoading();
@@ -11269,7 +11239,7 @@
                                 trackIds: [
                                     tracks.video.id
                                 ],
-                                callback: function callback(message) {
+                                callback: function(message) {
                                     bytes = message.data.buffer, segment.bytes = bytesAsUint8Array = message.data, message.logs.forEach(function(log) {
                                         onTransmuxerLog(videojs.mergeOptions(log, {
                                             stream: "mp4CaptionParser"
@@ -11686,17 +11656,17 @@
             }, deprecateOldCue = function(cue) {
                 Object.defineProperties(cue.frame, {
                     id: {
-                        get: function get() {
+                        get: function() {
                             return videojs.log.warn("cue.frame.id is deprecated. Use cue.value.key instead."), cue.value.key;
                         }
                     },
                     value: {
-                        get: function get() {
+                        get: function() {
                             return videojs.log.warn("cue.frame.value is deprecated. Use cue.value.data instead."), cue.value.data;
                         }
                     },
                     privateData: {
-                        get: function get() {
+                        get: function() {
                             return videojs.log.warn("cue.frame.privateData is deprecated. Use cue.value.data instead."), cue.value.data;
                         }
                     }
@@ -11852,10 +11822,10 @@
                     }, _this.syncController_.on("syncinfoupdate", _this.triggerSyncInfoUpdate_), _this.mediaSource_.addEventListener("sourceopen", function() {
                         _this.isEndOfStream_() || (_this.ended_ = !1);
                     }), _this.fetchAtBuffer_ = !1, _this.logger_ = logger("SegmentLoader[" + _this.loaderType_ + "]"), Object.defineProperty((0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this), "state", {
-                        get: function get() {
+                        get: function() {
                             return this.state_;
                         },
-                        set: function set(newState) {
+                        set: function(newState) {
                             newState !== this.state_ && (this.logger_(this.state_ + " -> " + newState), this.state_ = newState, this.trigger("statechange"));
                         }
                     }), _this.sourceUpdater_.on("ready", function() {
@@ -11868,7 +11838,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SegmentLoader, _videojs$EventTarget);
                 var _proto = SegmentLoader.prototype;
-                return _proto.createTransmuxer_ = function createTransmuxer_() {
+                return _proto.createTransmuxer_ = function() {
                     return segmentTransmuxer.createTransmuxer({
                         remux: !1,
                         alignGopsAtEnd: this.safeAppend_,
@@ -11876,27 +11846,27 @@
                         parse708captions: this.parse708captions_,
                         captionServices: this.captionServices_
                     });
-                }, _proto.resetStats_ = function resetStats_() {
+                }, _proto.resetStats_ = function() {
                     this.mediaBytesTransferred = 0, this.mediaRequests = 0, this.mediaRequestsAborted = 0, this.mediaRequestsTimedout = 0, this.mediaRequestsErrored = 0, this.mediaTransferDuration = 0, this.mediaSecondsLoaded = 0, this.mediaAppends = 0;
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.trigger("dispose"), this.state = "DISPOSED", this.pause(), this.abort_(), this.transmuxer_ && this.transmuxer_.terminate(), this.resetStats_(), this.checkBufferTimeout_ && global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.checkBufferTimeout_), this.syncController_ && this.triggerSyncInfoUpdate_ && this.syncController_.off("syncinfoupdate", this.triggerSyncInfoUpdate_), this.off();
-                }, _proto.setAudio = function setAudio(enable) {
+                }, _proto.setAudio = function(enable) {
                     this.audioDisabled_ = !enable, enable ? this.appendInitSegment_.audio = !0 : this.sourceUpdater_.removeAudio(0, this.duration_());
-                }, _proto.abort = function abort() {
+                }, _proto.abort = function() {
                     if ("WAITING" !== this.state) {
                         this.pendingSegment_ && (this.pendingSegment_ = null);
                         return;
                     }
                     this.abort_(), this.state = "READY", this.paused() || this.monitorBuffer_();
-                }, _proto.abort_ = function abort_() {
+                }, _proto.abort_ = function() {
                     this.pendingSegment_ && this.pendingSegment_.abortRequests && this.pendingSegment_.abortRequests(), this.pendingSegment_ = null, this.callQueue_ = [], this.loadQueue_ = [], this.metadataQueue_.id3 = [], this.metadataQueue_.caption = [], this.timelineChangeController_.clearPendingTimelineChange(this.loaderType_), this.waitingOnRemove_ = !1, global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.quotaExceededErrorRetryTimeout_), this.quotaExceededErrorRetryTimeout_ = null;
-                }, _proto.checkForAbort_ = function checkForAbort_(requestId) {
+                }, _proto.checkForAbort_ = function(requestId) {
                     return "APPENDING" !== this.state || this.pendingSegment_ ? !this.pendingSegment_ || this.pendingSegment_.requestId !== requestId : (this.state = "READY", !0);
-                }, _proto.error = function error(_error) {
+                }, _proto.error = function(_error) {
                     return void 0 !== _error && (this.logger_("error occurred:", _error), this.error_ = _error), this.pendingSegment_ = null, this.error_;
-                }, _proto.endOfStream = function endOfStream() {
+                }, _proto.endOfStream = function() {
                     this.ended_ = !0, this.transmuxer_ && segmentTransmuxer.reset(this.transmuxer_), this.gopBuffer_.length = 0, this.pause(), this.trigger("ended");
-                }, _proto.buffered_ = function buffered_() {
+                }, _proto.buffered_ = function() {
                     var trackInfo = this.getMediaInfo_();
                     if (!this.sourceUpdater_ || !trackInfo) return videojs.createTimeRanges();
                     if ("main" === this.loaderType_) {
@@ -11905,7 +11875,7 @@
                         if (hasVideo) return this.sourceUpdater_.videoBuffered();
                     }
                     return this.sourceUpdater_.audioBuffered();
-                }, _proto.initSegmentForMap = function initSegmentForMap(map, set) {
+                }, _proto.initSegmentForMap = function(map, set) {
                     if (void 0 === set && (set = !1), !map) return null;
                     var id = initSegmentId(map), storedMap = this.initSegments_[id];
                     return set && !storedMap && map.bytes && (this.initSegments_[id] = storedMap = {
@@ -11915,7 +11885,7 @@
                         tracks: map.tracks,
                         timescales: map.timescales
                     }), storedMap || map;
-                }, _proto.segmentKey = function segmentKey(key, set) {
+                }, _proto.segmentKey = function(key, set) {
                     if (void 0 === set && (set = !1), !key) return null;
                     var id = segmentKeyId(key), storedKey = this.keyCache_[id];
                     this.cacheEncryptionKeys_ && set && !storedKey && key.bytes && (this.keyCache_[id] = storedKey = {
@@ -11926,16 +11896,16 @@
                         resolvedUri: (storedKey || key).resolvedUri
                     };
                     return storedKey && (result.bytes = storedKey.bytes), result;
-                }, _proto.couldBeginLoading_ = function couldBeginLoading_() {
+                }, _proto.couldBeginLoading_ = function() {
                     return this.playlist_ && !this.paused();
-                }, _proto.load = function load() {
+                }, _proto.load = function() {
                     if (this.monitorBuffer_(), this.playlist_) {
                         if ("INIT" === this.state && this.couldBeginLoading_()) return this.init_();
                         this.couldBeginLoading_() && ("READY" === this.state || "INIT" === this.state) && (this.state = "READY");
                     }
-                }, _proto.init_ = function init_() {
+                }, _proto.init_ = function() {
                     return this.state = "READY", this.resetEverything(), this.monitorBuffer_();
-                }, _proto.playlist = function playlist(newPlaylist, options) {
+                }, _proto.playlist = function(newPlaylist, options) {
                     if (void 0 === options && (options = {}), newPlaylist) {
                         var oldPlaylist = this.playlist_, segmentInfo = this.pendingSegment_;
                         this.playlist_ = newPlaylist, this.xhrOptions_ = options, "INIT" === this.state && (newPlaylist.syncInfo = {
@@ -11961,11 +11931,11 @@
                         }
                         segmentInfo && (segmentInfo.mediaIndex -= mediaSequenceDiff, segmentInfo.mediaIndex < 0 ? (segmentInfo.mediaIndex = null, segmentInfo.partIndex = null) : (segmentInfo.mediaIndex >= 0 && (segmentInfo.segment = newPlaylist.segments[segmentInfo.mediaIndex]), segmentInfo.partIndex >= 0 && segmentInfo.segment.parts && (segmentInfo.part = segmentInfo.segment.parts[segmentInfo.partIndex]))), this.syncController_.saveExpiredSegmentInfo(oldPlaylist, newPlaylist);
                     }
-                }, _proto.pause = function pause() {
+                }, _proto.pause = function() {
                     this.checkBufferTimeout_ && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.checkBufferTimeout_), this.checkBufferTimeout_ = null);
-                }, _proto.paused = function paused() {
+                }, _proto.paused = function() {
                     return null === this.checkBufferTimeout_;
-                }, _proto.resetEverything = function resetEverything(done) {
+                }, _proto.resetEverything = function(done) {
                     this.ended_ = !1, this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
@@ -11974,14 +11944,14 @@
                     }), this.transmuxer_.postMessage({
                         action: "reset"
                     }));
-                }, _proto.resetLoader = function resetLoader() {
+                }, _proto.resetLoader = function() {
                     this.fetchAtBuffer_ = !1, this.resyncLoader();
-                }, _proto.resyncLoader = function resyncLoader() {
+                }, _proto.resyncLoader = function() {
                     this.transmuxer_ && segmentTransmuxer.reset(this.transmuxer_), this.mediaIndex = null, this.partIndex = null, this.syncPoint_ = null, this.isPendingTimestampOffset_ = !1, this.callQueue_ = [], this.loadQueue_ = [], this.metadataQueue_.id3 = [], this.metadataQueue_.caption = [], this.abort(), this.transmuxer_ && this.transmuxer_.postMessage({
                         action: "clearParsedMp4Captions"
                     });
-                }, _proto.remove = function remove(start, end, done, force) {
-                    if (void 0 === done && (done = function done() {}), void 0 === force && (force = !1), end === 1 / 0 && (end = this.duration_()), end <= start) {
+                }, _proto.remove = function(start, end, done, force) {
+                    if (void 0 === done && (done = function() {}), void 0 === force && (force = !1), end === 1 / 0 && (end = this.duration_()), end <= start) {
                         this.logger_("skipping remove because end ${end} is <= start ${start}");
                         return;
                     }
@@ -11994,11 +11964,11 @@
                     };
                     for(var track in (force || !this.audioDisabled_) && (removesRemaining++, this.sourceUpdater_.removeAudio(start, end, removeFinished)), (force || "main" === this.loaderType_) && (this.gopBuffer_ = removeGopBuffer(this.gopBuffer_, start, end, this.timeMapping_), removesRemaining++, this.sourceUpdater_.removeVideo(start, end, removeFinished)), this.inbandTextTracks_)removeCuesFromTrack(start, end, this.inbandTextTracks_[track]);
                     removeCuesFromTrack(start, end, this.segmentMetadataTrack_), removeFinished();
-                }, _proto.monitorBuffer_ = function monitorBuffer_() {
+                }, _proto.monitorBuffer_ = function() {
                     this.checkBufferTimeout_ && global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.checkBufferTimeout_), this.checkBufferTimeout_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(this.monitorBufferTick_.bind(this), 1);
-                }, _proto.monitorBufferTick_ = function monitorBufferTick_() {
+                }, _proto.monitorBufferTick_ = function() {
                     "READY" === this.state && this.fillBuffer_(), this.checkBufferTimeout_ && global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.checkBufferTimeout_), this.checkBufferTimeout_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(this.monitorBufferTick_.bind(this), 500);
-                }, _proto.fillBuffer_ = function fillBuffer_() {
+                }, _proto.fillBuffer_ = function() {
                     if (!this.sourceUpdater_.updating()) {
                         var segmentInfo = this.chooseNextRequest_();
                         segmentInfo && ("number" == typeof segmentInfo.timestampOffset && (this.isPendingTimestampOffset_ = !1, this.timelineChangeController_.pendingTimelineChange({
@@ -12007,11 +11977,11 @@
                             to: segmentInfo.timeline
                         })), this.loadSegment_(segmentInfo));
                     }
-                }, _proto.isEndOfStream_ = function isEndOfStream_(mediaIndex, playlist, partIndex) {
+                }, _proto.isEndOfStream_ = function(mediaIndex, playlist, partIndex) {
                     if (void 0 === mediaIndex && (mediaIndex = this.mediaIndex), void 0 === playlist && (playlist = this.playlist_), void 0 === partIndex && (partIndex = this.partIndex), !playlist || !this.mediaSource_) return !1;
                     var segment = "number" == typeof mediaIndex && playlist.segments[mediaIndex], appendedLastSegment = mediaIndex + 1 === playlist.segments.length, appendedLastPart = !segment || !segment.parts || partIndex + 1 === segment.parts.length;
                     return playlist.endList && "open" === this.mediaSource_.readyState && appendedLastSegment && appendedLastPart;
-                }, _proto.chooseNextRequest_ = function chooseNextRequest_() {
+                }, _proto.chooseNextRequest_ = function() {
                     var buffered = this.buffered_(), bufferedEnd = lastBufferedEnd(buffered) || 0, bufferedTime = timeAheadOf(buffered, this.currentTime_()), preloaded = !this.hasPlayed_() && bufferedTime >= 1, haveEnoughBuffer = bufferedTime >= this.goalBufferLength_(), segments = this.playlist_.segments;
                     if (!segments.length || preloaded || haveEnoughBuffer) return null;
                     this.syncPoint_ = this.syncPoint_ || this.syncController_.getSyncPoint(this.playlist_, this.duration_(), this.currentTimeline_, this.currentTime_());
@@ -12047,7 +12017,7 @@
                     }
                     var ended = this.mediaSource_ && "ended" === this.mediaSource_.readyState;
                     return next.mediaIndex >= segments.length - 1 && ended && !this.seeking_() ? null : this.generateSegmentInfo_(next);
-                }, _proto.generateSegmentInfo_ = function generateSegmentInfo_(options) {
+                }, _proto.generateSegmentInfo_ = function(options) {
                     var independent = options.independent, playlist = options.playlist, mediaIndex = options.mediaIndex, startOfSegment = options.startOfSegment, isSyncRequest = options.isSyncRequest, partIndex = options.partIndex, forceTimestampOffset = options.forceTimestampOffset, getMediaInfoForTime = options.getMediaInfoForTime, segment = playlist.segments[mediaIndex], part = "number" == typeof partIndex && segment.parts[partIndex], segmentInfo = {
                         requestId: "segment-loader-" + Math.random(),
                         uri: part && part.resolvedUri || segment.resolvedUri,
@@ -12077,9 +12047,9 @@
                     });
                     var audioBufferedEnd = lastBufferedEnd(this.sourceUpdater_.audioBuffered());
                     return "number" == typeof audioBufferedEnd && (segmentInfo.audioAppendStart = audioBufferedEnd - this.sourceUpdater_.audioTimestampOffset()), this.sourceUpdater_.videoBuffered().length && (segmentInfo.gopsToAlignWith = gopsSafeToAlignWith(this.gopBuffer_, this.currentTime_() - this.sourceUpdater_.videoTimestampOffset(), this.timeMapping_)), segmentInfo;
-                }, _proto.timestampOffsetForSegment_ = function timestampOffsetForSegment_(options) {
+                }, _proto.timestampOffsetForSegment_ = function(options) {
                     return timestampOffsetForSegment(options);
-                }, _proto.earlyAbortWhenNeeded_ = function earlyAbortWhenNeeded_(stats) {
+                }, _proto.earlyAbortWhenNeeded_ = function(stats) {
                     if (!(this.vhs_.tech_.paused() || !this.xhrOptions_.timeout || !this.playlist_.attributes.BANDWIDTH || Date.now() - (stats.firstBytesReceivedAt || Date.now()) < 1000)) {
                         var buffered, playbackRate, currentTime = this.currentTime_(), measuredBandwidth = stats.bandwidth, segmentDuration = this.pendingSegment_.duration, requestTimeRemaining = Playlist.estimateSegmentRequestTime(segmentDuration, measuredBandwidth, this.playlist_, stats.bytesReceived), timeUntilRebuffer$1 = (buffered = this.buffered_(), void 0 === (playbackRate = this.vhs_.tech_.playbackRate()) && (playbackRate = 1), ((buffered.length ? buffered.end(buffered.length - 1) : 0) - currentTime) / playbackRate - 1);
                         if (!(requestTimeRemaining <= timeUntilRebuffer$1)) {
@@ -12099,21 +12069,21 @@
                             }
                         }
                     }
-                }, _proto.handleAbort_ = function handleAbort_(segmentInfo) {
+                }, _proto.handleAbort_ = function(segmentInfo) {
                     this.logger_("Aborting " + segmentInfoString(segmentInfo)), this.mediaRequestsAborted += 1;
-                }, _proto.handleProgress_ = function handleProgress_(event, simpleSegment) {
+                }, _proto.handleProgress_ = function(event, simpleSegment) {
                     this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.trigger("progress");
-                }, _proto.handleTrackInfo_ = function handleTrackInfo_(simpleSegment, trackInfo) {
+                }, _proto.handleTrackInfo_ = function(simpleSegment, trackInfo) {
                     this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
                     }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_()));
-                }, _proto.handleTimingInfo_ = function handleTimingInfo_(simpleSegment, mediaType, timeType, time) {
+                }, _proto.handleTimingInfo_ = function(simpleSegment, mediaType, timeType, time) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         var segmentInfo = this.pendingSegment_, timingInfoProperty = timingInfoPropertyForMedia(mediaType);
                         segmentInfo[timingInfoProperty] = segmentInfo[timingInfoProperty] || {}, segmentInfo[timingInfoProperty][timeType] = time, this.logger_("timinginfo: " + mediaType + " - " + timeType + " - " + time), this.hasEnoughInfoToAppend_() && this.processCallQueue_();
                     }
-                }, _proto.handleCaptions_ = function handleCaptions_(simpleSegment, captionData) {
+                }, _proto.handleCaptions_ = function(simpleSegment, captionData) {
                     var _this2 = this;
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         if (0 === captionData.length) {
@@ -12144,7 +12114,7 @@
                             action: "clearParsedMp4Captions"
                         });
                     }
-                }, _proto.handleId3_ = function handleId3_(simpleSegment, id3Frames, dispatchType) {
+                }, _proto.handleId3_ = function(simpleSegment, id3Frames, dispatchType) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         if (!this.pendingSegment_.hasAppendedData_) {
                             this.metadataQueue_.id3.push(this.handleId3_.bind(this, simpleSegment, id3Frames, dispatchType));
@@ -12158,23 +12128,23 @@
                             videoDuration: this.duration_()
                         });
                     }
-                }, _proto.processMetadataQueue_ = function processMetadataQueue_() {
+                }, _proto.processMetadataQueue_ = function() {
                     this.metadataQueue_.id3.forEach(function(fn) {
                         return fn();
                     }), this.metadataQueue_.caption.forEach(function(fn) {
                         return fn();
                     }), this.metadataQueue_.id3 = [], this.metadataQueue_.caption = [];
-                }, _proto.processCallQueue_ = function processCallQueue_() {
+                }, _proto.processCallQueue_ = function() {
                     var callQueue = this.callQueue_;
                     this.callQueue_ = [], callQueue.forEach(function(fun) {
                         return fun();
                     });
-                }, _proto.processLoadQueue_ = function processLoadQueue_() {
+                }, _proto.processLoadQueue_ = function() {
                     var loadQueue = this.loadQueue_;
                     this.loadQueue_ = [], loadQueue.forEach(function(fun) {
                         return fun();
                     });
-                }, _proto.hasEnoughInfoToLoad_ = function hasEnoughInfoToLoad_() {
+                }, _proto.hasEnoughInfoToLoad_ = function() {
                     if ("audio" !== this.loaderType_) return !0;
                     var segmentInfo = this.pendingSegment_;
                     return !!segmentInfo && (!this.getCurrentMediaInfo_() || !shouldWaitForTimelineChange({
@@ -12184,11 +12154,11 @@
                         loaderType: this.loaderType_,
                         audioDisabled: this.audioDisabled_
                     }));
-                }, _proto.getCurrentMediaInfo_ = function getCurrentMediaInfo_(segmentInfo) {
+                }, _proto.getCurrentMediaInfo_ = function(segmentInfo) {
                     return void 0 === segmentInfo && (segmentInfo = this.pendingSegment_), segmentInfo && segmentInfo.trackInfo || this.currentMediaInfo_;
-                }, _proto.getMediaInfo_ = function getMediaInfo_(segmentInfo) {
+                }, _proto.getMediaInfo_ = function(segmentInfo) {
                     return void 0 === segmentInfo && (segmentInfo = this.pendingSegment_), this.getCurrentMediaInfo_(segmentInfo) || this.startingMediaInfo_;
-                }, _proto.hasEnoughInfoToAppend_ = function hasEnoughInfoToAppend_() {
+                }, _proto.hasEnoughInfoToAppend_ = function() {
                     if (!this.sourceUpdater_.ready() || this.waitingOnRemove_ || this.quotaExceededErrorRetryTimeout_) return !1;
                     var segmentInfo = this.pendingSegment_, trackInfo = this.getCurrentMediaInfo_();
                     if (!segmentInfo || !trackInfo) return !1;
@@ -12200,7 +12170,7 @@
                         loaderType: this.loaderType_,
                         audioDisabled: this.audioDisabled_
                     }));
-                }, _proto.handleData_ = function handleData_(simpleSegment, result) {
+                }, _proto.handleData_ = function(simpleSegment, result) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         if (this.callQueue_.length || !this.hasEnoughInfoToAppend_()) {
                             this.callQueue_.push(this.handleData_.bind(this, simpleSegment, result));
@@ -12237,12 +12207,12 @@
                             segmentInfo.hasAppendedData_ = !0, this.processMetadataQueue_(), this.appendData_(segmentInfo, result);
                         }
                     }
-                }, _proto.updateAppendInitSegmentStatus = function updateAppendInitSegmentStatus(segmentInfo, type) {
+                }, _proto.updateAppendInitSegmentStatus = function(segmentInfo, type) {
                     "main" !== this.loaderType_ || "number" != typeof segmentInfo.timestampOffset || segmentInfo.changedTimestampOffset || (this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
                     }), this.playlistOfLastInitSegment_[type] !== segmentInfo.playlist && (this.appendInitSegment_[type] = !0);
-                }, _proto.getInitSegmentAndUpdateState_ = function getInitSegmentAndUpdateState_(_ref4) {
+                }, _proto.getInitSegmentAndUpdateState_ = function(_ref4) {
                     var type = _ref4.type, initSegment = _ref4.initSegment, map = _ref4.map, playlist = _ref4.playlist;
                     if (map) {
                         var id = initSegmentId(map);
@@ -12250,7 +12220,7 @@
                         initSegment = this.initSegmentForMap(map, !0).bytes, this.activeInitSegmentId_ = id;
                     }
                     return initSegment && this.appendInitSegment_[type] ? (this.playlistOfLastInitSegment_[type] = playlist, this.appendInitSegment_[type] = !1, this.activeInitSegmentId_ = null, initSegment) : null;
-                }, _proto.handleQuotaExceededError_ = function handleQuotaExceededError_(_ref5, error) {
+                }, _proto.handleQuotaExceededError_ = function(_ref5, error) {
                     var _this3 = this, segmentInfo = _ref5.segmentInfo, type = _ref5.type, bytes = _ref5.bytes, audioBuffered = this.sourceUpdater_.audioBuffered(), videoBuffered = this.sourceUpdater_.videoBuffered();
                     audioBuffered.length > 1 && this.logger_("On QUOTA_EXCEEDED_ERR, found gaps in the audio buffer: " + timeRangesToArray(audioBuffered).join(", ")), videoBuffered.length > 1 && this.logger_("On QUOTA_EXCEEDED_ERR, found gaps in the video buffer: " + timeRangesToArray(videoBuffered).join(", "));
                     var audioBufferStart = audioBuffered.length ? audioBuffered.start(0) : 0, audioBufferEnd = audioBuffered.length ? audioBuffered.end(audioBuffered.length - 1) : 0, videoBufferStart = videoBuffered.length ? videoBuffered.start(0) : 0, videoBufferEnd = videoBuffered.length ? videoBuffered.end(videoBuffered.length - 1) : 0;
@@ -12272,7 +12242,7 @@
                             _this3.logger_("On QUOTA_EXCEEDED_ERR, re-processing call queue"), _this3.quotaExceededErrorRetryTimeout_ = null, _this3.processCallQueue_();
                         }, 1000);
                     }, !0);
-                }, _proto.handleAppendError_ = function handleAppendError_(_ref6, error) {
+                }, _proto.handleAppendError_ = function(_ref6, error) {
                     var segmentInfo = _ref6.segmentInfo, type = _ref6.type, bytes = _ref6.bytes;
                     if (error) {
                         if (22 === error.code) {
@@ -12285,7 +12255,7 @@
                         }
                         this.logger_("Received non QUOTA_EXCEEDED_ERR on append", error), this.error(type + " append of " + bytes.length + "b failed for segment #" + segmentInfo.mediaIndex + " in playlist " + segmentInfo.playlist.id), this.trigger("appenderror");
                     }
-                }, _proto.appendToSourceBuffer_ = function appendToSourceBuffer_(_ref7) {
+                }, _proto.appendToSourceBuffer_ = function(_ref7) {
                     var segmentInfo = _ref7.segmentInfo, type = _ref7.type, initSegment = _ref7.initSegment, data = _ref7.data, bytes = _ref7.bytes;
                     if (!bytes) {
                         var segments = [
@@ -12305,12 +12275,12 @@
                         type: type,
                         bytes: bytes
                     }));
-                }, _proto.handleSegmentTimingInfo_ = function handleSegmentTimingInfo_(type, requestId, segmentTimingInfo) {
+                }, _proto.handleSegmentTimingInfo_ = function(type, requestId, segmentTimingInfo) {
                     if (this.pendingSegment_ && requestId === this.pendingSegment_.requestId) {
                         var segment = this.pendingSegment_.segment, timingInfoProperty = type + "TimingInfo";
                         segment[timingInfoProperty] || (segment[timingInfoProperty] = {}), segment[timingInfoProperty].transmuxerPrependedSeconds = segmentTimingInfo.prependedContentDuration || 0, segment[timingInfoProperty].transmuxedPresentationStart = segmentTimingInfo.start.presentation, segment[timingInfoProperty].transmuxedDecodeStart = segmentTimingInfo.start.decode, segment[timingInfoProperty].transmuxedPresentationEnd = segmentTimingInfo.end.presentation, segment[timingInfoProperty].transmuxedDecodeEnd = segmentTimingInfo.end.decode, segment[timingInfoProperty].baseMediaDecodeTime = segmentTimingInfo.baseMediaDecodeTime;
                     }
-                }, _proto.appendData_ = function appendData_(segmentInfo, result) {
+                }, _proto.appendData_ = function(segmentInfo, result) {
                     var type = result.type, data = result.data;
                     if (data && data.byteLength && ("audio" !== type || !this.audioDisabled_)) {
                         var initSegment = this.getInitSegmentAndUpdateState_({
@@ -12326,7 +12296,7 @@
                             data: data
                         });
                     }
-                }, _proto.loadSegment_ = function loadSegment_(segmentInfo) {
+                }, _proto.loadSegment_ = function(segmentInfo) {
                     var _this4 = this;
                     if (this.state = "WAITING", this.pendingSegment_ = segmentInfo, this.trimBackBuffer_(segmentInfo), "number" == typeof segmentInfo.timestampOffset && this.transmuxer_ && this.transmuxer_.postMessage({
                         action: "clearAllMp4Captions"
@@ -12340,7 +12310,7 @@
                         return;
                     }
                     this.updateTransmuxerAndRequestSegment_(segmentInfo);
-                }, _proto.updateTransmuxerAndRequestSegment_ = function updateTransmuxerAndRequestSegment_(segmentInfo) {
+                }, _proto.updateTransmuxerAndRequestSegment_ = function(segmentInfo) {
                     var _this5 = this;
                     this.shouldUpdateTransmuxerTimestampOffset_(segmentInfo.timestampOffset) && (this.gopBuffer_.length = 0, segmentInfo.gopsToAlignWith = [], this.timeMapping_ = 0, this.transmuxer_.postMessage({
                         action: "reset"
@@ -12365,21 +12335,21 @@
                         audioSegmentTimingInfoFn: this.handleSegmentTimingInfo_.bind(this, "audio", segmentInfo.requestId),
                         captionsFn: this.handleCaptions_.bind(this),
                         isEndOfTimeline: isEndOfStream || isWalkingForward && isDiscontinuity,
-                        endedTimelineFn: function endedTimelineFn() {
+                        endedTimelineFn: function() {
                             _this5.logger_("received endedtimeline callback");
                         },
                         id3Fn: this.handleId3_.bind(this),
                         dataFn: this.handleData_.bind(this),
                         doneFn: this.segmentRequestFinished_.bind(this),
-                        onTransmuxerLog: function onTransmuxerLog(_ref8) {
+                        onTransmuxerLog: function(_ref8) {
                             var message = _ref8.message, level = _ref8.level, stream = _ref8.stream;
                             _this5.logger_(segmentInfoString(segmentInfo) + " logged from transmuxer stream " + stream + " as a " + level + ": " + message);
                         }
                     });
-                }, _proto.trimBackBuffer_ = function trimBackBuffer_(segmentInfo) {
+                }, _proto.trimBackBuffer_ = function(segmentInfo) {
                     var removeToTime = safeBackBufferTrimTime(this.seekable_(), this.currentTime_(), this.playlist_.targetDuration || 10);
                     removeToTime > 0 && this.remove(0, removeToTime);
-                }, _proto.createSimplifiedSegmentObj_ = function createSimplifiedSegmentObj_(segmentInfo) {
+                }, _proto.createSimplifiedSegmentObj_ = function(segmentInfo) {
                     var segment = segmentInfo.segment, part = segmentInfo.part, simpleSegment = {
                         resolvedUri: part ? part.resolvedUri : segment.resolvedUri,
                         byterange: part ? part.byterange : segment.byterange,
@@ -12399,17 +12369,17 @@
                         simpleSegment.key = this.segmentKey(segment.key), simpleSegment.key.iv = iv;
                     }
                     return segment.map && (simpleSegment.map = this.initSegmentForMap(segment.map)), simpleSegment;
-                }, _proto.saveTransferStats_ = function saveTransferStats_(stats) {
+                }, _proto.saveTransferStats_ = function(stats) {
                     this.mediaRequests += 1, stats && (this.mediaBytesTransferred += stats.bytesReceived, this.mediaTransferDuration += stats.roundTripTime);
-                }, _proto.saveBandwidthRelatedStats_ = function saveBandwidthRelatedStats_(duration, stats) {
+                }, _proto.saveBandwidthRelatedStats_ = function(duration, stats) {
                     if (this.pendingSegment_.byteLength = stats.bytesReceived, duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) {
                         this.logger_("Ignoring segment's bandwidth because its duration of " + duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
                     this.bandwidth = stats.bandwidth, this.roundTrip = stats.roundTripTime;
-                }, _proto.handleTimeout_ = function handleTimeout_() {
+                }, _proto.handleTimeout_ = function() {
                     this.mediaRequestsTimedout += 1, this.bandwidth = 1, this.roundTrip = NaN, this.trigger("bandwidthupdate");
-                }, _proto.segmentRequestFinished_ = function segmentRequestFinished_(error, simpleSegment, result) {
+                }, _proto.segmentRequestFinished_ = function(error, simpleSegment, result) {
                     if (this.callQueue_.length) {
                         this.callQueue_.push(this.segmentRequestFinished_.bind(this, error, simpleSegment, result));
                         return;
@@ -12427,20 +12397,20 @@
                         var segmentInfo = this.pendingSegment_;
                         this.saveBandwidthRelatedStats_(segmentInfo.duration, simpleSegment.stats), segmentInfo.endOfAllRequests = simpleSegment.endOfAllRequests, result.gopInfo && (this.gopBuffer_ = updateGopBuffer(this.gopBuffer_, result.gopInfo, this.safeAppend_)), this.state = "APPENDING", this.trigger("appending"), this.waitForAppendsToComplete_(segmentInfo);
                     }
-                }, _proto.setTimeMapping_ = function setTimeMapping_(timeline) {
+                }, _proto.setTimeMapping_ = function(timeline) {
                     var timelineMapping = this.syncController_.mappingForTimeline(timeline);
                     null !== timelineMapping && (this.timeMapping_ = timelineMapping);
-                }, _proto.updateMediaSecondsLoaded_ = function updateMediaSecondsLoaded_(segment) {
+                }, _proto.updateMediaSecondsLoaded_ = function(segment) {
                     "number" == typeof segment.start && "number" == typeof segment.end ? this.mediaSecondsLoaded += segment.end - segment.start : this.mediaSecondsLoaded += segment.duration;
-                }, _proto.shouldUpdateTransmuxerTimestampOffset_ = function shouldUpdateTransmuxerTimestampOffset_(timestampOffset) {
+                }, _proto.shouldUpdateTransmuxerTimestampOffset_ = function(timestampOffset) {
                     return null !== timestampOffset && ("main" === this.loaderType_ && timestampOffset !== this.sourceUpdater_.videoTimestampOffset() || !this.audioDisabled_ && timestampOffset !== this.sourceUpdater_.audioTimestampOffset());
-                }, _proto.trueSegmentStart_ = function trueSegmentStart_(_ref9) {
+                }, _proto.trueSegmentStart_ = function(_ref9) {
                     var currentStart = _ref9.currentStart, playlist = _ref9.playlist, mediaIndex = _ref9.mediaIndex, firstVideoFrameTimeForData = _ref9.firstVideoFrameTimeForData, currentVideoTimestampOffset = _ref9.currentVideoTimestampOffset, useVideoTimingInfo = _ref9.useVideoTimingInfo, videoTimingInfo = _ref9.videoTimingInfo, audioTimingInfo = _ref9.audioTimingInfo;
                     if (void 0 !== currentStart) return currentStart;
                     if (!useVideoTimingInfo) return audioTimingInfo.start;
                     var previousSegment = playlist.segments[mediaIndex - 1];
                     return 0 !== mediaIndex && previousSegment && void 0 !== previousSegment.start && previousSegment.end === firstVideoFrameTimeForData + currentVideoTimestampOffset ? videoTimingInfo.start : firstVideoFrameTimeForData;
-                }, _proto.waitForAppendsToComplete_ = function waitForAppendsToComplete_(segmentInfo) {
+                }, _proto.waitForAppendsToComplete_ = function(segmentInfo) {
                     var trackInfo = this.getCurrentMediaInfo_(segmentInfo);
                     if (!trackInfo) {
                         this.error({
@@ -12457,24 +12427,24 @@
                         return;
                     }
                     waitForVideo && segmentInfo.waitingOnAppends++, waitForAudio && segmentInfo.waitingOnAppends++, waitForVideo && this.sourceUpdater_.videoQueueCallback(this.checkAppendsDone_.bind(this, segmentInfo)), waitForAudio && this.sourceUpdater_.audioQueueCallback(this.checkAppendsDone_.bind(this, segmentInfo));
-                }, _proto.checkAppendsDone_ = function checkAppendsDone_(segmentInfo) {
+                }, _proto.checkAppendsDone_ = function(segmentInfo) {
                     this.checkForAbort_(segmentInfo.requestId) || (segmentInfo.waitingOnAppends--, 0 === segmentInfo.waitingOnAppends && this.handleAppendsDone_());
-                }, _proto.checkForIllegalMediaSwitch = function checkForIllegalMediaSwitch(trackInfo) {
+                }, _proto.checkForIllegalMediaSwitch = function(trackInfo) {
                     var loaderType, startingMedia, illegalMediaSwitchError = (loaderType = this.loaderType_, startingMedia = this.getCurrentMediaInfo_(), "main" === loaderType && startingMedia && trackInfo ? trackInfo.hasAudio || trackInfo.hasVideo ? startingMedia.hasVideo && !trackInfo.hasVideo ? "Only audio found in segment when we expected video. We can't switch to audio only from a stream that had video. To get rid of this message, please add codec information to the manifest." : !startingMedia.hasVideo && trackInfo.hasVideo ? "Video found in segment when we expected only audio. We can't switch to a stream with video from an audio only stream. To get rid of this message, please add codec information to the manifest." : null : "Neither audio nor video found in segment." : null);
                     return !!illegalMediaSwitchError && (this.error({
                         message: illegalMediaSwitchError,
                         blacklistDuration: 1 / 0
                     }), this.trigger("error"), !0);
-                }, _proto.updateSourceBufferTimestampOffset_ = function updateSourceBufferTimestampOffset_(segmentInfo) {
+                }, _proto.updateSourceBufferTimestampOffset_ = function(segmentInfo) {
                     if (null !== segmentInfo.timestampOffset && "number" == typeof segmentInfo.timingInfo.start && !segmentInfo.changedTimestampOffset && "main" === this.loaderType_) {
                         var didChange = !1;
                         segmentInfo.timestampOffset -= segmentInfo.timingInfo.start, segmentInfo.changedTimestampOffset = !0, segmentInfo.timestampOffset !== this.sourceUpdater_.videoTimestampOffset() && (this.sourceUpdater_.videoTimestampOffset(segmentInfo.timestampOffset), didChange = !0), segmentInfo.timestampOffset !== this.sourceUpdater_.audioTimestampOffset() && (this.sourceUpdater_.audioTimestampOffset(segmentInfo.timestampOffset), didChange = !0), didChange && this.trigger("timestampoffset");
                     }
-                }, _proto.updateTimingInfoEnd_ = function updateTimingInfoEnd_(segmentInfo) {
+                }, _proto.updateTimingInfoEnd_ = function(segmentInfo) {
                     segmentInfo.timingInfo = segmentInfo.timingInfo || {};
                     var trackInfo = this.getMediaInfo_(), prioritizedTimingInfo = "main" === this.loaderType_ && trackInfo && trackInfo.hasVideo && segmentInfo.videoTimingInfo ? segmentInfo.videoTimingInfo : segmentInfo.audioTimingInfo;
                     prioritizedTimingInfo && (segmentInfo.timingInfo.end = "number" == typeof prioritizedTimingInfo.end ? prioritizedTimingInfo.end : prioritizedTimingInfo.start + segmentInfo.duration);
-                }, _proto.handleAppendsDone_ = function handleAppendsDone_() {
+                }, _proto.handleAppendsDone_ = function() {
                     if (this.pendingSegment_ && this.trigger("appendsdone"), !this.pendingSegment_) {
                         this.state = "READY", this.paused() || this.monitorBuffer_();
                         return;
@@ -12504,14 +12474,14 @@
                         return;
                     }
                     null !== this.mediaIndex && this.trigger("bandwidthupdate"), this.trigger("progress"), this.mediaIndex = segmentInfo.mediaIndex, this.partIndex = segmentInfo.partIndex, this.isEndOfStream_(segmentInfo.mediaIndex, segmentInfo.playlist, segmentInfo.partIndex) && this.endOfStream(), this.trigger("appended"), segmentInfo.hasAppendedData_ && this.mediaAppends++, this.paused() || this.monitorBuffer_();
-                }, _proto.recordThroughput_ = function recordThroughput_(segmentInfo) {
+                }, _proto.recordThroughput_ = function(segmentInfo) {
                     if (segmentInfo.duration < MIN_SEGMENT_DURATION_TO_SAVE_STATS) {
                         this.logger_("Ignoring segment's throughput because its duration of " + segmentInfo.duration + " is less than the min to record " + MIN_SEGMENT_DURATION_TO_SAVE_STATS);
                         return;
                     }
                     var rate = this.throughput.rate, segmentProcessingTime = Date.now() - segmentInfo.endOfAllRequests + 1, segmentProcessingThroughput = Math.floor(segmentInfo.byteLength / segmentProcessingTime * 8000);
                     this.throughput.rate += (segmentProcessingThroughput - rate) / ++this.throughput.count;
-                }, _proto.addSegmentMetadataCue_ = function addSegmentMetadataCue_(segmentInfo) {
+                }, _proto.addSegmentMetadataCue_ = function(segmentInfo) {
                     if (this.segmentMetadataTrack_) {
                         var segment = segmentInfo.segment, start = segment.start, end = segment.end;
                         if (finite(start) && finite(end)) {
@@ -12577,7 +12547,7 @@
             }, inSourceBuffers = function(mediaSource, sourceBuffer) {
                 return mediaSource && sourceBuffer && -1 !== Array.prototype.indexOf.call(mediaSource.sourceBuffers, sourceBuffer);
             }, actions = {
-                appendBuffer: function appendBuffer(bytes, segmentInfo, onError) {
+                appendBuffer: function(bytes, segmentInfo, onError) {
                     return function(type, sourceUpdater) {
                         var sourceBuffer = sourceUpdater[type + "Buffer"];
                         if (inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer)) {
@@ -12590,7 +12560,7 @@
                         }
                     };
                 },
-                remove: function remove(start, end) {
+                remove: function(start, end) {
                     return function(type, sourceUpdater) {
                         var sourceBuffer = sourceUpdater[type + "Buffer"];
                         if (inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer)) {
@@ -12603,18 +12573,18 @@
                         }
                     };
                 },
-                timestampOffset: function timestampOffset(offset) {
+                timestampOffset: function(offset) {
                     return function(type, sourceUpdater) {
                         var sourceBuffer = sourceUpdater[type + "Buffer"];
                         inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer) && (sourceUpdater.logger_("Setting " + type + "timestampOffset to " + offset), sourceBuffer.timestampOffset = offset);
                     };
                 },
-                callback: function callback(_callback) {
+                callback: function(_callback) {
                     return function(type, sourceUpdater) {
                         _callback();
                     };
                 },
-                endOfStream: function endOfStream(error) {
+                endOfStream: function(error) {
                     return function(sourceUpdater) {
                         if ("open" === sourceUpdater.mediaSource.readyState) {
                             sourceUpdater.logger_("Calling mediaSource endOfStream(" + (error || "") + ")");
@@ -12626,7 +12596,7 @@
                         }
                     };
                 },
-                duration: function duration(_duration) {
+                duration: function(_duration) {
                     return function(sourceUpdater) {
                         sourceUpdater.logger_("Setting mediaSource duration to " + _duration);
                         try {
@@ -12636,7 +12606,7 @@
                         }
                     };
                 },
-                abort: function abort() {
+                abort: function() {
                     return function(type, sourceUpdater) {
                         if ("open" === sourceUpdater.mediaSource.readyState) {
                             var sourceBuffer = sourceUpdater[type + "Buffer"];
@@ -12651,7 +12621,7 @@
                         }
                     };
                 },
-                addSourceBuffer: function addSourceBuffer(type, codec) {
+                addSourceBuffer: function(type, codec) {
                     return function(sourceUpdater) {
                         var titleType = toTitleCase(type), mime = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__._5)(codec);
                         sourceUpdater.logger_("Adding " + type + "Buffer with codec " + codec + " to mediaSource");
@@ -12659,7 +12629,7 @@
                         sourceBuffer.addEventListener("updateend", sourceUpdater["on" + titleType + "UpdateEnd_"]), sourceBuffer.addEventListener("error", sourceUpdater["on" + titleType + "Error_"]), sourceUpdater.codecs[type] = codec, sourceUpdater[type + "Buffer"] = sourceBuffer;
                     };
                 },
-                removeSourceBuffer: function removeSourceBuffer(type) {
+                removeSourceBuffer: function(type) {
                     return function(sourceUpdater) {
                         var sourceBuffer = sourceUpdater[type + "Buffer"];
                         if (cleanupBuffer(type, sourceUpdater), inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer)) {
@@ -12672,7 +12642,7 @@
                         }
                     };
                 },
-                changeType: function changeType(codec) {
+                changeType: function(codec) {
                     return function(type, sourceUpdater) {
                         var sourceBuffer = sourceUpdater[type + "Buffer"], mime = (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__._5)(codec);
                         inSourceBuffers(sourceUpdater.mediaSource, sourceBuffer) && sourceUpdater.codecs[type] !== codec && (sourceUpdater.logger_("changing " + type + "Buffer codec from " + sourceUpdater.codecs[type] + " to " + codec), sourceBuffer.changeType(mime), sourceUpdater.codecs[type] = codec);
@@ -12710,33 +12680,33 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SourceUpdater, _videojs$EventTarget);
                 var _proto = SourceUpdater.prototype;
-                return _proto.initializedEme = function initializedEme() {
+                return _proto.initializedEme = function() {
                     this.initializedEme_ = !0, this.triggerReady();
-                }, _proto.hasCreatedSourceBuffers = function hasCreatedSourceBuffers() {
+                }, _proto.hasCreatedSourceBuffers = function() {
                     return this.createdSourceBuffers_;
-                }, _proto.hasInitializedAnyEme = function hasInitializedAnyEme() {
+                }, _proto.hasInitializedAnyEme = function() {
                     return this.initializedEme_;
-                }, _proto.ready = function ready() {
+                }, _proto.ready = function() {
                     return this.hasCreatedSourceBuffers() && this.hasInitializedAnyEme();
-                }, _proto.createSourceBuffers = function createSourceBuffers(codecs) {
+                }, _proto.createSourceBuffers = function(codecs) {
                     this.hasCreatedSourceBuffers() || (this.addOrChangeSourceBuffers(codecs), this.createdSourceBuffers_ = !0, this.trigger("createdsourcebuffers"), this.triggerReady());
-                }, _proto.triggerReady = function triggerReady() {
+                }, _proto.triggerReady = function() {
                     this.ready() && !this.triggeredReady_ && (this.triggeredReady_ = !0, this.trigger("ready"));
-                }, _proto.addSourceBuffer = function addSourceBuffer(type, codec) {
+                }, _proto.addSourceBuffer = function(type, codec) {
                     pushQueue({
                         type: "mediaSource",
                         sourceUpdater: this,
                         action: actions.addSourceBuffer(type, codec),
                         name: "addSourceBuffer"
                     });
-                }, _proto.abort = function abort(type) {
+                }, _proto.abort = function(type) {
                     pushQueue({
                         type: type,
                         sourceUpdater: this,
                         action: actions.abort(type),
                         name: "abort"
                     });
-                }, _proto.removeSourceBuffer = function removeSourceBuffer(type) {
+                }, _proto.removeSourceBuffer = function(type) {
                     if (!this.canRemoveSourceBuffer()) {
                         videojs.log.error("removeSourceBuffer is not supported!");
                         return;
@@ -12747,13 +12717,13 @@
                         action: actions.removeSourceBuffer(type),
                         name: "removeSourceBuffer"
                     });
-                }, _proto.canRemoveSourceBuffer = function canRemoveSourceBuffer() {
+                }, _proto.canRemoveSourceBuffer = function() {
                     return !videojs.browser.IE_VERSION && !videojs.browser.IS_FIREFOX && global_window__WEBPACK_IMPORTED_MODULE_0___default().MediaSource && global_window__WEBPACK_IMPORTED_MODULE_0___default().MediaSource.prototype && "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().MediaSource.prototype.removeSourceBuffer;
-                }, SourceUpdater.canChangeType = function canChangeType() {
+                }, SourceUpdater.canChangeType = function() {
                     return global_window__WEBPACK_IMPORTED_MODULE_0___default().SourceBuffer && global_window__WEBPACK_IMPORTED_MODULE_0___default().SourceBuffer.prototype && "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().SourceBuffer.prototype.changeType;
-                }, _proto.canChangeType = function canChangeType() {
+                }, _proto.canChangeType = function() {
                     return this.constructor.canChangeType();
-                }, _proto.changeType = function changeType(type, codec) {
+                }, _proto.changeType = function(type, codec) {
                     if (!this.canChangeType()) {
                         videojs.log.error("changeType is not supported!");
                         return;
@@ -12764,7 +12734,7 @@
                         action: actions.changeType(codec),
                         name: "changeType"
                     });
-                }, _proto.addOrChangeSourceBuffers = function addOrChangeSourceBuffers(codecs) {
+                }, _proto.addOrChangeSourceBuffers = function(codecs) {
                     var _this2 = this;
                     if (!codecs || "object" != typeof codecs || 0 === Object.keys(codecs).length) throw Error("Cannot addOrChangeSourceBuffers to undefined codecs");
                     Object.keys(codecs).forEach(function(type) {
@@ -12772,7 +12742,7 @@
                         if (!_this2.hasCreatedSourceBuffers()) return _this2.addSourceBuffer(type, codec);
                         _this2.canChangeType() && _this2.changeType(type, codec);
                     });
-                }, _proto.appendBuffer = function appendBuffer(options, doneFn) {
+                }, _proto.appendBuffer = function(options, doneFn) {
                     var _this3 = this, segmentInfo = options.segmentInfo, type = options.type, bytes = options.bytes;
                     if (this.processedAppend_ = !0, "audio" === type && this.videoBuffer && !this.videoAppendQueued_) {
                         this.delayedAudioAppendQueue_.push([
@@ -12796,14 +12766,14 @@
                             _this3.appendBuffer.apply(_this3, que);
                         });
                     }
-                }, _proto.audioBuffered = function audioBuffered() {
+                }, _proto.audioBuffered = function() {
                     return inSourceBuffers(this.mediaSource, this.audioBuffer) && this.audioBuffer.buffered ? this.audioBuffer.buffered : videojs.createTimeRange();
-                }, _proto.videoBuffered = function videoBuffered() {
+                }, _proto.videoBuffered = function() {
                     return inSourceBuffers(this.mediaSource, this.videoBuffer) && this.videoBuffer.buffered ? this.videoBuffer.buffered : videojs.createTimeRange();
-                }, _proto.buffered = function buffered() {
+                }, _proto.buffered = function() {
                     var video = inSourceBuffers(this.mediaSource, this.videoBuffer) ? this.videoBuffer : null, audio = inSourceBuffers(this.mediaSource, this.audioBuffer) ? this.audioBuffer : null;
                     return audio && !video ? this.audioBuffered() : video && !audio ? this.videoBuffered() : bufferIntersection(this.audioBuffered(), this.videoBuffered());
-                }, _proto.setDuration = function setDuration(duration, doneFn) {
+                }, _proto.setDuration = function(duration, doneFn) {
                     void 0 === doneFn && (doneFn = noop), pushQueue({
                         type: "mediaSource",
                         sourceUpdater: this,
@@ -12811,7 +12781,7 @@
                         name: "duration",
                         doneFn: doneFn
                     });
-                }, _proto.endOfStream = function endOfStream(error, doneFn) {
+                }, _proto.endOfStream = function(error, doneFn) {
                     void 0 === error && (error = null), void 0 === doneFn && (doneFn = noop), "string" != typeof error && (error = void 0), pushQueue({
                         type: "mediaSource",
                         sourceUpdater: this,
@@ -12819,7 +12789,7 @@
                         name: "endOfStream",
                         doneFn: doneFn
                     });
-                }, _proto.removeAudio = function removeAudio(start, end, done) {
+                }, _proto.removeAudio = function(start, end, done) {
                     if (void 0 === done && (done = noop), !this.audioBuffered().length || 0 === this.audioBuffered().end(0)) {
                         done();
                         return;
@@ -12831,7 +12801,7 @@
                         doneFn: done,
                         name: "remove"
                     });
-                }, _proto.removeVideo = function removeVideo(start, end, done) {
+                }, _proto.removeVideo = function(start, end, done) {
                     if (void 0 === done && (done = noop), !this.videoBuffered().length || 0 === this.videoBuffered().end(0)) {
                         done();
                         return;
@@ -12843,37 +12813,37 @@
                         doneFn: done,
                         name: "remove"
                     });
-                }, _proto.updating = function updating() {
+                }, _proto.updating = function() {
                     return !!(_updating("audio", this) || _updating("video", this));
-                }, _proto.audioTimestampOffset = function audioTimestampOffset(offset) {
+                }, _proto.audioTimestampOffset = function(offset) {
                     return void 0 !== offset && this.audioBuffer && this.audioTimestampOffset_ !== offset && (pushQueue({
                         type: "audio",
                         sourceUpdater: this,
                         action: actions.timestampOffset(offset),
                         name: "timestampOffset"
                     }), this.audioTimestampOffset_ = offset), this.audioTimestampOffset_;
-                }, _proto.videoTimestampOffset = function videoTimestampOffset(offset) {
+                }, _proto.videoTimestampOffset = function(offset) {
                     return void 0 !== offset && this.videoBuffer && this.videoTimestampOffset !== offset && (pushQueue({
                         type: "video",
                         sourceUpdater: this,
                         action: actions.timestampOffset(offset),
                         name: "timestampOffset"
                     }), this.videoTimestampOffset_ = offset), this.videoTimestampOffset_;
-                }, _proto.audioQueueCallback = function audioQueueCallback(callback) {
+                }, _proto.audioQueueCallback = function(callback) {
                     this.audioBuffer && pushQueue({
                         type: "audio",
                         sourceUpdater: this,
                         action: actions.callback(callback),
                         name: "callback"
                     });
-                }, _proto.videoQueueCallback = function videoQueueCallback(callback) {
+                }, _proto.videoQueueCallback = function(callback) {
                     this.videoBuffer && pushQueue({
                         type: "video",
                         sourceUpdater: this,
                         action: actions.callback(callback),
                         name: "callback"
                     });
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     var _this4 = this;
                     this.trigger("dispose"), bufferTypes.forEach(function(type) {
                         _this4.abort(type), _this4.canRemoveSourceBuffer() ? _this4.removeSourceBuffer(type) : _this4[type + "QueueCallback"](function() {
@@ -12892,9 +12862,9 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VTTSegmentLoader, _SegmentLoader);
                 var _proto = VTTSegmentLoader.prototype;
-                return _proto.createTransmuxer_ = function createTransmuxer_() {
+                return _proto.createTransmuxer_ = function() {
                     return null;
-                }, _proto.buffered_ = function buffered_() {
+                }, _proto.buffered_ = function() {
                     if (!this.subtitlesTrack_ || !this.subtitlesTrack_.cues || !this.subtitlesTrack_.cues.length) return videojs.createTimeRanges();
                     var cues = this.subtitlesTrack_.cues, start = cues[0].startTime, end = cues[cues.length - 1].startTime;
                     return videojs.createTimeRanges([
@@ -12903,7 +12873,7 @@
                             end
                         ]
                     ]);
-                }, _proto.initSegmentForMap = function initSegmentForMap(map, set) {
+                }, _proto.initSegmentForMap = function(map, set) {
                     if (void 0 === set && (set = !1), !map) return null;
                     var id = initSegmentId(map), storedMap = this.initSegments_[id];
                     if (set && !storedMap && map.bytes) {
@@ -12915,15 +12885,15 @@
                         };
                     }
                     return storedMap || map;
-                }, _proto.couldBeginLoading_ = function couldBeginLoading_() {
+                }, _proto.couldBeginLoading_ = function() {
                     return this.playlist_ && this.subtitlesTrack_ && !this.paused();
-                }, _proto.init_ = function init_() {
+                }, _proto.init_ = function() {
                     return this.state = "READY", this.resetEverything(), this.monitorBuffer_();
-                }, _proto.track = function track(_track) {
+                }, _proto.track = function(_track) {
                     return void 0 === _track || (this.subtitlesTrack_ = _track, "INIT" === this.state && this.couldBeginLoading_() && this.init_()), this.subtitlesTrack_;
-                }, _proto.remove = function remove(start, end) {
+                }, _proto.remove = function(start, end) {
                     removeCuesFromTrack(start, end, this.subtitlesTrack_);
-                }, _proto.fillBuffer_ = function fillBuffer_() {
+                }, _proto.fillBuffer_ = function() {
                     var _this2 = this, segmentInfo = this.chooseNextRequest_();
                     if (segmentInfo) {
                         if (null === this.syncController_.timestampOffsetForTimeline(segmentInfo.timeline)) {
@@ -12934,11 +12904,11 @@
                         }
                         this.loadSegment_(segmentInfo);
                     }
-                }, _proto.timestampOffsetForSegment_ = function timestampOffsetForSegment_() {
+                }, _proto.timestampOffsetForSegment_ = function() {
                     return null;
-                }, _proto.chooseNextRequest_ = function chooseNextRequest_() {
+                }, _proto.chooseNextRequest_ = function() {
                     return this.skipEmptySegments_(_SegmentLoader.prototype.chooseNextRequest_.call(this));
-                }, _proto.skipEmptySegments_ = function skipEmptySegments_(segmentInfo) {
+                }, _proto.skipEmptySegments_ = function(segmentInfo) {
                     for(; segmentInfo && segmentInfo.segment.empty;){
                         if (segmentInfo.mediaIndex + 1 >= segmentInfo.playlist.segments.length) {
                             segmentInfo = null;
@@ -12952,9 +12922,9 @@
                         });
                     }
                     return segmentInfo;
-                }, _proto.stopForError = function stopForError(error) {
+                }, _proto.stopForError = function(error) {
                     this.error(error), this.state = "READY", this.pause(), this.trigger("error");
-                }, _proto.segmentRequestFinished_ = function segmentRequestFinished_(error, simpleSegment, result) {
+                }, _proto.segmentRequestFinished_ = function(error, simpleSegment, result) {
                     var _this3 = this;
                     if (!this.subtitlesTrack_) {
                         this.state = "READY";
@@ -12977,7 +12947,7 @@
                                 message: "Error loading vtt.js"
                             });
                         };
-                        loadHandler = function loadHandler() {
+                        loadHandler = function() {
                             _this3.subtitlesTrack_.tech_.off("vttjserror", errorHandler), _this3.segmentRequestFinished_(error, simpleSegment, result);
                         }, this.state = "WAITING_ON_VTTJS", this.subtitlesTrack_.tech_.one("vttjsloaded", loadHandler), this.subtitlesTrack_.tech_.one("vttjserror", errorHandler);
                         return;
@@ -13004,7 +12974,7 @@
                     segmentInfo.byteLength = segmentInfo.bytes.byteLength, this.mediaSecondsLoaded += segment.duration, segmentInfo.cues.forEach(function(cue) {
                         _this3.subtitlesTrack_.addCue(_this3.featuresNativeTextTracks_ ? new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).VTTCue(cue.startTime, cue.endTime, cue.text) : cue);
                     }), removeDuplicateCuesFromTrack(this.subtitlesTrack_), this.handleAppendsDone_();
-                }, _proto.handleData_ = function handleData_() {}, _proto.updateTimingInfoEnd_ = function updateTimingInfoEnd_() {}, _proto.parseVTTCues_ = function parseVTTCues_(segmentInfo) {
+                }, _proto.handleData_ = function() {}, _proto.updateTimingInfoEnd_ = function() {}, _proto.parseVTTCues_ = function(segmentInfo) {
                     var decoder, decodeBytesToString = !1;
                     "function" == typeof global_window__WEBPACK_IMPORTED_MODULE_0___default().TextDecoder ? decoder = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).TextDecoder("utf8") : (decoder = global_window__WEBPACK_IMPORTED_MODULE_0___default().WebVTT.StringDecoder(), decodeBytesToString = !0);
                     var parser = new (global_window__WEBPACK_IMPORTED_MODULE_0___default()).WebVTT.Parser(global_window__WEBPACK_IMPORTED_MODULE_0___default(), global_window__WEBPACK_IMPORTED_MODULE_0___default().vttjs, decoder);
@@ -13021,7 +12991,7 @@
                     }
                     var segmentData = segmentInfo.bytes;
                     decodeBytesToString && (segmentData = uint8ToUtf8(segmentData)), parser.parse(segmentData), parser.flush();
-                }, _proto.updateTimeMapping_ = function updateTimeMapping_(segmentInfo, mappingObj, playlist) {
+                }, _proto.updateTimeMapping_ = function(segmentInfo, mappingObj, playlist) {
                     var segment = segmentInfo.segment;
                     if (mappingObj) {
                         if (!segmentInfo.cues.length) {
@@ -13068,7 +13038,7 @@
             }, syncPointStrategies = [
                 {
                     name: "VOD",
-                    run: function run(syncController, playlist, duration, currentTimeline, currentTime) {
+                    run: function(syncController, playlist, duration, currentTimeline, currentTime) {
                         return duration !== 1 / 0 ? {
                             time: 0,
                             segmentIndex: 0,
@@ -13078,7 +13048,7 @@
                 },
                 {
                     name: "ProgramDateTime",
-                    run: function run(syncController, playlist, duration, currentTimeline, currentTime) {
+                    run: function(syncController, playlist, duration, currentTimeline, currentTime) {
                         if (!Object.keys(syncController.timelineToDatetimeMappings).length) return null;
                         var syncPoint = null, lastDistance = null, partsAndSegments = getPartsAndSegments(playlist);
                         currentTime = currentTime || 0;
@@ -13101,7 +13071,7 @@
                 },
                 {
                     name: "Segment",
-                    run: function run(syncController, playlist, duration, currentTimeline, currentTime) {
+                    run: function(syncController, playlist, duration, currentTimeline, currentTime) {
                         var syncPoint = null, lastDistance = null;
                         currentTime = currentTime || 0;
                         for(var partsAndSegments = getPartsAndSegments(playlist), i = 0; i < partsAndSegments.length; i++){
@@ -13121,7 +13091,7 @@
                 },
                 {
                     name: "Discontinuity",
-                    run: function run(syncController, playlist, duration, currentTimeline, currentTime) {
+                    run: function(syncController, playlist, duration, currentTimeline, currentTime) {
                         var syncPoint = null;
                         if (currentTime = currentTime || 0, playlist.discontinuityStarts && playlist.discontinuityStarts.length) for(var lastDistance = null, i = 0; i < playlist.discontinuityStarts.length; i++){
                             var segmentIndex = playlist.discontinuityStarts[i], discontinuity = playlist.discontinuitySequence + i + 1, discontinuitySync = syncController.discontinuities[discontinuity];
@@ -13140,7 +13110,7 @@
                 },
                 {
                     name: "Playlist",
-                    run: function run(syncController, playlist, duration, currentTimeline, currentTime) {
+                    run: function(syncController, playlist, duration, currentTimeline, currentTime) {
                         return playlist.syncInfo ? {
                             time: playlist.syncInfo.time,
                             segmentIndex: playlist.syncInfo.mediaSequence - playlist.mediaSequence,
@@ -13155,13 +13125,13 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(SyncController, _videojs$EventTarget);
                 var _proto = SyncController.prototype;
-                return _proto.getSyncPoint = function getSyncPoint(playlist, duration, currentTimeline, currentTime) {
+                return _proto.getSyncPoint = function(playlist, duration, currentTimeline, currentTime) {
                     var syncPoints = this.runStrategies_(playlist, duration, currentTimeline, currentTime);
                     return syncPoints.length ? this.selectSyncPoint_(syncPoints, {
                         key: "time",
                         value: currentTime
                     }) : null;
-                }, _proto.getExpiredTime = function getExpiredTime(playlist, duration) {
+                }, _proto.getExpiredTime = function(playlist, duration) {
                     if (!playlist || !playlist.segments) return null;
                     var syncPoints = this.runStrategies_(playlist, duration, playlist.discontinuitySequence, 0);
                     if (!syncPoints.length) return null;
@@ -13175,7 +13145,7 @@
                         startIndex: syncPoint.segmentIndex,
                         endIndex: 0
                     }));
-                }, _proto.runStrategies_ = function runStrategies_(playlist, duration, currentTimeline, currentTime) {
+                }, _proto.runStrategies_ = function(playlist, duration, currentTimeline, currentTime) {
                     for(var syncPoints = [], i = 0; i < syncPointStrategies.length; i++){
                         var strategy = syncPointStrategies[i], syncPoint = strategy.run(this, playlist, duration, currentTimeline, currentTime);
                         syncPoint && (syncPoint.strategy = strategy.name, syncPoints.push({
@@ -13184,13 +13154,13 @@
                         }));
                     }
                     return syncPoints;
-                }, _proto.selectSyncPoint_ = function selectSyncPoint_(syncPoints, target) {
+                }, _proto.selectSyncPoint_ = function(syncPoints, target) {
                     for(var bestSyncPoint = syncPoints[0].syncPoint, bestDistance = Math.abs(syncPoints[0].syncPoint[target.key] - target.value), bestStrategy = syncPoints[0].strategy, i = 1; i < syncPoints.length; i++){
                         var newDistance = Math.abs(syncPoints[i].syncPoint[target.key] - target.value);
                         newDistance < bestDistance && (bestDistance = newDistance, bestSyncPoint = syncPoints[i].syncPoint, bestStrategy = syncPoints[i].strategy);
                     }
                     return this.logger_("syncPoint for [" + target.key + ": " + target.value + "] chosen with strategy [" + bestStrategy + "]: [time:" + bestSyncPoint.time + ", segmentIndex:" + bestSyncPoint.segmentIndex + ("number" == typeof bestSyncPoint.partIndex ? ",partIndex:" + bestSyncPoint.partIndex : "") + "]"), bestSyncPoint;
-                }, _proto.saveExpiredSegmentInfo = function saveExpiredSegmentInfo(oldPlaylist, newPlaylist) {
+                }, _proto.saveExpiredSegmentInfo = function(oldPlaylist, newPlaylist) {
                     var mediaSequenceDiff = newPlaylist.mediaSequence - oldPlaylist.mediaSequence;
                     if (mediaSequenceDiff > 86400) {
                         videojs.log.warn("Not saving expired segment info. Media sequence gap " + mediaSequenceDiff + " is too large.");
@@ -13206,12 +13176,12 @@
                             break;
                         }
                     }
-                }, _proto.setDateTimeMappingForStart = function setDateTimeMappingForStart(playlist) {
+                }, _proto.setDateTimeMappingForStart = function(playlist) {
                     if (this.timelineToDatetimeMappings = {}, playlist.segments && playlist.segments.length && playlist.segments[0].dateTimeObject) {
                         var firstSegment = playlist.segments[0], playlistTimestamp = firstSegment.dateTimeObject.getTime() / 1000;
                         this.timelineToDatetimeMappings[firstSegment.timeline] = -playlistTimestamp;
                     }
-                }, _proto.saveSegmentTimingInfo = function saveSegmentTimingInfo(_ref) {
+                }, _proto.saveSegmentTimingInfo = function(_ref) {
                     var segmentInfo = _ref.segmentInfo, shouldSaveTimelineMapping = _ref.shouldSaveTimelineMapping, didCalculateSegmentTimeMapping = this.calculateSegmentTimeMapping_(segmentInfo, segmentInfo.timingInfo, shouldSaveTimelineMapping), segment = segmentInfo.segment;
                     didCalculateSegmentTimeMapping && (this.saveDiscontinuitySyncInfo_(segmentInfo), segmentInfo.playlist.syncInfo || (segmentInfo.playlist.syncInfo = {
                         mediaSequence: segmentInfo.playlist.mediaSequence + segmentInfo.mediaIndex,
@@ -13219,11 +13189,11 @@
                     }));
                     var dateTime = segment.dateTimeObject;
                     segment.discontinuity && shouldSaveTimelineMapping && dateTime && (this.timelineToDatetimeMappings[segment.timeline] = -(dateTime.getTime() / 1000));
-                }, _proto.timestampOffsetForTimeline = function timestampOffsetForTimeline(timeline) {
+                }, _proto.timestampOffsetForTimeline = function(timeline) {
                     return void 0 === this.timelines[timeline] ? null : this.timelines[timeline].time;
-                }, _proto.mappingForTimeline = function mappingForTimeline(timeline) {
+                }, _proto.mappingForTimeline = function(timeline) {
                     return void 0 === this.timelines[timeline] ? null : this.timelines[timeline].mapping;
-                }, _proto.calculateSegmentTimeMapping_ = function calculateSegmentTimeMapping_(segmentInfo, timingInfo, shouldSaveTimelineMapping) {
+                }, _proto.calculateSegmentTimeMapping_ = function(segmentInfo, timingInfo, shouldSaveTimelineMapping) {
                     var start, end, segment = segmentInfo.segment, part = segmentInfo.part, mappingObj = this.timelines[segmentInfo.timeline];
                     if ("number" == typeof segmentInfo.timestampOffset) mappingObj = {
                         time: segmentInfo.startOfSegment,
@@ -13234,7 +13204,7 @@
                         start = timingInfo.start + mappingObj.mapping, end = timingInfo.end + mappingObj.mapping;
                     }
                     return part && (part.start = start, part.end = end), (!segment.start || start < segment.start) && (segment.start = start), segment.end = end, !0;
-                }, _proto.saveDiscontinuitySyncInfo_ = function saveDiscontinuitySyncInfo_(segmentInfo) {
+                }, _proto.saveDiscontinuitySyncInfo_ = function(segmentInfo) {
                     var playlist = segmentInfo.playlist, segment = segmentInfo.segment;
                     if (segment.discontinuity) this.discontinuities[segment.timeline] = {
                         time: segment.start,
@@ -13260,7 +13230,7 @@
                             };
                         }
                     }
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.trigger("dispose"), this.off();
                 }, SyncController;
             }(videojs.EventTarget), TimelineChangeController = function(_videojs$EventTarget) {
@@ -13270,23 +13240,23 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(TimelineChangeController, _videojs$EventTarget);
                 var _proto = TimelineChangeController.prototype;
-                return _proto.clearPendingTimelineChange = function clearPendingTimelineChange(type) {
+                return _proto.clearPendingTimelineChange = function(type) {
                     this.pendingTimelineChanges_[type] = null, this.trigger("pendingtimelinechange");
-                }, _proto.pendingTimelineChange = function pendingTimelineChange(_ref) {
+                }, _proto.pendingTimelineChange = function(_ref) {
                     var type = _ref.type, from = _ref.from, to = _ref.to;
                     return "number" == typeof from && "number" == typeof to && (this.pendingTimelineChanges_[type] = {
                         type: type,
                         from: from,
                         to: to
                     }, this.trigger("pendingtimelinechange")), this.pendingTimelineChanges_[type];
-                }, _proto.lastTimelineChange = function lastTimelineChange(_ref2) {
+                }, _proto.lastTimelineChange = function(_ref2) {
                     var type = _ref2.type, from = _ref2.from, to = _ref2.to;
                     return "number" == typeof from && "number" == typeof to && (this.lastTimelineChanges_[type] = {
                         type: type,
                         from: from,
                         to: to
                     }, delete this.pendingTimelineChanges_[type], this.trigger("timelinechange")), this.lastTimelineChanges_[type];
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.trigger("dispose"), this.pendingTimelineChanges_ = {}, this.lastTimelineChanges_ = {}, this.off();
                 }, TimelineChangeController;
             }(videojs.EventTarget), Decrypter = factory(transform(getWorkerString(function() {
@@ -13294,13 +13264,12 @@
                     return fn(module = {
                         path: basedir,
                         exports: {},
-                        require: function require(path, base) {
-                            return commonjsRequire(path, null == base ? module.path : base);
+                        require: function(path, base) {
+                            return function() {
+                                throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
+                            }(path, null == base ? module.path : base);
                         }
                     }, module.exports), module.exports;
-                }
-                function commonjsRequire() {
-                    throw Error("Dynamic requires are not currently supported by @rollup/plugin-commonjs");
                 }
                 var createClass = createCommonjsModule(function(module) {
                     function _defineProperties(target, props) {
@@ -13309,51 +13278,45 @@
                             descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                         }
                     }
-                    function _createClass(Constructor, protoProps, staticProps) {
+                    module.exports = function(Constructor, protoProps, staticProps) {
                         return protoProps && _defineProperties(Constructor.prototype, protoProps), staticProps && _defineProperties(Constructor, staticProps), Constructor;
-                    }
-                    module.exports = _createClass, module.exports.default = module.exports, module.exports.__esModule = !0;
+                    }, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), setPrototypeOf = createCommonjsModule(function(module) {
                     function _setPrototypeOf(o, p) {
-                        return module.exports = _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+                        return module.exports = _setPrototypeOf = Object.setPrototypeOf || function(o, p) {
                             return o.__proto__ = p, o;
                         }, module.exports.default = module.exports, module.exports.__esModule = !0, _setPrototypeOf(o, p);
                     }
                     module.exports = _setPrototypeOf, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), inheritsLoose = createCommonjsModule(function(module) {
-                    function _inheritsLoose(subClass, superClass) {
+                    module.exports = function(subClass, superClass) {
                         subClass.prototype = Object.create(superClass.prototype), subClass.prototype.constructor = subClass, setPrototypeOf(subClass, superClass);
-                    }
-                    module.exports = _inheritsLoose, module.exports.default = module.exports, module.exports.__esModule = !0;
+                    }, module.exports.default = module.exports, module.exports.__esModule = !0;
                 }), Stream = function() {
                     function Stream() {
                         this.listeners = {};
                     }
                     var _proto = Stream.prototype;
-                    return _proto.on = function on(type, listener) {
+                    return _proto.on = function(type, listener) {
                         this.listeners[type] || (this.listeners[type] = []), this.listeners[type].push(listener);
-                    }, _proto.off = function off(type, listener) {
+                    }, _proto.off = function(type, listener) {
                         if (!this.listeners[type]) return !1;
                         var index = this.listeners[type].indexOf(listener);
                         return this.listeners[type] = this.listeners[type].slice(0), this.listeners[type].splice(index, 1), index > -1;
-                    }, _proto.trigger = function trigger(type) {
+                    }, _proto.trigger = function(type) {
                         var callbacks = this.listeners[type];
                         if (callbacks) {
                             if (2 == arguments.length) for(var length = callbacks.length, i = 0; i < length; ++i)callbacks[i].call(this, arguments[1]);
                             else for(var args = Array.prototype.slice.call(arguments, 1), _length = callbacks.length, _i = 0; _i < _length; ++_i)callbacks[_i].apply(this, args);
                         }
-                    }, _proto.dispose = function dispose() {
+                    }, _proto.dispose = function() {
                         this.listeners = {};
-                    }, _proto.pipe = function pipe(destination) {
+                    }, _proto.pipe = function(destination) {
                         this.on("data", function(data) {
                             destination.push(data);
                         });
                     }, Stream;
-                }();
-                function unpad(padded) {
-                    return padded.subarray(0, padded.byteLength - padded[padded.byteLength - 1]);
-                }
-                var precompute = function() {
+                }(), precompute = function() {
                     var i, x, xInv, x2, x4, s, tEnc, tDec, tables = [
                         [
                             [],
@@ -13401,7 +13364,7 @@
                         ], i = keyLen; i < 4 * keyLen + 28; i++)tmp = encKey[i - 1], (i % keyLen == 0 || 8 === keyLen && i % keyLen == 4) && (tmp = sbox[tmp >>> 24] << 24 ^ sbox[tmp >> 16 & 255] << 16 ^ sbox[tmp >> 8 & 255] << 8 ^ sbox[255 & tmp], i % keyLen == 0 && (tmp = tmp << 8 ^ tmp >>> 24 ^ rcon << 24, rcon = rcon << 1 ^ (rcon >> 7) * 283)), encKey[i] = encKey[i - keyLen] ^ tmp;
                         for(j = 0; i; j++, i--)tmp = encKey[3 & j ? i : i - 4], i <= 4 || j < 4 ? decKey[j] = tmp : decKey[j] = decTable[0][sbox[tmp >>> 24]] ^ decTable[1][sbox[tmp >> 16 & 255]] ^ decTable[2][sbox[tmp >> 8 & 255]] ^ decTable[3][sbox[255 & tmp]];
                     }
-                    return AES.prototype.decrypt = function decrypt(encrypted0, encrypted1, encrypted2, encrypted3, out, offset) {
+                    return AES.prototype.decrypt = function(encrypted0, encrypted1, encrypted2, encrypted3, out, offset) {
                         var a2, b2, c2, i, key = this._key[1], a = encrypted0 ^ key[0], b = encrypted3 ^ key[1], c = encrypted2 ^ key[2], d = encrypted1 ^ key[3], nInnerRounds = key.length / 4 - 2, kIndex = 4, table = this._tables[1], table0 = table[0], table1 = table[1], table2 = table[2], table3 = table[3], sbox = table[4];
                         for(i = 0; i < nInnerRounds; i++)a2 = table0[a >>> 24] ^ table1[b >> 16 & 255] ^ table2[c >> 8 & 255] ^ table3[255 & d] ^ key[kIndex], b2 = table0[b >>> 24] ^ table1[c >> 16 & 255] ^ table2[d >> 8 & 255] ^ table3[255 & a] ^ key[kIndex + 1], c2 = table0[c >>> 24] ^ table1[d >> 16 & 255] ^ table2[a >> 8 & 255] ^ table3[255 & b] ^ key[kIndex + 2], d = table0[d >>> 24] ^ table1[a >> 16 & 255] ^ table2[b >> 8 & 255] ^ table3[255 & c] ^ key[kIndex + 3], kIndex += 4, a = a2, b = b2, c = c2;
                         for(i = 0; i < 4; i++)out[(3 & -i) + offset] = sbox[a >>> 24] << 24 ^ sbox[b >> 16 & 255] << 16 ^ sbox[c >> 8 & 255] << 8 ^ sbox[255 & d] ^ key[kIndex++], a2 = a, a = b, b = c, c = d, d = a2;
@@ -13413,9 +13376,9 @@
                     }
                     inheritsLoose(AsyncStream, _Stream);
                     var _proto = AsyncStream.prototype;
-                    return _proto.processJob_ = function processJob_() {
+                    return _proto.processJob_ = function() {
                         this.jobs.shift()(), this.jobs.length ? this.timeout_ = setTimeout(this.processJob_.bind(this), this.delay) : this.timeout_ = null;
-                    }, _proto.push = function push(job) {
+                    }, _proto.push = function(job) {
                         this.jobs.push(job), this.timeout_ || (this.timeout_ = setTimeout(this.processJob_.bind(this), this.delay));
                     }, AsyncStream;
                 }(Stream), ntoh = function(word) {
@@ -13434,10 +13397,10 @@
                             ntoh(encrypted32[i - 1])
                         ]), this.asyncStream_.push(this.decryptChunk_(encrypted32.subarray(i, i + step), key, initVector, decrypted));
                         this.asyncStream_.push(function() {
-                            done(null, unpad(decrypted));
+                            done(null, decrypted.subarray(0, decrypted.byteLength - decrypted[decrypted.byteLength - 1]));
                         });
                     }
-                    return Decrypter.prototype.decryptChunk_ = function decryptChunk_(encrypted, key, initVector, decrypted) {
+                    return Decrypter.prototype.decryptChunk_ = function(encrypted, key, initVector, decrypted) {
                         return function() {
                             var bytes = decrypt(encrypted, key, initVector);
                             decrypted.set(bytes, encrypted.byteOffset);
@@ -13445,7 +13408,7 @@
                     }, createClass(Decrypter, null, [
                         {
                             key: "STEP",
-                            get: function get() {
+                            get: function() {
                                 return 32000;
                             }
                         }
@@ -13480,7 +13443,7 @@
             }, startLoaders = function(playlistLoader, mediaType) {
                 mediaType.activePlaylistLoader = playlistLoader, playlistLoader.load();
             }, onError = {
-                AUDIO: function AUDIO(type, settings) {
+                AUDIO: function(type, settings) {
                     return function() {
                         var segmentLoader = settings.segmentLoaders[type], mediaType = settings.mediaTypes[type], blacklistCurrentPlaylist = settings.blacklistCurrentPlaylist;
                         stopLoaders(segmentLoader, mediaType);
@@ -13497,7 +13460,7 @@
                         mediaType.onTrackChanged();
                     };
                 },
-                SUBTITLES: function SUBTITLES(type, settings) {
+                SUBTITLES: function(type, settings) {
                     return function() {
                         var segmentLoader = settings.segmentLoaders[type], mediaType = settings.mediaTypes[type];
                         videojs.log.warn("Problem encountered loading the subtitle track.Disabling subtitle track."), stopLoaders(segmentLoader, mediaType);
@@ -13506,7 +13469,7 @@
                     };
                 }
             }, setupListeners = {
-                AUDIO: function AUDIO(type, playlistLoader, settings) {
+                AUDIO: function(type, playlistLoader, settings) {
                     if (playlistLoader) {
                         var tech = settings.tech, requestOptions = settings.requestOptions, segmentLoader = settings.segmentLoaders[type];
                         playlistLoader.on("loadedmetadata", function() {
@@ -13517,7 +13480,7 @@
                         }), playlistLoader.on("error", onError[type](type, settings));
                     }
                 },
-                SUBTITLES: function SUBTITLES(type, playlistLoader, settings) {
+                SUBTITLES: function(type, playlistLoader, settings) {
                     var tech = settings.tech, requestOptions = settings.requestOptions, segmentLoader = settings.segmentLoaders[type], mediaType = settings.mediaTypes[type];
                     playlistLoader.on("loadedmetadata", function() {
                         var media = playlistLoader.media();
@@ -13527,7 +13490,7 @@
                     }), playlistLoader.on("error", onError[type](type, settings));
                 }
             }, initialize = {
-                AUDIO: function AUDIO(type, settings) {
+                AUDIO: function(type, settings) {
                     var vhs = settings.vhs, sourceType = settings.sourceType, segmentLoader = settings.segmentLoaders[type], requestOptions = settings.requestOptions, mediaGroups = settings.master.mediaGroups, _settings$mediaTypes$ = settings.mediaTypes[type], groups = _settings$mediaTypes$.groups, tracks = _settings$mediaTypes$.tracks, logger_ = _settings$mediaTypes$.logger_, masterPlaylistLoader = settings.masterPlaylistLoader, audioOnlyMaster = isAudioOnly(masterPlaylistLoader.master);
                     for(var groupId in (!mediaGroups[type] || 0 === Object.keys(mediaGroups[type]).length) && (mediaGroups[type] = {
                         main: {
@@ -13554,7 +13517,7 @@
                     }
                     segmentLoader.on("error", onError[type](type, settings));
                 },
-                SUBTITLES: function SUBTITLES(type, settings) {
+                SUBTITLES: function(type, settings) {
                     var tech = settings.tech, vhs = settings.vhs, sourceType = settings.sourceType, segmentLoader = settings.segmentLoaders[type], requestOptions = settings.requestOptions, mediaGroups = settings.master.mediaGroups, _settings$mediaTypes$2 = settings.mediaTypes[type], groups = _settings$mediaTypes$2.groups, tracks = _settings$mediaTypes$2.tracks, masterPlaylistLoader = settings.masterPlaylistLoader;
                     for(var groupId in mediaGroups[type])for(var variantLabel in groups[groupId] || (groups[groupId] = []), mediaGroups[type][groupId])if (!mediaGroups[type][groupId][variantLabel].forced) {
                         var properties = mediaGroups[type][groupId][variantLabel], playlistLoader = void 0;
@@ -13581,7 +13544,7 @@
                     }
                     segmentLoader.on("error", onError[type](type, settings));
                 },
-                "CLOSED-CAPTIONS": function CLOSEDCAPTIONS(type, settings) {
+                "CLOSED-CAPTIONS": function(type, settings) {
                     var tech = settings.tech, mediaGroups = settings.master.mediaGroups, _settings$mediaTypes$3 = settings.mediaTypes[type], groups = _settings$mediaTypes$3.groups, tracks = _settings$mediaTypes$3.tracks;
                     for(var groupId in mediaGroups[type])for(var variantLabel in groups[groupId] || (groups[groupId] = []), mediaGroups[type][groupId]){
                         var properties = mediaGroups[type][groupId][variantLabel];
@@ -13611,14 +13574,14 @@
                 for(var i = 0; i < list.length; i++)if (playlistMatch(media, list[i]) || list[i].playlists && groupMatch(list[i].playlists, media)) return !0;
                 return !1;
             }, activeTrack = {
-                AUDIO: function AUDIO(type, settings) {
+                AUDIO: function(type, settings) {
                     return function() {
                         var tracks = settings.mediaTypes[type].tracks;
                         for(var id in tracks)if (tracks[id].enabled) return tracks[id];
                         return null;
                     };
                 },
-                SUBTITLES: function SUBTITLES(type, settings) {
+                SUBTITLES: function(type, settings) {
                     return function() {
                         var tracks = settings.mediaTypes[type].tracks;
                         for(var id in tracks)if ("showing" === tracks[id].mode || "hidden" === tracks[id].mode) return tracks[id];
@@ -13805,19 +13768,19 @@
                         captionServices: captionServices,
                         mediaSource: _this.mediaSource,
                         currentTime: _this.tech_.currentTime.bind(_this.tech_),
-                        seekable: function seekable() {
+                        seekable: function() {
                             return _this.seekable();
                         },
-                        seeking: function seeking() {
+                        seeking: function() {
                             return _this.tech_.seeking();
                         },
-                        duration: function duration() {
+                        duration: function() {
                             return _this.duration();
                         },
-                        hasPlayed: function hasPlayed() {
+                        hasPlayed: function() {
                             return _this.hasPlayed_;
                         },
-                        goalBufferLength: function goalBufferLength() {
+                        goalBufferLength: function() {
                             return _this.goalBufferLength();
                         },
                         bandwidth: bandwidth,
@@ -13859,32 +13822,32 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(MasterPlaylistController, _videojs$EventTarget);
                 var _proto = MasterPlaylistController.prototype;
-                return _proto.mainAppendsToLoadedData_ = function mainAppendsToLoadedData_() {
+                return _proto.mainAppendsToLoadedData_ = function() {
                     return this.mainAppendsToLoadedData__;
-                }, _proto.audioAppendsToLoadedData_ = function audioAppendsToLoadedData_() {
+                }, _proto.audioAppendsToLoadedData_ = function() {
                     return this.audioAppendsToLoadedData__;
-                }, _proto.appendsToLoadedData_ = function appendsToLoadedData_() {
+                }, _proto.appendsToLoadedData_ = function() {
                     var main = this.mainAppendsToLoadedData_(), audio = this.audioAppendsToLoadedData_();
                     return -1 === main || -1 === audio ? -1 : main + audio;
-                }, _proto.timeToLoadedData_ = function timeToLoadedData_() {
+                }, _proto.timeToLoadedData_ = function() {
                     return this.timeToLoadedData__;
-                }, _proto.checkABR_ = function checkABR_() {
+                }, _proto.checkABR_ = function() {
                     var nextPlaylist = this.selectPlaylist();
                     nextPlaylist && this.shouldSwitchToMedia_(nextPlaylist) && this.switchMedia_(nextPlaylist, "abr");
-                }, _proto.switchMedia_ = function switchMedia_(playlist, cause, delay) {
+                }, _proto.switchMedia_ = function(playlist, cause, delay) {
                     var oldMedia = this.media(), oldId = oldMedia && (oldMedia.id || oldMedia.uri), newId = playlist.id || playlist.uri;
                     oldId && oldId !== newId && (this.logger_("switch media " + oldId + " -> " + newId + " from " + cause), this.tech_.trigger({
                         type: "usage",
                         name: "vhs-rendition-change-" + cause
                     })), this.masterPlaylistLoader_.media(playlist, delay);
-                }, _proto.startABRTimer_ = function startABRTimer_() {
+                }, _proto.startABRTimer_ = function() {
                     var _this2 = this;
                     this.stopABRTimer_(), this.abrTimer_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setInterval(function() {
                         return _this2.checkABR_();
                     }, 250);
-                }, _proto.stopABRTimer_ = function stopABRTimer_() {
+                }, _proto.stopABRTimer_ = function() {
                     this.tech_.scrubbing && this.tech_.scrubbing() || (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearInterval(this.abrTimer_), this.abrTimer_ = null);
-                }, _proto.getAudioTrackPlaylists_ = function getAudioTrackPlaylists_() {
+                }, _proto.getAudioTrackPlaylists_ = function() {
                     var track, master = this.master(), defaultPlaylists = master && master.playlists || [];
                     if (!master || !master.mediaGroups || !master.mediaGroups.AUDIO) return defaultPlaylists;
                     var AUDIO = master.mediaGroups.AUDIO, groupKeys = Object.keys(AUDIO);
@@ -13910,7 +13873,7 @@
                         }
                     }
                     return playlists.length ? playlists : defaultPlaylists;
-                }, _proto.setupMasterPlaylistLoaderListeners_ = function setupMasterPlaylistLoaderListeners_() {
+                }, _proto.setupMasterPlaylistLoaderListeners_ = function() {
                     var _this3 = this;
                     this.masterPlaylistLoader_.on("loadedmetadata", function() {
                         var media = _this3.masterPlaylistLoader_.media(), requestTimeout = 1500 * media.targetDuration;
@@ -13972,9 +13935,9 @@
                             name: "hls-rendition-enabled"
                         });
                     });
-                }, _proto.handleUpdatedMediaPlaylist = function handleUpdatedMediaPlaylist(updatedPlaylist) {
+                }, _proto.handleUpdatedMediaPlaylist = function(updatedPlaylist) {
                     this.useCueTags_ && this.updateAdCues_(updatedPlaylist), this.mainSegmentLoader_.playlist(updatedPlaylist, this.requestOptions_), this.updateDuration(!updatedPlaylist.endList), !this.tech_.paused() && (this.mainSegmentLoader_.load(), this.audioSegmentLoader_ && this.audioSegmentLoader_.load());
-                }, _proto.triggerPresenceUsage_ = function triggerPresenceUsage_(master, media) {
+                }, _proto.triggerPresenceUsage_ = function(master, media) {
                     var mediaGroups = master.mediaGroups || {}, defaultDemuxed = !0, audioGroupKeys = Object.keys(mediaGroups.AUDIO);
                     for(var mediaGroup in mediaGroups.AUDIO)for(var label in mediaGroups.AUDIO[mediaGroup])mediaGroups.AUDIO[mediaGroup][label].uri || (defaultDemuxed = !1);
                     defaultDemuxed && (this.tech_.trigger({
@@ -14008,7 +13971,7 @@
                         type: "usage",
                         name: "hls-playlist-cue-tags"
                     }));
-                }, _proto.shouldSwitchToMedia_ = function shouldSwitchToMedia_(nextPlaylist) {
+                }, _proto.shouldSwitchToMedia_ = function(nextPlaylist) {
                     var currentPlaylist = this.masterPlaylistLoader_.media() || this.masterPlaylistLoader_.pendingMedia_, currentTime = this.tech_.currentTime(), bufferLowWaterLine = this.bufferLowWaterLine(), bufferHighWaterLine = this.bufferHighWaterLine();
                     return shouldSwitchToMedia({
                         buffered: this.tech_.buffered(),
@@ -14021,7 +13984,7 @@
                         experimentalBufferBasedABR: this.experimentalBufferBasedABR,
                         log: this.logger_
                     });
-                }, _proto.setupSegmentLoaderListeners_ = function setupSegmentLoaderListeners_() {
+                }, _proto.setupSegmentLoaderListeners_ = function() {
                     var _this4 = this;
                     this.experimentalBufferBasedABR || (this.mainSegmentLoader_.on("bandwidthupdate", function() {
                         var nextPlaylist = _this4.selectPlaylist();
@@ -14079,13 +14042,13 @@
                     }), this.audioSegmentLoader_.on("ended", function() {
                         _this4.logger_("audioSegmentLoader ended"), _this4.onEndOfStream();
                     });
-                }, _proto.mediaSecondsLoaded_ = function mediaSecondsLoaded_() {
+                }, _proto.mediaSecondsLoaded_ = function() {
                     return Math.max(this.audioSegmentLoader_.mediaSecondsLoaded + this.mainSegmentLoader_.mediaSecondsLoaded);
-                }, _proto.load = function load() {
+                }, _proto.load = function() {
                     this.mainSegmentLoader_.load(), this.mediaTypes_.AUDIO.activePlaylistLoader && this.audioSegmentLoader_.load(), this.mediaTypes_.SUBTITLES.activePlaylistLoader && this.subtitleSegmentLoader_.load();
-                }, _proto.smoothQualityChange_ = function smoothQualityChange_(media) {
+                }, _proto.smoothQualityChange_ = function(media) {
                     void 0 === media && (media = this.selectPlaylist()), this.fastQualityChange_(media);
-                }, _proto.fastQualityChange_ = function fastQualityChange_(media) {
+                }, _proto.fastQualityChange_ = function(media) {
                     var _this5 = this;
                     if (void 0 === media && (media = this.selectPlaylist()), media === this.masterPlaylistLoader_.media()) {
                         this.logger_("skipping fastQualityChange because new media is same as old");
@@ -14094,13 +14057,13 @@
                     this.switchMedia_(media, "fast-quality"), this.mainSegmentLoader_.resetEverything(function() {
                         videojs.browser.IE_VERSION || videojs.browser.IS_EDGE ? _this5.tech_.setCurrentTime(_this5.tech_.currentTime() + 0.04) : _this5.tech_.setCurrentTime(_this5.tech_.currentTime());
                     });
-                }, _proto.play = function play() {
+                }, _proto.play = function() {
                     if (!this.setupFirstPlay()) {
                         this.tech_.ended() && this.tech_.setCurrentTime(0), this.hasPlayed_ && this.load();
                         var seekable = this.tech_.seekable();
                         if (this.tech_.duration() === 1 / 0 && this.tech_.currentTime() < seekable.start(0)) return this.tech_.setCurrentTime(seekable.end(seekable.length - 1));
                     }
-                }, _proto.setupFirstPlay = function setupFirstPlay() {
+                }, _proto.setupFirstPlay = function() {
                     var _this6 = this, media = this.masterPlaylistLoader_.media();
                     if (!media || this.tech_.paused() || this.hasPlayed_) return !1;
                     if (!media.endList) {
@@ -14112,13 +14075,13 @@
                         this.trigger("firstplay"), this.tech_.setCurrentTime(seekable.end(0));
                     }
                     return this.hasPlayed_ = !0, this.load(), !0;
-                }, _proto.handleSourceOpen_ = function handleSourceOpen_() {
+                }, _proto.handleSourceOpen_ = function() {
                     if (this.tryToCreateSourceBuffers_(), this.tech_.autoplay()) {
                         var playPromise = this.tech_.play();
                         void 0 !== playPromise && "function" == typeof playPromise.then && playPromise.then(null, function(e) {});
                     }
                     this.trigger("sourceopen");
-                }, _proto.handleSourceEnded_ = function handleSourceEnded_() {
+                }, _proto.handleSourceEnded_ = function() {
                     if (this.inbandTextTracks_.metadataTrack_) {
                         var cues = this.inbandTextTracks_.metadataTrack_.cues;
                         if (cues && cues.length) {
@@ -14126,16 +14089,16 @@
                             cues[cues.length - 1].endTime = isNaN(duration) || Math.abs(duration) === 1 / 0 ? Number.MAX_VALUE : duration;
                         }
                     }
-                }, _proto.handleDurationChange_ = function handleDurationChange_() {
+                }, _proto.handleDurationChange_ = function() {
                     this.tech_.trigger("durationchange");
-                }, _proto.onEndOfStream = function onEndOfStream() {
+                }, _proto.onEndOfStream = function() {
                     var isEndOfStream = this.mainSegmentLoader_.ended_;
                     if (this.mediaTypes_.AUDIO.activePlaylistLoader) {
                         var mainMediaInfo = this.mainSegmentLoader_.getCurrentMediaInfo_();
                         isEndOfStream = !mainMediaInfo || mainMediaInfo.hasVideo ? isEndOfStream && this.audioSegmentLoader_.ended_ : this.audioSegmentLoader_.ended_;
                     }
                     isEndOfStream && (this.stopABRTimer_(), this.sourceUpdater_.endOfStream());
-                }, _proto.stuckAtPlaylistEnd_ = function stuckAtPlaylistEnd_(playlist) {
+                }, _proto.stuckAtPlaylistEnd_ = function(playlist) {
                     if (!this.seekable().length) return !1;
                     var expired = this.syncController_.getExpiredTime(playlist, this.duration());
                     if (null === expired) return !1;
@@ -14143,7 +14106,7 @@
                     if (!buffered.length) return absolutePlaylistEnd - currentTime <= SAFE_TIME_DELTA;
                     var bufferedEnd = buffered.end(buffered.length - 1);
                     return bufferedEnd - currentTime <= SAFE_TIME_DELTA && absolutePlaylistEnd - bufferedEnd <= SAFE_TIME_DELTA;
-                }, _proto.blacklistCurrentPlaylist = function blacklistCurrentPlaylist(error, blacklistDuration) {
+                }, _proto.blacklistCurrentPlaylist = function(error, blacklistDuration) {
                     void 0 === error && (error = {});
                     var excludeUntil, currentPlaylist = error.playlist || this.masterPlaylistLoader_.media();
                     if (blacklistDuration = blacklistDuration || error.blacklistDuration || this.blacklistDuration, !currentPlaylist) {
@@ -14187,12 +14150,12 @@
                     ]);
                     var delayDuration = nextPlaylist.targetDuration / 2 * 1000 || 5000, shouldDelay = "number" == typeof nextPlaylist.lastRequest && Date.now() - nextPlaylist.lastRequest <= delayDuration;
                     return this.switchMedia_(nextPlaylist, "exclude", isFinalRendition || shouldDelay);
-                }, _proto.pauseLoading = function pauseLoading() {
+                }, _proto.pauseLoading = function() {
                     this.delegateLoaders_("all", [
                         "abort",
                         "pause"
                     ]), this.stopABRTimer_();
-                }, _proto.delegateLoaders_ = function delegateLoaders_(filter, fnNames) {
+                }, _proto.delegateLoaders_ = function(filter, fnNames) {
                     var _this7 = this, loaders = [], dontFilterPlaylist = "all" === filter;
                     (dontFilterPlaylist || "main" === filter) && loaders.push(this.masterPlaylistLoader_);
                     var mediaTypes = [];
@@ -14211,16 +14174,16 @@
                             "function" == typeof loader[fnName] && loader[fnName]();
                         });
                     });
-                }, _proto.setCurrentTime = function setCurrentTime(currentTime) {
+                }, _proto.setCurrentTime = function(currentTime) {
                     var buffered = findRange(this.tech_.buffered(), currentTime);
                     return this.masterPlaylistLoader_ && this.masterPlaylistLoader_.media() && this.masterPlaylistLoader_.media().segments ? buffered && buffered.length ? currentTime : void (this.mainSegmentLoader_.resetEverything(), this.mainSegmentLoader_.abort(), this.mediaTypes_.AUDIO.activePlaylistLoader && (this.audioSegmentLoader_.resetEverything(), this.audioSegmentLoader_.abort()), this.mediaTypes_.SUBTITLES.activePlaylistLoader && (this.subtitleSegmentLoader_.resetEverything(), this.subtitleSegmentLoader_.abort()), this.load()) : 0;
-                }, _proto.duration = function duration() {
+                }, _proto.duration = function() {
                     if (!this.masterPlaylistLoader_) return 0;
                     var media = this.masterPlaylistLoader_.media();
                     return media ? media.endList ? this.mediaSource ? this.mediaSource.duration : Vhs$1.Playlist.duration(media) : 1 / 0 : 0;
-                }, _proto.seekable = function seekable() {
+                }, _proto.seekable = function() {
                     return this.seekable_;
-                }, _proto.onSyncInfoUpdate_ = function onSyncInfoUpdate_() {
+                }, _proto.onSyncInfoUpdate_ = function() {
                     if (!(!this.masterPlaylistLoader_ || this.sourceUpdater_.hasCreatedSourceBuffers())) {
                         var audioSeekable, oldEnd, oldStart, media = this.masterPlaylistLoader_.media();
                         if (media) {
@@ -14236,7 +14199,7 @@
                             }
                         }
                     }
-                }, _proto.updateDuration = function updateDuration(isLive) {
+                }, _proto.updateDuration = function(isLive) {
                     if (this.updateDuration_ && (this.mediaSource.removeEventListener("sourceopen", this.updateDuration_), this.updateDuration_ = null), "open" !== this.mediaSource.readyState) {
                         this.updateDuration_ = this.updateDuration.bind(this, isLive), this.mediaSource.addEventListener("sourceopen", this.updateDuration_);
                         return;
@@ -14249,7 +14212,7 @@
                     }
                     var buffered = this.tech_.buffered(), duration = Vhs$1.Playlist.duration(this.masterPlaylistLoader_.media());
                     buffered.length > 0 && (duration = Math.max(duration, buffered.end(buffered.length - 1))), this.mediaSource.duration !== duration && this.sourceUpdater_.setDuration(duration);
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     var _this8 = this;
                     this.trigger("dispose"), this.decrypter_.terminate(), this.masterPlaylistLoader_.dispose(), this.mainSegmentLoader_.dispose(), this.loadOnPlay_ && this.tech_.off("play", this.loadOnPlay_), [
                         "AUDIO",
@@ -14260,14 +14223,14 @@
                             group.playlistLoader && group.playlistLoader.dispose();
                         });
                     }), this.audioSegmentLoader_.dispose(), this.subtitleSegmentLoader_.dispose(), this.sourceUpdater_.dispose(), this.timelineChangeController_.dispose(), this.stopABRTimer_(), this.updateDuration_ && this.mediaSource.removeEventListener("sourceopen", this.updateDuration_), this.mediaSource.removeEventListener("durationchange", this.handleDurationChange_), this.mediaSource.removeEventListener("sourceopen", this.handleSourceOpen_), this.mediaSource.removeEventListener("sourceended", this.handleSourceEnded_), this.off();
-                }, _proto.master = function master() {
+                }, _proto.master = function() {
                     return this.masterPlaylistLoader_.master;
-                }, _proto.media = function media() {
+                }, _proto.media = function() {
                     return this.masterPlaylistLoader_.media() || this.initialMedia_;
-                }, _proto.areMediaTypesKnown_ = function areMediaTypesKnown_() {
+                }, _proto.areMediaTypesKnown_ = function() {
                     var usingAudioLoader = !!this.mediaTypes_.AUDIO.activePlaylistLoader, hasMainMediaInfo = !!this.mainSegmentLoader_.getCurrentMediaInfo_(), hasAudioMediaInfo = !usingAudioLoader || !!this.audioSegmentLoader_.getCurrentMediaInfo_();
                     return !!hasMainMediaInfo && !!hasAudioMediaInfo;
-                }, _proto.getCodecsOrExclude_ = function getCodecsOrExclude_() {
+                }, _proto.getCodecsOrExclude_ = function() {
                     var unsupportedAudio, _this9 = this, media = {
                         main: this.mainSegmentLoader_.getCurrentMediaInfo_() || {},
                         audio: this.audioSegmentLoader_.getCurrentMediaInfo_() || {}
@@ -14329,7 +14292,7 @@
                         }
                     }
                     return codecs;
-                }, _proto.tryToCreateSourceBuffers_ = function tryToCreateSourceBuffers_() {
+                }, _proto.tryToCreateSourceBuffers_ = function() {
                     if (!("open" !== this.mediaSource.readyState || this.sourceUpdater_.hasCreatedSourceBuffers()) && this.areMediaTypesKnown_()) {
                         var codecs = this.getCodecsOrExclude_();
                         if (codecs) {
@@ -14341,7 +14304,7 @@
                             this.excludeIncompatibleVariants_(codecString);
                         }
                     }
-                }, _proto.excludeUnsupportedVariants_ = function excludeUnsupportedVariants_() {
+                }, _proto.excludeUnsupportedVariants_ = function() {
                     var _this10 = this, playlists = this.master().playlists, ids = [];
                     Object.keys(playlists).forEach(function(key) {
                         var variant = playlists[key];
@@ -14351,7 +14314,7 @@
                             !codecs.audio || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.Hi)(codecs.audio) || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)(codecs.audio) || unsupported.push("audio codec " + codecs.audio), !codecs.video || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.Hi)(codecs.video) || (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)(codecs.video) || unsupported.push("video codec " + codecs.video), codecs.text && "stpp.ttml.im1t" === codecs.text && unsupported.push("text codec " + codecs.text), unsupported.length && (variant.excludeUntil = 1 / 0, _this10.logger_("excluding " + variant.id + " for unsupported: " + unsupported.join(", ")));
                         }
                     });
-                }, _proto.excludeIncompatibleVariants_ = function excludeIncompatibleVariants_(codecString) {
+                }, _proto.excludeIncompatibleVariants_ = function(codecString) {
                     var _this11 = this, ids = [], playlists = this.master().playlists, codecs = unwrapCodecList((0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(codecString)), codecCount_ = codecCount(codecs), videoDetails = codecs.video && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(codecs.video)[0] || null, audioDetails = codecs.audio && (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.kS)(codecs.audio)[0] || null;
                     Object.keys(playlists).forEach(function(key) {
                         var variant = playlists[key];
@@ -14367,16 +14330,16 @@
                             }
                         }
                     });
-                }, _proto.updateAdCues_ = function updateAdCues_(media) {
+                }, _proto.updateAdCues_ = function(media) {
                     var offset = 0, seekable = this.seekable();
                     seekable.length && (offset = seekable.start(0)), updateAdCues(media, this.cueTagsTrack_, offset);
-                }, _proto.goalBufferLength = function goalBufferLength() {
+                }, _proto.goalBufferLength = function() {
                     var currentTime = this.tech_.currentTime(), initial = Config.GOAL_BUFFER_LENGTH, rate = Config.GOAL_BUFFER_LENGTH_RATE, max = Math.max(initial, Config.MAX_GOAL_BUFFER_LENGTH);
                     return Math.min(initial + currentTime * rate, max);
-                }, _proto.bufferLowWaterLine = function bufferLowWaterLine() {
+                }, _proto.bufferLowWaterLine = function() {
                     var currentTime = this.tech_.currentTime(), initial = Config.BUFFER_LOW_WATER_LINE, rate = Config.BUFFER_LOW_WATER_LINE_RATE, max = Math.max(initial, Config.MAX_BUFFER_LOW_WATER_LINE), newMax = Math.max(initial, Config.EXPERIMENTAL_MAX_BUFFER_LOW_WATER_LINE);
                     return Math.min(initial + currentTime * rate, this.experimentalBufferBasedABR ? newMax : max);
-                }, _proto.bufferHighWaterLine = function bufferHighWaterLine() {
+                }, _proto.bufferHighWaterLine = function() {
                     return Config.BUFFER_HIGH_WATER_LINE;
                 }, MasterPlaylistController;
             }(videojs.EventTarget), Representation = function(vhsHandler, playlist, id) {
@@ -14423,10 +14386,10 @@
                     ], loaderChecks = {};
                     loaderTypes.forEach(function(type) {
                         loaderChecks[type] = {
-                            reset: function reset() {
+                            reset: function() {
                                 return _this.resetSegmentDownloads_(type);
                             },
-                            updateend: function updateend() {
+                            updateend: function() {
                                 return _this.checkSegmentDownloads_(type);
                             }
                         }, mpc[type + "SegmentLoader_"].on("appendsdone", loaderChecks[type].updateend), mpc[type + "SegmentLoader_"].on("playlistupdate", loaderChecks[type].reset), _this.tech_.on([
@@ -14458,12 +14421,12 @@
                     };
                 }
                 var _proto = PlaybackWatcher.prototype;
-                return _proto.monitorCurrentTime_ = function monitorCurrentTime_() {
+                return _proto.monitorCurrentTime_ = function() {
                     this.checkCurrentTime_(), this.checkCurrentTimeTimeout_ && global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.checkCurrentTimeTimeout_), this.checkCurrentTimeTimeout_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(this.monitorCurrentTime_.bind(this), 250);
-                }, _proto.resetSegmentDownloads_ = function resetSegmentDownloads_(type) {
+                }, _proto.resetSegmentDownloads_ = function(type) {
                     var loader = this.masterPlaylistController_[type + "SegmentLoader_"];
                     this[type + "StalledDownloads_"] > 0 && this.logger_("resetting possible stalled download count for " + type + " loader"), this[type + "StalledDownloads_"] = 0, this[type + "Buffered_"] = loader.buffered_();
-                }, _proto.checkSegmentDownloads_ = function checkSegmentDownloads_(type) {
+                }, _proto.checkSegmentDownloads_ = function(type) {
                     var mpc = this.masterPlaylistController_, loader = mpc[type + "SegmentLoader_"], buffered = loader.buffered_(), isBufferedDifferent = isRangeDifferent(this[type + "Buffered_"], buffered);
                     if (this[type + "Buffered_"] = buffered, isBufferedDifferent) {
                         this.resetSegmentDownloads_(type);
@@ -14478,15 +14441,15 @@
                     }), "subtitle" !== type && mpc.blacklistCurrentPlaylist({
                         message: "Excessive " + type + " segment downloading detected."
                     }, 1 / 0));
-                }, _proto.checkCurrentTime_ = function checkCurrentTime_() {
+                }, _proto.checkCurrentTime_ = function() {
                     if (!(this.tech_.paused() || this.tech_.seeking())) {
                         var currentTime = this.tech_.currentTime(), buffered = this.tech_.buffered();
                         if (this.lastRecordedTime === currentTime && (!buffered.length || currentTime + SAFE_TIME_DELTA >= buffered.end(buffered.length - 1))) return this.techWaiting_();
                         this.consecutiveUpdates >= 5 && currentTime === this.lastRecordedTime ? (this.consecutiveUpdates++, this.waiting_()) : currentTime === this.lastRecordedTime ? this.consecutiveUpdates++ : (this.consecutiveUpdates = 0, this.lastRecordedTime = currentTime);
                     }
-                }, _proto.cancelTimer_ = function cancelTimer_() {
+                }, _proto.cancelTimer_ = function() {
                     this.consecutiveUpdates = 0, this.timer_ && (this.logger_("cancelTimer_"), clearTimeout(this.timer_)), this.timer_ = null;
-                }, _proto.fixesBadSeeks_ = function fixesBadSeeks_() {
+                }, _proto.fixesBadSeeks_ = function() {
                     if (!this.tech_.seeking()) return !1;
                     var seekTo, seekable = this.seekable(), currentTime = this.tech_.currentTime();
                     if (this.afterSeekableWindow_(seekable, currentTime, this.media(), this.allowSeeksWithinUnsafeLiveWindow) && (seekTo = seekable.end(seekable.length - 1)), this.beforeSeekableWindow_(seekable, currentTime)) {
@@ -14500,7 +14463,7 @@
                     ], i = 0; i < bufferedToCheck.length; i++)if (bufferedToCheck[i] && timeAheadOf(bufferedToCheck[i], currentTime) < minAppendedDuration) return !1;
                     var nextRange = findNextRange(buffered, currentTime);
                     return 0 !== nextRange.length && (seekTo = nextRange.start(0) + SAFE_TIME_DELTA, this.logger_("Buffered region starts (" + nextRange.start(0) + ")  just beyond seek point (" + currentTime + "). Seeking to " + seekTo + "."), this.tech_.setCurrentTime(seekTo), !0);
-                }, _proto.waiting_ = function waiting_() {
+                }, _proto.waiting_ = function() {
                     if (!this.techWaiting_()) {
                         var currentTime = this.tech_.currentTime(), currentRange = findRange(this.tech_.buffered(), currentTime);
                         if (currentRange.length && currentTime + 3 <= currentRange.end(0)) {
@@ -14514,7 +14477,7 @@
                             return;
                         }
                     }
-                }, _proto.techWaiting_ = function techWaiting_() {
+                }, _proto.techWaiting_ = function() {
                     var seekable = this.seekable(), currentTime = this.tech_.currentTime();
                     if (this.tech_.seeking() || null !== this.timer_) return !0;
                     if (this.beforeSeekableWindow_(seekable, currentTime)) {
@@ -14545,13 +14508,13 @@
                         return this.logger_("Stopped at " + currentTime + ", setting timer for " + difference + ", seeking to " + nextRange.start(0)), this.cancelTimer_(), this.timer_ = setTimeout(this.skipTheGap_.bind(this), 1000 * difference, currentTime), !0;
                     }
                     return !1;
-                }, _proto.afterSeekableWindow_ = function afterSeekableWindow_(seekable, currentTime, playlist, allowSeeksWithinUnsafeLiveWindow) {
+                }, _proto.afterSeekableWindow_ = function(seekable, currentTime, playlist, allowSeeksWithinUnsafeLiveWindow) {
                     if (void 0 === allowSeeksWithinUnsafeLiveWindow && (allowSeeksWithinUnsafeLiveWindow = !1), !seekable.length) return !1;
                     var allowedEnd = seekable.end(seekable.length - 1) + SAFE_TIME_DELTA;
                     return !playlist.endList && allowSeeksWithinUnsafeLiveWindow && (allowedEnd = seekable.end(seekable.length - 1) + 3 * playlist.targetDuration), currentTime > allowedEnd;
-                }, _proto.beforeSeekableWindow_ = function beforeSeekableWindow_(seekable, currentTime) {
+                }, _proto.beforeSeekableWindow_ = function(seekable, currentTime) {
                     return !!(seekable.length && seekable.start(0) > 0 && currentTime < seekable.start(0) - this.liveRangeSafeTimeDelta);
-                }, _proto.videoUnderflow_ = function videoUnderflow_(_ref) {
+                }, _proto.videoUnderflow_ = function(_ref) {
                     var gap, videoBuffered = _ref.videoBuffered, audioBuffered = _ref.audioBuffered, currentTime = _ref.currentTime;
                     if (videoBuffered) {
                         if (videoBuffered.length && audioBuffered.length) {
@@ -14563,7 +14526,7 @@
                         } else findNextRange(videoBuffered, currentTime).length || (gap = this.gapFromVideoUnderflow_(videoBuffered, currentTime));
                         return !!gap && (this.logger_("Encountered a gap in video from " + gap.start + " to " + gap.end + ". Seeking to current time " + currentTime), !0);
                     }
-                }, _proto.skipTheGap_ = function skipTheGap_(scheduledCurrentTime) {
+                }, _proto.skipTheGap_ = function(scheduledCurrentTime) {
                     var buffered = this.tech_.buffered(), currentTime = this.tech_.currentTime(), nextRange = findNextRange(buffered, currentTime);
                     this.cancelTimer_(), 0 !== nextRange.length && currentTime === scheduledCurrentTime && (this.logger_("skipTheGap_:", "currentTime:", currentTime, "scheduled currentTime:", scheduledCurrentTime, "nextRange start:", nextRange.start(0)), this.tech_.setCurrentTime(nextRange.start(0) + TIME_FUDGE_FACTOR), this.tech_.trigger({
                         type: "usage",
@@ -14572,7 +14535,7 @@
                         type: "usage",
                         name: "hls-gap-skip"
                     }));
-                }, _proto.gapFromVideoUnderflow_ = function gapFromVideoUnderflow_(buffered, currentTime) {
+                }, _proto.gapFromVideoUnderflow_ = function(buffered, currentTime) {
                     for(var gaps = findGaps(buffered), i = 0; i < gaps.length; i++){
                         var start = gaps.start(i), end = gaps.end(i);
                         if (currentTime - start < 4 && currentTime - start > 2) return {
@@ -14584,7 +14547,7 @@
                 }, PlaybackWatcher;
             }(), defaultOptions = {
                 errorInterval: 30,
-                getSource: function getSource(next) {
+                getSource: function(next) {
                     return next(this.tech({
                         IWillNotUseThisInPlugins: !0
                     }).currentSource_ || this.currentSource());
@@ -14663,10 +14626,10 @@
             };
             Object.keys(Config).forEach(function(prop) {
                 Object.defineProperty(Vhs, prop, {
-                    get: function get() {
+                    get: function() {
                         return videojs.log.warn("using Vhs." + prop + " is UNSAFE be sure you know what you are doing"), Config[prop];
                     },
-                    set: function set(value) {
+                    set: function(value) {
                         if (videojs.log.warn("using Vhs." + prop + " is UNSAFE be sure you know what you are doing"), "number" != typeof value || value < 0) {
                             videojs.log.warn("value of Vhs." + prop + " must be greater than or equal to 0");
                             return;
@@ -14780,7 +14743,7 @@
                     if (_this = _Component.call(this, tech, videojs.mergeOptions(options.hls, options.vhs)) || this, options.hls && Object.keys(options.hls).length && videojs.log.warn("Using hls options is deprecated. Use vhs instead."), "number" == typeof options.initialBandwidth && (_this.options_.bandwidth = options.initialBandwidth), _this.logger_ = logger("VhsHandler"), tech.options_ && tech.options_.playerId) {
                         var _player = videojs(tech.options_.playerId);
                         _player.hasOwnProperty("hls") || Object.defineProperty(_player, "hls", {
-                            get: function get() {
+                            get: function() {
                                 return videojs.log.warn("player.hls is deprecated. Use player.tech().vhs instead."), tech.trigger({
                                     type: "usage",
                                     name: "hls-player-access"
@@ -14788,7 +14751,7 @@
                             },
                             configurable: !0
                         }), _player.hasOwnProperty("vhs") || Object.defineProperty(_player, "vhs", {
-                            get: function get() {
+                            get: function() {
                                 return videojs.log.warn("player.vhs is deprecated. Use player.tech().vhs instead."), tech.trigger({
                                     type: "usage",
                                     name: "vhs-player-access"
@@ -14796,7 +14759,7 @@
                             },
                             configurable: !0
                         }), _player.hasOwnProperty("dash") || Object.defineProperty(_player, "dash", {
-                            get: function get() {
+                            get: function() {
                                 return videojs.log.warn("player.dash is deprecated. Use player.tech().vhs instead."), (0, _babel_runtime_helpers_assertThisInitialized__WEBPACK_IMPORTED_MODULE_17__.Z)(_this);
                             },
                             configurable: !0
@@ -14824,7 +14787,7 @@
                 }
                 (0, _babel_runtime_helpers_inheritsLoose__WEBPACK_IMPORTED_MODULE_16__.Z)(VhsHandler, _Component);
                 var _proto = VhsHandler.prototype;
-                return _proto.setOptions_ = function setOptions_() {
+                return _proto.setOptions_ = function() {
                     var _this2 = this;
                     if (this.options_.withCredentials = this.options_.withCredentials || !1, this.options_.handleManifestRedirects = !1 !== this.options_.handleManifestRedirects, this.options_.limitRenditionByPlayerDimensions = !1 !== this.options_.limitRenditionByPlayerDimensions, this.options_.useDevicePixelRatio = this.options_.useDevicePixelRatio || !1, this.options_.smoothQualityChange = this.options_.smoothQualityChange || !1, this.options_.useBandwidthFromLocalStorage = void 0 !== this.source_.useBandwidthFromLocalStorage ? this.source_.useBandwidthFromLocalStorage : this.options_.useBandwidthFromLocalStorage || !1, this.options_.useNetworkInformationApi = this.options_.useNetworkInformationApi || !1, this.options_.customTagParsers = this.options_.customTagParsers || [], this.options_.customTagMappers = this.options_.customTagMappers || [], this.options_.cacheEncryptionKeys = this.options_.cacheEncryptionKeys || !1, "number" != typeof this.options_.blacklistDuration && (this.options_.blacklistDuration = 300), "number" != typeof this.options_.bandwidth && this.options_.useBandwidthFromLocalStorage) {
                         var storedObject = getVhsLocalStorage();
@@ -14863,7 +14826,7 @@
                     ].forEach(function(option) {
                         void 0 !== _this2.source_[option] && (_this2.options_[option] = _this2.source_[option]);
                     }), this.limitRenditionByPlayerDimensions = this.options_.limitRenditionByPlayerDimensions, this.useDevicePixelRatio = this.options_.useDevicePixelRatio;
-                }, _proto.src = function src(_src, type) {
+                }, _proto.src = function(_src, type) {
                     var dataUri, _this3 = this;
                     if (_src) {
                         this.setOptions_(), this.options_.src = 0 === (dataUri = this.source_.src).toLowerCase().indexOf("data:application/vnd.videojs.vhs+json,") ? JSON.parse(dataUri.substring(dataUri.indexOf(",") + 1)) : dataUri, this.options_.tech = this.tech_, this.options_.externVhs = Vhs, this.options_.sourceType = (0, _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__.t)(type), this.options_.seekTo = function(time) {
@@ -14872,10 +14835,10 @@
                         var playbackWatcherOptions = videojs.mergeOptions({
                             liveRangeSafeTimeDelta: SAFE_TIME_DELTA
                         }, this.options_, {
-                            seekable: function seekable() {
+                            seekable: function() {
                                 return _this3.seekable();
                             },
-                            media: function media() {
+                            media: function() {
                                 return _this3.masterPlaylistController_.media();
                             },
                             masterPlaylistController: this.masterPlaylistController_
@@ -14890,23 +14853,23 @@
                         var defaultSelector = this.options_.experimentalBufferBasedABR ? Vhs.movingAverageBandwidthSelector(0.55) : Vhs.STANDARD_PLAYLIST_SELECTOR;
                         this.masterPlaylistController_.selectPlaylist = this.selectPlaylist ? this.selectPlaylist.bind(this) : defaultSelector.bind(this), this.masterPlaylistController_.selectInitialPlaylist = Vhs.INITIAL_PLAYLIST_SELECTOR.bind(this), this.playlists = this.masterPlaylistController_.masterPlaylistLoader_, this.mediaSource = this.masterPlaylistController_.mediaSource, Object.defineProperties(this, {
                             selectPlaylist: {
-                                get: function get() {
+                                get: function() {
                                     return this.masterPlaylistController_.selectPlaylist;
                                 },
-                                set: function set(selectPlaylist) {
+                                set: function(selectPlaylist) {
                                     this.masterPlaylistController_.selectPlaylist = selectPlaylist.bind(this);
                                 }
                             },
                             throughput: {
-                                get: function get() {
+                                get: function() {
                                     return this.masterPlaylistController_.mainSegmentLoader_.throughput.rate;
                                 },
-                                set: function set(throughput) {
+                                set: function(throughput) {
                                     this.masterPlaylistController_.mainSegmentLoader_.throughput.rate = throughput, this.masterPlaylistController_.mainSegmentLoader_.throughput.count = 1;
                                 }
                             },
                             bandwidth: {
-                                get: function get() {
+                                get: function() {
                                     var playerBandwidthEst = this.masterPlaylistController_.mainSegmentLoader_.bandwidth, networkInformation = global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.connection || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.mozConnection || global_window__WEBPACK_IMPORTED_MODULE_0___default().navigator.webkitConnection;
                                     if (this.options_.useNetworkInformationApi && networkInformation) {
                                         var networkInfoBandwidthEstBitsPerSec = 1000000 * networkInformation.downlink;
@@ -14914,7 +14877,7 @@
                                     }
                                     return playerBandwidthEst;
                                 },
-                                set: function set(bandwidth) {
+                                set: function(bandwidth) {
                                     this.masterPlaylistController_.mainSegmentLoader_.bandwidth = bandwidth, this.masterPlaylistController_.mainSegmentLoader_.throughput = {
                                         rate: 0,
                                         count: 0
@@ -14922,148 +14885,148 @@
                                 }
                             },
                             systemBandwidth: {
-                                get: function get() {
+                                get: function() {
                                     return Math.floor(1 / (1 / (this.bandwidth || 1) + (this.throughput > 0 ? 1 / this.throughput : 0)));
                                 },
-                                set: function set() {
+                                set: function() {
                                     videojs.log.error('The "systemBandwidth" property is read-only');
                                 }
                             }
                         }), this.options_.bandwidth && (this.bandwidth = this.options_.bandwidth), this.options_.throughput && (this.throughput = this.options_.throughput), Object.defineProperties(this.stats, {
                             bandwidth: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.bandwidth || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaRequests: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaRequests_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaRequestsAborted: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaRequestsAborted_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaRequestsTimedout: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaRequestsTimedout_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaRequestsErrored: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaRequestsErrored_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaTransferDuration: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaTransferDuration_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaBytesTransferred: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaBytesTransferred_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaSecondsLoaded: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaSecondsLoaded_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mediaAppends: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mediaAppends_() || 0;
                                 },
                                 enumerable: !0
                             },
                             mainAppendsToLoadedData: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.mainAppendsToLoadedData_() || 0;
                                 },
                                 enumerable: !0
                             },
                             audioAppendsToLoadedData: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.audioAppendsToLoadedData_() || 0;
                                 },
                                 enumerable: !0
                             },
                             appendsToLoadedData: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.appendsToLoadedData_() || 0;
                                 },
                                 enumerable: !0
                             },
                             timeToLoadedData: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.masterPlaylistController_.timeToLoadedData_() || 0;
                                 },
                                 enumerable: !0
                             },
                             buffered: {
-                                get: function get() {
+                                get: function() {
                                     return timeRangesToArray(_this3.tech_.buffered());
                                 },
                                 enumerable: !0
                             },
                             currentTime: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.tech_.currentTime();
                                 },
                                 enumerable: !0
                             },
                             currentSource: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.tech_.currentSource_;
                                 },
                                 enumerable: !0
                             },
                             currentTech: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.tech_.name_;
                                 },
                                 enumerable: !0
                             },
                             duration: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.tech_.duration();
                                 },
                                 enumerable: !0
                             },
                             master: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.playlists.master;
                                 },
                                 enumerable: !0
                             },
                             playerDimensions: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.tech_.currentDimensions();
                                 },
                                 enumerable: !0
                             },
                             seekable: {
-                                get: function get() {
+                                get: function() {
                                     return timeRangesToArray(_this3.tech_.seekable());
                                 },
                                 enumerable: !0
                             },
                             timestamp: {
-                                get: function get() {
+                                get: function() {
                                     return Date.now();
                                 },
                                 enumerable: !0
                             },
                             videoPlaybackQuality: {
-                                get: function get() {
+                                get: function() {
                                     return _this3.tech_.getVideoPlaybackQuality();
                                 },
                                 enumerable: !0
@@ -15083,7 +15046,7 @@
                             this.ignoreNextSeekingEvent_ = !0;
                         }), this.setupQualityLevels_(), this.tech_.el() && (this.mediaSourceUrl_ = global_window__WEBPACK_IMPORTED_MODULE_0___default().URL.createObjectURL(this.masterPlaylistController_.mediaSource), this.tech_.src(this.mediaSourceUrl_));
                     }
-                }, _proto.setupEme_ = function setupEme_() {
+                }, _proto.setupEme_ = function() {
                     var _this4 = this, audioPlaylistLoader = this.masterPlaylistController_.mediaTypes_.AUDIO.activePlaylistLoader, didSetupEmeOptions = setupEmeOptions({
                         player: this.player_,
                         sourceKeySystems: this.source_.keySystems,
@@ -15113,14 +15076,14 @@
                             code: 3
                         });
                     });
-                }, _proto.setupQualityLevels_ = function setupQualityLevels_() {
+                }, _proto.setupQualityLevels_ = function() {
                     var _this5 = this, player = videojs.players[this.tech_.options_.playerId];
                     player && player.qualityLevels && !this.qualityLevels_ && (this.qualityLevels_ = player.qualityLevels(), this.masterPlaylistController_.on("selectedinitialmedia", function() {
                         handleVhsLoadedMetadata(_this5.qualityLevels_, _this5);
                     }), this.playlists.on("mediachange", function() {
                         handleVhsMediaChange(_this5.qualityLevels_, _this5.playlists);
                     }));
-                }, VhsHandler.version = function version$5() {
+                }, VhsHandler.version = function() {
                     return {
                         "@videojs/http-streaming": version$4,
                         "mux.js": "5.14.1",
@@ -15128,27 +15091,27 @@
                         "m3u8-parser": "4.7.0",
                         "aes-decrypter": "3.1.2"
                     };
-                }, _proto.version = function version() {
+                }, _proto.version = function() {
                     return this.constructor.version();
-                }, _proto.canChangeType = function canChangeType() {
+                }, _proto.canChangeType = function() {
                     return SourceUpdater.canChangeType();
-                }, _proto.play = function play() {
+                }, _proto.play = function() {
                     this.masterPlaylistController_.play();
-                }, _proto.setCurrentTime = function setCurrentTime(currentTime) {
+                }, _proto.setCurrentTime = function(currentTime) {
                     this.masterPlaylistController_.setCurrentTime(currentTime);
-                }, _proto.duration = function duration() {
+                }, _proto.duration = function() {
                     return this.masterPlaylistController_.duration();
-                }, _proto.seekable = function seekable() {
+                }, _proto.seekable = function() {
                     return this.masterPlaylistController_.seekable();
-                }, _proto.dispose = function dispose() {
+                }, _proto.dispose = function() {
                     this.playbackWatcher_ && this.playbackWatcher_.dispose(), this.masterPlaylistController_ && this.masterPlaylistController_.dispose(), this.qualityLevels_ && this.qualityLevels_.dispose(), this.player_ && (delete this.player_.vhs, delete this.player_.dash, delete this.player_.hls), this.tech_ && this.tech_.vhs && delete this.tech_.vhs, this.tech_ && delete this.tech_.hls, this.mediaSourceUrl_ && global_window__WEBPACK_IMPORTED_MODULE_0___default().URL.revokeObjectURL && (global_window__WEBPACK_IMPORTED_MODULE_0___default().URL.revokeObjectURL(this.mediaSourceUrl_), this.mediaSourceUrl_ = null), _Component.prototype.dispose.call(this);
-                }, _proto.convertToProgramTime = function convertToProgramTime(time, callback) {
+                }, _proto.convertToProgramTime = function(time, callback) {
                     return getProgramTime({
                         playlist: this.masterPlaylistController_.media(),
                         time: time,
                         callback: callback
                     });
-                }, _proto.seekToProgramTime = function seekToProgramTime$1(programTime, callback, pauseAfterSeek, retryCount) {
+                }, _proto.seekToProgramTime = function(programTime, callback, pauseAfterSeek, retryCount) {
                     return void 0 === pauseAfterSeek && (pauseAfterSeek = !0), void 0 === retryCount && (retryCount = 2), seekToProgramTime({
                         programTime: programTime,
                         playlist: this.masterPlaylistController_.media(),
@@ -15162,39 +15125,39 @@
             }(videojs.getComponent("Component")), VhsSourceHandler = {
                 name: "videojs-http-streaming",
                 VERSION: version$4,
-                canHandleSource: function canHandleSource(srcObj, options) {
+                canHandleSource: function(srcObj, options) {
                     void 0 === options && (options = {});
                     var localOptions = videojs.mergeOptions(videojs.options, options);
                     return VhsSourceHandler.canPlayType(srcObj.type, localOptions);
                 },
-                handleSource: function handleSource(source, tech, options) {
+                handleSource: function(source, tech, options) {
                     void 0 === options && (options = {});
                     var localOptions = videojs.mergeOptions(videojs.options, options);
                     return tech.vhs = new VhsHandler(source, tech, localOptions), videojs.hasOwnProperty("hls") || Object.defineProperty(tech, "hls", {
-                        get: function get() {
+                        get: function() {
                             return videojs.log.warn("player.tech().hls is deprecated. Use player.tech().vhs instead."), tech.vhs;
                         },
                         configurable: !0
                     }), tech.vhs.xhr = xhrFactory(), tech.vhs.src(source.src, source.type), tech.vhs;
                 },
-                canPlayType: function canPlayType(type, options) {
+                canPlayType: function(type, options) {
                     void 0 === options && (options = {});
                     var _videojs$mergeOptions2 = videojs.mergeOptions(videojs.options, options).vhs.overrideNative, overrideNative = void 0 === _videojs$mergeOptions2 ? !videojs.browser.IS_ANY_SAFARI : _videojs$mergeOptions2, supportedType = (0, _videojs_vhs_utils_es_media_types_js__WEBPACK_IMPORTED_MODULE_20__.t)(type);
                     return supportedType && (!Vhs.supportsTypeNatively(supportedType) || overrideNative) ? "maybe" : "";
                 }
             };
             (0, _videojs_vhs_utils_es_codecs_js__WEBPACK_IMPORTED_MODULE_8__.p7)("avc1.4d400d,mp4a.40.2") && videojs.getTech("Html5").registerSourceHandler(VhsSourceHandler, 0), videojs.VhsHandler = VhsHandler, Object.defineProperty(videojs, "HlsHandler", {
-                get: function get() {
+                get: function() {
                     return videojs.log.warn("videojs.HlsHandler is deprecated. Use videojs.VhsHandler instead."), VhsHandler;
                 },
                 configurable: !0
             }), videojs.VhsSourceHandler = VhsSourceHandler, Object.defineProperty(videojs, "HlsSourceHandler", {
-                get: function get() {
+                get: function() {
                     return videojs.log.warn("videojs.HlsSourceHandler is deprecated. Use videojs.VhsSourceHandler instead."), VhsSourceHandler;
                 },
                 configurable: !0
             }), videojs.Vhs = Vhs, Object.defineProperty(videojs, "Hls", {
-                get: function get() {
+                get: function() {
                     return videojs.log.warn("videojs.Hls is deprecated. Use videojs.Vhs instead."), Vhs;
                 },
                 configurable: !0

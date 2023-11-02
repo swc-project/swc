@@ -212,6 +212,12 @@ impl Optimizer<'_> {
                                 }
                             }
 
+                            if u.declared_as_fn_expr {
+                                if self.options.inline != 3 {
+                                    return;
+                                }
+                            }
+
                             should_inline
                         } else {
                             false
@@ -425,6 +431,11 @@ impl Optimizer<'_> {
                                 if self.options.keep_fnames
                                     || self.mangle_options.map_or(false, |v| v.keep_fn_names)
                                 {
+                                    return;
+                                }
+                            }
+                            if init_usage.declared_as_fn_expr {
+                                if self.options.inline != 3 {
                                     return;
                                 }
                             }
@@ -712,10 +723,11 @@ impl Optimizer<'_> {
                 #[allow(unused)]
                 match &decl {
                     Decl::Class(c) => {
-                        if self.options.keep_classnames
+                        if self.options.inline != 3
+                            || self.options.keep_classnames
                             || self.mangle_options.map_or(false, |v| v.keep_class_names)
                         {
-                            log_abort!("inline: [x] Keep fn names");
+                            log_abort!("inline: [x] Keep class names");
                             return;
                         }
 

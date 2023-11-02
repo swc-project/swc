@@ -5,11 +5,9 @@ use swc_common::{
     Mark, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::scope::ScopeKind;
+use swc_ecma_transforms_base::{rename::remap, scope::ScopeKind};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
-
-use super::operator::{rename, Rename};
 
 pub(super) fn block_scoped_vars() -> impl VisitMut {
     BlockScopedVars::default()
@@ -62,7 +60,7 @@ impl BlockScopedVars {
     ///  - For third, we rename all declarations which may conflict.
     fn handle_program<N>(&mut self, n: &mut N)
     where
-        N: VisitMutWith<Self> + VisitMutWith<Rename>,
+        N: VisitMutWith<Self> + for<'aa> VisitMutWith<dyn 'aa + VisitMut>,
     {
         n.visit_mut_children_with(self);
 
@@ -81,7 +79,7 @@ impl BlockScopedVars {
 
         // dbg!(&rename_map);
 
-        n.visit_mut_with(&mut rename(rename_map))
+        n.visit_mut_with(&mut remap(&rename_map, Default::default()) as &mut dyn VisitMut);
     }
 
     fn with_scope(&mut self, kind: ScopeKind, op: impl FnOnce(&mut Self)) {

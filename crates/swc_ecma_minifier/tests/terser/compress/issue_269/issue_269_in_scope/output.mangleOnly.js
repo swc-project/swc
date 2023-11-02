@@ -1,2 +1,2 @@
-var a, r, v;
-f(a(x), r(x, x), v(x));
+var String, Number, Boolean;
+f(String(x), Number(x, x), Boolean(x));

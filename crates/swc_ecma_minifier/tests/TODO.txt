@@ -332,7 +332,6 @@ reduce_vars/issue_294/input.js
 reduce_vars/issue_3140_4/input.js
 reduce_vars/modified/input.js
 reduce_vars/obj_arg_2/input.js
-reduce_vars/obj_for_1/input.js
 reduce_vars/obj_var_2/input.js
 reduce_vars/passes/input.js
 reduce_vars/perf_3/input.js

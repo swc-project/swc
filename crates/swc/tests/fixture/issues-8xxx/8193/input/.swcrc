@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": true,
+            "decorators": true
+        },
+        "transform": {
+            "decoratorVersion": "2021-12",
+            "legacyDecorator": true,
+            "decoratorMetadata": true
+        }
+    },
+    "env": {
+        "mode": "usage",
+        "coreJs": "3.31",
+        "shippedProposals": true
+    },
+    "module": {
+        "type": "commonjs"
+    },
+    "isModule": false,
+}

@@ -243,9 +243,9 @@ where
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         match n {
             Expr::Class(e) => {
-                let class = self.fold_class(e.ident.take(), e.class.take());
-                if let Expr::Call(call) = &class {
-                    self.add_pure_comments(call.span.lo)
+                let mut class = self.fold_class(e.ident.take(), e.class.take());
+                if let Expr::Call(call) = &mut class {
+                    self.add_pure_comments(&mut call.span.lo)
                 }
                 *n = class;
                 n.visit_mut_children_with(self)
@@ -359,9 +359,13 @@ impl<C> Classes<C>
 where
     C: Comments,
 {
-    fn add_pure_comments(&mut self, start: BytePos) {
+    fn add_pure_comments(&mut self, start: &mut BytePos) {
+        if start.is_dummy() {
+            *start = Span::dummy_with_cmt().lo;
+        }
+
         if let Some(comments) = &self.comments {
-            comments.add_pure_comment(start);
+            comments.add_pure_comment(*start);
         }
     }
 
@@ -375,12 +379,12 @@ where
 
         // let VarDecl take every comments except pure
         if let Expr::Call(call) = &mut rhs {
-            let span = Span {
+            let mut span = Span {
                 // after class
                 lo: span.hi + BytePos(5),
                 ..span
             };
-            self.add_pure_comments(span.lo);
+            self.add_pure_comments(&mut span.lo);
             call.span = span;
         }
 

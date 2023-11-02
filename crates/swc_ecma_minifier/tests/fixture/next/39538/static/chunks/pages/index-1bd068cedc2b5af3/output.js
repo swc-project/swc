@@ -5,15 +5,14 @@
     {
         1412: function(__unused_webpack_module, exports) {
             "use strict";
-            function _defineProperty(obj, key, value) {
+            exports.Z = function(obj, key, value) {
                 return key in obj ? Object.defineProperty(obj, key, {
                     value: value,
                     enumerable: !0,
                     configurable: !0,
                     writable: !0
                 }) : obj[key] = value, obj;
-            }
-            exports.Z = _defineProperty;
+            };
         },
         5702: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([
@@ -31,12 +30,8 @@
             var _defineProperty = __webpack_require__(1412).Z, _slicedToArray = __webpack_require__(8693).Z, _toConsumableArray = __webpack_require__(9947).Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.default = Image1;
-            var _extends = __webpack_require__(2769).Z, _interop_require_default = __webpack_require__(4507).Z, _interop_require_wildcard = __webpack_require__(8167).Z, _object_without_properties_loose = __webpack_require__(4719).Z, _react = _interop_require_wildcard(__webpack_require__(959)), _head = _interop_require_default(__webpack_require__(4357)), _imageConfig = __webpack_require__(1773), _useIntersection = __webpack_require__(757), _imageConfigContext = __webpack_require__(9664);
-            __webpack_require__(8827);
-            var _normalizeTrailingSlash = __webpack_require__(8236);
-            function Image1(_param) {
-                var sizerSvgUrl, _obj, src = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
+            }), exports.default = function(_param) {
+                var src, sizerSvgUrl, _obj, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyRoot = _param.lazyRoot, lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, style = _param.style, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = _object_without_properties_loose(_param, [
                     "src",
                     "sizes",
                     "unoptimized",
@@ -81,13 +76,13 @@
                     delete all.loader;
                 }
                 var staticSrc = "";
-                if (isStaticImport(src)) {
-                    var staticImageData = isStaticRequire(src) ? src.default : src;
+                if ("object" == typeof (src = src1) && (isStaticRequire(src) || void 0 !== src.src)) {
+                    var staticImageData = isStaticRequire(src1) ? src1.default : src1;
                     if (!staticImageData.src) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include src. Received ".concat(JSON.stringify(staticImageData)));
                     if (blurDataURL = blurDataURL || staticImageData.blurDataURL, staticSrc = staticImageData.src, (!layout || "fill" !== layout) && (height = height || staticImageData.height, width = width || staticImageData.width, !staticImageData.height || !staticImageData.width)) throw Error("An object should only be passed to the image component src parameter if it comes from a static image import. It must include height and width. Received ".concat(JSON.stringify(staticImageData)));
                 }
                 var isLazy = !priority && ("lazy" === loading || void 0 === loading);
-                ((src = "string" == typeof src ? src : staticSrc).startsWith("data:") || src.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
+                ((src1 = "string" == typeof src1 ? src1 : staticSrc).startsWith("data:") || src1.startsWith("blob:")) && (unoptimized = !0, isLazy = !1), loadedImageURLs.has(src1) && (isLazy = !1), experimentalUnoptimized && (unoptimized = !0);
                 var ref = _slicedToArray(_react.useState(!1), 2), blurComplete = ref[0], setBlurComplete = ref[1], ref1 = _slicedToArray(_useIntersection.useIntersection({
                     rootRef: void 0 === _lazyRoot ? null : _lazyRoot,
                     rootMargin: lazyBoundary || "200px",
@@ -150,7 +145,7 @@
                 };
                 isVisible && (imgAttributes = generateImgAttrs({
                     config: config,
-                    src: src,
+                    src: src1,
                     unoptimized: unoptimized,
                     layout: layout,
                     width: widthInt,
@@ -158,18 +153,18 @@
                     sizes: sizes,
                     loader: loader
                 }));
-                var srcString = src, imageSizesPropName = "imagesizes";
+                var srcString = src1, imageSizesPropName = "imagesizes";
                 imageSizesPropName = "imageSizes";
-                var linkProps = (_defineProperty(_obj = {}, "imageSrcSet", imgAttributes.srcSet), _defineProperty(_obj, imageSizesPropName, imgAttributes.sizes), _obj), useLayoutEffect = _react.default.useLayoutEffect, onLoadingCompleteRef = _react.useRef(onLoadingComplete), previousImageSrc = _react.useRef(src);
+                var linkProps = (_defineProperty(_obj = {}, "imageSrcSet", imgAttributes.srcSet), _defineProperty(_obj, imageSizesPropName, imgAttributes.sizes), _obj), useLayoutEffect = _react.default.useLayoutEffect, onLoadingCompleteRef = _react.useRef(onLoadingComplete), previousImageSrc = _react.useRef(src1);
                 _react.useEffect(function() {
                     onLoadingCompleteRef.current = onLoadingComplete;
                 }, [
                     onLoadingComplete
                 ]), useLayoutEffect(function() {
-                    previousImageSrc.current !== src && (resetIntersected(), previousImageSrc.current = src);
+                    previousImageSrc.current !== src1 && (resetIntersected(), previousImageSrc.current = src1);
                 }, [
                     resetIntersected,
-                    src
+                    src1
                 ]);
                 var imgElementArgs = _extends({
                     isLazy: isLazy,
@@ -218,8 +213,10 @@
                     as: "image",
                     href: imgAttributes.srcSet ? void 0 : imgAttributes.src
                 }, linkProps))) : null);
-            }
-            var ref = {}, experimentalUnoptimized = (ref.experimentalRemotePatterns, ref.experimentalUnoptimized), configEnv = {
+            };
+            var _extends = __webpack_require__(2769).Z, _interop_require_default = __webpack_require__(4507).Z, _interop_require_wildcard = __webpack_require__(8167).Z, _object_without_properties_loose = __webpack_require__(4719).Z, _react = _interop_require_wildcard(__webpack_require__(959)), _head = _interop_require_default(__webpack_require__(4357)), _imageConfig = __webpack_require__(1773), _useIntersection = __webpack_require__(757), _imageConfigContext = __webpack_require__(9664);
+            __webpack_require__(8827);
+            var _normalizeTrailingSlash = __webpack_require__(8236), ref = {}, experimentalUnoptimized = (ref.experimentalRemotePatterns, ref.experimentalUnoptimized), configEnv = {
                 deviceSizes: [
                     640,
                     750,
@@ -246,66 +243,47 @@
             }, loadedImageURLs = new Set(), emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
                 [
                     "default",
-                    defaultLoader
+                    function(param) {
+                        var config = param.config, src = param.src, width = param.width, quality = param.quality;
+                        return src.endsWith(".svg") && !config.dangerouslyAllowSVG ? src : "".concat(_normalizeTrailingSlash.normalizePathTrailingSlash(config.path), "?url=").concat(encodeURIComponent(src), "&w=").concat(width, "&q=").concat(quality || 75);
+                    }
                 ],
                 [
                     "imgix",
-                    imgixLoader
+                    function(param) {
+                        var config = param.config, src = param.src, width = param.width, quality = param.quality, url = new URL("".concat(config.path).concat(normalizeSrc(src))), params = url.searchParams;
+                        return params.set("auto", params.getAll("auto").join(",") || "format"), params.set("fit", params.get("fit") || "max"), params.set("w", params.get("w") || width.toString()), quality && params.set("q", quality.toString()), url.href;
+                    }
                 ],
                 [
                     "cloudinary",
-                    cloudinaryLoader
+                    function(param) {
+                        var config = param.config, src = param.src, paramsString = [
+                            "f_auto",
+                            "c_limit",
+                            "w_" + param.width,
+                            "q_" + (param.quality || "auto")
+                        ].join(",") + "/";
+                        return "".concat(config.path).concat(paramsString).concat(normalizeSrc(src));
+                    }
                 ],
                 [
                     "akamai",
-                    akamaiLoader
+                    function(param) {
+                        var config = param.config, src = param.src, width = param.width;
+                        return "".concat(config.path).concat(normalizeSrc(src), "?imwidth=").concat(width);
+                    }
                 ],
                 [
                     "custom",
-                    customLoader
+                    function(param) {
+                        var src = param.src;
+                        throw Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
+                    }
                 ]
             ]);
             function isStaticRequire(src) {
                 return void 0 !== src.default;
-            }
-            function isStaticImageData(src) {
-                return void 0 !== src.src;
-            }
-            function isStaticImport(src) {
-                return "object" == typeof src && (isStaticRequire(src) || isStaticImageData(src));
-            }
-            function getWidths(param, width, layout, sizes) {
-                var deviceSizes = param.deviceSizes, allSizes = param.allSizes;
-                if (sizes && ("fill" === layout || "responsive" === layout)) {
-                    for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
-                    if (percentSizes.length) {
-                        var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
-                        return {
-                            widths: allSizes.filter(function(s) {
-                                return s >= deviceSizes[0] * smallestRatio;
-                            }),
-                            kind: "w"
-                        };
-                    }
-                    return {
-                        widths: allSizes,
-                        kind: "w"
-                    };
-                }
-                return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
-                    widths: deviceSizes,
-                    kind: "w"
-                } : {
-                    widths: _toConsumableArray(new Set([
-                        width,
-                        2 * width
-                    ].map(function(w) {
-                        return allSizes.find(function(p) {
-                            return p >= w;
-                        }) || allSizes[allSizes.length - 1];
-                    }))),
-                    kind: "x"
-                };
             }
             function generateImgAttrs(param) {
                 var config = param.config, src = param.src, unoptimized = param.unoptimized, layout = param.layout, width = param.width, quality = param.quality, sizes = param.sizes, loader = param.loader;
@@ -314,7 +292,39 @@
                     srcSet: void 0,
                     sizes: void 0
                 };
-                var ref = getWidths(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
+                var ref = function(param, width, layout, sizes) {
+                    var deviceSizes = param.deviceSizes, allSizes = param.allSizes;
+                    if (sizes && ("fill" === layout || "responsive" === layout)) {
+                        for(var viewportWidthRe = /(^|\s)(1?\d?\d)vw/g, percentSizes = []; match = viewportWidthRe.exec(sizes); match)percentSizes.push(parseInt(match[2]));
+                        if (percentSizes.length) {
+                            var match, _Math, smallestRatio = 0.01 * (_Math = Math).min.apply(_Math, _toConsumableArray(percentSizes));
+                            return {
+                                widths: allSizes.filter(function(s) {
+                                    return s >= deviceSizes[0] * smallestRatio;
+                                }),
+                                kind: "w"
+                            };
+                        }
+                        return {
+                            widths: allSizes,
+                            kind: "w"
+                        };
+                    }
+                    return "number" != typeof width || "fill" === layout || "responsive" === layout ? {
+                        widths: deviceSizes,
+                        kind: "w"
+                    } : {
+                        widths: _toConsumableArray(new Set([
+                            width,
+                            2 * width
+                        ].map(function(w) {
+                            return allSizes.find(function(p) {
+                                return p >= w;
+                            }) || allSizes[allSizes.length - 1];
+                        }))),
+                        kind: "x"
+                    };
+                }(config, width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
                     srcSet: widths.map(function(w, i) {
@@ -418,31 +428,6 @@
             function normalizeSrc(src) {
                 return "/" === src[0] ? src.slice(1) : src;
             }
-            function imgixLoader(param) {
-                var config = param.config, src = param.src, width = param.width, quality = param.quality, url = new URL("".concat(config.path).concat(normalizeSrc(src))), params = url.searchParams;
-                return params.set("auto", params.getAll("auto").join(",") || "format"), params.set("fit", params.get("fit") || "max"), params.set("w", params.get("w") || width.toString()), quality && params.set("q", quality.toString()), url.href;
-            }
-            function akamaiLoader(param) {
-                var config = param.config, src = param.src, width = param.width;
-                return "".concat(config.path).concat(normalizeSrc(src), "?imwidth=").concat(width);
-            }
-            function cloudinaryLoader(param) {
-                var config = param.config, src = param.src, paramsString = [
-                    "f_auto",
-                    "c_limit",
-                    "w_" + param.width,
-                    "q_" + (param.quality || "auto")
-                ].join(",") + "/";
-                return "".concat(config.path).concat(paramsString).concat(normalizeSrc(src));
-            }
-            function customLoader(param) {
-                var src = param.src;
-                throw Error('Image with src "'.concat(src, '" is missing "loader" prop.') + "\nRead more: https://nextjs.org/docs/messages/next-image-missing-loader");
-            }
-            function defaultLoader(param) {
-                var config = param.config, src = param.src, width = param.width, quality = param.quality;
-                return src.endsWith(".svg") && !config.dangerouslyAllowSVG ? src : "".concat(_normalizeTrailingSlash.normalizePathTrailingSlash(config.path), "?url=").concat(encodeURIComponent(src), "&w=").concat(width, "&q=").concat(quality || 75);
-            }
             ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
@@ -455,20 +440,48 @@
             var _slicedToArray = __webpack_require__(8693).Z;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.useIntersection = useIntersection;
-            var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver;
-            function useIntersection(param) {
+            }), exports.useIntersection = function(param) {
                 var rootRef = param.rootRef, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = _slicedToArray(_react.useState(!1), 2), visible = ref[0], setVisible = ref[1], ref1 = _slicedToArray(_react.useState(null), 2), element = ref1[0], setElement = ref1[1];
                 return _react.useEffect(function() {
                     if (hasIntersectionObserver) {
-                        if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) return element && element.tagName && (unobserve.current = observe(element, function(isVisible) {
-                            return isVisible && setVisible(isVisible);
-                        }, {
-                            root: null == rootRef ? void 0 : rootRef.current,
-                            rootMargin: rootMargin
-                        })), function() {
-                            null == unobserve.current || unobserve.current(), unobserve.current = void 0;
-                        };
+                        if (unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible) {
+                            var ref, id, observer, elements;
+                            return element && element.tagName && (unobserve.current = (id = (ref = function(options) {
+                                var instance, id = {
+                                    root: options.root || null,
+                                    margin: options.rootMargin || ""
+                                }, existing = idList.find(function(obj) {
+                                    return obj.root === id.root && obj.margin === id.margin;
+                                });
+                                if (existing && (instance = observers.get(existing))) return instance;
+                                var elements = new Map();
+                                return instance = {
+                                    id: id,
+                                    observer: new IntersectionObserver(function(entries) {
+                                        entries.forEach(function(entry) {
+                                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
+                                            callback && isVisible && callback(isVisible);
+                                        });
+                                    }, options),
+                                    elements: elements
+                                }, idList.push(id), observers.set(id, instance), instance;
+                            }({
+                                root: null == rootRef ? void 0 : rootRef.current,
+                                rootMargin: rootMargin
+                            })).id, observer = ref.observer, (elements = ref.elements).set(element, function(isVisible) {
+                                return isVisible && setVisible(isVisible);
+                            }), observer.observe(element), function() {
+                                if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
+                                    observer.disconnect(), observers.delete(id);
+                                    var index = idList.findIndex(function(obj) {
+                                        return obj.root === id.root && obj.margin === id.margin;
+                                    });
+                                    index > -1 && idList.splice(index, 1);
+                                }
+                            })), function() {
+                                null == unobserve.current || unobserve.current(), unobserve.current = void 0;
+                            };
+                        }
                     } else if (!visible) {
                         var idleCallback = _requestIdleCallback.requestIdleCallback(function() {
                             return setVisible(!0);
@@ -490,40 +503,8 @@
                         setVisible(!1);
                     }, [])
                 ];
-            }
-            var observers = new Map(), idList = [];
-            function observe(element, callback, options) {
-                var ref = createObserver(options), id = ref.id, observer = ref.observer, elements = ref.elements;
-                return elements.set(element, callback), observer.observe(element), function unobserve() {
-                    if (elements.delete(element), observer.unobserve(element), 0 === elements.size) {
-                        observer.disconnect(), observers.delete(id);
-                        var index = idList.findIndex(function(obj) {
-                            return obj.root === id.root && obj.margin === id.margin;
-                        });
-                        index > -1 && idList.splice(index, 1);
-                    }
-                };
-            }
-            function createObserver(options) {
-                var instance, id = {
-                    root: options.root || null,
-                    margin: options.rootMargin || ""
-                }, existing = idList.find(function(obj) {
-                    return obj.root === id.root && obj.margin === id.margin;
-                });
-                if (existing && (instance = observers.get(existing))) return instance;
-                var elements = new Map();
-                return instance = {
-                    id: id,
-                    observer: new IntersectionObserver(function(entries) {
-                        entries.forEach(function(entry) {
-                            var callback = elements.get(entry.target), isVisible = entry.isIntersecting || entry.intersectionRatio > 0;
-                            callback && isVisible && callback(isVisible);
-                        });
-                    }, options),
-                    elements: elements
-                }, idList.push(id), observers.set(id, instance), instance;
-            }
+            };
+            var _react = __webpack_require__(959), _requestIdleCallback = __webpack_require__(6501), hasIntersectionObserver = "function" == typeof IntersectionObserver, observers = new Map(), idList = [];
             ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);

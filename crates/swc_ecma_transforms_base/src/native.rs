@@ -8,6 +8,8 @@ macro_rules! native {
             $i:tt
         ),*
     ) => {
+
+        /// Is `sym` a native **class**?
         pub fn is_native(sym: &str) -> bool {
             static SET: phf::Set<&'static str> = phf_set! {
                 $(
@@ -42,7 +44,6 @@ native!(
     "JSON",
     "Map",
     "Math",
-    "NaN",
     "Number",
     "Object",
     "Promise",

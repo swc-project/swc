@@ -504,5 +504,15 @@
     "esnext.symbol.is-well-known-symbol",
     "web.url-search-params.delete",
     "web.url-search-params.has"
+  ],
+  "3.32": [
+    "esnext.data-view.get-float16",
+    "esnext.data-view.get-uint8-clamped",
+    "esnext.data-view.set-float16",
+    "esnext.data-view.set-uint8-clamped",
+    "esnext.math.f16round"
+  ],
+  "3.33": [
+    "esnext.regexp.escape"
   ]
 }
