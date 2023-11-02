@@ -2,7 +2,7 @@ use swc_common::{sync::Lrc, SourceMap, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::Parallel;
 use swc_ecma_utils::quote_ident;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 #[cfg(test)]
 mod tests;
@@ -33,6 +33,8 @@ impl VisitMut for JsxSrc {
         if !self.dev || e.span == DUMMY_SP {
             return;
         }
+
+        e.visit_mut_children_with(self);
 
         let loc = self.cm.lookup_char_pos(e.span.lo);
         let file_name = loc.file.name.to_string();
