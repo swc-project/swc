@@ -436,11 +436,15 @@ where
     }
 
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
-        let span = el.span();
+        let mut span = el.span();
 
         let use_jsxs = count_children(&el.children) > 1;
 
         if let Some(comments) = &self.comments {
+            if span.lo.is_dummy() {
+                span.lo = Span::dummy_with_cmt().lo;
+            }
+
             comments.add_pure_comment(span.lo);
         }
 
@@ -543,13 +547,17 @@ where
     /// <div></div> => React.createElement('div', null);
     fn jsx_elem_to_expr(&mut self, el: JSXElement) -> Expr {
         let top_level_node = self.top_level_node;
-        let span = el.span();
+        let mut span = el.span();
         let use_create_element = should_use_create_element(&el.opening.attrs);
         self.top_level_node = false;
 
         let name = self.jsx_name(el.opening.name);
 
         if let Some(comments) = &self.comments {
+            if span.lo.is_dummy() {
+                span.lo = Span::dummy_with_cmt().lo;
+            }
+
             comments.add_pure_comment(span.lo);
         }
 
