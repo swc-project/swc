@@ -287,7 +287,7 @@ impl Transform {
             }
 
             let id = stmt.get_decl_id();
-            stmt = self.fold_stmt(stmt);
+            stmt = self.fold_stmt(stmt, false);
             decl_id_record.extend(id);
             if !stmt.is_empty() {
                 n.push(stmt);
@@ -295,10 +295,10 @@ impl Transform {
         }
     }
 
-    fn fold_stmt(&mut self, n: Stmt) -> Stmt {
+    fn fold_stmt(&mut self, n: Stmt, is_export: bool) -> Stmt {
         match n {
             Stmt::Decl(Decl::TsModule(ts_module)) => self.transform_ts_module(*ts_module, false),
-            Stmt::Decl(Decl::TsEnum(ts_enum)) => self.transform_ts_enum(*ts_enum, false),
+            Stmt::Decl(Decl::TsEnum(ts_enum)) => self.transform_ts_enum(*ts_enum, is_export),
             stmt => stmt,
         }
     }
@@ -311,6 +311,8 @@ impl Transform {
         if !found {
             return;
         }
+
+        let export_names = self.collect_named_export(n);
 
         let mut decl_id_record = AHashSet::<Id>::default();
 
@@ -342,7 +344,11 @@ impl Transform {
             }
 
             let id = module_item.get_decl_id();
-            module_item = self.fold_module_item(module_item);
+            let is_export = id
+                .as_ref()
+                .map(|id| export_names.contains(id))
+                .unwrap_or_default();
+            module_item = self.fold_module_item(module_item, is_export);
             decl_id_record.extend(id);
             if !matches!(module_item, ModuleItem::Stmt(Stmt::Empty(..))) {
                 n.push(module_item);
@@ -350,7 +356,7 @@ impl Transform {
         }
     }
 
-    fn fold_module_item(&mut self, n: ModuleItem) -> ModuleItem {
+    fn fold_module_item(&mut self, n: ModuleItem, is_export: bool) -> ModuleItem {
         match n {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                 decl: Decl::TsModule(ts_module),
@@ -360,7 +366,7 @@ impl Transform {
                 decl: Decl::TsEnum(ts_enum),
                 ..
             })) => self.transform_ts_enum(*ts_enum, true).into(),
-            ModuleItem::Stmt(stmt @ Stmt::Decl(..)) => self.fold_stmt(stmt).into(),
+            ModuleItem::Stmt(stmt @ Stmt::Decl(..)) => self.fold_stmt(stmt, is_export).into(),
             module_item => module_item,
         }
     }
@@ -878,6 +884,41 @@ impl Transform {
         }
 
         Factory::function(vec![ident.into()], body).as_call(DUMMY_SP, vec![init_arg.into()])
+    }
+
+    fn collect_named_export(&self, n: &[ModuleItem]) -> AHashSet<Id> {
+        let mut names = AHashSet::default();
+
+        if self.namespace_id.is_some() {
+            return names;
+        }
+
+        for item in n {
+            match item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
+                    specifiers,
+                    src: None,
+                    ..
+                })) => {
+                    names.extend(specifiers.iter().map(|s| match s {
+                        ExportSpecifier::Named(ExportNamedSpecifier {
+                            orig: ModuleExportName::Ident(export_id),
+                            ..
+                        }) => export_id.to_id(),
+                        _ => unreachable!("only named export is allowed for src = None"),
+                    }));
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(ExportDefaultExpr {
+                    expr,
+                    ..
+                })) if expr.is_ident() => {
+                    names.extend(expr.as_ident().map(Ident::to_id));
+                }
+                _ => {}
+            }
+        }
+
+        names
     }
 }
 
