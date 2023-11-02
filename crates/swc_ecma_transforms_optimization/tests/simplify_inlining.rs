@@ -2072,7 +2072,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             ),
             inlining(Default::default())
         )
@@ -2110,7 +2111,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             ),
             inlining(Default::default())
         )

@@ -1,6 +1,6 @@
-var Extended = /*#__PURE__*/ function(Base) {
+var Extended = /*#__PURE__*/ function(Base1) {
     "use strict";
-    _inherits(Extended, Base);
+    _inherits(Extended, Base1);
     var _super = _create_super(Extended);
     function Extended() {
         _class_call_check(this, Extended);

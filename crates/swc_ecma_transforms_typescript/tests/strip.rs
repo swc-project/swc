@@ -46,16 +46,21 @@ fn tr_config(
 }
 
 fn properties(t: &Tester, loose: bool) -> impl Fold {
-    let mark = Mark::new();
+    let static_blocks_mark = Mark::new();
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
-        static_blocks(mark),
+        resolver(unresolved_mark, top_level_mark, false),
+        static_blocks(static_blocks_mark),
         class_properties(
             Some(t.comments.clone()),
             class_properties::Config {
-                static_blocks_mark: mark,
+                static_blocks_mark,
                 set_public_fields: loose,
                 ..Default::default()
             },
+            unresolved_mark
         )
     )
 }

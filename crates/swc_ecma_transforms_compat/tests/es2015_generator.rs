@@ -1406,14 +1406,25 @@ test!(
 test!(
     Syntax::default(),
     |t| {
-        let mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
         chain!(
-            es2022(Some(t.comments.clone()), Default::default()),
+            resolver(unresolved_mark, top_level_mark, true),
+            es2022(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             es2021(),
             es2018(Default::default()),
-            es2017(Default::default(), Some(t.comments.clone()), mark),
+            es2017(
+                Default::default(),
+                Some(t.comments.clone()),
+                unresolved_mark
+            ),
             es2016(),
-            es2015::<SingleThreadedComments>(mark, None, Default::default()),
+            es2015::<SingleThreadedComments>(unresolved_mark, None, Default::default()),
         )
     },
     issue_1799_5,

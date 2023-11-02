@@ -477,7 +477,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             ),
             tr()
         )
@@ -516,7 +517,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             ),
             tr(),
         )
@@ -598,7 +600,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             ),
             tr(),
         )

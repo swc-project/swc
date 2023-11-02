@@ -3940,10 +3940,16 @@ test!(
 test!(
     syntax(),
     |t| {
-        let unresolved_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            es2022::es2022(Some(t.comments.clone()), Default::default()),
+            resolver(unresolved_mark, top_level_mark, true),
+            es2022::es2022(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             es2018::es2018(Default::default()),
             es2017::es2017(
                 Default::default(),
@@ -3967,11 +3973,21 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
         )
     },
     issue_1660_5,
@@ -4005,11 +4021,21 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
         )
     },
     issue_1959_1,
@@ -4025,11 +4051,21 @@ test!(
 test!(
     syntax(),
     |t| {
-        let global_mark = Mark::fresh(Mark::root());
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
 
         chain!(
-            class_properties(Some(t.comments.clone()), Default::default()),
-            es2015::es2015(global_mark, Some(t.comments.clone()), Default::default()),
+            resolver(unresolved_mark, top_level_mark, true),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            es2015::es2015(
+                unresolved_mark,
+                Some(t.comments.clone()),
+                Default::default()
+            ),
         )
     },
     issue_1959_2,
@@ -4048,8 +4084,16 @@ fn exec(input: PathBuf) {
     compare_stdout(
         Default::default(),
         |t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
             chain!(
-                class_properties(Some(t.comments.clone()), Default::default()),
+                resolver(unresolved_mark, top_level_mark, true),
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark
+                ),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },
@@ -4064,8 +4108,16 @@ fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
         &|t| {
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
             chain!(
-                class_properties(Some(t.comments.clone()), Default::default()),
+                resolver(unresolved_mark, top_level_mark, true),
+                class_properties(
+                    Some(t.comments.clone()),
+                    Default::default(),
+                    unresolved_mark
+                ),
                 classes(Some(t.comments.clone()), Default::default())
             )
         },

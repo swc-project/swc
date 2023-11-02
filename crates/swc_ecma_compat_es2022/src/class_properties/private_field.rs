@@ -9,14 +9,12 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    alias_ident_for, alias_if_required, opt_chain_test, prepend_stmt, quote_ident, undefined,
-    ExprFactory,
-};
+use swc_ecma_utils::{alias_ident_for, alias_if_required, prepend_stmt, quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
 use super::Config;
+use crate::optional_chaining_impl::optional_chaining_impl;
 
 pub(super) struct Private {
     pub mark: Mark,
@@ -171,6 +169,7 @@ pub(super) struct PrivateAccessVisitor<'a> {
     pub private: &'a PrivateRecord,
     pub private_access_type: PrivateAccessType,
     pub c: Config,
+    pub unresolved_mark: Mark,
 }
 
 macro_rules! take_vars {
@@ -213,6 +212,36 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
     take_vars!(visit_mut_constructor, Constructor);
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        if let Expr::OptChain(opt) = e {
+            let is_private_access = match &*opt.base {
+                OptChainBase::Member(MemberExpr {
+                    prop: MemberProp::PrivateName(..),
+                    ..
+                }) => true,
+                OptChainBase::Call(OptCall { callee, .. }) => matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::PrivateName(..),
+                        ..
+                    })
+                ),
+                _ => false,
+            };
+
+            if is_private_access {
+                let mut v = optional_chaining_impl(
+                    crate::optional_chaining_impl::Config {
+                        no_document_all: self.c.no_document_all,
+                        pure_getter: self.c.pure_getter,
+                    },
+                    self.unresolved_mark,
+                );
+                e.visit_mut_with(&mut v);
+                assert!(!e.is_opt_chain(), "optional chaining should be removed");
+                self.vars.extend(v.take_vars());
+            }
+        }
+
         if self.c.private_as_properties {
             if let Expr::Member(MemberExpr {
                 span,
@@ -434,102 +463,11 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 }
             }
 
-            Expr::OptChain(OptChainExpr {
-                base,
-                optional,
-                span,
-            }) if match &**base {
-                OptChainBase::Call(call) => call.callee.is_member(),
-                _ => false,
-            } =>
-            {
-                let call = match &mut **base {
-                    OptChainBase::Call(call) => call,
-                    _ => unreachable!(),
-                };
-
-                let mut callee = call.callee.take().member().unwrap();
-                callee.visit_mut_with(self);
-                call.args.visit_mut_with(self);
-
-                let (expr, this) = self.visit_mut_private_get(&mut callee, None);
-                if let Some(this) = this {
-                    let args = iter::once(this.as_arg()).chain(call.args.take()).collect();
-                    let call = OptCall {
-                        span: *span,
-                        callee: Box::new(
-                            OptChainExpr {
-                                span: *span,
-                                optional: *optional,
-                                base: Box::new(OptChainBase::Member(MemberExpr {
-                                    span: call.span,
-                                    obj: Box::new(expr),
-                                    prop: MemberProp::Ident(quote_ident!("call")),
-                                })),
-                            }
-                            .into(),
-                        ),
-                        args,
-                        type_args: call.type_args.take(),
-                    };
-                    *e = Expr::OptChain(OptChainExpr {
-                        span: *span,
-                        optional: false,
-                        base: Box::new(OptChainBase::Call(call)),
-                    })
-                } else {
-                    call.callee = Box::new(expr);
-                }
-            }
-
             Expr::Member(member_expr) => {
                 member_expr.visit_mut_children_with(self);
                 *e = self.visit_mut_private_get(member_expr, None).0;
             }
-            Expr::OptChain(OptChainExpr { base, span, .. })
-                if matches!(
-                    &**base,
-                    OptChainBase::Member(MemberExpr {
-                        prop: MemberProp::PrivateName(..),
-                        ..
-                    },)
-                ) =>
-            {
-                let member = match &mut **base {
-                    OptChainBase::Member(
-                        member @ MemberExpr {
-                            prop: MemberProp::PrivateName(..),
-                            ..
-                        },
-                    ) => member,
-                    _ => {
-                        unreachable!()
-                    }
-                };
-                member.visit_mut_children_with(self);
-                let (ident, aliased) = alias_if_required(&member.obj, "_ref");
-                if aliased {
-                    self.vars.push(VarDeclarator {
-                        span: DUMMY_SP,
-                        name: ident.clone().into(),
-                        init: None,
-                        definite: false,
-                    });
-                }
-                let (expr, _) = self.visit_mut_private_get(member, None);
 
-                *e = Expr::Cond(CondExpr {
-                    span: *span,
-                    test: Box::new(opt_chain_test(
-                        Box::new(ident.clone().into()),
-                        Box::new(ident.into()),
-                        *span,
-                        self.c.no_document_all,
-                    )),
-                    cons: undefined(DUMMY_SP),
-                    alt: Box::new(expr),
-                })
-            }
             _ => e.visit_mut_children_with(self),
         };
     }
@@ -557,12 +495,14 @@ pub(super) fn visit_private_in_expr(
     expr: &mut Expr,
     private: &PrivateRecord,
     config: Config,
+    unresolved_mark: Mark,
 ) -> Vec<VarDeclarator> {
     let mut priv_visitor = PrivateAccessVisitor {
         private,
         vars: vec![],
         private_access_type: Default::default(),
         c: config,
+        unresolved_mark,
     };
 
     expr.visit_mut_with(&mut priv_visitor);

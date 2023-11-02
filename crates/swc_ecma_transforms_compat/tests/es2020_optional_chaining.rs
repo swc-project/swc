@@ -3,7 +3,10 @@ use std::{fs::read_to_string, path::PathBuf};
 use swc_common::{chain, Mark};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms_base::resolver;
-use swc_ecma_transforms_compat::es2020::{optional_chaining, optional_chaining::Config};
+use swc_ecma_transforms_compat::{
+    es2020::{optional_chaining, optional_chaining::Config},
+    es2022::class_properties,
+};
 use swc_ecma_transforms_testing::{compare_stdout, test, test_exec, test_fixture};
 use swc_ecma_visit::Fold;
 
@@ -275,11 +278,19 @@ fn fixture(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|_| {
+        &|t| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
+                class_properties(
+                    Some(t.comments.clone()),
+                    swc_ecma_transforms_compat::es2022::class_properties::Config {
+                        private_as_properties: false,
+                        ..Default::default()
+                    },
+                    unresolved_mark
+                ),
                 optional_chaining(Default::default(), unresolved_mark)
             )
         },
@@ -295,11 +306,22 @@ fn fixture_loose(input: PathBuf) {
 
     test_fixture(
         Default::default(),
-        &|_| {
+        &|t| {
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
+                class_properties(
+                    Some(t.comments.clone()),
+                    swc_ecma_transforms_compat::es2022::class_properties::Config {
+                        private_as_properties: false,
+                        pure_getter: true,
+                        no_document_all: true,
+
+                        ..Default::default()
+                    },
+                    unresolved_mark
+                ),
                 optional_chaining(
                     Config {
                         no_document_all: true,
