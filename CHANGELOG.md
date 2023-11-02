@@ -17,6 +17,9 @@
 
 
 
+- **(es/minifier)** Respect inline level and preserve native names ([#8205](https://github.com/swc-project/swc/issues/8205)) ([dd805e9](https://github.com/swc-project/swc/commit/dd805e95a4735e1b869c298489b80555ab4eb20d))
+
+
 - **(es/preset-env)** Update compat data ([#8194](https://github.com/swc-project/swc/issues/8194)) ([3dc4e1e](https://github.com/swc-project/swc/commit/3dc4e1e02d3e594da6301ca4c80aaee582642fd7))
 
 
@@ -1725,9 +1728,6 @@ Full refactor of the "calc" simplification to be more compliant with the spec. (
 
 ### Bug Fixes
 
-
-
-- **(es/codegen)** Emit `type_params` for `TsConstructSignatureDecl` ([#7080](https://github.com/swc-project/swc/issues/7080)) ([8353acc](https://github.com/swc-project/swc/commit/8353accb1315a8847e4dabcd36274cde5856e763))
 
 
 - **(es/minifier)** Remove wrong optimization of `new RegExp(…)` ([#7091](https://github.com/swc-project/swc/issues/7091)) ([493a4f7](https://github.com/swc-project/swc/commit/493a4f7042bad7f883981b10cdc02fe0d36a5fb0))
