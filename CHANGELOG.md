@@ -14,6 +14,9 @@
 - **(es/compat)** Use dummy span for blocks in `parameters` ([#8202](https://github.com/swc-project/swc/issues/8202)) ([c1b255a](https://github.com/swc-project/swc/commit/c1b255a59c1e8d81371c9576ca0c4573f04e65da))
 
 
+- **(es/compat)** Handle private names from class properties pass ([#8090](https://github.com/swc-project/swc/issues/8090)) ([83a5a0c](https://github.com/swc-project/swc/commit/83a5a0c612b7ca97529720f8a35117957d4cb9a6))
+
+
 - **(es/transforms)** Do not add `PURE` comment to `BytePos(0)` ([#8207](https://github.com/swc-project/swc/issues/8207)) ([c061356](https://github.com/swc-project/swc/commit/c061356b63431fcd0323e434402ead143c622340))
 
 
@@ -1710,9 +1713,6 @@
 
 ### Features
 
-
-
-- **(es/resolver)** Make scope context identical to the vars ([#7095](https://github.com/swc-project/swc/issues/7095)) ([0f09e35](https://github.com/swc-project/swc/commit/0f09e356c38268ac10223d0d44dd253949bcbc59))
 
 
 - Feat(css/minifier) Follow the CSS spec more rigorously ([#6291](https://github.com/swc-project/swc/issues/6291))
