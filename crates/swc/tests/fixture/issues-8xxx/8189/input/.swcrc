@@ -10,7 +10,7 @@
             "compress": false,
             "mangle": false,
             "format": {
-                "asciiOnly": true
+                "asciiOnly": false
             }
         },
         "transform": {
