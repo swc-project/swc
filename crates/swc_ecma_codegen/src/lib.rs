@@ -3798,7 +3798,6 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     let mut double_quote_count = 0;
 
     while let Some(c) = iter.next() {
-        dbg!(c, c as u32);
         match c {
             '\x00' => {
                 buf.push_str("\\x00");
