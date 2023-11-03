@@ -577,27 +577,9 @@ where
             }
         }
 
-        if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+        let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
 
-            self.wr.write_str_lit(DUMMY_SP, &value)?;
-        } else {
-            match &node.raw {
-                // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
-                // codegen
-                Some(raw_value)
-                    if target > EsVersion::Es5
-                        && (!self.cfg.ascii_only || raw_value.is_ascii()) =>
-                {
-                    self.wr.write_str_lit(DUMMY_SP, raw_value)?;
-                }
-                _ => {
-                    let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
-
-                    self.wr.write_str_lit(DUMMY_SP, &value)?;
-                }
-            }
-        }
+        self.wr.write_str_lit(DUMMY_SP, &value)?;
 
         // srcmap!(node, false);
     }
