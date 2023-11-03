@@ -571,7 +571,14 @@ where
         let target = self.cfg.target;
 
         if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+            let mut value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+            if !self.cfg.ascii_only {
+                if let Some(raw) = &node.raw {
+                    if value.as_bytes().len() >= raw.as_bytes().len() {
+                        value = raw.to_string();
+                    }
+                }
+            }
 
             self.wr.write_str_lit(DUMMY_SP, &value)?;
         } else {
