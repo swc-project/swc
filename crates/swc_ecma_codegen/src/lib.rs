@@ -3798,6 +3798,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     let mut double_quote_count = 0;
 
     while let Some(c) = iter.next() {
+        dbg!(c, c as u32);
         match c {
             '\x00' => {
                 buf.push_str("\\x00");
@@ -3924,7 +3925,11 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                 buf.push(c);
             }
             '\u{7f}'..='\u{ff}' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+                if ascii_only || target <= EsVersion::Es5 {
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    buf.push(c);
+                }
             }
             '\u{2028}' => {
                 buf.push_str("\\u2028");
