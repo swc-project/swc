@@ -307,9 +307,19 @@ where
                         }
                     }
 
-                    for class_name in n.value.iter() {
+                    for class_name in n.value.iter_mut() {
                         if let ComponentValue::Ident(box Ident { span, value, .. }) = class_name {
-                            if let Some(value) = self.data.orig_to_renamed.get(value) {
+                            let orig = value.clone();
+                            rename(
+                                *span,
+                                &mut self.config,
+                                &mut self.result,
+                                &mut self.data.orig_to_renamed,
+                                &mut self.data.renamed_to_orig,
+                                value,
+                            );
+
+                            if let Some(value) = self.data.orig_to_renamed.get(&orig) {
                                 composes_for_current.push(CssClassName::Local {
                                     name: Ident {
                                         span: *span,
