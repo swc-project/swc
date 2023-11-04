@@ -1229,7 +1229,7 @@ var load77 = __swcpack_require__.bind(void 0, function(module, exports) {
     });
 });
 var load78 = __swcpack_require__.bind(void 0, function(module, exports) {
-    module.exports = "	\n\v\f\r \xa0 ᠎             　\u2028\u2029\uFEFF";
+    module.exports = "	\n\v\f\r   ᠎             　\u2028\u2029\uFEFF";
 });
 var load79 = __swcpack_require__.bind(void 0, function(module, exports) {
     var $export = load20();
