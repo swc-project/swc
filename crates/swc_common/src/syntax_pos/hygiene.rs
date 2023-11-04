@@ -601,6 +601,6 @@ impl fmt::Debug for SyntaxContext {
 
 impl Default for Mark {
     fn default() -> Self {
-        Mark::root()
+        Mark::new()
     }
 }
