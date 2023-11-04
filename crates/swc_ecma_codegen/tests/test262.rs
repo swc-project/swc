@@ -96,8 +96,6 @@ fn do_test(entry: &Path, minify: bool) {
 
     let module = file_name.contains("module");
 
-    let ref_dir = ref_dir;
-
     let msg = format!(
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
         file_name, input
