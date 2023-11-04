@@ -902,7 +902,7 @@ impl<'a> Lexer<'a> {
 
                         let chars = l.read_unicode_escape(&mut Raw(None))?;
 
-                        if let Some(c) = chars.get(0) {
+                        if let Some(c) = chars.first() {
                             let valid = if first {
                                 c.is_ident_start()
                             } else {

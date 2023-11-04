@@ -808,10 +808,7 @@ where
 
                 self.errors.push(Error::new(
                     token_and_info.span,
-                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(
-                        tag_name.clone(),
-                        last.clone().into(),
-                    ),
+                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(tag_name.clone(), last.into()),
                 ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
@@ -1051,7 +1048,7 @@ where
                                 token_and_info.span,
                                 ErrorKind::EndTagDidNotMatchCurrentOpenElement(
                                     tag_name.clone(),
-                                    node_tag_name.clone().into(),
+                                    node_tag_name.into(),
                                 ),
                             ));
                         }
@@ -2312,7 +2309,7 @@ where
                             return Ok(());
                         }
 
-                        if let Some(top) = self.open_elements_stack.items.get(0) {
+                        if let Some(top) = self.open_elements_stack.items.first() {
                             let mut node_attributes = match &top.data {
                                 Data::Element { attributes, .. } => attributes.borrow_mut(),
                                 _ => {
@@ -2641,7 +2638,7 @@ where
                             return Ok(());
                         } else {
                             self.update_end_tag_span(
-                                self.open_elements_stack.items.get(0),
+                                self.open_elements_stack.items.first(),
                                 token_and_info.span,
                             );
                         }
@@ -6076,7 +6073,7 @@ where
                             ));
                         } else {
                             self.update_end_tag_span(
-                                self.open_elements_stack.items.get(0),
+                                self.open_elements_stack.items.first(),
                                 token_and_info.span,
                             );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
@@ -8181,7 +8178,7 @@ where
 
         let comment = Node::new(Data::Comment { data, raw }, token_and_info.span);
 
-        if let Some(html) = &self.open_elements_stack.items.get(0) {
+        if let Some(html) = &self.open_elements_stack.items.first() {
             self.append_node(html, comment);
         }
 

@@ -219,20 +219,20 @@ impl Compressor {
                 | "border-image-slice"
                     if declaration.value.len() > 1 =>
                 {
-                    let top = declaration.value.get(0);
+                    let top = declaration.value.first();
                     let right = declaration
                         .value
                         .get(1)
-                        .or_else(|| declaration.value.get(0));
+                        .or_else(|| declaration.value.first());
                     let bottom = declaration
                         .value
                         .get(2)
-                        .or_else(|| declaration.value.get(0));
+                        .or_else(|| declaration.value.first());
                     let left = declaration
                         .value
                         .get(3)
                         .or_else(|| declaration.value.get(1))
-                        .or_else(|| declaration.value.get(0));
+                        .or_else(|| declaration.value.first());
 
                     if self.is_same_length_percentage_nodes(left, right) {
                         if self.is_same_length_percentage_nodes(bottom, top) {
@@ -274,7 +274,7 @@ impl Compressor {
                 | "border-end-end-radius"
                     if declaration.value.len() == 2 =>
                 {
-                    let first = declaration.value.get(0);
+                    let first = declaration.value.first();
                     let second = declaration.value.get(1);
 
                     if self.is_same_length_percentage_nodes(first, second)
@@ -284,20 +284,20 @@ impl Compressor {
                     }
                 }
                 "border-style" if declaration.value.len() > 1 => {
-                    let top = declaration.value.get(0);
+                    let top = declaration.value.first();
                     let right = declaration
                         .value
                         .get(1)
-                        .or_else(|| declaration.value.get(0));
+                        .or_else(|| declaration.value.first());
                     let bottom = declaration
                         .value
                         .get(2)
-                        .or_else(|| declaration.value.get(0));
+                        .or_else(|| declaration.value.first());
                     let left = declaration
                         .value
                         .get(3)
                         .or_else(|| declaration.value.get(1))
-                        .or_else(|| declaration.value.get(0));
+                        .or_else(|| declaration.value.first());
 
                     if self.is_same_ident(left, right) {
                         if self.is_same_ident(bottom, top) {
@@ -317,7 +317,7 @@ impl Compressor {
                     }
                 }
                 "border-spacing" | "border-image-repeat" if declaration.value.len() == 2 => {
-                    let first = declaration.value.get(0);
+                    let first = declaration.value.first();
                     let second = declaration.value.get(1);
 
                     if self.is_same_length_nodes(first, second) {
@@ -355,7 +355,7 @@ impl Compressor {
                 "background-repeat" | "mask-repeat" | "-webkit-mask-repeat"
                     if declaration.value.len() == 2 =>
                 {
-                    let first = declaration.value.get(0);
+                    let first = declaration.value.first();
                     let second = declaration.value.get(1);
 
                     if let (
@@ -409,7 +409,7 @@ impl Compressor {
                 | "place-content"
                     if declaration.value.len() == 2 =>
                 {
-                    let first = declaration.value.get(0);
+                    let first = declaration.value.first();
                     let second = declaration.value.get(1);
 
                     if self.is_same_ident(first, second) {
@@ -417,7 +417,7 @@ impl Compressor {
                     }
                 }
                 "animation" if !declaration.value.is_empty() => {
-                    let first = declaration.value.get(0).cloned();
+                    let first = declaration.value.first().cloned();
                     if let Some(ComponentValue::Str(ident)) = first {
                         declaration.value.remove(0);
                         match &*ident.value.to_ascii_lowercase() {
@@ -486,7 +486,7 @@ impl Compressor {
             }
 
             let is_initial = if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                declaration.value.get(0)
+                declaration.value.first()
             {
                 if value.eq_ignore_ascii_case("initial") {
                     Some(span)
@@ -1270,7 +1270,7 @@ impl Compressor {
         match &**name {
             "background-clip" | "mask-clip" | "mask-origin" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("border-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1283,7 +1283,7 @@ impl Compressor {
             }
             "background-color" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("transparent") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1296,7 +1296,7 @@ impl Compressor {
             }
             "background-origin" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("padding-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1313,7 +1313,7 @@ impl Compressor {
                         value: first, span, ..
                     })),
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
-                ) = (declaration.value.get(0), declaration.value.get(1))
+                ) = (declaration.value.first(), declaration.value.get(1))
                 {
                     if first.eq_ignore_ascii_case("auto")
                         && second.eq_ignore_ascii_case("auto")
@@ -1341,7 +1341,7 @@ impl Compressor {
             | "text-emphasis-color"
             | "text-decoration-color" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("currentcolor") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1354,7 +1354,7 @@ impl Compressor {
             }
             "border-collapse" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1367,7 +1367,7 @@ impl Compressor {
             }
             "box-sizing" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("content-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1380,7 +1380,7 @@ impl Compressor {
             }
             "color" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("canvastext") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1397,7 +1397,7 @@ impl Compressor {
                         value: first, span, ..
                     })),
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
-                ) = (declaration.value.get(0), declaration.value.get(1))
+                ) = (declaration.value.first(), declaration.value.get(1))
                 {
                     if first.eq_ignore_ascii_case("weight")
                         && second.eq_ignore_ascii_case("style")
@@ -1413,7 +1413,7 @@ impl Compressor {
             }
             "image-orientation" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("from-image") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1426,7 +1426,7 @@ impl Compressor {
             }
             "mask-mode" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("match-source") && declaration.value.len() == 1 {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1439,7 +1439,7 @@ impl Compressor {
             }
             "mask-type" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("luminance") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1452,7 +1452,7 @@ impl Compressor {
             }
             "ruby-align" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("space-around") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1465,7 +1465,7 @@ impl Compressor {
             }
             "ruby-merge" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("separate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1478,7 +1478,7 @@ impl Compressor {
             }
             "ruby-position" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("alternate") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1495,7 +1495,7 @@ impl Compressor {
                         value: first, span, ..
                     })),
                     Some(ComponentValue::Ident(box Ident { value: second, .. })),
-                ) = (declaration.value.get(0), declaration.value.get(1))
+                ) = (declaration.value.first(), declaration.value.get(1))
                 {
                     if first.eq_ignore_ascii_case("over") && second.eq_ignore_ascii_case("right") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1508,7 +1508,7 @@ impl Compressor {
             }
             "transform-box" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("view-box") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1532,7 +1532,7 @@ impl Compressor {
                     })),
                     Some(ComponentValue::Integer(box Integer { value: third, .. })),
                 ) = (
-                    declaration.value.get(0),
+                    declaration.value.first(),
                     declaration.value.get(1),
                     declaration.value.get(2),
                 ) {
@@ -1551,7 +1551,7 @@ impl Compressor {
             }
             "vertical-align" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("baseline") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {
@@ -1564,7 +1564,7 @@ impl Compressor {
             }
             "writing-mode" => {
                 if let Some(ComponentValue::Ident(box Ident { value, span, .. })) =
-                    declaration.value.get(0)
+                    declaration.value.first()
                 {
                     if value.eq_ignore_ascii_case("horizontal-tb") {
                         declaration.value = vec![ComponentValue::Ident(Box::new(Ident {

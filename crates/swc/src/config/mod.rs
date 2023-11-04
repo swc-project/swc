@@ -271,8 +271,8 @@ impl Options {
             }
         });
 
-        let unresolved_mark = self.unresolved_mark.unwrap_or_else(Mark::new);
-        let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
+        let unresolved_mark = self.unresolved_mark.unwrap_or_default();
+        let top_level_mark = self.top_level_mark.unwrap_or_default();
 
         if target.is_some() && cfg.env.is_some() {
             bail!("`env` and `jsc.target` cannot be used together");

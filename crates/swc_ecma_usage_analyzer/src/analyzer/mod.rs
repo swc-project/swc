@@ -1,4 +1,4 @@
-use swc_common::{collections::AHashMap, Mark, SyntaxContext};
+use swc_common::{collections::AHashMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -33,7 +33,7 @@ where
         ctx: Default::default(),
         expr_ctx: ExprCtx {
             unresolved_ctxt: SyntaxContext::empty()
-                .apply_mark(marks.map(|m| m.unresolved_mark).unwrap_or_else(Mark::new)),
+                .apply_mark(marks.map(|m| m.unresolved_mark).unwrap_or_default()),
             is_unresolved_ref_safe: false,
         },
         used_recursively: AHashMap::default(),

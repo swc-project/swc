@@ -1226,7 +1226,7 @@ impl VisitMut for SimplifyExpr {
                             .map(|v| &**v)
                             .map_or(false, Expr::directness_maters)
                         {
-                            match seq.exprs.get(0).map(|v| &**v) {
+                            match seq.exprs.first().map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                                 _ => {
                                     tracing::debug!("Injecting `0` to preserve `this = undefined`");

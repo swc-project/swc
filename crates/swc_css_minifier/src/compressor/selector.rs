@@ -123,7 +123,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == "nth-child" && children.len() == 1 => match children.get(0) {
+            }) if name.value == "nth-child" && children.len() == 1 => match children.first() {
                 Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                     AnPlusBNotation {
                         a: None,
@@ -148,7 +148,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == "nth-last-child" && children.len() == 1 => match children.get(0) {
+            }) if name.value == "nth-last-child" && children.len() == 1 => match children.first() {
                 Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                     AnPlusBNotation {
                         a: None,
@@ -173,7 +173,7 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == "nth-of-type" && children.len() == 1 => match children.get(0) {
+            }) if name.value == "nth-of-type" && children.len() == 1 => match children.first() {
                 Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                     AnPlusBNotation {
                         a: None,
@@ -199,7 +199,7 @@ impl Compressor {
                 span,
                 ..
             }) if name.value == "nth-last-of-type" && children.len() == 1 => {
-                match children.get(0) {
+                match children.first() {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
                             a: None,
