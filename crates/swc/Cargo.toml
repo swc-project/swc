@@ -73,7 +73,7 @@ swc_common = { version = "0.33.2", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "0.3.28", path = "../swc_compiler_base" }
+swc_compiler_base = { version = "0.3.29", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.110.2", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.146.8", path = "../swc_ecma_codegen" }
@@ -97,7 +97,7 @@ swc_ecma_transforms = { version = "0.226.21", path = "../swc_ecma_transforms", f
 ] }
 swc_ecma_transforms_base = { version = "0.134.15", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "0.160.20", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_optimization = { version = "0.195.21", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.195.22", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_utils = { version = "0.124.13", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.96.2", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.17.2", path = "../swc_error_reporters" }
