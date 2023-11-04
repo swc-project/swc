@@ -90,9 +90,13 @@ impl VisitMut for Transform {
         }
     }
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+    fn visit_mut_module(&mut self, n: &mut Module) {
         self.visit_mut_for_ts_import_export(n);
 
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
         for mut item in n.take() {
             let decls = self.class_prop_decls.take();
             item.visit_mut_with(self);
@@ -435,6 +439,7 @@ impl Transform {
 
         for module_item in body {
             match module_item {
+                ModuleItem::Stmt(stmt) => stmts.push(stmt),
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(export_decl)) => {
                     let stmt_list = Self::transform_export_decl_in_ts_module_block(
                         &id,
@@ -446,17 +451,47 @@ impl Transform {
 
                     stmts.extend(stmt_list);
                 }
-                ModuleItem::Stmt(stmt) => stmts.push(stmt),
-                item @ ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(..)) => {
-                    // TS1147
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                item.span(),
-                                r#"Import declarations in a namespace cannot reference a module."#,
-                            )
-                            .emit()
-                    });
+                ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) => {
+                    match decl.module_ref {
+                        TsModuleRef::TsEntityName(ts_entity_name) => {
+                            let init = Self::ts_entity_name_to_expr(ts_entity_name);
+
+                            // export impot foo = bar.baz
+                            let stmt = if decl.is_export {
+                                // Foo.foo = bar.baz
+                                mutable_export_ids.insert(decl.id.to_id());
+                                let left = id.clone().make_member(decl.id.clone());
+                                let expr = init.make_assign_to(op!("="), left.as_pat_or_expr());
+
+                                ExprStmt {
+                                    span: decl.span,
+                                    expr: expr.into(),
+                                }
+                                .into()
+                            } else {
+                                // const foo = bar.baz
+                                let mut var_decl =
+                                    init.into_var_decl(VarDeclKind::Const, decl.id.clone().into());
+
+                                var_decl.span = decl.span;
+
+                                Stmt::Decl(var_decl.into())
+                            };
+
+                            stmts.push(stmt);
+                        }
+                        TsModuleRef::TsExternalModuleRef(..) => {
+                            // TS1147
+                            HANDLER.with(|handler| {
+                                handler
+                                .struct_span_err(
+                                    decl.span,
+                                    r#"Import declarations in a namespace cannot reference a module."#,
+                                )
+                                .emit();
+                            });
+                        }
+                    }
                 }
                 item => {
                     HANDLER.with(|handler| {
@@ -465,7 +500,7 @@ impl Transform {
                                 item.span(),
                                 r#"ESM-style module declarations are not permitted in a namespace."#,
                             )
-                            .emit()
+                            .emit();
                     });
                 }
             }
@@ -939,7 +974,8 @@ impl Transform {
         }
     }
 
-    fn visit_mut_for_ts_import_export(&mut self, n: &mut Vec<ModuleItem>) {
+    fn visit_mut_for_ts_import_export(&mut self, n: &mut Module) {
+        let n = &mut n.body;
         let mut should_inject = false;
         let create_require = private_ident!("_createRequire");
         let require = private_ident!("__require");
@@ -956,7 +992,7 @@ impl Transform {
         for mut module_item in n.take() {
             match &mut module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::TsImportEquals(decl)) if !decl.is_type_only => {
-                    let is_top_level = decl.id.span.ctxt() == self.top_level_ctxt;
+                    debug_assert_eq!(decl.id.span.ctxt(), self.top_level_ctxt);
 
                     match &mut decl.module_ref {
                         // import foo = bar.baz
@@ -980,17 +1016,6 @@ impl Transform {
                         }
                         // import foo = require("foo")
                         TsModuleRef::TsExternalModuleRef(TsExternalModuleRef { expr, .. }) => {
-                            if !is_top_level {
-                                // TS1147
-                                HANDLER.with(|handler| {
-                                    handler.struct_span_err(
-                                        decl.span,
-                                        r#"Import declarations in a namespace cannot reference a module."#,
-                                    )
-                                    .emit();
-                                });
-                            }
-
                             match self.import_export_assign_config {
                                 TsImportExportAssignConfig::Classic => {
                                     // require("foo");
