@@ -659,12 +659,17 @@ fn prepend_left_subclass_selectors(
     complex_selector_children: &mut [ComplexSelectorChildren],
     sels: (&[SubclassSelector], &[SubclassSelector]),
 ) {
-    if let Some(ComplexSelectorChildren::CompoundSelector(first)) =
-        complex_selector_children.get_mut(0)
+    dbg!(&complex_selector_children);
+    dbg!(&sels);
+
+    for (idx, c) in complex_selector_children
+        .iter_mut()
+        .filter_map(|c| c.as_mut_compound_selector())
+        .enumerate()
     {
-        first.subclass_selectors = [
+        c.subclass_selectors = [
             sels.0.to_vec(),
-            first.subclass_selectors.take(),
+            c.subclass_selectors.take(),
             sels.1[1..].to_vec(),
         ]
         .concat();
