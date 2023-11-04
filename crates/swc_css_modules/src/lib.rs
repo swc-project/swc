@@ -660,7 +660,7 @@ fn process_local<C>(
 fn prepend_left_subclass_selectors(
     complex_selector_children: &mut [ComplexSelectorChildren],
     sels: &mut Vec<SubclassSelector>,
-    sel_index: usize,
+    mut sel_index: usize,
 ) {
     sels.remove(sel_index);
 
@@ -673,11 +673,13 @@ fn prepend_left_subclass_selectors(
         dbg!(&c);
         dbg!(&sels);
 
-        c.subclass_selectors = [
-            sels[..sel_index].to_vec(),
-            c.subclass_selectors.take(),
-            sels[sel_index..].to_vec(),
-        ]
-        .concat();
+        c.subclass_selectors.splice(0..0, sels.drain(..sel_index));
+
+        if sels.len() > sel_index {
+            c.subclass_selectors
+                .extend(sels[..sel_index + 1].iter().cloned());
+        }
+
+        sel_index = 0;
     }
 }
