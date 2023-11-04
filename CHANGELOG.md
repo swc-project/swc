@@ -7,6 +7,12 @@
 
 - **(css/modules)** Allow out-of-order class names for `composes` ([#8218](https://github.com/swc-project/swc/issues/8218)) ([aeb9caf](https://github.com/swc-project/swc/commit/aeb9cafd11c56d9dce41372211d90a3edb4d1848))
 
+### Features
+
+
+
+- **(es/codegen)** Respect `ascii_only: false` for `StrLit` ([#8217](https://github.com/swc-project/swc/issues/8217)) ([1a26be2](https://github.com/swc-project/swc/commit/1a26be2a271437894b1cda86c4707014e684b5ba))
+
 ### Performance
 
 
@@ -1709,9 +1715,6 @@
 
 ### Bug Fixes
 
-
-
-- **(bindings/node)** Fix loading of `spack.config.js` ([#7105](https://github.com/swc-project/swc/issues/7105)) ([a4d1af1](https://github.com/swc-project/swc/commit/a4d1af18deabe79caa959eb654ca1ebc2d9f6867))
 
 
 - **(es/ast)** Fix `EqIgnoreSpan` impl of `Number` ([#7112](https://github.com/swc-project/swc/issues/7112)) ([6a570a3](https://github.com/swc-project/swc/commit/6a570a334c787358d67ae6c590a7fd0e916f35e8))
