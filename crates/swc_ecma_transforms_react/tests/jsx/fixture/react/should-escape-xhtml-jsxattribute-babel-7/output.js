@@ -1,5 +1,5 @@
 /*#__PURE__*/ React.createElement("div", {
-    id: "w\xf4w"
+    id: "wôw"
 });
 /*#__PURE__*/ React.createElement("div", {
     id: "\\w"
