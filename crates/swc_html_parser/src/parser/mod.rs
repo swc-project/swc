@@ -686,9 +686,10 @@ where
             // U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
             //
             // Insert the token's character.
-            Token::Character { value, .. }
-                if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-            {
+            Token::Character {
+                value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                ..
+            } => {
                 self.insert_character(token_and_info)?;
             }
             // Any other character token
@@ -1123,9 +1124,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A comment token
@@ -1467,9 +1469,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A start tag whose tag name is "html"
@@ -1573,9 +1576,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A comment token
@@ -1660,9 +1664,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -2022,9 +2027,10 @@ where
                     // "noframes", "style"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     Token::Comment { .. } => {
