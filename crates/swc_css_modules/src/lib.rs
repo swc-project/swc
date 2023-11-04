@@ -664,18 +664,13 @@ fn prepend_left_subclass_selectors(
 ) {
     sels.remove(sel_index);
 
-    for (idx, c) in complex_selector_children
+    for c in complex_selector_children
         .iter_mut()
         .filter_map(|c| c.as_mut_compound_selector())
-        .enumerate()
     {
-        dbg!(idx);
-        dbg!(&c);
-        dbg!(&sels);
-
         c.subclass_selectors.splice(0..0, sels.drain(..sel_index));
 
-        if sels.len() > sel_index {
+        if sels.len() > sel_index + 1 {
             c.subclass_selectors
                 .extend(sels[..sel_index + 1].iter().cloned());
         }
