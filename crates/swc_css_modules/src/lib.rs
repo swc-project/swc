@@ -319,11 +319,11 @@ where
                                 value,
                             );
 
-                            if let Some(value) = self.data.orig_to_renamed.get(&orig) {
+                            if let Some(new_name) = self.data.orig_to_renamed.get(&orig) {
                                 composes_for_current.push(CssClassName::Local {
                                     name: Ident {
                                         span: *span,
-                                        value: value.clone(),
+                                        value: new_name.clone(),
                                         raw: None,
                                     },
                                 });
