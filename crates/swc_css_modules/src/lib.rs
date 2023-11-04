@@ -507,15 +507,17 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        if let Some(n) = n.as_mut_compound_selector() {
-                                            n.subclass_selectors.remove(sel_index);
-                                        }
-                                        new_children.push(n);
+                                        selector.subclass_selectors.remove(sel_index);
+                                        new_children.push(
+                                            ComplexSelectorChildren::CompoundSelector(
+                                                selector.clone(),
+                                            ),
+                                        );
                                     }
                                     self.data.is_global_mode = false;
                                 }
 
-                                continue 'complex;
+                                break;
                             }
                             "global" => {
                                 if let Some(children) = &mut class_sel.children {
@@ -533,15 +535,17 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        if let Some(n) = n.as_mut_compound_selector() {
-                                            n.subclass_selectors.remove(sel_index);
-                                        }
-                                        new_children.push(n);
+                                        selector.subclass_selectors.remove(sel_index);
+                                        new_children.push(
+                                            ComplexSelectorChildren::CompoundSelector(
+                                                selector.clone(),
+                                            ),
+                                        );
                                     }
                                     self.data.is_global_mode = true;
                                 }
 
-                                continue 'complex;
+                                break;
                             }
                             _ => {}
                         },
