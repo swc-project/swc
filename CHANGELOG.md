@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(css/modules)** Allow out-of-order class names for `composes` ([#8218](https://github.com/swc-project/swc/issues/8218)) ([aeb9caf](https://github.com/swc-project/swc/commit/aeb9cafd11c56d9dce41372211d90a3edb4d1848))
+
 ## [1.3.96] - 2023-11-03
 
 ### Bug Fixes
@@ -1704,9 +1712,6 @@
 
 
 - **(es/compat)** Don't modify private fields from `reserved_words` pass ([#7113](https://github.com/swc-project/swc/issues/7113)) ([2bc631d](https://github.com/swc-project/swc/commit/2bc631df8792d2f1356b5ef2dbf3ee0c46ecbd4f))
-
-
-- **(es/minifier)** Pass `keep_*` in config to `compress` and `mangle` ([#7102](https://github.com/swc-project/swc/issues/7102)) ([6a1201c](https://github.com/swc-project/swc/commit/6a1201cfc44fe5ae3d8599669fd8032c82e6c580))
 
 
 - **(es/minifier)** Don't inline into arrow heads ([#7099](https://github.com/swc-project/swc/issues/7099)) ([610e1bb](https://github.com/swc-project/swc/commit/610e1bb581a04fe9b871dd7afa0cf81ab9ee7fa8))
