@@ -673,12 +673,10 @@ fn prepend_left_subclass_selectors(
         dbg!(&c);
         dbg!(&sels);
 
-        let sels = sels.split_at(sel_index);
-
         c.subclass_selectors = [
-            sels.0.to_vec(),
+            sels[..sel_index].to_vec(),
             c.subclass_selectors.take(),
-            sels.1.to_vec(),
+            sels[sel_index..].to_vec(),
         ]
         .concat();
     }
