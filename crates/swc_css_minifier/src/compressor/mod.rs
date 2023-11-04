@@ -60,7 +60,7 @@ impl VisitMut for Compressor {
         self.compress_stylesheet(n);
 
         if !self.need_utf8_at_rule {
-            match n.rules.get(0) {
+            match n.rules.first() {
                 Some(Rule::AtRule(box AtRule {
                     prelude: Some(box AtRulePrelude::CharsetPrelude(Str { value, .. })),
                     ..

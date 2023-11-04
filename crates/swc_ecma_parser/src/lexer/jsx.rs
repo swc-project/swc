@@ -38,7 +38,7 @@ impl<'a> Lexer<'a> {
                                 // Safety: cur() was Some('<')
                                 self.input.bump();
                             }
-                            return Ok(Token::JSXTagStart).map(Some);
+                            return Ok(Some(Token::JSXTagStart));
                         }
                         return self.read_token();
                     }
@@ -47,10 +47,9 @@ impl<'a> Lexer<'a> {
                         self.input.slice(chunk_start, cur_pos)
                     });
 
-                    return Ok(Token::JSXText {
+                    return Ok(Some(Token::JSXText {
                         raw: Atom::new(out),
-                    })
-                    .map(Some);
+                    }));
                 }
                 '>' => {
                     self.emit_error(

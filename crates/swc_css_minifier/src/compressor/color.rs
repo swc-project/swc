@@ -401,7 +401,7 @@ impl Compressor {
                     })
                     .collect();
 
-                let r = match self.get_number_or_percentage(rgba.get(0)) {
+                let r = match self.get_number_or_percentage(rgba.first()) {
                     Some(value) => value,
                     _ => return,
                 };
@@ -439,7 +439,7 @@ impl Compressor {
                     })
                     .collect();
 
-                let h = match self.get_hue(hsla.get(0)) {
+                let h = match self.get_hue(hsla.first()) {
                     Some(value) => value,
                     _ => return,
                 };
@@ -466,7 +466,7 @@ impl Compressor {
                 value,
                 ..
             })) if name == "hwb" => {
-                let h = match self.get_hue(value.get(0).as_ref()) {
+                let h = match self.get_hue(value.first().as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };

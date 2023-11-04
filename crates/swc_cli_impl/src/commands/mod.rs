@@ -10,7 +10,7 @@ pub use bundle::*;
 pub use compile::*;
 pub use lint::*;
 pub use minify::*;
-pub use plugin::{PluginScaffoldOptions, PluginSubcommand};
+pub use plugin::PluginSubcommand;
 
 // Set of subcommands supported by the `swc` command.
 #[derive(Subcommand)]

@@ -1145,7 +1145,7 @@ mod tests {
             from,
             to,
             true,
-            Default::default(),
+            Default::default,
         );
     }
 

@@ -58,7 +58,7 @@ const LOG: bool = false && cfg!(debug_assertions);
 /// 2. Found a block, so visit block with a new syntax context.
 ///
 /// 3. Defined `a` with syntax context of the block statement.
-////
+///
 /// 4. Found usage of `a`, and determines that it's reference to `a` in the
 /// block. So the reference to `a` will have same syntax context as `a` in the
 /// block.

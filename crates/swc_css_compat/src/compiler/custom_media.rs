@@ -261,7 +261,7 @@ impl CustomMediaHandler {
                                         let media_in_parens = if let Some(
                                             MediaConditionAllType::MediaInParens(inner),
                                         ) =
-                                            media_condition.conditions.get(0)
+                                            media_condition.conditions.first()
                                         {
                                             inner.clone()
                                         } else {
@@ -281,7 +281,7 @@ impl CustomMediaHandler {
                                         );
                                     }
                                 } else if let Some(MediaConditionAllType::MediaInParens(inner)) =
-                                    media_condition.conditions.get(0)
+                                    media_condition.conditions.first()
                                 {
                                     new_media_condition
                                         .conditions
@@ -308,7 +308,7 @@ impl CustomMediaHandler {
 
                                 if new_media_condition.conditions.is_empty() {
                                     let media_in_parens = if matches!(
-                                        media_condition.conditions.get(0),
+                                        media_condition.conditions.first(),
                                         Some(MediaConditionAllType::MediaInParens(_))
                                     ) {
                                         match media_condition.conditions.pop() {
@@ -344,7 +344,7 @@ impl CustomMediaHandler {
 
                 if new_media_condition.conditions.len() == 1
                     && matches!(
-                        new_media_condition.conditions.get(0),
+                        new_media_condition.conditions.first(),
                         Some(MediaConditionAllType::MediaInParens(_))
                     )
                 {

@@ -75,14 +75,13 @@ impl<I: Tokens> Parser<I> {
                 None
             };
             expect!(self, ';');
-            return Ok(ModuleDecl::Import(ImportDecl {
+            return Ok(ModuleItem::from(ModuleDecl::Import(ImportDecl {
                 span: span!(self, start),
                 src,
                 specifiers: vec![],
                 type_only: false,
                 with,
-            }))
-            .map(ModuleItem::from);
+            })));
         }
 
         let type_only = self.input.syntax().typescript()
@@ -171,14 +170,13 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, ';');
 
-        Ok(ModuleDecl::Import(ImportDecl {
+        Ok(ModuleItem::from(ModuleDecl::Import(ImportDecl {
             span: span!(self, start),
             specifiers,
             src,
             type_only,
             with,
-        }))
-        .map(ModuleItem::from)
+        })))
     }
 
     /// Parse `foo`, `foo2 as bar` in `import { foo, foo2 as bar }`

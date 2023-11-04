@@ -11,7 +11,7 @@ impl Compressor {
                 value: function_value,
                 ..
             }) if name == "translate" && function_value.len() == 3 => {
-                match (function_value.get(0), function_value.get(2)) {
+                match (function_value.first(), function_value.get(2)) {
                     (
                         Some(first),
                         Some(ComponentValue::Integer(box Integer {
@@ -44,7 +44,7 @@ impl Compressor {
                 ..
             }) if name == "translate3d" && function_value.len() == 5 => {
                 match (
-                    function_value.get(0),
+                    function_value.first(),
                     function_value.get(2),
                     function_value.get(4),
                 ) {
@@ -74,7 +74,7 @@ impl Compressor {
                 value: function_value,
                 ..
             }) if name == "scale" && function_value.len() == 3 => {
-                match (function_value.get(0), function_value.get(2)) {
+                match (function_value.first(), function_value.get(2)) {
                     (
                         Some(
                             first @ ComponentValue::Integer(box Integer {
@@ -126,7 +126,7 @@ impl Compressor {
                 ..
             }) if name == "scale3d" && function_value.len() == 5 => {
                 match (
-                    function_value.get(0),
+                    function_value.first(),
                     function_value.get(2),
                     function_value.get(4),
                 ) {
@@ -193,7 +193,7 @@ impl Compressor {
                 ..
             }) if name == "matrix3d" && function_value.len() == 31 => {
                 match (
-                    function_value.get(0),
+                    function_value.first(),
                     function_value.get(1),
                     function_value.get(2),
                     function_value.get(3),
@@ -306,7 +306,7 @@ impl Compressor {
                 ..
             }) if name == "rotate3d" && function_value.len() == 7 => {
                 match (
-                    function_value.get(0),
+                    function_value.first(),
                     function_value.get(2),
                     function_value.get(4),
                     function_value.get(6),
@@ -397,7 +397,7 @@ impl Compressor {
                 value: function_value,
                 ..
             }) if name == "skew" && function_value.len() == 3 => {
-                match (function_value.get(0), function_value.get(2)) {
+                match (function_value.first(), function_value.get(2)) {
                     (
                         Some(first),
                         Some(ComponentValue::Integer(box Integer {
