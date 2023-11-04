@@ -662,6 +662,8 @@ fn prepend_left_subclass_selectors(
     sels: &mut Vec<SubclassSelector>,
     sel_index: usize,
 ) {
+    sels.remove(sel_index);
+
     for (idx, c) in complex_selector_children
         .iter_mut()
         .filter_map(|c| c.as_mut_compound_selector())
@@ -676,7 +678,7 @@ fn prepend_left_subclass_selectors(
         c.subclass_selectors = [
             sels.0.to_vec(),
             c.subclass_selectors.take(),
-            sels.1[1..].to_vec(),
+            sels.1.to_vec(),
         ]
         .concat();
     }
