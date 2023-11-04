@@ -466,7 +466,7 @@ where
 
         'complex: for mut n in n.children.take() {
             if let ComplexSelectorChildren::CompoundSelector(selector) = &mut n {
-                for (sel_index, sel) in selector.subclass_selectors.iter_mut().enumerate() {
+                for sel in selector.subclass_selectors.iter_mut() {
                     match sel {
                         SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
                             if !self.data.is_global_mode {
@@ -479,7 +479,14 @@ where
                                 );
                             }
                         }
-                        SubclassSelector::PseudoClass(class_sel) => match &*class_sel.name.value {
+
+                        _ => {}
+                    }
+                }
+
+                for (sel_index, sel) in selector.subclass_selectors.iter_mut().enumerate() {
+                    if let SubclassSelector::PseudoClass(class_sel) = sel {
+                        match &*class_sel.name.value {
                             "local" => {
                                 if let Some(children) = &mut class_sel.children {
                                     if let Some(PseudoClassSelectorChildren::ComplexSelector(
@@ -544,8 +551,7 @@ where
                                 continue 'complex;
                             }
                             _ => {}
-                        },
-                        _ => {}
+                        }
                     }
                 }
             }
