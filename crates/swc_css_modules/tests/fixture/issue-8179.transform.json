@@ -1,14 +1,14 @@
 {
-    "b": [
-        {
-            "type": "local",
-            "name": "__local__b"
-        }
-    ],
     "a": [
         {
             "type": "local",
             "name": "__local__a"
+        }
+    ],
+    "d": [
+        {
+            "type": "local",
+            "name": "__local__d"
         }
     ]
 }
