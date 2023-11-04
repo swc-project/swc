@@ -505,7 +505,8 @@ where
                                             complex_selector.children.clone();
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
-                                            selector.subclass_selectors.split_at(sel_index),
+                                            &selector.subclass_selectors,
+                                            sel_index,
                                         );
                                         new_children.extend(complex_selector_children);
 
@@ -534,7 +535,8 @@ where
                                             complex_selector.children.clone();
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
-                                            selector.subclass_selectors.split_at(sel_index),
+                                            &selector.subclass_selectors,
+                                            sel_index,
                                         );
                                         new_children.extend(complex_selector_children);
                                     }
@@ -657,16 +659,20 @@ fn process_local<C>(
 
 fn prepend_left_subclass_selectors(
     complex_selector_children: &mut [ComplexSelectorChildren],
-    sels: (&[SubclassSelector], &[SubclassSelector]),
+    sels: &[SubclassSelector],
+    sel_index: usize,
 ) {
-    dbg!(&complex_selector_children);
-    dbg!(&sels);
-
     for (idx, c) in complex_selector_children
         .iter_mut()
         .filter_map(|c| c.as_mut_compound_selector())
         .enumerate()
     {
+        dbg!(idx);
+        dbg!(&c);
+        dbg!(&sels);
+
+        let sels = sels.split_at(sel_index);
+
         c.subclass_selectors = [
             sels.0.to_vec(),
             c.subclass_selectors.take(),
