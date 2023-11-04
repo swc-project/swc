@@ -507,17 +507,15 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        selector.subclass_selectors.remove(sel_index);
-                                        new_children.push(
-                                            ComplexSelectorChildren::CompoundSelector(
-                                                selector.clone(),
-                                            ),
-                                        );
+                                        if let Some(n) = n.as_mut_compound_selector() {
+                                            n.subclass_selectors.remove(sel_index);
+                                        }
+                                        new_children.push(n);
                                     }
                                     self.data.is_global_mode = false;
                                 }
 
-                                break;
+                                continue 'complex;
                             }
                             "global" => {
                                 if let Some(children) = &mut class_sel.children {
@@ -535,17 +533,15 @@ where
                                     }
                                 } else {
                                     if sel_index > 0 {
-                                        selector.subclass_selectors.remove(sel_index);
-                                        new_children.push(
-                                            ComplexSelectorChildren::CompoundSelector(
-                                                selector.clone(),
-                                            ),
-                                        );
+                                        if let Some(n) = n.as_mut_compound_selector() {
+                                            n.subclass_selectors.remove(sel_index);
+                                        }
+                                        new_children.push(n);
                                     }
                                     self.data.is_global_mode = true;
                                 }
 
-                                break;
+                                continue 'complex;
                             }
                             _ => {}
                         },
