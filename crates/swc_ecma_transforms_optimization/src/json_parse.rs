@@ -125,7 +125,7 @@ fn jsonify(e: Expr) -> Value {
         Expr::Lit(Lit::Num(Number { value, .. })) => Value::Number((value as i64).into()),
         Expr::Lit(Lit::Null(..)) => Value::Null,
         Expr::Lit(Lit::Bool(v)) => Value::Bool(v.value),
-        Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.get(0) {
+        Expr::Tpl(Tpl { quasis, .. }) => Value::String(match quasis.first() {
             Some(TplElement {
                 cooked: Some(value),
                 ..

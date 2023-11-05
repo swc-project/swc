@@ -330,7 +330,7 @@ impl Compressor {
                 if media_condition.conditions.len() == 1 =>
             {
                 if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
-                    media_condition.conditions.get(0)
+                    media_condition.conditions.first()
                 {
                     *n = media_in_parens.clone();
                 }

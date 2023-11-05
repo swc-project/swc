@@ -195,7 +195,7 @@ impl<'a> DiagnosticBuilder<'a> {
         message: &str,
         span: Option<S>,
     ) -> &mut Self {
-        let span = span.map(|s| s.into()).unwrap_or_else(MultiSpan::new);
+        let span = span.map(|s| s.into()).unwrap_or_default();
         self.diagnostic.sub(level, message, span, None);
         self
     }

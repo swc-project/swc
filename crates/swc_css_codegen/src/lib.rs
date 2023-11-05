@@ -180,7 +180,7 @@ where
                 emit!(self, n);
             }
             AtRulePrelude::FontFeatureValuesPrelude(n) => {
-                let need_space = !matches!(n.font_family.get(0), Some(FamilyName::Str(_)));
+                let need_space = !matches!(n.font_family.first(), Some(FamilyName::Str(_)));
 
                 if need_space {
                     space!(self);
@@ -222,13 +222,13 @@ where
             }
             AtRulePrelude::NamespacePrelude(n) => emit!(self, n),
             AtRulePrelude::MediaPrelude(n) => {
-                let need_space = match n.queries.get(0) {
+                let need_space = match n.queries.first() {
                     Some(media_query)
                         if media_query.modifier.is_none() && media_query.media_type.is_none() =>
                     {
                         match media_query.condition.as_deref() {
                             Some(MediaConditionType::All(media_condition)) => !matches!(
-                                media_condition.conditions.get(0),
+                                media_condition.conditions.first(),
                                 Some(MediaConditionAllType::MediaInParens(
                                     MediaInParens::MediaCondition(_)
                                 )) | Some(MediaConditionAllType::MediaInParens(
@@ -253,7 +253,7 @@ where
             }
             AtRulePrelude::SupportsPrelude(n) => {
                 let need_space = !matches!(
-                    n.conditions.get(0),
+                    n.conditions.first(),
                     Some(SupportsConditionType::SupportsInParens(
                         SupportsInParens::SupportsCondition(_)
                     )) | Some(SupportsConditionType::SupportsInParens(
@@ -272,7 +272,7 @@ where
                 emit!(self, n);
             }
             AtRulePrelude::PagePrelude(n) => {
-                match n.selectors.get(0) {
+                match n.selectors.first() {
                     Some(page_selector) if page_selector.page_type.is_none() => {
                         formatting_space!(self);
                     }
@@ -291,7 +291,7 @@ where
                 let need_space = match n.name {
                     Some(_) => true,
                     _ => !matches!(
-                        n.query.queries.get(0),
+                        n.query.queries.first(),
                         Some(ContainerQueryType::QueryInParens(
                             QueryInParens::ContainerQuery(_,)
                         )) | Some(ContainerQueryType::QueryInParens(
@@ -1415,7 +1415,7 @@ where
         // `--foo: ;` and `--foo:;` is valid, but not all browsers support it, currently
         // we print " " (whitespace) always
         if is_custom_property {
-            match n.value.get(0) {
+            match n.value.first() {
                 None => {
                     space!(self);
                 }

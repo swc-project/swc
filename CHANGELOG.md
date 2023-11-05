@@ -22,6 +22,12 @@
 
 - **(es/typescript)** Visit ts import/export only once ([#8213](https://github.com/swc-project/swc/issues/8213)) ([a00f575](https://github.com/swc-project/swc/commit/a00f575837a44a14dd09dd634f45a64e138263b0))
 
+### Build
+
+
+
+- **(cargo)** Update rustc to `nightly-2023-11-04` ([#8221](https://github.com/swc-project/swc/issues/8221)) ([14ea705](https://github.com/swc-project/swc/commit/14ea705f272968cba65399271a62e56a9943dc72))
+
 ## [1.3.96] - 2023-11-03
 
 ### Bug Fixes
@@ -1718,9 +1724,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Don't modify private fields from `reserved_words` pass ([#7113](https://github.com/swc-project/swc/issues/7113)) ([2bc631d](https://github.com/swc-project/swc/commit/2bc631df8792d2f1356b5ef2dbf3ee0c46ecbd4f))
 
 
 - **(es/minifier)** Don't inline into arrow heads ([#7099](https://github.com/swc-project/swc/issues/7099)) ([610e1bb](https://github.com/swc-project/swc/commit/610e1bb581a04fe9b871dd7afa0cf81ab9ee7fa8))

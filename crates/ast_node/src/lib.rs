@@ -40,7 +40,7 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
 /// deserializes as the type only if `type` field of json string is `A`.
 ///
 /// # Enum attributes
-////
+///
 /// ## Type-level attributes
 ///
 /// This macro does not accept arguments if used on enum.
