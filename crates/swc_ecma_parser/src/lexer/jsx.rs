@@ -46,9 +46,6 @@ impl<'a> Lexer<'a> {
                         self.input.slice(chunk_start, cur_pos)
                     });
 
-                    return Ok(Some(Token::JSXText {
-                        raw: Atom::new(out),
-                    }));
                     return Ok(Token::JSXText {
                         raw: self.atoms.borrow_mut().atom(out),
                     })
