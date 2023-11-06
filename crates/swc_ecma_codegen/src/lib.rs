@@ -2160,10 +2160,6 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, ident: &Ident) -> Result {
-        if !self.wr.should_emit_ident(ident) {
-            return Ok(());
-        }
-
         // TODO: Use write_symbol when ident is a symbol.
         self.emit_leading_comments_of_span(ident.span, false)?;
 

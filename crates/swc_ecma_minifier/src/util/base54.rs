@@ -8,6 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
+use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 #[derive(Clone, Copy)]
 
@@ -66,21 +67,15 @@ impl SourceMapperExt for DummySourceMap {
     }
 }
 
-struct CharFreqWriter<'a> {
-    freq: &'a mut CharFreq,
-    preserved: &'a FxHashSet<Id>,
-    unresolved_ctxt: SyntaxContext,
-}
-
-impl CharFreqWriter<'_> {
+impl CharFreq {
     #[inline(always)]
     fn write(&mut self, data: &str) -> io::Result<()> {
-        self.freq.scan(data, 1);
+        self.scan(data, 1);
         Ok(())
     }
 }
 
-impl WriteJs for CharFreqWriter<'_> {
+impl WriteJs for CharFreq {
     #[inline(always)]
     fn increase_indent(&mut self) -> io::Result<()> {
         Ok(())
@@ -259,15 +254,18 @@ impl CharFreq {
                     .with_minify(true),
                 cm,
                 comments: None,
-                wr: &mut CharFreqWriter {
-                    freq: &mut freq,
-                    preserved,
-                    unresolved_ctxt,
-                },
+                wr: &mut freq,
             };
 
             emitter.emit_program(p).unwrap();
         }
+
+        // Subtract
+        p.visit_with(&mut CharFreqAnalyzer {
+            freq: &mut freq,
+            preserved,
+            unresolved_ctxt,
+        });
 
         freq
     }
@@ -306,6 +304,44 @@ impl CharFreq {
             chars: all.try_into().unwrap(),
         }
     }
+}
+
+struct CharFreqAnalyzer<'a> {
+    freq: &'a mut CharFreq,
+    preserved: &'a FxHashSet<Id>,
+    unresolved_ctxt: SyntaxContext,
+}
+
+impl Visit for CharFreqAnalyzer<'_> {
+    noop_visit_type!();
+
+    visit_obj_and_computed!();
+
+    fn visit_ident(&mut self, i: &Ident) {
+        if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
+            return;
+        }
+
+        // It's not mangled
+        if self.preserved.contains(&i.to_id()) {
+            return;
+        }
+
+        self.freq.scan(&i.sym, -1);
+    }
+
+    fn visit_prop_name(&mut self, n: &PropName) {
+        match n {
+            PropName::Ident(_) => {}
+            PropName::Str(_) => {}
+            PropName::Num(_) => {}
+            PropName::Computed(e) => e.visit_with(self),
+            PropName::BigInt(_) => {}
+        }
+    }
+
+    /// This is preserved anyway
+    fn visit_module_export_name(&mut self, _: &ModuleExportName) {}
 }
 
 impl AddAssign for CharFreq {
