@@ -12,7 +12,7 @@ use swc_ecma_ast::{op, AssignOp, EsVersion};
 use self::{
     comments_buffer::CommentsBuffer,
     state::State,
-    table::{ByteHandler, BYTE_HANDLERS},
+    token_table::{ByteHandler, BYTE_HANDLERS},
     util::*,
 };
 pub use self::{
@@ -30,9 +30,9 @@ pub mod input;
 mod jsx;
 mod number;
 mod state;
-mod table;
 #[cfg(test)]
 mod tests;
+mod token_table;
 pub mod util;
 mod whitespace;
 mod word;
