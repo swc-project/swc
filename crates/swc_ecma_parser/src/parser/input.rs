@@ -1,5 +1,6 @@
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
 
+use debug_unreachable::debug_unreachable;
 use lexer::TokenContexts;
 use swc_common::{BytePos, Span};
 
@@ -327,18 +328,14 @@ impl<I: Tokens> Buffer<I> {
 
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
-        #[cold]
-        #[inline(never)]
-        fn invalid_state() -> ! {
-            unreachable!(
-                "Current token is `None`. Parser should not call bump() without knowing current \
-                 token"
-            )
-        }
-
         let prev = match self.cur.take() {
             Some(t) => t,
-            None => invalid_state(),
+            None => unsafe {
+                debug_unreachable!(
+                    "Current token is `None`. Parser should not call bump() without knowing \
+                     current token"
+                )
+            },
         };
         self.prev_span = prev.span;
 
