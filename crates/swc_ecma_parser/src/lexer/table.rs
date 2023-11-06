@@ -239,6 +239,7 @@ const L_T: ByteHandler = Some(|lexer| {
         "this" => Some(Word::Keyword(Keyword::This)),
         "throw" => Some(Word::Keyword(Keyword::Throw)),
         "true" => Some(Word::True),
+        "typeof" => Some(Word::Keyword(Keyword::TypeOf)),
         "try" => Some(Word::Keyword(Keyword::Try)),
         "type" => Some(Word::Ident(IdentLike::Known(KnownIdent::Type))),
         "target" => Some(Word::Ident(IdentLike::Known(KnownIdent::Target))),
