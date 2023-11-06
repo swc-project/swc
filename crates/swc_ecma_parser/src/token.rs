@@ -577,12 +577,6 @@ impl Word {
     }
 }
 
-impl From<&'_ str> for IdentLike {
-    #[inline]
-    fn from(s: &str) -> Self {
-        s.parse::<KnownIdent>()
-            .map(Self::Known)
-            .unwrap_or_else(|_| Self::Other(s.into()))
 impl WordKind {
     pub(crate) const fn before_expr(self) -> bool {
         match self {

@@ -21,8 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, Keyword, Token, Word},
-    token::{BinOpToken, IdentLike, Token, Word},
+    token::{BinOpToken, IdentLike, Keyword, Token, Word},
     Context, Syntax,
 };
 
