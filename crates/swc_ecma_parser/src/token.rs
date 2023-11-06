@@ -58,18 +58,14 @@ macro_rules! define_known_ident {
             )*
         }
 
-        impl std::str::FromStr for KnownIdent {
-            type Err = ();
+        static STR_TO_KNOWN_IDENT: phf::Map<&'static str, KnownIdent> = phf::phf_map! {
+            $(
+                $value => KnownIdent::$name,
+            )*
+        };
 
-            fn from_str(s: &str) -> Result<Self, Self::Err> {
-                match s {
-                    $(
-                        $value => Ok(Self::$name),
-                    )*
-                    _ => Err(()),
-                }
-            }
-        }
+
+
 
         impl From<KnownIdent> for Atom {
 
@@ -139,6 +135,14 @@ define_known_ident!(
     Private => "private",
     Public => "public",
 );
+
+impl std::str::FromStr for KnownIdent {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        STR_TO_KNOWN_IDENT.get(s).cloned().ok_or(())
+    }
+}
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum WordKind {
