@@ -764,17 +764,8 @@ impl<'a> Lexer<'a> {
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, _) = self.read_word_as_str_with(|s| Word::Ident(IdentLike::Other(s.into())))?;
-
-        Ok(Word(word))
-    }
-
-    /// This can be used if there's no keyword starting with the first
-    /// character.
-    fn read_ident_maybe_known(&mut self) -> LexResult<Token> {
-        debug_assert!(self.cur().is_some());
-
-        let (word, _) = self.read_word_as_str_with(|s| Word::Ident(IdentLike::from(s)))?;
+        let (word, _) =
+            self.read_word_as_str_with(|s, _, _| Word::Ident(IdentLike::Other(s.into())))?;
 
         Ok(Word(word))
     }
@@ -826,7 +817,7 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.cur().is_some());
         let start = self.cur_pos();
 
-        let (word, has_escape) = self.read_word_as_str_with(|s| {
+        let (word, has_escape) = self.read_word_as_str_with(|s, _, _| {
             if let Some(word) = KNOWN_WORDS.get(s) {
                 return word.clone();
             }
@@ -849,12 +840,15 @@ impl<'a> Lexer<'a> {
     }
 
     /// This method is optimized for texts without escape sequences.
+    ///
+    /// `convert(text, has_escape, can_be_keyword)`
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&str) -> Ret,
+        F: FnOnce(&str, bool, bool) -> Ret,
     {
         debug_assert!(self.cur().is_some());
         let mut first = true;
+        let mut can_be_keyword = true;
 
         self.with_buf(|l, buf| {
             let mut has_escape = false;
@@ -912,7 +906,7 @@ impl<'a> Lexer<'a> {
                 }
                 first = false;
             }
-            let value = convert(buf);
+            let value = convert(buf, has_escape, can_be_keyword);
 
             Ok((value, has_escape))
         })
@@ -1157,7 +1151,9 @@ impl<'a> Lexer<'a> {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => self.read_word_as_str_with(|s| s.into()).map(Some),
+                Some(c) if c.is_ident_start() => {
+                    self.read_word_as_str_with(|s, _, _| s.into()).map(Some)
+                }
                 _ => Ok(None),
             }
         }?
