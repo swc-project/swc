@@ -60,8 +60,8 @@ impl Context {
         }
     }
 
-    pub fn is_reserved_word(self, word: &str) -> bool {
-        match word {
+    pub fn is_reserved_word(self, word: &Atom) -> bool {
+        match &**word {
             "let" => self.strict,
             // SyntaxError in the module only, not in the strict.
             // ```JavaScript
