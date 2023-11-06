@@ -4181,6 +4181,7 @@ dependencies = [
  "bytecheck",
  "is-macro",
  "num-bigint",
+ "phf 0.11.2",
  "rkyv",
  "scoped-tls",
  "serde",
