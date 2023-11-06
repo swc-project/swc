@@ -23,6 +23,9 @@
 - **(es)** Delete useless partition and extend in comments ([#8214](https://github.com/swc-project/swc/issues/8214)) ([67e2c4a](https://github.com/swc-project/swc/commit/67e2c4a4fd17436732099422c25d1c0d82f815dd))
 
 
+- **(es/parser)** Remove needless `strcmp` ops ([#8223](https://github.com/swc-project/swc/issues/8223)) ([3833cf4](https://github.com/swc-project/swc/commit/3833cf4e55a27982c930c18c901a9b06e60f92fc))
+
+
 - **(es/typescript)** Visit ts import/export only once ([#8213](https://github.com/swc-project/swc/issues/8213)) ([a00f575](https://github.com/swc-project/swc/commit/a00f575837a44a14dd09dd634f45a64e138263b0))
 
 ### Build
@@ -1662,9 +1665,6 @@
 
 
 - **(es/react)** Respect `import_source` in new jsx ([#7128](https://github.com/swc-project/swc/issues/7128)) ([5d7acfd](https://github.com/swc-project/swc/commit/5d7acfd9cbbb9780879d0d7a046f716572a477f7))
-
-
-- **(es/renamer)** Don't use symbols used by declarations if `eval` exists ([#7116](https://github.com/swc-project/swc/issues/7116)) ([6d9763e](https://github.com/swc-project/swc/commit/6d9763e8c0f5cef7689961e7eb11dc7199e8cd08))
 
 
 - **(es/visit)** Fix handling of `Program` of `AndThen` ([#7120](https://github.com/swc-project/swc/issues/7120)) ([d50689e](https://github.com/swc-project/swc/commit/d50689eab0e82a68c84fcacdd8ce5c9009a65100))
