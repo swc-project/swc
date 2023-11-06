@@ -196,6 +196,7 @@ const L_R: ByteHandler = Some(|lexer| {
 const L_S: ByteHandler = Some(|lexer| {
     lexer.read_word_with(|s| match s {
         "super" => Some(Word::Keyword(Keyword::Super)),
+        "static" => Some(Word::Ident(IdentLike::Known(KnownIdent::Static))),
         "switch" => Some(Word::Keyword(Keyword::Switch)),
         _ => None,
     })
