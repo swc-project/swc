@@ -476,7 +476,7 @@ where
 
         'complex: for mut n in n.children.take() {
             if let ComplexSelectorChildren::CompoundSelector(selector) = &mut n {
-                for (sel_index, sel) in selector.subclass_selectors.iter_mut().enumerate() {
+                for sel in selector.subclass_selectors.iter_mut() {
                     match sel {
                         SubclassSelector::Class(..) | SubclassSelector::Id(..) => {
                             if !self.data.is_global_mode {
@@ -489,7 +489,14 @@ where
                                 );
                             }
                         }
-                        SubclassSelector::PseudoClass(class_sel) => match &*class_sel.name.value {
+
+                        _ => {}
+                    }
+                }
+
+                for (sel_index, sel) in selector.subclass_selectors.iter_mut().enumerate() {
+                    if let SubclassSelector::PseudoClass(class_sel) = sel {
+                        match &*class_sel.name.value {
                             "local" => {
                                 if let Some(children) = &mut class_sel.children {
                                     if let Some(PseudoClassSelectorChildren::ComplexSelector(
@@ -508,7 +515,8 @@ where
                                             complex_selector.children.clone();
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
-                                            selector.subclass_selectors.split_at(sel_index),
+                                            &mut selector.subclass_selectors,
+                                            sel_index,
                                         );
                                         new_children.extend(complex_selector_children);
 
@@ -537,7 +545,8 @@ where
                                             complex_selector.children.clone();
                                         prepend_left_subclass_selectors(
                                             &mut complex_selector_children,
-                                            selector.subclass_selectors.split_at(sel_index),
+                                            &mut selector.subclass_selectors,
+                                            sel_index,
                                         );
                                         new_children.extend(complex_selector_children);
                                     }
@@ -554,8 +563,7 @@ where
                                 continue 'complex;
                             }
                             _ => {}
-                        },
-                        _ => {}
+                        }
                     }
                 }
             }
@@ -661,16 +669,22 @@ fn process_local<C>(
 
 fn prepend_left_subclass_selectors(
     complex_selector_children: &mut [ComplexSelectorChildren],
-    sels: (&[SubclassSelector], &[SubclassSelector]),
+    sels: &mut Vec<SubclassSelector>,
+    mut sel_index: usize,
 ) {
-    if let Some(ComplexSelectorChildren::CompoundSelector(first)) =
-        complex_selector_children.get_mut(0)
+    sels.remove(sel_index);
+
+    for c in complex_selector_children
+        .iter_mut()
+        .filter_map(|c| c.as_mut_compound_selector())
     {
-        first.subclass_selectors = [
-            sels.0.to_vec(),
-            first.subclass_selectors.take(),
-            sels.1[1..].to_vec(),
-        ]
-        .concat();
+        c.subclass_selectors.splice(0..0, sels.drain(..sel_index));
+
+        if sels.len() > sel_index {
+            c.subclass_selectors
+                .extend(sels[..sel_index + 1].iter().cloned());
+        }
+
+        sel_index = 0;
     }
 }

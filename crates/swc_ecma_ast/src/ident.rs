@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use phf::phf_set;
 use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, Atom};
 use swc_common::{
@@ -317,66 +318,87 @@ impl Ident {
     }
 }
 
+static RESERVED: phf::Set<&str> = phf_set!(
+    "break",
+    "case",
+    "catch",
+    "class",
+    "const",
+    "continue",
+    "debugger",
+    "default",
+    "delete",
+    "do",
+    "else",
+    "enum",
+    "export",
+    "extends",
+    "false",
+    "finally",
+    "for",
+    "function",
+    "if",
+    "import",
+    "in",
+    "instanceof",
+    "new",
+    "null",
+    "package",
+    "return",
+    "super",
+    "switch",
+    "this",
+    "throw",
+    "true",
+    "try",
+    "typeof",
+    "var",
+    "void",
+    "while",
+    "with",
+);
+
+static RESSERVED_IN_STRICT_MODE: phf::Set<&str> = phf_set!(
+    "implements",
+    "interface",
+    "let",
+    "package",
+    "private",
+    "protected",
+    "public",
+    "static",
+    "yield",
+);
+
+static RESERVED_IN_ES3: phf::Set<&str> = phf_set!(
+    "abstract",
+    "boolean",
+    "byte",
+    "char",
+    "double",
+    "final",
+    "float",
+    "goto",
+    "int",
+    "long",
+    "native",
+    "short",
+    "synchronized",
+    "throws",
+    "transient",
+    "volatile",
+);
+
 pub trait IdentExt: AsRef<str> {
     fn is_reserved(&self) -> bool {
-        [
-            "break",
-            "case",
-            "catch",
-            "class",
-            "const",
-            "continue",
-            "debugger",
-            "default",
-            "delete",
-            "do",
-            "else",
-            "enum",
-            "export",
-            "extends",
-            "false",
-            "finally",
-            "for",
-            "function",
-            "if",
-            "import",
-            "in",
-            "instanceof",
-            "new",
-            "null",
-            "package",
-            "return",
-            "super",
-            "switch",
-            "this",
-            "throw",
-            "true",
-            "try",
-            "typeof",
-            "var",
-            "void",
-            "while",
-            "with",
-        ]
-        .contains(&self.as_ref())
+        RESERVED.contains(self.as_ref())
     }
 
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
         if is_module && self.as_ref() == "await" {
             return true;
         }
-        [
-            "implements",
-            "interface",
-            "let",
-            "package",
-            "private",
-            "protected",
-            "public",
-            "static",
-            "yield",
-        ]
-        .contains(&self.as_ref())
+        RESSERVED_IN_STRICT_MODE.contains(self.as_ref())
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
@@ -384,25 +406,7 @@ pub trait IdentExt: AsRef<str> {
     }
 
     fn is_reserved_in_es3(&self) -> bool {
-        [
-            "abstract",
-            "boolean",
-            "byte",
-            "char",
-            "double",
-            "final",
-            "float",
-            "goto",
-            "int",
-            "long",
-            "native",
-            "short",
-            "synchronized",
-            "throws",
-            "transient",
-            "volatile",
-        ]
-        .contains(&self.as_ref())
+        RESERVED_IN_ES3.contains(self.as_ref())
     }
 }
 
