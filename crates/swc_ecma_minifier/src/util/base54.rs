@@ -232,9 +232,7 @@ impl CharFreq {
 
         {
             let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config::default()
-                    .with_target(EsVersion::latest())
-                    .with_minify(true),
+                cfg: swc_ecma_codegen::Config::default().with_target(EsVersion::latest()),
                 cm,
                 comments: None,
                 wr: &mut freq,
@@ -302,6 +300,10 @@ impl Visit for CharFreqAnalyzer<'_> {
 
     fn visit_ident(&mut self, i: &Ident) {
         if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
+            return;
+        }
+
+        if i.span.ctxt == SyntaxContext::empty() {
             return;
         }
 
