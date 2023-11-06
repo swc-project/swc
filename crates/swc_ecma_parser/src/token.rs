@@ -580,6 +580,7 @@ impl From<&'_ str> for Word {
 }
 
 impl From<&'_ str> for IdentLike {
+    #[inline]
     fn from(s: &str) -> Self {
         s.parse::<KnownIdent>()
             .map(Self::Known)
