@@ -822,7 +822,7 @@ impl<'a> Lexer<'a> {
                 {
                     let s = l.input.uncons_while(|c| {
                         // Performance optimization
-                        if c.is_ascii_uppercase() {
+                        if c.is_ascii_uppercase() || !c.is_ascii() {
                             can_be_keyword = false;
                         }
 
