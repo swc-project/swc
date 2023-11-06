@@ -26,7 +26,7 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
     AT_, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, // 4
     I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, BTO, I_U, BTC, CRT, I_U, // 5
     TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_M, I_U, I_K, I_U, I_M, I_K, I_U, I_K, I_K, // 6
-    I_U, I_U, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_K, I_U, BEO, PIP, BEC, TLD, ERR, // 7
+    I_M, I_U, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_K, I_U, BEO, PIP, BEC, TLD, ERR, // 7
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 8
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 9
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // A
