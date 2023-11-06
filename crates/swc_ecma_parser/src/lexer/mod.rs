@@ -763,23 +763,10 @@ impl<'a> Lexer<'a> {
     /// character.
     fn read_ident(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
-        let start = self.cur_pos();
 
-        let (word, has_escape) =
-            self.read_word_as_str_with(|s| Word::Ident(IdentLike::Other(s.into())))?;
+        let (word, _) = self.read_word_as_str_with(|s| Word::Ident(IdentLike::Other(s.into())))?;
 
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-        if has_escape && self.ctx.is_reserved(&word) {
-            self.error(
-                start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
-            )?
-        } else {
-            Ok(Word(word))
-        }
+        Ok(Word(word))
     }
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
