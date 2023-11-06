@@ -299,11 +299,6 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     #[inline(always)]
-    fn should_emit_ident(&mut self, _: &Ident) -> bool {
-        true
-    }
-
-    #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         false
     }

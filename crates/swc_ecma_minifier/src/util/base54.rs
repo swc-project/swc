@@ -179,23 +179,6 @@ impl WriteJs for CharFreq {
         Ok(())
     }
 
-    fn should_emit_ident(&mut self, i: &Ident) -> bool {
-        if i.sym != "arguments" && i.span.ctxt == self.unresolved_ctxt {
-            return false;
-        }
-
-        if i.span.ctxt == SyntaxContext::empty() {
-            return true;
-        }
-
-        // It's not mangled
-        if self.preserved.contains(&i.to_id()) {
-            return false;
-        }
-
-        true
-    }
-
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         true

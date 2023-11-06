@@ -43,18 +43,6 @@ pub trait WriteJs {
 
     fn commit_pending_semi(&mut self) -> Result;
 
-    /// Optimization for the SWC minifier.
-    ///
-    /// If false, the code generator will skip **emission** of the given
-    /// identifier.
-    ///
-    ///
-    /// Defaults to `true`.
-
-    fn should_emit_ident(&mut self, _i: &Ident) -> bool {
-        true
-    }
-
     /// If true, the code generator will skip **modification** of invalid
     /// unicode characters.
     ///
@@ -158,11 +146,6 @@ where
     }
 
     #[inline(always)]
-    fn should_emit_ident(&mut self, i: &Ident) -> bool {
-        (**self).should_emit_ident(i)
-    }
-
-    #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
     }
@@ -260,11 +243,6 @@ where
     #[inline(always)]
     fn commit_pending_semi(&mut self) -> Result {
         (**self).commit_pending_semi()
-    }
-
-    #[inline(always)]
-    fn should_emit_ident(&mut self, i: &Ident) -> bool {
-        (**self).should_emit_ident(i)
     }
 
     #[inline(always)]
