@@ -28,12 +28,12 @@ swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.110.5", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "0.124.16", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.124.17", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.96.5", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-swc_ecma_codegen         = { version = "0.146.13", path = "../swc_ecma_codegen" }
-swc_ecma_parser          = { version = "0.141.11", path = "../swc_ecma_parser" }
+swc_ecma_codegen         = { version = "0.146.14", path = "../swc_ecma_codegen" }
+swc_ecma_parser          = { version = "0.141.12", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.134.20", path = "../swc_ecma_transforms_base" }
 testing                  = { version = "0.35.6", path = "../testing" }
 
