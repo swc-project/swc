@@ -23,9 +23,9 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
     ___, EXL, QOT, HSH, I_U, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
     ZER, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
-    AT_, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_M, I_U, I_U, I_U, I_U, // 4
+    AT_, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, // 4
     I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, BTO, I_U, BTC, CRT, I_U, // 5
-    TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_U, I_K, I_U, I_U, I_K, I_U, I_K, I_K, // 6
+    TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_U, I_K, I_U, I_M, I_K, I_U, I_K, I_K, // 6
     I_U, I_U, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_K, I_U, BEO, PIP, BEC, TLD, ERR, // 7
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 8
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 9
