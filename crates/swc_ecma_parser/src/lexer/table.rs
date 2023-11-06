@@ -187,7 +187,7 @@ const L_N: ByteHandler = Some(|lexer| {
         "null" => Some(Word::Null),
         "number" => Some(Word::Ident(IdentLike::Known(KnownIdent::Number))),
         "never" => Some(Word::Ident(IdentLike::Known(KnownIdent::Never))),
-        "namespacae" => Some(Word::Ident(IdentLike::Known(KnownIdent::Namespace))),
+        "namespace" => Some(Word::Ident(IdentLike::Known(KnownIdent::Namespace))),
         _ => None,
     })
 });
