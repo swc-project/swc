@@ -64,6 +64,7 @@ const IDN: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
 
 const L_A: ByteHandler = Some(|lexer| {
     lexer.read_word_with(|s| match s {
+        "as" => Some(Word::Ident(IdentLike::Known(KnownIdent::As))),
         "await" => Some(Word::Keyword(Keyword::Await)),
         _ => None,
     })
@@ -113,6 +114,7 @@ const L_F: ByteHandler = Some(|lexer| {
         "finally" => Some(Word::Keyword(Keyword::Finally)),
         "for" => Some(Word::Keyword(Keyword::For)),
         "function" => Some(Word::Keyword(Keyword::Function)),
+        "from" => Some(Word::Ident(IdentLike::Known(KnownIdent::From))),
         _ => None,
     })
 });
@@ -150,7 +152,12 @@ const L_K: ByteHandler = Some(|lexer| {
     })
 });
 
-const L_L: ByteHandler = IDN;
+const L_L: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "let" => Some(Word::Keyword(Keyword::Let)),
+        _ => None,
+    })
+});
 
 const L_M: ByteHandler = IDN;
 
