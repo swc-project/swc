@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, IdentLike, Keyword, Token, Word},
+    token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
 
@@ -781,20 +781,14 @@ impl<'a> Lexer<'a> {
     ) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
+        let atoms = self.atoms.clone();
+
         let start = self.cur_pos();
         let (word, has_escape) = self.read_word_as_str_with(|s, _, can_be_known| {
             if can_be_known {
                 if let Some(word) = convert(s) {
                     return word;
                 }
-            }
-
-            Word::Ident(IdentLike::Other(s.into()))
-            Word::Ident(IdentLike::from_str(self.atoms.borrow_mut(), s))
-        let atoms = self.atoms.clone();
-        let (word, has_escape) = self.read_word_as_str_with(|s| {
-            if let Some(word) = KNOWN_WORDS.get(s) {
-                return word.clone();
             }
 
             Word::Ident(IdentLike::from_str(&mut atoms.borrow_mut(), s))
@@ -1138,11 +1132,8 @@ impl<'a> Lexer<'a> {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|s, _, _| s.into()).map(Some)
-                }
                 Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s| atoms.borrow_mut().atom(s))
+                    .read_word_as_str_with(|s, _, _| atoms.borrow_mut().atom(s))
                     .map(Some),
                 _ => Ok(None),
             }
