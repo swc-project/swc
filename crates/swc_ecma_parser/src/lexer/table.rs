@@ -11,7 +11,7 @@ use swc_ecma_ast::AssignOp;
 use super::{pos_span, util::CharExt, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    token::{BinOpToken, Token},
+    token::{BinOpToken, Keyword, Token, Word},
 };
 
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
@@ -62,11 +62,12 @@ const ERR: ByteHandler = Some(|lexer| {
 /// Identifier and we know that this cannot be a keyword or known ident.
 const IDN: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
 
-/// Identifier or keyword.
-const I_K: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
-
-/// Identifier, not keyword but maybe known.
-const I_M: ByteHandler = Some(|lexer| lexer.read_ident_maybe_known().map(Some));
+const L_A: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "await" => Some(Word::Keyword(Keyword::Await)),
+        _ => None,
+    })
+});
 
 /// `0`
 const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));

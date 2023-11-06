@@ -770,6 +770,39 @@ impl<'a> Lexer<'a> {
         Ok(Word(word))
     }
 
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_word_with(
+        &mut self,
+        convert: impl FnOnce(&str) -> Option<Word>,
+    ) -> LexResult<Option<Token>> {
+        debug_assert!(self.cur().is_some());
+
+        let start = self.cur_pos();
+        let (word, has_escape) = self.read_word_as_str_with(|s, _, can_be_known| {
+            if can_be_known {
+                if let Some(word) = convert(s) {
+                    return word;
+                }
+            }
+
+            Word::Ident(IdentLike::Other(s.into()))
+        })?;
+
+        // Note: ctx is store in lexer because of this error.
+        // 'await' and 'yield' may have semantic of reserved word, which means lexer
+        // should know context or parser should handle this error. Our approach to this
+        // problem is former one.
+        if has_escape && self.ctx.is_reserved(&word) {
+            self.error(
+                start,
+                SyntaxError::EscapeInReservedWord { word: word.into() },
+            )?
+        } else {
+            Ok(Some(Token::Word(word)))
+        }
+    }
+
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
         static KNOWN_WORDS: phf::Map<&str, Word> = phf::phf_map! {
