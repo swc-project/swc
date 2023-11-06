@@ -188,6 +188,7 @@ impl<'a> Lexer<'a> {
     /// Skip comments or whitespaces.
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
+    #[inline(never)]
     pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
         loop {
             let (offset, newline) = {
