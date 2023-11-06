@@ -38,6 +38,7 @@ swc_common     = { version = "0.33.3", path = "../swc_common" }
 swc_ecma_ast   = { version = "0.110.4", path = "../swc_ecma_ast" }
 swc_ecma_visit = { version = "0.96.4", path = "../swc_ecma_visit", optional = true }
 phf = { version = "0.11.2", features = ["macros"] }
+new_debug_unreachable = "1.0.4"
 
 [target.'cfg(not(any(target_arch = "wasm32", target_arch = "arm")))'.dependencies]
 stacker = { version = "0.1.15", optional = true }
