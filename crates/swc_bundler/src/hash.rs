@@ -126,4 +126,8 @@ impl WriteJs for &mut Hasher<'_> {
     fn commit_pending_semi(&mut self) -> io::Result<()> {
         Ok(())
     }
+
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        true
+    }
 }

@@ -178,6 +178,11 @@ impl WriteJs for CharFreq {
     fn commit_pending_semi(&mut self) -> io::Result<()> {
         Ok(())
     }
+
+    #[inline(always)]
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        true
+    }
 }
 
 impl CharFreq {
