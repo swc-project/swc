@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, IdentLike, Keyword, Token, Word},
+    token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
 
@@ -803,75 +803,6 @@ impl<'a> Lexer<'a> {
         }
     }
 
-    /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
-    fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
-        static KNOWN_WORDS: phf::Map<&str, Word> = phf::phf_map! {
-            "await" => Word::Keyword(Keyword::Await),
-            "break" => Word::Keyword(Keyword::Break),
-            "case" => Word::Keyword(Keyword::Case),
-            "catch" => Word::Keyword(Keyword::Catch),
-            "class" => Word::Keyword(Keyword::Class),
-            "const" => Word::Keyword(Keyword::Const),
-            "continue" => Word::Keyword(Keyword::Continue),
-            "debugger" => Word::Keyword(Keyword::Debugger),
-            "default" => Word::Keyword(Keyword::Default_),
-            "delete" => Word::Keyword(Keyword::Delete),
-            "do" => Word::Keyword(Keyword::Do),
-            "else" => Word::Keyword(Keyword::Else),
-            "export" => Word::Keyword(Keyword::Export),
-            "extends" => Word::Keyword(Keyword::Extends),
-            "false" => Word::False,
-            "finally" => Word::Keyword(Keyword::Finally),
-            "for" => Word::Keyword(Keyword::For),
-            "function" => Word::Keyword(Keyword::Function),
-            "if" => Word::Keyword(Keyword::If),
-            "import" => Word::Keyword(Keyword::Import),
-            "in" => Word::Keyword(Keyword::In),
-            "instanceof" => Word::Keyword(Keyword::InstanceOf),
-            "let" => Word::Keyword(Keyword::Let),
-            "new" => Word::Keyword(Keyword::New),
-            "null" => Word::Null,
-            "return" => Word::Keyword(Keyword::Return),
-            "super" => Word::Keyword(Keyword::Super),
-            "switch" => Word::Keyword(Keyword::Switch),
-            "this" => Word::Keyword(Keyword::This),
-            "throw" => Word::Keyword(Keyword::Throw),
-            "true" => Word::True,
-            "try" => Word::Keyword(Keyword::Try),
-            "typeof" => Word::Keyword(Keyword::TypeOf),
-            "var" => Word::Keyword(Keyword::Var),
-            "void" => Word::Keyword(Keyword::Void),
-            "while" => Word::Keyword(Keyword::While),
-            "with" => Word::Keyword(Keyword::With),
-            "yield" => Word::Keyword(Keyword::Yield),
-
-        };
-
-        debug_assert!(self.cur().is_some());
-        let start = self.cur_pos();
-
-        let (word, has_escape) = self.read_word_as_str_with(|s, _, _| {
-            if let Some(word) = KNOWN_WORDS.get(s) {
-                return word.clone();
-            }
-
-            Word::Ident(s.into())
-        })?;
-
-        // Note: ctx is store in lexer because of this error.
-        // 'await' and 'yield' may have semantic of reserved word, which means lexer
-        // should know context or parser should handle this error. Our approach to this
-        // problem is former one.
-        if has_escape && self.ctx.is_reserved(&word) {
-            self.error(
-                start,
-                SyntaxError::EscapeInReservedWord { word: word.into() },
-            )?
-        } else {
-            Ok(Word(word))
-        }
-    }
-
     /// This method is optimized for texts without escape sequences.
     ///
     /// `convert(text, has_escape, can_be_keyword)`
@@ -889,7 +820,14 @@ impl<'a> Lexer<'a> {
             while let Some(c) = {
                 // Optimization
                 {
-                    let s = l.input.uncons_while(|c| c.is_ident_part());
+                    let s = l.input.uncons_while(|c| {
+                        // Performance optimization
+                        if c.is_ascii_uppercase() {
+                            can_be_keyword = false;
+                        }
+
+                        c.is_ident_part()
+                    });
                     if !s.is_empty() {
                         first = false;
                     }

@@ -11,7 +11,7 @@ use swc_ecma_ast::AssignOp;
 use super::{pos_span, util::CharExt, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    token::{BinOpToken, Keyword, Token, Word},
+    token::{BinOpToken, IdentLike, Keyword, KnownIdent, Token, Word},
 };
 
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<Token>>>;
@@ -69,6 +69,165 @@ const L_A: ByteHandler = Some(|lexer| {
     })
 });
 
+const L_B: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "break" => Some(Word::Keyword(Keyword::Break)),
+        _ => None,
+    })
+});
+
+const L_C: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "case" => Some(Word::Keyword(Keyword::Case)),
+        "catch" => Some(Word::Keyword(Keyword::Catch)),
+        "class" => Some(Word::Keyword(Keyword::Class)),
+        "const" => Some(Word::Keyword(Keyword::Const)),
+        "continue" => Some(Word::Keyword(Keyword::Continue)),
+        _ => None,
+    })
+});
+
+const L_D: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "debugger" => Some(Word::Keyword(Keyword::Debugger)),
+        "default" => Some(Word::Keyword(Keyword::Default_)),
+        "delete" => Some(Word::Keyword(Keyword::Delete)),
+        "do" => Some(Word::Keyword(Keyword::Do)),
+        _ => None,
+    })
+});
+
+const L_E: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "else" => Some(Word::Keyword(Keyword::Else)),
+        "enum" => Some(Word::Ident(IdentLike::Known(KnownIdent::Enum))),
+        "export" => Some(Word::Keyword(Keyword::Export)),
+        "extends" => Some(Word::Keyword(Keyword::Extends)),
+        _ => None,
+    })
+});
+
+const L_F: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "false" => Some(Word::False),
+        "finally" => Some(Word::Keyword(Keyword::Finally)),
+        "for" => Some(Word::Keyword(Keyword::For)),
+        "function" => Some(Word::Keyword(Keyword::Function)),
+        _ => None,
+    })
+});
+
+const L_G: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "global" => Some(Word::Ident(IdentLike::Known(KnownIdent::Global))),
+        _ => None,
+    })
+});
+
+const L_H: ByteHandler = IDN;
+
+const L_I: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "if" => Some(Word::Keyword(Keyword::If)),
+        "import" => Some(Word::Keyword(Keyword::Import)),
+        "in" => Some(Word::Keyword(Keyword::In)),
+        "instanceof" => Some(Word::Keyword(Keyword::InstanceOf)),
+        _ => None,
+    })
+});
+
+const L_J: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "let" => Some(Word::Keyword(Keyword::Let)),
+        _ => None,
+    })
+});
+
+const L_K: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "keyof" => Some(Word::Ident(IdentLike::Known(KnownIdent::Keyof))),
+        _ => None,
+    })
+});
+
+const L_L: ByteHandler = IDN;
+
+const L_M: ByteHandler = IDN;
+
+const L_N: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "new" => Some(Word::Keyword(Keyword::New)),
+        "null" => Some(Word::Null),
+        _ => None,
+    })
+});
+
+const L_O: ByteHandler = IDN;
+
+const L_P: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "public" => Some(Word::Ident(IdentLike::Known(KnownIdent::Public))),
+        _ => None,
+    })
+});
+
+const L_Q: ByteHandler = IDN;
+
+const L_R: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "return" => Some(Word::Keyword(Keyword::Return)),
+        _ => None,
+    })
+});
+
+const L_S: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "super" => Some(Word::Keyword(Keyword::Super)),
+        "switch" => Some(Word::Keyword(Keyword::Switch)),
+        _ => None,
+    })
+});
+
+const L_T: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "this" => Some(Word::Keyword(Keyword::This)),
+        "throw" => Some(Word::Keyword(Keyword::Throw)),
+        "true" => Some(Word::True),
+        "try" => Some(Word::Keyword(Keyword::Try)),
+        "type" => Some(Word::Ident(IdentLike::Known(KnownIdent::Type))),
+        _ => None,
+    })
+});
+
+const L_U: ByteHandler = IDN;
+
+const L_V: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "var" => Some(Word::Keyword(Keyword::Var)),
+        "void" => Some(Word::Keyword(Keyword::Void)),
+        _ => None,
+    })
+});
+
+const L_W: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "while" => Some(Word::Keyword(Keyword::While)),
+        "with" => Some(Word::Keyword(Keyword::With)),
+        _ => None,
+    })
+});
+
+const L_X: ByteHandler = IDN;
+
+const L_Y: ByteHandler = Some(|lexer| {
+    lexer.read_word_with(|s| match s {
+        "yield" => Some(Word::Keyword(Keyword::Yield)),
+        _ => None,
+    })
+});
+
+const L_Z: ByteHandler = IDN;
+
 /// `0`
 const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));
 
@@ -96,7 +255,7 @@ const UNI: ByteHandler = Some(|lexer| {
     // Identifier or keyword. '\uXXXX' sequences are allowed in
     // identifiers, so '\' also dispatches to that.
     if c == '\\' || c.is_ident_start() {
-        return lexer.read_ident_or_keyword().map(Some);
+        return lexer.read_ident_unknown().map(Some);
     }
 
     let start = lexer.cur_pos();
