@@ -173,6 +173,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// babel: `getTokenFromCode`
+    #[inline(never)]
     fn read_token(&mut self) -> LexResult<Option<Token>> {
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
@@ -1161,6 +1162,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(Atom::new(s)))
     }
 
+    #[inline(never)]
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
         let start = self.cur_pos();
 
