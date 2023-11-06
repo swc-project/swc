@@ -37,7 +37,7 @@ sourcemap = "6.0.0"
 
 swc_compiler_base = { version = "0.3.31", features = ["node"] }
 swc_config = "0.1.7"
-swc_core = { version = "0.86.33", features = [
+swc_core = { version = "0.86.34", features = [
   "allocator_node",
   "common_concurrent",
   "common_sourcemap",
