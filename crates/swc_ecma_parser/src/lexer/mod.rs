@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, Token, Word},
+    token::{BinOpToken, Keyword, Token, Word},
     Context, Syntax,
 };
 
@@ -761,86 +761,54 @@ impl<'a> Lexer<'a> {
 
     /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
     fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
+        static KNOWN_WORDS: phf::Map<&str, Word> = phf::phf_map! {
+            "await" => Word::Keyword(Keyword::Await),
+            "break" => Word::Keyword(Keyword::Break),
+            "case" => Word::Keyword(Keyword::Case),
+            "catch" => Word::Keyword(Keyword::Catch),
+            "class" => Word::Keyword(Keyword::Class),
+            "const" => Word::Keyword(Keyword::Const),
+            "continue" => Word::Keyword(Keyword::Continue),
+            "debugger" => Word::Keyword(Keyword::Debugger),
+            "default" => Word::Keyword(Keyword::Default_),
+            "delete" => Word::Keyword(Keyword::Delete),
+            "do" => Word::Keyword(Keyword::Do),
+            "else" => Word::Keyword(Keyword::Else),
+            "export" => Word::Keyword(Keyword::Export),
+            "extends" => Word::Keyword(Keyword::Extends),
+            "false" => Word::False,
+            "finally" => Word::Keyword(Keyword::Finally),
+            "for" => Word::Keyword(Keyword::For),
+            "function" => Word::Keyword(Keyword::Function),
+            "if" => Word::Keyword(Keyword::If),
+            "import" => Word::Keyword(Keyword::Import),
+            "in" => Word::Keyword(Keyword::In),
+            "instanceof" => Word::Keyword(Keyword::InstanceOf),
+            "let" => Word::Keyword(Keyword::Let),
+            "new" => Word::Keyword(Keyword::New),
+            "null" => Word::Null,
+            "return" => Word::Keyword(Keyword::Return),
+            "super" => Word::Keyword(Keyword::Super),
+            "switch" => Word::Keyword(Keyword::Switch),
+            "this" => Word::Keyword(Keyword::This),
+            "throw" => Word::Keyword(Keyword::Throw),
+            "true" => Word::True,
+            "try" => Word::Keyword(Keyword::Try),
+            "typeof" => Word::Keyword(Keyword::TypeOf),
+            "var" => Word::Keyword(Keyword::Var),
+            "void" => Word::Keyword(Keyword::Void),
+            "while" => Word::Keyword(Keyword::While),
+            "with" => Word::Keyword(Keyword::With),
+            "yield" => Word::Keyword(Keyword::Yield),
+
+        };
+
         debug_assert!(self.cur().is_some());
         let start = self.cur_pos();
 
         let (word, has_escape) = self.read_word_as_str_with(|s| {
-            use crate::token::Keyword::*;
-
-            if s.len() == 1 || s.len() > 10 {
-                {}
-            } else {
-                match s.as_bytes()[0] {
-                    b'a' if s == "await" => return Await.into(),
-                    b'b' if s == "break" => return Break.into(),
-                    b'c' => match s {
-                        "case" => return Case.into(),
-                        "const" => return Const.into(),
-                        "class" => return Class.into(),
-                        "catch" => return Catch.into(),
-                        "continue" => return Continue.into(),
-                        _ => {}
-                    },
-                    b'd' => match s {
-                        "do" => return Do.into(),
-                        "default" => return Default_.into(),
-                        "delete" => return Delete.into(),
-                        "debugger" => return Debugger.into(),
-                        _ => {}
-                    },
-                    b'e' => match s {
-                        "else" => return Else.into(),
-                        "export" => return Export.into(),
-                        "extends" => return Extends.into(),
-                        _ => {}
-                    },
-                    b'f' => match s {
-                        "for" => return For.into(),
-                        "false" => return Word::False,
-                        "finally" => return Finally.into(),
-                        "function" => return Function.into(),
-                        _ => {}
-                    },
-                    b'i' => match s {
-                        "if" => return If.into(),
-                        "import" => return Import.into(),
-                        "in" => return In.into(),
-                        "instanceof" => return InstanceOf.into(),
-                        _ => {}
-                    },
-                    b'l' if s == "let" => return Let.into(),
-                    b'n' => match s {
-                        "new" => return New.into(),
-                        "null" => return Word::Null,
-                        _ => {}
-                    },
-                    b'r' if s == "return" => return Return.into(),
-                    b's' => match s {
-                        "super" => return Super.into(),
-                        "switch" => return Switch.into(),
-                        _ => {}
-                    },
-                    b't' => match s {
-                        "this" => return This.into(),
-                        "true" => return Word::True,
-                        "try" => return Try.into(),
-                        "throw" => return Throw.into(),
-                        "typeof" => return TypeOf.into(),
-                        _ => {}
-                    },
-                    b'v' => match s {
-                        "var" => return Var.into(),
-                        "void" => return Void.into(),
-                        _ => {}
-                    },
-                    b'w' => match s {
-                        "while" => return While.into(),
-                        "with" => return With.into(),
-                        _ => {}
-                    },
-                    b'y' if s == "yield" => return Yield.into(),
-                    _ => {}
-                }
+            if let Some(word) = KNOWN_WORDS.get(s) {
+                return word.clone();
             }
 
             Word::Ident(s.into())
