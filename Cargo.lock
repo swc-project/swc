@@ -3795,7 +3795,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.4.32"
+version = "0.4.33"
 dependencies = [
  "anyhow",
  "atty",
@@ -3896,7 +3896,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.86.34"
+version = "0.86.35"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -3947,7 +3947,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.157.7"
+version = "0.157.8"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -4057,7 +4057,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.29.6"
+version = "0.29.7"
 dependencies = [
  "rustc-hash",
  "serde",
