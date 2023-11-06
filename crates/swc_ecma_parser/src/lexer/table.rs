@@ -59,12 +59,13 @@ const ERR: ByteHandler = Some(|lexer| {
     lexer.error_span(pos_span(start), SyntaxError::UnexpectedChar { c })?
 });
 
-/// Identifier
+/// Identifier or keyword.
 const I_K: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
 
 /// Identifier, but unknown.
 const I_U: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
 
+/// Identifier, not keyword but maybe known.
 const I_M: ByteHandler = Some(|lexer| lexer.read_ident_maybe_known().map(Some));
 
 /// `0`
