@@ -97,4 +97,9 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
         }
         Ok(())
     }
+
+    #[inline(always)]
+    fn should_emit_ident(&mut self, i: &swc_ecma_ast::Ident) -> bool {
+        self.inner.should_emit_ident(i)
+    }
 }

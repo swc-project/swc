@@ -2,6 +2,7 @@ use std::io::Write;
 
 use rustc_hash::FxHashSet;
 use swc_common::{sync::Lrc, BytePos, LineCol, SourceMap, Span};
+use swc_ecma_ast::Ident;
 
 use super::{Result, WriteJs};
 
@@ -296,6 +297,11 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     #[tracing::instrument(skip_all)]
     fn commit_pending_semi(&mut self) -> Result {
         Ok(())
+    }
+
+    #[inline(always)]
+    fn should_emit_ident(&mut self, _: &Ident) -> bool {
+        true
     }
 }
 

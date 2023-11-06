@@ -3,7 +3,7 @@ use std::io;
 use anyhow::{Context, Error};
 use crc::{Crc, Digest, CRC_64_ECMA_182};
 use swc_common::{sync::Lrc, BytePos, SourceMap, Span};
-use swc_ecma_ast::Module;
+use swc_ecma_ast::{Ident, Module};
 use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 
 pub(crate) fn calc_hash(cm: Lrc<SourceMap>, m: &Module) -> Result<String, Error> {
@@ -125,5 +125,9 @@ impl WriteJs for &mut Hasher<'_> {
 
     fn commit_pending_semi(&mut self) -> io::Result<()> {
         Ok(())
+    }
+
+    fn should_emit_ident(&mut self, _: &Ident) -> bool {
+        false
     }
 }

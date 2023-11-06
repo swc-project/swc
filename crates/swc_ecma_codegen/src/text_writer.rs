@@ -42,6 +42,9 @@ pub trait WriteJs {
     fn add_srcmap(&mut self, pos: BytePos) -> Result;
 
     fn commit_pending_semi(&mut self) -> Result;
+
+    /// Optimization for the SWC minifier.
+    fn should_emit_ident(&mut self, i: &Ident) -> bool;
 }
 
 impl<W> WriteJs for Box<W>
@@ -136,6 +139,10 @@ where
     fn commit_pending_semi(&mut self) -> Result {
         (**self).commit_pending_semi()
     }
+
+    fn should_emit_ident(&mut self, i: &Ident) -> bool {
+        (**self).should_emit_ident(i)
+    }
 }
 
 impl<W> WriteJs for &'_ mut W
@@ -229,5 +236,9 @@ where
 
     fn commit_pending_semi(&mut self) -> Result {
         (**self).commit_pending_semi()
+    }
+
+    fn should_emit_ident(&mut self, i: &Ident) -> bool {
+        (**self).should_emit_ident(i)
     }
 }
