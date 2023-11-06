@@ -21,12 +21,12 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
     //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
     EOF, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
-    ___, EXL, QOT, HSH, I_N, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
+    ___, EXL, QOT, HSH, I_U, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
     ZER, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
-    AT_, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, // 4
-    I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, I_N, BTO, I_N, BTC, CRT, I_N, // 5
-    TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_N, I_N, I_K, I_N, I_N, I_K, I_N, I_K, I_K, // 6
-    I_N, I_N, I_K, I_K, I_K, I_K, I_K, I_K, I_N, I_K, I_N, BEO, PIP, BEC, TLD, ERR, // 7
+    AT_, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_M, I_U, I_U, I_U, I_U, // 4
+    I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, BTO, I_U, BTC, CRT, I_U, // 5
+    TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_U, I_K, I_U, I_U, I_K, I_U, I_K, I_K, // 6
+    I_U, I_U, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_K, I_U, BEO, PIP, BEC, TLD, ERR, // 7
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 8
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 9
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // A
@@ -62,8 +62,10 @@ const ERR: ByteHandler = Some(|lexer| {
 /// Identifier
 const I_K: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
 
-/// Identifier, but not keyword
-const I_N: ByteHandler = Some(|lexer| lexer.read_ident().map(Some));
+/// Identifier, but unknown.
+const I_U: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
+
+const I_M: ByteHandler = Some(|lexer| lexer.read_ident_maybe_known().map(Some));
 
 /// `0`
 const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));

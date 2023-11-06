@@ -761,10 +761,20 @@ impl<'a> Lexer<'a> {
 
     /// This can be used if there's no keyword starting with the first
     /// character.
-    fn read_ident(&mut self) -> LexResult<Token> {
+    fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
         let (word, _) = self.read_word_as_str_with(|s| Word::Ident(IdentLike::Other(s.into())))?;
+
+        Ok(Word(word))
+    }
+
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_ident_maybe_known(&mut self) -> LexResult<Token> {
+        debug_assert!(self.cur().is_some());
+
+        let (word, _) = self.read_word_as_str_with(|s| Word::Ident(IdentLike::from(s)))?;
 
         Ok(Word(word))
     }
