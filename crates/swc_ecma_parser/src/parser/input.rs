@@ -300,18 +300,6 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
-    #[inline(never)]
-    fn bump_inner(&mut self) {
-        let prev = self.cur.take();
-        self.prev_span = match prev {
-            Some(TokenAndSpan { span, .. }) => span,
-            _ => self.prev_span,
-        };
-
-        // If we have peeked a token, take it instead of calling lexer.next()
-        self.cur = self.next.take().or_else(|| self.iter.next());
-    }
-
     #[allow(dead_code)]
     pub fn cur_debug(&self) -> Option<&Token> {
         self.cur.as_ref().map(|it| &it.token)
@@ -385,7 +373,8 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub fn cur(&mut self) -> Option<&Token> {
         if self.cur.is_none() {
-            self.bump_inner();
+            // If we have peeked a token, take it instead of calling lexer.next()
+            self.cur = self.next.take().or_else(|| self.iter.next());
         }
 
         match &self.cur {
