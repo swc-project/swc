@@ -75,7 +75,7 @@ pub(super) struct SkipWhitespace<'a> {
 }
 
 impl SkipWhitespace<'_> {
-    #[inline(always)]
+    #[inline(never)]
     pub fn scan(&mut self) {
         let mut byte;
         loop {
