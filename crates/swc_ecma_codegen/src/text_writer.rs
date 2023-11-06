@@ -44,11 +44,24 @@ pub trait WriteJs {
     fn commit_pending_semi(&mut self) -> Result;
 
     /// Optimization for the SWC minifier.
-    fn should_emit_ident(&mut self, i: &Ident) -> bool;
+    ///
+    /// If false, the code generator will skip **emission** of the given
+    /// identifier.
+    ///
+    ///
+    /// Defaults to `true`.
+
+    fn should_emit_ident(&mut self, _i: &Ident) -> bool {
+        true
+    }
 
     /// If true, the code generator will skip **modification** of invalid
     /// unicode characters.
-    fn can_ignore_invalid_unicodes(&mut self) -> bool;
+    ///
+    /// Defaults to `false``
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        false
+    }
 }
 
 impl<W> WriteJs for Box<W>
