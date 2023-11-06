@@ -767,8 +767,10 @@ impl<'a> Lexer<'a> {
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, _) =
-            self.read_word_as_str_with(|s, _, _| Word::Ident(IdentLike::Other(s.into())))?;
+        let atoms = self.atoms.clone();
+        let (word, _) = self.read_word_as_str_with(|s, _, _| {
+            Word::Ident(IdentLike::Other(atoms.borrow_mut().atom(s)))
+        })?;
 
         Ok(Word(word))
     }
@@ -791,7 +793,7 @@ impl<'a> Lexer<'a> {
                 }
             }
 
-            Word::Ident(IdentLike::from_str(&mut atoms.borrow_mut(), s))
+            Word::Ident(IdentLike::Other(atoms.borrow_mut().atom(s)))
         })?;
 
         // Note: ctx is store in lexer because of this error.
