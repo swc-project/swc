@@ -102,4 +102,9 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     fn should_emit_ident(&mut self, i: &swc_ecma_ast::Ident) -> bool {
         self.inner.should_emit_ident(i)
     }
+
+    #[inline(always)]
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        self.inner.can_ignore_invalid_unicodes()
+    }
 }

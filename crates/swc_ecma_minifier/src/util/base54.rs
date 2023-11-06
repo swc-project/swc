@@ -196,6 +196,10 @@ impl WriteJs for CharFreqWriter<'_> {
 
         true
     }
+
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        true
+    }
 }
 
 impl CharFreq {

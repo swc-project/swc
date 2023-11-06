@@ -130,4 +130,8 @@ impl WriteJs for &mut Hasher<'_> {
     fn should_emit_ident(&mut self, _: &Ident) -> bool {
         false
     }
+
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        true
+    }
 }

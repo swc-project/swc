@@ -2174,10 +2174,17 @@ where
         // TODO: span
 
         if self.cfg.ascii_only {
-            self.wr.write_symbol(
-                DUMMY_SP,
-                &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
-            )?;
+            if self.wr.can_ignore_invalid_unicodes() {
+                self.wr
+                    .write_symbol(DUMMY_SP, &get_ascii_only_ident(&ident.sym, self.cfg.target))?;
+            } else {
+                self.wr.write_symbol(
+                    DUMMY_SP,
+                    &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
+                )?;
+            }
+        } else if self.wr.can_ignore_invalid_unicodes() {
+            self.wr.write_symbol(DUMMY_SP, &ident.sym)?;
         } else {
             self.wr
                 .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
