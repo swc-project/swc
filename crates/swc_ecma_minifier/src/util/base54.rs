@@ -303,10 +303,6 @@ impl Visit for CharFreqAnalyzer<'_> {
             return;
         }
 
-        if i.span.ctxt == SyntaxContext::empty() {
-            return;
-        }
-
         // It's not mangled
         if self.preserved.contains(&i.to_id()) {
             return;
