@@ -189,6 +189,10 @@ impl WriteJs for CharFreqWriter<'_> {
             return false;
         }
 
+        if i.span.ctxt == SyntaxContext::empty() {
+            return true;
+        }
+
         // It's not mangled
         if self.preserved.contains(&i.to_id()) {
             return false;
