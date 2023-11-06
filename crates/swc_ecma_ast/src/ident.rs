@@ -151,6 +151,12 @@ impl From<Ident> for Id {
     }
 }
 
+#[repr(C, align(64))]
+struct Align64<T>(pub(crate) T);
+
+const T: bool = true;
+const F: bool = false;
+
 impl Ident {
     /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
     pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
@@ -175,26 +181,40 @@ impl Ident {
     /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
     pub fn is_valid_start(c: char) -> bool {
-        c == '$' || c == '_' || c.is_ascii_alphabetic() || {
-            if c.is_ascii() {
-                false
-            } else {
-                UnicodeID::is_id_start(c)
-            }
+        // This contains `$` (36) and `_` (95)
+        const ASCII_START: Align64<[bool; 128]> = Align64([
+            F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+            F, F, F, F, F, F, F, T, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+            F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, T, T, T, F, F, F, F, F,
+        ]);
+
+        if c.is_ascii() {
+            return ASCII_START.0[c as usize];
         }
+
+        UnicodeID::is_id_start(c)
     }
 
     /// Returns true if `c` is a valid character for an identifier part after
     /// start.
     #[inline]
     pub fn is_valid_continue(c: char) -> bool {
-        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
-            if c.is_ascii() {
-                false
-            } else {
-                UnicodeID::is_id_continue(c)
-            }
+        // This contains `$` (36)
+        const ASCII_CONTINUE: Align64<[bool; 128]> = Align64([
+            F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+            F, F, F, F, F, F, F, T, F, F, F, F, F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T,
+            F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, T, T, T, F, F, F, F, F,
+        ]);
+
+        if c.is_ascii() {
+            return ASCII_CONTINUE.0[c as usize];
         }
+
+        UnicodeID::is_id_continue(c) || c == '\u{200c}' || c == '\u{200d}'
     }
 
     /// Alternative for `toIdentifier` of babel.
