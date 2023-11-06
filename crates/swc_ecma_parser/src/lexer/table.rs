@@ -21,12 +21,12 @@ pub(super) static BYTE_HANDLERS: [ByteHandler; 256] = [
     //   0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F   //
     EOF, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 0
     ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, ___, // 1
-    ___, EXL, QOT, HSH, I_U, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
+    ___, EXL, QOT, HSH, W_U, PRC, AMP, QOT, PNO, PNC, ATR, PLS, COM, MIN, PRD, SLH, // 2
     ZER, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, DIG, COL, SEM, LSS, EQL, MOR, QST, // 3
-    AT_, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, // 4
-    I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, I_U, BTO, I_U, BTC, CRT, I_U, // 5
-    TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_M, I_U, I_K, I_U, I_M, I_K, I_U, I_K, I_K, // 6
-    I_M, I_U, I_K, I_K, I_K, I_K, I_K, I_K, I_U, I_K, I_U, BEO, PIP, BEC, TLD, ERR, // 7
+    AT_, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, // 4
+    W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, W_U, BTO, W_U, BTC, CRT, W_U, // 5
+    TPL, I_K, I_K, I_K, I_K, I_K, I_K, I_M, W_U, I_K, W_U, I_M, I_K, W_U, I_K, I_K, // 6
+    I_M, W_U, I_K, I_K, I_K, I_K, I_K, I_K, W_U, I_K, W_U, BEO, PIP, BEC, TLD, ERR, // 7
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 8
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // 9
     UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, UNI, // A
@@ -63,7 +63,7 @@ const ERR: ByteHandler = Some(|lexer| {
 const I_K: ByteHandler = Some(|lexer| lexer.read_ident_or_keyword().map(Some));
 
 /// Identifier, but unknown.
-const I_U: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
+const W_U: ByteHandler = Some(|lexer| lexer.read_ident_unknown().map(Some));
 
 /// Identifier, not keyword but maybe known.
 const I_M: ByteHandler = Some(|lexer| lexer.read_ident_maybe_known().map(Some));
