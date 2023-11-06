@@ -35,6 +35,7 @@ mod table;
 mod tests;
 pub mod util;
 mod whitespace;
+mod word;
 
 pub(crate) type LexResult<T> = Result<T, Error>;
 
