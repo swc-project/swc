@@ -97,4 +97,9 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
         }
         Ok(())
     }
+
+    #[inline(always)]
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        self.inner.can_ignore_invalid_unicodes()
+    }
 }

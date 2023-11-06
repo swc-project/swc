@@ -297,6 +297,11 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn commit_pending_semi(&mut self) -> Result {
         Ok(())
     }
+
+    #[inline(always)]
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        false
+    }
 }
 
 #[derive(Debug)]
