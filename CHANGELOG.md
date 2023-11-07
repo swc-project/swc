@@ -29,6 +29,9 @@
 - **(atoms)** Replace `string-cache` with `hstr` ([#8126](https://github.com/swc-project/swc/issues/8126)) ([aa22746](https://github.com/swc-project/swc/commit/aa22746d034c2579bcb0f0404866ff933b9037ba))
 
 
+- **(atoms)** Update `hstr` to make global APIs fast ([#8241](https://github.com/swc-project/swc/issues/8241)) ([c01454a](https://github.com/swc-project/swc/commit/c01454ad4165d5e6ba58dc2b3b72910bbbc3a518))
+
+
 - **(es)** Delete useless partition and extend in comments ([#8214](https://github.com/swc-project/swc/issues/8214)) ([67e2c4a](https://github.com/swc-project/swc/commit/67e2c4a4fd17436732099422c25d1c0d82f815dd))
 
 
@@ -1704,9 +1707,6 @@
 
 
 - **(ast)** Make serde optional ([#7138](https://github.com/swc-project/swc/issues/7138)) ([30bc086](https://github.com/swc-project/swc/commit/30bc0860526c0983042c60a039a1f5acee47830c))
-
-
-- **(es/parser)** Remove `EnumKind` to reduce compile time ([#7137](https://github.com/swc-project/swc/issues/7137)) ([915f747](https://github.com/swc-project/swc/commit/915f747cb7ba972e47e249b5a5ba9573dd68f607))
 
 ### Build
 
