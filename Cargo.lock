@@ -35,7 +35,6 @@ checksum = "5a824f2aa7e75a0c98c5a504fceb80649e9c35265d44525b5f94de4771a395cd"
 dependencies = [
  "getrandom",
  "once_cell",
- "serde",
  "version_check",
 ]
 
@@ -49,6 +48,7 @@ dependencies = [
  "const-random",
  "getrandom",
  "once_cell",
+ "serde",
  "version_check",
  "zerocopy",
 ]
@@ -350,26 +350,23 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.12.2"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "421478dde88feb4281328dea29dbf6d2b57bc19a8968214fc3694c8c574bc47f"
+checksum = "e33066f72a558361eeb1077b0aff0f1dce1ac75bdc20b38a642f155f767b2824"
 dependencies = [
- "ahash 0.7.7",
+ "ahash 0.8.5",
  "anyhow",
  "chrono",
  "either",
  "itertools",
- "js-sys",
  "nom",
  "once_cell",
  "quote",
  "serde",
- "serde-wasm-bindgen",
  "serde_json",
  "string_cache",
  "string_cache_codegen",
  "thiserror",
- "wasm-bindgen",
 ]
 
 [[package]]

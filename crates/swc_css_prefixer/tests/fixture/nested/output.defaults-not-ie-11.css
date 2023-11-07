@@ -26,78 +26,62 @@
 }
 .test {
   &.class::placeholder {
-    -webkit-appearance: auto;
     appearance: auto;
   }
 }
 .test {
-  -webkit-appearance: auto;
   appearance: auto;
   &.class {
     color: red;
   }
 }
 .test {
-  -webkit-appearance: auto;
   appearance: auto;
   &.class {
-    -webkit-appearance: auto;
     appearance: auto;
   }
 }
 .test {
   @supports (foo: bar) {
-    -webkit-appearance: auto;
     appearance: auto;
   }
 }
 .test {
   @media (orientation: landscape) {
-    -webkit-appearance: auto;
     appearance: auto;
   }
 }
 .test {
-  -webkit-appearance: auto;
   appearance: auto;
   &.class::placeholder {
-    -webkit-appearance: auto;
     appearance: auto;
   }
   @media (orientation: landscape) {
-    -webkit-appearance: auto;
     appearance: auto;
   }
 }
 @media (orientation: landscape) {
   .test {
     &.class::placeholder {
-      -webkit-appearance: auto;
       appearance: auto;
     }
   }
 }
 @media (orientation: landscape) {
   .test {
-    -webkit-appearance: auto;
     appearance: auto;
     &.class {
-      -webkit-appearance: auto;
       appearance: auto;
     }
   }
 }
 .test {
-  -webkit-appearance: none;
   appearance: none;
   &.class {
-    -webkit-appearance: auto;
     appearance: auto;
     &.class {
-      -webkit-appearance: menulist-button;
       appearance: menulist-button;
       &.class {
-        -webkit-appearance: button;
         appearance: button;
       }
     }
