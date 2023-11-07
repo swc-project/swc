@@ -241,7 +241,6 @@ impl<'a> Lexer<'a> {
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
-        let atoms = self.atoms.clone();
         self.with_buf(|l, buf| {
             l.bump();
 
@@ -269,13 +268,13 @@ impl<'a> Lexer<'a> {
 
                 return Ok(Either::Right((
                     Box::new(s.into_value()),
-                    atoms.borrow_mut().atom(&**buf),
+                    l.atoms.borrow_mut().atom(&**buf),
                 )));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, atoms.borrow_mut().atom(&**buf))))
+            Ok(Either::Left((val, l.atoms.borrow_mut().atom(&**buf))))
         })
     }
 
