@@ -1878,7 +1878,7 @@ where
 
                 Ok(DashedIdent {
                     span,
-                    value: self.input.atom(value[2..]),
+                    value: self.input.atom(&value[2..]),
                     raw: Some(raw),
                 })
             }
