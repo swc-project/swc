@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "binding_macros"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.60.41"
+version     = "0.60.42"
 
 [lib]
 bench = false
