@@ -14,6 +14,5 @@ input::placeholder {
   backdrop-filter: blur(2px);
 }
 input.appearance::placeholder {
-  -webkit-appearance: none;
   appearance: none;
 }
