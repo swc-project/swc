@@ -30,8 +30,8 @@ impl AtomStoreCell {
     #[inline]
     pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
         // SAFETY: We can skip the borrow check of RefCell because
-        // this API enforces the contract. It is slightly faster to
-        // use an UnsafeCell.
+        // this API enforces a safe contract. It is slightly faster
+        // to use an UnsafeCell.
         unsafe { (*self.0.get()).atom(s) }
     }
 }
