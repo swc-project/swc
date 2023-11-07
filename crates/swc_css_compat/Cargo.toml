@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_css_compat"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.27.10"
+version       = "0.27.11"
 
 [lib]
 bench = false
@@ -25,6 +25,6 @@ swc_css_utils = { version = "0.137.7", path = "../swc_css_utils/" }
 swc_css_visit = { version = "0.139.7", path = "../swc_css_visit" }
 
 [dev-dependencies]
-swc_css_codegen = { version = "0.151.10", path = "../swc_css_codegen" }
-swc_css_parser  = { version = "0.150.10", path = "../swc_css_parser" }
+swc_css_codegen = { version = "0.151.11", path = "../swc_css_codegen" }
+swc_css_parser  = { version = "0.150.11", path = "../swc_css_parser" }
 testing         = { version = "0.35.8", path = "../testing" }

@@ -32,6 +32,9 @@
 - **(atoms)** Update `hstr` to make global APIs fast ([#8241](https://github.com/swc-project/swc/issues/8241)) ([c01454a](https://github.com/swc-project/swc/commit/c01454ad4165d5e6ba58dc2b3b72910bbbc3a518))
 
 
+- **(css/parser)** Use `AtomStore` ([#8238](https://github.com/swc-project/swc/issues/8238)) ([a3c03b3](https://github.com/swc-project/swc/commit/a3c03b30fb3aa19cb590addbf47b0583d1b05dad))
+
+
 - **(es)** Delete useless partition and extend in comments ([#8214](https://github.com/swc-project/swc/issues/8214)) ([67e2c4a](https://github.com/swc-project/swc/commit/67e2c4a4fd17436732099422c25d1c0d82f815dd))
 
 
@@ -1695,12 +1698,6 @@
 
 
 - **(es/react)** Support script within automatic runtime ([#7126](https://github.com/swc-project/swc/issues/7126)) ([05a2815](https://github.com/swc-project/swc/commit/05a2815e6ceb6d12e122be4e4ef84281d398f8c2))
-
-### Miscellaneous Tasks
-
-
-
-- **(cargo)** Refactor `Cargo.toml` to reduce merge conflict ([#7139](https://github.com/swc-project/swc/issues/7139)) ([2826198](https://github.com/swc-project/swc/commit/28261985b00c23fd1411a8f782c04439d4e4919c))
 
 ### Refactor
 
