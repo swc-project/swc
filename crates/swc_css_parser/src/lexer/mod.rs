@@ -1,4 +1,4 @@
-use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
+use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
 use swc_atoms::{Atom, AtomStore, JsWord};
 use swc_common::{
@@ -178,6 +178,10 @@ where
         }
 
         Some(self.input.last_pos())
+    }
+
+    fn atom(&self, s: Cow<str>) -> JsWord {
+        self.atoms.borrow_mut().atom(s)
     }
 }
 
@@ -848,7 +852,7 @@ where
                                 }
                             }
 
-                            Ok((&**buf).into())
+                            Ok(buf.to_string())
                         })?;
 
                         // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF,
@@ -860,9 +864,10 @@ where
 
                                 raw.push_str(&whitespaces);
 
+                                let mut atoms = l.atoms.borrow_mut();
                                 return Ok(Token::Url {
-                                    value: (&**out).into(),
-                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                                    value: atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
                                 });
                             }
                             None => {
@@ -870,9 +875,10 @@ where
 
                                 raw.push_str(&whitespaces);
 
+                                let mut atoms = l.atoms.borrow_mut();
                                 return Ok(Token::Url {
-                                    value: (&**out).into(),
-                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                                    value: atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
                                 });
                             }
                             _ => {}
@@ -1197,7 +1203,8 @@ where
                 }
             }
 
-            Ok(((&**buf).into(), (&**raw).into()))
+            let mut atoms = l.atoms.borrow_mut();
+            Ok((atoms.atom(&**buf), atoms.atom(&**raw)))
         })
     }
 
