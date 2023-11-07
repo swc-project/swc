@@ -2,10 +2,9 @@
 //!
 //!
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
-use std::{borrow::Cow, char};
+use std::char;
 
 use smartstring::{LazyCompact, SmartString};
-use swc_atoms::{Atom, AtomStore};
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
@@ -22,19 +21,6 @@ use crate::{
     lexer::comments_buffer::BufferedCommentKind,
     Tokens,
 };
-
-#[derive(Default)]
-pub(crate) struct AtomStoreCell(std::cell::UnsafeCell<AtomStore>);
-
-impl AtomStoreCell {
-    #[inline]
-    pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
-        // SAFETY: We can skip the borrow check of RefCell because
-        // this API enforces a safe contract. It is slightly faster
-        // to use an UnsafeCell.
-        unsafe { (*self.0.get()).atom(s) }
-    }
-}
 
 /// Collector for raw string.
 ///

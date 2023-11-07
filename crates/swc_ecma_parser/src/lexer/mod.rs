@@ -5,7 +5,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion};
 
@@ -769,9 +769,6 @@ impl<'a> Lexer<'a> {
 
         let (word, _) = self
             .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
-        let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
-            Word::Ident(IdentLike::Other(l.atoms.borrow_mut().atom(s)))
-        })?;
 
         Ok(Word(word))
     }
@@ -793,7 +790,6 @@ impl<'a> Lexer<'a> {
             }
 
             Word::Ident(IdentLike::Other(l.atoms.atom(s)))
-            Word::Ident(IdentLike::Other(l.atoms.borrow_mut().atom(s)))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -1025,7 +1021,6 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
-                        let mut b = l.atoms.borrow_mut();
                         return Ok(Token::Str {
                             value: l.atoms.atom(&*out),
                             raw: l.atoms.atom(raw),
@@ -1060,7 +1055,6 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            let mut b = l.atoms.borrow_mut();
             Ok(Token::Str {
                 value: l.atoms.atom(&*out),
                 raw: l.atoms.atom(raw),
@@ -1112,7 +1106,6 @@ impl<'a> Lexer<'a> {
             }
 
             Ok(l.atoms.atom(&**buf))
-            Ok(l.atoms.borrow_mut().atom(&**buf))
         })?;
 
         // input is terminated without following `/`
@@ -1134,7 +1127,6 @@ impl<'a> Lexer<'a> {
             match self.cur() {
                 Some(c) if c.is_ident_start() => self
                     .read_word_as_str_with(|l, s, _, _| l.atoms.atom(s))
-                    .read_word_as_str_with(|l, s, _, _| l.atoms.borrow_mut().atom(s))
                     .map(Some),
                 _ => Ok(None),
             }
