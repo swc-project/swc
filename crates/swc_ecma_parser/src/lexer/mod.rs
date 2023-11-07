@@ -767,9 +767,8 @@ impl<'a> Lexer<'a> {
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let atoms = self.atoms.clone();
-        let (word, _) = self.read_word_as_str_with(|s, _, _| {
-            Word::Ident(IdentLike::Other(atoms.borrow_mut().atom(s)))
+        let (word, _) = self.read_word_as_str_with(|l, s, _, _| {
+            Word::Ident(IdentLike::Other(l.atoms.borrow_mut().atom(s)))
         })?;
 
         Ok(Word(word))
@@ -783,17 +782,15 @@ impl<'a> Lexer<'a> {
     ) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
-        let atoms = self.atoms.clone();
-
         let start = self.cur_pos();
-        let (word, has_escape) = self.read_word_as_str_with(|s, _, can_be_known| {
+        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
             if can_be_known {
                 if let Some(word) = convert(s) {
                     return word;
                 }
             }
 
-            Word::Ident(IdentLike::Other(atoms.borrow_mut().atom(s)))
+            Word::Ident(IdentLike::Other(l.atoms.borrow_mut().atom(s)))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -815,7 +812,7 @@ impl<'a> Lexer<'a> {
     /// `convert(text, has_escape, can_be_keyword)`
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&str, bool, bool) -> Ret,
+        F: for<'any> FnOnce(&'any mut Lexer<'_>, &str, bool, bool) -> Ret,
     {
         debug_assert!(self.cur().is_some());
         let mut first = true;
@@ -884,7 +881,7 @@ impl<'a> Lexer<'a> {
                 }
                 first = false;
             }
-            let value = convert(buf, has_escape, can_be_keyword);
+            let value = convert(l, buf, has_escape, can_be_keyword);
 
             Ok((value, has_escape))
         })
@@ -1007,7 +1004,6 @@ impl<'a> Lexer<'a> {
 
         self.bump(); // '"'
 
-        let atoms = self.atoms.clone();
         self.with_buf(|l, out| {
             while let Some(c) = {
                 // Optimization
@@ -1026,7 +1022,7 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
-                        let mut b = atoms.borrow_mut();
+                        let mut b = l.atoms.borrow_mut();
                         return Ok(Token::Str {
                             value: b.atom(&*out),
                             raw: b.atom(raw),
@@ -1061,7 +1057,7 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            let mut b = atoms.borrow_mut();
+            let mut b = l.atoms.borrow_mut();
             Ok(Token::Str {
                 value: b.atom(&*out),
                 raw: b.atom(raw),
@@ -1083,8 +1079,6 @@ impl<'a> Lexer<'a> {
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
-
-        let atoms = self.atoms.clone();
 
         let content = self.with_buf(|l, buf| {
             while let Some(c) = l.cur() {
@@ -1114,7 +1108,7 @@ impl<'a> Lexer<'a> {
                 buf.push(c);
             }
 
-            Ok(atoms.borrow_mut().atom(&**buf))
+            Ok(l.atoms.borrow_mut().atom(&**buf))
         })?;
 
         // input is terminated without following `/`
@@ -1135,7 +1129,7 @@ impl<'a> Lexer<'a> {
         let flags = {
             match self.cur() {
                 Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s, _, _| atoms.borrow_mut().atom(s))
+                    .read_word_as_str_with(|l, s, _, _| l.atoms.borrow_mut().atom(s))
                     .map(Some),
                 _ => Ok(None),
             }
