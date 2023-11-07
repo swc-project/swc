@@ -1,6 +1,6 @@
 use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::{Atom, AtomStore, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     input::Input,
@@ -36,6 +36,7 @@ where
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     errors: Rc<RefCell<Vec<Error>>>,
+    atoms: Rc<RefCell<AtomStore>>,
 }
 
 impl<'a, I> Lexer<'a, I>
@@ -58,6 +59,7 @@ where
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             errors: Default::default(),
             pending_leading_comments: Default::default(),
+            atoms: Default::default(),
         }
     }
 
