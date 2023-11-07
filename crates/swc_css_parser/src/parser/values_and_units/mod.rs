@@ -1878,7 +1878,7 @@ where
 
                 Ok(DashedIdent {
                     span,
-                    value: value[2..].into(),
+                    value: self.input.atom(value[2..]),
                     raw: Some(raw),
                 })
             }
@@ -2301,7 +2301,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_lowercase().into(),
+                        value: self.input.atom(unit.to_lowercase()),
                         raw: Some(raw_unit),
                     },
                 })
@@ -2571,7 +2571,7 @@ where
                 let name_length = raw.0.len() as u32;
                 let name = Ident {
                     span: Span::new(span.lo, span.lo + BytePos(name_length), Default::default()),
-                    value: "url".into(),
+                    value: self.input.atom("url"),
                     raw: Some(raw.0),
                 };
                 let value = Some(Box::new(UrlValue::Raw(UrlValueRaw {
@@ -2948,9 +2948,9 @@ where
             // 4. Exit this algorithm.
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
-                start: start.into(),
+                start: self.input.atom(start),
                 end: None,
-                raw: Some(unicode_range.into()),
+                raw: Some(self.input.atom(unicode_range)),
             });
         }
 
@@ -2962,9 +2962,9 @@ where
         if next.is_none() {
             return Ok(UnicodeRange {
                 span: span!(self, span.lo),
-                start: start.into(),
+                start: self.input.atom(start),
                 end: None,
-                raw: Some(unicode_range.into()),
+                raw: Some(self.input.atom(unicode_range)),
             });
         }
 
@@ -3022,9 +3022,9 @@ where
 
         return Ok(UnicodeRange {
             span: span!(self, span.lo),
-            start: start.into(),
-            end: Some(end.into()),
-            raw: Some(unicode_range.into()),
+            start: self.input.atom(start),
+            end: Some(self.input.atom(end)),
+            raw: Some(self.input.atom(unicode_range)),
         });
     }
 }

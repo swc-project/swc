@@ -50,8 +50,8 @@ where
         }
     }
 
-    pub fn atom(&self, s: Cow<str>) -> Atom {
-        self.input.atom(s)
+    pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
+        self.input.atom(s.into())
     }
 
     pub fn last_pos(&mut self) -> BytePos {
