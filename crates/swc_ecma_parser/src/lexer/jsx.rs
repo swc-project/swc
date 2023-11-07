@@ -1,5 +1,4 @@
 use either::Either;
-use swc_atoms::Atom;
 
 use super::*;
 use crate::token::Token;
@@ -48,7 +47,7 @@ impl<'a> Lexer<'a> {
                     });
 
                     return Ok(Some(Token::JSXText {
-                        raw: Atom::new(out),
+                        raw: self.atoms.borrow_mut().atom(out),
                     }));
                 }
                 '>' => {
@@ -323,9 +322,10 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
+        let mut b = self.atoms.borrow_mut();
         Ok(Token::Str {
-            value: out.into(),
-            raw: Atom::new(raw),
+            value: b.atom(out),
+            raw: b.atom(raw),
         })
     }
 
@@ -350,7 +350,9 @@ impl<'a> Lexer<'a> {
             }
         });
 
-        Ok(Token::JSXName { name: slice.into() })
+        Ok(Token::JSXName {
+            name: self.atoms.borrow_mut().atom(slice),
+        })
     }
 }
 

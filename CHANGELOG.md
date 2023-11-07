@@ -26,6 +26,9 @@
 
 
 
+- **(atoms)** Replace `string-cache` with `hstr` ([#8126](https://github.com/swc-project/swc/issues/8126)) ([aa22746](https://github.com/swc-project/swc/commit/aa22746d034c2579bcb0f0404866ff933b9037ba))
+
+
 - **(es)** Delete useless partition and extend in comments ([#8214](https://github.com/swc-project/swc/issues/8214)) ([67e2c4a](https://github.com/swc-project/swc/commit/67e2c4a4fd17436732099422c25d1c0d82f815dd))
 
 
@@ -1667,9 +1670,6 @@
 
 
 
-- **(css/codegen)** Preserve `raw` of numbers ([#7131](https://github.com/swc-project/swc/issues/7131)) ([150c2b6](https://github.com/swc-project/swc/commit/150c2b6fbaef976c6ee97438d1b9b7ffe4b210be))
-
-
 - **(css/compat)** Remove usage of `box_syntax` ([#7153](https://github.com/swc-project/swc/issues/7153)) ([6f0bf66](https://github.com/swc-project/swc/commit/6f0bf665c29abaa64c60fb43053f96e465d3e041))
 
 
@@ -1701,9 +1701,6 @@
 
 
 - **(ast)** Make serde optional ([#7138](https://github.com/swc-project/swc/issues/7138)) ([30bc086](https://github.com/swc-project/swc/commit/30bc0860526c0983042c60a039a1f5acee47830c))
-
-
-- **(es)** Remove needless build scripts to reduce compile time ([#7129](https://github.com/swc-project/swc/issues/7129)) ([dfe1a3f](https://github.com/swc-project/swc/commit/dfe1a3f4964ba58fdd676c184fdff0919fa78b26))
 
 
 - **(es/parser)** Remove `EnumKind` to reduce compile time ([#7137](https://github.com/swc-project/swc/issues/7137)) ([915f747](https://github.com/swc-project/swc/commit/915f747cb7ba972e47e249b5a5ba9573dd68f607))

@@ -5,7 +5,7 @@ use std::mem::take;
 
 use once_cell::sync::Lazy;
 use preset_env_base::{query::targets_to_versions, version::Version, BrowserData, Versions};
-use swc_atoms::{JsWord, StaticString};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, EqIgnoreSpan, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_utils::{
@@ -16,9 +16,9 @@ use swc_css_visit::{VisitMut, VisitMutWith};
 
 use crate::options::Options;
 
-static PREFIXES_AND_BROWSERS: Lazy<AHashMap<StaticString, [BrowserData<Option<Version>>; 2]>> =
+static PREFIXES_AND_BROWSERS: Lazy<AHashMap<String, [BrowserData<Option<Version>>; 2]>> =
     Lazy::new(|| {
-        let map: AHashMap<StaticString, [BrowserData<Option<Version>>; 2]> =
+        let map: AHashMap<String, [BrowserData<Option<Version>>; 2]> =
             serde_json::from_str(include_str!("../data/prefixes_and_browsers.json"))
                 .expect("failed to parse json");
 

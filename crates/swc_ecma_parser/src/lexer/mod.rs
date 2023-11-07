@@ -5,7 +5,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomStore};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion};
 
@@ -132,6 +132,8 @@ pub struct Lexer<'a> {
     module_errors: Rc<RefCell<Vec<Error>>>,
 
     buf: Rc<RefCell<String>>,
+
+    atoms: Rc<RefCell<AtomStore>>,
 }
 
 impl FusedIterator for Lexer<'_> {}
@@ -157,6 +159,7 @@ impl<'a> Lexer<'a> {
             errors: Default::default(),
             module_errors: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
+            atoms: Default::default(),
         }
     }
 
@@ -764,8 +767,10 @@ impl<'a> Lexer<'a> {
     fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
 
-        let (word, _) =
-            self.read_word_as_str_with(|s, _, _| Word::Ident(IdentLike::Other(s.into())))?;
+        let atoms = self.atoms.clone();
+        let (word, _) = self.read_word_as_str_with(|s, _, _| {
+            Word::Ident(IdentLike::Other(atoms.borrow_mut().atom(s)))
+        })?;
 
         Ok(Word(word))
     }
@@ -778,6 +783,8 @@ impl<'a> Lexer<'a> {
     ) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
+        let atoms = self.atoms.clone();
+
         let start = self.cur_pos();
         let (word, has_escape) = self.read_word_as_str_with(|s, _, can_be_known| {
             if can_be_known {
@@ -786,7 +793,7 @@ impl<'a> Lexer<'a> {
                 }
             }
 
-            Word::Ident(IdentLike::Other(s.into()))
+            Word::Ident(IdentLike::Other(atoms.borrow_mut().atom(s)))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -1000,6 +1007,7 @@ impl<'a> Lexer<'a> {
 
         self.bump(); // '"'
 
+        let atoms = self.atoms.clone();
         self.with_buf(|l, out| {
             while let Some(c) = {
                 // Optimization
@@ -1018,9 +1026,10 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
+                        let mut b = atoms.borrow_mut();
                         return Ok(Token::Str {
-                            value: (&**out).into(),
-                            raw: raw.into(),
+                            value: b.atom(&*out),
+                            raw: b.atom(raw),
                         });
                     }
                     '\\' => {
@@ -1052,9 +1061,10 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
+            let mut b = atoms.borrow_mut();
             Ok(Token::Str {
-                value: (&**out).into(),
-                raw: raw.into(),
+                value: b.atom(&*out),
+                raw: b.atom(raw),
             })
         })
     }
@@ -1073,6 +1083,8 @@ impl<'a> Lexer<'a> {
         self.bump();
 
         let (mut escaped, mut in_class) = (false, false);
+
+        let atoms = self.atoms.clone();
 
         let content = self.with_buf(|l, buf| {
             while let Some(c) = l.cur() {
@@ -1102,7 +1114,7 @@ impl<'a> Lexer<'a> {
                 buf.push(c);
             }
 
-            Ok(Atom::new(&**buf))
+            Ok(atoms.borrow_mut().atom(&**buf))
         })?;
 
         // input is terminated without following `/`
@@ -1122,9 +1134,9 @@ impl<'a> Lexer<'a> {
         // let flags_start = self.cur_pos();
         let flags = {
             match self.cur() {
-                Some(c) if c.is_ident_start() => {
-                    self.read_word_as_str_with(|s, _, _| s.into()).map(Some)
-                }
+                Some(c) if c.is_ident_start() => self
+                    .read_word_as_str_with(|s, _, _| atoms.borrow_mut().atom(s))
+                    .map(Some),
                 _ => Ok(None),
             }
         }?
@@ -1145,7 +1157,7 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(Atom::new(s)))
+        Ok(Some(self.atoms.borrow_mut().atom(s)))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
@@ -1170,7 +1182,7 @@ impl<'a> Lexer<'a> {
                 // TODO: Handle error
                 return Ok(Token::Template {
                     cooked: cooked.map(Atom::from),
-                    raw: Atom::new(&*raw),
+                    raw: self.atoms.borrow_mut().atom(&*raw),
                 });
             }
 
