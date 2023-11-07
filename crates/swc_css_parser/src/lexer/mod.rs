@@ -1,6 +1,6 @@
-use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
+use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::{Atom, AtomStore, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     input::Input,
@@ -36,6 +36,7 @@ where
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     errors: Rc<RefCell<Vec<Error>>>,
+    atoms: Rc<RefCell<AtomStore>>,
 }
 
 impl<'a, I> Lexer<'a, I>
@@ -58,6 +59,7 @@ where
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             errors: Default::default(),
             pending_leading_comments: Default::default(),
+            atoms: Default::default(),
         }
     }
 
@@ -177,6 +179,10 @@ where
 
         Some(self.input.last_pos())
     }
+
+    fn atom(&self, s: Cow<str>) -> JsWord {
+        self.atoms.borrow_mut().atom(s)
+    }
 }
 
 impl<I> Lexer<'_, I>
@@ -270,7 +276,7 @@ where
                 }
 
                 return Ok(Token::WhiteSpace {
-                    value: (&**buf).into(),
+                    value: l.atoms.borrow_mut().atom(&**buf),
                 });
             }),
             // U+0022 QUOTATION MARK (")
@@ -506,7 +512,7 @@ where
                                 self.pending_leading_comments.push(Comment {
                                     kind: CommentKind::Block,
                                     span: (self.start_pos, last_pos).into(),
-                                    text: text.into(),
+                                    text: self.atoms.borrow_mut().atom(text),
                                 });
                             }
 
@@ -552,7 +558,7 @@ where
                                 self.pending_leading_comments.push(Comment {
                                     kind: CommentKind::Line,
                                     span: (self.start_pos, last_pos).into(),
-                                    text: text.into(),
+                                    text: self.atoms.borrow_mut().atom(text),
                                 });
                             }
                             break;
@@ -642,7 +648,7 @@ where
                     }
                 }
 
-                Ok((&**buf).into())
+                Ok(buf.to_string())
             })?;
 
             match self.next() {
@@ -724,9 +730,10 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedString);
 
+                        let mut atoms = l.atoms.borrow_mut();
                         return Ok(Token::String {
-                            value: (&**buf).into(),
-                            raw: (&**raw).into(),
+                            value: atoms.atom(&**buf),
+                            raw: atoms.atom(&**raw),
                         });
                     }
 
@@ -738,7 +745,7 @@ where
                         l.reconsume();
 
                         return Ok(Token::BadString {
-                            raw: (&**raw).into(),
+                            raw: l.atoms.borrow_mut().atom(&**raw),
                         });
                     }
 
@@ -778,9 +785,10 @@ where
                 }
             }
 
+            let mut atoms = l.atoms.borrow_mut();
             Ok(Token::String {
-                value: (&**buf).into(),
-                raw: (&**raw).into(),
+                value: atoms.atom(&**buf),
+                raw: atoms.atom(&**raw),
             })
         })
     }
@@ -809,9 +817,10 @@ where
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
                     Some(')') => {
+                        let mut atoms = l.atoms.borrow_mut();
                         return Ok(Token::Url {
-                            value: (&**out).into(),
-                            raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                            value: atoms.atom(&**out),
+                            raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
                         });
                     }
 
@@ -820,9 +829,10 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedUrl);
 
+                        let mut atoms = l.atoms.borrow_mut();
                         return Ok(Token::Url {
-                            value: (&**out).into(),
-                            raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                            value: atoms.atom(&**out),
+                            raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
                         });
                     }
 
@@ -842,7 +852,7 @@ where
                                 }
                             }
 
-                            Ok((&**buf).into())
+                            Ok(buf.to_string())
                         })?;
 
                         // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF,
@@ -854,9 +864,10 @@ where
 
                                 raw.push_str(&whitespaces);
 
+                                let mut atoms = l.atoms.borrow_mut();
                                 return Ok(Token::Url {
-                                    value: (&**out).into(),
-                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                                    value: atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
                                 });
                             }
                             None => {
@@ -864,9 +875,10 @@ where
 
                                 raw.push_str(&whitespaces);
 
+                                let mut atoms = l.atoms.borrow_mut();
                                 return Ok(Token::Url {
-                                    value: (&**out).into(),
-                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                                    value: atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
                                 });
                             }
                             _ => {}
@@ -1191,7 +1203,8 @@ where
                 }
             }
 
-            Ok(((&**buf).into(), (&**raw).into()))
+            let mut atoms = l.atoms.borrow_mut();
+            Ok((atoms.atom(&**buf), atoms.atom(&**raw)))
         })
     }
 
@@ -1297,7 +1310,7 @@ where
             }
 
             // Return value and type.
-            Ok(((&**out).into(), type_flag))
+            Ok((l.atoms.borrow_mut().atom(&**out), type_flag))
         })?;
 
         // Convert repr to a number, and set the value to the returned value.
