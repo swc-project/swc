@@ -1288,7 +1288,7 @@ where
                         }
 
                         a = Some(if has_minus_sign { -1 } else {1 });
-                        a_raw = Some((if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }).into());
+                        a_raw = Some(self.input.atom(if has_plus_sign { "+" } else if has_minus_sign { "-" } else { "" }));
 
                         n_value = if has_minus_sign { ident_value[1..].to_string() } else { ident_value.to_string() };
                     }
@@ -1357,7 +1357,7 @@ where
 
                         b_raw_str.push_str("- ");
                         b_raw_str.push_str(&number.1);
-                        b_raw = Some(b_raw_str.into());
+                        b_raw = Some(self.input.atom(b_raw_str));
                     }
                     // '+'? n ['+' | '-'] <signless-integer>
                     // -n ['+' | '-'] <signless-integer>
@@ -1387,7 +1387,7 @@ where
                         b_raw_str.push(b_sign_raw);
                         b_raw_str.push(' ');
                         b_raw_str.push_str(&number.1);
-                        b_raw = Some(b_raw_str.into());
+                        b_raw = Some(self.input.atom(b_raw_str));
                     }
                     // '+'? <ndashdigit-ident>
                     // <dashndashdigit-ident>
@@ -1408,7 +1408,7 @@ where
                         b_raw_str.push('-');
                         b_raw_str.push_str(b_from_ident);
 
-                        b_raw = Some(b_raw_str.into());
+                        b_raw = Some(self.input.atom(b_raw_str));
                     }
                     // '+'? n
                     // -n

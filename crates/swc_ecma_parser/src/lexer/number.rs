@@ -269,12 +269,14 @@ impl<'a> Lexer<'a> {
                 return Ok(Either::Right((
                     Box::new(s.into_value()),
                     l.atoms.atom(&**buf),
+                    l.atoms.borrow_mut().atom(&**buf),
                 )));
             }
 
             l.ensure_not_ident()?;
 
             Ok(Either::Left((val, l.atoms.atom(&**buf))))
+            Ok(Either::Left((val, l.atoms.borrow_mut().atom(&**buf))))
         })
     }
 
