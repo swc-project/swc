@@ -26,6 +26,5 @@
   background-color: red;
 }
 .c::selection {
-  -webkit-backface-visibility: visible;
   backface-visibility: visible;
 }
