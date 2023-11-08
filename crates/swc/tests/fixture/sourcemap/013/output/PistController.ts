@@ -13,7 +13,7 @@ import { User as UserType } from '@server/user/schemas/UserSchema';
 import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
 import { CommentService } from '@server/comment/CommentService';
 import { Comment } from '@server/comment/schemas/CommentSchema';
-export let PostController = class PostController {
+export class PostController {
     constructor(postService, commentService){
         this.postService = postService;
         this.commentService = commentService;
@@ -36,7 +36,7 @@ export let PostController = class PostController {
     createPostComment(id, createCommentDto, user) {
         return this.commentService.create(createCommentDto, id, user.id);
     }
-};
+}
 _ts_decorate([
     Get(POST_GET_ALL_ENDPOINT),
     _ts_metadata("design:type", Function),

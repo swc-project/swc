@@ -5,8 +5,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 import React from "react";
 import { withRouter } from "react-router-dom";
-var App;
-App = /*#__PURE__*/ function(_React_Component) {
+var App = /*#__PURE__*/ function(_React_Component) {
     "use strict";
     _inherits(App, _React_Component);
     var _super = _create_super(App);
@@ -25,7 +24,7 @@ App = /*#__PURE__*/ function(_React_Component) {
     ]);
     return App;
 }(React.Component);
+export { App as default };
 App = _ts_decorate([
     withRouter
 ], App);
-export { App as default };

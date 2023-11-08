@@ -5,14 +5,13 @@ import { _ as _ts_metadata } from "@swc/helpers/_/_ts_metadata";
 function Prop() {
     return function() {};
 }
-var Example;
-Example = function Example() {
+var Example = function Example() {
     "use strict";
     _class_call_check(this, Example);
     _define_property(this, "prop", void 0);
 };
+export { Example as default };
 _ts_decorate([
     Prop(),
     _ts_metadata("design:type", typeof BigInt === "undefined" ? Object : BigInt)
 ], Example.prototype, "prop", void 0);
-export { Example as default };

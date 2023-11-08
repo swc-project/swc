@@ -21,7 +21,7 @@ define([
         Object.setPrototypeOf(_.prototype, target.prototype);
         return _;
     }
-    let FileSystemError = class FileSystemError1 extends Error {
+    class FileSystemError extends Error {
         static FileExists(messageOrUri) {
             return new FileSystemError(messageOrUri, FileSystemProviderErrorCode.FileExists, FileSystemError.FileExists);
         }
@@ -57,7 +57,7 @@ define([
                 Error.captureStackTrace(this, terminator);
             }
         }
-    };
+    }
     FileSystemError = _ts_decorate._([
         es5ClassCompat
     ], FileSystemError);
