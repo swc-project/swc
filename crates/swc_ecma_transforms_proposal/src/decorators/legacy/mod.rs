@@ -5,8 +5,7 @@ use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, private_ident, prop_name_to_expr_value,
-    quote_ident, undefined, ExprFactory, StmtLike,
+    private_ident, prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
@@ -30,8 +29,7 @@ pub(super) fn new(metadata: bool) -> TscDecorator {
         appended_exprs: Default::default(),
         prepended_exprs: Default::default(),
         class_name: Default::default(),
-        constructor_exprs: Default::default(),
-        exports: Default::default(),
+
         assign_class_expr_to: Default::default(),
     }
 }
@@ -47,11 +45,6 @@ pub(super) struct TscDecorator {
     prepended_exprs: Vec<Box<Expr>>,
 
     class_name: Option<Ident>,
-
-    /// Only used if `use_define_for_class_props` is false.
-    constructor_exprs: Vec<Box<Expr>>,
-
-    exports: Vec<ExportSpecifier>,
 
     assign_class_expr_to: Option<Ident>,
 }
@@ -226,8 +219,6 @@ impl Visit for TscDecorator {
 
 impl VisitMut for TscDecorator {
     fn visit_mut_class(&mut self, n: &mut Class) {
-        let old_constructor_stmts = self.constructor_exprs.take();
-
         n.visit_mut_with(&mut ParamMetadata);
 
         if self.metadata {
@@ -240,22 +231,6 @@ impl VisitMut for TscDecorator {
         }
 
         n.visit_mut_children_with(self);
-
-        if !self.constructor_exprs.is_empty() {
-            for m in &mut n.body {
-                if let ClassMember::Constructor(c @ Constructor { body: Some(..), .. }) = m {
-                    inject_after_super(c, self.constructor_exprs.take());
-                }
-            }
-
-            if !self.constructor_exprs.is_empty() {
-                let mut c = default_constructor(n.super_class.is_some());
-                inject_after_super(&mut c, self.constructor_exprs.take());
-                n.body.insert(0, ClassMember::Constructor(c));
-            }
-        }
-
-        self.constructor_exprs = old_constructor_stmts;
 
         if let Some(class_name) = self.class_name.clone() {
             if !n.decorators.is_empty() {
@@ -386,18 +361,6 @@ impl VisitMut for TscDecorator {
 
     fn visit_mut_module_items(&mut self, s: &mut Vec<ModuleItem>) {
         self.visit_mut_stmt_likes(s);
-
-        if !self.exports.is_empty() {
-            s.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                NamedExport {
-                    span: DUMMY_SP,
-                    specifiers: self.exports.take(),
-                    src: None,
-                    type_only: Default::default(),
-                    with: Default::default(),
-                },
-            )));
-        }
     }
 
     fn visit_mut_script(&mut self, n: &mut Script) {
