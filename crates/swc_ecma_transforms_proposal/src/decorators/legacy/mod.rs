@@ -307,6 +307,12 @@ impl VisitMut for TscDecorator {
         self.class_name = old;
     }
 
+    fn visit_mut_export_default_decl(&mut self, n: &mut ExportDefaultDecl) {
+        n.visit_mut_children_with(self);
+        // `export default class` is not expr
+        self.assign_class_expr_to = None;
+    }
+
     fn visit_mut_class_method(&mut self, c: &mut ClassMethod) {
         c.visit_mut_children_with(self);
 
