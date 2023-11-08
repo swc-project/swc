@@ -42,10 +42,10 @@ MyOtherClass = _ts_decorate([
         typeof Injected === "undefined" ? Object : Injected
     ])
 ], MyOtherClass);
-let DecoratedClass = class DecoratedClass {
+class DecoratedClass {
     constructor(private readonly module: Injected, otherModule: Injected){}
     method(param: string) {}
-};
+}
 _ts_decorate([
     decorate("example"),
     _ts_param(0, inject()),

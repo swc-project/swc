@@ -1,7 +1,7 @@
 import { AppService } from "./app.service";
 import { Session, Res } from "@nestjs/common";
 import * as express from "express";
-export let AppController = class AppController {
+export class AppController {
     constructor(private appService: AppService){}
     appService: AppService;
     private appService2: AppService;
@@ -15,7 +15,7 @@ export let AppController = class AppController {
         session.user = user;
         return res.redirect(state.returnUrl ?? "/");
     }
-};
+}
 _ts_decorate([
     Inject(),
     _ts_metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
