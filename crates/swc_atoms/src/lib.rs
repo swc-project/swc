@@ -28,22 +28,23 @@ pub use self::{atom as js_word, Atom as JsWord};
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
 
-/// Safety: We do not perform slicing of single [Atom] from multiple threads.
-/// In other words, typically [Atom] is created in a single thread (and in the
-/// parser code) and passed around.
-unsafe impl Sync for Atom {}
+fn _asserts() {
+    let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
 
-// fn _assert_size() {
-//     let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
-// }
+    fn _assert_send<T: Send>() {}
+    fn _assert_sync<T: Sync>() {}
+
+    _assert_send::<Atom>();
+    _assert_sync::<Atom>();
+}
 
 impl Atom {
     /// Creates a new [Atom] from a string.
-    pub fn new<'i, S>(s: S) -> Self
+    pub fn new<S>(s: S) -> Self
     where
-        S: Into<Cow<'i, str>>,
+        hstr::Atom: From<S>,
     {
-        Atom(hstr::Atom::from(s.into()))
+        Atom(hstr::Atom::from(s))
     }
 
     #[inline]
