@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Use `cooked` while converting tpls into strings ([#8248](https://github.com/swc-project/swc/issues/8248)) ([be748f0](https://github.com/swc-project/swc/commit/be748f0f33bda76a1ae4a4acd586213adfe7b2aa))
+
 ## [1.3.97] - 2023-11-09
 
 ### Bug Fixes
@@ -1698,9 +1706,6 @@
 
 ### Build
 
-
-
-- **(cargo)** Update `rustc` to `nightly-2023-03-28` ([#7154](https://github.com/swc-project/swc/issues/7154)) ([e445502](https://github.com/swc-project/swc/commit/e445502072d8ebfcbe0da0cb59f3d6a85d4a2087))
 
 
 - **(cargo)** Revert rustc upgrade ([#7162](https://github.com/swc-project/swc/issues/7162)) ([12546c8](https://github.com/swc-project/swc/commit/12546c853a67210e840efd61452041ef8db00d3a))
