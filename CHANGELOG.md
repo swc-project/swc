@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.97] - 2023-11-09
 
 ### Bug Fixes
 
@@ -1689,9 +1689,6 @@
 
 ### Bug Fixes
 
-
-
-- **(css/compat)** Remove usage of `box_syntax` ([#7153](https://github.com/swc-project/swc/issues/7153)) ([6f0bf66](https://github.com/swc-project/swc/commit/6f0bf665c29abaa64c60fb43053f96e465d3e041))
 
 
 - **(es/compat)** Handle import/export in `reserved_word` ([#7165](https://github.com/swc-project/swc/issues/7165)) ([065d11c](https://github.com/swc-project/swc/commit/065d11cb9bd49f36825b3b707e4e9ecfcc64e17b))
