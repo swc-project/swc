@@ -75,6 +75,56 @@ where
     pub wr: W,
 }
 
+fn replace_close_inline_script(raw: &str) -> Cow<str> {
+    let chars = raw.as_bytes();
+    let pattern_len = 8; // </script>
+    let matched = |i: usize| {
+        if i + pattern_len >= chars.len() {
+            return false;
+        }
+        chars[i] == b'<'
+            && chars[i + 1] == b'/'
+            && (chars[i + 2] == b's' || chars[i + 2] == b'S')
+            && (chars[i + 3] == b'c' || chars[i + 3] == b'C')
+            && (chars[i + 4] == b'r' || chars[i + 4] == b'R')
+            && (chars[i + 5] == b'i' || chars[i + 5] == b'I')
+            && (chars[i + 6] == b'p' || chars[i + 6] == b'P')
+            && (chars[i + 7] == b't' || chars[i + 7] == b'T')
+            && (chars[i + 8] == b'>'
+                || chars[i + 8] == b' '
+                || chars[i + 8] == b'\t'
+                || chars[i + 8] == b'\n'
+                || chars[i + 8] == b'\x0C'
+                || chars[i + 8] == b'\r')
+    };
+    let mut matched_list = (0..chars.len()).filter(|&i| matched(i)).peekable();
+    if matched_list.peek().is_none() {
+        return Cow::Borrowed(raw);
+    }
+    let mut result = String::new();
+    let mut last_end = 0;
+    for start in matched_list {
+        for c in unsafe { chars.get_unchecked(last_end..start) } {
+            result.push(*c as char);
+        }
+        for (index, c) in unsafe { chars.get_unchecked(start..start + pattern_len) }
+            .iter()
+            .enumerate()
+        {
+            if index == 1 {
+                // "</s" -> <\/s"
+                result.push('\\');
+            }
+            result.push(*c as char);
+        }
+        last_end = start + pattern_len;
+    }
+    for c in unsafe { chars.get_unchecked(last_end..chars.len()) } {
+        result.push(*c as char);
+    }
+    Cow::Owned(result)
+}
+
 impl<'a, W, S: SourceMapper> Emitter<'a, W, S>
 where
     W: WriteJs,
@@ -579,7 +629,13 @@ where
             }
         }
 
-        let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+        let mut value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+
+        if self.cfg.inline_script {
+            value = replace_close_inline_script(&value)
+                .replace("\x3c!--", "\\x3c!--")
+                .replace("/--\x3e/", "--\\x3e");
+        }
 
         self.wr.write_str_lit(DUMMY_SP, &value)?;
 
