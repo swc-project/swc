@@ -32,6 +32,9 @@
 - **(atoms)** Update `hstr` to make global APIs fast ([#8241](https://github.com/swc-project/swc/issues/8241)) ([c01454a](https://github.com/swc-project/swc/commit/c01454ad4165d5e6ba58dc2b3b72910bbbc3a518))
 
 
+- **(atoms)** Introduce `AtomStoreCell` ([#8232](https://github.com/swc-project/swc/issues/8232)) ([a5a6eb5](https://github.com/swc-project/swc/commit/a5a6eb53a56faa8e224f59f5cd967e5075c12edd))
+
+
 - **(css/parser)** Use `AtomStore` ([#8238](https://github.com/swc-project/swc/issues/8238)) ([a3c03b3](https://github.com/swc-project/swc/commit/a3c03b30fb3aa19cb590addbf47b0583d1b05dad))
 
 
@@ -1694,16 +1697,7 @@
 
 
 
-- **(css/parser)** Add `legacy_ie` to the `ParserConfig` ([#7109](https://github.com/swc-project/swc/issues/7109)) ([5e58b3e](https://github.com/swc-project/swc/commit/5e58b3e5f6dfe6a7ede97c3e8a2f7436db964113))
-
-
 - **(es/react)** Support script within automatic runtime ([#7126](https://github.com/swc-project/swc/issues/7126)) ([05a2815](https://github.com/swc-project/swc/commit/05a2815e6ceb6d12e122be4e4ef84281d398f8c2))
-
-### Refactor
-
-
-
-- **(ast)** Make serde optional ([#7138](https://github.com/swc-project/swc/issues/7138)) ([30bc086](https://github.com/swc-project/swc/commit/30bc0860526c0983042c60a039a1f5acee47830c))
 
 ### Build
 
