@@ -1,6 +1,6 @@
 use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{Atom, AtomStore, AtomStoreCell, JsWord};
+use swc_atoms::{Atom, AtomStoreCell, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     input::Input,
@@ -181,7 +181,7 @@ where
     }
 
     fn atom(&self, s: Cow<str>) -> JsWord {
-        self.atoms.borrow_mut().atom(s)
+        self.atoms.atom(s)
     }
 }
 
@@ -276,7 +276,7 @@ where
                 }
 
                 return Ok(Token::WhiteSpace {
-                    value: l.atoms.borrow_mut().atom(&**buf),
+                    value: l.atoms.atom(&**buf),
                 });
             }),
             // U+0022 QUOTATION MARK (")
@@ -512,7 +512,7 @@ where
                                 self.pending_leading_comments.push(Comment {
                                     kind: CommentKind::Block,
                                     span: (self.start_pos, last_pos).into(),
-                                    text: self.atoms.borrow_mut().atom(text),
+                                    text: self.atoms.atom(text),
                                 });
                             }
 
@@ -558,7 +558,7 @@ where
                                 self.pending_leading_comments.push(Comment {
                                     kind: CommentKind::Line,
                                     span: (self.start_pos, last_pos).into(),
-                                    text: self.atoms.borrow_mut().atom(text),
+                                    text: self.atoms.atom(text),
                                 });
                             }
                             break;
@@ -730,10 +730,9 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedString);
 
-                        let mut atoms = l.atoms.borrow_mut();
                         return Ok(Token::String {
-                            value: atoms.atom(&**buf),
-                            raw: atoms.atom(&**raw),
+                            value: l.atoms.atom(&**buf),
+                            raw: l.atoms.atom(&**raw),
                         });
                     }
 
@@ -745,7 +744,7 @@ where
                         l.reconsume();
 
                         return Ok(Token::BadString {
-                            raw: l.atoms.borrow_mut().atom(&**raw),
+                            raw: l.atoms.atom(&**raw),
                         });
                     }
 
@@ -785,10 +784,9 @@ where
                 }
             }
 
-            let mut atoms = l.atoms.borrow_mut();
             Ok(Token::String {
-                value: atoms.atom(&**buf),
-                raw: atoms.atom(&**raw),
+                value: l.atoms.atom(&**buf),
+                raw: l.atoms.atom(&**raw),
             })
         })
     }
@@ -817,10 +815,9 @@ where
                     // U+0029 RIGHT PARENTHESIS ())
                     // Return the <url-token>.
                     Some(')') => {
-                        let mut atoms = l.atoms.borrow_mut();
                         return Ok(Token::Url {
-                            value: atoms.atom(&**out),
-                            raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
+                            value: l.atoms.atom(&**out),
+                            raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                         });
                     }
 
@@ -829,10 +826,9 @@ where
                     None => {
                         l.emit_error(ErrorKind::UnterminatedUrl);
 
-                        let mut atoms = l.atoms.borrow_mut();
                         return Ok(Token::Url {
-                            value: atoms.atom(&**out),
-                            raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
+                            value: l.atoms.atom(&**out),
+                            raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                         });
                     }
 
@@ -864,10 +860,9 @@ where
 
                                 raw.push_str(&whitespaces);
 
-                                let mut atoms = l.atoms.borrow_mut();
                                 return Ok(Token::Url {
-                                    value: atoms.atom(&**out),
-                                    raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
+                                    value: l.atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                                 });
                             }
                             None => {
@@ -875,10 +870,9 @@ where
 
                                 raw.push_str(&whitespaces);
 
-                                let mut atoms = l.atoms.borrow_mut();
                                 return Ok(Token::Url {
-                                    value: atoms.atom(&**out),
-                                    raw: Box::new(UrlKeyValue(name.1, atoms.atom(&**raw))),
+                                    value: l.atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                                 });
                             }
                             _ => {}
@@ -1203,8 +1197,7 @@ where
                 }
             }
 
-            let mut atoms = l.atoms.borrow_mut();
-            Ok((atoms.atom(&**buf), atoms.atom(&**raw)))
+            Ok((l.atoms.atom(&**buf), l.atoms.atom(&**raw)))
         })
     }
 
@@ -1310,7 +1303,7 @@ where
             }
 
             // Return value and type.
-            Ok((l.atoms.borrow_mut().atom(&**out), type_flag))
+            Ok((l.atoms.atom(&**out), type_flag))
         })?;
 
         // Convert repr to a number, and set the value to the returned value.
