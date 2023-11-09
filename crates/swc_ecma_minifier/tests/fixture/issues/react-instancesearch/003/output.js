@@ -179,13 +179,13 @@ export default function createInstantSearchManager({ indexName, initialState = {
                 ...indices,
                 [indexId]: widgets.concat(widget)
             };
-        }, {}), derivedParameters = Object.keys(derivedIndices).map((indexId)=>({
-                parameters: derivedIndices[indexId].reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters),
-                indexId
-            }));
+        }, {});
         return {
             mainParameters,
-            derivedParameters
+            derivedParameters: Object.keys(derivedIndices).map((indexId)=>({
+                    parameters: derivedIndices[indexId].reduce((res, widget)=>widget.getSearchParameters(res), sharedParameters),
+                    indexId
+                }))
         };
     }
     function search() {
@@ -194,8 +194,7 @@ export default function createInstantSearchManager({ indexName, initialState = {
             helper.derivedHelpers.slice().forEach((derivedHelper)=>{
                 derivedHelper.detach();
             }), derivedParameters.forEach(({ indexId, parameters })=>{
-                const derivedHelper = helper.derive(()=>parameters);
-                derivedHelper.on("result", handleSearchSuccess({
+                helper.derive(()=>parameters).on("result", handleSearchSuccess({
                     indexId
                 })).on("error", handleSearchError);
             }), helper.setState(mainParameters), helper.search();

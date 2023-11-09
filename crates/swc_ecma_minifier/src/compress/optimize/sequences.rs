@@ -558,15 +558,7 @@ impl Optimizer<'_> {
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
             Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
-            Stmt::Decl(Decl::Var(v))
-                if matches!(
-                    &**v,
-                    VarDecl {
-                        kind: VarDeclKind::Var | VarDeclKind::Let,
-                        ..
-                    }
-                ) =>
-            {
+            Stmt::Decl(Decl::Var(v)) => {
                 if options.reduce_vars || options.collapse_vars {
                     v.decls.iter_mut().map(Mergable::Var).collect()
                 } else {
@@ -1669,7 +1661,7 @@ impl Optimizer<'_> {
                     Mergable::FnDecl(a) => idents_used_by_ignoring_nested(&**a),
                     Mergable::Drop => return Ok(false),
                 };
-                if obj_ids.intersection(&a_ids).next().is_some() {
+                if !obj_ids.is_disjoint(&a_ids) {
                     return Ok(false);
                 }
 
@@ -2319,61 +2311,67 @@ impl Optimizer<'_> {
             }
         }
 
-        macro_rules! take_a {
-            ($force_drop:expr, $drop_op:expr) => {
-                match a {
-                    Mergable::Var(a) => {
-                        if self.options.unused {
-                            if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
-                                // We are eliminating one usage, so we use 1 instead of
-                                // 0
-                                if !$force_drop && usage.usage_count == 1 && !usage.reassigned {
-                                    report_change!("sequences: Dropping inlined variable");
-                                    a.name.take();
-                                }
+        let take_a = |a: &mut Mergable, force_drop: bool, drop_op| {
+            match a {
+                Mergable::Var(a) => {
+                    if self.options.unused {
+                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                            // We are eliminating one usage, so we use 1 instead of
+                            // 0
+                            if !force_drop && usage.usage_count == 1 && !usage.reassigned {
+                                report_change!("sequences: Dropping inlined variable");
+                                a.name.take();
+                            }
+                        }
+                    }
+
+                    if can_take_init || force_drop {
+                        let init = a.init.take();
+
+                        if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
+                            if usage.var_kind == Some(VarDeclKind::Const) {
+                                a.init = Some(undefined(DUMMY_SP));
                             }
                         }
 
-                        if can_take_init || $force_drop {
-                            a.init.take()
-                        } else {
-                            a.init.clone()
-                        }
-                        .unwrap_or_else(|| undefined(DUMMY_SP))
+                        init
+                    } else {
+                        a.init.clone()
                     }
-                    Mergable::Expr(a) => {
-                        if can_remove || $force_drop {
-                            if let Expr::Assign(e) = a {
-                                if e.op == op!("=") || $drop_op {
-                                    report_change!(
-                                        "sequences: Dropping assignment as we are going to drop \
-                                         the variable declaration. ({})",
-                                        left_id
-                                    );
-
-                                    **a = *e.right.take();
-                                }
-                            }
-                        }
-
-                        Box::new(a.take())
-                    }
-
-                    Mergable::FnDecl(a) => {
-                        // We can inline a function declaration as a function expression.
-
-                        Box::new(Expr::Fn(FnExpr {
-                            ident: Some(a.ident.take()),
-                            function: a.function.take(),
-                        }))
-                    }
-
-                    Mergable::Drop => {
-                        unreachable!()
-                    }
+                    .unwrap_or_else(|| undefined(DUMMY_SP))
                 }
-            };
-        }
+                Mergable::Expr(a) => {
+                    if can_remove || force_drop {
+                        if let Expr::Assign(e) = a {
+                            if e.op == op!("=") || drop_op {
+                                report_change!(
+                                    "sequences: Dropping assignment as we are going to drop the \
+                                     variable declaration. ({})",
+                                    left_id
+                                );
+
+                                **a = *e.right.take();
+                            }
+                        }
+                    }
+
+                    Box::new(a.take())
+                }
+
+                Mergable::FnDecl(a) => {
+                    // We can inline a function declaration as a function expression.
+
+                    Box::new(Expr::Fn(FnExpr {
+                        ident: Some(a.ident.take()),
+                        function: a.function.take(),
+                    }))
+                }
+
+                Mergable::Drop => {
+                    unreachable!()
+                }
+            }
+        };
 
         // x = 1, x += 2 => x = 3
         match b {
@@ -2383,7 +2381,7 @@ impl Optimizer<'_> {
                         report_change!("sequences: Merged assignment into another assignment");
                         self.changed = true;
 
-                        let mut a_expr = take_a!(true, false);
+                        let mut a_expr = take_a(a, true, false);
                         let a_expr = self.ignore_return_value(&mut a_expr);
 
                         if let Some(a) = a_expr {
@@ -2416,7 +2414,7 @@ impl Optimizer<'_> {
 
                                     b.op = a_op;
 
-                                    let to = take_a!(true, true);
+                                    let to = take_a(a, true, true);
 
                                     b.right = Box::new(Expr::Bin(BinExpr {
                                         span: DUMMY_SP,
@@ -2464,7 +2462,7 @@ impl Optimizer<'_> {
             left_id.span.ctxt
         );
 
-        let to = take_a!(false, false);
+        let to = take_a(a, false, false);
 
         replace_id_with_expr(b, left_id.to_id(), to);
 

@@ -1,4 +1,1 @@
-!function() {
-    let o = something();
-    console.log(o);
-}();
+console.log(something());

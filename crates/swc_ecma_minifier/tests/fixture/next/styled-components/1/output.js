@@ -5905,8 +5905,7 @@
                         var _window, _window$matchMedia;
                         const media = null === (_window = window) || void 0 === _window ? void 0 : null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
                         function handleChange(event) {
-                            const isNight = event.matches;
-                            setSystemColorMode(isNight ? "night" : "day");
+                            setSystemColorMode(event.matches ? "night" : "day");
                         }
                         if (media) {
                             if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
@@ -6023,8 +6022,7 @@
                 ":not(:focus-visible)": {
                     outline: "solid 1px transparent"
                 }
-            }, getVariantStyles = (variant = "default", theme)=>{
-                const style = {
+            }, getVariantStyles = (variant = "default", theme)=>({
                     default: {
                         color: "btn.text",
                         backgroundColor: "btn.bg",
@@ -6202,9 +6200,7 @@
                             borderColor: "btn.outline.selectedBorder"
                         }
                     }
-                };
-                return style[variant];
-            }, getSizeStyles = (size = "medium", variant = "default", iconOnly)=>{
+                })[variant], getSizeStyles = (size = "medium", variant = "default", iconOnly)=>{
                 let paddingY, paddingX, fontSize;
                 switch(size){
                     case "small":
@@ -6249,8 +6245,7 @@
                             outline: "solid 1px transparent"
                         }
                     }
-                }), getButtonStyles = (theme)=>{
-                const styles = {
+                }), getButtonStyles = (theme)=>({
                     ...getBaseStyles(theme),
                     display: "grid",
                     gridTemplateAreas: '"leadingIcon text trailingIcon"',
@@ -6266,9 +6261,7 @@
                     '[data-component="trailingIcon"]': {
                         gridArea: "trailingIcon"
                     }
-                };
-                return styles;
-            };
+                });
             function ButtonBase_extends() {
                 return (ButtonBase_extends = Object.assign || function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -6327,11 +6320,11 @@
                 return void 0 === (fallback = getKey(lib_esm_theme, key)) && (fallback = null), function(props) {
                     return get(props.theme, key, fallback);
                 };
-            }, COMMON = constants_compose(space, color, display), whiteSpace = constants_system({
+            }, COMMON = constants_compose(space, color, display), TYPOGRAPHY = constants_compose(typography, constants_system({
                 whiteSpace: {
                     property: "whiteSpace"
                 }
-            }), TYPOGRAPHY = constants_compose(typography, whiteSpace);
+            }));
             constants_compose(border, shadow);
             const CounterLabel = He.span.withConfig({
                 displayName: "CounterLabel",

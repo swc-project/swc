@@ -7,7 +7,6 @@ class Base {
         console.log(`x was set to ${value}`);
     }
 }
-const obj = new class extends Base {
+console.log(new class extends Base {
     x = 1;
-}();
-console.log(obj.x);
+}().x);

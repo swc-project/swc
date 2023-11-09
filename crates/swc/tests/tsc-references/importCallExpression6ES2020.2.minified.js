@@ -12,5 +12,4 @@ export function backup() {
     return "backup";
 }
 //// [2.ts]
-const specify = bar() ? "./0" : void 0;
-import(specify), import(void 0), import(bar() ? "./1" : null), import(null);
+import(bar() ? "./0" : void 0), import(void 0), import(bar() ? "./1" : null), import(null);
