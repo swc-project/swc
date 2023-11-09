@@ -82,16 +82,6 @@ macro_rules! impl_from {
     };
 }
 
-macro_rules! impl_from_deref {
-    ($T:ty) => {
-        impl From<$T> for Atom {
-            fn from(s: $T) -> Self {
-                Atom::new(&*s)
-            }
-        }
-    };
-}
-
 impl PartialEq<str> for Atom {
     fn eq(&self, other: &str) -> bool {
         &**self == other
@@ -106,9 +96,9 @@ impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 
 impl_from!(&'_ str);
-impl_from_deref!(Box<str>);
-impl_from_deref!(Cow<'_, str>);
+impl_from!(Box<str>);
 impl_from!(String);
+impl_from!(Cow<'_, str>);
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
