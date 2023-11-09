@@ -2,8 +2,11 @@
 
 #![allow(clippy::unreadable_literal)]
 
-/// Not a publish API.
 #[doc(hidden)]
+/// Not a public API.
+pub extern crate hstr;
+#[doc(hidden)]
+/// Not a public API.
 pub extern crate once_cell;
 
 use std::{
@@ -40,6 +43,7 @@ fn _asserts() {
 
 impl Atom {
     /// Creates a new [Atom] from a string.
+    #[inline(always)]
     pub fn new<S>(s: S) -> Self
     where
         hstr::Atom: From<S>,
@@ -162,23 +166,19 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
     }
 }
 
-/// Creates an Atom from a constant.
+/// Creates an [Atom] from a constant.
 #[macro_export]
 macro_rules! atom {
     ($s:tt) => {{
-        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
-
-        $crate::Atom::clone(&*CACHE)
+        $crate::Atom::new($crate::hstr::atom!($s))
     }};
 }
 
-/// Creates an Atom from a constant.
+/// Creates an [Atom] from a constant.
 #[macro_export]
 macro_rules! lazy_atom {
     ($s:tt) => {{
-        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
-
-        $crate::Atom::clone(&*CACHE)
+        $crate::Atom::new($crate::hstr::atom!($s))
     }};
 }
 
