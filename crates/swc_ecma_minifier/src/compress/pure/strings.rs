@@ -209,6 +209,8 @@ impl Pure<'_> {
                         .replace("\\r", "\r")
                         .replace("\\\\", "\\");
 
+                    report_change!("converting a template literal to a string literal");
+
                     *e = Expr::Lit(Lit::Str(Str {
                         span: t.span,
                         raw: None,
