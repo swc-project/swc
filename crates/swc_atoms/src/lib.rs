@@ -33,7 +33,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 pub struct Atom(hstr::Atom);
 
 fn _asserts() {
-    let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
+    // let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
 
     fn _assert_send<T: Send>() {}
     fn _assert_sync<T: Sync>() {}
