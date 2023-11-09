@@ -47,7 +47,7 @@ impl<'a> Lexer<'a> {
                     });
 
                     return Ok(Some(Token::JSXText {
-                        raw: self.atoms.borrow_mut().atom(out),
+                        raw: self.atoms.atom(out),
                     }));
                 }
                 '>' => {
@@ -322,10 +322,9 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
-        let mut b = self.atoms.borrow_mut();
         Ok(Token::Str {
-            value: b.atom(out),
-            raw: b.atom(raw),
+            value: self.atoms.atom(out),
+            raw: self.atoms.atom(raw),
         })
     }
 
@@ -351,7 +350,7 @@ impl<'a> Lexer<'a> {
         });
 
         Ok(Token::JSXName {
-            name: self.atoms.borrow_mut().atom(slice),
+            name: self.atoms.atom(slice),
         })
     }
 }

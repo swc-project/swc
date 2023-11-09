@@ -247,3 +247,18 @@ impl AtomStore {
         Atom(self.0.atom(s))
     }
 }
+
+/// A fast internally mutable cell for [AtomStore].
+#[derive(Default)]
+pub struct AtomStoreCell(std::cell::UnsafeCell<AtomStore>);
+
+impl AtomStoreCell {
+    #[inline]
+    pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
+        // SAFETY: We can skip the borrow check of RefCell because
+        // this API enforces a safe contract. It is slightly faster
+        // to use an UnsafeCell. Note the borrow here is short lived
+        // only to this block.
+        unsafe { (*self.0.get()).atom(s) }
+    }
+}
