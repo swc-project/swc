@@ -1,6 +1,6 @@
 use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{Atom, AtomStore, JsWord};
+use swc_atoms::{Atom, AtomStore, AtomStoreCell, JsWord};
 use swc_common::{
     comments::{Comment, CommentKind, Comments},
     input::Input,
@@ -36,7 +36,7 @@ where
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     errors: Rc<RefCell<Vec<Error>>>,
-    atoms: Rc<RefCell<AtomStore>>,
+    atoms: Rc<AtomStoreCell>,
 }
 
 impl<'a, I> Lexer<'a, I>
