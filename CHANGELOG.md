@@ -58,6 +58,12 @@
 
 - **(es/typescript)** Visit ts import/export only once ([#8213](https://github.com/swc-project/swc/issues/8213)) ([a00f575](https://github.com/swc-project/swc/commit/a00f575837a44a14dd09dd634f45a64e138263b0))
 
+### Refactor
+
+
+
+- **(atoms)** Improve APIs ([#8249](https://github.com/swc-project/swc/issues/8249)) ([9a4bad4](https://github.com/swc-project/swc/commit/9a4bad4e9ec67a09761398eae5e6bb37e6d0d94f))
+
 ### Build
 
 
@@ -1692,12 +1698,6 @@
 
 
 - **(es/compat)** Fix the position for temp var injection ([#7171](https://github.com/swc-project/swc/issues/7171)) ([23fb8c5](https://github.com/swc-project/swc/commit/23fb8c5563a8e5f79d256bb27bdbdfd56944ccbc))
-
-### Features
-
-
-
-- **(es/react)** Support script within automatic runtime ([#7126](https://github.com/swc-project/swc/issues/7126)) ([05a2815](https://github.com/swc-project/swc/commit/05a2815e6ceb6d12e122be4e4ef84281d398f8c2))
 
 ### Build
 
