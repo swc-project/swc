@@ -11,6 +11,7 @@ pub extern crate once_cell;
 
 use std::{
     borrow::Cow,
+    cell::UnsafeCell,
     fmt::{self, Display, Formatter},
     hash::Hash,
     ops::Deref,
@@ -26,7 +27,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 ///
 /// See [tendril] for more details.
-#[derive(Clone, Default)]
+#[derive(Clone, Default, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
@@ -54,6 +55,11 @@ impl Atom {
     #[inline]
     pub fn to_ascii_lowercase(&self) -> Self {
         Self(self.0.to_ascii_lowercase())
+    }
+
+    #[inline]
+    pub fn as_str(&self) -> &str {
+        &self.0
     }
 }
 
@@ -130,21 +136,7 @@ impl PartialOrd for Atom {
 
 impl Ord for Atom {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        (**self).cmp(&**other)
-    }
-}
-
-impl PartialEq for Atom {
-    fn eq(&self, other: &Self) -> bool {
-        self.0 == other.0
-    }
-}
-
-impl Eq for Atom {}
-
-impl Hash for Atom {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.0.hash(state)
+        self.as_str().cmp(other.as_str())
     }
 }
 
@@ -241,7 +233,7 @@ impl AtomStore {
 
 /// A fast internally mutable cell for [AtomStore].
 #[derive(Default)]
-pub struct AtomStoreCell(std::cell::UnsafeCell<AtomStore>);
+pub struct AtomStoreCell(UnsafeCell<AtomStore>);
 
 impl AtomStoreCell {
     #[inline]
