@@ -21,9 +21,9 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                    return resolve(_interop_require_wildcard._(m));
                                 }, reject);
-                            }) // ONE
+                            })
                         ];
                     case 1:
                         return _state.sent(), [
@@ -72,9 +72,9 @@ define([
                                     return require([
                                         "./test"
                                     ], function(m) {
-                                        return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                        return resolve(_interop_require_wildcard._(m));
                                     }, reject);
-                                }) // TWO
+                                })
                             ];
                         case 1:
                             return _state.sent(), [
@@ -85,7 +85,7 @@ define([
             })();
         }, cl1;
     }(), obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
+        m: _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -95,9 +95,9 @@ define([
                                 return require([
                                     "./test"
                                 ], function(m) {
-                                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                    return resolve(_interop_require_wildcard._(m));
                                 }, reject);
-                            }) // THREE
+                            })
                         ];
                     case 1:
                         return _state.sent(), [
@@ -108,7 +108,7 @@ define([
         })
     }, cl2 = function cl2() {
         _class_call_check._(this, cl2), this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function() {
+            m: _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -118,9 +118,9 @@ define([
                                     return require([
                                         "./test"
                                     ], function(m) {
-                                        return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                        return resolve(_interop_require_wildcard._(m));
                                     }, reject);
-                                }) // FOUR
+                                })
                             ];
                         case 1:
                             return _state.sent(), [
@@ -140,9 +140,9 @@ define([
                             return require([
                                 "./test"
                             ], function(m) {
-                                return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                                return resolve(_interop_require_wildcard._(m));
                             }, reject);
-                        }) // FIVE
+                        })
                     ];
                 case 1:
                     return _state.sent(), [

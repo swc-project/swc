@@ -9,5 +9,5 @@ class Base {
 }
 const obj = new class extends Base {
     x = 1;
-}(); // prints 'x was set to 1'
-console.log(obj.x); // 2
+}();
+console.log(obj.x);

@@ -2,16 +2,14 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var M, D, N, E, P, Q, C2// error
-, P1, D2, Q1, E2, M1, N1, O, C = function(_N_E) {
+var M, D, N, E, P, Q, C2, P1, D2, Q1, E2, M1, N1, O, C = function(_N_E) {
     _inherits(C, _N_E);
     var _super = _create_super(C);
     function C() {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-} // error
-(N1.E);
+}(N1.E);
 M = M1 || (M1 = {}), D = function(C) {
     _inherits(D, C);
     var _super = _create_super(D);

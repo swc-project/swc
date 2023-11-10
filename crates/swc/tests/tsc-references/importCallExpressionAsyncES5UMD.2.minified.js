@@ -11,7 +11,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                     case 0:
                         return [
                             4,
-                            import("./test") // ONE
+                            import("./test")
                         ];
                     case 1:
                         return _state.sent(), [
@@ -56,7 +56,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                         case 0:
                             return [
                                 4,
-                                import("./test") // TWO
+                                import("./test")
                             ];
                         case 1:
                             return _state.sent(), [
@@ -67,13 +67,13 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
             })();
         }, cl1;
     }(), obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function() {
+        m: _async_to_generator._(function() {
             return _ts_generator._(this, function(_state) {
                 switch(_state.label){
                     case 0:
                         return [
                             4,
-                            import("./test") // THREE
+                            import("./test")
                         ];
                     case 1:
                         return _state.sent(), [
@@ -84,13 +84,13 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
         })
     }, cl2 = function cl2() {
         _class_call_check._(this, cl2), this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function() {
+            m: _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){
                         case 0:
                             return [
                                 4,
-                                import("./test") // FOUR
+                                import("./test")
                             ];
                         case 1:
                             return _state.sent(), [
@@ -106,7 +106,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                 case 0:
                     return [
                         4,
-                        import("./test") // FIVE
+                        import("./test")
                     ];
                 case 1:
                     return _state.sent(), [

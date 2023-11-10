@@ -1,2 +1,1 @@
 //// [test.js]
-/** @type {number} */ 

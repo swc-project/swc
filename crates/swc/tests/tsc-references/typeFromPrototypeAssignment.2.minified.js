@@ -1,6 +1,5 @@
 //// [a.js]
-// all references to _map, set, get, addon should be ok
-/** @constructor */ var Multimap = function() {
+var Multimap = function() {
     this._map = {}, this._map, this.set, this.get, this.addon;
 };
 Multimap.prototype = {

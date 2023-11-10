@@ -3,8 +3,5 @@
 //// [file3.ts]
 //// [file4.ts]
 //// [file5.ts]
-// https://github.com/Microsoft/TypeScript/issues/21363
 //// [file6.ts]
-// https://github.com/Microsoft/TypeScript/issues/21363
 //// [file7.ts]
-// https://github.com/microsoft/TypeScript/issues/36166

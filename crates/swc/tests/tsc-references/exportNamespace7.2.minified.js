@@ -17,10 +17,8 @@ export var C = function C() {
 //// [/c.ts]
 import { A, B, C } from "./b";
 new A(), new B(), new C();
- // Ok
 //// [/d.ts]
 export { };
 //// [/e.ts]
 import { A, B, C } from "./d";
 new A(), new B(), new C();
- // Error

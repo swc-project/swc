@@ -15,7 +15,7 @@ var _class, Derived = function(Base) {
     _class_call_check(this, Base), this.x = x, this.y = y;
 });
 function Tagged(superClass) {
-    /*#__PURE__*/ return function(superClass) {
+    return function(superClass) {
         _inherits(C, superClass);
         var _super = _create_super(C);
         function C() {

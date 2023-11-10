@@ -5,7 +5,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Common = {};
 Common.I = function _class() {
     _class_call_check(this, _class), this.i = 1;
-}, Common.O = /*#__PURE__*/ function(_Common_I) {
+}, Common.O = function(_Common_I) {
     _inherits(_class, _Common_I);
     var _super = _create_super(_class);
     function _class() {

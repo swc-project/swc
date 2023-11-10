@@ -1,5 +1,4 @@
 //// [typeArgumentInferenceConstructSignatures.ts]
-// Generic call with no parameters
 var noParams, noGenericParams, someGenerics1, someGenerics2a, someGenerics2b, someGenerics3, someGenerics4, someGenerics5, someGenerics6, someGenerics7, someGenerics9, anyVar;
 new noParams(), new noParams(), new noParams(), new noGenericParams(""), new noGenericParams(""), new noGenericParams(""), new someGenerics1(3, 4), new someGenerics1(3, 4), new someGenerics1(3, 4), new someGenerics2a(function(n) {
     return n;

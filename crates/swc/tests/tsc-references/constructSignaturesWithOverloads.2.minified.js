@@ -1,5 +1,4 @@
 //// [constructSignaturesWithOverloads.ts]
-// No errors expected for basic overloads of construct signatures
 var i, i2, a, b;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new function C(x) {

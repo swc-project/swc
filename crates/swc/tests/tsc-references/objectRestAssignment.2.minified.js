@@ -9,7 +9,6 @@ _object_without_properties(complex.x, [
     "x",
     "y"
 ]), { x: { ka }, y: other } = complex;
-// var _g = overEmit.a, [_h, ...y] = _g, nested2 = __rest(_h, []), _j = overEmit.b, { z } = _j, c = __rest(_j, ["z"]), rest2 = __rest(overEmit, ["a", "b"]);
 var { a: [{}, ...y], b: { z } } = overEmit;
 _extends({}, _object_destructuring_empty(overEmit.a[0])), _object_without_properties(overEmit.b, [
     "z"

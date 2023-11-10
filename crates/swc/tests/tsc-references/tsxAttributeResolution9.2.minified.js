@@ -27,4 +27,3 @@ define([
         return MyComponent.prototype.render = function() {}, MyComponent;
     }();
 });
- // should be an error

@@ -2,29 +2,25 @@
 class TestWithStatics {
     #prop;
     static{
-        this.dd = new TestWithStatics().#prop // OK
-        ;
+        this.dd = new TestWithStatics().#prop;
     }
     static{
         this["X_ z_ zz"] = class Inner {
             #foo;
             m() {
-                new TestWithStatics().#prop // OK
-                ;
+                new TestWithStatics().#prop;
             }
             static{
                 this.C = class {
                     m() {
-                        new TestWithStatics().#prop // OK
-                        , new Inner().#foo;
+                        new TestWithStatics().#prop, new Inner().#foo;
                     }
                 };
             }
             static M() {
                 return class {
                     m() {
-                        new TestWithStatics().#prop // OK
-                        , new Inner().#foo;
+                        new TestWithStatics().#prop, new Inner().#foo;
                     }
                 };
             }

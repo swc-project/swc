@@ -12,4 +12,3 @@ class NumberIterator {
     }
 }
 for (v of new NumberIterator);
- // Should succeed

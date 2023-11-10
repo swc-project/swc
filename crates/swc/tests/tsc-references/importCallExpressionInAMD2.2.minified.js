@@ -18,7 +18,6 @@ define([
     }
 });
 //// [2.ts]
-// We use Promise<any> for now as there is no way to specify shape of module object
 define([
     "require",
     "exports",
@@ -32,5 +31,5 @@ define([
         });
     }(new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)));
+        ], (m)=>resolve(_interop_require_wildcard._(m)), reject)));
 });

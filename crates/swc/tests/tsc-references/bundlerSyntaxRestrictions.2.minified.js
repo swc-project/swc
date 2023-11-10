@@ -4,7 +4,6 @@
 //// [/mainJs.js]
 import "./a";
 import("./a"), require("./a").a;
- // any
 //// [/main.ts]
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.

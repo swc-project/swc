@@ -1,8 +1,6 @@
 //// [destructuringWithLiteralInitializers.ts]
-// (arg: { x: any, y: any }) => void
 var param, param1, param2, param3, param4, param5, param6, _param, _param1;
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
-// (arg?: { x: number, y: number }) => void
 function f4() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0,
@@ -10,26 +8,22 @@ function f4() {
     };
     _ref.x, _ref.y;
 }
-// (arg?: { x: number, y?: number }) => void
 function f5() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         x: 0
     };
     _ref.x, _ref.y;
 }
-// (arg?: { x?: number, y?: number }) => void
 function f6() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {};
     _ref.x, _ref.y;
 }
-// (arg?: { a: { x?: number, y?: number } }) => void
 function f7() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         a: {}
     }, _ref_a = _ref.a;
     _ref_a.x, _ref_a.y;
 }
-// (arg?: [number, number]) => void
 function g3() {
     var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0,
@@ -37,14 +31,12 @@ function g3() {
     ], 2);
     _ref[0], _ref[1];
 }
-// (arg?: [number, number]) => void
 function g4() {
     var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [
         0
     ], 2);
     _ref[0], _ref[1];
 }
-// (arg?: [number, number]) => void
 function g5() {
     var _ref = _sliced_to_array(arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : [], 2);
     _ref[0], _ref[1];

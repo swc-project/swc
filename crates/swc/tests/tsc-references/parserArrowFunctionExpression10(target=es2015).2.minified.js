@@ -1,7 +1,5 @@
 //// [parserArrowFunctionExpression10.ts]
 //// [fileJs.js]
-a || ((e)=>f // Not legal JS; "Unexpected token ':'" at last colon
-     // Not legal JS; "Unexpected token ':'" at last colon
-);
+a || ((e)=>f);
 //// [fileTs.ts]
 a || ((e)=>f);

@@ -1,2 +1,2 @@
 //// [enumTagOnExports.js]
-/** @enum {string} */ module.exports = {};
+module.exports = {};

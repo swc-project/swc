@@ -12,4 +12,3 @@ class StringIterator {
     }
 }
 for (v of new StringIterator);
- // Should succeed

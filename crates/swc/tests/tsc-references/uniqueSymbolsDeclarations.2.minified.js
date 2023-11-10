@@ -1,8 +1,6 @@
 //// [uniqueSymbolsDeclarations.ts]
-// declarations with call initializer
 const constCall = Symbol();
 Symbol(), Symbol(), Symbol(), constType, constType, constType, constType;
-// classes
 class C {
     static{
         this.readonlyStaticCall = Symbol();
@@ -17,10 +15,7 @@ class C {
         this.readonlyCall = Symbol(), this.readwriteCall = Symbol();
     }
 }
-C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), // widening positions
-// argument inference
-f(s), f(N.s), f(N.s), s, N.s, N.s, s, N.s, N.s, (p = s)=>p;
-// property initializers
+C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, C.readonlyStaticCall, C.readonlyStaticType, C.readonlyStaticTypeAndCall, C.readwriteStaticCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, c.readonlyCall, c.readwriteCall, i.readonlyType, i.readonlyType, i.readonlyType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, l.readonlyType, l.nested.readonlyNestedType, Promise.resolve(constCall), f(s), f(N.s), f(N.s), s, N.s, N.s, s, N.s, N.s, (p = s)=>p;
 class C0 {
     static{
         this.a = s;
@@ -59,12 +54,7 @@ class C0 {
         this.a = s, this.b = N.s, this.c = N.s, this.d = s, this.e = N.s, this.f = N.s;
     }
 }
-// non-widening positions
-// element access
-o[s], o[N.s], o[N.s], // arguments (no-inference)
-f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), // falsy expressions
-s, N.s, N.s, // conditionals
-2 * Math.random() && s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, s, N.s;
+o[s], o[N.s], o[N.s], f(s), f(N.s), f(N.s), g(s), g(N.s), g(N.s), s, N.s, N.s, 2 * Math.random() && s, 2 * Math.random() && N.s, 2 * Math.random() && N.s, s, N.s;
 class C1 {
     static{
         N.s, N.s;

@@ -1,9 +1,7 @@
 //// [typeTagOnPropertyAssignment.js]
 var o = {
-    /**
-     * @type {"a"}
-     */ a: "a",
-    /** @type {() => 'b'} */ n: function() {
+    a: "a",
+    n: function() {
         return "b";
     }
 };

@@ -15,4 +15,3 @@ module.exports = I;
 //// [/f.ts]
 module.exports = {};
 //// [/z.ts]
-// test harness is weird if the last file includs a require >:(

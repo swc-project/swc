@@ -85,7 +85,6 @@ class C extends B {
         this.z18 = super.a``;
     }
     constructor(...args){
-        super(...args), // these should be unaffected
-        this.x = 1, this.y = this.x, this.z = super.f();
+        super(...args), this.x = 1, this.y = this.x, this.z = super.f();
     }
 }

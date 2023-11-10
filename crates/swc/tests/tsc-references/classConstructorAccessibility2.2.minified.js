@@ -50,11 +50,9 @@ var BaseA = function() {
     var _proto = DerivedB.prototype;
     return _proto.createInstance = function() {
         new DerivedB(7);
-    }, _proto.createBaseInstance // ok
-     = function() {
+    }, _proto.createBaseInstance = function() {
         new BaseB(8);
-    }, DerivedB.staticBaseInstance // ok
-     = function() {
+    }, DerivedB.staticBaseInstance = function() {
         new BaseB(9);
     }, DerivedB;
 }(BaseB), DerivedC = function(BaseC1) {
@@ -67,11 +65,9 @@ var BaseA = function() {
     var _proto = DerivedC.prototype;
     return _proto.createInstance = function() {
         new DerivedC(9);
-    }, _proto.createBaseInstance // error
-     = function() {
+    }, _proto.createBaseInstance = function() {
         new BaseC(10);
-    }, DerivedC.staticBaseInstance // error
-     = function() {
+    }, DerivedC.staticBaseInstance = function() {
         new BaseC(11);
     }, DerivedC;
 }(BaseC);

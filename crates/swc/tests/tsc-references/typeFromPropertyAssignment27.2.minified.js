@@ -1,5 +1,4 @@
 //// [a.js]
-// mixed prototype-assignment+function declaration
 function C() {
     this.p = 1;
 }

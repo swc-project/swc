@@ -1,5 +1,4 @@
 //// [mod.js]
 exports = module.exports = {};
 //// [use.js]
-require("./mod").existy // no error
-;
+require("./mod").existy;

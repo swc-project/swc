@@ -7,38 +7,20 @@ export function c() {}
 c.Cls = function _class() {
     _class_call_check(this, _class);
 };
-/**
- * @param {number} a
- * @param {number} b
- * @return {string} 
- */ export function d(a, b) {
-    return /** @type {*} */ null;
+export function d(a, b) {
+    return null;
 }
-/**
- * @template T,U
- * @param {T} a
- * @param {U} b
- * @return {T & U} 
- */ export function e(a, b) {
-    return /** @type {*} */ null;
+export function e(a, b) {
+    return null;
 }
-/**
- * @template T
- * @param {T} a
- */ export function f(a) {
+export function f(a) {
     return a;
 }
-/**
- * @param {{x: string}} a
- * @param {{y: typeof b}} b
- */ function g(a, b) {
+function g(a, b) {
     return a.x && b.y();
 }
 f.self = f;
-/**
- * @param {{x: string}} a
- * @param {{y: typeof b}} b
- */ function hh(a, b) {
+function hh(a, b) {
     return a.x && b.y();
 }
 export function i() {}

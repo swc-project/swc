@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "thing", {
     value: 42,
     writable: !0
-}), Object.defineProperty(exports, /** @type {string} */ "other", {
+}), Object.defineProperty(exports, "other", {
     value: 42,
     writable: !0
 }), Object.defineProperty(exports, "prop", {

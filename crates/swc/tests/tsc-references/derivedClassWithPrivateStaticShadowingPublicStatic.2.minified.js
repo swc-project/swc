@@ -18,9 +18,7 @@ var Base = function() {
             set: function(v) {}
         }
     ]), Base;
-}(), // BUG 847404
-// should be error
-Derived = function(Base) {
+}(), Derived = function(Base) {
     _inherits(Derived, Base);
     var _super = _create_super(Derived);
     function Derived() {
@@ -39,4 +37,3 @@ Derived = function(Base) {
     ]), Derived;
 }(Base);
 Base.x, Derived.x, Base.fn(), Derived.fn(), Base.a, Base.a = 2, Derived.a, Derived.a = 2;
- // error

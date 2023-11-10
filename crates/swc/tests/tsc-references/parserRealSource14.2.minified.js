@@ -1,7 +1,4 @@
 //// [parserRealSource14.ts]
-// Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
-// See LICENSE.txt in the project root for complete license information.
-///<reference path='typescript.ts' />
 var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
@@ -132,7 +129,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.Member && this.asts[this.top - 1].operand2 === this.asts[this.top - 0];
         }, _proto.isItemOfList = function() {
             return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.List;
-        //(<Tools.ASTList>this.asts[this.top - 1]).operand2 === this.asts[this.top - 0];
         }, _proto.isThenOfIf = function() {
             return this.count() >= 2 && this.asts[this.top - 1].nodeType === TypeScript.NodeType.If && this.asts[this.top - 1].thenBod == this.asts[this.top - 0];
         }, _proto.isElseOfIf = function() {
@@ -171,22 +167,12 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         }, ctx = new AstPathContext();
         return TypeScript.getAstWalkerFactory().walk(script, function(cur, parent, walker) {
             if (isValidAstNode(cur)) {
-                // Add "cur" to the stack if it contains our position
-                // For "identifier" nodes, we need a special case: A position equal to "limChar" is
-                // valid, since the position corresponds to a caret position (in between characters)
-                // For example:
-                //  bar
-                //  0123
-                // If "position == 3", the caret is at the "right" of the "r" character, which should be considered valid
-                var inclusive = hasFlag(options, 1) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + (inclusive ? 1 : 0); // Special "EOF" case
+                var inclusive = hasFlag(options, 1) || cur.nodeType === TypeScript.NodeType.Name || pos === script.limChar, minChar = cur.minChar, limChar = cur.limChar + (inclusive ? 1 : 0);
                 if (pos >= minChar && pos < limChar) {
-                    // TODO: Since AST is sometimes not correct wrt to position, only add "cur" if it's better
-                    //       than top of the stack.
                     var previous = ctx.path.ast();
                     (null == previous || cur.minChar >= previous.minChar && cur.limChar <= previous.limChar) && ctx.path.push(cur);
                 }
-                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, 2) || // Don't go further down the tree if pos is outside of [minChar, limChar]
-                (walker.options.goChildren = minChar <= pos && pos <= limChar);
+                pos < limChar && lookInComments(cur.preComments), pos >= minChar && lookInComments(cur.postComments), hasFlag(options, 2) || (walker.options.goChildren = minChar <= pos && pos <= limChar);
             }
             return cur;
         }, null, null, ctx), ctx.path;

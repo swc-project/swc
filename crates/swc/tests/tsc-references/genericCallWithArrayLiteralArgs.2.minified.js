@@ -1,2 +1,1 @@
 //// [genericCallWithArrayLiteralArgs.ts]
- // Object[]
