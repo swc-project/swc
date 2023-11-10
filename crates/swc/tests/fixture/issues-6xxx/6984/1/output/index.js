@@ -6,7 +6,7 @@ import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 import React from "react";
 import { withRouter } from "react-router-dom";
 var App;
-App = /*#__PURE__*/ function(_React_Component) {
+App = function(_React_Component) {
     "use strict";
     _inherits(App, _React_Component);
     var _super = _create_super(App);
@@ -19,7 +19,7 @@ App = /*#__PURE__*/ function(_React_Component) {
             key: "render",
             value: function render() {
                 console.log(this.props);
-                return /*#__PURE__*/ React.createElement("div", null, "134");
+                return React.createElement("div", null, "134");
             }
         }
     ]);

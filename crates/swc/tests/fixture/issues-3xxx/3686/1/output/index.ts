@@ -33,7 +33,6 @@ ServiceError = _ts_decorate._([
         Code[Code["badResponse"] = 422] = "badResponse";
     })(Code = ServiceError.Code || (ServiceError.Code = {}));
     class ServiceNotFound extends ServiceError {
-        // Service was probably not registered, or using the wrong channel
         code = 404;
         name = "ServiceError.ServiceNotFound";
     }

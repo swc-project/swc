@@ -3,7 +3,7 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
 var commands;
 var command;
 function retornaTempoArenaEmMilisegundos(distancia, velocidade) {
-    var conv = distancia * /*#__PURE__*/ function() {
+    var conv = distancia * function() {
         "use strict";
         function LogExit(param) {
             var logger = param.logger;
