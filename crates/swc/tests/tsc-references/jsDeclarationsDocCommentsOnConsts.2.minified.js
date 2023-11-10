@@ -1,13 +1,9 @@
 //// [index1.js]
-/**
- * const doc comment
- */ module.exports = {
+module.exports = {
     x: function(a) {
         return "";
     },
-    b: /**
- * function doc comment
- */ function() {
+    b: function() {
         return 0;
     }
 };

@@ -15,4 +15,3 @@ console.log(FOO), function() {
     }
     return CFA.doSomething = function() {}, CFA;
 }().t = 1;
- // should be "BAR"

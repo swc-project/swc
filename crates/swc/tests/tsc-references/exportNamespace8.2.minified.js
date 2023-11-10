@@ -15,8 +15,7 @@ export var C = function C() {
     _class_call_check(this, C);
 };
 //// [/c.ts]
-export * from "./b"; // Collision error
+export * from "./b";
 //// [/d.ts]
 import { A, B, C } from "./c";
 new A(), new B(), new C();
- // Ok

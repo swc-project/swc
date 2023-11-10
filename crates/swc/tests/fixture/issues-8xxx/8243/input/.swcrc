@@ -1,0 +1,26 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "baseUrl": "./",
+        "target": "es2019",
+        "keepClassNames": true,
+        "minify": {
+            "compress": false
+        }
+    },
+    "isModule": true,
+    "module": {
+        "type": "es6"
+    },
+    "minify": false
+}

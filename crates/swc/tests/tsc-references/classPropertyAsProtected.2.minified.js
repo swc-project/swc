@@ -23,5 +23,4 @@ var c, C = function() {
         }
     ]), C;
 }();
-// all errors
 c.x, c.y, c.y = 1, c.foo(), C.a, C.b(), C.b = 1, C.foo();

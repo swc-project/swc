@@ -1,5 +1,4 @@
 //// [callChain.3.ts]
-// Also a test showing `!` vs `?` for good measure
 var _a_m, _a_m1, _a_m2, _a_m3, _a_m4;
 null == a || null === (_a_m = a.m) || void 0 === _a_m || _a_m.call(a, {
     x: 12

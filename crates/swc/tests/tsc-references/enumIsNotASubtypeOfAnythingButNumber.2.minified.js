@@ -1,5 +1,4 @@
 //// [enumIsNotASubtypeOfAnythingButNumber.ts]
-// enums are only subtypes of number, any and no other types
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function f() {}
 (E = E1 || (E1 = {}))[E.A = 0] = "A", (E2 = E21 || (E21 = {}))[E2.A = 0] = "A", (f || (f = {})).bar = 1;

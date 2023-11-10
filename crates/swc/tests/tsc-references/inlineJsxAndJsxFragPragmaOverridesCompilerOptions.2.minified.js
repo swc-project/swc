@@ -6,19 +6,13 @@ export { };
 //// [snabbdom.d.ts]
 export { };
 //// [reacty.tsx]
-/*#__PURE__*/ React.Fragment;
+React.Fragment;
 export { };
 //// [preacty.tsx]
-/**
- * @jsx h
- * @jsxFrag Frag
- */ import { h, Frag } from "./preact";
+import { h, Frag } from "./preact";
 //// [snabbdomy.tsx]
-/**
- * @jsx h
- * @jsxfrag null
- */ import { h } from "./snabbdom";
-/*#__PURE__*/ React.Fragment;
+import { h } from "./snabbdom";
+React.Fragment;
 //// [mix-n-match.tsx]
-/* @jsx h */ /* @jsxFrag Fragment */ import { h } from "./preact";
+import { h } from "./preact";
 import { Fragment } from "./react";

@@ -13,4 +13,3 @@ export * from "./b";
 //// [/d.ts]
 import { A, B } from "./c";
 new A(), new B();
- // Error

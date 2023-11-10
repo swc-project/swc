@@ -4,7 +4,7 @@ import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_fie
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
 import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-var _a = /*#__PURE__*/ new WeakMap(), _b = /*#__PURE__*/ new WeakSet(), _c = /*#__PURE__*/ new WeakMap();
+var _a = new WeakMap(), _b = new WeakSet(), _c = new WeakMap();
 export class C {
     constructor(){
         _class_private_method_init(this, _b), _class_private_field_init(this, _c, {
@@ -20,5 +20,4 @@ function set_c(v) {
     _class_private_field_set(this, _a, _class_private_field_get(this, _a) + v);
 }
 //// [tslib.d.ts]
-// these are pre-TS4.3 versions of emit helpers, which only supported private instance fields
 export { };

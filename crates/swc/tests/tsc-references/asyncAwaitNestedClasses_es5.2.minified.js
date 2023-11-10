@@ -1,12 +1,11 @@
 //// [asyncAwaitNestedClasses_es5.ts]
-// https://github.com/Microsoft/TypeScript/issues/20744
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 var _B, A = function A() {
     _class_call_check(this, A);
 };
-A.B = ((_B = /*#__PURE__*/ function() {
+A.B = ((_B = function() {
     function B() {
         _class_call_check(this, B);
     }
@@ -15,7 +14,7 @@ A.B = ((_B = /*#__PURE__*/ function() {
             resolve(null);
         });
     }, B;
-}()).C = /*#__PURE__*/ function() {
+}()).C = function() {
     function C() {
         _class_call_check(this, C);
     }

@@ -1,11 +1,9 @@
 //// [variadicTuples1.ts]
-// Variadics in tuple types
 import "@swc/helpers/_/_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 function concat(t, u) {
     return _to_consumable_array(t).concat(_to_consumable_array(u));
 }
-// Inference to [...T, ...U] with implied arity for T
 function curry(f) {
     for(var _len = arguments.length, _$a = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)_$a[_key - 1] = arguments[_key];
     return function() {
@@ -86,7 +84,6 @@ var fn3 = function() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return 0;
 };
-// No inference to [...T, ...U] when there is no implied arity
 function curry2(f, t, u) {
     return f.apply(void 0, _to_consumable_array(t).concat(_to_consumable_array(u)));
 }

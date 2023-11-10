@@ -15,13 +15,13 @@ class C extends B {
             (()=>{
                 var { Reflect } = {
                     Reflect: null
-                }; // collision (es2015-es2021 only)
+                };
                 super.w();
             })(),
             (()=>{
                 var [Reflect] = [
                     null
-                ]; // collision (es2015-es2021 only)
+                ];
                 super.w();
             })(),
             void super.w(),
@@ -37,13 +37,13 @@ class C extends B {
     static{
         var { Reflect } = {
             Reflect: null
-        }; // collision (es2015-es2021 only)
+        };
         super.w();
     }
     static{
         var [Reflect] = [
             null
-        ]; // collision (es2015-es2021 only)
+        ];
         super.w();
     }
     static{
@@ -86,7 +86,7 @@ export { };
 //// [varInContainingScopeStaticField2.ts]
 var { Reflect } = {
     Reflect: null
-}; // collision (es2015-es2021 only)
+};
 class C extends B {
     static{
         this._ = super.w();
@@ -96,7 +96,7 @@ export { };
 //// [varInContainingScopeStaticField3.ts]
 var [Reflect] = [
     null
-]; // collision (es2015-es2021 only)
+];
 class C extends B {
     static{
         this._ = super.w();
@@ -113,7 +113,7 @@ export { };
 //// [varInContainingScopeStaticBlock2.ts]
 var { Reflect } = {
     Reflect: null
-}; // collision (es2015-es2021 only)
+};
 class C extends B {
     static{
         super.w();
@@ -123,7 +123,7 @@ export { };
 //// [varInContainingScopeStaticBlock3.ts]
 var [Reflect] = [
     null
-]; // collision (es2015-es2021 only)
+];
 class C extends B {
     static{
         super.w();
@@ -174,7 +174,7 @@ class C extends B {
 export { };
 //// [enumInContainingScopeStaticField.ts]
 var Reflect;
-Reflect || (Reflect = {}); // collision (es2015-es2021 only)
+Reflect || (Reflect = {});
 class C extends B {
     static{
         this._ = super.w();
@@ -183,7 +183,7 @@ class C extends B {
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
 var Reflect;
-Reflect || (Reflect = {}); // collision (es2015-es2021 only)
+Reflect || (Reflect = {});
 class C extends B {
     static{
         super.w();

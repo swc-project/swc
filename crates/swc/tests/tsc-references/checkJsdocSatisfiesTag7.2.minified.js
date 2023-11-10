@@ -1,6 +1,6 @@
 //// [checkJsdocSatisfiesTag7.ts]
 //// [/a.js]
-/** @typedef {"a" | "b" | "c" | "d"} Keys */ var p = /** @satisfies {Record<Keys, unknown>} */ {
+var p = {
     a: 0,
     b: "hello"
 };

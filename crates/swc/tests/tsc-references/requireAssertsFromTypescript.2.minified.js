@@ -1,5 +1,4 @@
 //// [ex.d.ts]
-// based on assert in @types/node
 export { };
 //// [ex2.d.ts]
 //! 

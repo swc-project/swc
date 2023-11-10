@@ -12,7 +12,7 @@ System.register([
                     case 0:
                         return [
                             4,
-                            _context.import("./test") // ONE
+                            _context.import("./test")
                         ];
                     case 1:
                         return _state.sent(), [
@@ -49,7 +49,7 @@ System.register([
                                 case 0:
                                     return [
                                         4,
-                                        _context.import("./test") // TWO
+                                        _context.import("./test")
                                     ];
                                 case 1:
                                     return _state.sent(), [
@@ -60,13 +60,13 @@ System.register([
                     })();
                 }, cl1;
             }()), _export("obj", {
-                m: /*#__PURE__*/ _async_to_generator(function() {
+                m: _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         switch(_state.label){
                             case 0:
                                 return [
                                     4,
-                                    _context.import("./test") // THREE
+                                    _context.import("./test")
                                 ];
                             case 1:
                                 return _state.sent(), [
@@ -77,13 +77,13 @@ System.register([
                 })
             }), _export("cl2", function cl2() {
                 _class_call_check(this, cl2), this.p = {
-                    m: /*#__PURE__*/ _async_to_generator(function() {
+                    m: _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
                                 case 0:
                                     return [
                                         4,
-                                        _context.import("./test") // FOUR
+                                        _context.import("./test")
                                     ];
                                 case 1:
                                     return _state.sent(), [
@@ -99,7 +99,7 @@ System.register([
                         case 0:
                             return [
                                 4,
-                                _context.import("./test") // FIVE
+                                _context.import("./test")
                             ];
                         case 1:
                             return _state.sent(), [

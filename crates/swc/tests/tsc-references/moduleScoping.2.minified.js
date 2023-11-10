@@ -1,9 +1,7 @@
 //// [file1.ts]
- // Global scope
 //// [file2.ts]
 //// [file3.ts]
 export var v3 = !0;
- // Module scope. Should not appear in global scope
 //// [file4.ts]
 //! 
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
@@ -15,4 +13,4 @@ export var v3 = !0;
 //!  4 | var t3 = file3.v3;
 //!    `----
 //// [file5.ts]
-v2; // Should be global v2 of type number again
+v2;

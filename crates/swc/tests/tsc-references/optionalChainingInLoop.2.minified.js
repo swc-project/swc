@@ -1,5 +1,4 @@
 //// [optionalChainingInLoop.ts]
-// https://github.com/microsoft/TypeScript/issues/40643
 var _iteratorNormalCompletion = !0, _didIteratorError = !1, _iteratorError = void 0;
 try {
     for(var _step, _iterator = [][Symbol.iterator](); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = !0)!function() {

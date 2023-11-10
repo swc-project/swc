@@ -1,11 +1,4 @@
 //// [arrayLiterals2ES6.ts]
-// ElementList:  ( Modified )
-//      Elisionopt   AssignmentExpression
-//      Elisionopt   SpreadElement
-//      ElementList, Elisionopt   AssignmentExpression
-//      ElementList, Elisionopt   SpreadElement
-// SpreadElement:
-//      ...   AssignmentExpression
 var a0 = [
     ,
     ,
@@ -26,9 +19,6 @@ var a0 = [
 [
     ...a0
 ];
-// The resulting type an array literal expression is determined as follows:
-//     - If the array literal contains no spread elements and is an array assignment pattern in a destructuring assignment (section 4.17.1),
-//       the resulting type is a tuple type constructed from the types of the element expressions.
 var [c0, c1] = [
     1,
     2
@@ -44,7 +34,7 @@ var [c0, c1] = [
     1,
     2,
     3
-]; // tuple type [number, number]
+];
 [
     ...temp
 ], [

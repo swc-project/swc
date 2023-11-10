@@ -1,23 +1,10 @@
 //// [constructorFunctionMethodTypeParameters.js]
-/**
- * @template {string} T
- * @param {T} t
- */ function Cls(t) {
+function Cls(t) {
     this.t = t;
 }
-/**
- * @template {string} V
- * @param {T} t
- * @param {V} v
- * @return {V}
- */ Cls.prototype.topLevelComment = function(t, v) {
+Cls.prototype.topLevelComment = function(t, v) {
     return v;
-}, Cls.prototype.nestedComment = /**
-     * @template {string} U
-     * @param {T} t
-     * @param {U} u
-     * @return {T}
-     */ function(t, u) {
+}, Cls.prototype.nestedComment = function(t, u) {
     return t;
 };
 var c = new Cls("a");

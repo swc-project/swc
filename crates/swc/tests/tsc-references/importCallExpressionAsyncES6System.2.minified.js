@@ -5,8 +5,7 @@ System.register([
     var _async_to_generator;
     function _fn() {
         return (_fn = _async_to_generator(function*() {
-            yield _context.import('./test') // ONE
-            ;
+            yield _context.import('./test');
         })).apply(this, arguments);
     }
     return _export({
@@ -26,27 +25,23 @@ System.register([
             _export("cl1", class {
                 m() {
                     return _async_to_generator(function*() {
-                        yield _context.import('./test') // TWO
-                        ;
+                        yield _context.import('./test');
                     })();
                 }
             }), _export("obj", {
-                m: /*#__PURE__*/ _async_to_generator(function*() {
-                    yield _context.import('./test') // THREE
-                    ;
+                m: _async_to_generator(function*() {
+                    yield _context.import('./test');
                 })
             }), _export("cl2", class {
                 constructor(){
                     this.p = {
-                        m: /*#__PURE__*/ _async_to_generator(function*() {
-                            yield _context.import('./test') // FOUR
-                            ;
+                        m: _async_to_generator(function*() {
+                            yield _context.import('./test');
                         })
                     };
                 }
             }), _export("l", (_ref = _async_to_generator(function*() {
-                yield _context.import('./test') // FIVE
-                ;
+                yield _context.import('./test');
             }), function() {
                 return _ref.apply(this, arguments);
             }));

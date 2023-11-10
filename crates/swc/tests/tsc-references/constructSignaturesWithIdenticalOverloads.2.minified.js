@@ -1,5 +1,4 @@
 //// [constructSignaturesWithIdenticalOverloads.ts]
-// Duplicate overloads of construct signatures should generate errors
 var i, i2, a, b;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 new function C(x) {

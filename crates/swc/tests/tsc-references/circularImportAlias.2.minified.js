@@ -1,5 +1,4 @@
 //// [circularImportAlias.ts]
-// expected no error
 var B, A, B1, D, A1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";

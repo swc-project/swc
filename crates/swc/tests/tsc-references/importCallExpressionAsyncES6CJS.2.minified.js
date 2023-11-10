@@ -30,37 +30,32 @@ function fn() {
 }
 function _fn() {
     return (_fn = _async_to_generator._(function*() {
-        yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test"))) // ONE
-        ;
+        yield Promise.resolve().then(()=>_interop_require_wildcard._(require("./test")));
     })).apply(this, arguments);
 }
 class cl1 {
     m() {
         return _async_to_generator._(function*() {
-            yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test"))) // TWO
-            ;
+            yield Promise.resolve().then(()=>_interop_require_wildcard._(require("./test")));
         })();
     }
 }
 const obj = {
-    m: /*#__PURE__*/ _async_to_generator._(function*() {
-        yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test"))) // THREE
-        ;
+    m: _async_to_generator._(function*() {
+        yield Promise.resolve().then(()=>_interop_require_wildcard._(require("./test")));
     })
 };
 class cl2 {
     constructor(){
         this.p = {
-            m: /*#__PURE__*/ _async_to_generator._(function*() {
-                yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test"))) // FOUR
-                ;
+            m: _async_to_generator._(function*() {
+                yield Promise.resolve().then(()=>_interop_require_wildcard._(require("./test")));
             })
         };
     }
 }
 const l = (_ref = _async_to_generator._(function*() {
-    yield Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("./test"))) // FIVE
-    ;
+    yield Promise.resolve().then(()=>_interop_require_wildcard._(require("./test")));
 }), function() {
     return _ref.apply(this, arguments);
 });

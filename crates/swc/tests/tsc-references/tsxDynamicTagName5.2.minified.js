@@ -13,6 +13,6 @@ export var Text = function(_React_Component) {
         return _class_call_check(this, Text), _this = _super.apply(this, arguments), _this._tagName = "div", _this;
     }
     return Text.prototype.render = function() {
-        return /*#__PURE__*/ React.createElement(this._tagName, null);
+        return React.createElement(this._tagName, null);
     }, Text;
 }(React.Component);

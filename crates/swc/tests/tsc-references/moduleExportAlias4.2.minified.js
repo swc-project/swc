@@ -1,5 +1,4 @@
 //// [bug24024.js]
-// #24024
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 require("./bug24024"), module.exports = function C() {
     _class_call_check(this, C);

@@ -26,7 +26,6 @@ define([
         value: !0
     });
 });
- // No exports
 //// [foo_2.ts]
 define([
     "require",
@@ -37,4 +36,3 @@ define([
         value: !0
     });
 });
- // Cause a runtime dependency

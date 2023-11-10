@@ -1,4 +1,4 @@
 //// [a.js]
-/** doc */ b = function() {
+b = function() {
     return 0;
 };

@@ -1,6 +1,4 @@
 //// [exportCodeGen.ts]
-// should replace all refs to 'x' in the body,
-// with fully qualified
 var A, B, C, D, E, F, E1, Color, Color1, M, Color2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (A || (A = {})).x = 12, B || (B = {}), C || (C = {}), (D || (D = {})).yes = function() {

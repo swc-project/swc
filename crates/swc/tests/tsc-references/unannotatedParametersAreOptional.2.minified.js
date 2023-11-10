@@ -12,4 +12,3 @@ var obj = {
     p: function(x) {}
 };
 obj.m(), obj.p();
- // Always been ok

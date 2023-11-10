@@ -28,7 +28,6 @@ var c, RoyalGuard = function() {
     }
     return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard(), b = new LeadGuard();
-// Mismatched guards shouldn't be assignable
 b.isFollower = b.isLeader, b.isLeader = b.isFollower, a.isFollower = a.isLeader, a.isLeader = a.isFollower, ({
     invalidGuard: function(c) {
         return !1;

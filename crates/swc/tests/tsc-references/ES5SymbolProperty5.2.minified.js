@@ -6,5 +6,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         _class_call_check(this, C);
     }
     return C.prototype[Symbol.iterator] = function() {}, C;
-}()))[Symbol.iterator](0) // Should error
-;
+}()))[Symbol.iterator](0);

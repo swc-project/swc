@@ -4,7 +4,5 @@ export var Clazz = function() {
     function Clazz() {
         _class_call_check(this, Clazz);
     }
-    return(/**
-   * @param {function(this:Object, ...*):*} functionDeclaration
-   */ Clazz.prototype.method = function(functionDeclaration) {}, Clazz);
+    return Clazz.prototype.method = function(functionDeclaration) {}, Clazz;
 }();

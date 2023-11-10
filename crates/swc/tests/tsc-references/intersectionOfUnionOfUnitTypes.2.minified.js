@@ -1,3 +1,1 @@
 //// [intersectionOfUnionOfUnitTypes.ts]
-// @strict
- // never

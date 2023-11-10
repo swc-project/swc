@@ -11,8 +11,7 @@ var C = function(B1) {
     var _super = _create_super(C);
     function C() {
         var _this;
-        return _class_call_check(this, C), _this = _super.apply(this, arguments), // these should be unaffected
-        _define_property(_assert_this_initialized(_this), "x", 1), _define_property(_assert_this_initialized(_this), "y", _this.x), _define_property(_assert_this_initialized(_this), "z", _get((_assert_this_initialized(_this), _get_prototype_of(C.prototype)), "f", _this).call(_this)), _this;
+        return _class_call_check(this, C), _this = _super.apply(this, arguments), _define_property(_assert_this_initialized(_this), "x", 1), _define_property(_assert_this_initialized(_this), "y", _this.x), _define_property(_assert_this_initialized(_this), "z", _get((_assert_this_initialized(_this), _get_prototype_of(C.prototype)), "f", _this).call(_this)), _this;
     }
     return C;
 }(B);

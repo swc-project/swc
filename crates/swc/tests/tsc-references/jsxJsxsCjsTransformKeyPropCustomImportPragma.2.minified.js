@@ -1,6 +1,5 @@
 //// [preact.tsx]
-/// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource preact */ Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _object_spread = require("@swc/helpers/_/_object_spread"), _object_spread_props = require("@swc/helpers/_/_object_spread_props");
@@ -14,8 +13,7 @@ _object_spread_props._(_object_spread._({}, props), {
     key: "bar"
 });
 //// [react.tsx]
-/// <reference path="/.lib/react16.d.ts" />
-/* @jsxImportSource react */ Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _object_spread = require("@swc/helpers/_/_object_spread"), _object_spread_props = require("@swc/helpers/_/_object_spread_props");

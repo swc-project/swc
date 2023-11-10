@@ -7,4 +7,3 @@ var E, a, E1;
 }), extractIndexer({
     0: ""
 });
- // Should return any (widened form of undefined)

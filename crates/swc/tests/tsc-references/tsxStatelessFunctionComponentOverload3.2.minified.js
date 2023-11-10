@@ -16,4 +16,3 @@ define([
         y2: 10
     });
 });
- // it is just any so we allow it to pass through

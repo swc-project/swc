@@ -4,4 +4,3 @@ var C = function C(x) {
     _class_call_check(this, C);
 };
 new C(1), new C(new C(""));
- // error

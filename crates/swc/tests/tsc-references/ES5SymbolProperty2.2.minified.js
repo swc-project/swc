@@ -6,4 +6,4 @@ M1 = M || (M = {}), C = function() {
         _class_call_check(this, C);
     }
     return C.prototype[_$Symbol.iterator] = function() {}, C;
-}(), M1.C = C, /*#__PURE__*/ (new C)[_$Symbol.iterator], (new M.C)[Symbol.iterator];
+}(), M1.C = C, (new C)[_$Symbol.iterator], (new M.C)[Symbol.iterator];

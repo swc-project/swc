@@ -1,6 +1,4 @@
 //// [index.js]
-// Pretty much all of this should be an error, (since index signatures and generics are forbidden in js),
-// but we should be able to synthesize declarations from the symbols regardless
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";

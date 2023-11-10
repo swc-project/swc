@@ -1,11 +1,9 @@
 //// [contextuallyTypedIifeStrict.ts]
-!// default parameters
-function() {
+!function() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
 }(12), function() {
     arguments.length > 0 && void 0 !== arguments[0] && arguments[0];
-}(), // rest parameters
-function() {
+}(), function() {
     for(var _len = arguments.length, numbers = Array(_len), _key = 0; _key < _len; _key++)numbers[_key] = arguments[_key];
     numbers.every(function(n) {
         return n > 0;

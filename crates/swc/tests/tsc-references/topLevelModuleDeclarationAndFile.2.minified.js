@@ -10,10 +10,8 @@ Object.defineProperty(exports, "__esModule", {
 var x = 42;
 //// [foo_1.ts]
 //// [foo_2.ts]
-/// <reference path="foo_1.ts"/>
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var foo = require("vs/foo_0");
 foo.x, foo.y();
- // Should resolve

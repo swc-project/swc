@@ -1,5 +1,4 @@
 //// [objectRest2.ts]
-// test for #12203
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 _async_to_generator(function*(context, args) {

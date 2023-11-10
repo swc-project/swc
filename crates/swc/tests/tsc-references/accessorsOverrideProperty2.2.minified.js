@@ -9,5 +9,5 @@ const obj = new class extends Base {
     set x(value) {
         console.log(`x was set to ${value}`);
     }
-}(); // nothing printed
-console.log(obj.x); // number
+}();
+console.log(obj.x);

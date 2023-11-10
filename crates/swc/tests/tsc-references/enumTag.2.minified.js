@@ -1,2 +1,1 @@
 //// [a.js]
-/** @enum {string} */ 

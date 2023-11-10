@@ -11,7 +11,7 @@ var X = function() {
     }
     var _proto = X.prototype;
     return _proto.m = function() {}, _proto.mistake = function() {}, X;
-}(), /*#__PURE__*/ x = new X();
+}(), x = new X();
 X.prototype.mistake = !1, x.m(), x.mistake;
 var Y = function() {
     function Y() {

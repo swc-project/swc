@@ -7,8 +7,7 @@ global = this, factory = function(exports1, _async_to_generator, _interop_requir
     }
     function _fn() {
         return (_fn = _async_to_generator._(function*() {
-            yield import('./test') // ONE
-            ;
+            yield import('./test');
         })).apply(this, arguments);
     }
     Object.defineProperty(exports1, "__esModule", {
@@ -38,30 +37,26 @@ global = this, factory = function(exports1, _async_to_generator, _interop_requir
     class cl1 {
         m() {
             return _async_to_generator._(function*() {
-                yield import('./test') // TWO
-                ;
+                yield import('./test');
             })();
         }
     }
     let obj = {
-        m: /*#__PURE__*/ _async_to_generator._(function*() {
-            yield import('./test') // THREE
-            ;
+        m: _async_to_generator._(function*() {
+            yield import('./test');
         })
     };
     class cl2 {
         constructor(){
             this.p = {
-                m: /*#__PURE__*/ _async_to_generator._(function*() {
-                    yield import('./test') // FOUR
-                    ;
+                m: _async_to_generator._(function*() {
+                    yield import('./test');
                 })
             };
         }
     }
     let l = (_ref = _async_to_generator._(function*() {
-        yield import('./test') // FIVE
-        ;
+        yield import('./test');
     }), function() {
         return _ref.apply(this, arguments);
     });

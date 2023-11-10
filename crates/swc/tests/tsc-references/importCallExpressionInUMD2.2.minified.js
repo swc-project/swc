@@ -18,7 +18,6 @@ global = this, factory = function(exports1) {
     "exports"
 ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
 //// [2.ts]
-// We use Promise<any> for now as there is no way to specify shape of module object
 var global, factory;
 global = this, factory = function(exports1, _interop_require_wildcard) {
     Object.defineProperty(exports1, "__esModule", {

@@ -8,8 +8,7 @@ import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
 class C extends B {
     constructor(...args){
-        super(...args), // these should be unaffected
-        this.x = 1, this.y = this.x, this.z = super.f();
+        super(...args), this.x = 1, this.y = this.x, this.z = super.f();
     }
 }
 C.x = void 0, C.y1 = C.x, C.y2 = C.x(), C.y3 = null == C ? void 0 : C.x(), C.y4 = C.x(), C.y5 = null == C ? void 0 : C.x(), C.z1 = _get(_get_prototype_of(C), "a", C), C.z2 = _get(_get_prototype_of(C), "a", C), C.z3 = _get(_get_prototype_of(C), "f", C).call(C), C.z4 = _get(_get_prototype_of(C), "f", C).call(C), C.z5 = _set(_get_prototype_of(C), "a", 0, C, !0), C.z6 = _update(_get_prototype_of(C), "a", C, !0)._ += 1, C.z7 = void _set(_get_prototype_of(C), "a", 0, C, !0), C.z8 = [_update(_get_prototype_of(C), "a", C, !0)._] = [

@@ -52,5 +52,4 @@ f1.apply(void 0, [
 ]), (_action = action).run.apply(_action, [
     100,
     "foo"
-] // error
-);
+]);
