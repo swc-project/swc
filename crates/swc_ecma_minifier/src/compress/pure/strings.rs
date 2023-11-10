@@ -189,6 +189,23 @@ impl Pure<'_> {
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
+                if let Some(value) = &t.quasis[0].cooked {
+                    if value.chars().all(|c| match c {
+                        '\u{0020}'..='\u{007e}' => true,
+                        '\n' | '\r' => self.config.force_str_for_tpl,
+                        _ => false,
+                    }) {
+                        report_change!("converting a template literal to a string literal");
+
+                        *e = Expr::Lit(Lit::Str(Str {
+                            span: t.span,
+                            raw: None,
+                            value: value.clone(),
+                        }));
+                        return;
+                    }
+                }
+
                 let c = &t.quasis[0].raw;
 
                 if c.chars().all(|c| match c {
@@ -208,6 +225,8 @@ impl Pure<'_> {
                         .replace("\\n", "\n")
                         .replace("\\r", "\r")
                         .replace("\\\\", "\\");
+
+                    report_change!("converting a template literal to a string literal");
 
                     *e = Expr::Lit(Lit::Str(Str {
                         span: t.span,

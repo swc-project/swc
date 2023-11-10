@@ -2,12 +2,16 @@
 
 #![allow(clippy::unreadable_literal)]
 
-/// Not a publish API.
 #[doc(hidden)]
+/// Not a public API.
+pub extern crate hstr;
+#[doc(hidden)]
+/// Not a public API.
 pub extern crate once_cell;
 
 use std::{
     borrow::Cow,
+    cell::UnsafeCell,
     fmt::{self, Display, Formatter},
     hash::Hash,
     ops::Deref,
@@ -23,32 +27,39 @@ pub use self::{atom as js_word, Atom as JsWord};
 ///
 ///
 /// See [tendril] for more details.
-#[derive(Clone, Default)]
+#[derive(Clone, Default, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
 pub struct Atom(hstr::Atom);
 
-/// Safety: We do not perform slicing of single [Atom] from multiple threads.
-/// In other words, typically [Atom] is created in a single thread (and in the
-/// parser code) and passed around.
-unsafe impl Sync for Atom {}
+fn _asserts() {
+    // let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
 
-// fn _assert_size() {
-//     let _static_assert_size_eq = std::mem::transmute::<Atom, [usize; 1]>;
-// }
+    fn _assert_send<T: Send>() {}
+    fn _assert_sync<T: Sync>() {}
+
+    _assert_send::<Atom>();
+    _assert_sync::<Atom>();
+}
 
 impl Atom {
     /// Creates a new [Atom] from a string.
-    pub fn new<'i, S>(s: S) -> Self
+    #[inline(always)]
+    pub fn new<S>(s: S) -> Self
     where
-        S: Into<Cow<'i, str>>,
+        hstr::Atom: From<S>,
     {
-        Atom(hstr::Atom::from(s.into()))
+        Atom(hstr::Atom::from(s))
     }
 
     #[inline]
     pub fn to_ascii_lowercase(&self) -> Self {
         Self(self.0.to_ascii_lowercase())
+    }
+
+    #[inline]
+    pub fn as_str(&self) -> &str {
+        &self.0
     }
 }
 
@@ -81,16 +92,6 @@ macro_rules! impl_from {
     };
 }
 
-macro_rules! impl_from_deref {
-    ($T:ty) => {
-        impl From<$T> for Atom {
-            fn from(s: $T) -> Self {
-                Atom::new(&*s)
-            }
-        }
-    };
-}
-
 impl PartialEq<str> for Atom {
     fn eq(&self, other: &str) -> bool {
         &**self == other
@@ -105,9 +106,9 @@ impl_eq!(Cow<'_, str>);
 impl_eq!(String);
 
 impl_from!(&'_ str);
-impl_from_deref!(Box<str>);
-impl_from_deref!(Cow<'_, str>);
+impl_from!(Box<str>);
 impl_from!(String);
+impl_from!(Cow<'_, str>);
 
 impl AsRef<str> for Atom {
     fn as_ref(&self) -> &str {
@@ -135,21 +136,7 @@ impl PartialOrd for Atom {
 
 impl Ord for Atom {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        (**self).cmp(&**other)
-    }
-}
-
-impl PartialEq for Atom {
-    fn eq(&self, other: &Self) -> bool {
-        self.0 == other.0
-    }
-}
-
-impl Eq for Atom {}
-
-impl Hash for Atom {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        self.0.hash(state)
+        self.as_str().cmp(other.as_str())
     }
 }
 
@@ -171,23 +158,19 @@ impl<'de> serde::de::Deserialize<'de> for Atom {
     }
 }
 
-/// Creates an Atom from a constant.
+/// Creates an [Atom] from a constant.
 #[macro_export]
 macro_rules! atom {
     ($s:tt) => {{
-        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
-
-        $crate::Atom::clone(&*CACHE)
+        $crate::Atom::new($crate::hstr::atom!($s))
     }};
 }
 
-/// Creates an Atom from a constant.
+/// Creates an [Atom] from a constant.
 #[macro_export]
 macro_rules! lazy_atom {
     ($s:tt) => {{
-        static CACHE: $crate::CahcedAtom = $crate::CahcedAtom::new(|| $crate::Atom::new($s));
-
-        $crate::Atom::clone(&*CACHE)
+        $crate::Atom::new($crate::hstr::atom!($s))
     }};
 }
 
@@ -245,5 +228,20 @@ impl AtomStore {
     #[inline]
     pub fn atom<'a>(&mut self, s: impl Into<Cow<'a, str>>) -> Atom {
         Atom(self.0.atom(s))
+    }
+}
+
+/// A fast internally mutable cell for [AtomStore].
+#[derive(Default)]
+pub struct AtomStoreCell(UnsafeCell<AtomStore>);
+
+impl AtomStoreCell {
+    #[inline]
+    pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
+        // SAFETY: We can skip the borrow check of RefCell because
+        // this API enforces a safe contract. It is slightly faster
+        // to use an UnsafeCell. Note the borrow here is short lived
+        // only to this block.
+        unsafe { (*self.0.get()).atom(s) }
     }
 }

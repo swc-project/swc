@@ -1,4 +1,4 @@
-/* globals __webpack_hash__ */ import { _ as e } from "@swc/helpers/_/_async_to_generator";
+import { _ as e } from "@swc/helpers/_/_async_to_generator";
 import { _ as t } from "@swc/helpers/_/_ts_generator";
 import { displayContent as a } from "./fouc";
 import n from "./on-demand-entries-client";
@@ -9,9 +9,7 @@ var s = o.assetPrefix, i = o.page;
 s = s || "";
 var _ = null, u = __webpack_hash__, d = s + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
 function p() {
-    return (p = // This function reads code updates on the fly and hard
-    // reloads the page when it has changed.
-    e(function() {
+    return (p = e(function() {
         var e, a;
         return t(this, function(t) {
             switch(t.label){

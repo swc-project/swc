@@ -27,15 +27,7 @@ var f = function(e) {
     var r = p(e), a = p(t);
     return r && !a ? -1 : !r && a ? 1 : 0;
 };
-/**
- * Creates a new instance of the InstantSearchManager which controls the widgets and
- * trigger the search when the widgets are updated.
- * @param {string} indexName - the main index name
- * @param {object} initialState - initial widget state
- * @param {object} SearchParameters - optional additional parameters to send to the algolia API
- * @param {number} stalledSearchDelay - time (in ms) after the search is stalled
- * @return {InstantSearchManager} a new instance of InstantSearchManager
- */ export default function S(u) {
+export default function S(u) {
     var o, l, S = u.indexName, v = u.initialState, x = u.searchClient, _ = u.resultsState, y = u.stalledSearchDelay, w = s(x, S, t({}, c));
     d(x), w.on("search", function() {
         V || (V = setTimeout(function() {
@@ -49,25 +41,15 @@ var f = function(e) {
     }).on("result", N({
         indexId: S
     })).on("error", j);
-    var F = !1, V = null, I = w.state, b = i(// Called whenever a widget has been rendered with new props.
-    function() {
+    var F = !1, V = null, I = w.state, b = i(function() {
         var e = P(A.getState().widgets);
         A.setState(r(t({}, A.getState()), {
             metadata: e,
             searching: !0
-        })), // Since the `getSearchParameters` method of widgets also depends on props,
-        // the result search parameters might have changed.
-        C();
+        })), C();
     });
     !function(a, s) {
         if (s && (a.transporter && !a._cacheHydrated || a._useCache && "function" == typeof a.addAlgoliaAgent)) {
-            // Algoliasearch API Client >= v4
-            // To hydrate the client we need to populate the cache with the data from
-            // the server (done in `hydrateSearchClientWithMultiIndexRequest` or
-            // `hydrateSearchClientWithSingleIndexRequest`). But since there is no way
-            // for us to compute the key the same way as `algoliasearch-client` we need
-            // to populate it on a custom key and override the `search` method to
-            // search on it first.
             if (a.transporter && !a._cacheHydrated) {
                 a._cacheHydrated = !0;
                 var i = a.search;
@@ -102,8 +84,6 @@ var f = function(e) {
             }
             if (Array.isArray(s.results)) {
                 !function(a, n) {
-                    // Algoliasearch API Client >= v4
-                    // Populate the cache with the data from the server
                     if (a.transporter) {
                         a.transporter.responsesCache.set({
                             method: "search",
@@ -124,12 +104,6 @@ var f = function(e) {
                         });
                         return;
                     }
-                    // Algoliasearch API Client < v4
-                    // Prior to client v4 we didn't have a proper API to hydrate the client
-                    // cache from the outside. The following code populates the cache with
-                    // a single-index result. You can find more information about the
-                    // computation of the key inside the client (see link below).
-                    // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
                     var s = "/1/indexes/*/queries_body_".concat(JSON.stringify({
                         requests: n.reduce(function(e, t) {
                             return e.concat(t.rawResults.map(function(e) {
@@ -149,8 +123,6 @@ var f = function(e) {
                 return;
             }
             !function(a, n) {
-                // Algoliasearch API Client >= v4
-                // Populate the cache with the data from the server
                 if (a.transporter) {
                     a.transporter.responsesCache.set({
                         method: "search",
@@ -167,12 +139,6 @@ var f = function(e) {
                     });
                     return;
                 }
-                // Algoliasearch API Client < v4
-                // Prior to client v4 we didn't have a proper API to hydrate the client
-                // cache from the outside. The following code populates the cache with
-                // a single-index result. You can find more information about the
-                // computation of the key inside the client (see link below).
-                // https://github.com/algolia/algoliasearch-client-javascript/blob/c27e89ff92b2a854ae6f40dc524bffe0f0cbc169/src/AlgoliaSearchCore.js#L232-L240
                 var s = "/1/indexes/*/queries_body_".concat(JSON.stringify({
                     requests: n.rawResults.map(function(e) {
                         return {
@@ -253,18 +219,14 @@ var f = function(e) {
         }).filter(function(e) {
             var t = f(e) && m(e, S), r = p(e) && g(e, S);
             return t || r;
-        })// We have to sort the `Index` widgets first so the `index` parameter
-        // is correctly set in the `reduce` function for the following widgets
-        .sort(h).reduce(function(e, t) {
+        }).sort(h).reduce(function(e, t) {
             return t.getSearchParameters(e);
         }, a), s = b.getWidgets().filter(function(e) {
             return !!e.getSearchParameters;
         }).filter(function(e) {
             var t = f(e) && !m(e, S), r = p(e) && !g(e, S);
             return t || r;
-        })// We have to sort the `Index` widgets first so the `index` parameter
-        // is correctly set in the `reduce` function for the following widgets
-        .sort(h).reduce(function(a, n) {
+        }).sort(h).reduce(function(a, n) {
             var s = f(n) ? n.props.indexContextValue.targetedIndex : n.props.indexId, i = a[s] || [];
             return r(t({}, a), e({}, s, i.concat(n)));
         }, {});
@@ -283,25 +245,7 @@ var f = function(e) {
     function C() {
         if (!F) {
             var e = R(w.state), t = e.mainParameters, r = e.derivedParameters;
-            // We have to call `slice` because the method `detach` on the derived
-            // helpers mutates the value `derivedHelpers`. The `forEach` loop does
-            // not iterate on each value and we're not able to correctly clear the
-            // previous derived helpers (memory leak + useless requests).
             w.derivedHelpers.slice().forEach(function(e) {
-                // Since we detach the derived helpers on **every** new search they
-                // won't receive intermediate results in case of a stalled search.
-                // Only the last result is dispatched by the derived helper because
-                // they are not detached yet:
-                //
-                // - a -> main helper receives results
-                // - ap -> main helper receives results
-                // - app -> main helper + derived helpers receive results
-                //
-                // The quick fix is to avoid to detach them on search but only once they
-                // received the results. But it means that in case of a stalled search
-                // all the derived helpers not detached yet register a new search inside
-                // the helper. The number grows fast in case of a bad network and it's
-                // not deterministic.
                 e.detach();
             }), r.forEach(function(e) {
                 var t = e.indexId, r = e.parameters;
@@ -317,9 +261,6 @@ var f = function(e) {
         var s = n.indexId;
         return function(n) {
             var i = A.getState(), c = !w.derivedHelpers.length, u = i.results ? i.results : {};
-            // Switching from mono index to multi index and vice versa must reset the
-            // results to an empty object, otherwise we keep reference of stalled and
-            // unused results.
             u = !c && u.getFacetByName ? {} : u, u = c ? n.results : r(t({}, u), e({}, s, n.results));
             var o = A.getState(), l = o.isSearchStalled;
             w.hasPendingRequests() || (clearTimeout(V), V = null, l = !1), o.resultsFacetValues;
@@ -372,10 +313,6 @@ var f = function(e) {
                     error: e
                 }));
             }).catch(function(e) {
-                // Since setState is synchronous, any error that occurs in the render of a
-                // component will be swallowed by this promise.
-                // This is a trick to make the error show up correctly in the console.
-                // See http://stackoverflow.com/a/30741722/969302
                 setTimeout(function() {
                     throw e;
                 });
@@ -402,7 +339,6 @@ var f = function(e) {
         },
         updateIndex: function(e) {
             I = I.setIndex(e);
-        // No need to trigger a new search here as the widgets will also update and trigger it if needed.
         },
         clearCache: function() {
             w.clearCache(), C();
