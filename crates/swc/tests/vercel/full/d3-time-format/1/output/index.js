@@ -182,17 +182,13 @@ export default function v(e) {
         return function(u) {
             var c, o, a = h(1900, void 0, 1);
             if (nG(a, n, u += "", 0) != u.length) return null;
-            // If a UNIX timestamp is specified, return it.
             if ("Q" in a) return new Date(a.Q);
             if ("s" in a) return new Date(1000 * a.s + ("L" in a ? a.L : 0));
-            // Convert day-of-week and week-of-year to day-of-year.
             if (!e || "Z" in a || (a.Z = 0), "p" in a && (a.H = a.H % 12 + 12 * a.p), void 0 === a.m && (a.m = "q" in a ? a.q : 0), "V" in a) {
                 if (a.V < 1 || a.V > 53) return null;
                 "w" in a || (a.w = 1), "Z" in a ? (c = (o = (c = s(h(a.y, 0, 1))).getUTCDay()) > 4 || 0 === o ? f.ceil(c) : f(c), c = i.offset(c, (a.V - 1) * 7), a.y = c.getUTCFullYear(), a.m = c.getUTCMonth(), a.d = c.getUTCDate() + (a.w + 6) % 7) : (c = (o = (c = g(h(a.y, 0, 1))).getDay()) > 4 || 0 === o ? r.ceil(c) : r(c), c = t.offset(c, (a.V - 1) * 7), a.y = c.getFullYear(), a.m = c.getMonth(), a.d = c.getDate() + (a.w + 6) % 7);
             } else ("W" in a || "U" in a) && ("w" in a || (a.w = "u" in a ? a.u % 7 : "W" in a ? 1 : 0), o = "Z" in a ? s(h(a.y, 0, 1)).getUTCDay() : g(h(a.y, 0, 1)).getDay(), a.m = 0, a.d = "W" in a ? (a.w + 6) % 7 + 7 * a.W - (o + 5) % 7 : a.w + 7 * a.U - (o + 6) % 7);
-            return(// If a time zone is specified, all fields are interpreted as UTC and then
-            // offset according to the specified time zone.
-            "Z" in a ? (a.H += a.Z / 100 | 0, a.M += a.Z % 100, s(a)) : g(a));
+            return "Z" in a ? (a.H += a.Z / 100 | 0, a.M += a.Z % 100, s(a)) : g(a);
         };
     }
     function nG(n, t, e, r) {
@@ -204,8 +200,7 @@ export default function v(e) {
         }
         return r;
     }
-    return(// These recursive directive definitions must be deferred.
-    nQ.x = nb(c, nQ), nQ.X = nb(o, nQ), nQ.c = nb(u, nQ), nX.x = nb(c, nX), nX.X = nb(o, nX), nX.c = nb(u, nX), {
+    return nQ.x = nb(c, nQ), nQ.X = nb(o, nQ), nQ.c = nb(u, nQ), nX.x = nb(c, nX), nX.X = nb(o, nX), nX.c = nb(u, nX), {
         format: function(n) {
             var t = nb(n += "", nQ);
             return t.toString = function() {
@@ -230,7 +225,7 @@ export default function v(e) {
                 return n;
             }, t;
         }
-    });
+    };
 }
 var y = {
     "-": "",

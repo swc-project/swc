@@ -5,7 +5,7 @@ function f() {
         console.log(value$2);
     }
     [].map(function x(_) {
-        var value$2; // this causes the previous value$2 to become value$21
+        var value$2;
         return value$2;
     });
 }

@@ -7,5 +7,5 @@ export default function m() {
     var m = o(e().query.project).data;
     a().teamSlug;
     var u = null == m ? void 0 : m.id;
-    return useProjectBranches(u).data, /*#__PURE__*/ r(t, {});
+    return useProjectBranches(u).data, r(t, {});
 }

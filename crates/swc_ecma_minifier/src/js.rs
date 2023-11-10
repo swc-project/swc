@@ -100,7 +100,7 @@ pub struct JsMinifyParseOptions {
 }
 
 /// `jsc.minify.format`.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyFormatOptions {
     /// Not implemented yet.
@@ -188,6 +188,13 @@ pub struct JsMinifyFormatOptions {
 
     #[serde(default)]
     pub emit_assert_for_import_attributes: bool,
+}
+
+impl Default for JsMinifyFormatOptions {
+    fn default() -> Self {
+        // Well, this should be a macro IMHO, but it's not so let's just use hacky way.
+        serde_json::from_str("{}").unwrap()
+    }
 }
 
 fn default_comments() -> BoolOrDataConfig<JsMinifyCommentOption> {
