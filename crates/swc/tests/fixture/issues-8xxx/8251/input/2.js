@@ -1,2 +1,2 @@
-y = (value //! License comment
+y = (value // @license comment
 ) => foo();
