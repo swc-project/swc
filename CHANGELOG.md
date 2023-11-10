@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Use `cooked` while converting tpls into strings ([#8248](https://github.com/swc-project/swc/issues/8248)) ([be748f0](https://github.com/swc-project/swc/commit/be748f0f33bda76a1ae4a4acd586213adfe7b2aa))
 
+
+- **(es/parser)** Consider ASI while parsing TypeScript type aliases ([#8263](https://github.com/swc-project/swc/issues/8263)) ([e589126](https://github.com/swc-project/swc/commit/e58912622d86f2b03f90dd7d0782e5740822dca6))
+
 ### Performance
 
 
@@ -1709,9 +1712,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Handle import/export in `reserved_word` ([#7165](https://github.com/swc-project/swc/issues/7165)) ([065d11c](https://github.com/swc-project/swc/commit/065d11cb9bd49f36825b3b707e4e9ecfcc64e17b))
 
 
 - **(es/compat)** Fix the position for temp var injection ([#7171](https://github.com/swc-project/swc/issues/7171)) ([23fb8c5](https://github.com/swc-project/swc/commit/23fb8c5563a8e5f79d256bb27bdbdfd56944ccbc))
