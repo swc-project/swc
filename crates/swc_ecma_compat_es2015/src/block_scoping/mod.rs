@@ -21,7 +21,6 @@ use swc_ecma_visit::{
 };
 use swc_trace_macro::swc_trace;
 
-mod operator;
 mod vars;
 
 ///

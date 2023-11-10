@@ -87,7 +87,7 @@ impl PreferRegexLiterals {
     fn set_state(&mut self, call_span: Span, args: &[ExprOrSpread]) {
         self.call_span = Some(call_span);
 
-        if let Some(ExprOrSpread { expr, .. }) = args.get(0) {
+        if let Some(ExprOrSpread { expr, .. }) = args.first() {
             self.first_arg = Some(extract_arg_val(
                 self.unresolved_ctxt,
                 unwrap_seqs_and_parens(expr.as_ref()),

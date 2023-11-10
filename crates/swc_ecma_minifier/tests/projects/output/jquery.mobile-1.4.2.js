@@ -1386,9 +1386,9 @@
         go: function(steps) {
             if (jQuery.mobile.hashListeningEnabled) window.history.go(steps);
             else {
-                var activeIndex = jQuery.mobile.navigate.history.activeIndex, index = activeIndex + parseInt(steps, 10), url = jQuery.mobile.navigate.history.stack[index].url, direction = steps >= 1 ? "forward" : "back";
+                var activeIndex = jQuery.mobile.navigate.history.activeIndex, index = activeIndex + parseInt(steps, 10), url = jQuery.mobile.navigate.history.stack[index].url;
                 jQuery.mobile.navigate.history.activeIndex = index, jQuery.mobile.navigate.history.previousIndex = activeIndex, this.change(url, {
-                    direction: direction,
+                    direction: steps >= 1 ? "forward" : "back",
                     changeHash: !1,
                     fromHashChange: !0
                 });
@@ -2428,10 +2428,10 @@
                 highlight: !1
             },
             _create: function() {
-                var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, control = this.element, trackTheme = this.options.trackTheme || $.mobile.getAttribute(control[0], "theme"), cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), selectClass = isToggleSwitch ? "ui-slider-switch" : "", controlID = control.attr("id"), $label = $("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document1.createElement("a"), handle = $(domHandle), domSlider = document1.createElement("div"), slider = $(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(slider));
+                var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, control = this.element, trackTheme = this.options.trackTheme || $.mobile.getAttribute(control[0], "theme"), cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), controlID = control.attr("id"), $label = $("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document1.createElement("a"), handle = $(domHandle), domSlider = document1.createElement("div"), slider = $(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(slider));
                 if ($label.attr("id", labelID), this.isToggleSwitch = isToggleSwitch, domHandle.setAttribute("href", "#"), domSlider.setAttribute("role", "application"), domSlider.className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-track ui-shadow-inset " : "ui-slider-track ui-shadow-inset ",
-                    selectClass,
+                    isToggleSwitch ? "ui-slider-switch" : "",
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
                     miniClass
@@ -2580,12 +2580,12 @@
             },
             _setTheme: function(value) {
                 this.handle.removeClass("ui-btn-" + this.options.theme).addClass("ui-btn-" + value);
-                var currentTheme = this.options.theme ? this.options.theme : "inherit", newTheme = value || "inherit";
-                this.control.removeClass("ui-body-" + currentTheme).addClass("ui-body-" + newTheme);
+                var currentTheme = this.options.theme ? this.options.theme : "inherit";
+                this.control.removeClass("ui-body-" + currentTheme).addClass("ui-body-" + (value || "inherit"));
             },
             _setTrackTheme: function(value) {
-                var currentTrackTheme = this.options.trackTheme ? this.options.trackTheme : "inherit", newTrackTheme = value || "inherit";
-                this.slider.removeClass("ui-body-" + currentTrackTheme).addClass("ui-body-" + newTrackTheme);
+                var currentTrackTheme = this.options.trackTheme ? this.options.trackTheme : "inherit";
+                this.slider.removeClass("ui-body-" + currentTrackTheme).addClass("ui-body-" + (value || "inherit"));
             },
             _setMini: function(value) {
                 value = !!value, this.isToggleSwitch || this.isRangeslider || (this.slider.parent().toggleClass("ui-mini", value), this.element.toggleClass("ui-mini", value)), this.slider.toggleClass("ui-mini", value);

@@ -1,0 +1,2 @@
+function foo() {}
+use(foo);

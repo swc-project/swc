@@ -23,57 +23,49 @@ test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     issue_270,
-    "instance[name](...args);",
-    "var _instance;
-(_instance = instance)[name].apply(_instance, _to_consumable_array(args));"
+    "instance[name](...args);"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_call,
-    "ca(a, b, c, ...d, e)",
-    "ca.apply(void 0, [a, b, c].concat(_to_consumable_array(d), [e]));"
+    "ca(a, b, c, ...d, e)"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_call_multi_spread,
-    "ca(a, b, ...d, e, f, ...h)",
-    "ca.apply(void 0, [a, b].concat(_to_consumable_array(d), [e, f], _to_consumable_array(h)));"
+    "ca(a, b, ...d, e, f, ...h)"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_call_noop,
-    "ca(a, b, c, d, e)",
-    "ca(a, b, c, d, e);"
+    "ca(a, b, c, d, e)"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_array,
-    "[a, b, c, ...d, e]",
-    "[a, b, c].concat(_to_consumable_array(d), [e])"
+    "[a, b, c, ...d, e]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_array_empty,
-    "[a,, b, c, ...d,,, e]",
-    "[a,, b, c].concat(_to_consumable_array(d), [,, e])"
+    "[a,, b, c, ...d,,, e]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::default(),
     |_| tr(),
     custom_new_noop,
-    "new C(a, b, c, c, d, e)",
-    "new C(a, b, c, c, d, e);"
+    "new C(a, b, c, c, d, e)"
 );
 
 // this_context
@@ -89,15 +81,6 @@ var obj = {
   }
 }
 
-"#,
-    r#"
-var obj = {
-  foo: function foo() {
-    this.bar.apply(this, arguments);
-    this.blah.apply(this, arguments);
-  }
-};
-
 "#
 );
 
@@ -109,18 +92,6 @@ test!(
     r#"
 function foo() {
   return bar([...arguments]);
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#,
-    r#"
-function foo() {
-  return bar(Array.prototype.slice.call(arguments));
 }
 
 function bar(one, two, three) {
@@ -165,18 +136,6 @@ function bar(one, two, three) {
 
 foo("foo", "bar");
 
-"#,
-    r#"
-function foo() {
-  return bar.apply(void 0, ["test"].concat(Array.prototype.slice.call(arguments)));
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
 "#
 );
 
@@ -192,15 +151,6 @@ class Foo {
 	}
 }
 
-"#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, [arg1, arg2].concat(_to_consumable_array(args)));
-  }
-
-}
-
 "#
 );
 
@@ -211,10 +161,6 @@ test!(
     array_literal_first,
     r#"
 var lyrics = [...parts, "head", "and", "toes"];
-
-"#,
-    r#"
-var lyrics = _to_consumable_array(parts).concat(["head", "and", "toes"]);
 
 "#
 );
@@ -236,26 +182,6 @@ switch (true){
         break;
 }
 
-"#,
-    r#"
-
-function fn() {}
-
-var args = [1, 2, 3];
-var obj = {
-  obj: {
-    fn
-  }
-};
-
-switch (true) {
-  case true:
-    var _obj_obj;
-    (_obj_obj = obj.obj).fn.apply(_obj_obj, _to_consumable_array(args));
-
-    break;
-}
-
 "#
 );
 
@@ -266,10 +192,6 @@ test!(
     method_call_middle,
     r#"
 add(foo, ...numbers, bar);
-
-"#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar]));
 
 "#
 );
@@ -283,14 +205,6 @@ test!(
 foob.add(foo, bar, ...numbers);
 foob.test.add(foo, bar, ...numbers);
 
-"#,
-    r#"
-var _foob, _foob_test;
-
-(_foob = foob).add.apply(_foob, [foo, bar].concat(_to_consumable_array(numbers)));
-
-(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_to_consumable_array(numbers)));
-
 "#
 );
 
@@ -301,12 +215,6 @@ test!(
     contexted_computed_method_call_multiple_args,
     r#"
 obj[method](foo, bar, ...args);
-
-"#,
-    r#"
-var _obj;
-
-(_obj = obj)[method].apply(_obj, [foo, bar].concat(_to_consumable_array(args)));
 
 "#
 );
@@ -321,10 +229,6 @@ test!(
     r#"
 add(foo, bar, ...numbers);
 
-"#,
-    r#"
-add.apply(void 0, [foo, bar].concat(_to_consumable_array(numbers)));
-
 "#
 );
 
@@ -336,10 +240,6 @@ test!(
     r#"
 var a = [b, ...c, d];
 
-"#,
-    r#"
-var a = [b].concat(_to_consumable_array(c), [d]);
-
 "#
 );
 
@@ -350,10 +250,6 @@ test!(
     array_literal_with_hole,
     r#"
 var arr = [ 'a',, 'b', ...c ];
-
-"#,
-    r#"
-var arr = ['a',, 'b'].concat(_to_consumable_array(c));
 
 "#
 );
@@ -371,16 +267,6 @@ arr.concat = () => {
 };
 
 const x = [...arr];
-
-"#,
-    r#"
-const arr = [];
-
-arr.concat = () => {
-  throw new Error('Should not be called');
-};
-
-const x = _to_consumable_array(arr);
 
 "#
 );
@@ -401,16 +287,6 @@ arr.concat = () => {
 
 const x = [...arr];
 
-"#,
-    r#"
-const arr = [];
-
-arr.concat = () => {
-  throw new Error('Should not be called');
-};
-
-const x = [].concat(arr);
-
 "#
 );
 
@@ -421,10 +297,6 @@ test!(
     method_call_multiple,
     r#"
 add(foo, ...numbers, bar, what, ...test);
-
-"#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar, what], _to_consumable_array(test)));
 
 "#
 );
@@ -437,18 +309,6 @@ test!(
     r#"
 function foo() {
   return bar(...arguments);
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#,
-    r#"
-function foo() {
-  return bar.apply(void 0, arguments);
 }
 
 function bar(one, two, three) {
@@ -489,10 +349,6 @@ test!(
     r#"
 var a = [b, ...c, d, e, ...f];
 
-"#,
-    r#"
-var a = [b].concat(_to_consumable_array(c), [d, e], _to_consumable_array(f));
-
 "#
 );
 
@@ -523,10 +379,6 @@ test!(
     r#"
 var lyrics = ["head", "and", "toes", ...parts];
 
-"#,
-    r#"
-var lyrics = ["head", "and", "toes"].concat(_to_consumable_array(parts));
-
 "#
 );
 
@@ -541,11 +393,6 @@ test!(
 new Numbers(...nums);
 new Numbers(1, ...nums);
 
-"#,
-    r#"
-_construct(Numbers, _to_consumable_array(nums));
-_construct(Numbers, [1].concat(_to_consumable_array(nums)));
-
 "#
 );
 
@@ -556,10 +403,6 @@ test!(
     spread_array_literal_with_hole,
     r#"
 var arr = [ 'a',, 'b', ...c ];
-
-"#,
-    r#"
-var arr = ['a',, 'b'].concat(_to_consumable_array(c));
 
 "#
 );
@@ -590,11 +433,6 @@ test!(
 foob.add(foo, bar, ...numbers);
 foob.test.add(foo, bar, ...numbers);
 
-"#,
-    r#"
-var _foob, _foob_test;
-(_foob = foob).add.apply(_foob, [foo, bar].concat(_to_consumable_array(numbers)));
-(_foob_test = foob.test).add.apply(_foob_test, [foo, bar].concat(_to_consumable_array(numbers)))
 "#
 );
 
@@ -606,10 +444,6 @@ test!(
     r#"
 f(...[1, 2, 3]);
 
-"#,
-    r#"
-f.apply(void 0, [1, 2, 3]);
-
 "#
 );
 
@@ -620,10 +454,6 @@ test!(
     spread_method_call_single_arg,
     r#"
 add(...numbers);
-
-"#,
-    r#"
-add.apply(void 0, _to_consumable_array(numbers));
 
 "#
 );
@@ -650,16 +480,6 @@ function foo(...bar) {
   return [...bar];
 }
 
-"#,
-    r#"
-function foo() {
-  for (var _len = arguments.length, bar = new Array(_len), _key = 0; _key < _len; _key++) {
-    bar[_key] = arguments[_key];
-  }
-
-  return [].concat(bar);
-}
-
 "#
 );
 
@@ -671,10 +491,6 @@ test!(
     r#"
 add(foo, ...numbers, bar);
 
-"#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar]));
-
 "#
 );
 
@@ -685,10 +501,6 @@ test!(
     spread_method_call_first,
     r#"
 add(...numbers, foo, bar);
-
-"#,
-    r#"
-add.apply(void 0, _to_consumable_array(numbers).concat([foo, bar]));
 
 "#
 );
@@ -705,15 +517,6 @@ class Foo {
 	}
 }
 
-"#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, _to_consumable_array(args));
-  }
-
-}
-
 "#
 );
 
@@ -726,11 +529,6 @@ test!(
 foob.add(...numbers);
 foob.test.add(...numbers);
 
-"#,
-    r#"
-var _foob, _foob_test;
-(_foob = foob).add.apply(_foob, _to_consumable_array(numbers));
-(_foob_test = foob.test).add.apply(_foob_test, _to_consumable_array(numbers));
 "#
 );
 
@@ -742,10 +540,6 @@ test!(
     r#"
 var a = [b, ...c, d];
 
-"#,
-    r#"
-var a = [b].concat(_to_consumable_array(c), [d]);
-
 "#
 );
 
@@ -756,10 +550,6 @@ test!(
     spread_array_literals,
     r#"
 var lyrics = ["head", "and", "toes", ...parts];
-
-"#,
-    r#"
-var lyrics = ["head", "and", "toes"].concat(_to_consumable_array(parts));
 
 "#
 );
@@ -776,14 +566,6 @@ export default function () {
   const someVar = E_ARR;
   return [...someVar];
 }
-"#,
-    r#"
-const E_ARR = [];
-export default function () {
-  const someVar = E_ARR;
-  return _to_consumable_array(someVar);
-}
-
 "#
 );
 
@@ -794,10 +576,6 @@ test!(
     spread_method_call_multiple,
     r#"
 add(foo, ...numbers, bar, what, ...test);
-
-"#,
-    r#"
-add.apply(void 0, [foo].concat(_to_consumable_array(numbers), [bar, what], _to_consumable_array(test)));
 
 "#
 );
@@ -810,18 +588,6 @@ test!(
     r#"
 function foo() {
   return bar(...arguments);
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
-"#,
-    r#"
-function foo() {
-  return bar.apply(void 0, arguments);
 }
 
 function bar(one, two, three) {
@@ -845,15 +611,6 @@ class Foo {
 	}
 }
 
-"#,
-    r#"
-class Foo {
-  bar() {
-    super.bar.apply(this, [arg1, arg2].concat(_to_consumable_array(args)));
-  }
-
-}
-
 "#
 );
 
@@ -864,12 +621,6 @@ test!(
     spread_contexted_computed_method_call_single_arg,
     r#"
 obj[method](...args);
-
-"#,
-    r#"
-var _obj;
-
-(_obj = obj)[method].apply(_obj, _to_consumable_array(args));
 
 "#
 );
@@ -890,18 +641,6 @@ function bar(one, two, three) {
 
 foo("foo", "bar");
 
-"#,
-    r#"
-function foo() {
-  return bar.apply(void 0, ["test"].concat(Array.prototype.slice.call(arguments)));
-}
-
-function bar(one, two, three) {
-  return [one, two, three];
-}
-
-foo("foo", "bar");
-
 "#
 );
 
@@ -911,15 +650,7 @@ test!(
     spread_string_literial,
     "
     String.raw({ raw: 'abcd' }, ...'___');
-    ",
-    r#"
-var _String;
-(_String = String).raw.apply(_String, [
-    {
-        raw: 'abcd'
-    }
-].concat(Array.from('___')));
-"#
+    "
 );
 
 test!(
@@ -928,21 +659,7 @@ test!(
     spread_string_literial_2,
     "
     f({ x: 0 }, ...[1, 2], [3], ...'456');
-    ",
-    r#"
-f.apply(void 0, [
-    {
-        x: 0
-    }
-].concat(_to_consumable_array([
-    1,
-    2
-]), [
-    [
-        3
-    ]
-], Array.from('456')));
-"#
+    "
 );
 
 test!(
@@ -952,25 +669,7 @@ test!(
     r#"
     f(1, ...[2, 3], ...[...[4, 5]], ...[6, ...[7]]);
     f(1, ..."123", ...[..."456", ..."789"]);
-    "#,
-    r#"
-f.apply(void 0, [
-    1
-].concat(_to_consumable_array([
-    2,
-    3
-]), _to_consumable_array(_to_consumable_array([
-    4,
-    5
-])), _to_consumable_array([
-    6
-].concat(_to_consumable_array([
-    7
-])))));
-f.apply(void 0, [
-    1
-].concat(Array.from("123"), _to_consumable_array(Array.from("456").concat(Array.from("789")))));
-"#
+    "#
 );
 
 test!(
@@ -980,25 +679,5 @@ test!(
     r#"
     f(1, ...[2, , 3], ...[...[4, ,]]);
     f(...[2, , 3], ...[...[4, ,]]);
-    "#,
-    "
-    f.apply(void 0, [
-        1
-    ].concat(_to_consumable_array([
-        2,
-        ,
-        3
-    ]), _to_consumable_array(_to_consumable_array([
-        4,
-        ,
-    ]))));
-    f.apply(void 0, _to_consumable_array([
-        2,
-        ,
-        3
-    ]).concat(_to_consumable_array(_to_consumable_array([
-        4,
-        ,
-    ]))));
-    "
+    "#
 );

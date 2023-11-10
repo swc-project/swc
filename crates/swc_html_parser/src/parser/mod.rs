@@ -686,9 +686,10 @@ where
             // U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
             //
             // Insert the token's character.
-            Token::Character { value, .. }
-                if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-            {
+            Token::Character {
+                value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                ..
+            } => {
                 self.insert_character(token_and_info)?;
             }
             // Any other character token
@@ -808,10 +809,7 @@ where
 
                 self.errors.push(Error::new(
                     token_and_info.span,
-                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(
-                        tag_name.clone(),
-                        last.clone().into(),
-                    ),
+                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(tag_name.clone(), last.into()),
                 ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
@@ -1051,7 +1049,7 @@ where
                                 token_and_info.span,
                                 ErrorKind::EndTagDidNotMatchCurrentOpenElement(
                                     tag_name.clone(),
-                                    node_tag_name.clone().into(),
+                                    node_tag_name.into(),
                                 ),
                             ));
                         }
@@ -1126,9 +1124,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A comment token
@@ -1470,9 +1469,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A start tag whose tag name is "html"
@@ -1576,9 +1576,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A comment token
@@ -1663,9 +1664,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -2025,9 +2027,10 @@ where
                     // "noframes", "style"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     Token::Comment { .. } => {
@@ -2108,9 +2111,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -2256,9 +2260,10 @@ where
                     // Reconstruct the active formatting elements, if any.
                     //
                     // Insert the token's character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_character(token_and_info)?;
                     }
@@ -2312,7 +2317,7 @@ where
                             return Ok(());
                         }
 
-                        if let Some(top) = self.open_elements_stack.items.get(0) {
+                        if let Some(top) = self.open_elements_stack.items.first() {
                             let mut node_attributes = match &top.data {
                                 Data::Element { attributes, .. } => attributes.borrow_mut(),
                                 _ => {
@@ -2641,7 +2646,7 @@ where
                             return Ok(());
                         } else {
                             self.update_end_tag_span(
-                                self.open_elements_stack.items.get(0),
+                                self.open_elements_stack.items.first(),
                                 token_and_info.span,
                             );
                         }
@@ -4947,9 +4952,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -6037,9 +6043,10 @@ where
                     // SPACE
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A comment token
@@ -6076,7 +6083,7 @@ where
                             ));
                         } else {
                             self.update_end_tag_span(
-                                self.open_elements_stack.items.get(0),
+                                self.open_elements_stack.items.first(),
                                 token_and_info.span,
                             );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
@@ -6138,9 +6145,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -6302,9 +6310,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -6402,9 +6411,10 @@ where
                     Token::Doctype { .. } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
@@ -6475,9 +6485,10 @@ where
                     Token::Doctype { .. } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     Token::StartTag { tag_name, .. } if tag_name == "html" => {
@@ -8181,7 +8192,7 @@ where
 
         let comment = Node::new(Data::Comment { data, raw }, token_and_info.span);
 
-        if let Some(html) = &self.open_elements_stack.items.get(0) {
+        if let Some(html) = &self.open_elements_stack.items.first() {
             self.append_node(html, comment);
         }
 

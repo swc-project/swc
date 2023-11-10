@@ -44,9 +44,6 @@ test!(
     basic,
     r#"var number = function (x) {
   return x;
-};"#,
-    r#"var number = function number(x) {
-  return x;
 };"#
 );
 
@@ -55,9 +52,6 @@ test!(
     |_| tr(),
     assign,
     r#"number = function (x) {
-  return x;
-};"#,
-    r#"number = function number1(x) {
   return x;
 };"#
 );
@@ -77,18 +71,6 @@ let TestClass = {
     });
   }
 };
-"#,
-    r#"
-var TestClass = {
-  name: "John Doe",
-
-  testMethodFailure() {
-    return new Promise(async function(resolve) {
-      console.log(this);
-      setTimeout(resolve, 1000);
-    });
-  }
-}
 "#
 );
 
@@ -99,18 +81,6 @@ test!(
     r#"
 var Foo = function() {
   var Foo = function () {
-   _class_call_check(this, Foo);
-  };
-  _define_property(Foo, 'num', 0);
-  return Foo;
-}();
-expect(Foo.num).toBe(0);
-expect(Foo.num = 1).toBe(1);
-expect(Foo.name).toBe('Foo');
-"#,
-    r#"
-var Foo = function() {
-  var Foo = function Foo1() {
    _class_call_check(this, Foo);
   };
   _define_property(Foo, 'num', 0);
@@ -131,17 +101,6 @@ test!(
     __proto__: []
   } instanceof Array && function (d, b) {
     d.__proto__ = b;
-  } || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-  };
-
-  return extendStatics(d, b);
-};",
-    "var extendStatics = function extendStatics1(d, b) {
-      extendStatics = Object.setPrototypeOf || ({
-        __proto__: []
-      }) instanceof Array && function (d, b) {
-        d.__proto__ = b;
   } || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
   };
@@ -169,13 +128,6 @@ test!(
 export const x = ({x}) => x;
 export const y = function () {};
 
-"#,
-    r#"
-export const x = ({
-  x
-}) => x;
-export const y = function y() {};
-
 "#
 );
 
@@ -193,7 +145,7 @@ export const y = function y() {};
 //  return { a() { return a } };
 //}
 //
-//"#, r#"
+//"# r#"
 //System.register([], function (_export, _context) {
 //  "use strict";
 //
@@ -222,7 +174,7 @@ export const y = function y() {};
 //  x: ({x}) => {}
 //})
 //
-//"#, r#"
+//"# r#"
 //"use strict";
 //
 //Object.defineProperty(exports, "__esModule", {
@@ -252,22 +204,6 @@ test!(
 const x = () => x;
 const y = x => x();
 const z = { z: () => y(x) }.z;
-
-"#,
-    r#"
-const x = function x() {
-  return x;
-};
-
-const y = function y(x) {
-  return x();
-};
-
-const z = {
-  z: function z() {
-    return y(x);
-  }
-}.z;
 
 "#
 );
@@ -305,43 +241,6 @@ export default class Login extends React.Component {
   }
 }
 
-"#,
-    r#"
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function() {
-      return Login;
-  }
-});
-
-var _store = require("./store");
-
-let Login =
-/*#__PURE__*/
-function (_React_Component) {
-  "use strict";
-  _inherits(Login, _React_Component);
-  var _super = _create_super(Login);
-  function Login() {
-    _class_call_check(this, Login);
-    return _super.apply(this, arguments);
-  }
-
-  _create_class(Login, [{
-    key: "getForm",
-    value: function getForm() {
-      return (0, _store.getForm)().toJS();
-    }
-  }]);
-  return Login;
-}(React.Component);
-
 "#
 );
 
@@ -365,12 +264,6 @@ test!(
     function_name_basic,
     r#"
 var g = function () {
-  doSmth();
-};
-
-"#,
-    r#"
-var g = function g() {
   doSmth();
 };
 
@@ -401,25 +294,6 @@ export default (a) => {
   return { a() { return a } };
 }
 
-"#,
-    r#"
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _default = function _default(_a) {
-  return {
-    a: function a() {
-      return _a;
-    }
-  };
-};
-
-exports.default = _default;
-
 "#
 );
 
@@ -440,17 +314,6 @@ const x = {
   [false]: function () {},
 };
 
-"#,
-    r#"
-const x = {
-  [null]: function _null() {},
-  [/regex/gi]: function _regex_gi() {},
-  [`y`]: function y() {},
-  [`abc${y}def`]: function abcdef() {},
-  [0]: function _() {},
-  [false]: function _false() {}
-};
-
 "#
 );
 
@@ -464,7 +327,7 @@ const x = {
 //)
 //
 //
-//"#, r#"
+//"# r#"
 //"use strict";
 //
 //Object.defineProperty(exports, "__esModule", {
@@ -498,7 +361,7 @@ const x = {
 //  return { a() { return a } };
 //}
 //
-//"#, r#"
+//"# r#"
 //"use strict";
 //
 //Object.defineProperty(exports, "__esModule", {
@@ -545,14 +408,6 @@ var f = function () {
 
 f = null;
 
-"#,
-    r#"
-var _f = function f() {
-  console.log(_f, g);
-};
-
-_f = null;
-
 "#
 );
 
@@ -567,28 +422,6 @@ test!(
 const x = () => x;
 const y = x => x();
 const z = { z: () => y(x) }.z;
-
-"#,
-    r#"
-var _this = this;
-
-// These are actually handled by transform-arrow-functions
-const _x = function x() {
-  _new_arrow_check(this, _this);
-  return _x;
-}.bind(this);
-
-const y = function y(x) {
-  _new_arrow_check(this, _this);
-  return x();
-}.bind(this);
-
-const z = {
-  z: function z() {
-    _new_arrow_check(this, _this);
-    return y(_x);
-  }.bind(this)
-}.z;
 
 "#
 );
@@ -614,13 +447,6 @@ test!(
     r#"
 ({ x() {} });
 
-"#,
-    r#"
-({
-  x() {}
-
-});
-
 "#
 );
 
@@ -634,16 +460,6 @@ test!(
 export default (a) => {
   return { a() { return a } };
 }
-
-"#,
-    r#"
-export default (function (_a) {
-  return {
-    a: function a() {
-      return _a;
-    }
-  };
-});
 
 "#
 );
@@ -666,16 +482,6 @@ var j = function () {
   ;
 };
 
-"#,
-    r#"
-var i = function i1() {
-    i = 5;
-};
-var j = function j1() {
-    ({ j  } = 5);
-    ({ y: j  } = 5);
-    ;
-};
 "#
 );
 
@@ -714,22 +520,6 @@ f;
 }
 };
 
-"#,
-    r#"
-var f = function f() {
-var f = 2;
-};
-
-var g = function g(_g) {
-_g;
-};
-
-var obj = {
-f: function f(_f) {
-_f;
-}
-};
-
 "#
 );
 
@@ -738,14 +528,24 @@ test!(
     // See: https://github.com/swc-project/swc/issues/421
     ignore,
     syntax(),
-    |t| chain!(
-        decorators(decorators::Config {
-            legacy: true,
-            ..Default::default()
-        }),
-        class_properties(Some(t.comments.clone()), Default::default()),
-        classes(Some(t.comments.clone()), Default::default()),
-    ),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            decorators(decorators::Config {
+                legacy: true,
+                ..Default::default()
+            }),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
+            classes(Some(t.comments.clone()), Default::default()),
+        )
+    },
     decorators_legacy_interop_strict,
     r#"
 function dec() {}
@@ -757,36 +557,6 @@ class A {
 
 c = 456;
 }
-
-"#,
-    r#"
-var _class, _descriptor, _descriptor2, _temp;
-
-function dec() {}
-
-let A = (_class = (_temp = function A() {
-"use strict";
-
-_class_call_check(this, A);
-
-_initializer_define_property(this, "a", _descriptor, this);
-
-_initializer_define_property(this, "b", _descriptor2, this);
-
-_define_property(this, "c", 456);
-}, _temp), (_descriptor = _apply_decorated_descriptor(_class.prototype, "a", [dec], {
-configurable: true,
-enumerable: true,
-writable: true,
-initializer: null
-}), _descriptor2 = _apply_decorated_descriptor(_class.prototype, "b", [dec], {
-configurable: true,
-enumerable: true,
-writable: true,
-initializer: function () {
-return 123;
-}
-})), _class);
 
 "#
 );
@@ -835,32 +605,6 @@ b();
 }
 });
 
-"#,
-    r#"
-function _f() {
-_f;
-}
-
-{
-let obj = {
-f: function f() {
-  _f;
-}
-};
-}
-
-(function _b() {
-var obj = {
-b: function b() {
-  _b;
-}
-};
-
-function commit(b) {
-b();
-}
-});
-
 "#
 );
 
@@ -890,18 +634,6 @@ var obj = {
 };
 
 function search({search}) {
-    console.log(search);
-}
-
-"#,
-    r#"
-var obj = {
-    search: function search({ search }) {
-        console.log(search);
-    }
-};
-
-function search({ search }) {
     console.log(search);
 }
 
@@ -946,39 +678,6 @@ return last(this.tokens.get(key))
 }
 }
 
-"#,
-    r#"
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-value: true
-});
-exports.default = void 0;
-
-var _last2 = _interop_require_default(require("lodash/last"));
-
-let Container =
-/*#__PURE__*/
-function () {
-function Container() {
-_class_call_check(this, Container);
-}
-
-_create_class(Container, [{
-key: "last",
-value: function last(key) {
-  if (!this.has(key)) {
-    return;
-  }
-
-  return (0, _last2.default)(this.tokens.get(key));
-}
-}]);
-return Container;
-}();
-
-exports.default = Container;
-
 "#
 );
 
@@ -1004,13 +703,6 @@ test!(
 export {};
 
 var obj = { await: function () {} };
-
-"#,
-    r#"
-export {};
-var obj = {
-await: function _await() {}
-};
 
 "#
 );

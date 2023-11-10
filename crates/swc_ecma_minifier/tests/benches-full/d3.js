@@ -1683,8 +1683,8 @@
             return i.duration = 1000 * S * rho / Math.SQRT2, i;
         }
         return zoom.rho = function(_) {
-            var _1 = Math.max(1e-3, +_), _2 = _1 * _1, _4 = _2 * _2;
-            return zoomRho(_1, _2, _4);
+            var _1 = Math.max(1e-3, +_), _2 = _1 * _1;
+            return zoomRho(_1, _2, _2 * _2);
         }, zoom;
     }(Math.SQRT2, 2, 4);
     function hsl$1(hue) {
@@ -4901,16 +4901,16 @@
                 0
             ], n2 = cartesianCross(pa, pb), n2n2 = cartesianDot(n2, n2), n1n2 = n2[0], determinant = n2n2 - n1n2 * n1n2;
             if (!determinant) return !two && a;
-            var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, c1);
-            cartesianAddInPlace(A, cartesianScale(n2, c2));
+            var n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, cr * n2n2 / determinant);
+            cartesianAddInPlace(A, cartesianScale(n2, -cr * n1n2 / determinant));
             var w = cartesianDot(A, n1xn2), uu = cartesianDot(n1xn2, n1xn2), t2 = w * w - uu * (cartesianDot(A, A) - 1);
             if (!(t2 < 0)) {
                 var t = sqrt(t2), q = cartesianScale(n1xn2, (-w - t) / uu);
                 if (cartesianAddInPlace(q, A), q = spherical(q), !two) return q;
                 var z, lambda0 = a[0], lambda1 = b[0], phi0 = a[1], phi1 = b[1];
                 lambda1 < lambda0 && (z = lambda0, lambda0 = lambda1, lambda1 = z);
-                var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3), meridian = polar || delta < 1e-6;
-                if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), meridian ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
+                var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3);
+                if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), polar || delta < 1e-6 ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
                     var q1 = cartesianScale(n1xn2, (-w + t) / uu);
                     return cartesianAddInPlace(q1, A), [
                         q,

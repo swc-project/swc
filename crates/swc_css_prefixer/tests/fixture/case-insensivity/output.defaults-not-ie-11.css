@@ -1,9 +1,7 @@
 a {
-  -webkit-appearance: NONE;
   appearance: NONE;
 }
 b {
-  -webkit-appearance: AUTO;
   appearance: AUTO;
 }
 c {

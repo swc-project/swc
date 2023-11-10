@@ -43,12 +43,17 @@ mod used_name;
 /// # Impl note
 ///
 /// We use custom helper to handle export default class
-pub fn class_properties<C: Comments>(cm: Option<C>, config: Config) -> impl Fold + VisitMut {
+pub fn class_properties<C: Comments>(
+    cm: Option<C>,
+    config: Config,
+    unresolved_mark: Mark,
+) -> impl Fold + VisitMut {
     as_folder(ClassProperties {
         c: config,
         cm,
         private: PrivateRecord::new(),
         extra: ClassExtra::default(),
+        unresolved_mark,
     })
 }
 
@@ -58,6 +63,7 @@ pub struct Config {
     pub set_public_fields: bool,
     pub constant_super: bool,
     pub no_document_all: bool,
+    pub pure_getter: bool,
     pub static_blocks_mark: Mark,
 }
 
@@ -68,6 +74,7 @@ impl Default for Config {
             set_public_fields: false,
             constant_super: false,
             no_document_all: false,
+            pure_getter: false,
             static_blocks_mark: Mark::new(),
         }
     }
@@ -78,6 +85,7 @@ struct ClassProperties<C: Comments> {
     c: Config,
     cm: Option<C>,
     private: PrivateRecord,
+    unresolved_mark: Mark,
 }
 
 #[derive(Default)]
@@ -551,7 +559,12 @@ impl<C: Comments> ClassProperties<C> {
                             span: c_span,
                             mut expr,
                         }) if should_create_vars_for_method_names && !is_literal(&*expr) => {
-                            vars.extend(visit_private_in_expr(&mut expr, &self.private, self.c));
+                            vars.extend(visit_private_in_expr(
+                                &mut expr,
+                                &self.private,
+                                self.c,
+                                self.unresolved_mark,
+                            ));
 
                             expr.visit_mut_with(&mut ClassNameTdzFolder {
                                 class_name: &class_ident,
@@ -598,6 +611,7 @@ impl<C: Comments> ClassProperties<C> {
                                 &mut key.expr,
                                 &self.private,
                                 self.c,
+                                self.unresolved_mark,
                             ));
                             let (ident, aliased) = if let Expr::Ident(i) = &*key.expr {
                                 if used_key_names.contains(&i.sym) {
@@ -626,7 +640,12 @@ impl<C: Comments> ClassProperties<C> {
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
-                    vars.extend(visit_private_in_expr(&mut value, &self.private, self.c));
+                    vars.extend(visit_private_in_expr(
+                        &mut value,
+                        &self.private,
+                        self.c,
+                        self.unresolved_mark,
+                    ));
 
                     if prop.is_static {
                         if let (Some(super_class), None) = (&mut class.super_class, &super_ident) {
@@ -706,7 +725,12 @@ impl<C: Comments> ClassProperties<C> {
                                 in_pat: false,
                             });
                         }
-                        vars.extend(visit_private_in_expr(&mut *value, &self.private, self.c));
+                        vars.extend(visit_private_in_expr(
+                            &mut *value,
+                            &self.private,
+                            self.c,
+                            self.unresolved_mark,
+                        ));
                     }
 
                     prop.value.visit_with(&mut UsedNameCollector {
@@ -945,6 +969,7 @@ impl<C: Comments> ClassProperties<C> {
             vars: vec![],
             private_access_type: Default::default(),
             c: self.c,
+            unresolved_mark: self.unresolved_mark,
         });
 
         let mut extra_stmts = extra_inits.into_init_static(class_ident.clone());
@@ -956,6 +981,7 @@ impl<C: Comments> ClassProperties<C> {
             vars: vec![],
             private_access_type: Default::default(),
             c: self.c,
+            unresolved_mark: self.unresolved_mark,
         });
 
         self.private.pop();

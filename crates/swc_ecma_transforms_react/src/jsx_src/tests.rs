@@ -41,7 +41,6 @@ test!(
     }),
     |_| tr(),
     no_jsx,
-    r#"var x = 42;"#,
     r#"var x = 42;"#
 );
 

@@ -2890,6 +2890,10 @@ impl VisitMut for Optimizer<'_> {
             if init.is_invalid() {
                 var.init = None
             }
+
+            if id.is_dummy() {
+                var.name = Pat::dummy();
+            }
         };
 
         self.store_var_for_prop_hoisting(var);
@@ -2902,8 +2906,6 @@ impl VisitMut for Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
         vars.retain_mut(|var| {
-            let had_init = var.init.is_some();
-
             if var.name.is_invalid() {
                 self.changed = true;
                 return false;
@@ -2913,12 +2915,6 @@ impl VisitMut for Optimizer<'_> {
 
             if var.name.is_invalid() {
                 // It will be inlined.
-                self.changed = true;
-                return false;
-            }
-
-            // It will be inlined.
-            if had_init && var.init.is_none() {
                 self.changed = true;
                 return false;
             }

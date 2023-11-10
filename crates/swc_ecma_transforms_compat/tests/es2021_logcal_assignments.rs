@@ -18,10 +18,6 @@ test!(
     "
     a ||= b
     a &&= b
-    ",
-    "
-    a || (a = b);
-    a && (a = b);
     "
 );
 
@@ -32,12 +28,7 @@ test!(
     r#"
     a.b ||= b
     a.b &&= b
-    "#,
-    "
-    var _a, _a1;
-    (_a = a).b || (_a.b = b);
-    (_a1 = a).b && (_a1.b = b);
-    "
+    "#
 );
 
 test!(
@@ -50,34 +41,12 @@ test!(
             return super.f ||= b
         }
     }
-    ",
-    "
-    class Foo {
-        method() {
-          return super.f || (super.f = b);
-        }
-    }
     "
 );
 
-test!(
-    syntax(),
-    |_| tr(),
-    nullish_ident,
-    "a ??= b",
-    "a ?? (a = b);"
-);
+test!(syntax(), |_| tr(), nullish_ident, "a ??= b");
 
-test!(
-    syntax(),
-    |_| tr(),
-    nullish_member,
-    "a.b ??= b",
-    "
-    var _a;
-    (_a = a).b ?? (_a.b = b);
-    "
-);
+test!(syntax(), |_| tr(), nullish_member, "a.b ??= b");
 
 test!(
     syntax(),
@@ -86,14 +55,7 @@ test!(
     "function myFunc(options) {
       options.context ||= {}
       const closure = function() {}
-    }",
-    "
-    function myFunc(options) {
-      var _options;
-      (_options = options).context || (_options.context = {});
-      const closure = function() {};
-    }
-    "
+    }"
 );
 
 test_exec!(

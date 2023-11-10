@@ -737,8 +737,7 @@ impl Optimizer<'_> {
         self.changed = true;
         report_change!("if_return: Injecting else because it's shorter");
 
-        let mut new = vec![];
-        new.reserve(pos_of_if + 1);
+        let mut new = Vec::with_capacity(pos_of_if + 1);
         new.extend(stmts.drain(..pos_of_if));
         let alt = stmts.drain(1..).collect::<Vec<_>>();
 

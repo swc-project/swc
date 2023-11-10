@@ -62,15 +62,13 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| sticky_regex(),
         babel_basic,
-        "var re = /o\"'+/y;",
-        "var re = new RegExp(\"o\\\"'+\", \"y\");"
+        "var re = /o\"'+/y;"
     );
 
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| sticky_regex(),
         babel_ignore_non_sticky,
-        "var re = /o+/;",
         "var re = /o+/;"
     );
 }

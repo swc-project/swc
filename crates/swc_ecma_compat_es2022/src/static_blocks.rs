@@ -9,8 +9,10 @@ struct ClassStaticBlock {
     mark: Mark,
 }
 
-pub fn static_blocks(mark: Mark) -> impl Fold + VisitMut {
-    as_folder(ClassStaticBlock { mark })
+pub fn static_blocks(static_block_mark: Mark) -> impl Fold + VisitMut {
+    as_folder(ClassStaticBlock {
+        mark: static_block_mark,
+    })
 }
 
 #[swc_trace]

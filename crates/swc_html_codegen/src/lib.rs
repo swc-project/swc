@@ -222,12 +222,12 @@ where
                 // Tag omission in text/html:
                 // An html element's start tag can be omitted if the first thing inside the html
                 // element is not a comment.
-                "html" if !matches!(n.children.get(0), Some(Child::Comment(..))) => true,
+                "html" if !matches!(n.children.first(), Some(Child::Comment(..))) => true,
                 // A head element's start tag can be omitted if the element is empty, or if the
                 // first thing inside the head element is an element.
                 "head"
                     if n.children.is_empty()
-                        || matches!(n.children.get(0), Some(Child::Element(..))) =>
+                        || matches!(n.children.first(), Some(Child::Element(..))) =>
                 {
                     true
                 }
@@ -237,7 +237,7 @@ where
                 // template element.
                 "body"
                     if n.children.is_empty()
-                        || (match n.children.get(0) {
+                        || (match n.children.first() {
                             Some(Child::Text(text))
                                 if text.data.len() > 0
                                     && text.data.chars().next().unwrap().is_ascii_whitespace() =>
@@ -275,7 +275,7 @@ where
                 // by another colgroup element whose end tag has been omitted. (It can't be omitted
                 // if the element is empty.)
                 "colgroup"
-                    if match n.children.get(0) {
+                    if match n.children.first() {
                         Some(Child::Element(element))
                             if element.namespace == Namespace::HTML
                                 && element.tag_name == "col" =>
@@ -293,7 +293,7 @@ where
                 // tbody, thead, or tfoot element whose end tag has been omitted. (It can't be
                 // omitted if the element is empty.)
                 "tbody"
-                    if match n.children.get(0) {
+                    if match n.children.first() {
                         Some(Child::Element(element))
                             if element.namespace == Namespace::HTML && element.tag_name == "tr" =>
                         {

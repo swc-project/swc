@@ -509,13 +509,7 @@ mod tests {
             a(){
                 let c = super.x;
             }
-        }",
-        r#"var _obj;
-        let obj = _obj = {
-            a: function a() {
-                let c = _get(_get_prototype_of(_obj), "x", this);
-            }
-        };"#
+        }"
     );
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -532,13 +526,7 @@ mod tests {
             a(){
                 super.y(1,2,3);
             }
-        }",
-        r#"var _obj;
-        let obj = _obj = {
-            a: function a() {
-                _get(_get_prototype_of(_obj), "y", this).call(this,1,2,3);
-            }
-        };"#
+        }"
     );
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -555,14 +543,7 @@ mod tests {
             a(){
                 super.x = 1;
             }
-        }",
-        r#"
-        var _obj;
-        let obj = _obj = {
-            a: function a() {
-                _set(_get_prototype_of(_obj), "x", 1, this, true);
-            }
-        };"#
+        }"
     );
     test!(
         ::swc_ecma_parser::Syntax::default(),
@@ -584,19 +565,7 @@ mod tests {
                     }
                 }
             },
-        }",
-        r#"var _obj;
-        let obj = _obj = {
-        b: function b() {
-            var _obj1;
-            _get(_get_prototype_of(_obj), "bar", this).call(this);
-            let o = _obj1 = {
-                d: function d() {
-                    _get(_get_prototype_of(_obj1), "d", this).call(this);
-                }
-            };
-        }
-    };"#
+        }"
     );
     test!(
         Syntax::Es(EsConfig {
@@ -620,15 +589,6 @@ mod tests {
                     }
                 }
             },
-        }",
-        r#"let outer = {
-            b: function b() {
-                let inner = {
-                    d: function d() {
-                        super.d();
-                    }
-                };
-            }
-        };"#
+        }"
     );
 }

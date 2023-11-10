@@ -62,7 +62,10 @@ impl<'a> Lexer<'a> {
             if self.eat(b'n') {
                 raw.push('n');
 
-                return Ok(Either::Right((Box::new(s.into_value()), (&*raw).into())));
+                return Ok(Either::Right((
+                    Box::new(s.into_value()),
+                    self.atoms.atom(&*raw),
+                )));
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
@@ -83,7 +86,7 @@ impl<'a> Lexer<'a> {
                         // `-1` is utf 8 length of `0`
                         return self
                             .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left((value, (&*raw).into())));
+                            .map(|value| Either::Left((value, self.atoms.atom(&*raw))));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -112,7 +115,7 @@ impl<'a> Lexer<'a> {
 
                             return self
                                 .make_legacy_octal(start, val)
-                                .map(|value| Either::Left((value, (&*raw).into())));
+                                .map(|value| Either::Left((value, self.atoms.atom(&*raw))));
                         }
                     }
                 }
@@ -224,7 +227,7 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((val, (&*raw_str).into())))
+        Ok(Either::Left((val, self.atoms.atom(&*raw_str))))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
@@ -263,12 +266,15 @@ impl<'a> Lexer<'a> {
             if l.eat(b'n') {
                 buf.push('n');
 
-                return Ok(Either::Right((Box::new(s.into_value()), (&**buf).into())));
+                return Ok(Either::Right((
+                    Box::new(s.into_value()),
+                    l.atoms.atom(&**buf),
+                )));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, (&**buf).into())))
+            Ok(Either::Left((val, l.atoms.atom(&**buf))))
         })
     }
 

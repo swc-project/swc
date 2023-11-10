@@ -46,7 +46,7 @@ fn run_test_with_config<F, V>(
     tr: F,
     src: &str,
     to: &str,
-    config: crate::hygiene::Config,
+    config: impl FnOnce() -> crate::hygiene::Config,
 ) where
     F: FnOnce() -> V,
     V: Fold,
@@ -132,7 +132,7 @@ fn issue_1279_1() {
             static g = Foo.f;
         };
         ",
-        Config {
+        || Config {
             keep_class_names: true,
             ..Default::default()
         },
@@ -166,7 +166,7 @@ fn issue_1279_2() {
             }
         };
         ",
-        Config {
+        || Config {
             keep_class_names: true,
             ..Default::default()
         },
@@ -186,7 +186,7 @@ fn issue_2516() {
             static A = class {}
           };
         ",
-        Config {
+        || Config {
             keep_class_names: true,
             ..Default::default()
         },

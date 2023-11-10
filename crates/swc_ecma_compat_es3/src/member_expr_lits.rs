@@ -76,10 +76,6 @@ mod tests {
 
 obj.const = "isKeyword";
 obj["var"] = "isKeyword";"#,
-        r#"obj["foo"] = "isValid";
-
-obj["const"] = "isKeyword";
-obj["var"] = "isKeyword";"#,
         ok_if_code_eq
     );
 
@@ -87,7 +83,6 @@ obj["var"] = "isKeyword";"#,
         ::swc_ecma_parser::Syntax::default(),
         |_| MemberExprLit,
         issue_206,
-        "const number = foo[bar1][baz1]",
         "const number = foo[bar1][baz1]"
     );
 
@@ -95,7 +90,6 @@ obj["var"] = "isKeyword";"#,
         ::swc_ecma_parser::Syntax::default(),
         |_| MemberExprLit,
         issue_211,
-        "_query[idx]=$this.attr('data-ref');",
         "_query[idx]=$this.attr('data-ref');"
     );
 }

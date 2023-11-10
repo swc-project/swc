@@ -1,16 +1,16 @@
-function e() {
+function XMLHttpRequest() {
     this.onreadystatechange = "PASS";
 }
 global.xhrDesc = {};
-function n() {
-    return t();
+function e() {
+    return n();
 }
-function t() {
+function n() {
     if (xhrDesc) {
-        var n = new e();
-        var t = n.onreadystatechange;
-        Object.defineProperty(e.prototype, "onreadystatechange", xhrDesc || {});
-        return t;
+        var e = new XMLHttpRequest();
+        var n = e.onreadystatechange;
+        Object.defineProperty(XMLHttpRequest.prototype, "onreadystatechange", xhrDesc || {});
+        return n;
     }
 }
-console.log(n());
+console.log(e());

@@ -98,7 +98,7 @@ impl Compiler {
                 return;
             }
 
-            let h = match self.get_hue(function.value.get(0)) {
+            let h = match self.get_hue(function.value.first()) {
                 Some(value) => value,
                 _ => return,
             };

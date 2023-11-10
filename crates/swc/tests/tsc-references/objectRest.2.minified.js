@@ -77,12 +77,11 @@ var { removed } = removable;
 _object_without_properties(removable, [
     "removed"
 ]);
-let computed = 'b', computed2 = 'a';
-var { [computed]: stillNotGreat, [computed2]: soSo } = o, o = _object_without_properties(o, [
-    computed,
-    computed2
+var { b: stillNotGreat, a: soSo } = o, o = _object_without_properties(o, [
+    'b',
+    'a'
 ].map(_to_property_key));
 o = _object_without_properties(_o = o, [
-    computed,
-    computed2
-].map(_to_property_key)), { [computed]: stillNotGreat, [computed2]: soSo } = _o;
+    'b',
+    'a'
+].map(_to_property_key)), { b: stillNotGreat, a: soSo } = _o;

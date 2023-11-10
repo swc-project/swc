@@ -38,7 +38,7 @@ fn build_plugin(dir: &Path) -> Result<PathBuf, Error> {
         }
     }
 
-    for entry in fs::read_dir(&CARGO_TARGET_DIR.join("wasm32-wasi").join("release"))? {
+    for entry in fs::read_dir(CARGO_TARGET_DIR.join("wasm32-wasi").join("release"))? {
         let entry = entry?;
 
         let s = entry.file_name().to_string_lossy().into_owned();

@@ -1,5 +1,4 @@
 use either::Either;
-use swc_atoms::Atom;
 
 use super::*;
 use crate::token::Token;
@@ -38,7 +37,7 @@ impl<'a> Lexer<'a> {
                                 // Safety: cur() was Some('<')
                                 self.input.bump();
                             }
-                            return Ok(Token::JSXTagStart).map(Some);
+                            return Ok(Some(Token::JSXTagStart));
                         }
                         return self.read_token();
                     }
@@ -47,10 +46,9 @@ impl<'a> Lexer<'a> {
                         self.input.slice(chunk_start, cur_pos)
                     });
 
-                    return Ok(Token::JSXText {
-                        raw: Atom::new(out),
-                    })
-                    .map(Some);
+                    return Ok(Some(Token::JSXText {
+                        raw: self.atoms.atom(out),
+                    }));
                 }
                 '>' => {
                     self.emit_error(
@@ -325,8 +323,8 @@ impl<'a> Lexer<'a> {
         raw.push(quote);
 
         Ok(Token::Str {
-            value: out.into(),
-            raw: Atom::new(raw),
+            value: self.atoms.atom(out),
+            raw: self.atoms.atom(raw),
         })
     }
 
@@ -351,7 +349,9 @@ impl<'a> Lexer<'a> {
             }
         });
 
-        Ok(Token::JSXName { name: slice.into() })
+        Ok(Token::JSXName {
+            name: self.atoms.atom(slice),
+        })
     }
 }
 

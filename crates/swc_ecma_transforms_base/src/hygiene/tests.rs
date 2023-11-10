@@ -73,11 +73,11 @@ where
             })
         },
         expected,
-        Default::default(),
+        Default::default,
     )
 }
 
-fn test_module<F>(op: F, expected: &str, config: Config)
+fn test_module<F>(op: F, expected: &str, config: impl FnOnce() -> Config)
 where
     F: FnOnce(&mut crate::tests::Tester<'_>) -> Result<Module, ()>,
 {
@@ -87,7 +87,7 @@ where
         let hygiene_src = tester.print(&module.clone().fold_with(&mut HygieneVisualizer));
         println!("----- Hygiene -----\n{}", hygiene_src);
 
-        let module = module.fold_with(&mut hygiene_with_config(config));
+        let module = module.fold_with(&mut hygiene_with_config(config()));
 
         let actual = tester.print(&module);
 
@@ -998,7 +998,7 @@ fn module_01() {
         },
         "import foo from 'src1';
         import foo1 from 'src2';",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1019,7 +1019,7 @@ fn module_02() {
         },
         "import {foo} from 'src1';
         import {foo as foo1} from 'src2';",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1042,7 +1042,7 @@ fn module_03() {
         "var foo = 1;
         var foo1 = 2;
         export {foo1 as foo}",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1064,7 +1064,7 @@ fn issue_281_01() {
         "label: {
             break label
         }",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1103,7 +1103,7 @@ fn issue_281_02() {
                 }
             }
         }",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1135,7 +1135,7 @@ fn issue_295_01() {
             }
         }
         ",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1169,7 +1169,7 @@ fn issue_295_02() {
             }
         }
         ",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1191,7 +1191,7 @@ fn exported_function() {
         "const foo = {};
         function foo1(){}
       export { foo1 as foo };",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1213,7 +1213,7 @@ fn exported_class_1() {
         "var Foo = {};
         class Foo1 {}
         export { Foo1 as Foo };",
-        Default::default(),
+        Default::default,
     );
 }
 
@@ -1245,7 +1245,7 @@ fn issue_1279() {
             }
         };
         ",
-        Config {
+        || Config {
             keep_class_names: true,
             ..Default::default()
         },
@@ -1286,7 +1286,7 @@ fn issue_1507() {
             }
         };
         ",
-        Config {
+        || Config {
             keep_class_names: true,
             ..Default::default()
         },

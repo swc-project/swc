@@ -570,27 +570,18 @@ where
 
         let target = self.cfg.target;
 
-        if self.cfg.minify {
-            let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
-
-            self.wr.write_str_lit(DUMMY_SP, &value)?;
-        } else {
-            match &node.raw {
-                // TODO `es5_unicode` in `swc_ecma_transforms_compat` and avoid changing AST in
-                // codegen
-                Some(raw_value)
-                    if target > EsVersion::Es5
-                        && (!self.cfg.ascii_only || raw_value.is_ascii()) =>
-                {
-                    self.wr.write_str_lit(DUMMY_SP, raw_value)?;
-                }
-                _ => {
-                    let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
-
-                    self.wr.write_str_lit(DUMMY_SP, &value)?;
+        if target > EsVersion::Es5 && !self.cfg.minify {
+            if let Some(raw) = &node.raw {
+                if !self.cfg.ascii_only || raw.is_ascii() {
+                    self.wr.write_str_lit(DUMMY_SP, raw)?;
+                    return Ok(());
                 }
             }
         }
+
+        let value = get_quoted_utf16(&node.value, self.cfg.ascii_only, target);
+
+        self.wr.write_str_lit(DUMMY_SP, &value)?;
 
         // srcmap!(node, false);
     }
@@ -2179,10 +2170,17 @@ where
         // TODO: span
 
         if self.cfg.ascii_only {
-            self.wr.write_symbol(
-                DUMMY_SP,
-                &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
-            )?;
+            if self.wr.can_ignore_invalid_unicodes() {
+                self.wr
+                    .write_symbol(DUMMY_SP, &get_ascii_only_ident(&ident.sym, self.cfg.target))?;
+            } else {
+                self.wr.write_symbol(
+                    DUMMY_SP,
+                    &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
+                )?;
+            }
+        } else if self.wr.can_ignore_invalid_unicodes() {
+            self.wr.write_symbol(DUMMY_SP, &ident.sym)?;
         } else {
             self.wr
                 .write_symbol(DUMMY_SP, &handle_invalid_unicodes(&ident.sym))?;
@@ -3945,7 +3943,11 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                 buf.push(c);
             }
             '\u{7f}'..='\u{ff}' => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+                if ascii_only || target <= EsVersion::Es5 {
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    buf.push(c);
+                }
             }
             '\u{2028}' => {
                 buf.push_str("\\u2028");

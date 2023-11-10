@@ -44,7 +44,7 @@ fn test_same(src: &str) {
 }
 
 macro_rules! to {
-    ($name:ident, $src:expr, $expected:expr) => {
+    ($name:ident, $src:expr) => {
         test!(
             Default::default(),
             |_| {
@@ -62,15 +62,14 @@ macro_rules! to {
                 )
             },
             $name,
-            $src,
-            $expected
+            $src
         );
     };
 }
 
 macro_rules! optimized_out {
     ($name:ident, $src:expr) => {
-        to!($name, $src, "");
+        to!($name, $src);
     };
 }
 
@@ -82,10 +81,6 @@ to!(
     if (a) {
         const b = 2;
     }
-    ",
-    "
-    const a = 1;
-    a
     "
 );
 
@@ -106,8 +101,7 @@ if (a) { // Removed by second run of remove_dead_branch
     c = 3; // It becomes `flat assignment` to c on third run of inlining.
 }
 console.log(c); // Prevent optimizing out.
-",
-    "console.log(3)"
+"
 );
 
 #[test]
@@ -512,7 +506,8 @@ test!(
                 class_properties::Config {
                     set_public_fields: true,
                     ..Default::default()
-                }
+                },
+                unresolved_mark
             ),
             dce(Default::default(), unresolved_mark),
             inlining(Default::default())
@@ -546,30 +541,6 @@ test!(
     }
 
     new A();
-    ",
-    "
-    function d() {
-        let methods;
-        const promise = new Promise((resolve, reject)=>{
-            methods = {
-                resolve,
-                reject
-            };
-        });
-        return Object.assign(promise, methods);
-    }
-    class A {
-        a() {
-            this.s.resolve();
-        }
-        b() {
-            this.s = d();
-        }
-        constructor(){
-            this.s = d();
-        }
-    }
-    new A();
     "
 );
 
@@ -583,7 +554,11 @@ test!(
             decorators(Default::default()),
             resolver(unresolved_mark, top_level_mark, false),
             strip(top_level_mark),
-            class_properties(Some(t.comments.clone()), Default::default()),
+            class_properties(
+                Some(t.comments.clone()),
+                Default::default(),
+                unresolved_mark
+            ),
             Repeat::new(chain!(
                 expr_simplifier(unresolved_mark, Default::default()),
                 inlining::inlining(Default::default()),
@@ -617,19 +592,6 @@ test!(
     "
 import Foo from 'foo';
 Foo.bar = true;
-",
-    "
-\"use strict\";
-Object.defineProperty(exports, \"__esModule\", {
-    value: true
-});
-var _foo = _interop_require_default(require(\"foo\"));
-function _interop_require_default(obj) {
-    return obj && obj.__esModule ? obj : {
-        default: obj
-    };
-}
-_foo.default.bar = true;
 "
 );
 
@@ -646,12 +608,7 @@ test!(
 
     console.log("\x00" + "\x31");
 
-    "#,
-    r#"
-    "use strict";
-    console.log("\x001");
-    "#,
-    ok_if_code_eq
+    "#
 );
 
 test!(
@@ -662,16 +619,6 @@ test!(
         dead_branch_remover(top_level_mark)
     },
     issue_2466_1,
-    "
-    const X = {
-        run() {
-            console.log(this === globalThis);
-        },
-    };
-
-    X.run();
-    (0, X.run)();
-    ",
     "
     const X = {
         run() {
@@ -696,12 +643,6 @@ test!(
     function oe() {
         var e, t;
         return t !== i && (e, t = t), e = t;
-    }
-    ",
-    "
-    function oe() {
-        var e, t;
-        return t !== i && (e, t), e = t;
     }
     "
 );
@@ -729,12 +670,6 @@ function emit(type) {
             e[i].apply(this);
         }
     }
-}
-",
-    "
-function emit(type) {
-    const e = events[type];
-    if (Array.isArray(e)) for(let i = 0; i < e.length; i += 1)e[i].apply(this);
 }
 "
 );

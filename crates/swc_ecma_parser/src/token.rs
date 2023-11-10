@@ -7,7 +7,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{atom, Atom, JsWord};
+use swc_atoms::{atom, Atom, AtomStore, JsWord};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 
@@ -58,18 +58,14 @@ macro_rules! define_known_ident {
             )*
         }
 
-        impl std::str::FromStr for KnownIdent {
-            type Err = ();
+        static STR_TO_KNOWN_IDENT: phf::Map<&'static str, KnownIdent> = phf::phf_map! {
+            $(
+                $value => KnownIdent::$name,
+            )*
+        };
 
-            fn from_str(s: &str) -> Result<Self, Self::Err> {
-                match s {
-                    $(
-                        $value => Ok(Self::$name),
-                    )*
-                    _ => Err(()),
-                }
-            }
-        }
+
+
 
         impl From<KnownIdent> for Atom {
 
@@ -139,6 +135,14 @@ define_known_ident!(
     Private => "private",
     Public => "public",
 );
+
+impl std::str::FromStr for KnownIdent {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        STR_TO_KNOWN_IDENT.get(s).cloned().ok_or(())
+    }
+}
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash)]
 pub enum WordKind {
@@ -500,38 +504,25 @@ pub enum IdentLike {
     Other(JsWord),
 }
 
+impl From<&'_ str> for IdentLike {
+    fn from(s: &str) -> Self {
+        s.parse::<KnownIdent>()
+            .map(Self::Known)
+            .unwrap_or_else(|_| Self::Other(s.into()))
+    }
+}
+
+impl IdentLike {
+    pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> IdentLike {
+        s.parse::<KnownIdent>()
+            .map(Self::Known)
+            .unwrap_or_else(|_| Self::Other(atoms.atom(s)))
+    }
+}
+
 impl Word {
-    pub(crate) fn kind(&self) -> WordKind {
-        match self {
-            Word::Keyword(k) => WordKind::Keyword(*k),
-            Word::Null => WordKind::Null,
-            Word::True => WordKind::True,
-            Word::False => WordKind::False,
-            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(*i)),
-            Word::Ident(IdentLike::Other(..)) => WordKind::Ident(IdentKind::Other),
-        }
-    }
-}
-
-impl WordKind {
-    pub(crate) const fn before_expr(self) -> bool {
-        match self {
-            Self::Keyword(k) => k.before_expr(),
-            _ => false,
-        }
-    }
-
-    pub(crate) const fn starts_expr(self) -> bool {
-        match self {
-            Self::Keyword(k) => k.starts_expr(),
-            _ => true,
-        }
-    }
-}
-
-impl From<&'_ str> for Word {
-    fn from(i: &str) -> Self {
-        match i {
+    pub fn from_str(atoms: &mut AtomStore, s: &str) -> Self {
+        match s {
             "null" => Word::Null,
             "true" => Word::True,
             "false" => Word::False,
@@ -570,16 +561,35 @@ impl From<&'_ str> for Word {
             "typeof" => TypeOf.into(),
             "void" => Void.into(),
             "delete" => Delete.into(),
-            _ => Word::Ident(i.into()),
+            _ => Word::Ident(IdentLike::from_str(atoms, s)),
+        }
+    }
+
+    pub(crate) fn kind(&self) -> WordKind {
+        match self {
+            Word::Keyword(k) => WordKind::Keyword(*k),
+            Word::Null => WordKind::Null,
+            Word::True => WordKind::True,
+            Word::False => WordKind::False,
+            Word::Ident(IdentLike::Known(i)) => WordKind::Ident(IdentKind::Known(*i)),
+            Word::Ident(IdentLike::Other(..)) => WordKind::Ident(IdentKind::Other),
         }
     }
 }
 
-impl From<&'_ str> for IdentLike {
-    fn from(s: &str) -> Self {
-        s.parse::<KnownIdent>()
-            .map(Self::Known)
-            .unwrap_or_else(|_| Self::Other(s.into()))
+impl WordKind {
+    pub(crate) const fn before_expr(self) -> bool {
+        match self {
+            Self::Keyword(k) => k.before_expr(),
+            _ => false,
+        }
+    }
+
+    pub(crate) const fn starts_expr(self) -> bool {
+        match self {
+            Self::Keyword(k) => k.starts_expr(),
+            _ => true,
+        }
     }
 }
 

@@ -155,8 +155,7 @@ mod tests {
         ::swc_ecma_parser::Syntax::default(),
         |_| exponentiation(),
         babel_binary,
-        "2 ** 2",
-        "Math.pow(2, 2)"
+        "2 ** 2"
     );
 
     test_exec!(
@@ -210,7 +209,6 @@ expect(counters).toBe(1);"#
         |_| exponentiation(),
         assign,
         r#"x **= 3"#,
-        r#"x = Math.pow(x, 3)"#,
         ok_if_code_eq
     );
 
@@ -230,7 +228,6 @@ expect(counters).toBe(1);"#
         |_| exponentiation(),
         issue_740,
         "self.a = 10 ** 2",
-        "self.a = Math.pow(10, 2)",
         ok_if_code_eq
     );
 
@@ -240,8 +237,7 @@ expect(counters).toBe(1);"#
         ::swc_ecma_parser::Syntax::default(),
         |_| exponentiation(),
         babel_binary_member_assignment_expression,
-        "var x = {}; x.a = 2 ** 2",
-        "var x = {}; x.a = Math.pow(2, 2)"
+        "var x = {}; x.a = 2 ** 2"
     );
 
     test!(
@@ -249,7 +245,6 @@ expect(counters).toBe(1);"#
         |_| exponentiation(),
         assign_to_object_property,
         r#"var self = {}; self.x **= 3"#,
-        r#"var self = {}; var ref = self.x; self.x = Math.pow(ref, 3);"#,
         ok_if_code_eq
     );
 }

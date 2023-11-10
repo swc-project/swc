@@ -351,12 +351,12 @@ impl Compressor {
                 value,
                 span,
                 ..
-            })) => match &*value.to_ascii_lowercase() {
-                "transparent" => {
+            })) => match value.to_ascii_lowercase() {
+                ref s if *s == "transparent" => {
                     *color = make_color!(*span, 0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
                 }
                 name => {
-                    if let Some(value) = NAMED_COLORS.get(name) {
+                    if let Some(value) = NAMED_COLORS.get(&name) {
                         *color = make_color!(
                             *span,
                             value.rgb[0] as f64,
@@ -401,7 +401,7 @@ impl Compressor {
                     })
                     .collect();
 
-                let r = match self.get_number_or_percentage(rgba.get(0)) {
+                let r = match self.get_number_or_percentage(rgba.first()) {
                     Some(value) => value,
                     _ => return,
                 };
@@ -439,7 +439,7 @@ impl Compressor {
                     })
                     .collect();
 
-                let h = match self.get_hue(hsla.get(0)) {
+                let h = match self.get_hue(hsla.first()) {
                     Some(value) => value,
                     _ => return,
                 };
@@ -466,7 +466,7 @@ impl Compressor {
                 value,
                 ..
             })) if name == "hwb" => {
-                let h = match self.get_hue(value.get(0).as_ref()) {
+                let h = match self.get_hue(value.first().as_ref()) {
                     Some(value) => value,
                     _ => return,
                 };

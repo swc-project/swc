@@ -212,7 +212,7 @@ impl<'a> Visit for DependencyCollector<'a> {
             },
         };
 
-        if let Some(arg) = node.args.get(0) {
+        if let Some(arg) = node.args.first() {
             if let Expr::Lit(ast::Lit::Str(str_)) = &*arg.expr {
                 // import() are always dynamic, even if at top level
                 let is_dynamic = !self.is_top_level || kind == DependencyKind::Import;
