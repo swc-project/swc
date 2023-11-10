@@ -851,7 +851,8 @@ jobs:
       - cargo-test
       - node-test
       - integration-test
-    if: always()
+    if: >-
+      ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     name: Done
     steps:
