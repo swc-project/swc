@@ -4,10 +4,10 @@ import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 var _class;
 var foo = _class = function() {
     "use strict";
-    function _$class() {
-        _class_call_check(this, _$class);
+    function _class() {
+        _class_call_check(this, _class);
     }
-    _create_class(_$class, [
+    _create_class(_class, [
         {
             key: "foo",
             value: function foo(v) {
@@ -15,7 +15,7 @@ var foo = _class = function() {
             }
         }
     ]);
-    return _$class;
+    return _class;
 }();
 _ts_decorate([
     foo

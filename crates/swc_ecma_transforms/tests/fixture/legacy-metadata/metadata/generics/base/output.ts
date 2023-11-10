@@ -1,7 +1,7 @@
-let MyClass = class MyClass {
+class MyClass {
     constructor(private generic: Generic<A>, generic2: Generic<A, B>){}
     method(generic: Inter<A>, generic2: InterGen<A, B>) {}
-};
+}
 _ts_decorate([
     Run,
     _ts_param(1, Arg()),

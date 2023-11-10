@@ -1,7 +1,6 @@
-var A;
-A = class A {
+export default class A {
     foo() {}
-};
+}
 _ts_decorate([
     dec
 ], A.prototype, "foo", null);
@@ -11,4 +10,3 @@ class B {
 _ts_decorate([
     dec
 ], B.prototype, "foo", null);
-export { A as default };

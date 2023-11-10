@@ -1,8 +1,6 @@
-var X;
-X = class X {
+export default class X {
     prop: string = "";
-};
+}
 _ts_decorate([
     networked
 ], X.prototype, "prop", void 0);
-export { X as default };
