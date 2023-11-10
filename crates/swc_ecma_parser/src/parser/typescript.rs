@@ -2581,7 +2581,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             "type" => {
-                if next || is!(self, IdentRef) {
+                if next || (!self.input.had_line_break_before_cur() && is!(self, IdentRef)) {
                     if next {
                         bump!(self);
                     }
