@@ -14,7 +14,7 @@ const _ts_param = require("@swc/helpers/_/_ts_param");
 const _common = require("@nestjs/common");
 const _appservice = require("./app.service");
 const _CreateUserDto = require("./dtos/CreateUserDto");
-let AppController = class AppController {
+class AppController {
     async getHello() {
         const result = await this.appService.getHello();
         return result;
@@ -26,7 +26,7 @@ let AppController = class AppController {
     constructor(appService){
         this.appService = appService;
     }
-};
+}
 _ts_decorate._([
     (0, _common.Get)(),
     _ts_metadata._("design:type", Function),

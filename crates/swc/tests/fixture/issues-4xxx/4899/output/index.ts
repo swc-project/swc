@@ -12,12 +12,12 @@ define([
         Object.setPrototypeOf(_.prototype, target.prototype);
         return _;
     }
-    let Foo = class Foo1 {
+    class Foo {
         static create() {
             return new Foo();
         }
         constructor(){}
-    };
+    }
     Foo = _ts_decorate._([
         es5ClassCompat
     ], Foo);

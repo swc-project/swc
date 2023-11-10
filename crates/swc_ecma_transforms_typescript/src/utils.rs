@@ -14,13 +14,6 @@ impl AsCollapsibleDecl for Decl {
             }
             Decl::TsEnum(ts_enum) => Some(ts_enum.id.to_id()),
             Decl::TsModule(ts_module) => ts_module.id.as_ident().map(Ident::to_id),
-            Decl::Var(var) => var.decls.iter().find_map(|decl| match &decl.name {
-                // Note: this is not correct.
-                // We should not count `var` as collapsible decl since TypeScript does not do so.
-                // But decorated class was compiled to `var` by previous pass.
-                Pat::Ident(ident) => Some(ident.to_id()),
-                _ => None,
-            }),
             _ => None,
         }
     }

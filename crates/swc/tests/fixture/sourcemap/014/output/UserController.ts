@@ -10,7 +10,7 @@ import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 import { UserService } from '@server/user/UserService';
-export let UserController = class UserController {
+export class UserController {
     constructor(userService){
         this.userService = userService;
     }
@@ -23,7 +23,7 @@ export let UserController = class UserController {
         }
         return this.userService.update(userId, updateUserDto);
     }
-};
+}
 _ts_decorate([
     Post(USER_CREATE_ENDPOINT),
     _ts_param(0, Body()),

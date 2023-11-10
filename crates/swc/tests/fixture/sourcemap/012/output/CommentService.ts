@@ -6,7 +6,7 @@ import { ForbiddenException, Injectable, InternalServerErrorException, NotFoundE
 import { InjectModel, InjectConnection } from '@nestjs/mongoose';
 import { Comment } from '@server/comment/schemas/CommentSchema';
 import { Post } from '@server/post/schemas/PostSchema';
-export let CommentService = class CommentService {
+export class CommentService {
     constructor(commentModel, postModel, connection){
         this.commentModel = commentModel;
         this.postModel = postModel;
@@ -96,7 +96,7 @@ export let CommentService = class CommentService {
             session.endSession();
         }
     }
-};
+}
 CommentService = _ts_decorate([
     Injectable(),
     _ts_param(0, InjectModel(Comment.name)),
