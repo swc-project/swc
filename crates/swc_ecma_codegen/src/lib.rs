@@ -1039,7 +1039,7 @@ where
 
         let parens = !self.cfg.minify
             || match node.params.as_slice() {
-                [Pat::Ident(_)] => false,
+                [Pat::Ident(i)] => self.has_trailing_comment(i.span),
                 _ => true,
             };
 
@@ -2848,6 +2848,18 @@ where
         punct!(")");
 
         emit!(node.body);
+    }
+
+    fn has_trailing_comment(&self, span: Span) -> bool {
+        if let Some(cmt) = self.comments {
+            let hi = span.hi;
+
+            if cmt.has_trailing(hi) {
+                return true;
+            }
+        }
+
+        false
     }
 
     fn has_leading_comment(&self, arg: &Expr) -> bool {
