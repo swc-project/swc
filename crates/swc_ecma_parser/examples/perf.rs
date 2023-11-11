@@ -1,4 +1,4 @@
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{collections::hash_map::DefaultHasher, hash::Hash};
 

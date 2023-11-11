@@ -1,5 +1,5 @@
 /// Explicit extern crate to use allocator.
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{path::PathBuf, sync::Arc};
 

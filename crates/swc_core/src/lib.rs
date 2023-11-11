@@ -274,7 +274,7 @@ pub mod testing {
 
 #[cfg(feature = "allocator_node")]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 pub static SWC_CORE_VERSION: &str = include_str!(concat!(env!("OUT_DIR"), "/core_pkg_version.txt"));
 
