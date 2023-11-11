@@ -1,6 +1,6 @@
 #![cfg_attr(not(feature = "__rkyv"), allow(warnings))]
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{
     env,

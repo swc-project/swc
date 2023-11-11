@@ -1,7 +1,7 @@
 #![allow(clippy::needless_update)]
 
 /// Use memory allocator
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{
     collections::HashMap,

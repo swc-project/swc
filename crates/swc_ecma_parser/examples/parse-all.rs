@@ -1,6 +1,6 @@
 #![deny(warnings)]
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{env, path::PathBuf, time::Instant};
 

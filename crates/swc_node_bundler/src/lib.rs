@@ -4,7 +4,7 @@
 extern crate test;
 
 /// Explicit extern crate to use allocator.
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 pub mod loaders;
 #[cfg(feature = "swc_v1")]

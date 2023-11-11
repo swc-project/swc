@@ -64,4 +64,4 @@ swc_core = { version = "0.86.52", features = [
   "base_node",
   "base_concurrent",
 ] }
-swc_node_base = "0.5.9"
+swc_malloc = "0.5.9"

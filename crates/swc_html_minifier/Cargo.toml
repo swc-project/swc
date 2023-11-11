@@ -46,8 +46,8 @@ swc_html_visit = { version = "0.33.8", path = "../swc_html_visit" }
 [dev-dependencies]
 criterion = "0.5"
 
-swc_node_base = { version = "0.5.9", path = "../swc_node_base" }
-testing       = { version = "0.35.10", path = "../testing" }
+swc_malloc = { version = "0.5.9", path = "../swc_malloc" }
+testing    = { version = "0.35.10", path = "../testing" }
 
 [[bench]]
 harness = false

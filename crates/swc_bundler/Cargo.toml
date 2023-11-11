@@ -69,5 +69,5 @@ swc_ecma_minifier = { version = "0.189.41", path = "../swc_ecma_minifier", featu
 swc_ecma_transforms_proposal = { version = "0.168.38", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react = { version = "0.180.38", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_typescript = { version = "0.185.36", path = "../swc_ecma_transforms_typescript" }
-swc_node_base = { version = "0.5.9", path = "../swc_node_base" }
+swc_malloc = { version = "0.5.9", path = "../swc_malloc" }
 testing = { version = "0.35.10", path = "../testing" }

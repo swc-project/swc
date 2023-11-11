@@ -131,7 +131,7 @@ swc_ecma_lints = { version = "0.89.29", path = "../swc_ecma_lints", features = [
   "non_critical_lints",
 ] }
 swc_ecma_testing = { version = "0.22.10", path = "../swc_ecma_testing" }
-swc_node_base = { version = "0.5.9", path = "../swc_node_base" }
+swc_malloc = { version = "0.5.9", path = "../swc_malloc" }
 testing = { version = "0.35.10", path = "../testing" }
 walkdir = "2"
 

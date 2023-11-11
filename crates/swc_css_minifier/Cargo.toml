@@ -26,7 +26,7 @@ criterion = "0.5"
 
 swc_css_codegen = { version = "0.151.14", path = "../swc_css_codegen" }
 swc_css_parser  = { version = "0.150.14", path = "../swc_css_parser" }
-swc_node_base   = { version = "0.5.9", path = "../swc_node_base" }
+swc_malloc      = { version = "0.5.9", path = "../swc_malloc" }
 testing         = { version = "0.35.10", path = "../testing" }
 
 [[bench]]

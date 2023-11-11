@@ -1,6 +1,6 @@
 #![deny(warnings)]
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use ansi_term::Color;
 use anyhow::Error;
