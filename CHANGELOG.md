@@ -1673,9 +1673,6 @@
 - **(es)** Allow missing `.map` file ([#7141](https://github.com/swc-project/swc/issues/7141)) ([3e6a186](https://github.com/swc-project/swc/commit/3e6a1869e84ec01125cf115c3d5f5c5c89645e1a))
 
 
-- **(es/compat)** Handle shorthand object prop while renaming ([#7176](https://github.com/swc-project/swc/issues/7176)) ([0a80e05](https://github.com/swc-project/swc/commit/0a80e0506b0fd58d31027c348ea0c957a5cc60f7))
-
-
 - **(es/helpers)** Use snake_case for helpers ([#7147](https://github.com/swc-project/swc/issues/7147)) ([3ca954b](https://github.com/swc-project/swc/commit/3ca954b9f9622ed400308f2af35242583a4bdc3d))
 
 
