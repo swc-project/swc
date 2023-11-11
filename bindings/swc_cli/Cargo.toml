@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_cli"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.91.88"
+version     = "0.91.89"
 
 [[bin]]
 bench = false
@@ -23,5 +23,5 @@ plugin = [
 
 [dependencies]
 anyhow = "1.0.66"
-swc_cli_impl = "0.4.51"
+swc_cli_impl = "0.4.52"
 
