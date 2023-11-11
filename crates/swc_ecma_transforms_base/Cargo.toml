@@ -41,7 +41,7 @@ rayon     = "1"
 
 swc_ecma_codegen           = { version = "0.146.23", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.5.3", path = "../swc_ecma_transforms_macros" }
-swc_node_base              = { version = "0.5.9", path = "../swc_node_base" }
+swc_malloc                 = { version = "0.5.9", path = "../swc_malloc" }
 testing                    = { version = "0.35.10", path = "../testing" }
 
 [[bench]]

@@ -52,7 +52,7 @@ bundler_concurrent = ["swc_bundler/concurrent"]
 
 # configures specific memory allocator.
 # node.js binding should depend on this.
-allocator_node = ["swc_node_base"]
+allocator_node = ["swc_malloc"]
 
 ## General
 # Enable swc reexports. To avoid confusion between swc_core namespace,
@@ -357,7 +357,7 @@ swc_ecma_transforms_typescript   = { optional = true, version = "0.185.36", path
 swc_ecma_usage_analyzer          = { optional = true, version = "0.20.26", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "0.124.25", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.96.9", path = "../swc_ecma_visit" }
-swc_node_base                    = { optional = true, version = "0.5.9", path = "../swc_node_base" }
+swc_malloc                       = { optional = true, version = "0.5.9", path = "../swc_malloc" }
 swc_node_bundler                 = { optional = true, version = "0.58.51", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.8", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }

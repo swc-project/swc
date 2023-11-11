@@ -33,7 +33,7 @@ swc_html_ast = { version = "0.33.8", path = "../swc_html_ast", features = [
   "serde-impl",
 ] }
 swc_html_visit = { version = "0.33.8", path = "../swc_html_visit" }
-swc_node_base = { version = "0.5.9", path = "../swc_node_base" }
+swc_malloc = { version = "0.5.9", path = "../swc_malloc" }
 testing = { version = "0.35.10", path = "../testing" }
 
 [[bench]]

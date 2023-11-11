@@ -3764,7 +3764,7 @@ dependencies = [
  "swc_ecma_utils",
  "swc_ecma_visit",
  "swc_error_reporters",
- "swc_node_base",
+ "swc_malloc",
  "swc_node_comments",
  "swc_plugin_proxy",
  "swc_plugin_runner",
@@ -3824,7 +3824,7 @@ dependencies = [
  "swc_ecma_visit",
  "swc_fast_graph",
  "swc_graph_analyzer",
- "swc_node_base",
+ "swc_malloc",
  "tempfile",
  "testing",
  "tracing",
@@ -3983,7 +3983,7 @@ dependencies = [
  "swc_ecma_usage_analyzer",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_node_base",
+ "swc_malloc",
  "swc_node_bundler",
  "swc_nodejs_common",
  "swc_plugin",
@@ -4101,7 +4101,7 @@ dependencies = [
  "swc_css_parser",
  "swc_css_utils",
  "swc_css_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
 ]
 
@@ -4134,7 +4134,7 @@ dependencies = [
  "swc_common",
  "swc_css_ast",
  "swc_css_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
 ]
 
@@ -4219,7 +4219,7 @@ dependencies = [
  "swc_ecma_codegen_macros",
  "swc_ecma_parser",
  "swc_ecma_testing",
- "swc_node_base",
+ "swc_malloc",
  "testing",
  "tracing",
 ]
@@ -4525,7 +4525,7 @@ dependencies = [
  "swc_ecma_usage_analyzer",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_node_base",
+ "swc_malloc",
  "swc_timer",
  "testing",
  "tracing",
@@ -4552,7 +4552,7 @@ dependencies = [
  "swc_common",
  "swc_ecma_ast",
  "swc_ecma_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
  "tracing",
  "typed-arena",
@@ -4672,7 +4672,7 @@ dependencies = [
  "swc_ecma_transforms_macros",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
  "tracing",
 ]
@@ -5116,7 +5116,7 @@ dependencies = [
  "swc_html_parser",
  "swc_html_utils",
  "swc_html_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
 ]
 
@@ -5132,7 +5132,7 @@ dependencies = [
  "swc_html_ast",
  "swc_html_utils",
  "swc_html_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
 ]
 
@@ -5169,7 +5169,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_node_base"
+name = "swc_malloc"
 version = "0.5.9"
 dependencies = [
  "mimalloc-rust",
@@ -5200,7 +5200,7 @@ dependencies = [
  "swc_ecma_transforms",
  "swc_ecma_utils",
  "swc_ecma_visit",
- "swc_node_base",
+ "swc_malloc",
  "testing",
  "tracing",
 ]
@@ -5274,7 +5274,7 @@ dependencies = [
  "swc_ecma_loader",
  "swc_ecma_parser",
  "swc_ecma_visit",
- "swc_node_base",
+ "swc_malloc",
  "swc_plugin_proxy",
  "testing",
  "tokio",

@@ -86,7 +86,7 @@ swc_ecma_ast = { version = "0.110.9", path = "../swc_ecma_ast", features = [
 swc_ecma_loader = { version = "0.45.9", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.141.20", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.96.9", path = "../swc_ecma_visit" }
-swc_node_base = { version = "0.5.9", path = "../swc_node_base" }
+swc_malloc = { version = "0.5.9", path = "../swc_malloc" }
 testing = { version = "0.35.10", path = "../testing" }
 
 [[bench]]
