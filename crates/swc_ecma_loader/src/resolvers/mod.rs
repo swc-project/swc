@@ -7,3 +7,6 @@ pub mod node;
 #[cfg(feature = "tsc")]
 #[cfg_attr(docsrs, doc(cfg(feature = "tsc")))]
 pub mod tsc;
+#[cfg(feature = "node")]
+#[cfg_attr(docsrs, doc(cfg(feature = "node")))]
+mod exports;
