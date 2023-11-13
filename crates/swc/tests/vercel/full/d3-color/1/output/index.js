@@ -23,6 +23,6 @@ i(Cubehelix, c, h(e, {
     },
     rgb: function() {
         var t = isNaN(this.h) ? 0 : (this.h + 120) * a, i = +this.l, h = isNaN(this.s) ? 0 : this.s * i * (1 - i), e = Math.cos(t), s = Math.sin(t);
-        return new r(255 * (i + h * (-0.14861 * e + 1.78277 * s)), 255 * (i + h * (-0.29227 * e + -0.90649 * s)), 255 * (i + h * (1.97294 * e)), this.opacity);
+        return new r(255 * (i + h * (-0.14861 * e + 1.78277 * s)), 255 * (i + h * (-0.29227 * e + -0.90649 * s)), 255 * (i + 1.97294 * e * h), this.opacity);
     }
 }));

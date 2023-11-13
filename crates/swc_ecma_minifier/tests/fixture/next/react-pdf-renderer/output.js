@@ -3192,7 +3192,7 @@
                     o
                 ];
             }
-            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = r.n(N), U = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0), z = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0), W = function(e, t, r, n, i) {
+            var j = r(7369), B = r(9406), M = r(3226), N = r(9818), L = r.n(N), U = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, z = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, W = function(e, t, r, n, i) {
                 var o = t - n, a = r - i, u = n * z, l = i * z, s = o + 2 * n, c = a + 2 * i, f = o + n, d = a + i;
                 e.moveTo(o, d), e.bezierCurveTo(o, d - l, f - u, a, f, a), e.bezierCurveTo(f + u, a, s, d - l, s, d), e.bezierCurveTo(s, d + l, f + u, c, f, c), e.bezierCurveTo(f - u, c, o, d + l, o, d), e.closePath();
             }, G = function(e, t, r, n, i, o) {
@@ -3276,7 +3276,7 @@
                 }));
             }, J = function(e, t) {
                 X(e, Z(t.props.points || ""));
-            }, Y = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0), K = function(e, t) {
+            }, Y = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, K = function(e, t) {
                 if (t.style) {
                     var r = t.box, n = r.top, i = r.left, o = r.width, a = r.height, u = t.style, l = u.borderTopLeftRadius, s = u.borderTopRightRadius, c = u.borderBottomRightRadius, f = u.borderBottomLeftRadius, d = Math.min(void 0 === s ? 0 : s, 0.5 * o, 0.5 * a), p = d * (1.0 - Y);
                     e.moveTo(i + d, n), e.lineTo(i + o - d, n), e.bezierCurveTo(i + o - p, n, i + o, n + p, i + o, n + d);
@@ -3835,7 +3835,7 @@
                     }, i));
                 }, {});
                 return t;
-            }, e$ = 4.0 * ((Math.sqrt(2) - 1.0) / 3.0), e0 = function(e, t, r, n, i) {
+            }, e$ = (Math.sqrt(2) - 1.0) / 3.0 * 4.0, e0 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderTopWidth, c = r.borderRightWidth, f = r.borderLeftWidth;
                 e.moveTo(a + i, o), e.lineTo(a + u - n, o);
                 var d = n * (1.0 - e$);
@@ -3849,11 +3849,11 @@
                 var m = i * (1.0 - e$);
                 if (e.bezierCurveTo(a, o + m, a + m, o, a + i, o), e.closePath(), e.clip(), c) {
                     var D = -s / c;
-                    e.moveTo(a + u / 2, D * (-u / 2) + o), e.lineTo(a + u, o), e.lineTo(a, o), e.lineTo(a, o + l), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, -u / 2 * D + o), e.lineTo(a + u, o), e.lineTo(a, o), e.lineTo(a, o + l), e.closePath(), e.clip();
                 }
                 if (f) {
                     var w = -s / f;
-                    e.moveTo(a + u / 2, w * (-u / 2) + o), e.lineTo(a, o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, -u / 2 * w + o), e.lineTo(a, o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.closePath(), e.clip();
                 }
             }, e1 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = r.borderTopColor, s = r.borderTopWidth, c = r.borderTopStyle, f = r.borderRightWidth, d = r.borderLeftWidth, p = i * (1.0 - e$), h = n * (1.0 - e$);
@@ -3876,11 +3876,11 @@
                 var m = n * (1.0 - e$);
                 if (e.bezierCurveTo(a + u - m, o, a + u, o + m, a + u, o + n), e.closePath(), e.clip(), s) {
                     var D = -s / c;
-                    e.moveTo(a + u / 2, D * (-u / 2) + o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, -u / 2 * D + o), e.lineTo(a + u, o), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.closePath(), e.clip();
                 }
                 if (f) {
                     var w = f / c;
-                    e.moveTo(a + u / 2, w * (-u / 2) + o + l), e.lineTo(a + u, o + l), e.lineTo(a + u, o), e.lineTo(a, o), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, -u / 2 * w + o + l), e.lineTo(a + u, o + l), e.lineTo(a + u, o), e.lineTo(a, o), e.closePath(), e.clip();
                 }
             }, e3 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderRightColor, c = r.borderRightStyle, f = r.borderRightWidth, d = r.borderTopWidth, p = r.borderBottomWidth, h = i * (1.0 - e$), y = n * (1.0 - e$);
@@ -3903,11 +3903,11 @@
                 var m = i * (1.0 - e$);
                 if (e.bezierCurveTo(a + u, o + l - m, a + u - m, o + l, a + u - i, o + l), e.closePath(), e.clip(), c) {
                     var D = s / c;
-                    e.moveTo(a + u / 2, D * (-u / 2) + o + l), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, -u / 2 * D + o + l), e.lineTo(a + u, o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.closePath(), e.clip();
                 }
                 if (f) {
                     var w = -s / f;
-                    e.moveTo(a + u / 2, w * (u / 2) + o + l), e.lineTo(a, o + l), e.lineTo(a + u, o + l), e.lineTo(a + u, o), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, u / 2 * w + o + l), e.lineTo(a, o + l), e.lineTo(a + u, o + l), e.lineTo(a + u, o), e.closePath(), e.clip();
                 }
             }, e5 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.width, l = t.height, s = r.borderBottomColor, c = r.borderBottomStyle, f = r.borderBottomWidth, d = r.borderRightWidth, p = r.borderLeftWidth, h = n * (1.0 - e$), y = i * (1.0 - e$);
@@ -3930,11 +3930,11 @@
                 var m = n * (1.0 - e$);
                 if (e.bezierCurveTo(a + m, o + l, a, o + l - m, a, o + l - n), e.closePath(), e.clip(), f) {
                     var D = -f / c;
-                    e.moveTo(a + u / 2, D * (u / 2) + o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.lineTo(a + u, o), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, u / 2 * D + o + l), e.lineTo(a, o + l), e.lineTo(a, o), e.lineTo(a + u, o), e.closePath(), e.clip();
                 }
                 if (f) {
                     var w = -s / c;
-                    e.moveTo(a + u / 2, w * (-u / 2) + o), e.lineTo(a, o), e.lineTo(a, o + l), e.lineTo(a + u, o + l), e.closePath(), e.clip();
+                    e.moveTo(a + u / 2, -u / 2 * w + o), e.lineTo(a, o), e.lineTo(a, o + l), e.lineTo(a + u, o + l), e.closePath(), e.clip();
                 }
             }, e6 = function(e, t, r, n, i) {
                 var o = t.top, a = t.left, u = t.height, l = r.borderLeftColor, s = r.borderLeftStyle, c = r.borderLeftWidth, f = r.borderTopWidth, d = r.borderBottomWidth, p = n * (1.0 - e$), h = i * (1.0 - e$);
@@ -20414,7 +20414,7 @@
                             for(a = o & (1 << -c) - 1, o >>= -c, c += n; c > 0; a = 256 * a + e[t + f], f += d, c -= 8);
                             if (0 === o) o = 1 - s;
                             else {
-                                if (o === l) return a ? NaN : (p ? -1 : 1) * (1 / 0);
+                                if (o === l) return a ? NaN : 1 / 0 * (p ? -1 : 1);
                                 a += Math.pow(2, n), o -= s;
                             }
                             return (p ? -1 : 1) * a * Math.pow(2, o - n);

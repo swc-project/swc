@@ -1060,7 +1060,7 @@
                 },
                 rgb: function() {
                     var h = isNaN(this.h) ? 0 : (this.h + 120) * _math_js__WEBPACK_IMPORTED_MODULE_2__.deg2rad, l = +this.l, a = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh = Math.cos(h), sinh = Math.sin(h);
-                    return new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + a * (1.97294 * cosh)), this.opacity);
+                    return new _color_js__WEBPACK_IMPORTED_MODULE_1__.Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + 1.97294 * cosh * a), this.opacity);
                 }
             }));
         },
@@ -1118,7 +1118,7 @@
             }), __webpack_require__.d(__webpack_exports__, "Hcl", function() {
                 return Hcl;
             });
-            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
+            var _define_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/define.js"), _color_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-color/src/color.js"), _math_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-color/src/math.js"), t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
             function labConvert(o) {
                 if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
                 if (o instanceof Hcl) return hcl2lab(o);
@@ -2345,7 +2345,7 @@
                 else {
                     var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + 4 * d2) / (2 * w0 * 2 * d1), b1 = (w1 * w1 - w0 * w0 - 4 * d2) / (2 * w1 * 2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0);
                     S = (Math.log(Math.sqrt(b1 * b1 + 1) - b1) - r0) / rho, i = function(t) {
-                        var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (2 * d1) * (coshr0 * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1)) - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
+                        var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (2 * d1) * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1) * coshr0 - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
                         return [
                             ux0 + u * dx,
                             uy0 + u * dy,
@@ -12793,7 +12793,7 @@
                 positions.labels = (positions.open + positions.close) / 2;
                 var signX = "left" === orientation ? -1 : 1, signY = "top" === orientation ? -1 : 1;
                 if (horizontal) {
-                    var xValue = positions[computedType], dy = "top" === orientation || "bottom" === orientation ? signY * (candleWidth / 2) + signY * (labelStyle.padding || 0) : 0;
+                    var xValue = positions[computedType], dy = "top" === orientation || "bottom" === orientation ? candleWidth / 2 * signY + signY * (labelStyle.padding || 0) : 0;
                     return {
                         yValue: x,
                         xValue: xValue,
@@ -12805,7 +12805,7 @@
                 return {
                     yValue: _yValue,
                     xValue: x,
-                    dx: "top" === orientation || "bottom" === orientation ? 0 : signX * (candleWidth / 2) + signX * (labelStyle.padding || 0),
+                    dx: "top" === orientation || "bottom" === orientation ? 0 : candleWidth / 2 * signX + signX * (labelStyle.padding || 0),
                     dy: _dy
                 };
             }, getLabelProps = function(props, text, style, type) {
@@ -15693,7 +15693,7 @@
                     return "M ".concat(x0, ", ").concat(y + baseSize, "\n      h").concat(distance, "\n      v-").concat(distance, "\n      h-").concat(distance, "\n      z");
                 },
                 diamond: function(x, y, size) {
-                    var baseSize = 0.87 * size, length = Math.sqrt(2 * (baseSize * baseSize));
+                    var baseSize = 0.87 * size, length = Math.sqrt(baseSize * baseSize * 2);
                     return "M ".concat(x, ", ").concat(y + length, "\n      l ").concat(length, ", -").concat(length, "\n      l -").concat(length, ", -").concat(length, "\n      l -").concat(length, ", ").concat(length, "\n      l ").concat(length, ", ").concat(length, "\n      z");
                 },
                 triangleDown: function(x, y, size) {
@@ -18232,7 +18232,7 @@
                 return lodash_isFunction__WEBPACK_IMPORTED_MODULE_4___default()(prop) ? prop(props) : prop;
             }
             function degreesToRadians(degrees) {
-                return "number" == typeof degrees ? degrees * (Math.PI / 180) : degrees;
+                return "number" == typeof degrees ? Math.PI / 180 * degrees : degrees;
             }
             function getRadius(props) {
                 var _getPadding = getPadding(props), left = _getPadding.left, right = _getPadding.right, top = _getPadding.top, bottom = _getPadding.bottom;
@@ -22669,7 +22669,7 @@
                                 firstChild && "stack" === firstChild.type.role && (barWidth = (firstChild.props.children && firstChild.props.children[0]).props.barWidth, dataLength = firstChild.props.children.length);
                                 var width = barWidth || this.getWidth(props, children.length, dataLength);
                                 return {
-                                    x: width * children.length / 2 + (offset - width * ((children.length - 1) / 2))
+                                    x: width * children.length / 2 + (offset - (children.length - 1) / 2 * width)
                                 };
                             }
                         }
@@ -28812,10 +28812,10 @@
                 return target;
             }
             var getVerticalPath = function(props) {
-                var pointerWidth = props.pointerWidth, cornerRadius = props.cornerRadius, orientation = props.orientation, width = props.width, height = props.height, center = props.center, sign = "bottom" === orientation ? 1 : -1, x = props.x + (props.dx || 0), y = props.y + (props.dy || 0), centerX = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.x, centerY = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.y, pointerEdge = centerY + sign * (height / 2), oppositeEdge = centerY - sign * (height / 2), rightEdge = centerX + width / 2, leftEdge = centerX - width / 2, pointerLength = sign * (y - pointerEdge) < 0 ? 0 : props.pointerLength, arc = "".concat(cornerRadius, " ").concat(cornerRadius, " ").concat("bottom" === orientation ? "0 0 0" : "0 0 1");
+                var pointerWidth = props.pointerWidth, cornerRadius = props.cornerRadius, orientation = props.orientation, width = props.width, height = props.height, center = props.center, sign = "bottom" === orientation ? 1 : -1, x = props.x + (props.dx || 0), y = props.y + (props.dy || 0), centerX = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.x, centerY = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.y, pointerEdge = centerY + height / 2 * sign, oppositeEdge = centerY - height / 2 * sign, rightEdge = centerX + width / 2, leftEdge = centerX - width / 2, pointerLength = sign * (y - pointerEdge) < 0 ? 0 : props.pointerLength, arc = "".concat(cornerRadius, " ").concat(cornerRadius, " ").concat("bottom" === orientation ? "0 0 0" : "0 0 1");
                 return "M ".concat(centerX - pointerWidth / 2, ", ").concat(pointerEdge, "\n    L ").concat(pointerLength ? x : centerX + pointerWidth / 2, ", ").concat(pointerLength ? y : pointerEdge, "\n    L ").concat(centerX + pointerWidth / 2, ", ").concat(pointerEdge, "\n    L ").concat(rightEdge - cornerRadius, ", ").concat(pointerEdge, "\n    A ").concat(arc, " ").concat(rightEdge, ", ").concat(pointerEdge - sign * cornerRadius, "\n    L ").concat(rightEdge, ", ").concat(oppositeEdge + sign * cornerRadius, "\n    A ").concat(arc, " ").concat(rightEdge - cornerRadius, ", ").concat(oppositeEdge, "\n    L ").concat(leftEdge + cornerRadius, ", ").concat(oppositeEdge, "\n    A ").concat(arc, " ").concat(leftEdge, ", ").concat(oppositeEdge + sign * cornerRadius, "\n    L ").concat(leftEdge, ", ").concat(pointerEdge - sign * cornerRadius, "\n    A ").concat(arc, " ").concat(leftEdge + cornerRadius, ", ").concat(pointerEdge, "\n    z");
             }, getHorizontalPath = function(props) {
-                var pointerWidth = props.pointerWidth, cornerRadius = props.cornerRadius, orientation = props.orientation, width = props.width, height = props.height, center = props.center, sign = "left" === orientation ? 1 : -1, x = props.x + (props.dx || 0), y = props.y + (props.dy || 0), centerX = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.x, centerY = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.y, pointerEdge = centerX - sign * (width / 2), oppositeEdge = centerX + sign * (width / 2), bottomEdge = centerY + height / 2, topEdge = centerY - height / 2, pointerLength = sign * (x - pointerEdge) > 0 ? 0 : props.pointerLength, arc = "".concat(cornerRadius, " ").concat(cornerRadius, " ").concat("left" === orientation ? "0 0 0" : "0 0 1");
+                var pointerWidth = props.pointerWidth, cornerRadius = props.cornerRadius, orientation = props.orientation, width = props.width, height = props.height, center = props.center, sign = "left" === orientation ? 1 : -1, x = props.x + (props.dx || 0), y = props.y + (props.dy || 0), centerX = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.x, centerY = lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default()(center) && center.y, pointerEdge = centerX - width / 2 * sign, oppositeEdge = centerX + width / 2 * sign, bottomEdge = centerY + height / 2, topEdge = centerY - height / 2, pointerLength = sign * (x - pointerEdge) > 0 ? 0 : props.pointerLength, arc = "".concat(cornerRadius, " ").concat(cornerRadius, " ").concat("left" === orientation ? "0 0 0" : "0 0 1");
                 return "M ".concat(pointerEdge, ", ").concat(centerY - pointerWidth / 2, "\n    L ").concat(pointerLength ? x : pointerEdge, ", ").concat(pointerLength ? y : centerY + pointerWidth / 2, "\n    L ").concat(pointerEdge, ", ").concat(centerY + pointerWidth / 2, "\n    L ").concat(pointerEdge, ", ").concat(bottomEdge - cornerRadius, "\n    A ").concat(arc, " ").concat(pointerEdge + sign * cornerRadius, ", ").concat(bottomEdge, "\n    L ").concat(oppositeEdge - sign * cornerRadius, ", ").concat(bottomEdge, "\n    A ").concat(arc, " ").concat(oppositeEdge, ", ").concat(bottomEdge - cornerRadius, "\n    L ").concat(oppositeEdge, ", ").concat(topEdge + cornerRadius, "\n    A ").concat(arc, " ").concat(oppositeEdge - sign * cornerRadius, ", ").concat(topEdge, "\n    L ").concat(pointerEdge + sign * cornerRadius, ", ").concat(topEdge, "\n    A ").concat(arc, " ").concat(pointerEdge, ", ").concat(topEdge + cornerRadius, "\n    z");
             }, getFlyoutPath = function(props) {
                 var orientation = props.orientation || "top";
@@ -29151,7 +29151,7 @@
                                 x: function() {
                                     if (!textAnchor || "middle" === textAnchor) return flyoutCenter.x;
                                     var sign = "end" === textAnchor ? -1 : 1;
-                                    return flyoutCenter.x - sign * (labelSize.width / 2);
+                                    return flyoutCenter.x - labelSize.width / 2 * sign;
                                 }() + (flyoutPadding.left - flyoutPadding.right) / 2,
                                 y: flyoutCenter.y + (flyoutPadding.top - flyoutPadding.bottom) / 2,
                                 verticalAnchor: "middle",
@@ -30554,7 +30554,7 @@
                 scale: function(currentDomain, evt, props, axis) {
                     var _currentDomain = _slicedToArray(currentDomain, 2), from = _currentDomain[0], range = Math.abs(_currentDomain[1] - from), minimumZoom = props.minimumZoom && props.minimumZoom[axis], factor = this.getScaleFactor(evt);
                     if (minimumZoom && range <= minimumZoom && factor < 1) return currentDomain;
-                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), minDomain = this.getMinimumDomain(factor * from + percent * (factor * range), props, axis), _getScaledDomain2 = _slicedToArray(this.getScaledDomain(currentDomain, factor, percent), 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
+                    var _getDomain$axis = _slicedToArray(this.getDomain(props)[axis], 2), fromBound = _getDomain$axis[0], toBound = _getDomain$axis[1], percent = this.getScalePercent(evt, props, axis), minDomain = this.getMinimumDomain(factor * from + factor * range * percent, props, axis), _getScaledDomain2 = _slicedToArray(this.getScaledDomain(currentDomain, factor, percent), 2), newMin = _getScaledDomain2[0], newMax = _getScaledDomain2[1], newDomain = [
                         newMin > fromBound && newMin < toBound ? newMin : fromBound,
                         newMax < toBound && newMax > fromBound ? newMax : toBound
                     ], domain = Math.abs(minDomain[1] - minDomain[0]) > Math.abs(newDomain[1] - newDomain[0]) ? minDomain : newDomain;
