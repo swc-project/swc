@@ -1101,6 +1101,7 @@ impl Transform {
                     src: Box::new(quote_str!("module")),
                     type_only: false,
                     with: None,
+                    phase: Default::default(),
                 })
                 .into(),
                 // const __require = _createRequire(import.meta.url);

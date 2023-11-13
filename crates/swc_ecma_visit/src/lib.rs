@@ -856,6 +856,7 @@ define!({
     }
     pub struct Import {
         pub span: Span,
+        pub phase: ImportPhase,
     }
     pub struct ExprOrSpread {
         pub spread: Option<Span>,
@@ -1096,6 +1097,7 @@ define!({
         pub src: Box<Str>,
         pub type_only: bool,
         pub with: Option<Box<ObjectLit>>,
+        pub phase: ImportPhase,
     }
     pub struct ExportAll {
         pub span: Span,

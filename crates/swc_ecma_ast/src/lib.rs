@@ -40,7 +40,7 @@ pub use self::{
     module_decl::{
         DefaultDecl, ExportAll, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
         ExportDefaultSpecifier, ExportNamedSpecifier, ExportNamespaceSpecifier, ExportSpecifier,
-        ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportSpecifier,
+        ImportDecl, ImportDefaultSpecifier, ImportNamedSpecifier, ImportPhase, ImportSpecifier,
         ImportStarAsSpecifier, ModuleDecl, ModuleExportName, NamedExport,
     },
     operators::{AssignOp, BinaryOp, UnaryOp, UpdateOp},
