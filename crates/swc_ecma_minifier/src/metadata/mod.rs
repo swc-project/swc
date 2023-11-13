@@ -185,6 +185,16 @@ impl VisitMut for InfoMarker<'_> {
         }
     }
 
+    fn visit_mut_tagged_tpl(&mut self, n: &mut TaggedTpl) {
+        n.visit_mut_children_with(self);
+
+        if has_pure(self.comments, n.span) || has_pure(self.comments, n.tag.span()) {
+            if !n.span.is_dummy_ignoring_cmt() {
+                n.span = n.span.apply_mark(self.marks.pure);
+            }
+        }
+    }
+
     fn visit_mut_var_decl(&mut self, n: &mut VarDecl) {
         n.visit_mut_children_with(self);
 
