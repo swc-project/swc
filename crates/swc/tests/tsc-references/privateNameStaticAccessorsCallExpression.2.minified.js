@@ -3,9 +3,7 @@ import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class
 import { _ as _class_static_private_field_spec_set } from "@swc/helpers/_/_class_static_private_field_spec_set";
 class A {
     static test() {
-        _class_static_private_field_spec_get(this, A, _fieldFunc).call(A);
-        let func = _class_static_private_field_spec_get(this, A, _fieldFunc);
-        func(), new (_class_static_private_field_spec_get(this, A, _fieldFunc))();
+        _class_static_private_field_spec_get(this, A, _fieldFunc).call(A), _class_static_private_field_spec_get(this, A, _fieldFunc)(), new (_class_static_private_field_spec_get(this, A, _fieldFunc))();
         let arr = [
             1,
             2

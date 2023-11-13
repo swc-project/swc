@@ -7,11 +7,9 @@ log("en-US"), log("de-DE");
 const rtf1 = new Intl.RelativeTimeFormat('en', {
     style: 'narrow'
 });
-console.log(rtf1.format(3, 'quarter')), console.log(rtf1.format(-1, 'day'));
-const rtf2 = new Intl.RelativeTimeFormat('es', {
+console.log(rtf1.format(3, 'quarter')), console.log(rtf1.format(-1, 'day')), console.log(new Intl.RelativeTimeFormat('es', {
     numeric: 'auto'
-});
-console.log(rtf2.format(2, 'day'));
+}).format(2, 'day'));
 const regionNamesInEnglish = new Intl.DisplayNames([
     'en'
 ], {

@@ -10230,8 +10230,7 @@
                 return -1 !== hashStart && (input = input.slice(0, hashStart)), input;
             }
             function extract(input) {
-                input = removeHash(input);
-                const queryStart = input.indexOf("?");
+                const queryStart = (input = removeHash(input)).indexOf("?");
                 return -1 === queryStart ? "" : input.slice(queryStart + 1);
             }
             function parseValue(value, options) {
@@ -10407,9 +10406,9 @@
                     encode: !0,
                     strict: !0
                 }, options);
-                const url = removeHash(object.url).split("?")[0] || "", queryFromUrl = exports.extract(object.url), parsedQueryFromUrl = exports.parse(queryFromUrl, {
+                const url = removeHash(object.url).split("?")[0] || "", queryFromUrl = exports.extract(object.url), query = Object.assign(exports.parse(queryFromUrl, {
                     sort: !1
-                }), query = Object.assign(parsedQueryFromUrl, object.query);
+                }), object.query);
                 let queryString = exports.stringify(query, options);
                 queryString && (queryString = `?${queryString}`);
                 let hash = function(url) {

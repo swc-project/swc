@@ -79,13 +79,11 @@ class LoadScript extends React.PureComponent {
                 style.parentNode && style.parentNode.removeChild(style);
             });
         }, this.injectScript = ()=>{
-            this.props.preventGoogleFontsLoading && preventGoogleFonts(), invariant(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id);
-            const injectScriptOptions = {
+            this.props.preventGoogleFontsLoading && preventGoogleFonts(), invariant(!!this.props.id, 'LoadScript requires "id" prop to be a string: %s', this.props.id), injectScript({
                 id: this.props.id,
                 nonce: this.props.nonce,
                 url: makeLoadScriptUrl(this.props)
-            };
-            injectScript(injectScriptOptions).then(()=>{
+            }).then(()=>{
                 this.props.onLoad && this.props.onLoad(), this.setState(function() {
                     return {
                         loaded: !0

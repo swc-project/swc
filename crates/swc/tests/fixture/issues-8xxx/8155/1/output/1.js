@@ -8,8 +8,7 @@ let someFn = (xx, x, y)=>[
         2,
         3
     ], goodFunction = (_ref = _async_to_generator(function*() {
-    let rb = yield getArray(), rc = yield getArray();
-    console.log(someFn(1, rb, rc));
+    console.log(someFn(1, (yield getArray()), (yield getArray())));
 }), function() {
     return _ref.apply(this, arguments);
 }), badFunction = (_ref1 = _async_to_generator(function*() {

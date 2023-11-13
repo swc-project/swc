@@ -67,8 +67,8 @@
                     const customData = data[0] || {}, fullCode = `${this.service}/${code}`, template = this.errors[code], message = template ? template.replace(PATTERN, (_, key)=>{
                         const value = customData[key];
                         return null != value ? String(value) : `<${key}?>`;
-                    }) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`, error = new FirebaseError(fullCode, fullMessage, customData);
-                    return error;
+                    }) : "Error", fullMessage = `${this.serviceName}: ${message} (${fullCode}).`;
+                    return new FirebaseError(fullCode, fullMessage, customData);
                 }
             }
             const PATTERN = /\{\$([^}]+)}/g;
@@ -2204,8 +2204,7 @@
                     this.container = container;
                 }
                 getPlatformInfoString() {
-                    const providers = this.container.getProviders();
-                    return providers.map((provider)=>{
+                    return this.container.getProviders().map((provider)=>{
                         if (!function(provider) {
                             const component = provider.getComponent();
                             return (null == component ? void 0 : component.type) === "VERSION";
