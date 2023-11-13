@@ -1,3 +1,2 @@
-const y = id("one");
-console.log(y);
+console.log(id("one"));
 console.log("two");

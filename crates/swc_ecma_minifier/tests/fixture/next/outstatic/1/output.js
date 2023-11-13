@@ -6,36 +6,28 @@
         1973: function(module) {
             eval(module.code);
         },
-        1985: function(o, f, i) {
+        1985: function(c, o, f) {
             "use strict";
-            var k = 0, v = (o)=>"checkbox" === o.type;
-            var b = (o, f)=>{
-                var i;
-                return o.has((i = f, i.substring(0, i.search(/\.\d+(\.|$)/)) || i));
-            }, g = ()=>{};
-            function C(o, f, i) {}
-            var m = (o)=>"radio" === o.type;
-            function w(o = {}) {
-                let f, i = {
-                    ...o
-                }, k = {}, v = 0, b = {}, g = {};
-                const C = 0, m = async (o)=>{
-                    const i = o.target;
-                    let k = i.name;
-                    const v = 0;
-                    if (v) {
-                        let i, b;
-                        const g = 0;
-                        g ? (v._f.onBlur && v._f.onBlur(o), f && f(0)) : v._f.onChange && v._f.onChange(o);
-                        const m = 0;
-                        v._f.deps && C(k, b, i, m);
-                    }
+            var i = 0, l = (c)=>"checkbox" === c.type;
+            var k = (c, o)=>{
+                var f;
+                return c.has((f = o, f.substring(0, f.search(/\.\d+(\.|$)/)) || f));
+            }, v = ()=>{};
+            function b(c, o, f) {}
+            var g = (c)=>"radio" === c.type;
+            function m(c = {}) {
+                let o, f = {
+                    ...c
+                }, i = {}, l = 0, k = {}, v = {};
+                const b = 0, g = async (c)=>{
+                    let o = c.target.name;
+                    const f = 0;
                 };
             }
-            f.useForm = function(o = {}) {
-                const f = k.default.useRef();
-                f.current ? f.current.control._options = o : f.current = {
-                    ...w(o)
+            o.useForm = function(c = {}) {
+                const o = i.default.useRef();
+                o.current ? o.current.control._options = c : o.current = {
+                    ...m(c)
                 };
             };
         }

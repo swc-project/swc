@@ -39,12 +39,12 @@
                 const byteLen = EC.n.bitLength() + 7 >> 3;
                 let i = 0;
                 for(; null == x && i < 100;){
-                    const res = sha512.array(new Uint8Array([
-                        ...toBytesInt32(i),
-                        ...m
-                    ])), r = [
+                    const r = [
                         2,
-                        ...res
+                        ...sha512.array(new Uint8Array([
+                            ...toBytesInt32(i),
+                            ...m
+                        ]))
                     ];
                     [x, y] = Unmarshal(r.slice(0, byteLen + 1)), i++;
                 }
@@ -54,32 +54,32 @@
                 const byteLen = EC.n.bitLength() + 7 >> 3;
                 let i = 0;
                 for(;;){
-                    const res = sha512.array(new Uint8Array([
+                    const k = new BN(sha512.array(new Uint8Array([
                         ...toBytesInt32(i),
                         ...m
-                    ])), k = new BN(res.slice(0, byteLen));
+                    ])).slice(0, byteLen));
                     if (-1 == k.cmp(EC.curve.n.sub(one))) return k.add(one);
                     i++;
                 }
             }
             function Evaluate(privateKey, m) {
-                const currentKey = EC.keyFromPrivate(privateKey), r = EC.genKeyPair(), rBN = r.getPrivate(), pointH = H1(m), point = pointH.mul(privateKey), vrf = point.encode(), rgPoint = EC.curve.g.mul(rBN), rhPoint = pointH.mul(rBN), b = [
+                const currentKey = EC.keyFromPrivate(privateKey), rBN = EC.genKeyPair().getPrivate(), pointH = H1(m), vrf = pointH.mul(privateKey).encode(), rgPoint = EC.curve.g.mul(rBN), rhPoint = pointH.mul(rBN), s = H2([
                     ...EC.curve.g.encode(),
                     ...pointH.encode(),
                     ...currentKey.getPublic().encode(),
                     ...vrf,
                     ...rgPoint.encode(),
                     ...rhPoint.encode()
-                ], s = H2(b), t = rBN.sub(s.mul(currentKey.getPrivate())).umod(EC.curve.n), index = sha256.array(new Uint8Array(vrf)), buf = [
-                    ...Array(32 - s.byteLength()).fill(0),
-                    ...s.toArray(),
-                    ...Array(32 - t.byteLength()).fill(0),
-                    ...t.toArray(),
-                    ...vrf
-                ];
+                ]), t = rBN.sub(s.mul(currentKey.getPrivate())).umod(EC.curve.n);
                 return [
-                    index,
-                    buf
+                    sha256.array(new Uint8Array(vrf)),
+                    [
+                        ...Array(32 - s.byteLength()).fill(0),
+                        ...s.toArray(),
+                        ...Array(32 - t.byteLength()).fill(0),
+                        ...t.toArray(),
+                        ...vrf
+                    ]
                 ];
             }
             function ProofHoHash(publicKey, data, proof) {
@@ -87,14 +87,14 @@
                 if (129 !== proof.length) throw Error('invalid vrf');
                 const s = proof.slice(0, 32), t = proof.slice(32, 64), vrf = proof.slice(64, 129), uhPoint = decodePoint(vrf);
                 if (!uhPoint) throw Error('invalid vrf');
-                const tgPoint = EC.curve.g.mul(t), ksgPoint = currentKey.getPublic().mul(s), tksgPoint = tgPoint.add(ksgPoint), hPoint = H1(data), thPoint = hPoint.mul(t), shPoint = uhPoint.mul(s), tkshPoint = thPoint.add(shPoint), b = [
+                const tgPoint = EC.curve.g.mul(t), ksgPoint = currentKey.getPublic().mul(s), tksgPoint = tgPoint.add(ksgPoint), hPoint = H1(data), thPoint = hPoint.mul(t), shPoint = uhPoint.mul(s), tkshPoint = thPoint.add(shPoint), h2 = H2([
                     ...EC.curve.g.encode(),
                     ...hPoint.encode(),
                     ...currentKey.getPublic().encode(),
                     ...vrf,
                     ...tksgPoint.encode(),
                     ...tkshPoint.encode()
-                ], h2 = H2(b), buf = [
+                ]), buf = [
                     ...Array(32 - h2.byteLength()).fill(0),
                     ...h2.toArray()
                 ];
@@ -1323,17 +1323,9 @@
                     });
                 }
                 close(callback) {
-                    if (callback = fromCallback(callback, kPromise), this[kClosed]) this.nextTick(callback);
-                    else if (this[kClosing]) this[kCloseCallbacks].push(callback);
-                    else if (this[kClosing] = !0, this[kCloseCallbacks].push(callback), this[kWorking]) {
-                        if (this[kAbortOnClose]) {
-                            const cb = this[kFinishWork]();
-                            cb(new ModuleError('Aborted on iterator close()', {
-                                code: 'LEVEL_ITERATOR_NOT_OPEN'
-                            }));
-                        }
-                    } else this._close(this[kHandleClose]);
-                    return callback[kPromise];
+                    return callback = fromCallback(callback, kPromise), this[kClosed] ? this.nextTick(callback) : this[kClosing] ? this[kCloseCallbacks].push(callback) : (this[kClosing] = !0, this[kCloseCallbacks].push(callback), this[kWorking] ? this[kAbortOnClose] && this[kFinishWork]()(new ModuleError('Aborted on iterator close()', {
+                        code: 'LEVEL_ITERATOR_NOT_OPEN'
+                    })) : this._close(this[kHandleClose])), callback[kPromise];
                 }
                 _close(callback) {
                     this.nextTick(callback);
@@ -1473,8 +1465,7 @@
             class AbstractLevel extends EventEmitter {
                 constructor(manifest, options){
                     if (super(), 'object' != typeof manifest || null === manifest) throw TypeError("The first argument 'manifest' must be an object");
-                    options = getOptions(options);
-                    const { keyEncoding, valueEncoding, passive, ...forward } = options;
+                    const { keyEncoding, valueEncoding, passive, ...forward } = options = getOptions(options);
                     for (const encoding of (this[kResources] = new Set(), this[kOperations] = [], this[kDeferOpen] = !0, this[kOptions] = forward, this[kStatus] = 'opening', this.supports = supports(manifest, {
                         status: !0,
                         promises: !0,
@@ -2311,14 +2302,14 @@
                     throw Error(`Unable to get chunk: ${(0, error_1.getError)(resp)}`);
                 }
                 async getChunkData(offset) {
-                    const chunk = await this.getChunk(offset), buf = ArweaveUtils.b64UrlToBuffer(chunk.chunk);
-                    return buf;
+                    const chunk = await this.getChunk(offset);
+                    return ArweaveUtils.b64UrlToBuffer(chunk.chunk);
                 }
                 firstChunkOffset(offsetResponse) {
                     return parseInt(offsetResponse.offset) - parseInt(offsetResponse.size) + 1;
                 }
                 async downloadChunkedData(id) {
-                    const offsetResponse = await this.getTransactionOffset(id), size = parseInt(offsetResponse.size), endOffset = parseInt(offsetResponse.offset), startOffset = endOffset - size + 1, data = new Uint8Array(size);
+                    const offsetResponse = await this.getTransactionOffset(id), size = parseInt(offsetResponse.size), startOffset = parseInt(offsetResponse.offset) - size + 1, data = new Uint8Array(size);
                     let byte = 0;
                     for(; byte < size;){
                         let chunkData;
@@ -2570,20 +2561,20 @@
                     });
                 }
                 async encrypt(data, key, salt) {
-                    const derivedKey = crypto1.pbkdf2Sync(key, salt = salt || "salt", 100000, 32, this.hashAlgorithm), iv = crypto1.randomBytes(16), cipher = crypto1.createCipheriv(this.encryptionAlgorithm, derivedKey, iv), encrypted = Buffer.concat([
+                    const derivedKey = crypto1.pbkdf2Sync(key, salt = salt || "salt", 100000, 32, this.hashAlgorithm), iv = crypto1.randomBytes(16), cipher = crypto1.createCipheriv(this.encryptionAlgorithm, derivedKey, iv);
+                    return Buffer.concat([
                         iv,
                         cipher.update(data),
                         cipher.final()
                     ]);
-                    return encrypted;
                 }
                 async decrypt(encrypted, key, salt) {
                     try {
-                        const derivedKey = crypto1.pbkdf2Sync(key, salt = salt || "salt", 100000, 32, this.hashAlgorithm), iv = encrypted.slice(0, 16), data = encrypted.slice(16), decipher = crypto1.createDecipheriv(this.encryptionAlgorithm, derivedKey, iv), decrypted = Buffer.concat([
+                        const derivedKey = crypto1.pbkdf2Sync(key, salt = salt || "salt", 100000, 32, this.hashAlgorithm), iv = encrypted.slice(0, 16), data = encrypted.slice(16), decipher = crypto1.createDecipheriv(this.encryptionAlgorithm, derivedKey, iv);
+                        return Buffer.concat([
                             decipher.update(data),
                             decipher.final()
                         ]);
-                        return decrypted;
                     } catch (error) {
                         throw Error("Failed to decrypt");
                     }
@@ -2843,12 +2834,10 @@
                     })));
             }
             async function computeRootHash(data) {
-                const rootNode = await generateTree(data);
-                return rootNode.id;
+                return (await generateTree(data)).id;
             }
             async function generateTree(data) {
-                const rootNode = await buildLayers(await generateLeaves(await chunkData(data)));
-                return rootNode;
+                return await buildLayers(await generateLeaves(await chunkData(data)));
             }
             async function generateTransactionChunks(data) {
                 const chunks = await chunkData(data), leaves = await generateLeaves(chunks), root = await buildLayers(leaves), proofs = await generateProofs(root), lastChunk = chunks.slice(-1)[0];
@@ -2859,10 +2848,7 @@
                 };
             }
             async function buildLayers(nodes, level = 0) {
-                if (nodes.length < 2) {
-                    const root = nodes[0];
-                    return root;
-                }
+                if (nodes.length < 2) return nodes[0];
                 const nextLayer = [];
                 for(let i = 0; i < nodes.length; i += 2)nextLayer.push(await hashBranch(nodes[i], nodes[i + 1]));
                 return buildLayers(nextLayer, level + 1);
@@ -2963,8 +2949,8 @@
                     await hash(left),
                     await hash(right),
                     await hash(offsetBuffer)
-                ]), updatedOutput = `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`;
-                return debug(remainder, updatedOutput);
+                ]);
+                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
             }
             exports.arrayCompare = arrayCompare, exports.validatePath = validatePath, exports.debug = debug;
         },
@@ -3039,8 +3025,8 @@
                         return;
                     }
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
-                    const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data), chunkOk = await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path));
-                    if (!chunkOk) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
+                    const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
+                    if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
                     const resp = await this.api.post("chunk", this.transaction.getChunk(this.chunkIndex, this.data)).catch((e)=>(console.error(e.message), {
                             status: -1,
                             data: {
@@ -3062,8 +3048,7 @@
                     const resp = await api.get(`tx/${id}`);
                     if (200 !== resp.status) throw Error(`Tx ${id} not found: ${resp.status}`);
                     const transaction = resp.data;
-                    transaction.data = new Uint8Array(0);
-                    const serialized = {
+                    return transaction.data = new Uint8Array(0), {
                         txPosted: !0,
                         chunkIndex: 0,
                         lastResponseError: "",
@@ -3071,7 +3056,6 @@
                         lastResponseStatus: 0,
                         transaction
                     };
-                    return serialized;
                 }
                 toJSON() {
                     return {
@@ -3084,8 +3068,7 @@
                     };
                 }
                 async postTransaction() {
-                    const uploadInBody = this.totalChunks <= MAX_CHUNKS_IN_BODY;
-                    if (uploadInBody) {
+                    if (this.totalChunks <= MAX_CHUNKS_IN_BODY) {
                         this.transaction.data = this.data;
                         const resp = await this.api.post("tx", this.transaction).catch((e)=>(console.error(e), {
                                 status: -1,
@@ -3317,33 +3300,21 @@
             }
             function b64UrlToString(b64UrlString) {
                 let buffer = b64UrlToBuffer(b64UrlString);
-                if ("undefined" == typeof TextDecoder) {
-                    const TextDecoder1 = __webpack_require__(9539).TextDecoder;
-                    return new TextDecoder1("utf-8", {
-                        fatal: !0
-                    }).decode(buffer);
-                }
-                return new TextDecoder("utf-8", {
+                return "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                    fatal: !0
+                }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer);
             }
             function bufferToString(buffer) {
-                if ("undefined" == typeof TextDecoder) {
-                    const TextDecoder1 = __webpack_require__(9539).TextDecoder;
-                    return new TextDecoder1("utf-8", {
-                        fatal: !0
-                    }).decode(buffer);
-                }
-                return new TextDecoder("utf-8", {
+                return "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                    fatal: !0
+                }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer);
             }
             function stringToBuffer(string) {
-                if ("undefined" == typeof TextEncoder) {
-                    const TextEncoder1 = __webpack_require__(9539).TextEncoder;
-                    return new TextEncoder1().encode(string);
-                }
-                return new TextEncoder().encode(string);
+                return "undefined" == typeof TextEncoder ? new (__webpack_require__(9539)).TextEncoder().encode(string) : new TextEncoder().encode(string);
             }
             function stringToB64Url(string) {
                 return bufferTob64Url(stringToBuffer(string));
@@ -3441,8 +3412,8 @@
                 async parseUri(siloURI) {
                     const parsed = siloURI.match(/^([a-z0-9-_]+)\.([0-9]+)/i);
                     if (!parsed) throw Error("Invalid Silo name, must be a name in the format of [a-z0-9]+.[0-9]+, e.g. 'bubble.7'");
-                    const siloName = parsed[1], hashIterations = Math.pow(2, parseInt(parsed[2])), digest = await this.hash(ArweaveUtils.stringToBuffer(siloName), hashIterations), accessKey = ArweaveUtils.bufferTob64(digest.slice(0, 15)), encryptionkey = await this.hash(digest.slice(16, 31), 1);
-                    return new SiloResource(siloURI, accessKey, encryptionkey);
+                    const siloName = parsed[1], hashIterations = Math.pow(2, parseInt(parsed[2])), digest = await this.hash(ArweaveUtils.stringToBuffer(siloName), hashIterations);
+                    return new SiloResource(siloURI, ArweaveUtils.bufferTob64(digest.slice(0, 15)), await this.hash(digest.slice(16, 31), 1));
                 }
                 async hash(input, iterations) {
                     let digest = await this.crypto.hash(input);
@@ -3627,8 +3598,7 @@
                             });
                         } else {
                             try {
-                                const existingPermissions = await window.arweaveWallet.getPermissions();
-                                existingPermissions.includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                                (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
                                     "SIGN_TRANSACTION"
                                 ]);
                             } catch (_a) {}
@@ -3856,14 +3826,14 @@
                     throw Error(`Unable to get chunk: ${(0, error_1.getError)(resp)}`);
                 }
                 async getChunkData(offset) {
-                    const chunk = await this.getChunk(offset), buf = ArweaveUtils.b64UrlToBuffer(chunk.chunk);
-                    return buf;
+                    const chunk = await this.getChunk(offset);
+                    return ArweaveUtils.b64UrlToBuffer(chunk.chunk);
                 }
                 firstChunkOffset(offsetResponse) {
                     return parseInt(offsetResponse.offset) - parseInt(offsetResponse.size) + 1;
                 }
                 async downloadChunkedData(id) {
-                    const offsetResponse = await this.getTransactionOffset(id), size = parseInt(offsetResponse.size), endOffset = parseInt(offsetResponse.offset), startOffset = endOffset - size + 1, data = new Uint8Array(size);
+                    const offsetResponse = await this.getTransactionOffset(id), size = parseInt(offsetResponse.size), startOffset = parseInt(offsetResponse.offset) - size + 1, data = new Uint8Array(size);
                     let byte = 0;
                     for(; byte < size;){
                         let chunkData;
@@ -3964,24 +3934,23 @@
             });
             const common_1 = __webpack_require__(536);
             common_1.default.init = function(apiConfig = {}) {
-                function getDefaultConfig() {
+                const defaultConfig = function() {
                     const defaults = {
                         host: "arweave.net",
                         port: 443,
                         protocol: "https"
                     };
                     if (!window || !window.location || !window.location.protocol || !window.location.hostname) return defaults;
-                    const currentProtocol = window.location.protocol.replace(":", ""), currentHost = window.location.hostname, currentPort = window.location.port ? parseInt(window.location.port) : "https" == currentProtocol ? 443 : 80, isLocal = [
+                    const currentProtocol = window.location.protocol.replace(":", ""), currentHost = window.location.hostname, currentPort = window.location.port ? parseInt(window.location.port) : "https" == currentProtocol ? 443 : 80;
+                    return [
                         "localhost",
                         "127.0.0.1"
-                    ].includes(currentHost) || "file" == currentProtocol;
-                    return isLocal ? defaults : {
+                    ].includes(currentHost) || "file" == currentProtocol ? defaults : {
                         host: currentHost,
                         port: currentPort,
                         protocol: currentProtocol
                     };
-                }
-                const defaultConfig = getDefaultConfig(), protocol = apiConfig.protocol || defaultConfig.protocol, host = apiConfig.host || defaultConfig.host, port = apiConfig.port || defaultConfig.port;
+                }(), protocol = apiConfig.protocol || defaultConfig.protocol, host = apiConfig.host || defaultConfig.host, port = apiConfig.port || defaultConfig.port;
                 return new common_1.default(Object.assign(Object.assign({}, apiConfig), {
                     host,
                     protocol,
@@ -4133,15 +4102,13 @@
                 detectWebCrypto() {
                     if ("undefined" == typeof crypto) return !1;
                     const subtle = null == crypto ? void 0 : crypto.subtle;
-                    if (void 0 === subtle) return !1;
-                    const names = [
+                    return void 0 !== subtle && [
                         "generateKey",
                         "importKey",
                         "exportKey",
                         "digest",
                         "sign"
-                    ];
-                    return names.every((name)=>"function" == typeof subtle[name]);
+                    ].every((name)=>"function" == typeof subtle[name]);
                 }
                 async encrypt(data, key, salt) {
                     const initialKey = await this.driver.importKey("raw", "string" == typeof key ? ArweaveUtils.stringToBuffer(key) : key, {
@@ -4297,12 +4264,10 @@
                     })));
             }
             async function computeRootHash(data) {
-                const rootNode = await generateTree(data);
-                return rootNode.id;
+                return (await generateTree(data)).id;
             }
             async function generateTree(data) {
-                const rootNode = await buildLayers(await generateLeaves(await chunkData(data)));
-                return rootNode;
+                return await buildLayers(await generateLeaves(await chunkData(data)));
             }
             async function generateTransactionChunks(data) {
                 const chunks = await chunkData(data), leaves = await generateLeaves(chunks), root = await buildLayers(leaves), proofs = await generateProofs(root), lastChunk = chunks.slice(-1)[0];
@@ -4313,10 +4278,7 @@
                 };
             }
             async function buildLayers(nodes, level = 0) {
-                if (nodes.length < 2) {
-                    const root = nodes[0];
-                    return root;
-                }
+                if (nodes.length < 2) return nodes[0];
                 const nextLayer = [];
                 for(let i = 0; i < nodes.length; i += 2)nextLayer.push(await hashBranch(nodes[i], nodes[i + 1]));
                 return buildLayers(nextLayer, level + 1);
@@ -4417,8 +4379,8 @@
                     await hash(left),
                     await hash(right),
                     await hash(offsetBuffer)
-                ]), updatedOutput = `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`;
-                return debug(remainder, updatedOutput);
+                ]);
+                return debug(remainder, `${output}\n${JSON.stringify(Buffer.from(left))},${JSON.stringify(Buffer.from(right))},${offset} => ${JSON.stringify(pathHash)}`);
             }
             exports.arrayCompare = arrayCompare, exports.validatePath = validatePath, exports.debug = debug;
         },
@@ -4465,8 +4427,8 @@
                         return;
                     }
                     chunkIndex_ && (this.chunkIndex = chunkIndex_);
-                    const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data), chunkOk = await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path));
-                    if (!chunkOk) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
+                    const chunk = this.transaction.getChunk(chunkIndex_ || this.chunkIndex, this.data);
+                    if (!await (0, merkle_1.validatePath)(this.transaction.chunks.data_root, parseInt(chunk.offset), 0, parseInt(chunk.data_size), ArweaveUtils.b64UrlToBuffer(chunk.data_path))) throw Error(`Unable to validate chunk ${this.chunkIndex}`);
                     const resp = await this.api.post("chunk", this.transaction.getChunk(this.chunkIndex, this.data)).catch((e)=>(console.error(e.message), {
                             status: -1,
                             data: {
@@ -4488,8 +4450,7 @@
                     const resp = await api.get(`tx/${id}`);
                     if (200 !== resp.status) throw Error(`Tx ${id} not found: ${resp.status}`);
                     const transaction = resp.data;
-                    transaction.data = new Uint8Array(0);
-                    const serialized = {
+                    return transaction.data = new Uint8Array(0), {
                         txPosted: !0,
                         chunkIndex: 0,
                         lastResponseError: "",
@@ -4497,7 +4458,6 @@
                         lastResponseStatus: 0,
                         transaction
                     };
-                    return serialized;
                 }
                 toJSON() {
                     return {
@@ -4510,8 +4470,7 @@
                     };
                 }
                 async postTransaction() {
-                    const uploadInBody = this.totalChunks <= MAX_CHUNKS_IN_BODY;
-                    if (uploadInBody) {
+                    if (this.totalChunks <= MAX_CHUNKS_IN_BODY) {
                         this.transaction.data = this.data;
                         const resp = await this.api.post("tx", this.transaction).catch((e)=>(console.error(e), {
                                 status: -1,
@@ -4691,33 +4650,21 @@
             }
             function b64UrlToString(b64UrlString) {
                 let buffer = b64UrlToBuffer(b64UrlString);
-                if ("undefined" == typeof TextDecoder) {
-                    const TextDecoder1 = __webpack_require__(9539).TextDecoder;
-                    return new TextDecoder1("utf-8", {
-                        fatal: !0
-                    }).decode(buffer);
-                }
-                return new TextDecoder("utf-8", {
+                return "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                    fatal: !0
+                }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer);
             }
             function bufferToString(buffer) {
-                if ("undefined" == typeof TextDecoder) {
-                    const TextDecoder1 = __webpack_require__(9539).TextDecoder;
-                    return new TextDecoder1("utf-8", {
-                        fatal: !0
-                    }).decode(buffer);
-                }
-                return new TextDecoder("utf-8", {
+                return "undefined" == typeof TextDecoder ? new (__webpack_require__(9539)).TextDecoder("utf-8", {
+                    fatal: !0
+                }).decode(buffer) : new TextDecoder("utf-8", {
                     fatal: !0
                 }).decode(buffer);
             }
             function stringToBuffer(string) {
-                if ("undefined" == typeof TextEncoder) {
-                    const TextEncoder1 = __webpack_require__(9539).TextEncoder;
-                    return new TextEncoder1().encode(string);
-                }
-                return new TextEncoder().encode(string);
+                return "undefined" == typeof TextEncoder ? new (__webpack_require__(9539)).TextEncoder().encode(string) : new TextEncoder().encode(string);
             }
             function stringToB64Url(string) {
                 return bufferTob64Url(stringToBuffer(string));
@@ -4791,8 +4738,8 @@
                 async parseUri(siloURI) {
                     const parsed = siloURI.match(/^([a-z0-9-_]+)\.([0-9]+)/i);
                     if (!parsed) throw Error("Invalid Silo name, must be a name in the format of [a-z0-9]+.[0-9]+, e.g. 'bubble.7'");
-                    const siloName = parsed[1], hashIterations = Math.pow(2, parseInt(parsed[2])), digest = await this.hash(ArweaveUtils.stringToBuffer(siloName), hashIterations), accessKey = ArweaveUtils.bufferTob64(digest.slice(0, 15)), encryptionkey = await this.hash(digest.slice(16, 31), 1);
-                    return new SiloResource(siloURI, accessKey, encryptionkey);
+                    const siloName = parsed[1], hashIterations = Math.pow(2, parseInt(parsed[2])), digest = await this.hash(ArweaveUtils.stringToBuffer(siloName), hashIterations);
+                    return new SiloResource(siloURI, ArweaveUtils.bufferTob64(digest.slice(0, 15)), await this.hash(digest.slice(16, 31), 1));
                 }
                 async hash(input, iterations) {
                     let digest = await this.crypto.hash(input);
@@ -4950,8 +4897,7 @@
                             });
                         } else {
                             try {
-                                const existingPermissions = await window.arweaveWallet.getPermissions();
-                                existingPermissions.includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
+                                (await window.arweaveWallet.getPermissions()).includes("SIGN_TRANSACTION") || await window.arweaveWallet.connect([
                                     "SIGN_TRANSACTION"
                                 ]);
                             } catch (_a) {}
@@ -5068,11 +5014,11 @@
         },
         2500: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            const encoders = __webpack_require__(6579), decoders = __webpack_require__(8307), inherits = __webpack_require__(5717), api = exports;
+            const encoders = __webpack_require__(6579), decoders = __webpack_require__(8307), inherits = __webpack_require__(5717);
             function Entity(name, body) {
                 this.name = name, this.body = body, this.decoders = {}, this.encoders = {};
             }
-            api.define = function(name, body) {
+            exports.define = function(name, body) {
                 return new Entity(name, body);
             }, Entity.prototype._createNamed = function(Base) {
                 const name = this.name;
@@ -5116,9 +5062,7 @@
                 }
             }
             inherits(DecoderBuffer, Reporter), exports.C = DecoderBuffer, DecoderBuffer.isDecoderBuffer = function(data) {
-                if (data instanceof DecoderBuffer) return !0;
-                const isCompatible = 'object' == typeof data && Buffer.isBuffer(data.base) && 'DecoderBuffer' === data.constructor.name && 'number' == typeof data.offset && 'number' == typeof data.length && 'function' == typeof data.save && 'function' == typeof data.restore && 'function' == typeof data.isEmpty && 'function' == typeof data.readUInt8 && 'function' == typeof data.skip && 'function' == typeof data.raw;
-                return isCompatible;
+                return data instanceof DecoderBuffer || 'object' == typeof data && Buffer.isBuffer(data.base) && 'DecoderBuffer' === data.constructor.name && 'number' == typeof data.offset && 'number' == typeof data.length && 'function' == typeof data.save && 'function' == typeof data.restore && 'function' == typeof data.isEmpty && 'function' == typeof data.readUInt8 && 'function' == typeof data.skip && 'function' == typeof data.raw;
             }, DecoderBuffer.prototype.save = function() {
                 return {
                     offset: this.offset,
@@ -5138,9 +5082,7 @@
             }, DecoderBuffer.prototype.raw = function(save) {
                 return this.base.slice(save ? save.offset : this.offset, this.length);
             }, exports.R = EncoderBuffer, EncoderBuffer.isEncoderBuffer = function(data) {
-                if (data instanceof EncoderBuffer) return !0;
-                const isCompatible = 'object' == typeof data && 'EncoderBuffer' === data.constructor.name && 'number' == typeof data.length && 'function' == typeof data.join;
-                return isCompatible;
+                return data instanceof EncoderBuffer || 'object' == typeof data && 'EncoderBuffer' === data.constructor.name && 'number' == typeof data.length && 'function' == typeof data.join;
             }, EncoderBuffer.prototype.join = function(out, offset) {
                 return out || (out = Buffer.alloc(this.length)), offset || (offset = 0), 0 === this.length || (Array.isArray(this.value) ? this.value.forEach(function(item) {
                     item.join(out, offset), offset += item.length;
@@ -5267,15 +5209,12 @@
                     if ('object' != typeof arg || arg.constructor !== Object) return arg;
                     const res = {};
                     return Object.keys(arg).forEach(function(key) {
-                        key == (0 | key) && (key |= 0);
-                        const value = arg[key];
-                        res[value] = key;
+                        key == (0 | key) && (key |= 0), res[arg[key]] = key;
                     }), res;
                 }));
             }, overrided.forEach(function(method) {
                 Node.prototype[method] = function() {
-                    const state = this._baseState;
-                    throw Error(method + ' not implemented for encoding: ' + state.enc);
+                    throw Error(method + ' not implemented for encoding: ' + this._baseState.enc);
                 };
             }), tags.forEach(function(tag) {
                 Node.prototype[tag] = function() {
@@ -5287,8 +5226,7 @@
                 const state = this._baseState;
                 return assert(null === state.use), state.use = item, this;
             }, Node.prototype.optional = function() {
-                const state = this._baseState;
-                return state.optional = !0, this;
+                return this._baseState.optional = !0, this;
             }, Node.prototype.def = function(val) {
                 const state = this._baseState;
                 return assert(null === state.default), state.default = val, state.optional = !0, this;
@@ -5305,8 +5243,7 @@
                 const state = this._baseState;
                 return assert(null === state.key), state.key = newKey, this;
             }, Node.prototype.any = function() {
-                const state = this._baseState;
-                return state.any = !0, this;
+                return this._baseState.any = !0, this;
             }, Node.prototype.choice = function(obj) {
                 const state = this._baseState;
                 return assert(null === state.choice), state.choice = obj, this._useArgs(Object.keys(obj).map(function(key) {
@@ -5511,9 +5448,7 @@
             function reverse(map) {
                 const res = {};
                 return Object.keys(map).forEach(function(key) {
-                    (0 | key) == key && (key |= 0);
-                    const value = map[key];
-                    res[value] = key;
+                    (0 | key) == key && (key |= 0), res[map[key]] = key;
                 }), res;
             }
             exports.tagClass = {
@@ -5559,9 +5494,7 @@
             constants._reverse = function(map) {
                 const res = {};
                 return Object.keys(map).forEach(function(key) {
-                    (0 | key) == key && (key |= 0);
-                    const value = map[key];
-                    res[value] = key;
+                    (0 | key) == key && (key |= 0), res[map[key]] = key;
                 }), res;
             }, constants.der = __webpack_require__(160);
         },
@@ -5699,8 +5632,7 @@
                 const res = buffer.readUInt8();
                 return buffer.isError(res) ? res : 0 !== res;
             }, DERNode.prototype._decodeInt = function(buffer, values) {
-                const raw = buffer.raw();
-                let res = new bignum(raw);
+                let res = new bignum(buffer.raw());
                 return values && (res = values[res.toString(10)] || res), res;
             }, DERNode.prototype._use = function(entity, obj) {
                 return 'function' == typeof entity && (entity = entity(obj)), entity._getDecoder('der').tree;
@@ -5893,7 +5825,7 @@
                 DEREncoder.call(this, entity), this.enc = 'pem';
             }
             inherits(PEMEncoder, DEREncoder), module.exports = PEMEncoder, PEMEncoder.prototype.encode = function(data, options) {
-                const buf = DEREncoder.prototype.encode.call(this, data), p = buf.toString('base64'), out = [
+                const p = DEREncoder.prototype.encode.call(this, data).toString('base64'), out = [
                     '-----BEGIN ' + options.label + '-----'
                 ];
                 for(let i = 0; i < p.length; i += 64)out.push(p.slice(i, i + 64));
@@ -8509,10 +8441,9 @@
                     };
                 }
                 [kStore](mode) {
-                    const transaction = this[kIDB].transaction([
+                    return this[kIDB].transaction([
                         this[kLocation]
-                    ], mode);
-                    return transaction.objectStore(this[kLocation]);
+                    ], mode).objectStore(this[kLocation]);
                 }
                 [kOnComplete](request, callback) {
                     const transaction = request.transaction;
@@ -8537,7 +8468,8 @@
                     });
                 }
                 _getMany(keys, options, callback) {
-                    const store = this[kStore]('readonly'), tasks = keys.map((key)=>(next)=>{
+                    const store = this[kStore]('readonly');
+                    parallel(keys.map((key)=>(next)=>{
                             let request;
                             try {
                                 request = store.get(key);
@@ -8550,8 +8482,7 @@
                             }, request.onerror = (ev)=>{
                                 ev.stopPropagation(), next(request.error);
                             };
-                        });
-                    parallel(tasks, 16, callback);
+                        }), 16, callback);
                 }
                 _del(key, options, callback) {
                     let req;
@@ -9298,15 +9229,11 @@
             }, Buffer.prototype.readBigInt64LE = defineBigIntMethod(function(offset) {
                 validateNumber(offset >>>= 0, 'offset');
                 const first = this[offset], last = this[offset + 7];
-                (void 0 === first || void 0 === last) && boundsError(offset, this.length - 8);
-                const val = this[offset + 4] + 256 * this[offset + 5] + 65536 * this[offset + 6] + (last << 24);
-                return (BigInt(val) << BigInt(32)) + BigInt(first + 256 * this[++offset] + 65536 * this[++offset] + 16777216 * this[++offset]);
+                return (void 0 === first || void 0 === last) && boundsError(offset, this.length - 8), (BigInt(this[offset + 4] + 256 * this[offset + 5] + 65536 * this[offset + 6] + (last << 24)) << BigInt(32)) + BigInt(first + 256 * this[++offset] + 65536 * this[++offset] + 16777216 * this[++offset]);
             }), Buffer.prototype.readBigInt64BE = defineBigIntMethod(function(offset) {
                 validateNumber(offset >>>= 0, 'offset');
                 const first = this[offset], last = this[offset + 7];
-                (void 0 === first || void 0 === last) && boundsError(offset, this.length - 8);
-                const val = (first << 24) + 65536 * this[++offset] + 256 * this[++offset] + this[++offset];
-                return (BigInt(val) << BigInt(32)) + BigInt(16777216 * this[++offset] + 65536 * this[++offset] + 256 * this[++offset] + last);
+                return (void 0 === first || void 0 === last) && boundsError(offset, this.length - 8), (BigInt((first << 24) + 65536 * this[++offset] + 256 * this[++offset] + this[++offset]) << BigInt(32)) + BigInt(16777216 * this[++offset] + 65536 * this[++offset] + 256 * this[++offset] + last);
             }), Buffer.prototype.readFloatLE = function(offset, noAssert) {
                 return offset >>>= 0, noAssert || checkOffset(offset, 4, this.length), ieee754.read(this, offset, !0, 23, 4);
             }, Buffer.prototype.readFloatBE = function(offset, noAssert) {
@@ -14522,8 +14449,7 @@
                 return write(num, stream), stream.buffer;
             }
             function decode(buffer) {
-                const stream = new Pipe(buffer);
-                return read(stream);
+                return read(new Pipe(buffer));
             }
             module.exports = {
                 encode,
@@ -14565,8 +14491,7 @@
                 return write(num, stream), stream.buffer;
             }
             function decode(buffer) {
-                const stream = new Pipe(buffer);
-                return read(stream);
+                return read(new Pipe(buffer));
             }
             module.exports = {
                 encode,
@@ -18357,32 +18282,17 @@
                 11: 'data'
             };
             _exports.immediataryParsers = {
-                varuint1: (stream)=>{
-                    const int1 = stream.read(1)[0];
-                    return int1;
-                },
-                varuint32: (stream)=>{
-                    const int32 = leb.unsigned.read(stream);
-                    return int32;
-                },
-                varint32: (stream)=>{
-                    const int32 = leb.signed.read(stream);
-                    return int32;
-                },
-                varint64: (stream)=>{
-                    const int64 = leb.signed.read(stream);
-                    return int64;
-                },
+                varuint1: (stream)=>stream.read(1)[0],
+                varuint32: (stream)=>leb.unsigned.read(stream),
+                varint32: (stream)=>leb.signed.read(stream),
+                varint64: (stream)=>leb.signed.read(stream),
                 uint32: (stream)=>[
                         ...stream.read(4)
                     ],
                 uint64: (stream)=>[
                         ...stream.read(8)
                     ],
-                block_type: (stream)=>{
-                    const type = stream.read(1)[0];
-                    return LANGUAGE_TYPES[type];
-                },
+                block_type: (stream)=>LANGUAGE_TYPES[stream.read(1)[0]],
                 br_table: (stream)=>{
                     const json = {
                         targets: []
@@ -18445,8 +18355,7 @@
                             const type = stream.read(1)[0];
                             entry.params.push(LANGUAGE_TYPES[type]);
                         }
-                        const numOfReturns = leb.unsigned.readBn(stream).toNumber();
-                        numOfReturns && (type = stream.read(1)[0], entry.return_type = LANGUAGE_TYPES[type]), json.entries.push(entry);
+                        leb.unsigned.readBn(stream).toNumber() && (type = stream.read(1)[0], entry.return_type = LANGUAGE_TYPES[type]), json.entries.push(entry);
                     }
                     return json;
                 },
@@ -18590,14 +18499,14 @@
                 }
             };
             _exports.parseOp = (stream)=>{
-                const json = {}, op = stream.read(1)[0], fullName = OPCODES[op];
-                let [type, name] = fullName.split('.');
+                const json = {};
+                let [type, name] = OPCODES[stream.read(1)[0]].split('.');
                 void 0 === name ? name = type : json.return_type = type, json.name = name;
                 const immediates = OP_IMMEDIATES['const' === name ? type : name];
                 return immediates && (json.immediates = _exports.immediataryParsers[immediates](stream)), json;
             }, _exports.parse = (stream, filter)=>{
-                const preramble = _exports.parsePreramble(stream), json = [
-                    preramble
+                const json = [
+                    _exports.parsePreramble(stream)
                 ];
                 for(; !stream.end;){
                     const header = _exports.parseSectionHeader(stream);
@@ -18628,8 +18537,7 @@
                     'call' === op.name && op.immediates >= funcIndex && (op.immediates = (++op.immediates).toString());
                 }
                 function meterTheMeteringStatement() {
-                    const code = meteringStatement(0, 0);
-                    return code.reduce((sum, op)=>sum + getCost(op.name, costTable.code), 0);
+                    return meteringStatement(0, 0).reduce((sum, op)=>sum + getCost(op.name, costTable.code), 0);
                 }
                 const branchingOps = new Set([
                     'grow_memory',
@@ -18661,7 +18569,7 @@
                 function createSection(module, name) {
                     const newSectionId = SECTION_IDS[name];
                     for(let index in module){
-                        const section = module[index], sectionId = SECTION_IDS[section.name];
+                        const sectionId = SECTION_IDS[module[index].name];
                         if (sectionId && newSectionId < sectionId) {
                             module.splice(index, 0, {
                                 name,
@@ -18708,7 +18616,7 @@
                         break;
                     case 'code':
                         for(const i in section.entries){
-                            const entry = section.entries[i], typeIndex = functionModule.entries[i], type = typeModule.entries[typeIndex], cost = getCost(type, costTable.type);
+                            const entry = section.entries[i], typeIndex = functionModule.entries[i], cost = getCost(typeModule.entries[typeIndex], costTable.type);
                             meterCodeEntry(entry, costTable.code, funcIndex, meterType, cost);
                         }
                 }
@@ -19792,8 +19700,7 @@
                     async createWorker (url) {
                         let text;
                         try {
-                            const worker = await startWorker(url);
-                            return worker;
+                            return await startWorker(url);
                         } catch (e) {
                             console.warn('could not load worker:', url);
                         }
@@ -19929,8 +19836,8 @@
                 clearArray(workers), clearArray(availableWorkers), clearArray(waitingForWorkerQueue), currentlyProcessingIdToRequestMap.clear(), numWorkers = 0, canUseWorkers = !0;
             }
             function dosDateTimeToDate(date, time) {
-                const day = 0x1f & date, month = (date >> 5 & 0xf) - 1, year = (date >> 9 & 0x7f) + 1980, millisecond = 0, second = (0x1f & time) * 2, minute = time >> 5 & 0x3f, hour = time >> 11 & 0x1f;
-                return new Date(year, month, day, hour, minute, second, millisecond);
+                const day = 0x1f & date, month = (date >> 5 & 0xf) - 1, second = (0x1f & time) * 2, minute = time >> 5 & 0x3f;
+                return new Date((date >> 9 & 0x7f) + 1980, month, day, time >> 11 & 0x1f, minute, second, 0);
             }
             class ZipEntry {
                 constructor(reader, rawEntry){
@@ -19947,8 +19854,7 @@
                     return decodeBuffer(new Uint8Array(buffer));
                 }
                 async json() {
-                    const text = await this.text();
-                    return JSON.parse(text);
+                    return JSON.parse(await this.text());
                 }
             }
             const EOCDR_WITHOUT_COMMENT_SIZE = 22, MAX_COMMENT_SIZE = 0xffff, EOCDR_SIGNATURE = 0x06054b50, ZIP64_EOCDR_SIGNATURE = 0x06064b50;
@@ -19994,8 +19900,8 @@
                 if (getUint32LE(eocdl, 0) !== END_OF_CENTRAL_DIRECTORY_LOCATOR_SIGNATURE) throw Error('invalid zip64 end of central directory locator signature');
                 const zip64EocdrOffset = getUint64LE(eocdl, 8), zip64Eocdr = await readAs(reader, zip64EocdrOffset, 56);
                 if (getUint32LE(zip64Eocdr, 0) !== ZIP64_EOCDR_SIGNATURE) throw Error('invalid zip64 end of central directory record signature');
-                const entryCount = getUint64LE(zip64Eocdr, 32), centralDirectorySize = getUint64LE(zip64Eocdr, 40), centralDirectoryOffset = getUint64LE(zip64Eocdr, 48);
-                return readEntries(reader, centralDirectoryOffset, centralDirectorySize, entryCount, comment, commentBytes);
+                const entryCount = getUint64LE(zip64Eocdr, 32), centralDirectorySize = getUint64LE(zip64Eocdr, 40);
+                return readEntries(reader, getUint64LE(zip64Eocdr, 48), centralDirectorySize, entryCount, comment, commentBytes);
             }
             const CENTRAL_DIRECTORY_FILE_HEADER_SIGNATURE = 0x02014b50;
             async function readEntries(reader, centralDirectoryOffset, centralDirectorySize, rawEntryCount, comment, commentBytes) {
@@ -20061,12 +19967,11 @@
                     }
                     rawEntries.push(rawEntry);
                 }
-                const zip = {
-                    comment,
-                    commentBytes
-                };
                 return {
-                    zip,
+                    zip: {
+                        comment,
+                        commentBytes
+                    },
                     entries: rawEntries.map((e)=>new ZipEntry(reader, e))
                 };
             }
@@ -20092,8 +19997,8 @@
                     const dataView = await readAs(reader, fileDataStart, rawEntry.compressedSize);
                     return isTypedArraySameAsArrayBuffer(dataView) ? dataView.buffer : dataView.slice().buffer;
                 }
-                const typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize), result = await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize);
-                return result;
+                const typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize);
+                return await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize);
             }
             async function readEntryDataAsBlob(reader, rawEntry, type) {
                 const { decompress, fileDataStart } = await readEntryDataHeader(reader, rawEntry);
@@ -20105,8 +20010,8 @@
                         type
                     });
                 }
-                const typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize), result = await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize, type);
-                return result;
+                const typedArrayOrBlob = await readAsBlobOrTypedArray(reader, fileDataStart, rawEntry.compressedSize);
+                return await inflateRawAsync(typedArrayOrBlob, rawEntry.uncompressedSize, type);
             }
             function setOptions$1(options) {
                 setOptions(options);
@@ -20119,8 +20024,7 @@
                 else if ('string' == typeof source) {
                     const req = await fetch(source);
                     if (!req.ok) throw Error(`failed http request ${source}, status: ${req.status}: ${req.statusText}`);
-                    const blob = await req.blob();
-                    reader = new BlobReader(blob);
+                    reader = new BlobReader(await req.blob());
                 } else if ('function' == typeof source.getLength && 'function' == typeof source.read) reader = source;
                 else throw Error('unsupported source type');
                 const totalLength = await reader.getLength();
@@ -20733,13 +20637,11 @@
                     return this.db.close();
                 }
                 async dump() {
-                    const result = await this.db.iterator().all();
-                    return result;
+                    return await this.db.iterator().all();
                 }
                 async getLastSortKey() {
                     let lastSortKey = '';
-                    const keys = await this.db.keys().all();
-                    for (const key of keys){
+                    for (const key of (await this.db.keys().all())){
                         const sortKey = key.substring(45);
                         sortKey.localeCompare(lastSortKey) > 0 && (lastSortKey = sortKey);
                     }
@@ -20903,20 +20805,20 @@
                 }
                 async bundleInteraction(input, options) {
                     this.logger.info('Bundle interaction input', input);
-                    const interactionTx = await this.createInteraction(input, options.tags, CreateContract_1.emptyTransfer, options.strict, !0, options.vrf), response = await fetch(`${this._evaluationOptions.bundlerUrl}gateway/sequencer/register`, {
-                        method: 'POST',
-                        body: JSON.stringify(interactionTx),
-                        headers: {
-                            'Accept-Encoding': 'gzip, deflate, br',
-                            'Content-Type': 'application/json',
-                            Accept: 'application/json'
-                        }
-                    }).then((res)=>(this.logger.debug(res), res.ok ? res.json() : Promise.reject(res))).catch((error)=>{
-                        var _a;
-                        throw this.logger.error(error), (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to bundle interaction: ${JSON.stringify(error)}`);
-                    });
+                    const interactionTx = await this.createInteraction(input, options.tags, CreateContract_1.emptyTransfer, options.strict, !0, options.vrf);
                     return {
-                        bundlrResponse: response,
+                        bundlrResponse: await fetch(`${this._evaluationOptions.bundlerUrl}gateway/sequencer/register`, {
+                            method: 'POST',
+                            body: JSON.stringify(interactionTx),
+                            headers: {
+                                'Accept-Encoding': 'gzip, deflate, br',
+                                'Content-Type': 'application/json',
+                                Accept: 'application/json'
+                            }
+                        }).then((res)=>(this.logger.debug(res), res.ok ? res.json() : Promise.reject(res))).catch((error)=>{
+                            var _a;
+                            throw this.logger.error(error), (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to bundle interaction: ${JSON.stringify(error)}`);
+                        }),
                         originalTxId: interactionTx.id
                     };
                 }
@@ -20935,12 +20837,10 @@
                         const handlerResult = await this.callContract(input, void 0, void 0, tags, transfer);
                         if ('ok' !== handlerResult.type) throw Error(`Cannot create interaction: ${handlerResult.errorMessage}`);
                     }
-                    vrf && tags.push({
+                    return vrf && tags.push({
                         name: SmartWeaveTags_1.SmartWeaveTags.REQUEST_VRF,
                         value: 'true'
-                    });
-                    const interactionTx = await (0, create_interaction_tx_1.createInteractionTx)(this.warp.arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, bundle, reward);
-                    return interactionTx;
+                    }), await (0, create_interaction_tx_1.createInteractionTx)(this.warp.arweave, this.signer, this._contractTxId, input, tags, transfer.target, transfer.winstonQty, bundle, reward);
                 }
                 txId() {
                     return this._contractTxId;
@@ -20989,9 +20889,9 @@
                     return null !== (_a = this._parentContract) && void 0 !== _a && _a.rootSortKey ? upToSortKey ? this._parentContract.rootSortKey.localeCompare(upToSortKey) > 0 ? this._parentContract.rootSortKey : upToSortKey : this._parentContract.rootSortKey : upToSortKey;
                 }
                 async createExecutionContextFromTx(contractTxId, transaction) {
-                    const caller = transaction.owner.address, sortKey = transaction.sortKey, baseContext = await this.createExecutionContext(contractTxId, sortKey, !0);
+                    const caller = transaction.owner.address, sortKey = transaction.sortKey;
                     return {
-                        ...baseContext,
+                        ...await this.createExecutionContext(contractTxId, sortKey, !0),
                         caller
                     };
                 }
@@ -21047,11 +20947,11 @@
                         result: evalStateResult.cachedValue.state,
                         txId: this._contractTxId
                     });
-                    const interaction = {
-                        input,
-                        caller: this._parentContract.txId()
-                    }, interactionData = {
-                        interaction,
+                    const interactionData = {
+                        interaction: {
+                            input,
+                            caller: this._parentContract.txId()
+                        },
                         interactionTx,
                         currentTx
                     }, result = await this.evalInteraction(interactionData, executionContext, evalStateResult.cachedValue);
@@ -21102,8 +21002,8 @@
                 }
                 async save(sourceData) {
                     if (!this.signer) throw Error("Wallet not connected. Use 'connect' method first.");
-                    const { arweave } = this.warp, source = new SourceImpl_1.SourceImpl(arweave), srcTx = await source.save(sourceData, this.signer);
-                    return srcTx.id;
+                    const { arweave } = this.warp, source = new SourceImpl_1.SourceImpl(arweave);
+                    return (await source.save(sourceData, this.signer)).id;
                 }
                 get callingInteraction() {
                     return this._callingInteraction;
@@ -21330,7 +21230,7 @@
                         ]));
                 }
                 async zipContents(source) {
-                    const archiver = __webpack_require__(1445), streamBuffers = __webpack_require__(4034), outputStreamBuffer = new streamBuffers.WritableStreamBuffer({
+                    const archiver = __webpack_require__(1445), outputStreamBuffer = new (__webpack_require__(4034)).WritableStreamBuffer({
                         initialSize: 1024000,
                         incrementAmount: 1024000
                     }), archive = archiver('zip', {
@@ -21759,8 +21659,7 @@
                     for(this.logger.debug('GQL page load:', benchmark.elapsed()); 403 === response.status;)this.logger.warn(`GQL rate limiting, waiting ${ArweaveGatewayInteractionsLoader._30seconds}ms before next try.`), await (0, utils_1.sleep)(ArweaveGatewayInteractionsLoader._30seconds), response = await this.arweaveWrapper.gql(ArweaveGatewayInteractionsLoader.query, variables);
                     if (200 !== response.status) throw Error(`Unable to retrieve transactions. Arweave gateway responded with status ${response.status}.`);
                     if (response.data.errors) throw this.logger.error(response.data.errors), Error('Error while loading interaction transactions');
-                    const data = response.data, txs = data.data.transactions;
-                    return txs;
+                    return response.data.data.transactions;
                 }
                 type() {
                     return 'arweave';
@@ -22049,9 +21948,7 @@
                     for(let i = 0; i < missingInteractionsLength; i++){
                         const missingInteraction = missingInteractions[i], singleInteractionBenchmark = Benchmark_1.Benchmark.measure();
                         if (currentSortKey = missingInteraction.sortKey, missingInteraction.vrf && !this.verifyVrf(missingInteraction.vrf, missingInteraction.sortKey, this.arweave)) throw Error('Vrf verification failed.');
-                        this.logger.debug(`${(0, utils_1.indent)(depth)}[${contractDefinition.txId}][${missingInteraction.id}][${missingInteraction.block.height}]: ${missingInteractions.indexOf(missingInteraction) + 1}/${missingInteractions.length} [of all:${sortedInteractions.length}]`);
-                        const isInteractWrite = this.tagsParser.isInteractWrite(missingInteraction, contractDefinition.txId);
-                        if (isInteractWrite && internalWrites) {
+                        if (this.logger.debug(`${(0, utils_1.indent)(depth)}[${contractDefinition.txId}][${missingInteraction.id}][${missingInteraction.block.height}]: ${missingInteractions.indexOf(missingInteraction) + 1}/${missingInteractions.length} [of all:${sortedInteractions.length}]`), this.tagsParser.isInteractWrite(missingInteraction, contractDefinition.txId) && internalWrites) {
                             const writingContractTxId = this.tagsParser.getContractTag(missingInteraction);
                             this.logger.debug(`${(0, utils_1.indent)(depth)}Internal Write - Loading writing contract`, writingContractTxId);
                             const interactionCall = contract.getCallStack().addInteractionData({
@@ -22218,10 +22115,8 @@
                                             wasm_bindgen__convert__closures__invoke2_mut__: null,
                                             _dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__: null
                                         }
-                                    }, wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary), moduleImports = WebAssembly.Module.imports(wasmModule), wbindgenImports = moduleImports.filter((imp)=>'__wbindgen_placeholder__' === imp.module).map((imp)=>imp.name), { imports, exports } = (0, rust_wasm_imports_1.rustWasmImports)(swGlobal, wbindgenImports, wasmInstanceExports, contractDefinition.metadata.dtor);
-                                    jsExports = exports, wasmInstance = await WebAssembly.instantiate(wasmModule, imports), wasmInstanceExports.exports = wasmInstance.exports;
-                                    const moduleExports = Object.keys(wasmInstance.exports);
-                                    moduleExports.forEach((moduleExport)=>{
+                                    }, wasmModule = await getWasmModule(wasmResponse, contractDefinition.srcBinary), wbindgenImports = WebAssembly.Module.imports(wasmModule).filter((imp)=>'__wbindgen_placeholder__' === imp.module).map((imp)=>imp.name), { imports, exports } = (0, rust_wasm_imports_1.rustWasmImports)(swGlobal, wbindgenImports, wasmInstanceExports, contractDefinition.metadata.dtor);
+                                    jsExports = exports, wasmInstance = await WebAssembly.instantiate(wasmModule, imports), wasmInstanceExports.exports = wasmInstance.exports, Object.keys(wasmInstance.exports).forEach((moduleExport)=>{
                                         moduleExport.startsWith('wasm_bindgen__convert__closures__invoke2_mut__') && (wasmInstanceExports.modifiedExports.wasm_bindgen__convert__closures__invoke2_mut__ = wasmInstance.exports[moduleExport]), moduleExport.startsWith('_dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__') && (wasmInstanceExports.modifiedExports._dyn_core__ops__function__FnMut__A____Output___R_as_wasm_bindgen__closure__WasmClosure___describe__invoke__ = wasmInstance.exports[moduleExport]);
                                     });
                                     break;
@@ -22269,7 +22164,7 @@
                             return new JsHandlerApi_1.JsHandlerApi(swGlobal, contractDefinition, vm.run(vmScript));
                         }
                         {
-                            const contractFunction = Function(normalizedSource), handler = contractFunction(swGlobal, bignumber_js_1.default, LoggerFactory_1.LoggerFactory.INST.create(swGlobal.contract.id));
+                            const handler = Function(normalizedSource)(swGlobal, bignumber_js_1.default, LoggerFactory_1.LoggerFactory.INST.create(swGlobal.contract.id));
                             return new JsHandlerApi_1.JsHandlerApi(swGlobal, contractDefinition, handler);
                         }
                     }
@@ -22375,8 +22270,8 @@
                     return null === (_a = interactionTransaction.tags.find((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID)) || void 0 === _a ? void 0 : _a.value;
                 }
                 getContractsWithInputs(interactionTransaction) {
-                    const result = new Map(), contractTags = interactionTransaction.tags.filter((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID);
-                    return contractTags.forEach((contractTag)=>{
+                    const result = new Map();
+                    return interactionTransaction.tags.filter((tag)=>tag.name === SmartWeaveTags_1.SmartWeaveTags.CONTRACT_TX_ID).forEach((contractTag)=>{
                         result.set(contractTag.value, this.getInputTag(interactionTransaction, contractTag.value));
                     }), result;
                 }
@@ -22692,8 +22587,8 @@
                     switch(this.contractDefinition.srcWasmLang){
                         case 'assemblyscript':
                             {
-                                const actionPtr = this.wasmExports.__newString((0, safe_stable_stringify_1.default)(action.input)), resultPtr = this.wasmExports.handle(actionPtr), result = this.wasmExports.__getString(resultPtr);
-                                return JSON.parse(result);
+                                const actionPtr = this.wasmExports.__newString((0, safe_stable_stringify_1.default)(action.input)), resultPtr = this.wasmExports.handle(actionPtr);
+                                return JSON.parse(this.wasmExports.__getString(resultPtr));
                             }
                         case 'rust':
                             {
@@ -22709,10 +22604,7 @@
                                 }
                             }
                         case 'go':
-                            {
-                                const result = await this.wasmExports.handle((0, safe_stable_stringify_1.default)(action.input));
-                                return JSON.parse(result);
-                            }
+                            return JSON.parse(await this.wasmExports.handle((0, safe_stable_stringify_1.default)(action.input)));
                         default:
                             throw Error(`Support for ${this.contractDefinition.srcWasmLang} not implemented yet.`);
                     }
@@ -22727,10 +22619,7 @@
                         case 'rust':
                             return this.wasmExports.currentState();
                         case 'go':
-                            {
-                                const result = this.wasmExports.currentState();
-                                return JSON.parse(result);
-                            }
+                            return JSON.parse(this.wasmExports.currentState());
                         default:
                             throw Error(`Support for ${this.contractDefinition.srcWasmLang} not implemented yet.`);
                     }
@@ -23047,8 +22936,7 @@
                                 }
                             },
                             'syscall/js.stringVal': (ret_ptr, value_ptr, value_len)=>{
-                                const s = loadString(value_ptr, value_len);
-                                storeValue(ret_ptr, s);
+                                storeValue(ret_ptr, loadString(value_ptr, value_len));
                             },
                             'syscall/js.valueGet': (retval, v_addr, p_ptr, p_len)=>{
                                 let prop = loadString(p_ptr, p_len), value = loadValue(v_addr);
@@ -23398,7 +23286,7 @@
                     }
                     if (offset !== len) {
                         0 !== offset && (arg = arg.slice(offset)), ptr = realloc(ptr, len, len = offset + 3 * arg.length);
-                        const view = getUint8Memory0().subarray(ptr + offset, ptr + len), ret = encodeString(arg, view);
+                        const ret = encodeString(arg, getUint8Memory0().subarray(ptr + offset, ptr + len));
                         offset += ret.written;
                     }
                     return WASM_VECTOR_LEN = offset, ptr;
@@ -23522,8 +23410,8 @@
         4742: function(__unused_webpack_module, exports) {
             "use strict";
             function matchMutClosureDtor(source) {
-                const regexp = /var ret = makeMutClosure\(arg0, arg1, (\d+?), __wbg_adapter/, match = source.match(regexp);
-                return match[1];
+                const regexp = /var ret = makeMutClosure\(arg0, arg1, (\d+?), __wbg_adapter/;
+                return source.match(regexp)[1];
             }
             Object.defineProperty(exports, "__esModule", {
                 value: !0
@@ -23749,8 +23637,7 @@
         3633: function(__unused_webpack_module, exports) {
             "use strict";
             function getTag(tx, name) {
-                const tags = tx.get('tags');
-                for (const tag of tags)try {
+                for (const tag of tx.get('tags'))try {
                     if (tag.get('name', {
                         decode: !0,
                         string: !0
@@ -24050,20 +23937,20 @@
                         const data = JSON.stringify({
                             query: query,
                             variables: variables
-                        }), response = await fetch(`${this.baseUrl}/graphql`, {
-                            method: 'POST',
-                            body: data,
-                            headers: {
-                                'Accept-Encoding': 'gzip, deflate, br',
-                                'Content-Type': 'application/json',
-                                Accept: 'application/json'
-                            }
-                        }).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
-                            var _a, _b;
-                            throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve gql page. ${error.status}: ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
                         });
                         return {
-                            data: response,
+                            data: await fetch(`${this.baseUrl}/graphql`, {
+                                method: 'POST',
+                                body: data,
+                                headers: {
+                                    'Accept-Encoding': 'gzip, deflate, br',
+                                    'Content-Type': 'application/json',
+                                    Accept: 'application/json'
+                                }
+                            }).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
+                                var _a, _b;
+                                throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve gql page. ${error.status}: ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
+                            }),
                             status: 200
                         };
                     } catch (e) {
@@ -24099,11 +23986,10 @@
                 }
                 async doFetchInfo(url) {
                     try {
-                        const response = await fetch(url).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
+                        return await fetch(url).then((res)=>res.ok ? res.json() : Promise.reject(res)).catch((error)=>{
                             var _a, _b;
                             throw (null === (_a = error.body) || void 0 === _a ? void 0 : _a.message) && this.logger.error(error.body.message), Error(`Unable to retrieve info. ${error.status}: ${null === (_b = error.body) || void 0 === _b ? void 0 : _b.message}`);
                         });
-                        return response;
                     } catch (e) {
                         throw this.logger.error('Error while loading info', e), e;
                     }
@@ -24249,13 +24135,13 @@
                     }
                     function __newArrayBuffer(buf) {
                         if (null == buf) return 0;
-                        const bufview = new Uint8Array(buf), ptr = __new(bufview.length, ARRAYBUFFER_ID), U8 = new Uint8Array(memory.buffer);
-                        return U8.set(bufview, ptr), ptr;
+                        const bufview = new Uint8Array(buf), ptr = __new(bufview.length, ARRAYBUFFER_ID);
+                        return new Uint8Array(memory.buffer).set(bufview, ptr), ptr;
                     }
                     function __getString(ptr) {
                         if (!ptr) return null;
-                        const buffer = memory.buffer, id = new Uint32Array(buffer)[ptr + ID_OFFSET >>> 2];
-                        if (id !== STRING_ID) throw Error(`not a string: ${ptr}`);
+                        const buffer = memory.buffer;
+                        if (new Uint32Array(buffer)[ptr + ID_OFFSET >>> 2] !== STRING_ID) throw Error(`not a string: ${ptr}`);
                         return getStringImpl(buffer, ptr);
                     }
                     function getView(alignLog2, signed, float) {
@@ -24297,7 +24183,7 @@
                         return result;
                     }
                     function __getArrayView(arr) {
-                        const U32 = new Uint32Array(memory.buffer), id = U32[arr + ID_OFFSET >>> 2], info = getArrayInfo(id), align = getValueAlign(info);
+                        const U32 = new Uint32Array(memory.buffer), info = getArrayInfo(U32[arr + ID_OFFSET >>> 2]), align = getValueAlign(info);
                         let buf = info & STATICARRAY ? arr : U32[arr + ARRAYBUFFERVIEW_DATASTART_OFFSET >>> 2];
                         const length = info & ARRAY ? U32[arr + ARRAY_LENGTH_OFFSET >>> 2] : U32[buf + SIZE_OFFSET >>> 2] >>> align;
                         return getView(align, info & VAL_SIGNED, info & VAL_FLOAT).subarray(buf >>>= align, buf + length);

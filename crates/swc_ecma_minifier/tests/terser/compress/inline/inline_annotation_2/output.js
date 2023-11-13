@@ -1,2 +1,1 @@
-const b = NaN;
-console.log(42, b);
+console.log(42, NaN);

@@ -1,4 +1,4 @@
-const m = 60000, h = 60 * m, d = 24 * h, w = 7 * d, y = 365.25 * d;
+const m = 60000, h = 3600000, d = 86400000, w = 604800000, y = 31557600000;
 export default function(value, options) {
     try {
         if ('string' == typeof value && value.length > 0) return function(str) {
@@ -58,10 +58,9 @@ export default function(value, options) {
         }(value);
         throw Error('Value is not a string or number.');
     } catch (error) {
-        const message = function(value) {
+        throw Error(function(value) {
             return 'object' == typeof value && null !== value && 'message' in value;
-        }(error) ? `${error.message}. value=${JSON.stringify(value)}` : 'An unknown error has occurred.';
-        throw Error(message);
+        }(error) ? `${error.message}. value=${JSON.stringify(value)}` : 'An unknown error has occurred.');
     }
 }
 function plural(ms, msAbs, n, name) {

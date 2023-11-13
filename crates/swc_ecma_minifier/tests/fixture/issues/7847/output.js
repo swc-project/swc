@@ -7,8 +7,5 @@ function requireState() {
 }
 if (g()) {
     var state, hasRequiredState;
-    const a = requireState();
-    console.log(a.getHighWaterMark());
-    const b = requireState();
-    console.log(b.getHighWaterMark());
+    console.log(requireState().getHighWaterMark()), console.log(requireState().getHighWaterMark());
 }

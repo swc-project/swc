@@ -481,14 +481,7 @@
                         case 13:
                             if ("\n" == peek()) return next(!0, in_string), "";
                     }
-                    if (is_octal(ch1)) {
-                        if (template_string && strict_hex) {
-                            const represents_null_character = "0" === ch1 && !is_octal(peek());
-                            represents_null_character || parse_error("Octal escape sequences are not allowed in template strings");
-                        }
-                        return ch = ch1, ((p = peek()) >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_hex && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)));
-                    }
-                    return ch1;
+                    return is_octal(ch1) ? (template_string && strict_hex && !("0" === ch1 && !is_octal(peek())) && parse_error("Octal escape sequences are not allowed in template strings"), ch = ch1, ((p = peek()) >= "0" && p <= "7" && (ch += next(!0))[0] <= "3" && (p = peek()) >= "0" && p <= "7" && (ch += next(!0)), "0" === ch) ? "\0" : (ch.length > 0 && next_token.has_directive("use strict") && strict_hex && parse_error("Legacy octal escape sequences are not allowed in strict mode"), String.fromCharCode(parseInt(ch, 8)))) : ch1;
                 }
                 function hex_bytes(n, strict_hex) {
                     for(var num = 0; n > 0; --n){
@@ -565,8 +558,7 @@
                     else if ("]" == ch && in_class) in_class = !1, source += ch;
                     else if ("/" != ch || in_class) "\\" == ch ? prev_backslash = !0 : source += ch;
                     else break;
-                    const flags = read_name();
-                    return token("regexp", "/" + source + "/" + flags);
+                    return token("regexp", "/" + source + "/" + read_name());
                 });
                 function read_operator(prefix) {
                     return token("operator", function grow(op) {
@@ -625,8 +617,7 @@
                                 return (next(), ">" === peek()) ? (next(), token("arrow", "=>")) : read_operator("=");
                             case 63:
                                 if (!function() {
-                                    const must_be_dot = 46 === S.text.charCodeAt(S.pos + 1);
-                                    if (!must_be_dot) return !1;
+                                    if (46 !== S.text.charCodeAt(S.pos + 1)) return !1;
                                     const cannot_be_digit = S.text.charCodeAt(S.pos + 2);
                                     return cannot_be_digit < 48 || cannot_be_digit > 57;
                                 }()) break;
@@ -1510,43 +1501,30 @@
             var is_async = !1, is_static = !1, is_generator = !1, is_private = !1, accessor_type = null;
             is_class && "static" === name && is_not_method_start() && (is_static = !0, name = as_property_name()), "async" === name && is_not_method_start() && (is_async = !0, name = as_property_name()), "operator" === prev().type && "*" === prev().value && (is_generator = !0, name = as_property_name()), ("get" === name || "set" === name) && is_not_method_start() && (accessor_type = name, name = as_property_name()), "privatename" === prev().type && (is_private = !0);
             const property_token = prev();
-            if (null != accessor_type) {
-                if (is_private) {
-                    const AccessorClass = "get" === accessor_type ? AST_PrivateGetter : AST_PrivateSetter;
-                    return new AccessorClass({
-                        start,
-                        static: is_static,
-                        key: get_symbol_ast(name),
-                        value: create_accessor(),
-                        end: prev()
-                    });
-                }
-                {
-                    const AccessorClass = "get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter;
-                    return new AccessorClass({
-                        start,
-                        static: is_static,
-                        key: name = get_symbol_ast(name),
-                        quote: name instanceof AST_SymbolMethod ? property_token.quote : void 0,
-                        value: create_accessor(),
-                        end: prev()
-                    });
-                }
-            }
-            if (is("punc", "(")) {
-                name = get_symbol_ast(name);
-                const AST_MethodVariant = is_private ? AST_PrivateMethod : AST_ConciseMethod;
-                return new AST_MethodVariant({
-                    start: start,
-                    static: is_static,
-                    is_generator: is_generator,
-                    async: is_async,
-                    key: name,
-                    quote: name instanceof AST_SymbolMethod ? property_token.quote : void 0,
-                    value: create_accessor(is_generator, is_async),
-                    end: prev()
-                });
-            }
+            if (null != accessor_type) return is_private ? new ("get" === accessor_type ? AST_PrivateGetter : AST_PrivateSetter)({
+                start,
+                static: is_static,
+                key: get_symbol_ast(name),
+                value: create_accessor(),
+                end: prev()
+            }) : new ("get" === accessor_type ? AST_ObjectGetter : AST_ObjectSetter)({
+                start,
+                static: is_static,
+                key: name = get_symbol_ast(name),
+                quote: name instanceof AST_SymbolMethod ? property_token.quote : void 0,
+                value: create_accessor(),
+                end: prev()
+            });
+            if (is("punc", "(")) return new (is_private ? AST_PrivateMethod : AST_ConciseMethod)({
+                start: start,
+                static: is_static,
+                is_generator: is_generator,
+                async: is_async,
+                key: name = get_symbol_ast(name),
+                quote: name instanceof AST_SymbolMethod ? property_token.quote : void 0,
+                value: create_accessor(is_generator, is_async),
+                end: prev()
+            });
             if (is_class) {
                 const key = get_symbol_ast(name, AST_SymbolClassProperty), quote = key instanceof AST_SymbolClassProperty ? property_token.quote : void 0, AST_ClassPropertyVariant = is_private ? AST_ClassPrivateProperty : AST_ClassProperty;
                 if (is("operator", "=")) return next(), new AST_ClassPropertyVariant({
@@ -1683,17 +1661,13 @@
         }
         var subscripts = function(expr, allow_calls, is_chain) {
             var start = expr.start;
-            if (is("punc", ".")) {
-                next();
-                const AST_DotVariant = is("privatename") ? AST_DotHash : AST_Dot;
-                return subscripts(new AST_DotVariant({
-                    start: start,
-                    expression: expr,
-                    optional: !1,
-                    property: as_name(),
-                    end: prev()
-                }), allow_calls, is_chain);
-            }
+            if (is("punc", ".")) return next(), subscripts(new (is("privatename") ? AST_DotHash : AST_Dot)({
+                start: start,
+                expression: expr,
+                optional: !1,
+                property: as_name(),
+                end: prev()
+            }), allow_calls, is_chain);
             if (is("punc", "[")) {
                 next();
                 var prop = expression(!0);
@@ -1728,16 +1702,14 @@
                         end: prev()
                     });
                     annotate(call), chain_contents = subscripts(call, !0, !0);
-                } else if (is("name") || is("privatename")) {
-                    const AST_DotVariant = is("privatename") ? AST_DotHash : AST_Dot;
-                    chain_contents = subscripts(new AST_DotVariant({
-                        start,
-                        expression: expr,
-                        optional: !0,
-                        property: as_name(),
-                        end: prev()
-                    }), allow_calls, !0);
-                } else if (is("punc", "[")) {
+                } else if (is("name") || is("privatename")) chain_contents = subscripts(new (is("privatename") ? AST_DotHash : AST_Dot)({
+                    start,
+                    expression: expr,
+                    optional: !0,
+                    property: as_name(),
+                    end: prev()
+                }), allow_calls, !0);
+                else if (is("punc", "[")) {
                     next();
                     const property = expression(!0);
                     expect("]"), chain_contents = subscripts(new AST_Sub({
@@ -3141,9 +3113,9 @@
         walk_abort: walk_abort,
         walk_body: walk_body,
         walk_parent: walk_parent,
-        _INLINE: _INLINE,
-        _NOINLINE: _NOINLINE,
-        _PURE: _PURE
+        _INLINE: 0b00000010,
+        _NOINLINE: 0b00000100,
+        _PURE: 0b00000001
     });
     function def_transform(node, descend) {
         node.DEFMETHOD("transform", function(tw, in_list) {
@@ -3897,14 +3869,12 @@
                 argument: to_moz(M.expression)
             };
         }), def_to_moz(AST_Binary, function(M) {
-            if ("=" == M.operator && to_moz_in_destructuring()) return {
+            return "=" == M.operator && to_moz_in_destructuring() ? {
                 type: "AssignmentPattern",
                 left: to_moz(M.left),
                 right: to_moz(M.right)
-            };
-            const type = "&&" == M.operator || "||" == M.operator || "??" === M.operator ? "LogicalExpression" : "BinaryExpression";
-            return {
-                type,
+            } : {
+                type: "&&" == M.operator || "||" == M.operator || "??" === M.operator ? "LogicalExpression" : "BinaryExpression",
                 left: to_moz(M.left),
                 operator: M.operator,
                 right: to_moz(M.right)
@@ -3932,21 +3902,17 @@
                 name: M.key
             });
             var string_or_num = "string" == typeof M.key || "number" == typeof M.key, computed = !string_or_num && (!(M.key instanceof AST_Symbol) || M.key instanceof AST_SymbolRef);
-            if (M instanceof AST_ObjectKeyVal ? (kind = "init", computed = !string_or_num) : M instanceof AST_ObjectGetter ? kind = "get" : M instanceof AST_ObjectSetter && (kind = "set"), M instanceof AST_PrivateGetter || M instanceof AST_PrivateSetter) {
-                const kind = M instanceof AST_PrivateGetter ? "get" : "set";
-                return {
-                    type: "MethodDefinition",
-                    computed: !1,
-                    kind: kind,
-                    static: M.static,
-                    key: {
-                        type: "PrivateIdentifier",
-                        name: M.key.name
-                    },
-                    value: to_moz(M.value)
-                };
-            }
-            return M instanceof AST_ClassPrivateProperty ? {
+            return (M instanceof AST_ObjectKeyVal ? (kind = "init", computed = !string_or_num) : M instanceof AST_ObjectGetter ? kind = "get" : M instanceof AST_ObjectSetter && (kind = "set"), M instanceof AST_PrivateGetter || M instanceof AST_PrivateSetter) ? {
+                type: "MethodDefinition",
+                computed: !1,
+                kind: M instanceof AST_PrivateGetter ? "get" : "set",
+                static: M.static,
+                key: {
+                    type: "PrivateIdentifier",
+                    name: M.key.name
+                },
+                value: to_moz(M.value)
+            } : M instanceof AST_ClassPrivateProperty ? {
                 type: "PropertyDefinition",
                 key: {
                     type: "PrivateIdentifier",
@@ -4978,14 +4944,11 @@
             if (!shallow_cmp(node_1, node_2) || (node_1._children_backwards(walk_1_push), node_2._children_backwards(walk_2_push), walk_1_state.length !== walk_2_state.length)) return !1;
         }
         return 0 == walk_1_state.length && 0 == walk_2_state.length;
-    }, mkshallow = (props)=>{
-        const comparisons = Object.keys(props).map((key)=>{
+    }, mkshallow = (props)=>Function("other", "return " + Object.keys(props).map((key)=>{
             if ("eq" === props[key]) return `this.${key} === other.${key}`;
             if ("exist" === props[key]) return `(this.${key} == null ? other.${key} == null : this.${key} === other.${key})`;
             throw Error(`mkshallow: Unexpected instruction: ${props[key]}`);
-        }).join(" && ");
-        return Function("other", "return " + comparisons);
-    }, pass_through = ()=>!0;
+        }).join(" && ")), pass_through = ()=>!0;
     AST_Node.prototype.shallow_cmp = function() {
         throw Error("did not find a shallow_cmp function for " + this.constructor.name);
     }, AST_Debugger.prototype.shallow_cmp = pass_through, AST_Directive.prototype.shallow_cmp = mkshallow({
@@ -5090,8 +5053,8 @@
             var m = nth_identifier.get(++scope.cname);
             if (!(ALL_RESERVED_WORDS.has(m) || options.reserved.has(m)) && !(unmangleable_names && unmangleable_names.has(m))) {
                 for(let i = ext.length; --i >= 0;){
-                    const def = ext[i], name = def.mangled_name || def.unmangleable(options) && def.name;
-                    if (m == name) continue out;
+                    const def = ext[i];
+                    if (m == (def.mangled_name || def.unmangleable(options) && def.name)) continue out;
                 }
                 return m;
             }
@@ -5169,9 +5132,7 @@
                 (exported instanceof AST_Defun || exported instanceof AST_DefClass) && node.is_default && (def.export = 2);
             }
         }
-        this.walk(tw);
-        const is_toplevel = this instanceof AST_Toplevel;
-        is_toplevel && (this.globals = new Map());
+        this.walk(tw), this instanceof AST_Toplevel && (this.globals = new Map());
         var tw = new TreeWalker((node)=>{
             if (node instanceof AST_LoopControl && node.label) return node.label.thedef.references.push(node), !0;
             if (node instanceof AST_SymbolRef) {
@@ -5437,8 +5398,7 @@
     AST_Accessor.prototype._size = function() {
         return lambda_modifiers(this) + 4 + list_overhead(this.argnames) + list_overhead(this.body);
     }, AST_Function.prototype._size = function(info) {
-        const first = !!first_in_statement(info);
-        return 2 * first + lambda_modifiers(this) + 12 + list_overhead(this.argnames) + list_overhead(this.body);
+        return 2 * !!first_in_statement(info) + lambda_modifiers(this) + 12 + list_overhead(this.argnames) + list_overhead(this.body);
     }, AST_Defun.prototype._size = function() {
         return lambda_modifiers(this) + 13 + list_overhead(this.argnames) + list_overhead(this.body);
     }, AST_Arrow.prototype._size = function() {
@@ -6598,13 +6558,12 @@
         var expression = this.expression.drop_side_effect_free(compressor, first_in_statement);
         return first_in_statement && expression && is_iife_call(expression) ? expression === this.expression && "!" == this.operator ? this : expression.negate(compressor, first_in_statement) : expression;
     }), def_drop_side_effect_free(AST_SymbolRef, function(compressor) {
-        const safe_access = this.is_declared(compressor) || pure_prop_access_globals.has(this.name);
-        return safe_access ? null : this;
+        return this.is_declared(compressor) || pure_prop_access_globals.has(this.name) ? null : this;
     }), def_drop_side_effect_free(AST_Object, function(compressor, first_in_statement) {
         var values = trim(this.properties, compressor, first_in_statement);
         return values && make_sequence(this, values);
     }), def_drop_side_effect_free(AST_ObjectProperty, function(compressor, first_in_statement) {
-        const computed_key = this instanceof AST_ObjectKeyVal && this.key instanceof AST_Node, key = computed_key && this.key.drop_side_effect_free(compressor, first_in_statement), value = this.value && this.value.drop_side_effect_free(compressor, first_in_statement);
+        const key = this instanceof AST_ObjectKeyVal && this.key instanceof AST_Node && this.key.drop_side_effect_free(compressor, first_in_statement), value = this.value && this.value.drop_side_effect_free(compressor, first_in_statement);
         return key && value ? make_sequence(this, [
             key,
             value
@@ -6845,16 +6804,7 @@
             }
             for(var prev, n = 0, i = 0; i < statements.length; i++){
                 var stat = statements[i];
-                if (prev) {
-                    if (stat instanceof AST_Exit) stat.value = cons_seq(stat.value || make_node(AST_Undefined, stat).transform(compressor));
-                    else if (stat instanceof AST_For) {
-                        if (!(stat.init instanceof AST_Definitions)) {
-                            const abort = walk(prev.body, (node)=>node instanceof AST_Scope || (node instanceof AST_Binary && "in" === node.operator ? walk_abort : void 0));
-                            abort || (stat.init ? stat.init = cons_seq(stat.init) : (stat.init = prev.body, n--, CHANGED = !0));
-                        }
-                    } else stat instanceof AST_ForIn ? stat.init instanceof AST_Const || stat.init instanceof AST_Let || (stat.object = cons_seq(stat.object)) : stat instanceof AST_If ? stat.condition = cons_seq(stat.condition) : stat instanceof AST_Switch ? stat.expression = cons_seq(stat.expression) : stat instanceof AST_With && (stat.expression = cons_seq(stat.expression));
-                }
-                if (compressor.option("conditionals") && stat instanceof AST_If) {
+                if (!prev || (stat instanceof AST_Exit ? stat.value = cons_seq(stat.value || make_node(AST_Undefined, stat).transform(compressor)) : stat instanceof AST_For ? stat.init instanceof AST_Definitions || walk(prev.body, (node)=>node instanceof AST_Scope || (node instanceof AST_Binary && "in" === node.operator ? walk_abort : void 0)) || (stat.init ? stat.init = cons_seq(stat.init) : (stat.init = prev.body, n--, CHANGED = !0)) : stat instanceof AST_ForIn ? stat.init instanceof AST_Const || stat.init instanceof AST_Let || (stat.object = cons_seq(stat.object)) : stat instanceof AST_If ? stat.condition = cons_seq(stat.condition) : stat instanceof AST_Switch ? stat.expression = cons_seq(stat.expression) : stat instanceof AST_With && (stat.expression = cons_seq(stat.expression))), compressor.option("conditionals") && stat instanceof AST_If) {
                     var decls = [], body = to_simple_statement(stat.body, decls), alt = to_simple_statement(stat.alternative, decls);
                     if (!1 !== body && !1 !== alt && decls.length > 0) {
                         var len = decls.length;
@@ -6959,8 +6909,8 @@
                         args = iife.args.slice(len);
                         for(var names = new Set(), i = len; --i >= 0;){
                             var sym = fn.argnames[i], arg = iife.args[i];
-                            const def = sym.definition && sym.definition(), is_reassigned = def && def.orig.length > 1;
-                            if (!is_reassigned && (args.unshift(make_node(AST_VarDef, sym, {
+                            const def = sym.definition && sym.definition();
+                            if ((!def || !(def.orig.length > 1)) && (args.unshift(make_node(AST_VarDef, sym, {
                                 name: sym,
                                 value: arg
                             })), !names.has(sym.name))) {
@@ -7605,8 +7555,7 @@
             }), node !== self1) {
                 if (node instanceof AST_Defun || node instanceof AST_DefClass) {
                     var node_def = node.name.definition();
-                    const in_export = tw.parent() instanceof AST_Export;
-                    if ((in_export || !drop_funcs && scope === self1) && node_def.global && !in_use_ids.has(node_def.id) && in_use_ids.set(node_def.id, node_def), node instanceof AST_DefClass) for (const prop of (node.extends && (node.extends.has_side_effects(compressor) || node.extends.may_throw(compressor)) && node.extends.walk(tw), node.properties))(prop.has_side_effects(compressor) || prop.may_throw(compressor)) && prop.walk(tw);
+                    if ((tw.parent() instanceof AST_Export || !drop_funcs && scope === self1) && node_def.global && !in_use_ids.has(node_def.id) && in_use_ids.set(node_def.id, node_def), node instanceof AST_DefClass) for (const prop of (node.extends && (node.extends.has_side_effects(compressor) || node.extends.may_throw(compressor)) && node.extends.walk(tw), node.properties))(prop.has_side_effects(compressor) || prop.may_throw(compressor)) && prop.walk(tw);
                     return map_add(initializations, node_def.id, node), !0;
                 }
                 if (node instanceof AST_SymbolFunarg && scope === self1 && map_add(var_defs_by_id, node.definition().id, node), node instanceof AST_Definitions && scope === self1) {
@@ -8390,10 +8339,9 @@
                         return params.push(value), arg !== value;
                     })) {
                         let [source, flags] = params;
-                        source = regexp_source_fix(new RegExp(source).source);
                         const rx = make_node(AST_RegExp, self1, {
                             value: {
-                                source,
+                                source: source = regexp_source_fix(new RegExp(source).source),
                                 flags
                             }
                         });
@@ -8650,8 +8598,7 @@
             expression: fn,
             args: self1.args
         }).optimize(compressor);
-        const can_drop_this_call = is_regular_func && compressor.option("side_effects") && fn.body.every(is_empty);
-        if (can_drop_this_call) {
+        if (is_regular_func && compressor.option("side_effects") && fn.body.every(is_empty)) {
             var args = self1.args.concat(make_node(AST_Undefined, self1));
             return make_sequence(self1, args).optimize(compressor);
         }
@@ -8667,8 +8614,7 @@
         }
         function append_var(decls, expressions, name, value) {
             var def = name.definition();
-            const already_appended = scope.variables.has(name.name);
-            already_appended || (scope.variables.set(name.name, def), scope.enclosed.push(def), decls.push(make_node(AST_VarDef, name, {
+            scope.variables.has(name.name) || (scope.variables.set(name.name, def), scope.enclosed.push(def), decls.push(make_node(AST_VarDef, name, {
                 name: name,
                 value: null
             })));
@@ -9434,8 +9380,7 @@
             if (expr instanceof AST_Object) for(var props = expr.properties, i = props.length; --i >= 0;){
                 var prop = props[i];
                 if ("" + (prop instanceof AST_ConciseMethod ? prop.key.name : prop.key) == key) {
-                    const all_props_flattenable = props.every((p)=>(p instanceof AST_ObjectKeyVal || arrows && p instanceof AST_ConciseMethod && !p.is_generator) && !p.computed_key());
-                    if (!all_props_flattenable || !safe_to_flatten(prop.value, compressor)) return;
+                    if (!props.every((p)=>(p instanceof AST_ObjectKeyVal || arrows && p instanceof AST_ConciseMethod && !p.is_generator) && !p.computed_key()) || !safe_to_flatten(prop.value, compressor)) return;
                     return make_node(AST_Sub, this, {
                         expression: make_node(AST_Array, expr, {
                             elements: props.map(function(prop) {
@@ -9601,13 +9546,9 @@
     }), def_optimize(AST_RegExp, literals_in_boolean_context), def_optimize(AST_Return, function(self1, compressor) {
         return self1.value && is_undefined(self1.value, compressor) && (self1.value = null), self1;
     }), def_optimize(AST_Arrow, opt_AST_Lambda), def_optimize(AST_Function, function(self1, compressor) {
-        if (self1 = opt_AST_Lambda(self1, compressor), compressor.option("unsafe_arrows") && compressor.option("ecma") >= 2015 && !self1.name && !self1.is_generator && !self1.uses_arguments && !self1.pinned()) {
-            const uses_this = walk(self1, (node)=>{
-                if (node instanceof AST_This) return walk_abort;
-            });
-            if (!uses_this) return make_node(AST_Arrow, self1, self1).optimize(compressor);
-        }
-        return self1;
+        return (self1 = opt_AST_Lambda(self1, compressor), !(compressor.option("unsafe_arrows") && compressor.option("ecma") >= 2015) || self1.name || self1.is_generator || self1.uses_arguments || self1.pinned() || walk(self1, (node)=>{
+            if (node instanceof AST_This) return walk_abort;
+        })) ? self1 : make_node(AST_Arrow, self1, self1).optimize(compressor);
     }), def_optimize(AST_Class, function(self1) {
         return self1;
     }), def_optimize(AST_Yield, function(self1, compressor) {
@@ -17510,9 +17451,7 @@
             } catch (e) {
                 if ("EEXIST" !== e.code) throw e;
             }
-            const log_path = `${debug_folder}/terser-debug-${9999999 * Math.random() | 0}.log`;
-            options = options || {};
-            const options_str = JSON.stringify(options, (_key, thing)=>"function" == typeof thing ? "[Function " + thing.toString() + "]" : thing instanceof RegExp ? "[RegExp " + thing.toString() + "]" : thing, 4), files_str = (file)=>"object" == typeof file && options.parse && options.parse.spidermonkey ? JSON.stringify(file, null, 2) : "object" == typeof file ? Object.keys(file).map((key)=>key + ": " + files_str(file[key])).join("\n\n") : "string" == typeof file ? "```\n" + file + "\n```" : file;
+            const log_path = `${debug_folder}/terser-debug-${9999999 * Math.random() | 0}.log`, options_str = JSON.stringify(options = options || {}, (_key, thing)=>"function" == typeof thing ? "[Function " + thing.toString() + "]" : thing instanceof RegExp ? "[RegExp " + thing.toString() + "]" : thing, 4), files_str = (file)=>"object" == typeof file && options.parse && options.parse.spidermonkey ? JSON.stringify(file, null, 2) : "object" == typeof file ? Object.keys(file).map((key)=>key + ": " + files_str(file[key])).join("\n\n") : "string" == typeof file ? "```\n" + file + "\n```" : file;
             fs.writeFileSync(log_path, "Options: \n" + options_str + "\n\nInput files:\n\n" + files_str(files) + "\n");
         }(files, options, _fs_module, process.env.TERSER_DEBUG_DIR);
         var quoted_props, toplevel, timings = (options = defaults(options, {

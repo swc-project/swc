@@ -7,7 +7,7 @@ const manager = function() {
     }
     function g(u, v) {
         for (let w of u){
-            const x = j(v), y = x.get(w.target);
+            const y = j(v).get(w.target);
             y && y(w);
         }
     }
@@ -20,12 +20,10 @@ const manager = function() {
             }(e) || new IntersectionObserver(g, e);
         },
         l: function(m, n, o) {
-            const p = j(m);
-            p.set(n, o), m.observe(n);
+            j(m).set(n, o), m.observe(n);
         },
         q: function(r, s) {
-            const t = j(r);
-            t.delete(s), r.unobserve(s);
+            j(r).delete(s), r.unobserve(s);
         }
     };
 }();

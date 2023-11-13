@@ -24774,9 +24774,7 @@
             }
             function cross(...values) {
                 var reduce;
-                const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values));
-                values = values.map(arrayify);
-                const lengths = values.map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
+                const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
                 if (j < 0 || lengths.some(empty)) return product;
                 for(;;){
                     product.push(index.map((j, i)=>values[i][j]));

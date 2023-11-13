@@ -1,7 +1,6 @@
 //// [mixinAbstractClasses.2.ts]
 var baseClass;
-const MixedBase = (baseClass = class {
+new (baseClass = class {
 }, class extends baseClass {
     mixinMethod() {}
-});
-new MixedBase();
+})();

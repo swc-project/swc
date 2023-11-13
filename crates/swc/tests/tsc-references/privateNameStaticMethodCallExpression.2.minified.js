@@ -2,9 +2,7 @@
 import { _ as _class_static_private_method_get } from "@swc/helpers/_/_class_static_private_method_get";
 class AA {
     test() {
-        _class_static_private_method_get(AA, AA, method).call(AA);
-        let func = _class_static_private_method_get(AA, AA, method);
-        func(), new (_class_static_private_method_get(AA, AA, method))();
+        _class_static_private_method_get(AA, AA, method).call(AA), _class_static_private_method_get(AA, AA, method)(), new (_class_static_private_method_get(AA, AA, method))();
         let arr = [
             1,
             2

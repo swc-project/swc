@@ -11,9 +11,6 @@ class Animal {
         console.log(this._sound);
     }
 }
-const a = new Animal;
-a.makeSound();
-const lion = new class extends Animal {
+(new Animal).makeSound(), (new class extends Animal {
     sound = 'RAWR!';
-};
-lion.makeSound();
+}).makeSound();
