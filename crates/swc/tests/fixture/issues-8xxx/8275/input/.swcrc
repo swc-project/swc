@@ -4,7 +4,7 @@
             "syntax": "ecmascript",
             "jsx": false
         },
-        "target": "es5",
+        "target": "es2022",
         "loose": false,
         "minify": {
             "compress": {
@@ -18,6 +18,5 @@
     "module": {
         "type": "es6"
     },
-    "minify": true,
     "isModule": true
 }
