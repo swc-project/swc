@@ -1,0 +1,5 @@
+* @swc-project/core
+crates/swc_css_* @swc-project/core-css
+crates/swc_ecma_* @swc-project/core-es
+crates/swc_html_* @swc-project/core-html
+crates/swc_xml_* @swc-project/core-xml
