@@ -14,6 +14,9 @@
 - **(es/minifier)** Use `cooked` while converting tpls into strings ([#8248](https://github.com/swc-project/swc/issues/8248)) ([be748f0](https://github.com/swc-project/swc/commit/be748f0f33bda76a1ae4a4acd586213adfe7b2aa))
 
 
+- **(es/minifier)** Enable seq inliner for const declarations ([#8255](https://github.com/swc-project/swc/issues/8255)) ([ebcd825](https://github.com/swc-project/swc/commit/ebcd8252253d2b5169ea03ec19ee4a76d3ca22c3))
+
+
 - **(es/parser)** Consider ASI while parsing TypeScript type aliases ([#8263](https://github.com/swc-project/swc/issues/8263)) ([e589126](https://github.com/swc-project/swc/commit/e58912622d86f2b03f90dd7d0782e5740822dca6))
 
 
@@ -1677,12 +1680,6 @@
 
 
 - **(es)** Allow missing `.map` file ([#7141](https://github.com/swc-project/swc/issues/7141)) ([3e6a186](https://github.com/swc-project/swc/commit/3e6a1869e84ec01125cf115c3d5f5c5c89645e1a))
-
-
-- **(es/helpers)** Use snake_case for helpers ([#7147](https://github.com/swc-project/swc/issues/7147)) ([3ca954b](https://github.com/swc-project/swc/commit/3ca954b9f9622ed400308f2af35242583a4bdc3d))
-
-
-- **(es/modules)** Hint nodejs for multiple `export *` ([#7184](https://github.com/swc-project/swc/issues/7184)) ([98f1493](https://github.com/swc-project/swc/commit/98f14931e7fa24b9d888eb5149c647840978b096))
 
 
 - **(es/parser)** Fix infinite loop on jsx in js ([#7191](https://github.com/swc-project/swc/issues/7191)) ([414e669](https://github.com/swc-project/swc/commit/414e66910dc5d9fea254811618f69067ab4a7a67))
