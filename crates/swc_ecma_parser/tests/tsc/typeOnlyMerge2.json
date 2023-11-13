@@ -120,7 +120,8 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsTypeAliasDeclaration",
@@ -224,7 +225,8 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsModuleDeclaration",
@@ -328,7 +330,8 @@
         "raw": "\"./c\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

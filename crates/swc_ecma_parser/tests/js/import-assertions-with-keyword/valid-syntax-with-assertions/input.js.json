@@ -76,7 +76,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     }
   ],
   "interpreter": null
