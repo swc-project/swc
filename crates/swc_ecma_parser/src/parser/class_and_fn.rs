@@ -534,7 +534,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ true)
+            } else if self.is_class_property(/* asi */ false)
                 || (self.syntax().typescript() && is!(self, '?'))
             {
                 // Property named `static`
