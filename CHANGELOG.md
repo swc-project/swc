@@ -22,6 +22,9 @@
 
 - **(es/parser)** Adjust the context for cond expr while parsing JSX ([#8261](https://github.com/swc-project/swc/issues/8261)) ([0678c3c](https://github.com/swc-project/swc/commit/0678c3c55fa65780caf15e55919276912348943b))
 
+
+- **(es/parser)** Fix ASI hazard of `static` ([#8262](https://github.com/swc-project/swc/issues/8262)) ([c128153](https://github.com/swc-project/swc/commit/c1281534b65d1d7f0069c04d35c1eb29f08e9a14))
+
 ### Performance
 
 
@@ -1692,9 +1695,6 @@
 
 ### Features
 
-
-
-- **(css/modules)** Preserve spans of CSS class names ([#7185](https://github.com/swc-project/swc/issues/7185)) ([df7b4e7](https://github.com/swc-project/swc/commit/df7b4e71d22a7174df6f4fe9691044560e8e7f65))
 
 
 - **(es/compat)** Implement stage 3 decorator, without auto accessor ([#6950](https://github.com/swc-project/swc/issues/6950)) ([7a863ad](https://github.com/swc-project/swc/commit/7a863ad18ffeb45801cc17992634b5c62adfe88b))
