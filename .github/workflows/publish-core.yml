@@ -235,7 +235,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: bindings-${{ matrix.settings.target }}
           path: .
@@ -274,7 +274,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: bindings-x86_64-unknown-linux-gnu
           path: .
@@ -308,7 +308,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: bindings-x86_64-unknown-linux-musl
           path: .
@@ -328,7 +328,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: bindings-aarch64-unknown-linux-musl
           path: .
@@ -373,7 +373,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Download artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
           path: .
@@ -437,7 +437,7 @@ jobs:
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
 
       - name: Download all artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v3.0.2
         with:
           path: artifacts
 
