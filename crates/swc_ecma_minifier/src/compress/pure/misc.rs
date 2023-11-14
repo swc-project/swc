@@ -928,20 +928,35 @@ impl Pure<'_> {
             _ => {}
         }
 
-        if let Expr::Call(CallExpr {
-            callee: Callee::Expr(callee),
-            args,
-            ..
-        }) = e
-        {
-            if callee.is_pure_callee(&self.expr_ctx) {
-                self.changed = true;
-                report_change!("Dropping pure call as callee is pure");
-                *e = self
-                    .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
-                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                return;
+        match e {
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) => {
+                if callee.is_pure_callee(&self.expr_ctx) {
+                    self.changed = true;
+                    report_change!("Dropping pure call as callee is pure");
+                    *e = self
+                        .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
             }
+
+            Expr::TaggedTpl(TaggedTpl {
+                tag: callee, tpl, ..
+            }) => {
+                if callee.is_pure_callee(&self.expr_ctx) {
+                    self.changed = true;
+                    report_change!("Dropping pure tag tpl as callee is pure");
+                    *e = self
+                        .make_ignored_expr(tpl.exprs.take().into_iter())
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
+            }
+            _ => (),
         }
 
         if self.options.unused {
