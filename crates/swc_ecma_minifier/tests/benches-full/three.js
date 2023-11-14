@@ -4513,10 +4513,10 @@
             update: function(count, mode, instanceCount) {
                 switch(render.calls++, mode){
                     case 4:
-                        render.triangles += instanceCount * (count / 3);
+                        render.triangles += count / 3 * instanceCount;
                         break;
                     case 1:
-                        render.lines += instanceCount * (count / 2);
+                        render.lines += count / 2 * instanceCount;
                         break;
                     case 3:
                         render.lines += instanceCount * (count - 1);
@@ -10464,7 +10464,7 @@
             },
             calc: function(t) {
                 var t2 = t * t;
-                return c0 + c1 * t + c2 * t2 + c3 * (t2 * t);
+                return c0 + c1 * t + c2 * t2 + t2 * t * c3;
             }
         };
     }
@@ -10795,7 +10795,7 @@
     }
     function CatmullRom(t, p0, p1, p2, p3) {
         var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t;
-        return (2 * p1 - 2 * p2 + v0 + v1) * (t * t2) + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+        return t * t2 * (2 * p1 - 2 * p2 + v0 + v1) + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
     }
     function QuadraticBezier(t, p0, p1, p2) {
         var k;
@@ -11365,7 +11365,7 @@
             return this;
         }, _proto.getAt = function(normal, target) {
             var x = normal.x, y = normal.y, z = normal.z, coeff = this.coefficients;
-            return target.copy(coeff[0]).multiplyScalar(0.282095), target.addScaledVector(coeff[1], 0.488603 * y), target.addScaledVector(coeff[2], 0.488603 * z), target.addScaledVector(coeff[3], 0.488603 * x), target.addScaledVector(coeff[4], 1.092548 * (x * y)), target.addScaledVector(coeff[5], 1.092548 * (y * z)), target.addScaledVector(coeff[6], 0.315392 * (3.0 * z * z - 1.0)), target.addScaledVector(coeff[7], 1.092548 * (x * z)), target.addScaledVector(coeff[8], 0.546274 * (x * x - y * y)), target;
+            return target.copy(coeff[0]).multiplyScalar(0.282095), target.addScaledVector(coeff[1], 0.488603 * y), target.addScaledVector(coeff[2], 0.488603 * z), target.addScaledVector(coeff[3], 0.488603 * x), target.addScaledVector(coeff[4], x * y * 1.092548), target.addScaledVector(coeff[5], y * z * 1.092548), target.addScaledVector(coeff[6], 0.315392 * (3.0 * z * z - 1.0)), target.addScaledVector(coeff[7], x * z * 1.092548), target.addScaledVector(coeff[8], 0.546274 * (x * x - y * y)), target;
         }, _proto.getIrradianceAt = function(normal, target) {
             var x = normal.x, y = normal.y, z = normal.z, coeff = this.coefficients;
             return target.copy(coeff[0]).multiplyScalar(0.886227), target.addScaledVector(coeff[1], 1.023328 * y), target.addScaledVector(coeff[2], 1.023328 * z), target.addScaledVector(coeff[3], 1.023328 * x), target.addScaledVector(coeff[4], 0.858086 * x * y), target.addScaledVector(coeff[5], 0.858086 * y * z), target.addScaledVector(coeff[6], 0.743125 * z * z - 0.247708), target.addScaledVector(coeff[7], 0.858086 * x * z), target.addScaledVector(coeff[8], 0.429043 * (x * x - y * y)), target;

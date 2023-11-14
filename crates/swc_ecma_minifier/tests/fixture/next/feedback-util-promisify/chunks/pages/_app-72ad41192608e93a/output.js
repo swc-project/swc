@@ -717,7 +717,7 @@
                             for(o = i & (1 << -h) - 1, i >>= -h, h += f; h > 0; o = 256 * o + e[r + c], c += l, h -= 8);
                             if (0 === i) i = 1 - s;
                             else {
-                                if (i === a) return o ? NaN : (p ? -1 : 1) * (1 / 0);
+                                if (i === a) return o ? NaN : 1 / 0 * (p ? -1 : 1);
                                 o += Math.pow(2, f), i -= s;
                             }
                             return (p ? -1 : 1) * o * Math.pow(2, i - f);
