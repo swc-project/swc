@@ -267,6 +267,7 @@ impl Vars {
     {
         let mut changed = false;
         if !self.simple_functions.is_empty()
+            || !self.lits.is_empty()
             || !self.lits_for_cmp.is_empty()
             || !self.lits_for_array_access.is_empty()
             || !self.removed.is_empty()
@@ -275,6 +276,7 @@ impl Vars {
                 simple_functions: &self.simple_functions,
                 lits_for_cmp: &self.lits_for_cmp,
                 lits_for_array_access: &self.lits_for_array_access,
+                lits: &self.lits,
                 vars_to_remove: &self.removed,
                 changed: false,
             };
