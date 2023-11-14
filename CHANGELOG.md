@@ -28,6 +28,12 @@
 
 - **(es/parser)** Fix ASI hazard of `static` ([#8262](https://github.com/swc-project/swc/issues/8262)) ([c128153](https://github.com/swc-project/swc/commit/c1281534b65d1d7f0069c04d35c1eb29f08e9a14))
 
+### Features
+
+
+
+- **(es/minifier)** Swap bin expr to save paren ([#8277](https://github.com/swc-project/swc/issues/8277)) ([65c3d0e](https://github.com/swc-project/swc/commit/65c3d0e3f4ec4b447e6d36f31eb40bdafdf65db7))
+
 ### Performance
 
 
@@ -1683,9 +1689,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/typescript)** Mark `A` as a type in `export { type A }` ([#7196](https://github.com/swc-project/swc/issues/7196)) ([ddfbc93](https://github.com/swc-project/swc/commit/ddfbc936244c1168c547e134f20d436bfb6227f9))
 
 
 - **(swc_core)** Fix a feature name ([#7198](https://github.com/swc-project/swc/issues/7198)) ([bfe6544](https://github.com/swc-project/swc/commit/bfe654438f15d875257caf7735f11a79e51780a5))
