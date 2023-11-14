@@ -17,6 +17,9 @@
 - **(es/minifier)** Enable seq inliner for const declarations ([#8255](https://github.com/swc-project/swc/issues/8255)) ([ebcd825](https://github.com/swc-project/swc/commit/ebcd8252253d2b5169ea03ec19ee4a76d3ca22c3))
 
 
+- **(es/minifier)** Keep class with a static block ([#8283](https://github.com/swc-project/swc/issues/8283)) ([20fb5ba](https://github.com/swc-project/swc/commit/20fb5bab32a1e428af5e9e2203d3982d3a7ddcf3))
+
+
 - **(es/parser)** Consider ASI while parsing TypeScript type aliases ([#8263](https://github.com/swc-project/swc/issues/8263)) ([e589126](https://github.com/swc-project/swc/commit/e58912622d86f2b03f90dd7d0782e5740822dca6))
 
 
@@ -1682,12 +1685,6 @@
 
 
 
-- **(es)** Allow missing `.map` file ([#7141](https://github.com/swc-project/swc/issues/7141)) ([3e6a186](https://github.com/swc-project/swc/commit/3e6a1869e84ec01125cf115c3d5f5c5c89645e1a))
-
-
-- **(es/parser)** Fix infinite loop on jsx in js ([#7191](https://github.com/swc-project/swc/issues/7191)) ([414e669](https://github.com/swc-project/swc/commit/414e66910dc5d9fea254811618f69067ab4a7a67))
-
-
 - **(es/typescript)** Mark `A` as a type in `export { type A }` ([#7196](https://github.com/swc-project/swc/issues/7196)) ([ddfbc93](https://github.com/swc-project/swc/commit/ddfbc936244c1168c547e134f20d436bfb6227f9))
 
 
@@ -1695,9 +1692,6 @@
 
 ### Features
 
-
-
-- **(es/compat)** Implement stage 3 decorator, without auto accessor ([#6950](https://github.com/swc-project/swc/issues/6950)) ([7a863ad](https://github.com/swc-project/swc/commit/7a863ad18ffeb45801cc17992634b5c62adfe88b))
 
 
 - **(es/helpers)** Use named export and unify import path ([#7182](https://github.com/swc-project/swc/issues/7182)) ([a13a78e](https://github.com/swc-project/swc/commit/a13a78e3fe2f81f0cbbe4a98da9cbb5a48b6cbed))
