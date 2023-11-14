@@ -4562,7 +4562,7 @@
                                     ], size = "width";
                             }
                             var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
-                            Math.abs(position) > maxPosition && (position = (position < 0 ? -1 : 1) * (Math.ceil(maxPosition / step) * step)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
+                            Math.abs(position) > maxPosition && (position = Math.ceil(maxPosition / step) * step * (position < 0 ? -1 : 1)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
                         } else {
                             var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
                             switch(cue.lineAlign){
@@ -5694,7 +5694,7 @@
                 for(m = e & (1 << -nBits) - 1, e >>= -nBits, nBits += mLen; nBits > 0; m = 256 * m + buffer[offset + i], i += d, nBits -= 8);
                 if (0 === e) e = 1 - eBias;
                 else {
-                    if (e === eMax) return m ? NaN : (s ? -1 : 1) * (1 / 0);
+                    if (e === eMax) return m ? NaN : 1 / 0 * (s ? -1 : 1);
                     m += Math.pow(2, mLen), e -= eBias;
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);

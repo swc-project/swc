@@ -4122,7 +4122,7 @@
             var sign = __webpack_require__(62381), abs = Math.abs, pow = Math.pow, EPSILON = pow(2, -52), EPSILON32 = pow(2, -23), MAX32 = pow(2, 127) * (2 - EPSILON32), MIN32 = pow(2, -126);
             module.exports = Math.fround || function(x) {
                 var a, result, $abs = abs(x), $sign = sign(x);
-                return $abs < MIN32 ? $sign * ($abs / MIN32 / EPSILON32 + 1 / EPSILON - 1 / EPSILON) * MIN32 * EPSILON32 : (result = (a = (1 + EPSILON32 / EPSILON) * $abs) - (a - $abs)) > MAX32 || result != result ? $sign * (1 / 0) : $sign * result;
+                return $abs < MIN32 ? $sign * ($abs / MIN32 / EPSILON32 + 1 / EPSILON - 1 / EPSILON) * MIN32 * EPSILON32 : (result = (a = (1 + EPSILON32 / EPSILON) * $abs) - (a - $abs)) > MAX32 || result != result ? 1 / 0 * $sign : $sign * result;
             };
         },
         41571: function(module) {
@@ -5749,7 +5749,7 @@
             }, {
                 cosh: function(x) {
                     var t = expm1(abs(x) - 1) + 1;
-                    return (t + 1 / (t * E * E)) * (E / 2);
+                    return E / 2 * (t + 1 / (t * E * E));
                 }
             });
         },

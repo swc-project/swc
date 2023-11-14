@@ -13617,7 +13617,7 @@
                 for(m = e & (1 << -nBits) - 1, e >>= -nBits, nBits += mLen; nBits > 0; m = 256 * m + buffer[offset + i], i += d, nBits -= 8);
                 if (0 === e) e = 1 - eBias;
                 else {
-                    if (e === eMax) return m ? NaN : (s ? -1 : 1) * (1 / 0);
+                    if (e === eMax) return m ? NaN : 1 / 0 * (s ? -1 : 1);
                     m += Math.pow(2, mLen), e -= eBias;
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);

@@ -373,8 +373,26 @@ class C extends B {
 }
 export { };
 //// [inContainingClassExprStaticField.ts]
+(class {
+    static{
+        class C extends B {
+            static{
+                this._ = super.w();
+            }
+        }
+    }
+});
 export { };
 //// [inContainingClassExprStaticBlock.ts]
+(class {
+    static{
+        class C extends B {
+            static{
+                super.w();
+            }
+        }
+    }
+});
 export { };
 //// [funcExprInContainingScopeStaticField.ts]
 class C extends B {

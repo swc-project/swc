@@ -1150,15 +1150,15 @@
         },
         elasticIn: function(k) {
             var s, a = 0.1;
-            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / 0.4)));
+            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4)));
         },
         elasticOut: function(k) {
             var s, a = 0.1;
-            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), a * Math.pow(2, -10 * k) * Math.sin((k - s) * (2 * Math.PI) / 0.4) + 1);
+            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), a * Math.pow(2, -10 * k) * Math.sin(2 * Math.PI * (k - s) / 0.4) + 1);
         },
         elasticInOut: function(k) {
             var s, a = 0.1;
-            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), (k *= 2) < 1) ? -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / 0.4)) : a * Math.pow(2, -10 * (k -= 1)) * Math.sin((k - s) * (2 * Math.PI) / 0.4) * 0.5 + 1;
+            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), (k *= 2) < 1) ? -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4) * 0.5) : a * Math.pow(2, -10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4) * 0.5 + 1;
         },
         backIn: function(k) {
             return k * k * (2.70158 * k - 1.70158);
@@ -1167,7 +1167,7 @@
             return --k * k * (2.70158 * k + 1.70158) + 1;
         },
         backInOut: function(k) {
-            return (k *= 2) < 1 ? 0.5 * (k * k * (3.5949095 * k - 2.5949095)) : 0.5 * ((k -= 2) * k * (3.5949095 * k + 2.5949095) + 2);
+            return (k *= 2) < 1 ? k * k * (3.5949095 * k - 2.5949095) * 0.5 : 0.5 * ((k -= 2) * k * (3.5949095 * k + 2.5949095) + 2);
         },
         bounceIn: function(k) {
             return 1 - easing.bounceOut(1 - k);
@@ -6139,7 +6139,7 @@
         return (u[0] * v[1] < u[1] * v[0] ? -1 : 1) * Math.acos(vRatio(u, v));
     }
     function processArc(x1, y1, x2, y2, fa, fs, rx, ry, psiDeg, cmd, path) {
-        var psi = psiDeg * (PI$1 / 180.0), xp = mathCos$2(psi) * (x1 - x2) / 2.0 + mathSin$2(psi) * (y1 - y2) / 2.0, yp = -1 * mathSin$2(psi) * (x1 - x2) / 2.0 + mathCos$2(psi) * (y1 - y2) / 2.0, lambda = xp * xp / (rx * rx) + yp * yp / (ry * ry);
+        var psi = PI$1 / 180.0 * psiDeg, xp = mathCos$2(psi) * (x1 - x2) / 2.0 + mathSin$2(psi) * (y1 - y2) / 2.0, yp = -1 * mathSin$2(psi) * (x1 - x2) / 2.0 + mathCos$2(psi) * (y1 - y2) / 2.0, lambda = xp * xp / (rx * rx) + yp * yp / (ry * ry);
         lambda > 1 && (rx *= mathSqrt$3(lambda), ry *= mathSqrt$3(lambda));
         var f = (fa === fs ? -1 : 1) * mathSqrt$3((rx * rx * (ry * ry) - rx * rx * (yp * yp) - ry * ry * (xp * xp)) / (rx * rx * (yp * yp) + ry * ry * (xp * xp))) || 0, cxp = f * rx * yp / ry, cyp = -(f * ry) * xp / rx, cx = (x1 + x2) / 2.0 + mathCos$2(psi) * cxp - mathSin$2(psi) * cyp, cy = (y1 + y2) / 2.0 + mathSin$2(psi) * cxp + mathCos$2(psi) * cyp, theta = vAngle([
             1,
@@ -15715,8 +15715,8 @@
                         maxOverflow = Math.max(item.offset + item.width, maxOverflow);
                     });
                     var totalOverFlow = (minOverflow = Math.abs(minOverflow)) + (maxOverflow = Math.abs(maxOverflow)), oldRange = max - min, overflowBuffer = oldRange / (1 - (minOverflow + maxOverflow) / axisLength) - oldRange;
-                    return max += overflowBuffer * (maxOverflow / totalOverFlow), {
-                        min: min -= overflowBuffer * (minOverflow / totalOverFlow),
+                    return max += maxOverflow / totalOverFlow * overflowBuffer, {
+                        min: min -= minOverflow / totalOverFlow * overflowBuffer,
                         max: max
                     };
                 }(min, max, model, makeColumnLayout(barSeriesModels));
@@ -18833,7 +18833,7 @@
         }
         function recalculateXOnSemiToAlignOnEllipseCurve(semi) {
             for(var rB = semi.rB, rB2 = rB * rB, i = 0; i < semi.list.length; i++){
-                var item = semi.list[i], dy = Math.abs(item.label.y - cy), rA = r + item.len, dx = Math.sqrt((1 - Math.abs(dy * dy / rB2)) * (rA * rA));
+                var item = semi.list[i], dy = Math.abs(item.label.y - cy), rA = r + item.len, dx = Math.sqrt(rA * rA * (1 - Math.abs(dy * dy / rB2)));
                 item.label.x = cx + (dx + item.len2) * dir;
             }
         }
@@ -19009,7 +19009,7 @@
                             textAlign = isLabelInside ? 'center' : 'edge' === labelAlignTo ? nx > 0 ? 'right' : 'left' : nx > 0 ? 'left' : 'right';
                         }
                         var rotate = labelModel.get('rotate');
-                        if (hasLabelRotate = !!(labelRotate = 'number' == typeof rotate ? rotate * (Math.PI / 180) : rotate ? nx < 0 ? -midAngle + Math.PI : -midAngle : 0), label.x = textX, label.y = textY, label.rotation = labelRotate, label.setStyle({
+                        if (hasLabelRotate = !!(labelRotate = 'number' == typeof rotate ? Math.PI / 180 * rotate : rotate ? nx < 0 ? -midAngle + Math.PI : -midAngle : 0), label.x = textX, label.y = textY, label.rotation = labelRotate, label.setStyle({
                             verticalAlign: 'middle'
                         }), isLabelInside) {
                             label.setStyle({
@@ -22177,7 +22177,7 @@
             var textPosition = isLeft ? 'left' : 'right', normalLabelModel = itemModel.getModel('label'), rotate = normalLabelModel.get('rotate'), textContent = symbolPath.getTextContent();
             textContent && (symbolPath.setTextConfig({
                 position: normalLabelModel.get('position') || textPosition,
-                rotation: null == rotate ? -rad : rotate * (Math.PI / 180),
+                rotation: null == rotate ? -rad : Math.PI / 180 * rotate,
                 origin: 'center'
             }), textContent.setStyle('verticalAlign', 'middle'));
         }
@@ -29204,7 +29204,7 @@
                 var symbolMarginNumeric = parsePercent$1(symbolMargin, symbolSize[valueDim.index]), uLenWithMargin = Math.max(unitLength + 2 * symbolMarginNumeric, 0), endFix = hasEndGap ? 0 : 2 * symbolMarginNumeric, repeatSpecified = isNumeric(symbolRepeat), repeatTimes = repeatSpecified ? symbolRepeat : toIntTimes((absBoundingLength + endFix) / uLenWithMargin);
                 symbolMarginNumeric = (absBoundingLength - repeatTimes * unitLength) / 2 / (hasEndGap ? repeatTimes : repeatTimes - 1), uLenWithMargin = unitLength + 2 * symbolMarginNumeric, endFix = hasEndGap ? 0 : 2 * symbolMarginNumeric, repeatSpecified || 'fixed' === symbolRepeat || (repeatTimes = repeatCutLength ? toIntTimes((Math.abs(repeatCutLength) + endFix) / uLenWithMargin) : 0), pathLen = repeatTimes * uLenWithMargin - endFix, outputSymbolMeta.repeatTimes = repeatTimes, outputSymbolMeta.symbolMargin = symbolMarginNumeric;
             }
-            var sizeFix = pxSign * (pathLen / 2), pathPosition = outputSymbolMeta.pathPosition = [];
+            var sizeFix = pathLen / 2 * pxSign, pathPosition = outputSymbolMeta.pathPosition = [];
             pathPosition[categoryDim.index] = layout[categoryDim.wh] / 2, pathPosition[valueDim.index] = 'start' === symbolPosition ? sizeFix : 'end' === symbolPosition ? boundingLength - sizeFix : boundingLength / 2, symbolOffset && (pathPosition[0] += symbolOffset[0], pathPosition[1] += symbolOffset[1]);
             var bundlePosition = outputSymbolMeta.bundlePosition = [];
             bundlePosition[categoryDim.index] = layout[categoryDim.xy], bundlePosition[valueDim.index] = layout[valueDim.xy];
