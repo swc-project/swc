@@ -130,8 +130,7 @@ pub struct JsMinifyFormatOptions {
     #[serde(default, alias = "indent_start")]
     pub indent_start: bool,
 
-    /// Not implemented yet.
-    #[serde(default, alias = "inline_script")]
+    #[serde(default = "true_by_default", alias = "inline_script")]
     pub inline_script: bool,
 
     /// Not implemented yet.
