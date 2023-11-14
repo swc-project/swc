@@ -750,7 +750,7 @@
                 if (obsOffset) return obsOffsets[obsOffset];
                 if (militaryOffset) return 0;
                 var hm = parseInt(numOffset, 10), m = hm % 100;
-                return 60 * ((hm - m) / 100) + m;
+                return (hm - m) / 100 * 60 + m;
             }(match[8], match[9], match[10]), config._d = createUTCDate.apply(null, config._a), config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), getParsingFlags(config).rfc2822 = !0;
         } else config._isValid = !1;
     }

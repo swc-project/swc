@@ -698,6 +698,16 @@ impl Optimizer<'_> {
             }
 
             Expr::Class(cls) => {
+                if cls
+                    .class
+                    .body
+                    .iter()
+                    .any(|m| m.as_static_block().iter().any(|s| !s.body.is_empty()))
+                {
+                    // there's nothing we can do about it
+                    return Some(Expr::Class(cls.take()));
+                }
+
                 let exprs: Vec<Box<Expr>> =
                     extract_class_side_effect(&self.expr_ctx, *cls.class.take())
                         .into_iter()

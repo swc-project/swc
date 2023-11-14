@@ -500,31 +500,37 @@ impl Pure<'_> {
     }
 
     fn try_swap_bin(&mut self, op: BinaryOp, left: &mut Expr, right: &mut Expr) -> bool {
-        fn is_supported(op: BinaryOp) -> bool {
-            matches!(
-                op,
-                op!("===")
-                    | op!("!==")
-                    | op!("==")
-                    | op!("!=")
-                    | op!("&")
-                    | op!("^")
-                    | op!("|")
-                    | op!("*")
-            )
-        }
+        let can_swap = matches!(
+            op,
+            op!("===")
+                | op!("!==")
+                | op!("==")
+                | op!("!=")
+                | op!("&")
+                | op!("^")
+                | op!("|")
+                | op!("*")
+        ) && self.can_swap_bin_operands(left, right, false);
 
-        if !is_supported(op) {
-            return false;
-        }
+        // a * (b / c) -> b / c * a
+        let can_swap = can_swap
+            || (matches!(op, op!("*") | op!("&") | op!("|") | op!("^"))
+                && right
+                    .as_bin()
+                    .filter(|b| b.op.precedence() == op.precedence())
+                    .is_some()
+                && left
+                    .as_bin()
+                    .filter(|b| b.op.precedence() == op.precedence())
+                    .is_none()
+                && !left.may_have_side_effects(&self.expr_ctx));
 
-        if self.can_swap_bin_operands(left, right, false) {
+        if can_swap {
             report_change!("Swapping operands of binary expession");
             swap(left, right);
-            return true;
         }
 
-        false
+        can_swap
     }
 
     /// Swap lhs and rhs in certain conditions.

@@ -1381,7 +1381,7 @@
             return (1 === (a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a))) ? "hsl(" : "hsla(") + (this.h || 0) + ", " + 100 * (this.s || 0) + "%, " + 100 * (this.l || 0) + "%" + (1 === a ? ")" : ", " + a + ")");
         }
     }));
-    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * (6 / 29) * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
+    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
     function labConvert(o) {
         if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
         if (o instanceof Hcl) return hcl2lab(o);
@@ -1485,7 +1485,7 @@
         },
         rgb: function() {
             var h = isNaN(this.h) ? 0 : (this.h + 120) * radians, l = +this.l, a = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh = Math.cos(h), sinh = Math.sin(h);
-            return new Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + a * (1.97294 * cosh)), this.opacity);
+            return new Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + 1.97294 * cosh * a), this.opacity);
         }
     }));
     var constant$3 = (x)=>()=>x;
@@ -1672,7 +1672,7 @@
             else {
                 var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1), b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0);
                 S = (Math.log(Math.sqrt(b1 * b1 + 1) - b1) - r0) / rho, i = function(t) {
-                    var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (coshr0 * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1)) - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
+                    var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1) * coshr0 - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
                     return [
                         ux0 + u * dx,
                         uy0 + u * dy,

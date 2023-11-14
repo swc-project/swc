@@ -339,7 +339,7 @@
                 };
             }
             function hue2rgb(p, q, t) {
-                return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + (q - p) * (6 * t) : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
+                return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + 6 * t * (q - p) : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
             }
             function rgbToHsv(r, g, b) {
                 var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, d = max - min;
@@ -762,7 +762,7 @@
                 }, TinyColor.prototype.brighten = function(amount) {
                     void 0 === amount && (amount = 10);
                     var rgb = this.toRgb();
-                    return rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(-(255 * (amount / 100))))), rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(-(255 * (amount / 100))))), rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(-(255 * (amount / 100))))), new TinyColor(rgb);
+                    return rgb.r = Math.max(0, Math.min(255, rgb.r - Math.round(-(amount / 100 * 255)))), rgb.g = Math.max(0, Math.min(255, rgb.g - Math.round(-(amount / 100 * 255)))), rgb.b = Math.max(0, Math.min(255, rgb.b - Math.round(-(amount / 100 * 255)))), new TinyColor(rgb);
                 }, TinyColor.prototype.darken = function(amount) {
                     void 0 === amount && (amount = 10);
                     var hsl = this.toHsl();
