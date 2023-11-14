@@ -11161,7 +11161,7 @@ fn issue_8271_1() {
         const $eb2fd35624c84372$var$CustomElement = (tag)=>{
             return (ctor, context)=>{
                 context.addInitializer(function() {
-                    customElements.define(tag, this);
+                    // customElements.define(tag, this);
                     console.log("metadata:", context.metadata);
                 });
                 return ctor;
@@ -11174,7 +11174,7 @@ fn issue_8271_1() {
             let _classDescriptor;
             let _classExtraInitializers = [];
             let _classThis;
-            let _classSuper = HTMLElement;
+            let _classSuper = Array;
             var A = class extends _classSuper {
                 static{
                     _classThis = this;
