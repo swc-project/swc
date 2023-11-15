@@ -1675,20 +1675,6 @@ where
     fn emit_prop_name(&mut self, node: &PropName) -> Result {
         match node {
             PropName::Ident(ident) => {
-                if self.cfg.ascii_only && !ident.sym.is_ascii() {
-                    punct!("\"");
-                    self.wr.write_symbol(
-                        DUMMY_SP,
-                        &get_ascii_only_ident(
-                            &handle_invalid_unicodes(&ident.sym),
-                            self.cfg.target,
-                        ),
-                    )?;
-                    punct!("\"");
-
-                    return Ok(());
-                }
-
                 emit!(ident)
             }
             PropName::Str(ref n) => emit!(n),
@@ -3723,6 +3709,7 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
         return Cow::Borrowed(sym);
     }
 
+    let mut first = true;
     let mut buf = String::with_capacity(sym.len() + 8);
     let mut iter = sym.chars().peekable();
 
@@ -3816,16 +3803,16 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
             '"' => {
                 buf.push('"');
             }
-            '\x01'..='\x0f' => {
+            '\x01'..='\x0f' if !first => {
                 let _ = write!(buf, "\\x0{:x}", c as u8);
             }
-            '\x10'..='\x1f' => {
+            '\x10'..='\x1f' if !first => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
             '\x20'..='\x7e' => {
                 buf.push(c);
             }
-            '\u{7f}'..='\u{ff}' => {
+            '\u{7f}'..='\u{ff}' if !first => {
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
             '\u{2028}' => {
@@ -3860,6 +3847,7 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
                 }
             }
         }
+        first = false;
     }
 
     Cow::Owned(buf)
