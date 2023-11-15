@@ -77,51 +77,32 @@ where
 
 fn replace_close_inline_script(raw: &str) -> Cow<str> {
     let chars = raw.as_bytes();
-    let pattern_len = 8; // </script>
-    let matched = |i: usize| {
-        if i + pattern_len >= chars.len() {
-            return false;
-        }
-        chars[i] == b'<'
-            && chars[i + 1] == b'/'
-            && (chars[i + 2] == b's' || chars[i + 2] == b'S')
-            && (chars[i + 3] == b'c' || chars[i + 3] == b'C')
-            && (chars[i + 4] == b'r' || chars[i + 4] == b'R')
-            && (chars[i + 5] == b'i' || chars[i + 5] == b'I')
-            && (chars[i + 6] == b'p' || chars[i + 6] == b'P')
-            && (chars[i + 7] == b't' || chars[i + 7] == b'T')
-            && (chars[i + 8] == b'>'
-                || chars[i + 8] == b' '
-                || chars[i + 8] == b'\t'
-                || chars[i + 8] == b'\n'
-                || chars[i + 8] == b'\x0C'
-                || chars[i + 8] == b'\r')
-    };
-    let mut matched_list = (0..chars.len()).filter(|&i| matched(i)).peekable();
-    if matched_list.peek().is_none() {
+
+    let mut matched_indexes = chars
+        .iter()
+        .enumerate()
+        .filter(|(index, byte)| {
+            byte == &&b'<'
+                && index + 8 < chars.len()
+                && chars[index + 1..index + 8].eq_ignore_ascii_case(b"/script")
+                && matches!(
+                    chars[index + 8],
+                    b'>' | b' ' | b'\t' | b'\n' | b'\x0C' | b'\r'
+                )
+        })
+        .map(|(index, _)| index)
+        .peekable();
+
+    if matched_indexes.peek().is_none() {
         return Cow::Borrowed(raw);
     }
-    let mut result = String::new();
-    let mut last_end = 0;
-    for start in matched_list {
-        for c in unsafe { chars.get_unchecked(last_end..start) } {
-            result.push(*c as char);
-        }
-        for (index, c) in unsafe { chars.get_unchecked(start..start + pattern_len) }
-            .iter()
-            .enumerate()
-        {
-            if index == 1 {
-                // "</s" -> <\/s"
-                result.push('\\');
-            }
-            result.push(*c as char);
-        }
-        last_end = start + pattern_len;
+
+    let mut result = String::from(raw);
+
+    for (offset, i) in matched_indexes.enumerate() {
+        result.insert(i + 1 + offset, '\\');
     }
-    for c in unsafe { chars.get_unchecked(last_end..chars.len()) } {
-        result.push(*c as char);
-    }
+
     Cow::Owned(result)
 }
 
