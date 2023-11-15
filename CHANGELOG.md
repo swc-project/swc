@@ -67,6 +67,9 @@
 
 - **(common)** Remove dependency on `string-cache` ([#8291](https://github.com/swc-project/swc/issues/8291)) ([66a4d37](https://github.com/swc-project/swc/commit/66a4d370314d45b5d4a0117401002ac43dbcba0a))
 
+
+- **(es)** Remove duplicate `phf` dependency ([#8294](https://github.com/swc-project/swc/issues/8294)) ([25ac679](https://github.com/swc-project/swc/commit/25ac679bd3906c09212134859df9c75f38018822))
+
 ## [1.3.97] - 2023-11-09
 
 ### Bug Fixes
@@ -1678,9 +1681,6 @@
 
 ### Bug Fixes
 
-
-
-- **(bindings/node)** Make peer dependency of helpers optional ([#7216](https://github.com/swc-project/swc/issues/7216)) ([e86d598](https://github.com/swc-project/swc/commit/e86d59882a6644a63e98094127694f27b3c1b5a4))
 
 
 - **(es/compat)** Fix `finally` handling of `generator` ([#7215](https://github.com/swc-project/swc/issues/7215)) ([f5c62fb](https://github.com/swc-project/swc/commit/f5c62fbbf8ccbadec4daae4a2158b7b2fc707a2b))

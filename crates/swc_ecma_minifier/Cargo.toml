@@ -59,8 +59,8 @@ swc_ecma_ast = { version = "0.110.10", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_codegen = { version = "0.146.27", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.141.23", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.134.34", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.195.42", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_base = { version = "0.134.35", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_optimization = { version = "0.195.43", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "0.20.30", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "0.124.29", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.96.10", path = "../swc_ecma_visit" }

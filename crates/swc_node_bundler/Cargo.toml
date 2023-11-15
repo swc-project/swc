@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_node_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.58.61"
+version       = "0.58.62"
 
 [lib]
 bench = false
@@ -41,7 +41,7 @@ swc_ecma_ast = { version = "0.110.10", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.146.27", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.45.10", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.141.23", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.226.42", path = "../swc_ecma_transforms" }
+swc_ecma_transforms = { version = "0.226.43", path = "../swc_ecma_transforms" }
 swc_ecma_utils = { version = "0.124.29", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.96.10", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
