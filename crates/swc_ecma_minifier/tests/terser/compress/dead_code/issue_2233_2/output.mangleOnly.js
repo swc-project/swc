@@ -1,10 +1,10 @@
-var RegExp;
+var a;
 Array.isArray;
-RegExp;
+a;
 UndeclaredGlobal;
-function a() {
-    var Number;
+function r() {
+    var a;
     AnotherUndeclaredGlobal;
     Math.sin;
-    Number.isNaN;
+    a.isNaN;
 }
