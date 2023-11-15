@@ -66,6 +66,5 @@
     "module": {
         "type": "es6"
     },
-    "minify": true,
     "isModule": true
 }
