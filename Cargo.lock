@@ -1639,7 +1639,7 @@ checksum = "e1f8f73ec6174bb83c7a1239dce719901936ede000e343b189f242db15146d47"
 dependencies = [
  "new_debug_unreachable",
  "once_cell",
- "phf 0.11.2",
+ "phf",
  "rustc-hash",
  "smallvec",
 ]
@@ -2604,22 +2604,11 @@ dependencies = [
 
 [[package]]
 name = "phf"
-version = "0.10.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fabbf1ead8a5bcbc20f5f8b939ee3f5b0f6f281b6ad3468b84656b658b455259"
-dependencies = [
- "phf_macros 0.10.0",
- "phf_shared 0.10.0",
- "proc-macro-hack",
-]
-
-[[package]]
-name = "phf"
 version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ade2d8b8f33c7333b51bcf0428d37e217e9f32192ae4772156f65063b8ce03dc"
 dependencies = [
- "phf_macros 0.11.2",
+ "phf_macros",
  "phf_shared 0.11.2",
 ]
 
@@ -2641,20 +2630,6 @@ checksum = "48e4cc64c2ad9ebe670cb8fd69dd50ae301650392e81c05f9bfcb2d5bdbc24b0"
 dependencies = [
  "phf_shared 0.11.2",
  "rand",
-]
-
-[[package]]
-name = "phf_macros"
-version = "0.10.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "58fdf3184dd560f160dd73922bea2d5cd6e8f064bf4b13110abd81b03697b4e0"
-dependencies = [
- "phf_generator 0.10.0",
- "phf_shared 0.10.0",
- "proc-macro-hack",
- "proc-macro2",
- "quote",
- "syn 1.0.109",
 ]
 
 [[package]]
@@ -4188,7 +4163,7 @@ dependencies = [
  "bytecheck",
  "is-macro",
  "num-bigint",
- "phf 0.11.2",
+ "phf",
  "rkyv",
  "scoped-tls",
  "serde",
@@ -4426,7 +4401,7 @@ dependencies = [
 name = "swc_ecma_ext_transforms"
 version = "0.110.29"
 dependencies = [
- "phf 0.10.1",
+ "phf",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
@@ -4527,7 +4502,7 @@ dependencies = [
  "new_debug_unreachable",
  "num-bigint",
  "num-traits",
- "phf 0.11.2",
+ "phf",
  "pretty_assertions",
  "serde",
  "serde_json",
@@ -4645,7 +4620,7 @@ dependencies = [
  "criterion",
  "indexmap 1.9.3",
  "once_cell",
- "phf 0.11.2",
+ "phf",
  "rayon",
  "rustc-hash",
  "serde",
