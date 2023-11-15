@@ -77,16 +77,17 @@ where
 
 fn replace_close_inline_script(raw: &str) -> Cow<str> {
     let chars = raw.as_bytes();
+    let pattern_len = 8; // </script>
 
     let mut matched_indexes = chars
         .iter()
         .enumerate()
         .filter(|(index, byte)| {
             byte == &&b'<'
-                && index + 8 < chars.len()
-                && chars[index + 1..index + 8].eq_ignore_ascii_case(b"/script")
+                && index + pattern_len < chars.len()
+                && chars[index + 1..index + pattern_len].eq_ignore_ascii_case(b"/script")
                 && matches!(
-                    chars[index + 8],
+                    chars[index + pattern_len],
                     b'>' | b' ' | b'\t' | b'\n' | b'\x0C' | b'\r'
                 )
         })
