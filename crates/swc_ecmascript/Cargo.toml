@@ -19,7 +19,6 @@ bench = false
 codegen    = ["swc_ecma_codegen"]
 concurrent = ["swc_ecma_minifier/concurrent"]
 default    = ["typescript-parser"]
-dep_graph  = ["swc_ecma_dep_graph"]
 minifier   = ["swc_ecma_minifier"]
 parser     = ["swc_ecma_parser"]
 preset_env = ["swc_ecma_preset_env"]
@@ -41,7 +40,6 @@ typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 [dependencies]
 swc_ecma_ast        = { version = "0.110.9", path = "../swc_ecma_ast" }
 swc_ecma_codegen    = { version = "0.146.26", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_dep_graph  = { version = "0.113.22", path = "../swc_ecma_dep_graph", optional = true }
 swc_ecma_minifier   = { version = "0.189.49", path = "../swc_ecma_minifier", optional = true }
 swc_ecma_parser     = { version = "0.141.22", path = "../swc_ecma_parser", optional = true, default-features = false }
 swc_ecma_preset_env = { version = "0.203.42", path = "../swc_ecma_preset_env", optional = true }

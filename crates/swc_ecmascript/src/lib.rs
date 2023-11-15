@@ -5,9 +5,6 @@ pub use swc_ecma_ast as ast;
 #[cfg(feature = "codegen")]
 #[cfg_attr(docsrs, doc(cfg(feature = "codegen")))]
 pub use swc_ecma_codegen as codegen;
-#[cfg(feature = "dep_graph")]
-#[cfg_attr(docsrs, doc(cfg(feature = "dep_graph")))]
-pub use swc_ecma_dep_graph as dep_graph;
 #[cfg(feature = "minifier")]
 #[cfg_attr(docsrs, doc(cfg(feature = "minifier")))]
 pub use swc_ecma_minifier as minifier;
