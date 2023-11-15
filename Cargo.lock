@@ -4645,7 +4645,7 @@ dependencies = [
  "criterion",
  "indexmap 1.9.3",
  "once_cell",
- "phf 0.10.1",
+ "phf 0.11.2",
  "rayon",
  "rustc-hash",
  "serde",
