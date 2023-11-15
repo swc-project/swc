@@ -4424,19 +4424,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "swc_ecma_dep_graph"
-version = "0.113.22"
-dependencies = [
- "pretty_assertions",
- "swc_atoms",
- "swc_common",
- "swc_ecma_ast",
- "swc_ecma_parser",
- "swc_ecma_visit",
- "testing",
-]
-
-[[package]]
 name = "swc_ecma_ext_transforms"
 version = "0.110.28"
 dependencies = [
@@ -4949,7 +4936,6 @@ version = "0.236.55"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
- "swc_ecma_dep_graph",
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_preset_env",
