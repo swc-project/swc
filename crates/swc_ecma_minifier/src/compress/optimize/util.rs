@@ -221,6 +221,7 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 #[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
 
@@ -376,6 +377,16 @@ impl VisitMut for Finalizer<'_> {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
         });
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        if let Expr::Ident(i) = n {
+            if let Some(expr) = self.lits.get(&i.to_id()) {
+                *n = *expr.clone();
+            }
+        } else {
+            n.visit_mut_children_with(self);
+        }
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
