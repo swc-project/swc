@@ -49,6 +49,9 @@
 
 - **(css/parser)** Use `AtomStoreCell` ([#8247](https://github.com/swc-project/swc/issues/8247)) ([302954e](https://github.com/swc-project/swc/commit/302954e4e54b7190c88667534c2dd6105f744f90))
 
+
+- **(es/minifier)** Improve `format.inline_script` ([#8292](https://github.com/swc-project/swc/issues/8292)) ([7d1836d](https://github.com/swc-project/swc/commit/7d1836de3fd96786351f5ae30c2b0e7bbda2fa55))
+
 ### Refactor
 
 
@@ -1675,9 +1678,6 @@
 
 
 - **(es/compat)** Fix `finally` handling of `generator` ([#7215](https://github.com/swc-project/swc/issues/7215)) ([f5c62fb](https://github.com/swc-project/swc/commit/f5c62fbbf8ccbadec4daae4a2158b7b2fc707a2b))
-
-
-- **(es/minifier)** Don't remove used var decl ([#7200](https://github.com/swc-project/swc/issues/7200)) ([73bc29e](https://github.com/swc-project/swc/commit/73bc29eeb0e0a758daff2ec9567d8949fb48fa50))
 
 
 - **(es/testing)** Ensure that we call `fold_program` ([#7222](https://github.com/swc-project/swc/issues/7222)) ([e241201](https://github.com/swc-project/swc/commit/e241201bf76c3ae111d815dac7dbcc169d12dc25))
