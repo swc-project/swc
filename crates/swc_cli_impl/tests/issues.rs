@@ -50,7 +50,7 @@ fn issue_8265_1() -> Result<()> {
 
     let content = fs::read_to_string(tmp.join("src/index.js"))?;
     assert!(
-        content.contains("require(\"./modules/moduleA/index\")"),
+        content.contains("require(\"./modules/moduleA\")"),
         "{}",
         content
     );
