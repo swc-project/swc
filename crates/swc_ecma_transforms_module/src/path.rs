@@ -1,6 +1,7 @@
 use std::{
     borrow::Cow,
     env::current_dir,
+    fs::read_link,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
@@ -212,13 +213,22 @@ where
         let orig_filename = module_specifier.split('/').last();
 
         let target = self.resolver.resolve(base, module_specifier);
-        let target = match target {
+        let mut target = match target {
             Ok(v) => v,
             Err(err) => {
                 warn!("import rewriter: failed to resolve: {}", err);
                 return Ok(module_specifier.into());
             }
         };
+
+        // Bazel uses symlink
+        //
+        // https://github.com/swc-project/swc/issues/8265
+        if let FileName::Real(resolved) = &target {
+            if let Ok(orig) = read_link(resolved) {
+                target = FileName::Real(orig);
+            }
+        }
 
         info!("Resolved to {}", target);
 
