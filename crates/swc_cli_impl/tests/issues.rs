@@ -1,4 +1,7 @@
-use std::{fs, process::Command};
+use std::{
+    fs::{self, create_dir},
+    process::Command,
+};
 
 use anyhow::{Context, Result};
 use assert_cmd::prelude::*;
@@ -12,6 +15,7 @@ fn cli() -> Result<Command> {
 fn issue_8139_1() -> Result<()> {
     let cwd = TempDir::new()?;
 
+    create_dir(cwd.path().join("src"))?;
     fs::write(
         cwd.join("src").join("main.ts"),
         "console.log('Hello, world!');",
