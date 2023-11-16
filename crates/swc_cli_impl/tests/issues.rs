@@ -22,7 +22,6 @@ fn issue_8265_1() -> Result<()> {
 
     symlink(&pwd.join(".swcrc"), &tmp.path().join(".swcrc"));
     symlink(&pwd.join("src/index.ts"), &tmp.path().join("src/index.ts"));
-    symlink(&pwd.join("src/index.ts"), &tmp.path().join("src/index.ts"));
     symlink(
         &pwd.join("src/modules/moduleA/index.ts"),
         &tmp.path().join("src/modules/moduleA/index.ts"),
