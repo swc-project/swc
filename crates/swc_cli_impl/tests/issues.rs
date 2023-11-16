@@ -1,7 +1,7 @@
 use std::{
     fs::{self, create_dir_all},
     path::Path,
-    process::Command,
+    process::{Command, Stdio},
 };
 
 use anyhow::{Context, Result};
@@ -9,7 +9,9 @@ use assert_cmd::prelude::*;
 use assert_fs::TempDir;
 
 fn cli() -> Result<Command> {
-    Command::cargo_bin("swc").context("Failed to get swc binary")
+    let mut cmd = Command::cargo_bin("swc").context("Failed to get swc binary")?;
+    cmd.stderr(Stdio::inherit());
+    Ok(cmd)
 }
 
 #[test]
