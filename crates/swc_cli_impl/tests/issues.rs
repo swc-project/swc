@@ -39,7 +39,8 @@ fn issue_8265_1() -> Result<()> {
         .arg("--config-file")
         .arg(".swcrc")
         .arg("--out-file")
-        .arg("src/index.js");
+        .arg("src/index.js")
+        .arg("src/index.ts");
 
     cmd.assert().success();
 
