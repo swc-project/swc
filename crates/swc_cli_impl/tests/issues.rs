@@ -15,7 +15,7 @@ fn cli() -> Result<Command> {
 #[test]
 fn issue_8265_1() -> Result<()> {
     let pwd = Path::new("tests/fixture-manual/8265").canonicalize()?;
-    let tmp = TempDir::new()?.into_persistent();
+    let tmp = TempDir::new()?;
 
     create_dir_all(tmp.path().join("src/modules/moduleA"))?;
     create_dir_all(tmp.path().join("src/modules/moduleB"))?;
@@ -47,7 +47,11 @@ fn issue_8265_1() -> Result<()> {
     cmd.assert().success();
 
     let content = fs::read_to_string(tmp.join("src/index.js"))?;
-    assert!(content.contains("require(\"./modules/moduleA/index\")"));
+    assert!(
+        content.contains("require(\"./modules/moduleA/index\")"),
+        "{}",
+        content
+    );
 
     Ok(())
 }
