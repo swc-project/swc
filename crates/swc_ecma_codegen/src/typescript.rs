@@ -852,11 +852,7 @@ where
             emit!(n);
         }
 
-        if let Some(type_args) = &n.type_args {
-            punct!("<");
-            emit!(type_args);
-            punct!(">");
-        }
+        emit!(n.type_args);
     }
 
     #[emitter]
@@ -1073,6 +1069,7 @@ where
         keyword!("typeof");
         space!();
         emit!(n.expr_name);
+        emit!(n.type_args);
     }
 
     #[emitter]
