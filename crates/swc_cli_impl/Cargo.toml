@@ -8,6 +8,14 @@ name        = "swc_cli_impl"
 repository  = "https://github.com/swc-project/swc.git"
 version     = "0.4.64"
 
+[[bin]]
+name = "swc"
+path = "src/main.rs"
+
+[lib]
+crate-type = ["rlib"]
+path       = "src/lib.rs"
+
 [features]
 default = []
 plugin = [
