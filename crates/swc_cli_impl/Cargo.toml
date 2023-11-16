@@ -11,8 +11,8 @@ version     = "0.4.64"
 [features]
 default = []
 plugin = [
-    "swc_core/plugin_transform_host_native",
-    "swc_core/plugin_transform_host_native_filesystem_cache",
+  "swc_core/plugin_transform_host_native",
+  "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
 
 [dependencies]
@@ -33,7 +33,10 @@ tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir            = "2"
 
 swc_core = { version = "0.86.64", features = [
-    "trace_macro",
-    "common_concurrent",
-    "base_concurrent",
+  "trace_macro",
+  "common_concurrent",
+  "base_concurrent",
 ], path = "../swc_core" }
+
+[dev-dependencies]
+assert_fs = "1.0.13"
