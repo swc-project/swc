@@ -1,8 +1,4 @@
-use std::{
-    fs::{self, create_dir, create_dir_all, soft_link},
-    path::Path,
-    process::Command,
-};
+use std::{fs::create_dir_all, path::Path, process::Command};
 
 use anyhow::{Context, Result};
 use assert_cmd::prelude::*;
