@@ -14,7 +14,7 @@ use swc_ecma_ast::*;
 use tracing::debug;
 
 use super::reverse_map::ReverseMap;
-use crate::{native::is_native, rename::Renamer};
+use crate::rename::Renamer;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ScopeKind {
@@ -306,7 +306,6 @@ impl Scope {
                 || to.get(&fid).is_some()
                 || previous.get(&fid).is_some()
                 || id.0 == "eval"
-                || is_native(&id.0)
             {
                 continue;
             }

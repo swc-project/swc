@@ -411,7 +411,7 @@ pub(crate) struct Source {
     pub local_ctxt: SyntaxContext,
     pub export_ctxt: SyntaxContext,
 
-    // Clone is relatively cheap, thanks to string_cache.
+    // Clone is relatively cheap, thanks to hstr.
     pub src: Str,
 }
 
