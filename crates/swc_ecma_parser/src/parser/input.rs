@@ -264,7 +264,7 @@ pub(super) struct Buffer<I: Tokens> {
     prev_span: Span,
     cur: Option<TokenAndSpan>,
     /// Peeked token
-    next: Option<TokenAndSpan>,
+    next: [Option<TokenAndSpan>; 2],
 }
 
 impl<I: Tokens> Parser<I> {
@@ -284,7 +284,7 @@ impl<I: Tokens> Buffer<I> {
             iter: lexer,
             cur: None,
             prev_span: Span::new(start_pos, start_pos, Default::default()),
-            next: None,
+            next: Default::default(),
         }
     }
 
