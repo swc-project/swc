@@ -1,4 +1,8 @@
-use std::{fs::create_dir_all, path::Path, process::Command};
+use std::{
+    fs::{self, create_dir_all},
+    path::Path,
+    process::Command,
+};
 
 use anyhow::{Context, Result};
 use assert_cmd::prelude::*;
@@ -41,6 +45,9 @@ fn issue_8265_1() -> Result<()> {
         .arg("src/index.ts");
 
     cmd.assert().success();
+
+    let content = fs::read_to_string(tmp.join("src/index.js"))?;
+    assert!(content.contains("require(\"./modules/moduleA/index\")"));
 
     Ok(())
 }
