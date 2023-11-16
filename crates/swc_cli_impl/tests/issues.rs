@@ -14,8 +14,8 @@ fn cli() -> Result<Command> {
 
 #[test]
 fn issue_8265_1() -> Result<()> {
-    let pwd = Path::new("tests/fixture-manual/8265");
-    let tmp = TempDir::new()?;
+    let pwd = Path::new("tests/fixture-manual/8265").canonicalize()?;
+    let tmp = TempDir::new()?.into_persistent();
 
     create_dir_all(tmp.path().join("src/modules/moduleA"))?;
     create_dir_all(tmp.path().join("src/modules/moduleB"))?;
@@ -30,6 +30,8 @@ fn issue_8265_1() -> Result<()> {
         &pwd.join("src/modules/moduleB/index.ts"),
         &tmp.path().join("src/modules/moduleB/index.ts"),
     );
+
+    print_ls_alr(&tmp);
 
     let mut cmd = cli()?;
     cmd.current_dir(&tmp)
@@ -58,4 +60,10 @@ fn symlink(a: &Path, b: &Path) {
     {
         std::os::windows::fs::symlink_file(a, b).unwrap();
     }
+}
+
+fn print_ls_alr(path: &Path) {
+    let mut cmd = Command::new("ls");
+    cmd.arg("-alR").arg(path);
+    cmd.status().unwrap();
 }
