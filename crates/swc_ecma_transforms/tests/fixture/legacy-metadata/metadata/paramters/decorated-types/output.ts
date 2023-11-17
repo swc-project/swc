@@ -21,7 +21,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String,
         void 0
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], MyOtherClass.prototype, "methodUndecorated", null);
 _ts_decorate([
     decorate("named"),
@@ -31,7 +32,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         typeof Injected === "undefined" ? Object : Injected,
         typeof Schema === "undefined" ? Object : Schema
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], MyOtherClass.prototype, "method", null);
 MyOtherClass = _ts_decorate([
     _ts_param(0, inject()),
@@ -52,7 +54,8 @@ _ts_decorate([
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         String
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], DecoratedClass.prototype, "method", null);
 DecoratedClass = _ts_decorate([
     Decorate,
