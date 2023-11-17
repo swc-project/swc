@@ -169,11 +169,7 @@ impl VisitMut for Metadata<'_> {
                 if m.function.is_async {
                     quote_ident!("Promise").as_arg()
                 } else {
-                    serialize_type(
-                        self.class_name,
-                        m.function.return_type.as_deref(),
-                    )
-                    .as_arg()
+                    serialize_type(self.class_name, m.function.return_type.as_deref()).as_arg()
                 },
             );
             m.function.decorators.push(dec);
