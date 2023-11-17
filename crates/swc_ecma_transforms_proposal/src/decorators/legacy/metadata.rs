@@ -171,7 +171,7 @@ impl VisitMut for Metadata<'_> {
                 } else {
                     serialize_type(
                         self.class_name,
-                        m.function.return_type.as_ref().map(|r| r.as_ref()),
+                        m.function.return_type.as_deref(),
                     )
                     .as_arg()
                 },
