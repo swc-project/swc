@@ -509,12 +509,11 @@ impl Optimizer<'_> {
                         //
                         // For arrow expressions this is required because we copy simple arrow
                         // expressions.
-                        let mut remap = HashMap::default();
-                        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-
-                        for p in param_ids.iter() {
-                            remap.insert(p.to_id(), new_ctxt);
-                        }
+                        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::new());
+                        let remap = param_ids
+                            .iter()
+                            .map(|p| (p.to_id(), new_ctxt))
+                            .collect::<FxHashMap<_, _>>();
 
                         {
                             let vars = param_ids
@@ -843,7 +842,7 @@ impl Optimizer<'_> {
 
         // We remap variables.
         let mut remap = HashMap::default();
-        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::new());
 
         let params = orig_params
             .iter()
@@ -857,27 +856,25 @@ impl Optimizer<'_> {
             })
             .collect::<Vec<_>>();
 
-        {
-            for stmt in &body.stmts {
-                if let Stmt::Decl(Decl::Var(var)) = stmt {
-                    for decl in &var.decls {
-                        let ids: Vec<Id> = find_pat_ids(&decl.name);
+        for stmt in &body.stmts {
+            if let Stmt::Decl(Decl::Var(var)) = stmt {
+                for decl in &var.decls {
+                    let ids: Vec<Id> = find_pat_ids(&decl.name);
 
-                        for id in ids {
-                            let ctx = remap
-                                .entry(id.clone())
-                                .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
+                    for id in ids {
+                        let ctx = remap
+                            .entry(id.clone())
+                            .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
 
-                            // [is_skippable_for_seq] would check fn scope
-                            if let Some(usage) = self.data.vars.get(&id) {
-                                let mut usage = usage.clone();
-                                // as we turn var declaration into assignment
-                                // we need to maintain correct var usage
-                                if decl.init.is_some() {
-                                    usage.ref_count += 1;
-                                }
-                                self.data.vars.insert((id.0, *ctx), usage);
+                        // [is_skippable_for_seq] would check fn scope
+                        if let Some(usage) = self.data.vars.get(&id) {
+                            let mut usage = usage.clone();
+                            // as we turn var declaration into assignment
+                            // we need to maintain correct var usage
+                            if decl.init.is_some() {
+                                usage.ref_count += 1;
                             }
+                            self.data.vars.insert((id.0, *ctx), usage);
                         }
                     }
                 }
