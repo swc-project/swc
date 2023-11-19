@@ -9,7 +9,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         typeof Inter === "undefined" ? Object : Inter,
         typeof InterGen === "undefined" ? Object : InterGen
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], MyClass.prototype, "method", null);
 MyClass = _ts_decorate([
     Decorate,
