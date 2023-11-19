@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.269.60"
+version       = "0.269.61"
 
 [lib]
 bench = false
@@ -73,7 +73,7 @@ swc_common = { version = "0.33.9", path = "../swc_common", features = [
   "sourcemap",
   "parking_lot",
 ] }
-swc_compiler_base = { version = "0.3.62", path = "../swc_compiler_base" }
+swc_compiler_base = { version = "0.3.63", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.7", path = "../swc_config" }
 swc_ecma_ast = { version = "0.110.10", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.146.29", path = "../swc_ecma_codegen" }
@@ -84,7 +84,7 @@ swc_ecma_loader = { version = "0.45.10", path = "../swc_ecma_loader", features =
   "node",
   "tsc",
 ] }
-swc_ecma_minifier = { version = "0.189.56", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "0.189.57", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.141.23", path = "../swc_ecma_parser" }
 swc_ecma_preset_env = { version = "0.203.47", path = "../swc_ecma_preset_env" }
 swc_ecma_transforms = { version = "0.226.47", path = "../swc_ecma_transforms", features = [
