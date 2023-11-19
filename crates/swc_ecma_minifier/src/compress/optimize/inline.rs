@@ -833,19 +833,27 @@ impl Optimizer<'_> {
                     let bindings: AHashSet<Id> = collect_decls(&*value);
                     let new_mark = Mark::new();
                     let mut cache = FxHashMap::default();
-                    let remap: FxHashMap<_, _> = bindings
-                        .into_iter()
-                        .map(|id| {
-                            let value = cache
-                                .entry(id.1)
-                                .or_insert_with(|| id.1.apply_mark(new_mark));
+                    let mut remap = FxHashMap::default();
 
-                            (id, *value)
-                        })
-                        .collect();
+                    for id in bindings {
+                        let new_ctxt = cache
+                            .entry(id.1)
+                            .or_insert_with(|| id.1.apply_mark(new_mark));
 
-                    let mut remapper = Remapper::new(&remap);
-                    value.visit_mut_with(&mut remapper);
+                        let new_ctxt = *new_ctxt;
+
+                        if let Some(usage) = self.data.vars.get(&id).cloned() {
+                            let new_id = (id.0.clone(), new_ctxt);
+                            self.data.vars.insert(new_id, usage);
+                        }
+
+                        remap.insert(id, new_ctxt);
+                    }
+
+                    if !remap.is_empty() {
+                        let mut remapper = Remapper::new(&remap);
+                        value.visit_mut_with(&mut remapper);
+                    }
 
                     self.changed = true;
                     report_change!("inline: Replacing a variable `{}` with cheap expression", i);
