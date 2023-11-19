@@ -119,7 +119,7 @@
             }
             function delimit(type) {
                 var begin, end;
-                return (begin = position - 1, end = function delimiter(type) {
+                return begin = position - 1, end = function delimiter(type) {
                     for(; next();)switch(character){
                         case type:
                             return position;
@@ -133,7 +133,7 @@
                             next();
                     }
                     return position;
-                }(91 === type ? type + 2 : 40 === type ? type + 1 : type), Utility_substr(characters, begin, end)).trim();
+                }(91 === type ? type + 2 : 40 === type ? type + 1 : type), Utility_substr(characters, begin, end).trim();
             }
             var MS = "-ms-", MOZ = "-moz-", WEBKIT = "-webkit-", COMMENT = "comm", Enum_RULESET = "rule", DECLARATION = "decl";
             function serialize(children, callback) {
@@ -485,7 +485,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var collection, length, callback, container, currentSheet, key = options.key;
+                var callback, container, currentSheet, collection, length, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {

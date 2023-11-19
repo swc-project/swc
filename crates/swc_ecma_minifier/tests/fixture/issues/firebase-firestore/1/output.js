@@ -4110,8 +4110,8 @@
                 }
             }
             function cc(t, e, n) {
-                var t1;
                 if (t.isPrimaryClient && 0 === n || !t.isPrimaryClient && 1 === n) {
+                    var t1;
                     let s;
                     const t2 = [];
                     t.Oo.forEach((n, s)=>{
