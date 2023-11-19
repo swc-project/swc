@@ -42,15 +42,6 @@ impl<I: Tokens> Parser<I> {
 
         expect!(self, "import");
 
-        if self.input.syntax().typescript() && is!(self, IdentRef) && peeked_is!(self, '=') {
-            return self
-                .parse_ts_import_equals_decl(
-                    start, /* is_export */ false, /* is_type_only */ false,
-                )
-                .map(ModuleDecl::from)
-                .map(ModuleItem::from);
-        }
-
         // Handle import 'mod.js'
         let str_start = cur_pos!(self);
         if let Ok(&Token::Str { .. }) = cur!(self, false) {
@@ -84,35 +75,46 @@ impl<I: Tokens> Parser<I> {
             })));
         }
 
-        let type_only = self.input.syntax().typescript()
-            && is!(self, "type")
-            && (peeked_is!(self, '{') || !peeked_is!(self, "from") && !peeked_is!(self, ','));
-
-        if type_only {
-            assert_and_bump!(self, "type");
-
-            if is!(self, IdentRef) && peeked_is!(self, '=') {
-                return self
-                    .parse_ts_import_equals_decl(
-                        start, /* is_export */ false, /* is_type_only */ true,
-                    )
-                    .map(ModuleDecl::from)
-                    .map(ModuleItem::from);
-            }
-        }
-
+        let mut type_only = false;
         let mut specifiers = vec![];
 
-        if is!(self, BindingIdent) {
-            let local = self.parse_imported_default_binding()?;
-            //TODO: Better error reporting
-            if !is!(self, "from") {
-                expect!(self, ',');
+        'import_maybe_ident: {
+            if is!(self, BindingIdent) {
+                let mut local = self.parse_imported_default_binding()?;
+
+                if self.input.syntax().typescript() && local.sym == "type" {
+                    if is_one_of!(self, '*', '{') {
+                        type_only = true;
+                        break 'import_maybe_ident;
+                    }
+
+                    if is!(self, BindingIdent) {
+                        if !is!(self, "from") || peeked_is!(self, "from") {
+                            type_only = true;
+                            local = self.parse_imported_default_binding()?;
+                        } else if peeked_is!(self, '=') {
+                            type_only = true;
+                            local = self.parse_ident_name()?;
+                        }
+                    }
+                }
+
+                if self.input.syntax().typescript() && is!(self, '=') {
+                    return self
+                        .parse_ts_import_equals_decl(start, local, false, type_only)
+                        .map(ModuleDecl::from)
+                        .map(ModuleItem::from);
+                }
+
+                //TODO: Better error reporting
+                if !is!(self, "from") {
+                    expect!(self, ',');
+                }
+                specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
+                    span: local.span,
+                    local,
+                }));
             }
-            specifiers.push(ImportSpecifier::Default(ImportDefaultSpecifier {
-                span: local.span,
-                local,
-            }));
         }
 
         {
@@ -373,9 +375,11 @@ impl<I: Tokens> Parser<I> {
                     assert_and_bump!(self, "type");
                 }
 
+                let id = self.parse_ident_name()?;
+
                 // export import A = B
                 return self
-                    .parse_ts_import_equals_decl(start, /* is_export */ true, is_type_only)
+                    .parse_ts_import_equals_decl(start, id, /* is_export */ true, is_type_only)
                     .map(From::from);
             }
 
