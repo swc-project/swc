@@ -1,5 +1,6 @@
 //// [classDeclarationLoop.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var arr = [];
 var _loop = function(i) {
     var C = function C() {
         "use strict";
@@ -8,5 +9,4 @@ var _loop = function(i) {
     };
     arr.push(C);
 };
-var arr = [];
 for(var i = 0; i < 10; ++i)_loop(i);

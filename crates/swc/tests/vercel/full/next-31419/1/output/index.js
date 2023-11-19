@@ -7,24 +7,24 @@ Promise.all(assignAll).then((r = e(function(r) {
     return t(this, function(u) {
         switch(u.label){
             case 0:
-                for(c in e = function(e) {
-                    var n;
+                for(c in e = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', s = function(n) {
+                    var s;
                     return t(this, function(t) {
                         switch(t.label){
                             case 0:
-                                return n = r[e], s += "'".concat(n.id, "', "), [
+                                return s = r[n], e += "'".concat(s.id, "', "), [
                                     4,
-                                    listOfUser(n.id)
+                                    listOfUser(s.id)
                                 ];
                             case 1:
                                 return t.sent().forEach(function(r) {
-                                    insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(n.id, "', now());");
+                                    insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(s.id, "', now());");
                                 }), [
                                     2
                                 ];
                         }
                     });
-                }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r)i.push(c);
+                }, i = [], r)i.push(c);
                 o = 0, u.label = 1;
             case 1:
                 if (!(o < i.length)) return [
@@ -33,7 +33,7 @@ Promise.all(assignAll).then((r = e(function(r) {
                 ];
                 return a = i[o], [
                     5,
-                    n(e(a))
+                    n(s(a))
                 ];
             case 2:
                 u.sent(), u.label = 3;

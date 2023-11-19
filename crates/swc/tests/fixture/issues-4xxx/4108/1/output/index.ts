@@ -159,11 +159,28 @@ function _sendTransactionsWithManualRetry() {
 }
 export var sendTransactions = function() {
     var _ref = _async_to_generator(function(connection, wallet, instructionSet, signersSet) {
-        var _loop, _loop1, sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, i1, _ret, result, _tmp;
+        var sequenceType, commitment, successCallback, failCallback, block, beforeTransactions, afterTransactions, _unsignedTxns, unsignedTxns, _loop, i, partiallySignedTransactions, fullySignedTransactions, signedTxns, pendingTxns, _loop1, i1, _ret, result, _tmp;
         var _arguments = arguments;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
+                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : 1, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
+                        return false;
+                    }, block = _arguments.length > 8 ? _arguments[8] : void 0, beforeTransactions = _arguments.length > 9 && _arguments[9] !== void 0 ? _arguments[9] : [], afterTransactions = _arguments.length > 10 && _arguments[10] !== void 0 ? _arguments[10] : [];
+                    if (!wallet.publicKey) throw new WalletNotConnectedError();
+                    unsignedTxns = beforeTransactions;
+                    if (!!block) return [
+                        3,
+                        2
+                    ];
+                    return [
+                        4,
+                        connection.getRecentBlockhash(commitment)
+                    ];
+                case 1:
+                    block = _state.sent();
+                    _state.label = 2;
+                case 2:
                     _loop = function(i) {
                         var _transaction;
                         var instructions = instructionSet[i];
@@ -187,7 +204,29 @@ export var sendTransactions = function() {
                             (_transaction1 = transaction).partialSign.apply(_transaction1, _to_consumable_array(signers));
                         }
                         unsignedTxns.push(transaction);
-                    }, _loop1 = function(i1) {
+                    };
+                    for(i = 0; i < instructionSet.length; i++)_loop(i);
+                    (_unsignedTxns = unsignedTxns).push.apply(_unsignedTxns, _to_consumable_array(afterTransactions));
+                    partiallySignedTransactions = unsignedTxns.filter(function(t) {
+                        return t.signatures.find(function(sig) {
+                            return sig.publicKey.equals(wallet.publicKey);
+                        });
+                    });
+                    fullySignedTransactions = unsignedTxns.filter(function(t) {
+                        return !t.signatures.find(function(sig) {
+                            return sig.publicKey.equals(wallet.publicKey);
+                        });
+                    });
+                    return [
+                        4,
+                        wallet.signAllTransactions(partiallySignedTransactions)
+                    ];
+                case 3:
+                    signedTxns = _state.sent();
+                    signedTxns = fullySignedTransactions.concat(signedTxns);
+                    pendingTxns = [];
+                    console.log("Signed txns length", signedTxns.length, "vs handed in length", instructionSet.length);
+                    _loop1 = function(i1) {
                         var signedTxnPromise, e, _tmp, _tmp1;
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){
@@ -264,44 +303,6 @@ export var sendTransactions = function() {
                             }
                         });
                     };
-                    sequenceType = _arguments.length > 4 && _arguments[4] !== void 0 ? _arguments[4] : 1, commitment = _arguments.length > 5 && _arguments[5] !== void 0 ? _arguments[5] : "singleGossip", successCallback = _arguments.length > 6 && _arguments[6] !== void 0 ? _arguments[6] : function(txid, ind) {}, failCallback = _arguments.length > 7 && _arguments[7] !== void 0 ? _arguments[7] : function(txid, ind) {
-                        return false;
-                    }, block = _arguments.length > 8 ? _arguments[8] : void 0, beforeTransactions = _arguments.length > 9 && _arguments[9] !== void 0 ? _arguments[9] : [], afterTransactions = _arguments.length > 10 && _arguments[10] !== void 0 ? _arguments[10] : [];
-                    if (!wallet.publicKey) throw new WalletNotConnectedError();
-                    unsignedTxns = beforeTransactions;
-                    if (!!block) return [
-                        3,
-                        2
-                    ];
-                    return [
-                        4,
-                        connection.getRecentBlockhash(commitment)
-                    ];
-                case 1:
-                    block = _state.sent();
-                    _state.label = 2;
-                case 2:
-                    for(i = 0; i < instructionSet.length; i++)_loop(i);
-                    (_unsignedTxns = unsignedTxns).push.apply(_unsignedTxns, _to_consumable_array(afterTransactions));
-                    partiallySignedTransactions = unsignedTxns.filter(function(t) {
-                        return t.signatures.find(function(sig) {
-                            return sig.publicKey.equals(wallet.publicKey);
-                        });
-                    });
-                    fullySignedTransactions = unsignedTxns.filter(function(t) {
-                        return !t.signatures.find(function(sig) {
-                            return sig.publicKey.equals(wallet.publicKey);
-                        });
-                    });
-                    return [
-                        4,
-                        wallet.signAllTransactions(partiallySignedTransactions)
-                    ];
-                case 3:
-                    signedTxns = _state.sent();
-                    signedTxns = fullySignedTransactions.concat(signedTxns);
-                    pendingTxns = [];
-                    console.log("Signed txns length", signedTxns.length, "vs handed in length", instructionSet.length);
                     i1 = 0;
                     _state.label = 4;
                 case 4:
