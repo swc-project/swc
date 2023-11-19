@@ -30,7 +30,8 @@ class AppController {
 _ts_decorate._([
     (0, _common.Get)(),
     _ts_metadata._("design:type", Function),
-    _ts_metadata._("design:paramtypes", [])
+    _ts_metadata._("design:paramtypes", []),
+    _ts_metadata._("design:returntype", Promise)
 ], AppController.prototype, "getHello", null);
 _ts_decorate._([
     (0, _common.Post)(),
@@ -38,7 +39,8 @@ _ts_decorate._([
     _ts_metadata._("design:type", Function),
     _ts_metadata._("design:paramtypes", [
         typeof _CreateUserDto.CreateUserDto === "undefined" ? Object : _CreateUserDto.CreateUserDto
-    ])
+    ]),
+    _ts_metadata._("design:returntype", Promise)
 ], AppController.prototype, "create", null);
 AppController = _ts_decorate._([
     (0, _common.Controller)(),

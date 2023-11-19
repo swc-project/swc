@@ -161,6 +161,19 @@ impl VisitMut for Metadata<'_> {
             );
             m.function.decorators.push(dec);
         }
+        {
+            // Copy tsc behaviour
+            // https://github.com/microsoft/TypeScript/blob/5e8c261b6ab746213f19ee3501eb8c48a6215dd7/src/compiler/transformers/typeSerializer.ts#L242
+            let dec = self.create_metadata_design_decorator(
+                "design:returntype",
+                if m.function.is_async {
+                    quote_ident!("Promise").as_arg()
+                } else {
+                    serialize_type(self.class_name, m.function.return_type.as_deref()).as_arg()
+                },
+            );
+            m.function.decorators.push(dec);
+        }
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {

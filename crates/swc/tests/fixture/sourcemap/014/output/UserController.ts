@@ -30,7 +30,8 @@ _ts_decorate([
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof CreateUserDto === "undefined" ? Object : CreateUserDto
-    ])
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], UserController.prototype, "signup", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -43,7 +44,8 @@ _ts_decorate([
         String,
         typeof UpdateUserDto === "undefined" ? Object : UpdateUserDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
 UserController = _ts_decorate([
     Controller(USER_CONTROLLER_ROUTE),
