@@ -12,8 +12,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
-    undefined, ExprFactory, StmtLike,
+    find_pat_ids, function::FnEnvHoister, private_ident, quote_ident, quote_str, undefined,
+    ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
@@ -591,14 +591,13 @@ impl BlockScoping {
     fn visit_mut_stmt_like<T>(&mut self, stmts: &mut Vec<T>)
     where
         T: StmtLike,
-        Vec<T>: VisitMutWith<Self>,
+        T: VisitMutWith<Self>,
     {
-        stmts.visit_mut_children_with(self);
+        for mut stmt in stmts.take() {
+            stmt.visit_mut_with(self);
 
-        if !self.vars.is_empty() {
-            prepend_stmt(
-                stmts,
-                T::from_stmt(
+            if !self.vars.is_empty() {
+                stmts.push(T::from_stmt(
                     VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Var,
@@ -606,8 +605,10 @@ impl BlockScoping {
                         decls: take(&mut self.vars),
                     }
                     .into(),
-                ),
-            );
+                ));
+            }
+
+            stmts.push(stmt);
         }
     }
 }
