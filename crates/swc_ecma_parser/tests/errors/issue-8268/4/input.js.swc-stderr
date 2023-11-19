@@ -1,0 +1,6 @@
+
+  x `if` cannot be used without `from` clause
+   ,-[$DIR/tests/errors/issue-8268/4/input.js:1:1]
+ 1 | export { if as bar }
+   :          ^^
+   `----

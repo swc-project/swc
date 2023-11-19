@@ -630,12 +630,8 @@ impl<I: Tokens> Parser<I> {
 
             expect!(self, '{');
 
-            let mut string_export_binding_span = None;
             while !eof!(self) && !is!(self, '}') {
                 let specifier = self.parse_named_export_specifier(type_only)?;
-                if let ModuleExportName::Str(str_export) = &specifier.orig {
-                    string_export_binding_span = Some(str_export.span);
-                }
                 specifiers.push(ExportSpecifier::Named(specifier));
 
                 if is!(self, '}') {
@@ -649,17 +645,30 @@ impl<I: Tokens> Parser<I> {
             let opt = if is!(self, "from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
-                eat!(self, ';');
                 if has_default || has_ns {
-                    syntax_error!(
-                        self,
-                        span!(self, start),
-                        SyntaxError::ExportDefaultWithOutFrom
-                    );
+                    expect!(self, "from");
                 }
-                if let Some(span) = string_export_binding_span {
-                    syntax_error!(self, span, SyntaxError::ExportBindingIsString);
+
+                for s in &specifiers {
+                    if let ExportSpecifier::Named(named) = s {
+                        match &named.orig {
+                            ModuleExportName::Ident(id) if id.is_reserved() => {
+                                syntax_error!(
+                                    self,
+                                    id.span,
+                                    SyntaxError::ExportExpectFrom(id.sym.clone())
+                                );
+                            }
+                            ModuleExportName::Str(s) => {
+                                syntax_error!(self, s.span, SyntaxError::ExportBindingIsString);
+                            }
+                            _ => {}
+                        }
+                    }
                 }
+
+                eat!(self, ';');
+
                 None
             };
             let (src, with) = match opt {

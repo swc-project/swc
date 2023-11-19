@@ -1,0 +1,6 @@
+
+  x `default` cannot be used without `from` clause
+   ,-[$DIR/tests/errors/issue-8268/1/input.js:1:1]
+ 1 | export { default }
+   :          ^^^^^^^
+   `----
