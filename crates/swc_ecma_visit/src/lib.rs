@@ -1290,7 +1290,7 @@ define!({
     pub struct SetterProp {
         pub span: Span,
         pub key: PropName,
-        pub param: Box<Pat>,
+        pub params: Vec<Param>,
         pub body: Option<BlockStmt>,
     }
     pub struct MethodProp {
