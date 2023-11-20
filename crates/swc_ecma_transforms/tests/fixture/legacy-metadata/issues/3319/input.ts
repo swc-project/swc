@@ -6,6 +6,18 @@ function decorator(target: any, key: string | symbol, descriptor: PropertyDescri
     returnType = Reflect.getMetadata('design:returntype', target, key);
 }
 
+enum NumericEnum {
+    A,
+    B,
+    C,
+}
+
+enum StringEnum {
+    A = "A",
+    B = "B",
+    C = "C",
+}
+
 class Foo {
     @decorator
     public foo(x: string): string {
@@ -30,5 +42,30 @@ class Foo {
     @decorator
     public async quux() {
         return 'quux';
+    }
+
+    @decorator
+    public numeric_array(): number[] {
+        return [1, 2, 3];
+    }
+
+    @decorator
+    public string_array(): string[] {
+        return ['first', 'second', 'third'];
+    }
+
+    @decorator
+    public numeric_enum(): NumericEnum {
+        return NumericEnum.A;
+    }
+
+    @decorator
+    public string_enum(): StringEnum {
+        return StringEnum.A;
+    }
+
+    @decorator
+    public array_enum(): StringEnum[] {
+        return [StringEnum.A, StringEnum.B, StringEnum.C];
     }
 }

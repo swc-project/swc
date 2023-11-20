@@ -6,6 +6,17 @@ function decorator(target: any, key: string | symbol, descriptor: PropertyDescri
     returnType = Reflect.getMetadata('design:returntype', target, key);
 }
 
+enum NumericEnum {
+    A,
+    B,
+    C
+}
+enum StringEnum {
+    A = "A",
+    B = "B",
+    C = "C"
+}
+
 class Foo {
     public foo(x: string): string {
         return 'foo';
@@ -21,6 +32,21 @@ class Foo {
     }
     public async quux() {
         return 'quux';
+    }
+    public numeric_array(): number[] {
+        return [1, 2, 3];
+    }
+    public string_array(): string[] {
+        return ['first', 'second', 'third'];
+    }
+    public numeric_enum(): NumericEnum {
+        return NumericEnum.A;
+    }
+    public string_enum(): StringEnum {
+        return StringEnum.A;
+    }
+    public array_enum(): StringEnum[] {
+        return [StringEnum.A, StringEnum.B, StringEnum.C];
     }
 }
 _ts_decorate([
@@ -53,3 +79,33 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", []),
     _ts_metadata("design:returntype", Promise)
 ], Foo.prototype, "quux", null);
+_ts_decorate([
+    decorator,
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", Array)
+], Foo.prototype, "numeric_array", null);
+_ts_decorate([
+    decorator,
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", Array)
+], Foo.prototype, "string_array", null);
+_ts_decorate([
+    decorator,
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", Number)
+], Foo.prototype, "numeric_enum", null);
+_ts_decorate([
+    decorator,
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", String)
+], Foo.prototype, "string_enum", null);
+_ts_decorate([
+    decorator,
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", Array)
+], Foo.prototype, "array_enum", null);
