@@ -1094,7 +1094,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.89.68"
+version = "0.89.69"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -2885,7 +2885,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "0.4.7"
+version = "0.4.8"
 dependencies = [
  "ahash 0.8.5",
  "anyhow",
