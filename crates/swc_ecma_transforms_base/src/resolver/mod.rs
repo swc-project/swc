@@ -510,8 +510,6 @@ impl<'a> VisitMut for Resolver<'a> {
 
     typed_ref!(visit_mut_ts_infer_type, TsInferType);
 
-    typed_ref!(visit_mut_ts_import_type, TsImportType);
-
     typed_ref!(visit_mut_ts_tuple_type, TsTupleType);
 
     typed_ref!(visit_mut_ts_intersection_type, TsIntersectionType);
@@ -1302,6 +1300,14 @@ impl<'a> VisitMut for Resolver<'a> {
         self.modify(&mut n.id, DeclKind::Lexical);
 
         n.module_ref.visit_mut_with(self);
+    }
+
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        n.type_args.visit_mut_with(self);
     }
 
     fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
