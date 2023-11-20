@@ -2112,7 +2112,11 @@ where
         formatting_space!();
 
         punct!("(");
-        emit!(node.param);
+        self.emit_list(
+            node.span(),
+            Some(&node.params),
+            ListFormat::CommaListElements,
+        )?;
         punct!(")");
 
         emit!(node.body);
