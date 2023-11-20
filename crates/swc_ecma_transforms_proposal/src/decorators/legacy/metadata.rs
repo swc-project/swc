@@ -197,12 +197,12 @@ impl VisitMut for Metadata<'_> {
                 if m.function.is_async {
                     quote_ident!("Promise").as_arg()
                 } else {
-                    let method_return_type = m.function.return_type.as_deref();
+                    let return_type = m.function.return_type.as_deref();
 
-                    if let Some(kind) = self.enums.get_kind_as_str(method_return_type) {
+                    if let Some(kind) = self.enums.get_kind_as_str(return_type) {
                         quote_ident!(kind).as_arg()
                     } else {
-                        serialize_type(self.class_name, method_return_type).as_arg()
+                        serialize_type(self.class_name, return_type).as_arg()
                     }
                 },
             );
