@@ -15071,7 +15071,7 @@
             var splitNumber1, result, span, interval, precision, extent = this._extent, span1 = extent[1] - extent[0];
             if (isFinite(span1)) {
                 span1 < 0 && (span1 = -span1, extent.reverse());
-                var interval1, niceTickExtent, result1 = (splitNumber1 = splitNumber, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, isFinite((niceTickExtent = result.niceTickExtent = [
+                var niceTickExtent, result1 = (splitNumber1 = splitNumber, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, isFinite((niceTickExtent = result.niceTickExtent = [
                     round(Math.ceil(extent[0] / interval) * interval, precision),
                     round(Math.floor(extent[1] / interval) * interval, precision)
                 ])[0]) || (niceTickExtent[0] = extent[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent[1]), clamp(niceTickExtent, 0, extent), clamp(niceTickExtent, 1, extent), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
@@ -15578,16 +15578,16 @@
         return __extends(LogScale, _super), LogScale.prototype.getTicks = function(expandToNicedExtent) {
             var originalScale = this._originalScale, extent = this._extent, originalExtent = originalScale.getExtent();
             return map(intervalScaleProto.getTicks.call(this, expandToNicedExtent), function(tick) {
-                var val, originalVal, val1, originalVal1, val2 = tick.value, powVal = round(mathPow$1(this.base, val2));
-                return powVal = val2 === extent[0] && this._fixMin ? round(powVal, getPrecisionSafe(originalExtent[0])) : powVal, {
-                    value: powVal = val2 === extent[1] && this._fixMax ? round(powVal, getPrecisionSafe(originalExtent[1])) : powVal
+                var val = tick.value, powVal = round(mathPow$1(this.base, val));
+                return powVal = val === extent[0] && this._fixMin ? round(powVal, getPrecisionSafe(originalExtent[0])) : powVal, {
+                    value: powVal = val === extent[1] && this._fixMax ? round(powVal, getPrecisionSafe(originalExtent[1])) : powVal
                 };
             }, this);
         }, LogScale.prototype.setExtent = function(start, end) {
             var base = this.base;
             start = mathLog(start) / mathLog(base), end = mathLog(end) / mathLog(base), intervalScaleProto.setExtent.call(this, start, end);
         }, LogScale.prototype.getExtent = function() {
-            var originalVal, originalVal1, base = this.base, extent = scaleProto.getExtent.call(this);
+            var base = this.base, extent = scaleProto.getExtent.call(this);
             extent[0] = mathPow$1(base, extent[0]), extent[1] = mathPow$1(base, extent[1]);
             var originalExtent = this._originalScale.getExtent();
             return this._fixMin && (extent[0] = round(extent[0], getPrecisionSafe(originalExtent[0]))), this._fixMax && (extent[1] = round(extent[1], getPrecisionSafe(originalExtent[1]))), extent;
