@@ -3291,8 +3291,8 @@
                 }(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags), (7 & eventSystemFlags) == 0) (function(dispatchQueue, domEventName, targetInst, nativeEvent, nativeEventTarget, eventSystemFlags, targetContainer) {
                     var win, from, to, isOverEvent = "mouseover" === domEventName || "pointerover" === domEventName, isOutEvent = "mouseout" === domEventName || "pointerout" === domEventName;
                     if (isOverEvent && (16 & eventSystemFlags) == 0) {
-                        var node, related = nativeEvent.relatedTarget || nativeEvent.fromElement;
-                        if (related && (getClosestInstanceFromNode(related) || (node = related)[internalContainerInstanceKey])) return;
+                        var related = nativeEvent.relatedTarget || nativeEvent.fromElement;
+                        if (related && (getClosestInstanceFromNode(related) || related[internalContainerInstanceKey])) return;
                     }
                     if (isOutEvent || isOverEvent) {
                         if (nativeEventTarget.window === nativeEventTarget) win = nativeEventTarget;
@@ -6568,7 +6568,7 @@
                 var elementType = workInProgress.elementType;
                 return function(_current, workInProgress, elementType, updateLanes, renderLanes) {
                     null !== _current && (_current.alternate = null, workInProgress.alternate = null, workInProgress.flags |= 2);
-                    var type, child, props = workInProgress.pendingProps, payload = elementType._payload, Component = (0, elementType._init)(payload);
+                    var child, props = workInProgress.pendingProps, payload = elementType._payload, Component = (0, elementType._init)(payload);
                     workInProgress.type = Component;
                     var resolvedTag = workInProgress.tag = function(Component) {
                         if ("function" == typeof Component) return shouldConstruct$1(Component) ? 1 : 0;
@@ -6583,7 +6583,7 @@
                         case 0:
                             return validateFunctionComponentInDev(workInProgress, Component), workInProgress.type = Component = resolveFunctionForHotReloading(Component), updateFunctionComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 1:
-                            return workInProgress.type = Component = resolveFunctionForHotReloading(type = Component), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
+                            return workInProgress.type = Component = resolveFunctionForHotReloading(Component), updateClassComponent(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 11:
                             return workInProgress.type = Component = resolveForwardRefForHotReloading(Component), updateForwardRef(null, workInProgress, Component, resolvedProps, renderLanes);
                         case 14:
@@ -6765,7 +6765,7 @@
                     }
                     var currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) {
-                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, (node = instance)[internalInstanceKey] = hostInst, node1 = instance, props1 = props, node1[internalPropsKey] = props1, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
                             switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
                                 case "dialog":
                                     listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
@@ -6899,9 +6899,9 @@
                             return updatePayload;
                         }(instance, type1, props, hostContext.namespace), workInProgress.updateQueue = updatePayload, null !== updatePayload) markUpdate(workInProgress);
                     } else {
-                        var instance, type1, props, rootContainerInstance1, hostContext, hostInst, node, node1, props1, updatePayload, instance1 = function(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
+                        var instance, type1, props, rootContainerInstance1, hostContext, hostInst, node, props1, updatePayload, instance1 = function(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
                             if (validateDOMNesting(type, null, hostContext.ancestorInfo), "string" == typeof props.children || "number" == typeof props.children) {
-                                var hostInst, node, node1, props1, string = "" + props.children, ownAncestorInfo = updatedAncestorInfo(hostContext.ancestorInfo, type);
+                                var hostInst, node, props1, string = "" + props.children, ownAncestorInfo = updatedAncestorInfo(hostContext.ancestorInfo, type);
                                 validateDOMNesting(null, string, ownAncestorInfo);
                             }
                             var domElement = function(type, props, rootContainerElement, parentNamespace) {
@@ -6922,7 +6922,7 @@
                                 } else domElement = ownerDocument.createElementNS(namespaceURI, type);
                                 return namespaceURI !== HTML_NAMESPACE$1 || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
                             }(type, props, rootContainerInstance, hostContext.namespace);
-                            return hostInst = internalInstanceHandle, (node = domElement)[internalInstanceKey] = hostInst, node1 = domElement, props1 = props, node1[internalPropsKey] = props1, domElement;
+                            return hostInst = internalInstanceHandle, domElement[internalInstanceKey] = hostInst, node = domElement, props1 = props, node[internalPropsKey] = props1, domElement;
                         }(type, newProps, rootContainerInstance, currentHostContext, workInProgress);
                         appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, !function(domElement, tag, rawProps, rootContainerElement) {
                             var element, props, value, props1, isCustomComponentTag = isCustomComponent(tag, rawProps);
@@ -7002,9 +7002,9 @@
                     updateHostText$1(current, workInProgress, oldText, newProps);
                 } else {
                     if ("string" != typeof newProps && !(null !== workInProgress.stateNode)) throw Error("We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue.");
-                    var hostInst1, node2, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
+                    var hostInst1, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) (function(fiber) {
-                        var hostInst, node, textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (hostInst = fiber, (node = textInstance)[internalInstanceKey] = hostInst, textInstance.nodeValue !== textContent);
+                        var hostInst, textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (hostInst = fiber, textInstance[internalInstanceKey] = hostInst, textInstance.nodeValue !== textContent);
                         if (shouldUpdate) {
                             var returnFiber = hydrationParentFiber;
                             if (null !== returnFiber) switch(returnFiber.tag){
@@ -7020,7 +7020,7 @@
                         return shouldUpdate;
                     })(workInProgress) && markUpdate(workInProgress);
                     else {
-                        workInProgress.stateNode = (validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst1 = workInProgress, (node2 = textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst1, textNode);
+                        workInProgress.stateNode = (validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst1 = workInProgress, (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst1, textNode);
                     }
                 }
                 return null;

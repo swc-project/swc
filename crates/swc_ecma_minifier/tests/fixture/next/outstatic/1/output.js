@@ -11,7 +11,7 @@
             var i = 0, l = (c)=>"checkbox" === c.type;
             var k = (c, o)=>{
                 var f;
-                return c.has((f = o, f.substring(0, f.search(/\.\d+(\.|$)/)) || f));
+                return c.has((f = o).substring(0, f.search(/\.\d+(\.|$)/)) || f);
             }, v = ()=>{};
             function b(c, o, f) {}
             var g = (c)=>"radio" === c.type;
