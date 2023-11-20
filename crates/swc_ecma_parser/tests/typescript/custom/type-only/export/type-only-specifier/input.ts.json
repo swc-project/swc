@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 357,
+    "end": 354,
     "ctxt": 0
   },
   "body": [
@@ -477,23 +477,56 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 303,
-        "end": 328,
+        "start": 277,
+        "end": 299,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 312,
-            "end": 316,
+            "start": 286,
+            "end": 297,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 312,
-              "end": 316,
+              "start": 291,
+              "end": 297,
+              "ctxt": 0
+            },
+            "value": "export",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": true
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 300,
+        "end": 325,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 309,
+            "end": 313,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 309,
+              "end": 313,
               "ctxt": 0
             },
             "value": "type",
@@ -502,8 +535,8 @@
           "exported": {
             "type": "Identifier",
             "span": {
-              "start": 320,
-              "end": 326,
+              "start": 317,
+              "end": 323,
               "ctxt": 0
             },
             "value": "export",
@@ -519,23 +552,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 329,
-        "end": 357,
+        "start": 326,
+        "end": 354,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 338,
-            "end": 342,
+            "start": 335,
+            "end": 339,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 343,
-              "end": 345,
+              "start": 340,
+              "end": 342,
               "ctxt": 0
             },
             "value": "as",
@@ -544,8 +577,8 @@
           "exported": {
             "type": "Identifier",
             "span": {
-              "start": 349,
-              "end": 355,
+              "start": 346,
+              "end": 352,
               "ctxt": 0
             },
             "value": "export",

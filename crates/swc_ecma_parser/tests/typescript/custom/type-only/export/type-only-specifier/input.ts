@@ -10,6 +10,6 @@ export { type as type }
 export { type as as foo }
 export { type as as as }
 export { type type as as }
-// export { type export }
+export { type export }
 export { type as export }
 export { type as as export }
