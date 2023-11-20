@@ -645,25 +645,36 @@ impl<I: Tokens> Parser<I> {
             let opt = if is!(self, "from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
-                if has_default || has_ns {
-                    expect!(self, "from");
-                }
-
                 for s in &specifiers {
-                    if let ExportSpecifier::Named(named) = s {
-                        match &named.orig {
+                    match s {
+                        ExportSpecifier::Default(default) => {
+                            self.emit_err(
+                                default.exported.span,
+                                SyntaxError::ExportExpectFrom(default.exported.sym.clone()),
+                            );
+                        }
+                        ExportSpecifier::Namespace(namespace) => {
+                            let export_name = match &namespace.name {
+                                ModuleExportName::Ident(i) => i.sym.clone(),
+                                ModuleExportName::Str(s) => s.value.clone(),
+                            };
+                            self.emit_err(
+                                namespace.span,
+                                SyntaxError::ExportExpectFrom(export_name),
+                            );
+                        }
+                        ExportSpecifier::Named(named) => match &named.orig {
                             ModuleExportName::Ident(id) if id.is_reserved() => {
-                                syntax_error!(
-                                    self,
+                                self.emit_err(
                                     id.span,
-                                    SyntaxError::ExportExpectFrom(id.sym.clone())
+                                    SyntaxError::ExportExpectFrom(id.sym.clone()),
                                 );
                             }
                             ModuleExportName::Str(s) => {
-                                syntax_error!(self, s.span, SyntaxError::ExportBindingIsString);
+                                self.emit_err(s.span, SyntaxError::ExportBindingIsString);
                             }
                             _ => {}
-                        }
+                        },
                     }
                 }
 
