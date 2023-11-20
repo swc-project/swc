@@ -198,6 +198,7 @@ pub enum SyntaxError {
 
     TrailingCommaInsideImport,
 
+    ExportDefaultWithOutFrom,
     ExportExpectFrom(JsWord),
 
     DotsWithoutIdentifier,
@@ -498,6 +499,10 @@ impl SyntaxError {
 
             SyntaxError::TrailingCommaInsideImport => {
                 "Trailing comma is disallowed inside import(...) arguments".into()
+            }
+
+            SyntaxError::ExportDefaultWithOutFrom => {
+                "export default statements required from '...';".into()
             }
 
             SyntaxError::ExportExpectFrom(s) => {
