@@ -183,11 +183,11 @@ where
         }
 
         if !self.config.verbatim_module_syntax {
-            let span = match n.shebang.is_some() {
-                true => n
-                    .span
-                    .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo)),
-                false => n.span,
+            let span = if n.shebang.is_some() {
+                n.span
+                    .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo))
+            } else {
+                n.span
             };
 
             let JsxDirectives {
