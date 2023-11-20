@@ -17,6 +17,12 @@ enum StringEnum {
     C = "C"
 }
 
+enum ObjectEnum {
+    A = "A",
+    B = 2,
+    C = "C"
+}
+
 class Foo {
     public foo(x: string): string {
         return 'foo';
@@ -44,6 +50,9 @@ class Foo {
     }
     public string_enum(): StringEnum {
         return StringEnum.A;
+    }
+    public object_enum(): ObjectEnum {
+        return ObjectEnum.A;
     }
     public array_enum(): StringEnum[] {
         return [StringEnum.A, StringEnum.B, StringEnum.C];
@@ -103,6 +112,12 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", []),
     _ts_metadata("design:returntype", String)
 ], Foo.prototype, "string_enum", null);
+_ts_decorate([
+    decorator,
+    _ts_metadata("design:type", Function),
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", Object)
+], Foo.prototype, "object_enum", null);
 _ts_decorate([
     decorator,
     _ts_metadata("design:type", Function),

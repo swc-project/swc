@@ -18,6 +18,12 @@ enum StringEnum {
     C = "C",
 }
 
+enum ObjectEnum {
+    A = "A",
+    B = 2,
+    C = "C",
+}
+
 class Foo {
     @decorator
     public foo(x: string): string {
@@ -62,6 +68,11 @@ class Foo {
     @decorator
     public string_enum(): StringEnum {
         return StringEnum.A;
+    }
+
+    @decorator
+    public object_enum(): ObjectEnum {
+        return ObjectEnum.A;
     }
 
     @decorator
