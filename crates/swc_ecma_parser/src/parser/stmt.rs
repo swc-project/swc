@@ -336,6 +336,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
+            tok!("type") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsTypeAlias(
+                        self.parse_ts_type_alias_decl(start)?,
+                    )));
+                }
+            }
+
             tok!("enum") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
