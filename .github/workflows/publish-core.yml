@@ -8,6 +8,8 @@ env:
   CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
   DISABLE_PLUGIN_E2E_TESTS: true
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
 
 permissions:
   contents: write

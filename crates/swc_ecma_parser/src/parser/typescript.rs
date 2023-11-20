@@ -1136,12 +1136,12 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_ts_import_equals_decl(
         &mut self,
         start: BytePos,
+        id: Ident,
         is_export: bool,
         is_type_only: bool,
     ) -> PResult<Box<TsImportEqualsDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
-        let id = self.parse_ident_name()?;
         expect!(self, '=');
 
         let module_ref = self.parse_ts_module_ref()?;

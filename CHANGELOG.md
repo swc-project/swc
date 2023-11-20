@@ -41,6 +41,9 @@
 - **(es/minifier)** Apply new `SyntaxContext` to inlined `Arrow` correctly ([#8312](https://github.com/swc-project/swc/issues/8312)) ([572ad63](https://github.com/swc-project/swc/commit/572ad63e0825e4eddb511933d1a6d57184fc03c2))
 
 
+- **(es/module)** Read link if an import is resolved as symlink ([#8297](https://github.com/swc-project/swc/issues/8297)) ([7dfdc12](https://github.com/swc-project/swc/commit/7dfdc1221890d373d2e6caf52bc8dee8c20765ca))
+
+
 - **(es/parser)** Consider ASI while parsing TypeScript type aliases ([#8263](https://github.com/swc-project/swc/issues/8263)) ([e589126](https://github.com/swc-project/swc/commit/e58912622d86f2b03f90dd7d0782e5740822dca6))
 
 
@@ -50,7 +53,16 @@
 - **(es/parser)** Fix ASI hazard of `static` ([#8262](https://github.com/swc-project/swc/issues/8262)) ([c128153](https://github.com/swc-project/swc/commit/c1281534b65d1d7f0069c04d35c1eb29f08e9a14))
 
 
+- **(es/parser)** Fix parsing of `import type from from` ([#8309](https://github.com/swc-project/swc/issues/8309)) ([00b8839](https://github.com/swc-project/swc/commit/00b88399a0ea10dfd6d48cb168dd5ae914f11d54))
+
+
+- **(es/parser)** Report error for exported reserved name ([#8313](https://github.com/swc-project/swc/issues/8313)) ([feb8a6d](https://github.com/swc-project/swc/commit/feb8a6dad99bf55cf541bd88a8f21b865c6bcd97))
+
+
 - **(es/proposal)** Improve resolving of `design:returntype` ([#8303](https://github.com/swc-project/swc/issues/8303)) ([fab51e1](https://github.com/swc-project/swc/commit/fab51e18433d85f29d720ef11371411fa4ecf623))
+
+
+- **(es/resolver)** Ignore qualifiers of `TsImportType` ([#8299](https://github.com/swc-project/swc/issues/8299)) ([2113bb3](https://github.com/swc-project/swc/commit/2113bb3e19131d68eb2a1c384e4ac58b2bc10f00))
 
 ### Features
 
@@ -1631,9 +1643,6 @@
 
 
 
-- **(es)** Fix a crash related to an empty source map ([#7229](https://github.com/swc-project/swc/issues/7229)) ([c665918](https://github.com/swc-project/swc/commit/c6659183a616725b61733e584bbb6e540b9cbbde))
-
-
 - **(es/codegen)** Respect `ascii_only` for identifiers ([#7247](https://github.com/swc-project/swc/issues/7247)) ([e35097f](https://github.com/swc-project/swc/commit/e35097fd8c036dfab9fcf923f01db562b003720b))
 
 
@@ -1641,15 +1650,6 @@
 
 
 - **(es/minifier)** Fix handling of optional chaining when `hoist_props` is enabled ([#7246](https://github.com/swc-project/swc/issues/7246)) ([a44fea1](https://github.com/swc-project/swc/commit/a44fea1ec8f19a822d84c744b9e39c122026fd9d))
-
-
-- **(es/parser)** Use a hard error for missing r-paren in an if stmt ([#7223](https://github.com/swc-project/swc/issues/7223)) ([b1c40a4](https://github.com/swc-project/swc/commit/b1c40a411f01792f9b9f4bc9d5f08782fc6d6a1c))
-
-
-- **(es/parser)** Reset ctx for cond while parsing a stmt ([#7232](https://github.com/swc-project/swc/issues/7232)) ([01db30f](https://github.com/swc-project/swc/commit/01db30f91ec91d5dffe4c2ac1934965cc9c73cf8))
-
-
-- **(es/parser)** Parse `const` type parameters in arrow function expressions ([#7242](https://github.com/swc-project/swc/issues/7242)) ([6614886](https://github.com/swc-project/swc/commit/66148861926a8e70cb75ff20cb2f0ff171c2e630))
 
 ### Features
 
@@ -1674,12 +1674,6 @@
 
 
 - **(plugin/runner)** Fix clippy warnings ([#7244](https://github.com/swc-project/swc/issues/7244)) ([70b86db](https://github.com/swc-project/swc/commit/70b86dbe371fafc2dffde0573bc091860aa529b3))
-
-### Testing
-
-
-
-- **(es/plugin)** Enable E2E test again ([#7236](https://github.com/swc-project/swc/issues/7236)) ([695ce06](https://github.com/swc-project/swc/commit/695ce060e95ccdda50334468dc669da2df76c026))
 
 ### Build
 
