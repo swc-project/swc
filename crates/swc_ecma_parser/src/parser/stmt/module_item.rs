@@ -634,12 +634,8 @@ impl<I: Tokens> Parser<I> {
 
             expect!(self, '{');
 
-            let mut string_export_binding_span = None;
             while !eof!(self) && !is!(self, '}') {
                 let specifier = self.parse_named_export_specifier(type_only)?;
-                if let ModuleExportName::Str(str_export) = &specifier.orig {
-                    string_export_binding_span = Some(str_export.span);
-                }
                 specifiers.push(ExportSpecifier::Named(specifier));
 
                 if is!(self, '}') {
@@ -653,17 +649,41 @@ impl<I: Tokens> Parser<I> {
             let opt = if is!(self, "from") {
                 Some(self.parse_from_clause_and_semi()?)
             } else {
+                for s in &specifiers {
+                    match s {
+                        ExportSpecifier::Default(default) => {
+                            self.emit_err(
+                                default.exported.span,
+                                SyntaxError::ExportExpectFrom(default.exported.sym.clone()),
+                            );
+                        }
+                        ExportSpecifier::Namespace(namespace) => {
+                            let export_name = match &namespace.name {
+                                ModuleExportName::Ident(i) => i.sym.clone(),
+                                ModuleExportName::Str(s) => s.value.clone(),
+                            };
+                            self.emit_err(
+                                namespace.span,
+                                SyntaxError::ExportExpectFrom(export_name),
+                            );
+                        }
+                        ExportSpecifier::Named(named) => match &named.orig {
+                            ModuleExportName::Ident(id) if id.is_reserved() => {
+                                self.emit_err(
+                                    id.span,
+                                    SyntaxError::ExportExpectFrom(id.sym.clone()),
+                                );
+                            }
+                            ModuleExportName::Str(s) => {
+                                self.emit_err(s.span, SyntaxError::ExportBindingIsString);
+                            }
+                            _ => {}
+                        },
+                    }
+                }
+
                 eat!(self, ';');
-                if has_default || has_ns {
-                    syntax_error!(
-                        self,
-                        span!(self, start),
-                        SyntaxError::ExportDefaultWithOutFrom
-                    );
-                }
-                if let Some(span) = string_export_binding_span {
-                    syntax_error!(self, span, SyntaxError::ExportBindingIsString);
-                }
+
                 None
             };
             let (src, with) = match opt {
