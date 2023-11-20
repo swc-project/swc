@@ -8,11 +8,19 @@ name        = "swc_cli_impl"
 repository  = "https://github.com/swc-project/swc.git"
 version     = "0.4.71"
 
+[[bin]]
+name = "swc"
+path = "src/main.rs"
+
+[lib]
+crate-type = ["rlib"]
+path       = "src/lib.rs"
+
 [features]
 default = []
 plugin = [
-    "swc_core/plugin_transform_host_native",
-    "swc_core/plugin_transform_host_native_filesystem_cache",
+  "swc_core/plugin_transform_host_native",
+  "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
 
 [dependencies]
@@ -37,3 +45,7 @@ swc_core = { version = "0.86.71", features = [
     "common_concurrent",
     "base_concurrent",
 ], path = "../swc_core" }
+
+[dev-dependencies]
+assert_cmd = "2.0.12"
+assert_fs  = "1.0.13"
