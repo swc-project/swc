@@ -52,6 +52,9 @@
 
 - **(es/proposal)** Improve resolving of `design:returntype` ([#8303](https://github.com/swc-project/swc/issues/8303)) ([fab51e1](https://github.com/swc-project/swc/commit/fab51e18433d85f29d720ef11371411fa4ecf623))
 
+
+- **(es/resolver)** Ignore qualifiers of `TsImportType` ([#8299](https://github.com/swc-project/swc/issues/8299)) ([2113bb3](https://github.com/swc-project/swc/commit/2113bb3e19131d68eb2a1c384e4ac58b2bc10f00))
+
 ### Features
 
 
@@ -1674,12 +1677,6 @@
 
 
 - **(plugin/runner)** Fix clippy warnings ([#7244](https://github.com/swc-project/swc/issues/7244)) ([70b86db](https://github.com/swc-project/swc/commit/70b86dbe371fafc2dffde0573bc091860aa529b3))
-
-### Testing
-
-
-
-- **(es/plugin)** Enable E2E test again ([#7236](https://github.com/swc-project/swc/issues/7236)) ([695ce06](https://github.com/swc-project/swc/commit/695ce060e95ccdda50334468dc669da2df76c026))
 
 ### Build
 
