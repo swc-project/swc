@@ -1,10 +1,10 @@
 use std::{collections::HashMap, mem::swap};
 
 use rustc_hash::FxHashMap;
-use swc_common::{pass::Either, util::take::Take, Mark, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory, Remapper,
+    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
 };
 use swc_ecma_visit::VisitMutWith;
 
@@ -505,43 +505,26 @@ impl Optimizer<'_> {
 
                         self.changed = true;
 
-                        // We remap variables.
-                        //
-                        // For arrow expressions this is required because we copy simple arrow
-                        // expressions.
-                        let mut remap = HashMap::default();
-                        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
+                        let vars = param_ids
+                            .iter()
+                            .map(|name| VarDeclarator {
+                                span: DUMMY_SP,
+                                name: name.clone().into(),
+                                init: Default::default(),
+                                definite: Default::default(),
+                            })
+                            .collect::<Vec<_>>();
 
-                        for p in param_ids.iter() {
-                            remap.insert(p.to_id(), new_ctxt);
-                        }
-
-                        {
-                            let vars = param_ids
-                                .iter()
-                                .map(|name| VarDeclarator {
+                        if !vars.is_empty() {
+                            self.prepend_stmts.push(
+                                VarDecl {
                                     span: DUMMY_SP,
-                                    name: Ident::new(
-                                        name.sym.clone(),
-                                        name.span.with_ctxt(new_ctxt),
-                                    )
-                                    .into(),
-                                    init: Default::default(),
-                                    definite: Default::default(),
-                                })
-                                .collect::<Vec<_>>();
-
-                            if !vars.is_empty() {
-                                self.prepend_stmts.push(
-                                    VarDecl {
-                                        span: DUMMY_SP,
-                                        kind: VarDeclKind::Var,
-                                        declare: Default::default(),
-                                        decls: vars,
-                                    }
-                                    .into(),
-                                );
-                            }
+                                    kind: VarDeclKind::Var,
+                                    declare: Default::default(),
+                                    decls: vars,
+                                }
+                                .into(),
+                            )
                         }
 
                         let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
@@ -550,13 +533,7 @@ impl Optimizer<'_> {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(
-                                        Ident::new(
-                                            param.sym.clone(),
-                                            param.span.with_ctxt(new_ctxt),
-                                        )
-                                        .into(),
-                                    ),
+                                    left: PatOrExpr::Pat(param.clone().into()),
                                     right: arg.expr.take(),
                                 })));
                             }
@@ -570,7 +547,6 @@ impl Optimizer<'_> {
                         if self.vars.inline_with_multi_replacer(body) {
                             self.changed = true;
                         }
-                        body.visit_mut_with(&mut Remapper::new(&remap));
                         exprs.push(body.take());
 
                         report_change!("inline: Inlining a call to an arrow function");
@@ -833,73 +809,29 @@ impl Optimizer<'_> {
 
     fn inline_fn_like(
         &mut self,
-        orig_params: &[Ident],
+        params: &[Ident],
         body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
     ) -> Option<Expr> {
-        if !self.can_inline_fn_like(orig_params, &*body) {
+        if !self.can_inline_fn_like(params, &*body) {
             return None;
-        }
-
-        // We remap variables.
-        let mut remap = HashMap::default();
-        let new_ctxt = SyntaxContext::empty().apply_mark(Mark::fresh(Mark::root()));
-
-        let params = orig_params
-            .iter()
-            .map(|i| {
-                // As the result of this function comes from `params` and `body`, we only need
-                // to remap those.
-
-                let new = Ident::new(i.sym.clone(), i.span.with_ctxt(new_ctxt));
-                remap.insert(i.to_id(), new_ctxt);
-                new
-            })
-            .collect::<Vec<_>>();
-
-        {
-            for stmt in &body.stmts {
-                if let Stmt::Decl(Decl::Var(var)) = stmt {
-                    for decl in &var.decls {
-                        let ids: Vec<Id> = find_pat_ids(&decl.name);
-
-                        for id in ids {
-                            let ctx = remap
-                                .entry(id.clone())
-                                .or_insert_with(|| SyntaxContext::empty().apply_mark(Mark::new()));
-
-                            // [is_skippable_for_seq] would check fn scope
-                            if let Some(usage) = self.data.vars.get(&id) {
-                                let mut usage = usage.clone();
-                                // as we turn var declaration into assignment
-                                // we need to maintain correct var usage
-                                if decl.init.is_some() {
-                                    usage.ref_count += 1;
-                                }
-                                self.data.vars.insert((id.0, *ctx), usage);
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         if self.vars.inline_with_multi_replacer(body) {
             self.changed = true;
         }
-        body.visit_mut_with(&mut Remapper::new(&remap));
 
         let mut vars = Vec::new();
         let mut exprs = Vec::new();
         let param_len = params.len();
 
-        for (idx, param) in params.into_iter().enumerate() {
+        for (idx, param) in params.iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
 
             let no_arg = arg.is_none();
 
             if let Some(arg) = arg {
-                if let Some(usage) = self.data.vars.get(&orig_params[idx].to_id()) {
+                if let Some(usage) = self.data.vars.get(&params[idx].to_id()) {
                     if usage.ref_count == 1
                         && !usage.reassigned
                         && usage.property_mutation_count == 0
@@ -914,9 +846,6 @@ impl Optimizer<'_> {
                         self.vars.vars_for_inlining.insert(param.to_id(), arg);
                         continue;
                     }
-
-                    let usage = usage.clone();
-                    self.data.vars.insert(param.to_id(), usage);
                 }
 
                 exprs.push(
@@ -932,7 +861,7 @@ impl Optimizer<'_> {
 
             vars.push(VarDeclarator {
                 span: DUMMY_SP,
-                name: Pat::Ident(param.into()),
+                name: Pat::Ident(param.clone().into()),
                 init: if self.ctx.executed_multiple_time && no_arg {
                     Some(undefined(DUMMY_SP))
                 } else {
@@ -967,6 +896,16 @@ impl Optimizer<'_> {
                 Stmt::Decl(Decl::Var(ref mut var)) => {
                     for decl in &mut var.decls {
                         if decl.init.is_some() {
+                            let ids = find_pat_ids(decl);
+
+                            for id in ids {
+                                if let Some(usage) = self.data.vars.get_mut(&id) {
+                                    // as we turn var declaration into assignment
+                                    // we need to maintain correct var usage
+                                    usage.ref_count += 1;
+                                }
+                            }
+
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),

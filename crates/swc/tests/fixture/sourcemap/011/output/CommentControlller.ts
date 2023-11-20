@@ -32,7 +32,8 @@ _ts_decorate([
         String,
         typeof UpdateCommentDto === "undefined" ? Object : UpdateCommentDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], CommentController.prototype, "updateComment", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -43,7 +44,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], CommentController.prototype, "deleteComment", null);
 CommentController = _ts_decorate([
     Controller(COMMENT_CONTROLLER_ROUTE),

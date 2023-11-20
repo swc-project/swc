@@ -34,7 +34,8 @@ _ts_decorate([
         typeof Object === "undefined" ? Object : Object,
         Object,
         typeof BigInt === "undefined" ? Object : BigInt
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], Sample.prototype, "method", null);
 _ts_decorate([
     Decorate(),
@@ -42,14 +43,16 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name,
         typeof Decorate === "undefined" || typeof Decorate.Name === "undefined" ? Object : Decorate.Name
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], Sample.prototype, "method2", null);
 _ts_decorate([
     Decorate(),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         String
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], Sample.prototype, "assignments", null);
 Sample = _ts_decorate([
     Decorate(),

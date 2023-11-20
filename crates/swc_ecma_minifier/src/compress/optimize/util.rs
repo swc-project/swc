@@ -5,10 +5,10 @@ use std::{
 
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_common::{collections::AHashSet, util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{ExprCtx, ExprExt};
+use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -243,7 +243,31 @@ impl Parallel for Finalizer<'_> {
 impl<'a> Finalizer<'a> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
-            FinalizerMode::Callee => self.simple_functions.get(i).cloned()?,
+            FinalizerMode::Callee => {
+                let mut value = self.simple_functions.get(i).cloned()?;
+                let mut cache = FxHashMap::default();
+                let mut remap = FxHashMap::default();
+                let bindings: AHashSet<Id> = collect_decls(&*value);
+                let new_mark = Mark::new();
+
+                // at this point, var usage no longer matter
+                for id in bindings {
+                    let new_ctxt = cache
+                        .entry(id.1)
+                        .or_insert_with(|| id.1.apply_mark(new_mark));
+
+                    let new_ctxt = *new_ctxt;
+
+                    remap.insert(id, new_ctxt);
+                }
+
+                if !remap.is_empty() {
+                    let mut remapper = Remapper::new(&remap);
+                    value.visit_mut_with(&mut remapper);
+                }
+
+                value
+            }
             FinalizerMode::ComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
             FinalizerMode::MemberAccess => self.lits_for_array_access.get(i).cloned()?,
         };

@@ -1,8 +1,9 @@
-use swc_common::{util::take::Take, EqIgnoreSpan, Spanned};
+use rustc_hash::FxHashMap;
+use swc_common::{collections::AHashSet, util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::simplify::expr_simplifier;
 use swc_ecma_usage_analyzer::alias::{collect_infects_from, AliasConfig};
-use swc_ecma_utils::{class_has_side_effect, find_pat_ids, ExprExt};
+use swc_ecma_utils::{class_has_side_effect, collect_decls, find_pat_ids, ExprExt, Remapper};
 use swc_ecma_visit::VisitMutWith;
 
 use super::Optimizer;
@@ -808,7 +809,7 @@ impl Optimizer<'_> {
             }
             Expr::Ident(i) => {
                 let id = i.to_id();
-                if let Some(value) = self
+                if let Some(mut value) = self
                     .vars
                     .lits
                     .get(&id)
@@ -825,6 +826,33 @@ impl Optimizer<'_> {
                         && self.ctx.is_update_arg
                     {
                         return;
+                    }
+
+                    // currently renamer relies on the fact no distinct var has same ctxt, we need
+                    // to remap all new bindings.
+                    let bindings: AHashSet<Id> = collect_decls(&*value);
+                    let new_mark = Mark::new();
+                    let mut cache = FxHashMap::default();
+                    let mut remap = FxHashMap::default();
+
+                    for id in bindings {
+                        let new_ctxt = cache
+                            .entry(id.1)
+                            .or_insert_with(|| id.1.apply_mark(new_mark));
+
+                        let new_ctxt = *new_ctxt;
+
+                        if let Some(usage) = self.data.vars.get(&id).cloned() {
+                            let new_id = (id.0.clone(), new_ctxt);
+                            self.data.vars.insert(new_id, usage);
+                        }
+
+                        remap.insert(id, new_ctxt);
+                    }
+
+                    if !remap.is_empty() {
+                        let mut remapper = Remapper::new(&remap);
+                        value.visit_mut_with(&mut remapper);
                     }
 
                     self.changed = true;
