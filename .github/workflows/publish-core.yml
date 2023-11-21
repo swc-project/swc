@@ -102,18 +102,18 @@ jobs:
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x swc.linux-arm64-gnu.node
-          - host: ubuntu-latest
-            target: armv7-unknown-linux-gnueabihf
-            setup: |
-              sudo apt-get update
-              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            # Use napi to build cli binary here to use zig as linker
-            build: |
-              export DISABLE_PLUGIN_E2E_TESTS=true
-              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --cargo-cwd ./bindings/swc_cli --cargo-name swc --zig --zig-link-only
-              chmod +x ./swc
-              yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features --features swc_v1'
-              arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
+          # - host: ubuntu-latest
+          #   target: armv7-unknown-linux-gnueabihf
+          #   setup: |
+          #     sudo apt-get update
+          #     sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+          #   # Use napi to build cli binary here to use zig as linker
+          #   build: |
+          #     export DISABLE_PLUGIN_E2E_TESTS=true
+          #     yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --cargo-cwd ./bindings/swc_cli --cargo-name swc --zig --zig-link-only
+          #     chmod +x ./swc
+          #     yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features --features swc_v1'
+          #     arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
@@ -356,51 +356,53 @@ jobs:
           run: >-
             set -e &&
             DISABLE_PLUGIN_E2E_TESTS=true yarn test
-  test-linux-arm-gnueabihf-binding:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
-    name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
-    needs:
-      - build
-    strategy:
-      fail-fast: false
-      matrix:
-        node:
-          - "16"
-          - "18"
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
-      - name: List packages
-        run: ls -R .
-        shell: bash
-      - name: Cache NPM dependencies
-        uses: actions/cache@v3
-        with:
-          path: node_modules
-          key: npm-cache-test-linux-arm-gnueabihf-${{ matrix.node }}
-      - name: Install dependencies
-        run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
-      - name: Build TypeScript
-        run: yarn build:ts
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v2
-        with:
-          platforms: arm
-      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-      - name: Setup and run tests
-        uses: addnab/docker-run-action@v3
-        with:
-          image: node:${{ matrix.node }}-bullseye-slim
-          options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
-          run: >-
-            set -e &&
-            DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
-            ls -la
+  # https://github.com/ziglang/zig/issues/16152
+  #
+  # test-linux-arm-gnueabihf-binding:
+  #   if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+  #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
+  #   needs:
+  #     - build
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       node:
+  #         - "16"
+  #         - "18"
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - name: Download artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: bindings-armv7-unknown-linux-gnueabihf
+  #         path: .
+  #     - name: List packages
+  #       run: ls -R .
+  #       shell: bash
+  #     - name: Cache NPM dependencies
+  #       uses: actions/cache@v3
+  #       with:
+  #         path: node_modules
+  #         key: npm-cache-test-linux-arm-gnueabihf-${{ matrix.node }}
+  #     - name: Install dependencies
+  #       run: yarn install --ignore-scripts --ignore-platform --registry https://registry.npmjs.org --network-timeout 300000
+  #     - name: Build TypeScript
+  #       run: yarn build:ts
+  #     - name: Set up QEMU
+  #       uses: docker/setup-qemu-action@v2
+  #       with:
+  #         platforms: arm
+  #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+  #     - name: Setup and run tests
+  #       uses: addnab/docker-run-action@v3
+  #       with:
+  #         image: node:${{ matrix.node }}-bullseye-slim
+  #         options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
+  #         run: >-
+  #           set -e &&
+  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
+  #           ls -la
   publish:
     if: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
@@ -409,7 +411,7 @@ jobs:
     needs:
       - test-linux-x64-gnu-binding
       - test-linux-x64-musl-binding
-      - test-linux-arm-gnueabihf-binding
+      # - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
       - test-linux-aarch64-musl-binding
     steps:
