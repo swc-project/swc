@@ -1113,7 +1113,10 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsParseTypeAliasDeclaration`
-    fn parse_ts_type_alias_decl(&mut self, start: BytePos) -> PResult<Box<TsTypeAliasDecl>> {
+    pub(super) fn parse_ts_type_alias_decl(
+        &mut self,
+        start: BytePos,
+    ) -> PResult<Box<TsTypeAliasDecl>> {
         debug_assert!(self.input.syntax().typescript());
 
         let id = self.parse_ident_name()?;

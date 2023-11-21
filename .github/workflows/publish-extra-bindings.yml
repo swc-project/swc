@@ -79,14 +79,14 @@ jobs:
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x ${{ github.event.inputs.package }}.linux-arm64-gnu.node)
-          - host: ubuntu-latest
-            target: armv7-unknown-linux-gnueabihf
-            setup: |
-              sudo apt-get update
-              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            # Use napi to build cli binary here to use zig as linker
-            build: |
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip ${{ github.event.inputs.package }}.linux-arm-gnueabihf.node)
+          # - host: ubuntu-latest
+          #   target: armv7-unknown-linux-gnueabihf
+          #   setup: |
+          #     sudo apt-get update
+          #     sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+          #   # Use napi to build cli binary here to use zig as linker
+          #   build: |
+          #     (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip ${{ github.event.inputs.package }}.linux-arm-gnueabihf.node)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
@@ -321,7 +321,7 @@ jobs:
           run: >-
             set -e &&
             (cd "./packages/${{ github.event.inputs.package }}" && DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test)
-  test-linux-arm-gnueabihf-binding:
+  # test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
     needs:
       - build-node
@@ -369,7 +369,7 @@ jobs:
     needs:
       - test-linux-x64-gnu-binding
       - test-linux-x64-musl-binding
-      - test-linux-arm-gnueabihf-binding
+      # - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
       - test-linux-aarch64-musl-binding
     steps:
