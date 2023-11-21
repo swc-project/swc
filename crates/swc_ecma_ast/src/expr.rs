@@ -1307,7 +1307,7 @@ impl Take for BlockStmtOrExpr {
 #[ast_node]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-pub enum PatOrExpr {
+pub enum AssignTarget {
     #[tag("ThisExpression")]
     #[tag("ArrayExpression")]
     #[tag("ObjectExpression")]
