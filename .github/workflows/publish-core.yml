@@ -102,18 +102,18 @@ jobs:
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu &&
               llvm-strip -x swc.linux-arm64-gnu.node
-          - host: ubuntu-latest
-            target: armv7-unknown-linux-gnueabihf
-            setup: |
-              sudo apt-get update
-              sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            # Use napi to build cli binary here to use zig as linker
-            build: |
-              export DISABLE_PLUGIN_E2E_TESTS=true
-              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --cargo-cwd ./bindings/swc_cli --cargo-name swc --zig --zig-link-only
-              chmod +x ./swc
-              yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features --features swc_v1'
-              arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
+          # - host: ubuntu-latest
+          #   target: armv7-unknown-linux-gnueabihf
+          #   setup: |
+          #     sudo apt-get update
+          #     sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
+          #   # Use napi to build cli binary here to use zig as linker
+          #   build: |
+          #     export DISABLE_PLUGIN_E2E_TESTS=true
+          #     yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --cargo-cwd ./bindings/swc_cli --cargo-name swc --zig --zig-link-only
+          #     chmod +x ./swc
+          #     yarn build --target armv7-unknown-linux-gnueabihf --cargo-flags='--no-default-features --features swc_v1'
+          #     arm-linux-gnueabihf-strip swc.linux-arm-gnueabihf.node
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
