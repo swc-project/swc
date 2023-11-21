@@ -537,7 +537,7 @@ impl VisitMut for BlockScoping {
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
         f.key.visit_mut_with(self);
-        f.param.visit_mut_with(self);
+        f.params.visit_mut_with(self);
         self.visit_mut_with_scope(ScopeKind::Fn, &mut f.body);
     }
 

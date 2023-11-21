@@ -1137,7 +1137,7 @@ impl<'a> VisitMut for Resolver<'a> {
         {
             self.with_child(ScopeKind::Fn, |child| {
                 child.ident_type = IdentType::Binding;
-                n.param.visit_mut_with(child);
+                n.params.visit_mut_with(child);
                 n.body.visit_mut_with(child);
             });
         };

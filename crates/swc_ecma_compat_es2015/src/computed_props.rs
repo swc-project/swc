@@ -170,7 +170,7 @@ impl VisitMut for ComputedProps {
                                 Prop::Setter(SetterProp {
                                     span,
                                     body,
-                                    param,
+                                    params,
                                     key,
                                 }) => (
                                     key,
@@ -179,7 +179,7 @@ impl VisitMut for ComputedProps {
                                         body,
                                         is_async: false,
                                         is_generator: false,
-                                        params: vec![(*param).into()],
+                                        params,
                                         decorators: Default::default(),
                                         type_params: Default::default(),
                                         return_type: Default::default(),
