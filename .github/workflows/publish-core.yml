@@ -356,6 +356,8 @@ jobs:
           run: >-
             set -e &&
             DISABLE_PLUGIN_E2E_TESTS=true yarn test
+  # https://github.com/ziglang/zig/issues/16152
+  #
   # test-linux-arm-gnueabihf-binding:
   #   if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
   #   name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
