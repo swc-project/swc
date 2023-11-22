@@ -2,10 +2,7 @@ use either::Either;
 use swc_common::{ast_node, collections::AHashMap, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
-use crate::{
-    lexer::TokenContext,
-    parser::{class_and_fn::IsSimpleParameterList, util::unwrap_ts_non_null},
-};
+use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};
 
 mod ops;
 #[cfg(test)]
@@ -2145,4 +2142,12 @@ impl<I: Tokens> Parser<I> {
             )
             || (is!(self, '#') && peeked_is!(self, IdentName)))
     }
+}
+
+fn unwrap_ts_non_null(mut expr: &Expr) -> &Expr {
+    while let Expr::TsNonNull(ts_non_null) = expr {
+        expr = &ts_non_null.expr;
+    }
+
+    expr
 }
