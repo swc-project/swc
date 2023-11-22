@@ -6,7 +6,11 @@ use swc_ecma_utils::{extract_var_ids, ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
-use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt};
+use crate::{
+    compress::util::is_fine_for_if_cons,
+    maybe_par,
+    util::{contains_await_or_yield, ModuleItemExt},
+};
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
@@ -284,6 +288,10 @@ impl Pure<'_> {
             Some(s @ (Stmt::Break(_) | Stmt::Continue(_) | Stmt::Return(_) | Stmt::Throw(_))) => s,
             _ => return,
         };
+
+        if contains_await_or_yield(last) {
+            return;
+        }
 
         fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool) -> bool {
             match stmt.as_stmt_mut() {
