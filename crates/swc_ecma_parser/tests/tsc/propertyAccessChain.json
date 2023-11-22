@@ -1608,66 +1608,75 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "MemberExpression",
+        "type": "OptionalChainingExpression",
         "span": {
           "start": 469,
           "end": 477,
           "ctxt": 0
         },
-        "object": {
-          "type": "TsNonNullExpression",
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
           "span": {
             "start": 469,
-            "end": 475,
+            "end": 477,
             "ctxt": 0
           },
-          "expression": {
-            "type": "OptionalChainingExpression",
+          "object": {
+            "type": "TsNonNullExpression",
             "span": {
               "start": 469,
-              "end": 474,
+              "end": 475,
               "ctxt": 0
             },
-            "optional": true,
-            "base": {
-              "type": "MemberExpression",
+            "expression": {
+              "type": "OptionalChainingExpression",
               "span": {
                 "start": 469,
                 "end": 474,
                 "ctxt": 0
               },
-              "object": {
-                "type": "Identifier",
+              "optional": true,
+              "base": {
+                "type": "MemberExpression",
                 "span": {
                   "start": 469,
-                  "end": 471,
-                  "ctxt": 0
-                },
-                "value": "o2",
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 473,
                   "end": 474,
                   "ctxt": 0
                 },
-                "value": "b",
-                "optional": false
+                "object": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 469,
+                    "end": 471,
+                    "ctxt": 0
+                  },
+                  "value": "o2",
+                  "optional": false
+                },
+                "property": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 473,
+                    "end": 474,
+                    "ctxt": 0
+                  },
+                  "value": "b",
+                  "optional": false
+                }
               }
             }
-          }
-        },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 476,
-            "end": 477,
-            "ctxt": 0
           },
-          "value": "c",
-          "optional": false
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 476,
+              "end": 477,
+              "ctxt": 0
+            },
+            "value": "c",
+            "optional": false
+          }
         }
       }
     },
@@ -1686,66 +1695,75 @@
           "ctxt": 0
         },
         "expression": {
-          "type": "MemberExpression",
+          "type": "OptionalChainingExpression",
           "span": {
             "start": 479,
             "end": 487,
             "ctxt": 0
           },
-          "object": {
-            "type": "TsNonNullExpression",
+          "optional": false,
+          "base": {
+            "type": "MemberExpression",
             "span": {
               "start": 479,
-              "end": 485,
+              "end": 487,
               "ctxt": 0
             },
-            "expression": {
-              "type": "OptionalChainingExpression",
+            "object": {
+              "type": "TsNonNullExpression",
               "span": {
                 "start": 479,
-                "end": 484,
+                "end": 485,
                 "ctxt": 0
               },
-              "optional": true,
-              "base": {
-                "type": "MemberExpression",
+              "expression": {
+                "type": "OptionalChainingExpression",
                 "span": {
                   "start": 479,
                   "end": 484,
                   "ctxt": 0
                 },
-                "object": {
-                  "type": "Identifier",
+                "optional": true,
+                "base": {
+                  "type": "MemberExpression",
                   "span": {
                     "start": 479,
-                    "end": 481,
-                    "ctxt": 0
-                  },
-                  "value": "o2",
-                  "optional": false
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 483,
                     "end": 484,
                     "ctxt": 0
                   },
-                  "value": "b",
-                  "optional": false
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 479,
+                      "end": 481,
+                      "ctxt": 0
+                    },
+                    "value": "o2",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 483,
+                      "end": 484,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false
+                  }
                 }
               }
-            }
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 486,
-              "end": 487,
-              "ctxt": 0
             },
-            "value": "c",
-            "optional": false
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 486,
+                "end": 487,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false
+            }
           }
         }
       }

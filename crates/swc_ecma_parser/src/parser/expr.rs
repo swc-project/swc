@@ -1346,7 +1346,7 @@ impl<I: Tokens> Parser<I> {
                         }
                     }
                     Callee::Expr(obj) => {
-                        let is_opt_chain = obj.is_opt_chain();
+                        let is_opt_chain = unwrap_ts_non_null(&obj).is_opt_chain();
                         let expr = MemberExpr {
                             span,
                             obj,
@@ -1392,7 +1392,7 @@ impl<I: Tokens> Parser<I> {
             let span = span!(self, start);
             return if question_dot_token.is_some()
                 || match &obj {
-                    Callee::Expr(obj) => obj.is_opt_chain(),
+                    Callee::Expr(obj) => unwrap_ts_non_null(obj).is_opt_chain(),
                     _ => false,
                 } {
                 match obj {
@@ -1493,7 +1493,9 @@ impl<I: Tokens> Parser<I> {
                     }
                     Callee::Expr(obj) => {
                         let expr = MemberExpr { span, obj, prop };
-                        let expr = if expr.obj.is_opt_chain() || question_dot_token.is_some() {
+                        let expr = if unwrap_ts_non_null(&expr.obj).is_opt_chain()
+                            || question_dot_token.is_some()
+                        {
                             Expr::OptChain(OptChainExpr {
                                 span: span!(self, start),
                                 optional: question_dot_token.is_some(),
@@ -1656,16 +1658,18 @@ impl<I: Tokens> Parser<I> {
             let args = self.parse_args(is_import)?;
 
             let call_expr = match callee {
-                Callee::Expr(e) if e.is_opt_chain() => Box::new(Expr::OptChain(OptChainExpr {
-                    span: span!(self, start),
-                    base: Box::new(OptChainBase::Call(OptCall {
+                Callee::Expr(e) if unwrap_ts_non_null(&e).is_opt_chain() => {
+                    Box::new(Expr::OptChain(OptChainExpr {
                         span: span!(self, start),
-                        callee: e,
-                        args,
-                        type_args,
-                    })),
-                    optional: false,
-                })),
+                        base: Box::new(OptChainBase::Call(OptCall {
+                            span: span!(self, start),
+                            callee: e,
+                            args,
+                            type_args,
+                        })),
+                        optional: false,
+                    }))
+                }
                 _ => Box::new(Expr::Call(CallExpr {
                     span: span!(self, start),
 
@@ -2138,4 +2142,12 @@ impl<I: Tokens> Parser<I> {
             )
             || (is!(self, '#') && peeked_is!(self, IdentName)))
     }
+}
+
+fn unwrap_ts_non_null(mut expr: &Expr) -> &Expr {
+    while let Expr::TsNonNull(ts_non_null) = expr {
+        expr = &ts_non_null.expr;
+    }
+
+    expr
 }
