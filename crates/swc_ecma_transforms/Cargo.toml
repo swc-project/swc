@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.226.52"
+version       = "0.226.53"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -37,10 +37,10 @@ swc_ecma_ast                     = { version = "0.110.10", path = "../swc_ecma_a
 swc_ecma_transforms_base         = { version = "0.134.42", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { version = "0.160.48", path = "../swc_ecma_transforms_compat", optional = true }
 swc_ecma_transforms_module       = { version = "0.177.51", path = "../swc_ecma_transforms_module", optional = true }
-swc_ecma_transforms_optimization = { version = "0.195.52", path = "../swc_ecma_transforms_optimization", optional = true }
+swc_ecma_transforms_optimization = { version = "0.195.53", path = "../swc_ecma_transforms_optimization", optional = true }
 swc_ecma_transforms_proposal     = { version = "0.168.51", path = "../swc_ecma_transforms_proposal", optional = true }
 swc_ecma_transforms_react        = { version = "0.180.52", path = "../swc_ecma_transforms_react", optional = true }
-swc_ecma_transforms_typescript   = { version = "0.185.50", path = "../swc_ecma_transforms_typescript", optional = true }
+swc_ecma_transforms_typescript   = { version = "0.185.51", path = "../swc_ecma_transforms_typescript", optional = true }
 swc_ecma_utils                   = { version = "0.124.32", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "0.96.10", path = "../swc_ecma_visit" }
 

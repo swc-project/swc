@@ -314,7 +314,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.60.72"
+version = "0.60.73"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1094,7 +1094,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.89.73"
+version = "0.89.74"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3833,7 +3833,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.269.65"
+version = "0.269.66"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3902,7 +3902,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.222.60"
+version = "0.222.61"
 dependencies = [
  "anyhow",
  "crc",
@@ -3957,7 +3957,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.4.72"
+version = "0.4.73"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4016,7 +4016,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.3.68"
+version = "0.3.69"
 dependencies = [
  "anyhow",
  "base64 0.13.1",
@@ -4059,7 +4059,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.86.73"
+version = "0.86.74"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4592,7 +4592,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.189.62"
+version = "0.189.63"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4661,7 +4661,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.203.52"
+version = "0.203.53"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4727,7 +4727,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.226.52"
+version = "0.226.53"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4870,7 +4870,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.195.52"
+version = "0.195.53"
 dependencies = [
  "dashmap",
  "indexmap 1.9.3",
@@ -4976,7 +4976,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.185.50"
+version = "0.185.51"
 dependencies = [
  "criterion",
  "ryu-js",
@@ -5045,7 +5045,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.236.69"
+version = "0.236.70"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5092,7 +5092,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.194.71"
+version = "0.194.72"
 dependencies = [
  "ahash 0.8.5",
  "anyhow",
@@ -5140,7 +5140,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.134.68"
+version = "0.134.69"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -5191,7 +5191,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.131.67"
+version = "0.131.68"
 dependencies = [
  "criterion",
  "once_cell",
@@ -5277,7 +5277,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.58.72"
+version = "0.58.73"
 dependencies = [
  "anyhow",
  "dashmap",
