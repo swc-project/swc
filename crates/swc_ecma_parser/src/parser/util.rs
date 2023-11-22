@@ -297,3 +297,11 @@ impl ExprExt for Expr {
         self
     }
 }
+
+pub(super) fn unwrap_ts_non_null(mut expr: &Expr) -> &Expr {
+    while let Expr::TsNonNull(ts_non_null) = expr {
+        expr = &ts_non_null.expr;
+    }
+
+    expr
+}
