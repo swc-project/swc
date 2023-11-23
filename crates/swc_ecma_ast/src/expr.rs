@@ -1199,8 +1199,8 @@ impl Take for BlockStmtOrExpr {
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum AssignTarget {
-    #[tag("TsNonNullExpression")]
-    #[tag("TsNonNullExpression")]
+    #[tag("Identifier")]
+    #[tag("MemberExpression")]
     #[tag("TsAsExpressio")]
     #[tag("TsSatisfiesExpression")]
     #[tag("TsNonNullExpression")]
