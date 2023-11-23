@@ -19,6 +19,8 @@ use crate::{
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
     ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, PropName, Str,
+    ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
+    ArrayPat, ComputedPropName, Id, Invalid, ObjectPat,
 };
 
 #[ast_node(no_clone)]
@@ -1204,8 +1206,19 @@ pub enum AssignTarget {
     #[tag("TsNonNullExpression")]
     #[tag("TsTypeAssertion")]
     Simple(SimpleAssignTarget),
-    #[tag("*")]
-    Pat(Box<Pat>),
+    #[tag("ArrayPattern")]
+    #[tag("ObjectPattern")]
+    Pat(AssignTargetPat),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum AssignTargetPat {
+    #[tag("ArrayPattern")]
+    Array(ArrayPat),
+    #[tag("ObjectPattern")]
+    Object(ObjectPat),
 }
 
 #[ast_node]
