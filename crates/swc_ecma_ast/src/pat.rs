@@ -66,7 +66,7 @@ macro_rules! pat_to_other {
     ($T:ty) => {
         bridge_from!(crate::Param, crate::Pat, $T);
         bridge_from!(Box<crate::Pat>, crate::Pat, $T);
-        bridge_from!(crate::PatOrExpr, crate::Pat, $T);
+        bridge_from!(crate::AssignTarget, crate::Pat, $T);
     };
 }
 
