@@ -1237,11 +1237,13 @@ pub enum SimpleAssignTarget {
     TSNonNull(TsNonNullExpr),
     #[tag("TsTypeAssertion")]
     TSTypeAssertion(TsTypeAssertion),
+    #[tag("Invaliid")]
+    Invalid(Invalid),
 }
 
 impl Take for SimpleAssignTarget {
     fn dummy() -> Self {
-        SimpleAssignTarget::Ident(Take::dummy())
+        SimpleAssignTarget::Invalid(Take::dummy())
     }
 }
 
