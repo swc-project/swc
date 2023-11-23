@@ -1211,6 +1211,34 @@ pub enum AssignTarget {
     Pat(AssignTargetPat),
 }
 
+impl TryFrom<Pat> for AssignTarget {
+    type Error = Pat;
+
+    fn try_from(p: Pat) -> Result<Self, Self::Error> {
+        Ok(match p {
+            Pat::Array(a) => AssignTarget::Pat(AssignTargetPat::Array(a)),
+            Pat::Object(o) => AssignTarget::Pat(AssignTargetPat::Object(o)),
+
+            Pat::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i.id)),
+            Pat::Invalid(i) => AssignTarget::Simple(SimpleAssignTarget::Invalid(i)),
+
+            Pat::Expr(e) => match *e {
+                Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
+                Expr::Member(m) => AssignTarget::Simple(SimpleAssignTarget::Member(m)),
+                Expr::TsAs(a) => AssignTarget::Simple(SimpleAssignTarget::TSAs(a)),
+                Expr::TsSatisfies(s) => AssignTarget::Simple(SimpleAssignTarget::TSSatisfies(s)),
+                Expr::TsNonNull(n) => AssignTarget::Simple(SimpleAssignTarget::TSNonNull(n)),
+                Expr::TsTypeAssertion(a) => {
+                    AssignTarget::Simple(SimpleAssignTarget::TSTypeAssertion(a))
+                }
+                _ => return Err(Pat::Expr(e)),
+            },
+
+            _ => return Err(p),
+        })
+    }
+}
+
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
