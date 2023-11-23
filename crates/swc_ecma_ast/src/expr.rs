@@ -1238,7 +1238,7 @@ impl AssignTarget {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
     pub fn pat(self) -> Option<Box<Pat>> {
         match self {
-            AssignTarget::Expr(_) => None,
+            AssignTarget::Simple(_) => None,
             AssignTarget::Pat(p) => Some(p),
         }
     }
@@ -1247,7 +1247,7 @@ impl AssignTarget {
     /// `None`.
     pub fn expr(self) -> Option<Box<Expr>> {
         match self {
-            AssignTarget::Expr(e) => Some(e),
+            AssignTarget::Simple(e) => Some(e),
             AssignTarget::Pat(p) => match *p {
                 Pat::Expr(e) => Some(e),
                 _ => None,
@@ -1269,14 +1269,14 @@ impl AssignTarget {
 
     pub fn as_pat(&self) -> Option<&Pat> {
         match self {
-            AssignTarget::Expr(_) => None,
+            AssignTarget::Simple(_) => None,
             AssignTarget::Pat(p) => Some(p),
         }
     }
 
     pub fn as_expr(&self) -> Option<&Expr> {
         match self {
-            AssignTarget::Expr(e) => Some(e),
+            AssignTarget::Simple(e) => Some(e),
             AssignTarget::Pat(p) => match &**p {
                 Pat::Expr(e) => Some(e),
                 _ => None,
@@ -1294,7 +1294,7 @@ impl AssignTarget {
 
     pub fn as_ident(&self) -> Option<&Ident> {
         match self {
-            AssignTarget::Expr(v) => match &**v {
+            AssignTarget::Simple(v) => match &**v {
                 Expr::Ident(i) => Some(i),
                 _ => None,
             },
@@ -1311,7 +1311,7 @@ impl AssignTarget {
 
     pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
         match self {
-            AssignTarget::Expr(v) => match &mut **v {
+            AssignTarget::Simple(v) => match &mut **v {
                 Expr::Ident(i) => Some(i),
                 _ => None,
             },
@@ -1329,7 +1329,7 @@ impl AssignTarget {
     pub fn normalize_expr(self) -> Self {
         match self {
             AssignTarget::Pat(pat) => match *pat {
-                Pat::Expr(expr) => AssignTarget::Expr(expr),
+                Pat::Expr(expr) => AssignTarget::Simple(expr),
                 _ => AssignTarget::Pat(pat),
             },
             _ => self,
@@ -1338,14 +1338,14 @@ impl AssignTarget {
 
     pub fn normalize_ident(self) -> Self {
         match self {
-            AssignTarget::Expr(expr) => match *expr {
+            AssignTarget::Simple(expr) => match *expr {
                 Expr::Ident(i) => AssignTarget::Pat(Box::new(Pat::Ident(i.into()))),
-                _ => AssignTarget::Expr(expr),
+                _ => AssignTarget::Simple(expr),
             },
             AssignTarget::Pat(pat) => match *pat {
                 Pat::Expr(expr) => match *expr {
                     Expr::Ident(i) => AssignTarget::Pat(Box::new(Pat::Ident(i.into()))),
-                    _ => AssignTarget::Expr(expr),
+                    _ => AssignTarget::Simple(expr),
                 },
                 _ => AssignTarget::Pat(pat),
             },
