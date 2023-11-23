@@ -159,7 +159,12 @@ impl<I: Tokens> Parser<I> {
                 let left = if op == AssignOp::Assign {
                     match AssignTarget::try_from(
                         self.reparse_expr_as_pat(PatType::AssignPat, cond)?,
-                    ) {}
+                    ) {
+                        Ok(pat) => pat,
+                        Err(expr) => {
+                            syntax_error!(self, expr.span(), SyntaxError::InvalidAssignTarget)
+                        }
+                    }
                 } else {
                     // It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
@@ -180,7 +185,12 @@ impl<I: Tokens> Parser<I> {
                     }
 
                     // TODO
-                    PatOrExpr::Expr(cond)
+                    match AssignTarget::try_from(cond) {
+                        Ok(v) => v,
+                        Err(v) => {
+                            syntax_error!(self, v.span(), SyntaxError::InvalidAssignTarget);
+                        }
+                    }
                 };
 
                 bump!(self);

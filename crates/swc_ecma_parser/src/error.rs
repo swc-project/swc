@@ -147,6 +147,7 @@ pub enum SyntaxError {
     InvalidPat,
     InvalidExpr,
     NotSimpleAssign,
+    InvalidAssignTarget,
     ExpectedIdent,
     ExpectedSemi,
     DuplicateLabel(JsWord),
