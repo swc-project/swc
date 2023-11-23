@@ -304,10 +304,9 @@ impl<'a> Resolver<'a> {
                 }
 
                 return match &**sym {
-                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#value_properties
-                    "undefined" | "NaN" | "Infinity" | "globalThis"
-                        if mark == self.config.top_level_mark =>
-                    {
+                    // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
+                    // non configurable global value
+                    "undefined" | "NaN" | "Infinity" if mark == self.config.top_level_mark => {
                         Some(self.config.unresolved_mark)
                     }
                     _ => Some(mark),
