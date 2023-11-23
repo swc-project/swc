@@ -1,11 +1,5 @@
 #![allow(clippy::vec_box)]
 use is_macro::Is;
-#[cfg(feature = "serde-impl")]
-use serde::{
-    self,
-    de::{self, MapAccess, Visitor},
-    Deserialize, Deserializer,
-};
 use string_enum::StringEnum;
 use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
