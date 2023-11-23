@@ -1346,9 +1346,21 @@ pub enum AssignTarget {
     #[tag("TsNonNullExpression")]
     #[tag("TsAsExpression")]
     #[tag("PrivateName")]
-    Expr(Box<Expr>),
+    Simple(SimpleAssignTarget),
     #[tag("*")]
     Pat(Box<Pat>),
+}
+
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum SimpleAssignTarget {
+    Ident(Ident),
+    Member(MemberExpr),
+    TSAs(TsAsExpr),
+    TSSatisfies(TsSatisfiesExpr),
+    TSNonNull(TsNonNullExpr),
+    TSTypeAssertion(TsTypeAssertion),
 }
 
 bridge_from!(PatOrExpr, Box<Pat>, Pat);
