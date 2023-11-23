@@ -1225,9 +1225,9 @@ pub enum AssignTargetPat {
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SimpleAssignTarget {
-    #[tag("TsNonNullExpression")]
+    #[tag("Identifier")]
     Ident(Ident),
-    #[tag("TsNonNullExpression")]
+    #[tag("MemberExpression")]
     Member(MemberExpr),
     #[tag("TsAsExpressio")]
     TSAs(TsAsExpr),
