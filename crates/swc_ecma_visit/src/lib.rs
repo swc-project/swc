@@ -755,7 +755,7 @@ define!({
     pub struct AssignExpr {
         pub span: Span,
         pub op: AssignOp,
-        pub left: PatOrExpr,
+        pub left: AssignTarget,
         pub right: Box<Expr>,
     }
     pub struct MemberExpr {
@@ -866,10 +866,27 @@ define!({
         BlockStmt(BlockStmt),
         Expr(Box<Expr>),
     }
-    pub enum PatOrExpr {
-        Expr(Box<Expr>),
-        Pat(Box<Pat>),
+
+    pub enum AssignTarget {
+        Simple(SimpleAssignTarget),
+        Pat(AssignTargetPat),
     }
+
+    pub enum AssignTargetPat {
+        Array(ArrayPat),
+        Object(ObjectPat),
+    }
+
+    pub enum SimpleAssignTarget {
+        Ident(Ident),
+        Member(MemberExpr),
+        TSAs(TsAsExpr),
+        TSSatisfies(TsSatisfiesExpr),
+        TSNonNull(TsNonNullExpr),
+        TSTypeAssertion(TsTypeAssertion),
+        Invalid(Invalid),
+    }
+
     pub struct OptChainExpr {
         pub span: Span,
         pub optional: bool,
