@@ -157,9 +157,9 @@ impl<I: Tokens> Parser<I> {
         match cur!(self, false) {
             Ok(&Token::AssignOp(op)) => {
                 let left = if op == AssignOp::Assign {
-                    self.reparse_expr_as_pat(PatType::AssignPat, cond)
-                        .map(Box::new)
-                        .map(PatOrExpr::Pat)?
+                    match AssignTarget::try_from(
+                        self.reparse_expr_as_pat(PatType::AssignPat, cond)?,
+                    ) {}
                 } else {
                     // It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
