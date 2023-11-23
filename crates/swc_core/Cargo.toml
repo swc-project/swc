@@ -369,7 +369,7 @@ testing                          = { optional = true, version = "0.35.11", path 
 swc_plugin_runner = { optional = true, version = "0.104.29", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
-vergen = { version = "7.3.2", default-features = false, features = ["cargo"] }
+vergen = { version = "8.0.0", default-features = false, features = ["cargo"] }
 
 [dev-dependencies]
 anyhow = "1.0.71"
