@@ -293,7 +293,6 @@ bridge_expr_from!(ClassExpr, Class);
 macro_rules! boxed_expr {
     ($T:ty) => {
         bridge_from!(Box<Expr>, Expr, $T);
-        bridge_from!(PatOrExpr, Box<Expr>, $T);
     };
 }
 
@@ -681,7 +680,7 @@ pub struct AssignExpr {
     #[cfg_attr(feature = "serde-impl", serde(rename = "operator"))]
     pub op: AssignOp,
 
-    pub left: PatOrExpr,
+    pub left: AssignTarget,
 
     pub right: Box<Expr>,
 }
@@ -703,8 +702,8 @@ impl AssignExpr {
     }
 }
 
-// Custom deserializer to convert `PatOrExpr::Pat(Box<Pat::Ident>)`
-// to `PatOrExpr::Expr(Box<Expr::Ident>)` when `op` is not `=`.
+// Custom deserializer to convert `AssignTarget::Pat(Box<Pat::Ident>)`
+// to `AssignTarget::Expr(Box<Expr::Ident>)` when `op` is not `=`.
 // Same logic as parser:
 // https://github.com/swc-project/swc/blob/b87e3b0d4f46e6aea1ee7745f0bb3d129ef12b9c/crates/swc_ecma_parser/src/parser/pat.rs#L602-L610
 #[cfg(feature = "serde-impl")]
@@ -728,7 +727,7 @@ impl<'de> Deserialize<'de> for AssignExpr {
             {
                 let mut span_field: Option<Span> = None;
                 let mut op_field: Option<AssignOp> = None;
-                let mut left_field: Option<PatOrExpr> = None;
+                let mut left_field: Option<AssignTarget> = None;
                 let mut right_field: Option<Box<Expr>> = None;
 
                 while let Some(key) = map.next_key()? {
@@ -769,9 +768,9 @@ impl<'de> Deserialize<'de> for AssignExpr {
                 let right = right_field.ok_or_else(|| de::Error::missing_field("right"))?;
 
                 if op != AssignOp::Assign {
-                    if let PatOrExpr::Pat(ref pat) = left {
+                    if let AssignTarget::Pat(ref pat) = left {
                         if let Pat::Ident(ident) = &**pat {
-                            left = PatOrExpr::Expr(Box::new(Expr::Ident(ident.id.clone())));
+                            left = AssignTarget::Expr(Box::new(Expr::Ident(ident.id.clone())));
                         }
                     }
                 }
@@ -1308,44 +1307,12 @@ impl Take for BlockStmtOrExpr {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum AssignTarget {
-    #[tag("ThisExpression")]
-    #[tag("ArrayExpression")]
-    #[tag("ObjectExpression")]
-    #[tag("FunctionExpression")]
-    #[tag("UnaryExpression")]
-    #[tag("UpdateExpression")]
-    #[tag("BinaryExpression")]
-    #[tag("AssignmentExpression")]
-    #[tag("MemberExpression")]
-    #[tag("SuperPropExpression")]
-    #[tag("ConditionalExpression")]
-    #[tag("CallExpression")]
-    #[tag("NewExpression")]
-    #[tag("SequenceExpression")]
-    #[tag("StringLiteral")]
-    #[tag("BooleanLiteral")]
-    #[tag("NullLiteral")]
-    #[tag("NumericLiteral")]
-    #[tag("RegExpLiteral")]
-    #[tag("JSXText")]
-    #[tag("TemplateLiteral")]
-    #[tag("TaggedTemplateLiteral")]
-    #[tag("ArrowFunctionExpression")]
-    #[tag("ClassExpression")]
-    #[tag("YieldExpression")]
-    #[tag("MetaProperty")]
-    #[tag("AwaitExpression")]
-    #[tag("ParenthesisExpression")]
-    #[tag("JSXMemberExpression")]
-    #[tag("JSXNamespacedName")]
-    #[tag("JSXEmptyExpression")]
-    #[tag("JSXElement")]
-    #[tag("JSXFragment")]
-    #[tag("TsTypeAssertion")]
-    #[tag("TsConstAssertion")]
     #[tag("TsNonNullExpression")]
-    #[tag("TsAsExpression")]
-    #[tag("PrivateName")]
+    #[tag("TsNonNullExpression")]
+    #[tag("TsAsExpressio")]
+    #[tag("TsSatisfiesExpression")]
+    #[tag("TsNonNullExpression")]
+    #[tag("TsTypeAssertion")]
     Simple(SimpleAssignTarget),
     #[tag("*")]
     Pat(Box<Pat>),
@@ -1355,24 +1322,34 @@ pub enum AssignTarget {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SimpleAssignTarget {
+    #[tag("TsNonNullExpression")]
     Ident(Ident),
+    #[tag("TsNonNullExpression")]
     Member(MemberExpr),
+    #[tag("TsAsExpressio")]
     TSAs(TsAsExpr),
+    #[tag("TsSatisfiesExpression")]
     TSSatisfies(TsSatisfiesExpr),
+    #[tag("TsNonNullExpression")]
     TSNonNull(TsNonNullExpr),
+    #[tag("TsTypeAssertion")]
     TSTypeAssertion(TsTypeAssertion),
 }
 
-bridge_from!(PatOrExpr, Box<Pat>, Pat);
-bridge_from!(PatOrExpr, Pat, Ident);
-bridge_from!(PatOrExpr, Pat, Id);
+bridge_from!(AssignTarget, Box<Pat>, Pat);
+bridge_from!(AssignTarget, SimpleAssignTarget, Ident);
+bridge_from!(AssignTarget, SimpleAssignTarget, MemberExpr);
+bridge_from!(AssignTarget, SimpleAssignTarget, TsAsExpr);
+bridge_from!(AssignTarget, SimpleAssignTarget, TsSatisfiesExpr);
+bridge_from!(AssignTarget, SimpleAssignTarget, TsNonNullExpr);
+bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 
-impl PatOrExpr {
+impl AssignTarget {
     /// Returns the [Pat] if this is a pattern, otherwise returns [None].
     pub fn pat(self) -> Option<Box<Pat>> {
         match self {
-            PatOrExpr::Expr(_) => None,
-            PatOrExpr::Pat(p) => Some(p),
+            AssignTarget::Expr(_) => None,
+            AssignTarget::Pat(p) => Some(p),
         }
     }
 
@@ -1380,8 +1357,8 @@ impl PatOrExpr {
     /// `None`.
     pub fn expr(self) -> Option<Box<Expr>> {
         match self {
-            PatOrExpr::Expr(e) => Some(e),
-            PatOrExpr::Pat(p) => match *p {
+            AssignTarget::Expr(e) => Some(e),
+            AssignTarget::Pat(p) => match *p {
                 Pat::Expr(e) => Some(e),
                 _ => None,
             },
@@ -1402,15 +1379,15 @@ impl PatOrExpr {
 
     pub fn as_pat(&self) -> Option<&Pat> {
         match self {
-            PatOrExpr::Expr(_) => None,
-            PatOrExpr::Pat(p) => Some(p),
+            AssignTarget::Expr(_) => None,
+            AssignTarget::Pat(p) => Some(p),
         }
     }
 
     pub fn as_expr(&self) -> Option<&Expr> {
         match self {
-            PatOrExpr::Expr(e) => Some(e),
-            PatOrExpr::Pat(p) => match &**p {
+            AssignTarget::Expr(e) => Some(e),
+            AssignTarget::Pat(p) => match &**p {
                 Pat::Expr(e) => Some(e),
                 _ => None,
             },
@@ -1427,11 +1404,11 @@ impl PatOrExpr {
 
     pub fn as_ident(&self) -> Option<&Ident> {
         match self {
-            PatOrExpr::Expr(v) => match &**v {
+            AssignTarget::Expr(v) => match &**v {
                 Expr::Ident(i) => Some(i),
                 _ => None,
             },
-            PatOrExpr::Pat(v) => match &**v {
+            AssignTarget::Pat(v) => match &**v {
                 Pat::Ident(i) => Some(&i.id),
                 Pat::Expr(v) => match &**v {
                     Expr::Ident(i) => Some(i),
@@ -1444,11 +1421,11 @@ impl PatOrExpr {
 
     pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
         match self {
-            PatOrExpr::Expr(v) => match &mut **v {
+            AssignTarget::Expr(v) => match &mut **v {
                 Expr::Ident(i) => Some(i),
                 _ => None,
             },
-            PatOrExpr::Pat(v) => match &mut **v {
+            AssignTarget::Pat(v) => match &mut **v {
                 Pat::Ident(i) => Some(&mut i.id),
                 Pat::Expr(v) => match &mut **v {
                     Expr::Ident(i) => Some(i),
@@ -1461,9 +1438,9 @@ impl PatOrExpr {
 
     pub fn normalize_expr(self) -> Self {
         match self {
-            PatOrExpr::Pat(pat) => match *pat {
-                Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => PatOrExpr::Pat(pat),
+            AssignTarget::Pat(pat) => match *pat {
+                Pat::Expr(expr) => AssignTarget::Expr(expr),
+                _ => AssignTarget::Pat(pat),
             },
             _ => self,
         }
@@ -1471,24 +1448,24 @@ impl PatOrExpr {
 
     pub fn normalize_ident(self) -> Self {
         match self {
-            PatOrExpr::Expr(expr) => match *expr {
-                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
-                _ => PatOrExpr::Expr(expr),
+            AssignTarget::Expr(expr) => match *expr {
+                Expr::Ident(i) => AssignTarget::Pat(Box::new(Pat::Ident(i.into()))),
+                _ => AssignTarget::Expr(expr),
             },
-            PatOrExpr::Pat(pat) => match *pat {
+            AssignTarget::Pat(pat) => match *pat {
                 Pat::Expr(expr) => match *expr {
-                    Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
-                    _ => PatOrExpr::Expr(expr),
+                    Expr::Ident(i) => AssignTarget::Pat(Box::new(Pat::Ident(i.into()))),
+                    _ => AssignTarget::Expr(expr),
                 },
-                _ => PatOrExpr::Pat(pat),
+                _ => AssignTarget::Pat(pat),
             },
         }
     }
 }
 
-impl Take for PatOrExpr {
+impl Take for AssignTarget {
     fn dummy() -> Self {
-        PatOrExpr::Pat(Take::dummy())
+        AssignTarget::Pat(Take::dummy())
     }
 }
 
