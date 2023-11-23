@@ -1212,7 +1212,7 @@ pub enum AssignTarget {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum AssignTargetPat {
     #[tag("ArrayPattern")]
@@ -1222,7 +1222,7 @@ pub enum AssignTargetPat {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SimpleAssignTarget {
     #[tag("TsNonNullExpression")]
@@ -1239,7 +1239,12 @@ pub enum SimpleAssignTarget {
     TSTypeAssertion(TsTypeAssertion),
 }
 
-bridge_from!(AssignTarget, Box<Pat>, Pat);
+impl Take for SimpleAssignTarget {
+    fn dummy() -> Self {
+        SimpleAssignTarget::Ident(Take::dummy())
+    }
+}
+
 bridge_from!(AssignTarget, SimpleAssignTarget, Ident);
 bridge_from!(AssignTarget, SimpleAssignTarget, MemberExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsAsExpr);
@@ -1247,71 +1252,22 @@ bridge_from!(AssignTarget, SimpleAssignTarget, TsSatisfiesExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsNonNullExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 
+bridge_from!(AssignTarget, AssignTargetPat, ArrayPat);
+bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
+
 impl AssignTarget {
     pub fn as_ident(&self) -> Option<&Ident> {
-        match self {
-            AssignTarget::Simple(v) => match &**v {
-                Expr::Ident(i) => Some(i),
-                _ => None,
-            },
-            AssignTarget::Pat(v) => match &**v {
-                Pat::Ident(i) => Some(&i.id),
-                Pat::Expr(v) => match &**v {
-                    Expr::Ident(i) => Some(i),
-                    _ => None,
-                },
-                _ => None,
-            },
-        }
+        self.as_simple().and_then(|p| p.as_ident())
     }
 
     pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
-        match self {
-            AssignTarget::Simple(v) => match &mut **v {
-                Expr::Ident(i) => Some(i),
-                _ => None,
-            },
-            AssignTarget::Pat(v) => match &mut **v {
-                Pat::Ident(i) => Some(&mut i.id),
-                Pat::Expr(v) => match &mut **v {
-                    Expr::Ident(i) => Some(i),
-                    _ => None,
-                },
-                _ => None,
-            },
-        }
-    }
-
-    pub fn normalize_expr(self) -> Self {
-        match self {
-            AssignTarget::Pat(pat) => match *pat {
-                Pat::Expr(expr) => AssignTarget::Simple(expr),
-                _ => AssignTarget::Pat(pat),
-            },
-            _ => self,
-        }
-    }
-
-    pub fn normalize_ident(self) -> Self {
-        match self {
-            AssignTarget::Simple(expr) => match *expr {
-                Expr::Ident(i) => AssignTarget::Pat(Box::new(Pat::Ident(i.into()))),
-                _ => AssignTarget::Simple(expr),
-            },
-            AssignTarget::Pat(pat) => match *pat {
-                Pat::Expr(expr) => match *expr {
-                    Expr::Ident(i) => AssignTarget::Pat(Box::new(Pat::Ident(i.into()))),
-                    _ => AssignTarget::Simple(expr),
-                },
-                _ => AssignTarget::Pat(pat),
-            },
-        }
+        self.as_mut_simple().and_then(|p| p.as_mut_ident())
     }
 }
 
 impl Take for AssignTarget {
     fn dummy() -> Self {
-        AssignTarget::Pat(Take::dummy())
+        AssignTarget::Simple(Take::dummy())
     }
 }
 
