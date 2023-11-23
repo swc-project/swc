@@ -19,13 +19,7 @@ pub use self::{
         MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
-    expr::{
-        ArrayLit, ArrowExpr, AssignExpr, AssignTarget, AwaitExpr, BinExpr, BlockStmtOrExpr,
-        CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Import, MemberExpr,
-        MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptCall, OptChainBase,
-        OptChainExpr, ParenExpr, PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp,
-        SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
-    },
+    expr::*,
     function::{Function, Param, ParamOrTsParamProp},
     ident::{BindingIdent, Id, Ident, IdentExt, PrivateName},
     jsx::{
