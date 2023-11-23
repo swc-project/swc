@@ -1222,19 +1222,30 @@ impl TryFrom<Pat> for AssignTarget {
             Pat::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i.id)),
             Pat::Invalid(i) => AssignTarget::Simple(SimpleAssignTarget::Invalid(i)),
 
-            Pat::Expr(e) => match *e {
-                Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
-                Expr::Member(m) => AssignTarget::Simple(SimpleAssignTarget::Member(m)),
-                Expr::TsAs(a) => AssignTarget::Simple(SimpleAssignTarget::TSAs(a)),
-                Expr::TsSatisfies(s) => AssignTarget::Simple(SimpleAssignTarget::TSSatisfies(s)),
-                Expr::TsNonNull(n) => AssignTarget::Simple(SimpleAssignTarget::TSNonNull(n)),
-                Expr::TsTypeAssertion(a) => {
-                    AssignTarget::Simple(SimpleAssignTarget::TSTypeAssertion(a))
-                }
-                _ => return Err(Pat::Expr(e)),
+            Pat::Expr(e) => match Self::try_from(e) {
+                Ok(v) => v,
+                Err(e) => return Err(Pat::Expr(e)),
             },
 
             _ => return Err(p),
+        })
+    }
+}
+
+impl TryFrom<Box<Expr>> for AssignTarget {
+    type Error = Box<Expr>;
+
+    fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
+        Ok(match *e {
+            Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
+            Expr::Member(m) => AssignTarget::Simple(SimpleAssignTarget::Member(m)),
+            Expr::TsAs(a) => AssignTarget::Simple(SimpleAssignTarget::TSAs(a)),
+            Expr::TsSatisfies(s) => AssignTarget::Simple(SimpleAssignTarget::TSSatisfies(s)),
+            Expr::TsNonNull(n) => AssignTarget::Simple(SimpleAssignTarget::TSNonNull(n)),
+            Expr::TsTypeAssertion(a) => {
+                AssignTarget::Simple(SimpleAssignTarget::TSTypeAssertion(a))
+            }
+            _ => return Err(e),
         })
     }
 }
