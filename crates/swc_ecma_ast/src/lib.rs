@@ -11,7 +11,7 @@
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
@@ -97,10 +97,16 @@ mod typescript;
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Default, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,
+}
+
+impl Take for Invalid {
+    fn dummy() -> Self {
+        Invalid::default()
+    }
 }
 
 /// Note: This type implements `Serailize` and `Deserialize` if `serde` is
