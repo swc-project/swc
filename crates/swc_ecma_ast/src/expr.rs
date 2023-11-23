@@ -1196,7 +1196,7 @@ impl Take for BlockStmtOrExpr {
 }
 
 #[ast_node]
-#[derive(Eq, Hash, EqIgnoreSpan)]
+#[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum AssignTarget {
     #[tag("TsNonNullExpression")]
@@ -1248,63 +1248,6 @@ bridge_from!(AssignTarget, SimpleAssignTarget, TsNonNullExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 
 impl AssignTarget {
-    /// Returns the [Pat] if this is a pattern, otherwise returns [None].
-    pub fn pat(self) -> Option<Box<Pat>> {
-        match self {
-            AssignTarget::Simple(_) => None,
-            AssignTarget::Pat(p) => Some(p),
-        }
-    }
-
-    /// Returns the [Expr] if this is an expression, otherwise returns
-    /// `None`.
-    pub fn expr(self) -> Option<Box<Expr>> {
-        match self {
-            AssignTarget::Simple(e) => Some(e),
-            AssignTarget::Pat(p) => match *p {
-                Pat::Expr(e) => Some(e),
-                _ => None,
-            },
-        }
-    }
-
-    #[track_caller]
-    pub fn expect_pat(self) -> Box<Pat> {
-        self.pat()
-            .expect("expect_pat is called but it was not a pattern")
-    }
-
-    #[track_caller]
-    pub fn expect_expr(self) -> Box<Expr> {
-        self.expr()
-            .expect("expect_expr is called but it was not a pattern")
-    }
-
-    pub fn as_pat(&self) -> Option<&Pat> {
-        match self {
-            AssignTarget::Simple(_) => None,
-            AssignTarget::Pat(p) => Some(p),
-        }
-    }
-
-    pub fn as_expr(&self) -> Option<&Expr> {
-        match self {
-            AssignTarget::Simple(e) => Some(e),
-            AssignTarget::Pat(p) => match &**p {
-                Pat::Expr(e) => Some(e),
-                _ => None,
-            },
-        }
-    }
-
-    pub fn is_pat(&self) -> bool {
-        self.as_pat().is_some()
-    }
-
-    pub fn is_expr(&self) -> bool {
-        self.as_expr().is_some()
-    }
-
     pub fn as_ident(&self) -> Option<&Ident> {
         match self {
             AssignTarget::Simple(v) => match &**v {
