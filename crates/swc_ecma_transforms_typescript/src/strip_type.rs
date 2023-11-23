@@ -1,4 +1,4 @@
-use swc_common::{util::take::Take, Spanned};
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
@@ -72,86 +72,7 @@ impl VisitMut for StripType {
             *n = *expr.take();
         }
 
-        let non_null_as_child = matches!(&n, Expr::Member(MemberExpr { obj, .. }) if obj.is_ts_non_null())
-            | matches!(&n, Expr::Call(CallExpr { callee: Callee::Expr(calee), .. }) if calee.is_ts_non_null());
-
         n.visit_mut_children_with(self);
-        if non_null_as_child {
-            // https://github.com/swc-project/swc/issues/7659
-            //
-            // a?.b!.c -> a?.b.c
-            //
-            // MemberExpr(
-            //     TsNonNullExpr(
-            //         OptChainExpr(
-            //             MemberExpr(a?, b)
-            //         )
-            //     ),
-            //     c
-            // )
-            //
-            // ->
-            //
-            // OptChainBase::Member(
-            //     MemberExpr(
-            //         OptChainExpr(
-            //             MemberExpr(a?, b)
-            //         )
-            //     c,
-            //     )
-            // )
-            //
-            // a?.b!() -> a?.b()
-            //
-            // CallExpr(
-            //     TsNonNullExpr(
-            //         OptChainExpr(
-            //             MemberExpr(a?, b)
-            //         )
-            //     ),
-            //     args
-            // )
-            //
-            // ->
-            //
-            // OptChainBase::Call(
-            //     OptChainExpr(
-            //         MemberExpr(a?, b)
-            //     )
-            //     args
-            // )
-            let span = n.span();
-
-            match n {
-                Expr::Member(MemberExpr { obj, .. }) if obj.is_opt_chain() => {
-                    *n = OptChainExpr {
-                        span,
-                        optional: false,
-                        base: OptChainBase::Member(n.take().member().unwrap()).into(),
-                    }
-                    .into();
-                }
-                Expr::Call(CallExpr {
-                    callee: Callee::Expr(callee),
-                    args,
-                    ..
-                }) if callee.is_opt_chain() => {
-                    *n = OptChainExpr {
-                        span,
-                        optional: false,
-                        base: OptChainBase::Call(OptCall {
-                            span,
-                            callee: callee.take(),
-                            args: args.take(),
-                            type_args: None,
-                        })
-                        .into(),
-                    }
-                    .into();
-                }
-                _ => {}
-            }
-        }
     }
 
     // https://github.com/tc39/proposal-type-annotations#this-parameters
