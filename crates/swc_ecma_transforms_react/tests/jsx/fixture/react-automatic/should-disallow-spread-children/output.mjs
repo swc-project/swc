@@ -1,5 +1,5 @@
-/*#__PURE__*/ import { jsx as _jsx } from "react/jsx-runtime";
-_jsx("div", {
+/*#__PURE__*/ import { jsxs as _jsxs } from "react/jsx-runtime";
+_jsxs("div", {
     children: [
         ...children
     ]
