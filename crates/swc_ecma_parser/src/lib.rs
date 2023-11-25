@@ -193,7 +193,7 @@ impl Syntax {
             Syntax::Es(EsConfig { jsx: true, .. }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(TsConfig { tsx: true, .. }) => true,
-            _ => false
+            _ => false,
         }
     }
 
@@ -212,7 +212,7 @@ impl Syntax {
                 decorators: true,
                 ..
             }) => true,
-            _ => false
+            _ => false,
         }
     }
 
@@ -224,7 +224,7 @@ impl Syntax {
             }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(..) => true,
-            _ => false
+            _ => false,
         }
     }
 
@@ -240,7 +240,7 @@ impl Syntax {
         match self {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(..) => true,
-            _ => false
+            _ => false,
         }
     }
 
