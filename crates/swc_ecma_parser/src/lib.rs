@@ -225,7 +225,7 @@ impl Syntax {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(..) => true,
             _ => false
-        )
+        }
     }
 
     /// Should we parse typescript?
