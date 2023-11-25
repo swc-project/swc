@@ -256,16 +256,6 @@ impl Visit for LeapFinder {
     }
 }
 
-#[allow(unused)]
-pub(crate) fn contains_await_or_yield<N>(n: &N) -> bool
-where
-    N: VisitWith<LeapFinder>,
-{
-    let mut v = LeapFinder::default();
-    n.visit_with(&mut v);
-    v.found_yield || v.found_await
-}
-
 /// This method returns true only if `T` is `var`. (Not `const` or `let`)
 pub(crate) fn is_hoisted_var_decl_without_init<T>(t: &T) -> bool
 where
