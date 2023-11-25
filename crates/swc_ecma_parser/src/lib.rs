@@ -171,6 +171,7 @@ impl Syntax {
                 auto_accessors: true,
                 ..
             }) => true,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
             _ => false,
         }
@@ -181,16 +182,19 @@ impl Syntax {
             Syntax::Es(EsConfig {
                 import_attributes, ..
             }) => import_attributes,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
         }
     }
 
     /// Should we parse jsx?
     pub fn jsx(self) -> bool {
-        matches!(
-            self,
-            Syntax::Es(EsConfig { jsx: true, .. }) | Syntax::Typescript(TsConfig { tsx: true, .. })
-        )
+        match self {
+            Syntax::Es(EsConfig { jsx: true, .. }) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(TsConfig { tsx: true, .. }) => true,
+            _ => false
+        }
     }
 
     pub fn fn_bind(self) -> bool {
@@ -198,25 +202,29 @@ impl Syntax {
     }
 
     pub fn decorators(self) -> bool {
-        matches!(
-            self,
+        match self {
             Syntax::Es(EsConfig {
                 decorators: true,
                 ..
-            }) | Syntax::Typescript(TsConfig {
+            }) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(TsConfig {
                 decorators: true,
                 ..
-            })
-        )
+            }) => true,
+            _ => false
+        }
     }
 
     pub fn decorators_before_export(self) -> bool {
-        matches!(
-            self,
+        match self {
             Syntax::Es(EsConfig {
                 decorators_before_export: true,
                 ..
-            }) | Syntax::Typescript(..)
+            }) => true,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(..) => true,
+            _ => false
         )
     }
 
@@ -229,7 +237,11 @@ impl Syntax {
     /// Should we parse typescript?
     #[cfg(feature = "typescript")]
     pub const fn typescript(self) -> bool {
-        matches!(self, Syntax::Typescript(..))
+        match self {
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(..) => true,
+            _ => false
+        }
     }
 
     pub fn export_default_from(self) -> bool {
@@ -244,6 +256,7 @@ impl Syntax {
 
     pub fn dts(self) -> bool {
         match self {
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => t.dts,
             _ => false,
         }
@@ -255,6 +268,7 @@ impl Syntax {
                 allow_super_outside_method,
                 ..
             }) => allow_super_outside_method,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
         }
     }
@@ -265,12 +279,14 @@ impl Syntax {
                 allow_return_outside_function,
                 ..
             }) => allow_return_outside_function,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => false,
         }
     }
 
     pub(crate) fn early_errors(self) -> bool {
         match self {
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => !t.no_early_errors,
             Syntax::Es(..) => true,
         }
@@ -278,6 +294,7 @@ impl Syntax {
 
     fn disallow_ambiguous_jsx_like(self) -> bool {
         match self {
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => t.disallow_ambiguous_jsx_like,
             _ => false,
         }
@@ -289,6 +306,7 @@ impl Syntax {
                 explicit_resource_management: using_decl,
                 ..
             }) => *using_decl,
+            #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
         }
     }
