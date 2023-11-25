@@ -204,13 +204,11 @@ impl Syntax {
     pub fn decorators(self) -> bool {
         match self {
             Syntax::Es(EsConfig {
-                decorators: true,
-                ..
+                decorators: true, ..
             }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(TsConfig {
-                decorators: true,
-                ..
+                decorators: true, ..
             }) => true,
             _ => false,
         }
