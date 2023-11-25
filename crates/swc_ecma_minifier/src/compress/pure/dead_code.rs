@@ -2,15 +2,11 @@
 use rayon::prelude::*;
 use swc_common::{util::take::Take, EqIgnoreSpan, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{extract_var_ids, ExprExt, StmtExt, StmtLike, Value};
+use swc_ecma_utils::{extract_var_ids, ExprCtx, ExprExt, StmtExt, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Pure;
-use crate::{
-    compress::util::is_fine_for_if_cons,
-    maybe_par,
-    util::{contains_await_or_yield, ModuleItemExt},
-};
+use crate::{compress::util::is_fine_for_if_cons, maybe_par, util::ModuleItemExt};
 
 /// Methods related to option `dead_code`.
 impl Pure<'_> {
@@ -289,11 +285,7 @@ impl Pure<'_> {
             _ => return,
         };
 
-        if contains_await_or_yield(last) {
-            return;
-        }
-
-        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool) -> bool {
+        fn drop<T: StmtLike>(stmt: &mut T, last: &Stmt, need_break: bool, ctx: &ExprCtx) -> bool {
             match stmt.as_stmt_mut() {
                 Some(s) if s.eq_ignore_span(last) => {
                     if need_break {
@@ -308,26 +300,37 @@ impl Pure<'_> {
                 }
                 Some(Stmt::If(i)) => {
                     let mut changed = false;
-                    changed |= drop(&mut *i.cons, last, need_break);
+                    changed |= drop(&mut *i.cons, last, need_break, ctx);
                     if let Some(alt) = i.alt.as_mut() {
-                        changed |= drop(&mut **alt, last, need_break);
+                        changed |= drop(&mut **alt, last, need_break, ctx);
                     }
                     changed
                 }
-                Some(Stmt::Try(t)) if !last.is_throw() => {
+                Some(Stmt::Try(t)) => {
                     let mut changed = false;
-                    if let Some(stmt) = t.block.stmts.last_mut() {
-                        changed |= drop(stmt, last, need_break)
-                    }
                     // TODO: let chain
+                    if let Some(stmt) = t.block.stmts.last_mut() {
+                        let side_effect = match last {
+                            Stmt::Break(_) | Stmt::Continue(_) => false,
+                            Stmt::Return(ReturnStmt { arg: None, .. }) => false,
+                            Stmt::Return(ReturnStmt { arg: Some(arg), .. }) => {
+                                arg.may_have_side_effects(ctx)
+                            }
+                            Stmt::Throw(_) => true,
+                            _ => unreachable!(),
+                        };
+                        if t.finalizer.is_none() && !side_effect {
+                            changed |= drop(stmt, last, need_break, ctx)
+                        }
+                    }
                     if let Some(h) = t.handler.as_mut() {
                         if let Some(stmt) = h.body.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break);
+                            changed |= drop(stmt, last, need_break, ctx);
                         }
                     }
                     if let Some(f) = t.finalizer.as_mut() {
                         if let Some(stmt) = f.stmts.last_mut() {
-                            changed |= drop(stmt, last, need_break);
+                            changed |= drop(stmt, last, need_break, ctx);
                         }
                     }
                     changed
@@ -336,7 +339,7 @@ impl Pure<'_> {
                     let mut changed = false;
                     for case in s.cases.iter_mut() {
                         for stmt in case.cons.iter_mut() {
-                            changed |= drop(stmt, last, true);
+                            changed |= drop(stmt, last, true, ctx);
                         }
                     }
 
@@ -352,16 +355,16 @@ impl Pure<'_> {
                     if let Stmt::Block(b) = &mut **body {
                         let mut changed = false;
                         for stmt in b.stmts.iter_mut() {
-                            changed |= drop(stmt, last, true);
+                            changed |= drop(stmt, last, true, ctx);
                         }
                         changed
                     } else {
-                        drop(&mut **body, last, true)
+                        drop(&mut **body, last, true, ctx)
                     }
                 }
                 Some(Stmt::Block(b)) => {
                     if let Some(stmt) = b.stmts.last_mut() {
-                        drop(stmt, last, need_break)
+                        drop(stmt, last, need_break, ctx)
                     } else {
                         false
                     }
@@ -371,7 +374,7 @@ impl Pure<'_> {
         }
 
         if let Some(before_last) = stmts.last_mut() {
-            if drop(before_last, last, false) {
+            if drop(before_last, last, false, &self.expr_ctx) {
                 self.changed = true;
 
                 report_change!("Dropping control keyword in nested block");
