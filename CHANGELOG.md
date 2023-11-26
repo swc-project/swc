@@ -251,9 +251,6 @@
 - **(es/fixer)** Don't change default decls to default expr exports ([#7585](https://github.com/swc-project/swc/issues/7585)) ([e272545](https://github.com/swc-project/swc/commit/e2725451aa507c18222c5f66cf0a5a049c92bd0b))
 
 
-- **(es/helpers)** Do not duplicate property names ([#7266](https://github.com/swc-project/swc/issues/7266)) ([30a4e52](https://github.com/swc-project/swc/commit/30a4e52f74e9c2e6f919f41930f79b4a0c3eab76))
-
-
 - **(es/helpers)** Remove unnecessary parameters in `helper_expr!` macro ([#7296](https://github.com/swc-project/swc/issues/7296)) ([38dfb91](https://github.com/swc-project/swc/commit/38dfb91ebc04eecab97ec023c79b183958fda227))
 
 
@@ -507,6 +504,9 @@
 
 
 - **(es/parser)** Wrap with `OptChain` across `TsNonNull` ([#8332](https://github.com/swc-project/swc/issues/8332)) ([8af6ffb](https://github.com/swc-project/swc/commit/8af6ffb1ddaf60b997163aaf80abfb528eb2ca9c))
+
+
+- **(es/parser)** Fix conditional compilation ([#8343](https://github.com/swc-project/swc/issues/8343)) ([a423681](https://github.com/swc-project/swc/commit/a423681df897956e58650b3acc9f2331887e42e8))
 
 
 - **(es/parsing)** Fix parsing of `type satisfies = 0;` ([#8305](https://github.com/swc-project/swc/issues/8305)) ([51042e0](https://github.com/swc-project/swc/commit/51042e090de246bcf92300e5ffd03139f255e77b))
