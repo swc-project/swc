@@ -438,7 +438,9 @@ where
     fn jsx_frag_to_expr(&mut self, el: JSXFragment) -> Expr {
         let mut span = el.span();
 
-        let use_jsxs = count_children(&el.children) > 1;
+        let count = count_children(&el.children);
+        let use_jsxs = count > 1
+            || (count == 1 && matches!(&el.children[0], JSXElementChild::JSXSpreadChild(..)));
 
         if let Some(comments) = &self.comments {
             if span.lo.is_dummy() {
@@ -478,9 +480,9 @@ where
                     .map(Some)
                     .collect::<Vec<_>>();
 
-                match children.len() {
-                    0 => {}
-                    1 if children[0].as_ref().unwrap().spread.is_none() => {
+                match (children.len(), use_jsxs) {
+                    (0, _) => {}
+                    (1, false) => {
                         props_obj
                             .props
                             .push(PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
@@ -565,7 +567,10 @@ where
             Runtime::Automatic => {
                 // function jsx(tagName: string, props: { children: Node[], ... }, key: string)
 
-                let use_jsxs = count_children(&el.children) > 1;
+                let count = count_children(&el.children);
+                let use_jsxs = count > 1
+                    || (count == 1
+                        && matches!(&el.children[0], JSXElementChild::JSXSpreadChild(..)));
 
                 let jsx = if use_create_element {
                     self.import_create_element
