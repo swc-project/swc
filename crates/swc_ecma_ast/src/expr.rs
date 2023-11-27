@@ -1291,6 +1291,7 @@ impl Take for SimpleAssignTarget {
 
 bridge_from!(AssignTarget, SimpleAssignTarget, Ident);
 bridge_from!(AssignTarget, SimpleAssignTarget, MemberExpr);
+bridge_from!(AssignTarget, SimpleAssignTarget, SuperPropExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsAsExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsSatisfiesExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsNonNullExpr);
