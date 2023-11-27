@@ -599,8 +599,10 @@ impl<I: Tokens> Parser<I> {
                 Ok(Pat::Assign(AssignPat {
                     span,
                     left: match left {
-                        PatOrExpr::Expr(left) => Box::new(self.reparse_expr_as_pat(pat_ty, left)?),
-                        PatOrExpr::Pat(left) => left,
+                        AssignTarget::Simple(left) => {
+                            Box::new(self.reparse_expr_as_pat(pat_ty, left)?)
+                        }
+                        AssignTarget::Pat(left) => left,
                     },
                     right,
                 }))

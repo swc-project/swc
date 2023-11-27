@@ -39,7 +39,7 @@ fn expr(s: &'static str) -> Box<Expr> {
 fn regex_expr() -> Box<Expr> {
     Box::new(Expr::Assign(AssignExpr {
         span,
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span).into()))),
+        left: AssignTarget::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span).into()))),
         op: AssignOp::Assign,
         right: Box::new(Expr::Lit(Lit::Regex(Regex {
             span,
