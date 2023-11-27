@@ -602,7 +602,7 @@ impl<I: Tokens> Parser<I> {
                         AssignTarget::Simple(left) => {
                             self.reparse_expr_as_pat(pat_ty, left.into())?
                         }
-                        AssignTarget::Pat(..) => left,
+                        AssignTarget::Pat(pat) => pat.into(),
                     },
                     right,
                 }))
