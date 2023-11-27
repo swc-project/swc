@@ -625,7 +625,7 @@ impl<I: Tokens> Parser<I> {
                                     Prop::Shorthand(id) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
                                             span: id.span(),
-                                            key: id,
+                                            key: id.into(),
                                             value: None,
                                         }))
                                     }
@@ -641,7 +641,7 @@ impl<I: Tokens> Parser<I> {
                                     Prop::Assign(assign_prop) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
                                             span,
-                                            key: assign_prop.key,
+                                            key: assign_prop.key.into(),
                                             value: Some(assign_prop.value),
                                         }))
                                     }

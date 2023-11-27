@@ -503,7 +503,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         Ok(ObjectPatProp::Assign(AssignPatProp {
             span: span!(self, start),
-            key,
+            key: key.into(),
             value,
         }))
     }
