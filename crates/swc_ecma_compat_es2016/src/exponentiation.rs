@@ -94,13 +94,13 @@ impl VisitMut for Exponentiation {
                     _ if left.as_ident().is_some() => left.as_ident().unwrap().clone(),
 
                     // unimplemented
-                    PatOrExpr::Expr(ref e) => {
+                    AssignTarget::Simple(ref e) => {
                         let ref_ident = private_ident!(e.span(), "ref");
 
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: ref_ident.clone().into(),
-                            init: Some(e.clone()),
+                            init: Some(e.clone().into()),
                             definite: false,
                         });
                         ref_ident

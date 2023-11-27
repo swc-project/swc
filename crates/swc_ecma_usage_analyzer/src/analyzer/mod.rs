@@ -267,11 +267,7 @@ where
         if n.op == op!("=") {
             let left = match &n.left {
                 AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
-                AssignTarget::Pat(left) => match &**left {
-                    Pat::Ident(p) => Some(p.to_id()),
-                    Pat::Expr(p) => leftmost(p),
-                    _ => None,
-                },
+                AssignTarget::Pat(..) => None,
             };
 
             if let Some(left) = left {
