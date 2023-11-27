@@ -171,6 +171,15 @@ pub enum Expr {
 // assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
+    pub fn leftmost(&self) -> Option<&Ident> {
+        match self {
+            Expr::Ident(i) => Some(i),
+            Expr::Member(MemberExpr { obj, .. }) => obj.leftmost(),
+            Expr::OptChain(opt) => opt.base.as_member()?.obj.leftmost(),
+            _ => None,
+        }
+    }
+
     pub fn is_ident_ref_to(&self, ident: &str) -> bool {
         match self {
             Expr::Ident(i) => i.sym == ident,
@@ -1285,6 +1294,16 @@ pub enum SimpleAssignTarget {
     TSTypeAssertion(TsTypeAssertion),
     #[tag("Invaliid")]
     Invalid(Invalid),
+}
+
+impl SimpleAssignTarget {
+    pub fn leftmost(&self) -> Option<&Ident> {
+        match self {
+            SimpleAssignTarget::Ident(i) => Some(&i.id),
+            SimpleAssignTarget::Member(MemberExpr { obj, .. }) => obj.leftmost(),
+            _ => None,
+        }
+    }
 }
 
 impl Take for SimpleAssignTarget {
