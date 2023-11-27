@@ -21,6 +21,7 @@ use crate::{
     ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, PropName, Str,
     ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
     ArrayPat, ComputedPropName, Id, Invalid, ObjectPat,
+    ArrayPat, BindingIdent, ComputedPropName, Id, Invalid, ObjectPat,
 };
 
 #[ast_node(no_clone)]
@@ -1266,8 +1267,10 @@ impl From<AssignTargetPat> for Box<Pat> {
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub enum SimpleAssignTarget {
+    /// Note: This type is to help implementing visitor and the field `type_ann`
+    /// is always [None].
     #[tag("Identifier")]
-    Ident(Ident),
+    Ident(BindingIdent),
     #[tag("MemberExpression")]
     Member(MemberExpr),
     #[tag("SuperPropExpression")]

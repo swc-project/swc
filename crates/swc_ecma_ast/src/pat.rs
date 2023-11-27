@@ -168,7 +168,9 @@ pub struct KeyValuePatProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignPatProp {
     pub span: Span,
-    pub key: Ident,
+    /// Note: This type is to help implementing visitor and the field `type_ann`
+    /// is always [None].
+    pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,
