@@ -78,16 +78,6 @@ impl Visit for ConstAssign {
         }
     }
 
-    fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        n.visit_children_with(self);
-
-        if let PatOrExpr::Expr(left) = &n.left {
-            if let Expr::Ident(ident) = &**left {
-                self.check(ident);
-            }
-        }
-    }
-
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
