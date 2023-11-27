@@ -4,28 +4,5 @@
             "syntax": "typescript",
             "tsx": true
         },
-        "target": "es2022",
-        "transform": {
-            "optimizer": {
-                "globals": {
-                    "vars": {
-                        "__NODE__": false
-                    }
-                },
-                "simplify": {
-                    "preserveImportsWithSideEffects": false
-                },
-            },
-        },
-        "loose": false,
-        "minify": {
-            "compress": false,
-            "mangle": false
-        }
     },
-    "module": {
-        "type": "es6"
-    },
-    "minify": false,
-    "isModule": true
 }
