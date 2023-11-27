@@ -2,11 +2,11 @@ use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BlockStmtOrExpr, CallExpr,
-    Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident, Import, Lit, MemberExpr,
-    MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr, PatOrExpr, PropOrSpread,
-    SeqExpr, SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement,
-    UnaryExpr, UpdateExpr, YieldExpr,
+    ArrayLit, ArrowExpr, AssignExpr, AssignTarget, AwaitExpr, BinExpr, BinaryOp, BlockStmtOrExpr,
+    CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident, Import, Lit,
+    MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr,
+    PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr,
+    Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
     flavor::Flavor, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
