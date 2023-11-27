@@ -103,7 +103,7 @@ impl Swcify for AssignmentExpression {
                     self.operator,
                 )
             }),
-            left: PatOrExpr::Pat(Box::new(self.left.swcify(ctx))),
+            left: self.left.swcify(ctx).into(),
             right: self.right.swcify(ctx),
         }
     }
