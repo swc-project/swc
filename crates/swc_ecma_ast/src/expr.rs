@@ -1261,6 +1261,15 @@ pub enum AssignTargetPat {
     Object(ObjectPat),
 }
 
+impl From<AssignTargetPat> for Box<Pat> {
+    fn from(pat: AssignTargetPat) -> Self {
+        match pat {
+            AssignTargetPat::Array(a) => Box::new(Pat::Array(a)),
+            AssignTargetPat::Object(o) => Box::new(Pat::Object(o)),
+        }
+    }
+}
+
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
