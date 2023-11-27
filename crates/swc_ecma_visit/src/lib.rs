@@ -878,7 +878,7 @@ define!({
     }
 
     pub enum SimpleAssignTarget {
-        Ident(Ident),
+        Ident(BindingIdent),
         Member(MemberExpr),
         SuperProp(SuperPropExpr),
         TSAs(TsAsExpr),
@@ -1282,7 +1282,7 @@ define!({
     }
     pub struct AssignPatProp {
         pub span: Span,
-        pub key: Ident,
+        pub key: BindingIdent,
         pub value: Option<Box<Expr>>,
     }
     pub enum Prop {
