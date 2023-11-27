@@ -704,7 +704,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let assign_to_step = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(step.into()),
+                    left: step.into(),
                     right: Box::new(Expr::Yield(YieldExpr {
                         span: DUMMY_SP,
                         arg: Some(yield_arg),
@@ -718,7 +718,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     arg: assign_to_step.make_member(quote_ident!("done")).into(),
                 }));
 
-                let left = PatOrExpr::Pat(iterator_abrupt_completion.clone().into());
+                let left = iterator_abrupt_completion.clone().into();
 
                 Some(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -731,7 +731,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(iterator_abrupt_completion.clone().into()),
+                left: iterator_abrupt_completion.clone().into(),
                 right: false.into(),
             }))),
             body: Box::new(Stmt::Block(for_loop_body)),
@@ -750,7 +750,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(did_iteration_error.clone().into()),
+                left: did_iteration_error.clone().into(),
                 right: true.into(),
             })),
         });
@@ -760,7 +760,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(iterator_error.clone().into()),
+                left: iterator_error.clone().into(),
                 right: Box::new(Expr::Ident(err_param.clone())),
             })),
         });
