@@ -1212,7 +1212,7 @@ impl TryFrom<Pat> for AssignTarget {
             Pat::Array(a) => AssignTarget::Pat(AssignTargetPat::Array(a)),
             Pat::Object(o) => AssignTarget::Pat(AssignTargetPat::Object(o)),
 
-            Pat::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i.id)),
+            Pat::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
             Pat::Invalid(i) => AssignTarget::Simple(SimpleAssignTarget::Invalid(i)),
 
             Pat::Expr(e) => match Self::try_from(e) {
@@ -1230,7 +1230,7 @@ impl TryFrom<Box<Expr>> for AssignTarget {
 
     fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
         Ok(match *e {
-            Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
+            Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i.into())),
             Expr::Member(m) => AssignTarget::Simple(SimpleAssignTarget::Member(m)),
             Expr::SuperProp(s) => AssignTarget::Simple(SimpleAssignTarget::SuperProp(s)),
             Expr::TsAs(a) => AssignTarget::Simple(SimpleAssignTarget::TSAs(a)),
@@ -1293,7 +1293,8 @@ impl Take for SimpleAssignTarget {
     }
 }
 
-bridge_from!(AssignTarget, SimpleAssignTarget, Ident);
+bridge_from!(AssignTarget, BindingIdent, Ident);
+bridge_from!(AssignTarget, SimpleAssignTarget, BindingIdent);
 bridge_from!(AssignTarget, SimpleAssignTarget, MemberExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, SuperPropExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsAsExpr);
@@ -1307,7 +1308,7 @@ bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 impl From<SimpleAssignTarget> for Box<Expr> {
     fn from(s: SimpleAssignTarget) -> Self {
         match s {
-            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i)),
+            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.id)),
             SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
             SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
             SimpleAssignTarget::TSAs(a) => Box::new(Expr::TsAs(a)),
@@ -1321,11 +1322,13 @@ impl From<SimpleAssignTarget> for Box<Expr> {
 
 impl AssignTarget {
     pub fn as_ident(&self) -> Option<&Ident> {
-        self.as_simple().and_then(|p| p.as_ident())
+        self.as_simple().and_then(|p| p.as_ident()).map(|v| &v.id)
     }
 
     pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
-        self.as_mut_simple().and_then(|p| p.as_mut_ident())
+        self.as_mut_simple()
+            .and_then(|p| p.as_mut_ident())
+            .map(|v| &mut v.id)
     }
 }
 
