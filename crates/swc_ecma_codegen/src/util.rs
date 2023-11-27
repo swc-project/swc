@@ -71,7 +71,67 @@ pub trait StartsWithAlphaNum {
     fn starts_with_alpha_num(&self) -> bool;
 }
 
+macro_rules! alpha_num_enum {
+    ($T:ty, [$($name:ident),*]) => {
+        impl StartsWithAlphaNum for $T {
+            #[inline]
+            fn starts_with_alpha_num(&self) -> bool {
+                match *self {
+                    $(
+                        Self::$name(ref n) => n.starts_with_alpha_num(),
+                    )*
+                }
+            }
+        }
+    };
+}
+
+macro_rules! alpha_num_const {
+    ($value:tt, $($ty:ident),*) => {
+        $(
+            impl StartsWithAlphaNum for $ty {
+                #[inline]
+                fn starts_with_alpha_num(&self) -> bool {
+                    $value
+                }
+            }
+        )*
+    };
+}
+
+alpha_num_const!(true, Ident, SuperPropExpr, TsTypeAssertion);
+alpha_num_const!(false, ArrayPat, ObjectPat, Invalid);
+
+impl StartsWithAlphaNum for MemberExpr {
+    #[inline]
+    fn starts_with_alpha_num(&self) -> bool {
+        self.obj.starts_with_alpha_num()
+    }
+}
+
+impl StartsWithAlphaNum for TsAsExpr {
+    #[inline]
+    fn starts_with_alpha_num(&self) -> bool {
+        self.expr.starts_with_alpha_num()
+    }
+}
+
+impl StartsWithAlphaNum for TsSatisfiesExpr {
+    #[inline]
+    fn starts_with_alpha_num(&self) -> bool {
+        self.expr.starts_with_alpha_num()
+    }
+}
+
+impl StartsWithAlphaNum for TsNonNullExpr {
+    #[inline]
+    fn starts_with_alpha_num(&self) -> bool {
+        self.expr.starts_with_alpha_num()
+    }
+}
+
 impl StartsWithAlphaNum for PropName {
+    #[inline]
     fn starts_with_alpha_num(&self) -> bool {
         match self {
             PropName::Str(_) | PropName::Computed(_) => false,
@@ -177,21 +237,6 @@ impl StartsWithAlphaNum for Pat {
             Pat::Invalid(..) => true,
         }
     }
-}
-
-macro_rules! alpha_num_enum {
-    ($T:ty, [$($name:ident),*]) => {
-        impl StartsWithAlphaNum for $T {
-            #[inline]
-            fn starts_with_alpha_num(&self) -> bool {
-                match *self {
-                    $(
-                        Self::$name(ref n) => n.starts_with_alpha_num(),
-                    )*
-                }
-            }
-        }
-    };
 }
 
 alpha_num_enum!(AssignTarget, [Pat, Simple]);
