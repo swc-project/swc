@@ -345,7 +345,7 @@ impl VisitMut for FnEnvHoister {
                                     vec![
                                         Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(tmp.clone().into()),
+                                            left: tmp.clone().into(),
                                             op: op!("="),
                                             right: c.expr.take(),
                                         })
@@ -619,7 +619,7 @@ impl<'a> VisitMut for InitThis<'a> {
                         Box::new(Expr::Call(call_expr.take())),
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(self.this_id.clone().into()),
+                            left: self.this_id.clone().into(),
                             op: AssignOp::Assign,
                             right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                         })),
@@ -807,11 +807,12 @@ fn extend_super(
                 params: vec![value.clone().into()],
                 body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                    left: SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
                         prop: SuperProp::Ident(quote_ident!(key)),
                         span: DUMMY_SP,
-                    }))),
+                    }
+                    .into(),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
