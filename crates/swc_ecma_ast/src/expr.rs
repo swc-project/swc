@@ -649,7 +649,7 @@ impl From<Box<Class>> for ClassExpr {
 bridge_from!(ClassExpr, Box<Class>, Class);
 bridge_expr_from!(ClassExpr, Box<Class>);
 
-#[ast_node("AssignExpression")]
+#[ast_node("AssignmentExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignExpr {
