@@ -1180,15 +1180,6 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
-impl<T> From<T> for BlockStmtOrExpr
-where
-    T: Into<Expr>,
-{
-    fn from(e: T) -> Self {
-        Self::Expr(Box::new(e.into()))
-    }
-}
-
 impl Take for BlockStmtOrExpr {
     fn dummy() -> Self {
         BlockStmtOrExpr::Expr(Take::dummy())
