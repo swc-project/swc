@@ -749,6 +749,7 @@ impl SyntaxError {
                                                     .mts or .cts extension. Add a trailing comma, \
                                                     as in `<T,>() => ...`."
                 .into(),
+            SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
         }
     }
 }

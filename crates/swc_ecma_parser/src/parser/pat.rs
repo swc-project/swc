@@ -600,7 +600,7 @@ impl<I: Tokens> Parser<I> {
                     span,
                     left: match left {
                         AssignTarget::Simple(left) => {
-                            self.reparse_expr_as_pat(pat_ty, left.into())?
+                            Box::new(self.reparse_expr_as_pat(pat_ty, left.into())?)
                         }
                         AssignTarget::Pat(pat) => pat.into(),
                     },
