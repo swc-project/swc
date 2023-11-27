@@ -1300,6 +1300,21 @@ bridge_from!(AssignTarget, SimpleAssignTarget, TsTypeAssertion);
 bridge_from!(AssignTarget, AssignTargetPat, ArrayPat);
 bridge_from!(AssignTarget, AssignTargetPat, ObjectPat);
 
+impl From<SimpleAssignTarget> for Box<Expr> {
+    fn from(s: SimpleAssignTarget) -> Self {
+        match s {
+            SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i)),
+            SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
+            SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
+            SimpleAssignTarget::TSAs(a) => Box::new(Expr::TsAs(a)),
+            SimpleAssignTarget::TSSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
+            SimpleAssignTarget::TSNonNull(n) => Box::new(Expr::TsNonNull(n)),
+            SimpleAssignTarget::TSTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
+            SimpleAssignTarget::Invalid(i) => Box::new(Expr::Invalid(i)),
+        }
+    }
+}
+
 impl AssignTarget {
     pub fn as_ident(&self) -> Option<&Ident> {
         self.as_simple().and_then(|p| p.as_ident())
