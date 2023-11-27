@@ -320,14 +320,10 @@ impl VisitMut for FnEnvHoister {
                 op,
             }) => {
                 let expr = match left {
-                    PatOrExpr::Expr(e) => e,
-                    PatOrExpr::Pat(p) => {
-                        if let Pat::Expr(e) = &mut **p {
-                            e
-                        } else {
-                            e.visit_mut_children_with(self);
-                            return;
-                        }
+                    AssignTarget::Simple(e) => e,
+                    AssignTarget::Pat(e) => {
+                        e.visit_mut_children_with(self);
+                        return;
                     }
                 };
                 if !self.super_disabled {
