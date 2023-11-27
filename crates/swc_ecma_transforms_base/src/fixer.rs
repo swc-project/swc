@@ -1011,7 +1011,7 @@ impl Fixer<'_> {
 
             // ({ a } = foo)
             Expr::Assign(AssignExpr {
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
                 ..
             }) if left.is_object() => self.wrap(expr),
 
