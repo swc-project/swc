@@ -250,7 +250,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
     fn make_assign_to(self, op: AssignOp, left: PatOrExpr) -> Expr {
         let right = self.into();
     fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
-        let right = Box::new(self.into());
+        let right = self.into();
 
         Expr::Assign(AssignExpr {
             span: DUMMY_SP,
@@ -266,6 +266,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
         T: Into<Ident>,
     {
         MemberExpr {
+        Expr::Member(MemberExpr {
             obj: self.into(),
             span: DUMMY_SP,
             prop: MemberProp::Ident(prop.into()),
