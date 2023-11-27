@@ -1201,6 +1201,7 @@ impl Take for BlockStmtOrExpr {
 pub enum AssignTarget {
     #[tag("Identifier")]
     #[tag("MemberExpression")]
+    #[tag("SuperPropExpression")]
     #[tag("TsAsExpressio")]
     #[tag("TsSatisfiesExpression")]
     #[tag("TsNonNullExpression")]
@@ -1268,6 +1269,8 @@ pub enum SimpleAssignTarget {
     Ident(Ident),
     #[tag("MemberExpression")]
     Member(MemberExpr),
+    #[tag("SuperPropExpression")]
+    SuperProp(SuperPropExpr),
     #[tag("TsAsExpressio")]
     TSAs(TsAsExpr),
     #[tag("TsSatisfiesExpression")]
