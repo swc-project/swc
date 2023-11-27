@@ -257,8 +257,8 @@ where
         n.right.visit_with(&mut *self.with_ctx(ctx));
 
         match &n.left {
-            PatOrExpr::Pat(p) => self.report_assign_pat(p, is_op_assign),
-            PatOrExpr::Expr(e) => {
+            AssignTarget::Pat(p) => self.report_assign_pat(p, is_op_assign),
+            AssignTarget::Simple(e) => {
                 self.report_assign_expr(e, is_op_assign);
                 self.mark_mutation(e)
             }
@@ -266,8 +266,8 @@ where
 
         if n.op == op!("=") {
             let left = match &n.left {
-                PatOrExpr::Expr(left) => leftmost(left),
-                PatOrExpr::Pat(left) => match &**left {
+                AssignTarget::Simple(left) => leftmost(left),
+                AssignTarget::Pat(left) => match &**left {
                     Pat::Ident(p) => Some(p.to_id()),
                     Pat::Expr(p) => leftmost(p),
                     _ => None,
