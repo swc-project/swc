@@ -182,6 +182,7 @@ impl StartsWithAlphaNum for Pat {
 macro_rules! alpha_num_enum {
     ($T:ty, [$($name:ident),*]) => {
         impl StartsWithAlphaNum for $T {
+            #[inline]
             fn starts_with_alpha_num(&self) -> bool {
                 match *self {
                     $(
