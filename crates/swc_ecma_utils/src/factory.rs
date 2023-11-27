@@ -249,6 +249,8 @@ pub trait ExprFactory: Into<Box<Expr>> {
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn make_assign_to(self, op: AssignOp, left: PatOrExpr) -> Expr {
         let right = self.into();
+    fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
+        let right = Box::new(self.into());
 
         Expr::Assign(AssignExpr {
             span: DUMMY_SP,
