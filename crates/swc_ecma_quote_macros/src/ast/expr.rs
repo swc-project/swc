@@ -1,6 +1,20 @@
 use swc_ecma_ast::*;
 
-impl_enum!(PatOrExpr, [Pat, Expr]);
+impl_enum!(AssignTarget, [Simple, Pat]);
+impl_enum!(
+    SimpleAssignTarget,
+    [
+        Ident,
+        Member,
+        SuperProp,
+        TSAs,
+        TSNonNull,
+        TSSatisfies,
+        TSTypeAssertion,
+        Invalid
+    ]
+);
+impl_enum!(AssignTargetPat, [Array, Object]);
 impl_enum!(
     Expr,
     [
