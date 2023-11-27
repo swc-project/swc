@@ -278,6 +278,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
         T: Into<Box<Expr>>,
     {
         MemberExpr {
+        Expr::Member(MemberExpr {
             obj: self.into(),
             span: DUMMY_SP,
             prop: MemberProp::Computed(ComputedPropName {
