@@ -880,6 +880,7 @@ define!({
     pub enum SimpleAssignTarget {
         Ident(Ident),
         Member(MemberExpr),
+        SuperProp(SuperPropExpr),
         TSAs(TsAsExpr),
         TSSatisfies(TsSatisfiesExpr),
         TSNonNull(TsNonNullExpr),
