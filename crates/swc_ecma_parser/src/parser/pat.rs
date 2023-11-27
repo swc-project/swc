@@ -600,9 +600,9 @@ impl<I: Tokens> Parser<I> {
                     span,
                     left: match left {
                         AssignTarget::Simple(left) => {
-                            Box::new(self.reparse_expr_as_pat(pat_ty, left)?)
+                            self.reparse_expr_as_pat(pat_ty, left.into())?
                         }
-                        AssignTarget::Pat(left) => left,
+                        AssignTarget::Pat(..) => left,
                     },
                     right,
                 }))
