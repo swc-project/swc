@@ -351,6 +351,11 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        self.visit_pat_id(&n.id);
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_block_stmt(&mut self, n: &BlockStmt) {
         self.with_child(n.span.ctxt, ScopeKind::Block, |child| {
             n.visit_children_with(child);
@@ -979,15 +984,6 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp) {
-        n.visit_children_with(self);
-
-        if let ObjectPatProp::Assign(p) = n {
-            self.visit_pat_id(&p.key);
-        }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_param(&mut self, n: &Param) {
         let ctx = Ctx {
             in_pat_of_param: false,
@@ -1008,8 +1004,7 @@ where
     fn visit_pat(&mut self, n: &Pat) {
         match n {
             Pat::Ident(i) => {
-                n.visit_children_with(self);
-                self.visit_pat_id(&i.id);
+                i.visit_with(self);
             }
             _ => {
                 let ctx = Ctx {
@@ -1017,22 +1012,6 @@ where
                     ..self.ctx
                 };
                 n.visit_children_with(&mut *self.with_ctx(ctx));
-            }
-        }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_pat_or_expr(&mut self, n: &PatOrExpr) {
-        match n {
-            PatOrExpr::Expr(e) => {
-                if let Expr::Ident(i) = &**e {
-                    self.visit_pat_id(i)
-                } else {
-                    e.visit_with(self);
-                }
-            }
-            PatOrExpr::Pat(p) => {
-                p.visit_with(self);
             }
         }
     }
