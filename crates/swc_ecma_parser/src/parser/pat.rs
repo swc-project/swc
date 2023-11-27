@@ -1150,7 +1150,7 @@ mod tests {
                 value: Box::new(Expr::Assign(AssignExpr {
                     span,
                     op: AssignOp::Assign,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident(assign_name).into()))),
+                    left: ident(assign_name).into(),
                     right: Box::new(expr),
                 })),
             })))
