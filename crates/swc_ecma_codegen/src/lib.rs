@@ -2778,6 +2778,16 @@ where
     }
 
     #[emitter]
+    fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
+        match node {}
+    }
+
+    #[emitter]
+    fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
+        match node {}
+    }
+
+    #[emitter]
     fn emit_array_pat(&mut self, node: &ArrayPat) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 

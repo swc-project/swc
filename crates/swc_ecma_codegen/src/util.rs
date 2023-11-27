@@ -179,11 +179,11 @@ impl StartsWithAlphaNum for Pat {
     }
 }
 
-impl StartsWithAlphaNum for PatOrExpr {
+impl StartsWithAlphaNum for AssignTarget {
     fn starts_with_alpha_num(&self) -> bool {
         match *self {
-            PatOrExpr::Pat(ref p) => p.starts_with_alpha_num(),
-            PatOrExpr::Expr(ref e) => e.starts_with_alpha_num(),
+            AssignTarget::Pat(ref p) => p.starts_with_alpha_num(),
+            AssignTarget::Simple(ref e) => e.starts_with_alpha_num(),
         }
     }
 }
