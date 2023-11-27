@@ -94,21 +94,6 @@ impl Fold for Normalizer {
         node
     }
 
-    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children_with(self);
-
-        match node {
-            PatOrExpr::Expr(expr) => match *expr {
-                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
-                _ => PatOrExpr::Expr(expr),
-            },
-            PatOrExpr::Pat(pat) => match *pat {
-                Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => PatOrExpr::Pat(pat),
-            },
-        }
-    }
-
     fn fold_prop_name(&mut self, n: PropName) -> PropName {
         let n = n.fold_children_with(self);
 
