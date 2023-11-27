@@ -489,7 +489,7 @@ impl Visit for Hoister {
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);
 
-        self.vars.push(node.key.clone());
+        self.vars.push(node.key.id.clone());
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
@@ -2975,10 +2975,11 @@ impl VisitMut for IdentRenamer<'_> {
                 match p.value.take() {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig),
+                            key: PropName::Ident(orig.id),
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: DUMMY_SP,
                                 left: p.key.clone().into(),
+                                left: Box::new(Pat::Ident(p.key.clone())),
                                 right: default,
                             })),
                         });
@@ -2987,6 +2988,8 @@ impl VisitMut for IdentRenamer<'_> {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(orig),
                             value: p.key.clone().into(),
+                            key: PropName::Ident(orig.id),
+                            value: Box::new(Pat::Ident(p.key.clone())),
                         });
                     }
                 }
