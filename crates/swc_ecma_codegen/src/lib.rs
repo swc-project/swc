@@ -3916,9 +3916,9 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                 2..6
                             };
 
-                            let val_str = &inner_buf[range];
-
                             if is_valid {
+                                let val_str = &inner_buf[range];
+
                                 let v = u32::from_str_radix(val_str, 16).unwrap_or_else(|err| {
                                     unreachable!(
                                         "failed to parse {} as a hex value: {:?}",
@@ -3939,6 +3939,8 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
                                 } else {
                                     buf.push_str("\\\\");
                                 }
+                            } else {
+                                buf.push_str("\\\\")
                             }
                         } else if is_curly {
                             buf.push_str("\\\\");
