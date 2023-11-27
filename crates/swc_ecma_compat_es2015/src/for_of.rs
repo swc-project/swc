@@ -354,7 +354,7 @@ impl ForOf {
                 }
                 ForHead::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(pat),
+                    left: AssignTarget::Pat(pat),
                     op: op!("="),
                     right: step_value.into(),
                 }
@@ -433,7 +433,7 @@ impl ForOf {
                 arg: {
                     let step_expr = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(step.into()),
+                        left: AssignTarget::Pat(step.into()),
                         op: op!("="),
                         // `_iterator.next()`
                         right: Box::new(Expr::Call(CallExpr {
@@ -447,7 +447,7 @@ impl ForOf {
 
                     Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
+                        left: AssignTarget::Pat(normal_completion_ident.clone().into()),
                         op: op!("="),
                         right: step_expr.make_member(quote_ident!("done")).into(),
                     }))
@@ -457,7 +457,7 @@ impl ForOf {
             // `_iteratorNormalCompletion = true`
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
+                left: AssignTarget::Pat(normal_completion_ident.clone().into()),
                 op: op!("="),
                 right: true.into(),
             }))),
@@ -491,7 +491,7 @@ impl ForOf {
                         // _didIteratorError = true;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(error_flag_ident.clone().into()),
+                            left: AssignTarget::Pat(error_flag_ident.clone().into()),
                             op: op!("="),
                             right: true.into(),
                         }
@@ -499,7 +499,7 @@ impl ForOf {
                         // _iteratorError = err;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(error_ident.clone().into()),
+                            left: AssignTarget::Pat(error_ident.clone().into()),
                             op: op!("="),
                             right: Box::new(Expr::Ident(quote_ident!("err"))),
                         }

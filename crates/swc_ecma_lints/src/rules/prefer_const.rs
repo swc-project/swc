@@ -235,7 +235,7 @@ impl Visit for PreferConst {
 
     fn visit_assign_expr(&mut self, assign_expr: &AssignExpr) {
         if let op!("=") = assign_expr.op {
-            if let PatOrExpr::Pat(pat) = &assign_expr.left {
+            if let AssignTarget::Pat(pat) = &assign_expr.left {
                 self.consider_mutation(pat.as_ref(), false);
             }
         }

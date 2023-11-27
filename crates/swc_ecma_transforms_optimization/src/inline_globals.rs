@@ -69,10 +69,10 @@ impl VisitMut for InlineGlobals {
         n.right.visit_mut_with(self);
 
         match &mut n.left {
-            PatOrExpr::Expr(l) => {
+            AssignTarget::Expr(l) => {
                 (**l).visit_mut_children_with(self);
             }
-            PatOrExpr::Pat(l) => match &mut **l {
+            AssignTarget::Pat(l) => match &mut **l {
                 Pat::Expr(l) => {
                     (**l).visit_mut_children_with(self);
                 }

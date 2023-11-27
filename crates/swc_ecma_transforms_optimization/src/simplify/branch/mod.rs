@@ -114,7 +114,7 @@ impl VisitMut for Remover {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(l),
+                left: AssignTarget::Pat(l),
                 right: r,
                 ..
             }) if match &**l {
@@ -133,7 +133,7 @@ impl VisitMut for Remover {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
                 right,
                 ..
             }) if match &**left {
@@ -149,7 +149,7 @@ impl VisitMut for Remover {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
                 right,
                 ..
             }) if match &**left {
@@ -1467,7 +1467,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
 
         Expr::Assign(AssignExpr {
             op: op!("="),
-            left: PatOrExpr::Pat(left),
+            left: AssignTarget::Pat(left),
             right,
             ..
         }) if match &*left {

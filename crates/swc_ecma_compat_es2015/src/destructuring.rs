@@ -109,7 +109,7 @@ macro_rules! impl_for_for_stmt {
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(pat.take()),
+                            left: AssignTarget::Pat(pat.take()),
                             op: op!("="),
                             right: Box::new(left_ident.into()),
                         }
@@ -596,7 +596,7 @@ impl VisitMut for AssignFolder {
 
         if let Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(pat),
+            left: AssignTarget::Pat(pat),
             op: op!("="),
             right,
         }) = expr
@@ -605,7 +605,7 @@ impl VisitMut for AssignFolder {
                 Pat::Expr(pat_expr) => {
                     *expr = Expr::Assign(AssignExpr {
                         span: *span,
-                        left: PatOrExpr::Expr(pat_expr.take()),
+                        left: AssignTarget::Expr(pat_expr.take()),
                         op: op!("="),
                         right: right.take(),
                     });
@@ -626,7 +626,7 @@ impl VisitMut for AssignFolder {
                                     Some(Pat::Rest(p)) => {
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: p.span(),
-                                            left: PatOrExpr::Pat(p.arg.take()),
+                                            left: AssignTarget::Pat(p.arg.take()),
                                             op: op!("="),
                                             right: Box::new(Expr::Array(ArrayLit {
                                                 span: DUMMY_SP,
@@ -690,7 +690,7 @@ impl VisitMut for AssignFolder {
                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(ref_ident.clone().into()),
+                        left: AssignTarget::Pat(ref_ident.clone().into()),
                         right: if self.c.loose {
                             right.take()
                         } else {
@@ -750,14 +750,14 @@ impl VisitMut for AssignFolder {
                                 let assign_ref_ident = make_ref_ident(self.c, &mut self.vars, None);
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
+                                    left: AssignTarget::Pat(assign_ref_ident.clone().into()),
                                     op: op!("="),
                                     right: ref_ident.clone().computed_member(i as f64).into(),
                                 })));
 
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: *span,
-                                    left: PatOrExpr::Pat(left.take()),
+                                    left: AssignTarget::Pat(left.take()),
                                     op: op!("="),
                                     right: Box::new(make_cond_expr(assign_ref_ident, right.take())),
                                 });
@@ -769,7 +769,7 @@ impl VisitMut for AssignFolder {
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(arg.take()),
+                                    left: AssignTarget::Pat(arg.take()),
                                     right: Box::new(Expr::Call(CallExpr {
                                         span: DUMMY_SP,
                                         callee: ref_ident
@@ -790,6 +790,8 @@ impl VisitMut for AssignFolder {
                                     op: op!("="),
                                     left: PatOrExpr::Pat(Box::new(elem.take())),
                                     right: make_ref_idx_expr(&ref_ident, i).into(),
+                                    left: AssignTarget::Pat(Box::new(elem.take())),
+                                    right: Box::new(make_ref_idx_expr(&ref_ident, i)),
                                 });
 
                                 assign_expr.visit_mut_with(self);
@@ -823,6 +825,8 @@ impl VisitMut for AssignFolder {
                                 op: op!("="),
                                 left: PatOrExpr::Pat(p.key.clone().into()),
                                 right: right.take().make_member(p.key.clone()).into(),
+                                left: AssignTarget::Pat(p.key.clone().into()),
+                                right: Box::new(right.take().make_member(p.key.clone())),
                             });
                             return;
                         }
@@ -832,7 +836,7 @@ impl VisitMut for AssignFolder {
 
                     let mut exprs = vec![Box::new(Expr::Assign(AssignExpr {
                         span: *span,
-                        left: PatOrExpr::Pat(ref_ident.clone().into()),
+                        left: AssignTarget::Pat(ref_ident.clone().into()),
                         op: op!("="),
                         right: right.take(),
                     }))];
@@ -845,7 +849,7 @@ impl VisitMut for AssignFolder {
 
                                 let mut expr = Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Pat(value.take()),
+                                    left: AssignTarget::Pat(value.take()),
                                     op: op!("="),
                                     right: Box::new(make_ref_prop_expr(
                                         &ref_ident,
@@ -867,7 +871,7 @@ impl VisitMut for AssignFolder {
 
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: PatOrExpr::Pat(prop_ident.clone().into()),
+                                            left: AssignTarget::Pat(prop_ident.clone().into()),
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
@@ -878,7 +882,7 @@ impl VisitMut for AssignFolder {
 
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: PatOrExpr::Pat(key.clone().into()),
+                                            left: AssignTarget::Pat(key.clone().into()),
                                             op: op!("="),
                                             right: Box::new(make_cond_expr(
                                                 prop_ident,
@@ -889,7 +893,7 @@ impl VisitMut for AssignFolder {
                                     None => {
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: PatOrExpr::Pat(key.clone().into()),
+                                            left: AssignTarget::Pat(key.clone().into()),
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
@@ -921,7 +925,7 @@ impl VisitMut for AssignFolder {
                     let mut exprs = vec![Box::new(
                         AssignExpr {
                             span: *span,
-                            left: PatOrExpr::Pat(ref_ident.clone().into()),
+                            left: AssignTarget::Pat(ref_ident.clone().into()),
                             op: op!("="),
                             right: right.take(),
                         }

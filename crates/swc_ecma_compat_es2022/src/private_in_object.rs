@@ -52,7 +52,7 @@ impl Mode {
                     init_exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(n.into()),
+                        left: AssignTarget::Pat(n.into()),
                         right: init,
                     })));
                 }
@@ -403,7 +403,7 @@ impl VisitMut for PrivateInObject {
                     let assign = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(tmp.clone().into()),
+                        left: AssignTarget::Pat(tmp.clone().into()),
                         right: init.take(),
                     }));
 

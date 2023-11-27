@@ -254,7 +254,9 @@ impl VisitMut for ConstructorFolder<'_> {
 
             *expr = Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into()),
+                left: AssignTarget::Pat(
+                    quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
+                ),
                 op: op!("="),
                 right,
             });
@@ -318,7 +320,7 @@ impl VisitMut for ConstructorFolder<'_> {
                     Some(SuperFoldingMode::Assign) => {
                         *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(
+                            left: AssignTarget::Pat(
                                 quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                             ),
                             op: op!("="),

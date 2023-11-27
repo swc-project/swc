@@ -20,8 +20,8 @@ impl Pure<'_> {
         ) {
             // Check if lhs is same as `ident`.
             match &assign.left {
-                PatOrExpr::Expr(_) => {}
-                PatOrExpr::Pat(left) => {
+                AssignTarget::Expr(_) => {}
+                AssignTarget::Pat(left) => {
                     if let Pat::Ident(left) = &**left {
                         if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
                             report_change!(

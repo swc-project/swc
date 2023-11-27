@@ -249,7 +249,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }) = n
         {
             match left {
-                PatOrExpr::Expr(expr) => {
+                AssignTarget::Expr(expr) => {
                     if let Expr::SuperProp(SuperPropExpr {
                         obj: Super { span: super_token },
                         prop,
@@ -259,7 +259,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
                     }
                 }
-                PatOrExpr::Pat(pat) => {
+                AssignTarget::Pat(pat) => {
                     if let Pat::Expr(expr) = &mut **pat {
                         if let Expr::SuperProp(SuperPropExpr {
                             obj:
@@ -315,7 +315,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             debug_assert_ne!(*op, op!("="));
 
             match left {
-                PatOrExpr::Expr(expr) => {
+                AssignTarget::Expr(expr) => {
                     if let Expr::SuperProp(SuperPropExpr {
                         obj: Super { span: super_token },
                         prop,
@@ -325,7 +325,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         *expr = Box::new(self.super_to_update_call(super_token, prop));
                     }
                 }
-                PatOrExpr::Pat(pat) => {
+                AssignTarget::Pat(pat) => {
                     if let Pat::Expr(expr) = &mut **pat {
                         if let Expr::SuperProp(SuperPropExpr {
                             obj:
@@ -406,7 +406,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Assign(AssignExpr {
                 span: super_token,
-                left: PatOrExpr::Expr(left.into()),
+                left: AssignTarget::Expr(left.into()),
                 op,
                 right: rhs,
             })
@@ -501,10 +501,10 @@ impl<'a> SuperFieldAccessFolder<'a> {
     }
 }
 
-fn is_assign_to_super_prop(left: &PatOrExpr) -> bool {
+fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
     match left {
-        PatOrExpr::Expr(expr) => expr.is_super_prop(),
-        PatOrExpr::Pat(pat) => match &**pat {
+        AssignTarget::Expr(expr) => expr.is_super_prop(),
+        AssignTarget::Pat(pat) => match &**pat {
             Pat::Expr(expr) => expr.is_super_prop(),
             _ => false,
         },

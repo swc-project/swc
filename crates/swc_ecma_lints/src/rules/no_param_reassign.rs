@@ -163,12 +163,12 @@ impl NoParamReassign {
         }
     }
 
-    fn check_pat_or_expr(&self, pat_or_expr: &PatOrExpr) {
+    fn check_pat_or_expr(&self, pat_or_expr: &AssignTarget) {
         match pat_or_expr {
-            PatOrExpr::Pat(pat) => {
+            AssignTarget::Pat(pat) => {
                 self.check_pat(pat.as_ref());
             }
-            PatOrExpr::Expr(expr) => {
+            AssignTarget::Expr(expr) => {
                 self.check_expr(expr.as_ref());
             }
         }

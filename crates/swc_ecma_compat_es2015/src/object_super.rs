@@ -116,7 +116,7 @@ impl VisitMut for ObjectSuper {
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Expr(Box::new(Expr::Ident(obj.clone()))),
+                    left: AssignTarget::Expr(Box::new(Expr::Ident(obj.clone()))),
                     right: Box::new(expr.take()),
                 });
                 self.extra_vars.push(obj);
@@ -295,7 +295,7 @@ impl SuperReplacer {
             }) => {
                 let mut left = left.take().normalize_expr();
 
-                if let PatOrExpr::Expr(expr) = &mut left {
+                if let AssignTarget::Expr(expr) = &mut left {
                     if let Expr::SuperProp(SuperPropExpr {
                         obj: Super { span: super_token },
                         prop,
@@ -411,7 +411,7 @@ impl SuperReplacer {
                         self.vars.push(ref_ident.clone());
                         *prop = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(ref_ident.clone().into()),
+                            left: AssignTarget::Pat(ref_ident.clone().into()),
                             op: op!("="),
                             right: prop.take(),
                         });
@@ -450,7 +450,7 @@ impl SuperReplacer {
                                             Box::new(
                                                 AssignExpr {
                                                     span: DUMMY_SP,
-                                                    left: PatOrExpr::Pat(
+                                                    left: AssignTarget::Pat(
                                                         update_ident.clone().into(),
                                                     ),
                                                     op: op!("="),

@@ -637,7 +637,7 @@ impl Pure<'_> {
                 _ => return,
             }
 
-            if let PatOrExpr::Pat(a_left) = a_left {
+            if let AssignTarget::Pat(a_left) = a_left {
                 if let Pat::Ident(a_left) = &**a_left {
                     if let Expr::Ident(b_id) = b {
                         if b_id.to_id() == a_left.id.to_id() {

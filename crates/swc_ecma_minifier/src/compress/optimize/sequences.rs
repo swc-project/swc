@@ -1679,7 +1679,7 @@ impl Optimizer<'_> {
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
-                    PatOrExpr::Expr(b_left) => {
+                    AssignTarget::Expr(b_left) => {
                         trace_op!("seq: Try lhs of assign");
                         if self.merge_sequential_expr(a, b_left)? {
                             return Ok(true);
@@ -1689,7 +1689,7 @@ impl Optimizer<'_> {
                             return Ok(false);
                         }
                     }
-                    PatOrExpr::Pat(b_left) => match &mut **b_left {
+                    AssignTarget::Pat(b_left) => match &mut **b_left {
                         Pat::Expr(b_left) => {
                             trace_op!("seq: Try lhs of assign");
                             if self.merge_sequential_expr(a, b_left)? {
@@ -2575,7 +2575,7 @@ impl Visit for UsageCounter<'_> {
         self.in_lhs = old;
     }
 
-    fn visit_pat_or_expr(&mut self, p: &PatOrExpr) {
+    fn visit_pat_or_expr(&mut self, p: &AssignTarget) {
         let old = self.in_lhs;
         self.in_lhs = true;
         p.visit_children_with(self);

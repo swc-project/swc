@@ -736,12 +736,12 @@ macro_rules! compare_stdout {
 
 struct Normalizer;
 impl VisitMut for Normalizer {
-    fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
+    fn visit_mut_pat_or_expr(&mut self, node: &mut AssignTarget) {
         node.visit_mut_children_with(self);
 
-        if let PatOrExpr::Pat(pat) = node {
+        if let AssignTarget::Pat(pat) = node {
             if let Pat::Expr(e) = &mut **pat {
-                *node = PatOrExpr::Expr(e.take());
+                *node = AssignTarget::Expr(e.take());
             }
         }
     }

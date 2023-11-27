@@ -741,17 +741,17 @@ impl VisitMut for Pure<'_> {
         self.visit_par(nodes);
     }
 
-    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
+    fn visit_mut_pat_or_expr(&mut self, n: &mut AssignTarget) {
         n.visit_mut_children_with(self);
 
         match n {
-            PatOrExpr::Expr(e) => {
+            AssignTarget::Expr(e) => {
                 //
                 if let Expr::Ident(i) = &mut **e {
-                    *n = PatOrExpr::Pat(i.clone().into());
+                    *n = AssignTarget::Pat(i.clone().into());
                 }
             }
-            PatOrExpr::Pat(_) => {}
+            AssignTarget::Pat(_) => {}
         }
     }
 

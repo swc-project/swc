@@ -45,7 +45,7 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     Expr::Assign(AssignExpr {
         span: expr.span(),
         op: op!("="),
-        left: PatOrExpr::Pat(handle.into()),
+        left: AssignTarget::Pat(handle.into()),
         right: expr,
     })
 }

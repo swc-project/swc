@@ -1195,8 +1195,8 @@ impl Visit for Shower<'_> {
         n.visit_children_with(self)
     }
 
-    fn visit_pat_or_expr(&mut self, n: &PatOrExpr) {
-        self.show("PatOrExpr", n);
+    fn visit_pat_or_expr(&mut self, n: &AssignTarget) {
+        self.show("AssignTarget", n);
         n.visit_children_with(self)
     }
 

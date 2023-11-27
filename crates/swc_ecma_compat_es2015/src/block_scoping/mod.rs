@@ -668,12 +668,12 @@ impl VisitMut for FlowHelper<'_> {
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
-            PatOrExpr::Expr(e) => {
+            AssignTarget::Expr(e) => {
                 if let Expr::Ident(i) = &**e {
                     self.check(i.to_id());
                 }
             }
-            PatOrExpr::Pat(p) => {
+            AssignTarget::Pat(p) => {
                 let ids: Vec<Id> = find_pat_ids(p);
 
                 for id in ids {
@@ -855,7 +855,7 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
+                left: AssignTarget::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),

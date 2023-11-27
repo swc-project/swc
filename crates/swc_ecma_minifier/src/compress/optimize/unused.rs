@@ -556,7 +556,7 @@ impl Optimizer<'_> {
         };
         assign.left.map_with_mut(|left| left.normalize_ident());
 
-        if let PatOrExpr::Pat(p) = &assign.left {
+        if let AssignTarget::Pat(p) = &assign.left {
             if let Pat::Ident(left) = &**p {
                 if let Some(var) = self.data.vars.get(&left.to_id()) {
                     // TODO: We don't need fn_local check
@@ -614,13 +614,13 @@ impl Optimizer<'_> {
         assign.left.map_with_mut(|v| v.normalize_ident());
 
         match &mut assign.left {
-            PatOrExpr::Expr(_) => {
+            AssignTarget::Expr(_) => {
                 log_abort!(
                     "unused: Preserving assignment to `{}` because it's an expression",
                     dump(&assign.left, false)
                 );
             }
-            PatOrExpr::Pat(left) => {
+            AssignTarget::Pat(left) => {
                 if let Pat::Ident(i) = &**left {
                     if !self.may_remove_ident(&i.id) {
                         return;

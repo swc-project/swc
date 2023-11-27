@@ -111,7 +111,7 @@ impl VisitMut for NullishCoalescing {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(l.clone().into()),
+                        left: AssignTarget::Pat(l.clone().into()),
                         right: left.take(),
                     })
                 } else {
@@ -123,7 +123,7 @@ impl VisitMut for NullishCoalescing {
 
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
-                    PatOrExpr::Expr(left) => {
+                    AssignTarget::Expr(left) => {
                         let (alias, aliased) = alias_if_required(left, "ref$");
                         if aliased {
                             self.vars.push(VarDeclarator {
@@ -138,7 +138,7 @@ impl VisitMut for NullishCoalescing {
                         let right_expr = if aliased {
                             Box::new(Expr::Assign(AssignExpr {
                                 span: assign.span,
-                                left: PatOrExpr::Expr(left.clone()),
+                                left: AssignTarget::Expr(left.clone()),
                                 op: op!("="),
                                 right: assign.right.take(),
                             }))
@@ -150,7 +150,7 @@ impl VisitMut for NullishCoalescing {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(alias.clone().into()),
+                                left: AssignTarget::Pat(alias.clone().into()),
                                 right: left.take(),
                             })
                         } else {
@@ -160,7 +160,7 @@ impl VisitMut for NullishCoalescing {
                         *e = Expr::Assign(AssignExpr {
                             span: assign.span,
                             op: op!("="),
-                            left: PatOrExpr::Pat(alias.clone().into()),
+                            left: AssignTarget::Pat(alias.clone().into()),
                             right: Box::new(make_cond(
                                 self.c,
                                 assign.span,
@@ -170,12 +170,12 @@ impl VisitMut for NullishCoalescing {
                             )),
                         });
                     }
-                    PatOrExpr::Pat(left) => {
+                    AssignTarget::Pat(left) => {
                         if let Pat::Ident(i) = &mut **left {
                             *e = Expr::Assign(AssignExpr {
                                 span: assign.span,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(i.clone().into()),
+                                left: AssignTarget::Pat(i.clone().into()),
                                 right: Box::new(make_cond(
                                     self.c,
                                     assign.span,

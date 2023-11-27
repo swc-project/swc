@@ -910,7 +910,7 @@ impl Transform {
             init_arg = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into()))),
+                left: AssignTarget::Pat(Box::new(Pat::Ident(ident.clone().into()))),
                 right: init_arg,
             }
             .into();
@@ -1175,7 +1175,7 @@ impl VisitMut for ExportedPatRewriter {
 
         n.init = Some(
             right
-                .make_assign_to(op!("="), PatOrExpr::Pat(left.into()))
+                .make_assign_to(op!("="), AssignTarget::Pat(left.into()))
                 .into(),
         );
     }

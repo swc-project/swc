@@ -108,7 +108,7 @@ impl Fold for TemplateLiteralCaching {
                     right: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(t.into()),
+                        left: AssignTarget::Pat(t.into()),
                         right: Box::new(Expr::TaggedTpl(template)),
                     })),
                 });
