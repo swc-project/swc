@@ -834,14 +834,15 @@ fn extend_super(
                 params: vec![prop.clone().into(), value.clone().into()],
                 body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                    left: SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
                         prop: SuperProp::Computed(ComputedPropName {
                             span: DUMMY_SP,
                             expr: Box::new(Expr::Ident(prop)),
                         }),
                         span: DUMMY_SP,
-                    }))),
+                    }
+                    .into(),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
