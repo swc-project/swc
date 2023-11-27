@@ -31,7 +31,7 @@ impl Operators {
                 span: c.span,
                 expr: Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: AssignTarget::Pat(alias.clone().into()),
+                    left: alias.clone().into(),
                     op: op!("="),
                     right: c.expr,
                 })
