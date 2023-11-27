@@ -327,7 +327,7 @@ impl VisitMut for FnEnvHoister {
                     }
                 };
                 if !self.super_disabled {
-                    if let Expr::SuperProp(super_prop) = &mut **expr {
+                    if let SimpleAssignTarget::SuperProp(super_prop) = &mut *expr {
                         let left_span = super_prop.span;
                         match &mut super_prop.prop {
                             SuperProp::Computed(c) => {
