@@ -120,7 +120,7 @@ impl VisitMut for Fixer<'_> {
 
             BlockStmtOrExpr::Expr(e) if e.is_assign() => {
                 if let Expr::Assign(assign) = &**e {
-                    if let AssignTarget::Pat(l) = &assign.left {
+                    if let AssignTarget::Pat(..) = &assign.left {
                         self.wrap(e);
                     }
                 }
@@ -166,10 +166,13 @@ impl VisitMut for Fixer<'_> {
 
         let lhs_expr = match &mut expr.left {
             AssignTarget::Simple(e) => Some(e),
-            AssignTarget::Pat(pat) => None,
+            AssignTarget::Pat(..) => None,
         };
 
-        if let Some(e) = lhs_expr.and_then(|e| find_nearest_opt_chain_as_obj(e)) {
+        if let Some(e) = lhs_expr
+            .and_then(|e| e.as_mut_member())
+            .and_then(|me| find_nearest_opt_chain_as_obj(&mut me.obj))
+        {
             self.wrap(e)
         };
     }
