@@ -152,8 +152,8 @@ impl VisitMut for Remover {
                 left: AssignTarget::Pat(left),
                 right,
                 ..
-            }) if match &**left {
-                Pat::Object(obj) => obj.props.is_empty(),
+            }) if match &*left {
+                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
@@ -301,7 +301,7 @@ impl VisitMut for Remover {
             {
                 *p = ObjectPatProp::Assign(AssignPatProp {
                     span: *span,
-                    key: key.take(),
+                    key: key.take().into(),
                     value: None,
                 });
             }
