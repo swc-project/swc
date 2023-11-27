@@ -188,6 +188,30 @@ impl StartsWithAlphaNum for AssignTarget {
     }
 }
 
+impl StartsWithAlphaNum for SimpleAssignTarget {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            SimpleAssignTarget::Ident(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::Member(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::SuperProp(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::TSAs(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::TSSatisfies(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::TSNonNull(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::TSTypeAssertion(n) => n.starts_with_alpha_num(),
+            SimpleAssignTarget::Invalid(n) => n.starts_with_alpha_num(),
+        }
+    }
+}
+
+impl StartsWithAlphaNum for AssignTargetPat {
+    fn starts_with_alpha_num(&self) -> bool {
+        match *self {
+            AssignTargetPat::Array(n) => n.starts_with_alpha_num(),
+            AssignTargetPat::Object(n) => n.starts_with_alpha_num(),
+        }
+    }
+}
+
 impl StartsWithAlphaNum for ExprOrSpread {
     fn starts_with_alpha_num(&self) -> bool {
         match *self {
