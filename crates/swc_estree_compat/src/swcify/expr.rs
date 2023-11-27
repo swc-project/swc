@@ -1,12 +1,12 @@
 use swc_common::Spanned;
 use swc_ecma_ast::{
-    op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
+    op, ArrayLit, ArrowExpr, AssignExpr, AssignTarget, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
     BlockStmtOrExpr, CallExpr, Callee, ClassExpr, ComputedPropName, CondExpr, Expr, ExprOrSpread,
     FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
     MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
-    OptChainExpr, ParenExpr, PatOrExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement,
-    SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
+    OptChainExpr, ParenExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp,
+    SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
     TsTypeParamInstantiation, UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
