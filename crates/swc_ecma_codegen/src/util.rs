@@ -179,38 +179,35 @@ impl StartsWithAlphaNum for Pat {
     }
 }
 
-impl StartsWithAlphaNum for AssignTarget {
-    fn starts_with_alpha_num(&self) -> bool {
-        match *self {
-            AssignTarget::Pat(ref p) => p.starts_with_alpha_num(),
-            AssignTarget::Simple(ref e) => e.starts_with_alpha_num(),
+macro_rules! alpha_num_enum {
+    ($T:ty, [$($name:ident),*]) => {
+        impl StartsWithAlphaNum for $T {
+            fn starts_with_alpha_num(&self) -> bool {
+                match *self {
+                    $(
+                        Self::$name(ref n) => n.starts_with_alpha_num(),
+                    )*
+                }
+            }
         }
-    }
+    };
 }
 
-impl StartsWithAlphaNum for SimpleAssignTarget {
-    fn starts_with_alpha_num(&self) -> bool {
-        match *self {
-            SimpleAssignTarget::Ident(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::Member(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::SuperProp(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::TSAs(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::TSSatisfies(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::TSNonNull(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::TSTypeAssertion(n) => n.starts_with_alpha_num(),
-            SimpleAssignTarget::Invalid(n) => n.starts_with_alpha_num(),
-        }
-    }
-}
-
-impl StartsWithAlphaNum for AssignTargetPat {
-    fn starts_with_alpha_num(&self) -> bool {
-        match *self {
-            AssignTargetPat::Array(n) => n.starts_with_alpha_num(),
-            AssignTargetPat::Object(n) => n.starts_with_alpha_num(),
-        }
-    }
-}
+alpha_num_enum!(AssignTarget, [Pat, Simple]);
+alpha_num_enum!(
+    SimpleAssignTarget,
+    [
+        Ident,
+        Member,
+        SuperProp,
+        TSAs,
+        TSSatisfies,
+        TSNonNull,
+        TSTypeAssertion,
+        Invalid
+    ]
+);
+alpha_num_enum!(AssignTargetPat, [Array, Object]);
 
 impl StartsWithAlphaNum for ExprOrSpread {
     fn starts_with_alpha_num(&self) -> bool {
