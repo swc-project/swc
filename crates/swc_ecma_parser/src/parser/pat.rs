@@ -1131,7 +1131,7 @@ mod tests {
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
                     span,
-                    key: ident("prop"),
+                    key: ident("prop").into(),
                     value: Some(Box::new(Expr::Lit(Lit::Num(Number {
                         span,
                         value: 10.0,
@@ -1166,7 +1166,7 @@ mod tests {
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
                     span,
-                    key: ident("obj"),
+                    key: ident("obj").into(),
                     value: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![

@@ -2086,7 +2086,7 @@ export default function waitUntil(callback, options = {}) {
                             span,
                             props: vec![ObjectPatProp::Assign(AssignPatProp {
                                 span,
-                                key: Ident::new("num".into(), span),
+                                key: Ident::new("num".into(), span).into(),
                                 value: None
                             })]
                         }),
