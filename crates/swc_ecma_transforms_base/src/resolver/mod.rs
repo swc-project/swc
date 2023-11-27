@@ -1818,7 +1818,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
+    fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
 
     #[inline]
     fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
