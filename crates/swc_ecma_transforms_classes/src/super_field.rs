@@ -315,7 +315,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             debug_assert_ne!(*op, op!("="));
 
             match left {
-                AssignTarget::Expr(expr) => {
+                AssignTarget::Simple(expr) => {
                     if let Expr::SuperProp(SuperPropExpr {
                         obj: Super { span: super_token },
                         prop,
