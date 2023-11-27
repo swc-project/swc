@@ -235,7 +235,7 @@ impl VisitMut for ObjectRest {
             })));
             let pat = self.fold_rest(
                 &mut 0,
-                *pat.take(),
+                *pat.take().into(),
                 Box::new(Expr::Ident(var_ident.clone())),
                 true,
                 true,
