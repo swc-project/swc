@@ -136,8 +136,10 @@ impl VisitMut for Remover {
                 left: AssignTarget::Pat(left),
                 right,
                 ..
-            }) if match &**left {
-                Pat::Array(arr) => arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()),
+            }) if match &*left {
+                AssignTargetPat::Array(arr) => {
+                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
+                }
                 _ => false,
             } =>
             {
