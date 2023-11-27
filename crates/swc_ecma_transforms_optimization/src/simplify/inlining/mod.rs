@@ -125,7 +125,7 @@ impl VisitMut for Inlining<'_> {
                 e.right.visit_with(&mut v);
 
                 match &mut e.left {
-                    PatOrExpr::Expr(left) => {
+                    AssignTarget::Expr(left) => {
                         //
                         if let Expr::Member(ref left) = &**left {
                             tracing::trace!("Assign to member expression!");
@@ -137,7 +137,7 @@ impl VisitMut for Inlining<'_> {
                             e.right.visit_with(&mut v);
                         }
                     }
-                    PatOrExpr::Pat(p) => {
+                    AssignTarget::Pat(p) => {
                         p.visit_mut_with(self);
                     }
                 }

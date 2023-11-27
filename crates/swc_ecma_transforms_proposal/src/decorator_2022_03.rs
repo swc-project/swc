@@ -192,7 +192,7 @@ impl Decorator202203 {
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Pat(Box::new(Pat::Object(ObjectPat {
+            left: AssignTarget::Pat(Box::new(Pat::Object(ObjectPat {
                 span: DUMMY_SP,
                 props: e_pat.into_iter().chain(c_pat).collect(),
                 optional: false,
@@ -256,7 +256,7 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(ident.clone().into()),
+                    left: AssignTarget::Pat(ident.clone().into()),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
@@ -343,7 +343,7 @@ impl Decorator202203 {
             class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(id.clone().into()))),
+                left: AssignTarget::Pat(Box::new(Pat::Ident(id.clone().into()))),
                 right: super_class,
             })));
 
@@ -721,7 +721,7 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(ident.clone().into()),
+                    left: AssignTarget::Pat(ident.clone().into()),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
@@ -1057,7 +1057,7 @@ impl VisitMut for Decorator202203 {
                                     expr: Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: swc_ecma_ast::PatOrExpr::Expr(Box::new(
+                                        left: swc_ecma_ast::AssignTarget::Expr(Box::new(
                                             Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: ThisExpr { span: DUMMY_SP }.into(),
@@ -1629,7 +1629,7 @@ impl VisitMut for Decorator202203 {
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Expr(access_expr),
+                            left: AssignTarget::Expr(access_expr),
                             right: Box::new(Expr::Ident(settter_arg.clone())),
                         })),
                     })],

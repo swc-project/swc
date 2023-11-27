@@ -336,12 +336,12 @@ where
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
                 match left {
-                    PatOrExpr::Pat(pat) => {
+                    AssignTarget::Pat(pat) => {
                         if let Pat::Ident(i) = &**pat {
                             c.ident = Some(i.id.clone().private())
                         }
                     }
-                    PatOrExpr::Expr(expr) => {
+                    AssignTarget::Expr(expr) => {
                         if let Expr::Ident(ident) = &**expr {
                             c.ident = Some(ident.clone().private())
                         }
@@ -1166,7 +1166,7 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                            left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: Box::new(proto.clone().into()),
                                 prop: mk_key_prop_member(prop),
@@ -1189,7 +1189,7 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                            left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: Box::new(class_name.clone().into()),
                                 prop: mk_key_prop_member(prop),

@@ -214,11 +214,11 @@ impl Optimizer<'_> {
 
         // TODO: Handle pure properties.
         let lhs = match &e.left {
-            PatOrExpr::Expr(e) => match &**e {
+            AssignTarget::Expr(e) => match &**e {
                 Expr::Ident(i) => i,
                 _ => return,
             },
-            PatOrExpr::Pat(p) => match &**p {
+            AssignTarget::Pat(p) => match &**p {
                 Pat::Ident(i) => &i.id,
                 _ => return,
             },

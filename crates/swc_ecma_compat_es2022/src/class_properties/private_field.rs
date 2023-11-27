@@ -291,7 +291,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     _ => {
                         *e = Expr::Assign(AssignExpr {
                             span: *span,
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(left))),
+                            left: AssignTarget::Expr(Box::new(Expr::Member(left))),
                             op: *op,
                             right: right.take(),
                         });
@@ -325,7 +325,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     Box::new(
                         AssignExpr {
                             span: obj.span(),
-                            left: PatOrExpr::Pat(var.clone().into()),
+                            left: AssignTarget::Pat(var.clone().into()),
                             op: op!("="),
                             right: obj,
                         }
@@ -388,7 +388,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
 
             Expr::Assign(AssignExpr {
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
 
                 right,
                 ..
@@ -728,7 +728,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             } else if aliased {
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(var.clone().into()),
+                                    left: AssignTarget::Pat(var.clone().into()),
                                     op: op!("="),
                                     right: obj.take(),
                                 }

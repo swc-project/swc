@@ -270,11 +270,11 @@ impl SizeWithCtxt for Pat {
     }
 }
 
-impl SizeWithCtxt for PatOrExpr {
+impl SizeWithCtxt for AssignTarget {
     fn size(&self, unresolved: SyntaxContext) -> usize {
         match self {
-            PatOrExpr::Expr(e) => e.size(unresolved),
-            PatOrExpr::Pat(p) => p.size(unresolved),
+            AssignTarget::Expr(e) => e.size(unresolved),
+            AssignTarget::Pat(p) => p.size(unresolved),
         }
     }
 }

@@ -721,17 +721,17 @@ impl Babelify for BlockStmtOrExpr {
     }
 }
 
-impl Babelify for PatOrExpr {
+impl Babelify for AssignTarget {
     type Output = LVal;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            PatOrExpr::Expr(e) => match *e {
+            AssignTarget::Expr(e) => match *e {
                 Expr::Ident(i) => LVal::Id(i.babelify(ctx)),
                 Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
                 _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &e),
             },
-            PatOrExpr::Pat(p) => p.babelify(ctx).into(),
+            AssignTarget::Pat(p) => p.babelify(ctx).into(),
         }
     }
 }

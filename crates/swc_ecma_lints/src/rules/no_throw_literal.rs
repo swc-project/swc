@@ -59,7 +59,7 @@ impl NoThrowLiteral {
             }) => match op {
                 op!("=") | op!("&&=") => self.could_be_error(right.as_ref()),
                 op!("||=") | op!("??=") => {
-                    if let PatOrExpr::Expr(left) = left {
+                    if let AssignTarget::Expr(left) = left {
                         self.could_be_error(left.as_ref()) || self.could_be_error(right.as_ref())
                     } else {
                         false

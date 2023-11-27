@@ -166,7 +166,7 @@ impl Visit for UsageVisitor {
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
-        if let PatOrExpr::Pat(pat) = &e.left {
+        if let AssignTarget::Pat(pat) = &e.left {
             if let Pat::Object(ref o) = &**pat {
                 self.visit_object_pat_props(&e.right, &o.props)
             }

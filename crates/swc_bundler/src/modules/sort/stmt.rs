@@ -337,12 +337,12 @@ struct FieldInitFinder {
 }
 
 impl FieldInitFinder {
-    fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
+    fn check_lhs_of_assign(&mut self, lhs: &AssignTarget) {
         match lhs {
-            PatOrExpr::Expr(e) => {
+            AssignTarget::Expr(e) => {
                 self.check_lhs_expr_of_assign(e);
             }
-            PatOrExpr::Pat(pat) => {
+            AssignTarget::Pat(pat) => {
                 if let Pat::Expr(e) = &**pat {
                     self.check_lhs_expr_of_assign(e);
                 }
