@@ -1231,6 +1231,7 @@ impl TryFrom<Box<Expr>> for AssignTarget {
         Ok(match *e {
             Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
             Expr::Member(m) => AssignTarget::Simple(SimpleAssignTarget::Member(m)),
+            Expr::SuperProp(s) => AssignTarget::Simple(SimpleAssignTarget::SuperProp(s)),
             Expr::TsAs(a) => AssignTarget::Simple(SimpleAssignTarget::TSAs(a)),
             Expr::TsSatisfies(s) => AssignTarget::Simple(SimpleAssignTarget::TSSatisfies(s)),
             Expr::TsNonNull(n) => AssignTarget::Simple(SimpleAssignTarget::TSNonNull(n)),
