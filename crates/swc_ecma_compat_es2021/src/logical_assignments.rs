@@ -66,7 +66,7 @@ impl VisitMut for Operators {
         if let Expr::Assign(AssignExpr {
             span,
             op: op @ (op!("&&=") | op!("||=") | op!("??=")),
-            left: AssignTarget::Expr(left),
+            left: AssignTarget::Simple(left),
             right,
         }) = e
         {
