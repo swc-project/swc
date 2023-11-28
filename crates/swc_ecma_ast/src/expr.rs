@@ -1272,6 +1272,19 @@ impl From<AssignTargetPat> for Box<Pat> {
     }
 }
 
+impl TryFrom<Pat> for AssignTargetPat {
+    type Error = Pat;
+
+    fn try_from(p: Pat) -> Result<Self, Self::Error> {
+        Ok(match p {
+            Pat::Array(a) => AssignTargetPat::Array(a),
+            Pat::Object(o) => AssignTargetPat::Object(o),
+
+            _ => return Err(p),
+        })
+    }
+}
+
 #[ast_node]
 #[derive(Is, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
