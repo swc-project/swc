@@ -103,7 +103,7 @@ impl Swcify for AssignmentExpression {
                     self.operator,
                 )
             }),
-            left: self.left.swcify(ctx).into(),
+            left: self.left.swcify(ctx).try_into().unwrap(),
             right: self.right.swcify(ctx),
         }
     }
