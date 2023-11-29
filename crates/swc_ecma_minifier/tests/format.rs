@@ -82,3 +82,25 @@ console.log("</sCrIpT>");
         Config::default().with_inline_script(true).with_minify(true),
     )
 }
+
+#[test]
+fn rspack_issue_4797() {
+    let src = r#"
+obj = {
+    𝒩: "a",
+    "𝒩": "a",
+    𝒩: "𝒩"
+}
+"#;
+    assert_format(
+        src,
+        r#"obj = {
+    "\uD835\uDCA9": "a",
+    "\uD835\uDCA9": "a",
+    "\uD835\uDCA9": "\uD835\uDCA9"
+};"#,
+        Config::default()
+            .with_ascii_only(true)
+            .with_target(EsVersion::Es5),
+    )
+}

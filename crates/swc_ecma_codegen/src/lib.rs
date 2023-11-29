@@ -3820,7 +3820,7 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
                         let h = ((c as u32 - 0x10000) / 0x400) + 0xd800;
                         let l = (c as u32 - 0x10000) % 0x400 + 0xdc00;
 
-                        let _ = write!(buf, "\\u{:04X}\\u{:04X}", h, l);
+                        let _ = write!(buf, r#""\u{:04X}\u{:04X}""#, h, l);
                     } else {
                         let _ = write!(buf, "\\u{{{:04X}}}", c as u32);
                     }
