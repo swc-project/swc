@@ -107,7 +107,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                     ..
                 }) = &**arg
                 {
-                    *arg = Box::new(self.super_to_update_call(*super_token, prop.clone()));
+                    *arg = self.super_to_update_call(*super_token, prop.clone()).into();
                 }
             }
             Expr::Assign(AssignExpr {
@@ -248,36 +248,14 @@ impl<'a> SuperFieldAccessFolder<'a> {
             ..
         }) = n
         {
-            match left {
-                AssignTarget::Expr(expr) => {
-                    if let Expr::SuperProp(SuperPropExpr {
-                        obj: Super { span: super_token },
-                        prop,
-                        ..
-                    }) = &mut **expr
-                    {
-                        *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
-                    }
-                }
-                AssignTarget::Pat(pat) => {
-                    if let Pat::Expr(expr) = &mut *pat {
-                        if let Expr::SuperProp(SuperPropExpr {
-                            obj:
-                                Super {
-                                    span: super_token, ..
-                                },
-                            prop,
-                            ..
-                        }) = &mut **expr
-                        {
-                            *n = self.super_to_set_call(
-                                *super_token,
-                                prop.take(),
-                                *op,
-                                right.take(),
-                            );
-                        }
-                    }
+            if let AssignTarget::Simple(expr) = left {
+                if let SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                }) = &mut *expr
+                {
+                    *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
                 }
             }
         }
