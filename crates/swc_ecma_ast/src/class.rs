@@ -64,16 +64,13 @@ impl Take for Class {
 pub struct ContentTagMember {
     pub span: Span,
 
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[span]
+    #[cfg_attr(feature = "serde-impl", serde())]
     pub opening: Box<ContentTagStart>,
 
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[span]
+    #[cfg_attr(feature = "serde-impl", serde())]
     pub contents: Box<ContentTagContent>,
 
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[span]
+    #[cfg_attr(feature = "serde-impl", serde())]
     pub closing: Box<ContentTagEnd>,
 }
 
