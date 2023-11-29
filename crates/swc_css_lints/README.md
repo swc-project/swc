@@ -43,7 +43,6 @@
 -   [ ] font-sizes.js
 -   [ ] selector-max-approaching.js
 -   [ ] unique-headings.js
--
 
 ### `stylelint`
 
