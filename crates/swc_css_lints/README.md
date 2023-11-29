@@ -1,6 +1,6 @@
 # swc_css_lints
 
-## Rules required porting
+## Rules requires porting
 
 ### `csslint`
 
