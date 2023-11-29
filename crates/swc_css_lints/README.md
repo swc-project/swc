@@ -71,14 +71,14 @@
 -   [ ] media-query-no-invalid
 -   [ ] selector-max-id
 -   [ ] at-rule-no-vendor-prefix
--   [ ] font-family-no-duplicate-names
+-   [x] font-family-no-duplicate-names
 -   [ ] named-grid-areas-no-invalid
 -   [ ] selector-max-pseudo-class
 -   [ ] at-rule-property-required-list
 -   [ ] font-family-no-missing-generic-family-keyword
 -   [ ] no-descending-specificity
 -   [ ] selector-max-specificity
--   [ ] block-no-empty
+-   [x] block-no-empty
 -   [ ] font-weight-notation
 -   [ ] no-duplicate-at-import-rules
 -   [ ] selector-max-type
@@ -86,11 +86,11 @@
 -   [ ] function-allowed-list
 -   [ ] no-duplicate-selectors
 -   [ ] selector-max-universal
--   [ ] color-hex-alpha
+-   [x] color-hex-alpha
 -   [ ] function-calc-no-unspaced-operator
 -   [x] no-empty-source
 -   [ ] selector-nested-pattern
--   [ ] color-hex-length
+-   [x] color-hex-length
 -   [ ] no-invalid-double-slash-comments
 -   [ ] selector-no-qualifying-type
 -   [ ] color-named
@@ -101,7 +101,7 @@
 -   [ ] function-name-case
 -   [ ] no-irregular-whitespace
 -   [ ] selector-not-notation
--   [ ] color-no-invalid-hex
+-   [x] color-no-invalid-hex
 -   [ ] function-no-unknown
 -   [ ] no-unknown-animations
 -   [ ] selector-pseudo-class-allowed-list
@@ -127,14 +127,14 @@
 -   [ ] custom-property-empty-line-before
 -   [ ] rule-empty-line-before
 -   [ ] selector-type-case
--   [ ] custom-property-no-missing-var-function
+-   [x] custom-property-no-missing-var-function
 -   [ ] selector-type-no-unknown
 -   [ ] custom-property-pattern
 -   [ ] keyframe-block-no-duplicate-selectors
 -   [ ] selector-anb-no-unmatchable
 -   [ ] shorthand-property-no-redundant-values
 -   [ ] declaration-block-no-duplicate-custom-properties
--   [ ] keyframe-declaration-no-important
+-   [x] keyframe-declaration-no-important
 -   [ ] string-no-newline
 -   [ ] declaration-block-no-duplicate-properties
 -   [ ] keyframe-selector-notation
@@ -152,5 +152,5 @@
 -   [ ] media-feature-name-allowed-list
 -   [ ] selector-combinator-allowed-list
 -   [ ] value-keyword-case
--   [ ] declaration-no-important
+-   [x] declaration-no-important
 -   [ ] value-no-vendor-prefix
