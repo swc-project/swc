@@ -253,7 +253,7 @@ alpha_num_enum!(
         Invalid
     ]
 );
-alpha_num_enum!(AssignTargetPat, [Array, Object]);
+alpha_num_enum!(AssignTargetPat, [Array, Object, Invalid]);
 
 impl StartsWithAlphaNum for ExprOrSpread {
     fn starts_with_alpha_num(&self) -> bool {
