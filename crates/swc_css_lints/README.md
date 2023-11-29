@@ -1,6 +1,8 @@
 # swc_css_lints
 
-## Rules from csslint
+## Rules required porting
+
+### `csslint`
 
 -   [] adjoining-classes.js
 -   [] duplicate-properties.js
@@ -41,11 +43,11 @@
 -   [] order-alphabetical.js
 -   [] selector-max-approaching.js
 -   [] unique-headings.js
+-
 
-## Rule from stylelint
+### `stylelint`
 
-declaration-property-max-values
-
+-   [] declaration-property-max-values
 -   [] media-feature-name-no-unknown
 -   [] selector-disallowed-list
 -   [] alpha-value-notation
@@ -56,15 +58,12 @@ declaration-property-max-values
 -   [] declaration-property-unit-disallowed-list
 -   [] media-feature-name-unit-allowed-list
 -   [] selector-max-attribute
--   [] at-rule-allowed-list
 -   [] declaration-property-value-allowed-list
 -   [] media-feature-name-value-allowed-list
 -   [] selector-max-class
--   [] at-rule-disallowed-list
 -   [] declaration-property-value-disallowed-list
 -   [] media-feature-name-value-no-unknown
 -   [] selector-max-combinators
--   [] at-rule-empty-line-before
 -   [] declaration-property-value-no-unknown
 -   [] media-feature-range-notation
 -   [] selector-max-compound-selectors
