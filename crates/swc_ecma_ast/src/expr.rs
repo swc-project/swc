@@ -1233,6 +1233,13 @@ impl TryFrom<Pat> for AssignTarget {
         })
     }
 }
+impl TryFrom<Box<Pat>> for AssignTarget {
+    type Error = Box<Pat>;
+
+    fn try_from(p: Box<Pat>) -> Result<Self, Self::Error> {
+        (*p).try_into().map_err(Box::new)
+    }
+}
 
 impl TryFrom<Box<Expr>> for AssignTarget {
     type Error = Box<Expr>;
