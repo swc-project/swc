@@ -849,9 +849,7 @@ impl Fold for SystemJs {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: AssignTarget::Simple(Box::new(Expr::Ident(
-                                            ident.clone(),
-                                        ))),
+                                        left: ident.clone().into(),
                                         right: Box::new(Expr::Class(ClassExpr {
                                             ident: Some(ident.clone()),
                                             class: class_decl.class,
