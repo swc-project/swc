@@ -281,7 +281,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             let prop = prop.take();
             *n = if self.in_pat {
-                self.super_to_update_call(super_token, prop)
+                self.super_to_update_call(super_token, prop).into()
             } else {
                 self.super_to_get_call(super_token, prop)
             };
@@ -305,7 +305,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
-    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
+    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Box<Expr> {
         if self.constant_super {
             Expr::Member(MemberExpr {
                 span: super_token,
@@ -315,7 +315,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     });
                     // in static default super class is Function.prototype
                     if self.is_static && self.super_class.is_some() {
-                        Expr::Ident(name)
+                        Expr::Ident(name).into()
                     } else {
                         name.make_member(quote_ident!("prototype")).into()
                     }
@@ -325,6 +325,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     SuperProp::Computed(c) => MemberProp::Computed(c),
                 },
             })
+            .into()
         } else {
             let proto_arg = self.proto_arg();
 
@@ -332,12 +333,13 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             let this_arg = self.this_arg(super_token).as_arg();
 
-            Expr::Call(CallExpr {
+            CallExpr {
                 span: super_token,
                 callee: helper!(get),
                 args: vec![proto_arg.as_arg(), prop_arg, this_arg],
                 type_args: Default::default(),
-            })
+            }
+            .into()
         }
     }
 
