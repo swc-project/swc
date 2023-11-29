@@ -116,7 +116,7 @@ impl SystemJs {
 
     fn replace_assign_expr(&mut self, assign_expr: AssignExpr) -> Expr {
         match &assign_expr.left {
-            AssignTarget::Expr(pat_or_expr) => match &**pat_or_expr {
+            AssignTarget::Simple(pat_or_expr) => match &**pat_or_expr {
                 Expr::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
                         if ident.to_id() == *k {
@@ -779,6 +779,7 @@ impl Fold for SystemJs {
                                                 .make_member(quote_ident!("default"))
                                                 .into(),
                                         );
+                                        ));
                                     }
                                     ExportSpecifier::Namespace(specifier) => {
                                         export_names

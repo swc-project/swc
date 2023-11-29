@@ -380,7 +380,7 @@ where
         let global = private_ident!("global");
         let factory = private_ident!("factory");
 
-        let module_exports = Box::new(module.clone().make_member(quote_ident!("exports")));
+        let module_exports = module.clone().make_member(quote_ident!("exports"));
         let define_amd = define.clone().make_member(quote_ident!("amd"));
 
         let mut cjs_args = vec![];
