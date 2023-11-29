@@ -4,6 +4,8 @@
 
 ### `csslint`
 
+[Original source code](https://github.com/CSSLint/csslint/tree/49a748126ec0a6e4f6905a03c0eaece47ece04d3/src/rules)
+
 -   [ ] adjoining-classes.js
 -   [ ] duplicate-properties.js
 -   [ ] gradients.js
@@ -11,7 +13,7 @@
 -   [ ] selector-max.js
 -   [ ] universal-selector.js
 -   [ ] box-model.js
--   [ ] empty-rules.js
+-   [x] empty-rules.js
 -   [ ] ids.js
 -   [ ] overqualified-elements.js
 -   [ ] selector-newline.js
@@ -45,6 +47,8 @@
 
 ### `stylelint`
 
+[Original source code](https://github.com/stylelint/stylelint/tree/e7e54941b9376bc63d5c7343c1d1ef56eb0ab04c/lib/rules)
+
 -   [ ] declaration-property-max-values
 -   [ ] media-feature-name-no-unknown
 -   [ ] alpha-value-notation
@@ -56,9 +60,9 @@
 -   [ ] selector-max-attribute
 -   [ ] declaration-property-value-allowed-list
 -   [ ] media-feature-name-value-allowed-list
--   [ ] selector-max-class
+-   [x] selector-max-class
 -   [ ] media-feature-name-value-no-unknown
--   [ ] selector-max-combinators
+-   [x] selector-max-combinators
 -   [ ] declaration-property-value-no-unknown
 -   [ ] media-feature-range-notation
 -   [ ] selector-max-compound-selectors
@@ -84,14 +88,14 @@
 -   [ ] selector-max-universal
 -   [ ] color-hex-alpha
 -   [ ] function-calc-no-unspaced-operator
--   [ ] no-empty-source
+-   [x] no-empty-source
 -   [ ] selector-nested-pattern
 -   [ ] color-hex-length
 -   [ ] no-invalid-double-slash-comments
 -   [ ] selector-no-qualifying-type
 -   [ ] color-named
 -   [ ] function-linear-gradient-no-nonstandard-direction
--   [ ] no-invalid-position-at-import-rule
+-   [x] no-invalid-position-at-import-rule
 -   [ ] selector-no-vendor-prefix
 -   [ ] color-no-hex
 -   [ ] function-name-case
@@ -121,11 +125,9 @@
 -   [ ] property-no-vendor-prefix
 -   [ ] selector-pseudo-element-no-unknown
 -   [ ] custom-property-empty-line-before
--   [ ] index.cjs
 -   [ ] rule-empty-line-before
 -   [ ] selector-type-case
 -   [ ] custom-property-no-missing-var-function
--   [ ] index.mjs
 -   [ ] selector-type-no-unknown
 -   [ ] custom-property-pattern
 -   [ ] keyframe-block-no-duplicate-selectors
@@ -144,8 +146,6 @@
 -   [ ] declaration-block-no-shorthand-property-overrides
 -   [ ] length-zero-no-unit
 -   [ ] selector-attribute-quotes
--   [ ] declaration-block-single-line-max-declarations
--   [ ] max-nesting-depth
 -   [ ] selector-class-pattern
 -   [ ] unit-no-unknown
 -   [ ] declaration-empty-line-before
