@@ -705,6 +705,7 @@ impl ObjectRest {
                                 elem,
                                 if use_member_for_array {
                                     obj.clone().computed_member(i as f64).into()
+                                    Box::new(obj.clone().computed_member(i as f64).into())
                                 } else {
                                     obj.clone()
                                 },
