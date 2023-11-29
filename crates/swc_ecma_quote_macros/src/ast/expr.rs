@@ -14,7 +14,7 @@ impl_enum!(
         Invalid
     ]
 );
-impl_enum!(AssignTargetPat, [Array, Object]);
+impl_enum!(AssignTargetPat, [Array, Object, Invalid]);
 impl_enum!(
     Expr,
     [
