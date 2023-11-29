@@ -380,7 +380,7 @@ where
         let global = private_ident!("global");
         let factory = private_ident!("factory");
 
-        let module_exports = module.clone().make_member(quote_ident!("exports"));
+        let module_exports = Box::new(module.clone().make_member(quote_ident!("exports")));
         let define_amd = define.clone().make_member(quote_ident!("amd"));
 
         let mut cjs_args = vec![];
@@ -474,6 +474,8 @@ where
         let mut browser_if_body = factory.clone().as_call(DUMMY_SP, browser_args);
         if is_export_assign {
             browser_if_body = browser_if_body.make_assign_to(op!("="), module_exports.into());
+            browser_if_body =
+                browser_if_body.make_assign_to(op!("="), module_exports.try_into().unwrap());
         }
 
         let adapter_body = BlockStmt {

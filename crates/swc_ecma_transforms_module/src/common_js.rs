@@ -431,6 +431,7 @@ where
                         span,
                         op: op!("="),
                         left: self.exports().make_member(id).into(),
+                        left: id.into(),
                         right: Box::new(require),
                     };
 
