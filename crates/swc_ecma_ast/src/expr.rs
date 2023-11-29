@@ -1268,6 +1268,14 @@ pub enum AssignTargetPat {
     Array(ArrayPat),
     #[tag("ObjectPattern")]
     Object(ObjectPat),
+    #[tag("Invalid")]
+    Invalid(Invalid),
+}
+
+impl Take for AssignTargetPat {
+    fn dummy() -> Self {
+        AssignTargetPat::Invalid(Take::dummy())
+    }
 }
 
 impl From<AssignTargetPat> for Box<Pat> {
@@ -1275,6 +1283,7 @@ impl From<AssignTargetPat> for Box<Pat> {
         match pat {
             AssignTargetPat::Array(a) => Box::new(Pat::Array(a)),
             AssignTargetPat::Object(o) => Box::new(Pat::Object(o)),
+            AssignTargetPat::Invalid(i) => Box::new(Pat::Invalid(i)),
         }
     }
 }
@@ -1286,6 +1295,7 @@ impl TryFrom<Pat> for AssignTargetPat {
         Ok(match p {
             Pat::Array(a) => AssignTargetPat::Array(a),
             Pat::Object(o) => AssignTargetPat::Object(o),
+            Pat::Invalid(i) => AssignTargetPat::Invalid(i),
 
             _ => return Err(p),
         })
