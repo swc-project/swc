@@ -168,7 +168,7 @@ impl NoParamReassign {
             AssignTarget::Pat(pat) => {
                 self.check_pat(pat.as_ref());
             }
-            AssignTarget::Expr(expr) => {
+            AssignTarget::Simple(expr) => {
                 self.check_expr(expr.as_ref());
             }
         }
