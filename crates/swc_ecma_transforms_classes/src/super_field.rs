@@ -260,7 +260,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     }
                 }
                 AssignTarget::Pat(pat) => {
-                    if let Pat::Expr(expr) = &mut **pat {
+                    if let Pat::Expr(expr) = &mut *pat {
                         if let Expr::SuperProp(SuperPropExpr {
                             obj:
                                 Super {
@@ -314,31 +314,14 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if let Expr::Assign(AssignExpr { left, op, .. }) = n {
             debug_assert_ne!(*op, op!("="));
 
-            match left {
-                AssignTarget::Simple(expr) => {
-                    if let Expr::SuperProp(SuperPropExpr {
-                        obj: Super { span: super_token },
-                        prop,
-                        ..
-                    }) = *expr.take()
-                    {
-                        *expr = Box::new(self.super_to_update_call(super_token, prop));
-                    }
-                }
-                AssignTarget::Pat(pat) => {
-                    if let Pat::Expr(expr) = &mut **pat {
-                        if let Expr::SuperProp(SuperPropExpr {
-                            obj:
-                                Super {
-                                    span: super_token, ..
-                                },
-                            prop,
-                            ..
-                        }) = *expr.take()
-                        {
-                            *expr = Box::new(self.super_to_update_call(super_token, prop));
-                        }
-                    }
+            if let AssignTarget::Simple(expr) = left {
+                if let SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                }) = expr.take()
+                {
+                    *expr = Box::new(self.super_to_update_call(super_token, prop));
                 }
             }
         }
@@ -431,7 +414,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
-    fn super_to_update_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
+    fn super_to_update_call(&mut self, super_token: Span, prop: SuperProp) -> MemberExpr {
         let proto_arg = self.proto_arg();
 
         let prop_arg = prop_arg(prop).as_arg();
