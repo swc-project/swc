@@ -70,8 +70,8 @@ impl VisitMut for Operators {
             right,
         }) = e
         {
-            let (left_expr, r_assign_target) = match &mut **left {
-                Expr::SuperProp(SuperPropExpr {
+            let (left_expr, r_assign_target) = match &mut *left {
+                SimpleAssignTarget::SuperProp(SuperPropExpr {
                     span,
                     obj,
                     prop: SuperProp::Computed(c),
@@ -97,7 +97,7 @@ impl VisitMut for Operators {
                         ),
                     )
                 }
-                Expr::Member(m) => {
+                SimpleAssignTarget::Member(m) => {
                     let (left_obj, right_obj) = match *m.obj.take() {
                         // TODO: local vars
                         obj @ Expr::This(_) => (obj.clone().into(), obj.into()),
@@ -144,7 +144,7 @@ impl VisitMut for Operators {
                     )
                 }
                 _ => {
-                    let expr = left.take();
+                    let expr = left.take().into();
                     (expr.clone(), expr)
                 }
             };
@@ -152,7 +152,7 @@ impl VisitMut for Operators {
             let right = Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: AssignTarget::Expr(r_assign_target),
+                left: r_assign_target.try_into().unwrap(),
                 right: right.take(),
             }));
 
