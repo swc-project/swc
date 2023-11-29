@@ -875,6 +875,7 @@ define!({
     pub enum AssignTargetPat {
         Array(ArrayPat),
         Object(ObjectPat),
+        Invalid(Invalid),
     }
 
     pub enum SimpleAssignTarget {
