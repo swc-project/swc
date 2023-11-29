@@ -518,7 +518,7 @@ impl Optimizer<'_> {
 
         // TODO: Handle pure properties.
         let lhs = match &e.left {
-            AssignTarget::Expr(e) => match &**e {
+            AssignTarget::Simple(e) => match &**e {
                 Expr::Ident(i) => i,
                 _ => return,
             },
@@ -913,7 +913,7 @@ impl Optimizer<'_> {
             Expr::Assign(AssignExpr {
                 op, left, right, ..
             }) if left.is_expr() && !op.may_short_circuit() => {
-                if let AssignTarget::Expr(expr) = left {
+                if let AssignTarget::Simple(expr) = left {
                     if let Expr::Member(m) = &**expr {
                         if !expr.may_have_side_effects(&self.expr_ctx)
                             && (m.obj.is_object()
@@ -3131,7 +3131,7 @@ fn is_expr_access_to_arguments(l: &Expr) -> bool {
 
 fn is_left_access_to_arguments(l: &AssignTarget) -> bool {
     match l {
-        AssignTarget::Expr(e) => is_expr_access_to_arguments(e),
+        AssignTarget::Simple(e) => is_expr_access_to_arguments(e),
         AssignTarget::Pat(pat) => match &**pat {
             Pat::Expr(e) => is_expr_access_to_arguments(e),
             _ => false,

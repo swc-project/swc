@@ -1212,7 +1212,7 @@ impl Generator {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
                     span: p.span.with_ctxt(SyntaxContext::empty()),
                     op: op!("="),
-                    left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: MemberProp::Ident(p.clone()),
@@ -1222,7 +1222,7 @@ impl Generator {
                 Prop::KeyValue(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: p.key.into(),
@@ -1238,7 +1238,7 @@ impl Generator {
                 Prop::Method(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: p.key.into(),
@@ -3011,6 +3011,7 @@ impl Generator {
                         op: op!("="),
                         left: self.state.clone().make_member(quote_ident!("label")).into(),
                         left: AssignTarget::Expr(Box::new(
+                        left: AssignTarget::Simple(Box::new(
                             self.state.clone().make_member(quote_ident!("label")),
                         )),
                         right: (self.label_number + 1).into(),

@@ -745,7 +745,7 @@ impl VisitMut for Pure<'_> {
         n.visit_mut_children_with(self);
 
         match n {
-            AssignTarget::Expr(e) => {
+            AssignTarget::Simple(e) => {
                 //
                 if let Expr::Ident(i) = &mut **e {
                     *n = AssignTarget::Pat(i.clone().into());

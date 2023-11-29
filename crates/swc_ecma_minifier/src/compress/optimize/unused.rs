@@ -614,7 +614,7 @@ impl Optimizer<'_> {
         assign.left.map_with_mut(|v| v.normalize_ident());
 
         match &mut assign.left {
-            AssignTarget::Expr(_) => {
+            AssignTarget::Simple(_) => {
                 log_abort!(
                     "unused: Preserving assignment to `{}` because it's an expression",
                     dump(&assign.left, false)

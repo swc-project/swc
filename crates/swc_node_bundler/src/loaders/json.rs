@@ -14,7 +14,7 @@ pub(super) fn load_json_as_module(fm: &Arc<SourceFile>) -> Result<Module, Error>
         expr: Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+            left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
                 span: DUMMY_SP,
                 obj: Box::new(Expr::Ident(Ident::new("module".into(), DUMMY_SP))),
                 prop: MemberProp::Ident(Ident::new("exports".into(), DUMMY_SP)),

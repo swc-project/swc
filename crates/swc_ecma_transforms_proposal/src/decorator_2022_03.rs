@@ -1057,7 +1057,7 @@ impl VisitMut for Decorator202203 {
                                     expr: Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: swc_ecma_ast::AssignTarget::Expr(Box::new(
+                                        left: swc_ecma_ast::AssignTarget::Simple(Box::new(
                                             Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: ThisExpr { span: DUMMY_SP }.into(),
@@ -1629,7 +1629,7 @@ impl VisitMut for Decorator202203 {
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: AssignTarget::Expr(access_expr),
+                            left: AssignTarget::Simple(access_expr),
                             right: Box::new(Expr::Ident(settter_arg.clone())),
                         })),
                     })],

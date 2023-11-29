@@ -123,7 +123,7 @@ impl VisitMut for NullishCoalescing {
 
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
-                    AssignTarget::Expr(left) => {
+                    AssignTarget::Simple(left) => {
                         let (alias, aliased) = alias_if_required(left, "ref$");
                         if aliased {
                             self.vars.push(VarDeclarator {
@@ -138,7 +138,7 @@ impl VisitMut for NullishCoalescing {
                         let right_expr = if aliased {
                             Box::new(Expr::Assign(AssignExpr {
                                 span: assign.span,
-                                left: AssignTarget::Expr(left.clone()),
+                                left: AssignTarget::Simple(left.clone()),
                                 op: op!("="),
                                 right: assign.right.take(),
                             }))

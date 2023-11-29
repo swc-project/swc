@@ -125,7 +125,7 @@ impl VisitMut for Inlining<'_> {
                 e.right.visit_with(&mut v);
 
                 match &mut e.left {
-                    AssignTarget::Expr(left) => {
+                    AssignTarget::Simple(left) => {
                         //
                         if let Expr::Member(ref left) = &**left {
                             tracing::trace!("Assign to member expression!");

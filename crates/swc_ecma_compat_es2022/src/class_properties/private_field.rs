@@ -291,7 +291,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     _ => {
                         *e = Expr::Assign(AssignExpr {
                             span: *span,
-                            left: AssignTarget::Expr(Box::new(Expr::Member(left))),
+                            left: AssignTarget::Simple(Box::new(Expr::Member(left))),
                             op: *op,
                             right: right.take(),
                         });

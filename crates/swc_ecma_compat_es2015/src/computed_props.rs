@@ -199,6 +199,7 @@ impl VisitMut for ComputedProps {
                                 span,
                                 left: mutator_elem.clone().into(),
                                 left: AssignTarget::Expr(Box::new(mutator_elem.clone())),
+                                left: AssignTarget::Simple(Box::new(mutator_elem.clone())),
                                 op: op!("="),
                                 right: Box::new(Expr::Bin(BinExpr {
                                     span,
@@ -218,6 +219,7 @@ impl VisitMut for ComputedProps {
                                     .make_member(quote_ident!(gs_prop_name.unwrap()))
                                     .into(),
                                 left: AssignTarget::Expr(Box::new(
+                                left: AssignTarget::Simple(Box::new(
                                     mutator_elem.make_member(quote_ident!(gs_prop_name.unwrap())),
                                 )),
                                 op: op!("="),
@@ -261,6 +263,7 @@ impl VisitMut for ComputedProps {
                         op: op!("="),
                         left: left.into(),
                         left: AssignTarget::Expr(Box::new(left)),
+                        left: AssignTarget::Simple(Box::new(left)),
                         right: value.into(),
                     }))
                 } else {

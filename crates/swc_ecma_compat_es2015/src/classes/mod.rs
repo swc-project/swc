@@ -341,7 +341,7 @@ where
                             c.ident = Some(i.id.clone().private())
                         }
                     }
-                    AssignTarget::Expr(expr) => {
+                    AssignTarget::Simple(expr) => {
                         if let Expr::Ident(ident) = &**expr {
                             c.ident = Some(ident.clone().private())
                         }
@@ -1166,7 +1166,7 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                            left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: Box::new(proto.clone().into()),
                                 prop: mk_key_prop_member(prop),
@@ -1189,7 +1189,7 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                            left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
                                 span,
                                 obj: Box::new(class_name.clone().into()),
                                 prop: mk_key_prop_member(prop),

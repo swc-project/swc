@@ -369,7 +369,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Assign(AssignExpr {
                 span: super_token,
-                left: AssignTarget::Expr(left.into()),
+                left: AssignTarget::Simple(left.into()),
                 op,
                 right: rhs,
             })
@@ -466,7 +466,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
 fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
     match left {
-        AssignTarget::Expr(expr) => expr.is_super_prop(),
+        AssignTarget::Simple(expr) => expr.is_super_prop(),
         AssignTarget::Pat(pat) => match &**pat {
             Pat::Expr(expr) => expr.is_super_prop(),
             _ => false,
