@@ -283,7 +283,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             *n = if self.in_pat {
                 self.super_to_update_call(super_token, prop).into()
             } else {
-                self.super_to_get_call(super_token, prop)
+                *self.super_to_get_call(super_token, prop)
             };
         }
     }
@@ -358,14 +358,14 @@ impl<'a> SuperFieldAccessFolder<'a> {
         });
 
         if self.constant_super {
-            let left = Expr::Member(MemberExpr {
+            let left = MemberExpr {
                 span: super_token,
                 obj: this_expr,
                 prop: match prop {
                     SuperProp::Ident(i) => MemberProp::Ident(i),
                     SuperProp::Computed(c) => MemberProp::Computed(c),
                 },
-            });
+            };
 
             Expr::Assign(AssignExpr {
                 span: super_token,
