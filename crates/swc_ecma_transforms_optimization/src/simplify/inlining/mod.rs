@@ -125,7 +125,7 @@ impl VisitMut for Inlining<'_> {
                 match &mut e.left {
                     AssignTarget::Simple(left) => {
                         //
-                        if let Expr::Member(ref left) = &**left {
+                        if let SimpleAssignTarget::Member(ref left) = &*left {
                             tracing::trace!("Assign to member expression!");
                             let mut v = IdentListVisitor {
                                 scope: &mut self.scope,
