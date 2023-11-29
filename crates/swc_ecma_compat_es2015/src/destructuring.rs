@@ -605,7 +605,7 @@ impl VisitMut for AssignFolder {
                 Pat::Expr(pat_expr) => {
                     *expr = Expr::Assign(AssignExpr {
                         span: *span,
-                        left: AssignTarget::Expr(pat_expr.take()),
+                        left: AssignTarget::Simple(pat_expr.take()),
                         op: op!("="),
                         right: right.take(),
                     });

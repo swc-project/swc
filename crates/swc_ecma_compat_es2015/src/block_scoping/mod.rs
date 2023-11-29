@@ -668,7 +668,7 @@ impl VisitMut for FlowHelper<'_> {
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
-            AssignTarget::Expr(e) => {
+            AssignTarget::Simple(e) => {
                 if let Expr::Ident(i) = &**e {
                     self.check(i.to_id());
                 }

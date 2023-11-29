@@ -273,7 +273,7 @@ impl SizeWithCtxt for Pat {
 impl SizeWithCtxt for AssignTarget {
     fn size(&self, unresolved: SyntaxContext) -> usize {
         match self {
-            AssignTarget::Expr(e) => e.size(unresolved),
+            AssignTarget::Simple(e) => e.size(unresolved),
             AssignTarget::Pat(p) => p.size(unresolved),
         }
     }

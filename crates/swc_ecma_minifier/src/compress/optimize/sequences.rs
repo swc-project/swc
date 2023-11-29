@@ -1679,7 +1679,7 @@ impl Optimizer<'_> {
 
             Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
                 match &mut b.left {
-                    AssignTarget::Expr(b_left) => {
+                    AssignTarget::Simple(b_left) => {
                         trace_op!("seq: Try lhs of assign");
                         if self.merge_sequential_expr(a, b_left)? {
                             return Ok(true);

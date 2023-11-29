@@ -214,7 +214,7 @@ impl Optimizer<'_> {
 
         // TODO: Handle pure properties.
         let lhs = match &e.left {
-            AssignTarget::Expr(e) => match &**e {
+            AssignTarget::Simple(e) => match &**e {
                 Expr::Ident(i) => i,
                 _ => return,
             },

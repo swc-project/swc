@@ -364,6 +364,7 @@ impl Params {
                                         .computed_member(make_minus_i(&idx_ident, false))
                                         .into(),
                                     left: AssignTarget::Expr(Box::new(
+                                    left: AssignTarget::Simple(Box::new(
                                         arg.computed_member(make_minus_i(&idx_ident, false)),
                                     )),
                                     op: op!("="),
