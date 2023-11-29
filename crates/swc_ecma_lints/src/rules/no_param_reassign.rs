@@ -174,9 +174,16 @@ impl NoParamReassign {
                 }
                 AssignTargetPat::Invalid(..) => {}
             },
-            AssignTarget::Simple(expr) => {
-                self.check_expr(expr.as_ref());
-            }
+            AssignTarget::Simple(expr) => match expr {
+                SimpleAssignTarget::Ident(ident) => {
+                    if self.is_satisfying_function_param(ident) {
+                        self.emit_report(ident.span, &ident.sym);
+                    }
+                }
+                SimpleAssignTarget::Member(member_expr) => {
+                    self.check_obj_member(member_expr);
+                }
+            },
         }
     }
 
