@@ -1,0 +1,155 @@
+# swc_css_lints
+
+## Rules requires porting
+
+### `csslint`
+
+[Original source code](https://github.com/CSSLint/csslint/tree/49a748126ec0a6e4f6905a03c0eaece47ece04d3/src/rules)
+
+-   [ ] adjoining-classes.js
+-   [ ] duplicate-properties.js
+-   [ ] gradients.js
+-   [ ] outline-none.js
+-   [ ] selector-max.js
+-   [ ] universal-selector.js
+-   [ ] box-model.js
+-   [x] empty-rules.js
+-   [ ] ids.js
+-   [ ] overqualified-elements.js
+-   [ ] selector-newline.js
+-   [ ] nqualified-attributes.js
+-   [ ] box-sizing.js
+-   [ ] errors.js
+-   [ ] import-ie-limit.js
+-   [ ] performant-transitions.js
+-   [ ] shorthand.js
+-   [ ] vendor-prefix.js
+-   [ ] bulletproof-font-face.js
+-   [ ] fallback-colors.js
+-   [ ] import.js
+-   [ ] qualified-headings.js
+-   [ ] star-property-hack.js
+-   [ ] zero-units.js
+-   [ ] compatible-vendor-prefixes.js
+-   [ ] floats.js
+-   [ ] important.js
+-   [ ] regex-selectors.js
+-   [ ] display-property-grouping.js
+-   [ ] font-faces.js
+-   [ ] known-properties.js
+-   [ ] rules-count.js
+-   [ ] underscore-property-hack.js
+-   [ ] duplicate-background-images.js
+-   [ ] font-sizes.js
+-   [ ] selector-max-approaching.js
+-   [ ] unique-headings.js
+
+### `stylelint`
+
+[Original source code](https://github.com/stylelint/stylelint/tree/e7e54941b9376bc63d5c7343c1d1ef56eb0ab04c/lib/rules)
+
+-   [ ] declaration-property-max-values
+-   [ ] media-feature-name-no-unknown
+-   [ ] alpha-value-notation
+-   [ ] declaration-property-unit-allowed-list
+-   [ ] media-feature-name-no-vendor-prefix
+-   [ ] selector-id-pattern
+-   [ ] annotation-no-unknown
+-   [ ] media-feature-name-unit-allowed-list
+-   [ ] selector-max-attribute
+-   [ ] declaration-property-value-allowed-list
+-   [ ] media-feature-name-value-allowed-list
+-   [x] selector-max-class
+-   [ ] media-feature-name-value-no-unknown
+-   [x] selector-max-combinators
+-   [ ] declaration-property-value-no-unknown
+-   [ ] media-feature-range-notation
+-   [ ] selector-max-compound-selectors
+-   [x] at-rule-no-unknown
+-   [ ] font-family-name-quotes
+-   [ ] media-query-no-invalid
+-   [ ] selector-max-id
+-   [ ] at-rule-no-vendor-prefix
+-   [x] font-family-no-duplicate-names
+-   [ ] named-grid-areas-no-invalid
+-   [ ] selector-max-pseudo-class
+-   [ ] at-rule-property-required-list
+-   [ ] font-family-no-missing-generic-family-keyword
+-   [ ] no-descending-specificity
+-   [ ] selector-max-specificity
+-   [x] block-no-empty
+-   [ ] font-weight-notation
+-   [ ] no-duplicate-at-import-rules
+-   [ ] selector-max-type
+-   [ ] color-function-notation
+-   [ ] function-allowed-list
+-   [ ] no-duplicate-selectors
+-   [ ] selector-max-universal
+-   [x] color-hex-alpha
+-   [ ] function-calc-no-unspaced-operator
+-   [x] no-empty-source
+-   [ ] selector-nested-pattern
+-   [x] color-hex-length
+-   [ ] no-invalid-double-slash-comments
+-   [ ] selector-no-qualifying-type
+-   [ ] color-named
+-   [ ] function-linear-gradient-no-nonstandard-direction
+-   [x] no-invalid-position-at-import-rule
+-   [ ] selector-no-vendor-prefix
+-   [ ] color-no-hex
+-   [ ] function-name-case
+-   [ ] no-irregular-whitespace
+-   [ ] selector-not-notation
+-   [x] color-no-invalid-hex
+-   [ ] function-no-unknown
+-   [ ] no-unknown-animations
+-   [ ] selector-pseudo-class-allowed-list
+-   [ ] comment-empty-line-before
+-   [ ] function-url-no-scheme-relative
+-   [ ] no-unknown-custom-properties
+-   [ ] comment-no-empty
+-   [ ] function-url-quotes
+-   [ ] number-max-precision
+-   [ ] selector-pseudo-class-no-unknown
+-   [ ] comment-pattern
+-   [ ] function-url-scheme-allowed-list
+-   [ ] property-allowed-list
+-   [ ] selector-pseudo-element-allowed-list
+-   [ ] comment-whitespace-inside
+-   [ ] selector-pseudo-element-colon-notation
+-   [ ] hue-degree-notation
+-   [ ] property-no-unknown
+-   [ ] custom-media-pattern
+-   [ ] import-notation
+-   [ ] property-no-vendor-prefix
+-   [ ] selector-pseudo-element-no-unknown
+-   [ ] custom-property-empty-line-before
+-   [ ] rule-empty-line-before
+-   [ ] selector-type-case
+-   [x] custom-property-no-missing-var-function
+-   [ ] selector-type-no-unknown
+-   [ ] custom-property-pattern
+-   [ ] keyframe-block-no-duplicate-selectors
+-   [ ] selector-anb-no-unmatchable
+-   [ ] shorthand-property-no-redundant-values
+-   [ ] declaration-block-no-duplicate-custom-properties
+-   [x] keyframe-declaration-no-important
+-   [ ] string-no-newline
+-   [ ] declaration-block-no-duplicate-properties
+-   [ ] keyframe-selector-notation
+-   [ ] selector-attribute-operator-allowed-list
+-   [ ] time-min-milliseconds
+-   [ ] declaration-block-no-redundant-longhand-properties
+-   [ ] keyframes-name-pattern
+-   [ ] unit-allowed-list
+-   [ ] declaration-block-no-shorthand-property-overrides
+-   [ ] length-zero-no-unit
+-   [ ] selector-attribute-quotes
+-   [ ] selector-class-pattern
+-   [ ] unit-no-unknown
+-   [ ] declaration-empty-line-before
+-   [ ] media-feature-name-allowed-list
+-   [ ] selector-combinator-allowed-list
+-   [ ] value-keyword-case
+-   [x] declaration-no-important
+-   [ ] value-no-vendor-prefix
