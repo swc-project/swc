@@ -417,10 +417,10 @@ impl<'a> SuperFieldAccessFolder<'a> {
         expr.make_member(quote_ident!("_")).into()
     }
 
-    fn proto_arg(&mut self) -> Expr {
+    fn proto_arg(&mut self) -> Box<Expr> {
         let expr = if self.is_static {
             // Foo
-            Expr::Ident(self.class_name.clone())
+            Box::new(Expr::Ident(self.class_name.clone()))
         } else {
             // Foo.prototype
             self.class_name
