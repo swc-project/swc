@@ -113,8 +113,6 @@ impl VisitMut for Inlining<'_> {
         tracing::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
 
-        e.left.map_with_mut(|n| n.normalize_expr());
-
         match e.op {
             op!("=") => {
                 let mut v = WriteVisitor {
