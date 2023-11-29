@@ -416,7 +416,7 @@ impl SystemJs {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Pat(Box::new(var_declarator.name)),
+                    left: var_declarator.name.into(),
                     right: init,
                 })));
             }
