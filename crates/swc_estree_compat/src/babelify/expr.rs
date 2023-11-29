@@ -752,6 +752,7 @@ impl Babelify for AssignTargetPat {
         match self {
             AssignTargetPat::Array(a) => LVal::ArrayPat(a.babelify(ctx)),
             AssignTargetPat::Object(o) => LVal::ObjectPat(o.babelify(ctx)),
+            AssignTargetPat::Invalid(_) => todo!(),
         }
     }
 }
