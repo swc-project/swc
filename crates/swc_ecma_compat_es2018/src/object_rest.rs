@@ -245,7 +245,7 @@ impl VisitMut for ObjectRest {
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                 _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: *span,
-                    left: AssignTarget::Pat(Box::new(pat)),
+                    left: pat.try_into().unwrap(),
                     op: op!("="),
                     right: Box::new(var_ident.clone().into()),
                 }))),
