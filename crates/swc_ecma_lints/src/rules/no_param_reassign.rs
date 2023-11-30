@@ -183,6 +183,8 @@ impl NoParamReassign {
                 SimpleAssignTarget::Member(member_expr) => {
                     self.check_obj_member(member_expr);
                 }
+
+                _ => {}
             },
         }
     }
