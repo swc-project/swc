@@ -161,13 +161,13 @@ where
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => self.data.report_assign(self.ctx, i.to_id(), is_op),
-                _ => self.mark_mutation_in_member(e.as_member()),
+                _ => self.mark_mutation_if_member(e.as_member()),
             }
         }
     }
 
-    fn report_assign_expr(&mut self, e: &Expr, is_op: bool) {
-        if let Expr::Ident(i) = e {
+    fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool) {
+        if let Some(i) = e {
             self.data.report_assign(self.ctx, i.to_id(), is_op)
         }
     }
@@ -202,7 +202,7 @@ where
         self.data.truncate_initialized_cnt(cnt)
     }
 
-    fn mark_mutation_in_member(&mut self, e: Option<&MemberExpr>) {
+    fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
         if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
                 self.data.mark_property_mutation(id.to_id())
@@ -259,8 +259,8 @@ where
         match &n.left {
             AssignTarget::Pat(p) => self.report_assign_pat(p, is_op_assign),
             AssignTarget::Simple(e) => {
-                self.report_assign_expr(e, is_op_assign);
-                self.mark_mutation_in_member(e.as_member())
+                self.report_assign_expr_if_ident(e.as_ident().map(|v| &v.id), is_op_assign);
+                self.mark_mutation_if_member(e.as_member())
             }
         };
 
@@ -1180,7 +1180,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
         if n.op == op!("delete") {
-            self.mark_mutation_in_member(n.arg.as_member());
+            self.mark_mutation_if_member(n.arg.as_member());
         }
         n.visit_children_with(self);
     }
@@ -1189,8 +1189,8 @@ where
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
-        self.report_assign_expr(&n.arg, true);
-        self.mark_mutation_in_member(n.arg.as_member());
+        self.report_assign_expr_if_ident(&n.arg, true);
+        self.mark_mutation_if_member(n.arg.as_member());
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
