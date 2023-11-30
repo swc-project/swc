@@ -161,7 +161,7 @@ where
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => self.data.report_assign(self.ctx, i.to_id(), is_op),
-                _ => self.mark_mutation(e),
+                _ => self.mark_mutation_in_member(e.as_member()),
             }
         }
     }
@@ -202,8 +202,8 @@ where
         self.data.truncate_initialized_cnt(cnt)
     }
 
-    fn mark_mutation(&mut self, e: &Expr) {
-        if let Expr::Member(m) = e {
+    fn mark_mutation_in_member(&mut self, e: Option<&MemberExpr>) {
+        if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
                 self.data.mark_property_mutation(id.to_id())
             });
@@ -260,7 +260,7 @@ where
             AssignTarget::Pat(p) => self.report_assign_pat(p, is_op_assign),
             AssignTarget::Simple(e) => {
                 self.report_assign_expr(e, is_op_assign);
-                self.mark_mutation(e)
+                self.mark_mutation_in_member(e.as_member())
             }
         };
 
@@ -1180,7 +1180,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
         if n.op == op!("delete") {
-            self.mark_mutation(&n.arg);
+            self.mark_mutation_in_member(n.arg.as_member());
         }
         n.visit_children_with(self);
     }
@@ -1190,7 +1190,7 @@ where
         n.visit_children_with(self);
 
         self.report_assign_expr(&n.arg, true);
-        self.mark_mutation(&n.arg);
+        self.mark_mutation_in_member(n.arg.as_member());
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
