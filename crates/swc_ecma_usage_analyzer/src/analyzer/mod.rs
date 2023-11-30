@@ -1476,14 +1476,6 @@ fn for_each_id_ref_in_fn(f: &Function, op: &mut impl FnMut(&Ident)) {
     }
 }
 
-fn leftmost(p: &Expr) -> Option<Id> {
-    match p {
-        Expr::Ident(i) => Some(i.to_id()),
-        Expr::Member(MemberExpr { obj, .. }) => leftmost(obj),
-        _ => None,
-    }
-}
-
 // Support for pure_getters
 fn is_safe_to_access_prop(e: &Expr) -> bool {
     match e {
