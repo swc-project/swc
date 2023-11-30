@@ -669,7 +669,7 @@ impl VisitMut for FlowHelper<'_> {
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
             AssignTarget::Simple(e) => {
-                if let Expr::Ident(i) = &**e {
+                if let SimpleAssignTarget::Ident(i) = &*e {
                     self.check(i.to_id());
                 }
             }
@@ -855,7 +855,7 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: AssignTarget::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
+                left: Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),

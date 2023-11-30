@@ -254,9 +254,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
             *expr = Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: AssignTarget::Pat(
-                    quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                ),
+                left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                 op: op!("="),
                 right,
             });
