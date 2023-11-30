@@ -1193,7 +1193,7 @@ where
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
-        self.report_assign_expr_if_ident(&n.arg, true);
+        self.report_assign_expr_if_ident(n.arg.as_ident(), true);
         self.mark_mutation_if_member(n.arg.as_member());
     }
 
