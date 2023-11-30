@@ -36,7 +36,7 @@ impl VisitMut for DisplayName {
                 prop: SuperProp::Ident(prop),
                 ..
             }),
-        ) = expr.left
+        ) = &expr.left
         {
             return expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
