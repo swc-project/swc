@@ -242,22 +242,18 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```
     fn visit_mut_super_member_set(&mut self, n: &mut Expr) {
         if let Expr::Assign(AssignExpr {
-            left,
+            left:
+                AssignTarget::Simple(SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                })),
             op: op @ op!("="),
             right,
             ..
         }) = n
         {
-            if let AssignTarget::Simple(expr) = left {
-                if let SimpleAssignTarget::SuperProp(SuperPropExpr {
-                    obj: Super { span: super_token },
-                    prop,
-                    ..
-                }) = &mut *expr
-                {
-                    *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
-                }
-            }
+            *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
         }
     }
 
@@ -448,7 +444,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         type_args: Default::default(),
                     })
                     .into(),
-                    proto_arg.into(),
+                    proto_arg,
                 ],
             })
             .into()
