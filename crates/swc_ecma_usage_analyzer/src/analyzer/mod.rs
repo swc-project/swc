@@ -257,7 +257,11 @@ where
         n.right.visit_with(&mut *self.with_ctx(ctx));
 
         match &n.left {
-            AssignTarget::Pat(p) => self.report_assign_pat(p, is_op_assign),
+            AssignTarget::Pat(p) => {
+                for id in find_pat_ids(p) {
+                    self.data.report_assign(self.ctx, id, is_op_assign)
+                }
+            }
             AssignTarget::Simple(e) => {
                 self.report_assign_expr_if_ident(e.as_ident().map(|v| &v.id), is_op_assign);
                 self.mark_mutation_if_member(e.as_member())
