@@ -299,7 +299,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     ..
                 }) = expr.take()
                 {
-                    *expr = Box::new(self.super_to_update_call(super_token, prop));
+                    *expr = self.super_to_update_call(super_token, prop).into();
                 }
             }
         }
@@ -315,7 +315,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     });
                     // in static default super class is Function.prototype
                     if self.is_static && self.super_class.is_some() {
-                        Expr::Ident(name).into()
+                        Expr::Ident(name)
                     } else {
                         name.make_member(quote_ident!("prototype")).into()
                     }
@@ -451,6 +451,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     proto_arg.into(),
                 ],
             })
+            .into()
         }
 
         proto_arg
@@ -467,10 +468,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
     match left {
         AssignTarget::Simple(expr) => expr.is_super_prop(),
-        AssignTarget::Pat(pat) => match &**pat {
-            Pat::Expr(expr) => expr.is_super_prop(),
-            _ => false,
-        },
+        _ => false,
     }
 }
 
