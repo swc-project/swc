@@ -11,6 +11,10 @@ where
 {
     #[emitter]
     fn emit_pat_or_ts_param_prop(&mut self, n: &ParamOrTsParamProp) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match *n {
             ParamOrTsParamProp::Param(ref n) => emit!(n),
             ParamOrTsParamProp::TsParamProp(ref n) => emit!(n),
@@ -19,6 +23,10 @@ where
 
     #[emitter]
     fn emit_ts_array_type(&mut self, n: &TsArrayType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.elem_type);
@@ -28,6 +36,10 @@ where
 
     #[emitter]
     fn emit_ts_as_expr(&mut self, n: &TsAsExpr) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);
@@ -41,6 +53,10 @@ where
 
     #[emitter]
     fn emit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);
@@ -54,6 +70,10 @@ where
 
     #[emitter]
     fn emit_ts_call_signature_decl(&mut self, n: &TsCallSignatureDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.type_params);
@@ -73,6 +93,10 @@ where
 
     #[emitter]
     fn emit_ts_cond_type(&mut self, n: &TsConditionalType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.check_type);
@@ -97,6 +121,10 @@ where
 
     #[emitter]
     fn emit_ts_constructor_signature_decl(&mut self, n: &TsConstructSignatureDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("new");
@@ -118,6 +146,10 @@ where
 
     #[emitter]
     fn emit_ts_constructor_type(&mut self, n: &TsConstructorType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.is_abstract {
@@ -144,6 +176,10 @@ where
 
     #[emitter]
     fn emit_ts_entity_name(&mut self, n: &TsEntityName) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n {
@@ -156,6 +192,10 @@ where
 
     #[emitter]
     fn emit_ts_enum_decl(&mut self, n: &TsEnumDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.declare {
@@ -183,6 +223,10 @@ where
 
     #[emitter]
     fn emit_ts_enum_member(&mut self, n: &TsEnumMember) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.id);
@@ -197,6 +241,10 @@ where
 
     #[emitter]
     fn emit_ts_enum_member_id(&mut self, n: &TsEnumMemberId) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsEnumMemberId::Ident(n) => emit!(n),
             TsEnumMemberId::Str(n) => emit!(n),
@@ -205,6 +253,10 @@ where
 
     #[emitter]
     fn emit_ts_export_assignment(&mut self, n: &TsExportAssignment) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("export");
@@ -216,6 +268,10 @@ where
 
     #[emitter]
     fn emit_ts_expr_with_type_args(&mut self, n: &TsExprWithTypeArgs) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);
@@ -225,6 +281,10 @@ where
 
     #[emitter]
     fn emit_ts_external_module_ref(&mut self, n: &TsExternalModuleRef) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("require");
@@ -235,6 +295,10 @@ where
 
     #[emitter]
     fn emit_ts_fn_or_constructor_type(&mut self, n: &TsFnOrConstructorType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n {
@@ -245,6 +309,10 @@ where
 
     #[emitter]
     fn emit_ts_fn_param(&mut self, n: &TsFnParam) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsFnParam::Ident(n) => emit!(n),
             TsFnParam::Array(n) => emit!(n),
@@ -255,6 +323,10 @@ where
 
     #[emitter]
     fn emit_ts_fn_type(&mut self, n: &TsFnType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.type_params);
@@ -272,6 +344,10 @@ where
 
     #[emitter]
     fn emit_ts_import_equals_decl(&mut self, n: &TsImportEqualsDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.is_export {
@@ -300,6 +376,10 @@ where
 
     #[emitter]
     fn emit_ts_index_signature(&mut self, n: &TsIndexSignature) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.readonly {
@@ -320,6 +400,10 @@ where
 
     #[emitter]
     fn emit_ts_index_accessed_type(&mut self, n: &TsIndexedAccessType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.obj_type);
@@ -331,6 +415,10 @@ where
 
     #[emitter]
     fn emit_ts_infer_type(&mut self, n: &TsInferType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("infer");
@@ -340,6 +428,10 @@ where
 
     #[emitter]
     fn emit_ts_interface_body(&mut self, n: &TsInterfaceBody) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("{");
@@ -351,6 +443,10 @@ where
 
     #[emitter]
     fn emit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.declare {
@@ -384,6 +480,10 @@ where
 
     #[emitter]
     fn emit_ts_intersection_type(&mut self, n: &TsIntersectionType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         self.emit_list(
@@ -395,6 +495,10 @@ where
 
     #[emitter]
     fn emit_ts_keyword_type(&mut self, n: &TsKeywordType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n.kind {
@@ -416,6 +520,10 @@ where
 
     #[emitter]
     fn emit_ts_lit(&mut self, n: &TsLit) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsLit::BigInt(n) => emit!(n),
             TsLit::Number(n) => emit!(n),
@@ -427,6 +535,10 @@ where
 
     #[emitter]
     fn emit_ts_tpl_lit(&mut self, node: &TsTplLitType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         debug_assert!(node.quasis.len() == node.types.len() + 1);
 
         self.emit_leading_comments_of_span(node.span(), false)?;
@@ -448,6 +560,10 @@ where
 
     #[emitter]
     fn emit_ts_lit_type(&mut self, n: &TsLitType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.lit);
@@ -455,6 +571,10 @@ where
 
     #[emitter]
     fn emit_ts_mapped_type(&mut self, n: &TsMappedType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("{");
@@ -530,6 +650,10 @@ where
 
     #[emitter]
     fn emit_ts_method_signature(&mut self, n: &TsMethodSignature) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.readonly {
@@ -565,12 +689,20 @@ where
 
     #[emitter]
     fn emit_ts_module_block(&mut self, n: &TsModuleBlock) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_list(n.span, Some(&n.body), ListFormat::SourceFileStatements)?;
         self.emit_leading_comments_of_span(n.span(), false)?;
     }
 
     #[emitter]
     fn emit_ts_module_decl(&mut self, n: &TsModuleDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.declare {
@@ -599,6 +731,10 @@ where
 
     #[emitter]
     fn emit_ts_module_name(&mut self, n: &TsModuleName) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsModuleName::Ident(n) => emit!(n),
             TsModuleName::Str(n) => emit!(n),
@@ -607,6 +743,10 @@ where
 
     #[emitter]
     fn emit_ts_module_ref(&mut self, n: &TsModuleRef) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n {
@@ -617,6 +757,10 @@ where
 
     #[emitter]
     fn emit_ts_ns_body(&mut self, n: &TsNamespaceBody) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("{");
@@ -631,6 +775,10 @@ where
 
     #[emitter]
     fn emit_ts_ns_decl(&mut self, n: &TsNamespaceDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.declare {
@@ -648,6 +796,10 @@ where
 
     #[emitter]
     fn emit_ts_ns_export_decl(&mut self, n: &TsNamespaceExportDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("export");
@@ -659,6 +811,10 @@ where
 
     #[emitter]
     fn emit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);
@@ -667,6 +823,10 @@ where
 
     #[emitter]
     fn emit_ts_optional_type(&mut self, n: &TsOptionalType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.type_ann);
@@ -675,6 +835,10 @@ where
 
     #[emitter]
     fn emit_ts_param_prop(&mut self, n: &TsParamProp) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         self.emit_accessibility(n.accessibility)?;
@@ -698,6 +862,10 @@ where
 
     #[emitter]
     fn emit_ts_param_prop_param(&mut self, n: &TsParamPropParam) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n {
@@ -708,6 +876,10 @@ where
 
     #[emitter]
     fn emit_ts_paren_type(&mut self, n: &TsParenthesizedType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("(");
@@ -717,6 +889,10 @@ where
 
     #[emitter]
     fn emit_ts_property_signature(&mut self, n: &TsPropertySignature) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.readonly {
@@ -758,6 +934,10 @@ where
 
     #[emitter]
     fn emit_ts_qualified_name(&mut self, n: &TsQualifiedName) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.left);
@@ -767,6 +947,10 @@ where
 
     #[emitter]
     fn emit_ts_rest_type(&mut self, n: &TsRestType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("...");
@@ -775,6 +959,10 @@ where
 
     #[emitter]
     fn emit_ts_this_type(&mut self, n: &TsThisType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!(n.span, "this");
@@ -782,6 +970,10 @@ where
 
     #[emitter]
     fn emit_ts_this_type_or_ident(&mut self, n: &TsThisTypeOrIdent) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n {
@@ -792,6 +984,10 @@ where
 
     #[emitter]
     fn emit_ts_tuple_type(&mut self, n: &TsTupleType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("[");
@@ -801,6 +997,10 @@ where
 
     #[emitter]
     fn emit_ts_tuple_element(&mut self, n: &TsTupleElement) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if let Some(label) = &n.label {
@@ -814,6 +1014,10 @@ where
 
     #[emitter]
     fn emit_ts_type(&mut self, n: &TsType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsType::TsKeywordType(n) => emit!(n),
             TsType::TsThisType(n) => emit!(n),
@@ -840,6 +1044,10 @@ where
 
     #[emitter]
     fn emit_ts_import_type(&mut self, n: &TsImportType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("import");
@@ -857,6 +1065,10 @@ where
 
     #[emitter]
     fn emit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.declare {
@@ -885,6 +1097,10 @@ where
 
     #[emitter]
     fn emit_ts_type_ann(&mut self, n: &TsTypeAnn) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.type_ann)
@@ -892,6 +1108,10 @@ where
 
     #[emitter]
     fn emit_ts_type_assertion(&mut self, n: &TsTypeAssertion) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("<");
@@ -902,6 +1122,10 @@ where
 
     #[emitter]
     fn emit_ts_const_assertion(&mut self, n: &TsConstAssertion) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);
@@ -914,6 +1138,10 @@ where
 
     #[emitter]
     fn emit_ts_type_element(&mut self, n: &TsTypeElement) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsTypeElement::TsCallSignatureDecl(n) => emit!(n),
             TsTypeElement::TsConstructSignatureDecl(n) => emit!(n),
@@ -932,6 +1160,10 @@ where
 
     #[emitter]
     fn emit_ts_getter_signature(&mut self, n: &TsGetterSignature) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         keyword!("get");
         space!();
 
@@ -950,6 +1182,10 @@ where
 
     #[emitter]
     fn emit_ts_setter_signature(&mut self, n: &TsSetterSignature) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         keyword!("set");
         space!();
 
@@ -962,6 +1198,10 @@ where
 
     #[emitter]
     fn emit_ts_type_lit(&mut self, n: &TsTypeLit) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("{");
@@ -975,6 +1215,10 @@ where
 
     #[emitter]
     fn emit_ts_type_operator(&mut self, n: &TsTypeOperator) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         match n.op {
@@ -988,6 +1232,10 @@ where
 
     #[emitter]
     fn emit_ts_type_param(&mut self, n: &TsTypeParam) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.is_const {
@@ -1024,6 +1272,10 @@ where
 
     #[emitter]
     fn emit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("<");
@@ -1035,6 +1287,10 @@ where
 
     #[emitter]
     fn emit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         punct!("<");
@@ -1045,6 +1301,10 @@ where
 
     #[emitter]
     fn emit_ts_type_predicate(&mut self, n: &TsTypePredicate) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         if n.asserts {
@@ -1064,6 +1324,10 @@ where
 
     #[emitter]
     fn emit_ts_type_query(&mut self, n: &TsTypeQuery) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         keyword!("typeof");
@@ -1074,6 +1338,10 @@ where
 
     #[emitter]
     fn emit_ts_type_query_expr(&mut self, n: &TsTypeQueryExpr) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsTypeQueryExpr::TsEntityName(n) => emit!(n),
             TsTypeQueryExpr::Import(n) => emit!(n),
@@ -1082,6 +1350,10 @@ where
 
     #[emitter]
     fn emit_ts_type_ref(&mut self, n: &TsTypeRef) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.type_name);
@@ -1095,6 +1367,10 @@ where
 
     #[emitter]
     fn emit_ts_union_or_intersection_type(&mut self, n: &TsUnionOrIntersectionType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         match n {
             TsUnionOrIntersectionType::TsUnionType(n) => emit!(n),
             TsUnionOrIntersectionType::TsIntersectionType(n) => emit!(n),
@@ -1103,6 +1379,10 @@ where
 
     #[emitter]
     fn emit_ts_union_type(&mut self, n: &TsUnionType) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         self.emit_list(n.span, Some(&n.types), ListFormat::UnionTypeConstituents)?;
@@ -1110,6 +1390,10 @@ where
 
     #[emitter]
     fn emit_ts_instantiation(&mut self, n: &TsInstantiation) -> Result {
+        if self.cfg.ignore_typescript {
+            return Ok(());
+        }
+
         self.emit_leading_comments_of_span(n.span(), false)?;
 
         emit!(n.expr);

@@ -39,6 +39,13 @@ pub struct Config {
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub inline_script: bool,
+
+    /// If true, this will ignore all typescript related nodes and as such
+    /// print valid javascript.
+    ///
+    /// Defaults to `false`,
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub ignore_typescript: bool,
 }
 
 impl Default for Config {
@@ -50,6 +57,7 @@ impl Default for Config {
             omit_last_semi: false,
             emit_assert_for_import_attributes: false,
             inline_script: false,
+            ignore_typescript: false,
         }
     }
 }
@@ -85,6 +93,11 @@ impl Config {
 
     pub fn with_inline_script(mut self, inline_script: bool) -> Self {
         self.inline_script = inline_script;
+        self
+    }
+
+    pub fn with_ignore_typescript(mut self, ignore_typescript: bool) -> Self {
+        self.ignore_typescript = ignore_typescript;
         self
     }
 }

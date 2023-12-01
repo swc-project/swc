@@ -1532,7 +1532,7 @@ where
         }
 
         emit!(n.key);
-        if let Some(type_ann) = &n.type_ann {
+        if let (false, Some(type_ann)) = (self.cfg.ignore_typescript, &n.type_ann) {
             punct!(":");
             space!();
             emit!(type_ann);
@@ -1582,10 +1582,10 @@ where
 
         emit!(n.key);
 
-        if let Some(ty) = &n.type_ann {
+        if let (false, Some(type_ann)) = (self.cfg.ignore_typescript, &n.type_ann) {
             punct!(":");
             space!();
-            emit!(ty);
+            emit!(type_ann);
         }
 
         if let Some(v) = &n.value {
@@ -2170,10 +2170,10 @@ where
     fn emit_binding_ident(&mut self, ident: &BindingIdent) -> Result {
         emit!(ident.id);
 
-        if let Some(ty) = &ident.type_ann {
+        if let (false, Some(type_ann)) = (self.cfg.ignore_typescript, &ident.type_ann) {
             punct!(":");
             formatting_space!();
-            emit!(ty);
+            emit!(type_ann);
         }
 
         // Call emitList directly since it could be an array of
@@ -2595,7 +2595,7 @@ where
         punct!(node.dot3_token, "...");
         emit!(node.arg);
 
-        if let Some(type_ann) = &node.type_ann {
+        if let (false, Some(type_ann)) = (self.cfg.ignore_typescript, &node.type_ann) {
             punct!(":");
             formatting_space!();
             emit!(type_ann);
@@ -2649,7 +2649,7 @@ where
             punct!("?");
         }
 
-        if let Some(type_ann) = &node.type_ann {
+        if let (false, Some(type_ann)) = (self.cfg.ignore_typescript, &node.type_ann) {
             punct!(":");
             space!();
             emit!(type_ann);
@@ -2692,7 +2692,7 @@ where
             punct!("?");
         }
 
-        if let Some(type_ann) = &node.type_ann {
+        if let (false, Some(type_ann)) = (self.cfg.ignore_typescript, &node.type_ann) {
             punct!(":");
             space!();
             emit!(type_ann);
