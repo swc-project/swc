@@ -238,6 +238,8 @@ pub struct AtomStoreCell(UnsafeCell<AtomStore>);
 impl AtomStoreCell {
     #[inline]
     pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
+        // evaluate the into before borrowing (see #8362)
+        let s: Cow<'a, str> = s.into();
         // SAFETY: We can skip the borrow check of RefCell because
         // this API enforces a safe contract. It is slightly faster
         // to use an UnsafeCell. Note the borrow here is short lived
