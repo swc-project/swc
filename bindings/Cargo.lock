@@ -230,7 +230,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.3.100"
+version = "1.3.101-nightly-20231201.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -290,7 +290,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.3.100"
+version = "1.3.101-nightly-20231201.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2945,7 +2945,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.89"
+version = "0.91.90"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -2953,9 +2953,9 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.4.81"
+version = "0.4.82"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e2ecfd51f77362f619da0946da20499387ce6ba384b6c2044a9f86965dabf1e"
+checksum = "edcee1e2c590fe711fa0235b9a1d2640268a2426ca0174b2d3414d82a2eaf542"
 dependencies = [
  "anyhow",
  "atty",
@@ -3057,9 +3057,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.86.83"
+version = "0.86.84"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "104de6421f91e491c4a99b133c8e1322bb1d0ab26d0d7e70da2ea3b75c91f944"
+checksum = "05d7801335fb8d1dcb48009f3e0fd0b7a472760a06931af5b03dca96c3ead3fe"
 dependencies = [
  "binding_macros",
  "swc",
