@@ -49,7 +49,7 @@ plugin_transform_host_native = [
 
 [dependencies]
 anyhow       = "1"
-base64       = "0.13.0"
+base64       = "0.21.0"
 dashmap      = "5.4.0"
 either       = "1"
 indexmap     = { version = "1.9.3", features = ["serde"] }
