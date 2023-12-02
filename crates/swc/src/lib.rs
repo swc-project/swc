@@ -120,6 +120,7 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
+use base64::prelude::{Engine, BASE64_STANDARD};
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
@@ -265,11 +266,9 @@ impl Compiler {
 
                             let content = url.path()[idx + "base64,".len()..].trim();
 
-                            let res = base64::decode_config(
-                                content.as_bytes(),
-                                base64::Config::new(base64::CharacterSet::Standard, true),
-                            )
-                            .context("failed to decode base64-encoded source map")?;
+                            let res = BASE64_STANDARD
+                                .decode(content.as_bytes())
+                                .context("failed to decode base64-encoded source map")?;
 
                             Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
                                 "failed to read input source map from inlined base64 encoded \

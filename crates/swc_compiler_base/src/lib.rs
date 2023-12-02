@@ -4,6 +4,7 @@ use std::{
 };
 
 use anyhow::{Context, Error};
+use base64::prelude::{Engine, BASE64_STANDARD};
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
@@ -212,11 +213,7 @@ where
             let map = String::from_utf8(buf).context("source map is not utf-8")?;
 
             src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
-            base64::encode_config_buf(
-                map.as_bytes(),
-                base64::Config::new(base64::CharacterSet::Standard, true),
-                &mut src,
-            );
+            BASE64_STANDARD.encode_string(map.as_bytes(), &mut src);
             (src, None)
         }
     };
