@@ -1837,7 +1837,6 @@ checksum = "bd070e393353796e801d209ad339e89596eb4c8d430d18ede6a1cced8fafbd99"
 dependencies = [
  "autocfg",
  "hashbrown 0.12.3",
- "rayon",
  "serde",
 ]
 
@@ -1849,6 +1848,8 @@ checksum = "8adf3ddd720272c6ea8bf59463c04e0f93d0bbf7c5439b691bca2987e0270897"
 dependencies = [
  "equivalent",
  "hashbrown 0.14.1",
+ "rayon",
+ "serde",
 ]
 
 [[package]]
@@ -3800,7 +3801,7 @@ dependencies = [
  "criterion",
  "dashmap",
  "either",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "jsonc-parser",
  "lru",
  "napi",
@@ -3867,7 +3868,7 @@ dependencies = [
  "crc",
  "dashmap",
  "hex",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "is-macro",
  "ntest",
  "once_cell",
@@ -3999,7 +4000,7 @@ dependencies = [
 name = "swc_config"
 version = "0.1.7"
 dependencies = [
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "serde",
  "serde_json",
  "swc_config_macro",
@@ -4340,7 +4341,7 @@ name = "swc_ecma_compat_es2015"
 version = "0.1.50"
 dependencies = [
  "arrayvec",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "is-macro",
  "serde",
  "serde_derive",
@@ -4558,7 +4559,7 @@ dependencies = [
  "arrayvec",
  "backtrace",
  "criterion",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "num-bigint",
  "num_cpus",
  "once_cell",
@@ -4625,7 +4626,7 @@ dependencies = [
  "anyhow",
  "criterion",
  "dashmap",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
@@ -4716,7 +4717,7 @@ dependencies = [
  "better_scoped_tls",
  "bitflags 2.3.2",
  "criterion",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "once_cell",
  "phf",
  "rayon",
@@ -4753,7 +4754,7 @@ name = "swc_ecma_transforms_compat"
 version = "0.160.55"
 dependencies = [
  "arrayvec",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "is-macro",
  "num-bigint",
  "rayon",
@@ -4805,7 +4806,7 @@ dependencies = [
  "Inflector",
  "anyhow",
  "bitflags 2.3.2",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "is-macro",
  "path-clean",
  "pathdiff",
@@ -4832,7 +4833,7 @@ name = "swc_ecma_transforms_optimization"
 version = "0.195.62"
 dependencies = [
  "dashmap",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "once_cell",
  "petgraph",
  "rayon",
@@ -4887,7 +4888,7 @@ version = "0.180.60"
 dependencies = [
  "base64 0.13.1",
  "dashmap",
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "once_cell",
  "rayon",
  "serde",
@@ -4959,7 +4960,7 @@ dependencies = [
 name = "swc_ecma_usage_analyzer"
 version = "0.20.36"
 dependencies = [
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
@@ -4974,7 +4975,7 @@ dependencies = [
 name = "swc_ecma_utils"
 version = "0.124.35"
 dependencies = [
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "num_cpus",
  "once_cell",
  "rayon",
@@ -5079,7 +5080,7 @@ dependencies = [
 name = "swc_fast_graph"
 version = "0.21.10"
 dependencies = [
- "indexmap 1.9.3",
+ "indexmap 2.0.2",
  "petgraph",
  "rustc-hash",
  "swc_common",
