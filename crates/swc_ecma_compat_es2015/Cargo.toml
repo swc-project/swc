@@ -14,7 +14,7 @@ version       = "0.1.50"
 
 [dependencies]
 arrayvec = "0.7.4"
-indexmap     = "1.9.3"
+indexmap     = "2.0.0"
 is-macro     = "0.3.0"
 serde        = "1.0.188"
 serde_derive = "1.0.188"
