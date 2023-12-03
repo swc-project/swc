@@ -272,6 +272,9 @@
 - **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
 
 
+- **(es/lints)** Ignore ambient context binding  ([#8368](https://github.com/swc-project/swc/issues/8368)) ([83c8fe5](https://github.com/swc-project/swc/commit/83c8fe56f06eec5f84b87d945262b8be119b827b))
+
+
 - **(es/minifier)** Fix remapping of vars upon inlining ([#7362](https://github.com/swc-project/swc/issues/7362)) ([1dced17](https://github.com/swc-project/swc/commit/1dced17998a625e30d4a8ef653aef9e2caa7627d))
 
 
@@ -612,9 +615,6 @@
 
 
 - **(swc_core)** Correctly expose plugin with host ([#7427](https://github.com/swc-project/swc/issues/7427)) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
-
-
-- **(testing)** Fix path normalization on windows for testing diffs ([#7299](https://github.com/swc-project/swc/issues/7299)) ([3422923](https://github.com/swc-project/swc/commit/3422923cb004111f8c57501bb8b222905cf6bd09))
 
 
 - **(xml/codegen)** Escape `<` and `>` in child ([#7351](https://github.com/swc-project/swc/issues/7351)) ([b180d09](https://github.com/swc-project/swc/commit/b180d09e1dd9c4269d7d690d892ef4fd1c5b6563))
