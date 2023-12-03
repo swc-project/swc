@@ -185,6 +185,10 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_class_decl(&mut self, d: &ClassDecl) {
+        if d.declare {
+            return;
+        }
+
         self.add(
             d.ident.sym.clone(),
             BindingInfo {
@@ -211,16 +215,18 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_fn_decl(&mut self, d: &FnDecl) {
-        if d.function.body.is_some() {
-            self.add(
-                d.ident.sym.clone(),
-                BindingInfo {
-                    span: d.ident.span,
-                    unique: self.lexical_function,
-                    is_function: true,
-                },
-            );
+        if d.function.body.is_none() || d.declare {
+            return;
         }
+
+        self.add(
+            d.ident.sym.clone(),
+            BindingInfo {
+                span: d.ident.span,
+                unique: self.lexical_function,
+                is_function: true,
+            },
+        );
 
         d.visit_children_with(self);
     }
@@ -351,6 +357,10 @@ impl Visit for DuplicateBindings {
     }
 
     fn visit_var_decl(&mut self, d: &VarDecl) {
+        if d.declare {
+            return;
+        }
+
         self.visit_with_kind(d, Some(d.kind))
     }
 
