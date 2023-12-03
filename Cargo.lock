@@ -286,12 +286,6 @@ checksum = "a4521f3e3d031370679b3b140beb36dfe4801b09ac77e30c61941f97df3ef28b"
 
 [[package]]
 name = "base64"
-version = "0.13.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9e1b586273c5702936fe7b7d6896644d8be71e6314cfe09d3167c95f712589e8"
-
-[[package]]
-name = "base64"
 version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a4a4ddaa51a5bc52a6948f74c06d20aaaddb71924eab79b8c97a8c556e942d6a"
@@ -314,7 +308,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.60.84"
+version = "0.60.86"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1094,7 +1088,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.89.86"
+version = "0.89.88"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3155,11 +3149,11 @@ checksum = "e3a8614ee435691de62bcffcf4a66d91b3594bf1428a5722e79103249a095690"
 
 [[package]]
 name = "reqwest"
-version = "0.11.13"
+version = "0.11.22"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "68cc60575865c7831548863cc02356512e3f1dc2f3f82cb837d7fc4cc8f3c97c"
+checksum = "046cd98826c46c2ac8ddecae268eb5c2e58628688a5fc7a2643704a73faba95b"
 dependencies = [
- "base64 0.13.1",
+ "base64",
  "bytes",
  "encoding_rs",
  "futures-core",
@@ -3180,6 +3174,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_urlencoded",
+ "system-configuration",
  "tokio",
  "tokio-native-tls",
  "tower-service",
@@ -3792,11 +3787,11 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.269.76"
+version = "0.269.78"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64 0.13.1",
+ "base64",
  "criterion",
  "dashmap",
  "either",
@@ -3861,7 +3856,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.222.72"
+version = "0.222.74"
 dependencies = [
  "anyhow",
  "crc",
@@ -3916,7 +3911,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.4.83"
+version = "0.4.85"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -3975,10 +3970,10 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.3.80"
+version = "0.3.82"
 dependencies = [
  "anyhow",
- "base64 0.13.1",
+ "base64",
  "napi",
  "napi-derive",
  "pathdiff",
@@ -4018,7 +4013,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.86.85"
+version = "0.86.87"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4274,9 +4269,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.146.37"
+version = "0.146.38"
 dependencies = [
- "base64 0.13.1",
+ "base64",
  "criterion",
  "memchr",
  "num-bigint",
@@ -4309,7 +4304,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "0.1.50"
+version = "0.1.52"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4337,7 +4332,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.1.50"
+version = "0.1.52"
 dependencies = [
  "arrayvec",
  "indexmap 1.9.3",
@@ -4363,7 +4358,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "0.1.48"
+version = "0.1.49"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4380,7 +4375,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "0.1.49"
+version = "0.1.50"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4398,7 +4393,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "0.1.49"
+version = "0.1.50"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4417,7 +4412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "0.1.49"
+version = "0.1.50"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4433,7 +4428,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "0.1.47"
+version = "0.1.48"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4451,7 +4446,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "0.1.47"
+version = "0.1.48"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4465,7 +4460,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "0.1.48"
+version = "0.1.49"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4482,7 +4477,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "0.1.48"
+version = "0.1.49"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -4509,7 +4504,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.89.48"
+version = "0.89.49"
 dependencies = [
  "auto_impl",
  "dashmap",
@@ -4551,7 +4546,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.189.74"
+version = "0.189.76"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4620,7 +4615,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.203.62"
+version = "0.203.64"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4686,7 +4681,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.226.62"
+version = "0.226.64"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4711,7 +4706,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.134.49"
+version = "0.134.50"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.3.2",
@@ -4738,7 +4733,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.123.50"
+version = "0.123.51"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4750,7 +4745,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.160.55"
+version = "0.160.57"
 dependencies = [
  "arrayvec",
  "indexmap 1.9.3",
@@ -4800,7 +4795,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.177.58"
+version = "0.177.60"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4829,7 +4824,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.195.62"
+version = "0.195.64"
 dependencies = [
  "dashmap",
  "indexmap 1.9.3",
@@ -4859,7 +4854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.168.59"
+version = "0.168.61"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4883,9 +4878,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.180.60"
+version = "0.180.62"
 dependencies = [
- "base64 0.13.1",
+ "base64",
  "dashmap",
  "indexmap 1.9.3",
  "once_cell",
@@ -4911,11 +4906,11 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.137.51"
+version = "0.137.52"
 dependencies = [
  "ansi_term",
  "anyhow",
- "base64 0.13.1",
+ "base64",
  "hex",
  "serde",
  "serde_json",
@@ -4935,7 +4930,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.185.60"
+version = "0.185.62"
 dependencies = [
  "criterion",
  "ryu-js",
@@ -5004,7 +4999,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.236.81"
+version = "0.236.83"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5051,7 +5046,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.194.83"
+version = "0.194.85"
 dependencies = [
  "ahash 0.8.5",
  "anyhow",
@@ -5099,7 +5094,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.134.79"
+version = "0.134.81"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -5150,7 +5145,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.131.78"
+version = "0.131.80"
 dependencies = [
  "criterion",
  "once_cell",
@@ -5236,7 +5231,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.58.84"
+version = "0.58.86"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -5476,6 +5471,27 @@ dependencies = [
  "proc-macro2",
  "quote",
  "unicode-ident",
+]
+
+[[package]]
+name = "system-configuration"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba3a3adc5c275d719af8cb4272ea1c4a6d668a777f37e115f6d11ddbc1c8e0e7"
+dependencies = [
+ "bitflags 1.3.2",
+ "core-foundation",
+ "system-configuration-sys",
+]
+
+[[package]]
+name = "system-configuration-sys"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a75fb188eb626b924683e3b95e3a48e63551fcfb51949de2f06a9d91dbee93c9"
+dependencies = [
+ "core-foundation-sys",
+ "libc",
 ]
 
 [[package]]
@@ -6614,7 +6630,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "02ba1b6e7ad252e691a86d727aa422fbc5ed95e9bca4ec8547869e9b5779f8f3"
 dependencies = [
  "anyhow",
- "base64 0.21.0",
+ "base64",
  "byteorder",
  "bytes",
  "indexmap 1.9.3",
@@ -6899,11 +6915,12 @@ dependencies = [
 
 [[package]]
 name = "winreg"
-version = "0.10.1"
+version = "0.50.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "80d0f4e272c85def139476380b12f9ac60926689dd2e01d4923222f40580869d"
+checksum = "524e57b2c537c0f9b1e69f1965311ec12182b4122e45035b1508cd24d2adadb1"
 dependencies = [
- "winapi",
+ "cfg-if",
+ "windows-sys 0.48.0",
 ]
 
 [[package]]
