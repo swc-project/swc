@@ -35,7 +35,7 @@ trace-ast   = []
 [dependencies]
 arrayvec          = "0.7.2"
 backtrace         = { version = "0.3.61", optional = true }
-indexmap          = "1.9.3"
+indexmap          = "2.0.0"
 num-bigint        = "0.4.3"
 num_cpus          = "1.13.1"
 once_cell         = "1.18.0"
