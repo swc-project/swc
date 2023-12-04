@@ -601,11 +601,11 @@ impl VisitMut for AssignFolder {
             right,
         }) = expr
         {
-            match &mut **pat {
+            match pat {
                 Pat::Expr(pat_expr) => {
                     *expr = Expr::Assign(AssignExpr {
                         span: *span,
-                        left: AssignTarget::Simple(pat_expr.take()),
+                        left: pat_expr.take().into(),
                         op: op!("="),
                         right: right.take(),
                     });
