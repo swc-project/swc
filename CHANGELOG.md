@@ -50,9 +50,6 @@
 - **(css/modules)** Fix handling of `:global()` selector ([#8219](https://github.com/swc-project/swc/issues/8219)) ([02cd7c2](https://github.com/swc-project/swc/commit/02cd7c2608758476545aadf62e01f2d74ed486f2))
 
 
-- **(es)** Fix a crash related to source map ([#7307](https://github.com/swc-project/swc/issues/7307)) ([e7f7b01](https://github.com/swc-project/swc/commit/e7f7b01f59b622c993ee584ae825a39c390b2570))
-
-
 - **(es)** Init filesystem cache only if plugin exists ([#7436](https://github.com/swc-project/swc/issues/7436)) ([786cf3a](https://github.com/swc-project/swc/commit/786cf3a10ffe5e2990c5473062ea42771b769124))
 
 
@@ -966,6 +963,9 @@
 
 
 - **(common)** Mark some methods of `Input` unsafe ([#7848](https://github.com/swc-project/swc/issues/7848)) ([c657324](https://github.com/swc-project/swc/commit/c65732496e4e2aab664b7443a29f5180cba6e965))
+
+
+- **(css/modules)** Support stable rust ([#8381](https://github.com/swc-project/swc/issues/8381)) ([0ff4157](https://github.com/swc-project/swc/commit/0ff4157375715b9bf6cf1ef791742707a24cfd70))
 
 
 - **(css/parser)** Support stable rust ([#8378](https://github.com/swc-project/swc/issues/8378)) ([4870e8b](https://github.com/swc-project/swc/commit/4870e8b47e74939321c2e46ce0a1246ec957d342))
