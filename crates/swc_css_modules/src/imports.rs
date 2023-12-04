@@ -2,8 +2,7 @@
 
 use swc_atoms::JsWord;
 use swc_css_ast::{
-    ComponentValue, Declaration, DeclarationName, Ident, ImportHref, ImportPrelude, Stylesheet,
-    UrlValue,
+    ComponentValue, Declaration, DeclarationName, ImportHref, ImportPrelude, Stylesheet, UrlValue,
 };
 use swc_css_visit::{Visit, VisitWith};
 
@@ -52,10 +51,9 @@ impl Visit for Analyzer {
                 // composes: name from 'foo.css'
                 if d.value.len() >= 3 {
                     match (&d.value[d.value.len() - 2], &d.value[d.value.len() - 1]) {
-                        (
-                            ComponentValue::Ident(box Ident { value: from, .. }),
-                            ComponentValue::Str(s),
-                        ) if &**from == "from" => {
+                        (ComponentValue::Ident(ident), ComponentValue::Str(s))
+                            if ident.value == "from" =>
+                        {
                             self.imports.push(s.value.clone());
                         }
                         _ => (),

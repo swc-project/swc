@@ -1,5 +1,3 @@
-#![feature(box_patterns)]
-
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Span};
@@ -275,10 +273,9 @@ where
                     // composes: name from 'foo.css'
                     if n.value.len() >= 3 {
                         match (&n.value[n.value.len() - 2], &n.value[n.value.len() - 1]) {
-                            (
-                                ComponentValue::Ident(box Ident { value, .. }),
-                                ComponentValue::Str(import_source),
-                            ) if &**value == "from" => {
+                            (ComponentValue::Ident(ident), ComponentValue::Str(import_source))
+                                if ident.value == "from" =>
+                            {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Import {
@@ -290,10 +287,9 @@ where
 
                                 return;
                             }
-                            (
-                                ComponentValue::Ident(box Ident { value: from, .. }),
-                                ComponentValue::Ident(box Ident { value: global, .. }),
-                            ) if &**from == "from" && &**global == "global" => {
+                            (ComponentValue::Ident(from), ComponentValue::Ident(global))
+                                if from.value == "from" && global.value == "global" =>
+                            {
                                 for class_name in n.value.iter().take(n.value.len() - 2) {
                                     if let ComponentValue::Ident(value) = class_name {
                                         composes_for_current.push(CssClassName::Global {
@@ -308,7 +304,8 @@ where
                     }
 
                     for class_name in n.value.iter_mut() {
-                        if let ComponentValue::Ident(box Ident { span, value, .. }) = class_name {
+                        if let ComponentValue::Ident(ident) = class_name {
+                            let Ident { span, value, .. } = &mut **ident;
                             let orig = value.clone();
                             rename(
                                 *span,
@@ -347,12 +344,14 @@ where
 
                     for v in &mut n.value {
                         match v {
-                            ComponentValue::Ident(box Ident {
-                                span, value, raw, ..
-                            }) => {
+                            ComponentValue::Ident(ident) => {
                                 if !can_change {
                                     continue;
                                 }
+
+                                let Ident {
+                                    span, value, raw, ..
+                                } = &mut **ident;
 
                                 match &**value {
                                     // iteration-count
@@ -447,10 +446,10 @@ where
                 }
                 "animation-name" => {
                     for v in &mut n.value {
-                        if let ComponentValue::Ident(box Ident {
-                            span, value, raw, ..
-                        }) = v
-                        {
+                        if let ComponentValue::Ident(ident) = v {
+                            let Ident {
+                                span, value, raw, ..
+                            } = &mut **ident;
                             *raw = None;
 
                             rename(
