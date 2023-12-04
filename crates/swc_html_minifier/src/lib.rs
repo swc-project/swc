@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![feature(box_patterns)]
 
 use std::{borrow::Cow, cmp::Ordering, mem::take};
 
