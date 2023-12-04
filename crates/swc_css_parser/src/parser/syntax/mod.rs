@@ -657,11 +657,10 @@ where
 
             match &component_value {
                 // Optimization for step 6
-                ComponentValue::PreservedToken(box TokenAndSpan {
-                    span,
-                    token: Token::Delim { value: '!', .. },
-                    ..
-                }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
+                ComponentValue::PreservedToken(token_and_span)
+                    if matches!(token_and_span.token, Token::Delim { value: '!', .. })
+                        && (is!(self, " ") || is_case_insensitive_ident!(self, "important")) =>
+                {
                     if let Some(span) = &exclamation_point_span {
                         is_valid_to_canonicalize = false;
 
@@ -674,32 +673,32 @@ where
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
 
-                    exclamation_point_span = Some(*span);
+                    exclamation_point_span = Some(token_and_span.span);
                 }
-                ComponentValue::PreservedToken(box TokenAndSpan {
-                    token: Token::WhiteSpace { .. },
-                    ..
-                }) => match (&exclamation_point_span, &important_ident) {
-                    (Some(_), Some(_)) => {
-                        last_whitespaces.2 += 1;
+                ComponentValue::PreservedToken(token_and_span)
+                    if matches!(token_and_span.token, Token::WhiteSpace { .. }) =>
+                {
+                    match (&exclamation_point_span, &important_ident) {
+                        (Some(_), Some(_)) => {
+                            last_whitespaces.2 += 1;
+                        }
+                        (Some(_), None) => {
+                            last_whitespaces.1 += 1;
+                        }
+                        (None, None) => {
+                            last_whitespaces.0 += 1;
+                        }
+                        _ => {
+                            unreachable!();
+                        }
                     }
-                    (Some(_), None) => {
-                        last_whitespaces.1 += 1;
-                    }
-                    (None, None) => {
-                        last_whitespaces.0 += 1;
-                    }
-                    _ => {
-                        unreachable!();
-                    }
-                },
-                ComponentValue::PreservedToken(
-                    token_and_span @ box TokenAndSpan {
-                        token: Token::Ident { value, .. },
-                        ..
-                    },
-                ) if exclamation_point_span.is_some()
-                    && matches_eq_ignore_ascii_case!(value, "important") =>
+                }
+                ComponentValue::PreservedToken(token_and_span)
+                    if exclamation_point_span.is_some()
+                        && matches!(
+                            &token_and_span.token,
+                            Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, "important")
+                        ) =>
                 {
                     important_ident = Some(token_and_span.clone());
                 }

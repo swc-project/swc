@@ -1294,7 +1294,11 @@ where
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
-                            Token::Dimension(box DimensionToken { value, raw_value, unit, .. }) => (value, raw_value, unit),
+                            Token::Dimension(dimension) => {
+                                let DimensionToken { value, raw_value, unit, .. } = *dimension;
+
+                             (value, raw_value, unit)
+                            }
                             _ => {
                                 unreachable!();
                             }
