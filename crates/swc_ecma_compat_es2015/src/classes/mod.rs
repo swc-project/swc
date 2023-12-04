@@ -1184,11 +1184,12 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: AssignTarget::Simple(Box::new(Expr::Member(MemberExpr {
+                            left: MemberExpr {
                                 span,
                                 obj: Box::new(class_name.clone().into()),
                                 prop: mk_key_prop_member(prop),
-                            }))),
+                            }
+                            .into(),
                             right: escape_keywords(method),
                         })),
                     }));
