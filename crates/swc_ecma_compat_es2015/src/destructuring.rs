@@ -849,7 +849,7 @@ impl VisitMut for AssignFolder {
 
                                 let mut expr = Expr::Assign(AssignExpr {
                                     span,
-                                    left: AssignTarget::Pat(value.take()),
+                                    left: value.take().try_into().unwrap(),
                                     op: op!("="),
                                     right: Box::new(make_ref_prop_expr(
                                         &ref_ident,
@@ -882,7 +882,7 @@ impl VisitMut for AssignFolder {
 
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: AssignTarget::Pat(key.clone().into()),
+                                            left: key.clone().into(),
                                             op: op!("="),
                                             right: Box::new(make_cond_expr(
                                                 prop_ident,
