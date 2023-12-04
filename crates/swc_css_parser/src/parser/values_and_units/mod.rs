@@ -1963,8 +1963,8 @@ where
         }
 
         match cur!(self) {
-            Token::Dimension(box DimensionToken { unit, .. }) => {
-                match unit {
+            Token::Dimension(dimension_token) => {
+                match &dimension_token.unit {
                     // <length>
                     unit if is_length_unit(unit)
                         || (self.ctx.in_container_at_rule && is_container_lengths_unit(unit)) =>
@@ -2003,13 +2003,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 // TODO validate
 
                 let unit_len = raw_unit.len() as u32;
@@ -2047,13 +2049,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_angle_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2096,13 +2100,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_time_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
                 }
@@ -2142,13 +2148,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_frequency_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
                 }
@@ -2188,13 +2196,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_resolution_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2237,13 +2247,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_flex_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
                 }
@@ -2283,13 +2295,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 let unit_len = raw_unit.len() as u32;
 
                 Ok(UnknownDimension {
@@ -2794,11 +2808,9 @@ where
                         }
                         tok!("dimension") => {
                             let raw = match bump!(self) {
-                                Token::Dimension(box DimensionToken {
-                                    raw_value,
-                                    raw_unit,
-                                    ..
-                                }) => (raw_value, raw_unit),
+                                Token::Dimension(dimension_token) => {
+                                    (dimension_token.raw_value, dimension_token.raw_unit)
+                                }
                                 _ => {
                                     unreachable!();
                                 }
@@ -2824,11 +2836,9 @@ where
             // u <dimension-token> '?'*
             tok!("dimension") => {
                 let raw = match bump!(self) {
-                    Token::Dimension(box DimensionToken {
-                        raw_value,
-                        raw_unit,
-                        ..
-                    }) => (raw_value, raw_unit),
+                    Token::Dimension(dimension_token) => {
+                        (dimension_token.raw_value, dimension_token.raw_unit)
+                    }
                     _ => {
                         unreachable!();
                     }
