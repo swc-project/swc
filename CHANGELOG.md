@@ -452,9 +452,6 @@
 - **(es/module)** Read link if an import is resolved as symlink ([#8297](https://github.com/swc-project/swc/issues/8297)) ([7dfdc12](https://github.com/swc-project/swc/commit/7dfdc1221890d373d2e6caf52bc8dee8c20765ca))
 
 
-- **(es/modules)** Support `jsc.baseUrl` without `jsc.paths` ([#7302](https://github.com/swc-project/swc/issues/7302)) ([9c279b8](https://github.com/swc-project/swc/commit/9c279b802b6a615fdba33a6f81866ce3ef606676))
-
-
 - **(es/parser)** Fix handling of `in` and `out` of typescript ([#7308](https://github.com/swc-project/swc/issues/7308)) ([6f81cb9](https://github.com/swc-project/swc/commit/6f81cb9c32219cd8e51a97c924e0b272fc25a0c1))
 
 

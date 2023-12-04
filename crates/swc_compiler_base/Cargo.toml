@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_compiler_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.3.83"
+version       = "0.3.84"
 
 [features]
 node = ["napi", "napi-derive"]
@@ -22,10 +22,10 @@ swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.10", path = "../swc_common", features = [
     "sourcemap",
 ] }
-swc_config = { version = "0.1.7", path = "../swc_config" }
+swc_config = { version = "0.1.8", path = "../swc_config" }
 swc_ecma_ast = { version = "0.110.12", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.146.39", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.189.77", path = "../swc_ecma_minifier" }
+swc_ecma_minifier = { version = "0.189.78", path = "../swc_ecma_minifier" }
 swc_ecma_parser = { version = "0.141.30", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.96.12", path = "../swc_ecma_visit" }
 swc_timer = { version = "0.21.12", path = "../swc_timer" }
