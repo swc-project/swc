@@ -893,7 +893,7 @@ impl VisitMut for AssignFolder {
                                     None => {
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: AssignTarget::Pat(key.clone().into()),
+                                            left: key.clone().into(),
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
@@ -947,9 +947,8 @@ impl VisitMut for AssignFolder {
                         exprs,
                     });
                 }
-                Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
 
-                Pat::Invalid(..) => unreachable!(),
+                AssignTargetPat::Invalid(..) => unreachable!(),
             }
         };
     }
