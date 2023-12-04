@@ -336,16 +336,10 @@ where
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
                 match left {
-                    AssignTarget::Pat(pat) => {
-                        if let Pat::Ident(i) = &**pat {
-                            c.ident = Some(i.id.clone().private())
-                        }
+                    AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) => {
+                        c.ident = Some(ident.clone().private())
                     }
-                    AssignTarget::Simple(expr) => {
-                        if let Expr::Ident(ident) = &**expr {
-                            c.ident = Some(ident.clone().private())
-                        }
-                    }
+                    _ => {}
                 }
             }
         }
