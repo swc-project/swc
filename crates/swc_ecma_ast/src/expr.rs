@@ -293,6 +293,7 @@ impl Take for Expr {
 }
 
 bridge_expr_from!(Ident, Id);
+bridge_expr_from!(Ident, BindingIdent);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
 
