@@ -4675,7 +4675,7 @@ version = "0.22.12"
 dependencies = [
  "anyhow",
  "hex",
- "sha-1",
+ "sha2",
  "testing",
  "tracing",
 ]
