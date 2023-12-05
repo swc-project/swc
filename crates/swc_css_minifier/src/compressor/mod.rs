@@ -59,16 +59,16 @@ impl VisitMut for Compressor {
 
         self.compress_stylesheet(n);
 
-        if !self.need_utf8_at_rule {
-            match n.rules.first() {
-                Some(Rule::AtRule(box AtRule {
-                    prelude: Some(box AtRulePrelude::CharsetPrelude(Str { value, .. })),
-                    ..
-                })) if value.as_ref().eq_ignore_ascii_case("utf-8") => {
-                    n.rules.remove(0);
-                }
-                _ => {}
-            }
+        if !self.need_utf8_at_rule
+            && n.rules
+                .first()
+                .and_then(|rule| rule.as_at_rule())
+                .and_then(|at_rule| at_rule.prelude.as_ref())
+                .and_then(|prelude| prelude.as_charset_prelude())
+                .filter(|x| x.value.eq_ignore_ascii_case("utf-8"))
+                .is_some()
+        {
+            n.rules.remove(0);
         }
     }
 
@@ -412,8 +412,8 @@ impl VisitMut for Compressor {
                 Token::BadUrl { raw: value, .. } if !contains_only_ascii_characters(value) => {
                     self.need_utf8_at_rule = true;
                 }
-                Token::Dimension(box DimensionToken { unit: value, .. })
-                    if !contains_only_ascii_characters(value) =>
+                Token::Dimension(dimension_token)
+                    if !contains_only_ascii_characters(&dimension_token.unit) =>
                 {
                     self.need_utf8_at_rule = true;
                 }
