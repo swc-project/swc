@@ -18,7 +18,7 @@ base64     = "0.21"
 hex        = "0.4.3"
 serde      = "1"
 serde_json = "1"
-sha2      = "0.10"
+sha2       = "0.10"
 sourcemap  = "6.2"
 tempfile   = "3.6.0"
 
