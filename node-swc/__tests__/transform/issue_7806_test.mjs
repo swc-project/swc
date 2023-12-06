@@ -33,11 +33,11 @@ describe("jsc.paths", () => {
                 })
             ).code
         ).toMatchInlineSnapshot(`
-            "\\"use strict\\";
-            Object.defineProperty(exports, \\"__esModule\\", {
+            ""use strict";
+            Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            const _helloworldutils = require(\\"src/utils/hello-world.utils.js\\");
+            const _helloworldutils = require("src/utils/hello-world.utils.js");
             console.log((0, _helloworldutils.helloWorld)());
             "
         `);
@@ -68,11 +68,11 @@ describe("jsc.paths", () => {
                 })
             ).code
         ).toMatchInlineSnapshot(`
-            "\\"use strict\\";
-            Object.defineProperty(exports, \\"__esModule\\", {
+            ""use strict";
+            Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            const _helloworldutils = require(\\"src/utils/hello-world.utils.js\\");
+            const _helloworldutils = require("src/utils/hello-world.utils.js");
             console.log((0, _helloworldutils.helloWorld)());
             "
         `);
