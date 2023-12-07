@@ -188,7 +188,7 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
                     .collect(),
                 pat,
                 guard: None,
-                fat_arrow_token: def_site(),
+                fat_arrow_token: Default::default(),
                 comma: Some(def_site()),
             }
         })
@@ -203,8 +203,8 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
-        match_token: def_site(),
-        brace_token: def_site(),
+        match_token: Default::default(),
+        brace_token: Default::default(),
         expr: Box::new(
             Quote::new_call_site()
                 .quote_with(smart_quote!(Vars {}, { s }))
@@ -263,7 +263,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     fields: Default::default(),
                     rest: Some(PatRest {
                         attrs: Default::default(),
-                        dot2_token: def_site(),
+                        dot2_token: Default::default(),
                     }),
                 })),
             };
@@ -277,13 +277,13 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                     .cloned()
                     .collect(),
                 pat: Pat::Reference(PatReference {
-                    and_token: def_site(),
+                    and_token: Default::default(),
                     mutability: None,
                     pat,
                     attrs: Default::default(),
                 }),
                 guard: None,
-                fat_arrow_token: def_site(),
+                fat_arrow_token: Default::default(),
                 comma: Some(def_site()),
             }
         })
@@ -291,8 +291,8 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
-        match_token: def_site(),
-        brace_token: def_site(),
+        match_token: Default::default(),
+        brace_token: Default::default(),
         expr: Box::new(
             Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars {}, { self }))

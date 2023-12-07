@@ -86,7 +86,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                     .collect(),
                 pat,
                 guard: None,
-                fat_arrow_token: def_site(),
+                fat_arrow_token: Default::default(),
                 comma: Some(def_site()),
             }
         })
@@ -94,8 +94,8 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
     let body = Expr::Match(ExprMatch {
         attrs: Default::default(),
-        match_token: def_site(),
-        brace_token: def_site(),
+        match_token: Default::default(),
+        brace_token: Default::default(),
         expr: Box::new(
             Quote::new(def_site::<Span>())
                 .quote_with(smart_quote!(Vars {}, { self }))
