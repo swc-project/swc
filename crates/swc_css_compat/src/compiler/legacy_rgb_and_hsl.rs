@@ -1,7 +1,7 @@
 use std::f64::consts::PI;
 
 use swc_css_ast::{
-    matches_eq, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Hue, Number, Percentage,
+    matches_eq, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Number, Percentage,
 };
 use swc_css_utils::{clamp_unit_f64, round_alpha};
 
@@ -18,15 +18,19 @@ impl Compiler {
                     .value
                     .drain(..)
                     .map(|n| match n {
-                        ComponentValue::Percentage(box Percentage {
-                            span,
-                            value: Number { value, .. },
-                            ..
-                        }) => ComponentValue::Number(Box::new(Number {
-                            span,
-                            value: clamp_unit_f64(value / 100.0) as f64,
-                            raw: None,
-                        })),
+                        ComponentValue::Percentage(percentage) => {
+                            let Percentage {
+                                span,
+                                value: Number { value, .. },
+                                ..
+                            } = &*percentage;
+
+                            ComponentValue::Number(Box::new(Number {
+                                span: *span,
+                                value: clamp_unit_f64(value / 100.0) as f64,
+                                raw: None,
+                            }))
+                        }
                         _ => n,
                     })
                     .collect();
@@ -34,15 +38,16 @@ impl Compiler {
                 function.value = function
                     .value
                     .drain(..)
-                    .map(|n| match n {
-                        ComponentValue::Hue(box Hue::Angle(Angle {
+                    .map(|n| {
+                        if let Some(Angle {
                             span,
                             value: Number { value, .. },
                             unit,
                             ..
-                        })) => {
+                        }) = n.as_hue().and_then(|hue| hue.as_angle())
+                        {
                             let value = match &*unit.value.to_ascii_lowercase() {
-                                "deg" => value,
+                                "deg" => *value,
                                 "grad" => value * 180.0 / 200.0,
                                 "rad" => value * 180.0 / PI,
                                 "turn" => value * 360.0,
@@ -52,18 +57,23 @@ impl Compiler {
                             };
 
                             ComponentValue::Number(Box::new(Number {
-                                span,
+                                span: *span,
                                 value: value.round(),
                                 raw: None,
                             }))
+                        } else {
+                            n
                         }
-                        _ => n,
                     })
                     .collect();
             }
 
             if is_rgb || is_hsl {
-                if let Some(ComponentValue::AlphaValue(box alpha_value)) = function.value.last_mut()
+                if let Some(alpha_value) = function
+                    .value
+                    .last_mut()
+                    .and_then(|component_value| component_value.as_mut_alpha_value())
+                    .map(|alpha_value| alpha_value.as_mut())
                 {
                     if let AlphaValue::Percentage(Percentage {
                         span,
