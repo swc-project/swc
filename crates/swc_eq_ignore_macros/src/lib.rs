@@ -141,10 +141,10 @@ impl Deriver {
                         span: field.ty.span(),
                     }),
                 },
-                colon_token: Some(ident.span().as_token()),
+                colon_token: Some(Token![:](ident.span())),
                 pat: Box::new(Pat::Ident(PatIdent {
                     attrs: Default::default(),
-                    by_ref: Some(field.ident.span().as_token()),
+                    by_ref: Some(Token![ref](ident.span())),
                     mutability: None,
                     ident: ident.clone(),
                     subpat: None,
