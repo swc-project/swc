@@ -32,7 +32,6 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
-use pmutil::{prelude::*, *};
 use proc_macro2::{Span, TokenStream};
 use quote::ToTokens;
 use syn::{
