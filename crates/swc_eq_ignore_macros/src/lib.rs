@@ -59,12 +59,12 @@ impl Deriver {
 
         let body = self.make_body(&input.data);
 
-        let trait_name = self.trait_name;
+        let trait_name = &self.trait_name;
         let ty = &input.ident;
         let method_name = &self.method_name;
         quote!(
             #[automatically_derived]
-            impl ::swc_common::TraitName for #ty {
+            impl ::swc_common::#trait_name for #ty {
                 #[allow(non_snake_case)]
                 fn #method_name(&self, other: &Self) -> bool {
                     #body
