@@ -4,8 +4,7 @@ extern crate proc_macro;
 
 #[cfg(procmacro2_semver_exempt)]
 use pmutil::SpanExt;
-use pmutil::{prelude::*, synom_ext::FromSpan, Quote, SpanExt};
-use proc_macro2::Span;
+use proc_macro2::{Span, TokenStream};
 use quote::ToTokens;
 use syn::*;
 
@@ -90,8 +89,8 @@ pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
     })
 }
 
-pub fn join_stmts(stmts: &[Stmt]) -> Quote {
-    let mut q = Quote::new_call_site();
+pub fn join_stmts(stmts: &[Stmt]) -> TokenStream {
+    let mut q = TokenStream::new();
 
     for s in stmts {
         q.push_tokens(s);

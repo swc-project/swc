@@ -1,6 +1,5 @@
 use std::iter;
 
-use pmutil::ToTokensExt;
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::{punctuated::Pair, *};

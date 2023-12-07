@@ -158,7 +158,7 @@ impl Deriver {
         }
 
         // true && a.type_eq(&other.a) && b.type_eq(&other.b)
-        let mut expr: Expr = q!({ true }).parse();
+        let mut expr: Expr = parse_quote!(true);
 
         for expr_el in exprs {
             expr = Expr::Binary(ExprBinary {
