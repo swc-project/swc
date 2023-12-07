@@ -89,7 +89,7 @@ pub fn make_doc_attr(s: &str) -> Attribute {
             eq_token: Token![=](span),
             value: Expr::Lit(ExprLit {
                 attrs: Default::default(),
-                lit: Lit::Str(LitStr::new(s.as_ref(), span)),
+                lit: Lit::Str(LitStr::new(s, span)),
             }),
         }),
     }

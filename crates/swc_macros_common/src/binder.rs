@@ -32,7 +32,7 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
-use proc_macro2::{Span, TokenStream};
+use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::{
     punctuated::Pair,
@@ -171,7 +171,8 @@ impl<'a> VariantBinder<'a> {
                                 .clone()
                                 .expect("field of struct-like variants should have name");
 
-                            let binded_ident = ident.new_ident_with(|s| format!("{}{}", prefix, s));
+                            let binded_ident =
+                                Ident::new(&format!("{}{}", prefix, ident), ident.span());
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),

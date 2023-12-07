@@ -129,8 +129,8 @@ impl Deriver {
                 .clone()
                 .unwrap_or_else(|| Ident::new(&format!("_{}", i), field.ty.span()));
             //
-            let l_binding_ident = base.new_ident_with(|base| format!("_l_{}", base));
-            let r_binding_ident = base.new_ident_with(|base| format!("_r_{}", base));
+            let l_binding_ident = Ident::new(&format!("_l_{}", base), base.span());
+            let r_binding_ident = Ident::new(&format!("_r_{}", base), base.span());
 
             let make_pat_field = |ident: &Ident| FieldPat {
                 attrs: Default::default(),
