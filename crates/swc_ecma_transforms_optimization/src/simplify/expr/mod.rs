@@ -1278,15 +1278,8 @@ impl VisitMut for SimplifyExpr {
 
         match expr {
             // Do nothing.
-            Expr::Lit(_) | Expr::This(..) => return,
-
-            // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr: e, .. }) => {
-                self.changed = true;
-
-                *expr = *e.take();
-                return;
-            }
+            // Note: Paren is removed in precompress pass
+            Expr::Lit(_) | Expr::This(..) | Expr::Paren(..) => return,
 
             Expr::Seq(seq) if seq.exprs.is_empty() => return,
 

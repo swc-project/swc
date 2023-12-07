@@ -29,7 +29,10 @@ impl VisitMut for PrecompressOptimizer {
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         e.visit_mut_children_with(self);
 
-        if let Expr::Paren(p) = e {
+        while let Expr::Paren(p) = e {
+            if p.expr.is_opt_chain() {
+                break;
+            }
             *e = *p.expr.take();
         }
     }
