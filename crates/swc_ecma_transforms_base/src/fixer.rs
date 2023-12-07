@@ -857,17 +857,13 @@ impl Fixer<'_> {
                     }
                 }
 
-                let expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                let mut expr = Expr::Seq(SeqExpr { span: *span, exprs });
 
-                match self.ctx {
-                    Context::ForcedExpr => {
-                        *e = Expr::Paren(ParenExpr {
-                            span: *span,
-                            expr: Box::new(expr),
-                        })
-                    }
-                    _ => *e = expr,
+                if let Context::ForcedExpr = self.ctx {
+                    self.wrap(&mut expr);
                 };
+
+                *e = expr;
             }
 
             Expr::Cond(expr) => {
@@ -907,10 +903,7 @@ impl Fixer<'_> {
                 || callee.is_await_expr()
                 || callee.is_assign() =>
             {
-                *callee = Box::new(Expr::Paren(ParenExpr {
-                    span: callee.span(),
-                    expr: callee.take(),
-                }))
+                self.wrap(callee);
             }
             Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
                 OptChainBase::Call(OptCall { callee, .. })
@@ -919,10 +912,7 @@ impl Fixer<'_> {
                         || callee.is_await_expr()
                         || callee.is_assign() =>
                 {
-                    *callee = Box::new(Expr::Paren(ParenExpr {
-                        span: callee.span(),
-                        expr: callee.take(),
-                    }))
+                    self.wrap(callee);
                 }
 
                 OptChainBase::Call(OptCall { callee, .. }) if callee.is_fn_expr() => match self.ctx
