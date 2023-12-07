@@ -13,6 +13,22 @@ pub mod derive;
 pub mod prelude;
 mod syn_ext;
 
+pub fn call_site() -> Span {
+    Span::call_site()
+}
+
+/// `Span::def_site().located_at(Span::call_site())`
+#[cfg(not(procmacro2_semver_exempt))]
+pub fn def_site() -> Span {
+    call_site()
+}
+
+/// `Span::def_site().located_at(Span::call_site())`
+#[cfg(procmacro2_semver_exempt)]
+pub fn def_site() -> Span {
+    Span::def_site().located_at(Span::call_site())
+}
+
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node
 pub fn print(attr: &'static str, tokens: proc_macro2::TokenStream) -> proc_macro::TokenStream {
     use std::env;
