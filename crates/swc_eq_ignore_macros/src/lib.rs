@@ -1,5 +1,5 @@
-use pmutil::{q, IdentExt, SpanExt};
 use proc_macro2::Span;
+use quote::quote;
 use syn::{
     parse, punctuated::Punctuated, spanned::Spanned, Arm, BinOp, Block, Data, DeriveInput, Expr,
     ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat, PatIdent, PatRest,
@@ -59,20 +59,15 @@ impl Deriver {
 
         let body = self.make_body(&input.data);
 
-        q!(
-            Vars {
-                TraitName: &self.trait_name,
-                Type: &input.ident,
-                method_name: &self.method_name,
-                body,
-            },
-            {
-                #[automatically_derived]
-                impl ::swc_common::TraitName for Type {
-                    #[allow(non_snake_case)]
-                    fn method_name(&self, other: &Self) -> bool {
-                        body
-                    }
+        let trait_name = self.trait_name;
+        let ty = &input.ident;
+        let method_name = &self.method_name;
+        quote!(
+            #[automatically_derived]
+            impl ::swc_common::TraitName for #ty {
+                #[allow(non_snake_case)]
+                fn #method_name(&self, other: &Self) -> bool {
+                    #body
                 }
             }
         )
