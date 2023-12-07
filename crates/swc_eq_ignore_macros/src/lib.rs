@@ -85,22 +85,15 @@ impl Deriver {
                 //
                 let mut arms = Punctuated::<_, Token![,]>::default();
                 for v in &e.variants {
-                    let arm = self.make_arm_from_fields(
-                        q!(Vars { Variant: &v.ident }, { Self::Variant }).parse(),
-                        &v.fields,
-                    );
+                    let vi = &v.ident;
+                    let arm = self.make_arm_from_fields(parse_quote!(Self::#vi), &v.fields);
 
                     arms.push(arm);
                 }
 
-                arms.push(
-                    q!({
-                        _ => false
-                    })
-                    .parse(),
-                );
+                arms.push(parse_quote!(_ => false));
 
-                q!(Vars { arms }, (match (self, other) { arms })).parse()
+                parse_quote!(match (self, other) { #arms })
             }
             Data::Union(_) => unimplemented!("union"),
         }
