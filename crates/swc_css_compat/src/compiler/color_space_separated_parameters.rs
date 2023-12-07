@@ -20,13 +20,9 @@ impl Compiler {
             }
 
             if function.value.iter().any(|n| {
-                matches!(
-                    n,
-                    ComponentValue::Delimiter(box Delimiter {
-                        value: DelimiterValue::Comma,
-                        ..
-                    })
-                )
+                n.as_delimiter()
+                    .filter(|delimiter| delimiter.value.is_comma())
+                    .is_some()
             }) {
                 return;
             }
@@ -43,13 +39,11 @@ impl Compiler {
                                 span: DUMMY_SP,
                             })),
                         ]
-                    } else if matches!(
-                        node,
-                        ComponentValue::Delimiter(box Delimiter {
-                            value: DelimiterValue::Solidus,
-                            ..
-                        })
-                    ) {
+                    } else if node
+                        .as_delimiter()
+                        .filter(|delimiter| delimiter.value.is_solidus())
+                        .is_some()
+                    {
                         vec![ComponentValue::Delimiter(Box::new(Delimiter {
                             value: DelimiterValue::Comma,
                             span: DUMMY_SP,

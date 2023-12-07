@@ -22,9 +22,10 @@ fn shorten_hex_color(value: &str) -> Option<&str> {
 
 impl Compiler {
     pub(crate) fn process_color_hex_alpha(&mut self, n: &mut ComponentValue) {
-        if let ComponentValue::Color(box Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(
-            hex_color,
-        ))) = n
+        if let Some(hex_color) = n
+            .as_mut_color()
+            .and_then(|color| color.as_mut_absolute_color_base())
+            .and_then(|color| color.as_mut_hex_color())
         {
             if hex_color.value.len() != 4 && hex_color.value.len() != 8 {
                 return;

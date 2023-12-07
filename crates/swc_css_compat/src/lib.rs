@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![allow(clippy::boxed_local)]
 #![allow(clippy::vec_box)]
 
