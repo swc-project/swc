@@ -156,10 +156,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         attrs: vec![make_doc_attr(
             "This module contains enums representing fields of each types",
         )],
-        vis: Visibility::Public(def_site()),
+        vis: Visibility::Public(Token![pub](def_site())),
         mod_token: Default::default(),
         ident: Ident::new("fields", call_site()),
-        content: Some((def_site(), field_module_body)),
+        content: Some((Default::default(), field_module_body)),
         semi: None,
         unsafety: None,
     });
