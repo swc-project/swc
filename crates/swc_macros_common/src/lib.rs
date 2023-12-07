@@ -78,7 +78,7 @@ pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
         attrs: Default::default(),
         base: syn::parse2(obj.to_token_stream())
             .expect("swc_macros_common::access_field: failed to parse object"),
-        dot_token: Span::call_site().as_token(),
+        dot_token: Token![.](Span::call_site()),
         member: match &f.ident {
             Some(id) => Member::Named(id.clone()),
             _ => Member::Unnamed(Index {
