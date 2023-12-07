@@ -288,16 +288,16 @@ pub fn expand(
 
             let visit_str_body = Expr::Match(ExprMatch {
                 attrs: Default::default(),
-                match_token: call_site(),
+                match_token: Default::default(),
                 expr: q!((__value)).parse(),
-                brace_token: call_site(),
+                brace_token: Default::default(),
                 arms: visit_str_arms,
             });
             let visit_bytes_body = Expr::Match(ExprMatch {
                 attrs: Default::default(),
-                match_token: call_site(),
+                match_token: Default::default(),
                 expr: q!((__value)).parse(),
-                brace_token: call_site(),
+                brace_token: Default::default(),
                 arms: visit_bytes_arms,
             });
 
@@ -383,9 +383,9 @@ pub fn expand(
 
         let match_type_expr = Expr::Match(ExprMatch {
             attrs: Default::default(),
-            match_token: call_site(),
+            match_token: Default::default(),
             expr: q!({ __tagged }).parse(),
-            brace_token: call_site(),
+            brace_token: Default::default(),
             arms: tag_match_arms,
         });
 

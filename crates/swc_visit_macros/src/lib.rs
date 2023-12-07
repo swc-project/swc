@@ -459,7 +459,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                     ty: Type::Reference(TypeReference {
                         and_token: name.span().as_token(),
                         lifetime: Some(Lifetime {
-                            apostrophe: call_site(),
+                            apostrophe: Default::default(),
                             ident: Ident::new("ast", name.span()),
                         }),
                         mutability: Default::default(),
@@ -550,7 +550,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             g.push(GenericParam::Lifetime(LifetimeParam {
                 attrs: Default::default(),
                 lifetime: Lifetime {
-                    apostrophe: call_site(),
+                    apostrophe: Default::default(),
                     ident: Ident::new("ast", def_site()),
                 },
                 colon_token: Default::default(),
