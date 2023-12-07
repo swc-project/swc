@@ -87,7 +87,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 pat,
                 guard: None,
                 fat_arrow_token: Default::default(),
-                comma: Some(def_site()),
+                comma: Some(Token ! [ , ](def_site())),
             }
         })
         .collect();
@@ -96,11 +96,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: Default::default(),
         brace_token: Default::default(),
-        expr: Box::new(
-            Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(Vars {}, { self }))
-                .parse(),
-        ),
+        expr: Box::new(parse_quote!(self)),
         arms,
     });
 
@@ -178,7 +174,7 @@ fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) 
             .unwrap_or_else(|| {
                 panic!(
                     "#[derive(Spanned)]: cannot determine span field to use for {}",
-                    v.qual_path().dump()
+                    v.qual_path().into_token_stream()
                 )
             });
 

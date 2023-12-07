@@ -1,4 +1,3 @@
-use pmutil::{q, smart_quote, Quote, SpanExt};
 use swc_macros_common::prelude::*;
 use syn::{
     self,
