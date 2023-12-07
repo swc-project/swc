@@ -50,16 +50,15 @@ impl Visit for UnitNoUnknown {
     }
 
     fn visit_component_value(&mut self, component_value: &ComponentValue) {
-        if let ComponentValue::PreservedToken(
-            token_and_span @ box TokenAndSpan {
-                token: Token::Dimension(box DimensionToken { unit, .. }),
-                ..
-            },
-        ) = component_value
-        {
-            if self.ignored_units.iter().all(|item| !item.is_match(unit)) {
-                let message = format!("Unexpected unknown unit \"{}\".", unit);
-                self.ctx.report(token_and_span, message);
+        if let Some(token_and_span) = component_value.as_preserved_token() {
+            if let Some(unit) = match &token_and_span.token {
+                Token::Dimension(dimension_token) => Some(dimension_token.unit.as_ref()),
+                _ => None,
+            } {
+                if self.ignored_units.iter().all(|item| !item.is_match(unit)) {
+                    let message = format!("Unexpected unknown unit \"{}\".", unit);
+                    self.ctx.report(token_and_span, message);
+                }
             }
         }
 
