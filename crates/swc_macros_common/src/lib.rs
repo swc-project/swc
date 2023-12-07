@@ -93,7 +93,7 @@ pub fn join_stmts(stmts: &[Stmt]) -> TokenStream {
     let mut q = TokenStream::new();
 
     for s in stmts {
-        q.push_tokens(s);
+        s.to_tokens(&mut q);
     }
 
     q
