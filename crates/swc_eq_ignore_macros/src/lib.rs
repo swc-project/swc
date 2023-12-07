@@ -154,17 +154,7 @@ impl Deriver {
             l_pat_fields.push(make_pat_field(&l_binding_ident));
             r_pat_fields.push(make_pat_field(&r_binding_ident));
 
-            exprs.push(
-                q!(
-                    Vars {
-                        method_name: &method_name,
-                        l: &l_binding_ident,
-                        r: &r_binding_ident
-                    },
-                    { l.method_name(r) }
-                )
-                .parse::<Expr>(),
-            );
+            exprs.push(parse_quote!(#l_binding_ident.#method_name(#r_binding_ident)));
         }
 
         // true && a.type_eq(&other.a) && b.type_eq(&other.b)
@@ -174,7 +164,7 @@ impl Deriver {
             expr = Expr::Binary(ExprBinary {
                 attrs: Default::default(),
                 left: Box::new(expr),
-                op: BinOp::And(Span::call_site().as_token()),
+                op: BinOp::And(Token![&&](Span::call_site())),
                 right: Box::new(expr_el),
             });
         }
@@ -194,7 +184,7 @@ impl Deriver {
                         fields: l_pat_fields,
                         rest: Some(PatRest {
                             attrs: Default::default(),
-                            dot2_token: Span::call_site().as_token(),
+                            dot2_token: Token![..](Span::call_site()),
                         }),
                     }));
                     elems.push(Pat::Struct(PatStruct {
@@ -205,14 +195,14 @@ impl Deriver {
                         fields: r_pat_fields,
                         rest: Some(PatRest {
                             attrs: Default::default(),
-                            dot2_token: Span::call_site().as_token(),
+                            dot2_token: Token![..](Span::call_site()),
                         }),
                     }));
                     elems
                 },
             }),
             guard: Default::default(),
-            fat_arrow_token: Span::call_site().as_token(),
+            fat_arrow_token: Token![=>](Span::call_site()),
             body: Box::new(Expr::Block(ExprBlock {
                 attrs: Default::default(),
                 label: Default::default(),
