@@ -6,7 +6,7 @@ extern crate proc_macro;
 use pmutil::SpanExt;
 use proc_macro2::{Span, TokenStream};
 use quote::ToTokens;
-use syn::*;
+use syn::{punctuated::Pair, *};
 
 pub mod binder;
 pub mod derive;
@@ -70,7 +70,29 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
 
 /// Creates a doc comment.
 pub fn make_doc_attr(s: &str) -> Attribute {
-    comment(s)
+    let span = Span::call_site();
+
+    Attribute {
+        style: AttrStyle::Outer,
+        bracket_token: Default::default(),
+        pound_token: Token![#](span),
+        meta: Meta::NameValue(MetaNameValue {
+            path: Path {
+                leading_colon: None,
+                segments: vec![Pair::End(PathSegment {
+                    ident: Ident::new("doc", span),
+                    arguments: Default::default(),
+                })]
+                .into_iter()
+                .collect(),
+            },
+            eq_token: Token![=](span),
+            value: Expr::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit::Str(LitStr::new(s.as_ref(), span)),
+            }),
+        }),
+    }
 }
 
 pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
