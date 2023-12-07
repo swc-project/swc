@@ -18,7 +18,7 @@ use ansi_term::Color;
 use anyhow::Error;
 use base64::prelude::{Engine, BASE64_STANDARD};
 use serde::de::DeserializeOwned;
-use sha1::{Digest, Sha1};
+use sha2::{Digest, Sha256};
 use swc_common::{
     chain,
     comments::SingleThreadedComments,
@@ -522,7 +522,7 @@ where
 }
 
 fn calc_hash(s: &str) -> String {
-    let mut hasher = Sha1::new();
+    let mut hasher = Sha256::new();
     hasher.update(s.as_bytes());
     let sum = hasher.finalize();
 

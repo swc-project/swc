@@ -5,9 +5,6 @@
 
 
 
-- **(bindings/node)** Support `TsSatisfiesExpression` ([#7317](https://github.com/swc-project/swc/issues/7317)) ([761ef83](https://github.com/swc-project/swc/commit/761ef8389dd000e465bd385ec925654a8cb2ae09))
-
-
 - **(bindings/type)** Update types of `jsc.experimental` ([#7972](https://github.com/swc-project/swc/issues/7972)) ([e40fccb](https://github.com/swc-project/swc/commit/e40fccb9ce2a8fc925de818c8da4b6503aab7ae3))
 
 
@@ -74,9 +71,6 @@
 - **(es/ast)** Bump version ([#7793](https://github.com/swc-project/swc/issues/7793)) ([13bedc0](https://github.com/swc-project/swc/commit/13bedc084e46db193b3fd0b7930046b2f013742b))
 
 
-- **(es/codegen)** Fix codegen of `TsModuleDecl` ([#7319](https://github.com/swc-project/swc/issues/7319)) ([0ca05d8](https://github.com/swc-project/swc/commit/0ca05d8b69b6301e2346e5de6c45a77c863676e9))
-
-
 - **(es/codegen)** Emit type arguments for call expressions ([#7335](https://github.com/swc-project/swc/issues/7335)) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
 
 
@@ -132,9 +126,6 @@
 
 
 - **(es/codegen)** Wrap quote for length greater than one ([#8351](https://github.com/swc-project/swc/issues/8351)) ([2cdea3f](https://github.com/swc-project/swc/commit/2cdea3fbeaf4a2dac662a4d019982943c0a896ba))
-
-
-- **(es/compat)** Transform curried function call with optional chaining ([#7313](https://github.com/swc-project/swc/issues/7313)) ([66b5b11](https://github.com/swc-project/swc/commit/66b5b110bf94259e0e0223224940bb8d0384e9b6))
 
 
 - **(es/compat)** Fix `is_setter` in `parameters` pass ([#7348](https://github.com/swc-project/swc/issues/7348)) ([e0de83e](https://github.com/swc-project/swc/commit/e0de83e862f7de765ba804e8c31a16660d7186b5))
@@ -963,6 +954,9 @@
 
 
 - **(css/codegen)** Support stable rust ([#8379](https://github.com/swc-project/swc/issues/8379)) ([7cddbc6](https://github.com/swc-project/swc/commit/7cddbc618a189446d7f781a5c11f6f02bf7504e3))
+
+
+- **(css/minifier)** Support stable rust ([#8389](https://github.com/swc-project/swc/issues/8389)) ([305e72e](https://github.com/swc-project/swc/commit/305e72e67297fabefb5124922e52b15522496467))
 
 
 - **(css/modules)** Support stable rust ([#8381](https://github.com/swc-project/swc/issues/8381)) ([0ff4157](https://github.com/swc-project/swc/commit/0ff4157375715b9bf6cf1ef791742707a24cfd70))
