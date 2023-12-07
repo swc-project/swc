@@ -120,15 +120,11 @@ impl<'a> VariantBinder<'a> {
     /// `EnumName::VariantName` for enum, and `StructName` for struct.
     pub fn qual_path(&self) -> Path {
         match self.enum_name {
-            Some(enum_name) => Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(
-                    Vars {
-                        EnumName: enum_name,
-                        VariantName: self.name,
-                    },
-                    { EnumName::VariantName }
-                ))
-                .parse(),
+            Some(enum_name) => {
+                let vn = &self.name;
+
+                parse_quote!(#enum_name::#vn)
+            }
             None => self.name.clone().into(),
         }
     }
