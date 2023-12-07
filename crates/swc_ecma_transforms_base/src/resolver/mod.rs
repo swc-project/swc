@@ -344,35 +344,17 @@ impl<'a> Resolver<'a> {
 
         if self.in_type {
             self.current.declared_types.insert(ident.sym.clone());
-            let mark = self.current.mark;
-
-            ident.span = if mark == Mark::root() {
-                ident.span
-            } else {
-                let span = ident.span.apply_mark(mark);
-                if cfg!(debug_assertions) && LOG {
-                    debug!("\t-> {:?}", span.ctxt());
-                }
-                span
-            };
-            return;
+        } else {
+            self.current
+                .declared_symbols
+                .insert(ident.sym.clone(), kind);
         }
 
         let mark = self.current.mark;
 
-        self.current
-            .declared_symbols
-            .insert(ident.sym.clone(), kind);
-
-        ident.span = if mark == Mark::root() {
-            ident.span
-        } else {
-            let span = ident.span.apply_mark(mark);
-            if cfg!(debug_assertions) && LOG {
-                debug!("\t-> {:?}", span.ctxt());
-            }
-            span
-        };
+        if mark != Mark::root() {
+            ident.span = ident.span.apply_mark(mark);
+        }
     }
 
     fn mark_block(&mut self, span: &mut Span) {
