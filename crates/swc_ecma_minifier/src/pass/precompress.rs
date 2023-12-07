@@ -27,14 +27,14 @@ impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
         while let Expr::Paren(p) = e {
             if p.expr.is_opt_chain() {
                 break;
             }
             *e = *p.expr.take();
         }
+
+        e.visit_mut_children_with(self);
     }
 
     fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
