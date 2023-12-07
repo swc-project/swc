@@ -1,3 +1,4 @@
+use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{
     self,
@@ -289,14 +290,14 @@ pub fn expand(
             let visit_str_body = Expr::Match(ExprMatch {
                 attrs: Default::default(),
                 match_token: Default::default(),
-                expr: q!((__value)).parse(),
+                expr: parse_quote!(__value),
                 brace_token: Default::default(),
                 arms: visit_str_arms,
             });
             let visit_bytes_body = Expr::Match(ExprMatch {
                 attrs: Default::default(),
                 match_token: Default::default(),
-                expr: q!((__value)).parse(),
+                expr: parse_quote!(__value),
                 brace_token: Default::default(),
                 arms: visit_bytes_arms,
             });
