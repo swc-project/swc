@@ -4675,7 +4675,7 @@ version = "0.22.12"
 dependencies = [
  "anyhow",
  "hex",
- "sha-1",
+ "sha2",
  "testing",
  "tracing",
 ]
@@ -4915,7 +4915,7 @@ dependencies = [
  "hex",
  "serde",
  "serde_json",
- "sha-1",
+ "sha2",
  "sourcemap",
  "swc_common",
  "swc_ecma_ast",
