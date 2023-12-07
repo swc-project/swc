@@ -1278,7 +1278,7 @@ impl VisitMut for SimplifyExpr {
 
         match expr {
             // Do nothing.
-            // Note: Paren is removed in precompress pass
+            // Note: Paren should be handled in fixer
             Expr::Lit(_) | Expr::This(..) | Expr::Paren(..) => return,
 
             Expr::Seq(seq) if seq.exprs.is_empty() => return,
