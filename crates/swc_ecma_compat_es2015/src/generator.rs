@@ -1098,7 +1098,7 @@ impl Generator {
             );
         }
 
-        let expressions: Vec<Option<ExprOrSpread>> = elements
+        let expressions = elements
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
