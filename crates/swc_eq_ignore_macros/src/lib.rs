@@ -1,9 +1,9 @@
 use proc_macro2::Span;
 use quote::quote;
 use syn::{
-    parse, punctuated::Punctuated, spanned::Spanned, Arm, BinOp, Block, Data, DeriveInput, Expr,
-    ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat, PatIdent, PatRest,
-    PatStruct, PatTuple, Path, Stmt, Token,
+    parse, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, BinOp, Block, Data,
+    DeriveInput, Expr, ExprBinary, ExprBlock, Field, FieldPat, Fields, Ident, Index, Member, Pat,
+    PatIdent, PatRest, PatStruct, PatTuple, Path, Stmt, Token,
 };
 
 /// Derives `swc_common::TypeEq`.
@@ -77,9 +77,9 @@ impl Deriver {
     fn make_body(&self, data: &Data) -> Expr {
         match data {
             Data::Struct(s) => {
-                let arm = self.make_arm_from_fields(q!({ Self }).parse(), &s.fields);
+                let arm = self.make_arm_from_fields(parse_quote!(Self), &s.fields);
 
-                q!(Vars { arm }, (match (self, other) { arm })).parse()
+                parse_quote!(match (self, other) { #arm })
             }
             Data::Enum(e) => {
                 //
