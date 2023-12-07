@@ -343,17 +343,19 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
 
                     match (n.value.get(1), n.value.get(2)) {
                         (
-                            Some(ComponentValue::Ident(box Ident {
+                            Some(ComponentValue::Ident(first)),
+                            Some(ComponentValue::Ident(second)),
+                        ) => {
+                            let Ident {
                                 value: first_value,
                                 span: first_span,
                                 ..
-                            })),
-                            Some(ComponentValue::Ident(box Ident {
+                            } = &**first;
+                            let Ident {
                                 value: second_value,
                                 span: second_span,
                                 ..
-                            })),
-                        ) => {
+                            } = &**second;
                             if let (Some(new_first_direction), Some(new_second_direction)) = (
                                 get_old_direction(first_value),
                                 get_old_direction(second_value),
@@ -374,7 +376,8 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                                 n.value.splice(0..3, new_value);
                             }
                         }
-                        (Some(ComponentValue::Ident(box Ident { value, span, .. })), Some(_)) => {
+                        (Some(ComponentValue::Ident(ident)), Some(_)) => {
+                            let Ident { value, span, .. } = &**ident;
                             if let Some(new_direction) = get_old_direction(value) {
                                 let new_value = vec![ComponentValue::Ident(Box::new(Ident {
                                     span: *span,
@@ -388,69 +391,71 @@ impl VisitMut for LinearGradientFunctionReplacerOnLegacyVariant<'_> {
                         _ => {}
                     }
                 }
-                Some(ComponentValue::Dimension(box Dimension::Angle(Angle {
-                    value,
-                    unit,
-                    span,
-                    ..
-                }))) => {
-                    let angle = match &*unit.value {
-                        "deg" => (value.value % 360.0 + 360.0) % 360.0,
-                        "grad" => value.value * 180.0 / 200.0,
-                        "rad" => value.value * 180.0 / PI,
-                        "turn" => value.value * 360.0,
-                        _ => {
-                            return;
+                Some(ComponentValue::Dimension(dimension)) => {
+                    if let Dimension::Angle(Angle {
+                        value, unit, span, ..
+                    }) = &**dimension
+                    {
+                        let angle = match &*unit.value {
+                            "deg" => (value.value % 360.0 + 360.0) % 360.0,
+                            "grad" => value.value * 180.0 / 200.0,
+                            "rad" => value.value * 180.0 / PI,
+                            "turn" => value.value * 360.0,
+                            _ => {
+                                return;
+                            }
+                        };
+
+                        if angle == 0.0 {
+                            n.value[0] = ComponentValue::Ident(Box::new(Ident {
+                                span: *span,
+                                value: "bottom".into(),
+                                raw: None,
+                            }));
+                        } else if angle == 90.0 {
+                            n.value[0] = ComponentValue::Ident(Box::new(Ident {
+                                span: *span,
+                                value: "left".into(),
+                                raw: None,
+                            }));
+                        } else if angle == 180.0 {
+                            n.value[0] = ComponentValue::Ident(Box::new(Ident {
+                                span: *span,
+                                value: "top".into(),
+                                raw: None,
+                            }));
+                        } else if angle == 270.0 {
+                            n.value[0] = ComponentValue::Ident(Box::new(Ident {
+                                span: *span,
+                                value: "right".into(),
+                                raw: None,
+                            }));
+                        } else {
+                            let new_value =
+                                ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
+
+                            n.value[0] =
+                                ComponentValue::Dimension(Box::new(Dimension::Angle(Angle {
+                                    span: *span,
+                                    value: Number {
+                                        span: value.span,
+                                        value: new_value,
+                                        raw: None,
+                                    },
+                                    unit: Ident {
+                                        span: unit.span,
+                                        value: "deg".into(),
+                                        raw: None,
+                                    },
+                                })));
                         }
-                    };
-
-                    if angle == 0.0 {
-                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
-                            span: *span,
-                            value: "bottom".into(),
-                            raw: None,
-                        }));
-                    } else if angle == 90.0 {
-                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
-                            span: *span,
-                            value: "left".into(),
-                            raw: None,
-                        }));
-                    } else if angle == 180.0 {
-                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
-                            span: *span,
-                            value: "top".into(),
-                            raw: None,
-                        }));
-                    } else if angle == 270.0 {
-                        n.value[0] = ComponentValue::Ident(Box::new(Ident {
-                            span: *span,
-                            value: "right".into(),
-                            raw: None,
-                        }));
-                    } else {
-                        let new_value = ((450.0 - angle).abs() % 360.0 * 1000.0).round() / 1000.0;
-
-                        n.value[0] = ComponentValue::Dimension(Box::new(Dimension::Angle(Angle {
-                            span: *span,
-                            value: Number {
-                                span: value.span,
-                                value: new_value,
-                                raw: None,
-                            },
-                            unit: Ident {
-                                span: unit.span,
-                                value: "deg".into(),
-                                raw: None,
-                            },
-                        })));
                     }
                 }
                 Some(_) | None => {}
             }
 
             if matches!(self.from, "radial-gradient" | "repeating-radial-gradient") {
-                let at_index = n.value.iter().position(|n| matches!(n, ComponentValue::Ident(box Ident { value, .. }) if value.as_ref().eq_ignore_ascii_case("at")));
+                let at_index = n.value.iter().position(|n| matches!(n, ComponentValue::Ident(ident) if ident.value.as_ref().eq_ignore_ascii_case("at")));
                 let first_comma_index = n.value.iter().position(|n| {
                     matches!(
                         n,
@@ -632,7 +637,7 @@ impl VisitMut for FontFaceFormatOldSyntax {
             return;
         }
 
-        if let Some(ComponentValue::Ident(box ident)) = n.value.first() {
+        if let Some(ComponentValue::Ident(ident)) = n.value.first() {
             let new_value: JsWord = ident.value.to_ascii_lowercase();
             let new_value = match &*new_value {
                 "woff" | "truetype" | "opentype" | "woff2" | "embedded-opentype" | "collection"
@@ -787,7 +792,7 @@ impl Prefixer {
     fn is_duplicate(&self, name: &str) -> bool {
         if let Some(simple_block) = &self.simple_block {
             for n in simple_block.value.iter() {
-                if let ComponentValue::Declaration(box declaration) = n {
+                if let ComponentValue::Declaration(declaration) = n {
                     if declaration.name == *name {
                         return true;
                     }
@@ -2175,15 +2180,15 @@ impl VisitMut for Prefixer {
                         Box::new(|| {
                             let mut value = ms_value.clone();
 
-                            if let Some(ComponentValue::Integer(box Integer {
-                                value: 0,
-                                span,
-                                ..
-                            })) = value.get(2)
+                            if let Some(span) = value
+                                .get(2)
+                                .and_then(|component_value| component_value.as_integer())
+                                .filter(|integer| integer.value == 0)
+                                .map(|integer| integer.span)
                             {
                                 value[2] = ComponentValue::Dimension(Box::new(Dimension::Length(
                                     Length {
-                                        span: *span,
+                                        span,
                                         value: Number {
                                             span: DUMMY_SP,
                                             value: 0.0,
@@ -2285,9 +2290,9 @@ impl VisitMut for Prefixer {
             }
 
             "flex-flow" => {
-                let is_single_flex_wrap = matches!(n.value.first(), Some(ComponentValue::Ident(box Ident { value, .. })) if n.value.len() == 1
+                let is_single_flex_wrap = matches!(n.value.first(), Some(ComponentValue::Ident(ident)) if n.value.len() == 1
                 && matches!(
-                   &* value.to_ascii_lowercase(),
+                   &* ident.value.to_ascii_lowercase(),
                     "wrap" | "nowrap" | "wrap-reverse"
                 ));
 
@@ -2356,7 +2361,7 @@ impl VisitMut for Prefixer {
             "justify-content" => {
                 let need_old_spec = !matches!(
                     n.value.first(),
-                    Some(ComponentValue::Ident(box Ident { value, .. })) if value.eq_ignore_ascii_case("space-around")
+                    Some(ComponentValue::Ident(ident)) if ident.value.eq_ignore_ascii_case("space-around")
                 );
 
                 if need_old_spec {
@@ -2970,22 +2975,20 @@ impl VisitMut for Prefixer {
 
             "writing-mode" if n.value.len() == 1 => {
                 if let Some(simple_block) = &self.simple_block {
-                    let direction =
-                    match simple_block
-                        .value
-                        .iter()
-                        .rev()
-                        .find(|declaration| {
-                            matches!(declaration, ComponentValue::Declaration(box Declaration { name: DeclarationName::Ident(Ident { value, .. }), .. })
-                                if value.eq_ignore_ascii_case("direction"))
-                        }) {
-                        Some(ComponentValue::Declaration(box Declaration { value, .. })) => {
-                            match value.first() {
+                    let direction = match simple_block.value.iter().rev().find(|declaration| {
+                        declaration
+                            .as_declaration()
+                            .and_then(|declaration| declaration.name.as_ident())
+                            .filter(|ident| ident.value.eq_ignore_ascii_case("direction"))
+                            .is_some()
+                    }) {
+                        Some(ComponentValue::Declaration(declaration)) => {
+                            match declaration.value.first() {
                                 Some(ComponentValue::Ident(ident))
-                                if ident.value.eq_ignore_ascii_case("rtl") =>
-                                    {
-                                        Some("rtl")
-                                    }
+                                    if ident.value.eq_ignore_ascii_case("rtl") =>
+                                {
+                                    Some("rtl")
+                                }
                                 _ => Some("ltr"),
                             }
                         }
@@ -3321,8 +3324,8 @@ impl VisitMut for Prefixer {
 
             "overflow" if should_prefix("overflow", self.env, false) && n.value.len() == 2 => {
                 if let (
-                    Some(left @ ComponentValue::Ident(box first)),
-                    Some(right @ ComponentValue::Ident(box second)),
+                    Some(left @ ComponentValue::Ident(first)),
+                    Some(right @ ComponentValue::Ident(second)),
                 ) = (n.value.first(), n.value.get(1))
                 {
                     if first.value.eq_ignore_ascii_case(&second.value) {

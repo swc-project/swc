@@ -121,15 +121,19 @@ impl Compressor {
             return;
         }
 
-        if let ComponentValue::Dimension(box Dimension::Length(length)) = n {
-            if let Some(number) = self.length_to_zero(length) {
-                *n = ComponentValue::Number(Box::new(number))
+        let length = match n {
+            ComponentValue::Dimension(dimension) => dimension.as_mut_length(),
+            ComponentValue::LengthPercentage(length_percentage) => {
+                length_percentage.as_mut_length()
             }
-        } else if let ComponentValue::LengthPercentage(box LengthPercentage::Length(length)) = n {
-            if let Some(number) = self.length_to_zero(length) {
-                *n = ComponentValue::Number(Box::new(number))
-            }
-        }
+            _ => None,
+        };
+
+        let Some(number) = length.and_then(|length| self.length_to_zero(length)) else {
+            return;
+        };
+
+        *n = ComponentValue::Number(Box::new(number));
     }
 
     pub(super) fn compress_length(&mut self, length: &mut Length) {

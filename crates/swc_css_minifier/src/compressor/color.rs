@@ -224,42 +224,43 @@ impl Compressor {
     }
 
     fn get_alpha_value(&self, alpha_value: Option<&&ComponentValue>) -> Option<f64> {
-        match alpha_value {
-            Some(ComponentValue::AlphaValue(box AlphaValue::Number(Number { value, .. }))) => {
-                if *value > 1.0 {
-                    return Some(1.0);
-                } else if *value < 0.0 {
-                    return Some(0.0);
-                }
+        let Some(alpha_value) = alpha_value else {
+            return Some(1.0);
+        };
 
-                Some(*value)
-            }
-            Some(ComponentValue::AlphaValue(box AlphaValue::Percentage(Percentage {
-                value: Number { value, .. },
-                ..
-            }))) => {
-                if *value > 100.0 {
-                    return Some(1.0);
-                } else if *value < 0.0 {
-                    return Some(0.0);
-                }
+        match &alpha_value {
+            ComponentValue::AlphaValue(alpha_value) => match &**alpha_value {
+                AlphaValue::Number(Number { value, .. }) => {
+                    if *value > 1.0 {
+                        return Some(1.0);
+                    } else if *value < 0.0 {
+                        return Some(0.0);
+                    }
 
-                Some(*value / 100.0)
-            }
-            Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case("none") =>
-            {
-                Some(0.0)
-            }
-            None => Some(1.0),
+                    Some(*value)
+                }
+                AlphaValue::Percentage(Percentage {
+                    value: Number { value, .. },
+                    ..
+                }) => {
+                    if *value > 100.0 {
+                        return Some(1.0);
+                    } else if *value < 0.0 {
+                        return Some(0.0);
+                    }
+
+                    Some(*value / 100.0)
+                }
+            },
+            ComponentValue::Ident(ident) if ident.value.eq_ignore_ascii_case("none") => Some(0.0),
             _ => None,
         }
     }
 
     fn get_hue(&self, hue: Option<&&ComponentValue>) -> Option<f64> {
         match hue {
-            Some(ComponentValue::Hue(box hue)) => {
-                let mut value = match hue {
+            Some(ComponentValue::Hue(hue)) => {
+                let mut value = match &**hue {
                     Hue::Number(Number { value, .. }) => *value,
                     Hue::Angle(Angle {
                         value: Number { value, .. },
@@ -276,9 +277,7 @@ impl Compressor {
 
                 Some(value)
             }
-            Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case("none") =>
-            {
+            Some(ComponentValue::Ident(ident)) if ident.value.eq_ignore_ascii_case("none") => {
                 Some(0.0)
             }
             _ => None,
@@ -287,10 +286,8 @@ impl Compressor {
 
     fn get_percentage(&self, percentage: Option<&&ComponentValue>) -> Option<f64> {
         match percentage {
-            Some(ComponentValue::Percentage(box Percentage {
-                value: Number { value, .. },
-                ..
-            })) => {
+            Some(ComponentValue::Percentage(percentage)) => {
+                let Number { value, .. } = &percentage.value;
                 if *value > 100.0 {
                     return Some(1.0);
                 } else if *value < 0.0 {
@@ -299,9 +296,7 @@ impl Compressor {
 
                 Some(*value / 100.0)
             }
-            Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case("none") =>
-            {
+            Some(ComponentValue::Ident(ident)) if ident.value.eq_ignore_ascii_case("none") => {
                 Some(0.0)
             }
             _ => None,
@@ -313,30 +308,25 @@ impl Compressor {
         number_or_percentage: Option<&&ComponentValue>,
     ) -> Option<f64> {
         match number_or_percentage {
-            Some(ComponentValue::Number(box Number { value, .. })) => {
-                if *value > 255.0 {
+            Some(ComponentValue::Number(number)) => {
+                if number.value > 255.0 {
                     return Some(255.0);
-                } else if *value < 0.0 {
+                } else if number.value < 0.0 {
                     return Some(0.0);
                 }
 
-                Some(*value)
+                Some(number.value)
             }
-            Some(ComponentValue::Percentage(box Percentage {
-                value: Number { value, .. },
-                ..
-            })) => {
-                if *value > 100.0 {
+            Some(ComponentValue::Percentage(percentage)) => {
+                if percentage.value.value > 100.0 {
                     return Some(255.0);
-                } else if *value < 0.0 {
+                } else if percentage.value.value < 0.0 {
                     return Some(0.0);
                 }
 
-                Some((2.55 * *value).round())
+                Some((2.55 * percentage.value.value).round())
             }
-            Some(ComponentValue::Ident(box Ident { value, .. }))
-                if value.eq_ignore_ascii_case("none") =>
-            {
+            Some(ComponentValue::Ident(ident)) if ident.value.eq_ignore_ascii_case("none") => {
                 Some(0.0)
             }
             _ => None,
@@ -391,13 +381,10 @@ impl Compressor {
                 let rgba: Vec<_> = value
                     .iter()
                     .filter(|n| {
-                        !matches!(
-                            n,
-                            ComponentValue::Delimiter(box Delimiter {
-                                value: DelimiterValue::Comma | DelimiterValue::Solidus,
-                                ..
-                            })
-                        )
+                        !n.as_delimiter()
+                            .map(|delimiter| delimiter.value)
+                            .map(|v| matches!(v, DelimiterValue::Comma | DelimiterValue::Solidus))
+                            .unwrap_or_default()
                     })
                     .collect();
 
@@ -429,13 +416,10 @@ impl Compressor {
                 let hsla: Vec<_> = value
                     .iter()
                     .filter(|n| {
-                        !matches!(
-                            n,
-                            ComponentValue::Delimiter(box Delimiter {
-                                value: DelimiterValue::Comma | DelimiterValue::Solidus,
-                                ..
-                            })
-                        )
+                        !n.as_delimiter()
+                            .map(|delimiter| delimiter.value)
+                            .map(|v| matches!(v, DelimiterValue::Comma | DelimiterValue::Solidus))
+                            .unwrap_or_default()
                     })
                     .collect();
 

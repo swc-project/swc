@@ -4,8 +4,8 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_css_ast::{
     AtRule, AtRuleName, AtRulePrelude, CustomMediaQuery, CustomMediaQueryMediaType, Ident,
     MediaCondition, MediaConditionAllType, MediaConditionType, MediaConditionWithoutOr,
-    MediaConditionWithoutOrType, MediaFeature, MediaFeatureBoolean, MediaFeatureName,
-    MediaInParens, MediaOr, MediaQuery, MediaType, Rule,
+    MediaConditionWithoutOrType, MediaFeatureBoolean, MediaFeatureName, MediaInParens, MediaOr,
+    MediaQuery, MediaType, Rule,
 };
 
 #[derive(Debug, Default)]
@@ -18,7 +18,9 @@ impl CustomMediaHandler {
     pub(crate) fn store_custom_media(&mut self, n: &mut AtRule) {
         if let AtRuleName::Ident(name) = &n.name {
             if name.value == "custom-media" {
-                if let Some(box AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude {
+                if let Some(AtRulePrelude::CustomMediaPrelude(prelude)) =
+                    &mut n.prelude.as_deref_mut()
+                {
                     self.medias.push(prelude.take());
                 }
             }
@@ -223,10 +225,10 @@ impl CustomMediaHandler {
     }
 
     pub(crate) fn process_media_in_parens(&mut self, n: &MediaInParens) -> Option<MediaInParens> {
-        if let MediaInParens::Feature(box MediaFeature::Boolean(MediaFeatureBoolean {
+        if let Some(MediaFeatureBoolean {
             name: MediaFeatureName::ExtensionName(name),
             ..
-        })) = n
+        }) = n.as_feature().and_then(|feature| feature.as_boolean())
         {
             if let Some(custom_media) = self.medias.iter().find(|m| m.name.value == name.value) {
                 let mut new_media_condition = MediaCondition {
