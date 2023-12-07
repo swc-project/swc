@@ -269,10 +269,10 @@ pub fn expand(
                     attrs: Default::default(),
                     pat: Pat::Wild(PatWild {
                         attrs: Default::default(),
-                        underscore_token: ident.span().as_token(),
+                        underscore_token: Token!(_)(ident.span()),
                     }),
                     guard: None,
-                    fat_arrow_token: ident.span().as_token(),
+                    fat_arrow_token: Token![=>](ident.span()),
                     body: q!({
                         {
                             let __value = &swc_common::private::serde::from_utf8_lossy(__value);
