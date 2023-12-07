@@ -188,6 +188,10 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
+          # Workaround for
+          # https://github.com/yarnpkg/yarn/issues/9015#issuecomment-1831229617
+          npm install -g yarn@1.22.19
+
           yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
           curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
