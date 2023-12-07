@@ -47,9 +47,10 @@ impl<'a> Derive<'a> {
                 let mut t = TokenStream::new();
                 input.ident.to_tokens(&mut t);
                 ty_generics.to_tokens(&mut t);
-                Box::new(parse(t.dump().into()).unwrap_or_else(|err| {
-                    panic!("failed to parse type: {}\nType: {}", err, t.dump())
-                }))
+                Box::new(
+                    parse2(t.into_token_stream())
+                        .unwrap_or_else(|err| panic!("failed to parse type: {}", err)),
+                )
             };
 
             (generics, ty)
@@ -59,7 +60,7 @@ impl<'a> Derive<'a> {
             input,
             out: ItemImpl {
                 attrs: vec![],
-                impl_token: def_site(),
+                impl_token: Token!(impl)(def_site()),
                 brace_token: def_site(),
                 defaultness: None,
                 unsafety: None,
