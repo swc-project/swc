@@ -61,7 +61,7 @@ impl<'a> Derive<'a> {
             out: ItemImpl {
                 attrs: vec![],
                 impl_token: Token!(impl)(def_site()),
-                brace_token: def_site(),
+                brace_token: Default::default(),
                 defaultness: None,
                 unsafety: None,
                 generics,
@@ -89,7 +89,7 @@ impl<'a> Derive<'a> {
     pub fn append_to(mut self, item: ItemImpl) -> ItemImpl {
         assert_eq!(self.out.trait_, None);
         if !self.out.generics.params.empty_or_trailing() {
-            self.out.generics.params.push_punct(def_site());
+            self.out.generics.params.push_punct(Token![,](def_site()));
         }
 
         self.out

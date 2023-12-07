@@ -225,7 +225,8 @@ impl<'a> VariantBinder<'a> {
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
-                                def_site::<Span>().new_ident(format!("{}{}", prefix, idx));
+                                Ident::new(&format!("{}{}", prefix, idx), def_site());
+
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),

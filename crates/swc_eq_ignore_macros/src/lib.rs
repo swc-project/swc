@@ -173,14 +173,14 @@ impl Deriver {
             attrs: Default::default(),
             pat: Pat::Tuple(PatTuple {
                 attrs: Default::default(),
-                paren_token: Span::call_site().as_token(),
+                paren_token: Default::default(),
                 elems: {
                     let mut elems = Punctuated::default();
                     elems.push(Pat::Struct(PatStruct {
                         attrs: Default::default(),
                         qself: None,
                         path: pat_path.clone(),
-                        brace_token: Span::call_site().as_token(),
+                        brace_token: Default::default(),
                         fields: l_pat_fields,
                         rest: Some(PatRest {
                             attrs: Default::default(),
@@ -191,7 +191,7 @@ impl Deriver {
                         attrs: Default::default(),
                         qself: None,
                         path: pat_path,
-                        brace_token: Span::call_site().as_token(),
+                        brace_token: Default::default(),
                         fields: r_pat_fields,
                         rest: Some(PatRest {
                             attrs: Default::default(),
@@ -207,7 +207,7 @@ impl Deriver {
                 attrs: Default::default(),
                 label: Default::default(),
                 block: Block {
-                    brace_token: Span::call_site().as_token(),
+                    brace_token: Default::default(),
                     stmts: vec![Stmt::Expr(expr, None)],
                 },
             })),
