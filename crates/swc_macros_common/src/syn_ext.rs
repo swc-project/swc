@@ -44,7 +44,7 @@ impl ItemImplExt for ItemImpl {
 
         let need_new_punct = !generics.params.empty_or_trailing();
         if need_new_punct {
-            generics.params.push_punct(def_site());
+            generics.params.push_punct(Token![,](def_site()));
         }
 
         // Respan

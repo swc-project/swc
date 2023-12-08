@@ -1,6 +1,5 @@
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
 use proc_macro::TokenStream;
 use swc_macros_common::prelude::*;
 use syn::{self, fold::Fold, *};
@@ -13,7 +12,7 @@ pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let item = fold::InjectSelf { parser: None }.fold_impl_item_fn(item);
     let item = expand(item);
 
-    print("emitter", item.dump())
+    print("emitter", item.into_token_stream())
 }
 
 fn expand(i: ImplItemFn) -> ImplItemFn {
@@ -39,7 +38,7 @@ fn expand(i: ImplItemFn) -> ImplItemFn {
                         Type::Reference(TypeReference { elem, .. }) => *elem,
                         _ => panic!(
                             "Type of node parameter should be reference but got {}",
-                            ty.dump()
+                            ty.into_token_stream()
                         ),
                     }
                 })
@@ -50,37 +49,28 @@ fn (&mut self, node: Node) -> Result;
                 )
         };
 
-        Quote::new_call_site()
-            .quote_with(smart_quote!(
-                Vars {
-                    block: &i.block,
-                    NodeType: &node_type,
-                    mtd_name,
-                },
+        let block = &i.block;
+
+        parse_quote!({
+            impl crate::Node for #node_type {
+                fn emit_with<W, S: swc_common::SourceMapper>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
+                where
+                    W: crate::text_writer::WriteJs,
+                    S: swc_ecma_ast::SourceMapperExt
                 {
-                    {
-                        impl crate::Node for NodeType {
-                            fn emit_with<W, S: swc_common::SourceMapper>(&self, e: &mut crate::Emitter<'_, W, S>) -> Result
-                            where
-                                W: crate::text_writer::WriteJs,
-                                S: swc_ecma_ast::SourceMapperExt
-                            {
-                                e.mtd_name(self)
-                            }
-                        }
-
-                        block
-
-                        // Emitter methods return Result<_, _>
-                        // We inject this to avoid writing Ok(()) every time.
-                        #[allow(unreachable_code)]
-                        {
-                            return Ok(());
-                        }
-                    }
+                    e.#mtd_name(self)
                 }
-            ))
-            .parse()
+            }
+
+            #block
+
+            // Emitter methods return Result<_, _>
+            // We inject this to avoid writing Ok(()) every time.
+            #[allow(unreachable_code)]
+            {
+                return Ok(());
+            }
+        })
     };
 
     ImplItemFn { block, ..i }

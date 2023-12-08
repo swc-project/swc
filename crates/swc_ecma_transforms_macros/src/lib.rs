@@ -1,8 +1,8 @@
 #![deny(clippy::all)]
 #![recursion_limit = "2048"]
 
-use pmutil::ToTokensExt;
 use proc_macro::TokenStream;
+use quote::ToTokens;
 use swc_macros_common::print;
 
 mod common;
@@ -27,7 +27,7 @@ mod parallel;
 pub fn fast_path(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item = syn::parse(item).expect("failed to parse input as an item");
     let expanded = fast::expand(attr.into(), item);
-    print("fast_path", expanded.dump())
+    print("fast_path", expanded.into_token_stream())
 }
 
 ///
@@ -46,5 +46,5 @@ pub fn fast_path(attr: TokenStream, item: TokenStream) -> TokenStream {
 pub fn parallel(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item = syn::parse(item).expect("failed to parse input as an item");
     let expanded = parallel::expand(attr.into(), item);
-    print("parallel", expanded.dump())
+    print("parallel", expanded.into_token_stream())
 }
