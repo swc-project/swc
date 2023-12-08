@@ -4,7 +4,7 @@
 extern crate proc_macro;
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
-use quote::quote;
+use quote::{quote, TokenStreamExt};
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
 
@@ -81,18 +81,18 @@ pub fn ast_serde(
     let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
 
     // we should use call_site
-    let mut item = Quote::new(Span::call_site());
-    item = match input.data {
+    let mut item = TokenStream::new();
+    match input.data {
         Data::Enum(..) => {
             if !args.is_empty() {
                 panic!("#[ast_serde] on enum does not accept any argument")
             }
 
-            item.quote_with(smart_quote!(Vars { input }, {
+            item.extend(quote!(
                 #[derive(::serde::Serialize, ::swc_common::DeserializeEnum)]
                 #[serde(untagged)]
-                input
-            }))
+                #input
+            ));
         }
         _ => {
             let args: Option<ast_node_macro::Args> = if args.is_empty() {
@@ -121,13 +121,13 @@ pub fn ast_serde(
                 }))
             });
 
-            item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+            item.extend(quote!(
                 #[derive(::serde::Serialize, ::serde::Deserialize)]
-                serde_tag
+                #serde_tag
                 #[serde(rename_all = "camelCase")]
-                serde_rename
-                input
-            }))
+                #serde_rename
+                #input
+            ));
         }
     };
 
