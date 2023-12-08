@@ -3,7 +3,7 @@
 
 extern crate proc_macro;
 
-use quote::{quote, TokenStreamExt};
+use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
 
