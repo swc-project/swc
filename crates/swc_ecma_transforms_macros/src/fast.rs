@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 use swc_macros_common::call_site;
-use syn::{FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path, Stmt};
+use syn::{parse_quote, FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path, Stmt};
 
 use crate::common::Mode;
 
@@ -120,31 +120,19 @@ impl Expander {
             ),
         };
 
+        let checker = &self.handler;
+
         let fast_path = match self.mode {
-            Mode::Fold => q!(
-                Vars {
-                    Checker: &self.handler,
-                    arg
-                },
-                {
-                    if !swc_ecma_transforms_base::perf::should_work::<Checker, _>(&arg) {
-                        return arg;
-                    }
+            Mode::Fold => parse_quote!(
+                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&arg) {
+                    return arg;
                 }
-            )
-            .parse::<Stmt>(),
-            Mode::VisitMut => q!(
-                Vars {
-                    Checker: &self.handler,
-                    arg
-                },
-                {
-                    if !swc_ecma_transforms_base::perf::should_work::<Checker, _>(&*arg) {
-                        return;
-                    }
+            ),
+            Mode::VisitMut => parse_quote!(
+                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&*arg) {
+                    return arg;
                 }
-            )
-            .parse::<Stmt>(),
+            ),
         };
         let mut stmts = vec![fast_path];
         stmts.extend(m.block.stmts);
