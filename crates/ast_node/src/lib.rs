@@ -245,12 +245,12 @@ pub fn ast_node(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty }, {
-                    #[cfg_attr(
-                        feature = "serde-impl",
-                        serde(rename = name)
-                    )]
-                }))
+                let name = args.ty;
+
+                quote!(#[cfg_attr(
+                    feature = "serde-impl",
+                    serde(rename = #name)
+                )])
             });
 
             let ast_node_impl = args
