@@ -1,4 +1,3 @@
-use pmutil::q;
 use swc_common::Span;
 use swc_ecma_ast::*;
 use syn::ExprBlock;
@@ -19,13 +18,12 @@ macro_rules! impl_enum_body {
     ($E:ident, $s:expr, $cx:expr,[ $($v:ident),* ]) => {
         match $s {
             $(
-                $E::$v(inner) => pmutil::q!(
-                    Vars {
-                        val: crate::ast::ToCode::to_code(inner, $cx),
-                    },
-                    { swc_core::ecma::ast::$E::$v(val) }
-                )
-                .parse(),
+                $E::$v(inner) => {
+                    let val = crate::ast::ToCode::to_code(inner, $cx);
+                    syn::parse_quote!(
+                        swc_core::ecma::ast::$E::$v(val)
+                    )
+                },
             )*
         }
     };
