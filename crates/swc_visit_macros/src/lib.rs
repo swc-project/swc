@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 extern crate proc_macro;
 
 use std::{collections::HashSet, mem::replace};
@@ -172,10 +174,10 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         attrs: vec![make_doc_attr(
             "This module contains enums representing fields of each types",
         )],
-        vis: Visibility::Public(def_site()),
-        mod_token: def_site(),
+        vis: Visibility::Public(Token![pub](def_site())),
+        mod_token: Default::default(),
         ident: Ident::new("fields", call_site()),
-        content: Some((def_site(), field_module_body)),
+        content: Some((Default::default(), field_module_body)),
         semi: None,
         unsafety: None,
     });
@@ -276,9 +278,9 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
         };
 
         attrs.push(Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(derive(
                 Debug, Copy, Clone, PartialEq, Eq, PartialOrd, Ord, Hash
             )),
@@ -290,9 +292,9 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
         )));
 
         attrs.push(Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(cfg_attr(
                 feature = "serde",
                 derive(serde::Serialize, serde::Deserialize),
@@ -301,11 +303,11 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         items.push(Item::Enum(ItemEnum {
             attrs,
-            vis: Visibility::Public(def_site()),
-            enum_token: def_site(),
+            vis: Visibility::Public(Token![pub](def_site())),
+            enum_token: Default::default(),
             ident: name.clone(),
             generics: Default::default(),
-            brace_token: def_site(),
+            brace_token: Default::default(),
             variants,
         }));
     }
@@ -315,7 +317,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         methods.push(ImplItem::Fn(ImplItemFn {
             attrs: vec![make_doc_attr("This is not considered as a public API")],
-            vis: Visibility::Public(def_site()),
+            vis: Visibility::Public(Token![pub](def_site())),
             defaultness: Default::default(),
             sig: Signature {
                 constness: Default::default(),
@@ -331,7 +333,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                     v.push(FnArg::Receiver(parse_quote!(&mut self)));
                     v.push(FnArg::Typed(PatType {
                         attrs: Default::default(),
-                        colon_token: def_site(),
+                        colon_token: Default::default(),
                         ty: q!({ usize }).parse(),
                         pat: Box::new(Pat::Ident(PatIdent {
                             attrs: Default::default(),
@@ -416,7 +418,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 });
 
                 Block {
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     stmts: vec![Stmt::Expr(expr, None)],
                 }
             },
@@ -426,11 +428,11 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             attrs: Default::default(),
             defaultness: Default::default(),
             unsafety: Default::default(),
-            impl_token: def_site(),
+            impl_token: Default::default(),
             generics: Default::default(),
             trait_: Default::default(),
             self_ty: q!(Vars { Type: &name }, { Type }).parse(),
-            brace_token: def_site(),
+            brace_token: Default::default(),
             items: methods,
         }));
     }
@@ -475,7 +477,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                     ty: Type::Reference(TypeReference {
                         and_token: name.span().as_token(),
                         lifetime: Some(Lifetime {
-                            apostrophe: call_site(),
+                            apostrophe: def_site(),
                             ident: Ident::new("ast", name.span()),
                         }),
                         mutability: Default::default(),
@@ -507,7 +509,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             });
 
             Fields::Unnamed(FieldsUnnamed {
-                paren_token: def_site(),
+                paren_token: Default::default(),
                 unnamed: fields,
             })
         };
@@ -522,23 +524,23 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
     let mut attrs = vec![];
 
     attrs.push(Attribute {
-        pound_token: def_site(),
+        pound_token: Default::default(),
         style: AttrStyle::Outer,
-        bracket_token: def_site(),
+        bracket_token: Default::default(),
         meta: parse_quote!(derive(Debug, Copy, Clone, PartialEq)),
     });
     if !is_ref {
         attrs.push(Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(derive(Eq, PartialOrd, Ord, Hash)),
         });
 
         attrs.push(Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(cfg_attr(
                 feature = "serde",
                 derive(serde::Serialize, serde::Deserialize),
@@ -546,16 +548,16 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
         });
     }
     attrs.push(Attribute {
-        pound_token: def_site(),
+        pound_token: Default::default(),
         style: AttrStyle::Outer,
-        bracket_token: def_site(),
+        bracket_token: Default::default(),
         meta: parse_quote!(allow(clippy::derive_partial_eq_without_eq)),
     });
 
     Item::Enum(ItemEnum {
         attrs,
-        vis: Visibility::Public(def_site()),
-        enum_token: def_site(),
+        vis: Visibility::Public(Token![pub](def_site())),
+        enum_token: Default::default(),
         ident: if is_ref {
             Ident::new("AstParentNodeRef", call_site())
         } else {
@@ -566,7 +568,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             g.push(GenericParam::Lifetime(LifetimeParam {
                 attrs: Default::default(),
                 lifetime: Lifetime {
-                    apostrophe: call_site(),
+                    apostrophe: def_site(),
                     ident: Ident::new("ast", def_site()),
                 },
                 colon_token: Default::default(),
@@ -574,15 +576,15 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             }));
 
             Generics {
-                lt_token: Some(def_site()),
+                lt_token: Some(Token![<](def_site())),
                 params: g,
-                gt_token: Some(def_site()),
+                gt_token: Some(Token![>](def_site())),
                 where_clause: None,
             }
         } else {
             Default::default()
         },
-        brace_token: def_site(),
+        brace_token: Default::default(),
         variants,
     })
 }
@@ -602,16 +604,16 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
             asyncness: Default::default(),
             unsafety: Default::default(),
             abi: Default::default(),
-            fn_token: def_site(),
+            fn_token: Default::default(),
             ident: Ident::new("set_index", call_site()),
             generics: Default::default(),
-            paren_token: def_site(),
+            paren_token: Default::default(),
             inputs: {
                 let mut v = Punctuated::new();
                 v.push(FnArg::Receiver(parse_quote!(&mut self)));
                 v.push(FnArg::Typed(PatType {
                     attrs: Default::default(),
-                    colon_token: def_site(),
+                    colon_token: Default::default(),
                     ty: q!({ usize }).parse(),
                     pat: Box::new(Pat::Ident(PatIdent {
                         attrs: Default::default(),
@@ -628,7 +630,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
             output: ReturnType::Default,
         },
         block: Block {
-            brace_token: def_site(),
+            brace_token: Default::default(),
             stmts: {
                 let mut arms = vec![];
 
@@ -656,7 +658,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                             attrs: Default::default(),
                             path: q!(Vars { name }, { Self::name }).parse(),
                             qself: None,
-                            paren_token: def_site(),
+                            paren_token: Default::default(),
                             elems: {
                                 let mut v = Punctuated::new();
                                 v.push(Pat::Ident(PatIdent {
@@ -679,9 +681,9 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
 
                 let match_expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
-                    match_token: def_site(),
+                    match_token: Default::default(),
                     expr: q!({ self }).parse(),
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     arms,
                 });
 
@@ -694,11 +696,11 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
         attrs: Default::default(),
         defaultness: Default::default(),
         unsafety: Default::default(),
-        impl_token: def_site(),
+        impl_token: Default::default(),
         generics: Default::default(),
-        trait_: Some((None, q!((ParentKind)).parse(), def_site())),
+        trait_: Some((None, q!((ParentKind)).parse(), Token![for](def_site()))),
         self_ty: Box::new(kind_type),
-        brace_token: def_site(),
+        brace_token: Default::default(),
         items: vec![set_index_item],
     }
 }
@@ -711,17 +713,17 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
     let kind_item = ImplItem::Fn(ImplItemFn {
         attrs: Default::default(),
-        vis: Visibility::Public(def_site()),
+        vis: Visibility::Public(Token![pub](def_site())),
         defaultness: Default::default(),
         sig: Signature {
             constness: Default::default(),
             asyncness: Default::default(),
             unsafety: Default::default(),
             abi: Default::default(),
-            fn_token: def_site(),
+            fn_token: Default::default(),
             ident: Ident::new("kind", call_site()),
             generics: Default::default(),
-            paren_token: def_site(),
+            paren_token: Default::default(),
             inputs: {
                 let mut v = Punctuated::new();
                 v.push(FnArg::Receiver(parse_quote!(&self)));
@@ -729,10 +731,10 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                 v
             },
             variadic: Default::default(),
-            output: ReturnType::Type(def_site(), Box::new(kind_type)),
+            output: ReturnType::Type(Token![->](def_site()), Box::new(kind_type)),
         },
         block: Block {
-            brace_token: def_site(),
+            brace_token: Default::default(),
             stmts: {
                 let mut arms = vec![];
 
@@ -760,7 +762,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         attrs: Default::default(),
                         path: q!(Vars { Name: &name }, (Self::Name)).parse(),
                         qself: None,
-                        paren_token: def_site(),
+                        paren_token: Default::default(),
                         elems: {
                             let mut v = Punctuated::new();
 
@@ -796,12 +798,12 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         body: Box::new(Expr::Call(ExprCall {
                             attrs: Default::default(),
                             func: Box::new(path_expr),
-                            paren_token: def_site(),
+                            paren_token: Default::default(),
                             args: {
                                 let mut v = Punctuated::new();
                                 v.push(Expr::Unary(ExprUnary {
                                     attrs: Default::default(),
-                                    op: UnOp::Deref(def_site()),
+                                    op: UnOp::Deref(Token![*](def_site())),
                                     expr: Box::new(Expr::Path(ExprPath {
                                         attrs: Default::default(),
                                         qself: None,
@@ -817,9 +819,9 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
-                    match_token: def_site(),
+                    match_token: Default::default(),
                     expr: q!({ self }).parse(),
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     arms,
                 });
 
@@ -837,16 +839,16 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
             asyncness: Default::default(),
             unsafety: Default::default(),
             abi: Default::default(),
-            fn_token: def_site(),
+            fn_token: Default::default(),
             ident: Ident::new("set_index", call_site()),
             generics: Default::default(),
-            paren_token: def_site(),
+            paren_token: Default::default(),
             inputs: {
                 let mut v = Punctuated::new();
                 v.push(FnArg::Receiver(parse_quote!(&mut self)));
                 v.push(FnArg::Typed(PatType {
                     attrs: Default::default(),
-                    colon_token: def_site(),
+                    colon_token: Default::default(),
                     ty: q!({ usize }).parse(),
                     pat: Box::new(Pat::Ident(PatIdent {
                         attrs: Default::default(),
@@ -863,7 +865,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
             output: ReturnType::Default,
         },
         block: Block {
-            brace_token: def_site(),
+            brace_token: Default::default(),
             stmts: {
                 let mut arms = vec![];
 
@@ -891,7 +893,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         attrs: Default::default(),
                         qself: None,
                         path: q!(Vars { Name: &name }, (Self::Name)).parse(),
-                        paren_token: def_site(),
+                        paren_token: Default::default(),
                         elems: {
                             let mut v = Punctuated::new();
 
@@ -925,9 +927,9 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
                 let match_expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
-                    match_token: def_site(),
+                    match_token: Default::default(),
                     expr: q!({ self }).parse(),
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     arms,
                 });
 
@@ -940,11 +942,11 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         attrs: Default::default(),
         defaultness: Default::default(),
         unsafety: Default::default(),
-        impl_token: def_site(),
+        impl_token: Default::default(),
         generics: Default::default(),
         trait_: None,
         self_ty: q!({ AstParentNodeRef<'_> }).parse(),
-        brace_token: def_site(),
+        brace_token: Default::default(),
         items: vec![kind_item, set_index_item],
     })
 }
@@ -1147,9 +1149,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     methods.iter_mut().for_each(|v| {
         v.attrs.push(Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(allow(non_shorthand_field_patterns, unused_variables)),
         });
 
@@ -1181,7 +1183,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 .parse(),
 
                 Mode::VisitAll => Block {
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     stmts: Default::default(),
                 },
             }),
@@ -1335,15 +1337,15 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     tokens.push_tokens(&ItemTrait {
         attrs,
-        vis: Visibility::Public(def_site()),
+        vis: Visibility::Public(Token![pub](def_site())),
         unsafety: None,
         auto_token: None,
-        trait_token: def_site(),
+        trait_token: Default::default(),
         ident: Ident::new(mode.trait_name(), call_site()),
         generics: Default::default(),
         colon_token: None,
         supertraits: Default::default(),
-        brace_token: def_site(),
+        brace_token: Default::default(),
         items: methods.into_iter().map(TraitItem::Fn).collect(),
         restriction: None,
     });
@@ -2289,7 +2291,7 @@ fn make_arm_from_struct(
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
-                    Stmt::Expr(expr, Some(call_site()))
+                    Stmt::Expr(expr, Some(Token![;](call_site())))
                 }
                 Mode::Fold { .. } => q!(
                     Vars {
@@ -2314,7 +2316,7 @@ fn make_arm_from_struct(
             } else {
                 Member::Named(field.ident.clone().unwrap())
             },
-            colon_token: Some(def_site()),
+            colon_token: Some(Token![:](def_site())),
             pat: Box::new(Pat::Ident(PatIdent {
                 attrs: Default::default(),
                 by_ref: None,
@@ -2346,7 +2348,7 @@ fn make_arm_from_struct(
     }
 
     let block = Block {
-        brace_token: def_site(),
+        brace_token: Default::default(),
         stmts,
     };
 
@@ -2356,12 +2358,12 @@ fn make_arm_from_struct(
             attrs: vec![],
             qself: None,
             path: path.clone(),
-            brace_token: def_site(),
+            brace_token: Default::default(),
             fields,
             rest: None,
         }),
         guard: None,
-        fat_arrow_token: def_site(),
+        fat_arrow_token: Default::default(),
         body: Box::new(Expr::Block(ExprBlock {
             attrs: vec![],
             label: None,
@@ -2377,18 +2379,18 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         asyncness: None,
         unsafety: None,
         abi: None,
-        fn_token: def_site(),
+        fn_token: Default::default(),
         ident: method_name(mode, ty),
         generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
             q!({<'ast: 'r, 'r>}).parse()
         } else {
             Default::default()
         },
-        paren_token: def_site(),
+        paren_token: Default::default(),
         inputs: {
             let mut p = Punctuated::default();
             p.push_value(q!(Vars {}, { &mut self }).parse());
-            p.push_punct(def_site());
+            p.push_punct(Token![,](def_site()));
             match mode {
                 Mode::Fold { .. } => {
                     p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
@@ -2408,7 +2410,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-                p.push_punct(def_site());
+                p.push_punct(Token![,](def_site()));
                 let ty = ast_path_type(mode);
                 p.push_value(q!(Vars { Type: ty }, { __ast_path: Type }).parse());
             }
@@ -2483,7 +2485,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                 match_expr.arms.push(arm);
 
                 Block {
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     stmts: vec![q!(Vars { match_expr }, { match_expr }).parse()],
                 }
             };
@@ -2544,13 +2546,13 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                 }
 
                 Block {
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     stmts: vec![Stmt::Expr(
                         Expr::Match(ExprMatch {
                             attrs: vec![],
-                            match_token: def_site(),
+                            match_token: Default::default(),
                             expr: q!((n)).parse(),
-                            brace_token: def_site(),
+                            brace_token: Default::default(),
                             arms,
                         }),
                         None,
@@ -2592,22 +2594,22 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             asyncness: None,
             unsafety: None,
             abi: None,
-            fn_token: def_site(),
+            fn_token: Default::default(),
             ident,
             generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
                 q!({<'ast: 'r, 'r>}).parse()
             } else {
                 Default::default()
             },
-            paren_token: def_site(),
+            paren_token: Default::default(),
             inputs: {
                 let mut p = Punctuated::default();
                 p.push_value(q!(Vars {}, { &mut self }).parse());
-                p.push_punct(def_site());
+                p.push_punct(Token![,](def_site()));
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
 
                 if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-                    p.push_punct(def_site());
+                    p.push_punct(Token![,](def_site()));
                     p.push_value(
                         q!(
                             Vars {
@@ -2638,9 +2640,13 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             mode,
             ident,
             &Type::Reference(TypeReference {
-                and_token: def_site(),
+                and_token: Default::default(),
                 lifetime: None,
-                mutability: if mutable { Some(def_site()) } else { None },
+                mutability: if mutable {
+                    Some(Token![mut](def_site()))
+                } else {
+                    None
+                },
                 elem: Box::new(ty.clone()),
             }),
         )
@@ -2821,7 +2827,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             }
             Mode::VisitMut { .. } => {
                 return Block {
-                    brace_token: def_site(),
+                    brace_token: Default::default(),
                     stmts: vec![],
                 }
             }
@@ -3276,15 +3282,15 @@ fn skip(ty: &Type) -> bool {
 fn feature_path_attrs() -> Vec<Attribute> {
     vec![
         Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(cfg(any(feature = "path", docsrs))),
         },
         Attribute {
-            pound_token: def_site(),
+            pound_token: Default::default(),
             style: AttrStyle::Outer,
-            bracket_token: def_site(),
+            bracket_token: Default::default(),
             meta: parse_quote!(cfg_attr(docsrs, doc(cfg(feature = "path")))),
         },
     ]
