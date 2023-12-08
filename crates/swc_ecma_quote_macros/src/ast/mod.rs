@@ -21,7 +21,7 @@ macro_rules! impl_enum_body {
                 $E::$v(inner) => {
                     let val = crate::ast::ToCode::to_code(inner, $cx);
                     syn::parse_quote!(
-                        swc_core::ecma::ast::$E::$v(val)
+                        swc_core::ecma::ast::$E::$v(#val)
                     )
                 },
             )*
@@ -183,7 +183,7 @@ where
         let mut stmts = vec![var_stmt];
 
         for item in self {
-            let itme = item.to_code(cx);
+            let item = item.to_code(cx);
             stmts.push(syn::Stmt::Expr(
                 parse_quote!(items.push(#item)),
                 Some(Default::default()),
