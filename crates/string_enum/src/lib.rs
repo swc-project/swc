@@ -170,11 +170,7 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
             }
 
             let body = match *v.data() {
-                Fields::Unit => Box::new(
-                    Quote::new(def_site::<Span>())
-                        .quote_with(smart_quote!(Vars { qual_name }, { return Ok(qual_name) }))
-                        .parse(),
-                ),
+                Fields::Unit => Box::new(parse_quote!(return Ok(#qual_name))),
                 _ => unreachable!("StringEnum requires all variants not to have fields"),
             };
 
@@ -233,11 +229,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(v.attrs());
 
-            let body = Box::new(
-                Quote::new(def_site::<Span>())
-                    .quote_with(smart_quote!(Vars { str_value }, { return str_value }))
-                    .parse(),
-            );
+            let body = Box::new(parse_quote!(return str_value));
 
             let pat = match *v.data() {
                 Fields::Unit => Box::new(Pat::Path(PatPath {
