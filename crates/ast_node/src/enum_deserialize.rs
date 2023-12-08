@@ -1,4 +1,3 @@
-use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{
     self,

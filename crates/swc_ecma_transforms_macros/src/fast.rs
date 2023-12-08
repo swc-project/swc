@@ -1,5 +1,6 @@
 use pmutil::q;
 use proc_macro2::TokenStream;
+use quote::quote;
 use swc_macros_common::call_site;
 use syn::{FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path, Stmt};
 
@@ -43,15 +44,15 @@ struct Expander {
 impl Expander {
     fn inject_default_methods(&self, mut items: Vec<ImplItem>) -> Vec<ImplItem> {
         let list = &[
-            ("stmt", q!({ swc_ecma_ast::Stmt })),
-            ("stmts", q!({ Vec<swc_ecma_ast::Stmt> })),
-            ("module_decl", q!({ swc_ecma_ast::ModuleDecl })),
-            ("module_item", q!({ swc_ecma_ast::ModuleItem })),
-            ("module_items", q!({ Vec<swc_ecma_ast::ModuleItem> })),
-            ("expr", q!({ swc_ecma_ast::Expr })),
-            ("exprs", q!({ Vec<Box<swc_ecma_ast::Expr>> })),
-            ("decl", q!({ swc_ecma_ast::Decl })),
-            ("pat", q!({ swc_ecma_ast::Pat })),
+            ("stmt", quote!(swc_ecma_ast::Stmt)),
+            ("stmts", quote!(Vec<swc_ecma_ast::Stmt>)),
+            ("module_decl", quote!(swc_ecma_ast::ModuleDecl)),
+            ("module_item", quote!(swc_ecma_ast::ModuleItem)),
+            ("module_items", quote!(Vec<swc_ecma_ast::ModuleItem>)),
+            ("expr", quote!(swc_ecma_ast::Expr)),
+            ("exprs", quote!(Vec<Box<swc_ecma_ast::Expr>>)),
+            ("decl", quote!(swc_ecma_ast::Decl)),
+            ("pat", quote!(swc_ecma_ast::Pat)),
         ];
 
         for (name, ty) in list {
