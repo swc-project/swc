@@ -244,12 +244,9 @@ pub fn expand(
                     }),
                     guard: None,
                     fat_arrow_token: Token![=>](ident.span()),
-                    body: q!({
-                        swc_common::private::serde::Err(serde::de::Error::unknown_variant(
-                            __value, VARIANTS,
-                        ))
-                    })
-                    .parse(),
+                    body: parse_quote!(swc_common::private::serde::Err(
+                        serde::de::Error::unknown_variant(__value, VARIANTS,)
+                    )),
                     comma: Some(Token![,](ident.span())),
                 });
                 visit_bytes_arms.push(Arm {
@@ -368,7 +365,7 @@ pub fn expand(
         let match_type_expr = Expr::Match(ExprMatch {
             attrs: Default::default(),
             match_token: Default::default(),
-            expr: q!({ __tagged }).parse(),
+            expr: parse_quote!(__tagged),
             brace_token: Default::default(),
             arms: tag_match_arms,
         });
