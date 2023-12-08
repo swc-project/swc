@@ -198,24 +198,17 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
         arms,
     });
 
-    Quote::new_call_site()
-        .quote_with(smart_quote!(
-            Vars {
-                Type: &i.ident,
-                body,
-            },
-            {
-                impl ::std::str::FromStr for Type {
-                    type Err = ();
+    let ty = &i.ident;
+    let item: ItemImpl = parse_quote!(
+        impl ::std::str::FromStr for #ty {
+            type Err = ();
 
-                    fn from_str(s: &str) -> Result<Self, ()> {
-                        body
-                    }
-                }
+            fn from_str(s: &str) -> Result<Self, ()> {
+                #body
             }
-        ))
-        .parse::<ItemImpl>()
-        .with_generics(i.generics.clone())
+        }
+    );
+    item.with_generics(i.generics.clone())
 }
 
 fn make_as_str(i: &DeriveInput) -> ItemImpl {
