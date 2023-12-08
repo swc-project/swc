@@ -378,6 +378,27 @@ pub struct ObjectLit {
     pub props: Vec<PropOrSpread>,
 }
 
+impl ObjectLit {
+    /// See [ImportWith] for details.
+    pub fn as_import_with(&self) -> ImportWith {}
+}
+
+/// According to the current spec `with` of [crate::ImportDecl] can only have
+/// strings or idents as keys, can't be nested, can only have string literals as
+/// values:
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub struct ImportWith {
+    pub span: Span,
+    pub values: Vec<ImportWithItem>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash, EqIgnoreSpan)]
+pub struct ImportWithItem {
+    pub key: Ident,
+    pub value: Str,
+}
+
 impl Take for ObjectLit {
     fn dummy() -> Self {
         ObjectLit {
