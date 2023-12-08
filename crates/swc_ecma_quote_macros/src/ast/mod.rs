@@ -1,6 +1,6 @@
 use swc_common::Span;
 use swc_ecma_ast::*;
-use syn::ExprBlock;
+use syn::{parse_quote, ExprBlock};
 
 use crate::ctxt::Ctx;
 
@@ -116,14 +116,12 @@ where
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
         match self {
-            Some(inner) => q!(
-                Vars {
-                    inner: inner.to_code(cx)
-                },
-                { Some(inner) }
-            )
-            .parse(),
-            None => q!({ None }).parse(),
+            Some(inner) => {
+                let inner = inner.to_code(cx);
+
+                parse_quote!(Some(#inner))
+            }
+            None => parse_quote!(None),
         }
     }
 }
