@@ -118,9 +118,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
                     nodes
                 }
             }
-        )
-        .parse(),
-
+        ),
         (Mode::Fold, None) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
@@ -141,9 +139,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
                     nodes
                 }
             }
-        )
-        .parse(),
-
+        ),
         (Mode::VisitMut, Some(explode_method_name)) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
@@ -175,9 +171,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
                     }
                 }
             }
-        )
-        .parse(),
-
+        ),
         (Mode::VisitMut, None) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
@@ -196,7 +190,6 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
                     }
                 }
             }
-        )
-        .parse(),
+        ),
     }
 }
