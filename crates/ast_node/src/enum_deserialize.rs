@@ -279,7 +279,7 @@ pub fn expand(
             });
 
             parse_quote!({
-                static VARIANTS: &[&str] = &[all_tags];
+                static VARIANTS: &[&str] = &[#all_tags];
 
                 struct __TypeVariantVisitor;
 
