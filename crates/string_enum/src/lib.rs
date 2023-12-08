@@ -85,24 +85,18 @@ pub fn derive_string_enum(input: proc_macro::TokenStream) -> proc_macro::TokenSt
 }
 
 fn derive_fmt(i: &DeriveInput, trait_path: TokenStream) -> ItemImpl {
-    Quote::new(def_site::<Span>())
-        .quote_with(smart_quote!(
-            Vars {
-                Trait: trait_path,
-                Type: &i.ident,
-                as_str: make_as_str_ident(),
-            },
-            {
-                impl Trait for Type {
-                    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
-                        let s = self.as_str();
-                        Trait::fmt(s, f)
-                    }
-                }
+    let ty = &i.ident;
+
+    let item: ItemImpl = parse_quote!(
+        impl #trait_path for #ty {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+                let s = self.as_str();
+                #trait_path::fmt(s, f)
             }
-        ))
-        .parse::<ItemImpl>()
-        .with_generics(i.generics.clone())
+        }
+    );
+
+    item.with_generics(i.generics.clone())
 }
 
 fn get_str_value(attrs: &[Attribute]) -> String {
