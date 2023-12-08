@@ -750,14 +750,14 @@ impl VisitMut for AssignFolder {
                                 let assign_ref_ident = make_ref_ident(self.c, &mut self.vars, None);
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
-                                    left: AssignTarget::Pat(assign_ref_ident.clone().into()),
+                                    left: assign_ref_ident.clone().into(),
                                     op: op!("="),
                                     right: ref_ident.clone().computed_member(i as f64).into(),
                                 })));
 
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: *span,
-                                    left: AssignTarget::Pat(left.take()),
+                                    left: left.take().try_into().unwrap(),
                                     op: op!("="),
                                     right: Box::new(make_cond_expr(assign_ref_ident, right.take())),
                                 });
@@ -769,7 +769,7 @@ impl VisitMut for AssignFolder {
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
-                                    left: AssignTarget::Pat(arg.take()),
+                                    left: arg.take().try_into().unwrap(),
                                     right: Box::new(Expr::Call(CallExpr {
                                         span: DUMMY_SP,
                                         callee: ref_ident
