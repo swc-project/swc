@@ -1098,7 +1098,7 @@ impl Generator {
             );
         }
 
-        let mut expressions = elements
+        let expressions = elements
             .iter_mut()
             .skip(num_initial_elements)
             .map(|v| v.take())
@@ -1114,11 +1114,7 @@ impl Generator {
                     spread: None,
                     expr: Box::new(Expr::Array(ArrayLit {
                         span: DUMMY_SP,
-                        elems: expressions
-                            .take()
-                            .into_iter()
-                            .map(|expr| Some(ExprOrSpread { spread: None, expr }))
-                            .collect(),
+                        elems: expressions,
                     })),
                 }],
                 type_args: Default::default(),
@@ -1130,12 +1126,7 @@ impl Generator {
                     .take()
                     .into_iter()
                     .map(Some)
-                    .chain(
-                        expressions
-                            .take()
-                            .into_iter()
-                            .map(|expr| Some(ExprOrSpread { spread: None, expr })),
-                    )
+                    .chain(expressions)
                     .collect(),
             })
         }
@@ -1143,11 +1134,11 @@ impl Generator {
 
     fn reduce_element(
         &mut self,
-        mut expressions: Vec<Box<Expr>>,
+        mut expressions: Vec<Option<ExprOrSpread>>,
         mut element: Option<ExprOrSpread>,
         leading_element: &mut Option<ExprOrSpread>,
         temp: &mut Option<Ident>,
-    ) -> Vec<Box<Expr>> {
+    ) -> Vec<Option<ExprOrSpread>> {
         if contains_yield(&element) && !expressions.is_empty() {
             let has_assigned_temp = temp.is_some();
             if temp.is_none() {
@@ -1166,11 +1157,7 @@ impl Generator {
                             .as_callee(),
                         args: vec![Box::new(Expr::Array(ArrayLit {
                             span: DUMMY_SP,
-                            elems: expressions
-                                .take()
-                                .into_iter()
-                                .map(|expr| Some(ExprOrSpread { spread: None, expr }))
-                                .collect(),
+                            elems: expressions.take(),
                         }))
                         .as_arg()],
                         type_args: Default::default(),
@@ -1183,12 +1170,7 @@ impl Generator {
                                 .take()
                                 .into_iter()
                                 .map(Some)
-                                .chain(
-                                    expressions
-                                        .take()
-                                        .into_iter()
-                                        .map(|expr| Some(ExprOrSpread { spread: None, expr })),
-                                )
+                                .chain(expressions.take())
                                 .collect(),
                         }
                         .into(),
@@ -1200,7 +1182,9 @@ impl Generator {
         }
 
         element.visit_mut_with(self);
-        expressions.extend(element.map(|v| v.expr));
+        if element.is_some() {
+            expressions.push(element);
+        }
         expressions
     }
 
