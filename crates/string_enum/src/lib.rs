@@ -189,16 +189,10 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
                 pat,
                 guard: None,
                 fat_arrow_token: Default::default(),
-                comma: Some(def_site()),
+                comma: Some(Token![,](def_site())),
             }
         })
-        .chain(::std::iter::once({
-            Quote::new_call_site()
-                .quote_with(smart_quote!(Vars{}, {
-                    _ => Err(())
-                }))
-                .parse()
-        }))
+        .chain(::std::iter::once(parse_quote!(_ => Err(()))))
         .collect();
 
     let body = Expr::Match(ExprMatch {
