@@ -24,7 +24,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ComputedPropName, Id, Invalid, PropName, Str,
+    ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -412,6 +412,24 @@ impl ObjectLit {
             span: self.span,
             values,
         })
+    }
+}
+
+impl From<ImportWith> for ObjectLit {
+    fn from(v: ImportWith) -> Self {
+        ObjectLit {
+            span: v.span,
+            props: v
+                .values
+                .into_iter()
+                .map(|item| {
+                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(item.key),
+                        value: Box::new(Expr::Lit(Lit::Str(item.value))),
+                    })))
+                })
+                .collect(),
+        }
     }
 }
 
