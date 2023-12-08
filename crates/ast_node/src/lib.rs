@@ -3,7 +3,7 @@
 
 extern crate proc_macro;
 
-use quote::{quote, TokenStreamExt};
+use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
 
@@ -115,9 +115,8 @@ pub fn ast_serde(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty },{
-                    #[serde(rename = name)]
-                }))
+                let name = args.ty;
+                quote!(#[serde(rename = #name)])
             });
 
             item.extend(quote!(
