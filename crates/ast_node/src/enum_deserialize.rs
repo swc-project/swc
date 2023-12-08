@@ -113,7 +113,7 @@ pub fn expand(
             })
             .collect::<Vec<Arm>>();
 
-        let tag_expr = {
+        let tag_expr: Expr = {
             let mut visit_str_arms = vec![];
             let mut visit_bytes_arms = vec![];
 
@@ -278,84 +278,74 @@ pub fn expand(
                 arms: visit_bytes_arms,
             });
 
-            q!(
-                Vars {
-                    visit_str_body,
-                    visit_bytes_body,
-                    all_tags: &all_tags,
-                },
-                {
+            parse_quote!({
+                static VARIANTS: &[&str] = &[all_tags];
+
+                struct __TypeVariantVisitor;
+
+                impl<'de> serde::de::Visitor<'de> for __TypeVariantVisitor {
+                    type Value = __TypeVariant;
+
+                    fn expecting(
+                        &self,
+                        __formatter: &mut swc_common::private::serde::Formatter,
+                    ) -> swc_common::private::serde::fmt::Result {
+                        swc_common::private::serde::Formatter::write_str(
+                            __formatter,
+                            "variant identifier",
+                        )
+                    }
+
+                    fn visit_str<__E>(
+                        self,
+                        __value: &str,
+                    ) -> swc_common::private::serde::Result<Self::Value, __E>
+                    where
+                        __E: serde::de::Error,
                     {
-                        static VARIANTS: &[&str] = &[all_tags];
+                        #visit_str_body
+                    }
 
-                        struct __TypeVariantVisitor;
-
-                        impl<'de> serde::de::Visitor<'de> for __TypeVariantVisitor {
-                            type Value = __TypeVariant;
-                            fn expecting(
-                                &self,
-                                __formatter: &mut swc_common::private::serde::Formatter,
-                            ) -> swc_common::private::serde::fmt::Result
-                            {
-                                swc_common::private::serde::Formatter::write_str(
-                                    __formatter,
-                                    "variant identifier",
-                                )
-                            }
-
-                            fn visit_str<__E>(
-                                self,
-                                __value: &str,
-                            ) -> swc_common::private::serde::Result<Self::Value, __E>
-                            where
-                                __E: serde::de::Error,
-                            {
-                                visit_str_body
-                            }
-
-                            fn visit_bytes<__E>(
-                                self,
-                                __value: &[u8],
-                            ) -> swc_common::private::serde::Result<Self::Value, __E>
-                            where
-                                __E: serde::de::Error,
-                            {
-                                visit_bytes_body
-                            }
-                        }
-
-                        impl<'de> serde::Deserialize<'de> for __TypeVariant {
-                            #[inline]
-                            fn deserialize<__D>(
-                                __deserializer: __D,
-                            ) -> swc_common::private::serde::Result<Self, __D::Error>
-                            where
-                                __D: serde::Deserializer<'de>,
-                            {
-                                serde::Deserializer::deserialize_identifier(
-                                    __deserializer,
-                                    __TypeVariantVisitor,
-                                )
-                            }
-                        }
-
-                        let ty = swc_common::serializer::Type::deserialize(
-                            swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(
-                                &__content,
-                            ),
-                        )?;
-
-                        let __tagged = __TypeVariant::deserialize(
-                            swc_common::private::serde::de::ContentDeserializer::<__D::Error>::new(
-                                swc_common::private::serde::de::Content::Str(&ty.ty),
-                            )
-                        )?;
-
-                        __tagged
+                    fn visit_bytes<__E>(
+                        self,
+                        __value: &[u8],
+                    ) -> swc_common::private::serde::Result<Self::Value, __E>
+                    where
+                        __E: serde::de::Error,
+                    {
+                        #visit_bytes_body
                     }
                 }
-            )
-            .parse::<Expr>()
+
+                impl<'de> serde::Deserialize<'de> for __TypeVariant {
+                    #[inline]
+                    fn deserialize<__D>(
+                        __deserializer: __D,
+                    ) -> swc_common::private::serde::Result<Self, __D::Error>
+                    where
+                        __D: serde::Deserializer<'de>,
+                    {
+                        serde::Deserializer::deserialize_identifier(
+                            __deserializer,
+                            __TypeVariantVisitor,
+                        )
+                    }
+                }
+
+                let ty = swc_common::serializer::Type::deserialize(
+                    swc_common::private::serde::de::ContentRefDeserializer::<__D::Error>::new(
+                        &__content,
+                    ),
+                )?;
+
+                let __tagged = __TypeVariant::deserialize(
+                    swc_common::private::serde::de::ContentDeserializer::<__D::Error>::new(
+                        swc_common::private::serde::de::Content::Str(&ty.ty),
+                    ),
+                )?;
+
+                __tagged
+            })
         };
 
         let match_type_expr = Expr::Match(ExprMatch {

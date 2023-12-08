@@ -115,7 +115,7 @@ pub fn ast_serde(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                let name = args.ty;
+                let name = &args.ty;
                 quote!(#[serde(rename = #name)])
             });
 
@@ -129,7 +129,7 @@ pub fn ast_serde(
         }
     };
 
-    print("ast_serde", item.into())
+    print("ast_serde", item)
 }
 
 struct AddAttr;
@@ -243,7 +243,7 @@ pub fn ast_node(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                let name = args.ty;
+                let name = &args.ty;
 
                 quote!(#[cfg_attr(
                     feature = "serde-impl",
@@ -294,5 +294,5 @@ pub fn ast_node(
         }
     };
 
-    print("ast_node", item.into())
+    print("ast_node", item)
 }
