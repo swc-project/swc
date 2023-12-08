@@ -1,4 +1,3 @@
-use pmutil::q;
 use proc_macro2::TokenStream;
 use quote::quote;
 use swc_macros_common::call_site;

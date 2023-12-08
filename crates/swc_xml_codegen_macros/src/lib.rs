@@ -39,7 +39,7 @@ fn expand(i: ImplItemFn) -> ImplItemFn {
                         Type::Reference(TypeReference { elem, .. }) => *elem,
                         _ => panic!(
                             "Type of node parameter should be reference but got {}",
-                            ty.dump()
+                            ty.into_token_stream()
                         ),
                     }
                 })
