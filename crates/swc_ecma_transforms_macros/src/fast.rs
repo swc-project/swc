@@ -66,25 +66,13 @@ impl Expander {
 
             let method = match self.mode {
                 Mode::Fold => parse_quote!(
-                    Vars {
-                        method: &name,
-                        Type: ty,
-                    },
-                    {
-                        fn method(&mut self, node: Type) -> Type {
-                            node.fold_children_with(self)
-                        }
-                    },
+                    fn #name(&mut self, node: #ty) -> #ty {
+                        node.fold_children_with(self)
+                    }
                 ),
                 Mode::VisitMut => parse_quote!(
-                    Vars {
-                        method: &name,
-                        Type: ty,
-                    },
-                    {
-                        fn method(&mut self, node: &mut Type) {
-                            node.visit_mut_children_with(self)
-                        }
+                    fn #name(&mut self, node: &mut #ty) {
+                        node.visit_mut_children_with(self)
                     }
                 ),
             };
