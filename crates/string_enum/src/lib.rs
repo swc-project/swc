@@ -2,7 +2,6 @@
 
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote};
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
 use syn::{self, parse::Parse, *};

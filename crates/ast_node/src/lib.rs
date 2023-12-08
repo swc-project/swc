@@ -3,7 +3,6 @@
 
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
 use quote::{quote, TokenStreamExt};
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
@@ -20,7 +19,7 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 
     let item = self::spanned::derive(input);
 
-    print("derive(Spanned)", item.dump())
+    print("derive(Spanned)", item.into_token_stream())
 }
 
 /// Derives `serde::Deserialize` which is aware of `tag` based deserialization.
@@ -30,7 +29,7 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
 
     let item = enum_deserialize::expand(input);
 
-    print("derive(DeserializeEnum)", item.dump())
+    print("derive(DeserializeEnum)", item.into_token_stream())
 }
 
 /// Derives `serde::Serialize` and `serde::Deserialize`.
