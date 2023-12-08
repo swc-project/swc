@@ -98,23 +98,16 @@ pub fn expand(
                     pat: Pat::Path(parse_quote!(__TypeVariant::#vi)),
                     guard: Default::default(),
                     fat_arrow_token: Token![=>](variant.ident.span()),
-                    body: q!(
-                        Vars {
-                            Variant: &variant.ident,
-                            FieldType: field_type,
-                        },
-                        {
-                            swc_common::private::serde::Result::map(
-                                <FieldType as serde::Deserialize>::deserialize(
-                                    swc_common::private::serde::de::ContentDeserializer::<
-                                        __D::Error,
-                                    >::new(__content),
-                                ),
-                                Self::Variant,
-                            )
-                        }
-                    )
-                    .parse(),
+                    body: parse_quote!(
+                        swc_common::private::serde::Result::map(
+                            <#field_type as serde::Deserialize>::deserialize(
+                                swc_common::private::serde::de::ContentDeserializer::<
+                                    __D::Error,
+                                >::new(__content),
+                            ),
+                            Self::#vi,
+                        )
+                    ),
                     comma: Some(Token![,](variant.ident.span())),
                 }
             })
