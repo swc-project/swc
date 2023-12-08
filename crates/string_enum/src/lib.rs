@@ -302,20 +302,20 @@ fn make_as_str_ident() -> Ident {
 }
 
 fn make_serialize(i: &DeriveInput) -> ItemImpl {
-    Quote::new_call_site()
-        .quote_with(smart_quote!(Vars { Type: &i.ident }, {
-            #[cfg(feature = "serde")]
-            impl ::serde::Serialize for Type {
-                fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-                where
-                    S: ::serde::Serializer,
-                {
-                    serializer.serialize_str(self.as_str())
-                }
+    let ty = &i.ident;
+    let item: ItemImpl = parse_quote!(
+        #[cfg(feature = "serde")]
+        impl ::serde::Serialize for #ty {
+            fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+            where
+                S: ::serde::Serializer,
+            {
+                serializer.serialize_str(self.as_str())
             }
-        }))
-        .parse::<ItemImpl>()
-        .with_generics(i.generics.clone())
+        }
+    );
+
+    item.with_generics(i.generics.clone())
 }
 
 fn make_deserialize(i: &DeriveInput) -> ItemImpl {
