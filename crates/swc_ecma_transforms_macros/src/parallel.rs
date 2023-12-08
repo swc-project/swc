@@ -88,7 +88,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
     let explode_method_name = explode_hook_method_name(explode, suffix);
 
     match (mode, explode_method_name) {
-        (Mode::Fold, Some(explode_method_name)) => q!(
+        (Mode::Fold, Some(explode_method_name)) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
                 method_name,
@@ -121,7 +121,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
         )
         .parse(),
 
-        (Mode::Fold, None) => q!(
+        (Mode::Fold, None) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
                 method_name,
@@ -144,7 +144,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
         )
         .parse(),
 
-        (Mode::VisitMut, Some(explode_method_name)) => q!(
+        (Mode::VisitMut, Some(explode_method_name)) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
                 method_name,
@@ -178,7 +178,7 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
         )
         .parse(),
 
-        (Mode::VisitMut, None) => q!(
+        (Mode::VisitMut, None) => parse_quote!(
             Vars {
                 NodeType: node_type(suffix),
                 method_name,

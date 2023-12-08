@@ -65,7 +65,7 @@ impl Expander {
             let name = Ident::new(&format!("{}_{}", self.mode.prefix(), name), call_site());
 
             let method = match self.mode {
-                Mode::Fold => q!(
+                Mode::Fold => parse_quote!(
                     Vars {
                         method: &name,
                         Type: ty,
@@ -74,9 +74,9 @@ impl Expander {
                         fn method(&mut self, node: Type) -> Type {
                             node.fold_children_with(self)
                         }
-                    }
+                    },
                 ),
-                Mode::VisitMut => q!(
+                Mode::VisitMut => parse_quote!(
                     Vars {
                         method: &name,
                         Type: ty,
@@ -89,7 +89,7 @@ impl Expander {
                 ),
             };
 
-            items.push(method.parse());
+            items.push(method);
         }
 
         items
