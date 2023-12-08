@@ -1,6 +1,5 @@
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
 use proc_macro::TokenStream;
 use swc_macros_common::prelude::*;
 use syn::{self, fold::Fold, *};
@@ -13,7 +12,7 @@ pub fn emitter(_attr: TokenStream, item: TokenStream) -> TokenStream {
     let item = fold::InjectSelf { parser: None }.fold_impl_item_fn(item);
     let item = expand(item);
 
-    print("emitter", item.dump())
+    print("emitter", item.into_token_stream())
 }
 
 fn expand(i: ImplItemFn) -> ImplItemFn {
@@ -39,7 +38,7 @@ fn expand(i: ImplItemFn) -> ImplItemFn {
                         Type::Reference(TypeReference { elem, .. }) => *elem,
                         _ => panic!(
                             "Type of node parameter should be reference but got {}",
-                            ty.dump()
+                            ty.into_token_stream()
                         ),
                     }
                 })
