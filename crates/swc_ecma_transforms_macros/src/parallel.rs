@@ -1,8 +1,7 @@
 #![allow(non_snake_case)]
 
-use pmutil::q;
 use proc_macro2::{Span, TokenStream};
-use syn::{Expr, Ident, ImplItem, ImplItemFn, ItemImpl, Meta, Type};
+use syn::{parse_quote, Expr, Ident, ImplItem, ImplItemFn, ItemImpl, Meta, Type};
 
 use crate::common::Mode;
 
@@ -51,24 +50,22 @@ fn node_type(suffix: &str) -> Type {
 fn post_visit_hook(mode: Mode, suffix: &str) -> Option<Expr> {
     match suffix {
         "module_items" => Some(match mode {
-            Mode::Fold => q!(({
+            Mode::Fold => parse_quote!(
                 swc_ecma_transforms_base::perf::Parallel::after_module_items(self, &mut nodes);
-            }))
-            .parse(),
-            Mode::VisitMut => q!(({
+            ),
+
+            Mode::VisitMut => parse_quote!(
                 swc_ecma_transforms_base::perf::Parallel::after_module_items(self, nodes);
-            }))
-            .parse(),
+            ),
         }),
         "stmts" => Some(match mode {
-            Mode::Fold => q!(({
+            Mode::Fold => parse_quote!(
                 swc_ecma_transforms_base::perf::Parallel::after_stmts(self, &mut nodes);
-            }))
-            .parse(),
-            Mode::VisitMut => q!(({
+            ),
+
+            Mode::VisitMut => parse_quote!(
                 swc_ecma_transforms_base::perf::Parallel::after_stmts(self, nodes);
-            }))
-            .parse(),
+            ),
         }),
         _ => None,
     }
