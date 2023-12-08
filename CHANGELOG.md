@@ -68,9 +68,6 @@
 - **(es/ast)** Bump version ([#7793](https://github.com/swc-project/swc/issues/7793)) ([13bedc0](https://github.com/swc-project/swc/commit/13bedc084e46db193b3fd0b7930046b2f013742b))
 
 
-- **(es/codegen)** Emit type arguments for call expressions ([#7335](https://github.com/swc-project/swc/issues/7335)) ([7e99e5f](https://github.com/swc-project/swc/commit/7e99e5fd2c3d15aba6bf29958bd9305e29312e6a))
-
-
 - **(es/codegen)** Do not create duplicate source map entry ([#7309](https://github.com/swc-project/swc/issues/7309)) ([40ba242](https://github.com/swc-project/swc/commit/40ba242076f9c39cd19fe2a040fdf10867c67b9f))
 
 
@@ -228,6 +225,9 @@
 
 
 - **(es/compat)** Fix destructuring of export class/function ([#8371](https://github.com/swc-project/swc/issues/8371)) ([630f9d3](https://github.com/swc-project/swc/commit/630f9d342fcb396074168cc379776774a832d73e))
+
+
+- **(es/compat)** Preserve spread in the `generator` pass ([#8401](https://github.com/swc-project/swc/issues/8401)) ([29bec98](https://github.com/swc-project/swc/commit/29bec986471b2782570416698041e3ea92feccac))
 
 
 - **(es/decorators)** Fix a regression about class expressions ([#8102](https://github.com/swc-project/swc/issues/8102)) ([cb4361f](https://github.com/swc-project/swc/commit/cb4361f2931cf222edbb449db6fe2c261c4b735d))
