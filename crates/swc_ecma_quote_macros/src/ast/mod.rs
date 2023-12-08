@@ -99,13 +99,8 @@ where
     T: ?Sized + ToCode,
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                inner: (**self).to_code(cx)
-            },
-            { Box::new(inner) }
-        )
-        .parse()
+        let inner = (**self).to_code(cx);
+        parse_quote!(Box::new(#inner))
     }
 }
 
@@ -130,7 +125,7 @@ impl_struct!(Invalid, [span]);
 
 impl ToCode for Span {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!({ swc_core::common::DUMMY_SP }).parse()
+        parse_quote!(swc_core::common::DUMMY_SP)
     }
 }
 
@@ -183,26 +178,19 @@ where
     T: ToCode,
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        let var_stmt = q!(Vars { len: self.len() }, {
-            let mut items = Vec::with_capacity(len);
-        })
-        .parse::<syn::Stmt>();
+        let len = self.len();
+        let var_stmt: syn::Stmt = parse_quote!(let mut items = Vec::with_capacity(#len));
         let mut stmts = vec![var_stmt];
 
         for item in self {
+            let itme = item.to_code(cx);
             stmts.push(syn::Stmt::Expr(
-                q!(
-                    Vars {
-                        item: item.to_code(cx)
-                    },
-                    { items.push(item) }
-                )
-                .parse(),
+                parse_quote!(items.push(#item)),
                 Some(Default::default()),
             ));
         }
 
-        stmts.push(syn::Stmt::Expr(q!(Vars {}, { items }).parse(), None));
+        stmts.push(syn::Stmt::Expr(parse_quote!(items), None));
 
         syn::Expr::Block(ExprBlock {
             attrs: Default::default(),
