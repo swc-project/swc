@@ -118,7 +118,7 @@ impl Expander {
             ),
             Mode::VisitMut => parse_quote!(
                 if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&*#arg) {
-                    return #arg;
+                    return;
                 }
             ),
         };
