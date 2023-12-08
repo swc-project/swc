@@ -2,7 +2,7 @@
 
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
+use quote::ToTokens;
 use syn::{FnArg, ImplItemFn, Type, TypeReference};
 
 #[proc_macro_attribute]
@@ -13,7 +13,7 @@ pub fn emitter(
     let item: ImplItemFn = syn::parse(item).expect("failed to parse input as an item");
     let item = expand(item);
 
-    item.dump().into()
+    item.into_token_stream().into()
 }
 
 fn expand(i: ImplItemFn) -> ImplItemFn {
