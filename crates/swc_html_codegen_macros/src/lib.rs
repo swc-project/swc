@@ -51,7 +51,7 @@ fn (&mut self, node: Node) -> Result;
         };
 
         let block = &i.block;
-        parse_quote!(
+        parse_quote!({
             impl<W> crate::Emit<#node_type> for crate::CodeGenerator<'_, W>
             where
                 W: crate::writer::HtmlWriter,
@@ -69,7 +69,7 @@ fn (&mut self, node: Node) -> Result;
             {
                 return Ok(());
             }
-        )
+        })
     };
 
     ImplItemFn { block, ..i }
