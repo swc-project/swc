@@ -1,6 +1,6 @@
 use pmutil::{q, SpanExt};
 use proc_macro2::TokenStream;
-use quote::ToTokens;
+use quote::{quote, ToTokens};
 use swc_macros_common::{access_field, join_stmts};
 use syn::{DeriveInput, Expr, Field, Fields, Stmt, Token};
 
@@ -33,7 +33,7 @@ pub fn expand(input: DeriveInput) -> TokenStream {
 
 fn call_merge_for_fields(obj: &dyn ToTokens, fields: &Fields) -> Vec<Stmt> {
     fn call_merge(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
-        let r = q!({ _other });
+        let r = quote!({ _other });
         q!(
             Vars {
                 l: access_field(obj, idx, f),
