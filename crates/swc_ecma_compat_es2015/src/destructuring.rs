@@ -626,7 +626,7 @@ impl VisitMut for AssignFolder {
                                     Some(Pat::Rest(p)) => {
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: p.span(),
-                                            left: AssignTarget::Pat(p.arg.take()),
+                                            left: p.arg.take().try_into().unwrap(),
                                             op: op!("="),
                                             right: Box::new(Expr::Array(ArrayLit {
                                                 span: DUMMY_SP,
@@ -826,7 +826,7 @@ impl VisitMut for AssignFolder {
                                 left: PatOrExpr::Pat(p.key.clone().into()),
                                 right: right.take().make_member(p.key.clone()).into(),
                                 left: AssignTarget::Pat(p.key.clone().into()),
-                                right: Box::new(right.take().make_member(p.key.clone())),
+                                right: right.take().make_member(p.key.clone()).into(),
                             });
                             return;
                         }
@@ -836,7 +836,7 @@ impl VisitMut for AssignFolder {
 
                     let mut exprs = vec![Box::new(Expr::Assign(AssignExpr {
                         span: *span,
-                        left: AssignTarget::Pat(ref_ident.clone().into()),
+                        left: ref_ident.clone().into(),
                         op: op!("="),
                         right: right.take(),
                     }))];
