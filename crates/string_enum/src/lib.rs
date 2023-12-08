@@ -215,7 +215,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
 
             let str_value = get_str_value(v.attrs());
 
-            let body = Box::new(parse_quote!(return str_value));
+            let body = Box::new(parse_quote!(return #str_value));
 
             let pat = match *v.data() {
                 Fields::Unit => Box::new(Pat::Path(PatPath {
