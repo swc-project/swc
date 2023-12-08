@@ -106,9 +106,7 @@ pub fn ast_serde(
                     ..
                 }) => {
                     if args.is_some() {
-                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                            #[serde(tag = "type")]
-                        })))
+                        Some(parse_quote!(#[serde(tag = "type")]))
                     } else {
                         None
                     }
