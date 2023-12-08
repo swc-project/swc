@@ -540,7 +540,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
 
     Item::Enum(ItemEnum {
         attrs,
-        vis: Visibility::Public(def_site()),
+        vis: Visibility::Public(Token![pub](def_site())),
         enum_token: Default::default(),
         ident: if is_ref {
             Ident::new("AstParentNodeRef", call_site())
@@ -552,7 +552,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             g.push(GenericParam::Lifetime(LifetimeParam {
                 attrs: Default::default(),
                 lifetime: Lifetime {
-                    apostrophe: Default::default(),
+                    apostrophe: def_site(),
                     ident: Ident::new("ast", def_site()),
                 },
                 colon_token: Default::default(),
@@ -560,9 +560,9 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
             }));
 
             Generics {
-                lt_token: Some(def_site()),
+                lt_token: Some(Token![<](def_site())),
                 params: g,
-                gt_token: Some(def_site()),
+                gt_token: Some(Token![>](def_site())),
                 where_clause: None,
             }
         } else {
@@ -697,7 +697,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
     let kind_item = ImplItem::Fn(ImplItemFn {
         attrs: Default::default(),
-        vis: Visibility::Public(def_site()),
+        vis: Visibility::Public(Token![pub](def_site())),
         defaultness: Default::default(),
         sig: Signature {
             constness: Default::default(),
