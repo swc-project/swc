@@ -826,6 +826,7 @@ impl VisitMut for AssignFolder {
                                 left: PatOrExpr::Pat(p.key.clone().into()),
                                 right: right.take().make_member(p.key.clone()).into(),
                                 left: AssignTarget::Pat(p.key.clone().into()),
+                                left: p.key.clone().into(),
                                 right: right.take().make_member(p.key.clone()).into(),
                             });
                             return;
