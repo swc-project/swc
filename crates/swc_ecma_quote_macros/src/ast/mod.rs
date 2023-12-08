@@ -179,7 +179,7 @@ where
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
         let len = self.len();
-        let var_stmt: syn::Stmt = parse_quote!(let mut items = Vec::with_capacity(#len));
+        let var_stmt: syn::Stmt = parse_quote!(let mut items = Vec::with_capacity(#len););
         let mut stmts = vec![var_stmt];
 
         for item in self {
