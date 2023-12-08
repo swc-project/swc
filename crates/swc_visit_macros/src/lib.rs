@@ -287,7 +287,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         items.push(Item::Enum(ItemEnum {
             attrs,
-            vis: Visibility::Public(def_site()),
+            vis: Visibility::Public(Token![pub](def_site())),
             enum_token: Default::default(),
             ident: name.clone(),
             generics: Default::default(),
@@ -301,7 +301,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
         methods.push(ImplItem::Fn(ImplItemFn {
             attrs: vec![make_doc_attr("This is not considered as a public API")],
-            vis: Visibility::Public(def_site()),
+            vis: Visibility::Public(Token![pub](def_site())),
             defaultness: Default::default(),
             sig: Signature {
                 constness: Default::default(),
@@ -461,7 +461,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                     ty: Type::Reference(TypeReference {
                         and_token: name.span().as_token(),
                         lifetime: Some(Lifetime {
-                            apostrophe: Default::default(),
+                            apostrophe: def_site(),
                             ident: Ident::new("ast", name.span()),
                         }),
                         mutability: Default::default(),
@@ -715,7 +715,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                 v
             },
             variadic: Default::default(),
-            output: ReturnType::Type(def_site(), Box::new(kind_type)),
+            output: ReturnType::Type(Token![->](def_site()), Box::new(kind_type)),
         },
         block: Block {
             brace_token: Default::default(),
@@ -787,7 +787,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                                 let mut v = Punctuated::new();
                                 v.push(Expr::Unary(ExprUnary {
                                     attrs: Default::default(),
-                                    op: UnOp::Deref(def_site()),
+                                    op: UnOp::Deref(Token![*](def_site())),
                                     expr: Box::new(Expr::Path(ExprPath {
                                         attrs: Default::default(),
                                         qself: None,
