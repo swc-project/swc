@@ -4,6 +4,7 @@
 extern crate proc_macro;
 
 use pmutil::{smart_quote, Quote, ToTokensExt};
+use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
 
@@ -106,7 +107,7 @@ pub fn ast_serde(
                     ..
                 }) => {
                     if args.is_some() {
-                        Some(parse_quote!(#[serde(tag = "type")]))
+                        Some(quote!(#[serde(tag = "type")]))
                     } else {
                         None
                     }
