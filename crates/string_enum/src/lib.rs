@@ -278,23 +278,17 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
         arms,
     });
 
-    Quote::new(def_site::<Span>())
-        .quote_with(smart_quote!(
-            Vars {
-                Type: &i.ident,
-                body,
-                as_str: make_as_str_ident(),
-            },
-            {
-                impl Type {
-                    pub fn as_str(&self) -> &'static str {
-                        body
-                    }
-                }
+    let ty = &i.ident;
+    let as_str = make_as_str_ident();
+    let item: ItemImpl = parse_quote!(
+        impl #ty {
+            pub fn #as_str(&self) -> &'static str {
+                #body
             }
-        ))
-        .parse::<ItemImpl>()
-        .with_generics(i.generics.clone())
+        }
+    );
+
+    item.with_generics(i.generics.clone())
 }
 
 fn make_as_str_ident() -> Ident {
