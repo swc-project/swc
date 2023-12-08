@@ -1,4 +1,3 @@
-use pmutil::ToTokensExt;
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
 use syn::{
@@ -31,7 +30,7 @@ fn get_joined_span(t: &dyn ToTokens) -> Span {
 
 #[cfg(not(procmacro2_semver_exempt))]
 fn get_joined_span(t: &dyn ToTokens) -> Span {
-    let tts: TokenStream = t.dump();
+    let tts: TokenStream = t.into_token_stream();
     let mut first = None;
     for tt in tts {
         if first.is_none() {
