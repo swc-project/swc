@@ -263,7 +263,7 @@ pub fn expand(
                         ))
                     })
                     .parse(),
-                    comma: Some(ident.span().as_token()),
+                    comma: Some(Token![,](ident.span())),
                 });
                 visit_bytes_arms.push(Arm {
                     attrs: Default::default(),
@@ -282,7 +282,7 @@ pub fn expand(
                         }
                     })
                     .parse(),
-                    comma: Some(ident.span().as_token()),
+                    comma: Some(Token![,](ident.span())),
                 });
             }
 
