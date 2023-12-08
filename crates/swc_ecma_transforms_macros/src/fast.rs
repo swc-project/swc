@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
 use quote::quote;
 use swc_macros_common::call_site;
-use syn::{parse_quote, FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path, Stmt};
+use syn::{parse_quote, FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path};
 
 use crate::common::Mode;
 
