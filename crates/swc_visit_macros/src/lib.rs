@@ -1,3 +1,5 @@
+#![allow(non_snake_case)]
+
 extern crate proc_macro;
 
 use std::{collections::HashSet, mem::replace};
