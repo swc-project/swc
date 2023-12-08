@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_typescript"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.185.67"
+version       = "0.185.68"
 
 [lib]
 bench = false
@@ -17,22 +17,22 @@ serde = { version = "1.0.118", features = ["derive"] }
 
 ryu-js                    = "1.0.0"
 swc_atoms                 = { version = "0.6.5", path = "../swc_atoms" }
-swc_common                = { version = "0.33.11", path = "../swc_common" }
-swc_ecma_ast              = { version = "0.110.13", path = "../swc_ecma_ast" }
-swc_ecma_transforms_base  = { version = "0.134.53", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_react = { version = "0.180.67", path = "../swc_ecma_transforms_react" }
-swc_ecma_utils            = { version = "0.124.37", path = "../swc_ecma_utils" }
-swc_ecma_visit            = { version = "0.96.13", path = "../swc_ecma_visit" }
+swc_common                = { version = "0.33.12", path = "../swc_common" }
+swc_ecma_ast              = { version = "0.110.14", path = "../swc_ecma_ast" }
+swc_ecma_transforms_base  = { version = "0.134.54", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_react = { version = "0.180.68", path = "../swc_ecma_transforms_react" }
+swc_ecma_utils            = { version = "0.124.38", path = "../swc_ecma_utils" }
+swc_ecma_visit            = { version = "0.96.14", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 criterion = "0.5"
 
-swc_ecma_codegen             = { version = "0.146.41", path = "../swc_ecma_codegen" }
-swc_ecma_parser              = { version = "0.141.31", path = "../swc_ecma_parser" }
-swc_ecma_transforms_compat   = { version = "0.160.62", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_proposal = { version = "0.168.66", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_testing  = { version = "0.137.55", path = "../swc_ecma_transforms_testing" }
-testing                      = { version = "0.35.13", path = "../testing" }
+swc_ecma_codegen             = { version = "0.146.42", path = "../swc_ecma_codegen" }
+swc_ecma_parser              = { version = "0.141.32", path = "../swc_ecma_parser" }
+swc_ecma_transforms_compat   = { version = "0.160.63", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_proposal = { version = "0.168.67", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_testing  = { version = "0.137.56", path = "../swc_ecma_transforms_testing" }
+testing                      = { version = "0.35.14", path = "../testing" }
 
 [[bench]]
 harness = false
