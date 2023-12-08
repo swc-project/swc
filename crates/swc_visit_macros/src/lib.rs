@@ -2624,7 +2624,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             &Type::Reference(TypeReference {
                 and_token: Default::default(),
                 lifetime: None,
-                mutability: if mutable { Some(def_site()) } else { None },
+                mutability: if mutable {
+                    Some(Token![mut](def_site()))
+                } else {
+                    None
+                },
                 elem: Box::new(ty.clone()),
             }),
         )
