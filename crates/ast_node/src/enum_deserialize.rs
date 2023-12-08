@@ -210,13 +210,11 @@ pub fn expand(
                     pat: str_pat,
                     guard: None,
                     fat_arrow_token: Token![=>](variant.ident.span()),
-                    body: q!(
-                        Vars {
-                            Variant: &variant.ident,
-                        },
-                        { Ok(__TypeVariant::Variant) }
-                    )
-                    .parse(),
+                    body: {
+                        let vi = &variant.ident;
+
+                        parse_quote!(Ok(__TypeVariant::#vi))
+                    },
                     comma: Some(Token![,](variant.ident.span())),
                 });
                 visit_bytes_arms.push(Arm {
@@ -224,13 +222,11 @@ pub fn expand(
                     pat: bytes_pat,
                     guard: None,
                     fat_arrow_token: Token![=>](variant.ident.span()),
-                    body: q!(
-                        Vars {
-                            Variant: &variant.ident,
-                        },
-                        { Ok(__TypeVariant::Variant) }
-                    )
-                    .parse(),
+                    body: {
+                        let vi = &variant.ident;
+
+                        parse_quote!(Ok(__TypeVariant::#vi))
+                    },
                     comma: Some(Token![,](variant.ident.span())),
                 });
             }
