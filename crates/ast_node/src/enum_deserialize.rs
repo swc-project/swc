@@ -222,7 +222,7 @@ pub fn expand(
                     attrs: Default::default(),
                     pat: str_pat,
                     guard: None,
-                    fat_arrow_token: variant.ident.span().as_token(),
+                    fat_arrow_token: Token![=>](variant.ident.span()),
                     body: q!(
                         Vars {
                             Variant: &variant.ident,
@@ -230,13 +230,13 @@ pub fn expand(
                         { Ok(__TypeVariant::Variant) }
                     )
                     .parse(),
-                    comma: Some(variant.ident.span().as_token()),
+                    comma: Some(Token![,](variant.ident.span())),
                 });
                 visit_bytes_arms.push(Arm {
                     attrs: Default::default(),
                     pat: bytes_pat,
                     guard: None,
-                    fat_arrow_token: variant.ident.span().as_token(),
+                    fat_arrow_token: Token![=>](variant.ident.span()),
                     body: q!(
                         Vars {
                             Variant: &variant.ident,
@@ -244,7 +244,7 @@ pub fn expand(
                         { Ok(__TypeVariant::Variant) }
                     )
                     .parse(),
-                    comma: Some(variant.ident.span().as_token()),
+                    comma: Some(Token![,](variant.ident.span())),
                 });
             }
 
