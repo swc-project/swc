@@ -91,17 +91,11 @@ pub fn expand(
                     }
                 }
 
+                let vi = &variant.ident;
+
                 Arm {
                     attrs: Default::default(),
-                    pat: Pat::Path(
-                        q!(
-                            Vars {
-                                Variant: &variant.ident
-                            },
-                            (__TypeVariant::Variant)
-                        )
-                        .parse(),
-                    ),
+                    pat: Pat::Path(parse_quote!(__TypeVariant::#vi)),
                     guard: Default::default(),
                     fat_arrow_token: Token![=>](variant.ident.span()),
                     body: q!(
