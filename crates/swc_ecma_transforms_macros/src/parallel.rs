@@ -39,8 +39,8 @@ pub fn expand(attr: TokenStream, mut item: ItemImpl) -> ItemImpl {
 
 fn node_type(suffix: &str) -> Type {
     match suffix {
-        "module_items" => q!((ModuleItem)).parse(),
-        "stmts" => q!((Stmt)).parse(),
+        "module_items" => parse_quote!(ModuleItem),
+        "stmts" => parse_quote!(Stmt),
         _ => {
             unimplemented!("Unknown suffix `{}`", suffix)
         }
