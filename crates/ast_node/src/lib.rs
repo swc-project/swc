@@ -255,36 +255,36 @@ pub fn ast_node(
                 .as_ref()
                 .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
-            item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
-                    #[allow(clippy::derive_partial_eq_without_eq)]
-                    #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[cfg_attr(
-                        feature = "serde-impl",
-                        derive(::serde::Serialize, ::serde::Deserialize)
-                    )]
-                    #[cfg_attr(
-                        feature = "rkyv-impl",
-                        derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                    )]
-                    #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                    #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-                    #[cfg_attr(
-                        feature = "rkyv-impl",
-                        archive(
-                            bound(
-                                serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
-                                deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                            )
+            item.extend(quote!(
+                #[allow(clippy::derive_partial_eq_without_eq)]
+                #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    derive(::serde::Serialize, ::serde::Deserialize)
+                )]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+                )]
+                #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+                #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    archive(
+                        bound(
+                            serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
+                            deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
                         )
-                    )]
-                    serde_tag
-                    #[cfg_attr(
-                        feature = "serde-impl",
-                        serde(rename_all = "camelCase")
-                    )]
-                    serde_rename
-                    input
-                }));
+                    )
+                )]
+                #serde_tag
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    serde(rename_all = "camelCase")
+                )]
+                #serde_rename
+                #input
+            ));
 
             if let Some(items) = ast_node_impl {
                 for item_impl in items {
