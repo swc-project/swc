@@ -260,15 +260,12 @@ pub fn expand(
                     }),
                     guard: None,
                     fat_arrow_token: Token![=>](ident.span()),
-                    body: q!({
-                        {
-                            let __value = &swc_common::private::serde::from_utf8_lossy(__value);
-                            swc_common::private::serde::Err(serde::de::Error::unknown_variant(
-                                __value, VARIANTS,
-                            ))
-                        }
-                    })
-                    .parse(),
+                    body: parse_quote!({
+                        let __value = &swc_common::private::serde::from_utf8_lossy(__value);
+                        swc_common::private::serde::Err(serde::de::Error::unknown_variant(
+                            __value, VARIANTS,
+                        ))
+                    }),
                     comma: Some(Token![,](ident.span())),
                 });
             }
