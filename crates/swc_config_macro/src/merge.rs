@@ -26,7 +26,7 @@ pub fn expand(input: DeriveInput) -> TokenStream {
 
 fn call_merge_for_fields(obj: &dyn ToTokens, fields: &Fields) -> Vec<Stmt> {
     fn call_merge(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
-        let r = quote!({ _other });
+        let r = quote!(_other);
 
         let l = access_field(obj, idx, f);
         let r = access_field(&r, idx, f);
