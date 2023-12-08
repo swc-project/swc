@@ -3,9 +3,9 @@ extern crate proc_macro;
 use std::{collections::HashSet, mem::replace};
 
 use inflector::Inflector;
-use pmutil::{q, Quote, SpanExt};
-use proc_macro2::Ident;
-use swc_macros_common::{call_site, def_site, make_doc_attr};
+use pmutil::{q, synom_ext::FromSpan, Quote, SpanExt};
+use proc_macro2::{Ident, Span};
+use swc_macros_common::make_doc_attr;
 use syn::{
     parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
     Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
@@ -15,6 +15,22 @@ use syn::{
     PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
     TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
+
+fn call_site<T: FromSpan>() -> T {
+    T::from_span(Span::call_site())
+}
+
+/// `Span::def_site().located_at(Span::call_site()).as_token()`
+#[cfg(not(procmacro2_semver_exempt))]
+fn def_site<T: FromSpan>() -> T {
+    call_site()
+}
+
+/// `Span::def_site().located_at(Span::call_site()).as_token()`
+#[cfg(procmacro2_semver_exempt)]
+fn def_site<T: FromSpan>() -> T {
+    Span::def_site().located_at(Span::call_site()).as_token()
+}
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum VisitorVariant {
