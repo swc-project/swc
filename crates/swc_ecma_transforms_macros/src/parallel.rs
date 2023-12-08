@@ -51,21 +51,21 @@ fn post_visit_hook(mode: Mode, suffix: &str) -> Option<Expr> {
     match suffix {
         "module_items" => Some(match mode {
             Mode::Fold => parse_quote!(
-                swc_ecma_transforms_base::perf::Parallel::after_module_items(self, &mut nodes);
+                swc_ecma_transforms_base::perf::Parallel::after_module_items(self, &mut nodes)
             ),
 
             Mode::VisitMut => parse_quote!(
-                swc_ecma_transforms_base::perf::Parallel::after_module_items(self, nodes);
+                swc_ecma_transforms_base::perf::Parallel::after_module_items(self, nodes)
             ),
         }),
         "stmts" => Some(match mode {
-            Mode::Fold => parse_quote!(
-                swc_ecma_transforms_base::perf::Parallel::after_stmts(self, &mut nodes);
-            ),
+            Mode::Fold => parse_quote!(swc_ecma_transforms_base::perf::Parallel::after_stmts(
+                self, &mut nodes
+            )),
 
-            Mode::VisitMut => parse_quote!(
-                swc_ecma_transforms_base::perf::Parallel::after_stmts(self, nodes);
-            ),
+            Mode::VisitMut => parse_quote!(swc_ecma_transforms_base::perf::Parallel::after_stmts(
+                self, nodes
+            )),
         }),
         _ => None,
     }
