@@ -3,7 +3,7 @@
 
 extern crate proc_macro;
 
-use quote::quote;
+use quote::{quote, TokenStreamExt};
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
 
@@ -155,8 +155,8 @@ pub fn ast_node(
     AddAttr.visit_data_mut(&mut input.data);
 
     // we should use call_site
-    let mut item = Quote::new(Span::call_site());
-    item = match input.data {
+    let mut item = TokenStream::new();
+    match input.data {
         Data::Enum(..) => {
             struct EnumArgs {
                 clone: bool,
@@ -177,14 +177,12 @@ pub fn ast_node(
             };
 
             let clone = if args.clone {
-                Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                    #[derive(Clone)]
-                })))
+                Some(quote!(#[derive(Clone)]))
             } else {
                 None
             };
 
-            item.quote_with(smart_quote!(Vars { input, clone }, {
+            item.extend(smart_quote!(Vars { input, clone }, {
                 #[allow(clippy::derive_partial_eq_without_eq)]
                 #[cfg_attr(
                     feature = "serde-impl",
@@ -259,8 +257,7 @@ pub fn ast_node(
                 .as_ref()
                 .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
-            let mut quote =
-                item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+            item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
                     #[allow(clippy::derive_partial_eq_without_eq)]
                     #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
                     #[cfg_attr(
@@ -292,12 +289,10 @@ pub fn ast_node(
                 }));
 
             if let Some(items) = ast_node_impl {
-                for item in items {
-                    quote.push_tokens(&item);
+                for item_impl in items {
+                    item.extend(item_impl.into_token_stream());
                 }
             }
-
-            quote
         }
     };
 
