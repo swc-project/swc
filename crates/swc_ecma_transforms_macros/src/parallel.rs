@@ -86,17 +86,17 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
     let method_name = Ident::new(&format!("{}_{}", mode.prefix(), suffix), Span::call_site());
     let hook = post_visit_hook(mode, suffix);
     let explode_method_name = explode_hook_method_name(explode, suffix);
+    let node_type = node_type(suffix);
 
     match (mode, explode_method_name) {
         (Mode::Fold, Some(explode_method_name)) => parse_quote!(
             Vars {
-                NodeType: node_type(suffix),
                 method_name,
                 hook,
                 explode_method_name,
             },
             {
-                fn method_name(&mut self, mut nodes: Vec<NodeType>) -> Vec<NodeType> {
+                fn method_name(&mut self, mut nodes: Vec<#node_type>) -> Vec<#node_type> {
                     use swc_common::errors::HANDLER;
                     use swc_ecma_transforms_base::perf::{ParExplode, Parallel};
                     use swc_ecma_visit::FoldWith;
@@ -119,36 +119,28 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
                 }
             }
         ),
-        (Mode::Fold, None) => parse_quote!(
-            Vars {
-                NodeType: node_type(suffix),
-                method_name,
-                hook,
-            },
-            {
-                fn method_name(&mut self, nodes: Vec<NodeType>) -> Vec<NodeType> {
-                    use swc_common::errors::HANDLER;
-                    use swc_ecma_transforms_base::perf::Parallel;
-                    use swc_ecma_visit::FoldWith;
+        (Mode::Fold, None) => parse_quote!(Vars { method_name, hook }, {
+            fn method_name(&mut self, nodes: Vec<#node_type>) -> Vec<#node_type> {
+                use swc_common::errors::HANDLER;
+                use swc_ecma_transforms_base::perf::Parallel;
+                use swc_ecma_visit::FoldWith;
 
-                    let mut nodes = nodes.fold_children_with(self);
-                    {
-                        hook;
-                    }
-
-                    nodes
+                let mut nodes = nodes.fold_children_with(self);
+                {
+                    hook;
                 }
+
+                nodes
             }
-        ),
+        }),
         (Mode::VisitMut, Some(explode_method_name)) => parse_quote!(
             Vars {
-                NodeType: node_type(suffix),
                 method_name,
                 hook,
                 explode_method_name
             },
             {
-                fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
+                fn method_name(&mut self, nodes: &mut Vec<#node_type>) {
                     use std::mem::take;
 
                     use swc_common::errors::HANDLER;
@@ -172,24 +164,17 @@ fn make_par_visit_method(mode: Mode, suffix: &str, explode: bool) -> ImplItemFn 
                 }
             }
         ),
-        (Mode::VisitMut, None) => parse_quote!(
-            Vars {
-                NodeType: node_type(suffix),
-                method_name,
-                hook,
-            },
-            {
-                fn method_name(&mut self, nodes: &mut Vec<NodeType>) {
-                    use swc_common::errors::HANDLER;
-                    use swc_ecma_transforms_base::perf::Parallel;
-                    use swc_ecma_visit::VisitMutWith;
+        (Mode::VisitMut, None) => parse_quote!(Vars { method_name, hook }, {
+            fn method_name(&mut self, nodes: &mut Vec<#node_type>) {
+                use swc_common::errors::HANDLER;
+                use swc_ecma_transforms_base::perf::Parallel;
+                use swc_ecma_visit::VisitMutWith;
 
-                    nodes.visit_mut_children_with(self);
-                    {
-                        hook;
-                    }
+                nodes.visit_mut_children_with(self);
+                {
+                    hook;
                 }
             }
-        ),
+        }),
     }
 }
