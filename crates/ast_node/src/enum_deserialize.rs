@@ -103,7 +103,7 @@ pub fn expand(
                         .parse(),
                     ),
                     guard: Default::default(),
-                    fat_arrow_token: variant.ident.span().as_token(),
+                    fat_arrow_token: Token![=>](variant.ident.span()),
                     body: q!(
                         Vars {
                             Variant: &variant.ident,
@@ -121,7 +121,7 @@ pub fn expand(
                         }
                     )
                     .parse(),
-                    comma: Some(variant.ident.span().as_token()),
+                    comma: Some(Token![,](variant.ident.span())),
                 }
             })
             .collect::<Vec<Arm>>();
@@ -165,11 +165,11 @@ pub fn expand(
                         (
                             Pat::Wild(PatWild {
                                 attrs: Default::default(),
-                                underscore_token: variant.ident.span().as_token(),
+                                underscore_token: Token![_](variant.ident.span()),
                             }),
                             Pat::Wild(PatWild {
                                 attrs: Default::default(),
-                                underscore_token: variant.ident.span().as_token(),
+                                underscore_token: Token![_](variant.ident.span()),
                             }),
                         )
                     } else {
