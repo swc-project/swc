@@ -101,7 +101,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
 
     let ty = &input.ident;
 
-    let item: ItemImpl = parse_quote_spanned! {def_site() => {
+    let item: ItemImpl = parse_quote! {
         #[automatically_derived]
         impl swc_common::Spanned for #ty {
             #[inline]
@@ -109,7 +109,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
                 #body
             }
         }
-    }};
+    };
     item.with_generics(input.generics)
 }
 
