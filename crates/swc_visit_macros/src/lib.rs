@@ -2372,7 +2372,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         inputs: {
             let mut p = Punctuated::default();
             p.push_value(q!(Vars {}, { &mut self }).parse());
-            p.push_punct(def_site());
+            p.push_punct(Token![,](def_site()));
             match mode {
                 Mode::Fold { .. } => {
                     p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
@@ -2392,7 +2392,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
             }
 
             if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-                p.push_punct(def_site());
+                p.push_punct(Token![,](def_site()));
                 let ty = ast_path_type(mode);
                 p.push_value(q!(Vars { Type: ty }, { __ast_path: Type }).parse());
             }
