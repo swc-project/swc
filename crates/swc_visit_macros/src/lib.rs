@@ -1321,7 +1321,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     tokens.push_tokens(&ItemTrait {
         attrs,
-        vis: Visibility::Public(def_site()),
+        vis: Visibility::Public(Token![pub](def_site())),
         unsafety: None,
         auto_token: None,
         trait_token: Default::default(),
@@ -2275,7 +2275,7 @@ fn make_arm_from_struct(
             let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
-                    Stmt::Expr(expr, Some(call_site()))
+                    Stmt::Expr(expr, Some(Token![;](call_site())))
                 }
                 Mode::Fold { .. } => q!(
                     Vars {
@@ -2589,11 +2589,11 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             inputs: {
                 let mut p = Punctuated::default();
                 p.push_value(q!(Vars {}, { &mut self }).parse());
-                p.push_punct(def_site());
+                p.push_punct(Token![,](def_site()));
                 p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
 
                 if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
-                    p.push_punct(def_site());
+                    p.push_punct(Token![,](def_site()));
                     p.push_value(
                         q!(
                             Vars {
