@@ -182,7 +182,7 @@ pub fn ast_node(
                 None
             };
 
-            item.extend(smart_quote!(Vars { input, clone }, {
+            item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
                 #[cfg_attr(
                     feature = "serde-impl",
@@ -197,7 +197,7 @@ pub fn ast_node(
                     PartialEq,
                     ::swc_common::DeserializeEnum,
                 )]
-                clone
+                #clone
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -215,8 +215,8 @@ pub fn ast_node(
                     feature = "serde-impl",
                     serde(untagged)
                 )]
-                input
-            }))
+                #input
+            ));
         }
         _ => {
             let args: Option<ast_node_macro::Args> = if args.is_empty() {
@@ -231,12 +231,10 @@ pub fn ast_node(
                     ..
                 }) => {
                     if args.is_some() {
-                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                            #[cfg_attr(
-                                feature = "serde-impl",
-                                serde(tag = "type")
-                            )]
-                        })))
+                        Some(quote!(#[cfg_attr(
+                            feature = "serde-impl",
+                            serde(tag = "type")
+                        )]))
                     } else {
                         None
                     }
