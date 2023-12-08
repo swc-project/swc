@@ -248,9 +248,6 @@
 - **(es/fixer)** Wrap yield expression in await expression ([#8357](https://github.com/swc-project/swc/issues/8357)) ([ff719f0](https://github.com/swc-project/swc/commit/ff719f0cdd3cf79e7afa1c136243e6fa53c5abe3))
 
 
-- **(es/helpers)** Add `src/*.mjs` entry back ([#7328](https://github.com/swc-project/swc/issues/7328)) ([84af855](https://github.com/swc-project/swc/commit/84af85563f91a9593e0eb319f46c49c1d4cf7895))
-
-
 - **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
 
 
@@ -725,9 +722,6 @@
 - **(es/minifier)** Support `format.inline_script` ([#8252](https://github.com/swc-project/swc/issues/8252)) ([f059270](https://github.com/swc-project/swc/commit/f059270348a7ee26ee8ed2d185ba71d166f43e14))
 
 
-- **(es/module)** Add `export_interop_annotation` flag ([#7330](https://github.com/swc-project/swc/issues/7330)) ([caee073](https://github.com/swc-project/swc/commit/caee073935a9abb08f0b5e2e0e9160d80064995b))
-
-
 - **(es/module)** Preserve custom `use` directives ([#7528](https://github.com/swc-project/swc/issues/7528)) ([3e9dd88](https://github.com/swc-project/swc/commit/3e9dd88e37fcb99293a3683ea7a62214950f7860))
 
 
@@ -869,6 +863,9 @@
 - **(bindings)** Enable `share-generics` to reduce binary size ([#7482](https://github.com/swc-project/swc/issues/7482)) ([d623db4](https://github.com/swc-project/swc/commit/d623db48dedf08f32bf7a2afbf71cd1aed27d30a))
 
 
+- **(common)** Fix OOM of `inputSourceMap` ([#8402](https://github.com/swc-project/swc/issues/8402)) ([6a73d47](https://github.com/swc-project/swc/commit/6a73d47aa132ea03abcf8008630ca1634bafe389))
+
+
 - **(css/parser)** Use `AtomStore` ([#8238](https://github.com/swc-project/swc/issues/8238)) ([a3c03b3](https://github.com/swc-project/swc/commit/a3c03b30fb3aa19cb590addbf47b0583d1b05dad))
 
 
@@ -956,6 +953,9 @@
 - **(css/compat)** Support stable rust ([#8386](https://github.com/swc-project/swc/issues/8386)) ([bc1e328](https://github.com/swc-project/swc/commit/bc1e32829deb4ebe91ebea5ce08b5c6bc95292a3))
 
 
+- **(css/lints)** Support stable rust ([#8384](https://github.com/swc-project/swc/issues/8384)) ([19d1d01](https://github.com/swc-project/swc/commit/19d1d013b2e0567a301bd7593db6e16b713e7490))
+
+
 - **(css/minifier)** Support stable rust ([#8389](https://github.com/swc-project/swc/issues/8389)) ([305e72e](https://github.com/swc-project/swc/commit/305e72e67297fabefb5124922e52b15522496467))
 
 
@@ -963,6 +963,9 @@
 
 
 - **(css/parser)** Support stable rust ([#8378](https://github.com/swc-project/swc/issues/8378)) ([4870e8b](https://github.com/swc-project/swc/commit/4870e8b47e74939321c2e46ce0a1246ec957d342))
+
+
+- **(css/prefixer)** Support stable rust ([#8385](https://github.com/swc-project/swc/issues/8385)) ([f93f2b8](https://github.com/swc-project/swc/commit/f93f2b8334e82255c21d4abf23d474ee8c6fff73))
 
 
 - **(es)** Extract parser/codegen code for `swc::Compiler` ([#8030](https://github.com/swc-project/swc/issues/8030)) ([a13f5cb](https://github.com/swc-project/swc/commit/a13f5cbe03f067b376f9f3318ef822142551eb96))
@@ -1074,9 +1077,6 @@
 
 
 - **(css/module)** Add a test for a fixed issue ([#7399](https://github.com/swc-project/swc/issues/7399)) ([6b92eec](https://github.com/swc-project/swc/commit/6b92eecd398e94a8d58b6b5e49679f7977a17703))
-
-
-- **(es)** Update tsc test suite ([#7323](https://github.com/swc-project/swc/issues/7323)) ([603f22d](https://github.com/swc-project/swc/commit/603f22de76eaeac1a64ee5e5f2e1dd095f908604))
 
 
 - **(es)** Add a test for a wrong issue ([#7542](https://github.com/swc-project/swc/issues/7542)) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
