@@ -1,6 +1,5 @@
 #![allow(dead_code)]
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
 use swc_macros_common::prelude::*;
 use syn::{parse::Parse, *};
 
@@ -72,7 +71,7 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         .variants()
         .into_iter()
         .map(|v| {
-            let (pat, bindings) = v.bind("_", Some(def_site()), None);
+            let (pat, bindings) = v.bind("_", Some(Token![ref](def_site())), None);
 
             let body = make_body_for_variant(&v, bindings);
 
@@ -100,35 +99,26 @@ pub fn derive(input: DeriveInput) -> ItemImpl {
         arms,
     });
 
-    Quote::new(def_site::<Span>())
-        .quote_with(smart_quote!(
-            Vars {
-                Type: &input.ident,
-                body,
-            },
-            {
-                impl swc_common::Spanned for Type {
-                    #[inline]
-                    fn span(&self) -> swc_common::Span {
-                        body
-                    }
-                }
+    let ty = &input.ident;
+
+    let item: ItemImpl = parse_quote_spanned! {def_site() => {
+        #[automatically_derived]
+        impl swc_common::Spanned for #ty {
+            #[inline]
+            fn span(&self) -> swc_common::Span {
+                #body
             }
-        ))
-        .parse::<ItemImpl>()
-        .with_generics(input.generics)
+        }
+    }};
+    item.with_generics(input.generics)
 }
 
 fn make_body_for_variant(v: &VariantBinder<'_>, bindings: Vec<BindedField<'_>>) -> Box<Expr> {
     /// `swc_common::Spanned::span(#field)`
     fn simple_field(field: &dyn ToTokens) -> Box<Expr> {
-        Box::new(
-            Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(Vars { field }, {
-                    swc_common::Spanned::span(field)
-                }))
-                .parse(),
-        )
+        Box::new(parse_quote_spanned! (def_site() => {
+            swc_common::Spanned::span(#field)
+        }))
     }
 
     if bindings.is_empty() {
