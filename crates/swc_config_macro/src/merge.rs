@@ -2,7 +2,7 @@ use pmutil::{q, SpanExt};
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 use swc_macros_common::{access_field, join_stmts};
-use syn::{DeriveInput, Expr, Field, Fields, Stmt};
+use syn::{DeriveInput, Expr, Field, Fields, Stmt, Token};
 
 pub fn expand(input: DeriveInput) -> TokenStream {
     match &input.data {
@@ -50,14 +50,14 @@ fn call_merge_for_fields(obj: &dyn ToTokens, fields: &Fields) -> Vec<Stmt> {
             .iter()
             .enumerate()
             .map(|(idx, f)| call_merge(obj, idx, f))
-            .map(|expr| Stmt::Expr(expr, Some(fs.brace_token.span.join().as_token())))
+            .map(|expr| Stmt::Expr(expr, Some(Token![;](fs.brace_token.span.join()))))
             .collect(),
         Fields::Unnamed(fs) => fs
             .unnamed
             .iter()
             .enumerate()
             .map(|(idx, f)| call_merge(obj, idx, f))
-            .map(|expr| Stmt::Expr(expr, Some(fs.paren_token.span.join().as_token())))
+            .map(|expr| Stmt::Expr(expr, Some(Token![;](fs.paren_token.span.join()))))
             .collect(),
         Fields::Unit => unimplemented!("derive(Merge) does not support a unit struct"),
     }
