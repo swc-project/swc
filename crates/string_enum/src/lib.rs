@@ -265,7 +265,7 @@ fn make_as_str(i: &DeriveInput) -> ItemImpl {
                 }),
                 guard: None,
                 fat_arrow_token: Default::default(),
-                comma: Some(def_site()),
+                comma: Some(Token![,](def_site())),
             }
         })
         .collect();
