@@ -9,7 +9,7 @@ edition = "2021"
 license = "Apache-2.0"
 name = "swc_node_comments"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.20.9"
+version = "0.20.12"
 
 [lib]
 bench = false
@@ -17,5 +17,5 @@ bench = false
 [dependencies]
 dashmap = "5.4.0"
 
-swc_atoms  = { version = "0.6.4", path = "../swc_atoms" }
-swc_common = { version = "0.33.9", path = "../swc_common" }
+swc_atoms  = { version = "0.6.5", path = "../swc_atoms" }
+swc_common = { version = "0.33.12", path = "../swc_common" }

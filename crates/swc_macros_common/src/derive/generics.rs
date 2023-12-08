@@ -78,21 +78,23 @@ impl<'a> Derive<'a> {
     where
         I: IntoIterator<Item = WherePredicate>,
     {
-        let preds = preds.into_iter().map(|t| Pair::Punctuated(t, def_site()));
+        let preds = preds
+            .into_iter()
+            .map(|t| Pair::Punctuated(t, Token![,](def_site())));
 
         match self.out.generics.where_clause {
             Some(WhereClause {
                 ref mut predicates, ..
             }) => {
                 if !predicates.empty_or_trailing() {
-                    predicates.push_punct(def_site());
+                    predicates.push_punct(Token![,](def_site()));
                 }
 
                 predicates.extend(preds)
             }
             None => {
                 self.out.generics.where_clause = Some(WhereClause {
-                    where_token: def_site(),
+                    where_token: Token![where](def_site()),
                     predicates: preds.collect(),
                 })
             }
@@ -106,7 +108,7 @@ impl<'a> Derive<'a> {
         let bound = WherePredicate::Type(PredicateType {
             lifetimes: None,
             bounded_ty: self_ty,
-            colon_token: def_site(),
+            colon_token: Token![:](def_site()),
             // `Trait` in `Self: Trait`
             bounds: iter::once(Pair::End(TypeParamBound::Trait(TraitBound {
                 modifier: TraitBoundModifier::None,

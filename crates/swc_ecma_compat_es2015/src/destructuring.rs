@@ -1,4 +1,4 @@
-use std::iter;
+use std::{iter, mem};
 
 use serde::Deserialize;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
@@ -557,6 +557,12 @@ impl VisitMut for AssignFolder {
         self.exporting = true;
         decl.visit_mut_children_with(self);
         self.exporting = old;
+    }
+
+    fn visit_mut_function(&mut self, f: &mut Function) {
+        let exporting = mem::replace(&mut self.exporting, false);
+        f.visit_mut_children_with(self);
+        self.exporting = exporting;
     }
 
     fn visit_mut_expr(&mut self, expr: &mut Expr) {

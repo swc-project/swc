@@ -16,8 +16,9 @@ use std::{
 
 use ansi_term::Color;
 use anyhow::Error;
+use base64::prelude::{Engine, BASE64_STANDARD};
 use serde::de::DeserializeOwned;
-use sha1::{Digest, Sha1};
+use sha2::{Digest, Sha256};
 use swc_common::{
     chain,
     comments::SingleThreadedComments,
@@ -521,7 +522,7 @@ where
 }
 
 fn calc_hash(s: &str) -> String {
-    let mut hasher = Sha1::new();
+    let mut hasher = Sha256::new();
     hasher.update(s.as_bytes());
     let sum = hasher.finalize();
 
@@ -902,7 +903,7 @@ fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
 
     let code_len = format!("{}\0", code.len());
     let map_len = format!("{}\0", map.len());
-    let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
+    let hash = BASE64_STANDARD.encode(format!("{}{}{}{}", code_len, code, map_len, map));
 
     format!("https://evanw.github.io/source-map-visualization/#{}", hash)
 }

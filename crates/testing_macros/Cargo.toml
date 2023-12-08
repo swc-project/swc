@@ -1,28 +1,27 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "General purpose testing macros"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "General purpose testing macros"
 documentation = "https://rustdoc.swc.rs/testing_macros/"
-edition = "2021"
-license = "Apache-2.0"
-name = "testing_macros"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.2.11"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "testing_macros"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.2.12"
 
 [features]
 # Skip generating fixtures so the editor becomes faster again
 rust-analyzer = []
 
 [lib]
-bench = false
+bench      = false
 proc-macro = true
 
 [dependencies]
-anyhow = "1"
-glob = "0.3"
-pmutil = "0.6.1"
-proc-macro2 = "1.0.24"
-quote = "1"
-regex = "1"
+anyhow        = "1"
+glob          = "0.3"
+once_cell     = "1.18.0"
+proc-macro2   = "1.0.24"
+quote         = "1"
+regex         = "1"
 relative-path = "1.3.2"
-syn = {version = "2", features = ["fold", "parsing", "full", "extra-traits"]}
-once_cell = "1.18.0"
+syn           = { version = "2", features = ["fold", "parsing", "full", "extra-traits"] }
