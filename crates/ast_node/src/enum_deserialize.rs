@@ -377,41 +377,30 @@ pub fn expand(
                 })
                 .collect()
         };
-        Quote::new_call_site()
-            .quote_with(smart_quote!(
-                Vars {
-                    match_type_expr,
-                    Enum: &ident,
-                    tag_expr,
-                    variants
-                },
+        let item: ItemImpl = parse_quote!(
+            #[cfg(feature = "serde-impl")]
+            impl<'de> serde::Deserialize<'de> for #ident {
+                #[allow(unreachable_code)]
+                fn deserialize<__D>(__deserializer: __D) -> ::std::result::Result<Self, __D::Error>
+                where
+                    __D: serde::Deserializer<'de>,
                 {
-                    #[cfg(feature = "serde-impl")]
-                    impl<'de> serde::Deserialize<'de> for Enum {
-                        #[allow(unreachable_code)]
-                        fn deserialize<__D>(
-                            __deserializer: __D,
-                        ) -> ::std::result::Result<Self, __D::Error>
-                        where
-                            __D: serde::Deserializer<'de>,
-                        {
-                            enum __TypeVariant {
-                                variants,
-                            }
+                    enum __TypeVariant {
+                        #variants,
+                    }
 
-                            let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
+                    let __content = <swc_common::private::serde::de::Content as serde::Deserialize>::deserialize(
                                 __deserializer,
                             )?;
 
-                            let __tagged = tag_expr;
+                    let __tagged = #tag_expr;
 
-                            match_type_expr
-                        }
-                    }
+                    #match_type_expr
                 }
-            ))
-            .parse::<ItemImpl>()
-            .with_generics(generics)
+            }
+        );
+
+        item.with_generics(generics)
     };
 
     deserialize
