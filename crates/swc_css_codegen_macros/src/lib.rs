@@ -3,7 +3,7 @@
 extern crate proc_macro;
 
 use quote::ToTokens;
-use syn::{FnArg, ImplItemFn, Type, TypeReference};
+use syn::{parse_quote, FnArg, ImplItemFn, Type, TypeReference};
 
 #[proc_macro_attribute]
 pub fn emitter(
@@ -50,36 +50,27 @@ fn (&mut self, node: Node) -> Result;
                 )
         };
 
-        Quote::new_call_site()
-            .quote_with(smart_quote!(
-                Vars {
-                    block: &i.block,
-                    NodeType: &node_type,
-                    mtd_name,
-                },
-                {
-                    {
-                        impl<W> crate::Emit<NodeType> for crate::CodeGenerator<W>
-                        where
-                            W: crate::writer::CssWriter,
-                        {
-                            fn emit(&mut self, n: &NodeType) -> crate::Result {
-                                self.mtd_name(n)
-                            }
-                        }
+        let block = &i.block;
 
-                        block
-
-                        // Emitter methods return Result<_, _>
-                        // We inject this to avoid writing Ok(()) every time.
-                        #[allow(unreachable_code)]
-                        {
-                            return Ok(());
-                        }
-                    }
+        parse_quote!(
+            impl<W> crate::Emit<#node_type> for crate::CodeGenerator<W>
+            where
+                W: crate::writer::CssWriter,
+            {
+                fn emit(&mut self, n: &#node_type) -> crate::Result {
+                    self.#mtd_name(n)
                 }
-            ))
-            .parse()
+            }
+
+            #block
+
+            // Emitter methods return Result<_, _>
+            // We inject this to avoid writing Ok(()) every time.
+            #[allow(unreachable_code)]
+            {
+                return Ok(());
+            }
+        )
     };
 
     ImplItemFn { block, ..i }
