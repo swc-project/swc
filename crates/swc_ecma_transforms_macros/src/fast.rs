@@ -112,13 +112,13 @@ impl Expander {
 
         let fast_path = match self.mode {
             Mode::Fold => parse_quote!(
-                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&arg) {
-                    return arg;
+                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&#arg) {
+                    return #arg;
                 }
             ),
             Mode::VisitMut => parse_quote!(
-                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&*arg) {
-                    return arg;
+                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&*#arg) {
+                    return #arg;
                 }
             ),
         };
