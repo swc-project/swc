@@ -199,11 +199,7 @@ fn make_from_str(i: &DeriveInput) -> ItemImpl {
         attrs: Default::default(),
         match_token: Default::default(),
         brace_token: Default::default(),
-        expr: Box::new(
-            Quote::new_call_site()
-                .quote_with(smart_quote!(Vars {}, { s }))
-                .parse(),
-        ),
+        expr: Box::new(parse_quote!(s)),
         arms,
     });
 
