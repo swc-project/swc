@@ -1,4 +1,3 @@
-use pmutil::{q, SpanExt};
 use proc_macro2::TokenStream;
 use quote::{quote, ToTokens};
 use swc_macros_common::{access_field, join_stmts};

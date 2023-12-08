@@ -2298,7 +2298,7 @@ fn make_arm_from_struct(
             } else {
                 Member::Named(field.ident.clone().unwrap())
             },
-            colon_token: Some(def_site()),
+            colon_token: Some(Token![:](def_site())),
             pat: Box::new(Pat::Ident(PatIdent {
                 attrs: Default::default(),
                 by_ref: None,
