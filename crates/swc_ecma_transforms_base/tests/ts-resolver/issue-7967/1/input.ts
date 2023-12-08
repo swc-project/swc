@@ -1,0 +1,7 @@
+{
+  interface Foo { }
+}
+
+{
+  interface Foo { }
+}
