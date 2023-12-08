@@ -319,39 +319,39 @@ fn make_serialize(i: &DeriveInput) -> ItemImpl {
 }
 
 fn make_deserialize(i: &DeriveInput) -> ItemImpl {
-    Quote::new_call_site()
-        .quote_with(smart_quote!(Vars { Type: &i.ident }, {
-            #[cfg(feature = "serde")]
-            impl<'de> ::serde::Deserialize<'de> for Type {
-                fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-                where
-                    D: ::serde::Deserializer<'de>,
-                {
-                    struct StrVisitor;
+    let ty = &i.ident;
+    let item: ItemImpl = parse_quote!(
+        #[cfg(feature = "serde")]
+        impl<'de> ::serde::Deserialize<'de> for #ty {
+            fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+            where
+                D: ::serde::Deserializer<'de>,
+            {
+                struct StrVisitor;
 
-                    impl<'de> ::serde::de::Visitor<'de> for StrVisitor {
-                        type Value = Type;
+                impl<'de> ::serde::de::Visitor<'de> for StrVisitor {
+                    type Value = #ty;
 
-                        fn expecting(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
-                            // TODO: List strings
-                            write!(f, "one of (TODO)")
-                        }
-
-                        fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
-                        where
-                            E: ::serde::de::Error,
-                        {
-                            // TODO
-                            value.parse().map_err(|()| E::unknown_variant(value, &[]))
-                        }
+                    fn expecting(&self, f: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+                        // TODO: List strings
+                        write!(f, "one of (TODO)")
                     }
 
-                    deserializer.deserialize_str(StrVisitor)
+                    fn visit_str<E>(self, value: &str) -> Result<Self::Value, E>
+                    where
+                        E: ::serde::de::Error,
+                    {
+                        // TODO
+                        value.parse().map_err(|()| E::unknown_variant(value, &[]))
+                    }
                 }
+
+                deserializer.deserialize_str(StrVisitor)
             }
-        }))
-        .parse::<ItemImpl>()
-        .with_generics(i.generics.clone())
+        }
+    );
+
+    item.with_generics(i.generics.clone())
 }
 
 struct FieldAttr {
