@@ -167,7 +167,7 @@ impl ForOf {
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: pat.into(),
+                        left: pat.try_into().unwrap(),
                         op: op!("="),
                         right: arr.computed_member(i).into(),
                     }
@@ -267,7 +267,7 @@ impl ForOf {
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: pat.into(),
+                        left: pat.try_into().unwrap(),
                         op: op!("="),
                         right: step.clone().make_member(quote_ident!("value")).into(),
                     }
