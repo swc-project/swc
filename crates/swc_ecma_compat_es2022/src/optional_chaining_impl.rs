@@ -427,7 +427,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         Memo::Cache(i) => Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: AssignTarget::Pat(i.clone().into()),
+            left: i.clone().into(),
             right: Box::new(init),
         })),
         Memo::Raw(e) => e.to_owned(),

@@ -792,6 +792,8 @@ impl VisitMut for AssignFolder {
                                     right: make_ref_idx_expr(&ref_ident, i).into(),
                                     left: AssignTarget::Pat(Box::new(elem.take())),
                                     right: Box::new(make_ref_idx_expr(&ref_ident, i)),
+                                    left: elem.take().try_into().unwrap(),
+                                    right: make_ref_idx_expr(&ref_ident, i).into(),
                                 });
 
                                 assign_expr.visit_mut_with(self);
