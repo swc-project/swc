@@ -434,7 +434,7 @@ impl ForOf {
                 arg: {
                     let step_expr = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: AssignTarget::Pat(step.into()),
+                        left: step.into(),
                         op: op!("="),
                         // `_iterator.next()`
                         right: Box::new(Expr::Call(CallExpr {
@@ -448,7 +448,7 @@ impl ForOf {
 
                     Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: AssignTarget::Pat(normal_completion_ident.clone().into()),
+                        left: normal_completion_ident.clone().into(),
                         op: op!("="),
                         right: step_expr.make_member(quote_ident!("done")).into(),
                     }))
