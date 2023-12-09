@@ -355,7 +355,7 @@ impl ForOf {
                 }
                 ForHead::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
-                    left: AssignTarget::Pat(pat),
+                    left: pat.try_into().unwrap(),
                     op: op!("="),
                     right: step_value.into(),
                 }
