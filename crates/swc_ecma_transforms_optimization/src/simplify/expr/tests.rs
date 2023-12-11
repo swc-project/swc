@@ -1,5 +1,5 @@
 use swc_common::{chain, Mark, SyntaxContext};
-use swc_ecma_transforms_base::resolver;
+use swc_ecma_transforms_base::{fixer::paren_remover, resolver};
 use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_utils::ExprCtx;
 use swc_ecma_visit::as_folder;
@@ -15,6 +15,7 @@ fn fold(src: &str, expected: &str) {
 
             chain!(
                 resolver(unresolved_mark, top_level_mark, false),
+                paren_remover(None),
                 as_folder(SimplifyExpr {
                     expr_ctx: ExprCtx {
                         unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),

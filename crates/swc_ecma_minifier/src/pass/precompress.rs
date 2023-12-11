@@ -8,6 +8,7 @@ use crate::HEAVY_TASK_PARALLELS;
 /// Optimizer invoked before invoking compressor.
 ///
 /// - Remove parens.
+/// TODO: remove completely after #8333
 pub(crate) fn precompress_optimizer<'a>() -> impl 'a + VisitMut {
     PrecompressOptimizer {}
 }
@@ -25,14 +26,6 @@ impl Parallel for PrecompressOptimizer {
 
 impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
-
-    fn visit_mut_expr(&mut self, e: &mut Expr) {
-        e.visit_mut_children_with(self);
-
-        if let Expr::Paren(p) = e {
-            *e = *p.expr.take();
-        }
-    }
 
     fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
         n.visit_mut_children_with(self);

@@ -32,7 +32,11 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{
+    fixer::{fixer, paren_remover},
+    hygiene::hygiene,
+    resolver,
+};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::assert_eq;
 
@@ -197,7 +201,12 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
             .map_err(|err| {
                 err.into_diagnostic(handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
+            .map(|mut module| {
+                module.visit_mut_with(&mut paren_remover(Some(&comments)));
+                module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+                module
+            });
 
         // Ignore parser errors.
         //

@@ -1,4 +1,4 @@
-use std::{hash::BuildHasherDefault, ops::RangeFull};
+use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
@@ -18,6 +18,7 @@ pub fn fixer(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitMut {
         ctx: Default::default(),
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
+        in_opt_chain: Default::default(),
         remove_only: false,
     })
 }
@@ -28,6 +29,7 @@ pub fn paren_remover(comments: Option<&dyn Comments>) -> impl '_ + Fold + VisitM
         ctx: Default::default(),
         span_map: Default::default(),
         in_for_stmt_head: Default::default(),
+        in_opt_chain: Default::default(),
         remove_only: true,
     })
 }
@@ -42,6 +44,7 @@ struct Fixer<'a> {
     span_map: IndexMap<Span, Span, BuildHasherDefault<FxHasher>>,
 
     in_for_stmt_head: bool,
+    in_opt_chain: bool,
 
     remove_only: bool,
 }
@@ -84,21 +87,6 @@ macro_rules! array {
 }
 
 impl Fixer<'_> {
-    fn visit_call<T: VisitMutWith<Self>>(
-        &mut self,
-        args: &mut Vec<ExprOrSpread>,
-        callee: &mut T,
-    ) -> Context {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr;
-        args.visit_mut_with(self);
-
-        self.ctx = Context::Callee { is_new: false };
-        callee.visit_mut_with(self);
-
-        old
-    }
-
     fn wrap_callee(&mut self, e: &mut Expr) {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
@@ -397,24 +385,47 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_call_expr(&mut self, node: &mut CallExpr) {
-        let old = self.visit_call(&mut node.args, &mut node.callee);
+        let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
+
+        node.callee.visit_mut_with(self);
         if let Callee::Expr(e) = &mut node.callee {
-            if let Expr::OptChain(_) = &**e {
-                self.wrap(e)
-            } else {
-                self.wrap_callee(e)
+            match &**e {
+                Expr::OptChain(_) if !self.in_opt_chain => self.wrap(e),
+                _ => self.wrap_callee(e),
             }
         }
 
-        self.ctx = old;
+        self.ctx = Context::ForcedExpr;
+
+        node.args.visit_mut_with(self);
+
+        self.ctx = ctx;
+    }
+
+    fn visit_mut_opt_chain_base(&mut self, n: &mut OptChainBase) {
+        if !n.is_member() {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
+        n.visit_mut_children_with(self);
+        self.in_opt_chain = in_opt_chain;
     }
 
     fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        let old = self.visit_call(&mut node.args, &mut node.callee);
+        let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
+        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
 
+        node.callee.visit_mut_with(self);
         self.wrap_callee(&mut node.callee);
 
-        self.ctx = old;
+        self.in_opt_chain = in_opt_chain;
+
+        self.ctx = Context::ForcedExpr;
+        node.args.visit_mut_with(self);
+
+        self.ctx = ctx;
     }
 
     fn visit_mut_class(&mut self, node: &mut Class) {
@@ -471,6 +482,7 @@ impl VisitMut for Fixer<'_> {
             }
         }
         self.unwrap_expr(e);
+
         e.visit_mut_children_with(self);
 
         self.ctx = ctx;
@@ -575,32 +587,31 @@ impl VisitMut for Fixer<'_> {
     }
 
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
-        n.obj.visit_mut_with(self);
-        n.prop.visit_mut_with(self);
+        n.visit_mut_children_with(self);
 
-        match n {
-            MemberExpr { obj, .. }
-                if obj.is_object() && matches!(self.ctx, Context::ForcedExpr) => {}
-
-            MemberExpr { obj, .. }
-                if obj.is_fn_expr()
-                    || obj.is_cond()
-                    || obj.is_unary()
-                    || obj.is_seq()
-                    || obj.is_update()
-                    || obj.is_bin()
-                    || obj.is_object()
-                    || obj.is_assign()
-                    || obj.is_arrow()
-                    || obj.is_class()
-                    || obj.is_yield_expr()
-                    || obj.is_await_expr()
-                    || (obj.is_call() && matches!(self.ctx, Context::Callee { is_new: true }))
-                    || matches!(**obj, Expr::New(NewExpr { args: None, .. })) =>
-            {
-                self.wrap(obj);
+        match *n.obj {
+            Expr::Object(..) if self.ctx == Context::ForcedExpr => {}
+            Expr::Fn(..)
+            | Expr::Cond(..)
+            | Expr::Unary(..)
+            | Expr::Seq(..)
+            | Expr::Update(..)
+            | Expr::Bin(..)
+            | Expr::Object(..)
+            | Expr::Assign(..)
+            | Expr::Arrow(..)
+            | Expr::Class(..)
+            | Expr::Yield(..)
+            | Expr::Await(..)
+            | Expr::New(NewExpr { args: None, .. }) => {
+                self.wrap(&mut n.obj);
             }
-
+            Expr::Call(..) if self.ctx == Context::Callee { is_new: true } => {
+                self.wrap(&mut n.obj);
+            }
+            Expr::OptChain(..) if !self.in_opt_chain => {
+                self.wrap(&mut n.obj);
+            }
             _ => {}
         }
     }
@@ -691,7 +702,8 @@ impl VisitMut for Fixer<'_> {
         e.visit_mut_children_with(self);
 
         match &*e.tag {
-            Expr::Arrow(..)
+            Expr::OptChain(..)
+            | Expr::Arrow(..)
             | Expr::Cond(..)
             | Expr::Bin(..)
             | Expr::Seq(..)
@@ -857,17 +869,13 @@ impl Fixer<'_> {
                     }
                 }
 
-                let expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                let mut expr = Expr::Seq(SeqExpr { span: *span, exprs });
 
-                match self.ctx {
-                    Context::ForcedExpr => {
-                        *e = Expr::Paren(ParenExpr {
-                            span: *span,
-                            expr: Box::new(expr),
-                        })
-                    }
-                    _ => *e = expr,
+                if let Context::ForcedExpr = self.ctx {
+                    self.wrap(&mut expr);
                 };
+
+                *e = expr;
             }
 
             Expr::Cond(expr) => {
@@ -907,10 +915,7 @@ impl Fixer<'_> {
                 || callee.is_await_expr()
                 || callee.is_assign() =>
             {
-                *callee = Box::new(Expr::Paren(ParenExpr {
-                    span: callee.span(),
-                    expr: callee.take(),
-                }))
+                self.wrap(callee);
             }
             Expr::OptChain(OptChainExpr { base, .. }) => match &mut **base {
                 OptChainBase::Call(OptCall { callee, .. })
@@ -919,10 +924,7 @@ impl Fixer<'_> {
                         || callee.is_await_expr()
                         || callee.is_assign() =>
                 {
-                    *callee = Box::new(Expr::Paren(ParenExpr {
-                        span: callee.span(),
-                        expr: callee.take(),
-                    }))
+                    self.wrap(callee);
                 }
 
                 OptChainBase::Call(OptCall { callee, .. }) if callee.is_fn_expr() => match self.ctx
@@ -974,51 +976,31 @@ impl Fixer<'_> {
         };
 
         let expr = Box::new(e.take());
-        *e = Expr::Paren(ParenExpr { expr, span })
+        *e = Expr::Paren(ParenExpr { expr, span });
     }
 
     /// Removes paren
     fn unwrap_expr(&mut self, e: &mut Expr) {
-        match e {
-            Expr::Seq(SeqExpr { exprs, .. }) if exprs.len() == 1 => {
-                self.unwrap_expr(exprs.last_mut().unwrap());
-                *e = *exprs.last_mut().unwrap().take();
-            }
-
-            Expr::Paren(ParenExpr {
-                span: paren_span,
-                expr,
-                ..
-            }) => {
-                // `(a?.b).c !== a?.b.c`
-                if expr.is_opt_chain() {
-                    return;
+        loop {
+            match e {
+                Expr::Seq(SeqExpr { exprs, .. }) if exprs.len() == 1 => {
+                    *e = *exprs[0].take();
                 }
 
-                // `(a?.b.c)() !== a?.b.c()`
-                if Self::contain_opt_chain(expr) {
-                    return;
+                Expr::Paren(ParenExpr {
+                    span: paren_span,
+                    expr,
+                    ..
+                }) => {
+                    let expr_span = expr.span();
+                    let paren_span = *paren_span;
+                    *e = *expr.take();
+
+                    self.span_map.insert(expr_span, paren_span);
                 }
 
-                let expr_span = expr.span();
-                let paren_span = *paren_span;
-                self.unwrap_expr(expr);
-                *e = *expr.take();
-
-                self.span_map.insert(expr_span, paren_span);
+                _ => return,
             }
-            _ => {}
-        }
-    }
-
-    fn contain_opt_chain(e: &Expr) -> bool {
-        match e {
-            Expr::Member(member) => Self::contain_opt_chain(&member.obj),
-            Expr::OptChain(_) => true,
-            Expr::Call(CallExpr { callee, .. }) if callee.is_expr() => {
-                Self::contain_opt_chain(callee.as_expr().unwrap())
-            }
-            _ => false,
         }
     }
 
