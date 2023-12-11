@@ -97,7 +97,13 @@ impl VisitMut for InfoMarker<'_> {
     fn visit_mut_call_expr(&mut self, n: &mut CallExpr) {
         n.visit_mut_children_with(self);
 
-        if has_noinline(self.comments, n.span) {
+        // TODO: remove after we figure out how to move comments properly
+        if has_noinline(self.comments, n.span)
+            || match &n.callee {
+                Callee::Expr(e) => has_noinline(self.comments, e.span()),
+                _ => false,
+            }
+        {
             n.span = n.span.apply_mark(self.marks.noinline);
         }
 

@@ -248,6 +248,9 @@
 - **(es/fixer)** Wrap yield expression in await expression ([#8357](https://github.com/swc-project/swc/issues/8357)) ([ff719f0](https://github.com/swc-project/swc/commit/ff719f0cdd3cf79e7afa1c136243e6fa53c5abe3))
 
 
+- **(es/fixer)** Preserve parenthesis for optional chaining ([#8399](https://github.com/swc-project/swc/issues/8399)) ([a69f172](https://github.com/swc-project/swc/commit/a69f172aacb29caafef2c2af0659faf1b9154f2c))
+
+
 - **(es/helpers)** Override mistake in `_interop_require_wildcard` ([#8076](https://github.com/swc-project/swc/issues/8076)) ([1346528](https://github.com/swc-project/swc/commit/1346528477bd8c587f0ee0d5fa6969f397739ddb))
 
 
@@ -431,9 +434,6 @@
 - **(es/module)** Read link if an import is resolved as symlink ([#8297](https://github.com/swc-project/swc/issues/8297)) ([7dfdc12](https://github.com/swc-project/swc/commit/7dfdc1221890d373d2e6caf52bc8dee8c20765ca))
 
 
-- **(es/parser)** Parse decorators after `export` ([#7340](https://github.com/swc-project/swc/issues/7340)) ([985f0ca](https://github.com/swc-project/swc/commit/985f0cad06b9de5f9e98bed3ad62769e0f3c7528))
-
-
 - **(es/parser)** Fix `>=` with type instantiate ([#7388](https://github.com/swc-project/swc/issues/7388)) ([fa7a352](https://github.com/swc-project/swc/commit/fa7a3521f531caa32439fa6f4c338a2a7d859e05))
 
 
@@ -528,9 +528,6 @@
 
 
 - **(es/transforms)** Do not add `PURE` comment to `BytePos(0)` ([#8207](https://github.com/swc-project/swc/issues/8207)) ([c061356](https://github.com/swc-project/swc/commit/c061356b63431fcd0323e434402ead143c622340))
-
-
-- **(es/typescript)** Fix typescript strip pass ([#7342](https://github.com/swc-project/swc/issues/7342)) ([d061d29](https://github.com/swc-project/swc/commit/d061d295ff2ca6ebb03d9c62c367f42f7186c2d7))
 
 
 - **(es/typescript)** Don't panic of `@jsxFrag null` ([#7540](https://github.com/swc-project/swc/issues/7540)) ([76aa91f](https://github.com/swc-project/swc/commit/76aa91f83cf37a11aa55feba40d6f73819fc811d))
@@ -672,9 +669,6 @@
 
 
 - **(es/config)** Accept `jsc.experimental.keepImportAssertions` ([#7995](https://github.com/swc-project/swc/issues/7995)) ([4d777ee](https://github.com/swc-project/swc/commit/4d777ee270183ba375b68c003e61692af6d571c3))
-
-
-- **(es/minifier)** Drop expressions using sequential inliner ([#6936](https://github.com/swc-project/swc/issues/6936)) ([246300a](https://github.com/swc-project/swc/commit/246300ae25be0cfdbbb266e02f80d06013a96d85))
 
 
 - **(es/minifier)** Inline for loop variables ([#7445](https://github.com/swc-project/swc/issues/7445)) ([0cd2b61](https://github.com/swc-project/swc/commit/0cd2b61b054031f1a49cae25a82925d52dff0a73))

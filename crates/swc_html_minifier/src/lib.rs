@@ -2032,6 +2032,11 @@ impl Minifier<'_> {
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
 
+        let program = swc_ecma_visit::FoldWith::fold_with(
+            program,
+            &mut swc_ecma_transforms_base::fixer::paren_remover(Some(&comments)),
+        );
+
         let program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
