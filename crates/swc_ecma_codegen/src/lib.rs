@@ -2885,9 +2885,7 @@ where
     }
 
     fn has_leading_comment(&self, arg: &Expr) -> bool {
-        if let Some(cmt) = self.comments {
-            let span = arg.span();
-
+        fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
             let lo = span.lo;
 
             // see #415
@@ -2903,36 +2901,32 @@ where
                     return true;
                 }
             }
-        } else {
-            return false;
+
+            false
         }
 
+        let cmt = if let Some(cmt) = self.comments {
+            if span_has_leading_comment(cmt, arg.span()) {
+                return true;
+            }
+
+            cmt
+        } else {
+            return false;
+        };
+
         match arg {
-            Expr::Call(c) => match &c.callee {
-                Callee::Super(callee) => {
-                    if let Some(cmt) = self.comments {
-                        let lo = callee.span.lo;
+            Expr::Call(c) => {
+                let has_leading = match &c.callee {
+                    Callee::Super(callee) => span_has_leading_comment(cmt, callee.span),
+                    Callee::Import(callee) => span_has_leading_comment(cmt, callee.span),
+                    Callee::Expr(callee) => self.has_leading_comment(callee),
+                };
 
-                        if cmt.has_leading(lo) {
-                            return true;
-                        }
-                    }
+                if has_leading {
+                    return true;
                 }
-                Callee::Import(callee) => {
-                    if let Some(cmt) = self.comments {
-                        let lo = callee.span.lo;
-
-                        if cmt.has_leading(lo) {
-                            return true;
-                        }
-                    }
-                }
-                Callee::Expr(callee) => {
-                    if self.has_leading_comment(callee) {
-                        return true;
-                    }
-                }
-            },
+            }
 
             Expr::Member(m) => {
                 if self.has_leading_comment(&m.obj) {
@@ -2941,12 +2935,8 @@ where
             }
 
             Expr::SuperProp(m) => {
-                if let Some(cmt) = self.comments {
-                    let lo = m.span.lo;
-
-                    if cmt.has_leading(lo) {
-                        return true;
-                    }
+                if span_has_leading_comment(cmt, m.span) {
+                    return true;
                 }
             }
 
@@ -2971,18 +2961,29 @@ where
             }
 
             Expr::Assign(e) => {
-                if let Some(cmt) = self.comments {
-                    let lo = e.span.lo;
+                let lo = e.span.lo;
 
-                    if cmt.has_leading(lo) {
-                        return true;
-                    }
+                if cmt.has_leading(lo) {
+                    return true;
                 }
 
-                if let Some(e) = e.left.as_expr() {
-                    if self.has_leading_comment(e) {
-                        return true;
-                    }
+                let has_leading = match &e.left {
+                    PatOrExpr::Expr(e) => self.has_leading_comment(e),
+
+                    PatOrExpr::Pat(p) => match &**p {
+                        Pat::Expr(e) => self.has_leading_comment(e),
+                        Pat::Ident(i) => span_has_leading_comment(cmt, i.span),
+                        Pat::Array(a) => span_has_leading_comment(cmt, a.span),
+                        Pat::Object(o) => span_has_leading_comment(cmt, o.span),
+                        // TODO: remove after #8333
+                        Pat::Rest(r) => span_has_leading_comment(cmt, r.span),
+                        Pat::Assign(a) => span_has_leading_comment(cmt, a.span),
+                        Pat::Invalid(_) => false,
+                    },
+                };
+
+                if has_leading {
+                    return true;
                 }
             }
 
@@ -3015,7 +3016,7 @@ where
 
         keyword!("return");
 
-        if let Some(ref arg) = n.arg {
+        if let Some(arg) = n.arg.as_deref() {
             let need_paren = n
                 .arg
                 .as_deref()
