@@ -4,30 +4,29 @@ extern crate proc_macro;
 
 #[cfg(procmacro2_semver_exempt)]
 use pmutil::SpanExt;
-use pmutil::{prelude::*, synom_ext::FromSpan, Quote, SpanExt};
-use proc_macro2::Span;
+use proc_macro2::{Span, TokenStream};
 use quote::ToTokens;
-use syn::*;
+use syn::{punctuated::Pair, *};
 
 pub mod binder;
 pub mod derive;
 pub mod prelude;
 mod syn_ext;
 
-pub fn call_site<T: FromSpan>() -> T {
-    T::from_span(Span::call_site())
+pub fn call_site() -> Span {
+    Span::call_site()
 }
 
-/// `Span::def_site().located_at(Span::call_site()).as_token()`
+/// `Span::def_site().located_at(Span::call_site())`
 #[cfg(not(procmacro2_semver_exempt))]
-pub fn def_site<T: FromSpan>() -> T {
+pub fn def_site() -> Span {
     call_site()
 }
 
-/// `Span::def_site().located_at(Span::call_site()).as_token()`
+/// `Span::def_site().located_at(Span::call_site())`
 #[cfg(procmacro2_semver_exempt)]
-pub fn def_site<T: FromSpan>() -> T {
-    Span::def_site().located_at(Span::call_site()).as_token()
+pub fn def_site() -> Span {
+    Span::def_site().located_at(Span::call_site())
 }
 
 /// `attr` - tokens inside `#[]`. e.g. `derive(EqIgnoreSpan)`, ast_node
@@ -71,7 +70,29 @@ pub fn doc_str(attr: &Attribute) -> Option<String> {
 
 /// Creates a doc comment.
 pub fn make_doc_attr(s: &str) -> Attribute {
-    comment(s)
+    let span = Span::call_site();
+
+    Attribute {
+        style: AttrStyle::Outer,
+        bracket_token: Default::default(),
+        pound_token: Token![#](span),
+        meta: Meta::NameValue(MetaNameValue {
+            path: Path {
+                leading_colon: None,
+                segments: vec![Pair::End(PathSegment {
+                    ident: Ident::new("doc", span),
+                    arguments: Default::default(),
+                })]
+                .into_iter()
+                .collect(),
+            },
+            eq_token: Token![=](span),
+            value: Expr::Lit(ExprLit {
+                attrs: Default::default(),
+                lit: Lit::Str(LitStr::new(s, span)),
+            }),
+        }),
+    }
 }
 
 pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
@@ -79,7 +100,7 @@ pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
         attrs: Default::default(),
         base: syn::parse2(obj.to_token_stream())
             .expect("swc_macros_common::access_field: failed to parse object"),
-        dot_token: Span::call_site().as_token(),
+        dot_token: Token![.](Span::call_site()),
         member: match &f.ident {
             Some(id) => Member::Named(id.clone()),
             _ => Member::Unnamed(Index {
@@ -90,11 +111,11 @@ pub fn access_field(obj: &dyn ToTokens, idx: usize, f: &Field) -> Expr {
     })
 }
 
-pub fn join_stmts(stmts: &[Stmt]) -> Quote {
-    let mut q = Quote::new_call_site();
+pub fn join_stmts(stmts: &[Stmt]) -> TokenStream {
+    let mut q = TokenStream::new();
 
     for s in stmts {
-        q.push_tokens(s);
+        s.to_tokens(&mut q);
     }
 
     q

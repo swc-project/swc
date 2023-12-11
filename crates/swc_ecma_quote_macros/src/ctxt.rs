@@ -2,7 +2,6 @@
 
 use std::cell::RefCell;
 
-use pmutil::q;
 use swc_common::collections::AHashMap;
 use swc_macros_common::call_site;
 use syn::{parse_quote, punctuated::Punctuated, ExprPath, ExprReference, Ident, Token};

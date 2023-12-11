@@ -1,8 +1,7 @@
-use pmutil::q;
 use proc_macro2::Span;
 use swc_atoms::Atom;
 use swc_ecma_ast::*;
-use syn::{ExprLit, LitBool, LitFloat};
+use syn::{parse_quote, ExprLit, LitBool, LitFloat};
 
 use super::ToCode;
 use crate::{builder::Builder, ctxt::Ctx};
@@ -32,7 +31,8 @@ impl_struct!(Regex, [span, exp, flags]);
 
 impl ToCode for Atom {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!(Vars { val: &**self }, { swc_core::atoms::atom!(val) }).parse()
+        let val = &**self;
+        parse_quote!(swc_core::atoms::atom!(#val))
     }
 }
 

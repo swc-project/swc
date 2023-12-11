@@ -344,35 +344,17 @@ impl<'a> Resolver<'a> {
 
         if self.in_type {
             self.current.declared_types.insert(ident.sym.clone());
-            let mark = self.current.mark;
-
-            ident.span = if mark == Mark::root() {
-                ident.span
-            } else {
-                let span = ident.span.apply_mark(mark);
-                if cfg!(debug_assertions) && LOG {
-                    debug!("\t-> {:?}", span.ctxt());
-                }
-                span
-            };
-            return;
+        } else {
+            self.current
+                .declared_symbols
+                .insert(ident.sym.clone(), kind);
         }
 
         let mark = self.current.mark;
 
-        self.current
-            .declared_symbols
-            .insert(ident.sym.clone(), kind);
-
-        ident.span = if mark == Mark::root() {
-            ident.span
-        } else {
-            let span = ident.span.apply_mark(mark);
-            if cfg!(debug_assertions) && LOG {
-                debug!("\t-> {:?}", span.ctxt());
-            }
-            span
-        };
+        if mark != Mark::root() {
+            ident.span = ident.span.apply_mark(mark);
+        }
     }
 
     fn mark_block(&mut self, span: &mut Span) {
@@ -1312,11 +1294,16 @@ impl<'a> VisitMut for Resolver<'a> {
     fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
         // always resolve the identifier for type stripping purposes
         let old_in_type = self.in_type;
+        let old_ident_type = self.ident_type;
+
         self.in_type = true;
+        self.ident_type = IdentType::Ref;
+
         self.modify(&mut n.id, DeclKind::Type);
 
         if !self.config.handle_types {
             self.in_type = old_in_type;
+            self.ident_type = old_ident_type;
             return;
         }
 
@@ -1327,7 +1314,9 @@ impl<'a> VisitMut for Resolver<'a> {
             n.extends.visit_mut_with(child);
             n.body.visit_mut_with(child);
         });
+
         self.in_type = old_in_type;
+        self.ident_type = old_ident_type;
     }
 
     fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
@@ -1482,6 +1471,13 @@ impl<'a> VisitMut for Resolver<'a> {
         }
 
         params.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_using_decl(&mut self, decl: &mut UsingDecl) {
+        let old_kind = self.decl_kind;
+        self.decl_kind = DeclKind::Lexical;
+        decl.decls.visit_mut_with(self);
+        self.decl_kind = old_kind;
     }
 
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
@@ -1660,6 +1656,10 @@ impl VisitMut for Hoister<'_, '_> {
         if self.resolver.config.handle_types {
             match decl {
                 Decl::TsInterface(i) => {
+                    if self.in_block {
+                        return;
+                    }
+
                     let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut i.id, DeclKind::Type);
@@ -1832,6 +1832,9 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
+
+    #[inline]
+    fn visit_mut_using_decl(&mut self, _: &mut UsingDecl) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.in_block {
