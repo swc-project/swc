@@ -31,14 +31,14 @@ impl VisitMut for PrecompressOptimizer {
         n.visit_mut_children_with(self);
 
         match n {
-            PatOrExpr::Expr(e) => {
+            AssignTarget::Expr(e) => {
                 if let Expr::Ident(i) = &**e {
-                    *n = PatOrExpr::Pat(i.clone().into())
+                    *n = AssignTarget::Pat(i.clone().into())
                 }
             }
-            PatOrExpr::Pat(p) => {
+            AssignTarget::Pat(p) => {
                 if let Pat::Expr(e) = &mut **p {
-                    *n = PatOrExpr::Expr(e.take());
+                    *n = AssignTarget::Expr(e.take());
                 }
             }
         }
