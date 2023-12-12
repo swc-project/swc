@@ -100,7 +100,7 @@ impl VisitMut for ComputedProps {
                 } else {
                     Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: obj_ident.clone().into(),
+                        left: PatOrExpr::Pat(obj_ident.clone().into()),
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
@@ -198,8 +198,6 @@ impl VisitMut for ComputedProps {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span,
                                 left: mutator_elem.clone().into(),
-                                left: AssignTarget::Expr(Box::new(mutator_elem.clone())),
-                                left: AssignTarget::Simple(Box::new(mutator_elem.clone())),
                                 op: op!("="),
                                 right: Box::new(Expr::Bin(BinExpr {
                                     span,
@@ -218,10 +216,6 @@ impl VisitMut for ComputedProps {
                                 left: mutator_elem
                                     .make_member(quote_ident!(gs_prop_name.unwrap()))
                                     .into(),
-                                left: AssignTarget::Expr(Box::new(
-                                left: AssignTarget::Simple(Box::new(
-                                    mutator_elem.make_member(quote_ident!(gs_prop_name.unwrap())),
-                                )),
                                 op: op!("="),
                                 right: Box::new(Expr::Fn(FnExpr {
                                     ident: None,
@@ -262,8 +256,6 @@ impl VisitMut for ComputedProps {
                         span,
                         op: op!("="),
                         left: left.into(),
-                        left: AssignTarget::Expr(Box::new(left)),
-                        left: AssignTarget::Simple(Box::new(left)),
                         right: value.into(),
                     }))
                 } else {

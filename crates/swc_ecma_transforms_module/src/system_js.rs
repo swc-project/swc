@@ -116,8 +116,8 @@ impl SystemJs {
 
     fn replace_assign_expr(&mut self, assign_expr: AssignExpr) -> Expr {
         match &assign_expr.left {
-            AssignTarget::Simple(pat_or_expr) => match &*pat_or_expr {
-                SimpleAssignTarget::Ident(ident) => {
+            PatOrExpr::Expr(pat_or_expr) => match &**pat_or_expr {
+                Expr::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
                         if ident.to_id() == *k {
                             let mut expr = Expr::Assign(assign_expr);
@@ -131,12 +131,25 @@ impl SystemJs {
                 }
                 _ => Expr::Assign(assign_expr),
             },
-            AssignTarget::Pat(pat) => {
+            PatOrExpr::Pat(pat) => {
                 let mut to: Vec<Id> = vec![];
                 pat.visit_with(&mut VarCollector { to: &mut to });
 
-                match &*pat {
-                    AssignTargetPat::Object(..) | AssignTargetPat::Array(..) => {
+                match &**pat {
+                    Pat::Ident(ident) => {
+                        for (k, v) in self.export_map.iter() {
+                            if ident.to_id() == *k {
+                                let mut expr = Expr::Assign(assign_expr);
+                                for value in v.iter() {
+                                    expr =
+                                        Expr::Call(self.export_call(value.clone(), DUMMY_SP, expr));
+                                }
+                                return expr;
+                            }
+                        }
+                        Expr::Assign(assign_expr)
+                    }
+                    Pat::Object(..) | Pat::Array(..) => {
                         let mut exprs = vec![Box::new(Expr::Assign(assign_expr))];
 
                         for to in to {
@@ -322,11 +335,6 @@ impl SystemJs {
                                 op: op!("="),
                                 left: export_obj.clone().computed_member(key_ident.clone()).into(),
                                 right: target.computed_member(key_ident).into(),
-                                left: AssignTarget::Expr(Box::new(
-                                left: AssignTarget::Simple(Box::new(
-                                    export_obj.clone().computed_member(key_ident.clone()),
-                                )),
-                                right: Box::new(target.computed_member(key_ident)),
                             }
                             .into_stmt()],
                         })),
@@ -344,10 +352,6 @@ impl SystemJs {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: export_obj.clone().make_member(quote_ident!(sym)).into(),
-                        left: AssignTarget::Expr(Box::new(
-                        left: AssignTarget::Simple(Box::new(
-                            export_obj.clone().make_member(quote_ident!(sym)),
-                        )),
                         right: value,
                     }
                     .into_stmt(),
@@ -416,7 +420,7 @@ impl SystemJs {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: var_declarator.name.into(),
+                    left: PatOrExpr::Pat(Box::new(var_declarator.name)),
                     right: init,
                 })));
             }
@@ -670,10 +674,9 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: AssignTarget::Simple(Box::new(Expr::Ident(
+                                            left: PatOrExpr::Expr(Box::new(Expr::Ident(
                                                 specifier.local,
                                             ))),
-                                            left: specifier.local.into(),
                                             right: quote_ident!(source_alias.clone())
                                                 .make_member(quote_ident!("default"))
                                                 .into(),
@@ -687,7 +690,9 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: specifier.local.clone().into(),
+                                            left: PatOrExpr::Expr(Box::new(Expr::Ident(
+                                                specifier.local.clone(),
+                                            ))),
                                             right: Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: Box::new(Expr::Ident(quote_ident!(
@@ -709,7 +714,9 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: specifier.local.into(),
+                                            left: PatOrExpr::Expr(Box::new(Expr::Ident(
+                                                specifier.local,
+                                            ))),
                                             right: Box::new(Expr::Ident(quote_ident!(
                                                 source_alias.clone()
                                             ))),
@@ -765,7 +772,6 @@ impl Fold for SystemJs {
                                                 .make_member(quote_ident!("default"))
                                                 .into(),
                                         );
-                                        ));
                                     }
                                     ExportSpecifier::Namespace(specifier) => {
                                         export_names
@@ -836,7 +842,7 @@ impl Fold for SystemJs {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: ident.clone().into(),
+                                        left: PatOrExpr::Expr(Box::new(Expr::Ident(ident.clone()))),
                                         right: Box::new(Expr::Class(ClassExpr {
                                             ident: Some(ident.clone()),
                                             class: class_decl.class,
@@ -887,7 +893,9 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
-                                            left: ident.clone().into(),
+                                            left: PatOrExpr::Expr(Box::new(Expr::Ident(
+                                                ident.clone(),
+                                            ))),
                                             right: Box::new(Expr::Class(class_expr)),
                                         }
                                         .into_stmt(),
@@ -941,7 +949,7 @@ impl Fold for SystemJs {
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: AssignTarget::Simple(Box::new(Expr::Ident(
+                                    left: PatOrExpr::Expr(Box::new(Expr::Ident(
                                         class_decl.ident.clone(),
                                     ))),
                                     right: Box::new(Expr::Class(ClassExpr {
