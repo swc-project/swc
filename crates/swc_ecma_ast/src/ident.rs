@@ -53,6 +53,15 @@ impl BindingIdent {
     }
 }
 
+impl Take for BindingIdent {
+    fn dummy() -> Self {
+        BindingIdent {
+            id: Ident::dummy(),
+            type_ann: None,
+        }
+    }
+}
+
 impl From<Ident> for BindingIdent {
     fn from(id: Ident) -> Self {
         Self { id, type_ann: None }
@@ -121,6 +130,18 @@ pub struct Ident {
     /// TypeScript only. Used in case of an optional parameter.
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub optional: bool,
+}
+
+impl From<BindingIdent> for Ident {
+    fn from(bi: BindingIdent) -> Self {
+        bi.id
+    }
+}
+
+impl From<&'_ str> for Ident {
+    fn from(bi: &str) -> Self {
+        Ident::new(bi.into(), DUMMY_SP)
+    }
 }
 
 scoped_thread_local!(static EQ_IGNORE_SPAN_IGNORE_CTXT: ());
