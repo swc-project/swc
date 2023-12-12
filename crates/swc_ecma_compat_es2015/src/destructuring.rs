@@ -925,7 +925,7 @@ impl VisitMut for AssignFolder {
                     let mut exprs = vec![Box::new(
                         AssignExpr {
                             span: *span,
-                            left: AssignTarget::Pat(ref_ident.clone().into()),
+                            left: ref_ident.clone().into(),
                             op: op!("="),
                             right: right.take(),
                         }
@@ -934,7 +934,7 @@ impl VisitMut for AssignFolder {
 
                     let mut assign_cond_expr = Expr::Assign(AssignExpr {
                         span: *span,
-                        left: pat.left.take().into(),
+                        left: pat.left.take().try_into().unwrap(),
                         op: op!("="),
                         right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
                     });
