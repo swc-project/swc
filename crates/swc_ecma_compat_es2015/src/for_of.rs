@@ -492,7 +492,7 @@ impl ForOf {
                         // _didIteratorError = true;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: AssignTarget::Pat(error_flag_ident.clone().into()),
+                            left: error_flag_ident.clone().into(),
                             op: op!("="),
                             right: true.into(),
                         }
@@ -500,7 +500,7 @@ impl ForOf {
                         // _iteratorError = err;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: AssignTarget::Pat(error_ident.clone().into()),
+                            left: error_ident.clone().into(),
                             op: op!("="),
                             right: Box::new(Expr::Ident(quote_ident!("err"))),
                         }
