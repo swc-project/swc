@@ -318,7 +318,7 @@ impl AssignFolder {
                         decls.push(VarDeclarator {
                             span: decl.span,
                             name: p.key.clone().into(),
-                            init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
+                            init: Some(decl.init.unwrap().make_member(p.key.clone()).into()),
                             definite: false,
                         });
                         return;
@@ -734,7 +734,7 @@ impl VisitMut for AssignFolder {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
                                     op: op!("="),
-                                    right: Box::new(ref_ident.clone().computed_member(i as f64)),
+                                    right: ref_ident.clone().computed_member(i as f64).into(),
                                 })));
 
                                 let mut assign_expr = Expr::Assign(AssignExpr {
