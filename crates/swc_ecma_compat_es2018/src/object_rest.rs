@@ -94,7 +94,7 @@ macro_rules! impl_for_for_stmt {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: PatOrExpr::Pat(pat),
+                                        left: AssignTarget::Pat(pat),
                                         right: Box::new(Expr::Ident(var_ident.clone())),
                                     }
                                     .into(),
@@ -211,7 +211,7 @@ impl VisitMut for ObjectRest {
 
         if let Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(pat),
+            left: AssignTarget::Pat(pat),
             op: op!("="),
             right,
         }) = expr
@@ -229,7 +229,7 @@ impl VisitMut for ObjectRest {
             // println!("Expr: var_ident = right");
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(var_ident.clone().into()),
+                left: AssignTarget::Pat(var_ident.clone().into()),
                 op: op!("="),
                 right: right.take(),
             })));
@@ -245,7 +245,7 @@ impl VisitMut for ObjectRest {
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                 _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: *span,
-                    left: PatOrExpr::Pat(Box::new(pat)),
+                    left: AssignTarget::Pat(Box::new(pat)),
                     op: op!("="),
                     right: Box::new(var_ident.clone().into()),
                 }))),
@@ -854,7 +854,7 @@ impl ObjectRest {
             // println!("Expr: last.arg = objectWithoutProperties()",);
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(last.arg),
+                left: AssignTarget::Pat(last.arg),
                 op: op!("="),
                 right: Box::new(object_without_properties(
                     obj,
