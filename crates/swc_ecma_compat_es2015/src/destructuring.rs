@@ -788,10 +788,6 @@ impl VisitMut for AssignFolder {
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
-                                    left: AssignTarget::Pat(Box::new(elem.take())),
-                                    right: make_ref_idx_expr(&ref_ident, i).into(),
-                                    left: AssignTarget::Pat(Box::new(elem.take())),
-                                    right: Box::new(make_ref_idx_expr(&ref_ident, i)),
                                     left: elem.take().try_into().unwrap(),
                                     right: make_ref_idx_expr(&ref_ident, i).into(),
                                 });
