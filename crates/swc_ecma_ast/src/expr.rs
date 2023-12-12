@@ -527,16 +527,13 @@ pub struct FnExpr {
 pub struct ContentTagExpression {
     pub span: Span,
 
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[span]
+    #[cfg_attr(feature = "serde-impl", serde())]
     pub opening: Box<ContentTagStart>,
 
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[span]
+    #[cfg_attr(feature = "serde-impl", serde())]
     pub contents: Box<ContentTagContent>,
 
-    #[cfg_attr(feature = "serde-impl", serde(flatten))]
-    #[span]
+    #[cfg_attr(feature = "serde-impl", serde())]
     pub closing: Box<ContentTagEnd>,
 }
 
