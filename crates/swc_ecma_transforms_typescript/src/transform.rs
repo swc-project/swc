@@ -461,7 +461,7 @@ impl Transform {
                                 // Foo.foo = bar.baz
                                 mutable_export_ids.insert(decl.id.to_id());
                                 let left = id.clone().make_member(decl.id.clone());
-                                let expr = init.make_assign_to(op!("="), left.as_pat_or_expr());
+                                let expr = init.make_assign_to(op!("="), left.into());
 
                                 ExprStmt {
                                     span: decl.span,
@@ -815,10 +815,8 @@ impl Transform {
 impl Transform {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
-        let expr = Expr::Ident(prop.clone()).make_assign_to(
-            op!("="),
-            id.clone().make_member(prop.clone()).as_pat_or_expr(),
-        );
+        let expr = Expr::Ident(prop.clone())
+            .make_assign_to(op!("="), id.clone().make_member(prop.clone()).into());
 
         Stmt::Expr(ExprStmt {
             span,
@@ -1027,10 +1025,7 @@ impl Transform {
                                     if decl.is_export {
                                         init = init.make_assign_to(
                                             op!("="),
-                                            cjs_exports
-                                                .clone()
-                                                .make_member(decl.id.clone())
-                                                .as_pat_or_expr(),
+                                            cjs_exports.clone().make_member(decl.id.clone()).into(),
                                         )
                                     }
 
@@ -1137,7 +1132,7 @@ impl Transform {
                             span,
                             expr: Box::new(expr.make_assign_to(
                                 op!("="),
-                                member_expr!(unresolved_span, module.exports).as_pat_or_expr(),
+                                member_expr!(unresolved_span, module.exports).into(),
                             )),
                         })
                         .into(),
@@ -1274,7 +1269,7 @@ impl EnumMemberItem {
             op!("="),
             Ident::from(enum_id.clone())
                 .computed_member(self.name.clone())
-                .as_pat_or_expr(),
+                .into(),
         );
 
         let outer_assign = if is_string {
@@ -1286,7 +1281,7 @@ impl EnumMemberItem {
                 op!("="),
                 Ident::from(enum_id.clone())
                     .computed_member(inner_assign)
-                    .as_pat_or_expr(),
+                    .into(),
             )
         };
 
