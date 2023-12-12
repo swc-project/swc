@@ -458,7 +458,7 @@ impl ForOf {
             // `_iteratorNormalCompletion = true`
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: AssignTarget::Pat(normal_completion_ident.clone().into()),
+                left: normal_completion_ident.clone().into(),
                 op: op!("="),
                 right: true.into(),
             }))),
