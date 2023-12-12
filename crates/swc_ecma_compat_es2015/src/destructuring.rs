@@ -690,7 +690,7 @@ impl VisitMut for AssignFolder {
                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: AssignTarget::Pat(ref_ident.clone().into()),
+                        left: ref_ident.clone().into(),
                         right: if self.c.loose {
                             right.take()
                         } else {
