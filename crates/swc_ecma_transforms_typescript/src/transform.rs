@@ -461,7 +461,7 @@ impl Transform {
                                 // Foo.foo = bar.baz
                                 mutable_export_ids.insert(decl.id.to_id());
                                 let left = id.clone().make_member(decl.id.clone());
-                                let expr = init.make_assign_to(op!("="), left.as_pat_or_expr());
+                                let expr = init.make_assign_to(op!("="), left.into());
 
                                 ExprStmt {
                                     span: decl.span,
@@ -815,10 +815,8 @@ impl Transform {
 impl Transform {
     // Foo.x = x;
     fn assign_prop(id: &Id, prop: &Ident, span: Span) -> Stmt {
-        let expr = Expr::Ident(prop.clone()).make_assign_to(
-            op!("="),
-            id.clone().make_member(prop.clone()).as_pat_or_expr(),
-        );
+        let expr = Expr::Ident(prop.clone())
+            .make_assign_to(op!("="), id.clone().make_member(prop.clone()).into());
 
         Stmt::Expr(ExprStmt {
             span,
@@ -871,7 +869,7 @@ impl Transform {
 
         if is_export {
             if let Some(id) = container_name.clone() {
-                left = Ident::from(id).make_member(ident);
+                left = Ident::from(id).make_member(ident).into();
                 assign_left = Pat::Expr(Box::new(left.clone()))
             }
         }
@@ -1027,10 +1025,7 @@ impl Transform {
                                     if decl.is_export {
                                         init = init.make_assign_to(
                                             op!("="),
-                                            cjs_exports
-                                                .clone()
-                                                .make_member(decl.id.clone())
-                                                .as_pat_or_expr(),
+                                            cjs_exports.clone().make_member(decl.id.clone()).into(),
                                         )
                                     }
 
@@ -1137,7 +1132,7 @@ impl Transform {
                             span,
                             expr: Box::new(expr.make_assign_to(
                                 op!("="),
-                                member_expr!(unresolved_span, module.exports).as_pat_or_expr(),
+                                member_expr!(unresolved_span, module.exports).into(),
                             )),
                         })
                         .into(),
@@ -1186,7 +1181,7 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(BindingIdent { id, .. }) = n {
-            *n = Pat::Expr(Box::new(self.id.clone().make_member(id.take())));
+            *n = Pat::Expr(self.id.clone().make_member(id.take()).into());
             return;
         }
 
@@ -1228,7 +1223,7 @@ impl QueryRef for ExportQuery {
     fn query_ref(&self, ident: &Ident) -> Option<Expr> {
         self.export_id_list
             .contains(&ident.to_id())
-            .then(|| self.namesapce_id.clone().make_member(ident.clone()))
+            .then(|| self.namesapce_id.clone().make_member(ident.clone()).into())
     }
 
     fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
@@ -1274,7 +1269,7 @@ impl EnumMemberItem {
             op!("="),
             Ident::from(enum_id.clone())
                 .computed_member(self.name.clone())
-                .as_pat_or_expr(),
+                .into(),
         );
 
         let outer_assign = if is_string {
@@ -1286,7 +1281,7 @@ impl EnumMemberItem {
                 op!("="),
                 Ident::from(enum_id.clone())
                     .computed_member(inner_assign)
-                    .as_pat_or_expr(),
+                    .into(),
             )
         };
 

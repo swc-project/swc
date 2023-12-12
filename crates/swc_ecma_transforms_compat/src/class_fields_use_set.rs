@@ -307,8 +307,7 @@ impl VisitMut for ComputedFieldsHandler {
                 });
 
                 self.static_init_blocks.push({
-                    let assign_expr =
-                        computed_expr.make_assign_to(op!("="), ref_key.as_pat_or_expr());
+                    let assign_expr = computed_expr.make_assign_to(op!("="), ref_key.into());
 
                     assign_expr.into_stmt()
                 });

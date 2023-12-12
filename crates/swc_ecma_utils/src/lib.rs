@@ -2978,7 +2978,7 @@ impl VisitMut for IdentRenamer<'_> {
                             key: PropName::Ident(orig),
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: DUMMY_SP,
-                                left: Box::new(Pat::Ident(p.key.clone().into())),
+                                left: p.key.clone().into(),
                                 right: default,
                             })),
                         });
@@ -2986,7 +2986,7 @@ impl VisitMut for IdentRenamer<'_> {
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
                             key: PropName::Ident(orig),
-                            value: Box::new(Pat::Ident(p.key.clone().into())),
+                            value: p.key.clone().into(),
                         });
                     }
                 }

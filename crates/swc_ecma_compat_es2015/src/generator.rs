@@ -803,7 +803,7 @@ impl VisitMut for Generator {
 
             let (target, this_arg) = self.create_call_binding(node.callee.take(), true);
 
-            let callee = self.cache_expression(Box::new(target.make_member(quote_ident!("bind"))));
+            let callee = self.cache_expression(target.make_member(quote_ident!("bind")).into());
 
             let mut arg = if let Some(args) = node.args.take() {
                 let mut args = args.into_iter().map(Some).collect::<Vec<_>>();
@@ -2821,7 +2821,7 @@ impl Generator {
             let label_expr = self.state.clone().make_member(quote_ident!("label"));
             let switch_stmt = SwitchStmt {
                 span: DUMMY_SP,
-                discriminant: Box::new(label_expr),
+                discriminant: label_expr.into(),
                 cases: clauses,
             };
             return vec![Stmt::Switch(switch_stmt)];
@@ -3009,9 +3009,7 @@ impl Generator {
                     expr: Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Expr(Box::new(
-                            self.state.clone().make_member(quote_ident!("label")),
-                        )),
+                        left: self.state.clone().make_member(quote_ident!("label")).into(),
                         right: (self.label_number + 1).into(),
                     })),
                 }));

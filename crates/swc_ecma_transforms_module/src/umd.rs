@@ -290,7 +290,7 @@ where
                     stmts.push(stmt)
                 } else if need_interop {
                     let stmt = import_expr
-                        .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                        .make_assign_to(op!("="), mod_ident.into())
                         .into_stmt();
                     stmts.push(stmt);
                 } else if need_re_export {
@@ -401,7 +401,7 @@ where
                     span: DUMMY_SP,
                     props: Default::default(),
                 })
-                .make_assign_to(op!("="), global_lib.as_pat_or_expr())
+                .make_assign_to(op!("="), global_lib.into())
                 .as_arg(),
             );
             factory_params.push(self.exports().into());
@@ -447,8 +447,7 @@ where
             .make_bin(op!("&&"), js_typeof!(module_exports.clone() => "object"));
         let mut cjs_if_body = factory.clone().as_call(DUMMY_SP, cjs_args);
         if is_export_assign {
-            cjs_if_body =
-                cjs_if_body.make_assign_to(op!("="), module_exports.clone().as_pat_or_expr());
+            cjs_if_body = cjs_if_body.make_assign_to(op!("="), module_exports.clone().into());
         }
 
         let amd_if_test = js_typeof!(define.clone() => "function").make_bin(op!("&&"), define_amd);
@@ -470,12 +469,11 @@ where
             cons: Box::new(global_this.into()),
             alt: Box::new(global.clone().make_bin(op!("||"), js_self)),
         }
-        .make_assign_to(op!("="), global.clone().as_pat_or_expr());
+        .make_assign_to(op!("="), global.clone().into());
 
         let mut browser_if_body = factory.clone().as_call(DUMMY_SP, browser_args);
         if is_export_assign {
-            browser_if_body =
-                browser_if_body.make_assign_to(op!("="), module_exports.as_pat_or_expr());
+            browser_if_body = browser_if_body.make_assign_to(op!("="), module_exports.into());
         }
 
         let adapter_body = BlockStmt {

@@ -267,7 +267,7 @@ impl AssignFolder {
                             // This might be pattern.
                             // So we fold it again.
                             name: elem,
-                            init: Some(Box::new(make_ref_idx_expr(&ref_ident, i))),
+                            init: Some(make_ref_idx_expr(&ref_ident, i).into()),
                             definite: false,
                         },
                     };
@@ -318,7 +318,7 @@ impl AssignFolder {
                         decls.push(VarDeclarator {
                             span: decl.span,
                             name: p.key.clone().into(),
-                            init: Some(Box::new(decl.init.unwrap().make_member(p.key.clone()))),
+                            init: Some(decl.init.unwrap().make_member(p.key.clone()).into()),
                             definite: false,
                         });
                         return;
@@ -734,7 +734,7 @@ impl VisitMut for AssignFolder {
                                     span: DUMMY_SP,
                                     left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
                                     op: op!("="),
-                                    right: Box::new(ref_ident.clone().computed_member(i as f64)),
+                                    right: ref_ident.clone().computed_member(i as f64).into(),
                                 })));
 
                                 let mut assign_expr = Expr::Assign(AssignExpr {
@@ -771,7 +771,7 @@ impl VisitMut for AssignFolder {
                                     span: elem_span,
                                     op: op!("="),
                                     left: PatOrExpr::Pat(Box::new(elem.take())),
-                                    right: Box::new(make_ref_idx_expr(&ref_ident, i)),
+                                    right: make_ref_idx_expr(&ref_ident, i).into(),
                                 });
 
                                 assign_expr.visit_mut_with(self);
@@ -804,7 +804,7 @@ impl VisitMut for AssignFolder {
                                 span: *span,
                                 op: op!("="),
                                 left: PatOrExpr::Pat(p.key.clone().into()),
-                                right: Box::new(right.take().make_member(p.key.clone())),
+                                right: right.take().make_member(p.key.clone()).into(),
                             });
                             return;
                         }
@@ -1039,7 +1039,7 @@ impl Destructuring {
     }
 }
 
-fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> Expr {
+fn make_ref_idx_expr(ref_ident: &Ident, i: usize) -> MemberExpr {
     ref_ident.clone().computed_member(i as f64)
 }
 

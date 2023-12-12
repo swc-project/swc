@@ -411,7 +411,7 @@ where
                     stmts.push(stmt)
                 } else if need_interop {
                     let stmt = import_expr
-                        .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                        .make_assign_to(op!("="), mod_ident.into())
                         .into_stmt();
                     stmts.push(stmt);
                 } else if need_re_export {

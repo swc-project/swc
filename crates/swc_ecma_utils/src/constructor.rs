@@ -145,9 +145,7 @@ impl VisitMut for ExprInjector<'_> {
                 span: DUMMY_SP,
                 exprs: iter::once(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(
-                        self.injected_tmp.as_ref().cloned().unwrap().into(),
-                    ))),
+                    left: self.injected_tmp.as_ref().cloned().unwrap().into(),
                     op: op!("="),
                     right: Box::new(e),
                 })))

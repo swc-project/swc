@@ -259,7 +259,8 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     args: vec![obj.take().as_arg(), ident.clone().as_arg()],
                     type_args: None,
                 })
-                .computed_member(ident);
+                .computed_member(ident)
+                .into();
             } else {
                 e.visit_mut_children_with(self)
             }
@@ -558,7 +559,8 @@ impl<'a> PrivateAccessVisitor<'a> {
 
                             type_args: Default::default(),
                         }
-                        .make_member(quote_ident!("value")),
+                        .make_member(quote_ident!("value"))
+                        .into(),
                         Some(*obj),
                     );
                 }
@@ -577,7 +579,8 @@ impl<'a> PrivateAccessVisitor<'a> {
 
                             type_args: Default::default(),
                         }
-                        .make_member(quote_ident!("value")),
+                        .make_member(quote_ident!("value"))
+                        .into(),
                         Some(*obj),
                     );
                 }
@@ -626,7 +629,8 @@ impl<'a> PrivateAccessVisitor<'a> {
 
                             type_args: Default::default(),
                         }
-                        .make_member(quote_ident!("value")),
+                        .make_member(quote_ident!("value"))
+                        .into(),
                         Some(*obj),
                     )
                 }
@@ -641,7 +645,8 @@ impl<'a> PrivateAccessVisitor<'a> {
 
                             type_args: Default::default(),
                         }
-                        .make_member(quote_ident!("value")),
+                        .make_member(quote_ident!("value"))
+                        .into(),
                         Some(*obj),
                     )
                 }

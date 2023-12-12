@@ -465,6 +465,7 @@ impl VisitMut for FnEnvHoister {
                             type_args: None,
                         })
                         .make_member(quote_ident!("_"))
+                        .into()
                     } else {
                         Expr::Call(CallExpr {
                             span: *span,
@@ -478,6 +479,7 @@ impl VisitMut for FnEnvHoister {
                     *e = if self.in_pat {
                         self.super_update(&id.sym, *span)
                             .make_member(quote_ident!("_"))
+                            .into()
                     } else {
                         Expr::Call(CallExpr {
                             span: *span,
