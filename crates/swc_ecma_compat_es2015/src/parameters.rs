@@ -176,7 +176,7 @@ impl Params {
                                 span,
                                 expr: Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    left: PatOrExpr::Pat(left),
+                                    left: AssignTarget::Pat(left),
                                     op: op!("="),
                                     right,
                                 })),
