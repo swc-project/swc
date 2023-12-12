@@ -100,7 +100,7 @@ impl VisitMut for ComputedProps {
                 } else {
                     Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(obj_ident.clone().into()),
+                        left: AssignTarget::Pat(obj_ident.clone().into()),
                         op: op!("="),
                         right: Box::new(Expr::Object(ObjectLit {
                             span: DUMMY_SP,
