@@ -825,9 +825,6 @@ impl VisitMut for AssignFolder {
                             *expr = Expr::Assign(AssignExpr {
                                 span: *span,
                                 op: op!("="),
-                                left: AssignTarget::Pat(p.key.clone().into()),
-                                right: right.take().make_member(p.key.clone()).into(),
-                                left: AssignTarget::Pat(p.key.clone().into()),
                                 left: p.key.clone().into(),
                                 right: right.take().make_member(p.key.clone()).into(),
                             });
