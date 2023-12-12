@@ -1524,7 +1524,7 @@ impl Generator {
         node.init.map(|right| AssignExpr {
             span: node.span,
             op: op!("="),
-            left: AssignTarget::Pat(Box::new(node.name.clone())),
+            left: node.name.clone().try_into().unwrap(),
             right,
         })
     }
@@ -2096,7 +2096,7 @@ impl Generator {
                 let span = node.span();
 
                 let temp = self.create_temp_variable();
-                self.emit_assignment(AssignTarget::Pat(temp.clone().into()), node, Some(span));
+                self.emit_assignment(temp.clone().into(), node, Some(span));
                 temp
             }
         }
