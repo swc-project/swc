@@ -61,7 +61,11 @@ impl VisitMut for NewTarget {
             span,
         }) = e
         {
-            let this_ctor = |span| ThisExpr { span }.make_member(quote_ident!("constructor"));
+            let this_ctor = |span| {
+                ThisExpr { span }
+                    .make_member(quote_ident!("constructor"))
+                    .into()
+            };
             match &self.ctx {
                 Ctx::Constructor => *e = this_ctor(*span),
                 Ctx::Method => *e = *undefined(DUMMY_SP),

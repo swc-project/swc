@@ -360,9 +360,9 @@ impl Params {
 
                                 AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(Box::new(
-                                        arg.computed_member(make_minus_i(&idx_ident, false)),
-                                    )),
+                                    left: arg
+                                        .computed_member(make_minus_i(&idx_ident, false))
+                                        .into(),
                                     op: op!("="),
                                     right: Box::new(
                                         MemberExpr {
