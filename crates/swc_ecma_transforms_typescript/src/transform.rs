@@ -869,7 +869,7 @@ impl Transform {
 
         if is_export {
             if let Some(id) = container_name.clone() {
-                left = Ident::from(id).make_member(ident);
+                left = Ident::from(id).make_member(ident).into();
                 assign_left = Pat::Expr(Box::new(left.clone()))
             }
         }
@@ -1181,7 +1181,7 @@ impl VisitMut for ExportedPatRewriter {
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         if let Pat::Ident(BindingIdent { id, .. }) = n {
-            *n = Pat::Expr(Box::new(self.id.clone().make_member(id.take())));
+            *n = Pat::Expr(self.id.clone().make_member(id.take()).into());
             return;
         }
 
@@ -1223,7 +1223,7 @@ impl QueryRef for ExportQuery {
     fn query_ref(&self, ident: &Ident) -> Option<Expr> {
         self.export_id_list
             .contains(&ident.to_id())
-            .then(|| self.namesapce_id.clone().make_member(ident.clone()))
+            .then(|| self.namesapce_id.clone().make_member(ident.clone()).into())
     }
 
     fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
