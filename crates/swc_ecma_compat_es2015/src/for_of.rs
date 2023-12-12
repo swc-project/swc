@@ -154,7 +154,7 @@ impl ForOf {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
-                                init: Some(Box::new(Expr::Ident(arr).computed_member(i))),
+                                init: Some(Expr::Ident(arr).computed_member(i).into()),
                                 definite: false,
                             }],
                         }
@@ -335,7 +335,7 @@ impl ForOf {
         };
 
         let step = quote_ident!(var_span, "_step");
-        let step_value = Box::new(step.clone().make_member(quote_ident!("value")));
+        let step_value = step.clone().make_member(quote_ident!("value"));
         body.stmts.insert(
             0,
             match left {
@@ -345,7 +345,7 @@ impl ForOf {
                         span: var.span,
                         kind: var.kind,
                         decls: vec![VarDeclarator {
-                            init: Some(step_value),
+                            init: Some(step_value.into()),
                             ..var.decls.pop().unwrap()
                         }],
                         declare: false,
@@ -356,7 +356,7 @@ impl ForOf {
                     span: DUMMY_SP,
                     left: PatOrExpr::Pat(pat),
                     op: op!("="),
-                    right: step_value,
+                    right: step_value.into(),
                 }
                 .into_stmt(),
 
