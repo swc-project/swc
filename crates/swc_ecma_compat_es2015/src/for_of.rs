@@ -104,7 +104,7 @@ impl ForOf {
                 span: DUMMY_SP,
                 left: Box::new(Expr::Ident(i.clone())),
                 op: op!("<"),
-                right: Box::new(arr.clone().make_member(quote_ident!("length"))),
+                right: arr.clone().make_member(quote_ident!("length")).into(),
             })));
             let update = Some(Box::new(Expr::Update(UpdateExpr {
                 span: DUMMY_SP,

@@ -267,7 +267,7 @@ impl AssignFolder {
                             // This might be pattern.
                             // So we fold it again.
                             name: elem,
-                            init: Some(Box::new(make_ref_idx_expr(&ref_ident, i))),
+                            init: Some(make_ref_idx_expr(&ref_ident, i).into()),
                             definite: false,
                         },
                     };
@@ -771,7 +771,7 @@ impl VisitMut for AssignFolder {
                                     span: elem_span,
                                     op: op!("="),
                                     left: PatOrExpr::Pat(Box::new(elem.take())),
-                                    right: Box::new(make_ref_idx_expr(&ref_ident, i)),
+                                    right: make_ref_idx_expr(&ref_ident, i).into(),
                                 });
 
                                 assign_expr.visit_mut_with(self);
