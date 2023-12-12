@@ -8,7 +8,7 @@ use swc_common::{
 };
 use unicode_id::UnicodeID;
 
-use crate::typescript::TsTypeAnn;
+use crate::{typescript::TsTypeAnn, Expr};
 
 /// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
@@ -36,6 +36,12 @@ pub struct BindingIdent {
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub type_ann: Option<Box<TsTypeAnn>>,
+}
+
+impl From<BindingIdent> for Box<Expr> {
+    fn from(bi: BindingIdent) -> Self {
+        Box::new(Expr::Ident(bi.id))
+    }
 }
 
 impl std::ops::Deref for BindingIdent {
