@@ -320,18 +320,14 @@ impl VisitMut for FnEnvHoister {
                 op,
             }) => {
                 let expr = match left {
-                    PatOrExpr::Expr(e) => e,
-                    PatOrExpr::Pat(p) => {
-                        if let Pat::Expr(e) = &mut **p {
-                            e
-                        } else {
-                            e.visit_mut_children_with(self);
-                            return;
-                        }
+                    AssignTarget::Simple(e) => e,
+                    AssignTarget::Pat(e) => {
+                        e.visit_mut_children_with(self);
+                        return;
                     }
                 };
                 if !self.super_disabled {
-                    if let Expr::SuperProp(super_prop) = &mut **expr {
+                    if let SimpleAssignTarget::SuperProp(super_prop) = &mut *expr {
                         let left_span = super_prop.span;
                         match &mut super_prop.prop {
                             SuperProp::Computed(c) => {
@@ -345,7 +341,7 @@ impl VisitMut for FnEnvHoister {
                                     vec![
                                         Expr::Assign(AssignExpr {
                                             span: DUMMY_SP,
-                                            left: PatOrExpr::Pat(tmp.clone().into()),
+                                            left: tmp.clone().into(),
                                             op: op!("="),
                                             right: c.expr.take(),
                                         })
@@ -465,6 +461,7 @@ impl VisitMut for FnEnvHoister {
                             type_args: None,
                         })
                         .make_member(quote_ident!("_"))
+                        .into()
                     } else {
                         Expr::Call(CallExpr {
                             span: *span,
@@ -478,6 +475,7 @@ impl VisitMut for FnEnvHoister {
                     *e = if self.in_pat {
                         self.super_update(&id.sym, *span)
                             .make_member(quote_ident!("_"))
+                            .into()
                     } else {
                         Expr::Call(CallExpr {
                             span: *span,
@@ -617,7 +615,7 @@ impl<'a> VisitMut for InitThis<'a> {
                         Box::new(Expr::Call(call_expr.take())),
                         Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(self.this_id.clone().into()),
+                            left: self.this_id.clone().into(),
                             op: AssignOp::Assign,
                             right: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                         })),
@@ -803,11 +801,12 @@ fn extend_super(
                 params: vec![value.clone().into()],
                 body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                    left: SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
                         prop: SuperProp::Ident(quote_ident!(key)),
                         span: DUMMY_SP,
-                    }))),
+                    }
+                    .into(),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),
@@ -830,14 +829,15 @@ fn extend_super(
                 params: vec![prop.clone().into(), value.clone().into()],
                 body: Box::new(BlockStmtOrExpr::Expr(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+                    left: SuperPropExpr {
                         obj: Super { span: DUMMY_SP },
                         prop: SuperProp::Computed(ComputedPropName {
                             span: DUMMY_SP,
                             expr: Box::new(Expr::Ident(prop)),
                         }),
                         span: DUMMY_SP,
-                    }))),
+                    }
+                    .into(),
                     op: op!("="),
                     right: Box::new(Expr::Ident(value)),
                 })))),

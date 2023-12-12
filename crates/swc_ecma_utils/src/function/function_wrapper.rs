@@ -195,7 +195,7 @@ impl<T> FunctionWrapper<T> {
         let assign_stmt = AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Expr(Box::new(Expr::Ident(ref_ident.clone()))),
+            left: ref_ident.clone().into(),
             right: Box::new(self.function.take()),
         }
         .into_stmt();
