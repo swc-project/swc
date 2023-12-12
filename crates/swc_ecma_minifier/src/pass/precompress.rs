@@ -27,23 +27,6 @@ impl Parallel for PrecompressOptimizer {
 impl VisitMut for PrecompressOptimizer {
     noop_visit_mut_type!();
 
-    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            AssignTarget::Expr(e) => {
-                if let Expr::Ident(i) = &**e {
-                    *n = AssignTarget::Pat(i.clone().into())
-                }
-            }
-            AssignTarget::Pat(p) => {
-                if let Pat::Expr(e) = &mut **p {
-                    *n = AssignTarget::Expr(e.take());
-                }
-            }
-        }
-    }
-
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
