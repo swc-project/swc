@@ -410,7 +410,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             type_args: Default::default(),
         });
 
-        expr.make_member(quote_ident!("_")).into()
+        expr.make_member(quote_ident!("_"))
     }
 
     fn proto_arg(&mut self) -> Box<Expr> {
