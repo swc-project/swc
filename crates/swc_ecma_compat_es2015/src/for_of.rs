@@ -368,7 +368,7 @@ impl ForOf {
 
         let iterator = quote_ident!(var_span, "_iterator");
         // `_iterator.return`
-        let iterator_return = Box::new(iterator.clone().make_member(quote_ident!("return")));
+        let iterator_return = iterator.clone().make_member(quote_ident!("return")).into();
 
         let normal_completion_ident = Ident::new("_iteratorNormalCompletion".into(), var_span);
         self.top_level_vars.push(VarDeclarator {
@@ -409,7 +409,7 @@ impl ForOf {
                             init: Some(Box::new(Expr::Call(CallExpr {
                                 span: DUMMY_SP,
                                 callee: right
-                                    .computed_member(*member_expr!(DUMMY_SP, Symbol.iterator))
+                                    .computed_member(member_expr!(DUMMY_SP, Symbol.iterator))
                                     .as_callee(),
                                 args: vec![],
                                 type_args: Default::default(),
@@ -449,7 +449,7 @@ impl ForOf {
                         span: DUMMY_SP,
                         left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
                         op: op!("="),
-                        right: Box::new(step_expr.make_member(quote_ident!("done"))),
+                        right: step_expr.make_member(quote_ident!("done")).into(),
                     }))
                 },
             }))),
