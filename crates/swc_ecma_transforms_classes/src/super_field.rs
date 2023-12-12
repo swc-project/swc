@@ -356,7 +356,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     if self.is_static && self.super_class.is_some() {
                         Expr::Ident(name)
                     } else {
-                        name.make_member(quote_ident!("prototype"))
+                        name.make_member(quote_ident!("prototype")).into()
                     }
                 }),
                 prop: match prop {
@@ -451,7 +451,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             type_args: Default::default(),
         });
 
-        expr.make_member(quote_ident!("_"))
+        expr.make_member(quote_ident!("_")).into()
     }
 
     fn proto_arg(&mut self) -> Expr {
@@ -463,6 +463,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
             self.class_name
                 .clone()
                 .make_member(quote_ident!("prototype"))
+                .into()
         };
 
         if self.constant_super {

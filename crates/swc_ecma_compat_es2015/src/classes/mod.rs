@@ -1147,9 +1147,12 @@ where
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
                                     name: proto.clone().into(),
-                                    init: Some(Box::new(
-                                        class_name.clone().make_member(quote_ident!("prototype")),
-                                    )),
+                                    init: Some(
+                                        class_name
+                                            .clone()
+                                            .make_member(quote_ident!("prototype"))
+                                            .into(),
+                                    ),
                                     definite: false,
                                 }],
                             }
