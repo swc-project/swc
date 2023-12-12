@@ -374,7 +374,7 @@ impl AssignFolder {
                                         decls,
                                         Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            Box::new(key.clone().into()),
+                                            key.clone().into(),
                                             computed,
                                         ))),
                                     );
