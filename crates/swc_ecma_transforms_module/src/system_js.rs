@@ -120,7 +120,11 @@ impl SystemJs {
 
     fn fold_module_name_ident(&mut self, ident: Ident) -> Expr {
         if &*ident.sym == "__moduleName" && ident.span.ctxt().outer() == self.unresolved_mark {
-            return self.context_ident.clone().make_member(quote_ident!("id"));
+            return self
+                .context_ident
+                .clone()
+                .make_member(quote_ident!("id"))
+                .into();
         }
         Expr::Ident(ident)
     }
@@ -344,10 +348,8 @@ impl SystemJs {
                             stmts: vec![AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Expr(Box::new(
-                                    export_obj.clone().computed_member(key_ident.clone()),
-                                )),
-                                right: Box::new(target.computed_member(key_ident)),
+                                left: export_obj.clone().computed_member(key_ident.clone()).into(),
+                                right: target.computed_member(key_ident).into(),
                             }
                             .into_stmt()],
                         })),
