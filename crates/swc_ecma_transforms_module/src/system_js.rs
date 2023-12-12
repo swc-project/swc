@@ -366,9 +366,7 @@ impl SystemJs {
                     AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Expr(Box::new(
-                            export_obj.clone().make_member(quote_ident!(sym)),
-                        )),
+                        left: export_obj.clone().make_member(quote_ident!(sym)).into(),
                         right: value,
                     }
                     .into_stmt(),
@@ -597,9 +595,11 @@ impl Fold for SystemJs {
                 _ => Expr::Call(call),
             },
             Expr::MetaProp(meta_prop_expr) => match meta_prop_expr.kind {
-                MetaPropKind::ImportMeta => {
-                    self.context_ident.clone().make_member(quote_ident!("meta"))
-                }
+                MetaPropKind::ImportMeta => self
+                    .context_ident
+                    .clone()
+                    .make_member(quote_ident!("meta"))
+                    .into(),
                 _ => Expr::MetaProp(meta_prop_expr),
             },
             Expr::Await(await_expr) => {
@@ -699,10 +699,9 @@ impl Fold for SystemJs {
                                             left: PatOrExpr::Expr(Box::new(Expr::Ident(
                                                 specifier.local,
                                             ))),
-                                            right: Box::new(
-                                                quote_ident!(source_alias.clone())
-                                                    .make_member(quote_ident!("default")),
-                                            ),
+                                            right: quote_ident!(source_alias.clone())
+                                                .make_member(quote_ident!("default"))
+                                                .into(),
                                         }
                                         .into_stmt(),
                                     );
@@ -790,10 +789,11 @@ impl Fold for SystemJs {
                                     }
                                     ExportSpecifier::Default(specifier) => {
                                         export_names.push(specifier.exported.sym.clone());
-                                        export_values.push(Box::new(
+                                        export_values.push(
                                             quote_ident!(source_alias.clone())
-                                                .make_member(quote_ident!("default")),
-                                        ));
+                                                .make_member(quote_ident!("default"))
+                                                .into(),
+                                        );
                                     }
                                     ExportSpecifier::Namespace(specifier) => {
                                         export_names
