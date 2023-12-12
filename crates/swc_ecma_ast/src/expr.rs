@@ -22,6 +22,7 @@ use crate::{
     ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
     ArrayPat, ComputedPropName, Id, Invalid, ObjectPat,
     ArrayPat, BindingIdent, ComputedPropName, Id, Invalid, ObjectPat,
+    ArrayPat, BindingIdent, ComputedPropName, Id, Invalid, KeyValueProp, ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -293,7 +294,6 @@ impl Take for Expr {
 }
 
 bridge_expr_from!(Ident, Id);
-bridge_expr_from!(Ident, BindingIdent);
 bridge_expr_from!(FnExpr, Function);
 bridge_expr_from!(ClassExpr, Class);
 
@@ -1191,9 +1191,194 @@ pub enum BlockStmtOrExpr {
     Expr(Box<Expr>),
 }
 
+impl<T> From<T> for BlockStmtOrExpr
+where
+    T: Into<Expr>,
+{
+    fn from(e: T) -> Self {
+        Self::Expr(Box::new(e.into()))
+    }
+}
+
 impl Take for BlockStmtOrExpr {
     fn dummy() -> Self {
         BlockStmtOrExpr::Expr(Take::dummy())
+    }
+}
+
+#[ast_node]
+#[derive(Eq, Hash, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+pub enum PatOrExpr {
+    #[tag("ThisExpression")]
+    #[tag("ArrayExpression")]
+    #[tag("ObjectExpression")]
+    #[tag("FunctionExpression")]
+    #[tag("UnaryExpression")]
+    #[tag("UpdateExpression")]
+    #[tag("BinaryExpression")]
+    #[tag("AssignmentExpression")]
+    #[tag("MemberExpression")]
+    #[tag("SuperPropExpression")]
+    #[tag("ConditionalExpression")]
+    #[tag("CallExpression")]
+    #[tag("NewExpression")]
+    #[tag("SequenceExpression")]
+    #[tag("StringLiteral")]
+    #[tag("BooleanLiteral")]
+    #[tag("NullLiteral")]
+    #[tag("NumericLiteral")]
+    #[tag("RegExpLiteral")]
+    #[tag("JSXText")]
+    #[tag("TemplateLiteral")]
+    #[tag("TaggedTemplateLiteral")]
+    #[tag("ArrowFunctionExpression")]
+    #[tag("ClassExpression")]
+    #[tag("YieldExpression")]
+    #[tag("MetaProperty")]
+    #[tag("AwaitExpression")]
+    #[tag("ParenthesisExpression")]
+    #[tag("JSXMemberExpression")]
+    #[tag("JSXNamespacedName")]
+    #[tag("JSXEmptyExpression")]
+    #[tag("JSXElement")]
+    #[tag("JSXFragment")]
+    #[tag("TsTypeAssertion")]
+    #[tag("TsConstAssertion")]
+    #[tag("TsNonNullExpression")]
+    #[tag("TsAsExpression")]
+    #[tag("PrivateName")]
+    Expr(Box<Expr>),
+    #[tag("*")]
+    Pat(Box<Pat>),
+}
+
+bridge_from!(PatOrExpr, Box<Pat>, Pat);
+bridge_from!(PatOrExpr, Pat, Ident);
+bridge_from!(PatOrExpr, Pat, Id);
+
+impl PatOrExpr {
+    /// Returns the [Pat] if this is a pattern, otherwise returns [None].
+    pub fn pat(self) -> Option<Box<Pat>> {
+        match self {
+            PatOrExpr::Expr(_) => None,
+            PatOrExpr::Pat(p) => Some(p),
+        }
+    }
+
+    /// Returns the [Expr] if this is an expression, otherwise returns
+    /// `None`.
+    pub fn expr(self) -> Option<Box<Expr>> {
+        match self {
+            PatOrExpr::Expr(e) => Some(e),
+            PatOrExpr::Pat(p) => match *p {
+                Pat::Expr(e) => Some(e),
+                _ => None,
+            },
+        }
+    }
+
+    #[track_caller]
+    pub fn expect_pat(self) -> Box<Pat> {
+        self.pat()
+            .expect("expect_pat is called but it was not a pattern")
+    }
+
+    #[track_caller]
+    pub fn expect_expr(self) -> Box<Expr> {
+        self.expr()
+            .expect("expect_expr is called but it was not a pattern")
+    }
+
+    pub fn as_pat(&self) -> Option<&Pat> {
+        match self {
+            PatOrExpr::Expr(_) => None,
+            PatOrExpr::Pat(p) => Some(p),
+        }
+    }
+
+    pub fn as_expr(&self) -> Option<&Expr> {
+        match self {
+            PatOrExpr::Expr(e) => Some(e),
+            PatOrExpr::Pat(p) => match &**p {
+                Pat::Expr(e) => Some(e),
+                _ => None,
+            },
+        }
+    }
+
+    pub fn is_pat(&self) -> bool {
+        self.as_pat().is_some()
+    }
+
+    pub fn is_expr(&self) -> bool {
+        self.as_expr().is_some()
+    }
+
+    pub fn as_ident(&self) -> Option<&Ident> {
+        match self {
+            PatOrExpr::Expr(v) => match &**v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            PatOrExpr::Pat(v) => match &**v {
+                Pat::Ident(i) => Some(&i.id),
+                Pat::Expr(v) => match &**v {
+                    Expr::Ident(i) => Some(i),
+                    _ => None,
+                },
+                _ => None,
+            },
+        }
+    }
+
+    pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
+        match self {
+            PatOrExpr::Expr(v) => match &mut **v {
+                Expr::Ident(i) => Some(i),
+                _ => None,
+            },
+            PatOrExpr::Pat(v) => match &mut **v {
+                Pat::Ident(i) => Some(&mut i.id),
+                Pat::Expr(v) => match &mut **v {
+                    Expr::Ident(i) => Some(i),
+                    _ => None,
+                },
+                _ => None,
+            },
+        }
+    }
+
+    pub fn normalize_expr(self) -> Self {
+        match self {
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => PatOrExpr::Expr(expr),
+                _ => PatOrExpr::Pat(pat),
+            },
+            _ => self,
+        }
+    }
+
+    pub fn normalize_ident(self) -> Self {
+        match self {
+            PatOrExpr::Expr(expr) => match *expr {
+                Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
+                _ => PatOrExpr::Expr(expr),
+            },
+            PatOrExpr::Pat(pat) => match *pat {
+                Pat::Expr(expr) => match *expr {
+                    Expr::Ident(i) => PatOrExpr::Pat(Box::new(Pat::Ident(i.into()))),
+                    _ => PatOrExpr::Expr(expr),
+                },
+                _ => PatOrExpr::Pat(pat),
+            },
+        }
+    }
+}
+
+impl Take for PatOrExpr {
+    fn dummy() -> Self {
+        PatOrExpr::Pat(Take::dummy())
     }
 }
 

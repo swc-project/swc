@@ -85,16 +85,16 @@ macro_rules! impl_for_for_stmt {
                     let pat = pat.take();
 
                     // initialize (or destructure)
-                    match *pat {
+                    match &*pat {
                         Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
-                        Pat::Object(pat @ ObjectPat { .. }) => {
+                        Pat::Object(ObjectPat { .. }) => {
                             stmt = Some(Stmt::Expr(ExprStmt {
                                 span: DUMMY_SP,
                                 expr: Box::new(
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: AssignTarget::Pat(AssignTargetPat::Object(pat)),
+                                        left: PatOrExpr::Pat(pat),
                                         right: Box::new(Expr::Ident(var_ident.clone())),
                                     }
                                     .into(),
@@ -211,7 +211,7 @@ impl VisitMut for ObjectRest {
 
         if let Expr::Assign(AssignExpr {
             span,
-            left: AssignTarget::Pat(pat),
+            left: PatOrExpr::Pat(pat),
             op: op!("="),
             right,
         }) = expr
@@ -229,13 +229,13 @@ impl VisitMut for ObjectRest {
             // println!("Expr: var_ident = right");
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: var_ident.clone().into(),
+                left: PatOrExpr::Pat(var_ident.clone().into()),
                 op: op!("="),
                 right: right.take(),
             })));
             let pat = self.fold_rest(
                 &mut 0,
-                pat.take().into(),
+                *pat.take(),
                 Box::new(Expr::Ident(var_ident.clone())),
                 true,
                 true,
@@ -245,7 +245,7 @@ impl VisitMut for ObjectRest {
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                 _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: *span,
-                    left: pat.try_into().unwrap(),
+                    left: PatOrExpr::Pat(Box::new(pat)),
                     op: op!("="),
                     right: Box::new(var_ident.clone().into()),
                 }))),
@@ -705,7 +705,6 @@ impl ObjectRest {
                                 elem,
                                 if use_member_for_array {
                                     obj.clone().computed_member(i as f64).into()
-                                    Box::new(obj.clone().computed_member(i as f64).into())
                                 } else {
                                     obj.clone()
                                 },
@@ -855,7 +854,7 @@ impl ObjectRest {
             // println!("Expr: last.arg = objectWithoutProperties()",);
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: last.arg.try_into().unwrap(),
+                left: PatOrExpr::Pat(last.arg),
                 op: op!("="),
                 right: Box::new(object_without_properties(
                     obj,

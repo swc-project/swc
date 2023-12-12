@@ -176,7 +176,7 @@ impl Params {
                                 span,
                                 expr: Box::new(Expr::Assign(AssignExpr {
                                     span,
-                                    left: AssignTarget::Pat(left),
+                                    left: PatOrExpr::Pat(left),
                                     op: op!("="),
                                     right,
                                 })),
@@ -363,10 +363,6 @@ impl Params {
                                     left: arg
                                         .computed_member(make_minus_i(&idx_ident, false))
                                         .into(),
-                                    left: AssignTarget::Expr(Box::new(
-                                    left: AssignTarget::Simple(Box::new(
-                                        arg.computed_member(make_minus_i(&idx_ident, false)),
-                                    )),
                                     op: op!("="),
                                     right: Box::new(
                                         MemberExpr {

@@ -2768,33 +2768,10 @@ where
     }
 
     #[emitter]
-    fn emit_assign_target(&mut self, node: &AssignTarget) -> Result {
+    fn emit_pat_or_expr(&mut self, node: &PatOrExpr) -> Result {
         match *node {
-            AssignTarget::Simple(ref n) => emit!(n),
-            AssignTarget::Pat(ref n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
-        match node {
-            SimpleAssignTarget::Ident(n) => emit!(n),
-            SimpleAssignTarget::Member(n) => emit!(n),
-            SimpleAssignTarget::Invalid(n) => emit!(n),
-            SimpleAssignTarget::SuperProp(n) => emit!(n),
-            SimpleAssignTarget::TSAs(n) => emit!(n),
-            SimpleAssignTarget::TSSatisfies(n) => emit!(n),
-            SimpleAssignTarget::TSNonNull(n) => emit!(n),
-            SimpleAssignTarget::TSTypeAssertion(n) => emit!(n),
-        }
-    }
-
-    #[emitter]
-    fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
-        match node {
-            AssignTargetPat::Array(n) => emit!(n),
-            AssignTargetPat::Object(n) => emit!(n),
-            AssignTargetPat::Invalid(n) => emit!(n),
+            PatOrExpr::Expr(ref n) => emit!(n),
+            PatOrExpr::Pat(ref n) => emit!(n),
         }
     }
 
@@ -3052,8 +3029,6 @@ where
 
     fn has_leading_comment(&self, arg: &Expr) -> bool {
         fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
-    fn check_for_leading_comment(&self, span: Span) -> Option<bool> {
-        if let Some(cmt) = self.comments {
             let lo = span.lo;
 
             // see #415
@@ -3066,52 +3041,11 @@ where
                             // https://tc39.es/ecma262/#table-line-terminator-code-points
                             .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
                 }) {
-                    return Some(true);
+                    return true;
                 }
             }
 
             false
-        } else {
-            return Some(false);
-        }
-
-        None
-    }
-
-    fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {
-        if let Some(res) = self.check_for_leading_comment(arg.span()) {
-            return res;
-        }
-
-        match arg {
-            SimpleAssignTarget::Ident(..) => {}
-            SimpleAssignTarget::Member(m) => {
-                if self.has_leading_comment(&m.obj) {
-                    return true;
-                }
-            }
-            SimpleAssignTarget::Invalid(..) => {}
-            SimpleAssignTarget::SuperProp(m) => {
-                if let Some(cmt) = self.comments {
-                    let lo = m.span.lo;
-
-                    if cmt.has_leading(lo) {
-                        return true;
-                    }
-                }
-            }
-            SimpleAssignTarget::TSAs(..) => {}
-            SimpleAssignTarget::TSSatisfies(..) => {}
-            SimpleAssignTarget::TSNonNull(..) => {}
-            SimpleAssignTarget::TSTypeAssertion(..) => {}
-        }
-
-        false
-    }
-
-    fn has_leading_comment(&self, arg: &Expr) -> bool {
-        if let Some(res) = self.check_for_leading_comment(arg.span()) {
-            return res;
         }
 
         let cmt = if let Some(cmt) = self.comments {
@@ -3193,10 +3127,6 @@ where
 
                 if has_leading {
                     return true;
-                if let Some(e) = e.left.as_simple() {
-                    if self.simple_assign_target_has_leading_comment(e) {
-                        return true;
-                    }
                 }
             }
 

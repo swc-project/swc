@@ -158,11 +158,6 @@ impl MemberInitRecord {
                                 PropName::Ident(id) => this.make_member(id).into(),
                                 _ => this.computed_member(prop_name_to_expr(name)).into(),
                             },
-                            left: AssignTarget::Expr(Box::new(match name {
-                            left: AssignTarget::Simple(Box::new(match name {
-                                PropName::Ident(id) => this.make_member(id),
-                                _ => this.computed_member(prop_name_to_expr(name)),
-                            })),
                             op: op!("="),
                             right: value,
                         })
@@ -206,11 +201,6 @@ impl MemberInitRecord {
                                     PropName::Ident(id) => class.make_member(id).into(),
                                     _ => class.computed_member(prop_name_to_expr(name)).into(),
                                 },
-                                left: AssignTarget::Expr(Box::new(match name {
-                                left: AssignTarget::Simple(Box::new(match name {
-                                    PropName::Ident(id) => class.make_member(id),
-                                    _ => class.computed_member(prop_name_to_expr(name)),
-                                })),
                                 op: op!("="),
                                 right: value,
                             })
