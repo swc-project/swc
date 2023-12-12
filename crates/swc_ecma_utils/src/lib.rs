@@ -2979,17 +2979,14 @@ impl VisitMut for IdentRenamer<'_> {
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: DUMMY_SP,
                                 left: p.key.clone().into(),
-                                left: Box::new(Pat::Ident(p.key.clone())),
                                 right: default,
                             })),
                         });
                     }
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig),
-                            value: p.key.clone().into(),
                             key: PropName::Ident(orig.id),
-                            value: Box::new(Pat::Ident(p.key.clone())),
+                            value: p.key.clone().into(),
                         });
                     }
                 }
