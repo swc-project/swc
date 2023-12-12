@@ -788,7 +788,7 @@ impl VisitMut for AssignFolder {
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(Box::new(elem.take())),
+                                    left: AssignTarget::Pat(Box::new(elem.take())),
                                     right: make_ref_idx_expr(&ref_ident, i).into(),
                                     left: AssignTarget::Pat(Box::new(elem.take())),
                                     right: Box::new(make_ref_idx_expr(&ref_ident, i)),
@@ -825,7 +825,7 @@ impl VisitMut for AssignFolder {
                             *expr = Expr::Assign(AssignExpr {
                                 span: *span,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(p.key.clone().into()),
+                                left: AssignTarget::Pat(p.key.clone().into()),
                                 right: right.take().make_member(p.key.clone()).into(),
                                 left: AssignTarget::Pat(p.key.clone().into()),
                                 left: p.key.clone().into(),
