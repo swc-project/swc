@@ -116,7 +116,7 @@ impl VisitMut for ObjectSuper {
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Simple(obj.clone().into()),
+                    left: obj.clone().into(),
                     right: Box::new(expr.take()),
                 });
                 self.extra_vars.push(obj);
