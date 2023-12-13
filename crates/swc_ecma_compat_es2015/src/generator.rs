@@ -1212,21 +1212,23 @@ impl Generator {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
                     span: p.span.with_ctxt(SyntaxContext::empty()),
                     op: op!("="),
-                    left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: MemberProp::Ident(p.clone()),
-                    }))),
+                    })
+                    .into(),
                     right: Box::new(Expr::Ident(p)),
                 }),
                 Prop::KeyValue(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: p.key.into(),
-                    }))),
+                    })
+                    .into(),
                     right: p.value,
                 }),
                 Prop::Assign(_) => {
@@ -1238,11 +1240,12 @@ impl Generator {
                 Prop::Method(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: Expr::Member(MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: p.key.into(),
-                    }))),
+                    })
+                    .into(),
                     right: p.function.into(),
                 }),
             },
