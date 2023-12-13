@@ -2777,15 +2777,24 @@ where
 
     #[emitter]
     fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
-        match *node {
-            SimpleAssignTarget::Ident(ref n) => emit!(n),
-            SimpleAssignTarget::MemberExpr(ref n) => emit!(n),
+        match node {
+            SimpleAssignTarget::Ident(n) => emit!(n),
+            SimpleAssignTarget::Member(n) => emit!(n),
+            SimpleAssignTarget::Invalid(n) => emit!(n),
+            SimpleAssignTarget::SuperProp(n) => emit!(n),
+            SimpleAssignTarget::TSAs(n) => emit!(n),
+            SimpleAssignTarget::TSNonNull(n) => emit!(n),
+            SimpleAssignTarget::TSSatisfies(n) => emit!(n),
+            SimpleAssignTarget::TSTypeAssertion(n) => emit!(n),
         }
     }
 
     #[emitter]
     fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
-        match *node {}
+        match node {
+            AssignTargetPat::Array(n) => emit!(n),
+            AssignTargetPat::Object(n) => emit!(n),
+        }
     }
 
     #[emitter]
