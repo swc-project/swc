@@ -111,7 +111,7 @@ impl VisitMut for NullishCoalescing {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: AssignTarget::Pat(l.clone().into()),
+                        left: l.clone().into(),
                         right: left.take(),
                     })
                 } else {
@@ -150,7 +150,7 @@ impl VisitMut for NullishCoalescing {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: AssignTarget::Pat(alias.clone().into()),
+                                left: alias.clone().into(),
                                 right: left.take(),
                             })
                         } else {
@@ -160,7 +160,7 @@ impl VisitMut for NullishCoalescing {
                         *e = Expr::Assign(AssignExpr {
                             span: assign.span,
                             op: op!("="),
-                            left: AssignTarget::Pat(alias.clone().into()),
+                            left: alias.clone().into(),
                             right: Box::new(make_cond(
                                 self.c,
                                 assign.span,
@@ -175,7 +175,7 @@ impl VisitMut for NullishCoalescing {
                             *e = Expr::Assign(AssignExpr {
                                 span: assign.span,
                                 op: op!("="),
-                                left: AssignTarget::Pat(i.clone().into()),
+                                left: i.clone().into(),
                                 right: Box::new(make_cond(
                                     self.c,
                                     assign.span,
