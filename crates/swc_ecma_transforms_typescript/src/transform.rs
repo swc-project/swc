@@ -910,7 +910,7 @@ impl Transform {
             init_arg = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: AssignTarget::Pat(Box::new(Pat::Ident(ident.clone().into()))),
+                left: Box::new(Pat::Ident(ident.clone().into())).into(),
                 right: init_arg,
             }
             .into();
@@ -1173,11 +1173,7 @@ impl VisitMut for ExportedPatRewriter {
         let mut left = n.name.take();
         left.visit_mut_with(self);
 
-        n.init = Some(
-            right
-                .make_assign_to(op!("="), AssignTarget::Pat(left.into()))
-                .into(),
-        );
+        n.init = Some(right.make_assign_to(op!("="), left.into()).into());
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
