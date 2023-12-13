@@ -2594,7 +2594,7 @@ impl Visit for UsageCounter<'_> {
         self.in_lhs = old;
     }
 
-    fn visit_pat_or_expr(&mut self, p: &AssignTarget) {
+    fn visit_assign_target(&mut self, p: &AssignTarget) {
         let old = self.in_lhs;
         self.in_lhs = true;
         p.visit_children_with(self);
