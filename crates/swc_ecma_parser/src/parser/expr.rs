@@ -1596,8 +1596,8 @@ impl<I: Tokens> Parser<I> {
         if self.input.syntax().jsx() {
             fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
                 match e {
-                    Either::Left(l) => Box::new(l.into()),
-                    Either::Right(r) => Box::new(Box::new(r).into()),
+                    Either::Left(l) => l.into(),
+                    Either::Right(r) => r.into(),
                 }
             }
             match *cur!(self, true)? {
