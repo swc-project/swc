@@ -852,7 +852,7 @@ impl Optimizer<'_> {
                     AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: Pat::Ident(param.clone().into()).into(),
+                        left: param.clone().into().into(),
                         right: arg,
                     }
                     .into(),

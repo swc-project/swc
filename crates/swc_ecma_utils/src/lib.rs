@@ -2134,11 +2134,11 @@ pub fn undefined(span: Span) -> Box<Expr> {
     UnaryExpr {
         span,
         op: op!("void"),
-        arg: Expr::Lit(Lit::Num(Number {
+        arg: Lit::Num(Number {
             span,
             value: 0.0,
             raw: None,
-        }))
+        })
         .into(),
     }
     .into()
