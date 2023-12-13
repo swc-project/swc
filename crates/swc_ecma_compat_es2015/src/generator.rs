@@ -172,7 +172,7 @@ enum OpArgs {
     LabelExpr(Label, Box<Expr>),
     Stmt(Box<Stmt>),
     OptExpr(Option<Box<Expr>>),
-    PatAndExpr(PatOrExpr, Box<Expr>),
+    PatAndExpr(AssignTarget, Box<Expr>),
 }
 
 /// whether a generated code block is opening or closing at the current
