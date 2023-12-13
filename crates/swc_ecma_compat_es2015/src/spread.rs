@@ -111,7 +111,7 @@ impl VisitMut for Spread {
                         let this = Box::new(Expr::Ident(ident.clone()));
                         let callee = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: AssignTarget::Pat(ident.into()),
+                            left: ident.into(),
                             op: op!("="),
                             right: obj.clone(),
                         });
