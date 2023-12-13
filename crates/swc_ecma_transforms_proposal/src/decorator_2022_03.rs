@@ -344,7 +344,7 @@ impl Decorator202203 {
             class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
-                left: id.clone().into().into(),
+                left: id.clone().into(),
                 right: super_class,
             })));
 
