@@ -588,9 +588,6 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 span: DUMMY_SP,
                 name: value.clone().into(),
                 init: Some(step.clone().make_member(quote_ident!("value")).into()),
-                init: Some(Box::new(
-                    step.clone().make_member(quote_ident!("value")).into(),
-                )),
                 definite: false,
             };
             for_loop_body.push(
@@ -719,7 +716,6 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     op: op!("!"),
                     arg: assign_to_step.make_member(quote_ident!("done")).into(),
-                    arg: Box::new(assign_to_step.make_member(quote_ident!("done")).into()),
                 }));
 
                 let left = iterator_abrupt_completion.clone().into();
