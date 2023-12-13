@@ -587,9 +587,6 @@
 - **(swc_core)** Correctly expose plugin with host ([#7427](https://github.com/swc-project/swc/issues/7427)) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
 
 
-- **(xml/codegen)** Escape `<` and `>` in child ([#7351](https://github.com/swc-project/swc/issues/7351)) ([b180d09](https://github.com/swc-project/swc/commit/b180d09e1dd9c4269d7d690d892ef4fd1c5b6563))
-
-
 - **(xml/codegen)** Fix wrong minification of spaces in a self-closing tag ([#7595](https://github.com/swc-project/swc/issues/7595)) ([769d651](https://github.com/swc-project/swc/commit/769d6516a50796e6642d6724e8472dd32d871612))
 
 
@@ -759,9 +756,6 @@
 
 
 - **(es/typescript)** Add `ts_enum_is_mutable` to disable enum inlining ([#8115](https://github.com/swc-project/swc/issues/8115)) ([57b171d](https://github.com/swc-project/swc/commit/57b171dcbe55a8d285d5bc477844b24fdf48835a))
-
-
-- **(plugin)** Enable bytecheck ([#7280](https://github.com/swc-project/swc/issues/7280)) ([d2c1f45](https://github.com/swc-project/swc/commit/d2c1f45f5a1a1d72fa6d6fa28bd84f242d5aff81))
 
 
 - **(plugin)** Add versioned wrapper struct ([#7382](https://github.com/swc-project/swc/issues/7382)) ([bba1fad](https://github.com/swc-project/swc/commit/bba1fad35ceda0011e0cd427c670209ac4eb6ed2))
