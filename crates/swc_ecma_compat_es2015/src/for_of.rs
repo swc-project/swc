@@ -154,7 +154,6 @@ impl ForOf {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
-                                init: Some(Expr::Ident(arr).computed_member(i).into()),
                                 init: Some(arr.computed_member(i).into()),
                                 definite: false,
                             }],
