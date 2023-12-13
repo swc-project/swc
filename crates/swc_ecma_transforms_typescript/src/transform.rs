@@ -910,7 +910,7 @@ impl Transform {
             init_arg = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: Box::new(Pat::Ident(ident.clone().into())).into(),
+                left: Pat::Ident(ident.clone().into()).into(),
                 right: init_arg,
             }
             .into();
