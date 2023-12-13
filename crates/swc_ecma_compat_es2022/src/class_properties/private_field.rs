@@ -325,7 +325,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     Box::new(
                         AssignExpr {
                             span: obj.span(),
-                            left: AssignTarget::Pat(var.clone().into()),
+                            left: var.clone().into(),
                             op: op!("="),
                             right: obj,
                         }
@@ -728,7 +728,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             } else if aliased {
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: AssignTarget::Pat(var.clone().into()),
+                                    left: var.clone().into(),
                                     op: op!("="),
                                     right: obj.take(),
                                 }
