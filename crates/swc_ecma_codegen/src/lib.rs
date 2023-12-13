@@ -3031,7 +3031,9 @@ where
 
     fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {
         match arg {
-            SimpleAssignTarget::Ident(i) => {}
+            SimpleAssignTarget::Ident(i) => {
+                span_has_leading_comment(self.comments.as_ref().unwrap(), i.span)
+            }
             SimpleAssignTarget::Member(m) => {
                 if self.has_leading_comment(&m.obj) {
                     return true;
@@ -3048,7 +3050,7 @@ where
                 false
             }
 
-            SimpleAssignTarget::Invalid(..) => false,
+            _ => false,
         }
     }
 
