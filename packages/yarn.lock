@@ -90,9 +90,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^3.0.0-alpha.15":
-  version: 3.0.0-alpha.15
-  resolution: "@napi-rs/cli@npm:3.0.0-alpha.15"
+"@napi-rs/cli@npm:^3.0.0-alpha.18":
+  version: 3.0.0-alpha.18
+  resolution: "@napi-rs/cli@npm:3.0.0-alpha.18"
   dependencies:
     "@napi-rs/cross-toolchain": "npm:^0.0.12"
     "@octokit/rest": "npm:^20.0.2"
@@ -120,7 +120,7 @@ __metadata:
   bin:
     napi: dist/cli.js
     napi-raw: cli.mjs
-  checksum: e4223d226bf4412241a130a559867c1d0ed74b2ad2068853db31eb385520b2b4ebaf886900741713d8c5a840c50765d3069e2361296a819ffdfcab0a020ef700
+  checksum: 3218c6d869616a6e43f8d7e15570f032e850bc9669b3be30493d5f66c664d10b6bbef375f4339beafa75d2233917fc300063272d90c15730705e367b0fab5b61
   languageName: node
   linkType: hard
 
@@ -589,7 +589,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc-lab/html@workspace:html"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.15"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.18"
     "@swc/counter": "npm:^0.1.1"
     "@swc/types": "workspace:^"
     "@types/node": "npm:^20.7.1"
@@ -602,7 +602,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc-lab/xml@workspace:xml"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.15"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.18"
     "@swc/counter": "npm:^0.1.1"
     "@swc/types": "workspace:^"
     "@types/node": "npm:^20.7.1"
@@ -633,7 +633,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc/minifier@workspace:minifier"
   dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.15"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.18"
     "@swc/counter": "workspace:^"
     "@swc/types": "workspace:^"
     "@types/node": "npm:^20.7.1"
