@@ -476,7 +476,7 @@ impl VisitMut for Generator {
                     let cons_span = node.cons.span();
                     node.cons.visit_mut_with(self);
                     self.emit_assignment(
-                        AssignTarget::Pat(result_local.clone().into()),
+                        result_local.clone().into(),
                         node.cons.take(),
                         Some(cons_span),
                     );
@@ -486,7 +486,7 @@ impl VisitMut for Generator {
                     let alt_span = node.cons.span();
                     node.alt.visit_mut_with(self);
                     self.emit_assignment(
-                        AssignTarget::Pat(result_local.clone().into()),
+                        result_local.clone().into(),
                         node.alt.take(),
                         Some(alt_span),
                     );
@@ -669,7 +669,7 @@ impl VisitMut for Generator {
                     });
 
                 self.emit_assignment(
-                    AssignTarget::Pat(temp.clone().into()),
+                    temp.clone().into(),
                     Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: node
@@ -1373,7 +1373,7 @@ impl Generator {
         let left_span = node.left.span();
         node.left.visit_mut_with(self);
         self.emit_assignment(
-            AssignTarget::Pat(result_local.clone().into()),
+            result_local.clone().into(),
             node.left.take(),
             Some(left_span),
         );
@@ -1397,7 +1397,7 @@ impl Generator {
         let right_span = node.right.span();
         node.right.visit_mut_with(self);
         self.emit_assignment(
-            AssignTarget::Pat(result_local.clone().into()),
+            result_local.clone().into(),
             node.right.take(),
             Some(right_span),
         );
@@ -1524,7 +1524,7 @@ impl Generator {
         node.init.map(|right| AssignExpr {
             span: node.span,
             op: op!("="),
-            left: AssignTarget::Pat(Box::new(node.name.clone())),
+            left: Box::new(node.name.clone()).into(),
             right,
         })
     }
@@ -1735,7 +1735,7 @@ impl Generator {
             self.hoist_variable_declaration(&keys_index);
 
             self.emit_assignment(
-                AssignTarget::Pat(keys_array.clone().into()),
+                keys_array.clone().into(),
                 Box::new(ArrayLit::dummy().into()),
                 None,
             );
@@ -1759,7 +1759,7 @@ impl Generator {
                 })),
             }));
 
-            self.emit_assignment(AssignTarget::Pat(keys_index.clone().into()), 0.into(), None);
+            self.emit_assignment(keys_index.clone().into(), 0.into(), None);
 
             let condition_label = self.define_label();
             let increment_label = self.define_label();
@@ -1793,7 +1793,7 @@ impl Generator {
                 }
             };
             self.emit_assignment(
-                AssignTarget::Pat(Box::new(variable)),
+                Box::new(variable).into(),
                 Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
                     obj: Box::new(keys_array.into()),
@@ -2096,7 +2096,7 @@ impl Generator {
                 let span = node.span();
 
                 let temp = self.create_temp_variable();
-                self.emit_assignment(AssignTarget::Pat(temp.clone().into()), node, Some(span));
+                self.emit_assignment(temp.clone().into(), node, Some(span));
                 temp
             }
         }
@@ -2298,7 +2298,7 @@ impl Generator {
         exception.catch_label = Some(catch_label);
 
         self.emit_assignment(
-            AssignTarget::Pat(name.clone().into()),
+            name.clone().into(),
             Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: self
