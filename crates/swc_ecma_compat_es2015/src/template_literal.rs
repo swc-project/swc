@@ -312,7 +312,7 @@ impl VisitMut for TemplateLiteral {
                         let assign_expr = {
                             Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
-                                left: AssignTarget::Pat(Box::new(fn_ident.clone().into())),
+                                left: Box::new(fn_ident.clone().into()).into(),
                                 op: op!("="),
                                 right: Function {
                                     span: DUMMY_SP,
