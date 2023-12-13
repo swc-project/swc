@@ -42,7 +42,7 @@
     },
     "types": "./index.d.ts",
     "scripts": {
-        "artifacts": "napi artifacts --dist scripts/npm",
+        "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
@@ -61,7 +61,7 @@
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.15",
+        "@napi-rs/cli": "^3.0.0-alpha.18",
         "@types/node": "^20.7.1",
         "cross-env": "^7.0.3",
         "typescript": "^5.2.2"
