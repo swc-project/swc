@@ -66,7 +66,7 @@ impl Swcify for Expression {
             Expression::Literal(Literal::BigInt(e)) => Expr::Lit(e.swcify(ctx).into()),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
-            Expression::JSXElement(e) => Box::new(e.swcify(ctx)).into(),
+            Expression::JSXElement(e) => return e.swcify(ctx).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Decimal(e)) => e.swcify(ctx).into(),
             Expression::TSAs(e) => e.swcify(ctx).into(),
