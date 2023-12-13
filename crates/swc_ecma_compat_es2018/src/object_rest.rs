@@ -229,7 +229,7 @@ impl VisitMut for ObjectRest {
             // println!("Expr: var_ident = right");
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: AssignTarget::Pat(var_ident.clone().into()),
+                left: var_ident.clone().into(),
                 op: op!("="),
                 right: right.take(),
             })));
@@ -245,7 +245,7 @@ impl VisitMut for ObjectRest {
                 Pat::Object(ObjectPat { ref props, .. }) if props.is_empty() => {}
                 _ => self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: *span,
-                    left: AssignTarget::Pat(Box::new(pat)),
+                    left: Box::new(pat).into(),
                     op: op!("="),
                     right: Box::new(var_ident.clone().into()),
                 }))),
@@ -854,7 +854,7 @@ impl ObjectRest {
             // println!("Expr: last.arg = objectWithoutProperties()",);
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: AssignTarget::Pat(last.arg),
+                left: last.arg.into(),
                 op: op!("="),
                 right: Box::new(object_without_properties(
                     obj,
