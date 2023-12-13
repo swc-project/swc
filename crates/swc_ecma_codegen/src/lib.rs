@@ -2794,6 +2794,7 @@ where
         match node {
             AssignTargetPat::Array(n) => emit!(n),
             AssignTargetPat::Object(n) => emit!(n),
+            AssignTargetPat::Invalid(n) => emit!(n),
         }
     }
 
