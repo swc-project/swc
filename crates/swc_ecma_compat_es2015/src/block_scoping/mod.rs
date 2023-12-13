@@ -291,12 +291,12 @@ impl BlockScoping {
                                     // _type_of(_ret)
                                     let callee = helper!(type_of);
 
-                                    Expr::Call(CallExpr {
+                                    CallExpr {
                                         span: Default::default(),
                                         callee,
                                         args: vec![ret.clone().as_arg()],
                                         type_args: None,
-                                    })
+                                    }
                                     .into()
                                 },
                                 //"object"
@@ -752,11 +752,11 @@ impl VisitMut for FlowHelper<'_> {
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(
-                        Expr::Lit(Lit::Str(Str {
+                        Lit::Str(Str {
                             span,
                             value,
                             raw: None,
-                        }))
+                        })
                         .into(),
                     ),
                 });

@@ -2131,7 +2131,7 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
 /// Creates `void 0`.
 #[inline]
 pub fn undefined(span: Span) -> Box<Expr> {
-    Expr::Unary(UnaryExpr {
+    UnaryExpr {
         span,
         op: op!("void"),
         arg: Expr::Lit(Lit::Num(Number {
@@ -2140,7 +2140,7 @@ pub fn undefined(span: Span) -> Box<Expr> {
             raw: None,
         }))
         .into(),
-    })
+    }
     .into()
 }
 

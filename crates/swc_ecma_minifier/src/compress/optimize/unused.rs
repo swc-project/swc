@@ -452,10 +452,10 @@ impl Optimizer<'_> {
                         self.prepend_stmts.push(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: if side_effects.len() > 1 {
-                                Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: side_effects,
-                                })
+                                }
                                 .into()
                             } else {
                                 side_effects.remove(0)

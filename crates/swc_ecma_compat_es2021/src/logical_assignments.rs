@@ -29,12 +29,12 @@ impl Operators {
         (
             ComputedPropName {
                 span: c.span,
-                expr: Expr::Assign(AssignExpr {
+                expr: AssignExpr {
                     span: DUMMY_SP,
                     left: alias.clone().into(),
                     op: op!("="),
                     right: c.expr,
-                })
+                }
                 .into(),
             },
             ComputedPropName {

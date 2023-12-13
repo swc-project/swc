@@ -697,10 +697,10 @@ impl Transform {
         let expr = if expr_list.len() == 1 {
             expr_list[0].take()
         } else {
-            Expr::Seq(SeqExpr {
+            SeqExpr {
                 span: DUMMY_SP,
                 exprs: expr_list,
-            })
+            }
             .into()
         };
 
