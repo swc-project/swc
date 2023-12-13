@@ -3029,7 +3029,12 @@ where
         false
     }
 
-    fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {}
+    fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {
+        match arg {
+            SimpleAssignTarget::Ident(i) => {}
+            SimpleAssignTarget::Invalid(..) => false,
+        }
+    }
 
     fn has_leading_comment(&self, arg: &Expr) -> bool {
         fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
