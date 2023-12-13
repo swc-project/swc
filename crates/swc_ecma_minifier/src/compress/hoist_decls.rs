@@ -159,7 +159,7 @@ impl Hoister<'_> {
                                     //
                                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                                         span: decl.span,
-                                        left: Box::new(decl.name).into(),
+                                        left: decl.name.into(),
                                         op: op!("="),
                                         right: init,
                                     })));
