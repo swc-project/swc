@@ -674,9 +674,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: AssignTarget::Expr(Box::new(Expr::Ident(
-                                                specifier.local,
-                                            ))),
+                                            left: Expr::Ident(specifier.local).into(),
                                             right: quote_ident!(source_alias.clone())
                                                 .make_member(quote_ident!("default"))
                                                 .into(),
@@ -690,9 +688,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: AssignTarget::Expr(Box::new(Expr::Ident(
-                                                specifier.local.clone(),
-                                            ))),
+                                            left: Expr::Ident(specifier.local.clone()).into(),
                                             right: Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: Box::new(Expr::Ident(quote_ident!(
@@ -714,9 +710,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: AssignTarget::Expr(Box::new(Expr::Ident(
-                                                specifier.local,
-                                            ))),
+                                            left: Expr::Ident(specifier.local).into(),
                                             right: Box::new(Expr::Ident(quote_ident!(
                                                 source_alias.clone()
                                             ))),
@@ -842,9 +836,7 @@ impl Fold for SystemJs {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: AssignTarget::Expr(Box::new(Expr::Ident(
-                                            ident.clone(),
-                                        ))),
+                                        left: Expr::Ident(ident.clone()).into(),
                                         right: Box::new(Expr::Class(ClassExpr {
                                             ident: Some(ident.clone()),
                                             class: class_decl.class,
@@ -895,9 +887,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
-                                            left: AssignTarget::Expr(Box::new(Expr::Ident(
-                                                ident.clone(),
-                                            ))),
+                                            left: Expr::Ident(ident.clone()).into(),
                                             right: Box::new(Expr::Class(class_expr)),
                                         }
                                         .into_stmt(),
@@ -951,9 +941,7 @@ impl Fold for SystemJs {
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: AssignTarget::Expr(Box::new(Expr::Ident(
-                                        class_decl.ident.clone(),
-                                    ))),
+                                    left: Expr::Ident(class_decl.ident.clone()).into(),
                                     right: Box::new(Expr::Class(ClassExpr {
                                         ident: Some(class_decl.ident.clone()),
                                         class: class_decl.class,
