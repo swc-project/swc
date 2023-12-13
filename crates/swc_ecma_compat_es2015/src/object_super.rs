@@ -411,7 +411,7 @@ impl SuperReplacer {
                         self.vars.push(ref_ident.clone());
                         *prop = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: AssignTarget::Pat(ref_ident.clone().into()),
+                            left: ref_ident.clone().into(),
                             op: op!("="),
                             right: prop.take(),
                         });
