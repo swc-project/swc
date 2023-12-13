@@ -910,7 +910,7 @@ impl Transform {
             init_arg = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: ident.clone().into().into(),
+                left: ident.clone().into(),
                 right: init_arg,
             }
             .into();
