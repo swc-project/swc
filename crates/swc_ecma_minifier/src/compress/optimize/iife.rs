@@ -550,7 +550,7 @@ impl Optimizer<'_> {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: AssignTarget::Pat(param.clone().into()),
+                                    left: param.clone().into(),
                                     right: arg.expr.take(),
                                 })));
                             }
@@ -869,7 +869,7 @@ impl Optimizer<'_> {
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: AssignTarget::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                        left: Box::new(Pat::Ident(param.clone().into())).into(),
                         right: arg,
                     })
                     .into(),
@@ -926,7 +926,7 @@ impl Optimizer<'_> {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: AssignTarget::Pat(Box::new(decl.name.clone())),
+                                left: Box::new(decl.name.clone()).into(),
                                 right: decl.init.take().unwrap(),
                             })))
                         }
