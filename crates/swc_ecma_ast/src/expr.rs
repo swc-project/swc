@@ -1228,8 +1228,8 @@ impl TryFrom<Pat> for AssignTarget {
 
     fn try_from(p: Pat) -> Result<Self, Self::Error> {
         Ok(match p {
-            Pat::Array(a) => AssignTarget::Pat(AssignTargetPat::Array(a)),
-            Pat::Object(o) => AssignTarget::Pat(AssignTargetPat::Object(o)),
+            Pat::Array(a) => AssignTargetPat::Array(a).into(),
+            Pat::Object(o) => AssignTargetPat::Object(o).into(),
 
             Pat::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
             Pat::Invalid(i) => AssignTarget::Simple(SimpleAssignTarget::Invalid(i)),
