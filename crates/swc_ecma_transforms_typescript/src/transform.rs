@@ -910,7 +910,7 @@ impl Transform {
             init_arg = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: Pat::Ident(ident.clone().into()).into(),
+                left: ident.clone().into().into(),
                 right: init_arg,
             }
             .into();
@@ -1190,11 +1190,11 @@ impl VisitMut for ExportedPatRewriter {
             let left = Box::new(Pat::Expr(self.id.clone().make_member(key.clone()).into()));
 
             let value = if let Some(right) = value.take() {
-                Pat::Assign(AssignPat {
+                AssignPat {
                     span: DUMMY_SP,
                     left,
                     right,
-                })
+                }
                 .into()
             } else {
                 left

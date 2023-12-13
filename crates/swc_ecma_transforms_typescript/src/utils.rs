@@ -103,7 +103,7 @@ pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Box
         prop: prop_name.into(),
     });
 
-    let expr = value.make_assign_to(op!("="), Pat::Expr(target.into()).into());
+    let expr = value.make_assign_to(op!("="), target.into().into());
 
     Box::new(expr)
 }
@@ -119,7 +119,7 @@ pub(crate) fn assign_value_to_this_private_prop(
         prop: MemberProp::PrivateName(private_name),
     });
 
-    let expr = value.make_assign_to(op!("="), Pat::Expr(target.into()).into());
+    let expr = value.make_assign_to(op!("="), target.into().into());
 
     Box::new(expr)
 }
