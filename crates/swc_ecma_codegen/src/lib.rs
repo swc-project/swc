@@ -3030,31 +3030,27 @@ where
     fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {
         match arg {
             SimpleAssignTarget::Ident(i) => {}
+            SimpleAssignTarget::Member(m) => {
+                if self.has_leading_comment(&m.obj) {
+                    return true;
+                }
+
+                false
+            }
+
+            SimpleAssignTarget::SuperProp(m) => {
+                if span_has_leading_comment(self.comments.as_ref().unwrap(), m.span) {
+                    return true;
+                }
+
+                false
+            }
+
             SimpleAssignTarget::Invalid(..) => false,
         }
     }
 
     fn has_leading_comment(&self, arg: &Expr) -> bool {
-        fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
-            let lo = span.lo;
-
-            // see #415
-            if let Some(cmt) = cmt.get_leading(lo) {
-                if cmt.iter().any(|cmt| {
-                    cmt.kind == CommentKind::Line
-                        || cmt
-                            .text
-                            .chars()
-                            // https://tc39.es/ecma262/#table-line-terminator-code-points
-                            .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
-                }) {
-                    return true;
-                }
-            }
-
-            false
-        }
-
         let cmt = if let Some(cmt) = self.comments {
             if span_has_leading_comment(cmt, arg.span()) {
                 return true;
@@ -4292,4 +4288,24 @@ fn minify_number(num: f64) -> String {
     }
 
     printed
+}
+
+fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
+    let lo = span.lo;
+
+    // see #415
+    if let Some(cmt) = cmt.get_leading(lo) {
+        if cmt.iter().any(|cmt| {
+            cmt.kind == CommentKind::Line
+                || cmt
+                    .text
+                    .chars()
+                    // https://tc39.es/ecma262/#table-line-terminator-code-points
+                    .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
+        }) {
+            return true;
+        }
+    }
+
+    false
 }
