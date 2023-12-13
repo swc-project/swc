@@ -1524,7 +1524,7 @@ impl Generator {
         node.init.map(|right| AssignExpr {
             span: node.span,
             op: op!("="),
-            left: Box::new(node.name.clone()).into(),
+            left: node.name.clone().into(),
             right,
         })
     }
@@ -1793,7 +1793,7 @@ impl Generator {
                 }
             };
             self.emit_assignment(
-                Box::new(variable).into(),
+                variable.into(),
                 Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
                     obj: Box::new(keys_array.into()),
