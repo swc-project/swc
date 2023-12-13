@@ -240,7 +240,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                         Expr::Assign(AssignExpr {
                             span: var.span,
                             op: op!("="),
-                            left: AssignTarget::Pat(var.name.clone().into()),
+                            left: var.name.clone().into(),
                             right: init,
                         })
                         .into(),
@@ -256,7 +256,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                         Expr::Assign(AssignExpr {
                             span: var.span,
                             op: op!("="),
-                            left: AssignTarget::Pat(var.name.clone().into()),
+                            left: var.name.clone().into(),
                             right: init,
                         })
                         .into(),
@@ -277,7 +277,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 exprs.push(
                     Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: AssignTarget::Pat(ident.clone().into()),
+                        left: ident.clone().into(),
                         op: op!("="),
                         right: class.into(),
                     })
@@ -302,7 +302,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                                     Expr::Assign(AssignExpr {
                                         span: decl.span,
                                         op: op!("="),
-                                        left: AssignTarget::Pat(decl.name.clone().into()),
+                                        left: decl.name.clone().into(),
                                         right: init,
                                     })
                                     .into(),
@@ -663,7 +663,7 @@ impl<C: Comments> ClassProperties<C> {
                                 **super_class = Expr::Assign(AssignExpr {
                                     span,
                                     op: op!("="),
-                                    left: AssignTarget::Pat(Box::new(ident.into())),
+                                    left: Box::new(ident.into()).into(),
                                     right: super_class.take(),
                                 })
                             }
