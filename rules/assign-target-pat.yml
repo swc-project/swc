@@ -3,4 +3,4 @@ rule:
     all:
         - kind: call_expression
         - pattern: "AssignTarget::Pat($ARG)"
-fix: $ARG
+fix: $ARG.into()
