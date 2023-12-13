@@ -1,0 +1,7 @@
+language: rust
+id: into-only-once
+rule:
+    all:
+        - kind: call_expression
+        - pattern: "$EXPR.into().into()"
+fix: $EXPR.into()
