@@ -3240,7 +3240,7 @@ impl Generator {
     }
 
     /// Writes an Assign operation to the current label's statement list.
-    fn write_assign(&mut self, left: PatOrExpr, right: Box<Expr>, op_loc: Option<Span>) {
+    fn write_assign(&mut self, left: AssignTarget, right: Box<Expr>, op_loc: Option<Span>) {
         self.write_stmt(Stmt::Expr(ExprStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             expr: Box::new(Expr::Assign(AssignExpr {
