@@ -663,7 +663,7 @@ impl<C: Comments> ClassProperties<C> {
                                 **super_class = Expr::Assign(AssignExpr {
                                     span,
                                     op: op!("="),
-                                    left: ident.into().into(),
+                                    left: ident.into(),
                                     right: super_class.take(),
                                 })
                             }
