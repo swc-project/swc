@@ -1233,8 +1233,8 @@ impl TryFrom<Pat> for AssignTarget {
             Pat::Array(a) => AssignTargetPat::Array(a).into(),
             Pat::Object(o) => AssignTargetPat::Object(o).into(),
 
-            Pat::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
-            Pat::Invalid(i) => AssignTarget::Simple(SimpleAssignTarget::Invalid(i)),
+            Pat::Ident(i) => SimpleAssignTarget::Ident(i).into(),
+            Pat::Invalid(i) => SimpleAssignTarget::Invalid(i).into(),
 
             Pat::Expr(e) => match Self::try_from(e) {
                 Ok(v) => v,
@@ -1258,15 +1258,13 @@ impl TryFrom<Box<Expr>> for AssignTarget {
 
     fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
         Ok(match *e {
-            Expr::Ident(i) => AssignTarget::Simple(SimpleAssignTarget::Ident(i.into())),
-            Expr::Member(m) => AssignTarget::Simple(SimpleAssignTarget::Member(m)),
-            Expr::SuperProp(s) => AssignTarget::Simple(SimpleAssignTarget::SuperProp(s)),
-            Expr::TsAs(a) => AssignTarget::Simple(SimpleAssignTarget::TSAs(a)),
-            Expr::TsSatisfies(s) => AssignTarget::Simple(SimpleAssignTarget::TSSatisfies(s)),
-            Expr::TsNonNull(n) => AssignTarget::Simple(SimpleAssignTarget::TSNonNull(n)),
-            Expr::TsTypeAssertion(a) => {
-                AssignTarget::Simple(SimpleAssignTarget::TSTypeAssertion(a))
-            }
+            Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()).into(),
+            Expr::Member(m) => SimpleAssignTarget::Member(m).into(),
+            Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s).into(),
+            Expr::TsAs(a) => SimpleAssignTarget::TSAs(a).into(),
+            Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s).into(),
+            Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n).into(),
+            Expr::TsTypeAssertion(a) => SimpleAssignTarget::TSTypeAssertion(a).into(),
             _ => return Err(e),
         })
     }
@@ -1401,7 +1399,7 @@ impl AssignTarget {
 
 impl Take for AssignTarget {
     fn dummy() -> Self {
-        AssignTarget::Simple(Take::dummy())
+        Take::dummy().into()
     }
 }
 

@@ -365,7 +365,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             Expr::Assign(AssignExpr {
                 span: super_token,
-                left: AssignTarget::Simple(left.into()),
+                left: left.into(),
                 op,
                 right: rhs,
             })

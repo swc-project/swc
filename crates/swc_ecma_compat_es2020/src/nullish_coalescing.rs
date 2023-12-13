@@ -138,7 +138,7 @@ impl VisitMut for NullishCoalescing {
                         let right_expr = if aliased {
                             Box::new(Expr::Assign(AssignExpr {
                                 span: assign.span,
-                                left: AssignTarget::Simple(left.clone()),
+                                left: left.clone().into(),
                                 op: op!("="),
                                 right: assign.right.take(),
                             }))
