@@ -192,12 +192,13 @@ impl Decorator202203 {
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: AssignTarget::Pat(Box::new(Pat::Object(ObjectPat {
+            left: Box::new(Pat::Object(ObjectPat {
                 span: DUMMY_SP,
                 props: e_pat.into_iter().chain(c_pat).collect(),
                 optional: false,
                 type_ann: None,
-            }))),
+            }))
+            .into(),
             right: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(apply_decs_2203_r),
@@ -256,7 +257,7 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Pat(ident.clone().into()),
+                    left: ident.clone().into(),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
@@ -343,7 +344,7 @@ impl Decorator202203 {
             class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
-                left: AssignTarget::Pat(Box::new(Pat::Ident(id.clone().into()))),
+                left: Box::new(Pat::Ident(id.clone().into())).into(),
                 right: super_class,
             })));
 
@@ -721,7 +722,7 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: AssignTarget::Pat(ident.clone().into()),
+                    left: ident.clone().into(),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
