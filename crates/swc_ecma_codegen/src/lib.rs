@@ -3029,6 +3029,8 @@ where
         false
     }
 
+    fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {}
+
     fn has_leading_comment(&self, arg: &Expr) -> bool {
         fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
             let lo = span.lo;
@@ -3113,17 +3115,12 @@ where
                 }
 
                 let has_leading = match &e.left {
-                    AssignTarget::Simple(e) => self.has_leading_comment(e),
+                    AssignTarget::Simple(e) => self.simple_assign_target_has_leading_comment(e),
 
-                    AssignTarget::Pat(p) => match &*p {
-                        Pat::Expr(e) => self.has_leading_comment(e),
-                        Pat::Ident(i) => span_has_leading_comment(cmt, i.span),
-                        Pat::Array(a) => span_has_leading_comment(cmt, a.span),
-                        Pat::Object(o) => span_has_leading_comment(cmt, o.span),
-                        // TODO: remove after #8333
-                        Pat::Rest(r) => span_has_leading_comment(cmt, r.span),
-                        Pat::Assign(a) => span_has_leading_comment(cmt, a.span),
-                        Pat::Invalid(_) => false,
+                    AssignTarget::Pat(p) => match p {
+                        AssignTargetPat::Array(a) => span_has_leading_comment(cmt, a.span),
+                        AssignTargetPat::Object(o) => span_has_leading_comment(cmt, o.span),
+                        AssignTargetPat::Invalid(..) => false,
                     },
                 };
 
