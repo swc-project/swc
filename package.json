@@ -49,7 +49,7 @@
         "changelog": "git cliff --output CHANGELOG.md",
         "setup": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
         "postinstall": "node postinstall.js",
-        "artifacts": "napi artifacts --dist scripts/npm",
+        "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
