@@ -821,7 +821,6 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                     span: DUMMY_SP,
                     op: op!("!="),
                     left: iterator.make_member(quote_ident!("return")).into(),
-                    left: Box::new(iterator.make_member(quote_ident!("return")).into()),
                     right: Null { span: DUMMY_SP }.into(),
                 })),
             })),
