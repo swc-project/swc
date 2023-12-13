@@ -2768,11 +2768,24 @@ where
     }
 
     #[emitter]
-    fn emit_pat_or_expr(&mut self, node: &AssignTarget) -> Result {
+    fn emit_assign_target(&mut self, node: &AssignTarget) -> Result {
         match *node {
             AssignTarget::Simple(ref n) => emit!(n),
             AssignTarget::Pat(ref n) => emit!(n),
         }
+    }
+
+    #[emitter]
+    fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
+        match *node {
+            SimpleAssignTarget::Ident(ref n) => emit!(n),
+            SimpleAssignTarget::MemberExpr(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
+        match *node {}
     }
 
     #[emitter]
