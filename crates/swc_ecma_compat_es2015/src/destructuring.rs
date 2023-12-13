@@ -395,7 +395,7 @@ impl AssignFolder {
                                         name: key.clone().into(),
                                         init: Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            Box::new(key.clone().into()),
+                                            key.clone().into(),
                                             computed,
                                         ))),
                                         definite: false,
