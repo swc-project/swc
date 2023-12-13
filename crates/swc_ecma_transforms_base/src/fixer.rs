@@ -511,7 +511,7 @@ impl VisitMut for Fixer<'_> {
                         }) if &**sym == "async") =>
                 {
                     let expr = Expr::Ident(p.clone().expect_ident().id);
-                    s.left = ForHead::Pat(Box::new(expr).into());
+                    s.left = ForHead::Pat(Box::new(Pat::Expr(Box::new(expr))));
                 }
                 _ => (),
             }
