@@ -192,12 +192,12 @@ impl Decorator202203 {
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: Box::new(Pat::Object(ObjectPat {
+            left: Pat::Object(ObjectPat {
                 span: DUMMY_SP,
                 props: e_pat.into_iter().chain(c_pat).collect(),
                 optional: false,
                 type_ann: None,
-            }))
+            })
             .into(),
             right: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
@@ -344,7 +344,7 @@ impl Decorator202203 {
             class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: AssignOp::Assign,
-                left: Box::new(Pat::Ident(id.clone().into())).into(),
+                left: Pat::Ident(id.clone().into()).into(),
                 right: super_class,
             })));
 
