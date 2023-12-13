@@ -237,12 +237,12 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let init = var.init.take();
                 if let Some(init) = init {
                     exprs.push(
-                        Expr::Assign(AssignExpr {
+                        AssignExpr {
                             span: var.span,
                             op: op!("="),
                             left: var.name.clone().into(),
                             right: init,
-                        })
+                        }
                         .into(),
                     )
                 }
@@ -253,12 +253,12 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                 let init = var.init.take();
                 if let Some(init) = init {
                     exprs.push(
-                        Expr::Assign(AssignExpr {
+                        AssignExpr {
                             span: var.span,
                             op: op!("="),
                             left: var.name.clone().into(),
                             right: init,
-                        })
+                        }
                         .into(),
                     )
                 }
@@ -275,12 +275,12 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                     definite: false,
                 });
                 exprs.push(
-                    Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         left: ident.clone().into(),
                         op: op!("="),
                         right: class.into(),
-                    })
+                    }
                     .into(),
                 );
             } else {
@@ -299,12 +299,12 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
 
                             if let Some(init) = init {
                                 exprs.push(
-                                    Expr::Assign(AssignExpr {
+                                    AssignExpr {
                                         span: decl.span,
                                         op: op!("="),
                                         left: decl.name.clone().into(),
                                         right: init,
-                                    })
+                                    }
                                     .into(),
                                 )
                             }

@@ -804,7 +804,7 @@ impl ObjectRest {
                                 }),
                                 MemberProp::Computed(ComputedPropName {
                                     span: c.span,
-                                    expr: Expr::Ident(ident).into(),
+                                    expr: ident.into(),
                                 }),
                             )
                         }

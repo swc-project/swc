@@ -674,7 +674,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: Expr::Ident(specifier.local).into(),
+                                            left: specifier.local.into(),
                                             right: quote_ident!(source_alias.clone())
                                                 .make_member(quote_ident!("default"))
                                                 .into(),
@@ -688,7 +688,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: Expr::Ident(specifier.local.clone()).into(),
+                                            left: specifier.local.clone().into(),
                                             right: Box::new(Expr::Member(MemberExpr {
                                                 span: DUMMY_SP,
                                                 obj: Box::new(Expr::Ident(quote_ident!(
@@ -710,7 +710,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: specifier.span,
                                             op: op!("="),
-                                            left: Expr::Ident(specifier.local).into(),
+                                            left: specifier.local.into(),
                                             right: Box::new(Expr::Ident(quote_ident!(
                                                 source_alias.clone()
                                             ))),
@@ -836,7 +836,7 @@ impl Fold for SystemJs {
                                     AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: Expr::Ident(ident.clone()).into(),
+                                        left: ident.clone().into(),
                                         right: Box::new(Expr::Class(ClassExpr {
                                             ident: Some(ident.clone()),
                                             class: class_decl.class,
@@ -887,7 +887,7 @@ impl Fold for SystemJs {
                                         AssignExpr {
                                             span: DUMMY_SP,
                                             op: op!("="),
-                                            left: Expr::Ident(ident.clone()).into(),
+                                            left: ident.clone().into(),
                                             right: Box::new(Expr::Class(class_expr)),
                                         }
                                         .into_stmt(),
@@ -941,7 +941,7 @@ impl Fold for SystemJs {
                                 AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: Expr::Ident(class_decl.ident.clone()).into(),
+                                    left: class_decl.ident.clone().into(),
                                     right: Box::new(Expr::Class(ClassExpr {
                                         ident: Some(class_decl.ident.clone()),
                                         class: class_decl.class,

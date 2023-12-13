@@ -303,7 +303,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
     fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Box<Expr> {
         if self.constant_super {
-            Expr::Member(MemberExpr {
+            MemberExpr {
                 span: super_token,
                 obj: Box::new({
                     let name = self.super_class.clone().unwrap_or_else(|| {
@@ -320,7 +320,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     SuperProp::Ident(i) => MemberProp::Ident(i),
                     SuperProp::Computed(c) => MemberProp::Computed(c),
                 },
-            })
+            }
             .into()
         } else {
             let proto_arg = self.proto_arg();
@@ -434,7 +434,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if let Some(mark) = self.constructor_this_mark {
             let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
-            proto_arg = Expr::Seq(SeqExpr {
+            proto_arg = SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![
                     Expr::Call(CallExpr {
@@ -446,7 +446,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     .into(),
                     proto_arg,
                 ],
-            })
+            }
             .into()
         }
 

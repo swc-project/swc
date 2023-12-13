@@ -363,12 +363,12 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         type_args: Default::default(),
                     });
                 } else if kind.is_readonly() {
-                    let err = Expr::Call(CallExpr {
+                    let err = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(read_only_error),
                         args: vec![format!("#{}", n.id.sym).as_arg()],
                         type_args: None,
-                    })
+                    }
                     .into();
                     *e = Expr::Seq(SeqExpr {
                         span: *span,

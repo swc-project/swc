@@ -849,12 +849,12 @@ impl Optimizer<'_> {
                 }
 
                 exprs.push(
-                    Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
                         left: Pat::Ident(param.clone().into()).into(),
                         right: arg,
-                    })
+                    }
                     .into(),
                 )
             };

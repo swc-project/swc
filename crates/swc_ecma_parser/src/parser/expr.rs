@@ -1432,12 +1432,12 @@ impl<I: Tokens> Parser<I> {
                 }
             } else {
                 Ok((
-                    Expr::Call(CallExpr {
+                    CallExpr {
                         span: span!(self, start),
                         callee: obj,
                         args,
                         type_args: None,
-                    })
+                    }
                     .into(),
                     true,
                 ))
