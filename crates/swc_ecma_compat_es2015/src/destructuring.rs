@@ -652,7 +652,7 @@ impl VisitMut for AssignFolder {
 
                                         let mut expr = Expr::Assign(AssignExpr {
                                             span: p.span(),
-                                            left: Box::new(p.take()).into(),
+                                            left: p.take().into(),
                                             op: op!("="),
                                             right,
                                         });
