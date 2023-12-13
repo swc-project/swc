@@ -1,5 +1,5 @@
 language: rust
-id: use-inso-instead-of-assign-target-pat
+id: use-into-instead-of-assign-target-pat
 rule:
     all:
         - kind: call_expression
