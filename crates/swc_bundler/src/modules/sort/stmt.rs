@@ -338,7 +338,7 @@ struct FieldInitFinder {
 
 impl FieldInitFinder {
     fn check_lhs_of_assign(&mut self, lhs: &AssignTarget) {
-        if let SimpleAssignTarget::Member(m) = lhs {
+        if let AssignTarget::Simple(SimpleAssignTarget::Member(m)) = lhs {
             match &*m.obj {
                 Expr::Ident(i) => {
                     self.accessed.insert(i.into());
