@@ -130,12 +130,12 @@ impl Babelify for Expr {
                 ExprOutput::Expr(Box::alloc().init(Expression::JSXFragment(f.babelify(ctx))))
             }
             Expr::TsTypeAssertion(a) => {
-                ExprOutput::Expr(Box::alloc().init(Expression::TSTypeAssertion(a.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::TsTypeAssertion(a.babelify(ctx))))
             }
             Expr::TsNonNull(n) => {
-                ExprOutput::Expr(Box::alloc().init(Expression::TSNonNull(n.babelify(ctx))))
+                ExprOutput::Expr(Box::alloc().init(Expression::TsNonNull(n.babelify(ctx))))
             }
-            Expr::TsAs(a) => ExprOutput::Expr(Box::alloc().init(Expression::TSAs(a.babelify(ctx)))),
+            Expr::TsAs(a) => ExprOutput::Expr(Box::alloc().init(Expression::TsAs(a.babelify(ctx)))),
             Expr::TsInstantiation(..) => unimplemented!("Babel doesn't support this right now."),
             Expr::PrivateName(p) => ExprOutput::Private(p.babelify(ctx)),
 

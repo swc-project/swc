@@ -746,7 +746,7 @@ pub struct TSTypeAliasDeclaration {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
-pub struct TSAsExpression {
+pub struct TsAsExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: Box<Expression>,
@@ -756,7 +756,7 @@ pub struct TSAsExpression {
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(rename_all = "camelCase")]
 #[serde(tag = "type")]
-pub struct TSTypeAssertion {
+pub struct TsTypeAssertion {
     #[serde(flatten)]
     pub base: BaseNode,
     pub type_annotation: TSType,
@@ -865,7 +865,7 @@ pub struct TSExternalModuleReference {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(tag = "type")]
-pub struct TSNonNullExpression {
+pub struct TsNonNullExpression {
     #[serde(flatten)]
     pub base: BaseNode,
     pub expression: Box<Expression>,
