@@ -76,7 +76,8 @@
                           "ctxt": 0
                         },
                         "value": "reason",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -95,7 +96,8 @@
                           "ctxt": 0
                         },
                         "value": "code",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }
@@ -209,7 +211,8 @@
                           "ctxt": 0
                         },
                         "value": "reason",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -228,7 +231,8 @@
                           "ctxt": 0
                         },
                         "value": "suberr",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

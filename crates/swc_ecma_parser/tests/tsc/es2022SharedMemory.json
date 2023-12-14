@@ -494,7 +494,8 @@
                     "ctxt": 0
                   },
                   "value": "async",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -513,7 +514,8 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

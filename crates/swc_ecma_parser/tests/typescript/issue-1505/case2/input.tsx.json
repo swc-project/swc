@@ -1553,7 +1553,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "isSuperuser",
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "value": null
                                   }
@@ -1657,7 +1658,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "projectsByTeam",
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "value": null
                                   }

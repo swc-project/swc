@@ -1210,7 +1210,8 @@
                           "ctxt": 0
                         },
                         "value": "z",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

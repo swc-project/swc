@@ -2997,7 +2997,8 @@
                                       "ctxt": 0
                                     },
                                     "value": "min",
-                                    "optional": false
+                                    "optional": false,
+                                    "typeAnnotation": null
                                   },
                                   "value": null
                                 },
@@ -3016,7 +3017,8 @@
                                       "ctxt": 0
                                     },
                                     "value": "max",
-                                    "optional": false
+                                    "optional": false,
+                                    "typeAnnotation": null
                                   },
                                   "value": null
                                 }

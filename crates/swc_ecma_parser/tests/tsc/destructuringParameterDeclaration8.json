@@ -51,7 +51,8 @@
                     "ctxt": 0
                   },
                   "value": "method",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "StringLiteral",
@@ -99,7 +100,8 @@
                           "ctxt": 0
                         },
                         "value": "p",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "StringLiteral",

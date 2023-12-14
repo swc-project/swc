@@ -334,7 +334,8 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -658,7 +659,8 @@
                     "ctxt": 0
                   },
                   "value": "B",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -932,7 +934,8 @@
                     "ctxt": 0
                   },
                   "value": "C",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -1228,7 +1231,8 @@
                     "ctxt": 0
                   },
                   "value": "D",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -1525,7 +1529,8 @@
                     "ctxt": 0
                   },
                   "value": "E",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

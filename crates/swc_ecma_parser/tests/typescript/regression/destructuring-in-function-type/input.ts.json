@@ -56,7 +56,8 @@
                     "ctxt": 0
                   },
                   "value": "theme",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

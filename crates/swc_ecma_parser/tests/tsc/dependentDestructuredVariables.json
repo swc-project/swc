@@ -283,7 +283,8 @@
                     "ctxt": 0
                   },
                   "value": "kind",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -302,7 +303,8 @@
                     "ctxt": 0
                   },
                   "value": "payload",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -662,7 +664,8 @@
                           "ctxt": 0
                         },
                         "value": "kind",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -681,7 +684,8 @@
                           "ctxt": 0
                         },
                         "value": "payload",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }
@@ -943,7 +947,8 @@
                     "ctxt": 0
                   },
                   "value": "kind",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -962,7 +967,8 @@
                     "ctxt": 0
                   },
                   "value": "payload",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -1263,7 +1269,8 @@
                     "ctxt": 0
                   },
                   "value": "kind",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -1282,7 +1289,8 @@
                     "ctxt": 0
                   },
                   "value": "payload",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -1692,7 +1700,8 @@
                           "ctxt": 0
                         },
                         "value": "kind",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -1711,7 +1720,8 @@
                           "ctxt": 0
                         },
                         "value": "payload",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }
@@ -2293,7 +2303,8 @@
                     "ctxt": 0
                   },
                   "value": "kind",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -2312,7 +2323,8 @@
                     "ctxt": 0
                   },
                   "value": "payload",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -2701,7 +2713,8 @@
                           "ctxt": 0
                         },
                         "value": "kind",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -2720,7 +2733,8 @@
                           "ctxt": 0
                         },
                         "value": "payload",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }
@@ -3124,7 +3138,8 @@
                                 "ctxt": 0
                               },
                               "value": "kind",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           },
@@ -3143,7 +3158,8 @@
                                 "ctxt": 0
                               },
                               "value": "payload",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           }
@@ -3409,7 +3425,8 @@
                     "ctxt": 0
                   },
                   "value": "kind",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -3428,7 +3445,8 @@
                     "ctxt": 0
                   },
                   "value": "payload",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -4115,7 +4133,8 @@
                     "ctxt": 0
                   },
                   "value": "kind",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -4134,7 +4153,8 @@
                     "ctxt": 0
                   },
                   "value": "isA",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -5835,7 +5855,8 @@
                           "ctxt": 0
                         },
                         "value": "variant",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -5854,7 +5875,8 @@
                           "ctxt": 0
                         },
                         "value": "value",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }
@@ -6530,7 +6552,8 @@
                         "ctxt": 0
                       },
                       "value": "type",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": null
                   },
@@ -6549,7 +6572,8 @@
                         "ctxt": 0
                       },
                       "value": "payload",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": null
                   }
@@ -6890,7 +6914,8 @@
                     "ctxt": 0
                   },
                   "value": "value",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -6909,7 +6934,8 @@
                     "ctxt": 0
                   },
                   "value": "done",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -13129,7 +13155,8 @@
                     "ctxt": 0
                   },
                   "value": "value1",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -13148,7 +13175,8 @@
                     "ctxt": 0
                   },
                   "value": "test1",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13194,7 +13222,8 @@
                     "ctxt": 0
                   },
                   "value": "test2",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13240,7 +13269,8 @@
                     "ctxt": 0
                   },
                   "value": "test3",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13286,7 +13316,8 @@
                     "ctxt": 0
                   },
                   "value": "test4",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13332,7 +13363,8 @@
                     "ctxt": 0
                   },
                   "value": "test5",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13378,7 +13410,8 @@
                     "ctxt": 0
                   },
                   "value": "test6",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13424,7 +13457,8 @@
                     "ctxt": 0
                   },
                   "value": "test7",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13470,7 +13504,8 @@
                     "ctxt": 0
                   },
                   "value": "test8",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -13516,7 +13551,8 @@
                     "ctxt": 0
                   },
                   "value": "test9",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "MemberExpression",
@@ -14265,7 +14301,8 @@
                           "ctxt": 0
                         },
                         "value": "guard",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -14284,7 +14321,8 @@
                           "ctxt": 0
                         },
                         "value": "value",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

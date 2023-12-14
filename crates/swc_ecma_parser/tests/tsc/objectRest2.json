@@ -292,7 +292,8 @@
                                         "ctxt": 0
                                       },
                                       "value": "objects",
-                                      "optional": false
+                                      "optional": false,
+                                      "typeAnnotation": null
                                     },
                                     "value": null
                                   }

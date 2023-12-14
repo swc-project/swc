@@ -316,7 +316,8 @@
                             "ctxt": 0
                           },
                           "value": "a",
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "value": null
                       },

@@ -187,7 +187,8 @@
                     "ctxt": 0
                   },
                   "value": "destructuring",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

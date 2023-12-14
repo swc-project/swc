@@ -412,39 +412,31 @@
         },
         "operator": "&&=",
         "left": {
-          "type": "ParenthesisExpression",
+          "type": "MemberExpression",
           "span": {
-            "start": 201,
-            "end": 208,
+            "start": 202,
+            "end": 207,
             "ctxt": 0
           },
-          "expression": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "Identifier",
             "span": {
               "start": 202,
+              "end": 203,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 204,
               "end": 207,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
-              "span": {
-                "start": 202,
-                "end": 203,
-                "ctxt": 0
-              },
-              "value": "a",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 204,
-                "end": 207,
-                "ctxt": 0
-              },
-              "value": "baz",
-              "optional": false
-            }
+            "value": "baz",
+            "optional": false
           }
         },
         "right": {
@@ -493,39 +485,31 @@
         },
         "operator": "||=",
         "left": {
-          "type": "ParenthesisExpression",
+          "type": "MemberExpression",
           "span": {
-            "start": 225,
-            "end": 232,
+            "start": 226,
+            "end": 231,
             "ctxt": 0
           },
-          "expression": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "Identifier",
             "span": {
               "start": 226,
+              "end": 227,
+              "ctxt": 0
+            },
+            "value": "b",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 228,
               "end": 231,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
-              "span": {
-                "start": 226,
-                "end": 227,
-                "ctxt": 0
-              },
-              "value": "b",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 228,
-                "end": 231,
-                "ctxt": 0
-              },
-              "value": "baz",
-              "optional": false
-            }
+            "value": "baz",
+            "optional": false
           }
         },
         "right": {
@@ -574,39 +558,31 @@
         },
         "operator": "??=",
         "left": {
-          "type": "ParenthesisExpression",
+          "type": "MemberExpression",
           "span": {
-            "start": 249,
-            "end": 256,
+            "start": 250,
+            "end": 255,
             "ctxt": 0
           },
-          "expression": {
-            "type": "MemberExpression",
+          "object": {
+            "type": "Identifier",
             "span": {
               "start": 250,
+              "end": 251,
+              "ctxt": 0
+            },
+            "value": "c",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 252,
               "end": 255,
               "ctxt": 0
             },
-            "object": {
-              "type": "Identifier",
-              "span": {
-                "start": 250,
-                "end": 251,
-                "ctxt": 0
-              },
-              "value": "c",
-              "optional": false
-            },
-            "property": {
-              "type": "Identifier",
-              "span": {
-                "start": 252,
-                "end": 255,
-                "ctxt": 0
-              },
-              "value": "baz",
-              "optional": false
-            }
+            "value": "baz",
+            "optional": false
           }
         },
         "right": {
