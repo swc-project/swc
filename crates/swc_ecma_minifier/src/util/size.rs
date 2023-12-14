@@ -302,6 +302,7 @@ impl SizeWithCtxt for SimpleAssignTarget {
             | SimpleAssignTarget::TSSatisfies(_)
             | SimpleAssignTarget::TSNonNull(_)
             | SimpleAssignTarget::TSTypeAssertion(_)
+            | SimpleAssignTarget::TsInstantiation(_)
             | SimpleAssignTarget::Invalid(_) => TODO,
         }
     }
