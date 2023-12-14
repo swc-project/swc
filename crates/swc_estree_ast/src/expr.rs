@@ -17,7 +17,7 @@ use crate::{
     object::{ObjectMethod, ObjectProperty},
     stmt::{BlockStatement, ExpressionStatement},
     typescript::{
-        TSTypeParameterInstantiation, TsAsExpression, TsNonNullExpression, TsTypeAssertion,
+        TSAsExpression, TSNonNullExpression, TSTypeAssertion, TSTypeParameterInstantiation,
     },
 };
 
@@ -104,12 +104,12 @@ pub enum Expression {
     Tuple(TupleExpression),
     #[tag("ModuleExpression")]
     Module(ModuleExpression),
-    #[tag("TsAsExpression")]
-    TsAs(TsAsExpression),
-    #[tag("TsTypeAssertion")]
-    TsTypeAssertion(TsTypeAssertion),
-    #[tag("TsNonNullExpression")]
-    TsNonNull(TsNonNullExpression),
+    #[tag("TSAsExpression")]
+    TSAs(TSAsExpression),
+    #[tag("TSTypeAssertion")]
+    TSTypeAssertion(TSTypeAssertion),
+    #[tag("TSNonNullExpression")]
+    TSNonNull(TSNonNullExpression),
 }
 
 #[derive(Debug, Clone, PartialEq)]

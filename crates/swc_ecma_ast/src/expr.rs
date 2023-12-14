@@ -1329,13 +1329,13 @@ pub enum SimpleAssignTarget {
     #[tag("OptionalChainingExpression")]
     OptChain(OptChainExpr),
     #[tag("TsAsExpression")]
-    TsAs(TsAsExpr),
+    TSAs(TsAsExpr),
     #[tag("TsSatisfiesExpression")]
-    TsSatisfies(TsSatisfiesExpr),
+    TSSatisfies(TsSatisfiesExpr),
     #[tag("TsNonNullExpression")]
-    TsNonNull(TsNonNullExpr),
+    TSNonNull(TsNonNullExpr),
     #[tag("TsTypeAssertion")]
-    TsTypeAssertion(TsTypeAssertion),
+    TSTypeAssertion(TsTypeAssertion),
     #[tag("TsInstantiation")]
     TsInstantiation(TsInstantiation),
 
@@ -1353,10 +1353,10 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
             Expr::OptChain(s) => SimpleAssignTarget::OptChain(s),
             Expr::Paren(s) => SimpleAssignTarget::Paren(s),
-            Expr::TsAs(a) => SimpleAssignTarget::TsAs(a),
-            Expr::TsSatisfies(s) => SimpleAssignTarget::TsSatisfies(s),
-            Expr::TsNonNull(n) => SimpleAssignTarget::TsNonNull(n),
-            Expr::TsTypeAssertion(a) => SimpleAssignTarget::TsTypeAssertion(a),
+            Expr::TsAs(a) => SimpleAssignTarget::TSAs(a),
+            Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s),
+            Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n),
+            Expr::TsTypeAssertion(a) => SimpleAssignTarget::TSTypeAssertion(a),
             Expr::TsInstantiation(a) => SimpleAssignTarget::TsInstantiation(a),
             _ => return Err(e),
         })
@@ -1402,10 +1402,10 @@ impl From<SimpleAssignTarget> for Box<Expr> {
             SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
             SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
             SimpleAssignTarget::OptChain(s) => Box::new(Expr::OptChain(s)),
-            SimpleAssignTarget::TsAs(a) => Box::new(Expr::TsAs(a)),
-            SimpleAssignTarget::TsSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
-            SimpleAssignTarget::TsNonNull(n) => Box::new(Expr::TsNonNull(n)),
-            SimpleAssignTarget::TsTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
+            SimpleAssignTarget::TSAs(a) => Box::new(Expr::TsAs(a)),
+            SimpleAssignTarget::TSSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
+            SimpleAssignTarget::TSNonNull(n) => Box::new(Expr::TsNonNull(n)),
+            SimpleAssignTarget::TSTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
             SimpleAssignTarget::TsInstantiation(a) => Box::new(Expr::TsInstantiation(a)),
             SimpleAssignTarget::Invalid(i) => Box::new(Expr::Invalid(i)),
         }

@@ -9,10 +9,10 @@ impl_enum!(
         SuperProp,
         Paren,
         OptChain,
-        TsAs,
-        TsNonNull,
-        TsSatisfies,
-        TsTypeAssertion,
+        TSAs,
+        TSNonNull,
+        TSSatisfies,
+        TSTypeAssertion,
         TsInstantiation,
         Invalid
     ]

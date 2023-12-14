@@ -298,10 +298,10 @@ impl SizeWithCtxt for SimpleAssignTarget {
                     1 + c.callee.size(unresolved) + c.args.size(unresolved) + 2
                 }
             },
-            SimpleAssignTarget::TsAs(_)
-            | SimpleAssignTarget::TsSatisfies(_)
-            | SimpleAssignTarget::TsNonNull(_)
-            | SimpleAssignTarget::TsTypeAssertion(_)
+            SimpleAssignTarget::TSAs(_)
+            | SimpleAssignTarget::TSSatisfies(_)
+            | SimpleAssignTarget::TSNonNull(_)
+            | SimpleAssignTarget::TSTypeAssertion(_)
             | SimpleAssignTarget::TsInstantiation(_)
             | SimpleAssignTarget::Invalid(_) => TODO,
         }
