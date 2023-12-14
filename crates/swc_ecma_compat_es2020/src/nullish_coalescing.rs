@@ -3,7 +3,9 @@ use std::mem::take;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_ident_for, alias_if_required, undefined, StmtLike};
+use swc_ecma_utils::{
+    alias_ident_for, alias_ident_for_simple_assign_tatget, alias_if_required, undefined, StmtLike,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -139,7 +141,7 @@ impl VisitMut for NullishCoalescing {
                     }
 
                     AssignTarget::Simple(left) => {
-                        let alias = alias_ident_for(left, "refs");
+                        let alias = alias_ident_for_simple_assign_tatget(left, "refs");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: alias.clone().into(),

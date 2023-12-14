@@ -1938,78 +1938,136 @@ pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
     }
 }
 
-/// Used to determine super_class_ident
-pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
-    fn sym(expr: &Expr) -> Option<String> {
-        match expr {
-            Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
-            Expr::This(_) => Some("this".to_string()),
+fn sym_for_expr(expr: &Expr) -> Option<String> {
+    match expr {
+        Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
+        Expr::This(_) => Some("this".to_string()),
 
-            Expr::Ident(ident)
-            | Expr::Fn(FnExpr {
-                ident: Some(ident), ..
-            })
-            | Expr::Class(ClassExpr {
-                ident: Some(ident), ..
-            }) => Some(ident.sym.to_string()),
+        Expr::Ident(ident)
+        | Expr::Fn(FnExpr {
+            ident: Some(ident), ..
+        })
+        | Expr::Class(ClassExpr {
+            ident: Some(ident), ..
+        }) => Some(ident.sym.to_string()),
 
-            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
-                OptChainBase::Call(OptCall { callee: expr, .. }) => sym(expr),
-                OptChainBase::Member(MemberExpr {
-                    prop: MemberProp::Ident(ident),
-                    obj,
-                    ..
-                }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
-
-                OptChainBase::Member(MemberExpr {
-                    prop: MemberProp::Computed(ComputedPropName { expr, .. }),
-                    obj,
-                    ..
-                }) => Some(format!(
-                    "{}_{}",
-                    sym(obj).unwrap_or_default(),
-                    sym(expr).unwrap_or_default()
-                )),
-                _ => None,
-            },
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(expr),
-                ..
-            }) => sym(expr),
-
-            Expr::SuperProp(SuperPropExpr {
-                prop: SuperProp::Ident(ident),
-                ..
-            }) => Some(format!("super_{}", ident.sym)),
-
-            Expr::SuperProp(SuperPropExpr {
-                prop: SuperProp::Computed(ComputedPropName { expr, .. }),
-                ..
-            }) => Some(format!("super_{}", sym(expr).unwrap_or_default())),
-
-            Expr::Member(MemberExpr {
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Call(OptCall { callee: expr, .. }) => sym_for_expr(expr),
+            OptChainBase::Member(MemberExpr {
                 prop: MemberProp::Ident(ident),
                 obj,
                 ..
-            }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
+            }) => Some(format!(
+                "{}_{}",
+                sym_for_expr(obj).unwrap_or_default(),
+                ident.sym
+            )),
 
-            Expr::Member(MemberExpr {
+            OptChainBase::Member(MemberExpr {
                 prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                 obj,
                 ..
             }) => Some(format!(
                 "{}_{}",
-                sym(obj).unwrap_or_default(),
-                sym(expr).unwrap_or_default()
+                sym_for_expr(obj).unwrap_or_default(),
+                sym_for_expr(expr).unwrap_or_default()
             )),
-
             _ => None,
-        }
-    }
+        },
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(expr),
+            ..
+        }) => sym_for_expr(expr),
 
+        Expr::SuperProp(SuperPropExpr {
+            prop: SuperProp::Ident(ident),
+            ..
+        }) => Some(format!("super_{}", ident.sym)),
+
+        Expr::SuperProp(SuperPropExpr {
+            prop: SuperProp::Computed(ComputedPropName { expr, .. }),
+            ..
+        }) => Some(format!("super_{}", sym_for_expr(expr).unwrap_or_default())),
+
+        Expr::Member(MemberExpr {
+            prop: MemberProp::Ident(ident),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            ident.sym
+        )),
+
+        Expr::Member(MemberExpr {
+            prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            sym_for_expr(expr).unwrap_or_default()
+        )),
+
+        _ => None,
+    }
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
 
-    let mut sym = sym(expr).unwrap_or_else(|| default.to_string());
+    let mut sym = sym_for_expr(expr).unwrap_or_else(|| default.to_string());
+
+    if let Err(s) = Ident::verify_symbol(&sym) {
+        sym = s;
+    }
+
+    if !sym.starts_with('_') {
+        sym = format!("_{}", sym)
+    }
+    quote_ident!(span, sym)
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: &str) -> Ident {
+    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
+
+    let mut sym = match expr {
+        SimpleAssignTarget::Ident(i) => Some(i.sym.to_string()),
+
+        SimpleAssignTarget::SuperProp(SuperPropExpr {
+            prop: SuperProp::Ident(ident),
+            ..
+        }) => Some(format!("super_{}", ident.sym)),
+
+        SimpleAssignTarget::SuperProp(SuperPropExpr {
+            prop: SuperProp::Computed(ComputedPropName { expr, .. }),
+            ..
+        }) => Some(format!("super_{}", sym_for_expr(expr).unwrap_or_default())),
+
+        SimpleAssignTarget::Member(MemberExpr {
+            prop: MemberProp::Ident(ident),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            ident.sym
+        )),
+
+        SimpleAssignTarget::Member(MemberExpr {
+            prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            sym_for_expr(expr).unwrap_or_default()
+        )),
+        _ => None,
+    }
+    .unwrap_or_else(|| default.to_string());
 
     if let Err(s) = Ident::verify_symbol(&sym) {
         sym = s;

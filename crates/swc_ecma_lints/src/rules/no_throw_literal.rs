@@ -68,7 +68,7 @@ impl NoThrowLiteral {
                 op!("=") | op!("&&=") => self.could_be_error(right.as_ref()),
                 op!("||=") | op!("??=") => {
                     if let AssignTarget::Simple(left) = left {
-                        self.could_simple_target_be_error(left.as_ref())
+                        self.could_simple_target_be_error(left)
                             || self.could_be_error(right.as_ref())
                     } else {
                         false
