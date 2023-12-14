@@ -940,7 +940,7 @@ impl Optimizer<'_> {
                         }
                         Mergable::Expr(Expr::Assign(a)) => {
                             if let Some(a) = a.left.as_simple() {
-                                if !self.is_skippable_for_seq(None, a) {
+                                if !self.is_simple_assign_target_skippable_for_seq(None, a) {
                                     break;
                                 }
                             }
@@ -1074,6 +1074,11 @@ impl Optimizer<'_> {
         a: Option<&Mergable>,
         e: &SimpleAssignTarget,
     ) -> bool {
+        match e {
+            SimpleAssignTarget::Ident(e) => self.is_ident_skippable_for_seq(a, e),
+            SimpleAssignTarget::Member(e) => self.is_member_expr_skippable_for_seq(a, e),
+            _ => false,
+        }
     }
 
     fn is_ident_skippable_for_seq(&self, a: Option<&Mergable>, e: &Ident) -> bool {
