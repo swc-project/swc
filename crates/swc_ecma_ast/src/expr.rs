@@ -1215,6 +1215,7 @@ pub enum AssignTarget {
     #[tag("Identifier")]
     #[tag("MemberExpression")]
     #[tag("SuperPropExpression")]
+    #[tag("ParenthesisExpression")]
     #[tag("TsAsExpressio")]
     #[tag("TsSatisfiesExpression")]
     #[tag("TsNonNullExpression")]
@@ -1261,6 +1262,7 @@ impl TryFrom<Box<Expr>> for AssignTarget {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()).into(),
             Expr::Member(m) => SimpleAssignTarget::Member(m).into(),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s).into(),
+            Expr::Paren(s) => SimpleAssignTarget::Paren(s).into(),
             Expr::TsAs(a) => SimpleAssignTarget::TSAs(a).into(),
             Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s).into(),
             Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n).into(),
@@ -1338,6 +1340,8 @@ pub enum SimpleAssignTarget {
     TSNonNull(TsNonNullExpr),
     #[tag("TsTypeAssertion")]
     TSTypeAssertion(TsTypeAssertion),
+    #[tag("ParenthesisExpression")]
+    Paren(ParenExpr),
     #[tag("Invaliid")]
     Invalid(Invalid),
 }
@@ -1364,6 +1368,7 @@ bridge_from!(AssignTarget, BindingIdent, Ident);
 bridge_from!(AssignTarget, SimpleAssignTarget, BindingIdent);
 bridge_from!(AssignTarget, SimpleAssignTarget, MemberExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, SuperPropExpr);
+bridge_from!(AssignTarget, SimpleAssignTarget, ParenExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsAsExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsSatisfiesExpr);
 bridge_from!(AssignTarget, SimpleAssignTarget, TsNonNullExpr);
@@ -1378,6 +1383,7 @@ impl From<SimpleAssignTarget> for Box<Expr> {
             SimpleAssignTarget::Ident(i) => Box::new(Expr::Ident(i.id)),
             SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
             SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
+            SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
             SimpleAssignTarget::TSAs(a) => Box::new(Expr::TsAs(a)),
             SimpleAssignTarget::TSSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
             SimpleAssignTarget::TSNonNull(n) => Box::new(Expr::TsNonNull(n)),
