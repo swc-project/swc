@@ -1,4 +1,7 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    ops::{Deref, DerefMut},
+};
 
 use phf::phf_set;
 use scoped_tls::scoped_thread_local;
@@ -44,11 +47,17 @@ impl From<BindingIdent> for Box<Expr> {
     }
 }
 
-impl std::ops::Deref for BindingIdent {
+impl Deref for BindingIdent {
     type Target = Ident;
 
     fn deref(&self) -> &Self::Target {
         &self.id
+    }
+}
+
+impl DerefMut for BindingIdent {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.id
     }
 }
 
