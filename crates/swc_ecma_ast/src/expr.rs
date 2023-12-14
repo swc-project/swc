@@ -1348,11 +1348,12 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
             Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
             Expr::Member(m) => SimpleAssignTarget::Member(m),
             Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
+            Expr::OptChain(s) => SimpleAssignTarget::OptChain(s),
+            Expr::Paren(s) => SimpleAssignTarget::Paren(s),
             Expr::TsAs(a) => SimpleAssignTarget::TSAs(a),
             Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s),
             Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n),
             Expr::TsTypeAssertion(a) => SimpleAssignTarget::TSTypeAssertion(a),
-            Expr::Paren(s) => SimpleAssignTarget::Paren(s),
             _ => return Err(e),
         })
     }
