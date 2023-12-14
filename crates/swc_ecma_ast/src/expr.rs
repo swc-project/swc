@@ -1215,6 +1215,7 @@ pub enum AssignTarget {
     #[tag("Identifier")]
     #[tag("MemberExpression")]
     #[tag("SuperPropExpression")]
+    #[tag("OptionalChainingExpression")]
     #[tag("ParenthesisExpression")]
     #[tag("TsAsExpressio")]
     #[tag("TsSatisfiesExpression")]
@@ -1322,6 +1323,10 @@ pub enum SimpleAssignTarget {
     Member(MemberExpr),
     #[tag("SuperPropExpression")]
     SuperProp(SuperPropExpr),
+    #[tag("ParenthesisExpression")]
+    Paren(ParenExpr),
+    #[tag("OptionalChainingExpression")]
+    OptChain(OptChainExpr),
     #[tag("TsAsExpressio")]
     TSAs(TsAsExpr),
     #[tag("TsSatisfiesExpression")]
@@ -1330,8 +1335,7 @@ pub enum SimpleAssignTarget {
     TSNonNull(TsNonNullExpr),
     #[tag("TsTypeAssertion")]
     TSTypeAssertion(TsTypeAssertion),
-    #[tag("ParenthesisExpression")]
-    Paren(ParenExpr),
+
     #[tag("Invaliid")]
     Invalid(Invalid),
 }
@@ -1392,6 +1396,7 @@ impl From<SimpleAssignTarget> for Box<Expr> {
             SimpleAssignTarget::Member(m) => Box::new(Expr::Member(m)),
             SimpleAssignTarget::SuperProp(s) => Box::new(Expr::SuperProp(s)),
             SimpleAssignTarget::Paren(s) => Box::new(Expr::Paren(s)),
+            SimpleAssignTarget::OptChain(s) => Box::new(Expr::OptChain(s)),
             SimpleAssignTarget::TSAs(a) => Box::new(Expr::TsAs(a)),
             SimpleAssignTarget::TSSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
             SimpleAssignTarget::TSNonNull(n) => Box::new(Expr::TsNonNull(n)),
