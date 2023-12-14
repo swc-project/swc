@@ -240,7 +240,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                         AssignExpr {
                             span: var.span,
                             op: op!("="),
-                            left: var.name.clone().into(),
+                            left: var.name.clone().try_into().unwrap(),
                             right: init,
                         }
                         .into(),
@@ -256,7 +256,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                         AssignExpr {
                             span: var.span,
                             op: op!("="),
-                            left: var.name.clone().into(),
+                            left: var.name.clone().try_into().unwrap(),
                             right: init,
                         }
                         .into(),
@@ -302,7 +302,7 @@ impl<C: Comments> VisitMut for ClassProperties<C> {
                                     AssignExpr {
                                         span: decl.span,
                                         op: op!("="),
-                                        left: decl.name.clone().into(),
+                                        left: decl.name.clone().try_into().unwrap(),
                                         right: init,
                                     }
                                     .into(),
