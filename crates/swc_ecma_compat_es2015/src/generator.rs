@@ -573,7 +573,7 @@ impl VisitMut for Generator {
             }
 
             Expr::Assign(node) if contains_yield(&node.right) => {
-                match node.left.as_expr_mut() {
+                match node.left.as_mut_simple() {
                     Some(Expr::Member(left)) => {
                         match &mut left.prop {
                             MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
@@ -1796,7 +1796,7 @@ impl Generator {
                 }
             };
             self.emit_assignment(
-                variable.into(),
+                variable.try_into().unwrap(),
                 Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
                     obj: Box::new(keys_array.into()),
