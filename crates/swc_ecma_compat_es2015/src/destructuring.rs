@@ -913,35 +913,34 @@ impl VisitMut for AssignFolder {
                         exprs,
                     });
                 }
-                Pat::Assign(pat) => {
-                    let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+                // Pat::Assign(pat) => {
+                //     let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
-                    let mut exprs = vec![Box::new(
-                        AssignExpr {
-                            span: *span,
-                            left: ref_ident.clone().into(),
-                            op: op!("="),
-                            right: right.take(),
-                        }
-                        .into(),
-                    )];
+                //     let mut exprs = vec![Box::new(
+                //         AssignExpr {
+                //             span: *span,
+                //             left: ref_ident.clone().into(),
+                //             op: op!("="),
+                //             right: right.take(),
+                //         }
+                //         .into(),
+                //     )];
 
-                    let mut assign_cond_expr = Expr::Assign(AssignExpr {
-                        span: *span,
-                        left: pat.left.take().try_into().unwrap(),
-                        op: op!("="),
-                        right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
-                    });
+                //     let mut assign_cond_expr = Expr::Assign(AssignExpr {
+                //         span: *span,
+                //         left: pat.left.take().try_into().unwrap(),
+                //         op: op!("="),
+                //         right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
+                //     });
 
-                    assign_cond_expr.visit_mut_with(self);
-                    exprs.push(Box::new(assign_cond_expr));
+                //     assign_cond_expr.visit_mut_with(self);
+                //     exprs.push(Box::new(assign_cond_expr));
 
-                    *expr = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs,
-                    });
-                }
-
+                //     *expr = Expr::Seq(SeqExpr {
+                //         span: DUMMY_SP,
+                //         exprs,
+                //     });
+                // }
                 AssignTargetPat::Invalid(..) => unreachable!(),
             }
         };
