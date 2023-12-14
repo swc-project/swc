@@ -166,7 +166,7 @@ impl VisitMut for NullishCoalescing {
                                 span: DUMMY_SP,
                                 op: op!("="),
                                 left: alias.clone().into(),
-                                right: left.take(),
+                                right: left.take().into(),
                             })
                         } else {
                             Expr::Ident(alias.clone())

@@ -450,9 +450,7 @@ impl SuperReplacer {
                                             Box::new(
                                                 AssignExpr {
                                                     span: DUMMY_SP,
-                                                    left: AssignTarget::Pat(
-                                                        update_ident.clone().into(),
-                                                    ),
+                                                    left: update_ident.clone().into(),
                                                     op: op!("="),
                                                     right: Box::new(Expr::Unary(UnaryExpr {
                                                         span: DUMMY_SP,
