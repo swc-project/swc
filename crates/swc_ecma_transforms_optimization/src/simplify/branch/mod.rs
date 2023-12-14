@@ -303,7 +303,7 @@ impl VisitMut for Remover {
             {
                 *p = ObjectPatProp::Assign(AssignPatProp {
                     span: *span,
-                    key: key.take().into(),
+                    key: key.take(),
                     value: None,
                 });
             }
