@@ -605,7 +605,7 @@ impl VisitMut for AssignFolder {
                 Pat::Expr(pat_expr) => {
                     *expr = Expr::Assign(AssignExpr {
                         span: *span,
-                        left: pat_expr.take().into(),
+                        left: pat_expr.take().try_into().unwrap(),
                         op: op!("="),
                         right: right.take(),
                     });
@@ -652,7 +652,7 @@ impl VisitMut for AssignFolder {
 
                                         let mut expr = Expr::Assign(AssignExpr {
                                             span: p.span(),
-                                            left: p.take().into(),
+                                            left: p.take().try_into().unwrap(),
                                             op: op!("="),
                                             right,
                                         });
@@ -871,7 +871,7 @@ impl VisitMut for AssignFolder {
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
-                                                Box::new(key.clone().into()),
+                                                key.clone().into(),
                                                 computed,
                                             )),
                                         })));
@@ -893,7 +893,7 @@ impl VisitMut for AssignFolder {
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
-                                                Box::new(key.clone().into()),
+                                                key.clone().into(),
                                                 computed,
                                             )),
                                         })));
