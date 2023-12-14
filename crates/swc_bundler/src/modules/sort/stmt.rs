@@ -338,14 +338,13 @@ struct FieldInitFinder {
 
 impl FieldInitFinder {
     fn check_lhs_of_assign(&mut self, lhs: &AssignTarget) {
-        match lhs {
-            AssignTarget::Simple(e) => {
-                self.check_lhs_expr_of_assign(e);
-            }
-            AssignTarget::Pat(pat) => {
-                if let Pat::Expr(e) = &**pat {
-                    self.check_lhs_expr_of_assign(e);
+        if let SimpleAssignTarget::Member(m) = lhs {
+            match &*m.obj {
+                Expr::Ident(i) => {
+                    self.accessed.insert(i.into());
                 }
+                Expr::Member(..) => self.check_lhs_expr_of_assign(&m.obj),
+                _ => {}
             }
         }
     }
