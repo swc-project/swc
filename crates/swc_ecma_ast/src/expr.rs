@@ -1221,6 +1221,7 @@ pub enum AssignTarget {
     #[tag("TsSatisfiesExpression")]
     #[tag("TsNonNullExpression")]
     #[tag("TsTypeAssertion")]
+    #[tag("TsInstantiation")]
     Simple(SimpleAssignTarget),
     #[tag("ArrayPattern")]
     #[tag("ObjectPattern")]
