@@ -22,15 +22,22 @@
         },
         "operator": "=",
         "left": {
-          "type": "Identifier",
+          "type": "ParenthesisExpression",
           "span": {
-            "start": 2,
-            "end": 3,
+            "start": 1,
+            "end": 4,
             "ctxt": 0
           },
-          "value": "x",
-          "optional": false,
-          "typeAnnotation": null
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 2,
+              "end": 3,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          }
         },
         "right": {
           "type": "ParenthesisExpression",

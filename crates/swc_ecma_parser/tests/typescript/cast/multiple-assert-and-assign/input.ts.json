@@ -22,47 +22,55 @@
         },
         "operator": "=",
         "left": {
-          "type": "TsAsExpression",
+          "type": "ParenthesisExpression",
           "span": {
-            "start": 2,
-            "end": 20,
+            "start": 1,
+            "end": 21,
             "ctxt": 0
           },
           "expression": {
             "type": "TsAsExpression",
             "span": {
               "start": 2,
-              "end": 13,
+              "end": 20,
               "ctxt": 0
             },
             "expression": {
-              "type": "Identifier",
+              "type": "TsAsExpression",
               "span": {
                 "start": 2,
-                "end": 3,
+                "end": 13,
                 "ctxt": 0
               },
-              "value": "a",
-              "optional": false
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2,
+                  "end": 3,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 7,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "kind": "number"
+              }
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 7,
-                "end": 13,
+                "start": 17,
+                "end": 20,
                 "ctxt": 0
               },
-              "kind": "number"
+              "kind": "any"
             }
-          },
-          "typeAnnotation": {
-            "type": "TsKeywordType",
-            "span": {
-              "start": 17,
-              "end": 20,
-              "ctxt": 0
-            },
-            "kind": "any"
           }
         },
         "right": {
