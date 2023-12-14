@@ -1217,7 +1217,7 @@ pub enum AssignTarget {
     #[tag("SuperPropExpression")]
     #[tag("OptionalChainingExpression")]
     #[tag("ParenthesisExpression")]
-    #[tag("TsAsExpressio")]
+    #[tag("TsAsExpression")]
     #[tag("TsSatisfiesExpression")]
     #[tag("TsNonNullExpression")]
     #[tag("TsTypeAssertion")]
@@ -1327,7 +1327,7 @@ pub enum SimpleAssignTarget {
     Paren(ParenExpr),
     #[tag("OptionalChainingExpression")]
     OptChain(OptChainExpr),
-    #[tag("TsAsExpressio")]
+    #[tag("TsAsExpression")]
     TSAs(TsAsExpr),
     #[tag("TsSatisfiesExpression")]
     TSSatisfies(TsSatisfiesExpr),
