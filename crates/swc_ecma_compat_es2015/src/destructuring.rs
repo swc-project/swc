@@ -602,17 +602,15 @@ impl VisitMut for AssignFolder {
         }) = expr
         {
             match pat {
-                Pat::Expr(pat_expr) => {
-                    *expr = Expr::Assign(AssignExpr {
-                        span: *span,
-                        left: pat_expr.take().try_into().unwrap(),
-                        op: op!("="),
-                        right: right.take(),
-                    });
-                }
-
-                Pat::Ident(..) => {}
-                Pat::Array(ArrayPat { elems, .. }) => {
+                // Pat::Expr(pat_expr) => {
+                //     *expr = Expr::Assign(AssignExpr {
+                //         span: *span,
+                //         left: pat_expr.take().try_into().unwrap(),
+                //         op: op!("="),
+                //         right: right.take(),
+                //     });
+                // }
+                AssignTargetPat::Array(ArrayPat { elems, .. }) => {
                     let mut exprs = Vec::with_capacity(elems.len() + 1);
 
                     if is_literal(right) && ignore_return_value {
@@ -806,14 +804,14 @@ impl VisitMut for AssignFolder {
                         exprs,
                     })
                 }
-                Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                AssignTargetPat::Object(ObjectPat { props, .. }) if props.is_empty() => {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
                     *expr = helper_expr!(object_destructuring_empty)
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
-                Pat::Object(ObjectPat { span, props, .. }) => {
+                AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
                     if props.len() == 1 {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
