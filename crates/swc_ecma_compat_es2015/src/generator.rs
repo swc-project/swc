@@ -2697,7 +2697,7 @@ impl Generator {
     /// - `left`: The left-hand side of the assignment.
     /// - `right`: The right-hand side of the assignment.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_assignment(&mut self, left: PatOrExpr, right: Box<Expr>, loc: Option<Span>) {
+    fn emit_assignment(&mut self, left: AssignTarget, right: Box<Expr>, loc: Option<Span>) {
         self.emit_worker(OpCode::Assign, Some(OpArgs::PatAndExpr(left, right)), loc);
     }
 

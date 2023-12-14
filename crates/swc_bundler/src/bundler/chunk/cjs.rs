@@ -282,7 +282,7 @@ where
                         _ => {
                             props.push(ObjectPatProp::Assign(AssignPatProp {
                                 span: s.span,
-                                key: s.local,
+                                key: s.local.into(),
                                 value: None,
                             }));
                         }
