@@ -851,12 +851,5 @@ fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
 }
 
 fn is_simple_lhs(l: &AssignTarget) -> bool {
-    match l {
-        AssignTarget::Simple(l) => matches!(&**l, Expr::Ident(..)),
-        AssignTarget::Pat(l) => match &**l {
-            Pat::Ident(_) => true,
-            Pat::Expr(e) => matches!(&**e, Expr::Ident(..)),
-            _ => false,
-        },
-    }
+    l.is_simple()
 }
