@@ -1708,20 +1708,8 @@ impl Optimizer<'_> {
                             return Ok(false);
                         }
                     }
-                    AssignTarget::Pat(b_left) => match &mut **b_left {
-                        Pat::Expr(b_left) => {
-                            trace_op!("seq: Try lhs of assign");
-                            if self.merge_sequential_expr(a, b_left)? {
-                                return Ok(true);
-                            }
 
-                            if !b_left.is_ident() {
-                                return Ok(false);
-                            }
-                        }
-                        Pat::Ident(_) => (),
-                        _ => return Ok(false),
-                    },
+                    _ => return Ok(false),
                 };
 
                 if self.should_not_check_rhs_of_assign(a, b)? {
