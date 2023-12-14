@@ -1,3 +1,5 @@
+#![allow(clippy::collapsible_match)]
+
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
