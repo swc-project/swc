@@ -139,7 +139,7 @@ impl VisitMut for NullishCoalescing {
                     }
 
                     AssignTarget::Simple(left) => {
-                        let alias = alias_ident_for(&left, "refs");
+                        let alias = alias_ident_for(left, "refs");
                         self.vars.push(VarDeclarator {
                             span: DUMMY_SP,
                             name: alias.clone().into(),
