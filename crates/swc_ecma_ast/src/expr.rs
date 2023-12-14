@@ -1258,17 +1258,7 @@ impl TryFrom<Box<Expr>> for AssignTarget {
     type Error = Box<Expr>;
 
     fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
-        Ok(match *e {
-            Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()).into(),
-            Expr::Member(m) => SimpleAssignTarget::Member(m).into(),
-            Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s).into(),
-            Expr::Paren(s) => SimpleAssignTarget::Paren(s).into(),
-            Expr::TsAs(a) => SimpleAssignTarget::TSAs(a).into(),
-            Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s).into(),
-            Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n).into(),
-            Expr::TsTypeAssertion(a) => SimpleAssignTarget::TSTypeAssertion(a).into(),
-            _ => return Err(e),
-        })
+        Ok(Self::Simple(SimpleAssignTarget::try_from(e)?))
     }
 }
 
@@ -1344,6 +1334,24 @@ pub enum SimpleAssignTarget {
     Paren(ParenExpr),
     #[tag("Invaliid")]
     Invalid(Invalid),
+}
+
+impl TryFrom<Box<Expr>> for SimpleAssignTarget {
+    type Error = Box<Expr>;
+
+    fn try_from(e: Box<Expr>) -> Result<Self, Self::Error> {
+        Ok(match *e {
+            Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
+            Expr::Member(m) => SimpleAssignTarget::Member(m),
+            Expr::SuperProp(s) => SimpleAssignTarget::SuperProp(s),
+            Expr::TsAs(a) => SimpleAssignTarget::TSAs(a),
+            Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s),
+            Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n),
+            Expr::TsTypeAssertion(a) => SimpleAssignTarget::TSTypeAssertion(a),
+            Expr::Paren(s) => SimpleAssignTarget::Paren(s),
+            _ => return Err(e),
+        })
+    }
 }
 
 bridge_from!(SimpleAssignTarget, BindingIdent, Ident);
