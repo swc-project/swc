@@ -473,9 +473,9 @@ where
 
         let mut browser_if_body = factory.clone().as_call(DUMMY_SP, browser_args);
         if is_export_assign {
-            browser_if_body = browser_if_body.make_assign_to(op!("="), module_exports.into());
             browser_if_body =
-                browser_if_body.make_assign_to(op!("="), module_exports.try_into().unwrap());
+                browser_if_body.make_assign_to(op!("="), module_exports.clone().into());
+            browser_if_body = browser_if_body.make_assign_to(op!("="), module_exports.into());
         }
 
         let adapter_body = BlockStmt {
