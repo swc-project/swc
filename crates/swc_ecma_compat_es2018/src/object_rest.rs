@@ -854,7 +854,7 @@ impl ObjectRest {
             // println!("Expr: last.arg = objectWithoutProperties()",);
             self.exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: last.arg.into(),
+                left: last.arg.try_into().unwrap(),
                 op: op!("="),
                 right: Box::new(object_without_properties(
                     obj,
