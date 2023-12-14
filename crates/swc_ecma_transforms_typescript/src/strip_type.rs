@@ -57,11 +57,11 @@ impl VisitMut for StripType {
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
         // https://github.com/tc39/proposal-type-annotations#type-assertions
         // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
-        while let SimpleAssignTarget::TSAs(TsAsExpr { expr, .. })
-        | SimpleAssignTarget::TSNonNull(TsNonNullExpr { expr, .. })
-        | SimpleAssignTarget::TSTypeAssertion(TsTypeAssertion { expr, .. })
+        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
         | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
-        | SimpleAssignTarget::TSSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
         {
             *n = expr.take().try_into().unwrap();
         }
