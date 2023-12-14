@@ -232,7 +232,7 @@ impl VisitMut for Transform {
                 .flat_map(|key| {
                     key.init.take().map(|init| {
                         let name = key.name.clone();
-                        init.make_assign_to(op!("="), name.into())
+                        init.make_assign_to(op!("="), name.try_into().unwrap())
                     })
                 })
                 .chain(iter::once(n.take()))
@@ -864,13 +864,13 @@ impl Transform {
         ident: Ident,
         is_export: bool,
     ) -> Expr {
-        let mut left: Expr = ident.clone().into();
-        let mut assign_left: Pat = ident.clone().into();
+        let mut left: SimpleAssignTarget = ident.clone().into();
+        let mut assign_left: SimpleAssignTarget = ident.clone().into();
 
         if is_export {
             if let Some(id) = container_name.clone() {
                 left = Ident::from(id).make_member(ident).into();
-                assign_left = Pat::Expr(Box::new(left.clone()))
+                assign_left = left.clone();
             }
         }
 
