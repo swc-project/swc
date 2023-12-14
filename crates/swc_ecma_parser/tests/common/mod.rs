@@ -141,11 +141,15 @@ impl Fold for Normalizer {
     fn fold_simple_assign_target(&mut self, n: SimpleAssignTarget) -> SimpleAssignTarget {
         let n = n.fold_children_with(self);
 
-        match n {
-            SimpleAssignTarget::Paren(ParenExpr { expr, .. }) => {
-                SimpleAssignTarget::try_from(expr).unwrap()
+        if self.is_test262 {
+            match n {
+                SimpleAssignTarget::Paren(ParenExpr { expr, .. }) => {
+                    SimpleAssignTarget::try_from(expr).unwrap()
+                }
+                _ => n,
             }
-            _ => n,
+        } else {
+            n
         }
     }
 }
