@@ -1335,6 +1335,8 @@ pub enum SimpleAssignTarget {
     TSNonNull(TsNonNullExpr),
     #[tag("TsTypeAssertion")]
     TSTypeAssertion(TsTypeAssertion),
+    #[tag("TsInstantiation")]
+    TsInstantiation(TsInstantiation),
 
     #[tag("Invaliid")]
     Invalid(Invalid),
@@ -1354,6 +1356,7 @@ impl TryFrom<Box<Expr>> for SimpleAssignTarget {
             Expr::TsSatisfies(s) => SimpleAssignTarget::TSSatisfies(s),
             Expr::TsNonNull(n) => SimpleAssignTarget::TSNonNull(n),
             Expr::TsTypeAssertion(a) => SimpleAssignTarget::TSTypeAssertion(a),
+            Expr::TsInstantiation(a) => SimpleAssignTarget::TsInstantiation(a),
             _ => return Err(e),
         })
     }
@@ -1402,6 +1405,7 @@ impl From<SimpleAssignTarget> for Box<Expr> {
             SimpleAssignTarget::TSSatisfies(s) => Box::new(Expr::TsSatisfies(s)),
             SimpleAssignTarget::TSNonNull(n) => Box::new(Expr::TsNonNull(n)),
             SimpleAssignTarget::TSTypeAssertion(a) => Box::new(Expr::TsTypeAssertion(a)),
+            SimpleAssignTarget::TsInstantiation(a) => Box::new(Expr::TsInstantiation(a)),
             SimpleAssignTarget::Invalid(i) => Box::new(Expr::Invalid(i)),
         }
     }
