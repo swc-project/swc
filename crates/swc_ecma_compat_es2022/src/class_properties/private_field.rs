@@ -281,8 +281,8 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 left,
                 op,
                 right,
-            }) if left.as_expr().is_some() && left.as_expr().unwrap().is_member() => {
-                let mut left: MemberExpr = left.take().expr().unwrap().member().unwrap();
+            }) if left.as_simple().is_some() && left.as_simple().unwrap().is_member() => {
+                let mut left: MemberExpr = left.take().expect_simple().expect_member();
                 left.visit_mut_with(self);
                 right.visit_mut_with(self);
 
