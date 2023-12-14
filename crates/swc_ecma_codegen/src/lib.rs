@@ -2790,6 +2790,7 @@ where
             SimpleAssignTarget::TSNonNull(n) => emit!(n),
             SimpleAssignTarget::TSSatisfies(n) => emit!(n),
             SimpleAssignTarget::TSTypeAssertion(n) => emit!(n),
+            SimpleAssignTarget::TsInstantiation(n) => emit!(n),
         }
     }
 
