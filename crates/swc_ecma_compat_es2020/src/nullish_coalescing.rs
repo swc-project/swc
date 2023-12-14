@@ -3,7 +3,7 @@ use std::mem::take;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{alias_if_required, undefined, StmtLike};
+use swc_ecma_utils::{alias_ident_for, alias_if_required, undefined, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -139,38 +139,28 @@ impl VisitMut for NullishCoalescing {
                     }
 
                     AssignTarget::Simple(left) => {
-                        let (alias, aliased) = alias_if_required(left, "ref$");
-                        if aliased {
-                            self.vars.push(VarDeclarator {
-                                span: DUMMY_SP,
-                                name: alias.clone().into(),
-                                init: None,
-                                definite: false,
-                            });
-                        }
+                        let alias = alias_ident_for(&left, "refs");
+                        self.vars.push(VarDeclarator {
+                            span: DUMMY_SP,
+                            name: alias.clone().into(),
+                            init: None,
+                            definite: false,
+                        });
 
                         // TODO: Check for computed.
-                        let right_expr = if aliased {
-                            Box::new(Expr::Assign(AssignExpr {
-                                span: assign.span,
-                                left: left.clone().into(),
-                                op: op!("="),
-                                right: assign.right.take(),
-                            }))
-                        } else {
-                            assign.right.take()
-                        };
+                        let right_expr = Box::new(Expr::Assign(AssignExpr {
+                            span: assign.span,
+                            left: left.clone().into(),
+                            op: op!("="),
+                            right: assign.right.take(),
+                        }));
 
-                        let var_expr = if aliased {
-                            Expr::Assign(AssignExpr {
-                                span: DUMMY_SP,
-                                op: op!("="),
-                                left: alias.clone().into(),
-                                right: left.take().into(),
-                            })
-                        } else {
-                            Expr::Ident(alias.clone())
-                        };
+                        let var_expr = Expr::Assign(AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: alias.clone().into(),
+                            right: left.take().into(),
+                        });
 
                         *e = Expr::Assign(AssignExpr {
                             span: assign.span,
