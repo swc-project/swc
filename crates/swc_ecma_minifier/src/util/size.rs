@@ -280,7 +280,9 @@ impl SizeWithCtxt for AssignTarget {
 }
 
 impl SizeWithCtxt for SimpleAssignTarget {
-    fn size(&self, unresolved: SyntaxContext) -> usize {}
+    fn size(&self, unresolved: SyntaxContext) -> usize {
+        match self {}
+    }
 }
 
 impl SizeWithCtxt for AssignTargetPat {

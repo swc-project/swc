@@ -909,7 +909,7 @@ impl Optimizer<'_> {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: decl.name.clone().into(),
+                                left: decl.name.clone().try_into().unwrap(),
                                 right: decl.init.take().unwrap(),
                             })))
                         }
