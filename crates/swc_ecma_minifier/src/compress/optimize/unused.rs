@@ -608,45 +608,41 @@ impl Optimizer<'_> {
             dump(&assign.left, false)
         );
 
-        match &mut assign.left {
-            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => {
-                if !self.may_remove_ident(&i.id) {
-                    return;
-                }
-
-                if let Some(var) = self.data.vars.get(&i.to_id()) {
-                    // technically this is inline
-                    if !var.inline_prevented
-                        && !var.exported
-                        && var.usage_count == 0
-                        && var.declared
-                        && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
-                    {
-                        report_change!(
-                            "unused: Dropping assignment to var '{}{:?}', which is never used",
-                            i.id.sym,
-                            i.id.span.ctxt
-                        );
-                        self.changed = true;
-                        if self.ctx.is_this_aware_callee {
-                            *e = Expr::Seq(SeqExpr {
-                                span: DUMMY_SP,
-                                exprs: vec![0.into(), assign.right.take()],
-                            })
-                        } else {
-                            *e = *assign.right.take();
-                        }
-                    } else {
-                        log_abort!(
-                            "unused: Preserving assignment to `{}` because of usage: {:?}",
-                            dump(&assign.left, false),
-                            var
-                        )
-                    }
-                }
+        if let AssignTarget::Simple(SimpleAssignTarget::Ident(i)) = &mut assign.left {
+            if !self.may_remove_ident(&i.id) {
+                return;
             }
 
-            _ => {}
+            if let Some(var) = self.data.vars.get(&i.to_id()) {
+                // technically this is inline
+                if !var.inline_prevented
+                    && !var.exported
+                    && var.usage_count == 0
+                    && var.declared
+                    && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
+                {
+                    report_change!(
+                        "unused: Dropping assignment to var '{}{:?}', which is never used",
+                        i.id.sym,
+                        i.id.span.ctxt
+                    );
+                    self.changed = true;
+                    if self.ctx.is_this_aware_callee {
+                        *e = Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![0.into(), assign.right.take()],
+                        })
+                    } else {
+                        *e = *assign.right.take();
+                    }
+                } else {
+                    log_abort!(
+                        "unused: Preserving assignment to `{}` because of usage: {:?}",
+                        dump(&assign.left, false),
+                        var
+                    )
+                }
+            }
         }
     }
 
