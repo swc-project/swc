@@ -291,6 +291,7 @@ impl SizeWithCtxt for SimpleAssignTarget {
             }
             SimpleAssignTarget::Member(e) => e.obj.size(unresolved) + e.prop.size(unresolved),
             SimpleAssignTarget::SuperProp(e) => 6 + e.prop.size(unresolved),
+            SimpleAssignTarget::Paren(e) => 2 + e.expr.size(unresolved),
             SimpleAssignTarget::TSAs(_)
             | SimpleAssignTarget::TSSatisfies(_)
             | SimpleAssignTarget::TSNonNull(_)
