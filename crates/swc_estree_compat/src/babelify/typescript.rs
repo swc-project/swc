@@ -20,22 +20,22 @@ use swc_ecma_ast::{
 };
 use swc_estree_ast::{
     Access, ArrayPattern, IdOrRest, IdOrString, Identifier, ObjectPattern, RestElement,
-    TSAnyKeyword, TSArrayType, TSBigIntKeyword, TSBooleanKeyword, TSCallSignatureDeclaration,
-    TSConditionalType, TSConstructSignatureDeclaration, TSConstructorType, TSEntityName,
-    TSEnumDeclaration, TSEnumMember, TSExportAssignment, TSExpressionWithTypeArguments,
-    TSExternalModuleReference, TSFunctionType, TSImportEqualsDeclModuleRef,
-    TSImportEqualsDeclaration, TSImportType, TSIndexSignature, TSIndexedAccessType, TSInferType,
-    TSInterfaceBody, TSInterfaceDeclaration, TSIntersectionType, TSIntrinsicKeyword, TSLiteralType,
-    TSLiteralTypeLiteral, TSMappedType, TSMethodSignature, TSModuleBlock, TSModuleDeclBody,
-    TSModuleDeclaration, TSNamedTupleMember, TSNamespaceExportDeclaration, TSNeverKeyword,
-    TSNullKeyword, TSNumberKeyword, TSObjectKeyword, TSOptionalType, TSParamPropParam,
-    TSParameterProperty, TSParenthesizedType, TSPropertySignature, TSQualifiedName, TSRestType,
-    TSStringKeyword, TSSymbolKeyword, TSThisType, TSTupleType, TSTupleTypeElType, TSType,
-    TSTypeAliasDeclaration, TSTypeAnnotation, TSTypeElement, TSTypeLiteral, TSTypeOperator,
+    TSAnyKeyword, TSArrayType, TSAsExpression, TSBigIntKeyword, TSBooleanKeyword,
+    TSCallSignatureDeclaration, TSConditionalType, TSConstructSignatureDeclaration,
+    TSConstructorType, TSEntityName, TSEnumDeclaration, TSEnumMember, TSExportAssignment,
+    TSExpressionWithTypeArguments, TSExternalModuleReference, TSFunctionType,
+    TSImportEqualsDeclModuleRef, TSImportEqualsDeclaration, TSImportType, TSIndexSignature,
+    TSIndexedAccessType, TSInferType, TSInterfaceBody, TSInterfaceDeclaration, TSIntersectionType,
+    TSIntrinsicKeyword, TSLiteralType, TSLiteralTypeLiteral, TSMappedType, TSMethodSignature,
+    TSModuleBlock, TSModuleDeclBody, TSModuleDeclaration, TSNamedTupleMember,
+    TSNamespaceExportDeclaration, TSNeverKeyword, TSNonNullExpression, TSNullKeyword,
+    TSNumberKeyword, TSObjectKeyword, TSOptionalType, TSParamPropParam, TSParameterProperty,
+    TSParenthesizedType, TSPropertySignature, TSQualifiedName, TSRestType, TSStringKeyword,
+    TSSymbolKeyword, TSThisType, TSTupleType, TSTupleTypeElType, TSType, TSTypeAliasDeclaration,
+    TSTypeAnnotation, TSTypeAssertion, TSTypeElement, TSTypeLiteral, TSTypeOperator,
     TSTypeParameter, TSTypeParameterDeclaration, TSTypeParameterInstantiation, TSTypePredicate,
     TSTypePredicateParamName, TSTypeQuery, TSTypeQueryExprName, TSTypeReference,
-    TSUndefinedKeyword, TSUnionType, TSUnknownKeyword, TSVoidKeyword, TsAsExpression,
-    TsNonNullExpression, TsTypeAssertion,
+    TSUndefinedKeyword, TSUnionType, TSUnknownKeyword, TSVoidKeyword,
 };
 
 use crate::babelify::{Babelify, Context};
@@ -1035,10 +1035,10 @@ impl Babelify for TsNamespaceExportDecl {
 }
 
 impl Babelify for TsAsExpr {
-    type Output = TsAsExpression;
+    type Output = TSAsExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        TsAsExpression {
+        TSAsExpression {
             base: ctx.base(self.span),
             expression: Box::alloc().init(self.expr.babelify(ctx).into()),
             type_annotation: self.type_ann.babelify(ctx),
@@ -1047,10 +1047,10 @@ impl Babelify for TsAsExpr {
 }
 
 impl Babelify for TsTypeAssertion {
-    type Output = TsTypeAssertion;
+    type Output = TSTypeAssertion;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        TsTypeAssertion {
+        TSTypeAssertion {
             base: ctx.base(self.span),
             expression: Box::alloc().init(self.expr.babelify(ctx).into()),
             type_annotation: self.type_ann.babelify(ctx),
@@ -1059,10 +1059,10 @@ impl Babelify for TsTypeAssertion {
 }
 
 impl Babelify for TsNonNullExpr {
-    type Output = TsNonNullExpression;
+    type Output = TSNonNullExpression;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
-        TsNonNullExpression {
+        TSNonNullExpression {
             base: ctx.base(self.span),
             expression: Box::alloc().init(self.expr.babelify(ctx).into()),
         }

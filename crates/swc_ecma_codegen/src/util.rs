@@ -261,10 +261,10 @@ alpha_num_enum!(
         SuperProp,
         OptChain,
         Paren,
-        TsAs,
-        TsSatisfies,
-        TsNonNull,
-        TsTypeAssertion,
+        TSAs,
+        TSSatisfies,
+        TSNonNull,
+        TSTypeAssertion,
         TsInstantiation,
         Invalid
     ]
