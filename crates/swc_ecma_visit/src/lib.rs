@@ -888,6 +888,7 @@ define!({
         TSSatisfies(TsSatisfiesExpr),
         TSNonNull(TsNonNullExpr),
         TSTypeAssertion(TsTypeAssertion),
+        TsInstantiation(TsInstantiation),
         Invalid(Invalid),
     }
 

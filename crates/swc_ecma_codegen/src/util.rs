@@ -258,6 +258,7 @@ alpha_num_enum!(
         TSSatisfies,
         TSNonNull,
         TSTypeAssertion,
+        TsInstantiation,
         Invalid
     ]
 );
