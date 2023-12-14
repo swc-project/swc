@@ -2786,10 +2786,10 @@ where
             SimpleAssignTarget::SuperProp(n) => emit!(n),
             SimpleAssignTarget::Paren(n) => emit!(n),
             SimpleAssignTarget::OptChain(n) => emit!(n),
-            SimpleAssignTarget::TSAs(n) => emit!(n),
-            SimpleAssignTarget::TSNonNull(n) => emit!(n),
-            SimpleAssignTarget::TSSatisfies(n) => emit!(n),
-            SimpleAssignTarget::TSTypeAssertion(n) => emit!(n),
+            SimpleAssignTarget::TsAs(n) => emit!(n),
+            SimpleAssignTarget::TsNonNull(n) => emit!(n),
+            SimpleAssignTarget::TsSatisfies(n) => emit!(n),
+            SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
             SimpleAssignTarget::TsInstantiation(n) => emit!(n),
         }
     }
