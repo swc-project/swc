@@ -1173,7 +1173,11 @@ impl VisitMut for ExportedPatRewriter {
         let mut left = n.name.take();
         left.visit_mut_with(self);
 
-        n.init = Some(right.make_assign_to(op!("="), left.into()).into());
+        n.init = Some(
+            right
+                .make_assign_to(op!("="), left.try_into().unwrap())
+                .into(),
+        );
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
@@ -1201,7 +1205,7 @@ impl VisitMut for ExportedPatRewriter {
             };
 
             *n = ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident(key.clone()),
+                key: PropName::Ident(key.clone().into()),
                 value,
             });
             return;

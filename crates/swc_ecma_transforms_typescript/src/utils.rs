@@ -97,11 +97,11 @@ impl AsEnumOrModule for ModuleItem {
 ///
 /// this.prop = value
 pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Box<Expr> {
-    let target = Expr::Member(MemberExpr {
+    let target = MemberExpr {
         obj: ThisExpr { span: DUMMY_SP }.into(),
         span: DUMMY_SP,
         prop: prop_name.into(),
-    });
+    };
 
     let expr = value.make_assign_to(op!("="), target.into());
 
