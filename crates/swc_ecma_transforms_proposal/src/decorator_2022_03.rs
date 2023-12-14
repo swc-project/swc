@@ -1058,15 +1058,14 @@ impl VisitMut for Decorator202203 {
                                     expr: Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: AssignTarget::Simple(Box::new(Expr::Member(
-                                            MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: ThisExpr { span: DUMMY_SP }.into(),
-                                                prop: MemberProp::PrivateName(
-                                                    private_field.key.clone(),
-                                                ),
-                                            },
-                                        ))),
+                                        left: MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: ThisExpr { span: DUMMY_SP }.into(),
+                                            prop: MemberProp::PrivateName(
+                                                private_field.key.clone(),
+                                            ),
+                                        }
+                                        .into(),
                                         right: param.clone().into(),
                                     })),
                                 })],
