@@ -217,12 +217,18 @@ impl StartsWithAlphaNum for Expr {
             | Expr::TsInstantiation(TsInstantiation { ref expr, .. })
             | Expr::TsSatisfies(TsSatisfiesExpr { ref expr, .. }) => expr.starts_with_alpha_num(),
 
-            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
-                OptChainBase::Member(base) => base.obj.starts_with_alpha_num(),
-                OptChainBase::Call(base) => base.callee.starts_with_alpha_num(),
-            },
+            Expr::OptChain(e) => e.starts_with_alpha_num(),
 
             Expr::Invalid(..) => true,
+        }
+    }
+}
+
+impl StartsWithAlphaNum for OptChainExpr {
+    fn starts_with_alpha_num(&self) -> bool {
+        match &*self.base {
+            OptChainBase::Member(base) => base.obj.starts_with_alpha_num(),
+            OptChainBase::Call(base) => base.callee.starts_with_alpha_num(),
         }
     }
 }
@@ -246,6 +252,7 @@ alpha_num_enum!(
         Ident,
         Member,
         SuperProp,
+        OptChain,
         Paren,
         TSAs,
         TSSatisfies,

@@ -8,6 +8,7 @@ impl_enum!(
         Member,
         SuperProp,
         Paren,
+        OptChain,
         TSAs,
         TSNonNull,
         TSSatisfies,

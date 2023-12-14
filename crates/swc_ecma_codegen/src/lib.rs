@@ -2785,6 +2785,7 @@ where
             SimpleAssignTarget::Invalid(n) => emit!(n),
             SimpleAssignTarget::SuperProp(n) => emit!(n),
             SimpleAssignTarget::Paren(n) => emit!(n),
+            SimpleAssignTarget::OptChain(n) => emit!(n),
             SimpleAssignTarget::TSAs(n) => emit!(n),
             SimpleAssignTarget::TSNonNull(n) => emit!(n),
             SimpleAssignTarget::TSSatisfies(n) => emit!(n),
