@@ -518,10 +518,7 @@ impl Optimizer<'_> {
 
         // TODO: Handle pure properties.
         let lhs = match &e.left {
-            AssignTarget::Simple(e) => match e {
-                SimpleAssignTarget::Ident(i) => i,
-                _ => return,
-            },
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
             _ => return,
         };
 
@@ -941,22 +938,20 @@ impl Optimizer<'_> {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: AssignTarget::Simple(pat),
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
                 right,
                 ..
             }) => {
-                if let SimpleAssignTarget::Ident(i) = pat {
-                    let old = i.id.to_id();
-                    self.store_var_for_inlining(&mut i.id, right, true);
+                let old = i.id.to_id();
+                self.store_var_for_inlining(&mut i.id, right, true);
 
-                    if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
-                        self.vars.removed.insert(old);
-                    }
+                if i.is_dummy() && self.options.unused {
+                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
+                    self.vars.removed.insert(old);
+                }
 
-                    if right.is_invalid() {
-                        return None;
-                    }
+                if right.is_invalid() {
+                    return None;
                 }
             }
 
