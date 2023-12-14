@@ -100,7 +100,7 @@ macro_rules! alpha_num_const {
 }
 
 alpha_num_const!(true, Ident, SuperPropExpr, TsTypeAssertion);
-alpha_num_const!(false, ArrayPat, ObjectPat, Invalid);
+alpha_num_const!(false, ArrayPat, ObjectPat, Invalid, ParenExpr);
 
 impl StartsWithAlphaNum for MemberExpr {
     #[inline]
@@ -246,6 +246,7 @@ alpha_num_enum!(
         Ident,
         Member,
         SuperProp,
+        Paren,
         TSAs,
         TSSatisfies,
         TSNonNull,
