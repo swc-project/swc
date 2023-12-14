@@ -3099,9 +3099,9 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     true
 }
 
-fn is_expr_access_to_arguments(l: &Expr) -> bool {
+fn is_expr_access_to_arguments(l: &SimpleAssignTarget) -> bool {
     match l {
-        Expr::Member(MemberExpr { obj, .. }) => {
+        SimpleAssignTarget::Member(MemberExpr { obj, .. }) => {
             matches!(&**obj, Expr::Ident(Ident { sym, .. }) if (&**sym == "arguments"))
         }
         _ => false,
@@ -3111,9 +3111,6 @@ fn is_expr_access_to_arguments(l: &Expr) -> bool {
 fn is_left_access_to_arguments(l: &AssignTarget) -> bool {
     match l {
         AssignTarget::Simple(e) => is_expr_access_to_arguments(e),
-        AssignTarget::Pat(pat) => match &**pat {
-            Pat::Expr(e) => is_expr_access_to_arguments(e),
-            _ => false,
-        },
+        _ => false,
     }
 }
