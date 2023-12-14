@@ -518,14 +518,11 @@ impl Optimizer<'_> {
 
         // TODO: Handle pure properties.
         let lhs = match &e.left {
-            AssignTarget::Simple(e) => match &**e {
-                Expr::Ident(i) => i,
+            AssignTarget::Simple(e) => match e {
+                SimpleAssignTarget::Ident(i) => i,
                 _ => return,
             },
-            AssignTarget::Pat(p) => match &**p {
-                Pat::Ident(i) => &i.id,
-                _ => return,
-            },
+            _ => return,
         };
 
         // If left operand of a binary expression is not same as lhs, this method has
@@ -912,9 +909,9 @@ impl Optimizer<'_> {
 
             Expr::Assign(AssignExpr {
                 op, left, right, ..
-            }) if left.is_expr() && !op.may_short_circuit() => {
+            }) if left.is_simple() && !op.may_short_circuit() => {
                 if let AssignTarget::Simple(expr) = left {
-                    if let Expr::Member(m) = &**expr {
+                    if let SimpleAssignTarget::Member(m) = expr {
                         if !expr.may_have_side_effects(&self.expr_ctx)
                             && (m.obj.is_object()
                                 || m.obj.is_fn_expr()
@@ -944,11 +941,11 @@ impl Optimizer<'_> {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: AssignTarget::Pat(pat),
+                left: AssignTarget::Simple(pat),
                 right,
                 ..
             }) => {
-                if let Pat::Ident(i) = &mut **pat {
+                if let SimpleAssignTarget::Ident(i) = &mut pat {
                     let old = i.id.to_id();
                     self.store_var_for_inlining(&mut i.id, right, true);
 
