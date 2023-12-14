@@ -1399,7 +1399,6 @@ impl AssignTarget {
 
 impl Take for AssignTarget {
     fn dummy() -> Self {
-        Take::dummy().into()
         SimpleAssignTarget::dummy().into()
     }
 }
