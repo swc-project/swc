@@ -1527,7 +1527,7 @@ impl Generator {
         node.init.map(|right| AssignExpr {
             span: node.span,
             op: op!("="),
-            left: node.name.clone().into(),
+            left: node.name.clone().try_into().unwrap(),
             right,
         })
     }
