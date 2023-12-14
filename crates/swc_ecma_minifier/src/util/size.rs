@@ -119,7 +119,7 @@ impl SizeWithCtxt for Expr {
             }
 
             Expr::Member(m) => m.obj.size(unresolved) + m.prop.size(unresolved),
-            Expr::SuperProp(s) => 5 + s.prop.size(unresolved),
+            Expr::SuperProp(s) => 6 + s.prop.size(unresolved),
             Expr::Update(e) => e.arg.size(unresolved) + e.op.size(),
 
             Expr::Assign(AssignExpr {
@@ -281,7 +281,22 @@ impl SizeWithCtxt for AssignTarget {
 
 impl SizeWithCtxt for SimpleAssignTarget {
     fn size(&self, unresolved: SyntaxContext) -> usize {
-        match self {}
+        match self {
+            SimpleAssignTarget::Ident(e) => {
+                if e.span.ctxt == unresolved {
+                    e.sym.len()
+                } else {
+                    1
+                }
+            }
+            SimpleAssignTarget::Member(e) => e.obj.size(unresolved) + e.prop.size(unresolved),
+            SimpleAssignTarget::SuperProp(e) => 6 + e.prop.size(unresolved),
+            SimpleAssignTarget::TSAs(_)
+            | SimpleAssignTarget::TSSatisfies(_)
+            | SimpleAssignTarget::TSNonNull(_)
+            | SimpleAssignTarget::TSTypeAssertion(_)
+            | SimpleAssignTarget::Invalid(_) => TODO,
+        }
     }
 }
 
