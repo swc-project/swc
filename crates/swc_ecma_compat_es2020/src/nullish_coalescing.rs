@@ -123,6 +123,21 @@ impl VisitMut for NullishCoalescing {
 
             Expr::Assign(ref mut assign @ AssignExpr { op: op!("??="), .. }) => {
                 match &mut assign.left {
+                    AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => {
+                        *e = Expr::Assign(AssignExpr {
+                            span: assign.span,
+                            op: op!("="),
+                            left: i.clone().into(),
+                            right: Box::new(make_cond(
+                                self.c,
+                                assign.span,
+                                &i.id,
+                                Expr::Ident(i.id.clone()),
+                                assign.right.take(),
+                            )),
+                        });
+                    }
+
                     AssignTarget::Simple(left) => {
                         let (alias, aliased) = alias_if_required(left, "ref$");
                         if aliased {
@@ -170,22 +185,8 @@ impl VisitMut for NullishCoalescing {
                             )),
                         });
                     }
-                    AssignTarget::Pat(left) => {
-                        if let Pat::Ident(i) = &mut **left {
-                            *e = Expr::Assign(AssignExpr {
-                                span: assign.span,
-                                op: op!("="),
-                                left: i.clone().into(),
-                                right: Box::new(make_cond(
-                                    self.c,
-                                    assign.span,
-                                    &i.id,
-                                    Expr::Ident(i.id.clone()),
-                                    assign.right.take(),
-                                )),
-                            });
-                        }
-                    }
+
+                    _ => {}
                 }
             }
 
