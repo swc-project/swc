@@ -116,8 +116,8 @@ impl SystemJs {
 
     fn replace_assign_expr(&mut self, assign_expr: AssignExpr) -> Expr {
         match &assign_expr.left {
-            AssignTarget::Expr(pat_or_expr) => match &**pat_or_expr {
-                Expr::Ident(ident) => {
+            AssignTarget::Simple(pat_or_expr) => match pat_or_expr {
+                SimpleAssignTarget::Ident(ident) => {
                     for (k, v) in self.export_map.iter() {
                         if ident.to_id() == *k {
                             let mut expr = Expr::Assign(assign_expr);
@@ -135,21 +135,8 @@ impl SystemJs {
                 let mut to: Vec<Id> = vec![];
                 pat.visit_with(&mut VarCollector { to: &mut to });
 
-                match &**pat {
-                    Pat::Ident(ident) => {
-                        for (k, v) in self.export_map.iter() {
-                            if ident.to_id() == *k {
-                                let mut expr = Expr::Assign(assign_expr);
-                                for value in v.iter() {
-                                    expr =
-                                        Expr::Call(self.export_call(value.clone(), DUMMY_SP, expr));
-                                }
-                                return expr;
-                            }
-                        }
-                        Expr::Assign(assign_expr)
-                    }
-                    Pat::Object(..) | Pat::Array(..) => {
+                match pat {
+                    AssignTargetPat::Object(..) | AssignTargetPat::Array(..) => {
                         let mut exprs = vec![Box::new(Expr::Assign(assign_expr))];
 
                         for to in to {
@@ -420,7 +407,7 @@ impl SystemJs {
                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: var_declarator.name.into(),
+                    left: var_declarator.name.try_into().unwrap(),
                     right: init,
                 })));
             }
