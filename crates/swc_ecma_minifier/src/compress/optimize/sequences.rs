@@ -939,7 +939,7 @@ impl Optimizer<'_> {
                             }
                         }
                         Mergable::Expr(Expr::Assign(a)) => {
-                            if let Some(a) = a.left.as_expr() {
+                            if let Some(a) = a.left.as_simple() {
                                 if !self.is_skippable_for_seq(None, a) {
                                     break;
                                 }
@@ -1069,6 +1069,132 @@ impl Optimizer<'_> {
         Ok(false)
     }
 
+    fn is_simple_assign_target_skippable_for_seq(
+        &self,
+        a: Option<&Mergable>,
+        e: &SimpleAssignTarget,
+    ) -> bool {
+    }
+
+    fn is_ident_skippable_for_seq(&self, a: Option<&Mergable>, e: &Ident) -> bool {
+        if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
+            return if self.options.pristine_globals
+                && is_global_var_with_pure_property_access(&e.sym)
+            {
+                true
+            } else {
+                log_abort!("Undeclared");
+                return false;
+            };
+        }
+
+        if let Some(a) = a {
+            match a {
+                Mergable::Var(a) => {
+                    if is_ident_used_by(e.to_id(), &a.init) {
+                        log_abort!("ident used by a (var)");
+                        return false;
+                    }
+                }
+                Mergable::Expr(a) => {
+                    if is_ident_used_by(e.to_id(), &**a) {
+                        log_abort!("ident used by a (expr)");
+                        return false;
+                    }
+                }
+
+                Mergable::FnDecl(a) => {
+                    // TODO(kdy1): I'm not sure if we can remove this check. I added this
+                    // just to be safe, and we may remove this check in future.
+                    if is_ident_used_by(e.to_id(), &**a) {
+                        log_abort!("ident used by a (fn)");
+                        return false;
+                    }
+                }
+
+                Mergable::Drop => return false,
+            }
+
+            let ids_used_by_a_init = match a {
+                Mergable::Var(a) => a.init.as_ref().map(|init| {
+                    collect_infects_from(
+                        init,
+                        AliasConfig {
+                            marks: Some(self.marks),
+                            ignore_nested: true,
+                            need_all: true,
+                        },
+                    )
+                }),
+                Mergable::Expr(a) => match a {
+                    Expr::Assign(a) if a.is_simple_assign() => Some(collect_infects_from(
+                        &a.right,
+                        AliasConfig {
+                            marks: Some(self.marks),
+                            ignore_nested: true,
+                            need_all: true,
+                        },
+                    )),
+
+                    _ => None,
+                },
+
+                Mergable::FnDecl(a) => Some(collect_infects_from(
+                    &a.function,
+                    AliasConfig {
+                        marks: Some(self.marks),
+                        ignore_nested: true,
+                        need_all: true,
+                    },
+                )),
+
+                Mergable::Drop => return false,
+            };
+
+            if let Some(deps) = ids_used_by_a_init {
+                if deps.contains(&(e.to_id(), AccessKind::Reference))
+                    || deps.contains(&(e.to_id(), AccessKind::Call))
+                {
+                    return false;
+                }
+            }
+
+            if !self.assignee_skippable_for_seq(a, e) {
+                return false;
+            }
+        }
+
+        true
+    }
+
+    fn is_member_expr_skippable_for_seq(
+        &self,
+        a: Option<&Mergable>,
+        MemberExpr { obj, prop, .. }: &MemberExpr,
+    ) -> bool {
+        if !self.is_skippable_for_seq(a, obj) {
+            return false;
+        }
+
+        if !self.should_preserve_property_access(
+            obj,
+            PropertyAccessOpts {
+                allow_getter: false,
+                only_ident: false,
+            },
+        ) {
+            if let MemberProp::Computed(prop) = prop {
+                if !self.is_skippable_for_seq(a, &prop.expr) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        false
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn is_skippable_for_seq(&self, a: Option<&Mergable>, e: &Expr) -> bool {
         if self.ctx.in_try_block {
@@ -1079,120 +1205,9 @@ impl Optimizer<'_> {
         trace_op!("is_skippable_for_seq");
 
         match e {
-            Expr::Ident(e) => {
-                if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
-                    return if self.options.pristine_globals
-                        && is_global_var_with_pure_property_access(&e.sym)
-                    {
-                        true
-                    } else {
-                        log_abort!("Undeclared");
-                        return false;
-                    };
-                }
+            Expr::Ident(e) => self.is_ident_skippable_for_seq(a, e),
 
-                if let Some(a) = a {
-                    match a {
-                        Mergable::Var(a) => {
-                            if is_ident_used_by(e.to_id(), &a.init) {
-                                log_abort!("ident used by a (var)");
-                                return false;
-                            }
-                        }
-                        Mergable::Expr(a) => {
-                            if is_ident_used_by(e.to_id(), &**a) {
-                                log_abort!("ident used by a (expr)");
-                                return false;
-                            }
-                        }
-
-                        Mergable::FnDecl(a) => {
-                            // TODO(kdy1): I'm not sure if we can remove this check. I added this
-                            // just to be safe, and we may remove this check in future.
-                            if is_ident_used_by(e.to_id(), &**a) {
-                                log_abort!("ident used by a (fn)");
-                                return false;
-                            }
-                        }
-
-                        Mergable::Drop => return false,
-                    }
-
-                    let ids_used_by_a_init = match a {
-                        Mergable::Var(a) => a.init.as_ref().map(|init| {
-                            collect_infects_from(
-                                init,
-                                AliasConfig {
-                                    marks: Some(self.marks),
-                                    ignore_nested: true,
-                                    need_all: true,
-                                },
-                            )
-                        }),
-                        Mergable::Expr(a) => match a {
-                            Expr::Assign(a) if a.is_simple_assign() => Some(collect_infects_from(
-                                &a.right,
-                                AliasConfig {
-                                    marks: Some(self.marks),
-                                    ignore_nested: true,
-                                    need_all: true,
-                                },
-                            )),
-
-                            _ => None,
-                        },
-
-                        Mergable::FnDecl(a) => Some(collect_infects_from(
-                            &a.function,
-                            AliasConfig {
-                                marks: Some(self.marks),
-                                ignore_nested: true,
-                                need_all: true,
-                            },
-                        )),
-
-                        Mergable::Drop => return false,
-                    };
-
-                    if let Some(deps) = ids_used_by_a_init {
-                        if deps.contains(&(e.to_id(), AccessKind::Reference))
-                            || deps.contains(&(e.to_id(), AccessKind::Call))
-                        {
-                            return false;
-                        }
-                    }
-
-                    if !self.assignee_skippable_for_seq(a, e) {
-                        return false;
-                    }
-                }
-
-                true
-            }
-
-            Expr::Member(MemberExpr { obj, prop, .. }) => {
-                if !self.is_skippable_for_seq(a, obj) {
-                    return false;
-                }
-
-                if !self.should_preserve_property_access(
-                    obj,
-                    PropertyAccessOpts {
-                        allow_getter: false,
-                        only_ident: false,
-                    },
-                ) {
-                    if let MemberProp::Computed(prop) = prop {
-                        if !self.is_skippable_for_seq(a, &prop.expr) {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                }
-
-                false
-            }
+            Expr::Member(me) => self.is_member_expr_skippable_for_seq(a, me),
 
             Expr::Lit(..) => true,
 
