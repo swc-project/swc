@@ -1720,8 +1720,24 @@ impl Optimizer<'_> {
                 match &mut b.left {
                     AssignTarget::Simple(b_left) => {
                         trace_op!("seq: Try lhs of assign");
-                        if self.merge_sequential_expr(a, b_left)? {
-                            return Ok(true);
+
+                        match b_left {
+                            SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) => {
+                                let mut b_expr: Box<Expr> = b_left.take().into();
+
+                                let res = self.merge_sequential_expr(a, &mut b_expr);
+
+                                *b_left = match *b_expr {
+                                    Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
+                                    Expr::Member(m) => SimpleAssignTarget::Member(m),
+                                    _ => unreachable!(),
+                                };
+                                if res? {
+                                    return Ok(true);
+                                }
+                            }
+
+                            _ => {}
                         }
 
                         if !b_left.is_ident() {
