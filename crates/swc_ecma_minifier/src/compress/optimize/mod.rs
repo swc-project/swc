@@ -945,7 +945,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                if let SimpleAssignTarget::Ident(i) = &mut pat {
+                if let SimpleAssignTarget::Ident(i) = pat {
                     let old = i.id.to_id();
                     self.store_var_for_inlining(&mut i.id, right, true);
 
