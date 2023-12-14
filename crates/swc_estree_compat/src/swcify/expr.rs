@@ -20,10 +20,9 @@ use swc_estree_ast::{
     NewExpression, ObjectExprProp, ObjectExpression, ObjectKey, ObjectMethod, ObjectPropVal,
     ObjectProperty, OptionalCallExpression, OptionalMemberExprProp, OptionalMemberExpression,
     ParenthesizedExpression, PatternLike, PipelinePrimaryTopicReference, RecordExpression,
-    SequenceExpression, TSAsExpression, TSNonNullExpression, TSTypeAssertion,
-    TaggedTemplateExprTypeParams, TaggedTemplateExpression, ThisExpression, TupleExpression,
-    TypeCastExpression, UnaryExprOp, UnaryExpression, UpdateExprOp, UpdateExpression,
-    YieldExpression,
+    SequenceExpression, TaggedTemplateExprTypeParams, TaggedTemplateExpression, ThisExpression,
+    TsAsExpression, TsNonNullExpression, TsTypeAssertion, TupleExpression, TypeCastExpression,
+    UnaryExprOp, UnaryExpression, UpdateExprOp, UpdateExpression, YieldExpression,
 };
 
 use super::Context;
@@ -69,9 +68,9 @@ impl Swcify for Expression {
             Expression::JSXElement(e) => return e.swcify(ctx).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Decimal(e)) => e.swcify(ctx).into(),
-            Expression::TSAs(e) => e.swcify(ctx).into(),
-            Expression::TSTypeAssertion(e) => e.swcify(ctx).into(),
-            Expression::TSNonNull(e) => e.swcify(ctx).into(),
+            Expression::TsAs(e) => e.swcify(ctx).into(),
+            Expression::TsTypeAssertion(e) => e.swcify(ctx).into(),
+            Expression::TsNonNull(e) => e.swcify(ctx).into(),
             _ => {
                 unimplemented!("swcify: {:?}", self)
             }
@@ -1114,7 +1113,7 @@ impl Swcify for ModuleExpression {
     }
 }
 
-impl Swcify for TSAsExpression {
+impl Swcify for TsAsExpression {
     type Output = TsAsExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
@@ -1126,7 +1125,7 @@ impl Swcify for TSAsExpression {
     }
 }
 
-impl Swcify for TSTypeAssertion {
+impl Swcify for TsTypeAssertion {
     type Output = TsTypeAssertion;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
@@ -1138,7 +1137,7 @@ impl Swcify for TSTypeAssertion {
     }
 }
 
-impl Swcify for TSNonNullExpression {
+impl Swcify for TsNonNullExpression {
     type Output = TsNonNullExpr;
 
     fn swcify(self, ctx: &Context) -> Self::Output {
