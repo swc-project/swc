@@ -13,6 +13,7 @@ impl_enum!(
         TSNonNull,
         TSSatisfies,
         TSTypeAssertion,
+        TsInstantiation,
         Invalid
     ]
 );

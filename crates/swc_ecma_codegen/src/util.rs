@@ -130,6 +130,13 @@ impl StartsWithAlphaNum for TsNonNullExpr {
     }
 }
 
+impl StartsWithAlphaNum for TsInstantiation {
+    #[inline]
+    fn starts_with_alpha_num(&self) -> bool {
+        self.expr.starts_with_alpha_num()
+    }
+}
+
 impl StartsWithAlphaNum for PropName {
     #[inline]
     fn starts_with_alpha_num(&self) -> bool {
