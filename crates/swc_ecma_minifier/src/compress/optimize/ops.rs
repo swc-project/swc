@@ -215,13 +215,10 @@ impl Optimizer<'_> {
         // TODO: Handle pure properties.
         let lhs = match &e.left {
             AssignTarget::Simple(e) => match &**e {
-                Expr::Ident(i) => i,
+                SimpleAssignTarget::Ident(i) => i,
                 _ => return,
             },
-            AssignTarget::Pat(p) => match &**p {
-                Pat::Ident(i) => &i.id,
-                _ => return,
-            },
+            _ => return,
         };
 
         let (op, left) = match &mut *e.right {
