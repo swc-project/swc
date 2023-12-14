@@ -882,6 +882,7 @@ define!({
         Ident(BindingIdent),
         Member(MemberExpr),
         SuperProp(SuperPropExpr),
+        Paren(ParenExpr),
         TSAs(TsAsExpr),
         TSSatisfies(TsSatisfiesExpr),
         TSNonNull(TsNonNullExpr),

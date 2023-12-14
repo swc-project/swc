@@ -7,6 +7,7 @@ impl_enum!(
         Ident,
         Member,
         SuperProp,
+        Paren,
         TSAs,
         TSNonNull,
         TSSatisfies,
