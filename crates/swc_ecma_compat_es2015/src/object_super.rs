@@ -293,23 +293,15 @@ impl SuperReplacer {
                 op,
                 right,
             }) => {
-                if let AssignTarget::Simple(expr) = left {
-                    if let SimpleAssignTarget::SuperProp(SuperPropExpr {
-                        obj: Super { span: super_token },
-                        prop,
-                        ..
-                    }) = &mut *expr
-                    {
-                        *n = self.super_to_set_call(
-                            *super_token,
-                            false,
-                            prop,
-                            *op,
-                            right.take(),
-                            false,
-                        );
-                        return;
-                    }
+                if let AssignTarget::Simple(SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                })) = left
+                {
+                    *n =
+                        self.super_to_set_call(*super_token, false, prop, *op, right.take(), false);
+                    return;
                 }
                 left.visit_mut_children_with(self);
                 *n = Expr::Assign(AssignExpr {

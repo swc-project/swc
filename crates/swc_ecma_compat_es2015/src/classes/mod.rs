@@ -335,11 +335,8 @@ where
         } = a
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
-                match left {
-                    AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) => {
-                        c.ident = Some((**ident).clone().private())
-                    }
-                    _ => {}
+                if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
+                    c.ident = Some((**ident).clone().private())
                 }
             }
         }
