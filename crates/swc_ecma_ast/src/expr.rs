@@ -1342,6 +1342,8 @@ pub enum SimpleAssignTarget {
     Invalid(Invalid),
 }
 
+bridge_from!(SimpleAssignTarget, BindingIdent, Ident);
+
 impl SimpleAssignTarget {
     pub fn leftmost(&self) -> Option<&Ident> {
         match self {
