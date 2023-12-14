@@ -12,7 +12,7 @@ use swc_common::{
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, undefined,
     ExprFactory,
@@ -574,7 +574,7 @@ impl VisitMut for Generator {
 
             Expr::Assign(node) if contains_yield(&node.right) => {
                 match node.left.as_mut_simple() {
-                    Some(Expr::Member(left)) => {
+                    Some(SimpleAssignTarget::Member(left)) => {
                         match &mut left.prop {
                             MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
                                 //      a.b = yield;
@@ -624,7 +624,8 @@ impl VisitMut for Generator {
                     }
                 }
                 if node.op != op!("=") {
-                    let left_of_right = self.cache_expression(node.left.take().expect_expr());
+                    let left_of_right =
+                        self.cache_expression(node.left.take().expect_simple().into());
 
                     node.right.visit_mut_with(self);
 
