@@ -286,7 +286,13 @@ impl SizeWithCtxt for SimpleAssignTarget {
 }
 
 impl SizeWithCtxt for AssignTargetPat {
-    fn size(&self, unresolved: SyntaxContext) -> usize {}
+    fn size(&self, unresolved: SyntaxContext) -> usize {
+        match self {
+            AssignTargetPat::Array(a) => 2 + a.elems.size(unresolved),
+            AssignTargetPat::Object(o) => 2 + o.props.size(unresolved),
+            AssignTargetPat::Invalid(_) => unreachable!(),
+        }
+    }
 }
 
 impl SizeWithCtxt for PropName {
