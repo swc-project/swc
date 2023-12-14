@@ -912,7 +912,7 @@ impl Optimizer<'_> {
             }) if left.is_simple() && !op.may_short_circuit() => {
                 if let AssignTarget::Simple(expr) = left {
                     if let SimpleAssignTarget::Member(m) = expr {
-                        if !expr.may_have_side_effects(&self.expr_ctx)
+                        if !m.obj.may_have_side_effects(&self.expr_ctx)
                             && (m.obj.is_object()
                                 || m.obj.is_fn_expr()
                                 || m.obj.is_arrow()
