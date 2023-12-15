@@ -1533,6 +1533,12 @@ where
 
         emit!(n.key);
         if let Some(type_ann) = &n.type_ann {
+            if n.is_optional {
+                punct!("?");
+            }
+            if n.definite {
+                punct!("!");
+            }
             punct!(":");
             space!();
             emit!(type_ann);
@@ -1583,6 +1589,9 @@ where
         emit!(n.key);
 
         if let Some(ty) = &n.type_ann {
+            if n.definite {
+                punct!("!");
+            }
             punct!(":");
             space!();
             emit!(ty);
