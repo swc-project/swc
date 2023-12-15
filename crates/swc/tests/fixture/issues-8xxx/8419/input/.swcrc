@@ -1,0 +1,22 @@
+{
+    "jsc": {
+        "parser": {
+          "syntax": "typescript",
+          "tsx": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic",
+                "refresh": true,
+                "importSource": "@emotion/react"
+            }
+        },
+        "target": "es2015",
+        "loose": true
+    },
+    "isModule": true,
+    "module": {
+      "type": "es6"
+    },
+    "minify": false
+}
