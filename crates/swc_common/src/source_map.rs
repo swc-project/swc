@@ -1331,15 +1331,6 @@ impl SourceMap {
                     if token.has_name() {
                         name = token.get_name();
                     }
-                    if token.get_source().is_some() {
-                        // When we have the original source map, we use the source ids from it
-                        src_id = token.get_raw_token().src_id;
-                        if inline_sources_content && !builder.has_source_contents(src_id) {
-                            if let Some(contents) = token.get_source_view() {
-                                builder.set_source_contents(src_id, Some(contents.source()));
-                            }
-                        }
-                    }
                 } else {
                     continue;
                 }
