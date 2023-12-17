@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.3.101-nightly-20231215.1",
+    "version": "1.3.101-nightly-20231217.1",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -23,18 +23,18 @@
     },
     "napi": {
         "binaryName": "minifier",
-        "triples": {
-            "defaults": true,
-            "additional": [
-                "x86_64-unknown-linux-musl",
-                "i686-pc-windows-msvc",
-                "aarch64-unknown-linux-gnu",
-                "armv7-unknown-linux-gnueabihf",
-                "aarch64-apple-darwin",
-                "aarch64-unknown-linux-musl",
-                "aarch64-pc-windows-msvc"
-            ]
-        }
+        "targets": [
+            "x86_64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "i686-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-apple-darwin",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc"
+        ]
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
@@ -61,7 +61,7 @@
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^3.0.0-alpha.18",
+        "@napi-rs/cli": "^3.0.0-alpha.22",
         "@types/node": "^20.7.1",
         "cross-env": "^7.0.3",
         "typescript": "^5.2.2"
