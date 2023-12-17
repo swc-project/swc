@@ -233,6 +233,9 @@
 - **(es/compat)** Preserve spread in the `generator` pass ([#8401](https://github.com/swc-project/swc/issues/8401)) ([29bec98](https://github.com/swc-project/swc/commit/29bec986471b2782570416698041e3ea92feccac))
 
 
+- **(es/compat)** Preserve comment for arrow body ([#8427](https://github.com/swc-project/swc/issues/8427)) ([56992e3](https://github.com/swc-project/swc/commit/56992e3dccad6f9ce37b70bf77363468c310d875))
+
+
 - **(es/decorators)** Fix a regression about class expressions ([#8102](https://github.com/swc-project/swc/issues/8102)) ([cb4361f](https://github.com/swc-project/swc/commit/cb4361f2931cf222edbb449db6fe2c261c4b735d))
 
 
@@ -720,9 +723,6 @@
 
 
 - **(es/optimization)** Support `default` imports for const modules ([#7604](https://github.com/swc-project/swc/issues/7604)) ([ac02b84](https://github.com/swc-project/swc/commit/ac02b84918932f2d51840b4c4cef9adf460fce40))
-
-
-- **(es/parser)** Implement explicit resource management ([#7322](https://github.com/swc-project/swc/issues/7322)) ([041b491](https://github.com/swc-project/swc/commit/041b49146627000971ef05f60e11f916182c67f1))
 
 
 - **(es/parser)** Disallow tagged tpl in optional chaining ([#7515](https://github.com/swc-project/swc/issues/7515)) ([6c00a24](https://github.com/swc-project/swc/commit/6c00a2422addf0e402bb221e80f6f8acad839b28))
