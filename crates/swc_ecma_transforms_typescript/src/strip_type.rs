@@ -144,6 +144,7 @@ impl VisitMut for StripType {
         prop.readonly = false;
         prop.is_override = false;
         prop.is_optional = false;
+        prop.definite = false;
         prop.accessibility = None;
         prop.visit_mut_children_with(self);
     }
@@ -152,6 +153,7 @@ impl VisitMut for StripType {
         prop.readonly = false;
         prop.is_override = false;
         prop.is_optional = false;
+        prop.definite = false;
         prop.accessibility = None;
         prop.visit_mut_children_with(self);
     }
