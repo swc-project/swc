@@ -24,7 +24,6 @@ macro_rules! impl_visit_mut_fn {
                 BlockStmtOrExpr::Expr(..) => true,
                 _ => false,
             };
-            let body_span = f.body.span();
             let (params, mut body) = self.visit_mut_fn_like(
                 &mut f
                     .params
@@ -39,7 +38,7 @@ macro_rules! impl_visit_mut_fn {
                 &mut match &mut *f.body {
                     BlockStmtOrExpr::BlockStmt(block) => block.take(),
                     BlockStmtOrExpr::Expr(expr) => BlockStmt {
-                        span: body_span,
+                        span: DUMMY_SP,
                         stmts: vec![Stmt::Return(ReturnStmt {
                             span: DUMMY_SP,
                             arg: Some(expr.take()),
