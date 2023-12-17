@@ -2253,11 +2253,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/cli@npm:^3.0.0-alpha.18":
-  version: 3.0.0-alpha.18
-  resolution: "@napi-rs/cli@npm:3.0.0-alpha.18"
+"@napi-rs/cli@npm:^3.0.0-alpha.22":
+  version: 3.0.0-alpha.22
+  resolution: "@napi-rs/cli@npm:3.0.0-alpha.22"
   dependencies:
-    "@napi-rs/cross-toolchain": "npm:^0.0.12"
+    "@napi-rs/cross-toolchain": "npm:^0.0.14"
     "@octokit/rest": "npm:^20.0.2"
     "@tybys/wasm-util": "npm:0.8.0"
     clipanion: "npm:^3.2.1"
@@ -2283,24 +2283,24 @@ __metadata:
   bin:
     napi: dist/cli.js
     napi-raw: cli.mjs
-  checksum: 3218c6d869616a6e43f8d7e15570f032e850bc9669b3be30493d5f66c664d10b6bbef375f4339beafa75d2233917fc300063272d90c15730705e367b0fab5b61
+  checksum: fa68daa98965073f394122bbb4197db8211ea0eeca6aef72523bd343909814dbdbd6e7174ace09e016a12223df75ee0d7335d00b8e04974cc3c0699c82c1c5d0
   languageName: node
   linkType: hard
 
-"@napi-rs/cross-toolchain@npm:^0.0.12":
-  version: 0.0.12
-  resolution: "@napi-rs/cross-toolchain@npm:0.0.12"
+"@napi-rs/cross-toolchain@npm:^0.0.14":
+  version: 0.0.14
+  resolution: "@napi-rs/cross-toolchain@npm:0.0.14"
   dependencies:
     "@napi-rs/lzma": "npm:^1.2.1"
-    "@napi-rs/tar": "npm:^0.0.1"
+    "@napi-rs/tar": "npm:^0.1.0"
     debug: "npm:^4.3.4"
   peerDependencies:
-    "@napi-rs/cross-toolchain-arm64-target-aarch64": ^0.0.12
-    "@napi-rs/cross-toolchain-arm64-target-armv7": ^0.0.12
-    "@napi-rs/cross-toolchain-arm64-target-x86_64": ^0.0.12
-    "@napi-rs/cross-toolchain-x64-target-aarch64": ^0.0.12
-    "@napi-rs/cross-toolchain-x64-target-armv7": ^0.0.12
-    "@napi-rs/cross-toolchain-x64-target-x86_64": ^0.0.12
+    "@napi-rs/cross-toolchain-arm64-target-aarch64": ^0.0.14
+    "@napi-rs/cross-toolchain-arm64-target-armv7": ^0.0.14
+    "@napi-rs/cross-toolchain-arm64-target-x86_64": ^0.0.14
+    "@napi-rs/cross-toolchain-x64-target-aarch64": ^0.0.14
+    "@napi-rs/cross-toolchain-x64-target-armv7": ^0.0.14
+    "@napi-rs/cross-toolchain-x64-target-x86_64": ^0.0.14
   peerDependenciesMeta:
     "@napi-rs/cross-toolchain-arm64-target-aarch64":
       optional: true
@@ -2314,7 +2314,7 @@ __metadata:
       optional: true
     "@napi-rs/cross-toolchain-x64-target-x86_64":
       optional: true
-  checksum: 7631a0d72f4264ab46b8792519284aa9f8dd6bf922a27dd598c4eec398c83730950454a5f36ceb502fe7c018e89d99f2186ed16416d21e35f6d120c2a6ea48fc
+  checksum: 016c3417e3f821d54e71e2e9078795832512134719434ddf9c8d0114610f7099386a6b849806b2b055bd1a8fbfc473fa00f77524411d60499a9a4937cd440c17
   languageName: node
   linkType: hard
 
@@ -2457,114 +2457,114 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-android-arm-eabi@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-android-arm-eabi@npm:0.0.1"
+"@napi-rs/tar-android-arm-eabi@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-android-arm-eabi@npm:0.1.0"
   conditions: os=android & cpu=arm
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-android-arm64@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-android-arm64@npm:0.0.1"
+"@napi-rs/tar-android-arm64@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-android-arm64@npm:0.1.0"
   conditions: os=android & cpu=arm64
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-darwin-arm64@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-darwin-arm64@npm:0.0.1"
+"@napi-rs/tar-darwin-arm64@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-darwin-arm64@npm:0.1.0"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-darwin-x64@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-darwin-x64@npm:0.0.1"
+"@napi-rs/tar-darwin-x64@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-darwin-x64@npm:0.1.0"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-freebsd-x64@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-freebsd-x64@npm:0.0.1"
+"@napi-rs/tar-freebsd-x64@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-freebsd-x64@npm:0.1.0"
   conditions: os=freebsd & cpu=x64
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-linux-arm-gnueabihf@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-linux-arm-gnueabihf@npm:0.0.1"
+"@napi-rs/tar-linux-arm-gnueabihf@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-linux-arm-gnueabihf@npm:0.1.0"
   conditions: os=linux & cpu=arm
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-linux-arm64-gnu@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-linux-arm64-gnu@npm:0.0.1"
+"@napi-rs/tar-linux-arm64-gnu@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-linux-arm64-gnu@npm:0.1.0"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-linux-arm64-musl@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-linux-arm64-musl@npm:0.0.1"
+"@napi-rs/tar-linux-arm64-musl@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-linux-arm64-musl@npm:0.1.0"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-linux-x64-gnu@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-linux-x64-gnu@npm:0.0.1"
+"@napi-rs/tar-linux-x64-gnu@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-linux-x64-gnu@npm:0.1.0"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-linux-x64-musl@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-linux-x64-musl@npm:0.0.1"
+"@napi-rs/tar-linux-x64-musl@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-linux-x64-musl@npm:0.1.0"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-win32-arm64-msvc@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-win32-arm64-msvc@npm:0.0.1"
+"@napi-rs/tar-win32-arm64-msvc@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-win32-arm64-msvc@npm:0.1.0"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-win32-ia32-msvc@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-win32-ia32-msvc@npm:0.0.1"
+"@napi-rs/tar-win32-ia32-msvc@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-win32-ia32-msvc@npm:0.1.0"
   conditions: os=win32 & cpu=ia32
   languageName: node
   linkType: hard
 
-"@napi-rs/tar-win32-x64-msvc@npm:0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar-win32-x64-msvc@npm:0.0.1"
+"@napi-rs/tar-win32-x64-msvc@npm:0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar-win32-x64-msvc@npm:0.1.0"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
-"@napi-rs/tar@npm:^0.0.1":
-  version: 0.0.1
-  resolution: "@napi-rs/tar@npm:0.0.1"
+"@napi-rs/tar@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@napi-rs/tar@npm:0.1.0"
   dependencies:
-    "@napi-rs/tar-android-arm-eabi": "npm:0.0.1"
-    "@napi-rs/tar-android-arm64": "npm:0.0.1"
-    "@napi-rs/tar-darwin-arm64": "npm:0.0.1"
-    "@napi-rs/tar-darwin-x64": "npm:0.0.1"
-    "@napi-rs/tar-freebsd-x64": "npm:0.0.1"
-    "@napi-rs/tar-linux-arm-gnueabihf": "npm:0.0.1"
-    "@napi-rs/tar-linux-arm64-gnu": "npm:0.0.1"
-    "@napi-rs/tar-linux-arm64-musl": "npm:0.0.1"
-    "@napi-rs/tar-linux-x64-gnu": "npm:0.0.1"
-    "@napi-rs/tar-linux-x64-musl": "npm:0.0.1"
-    "@napi-rs/tar-win32-arm64-msvc": "npm:0.0.1"
-    "@napi-rs/tar-win32-ia32-msvc": "npm:0.0.1"
-    "@napi-rs/tar-win32-x64-msvc": "npm:0.0.1"
+    "@napi-rs/tar-android-arm-eabi": "npm:0.1.0"
+    "@napi-rs/tar-android-arm64": "npm:0.1.0"
+    "@napi-rs/tar-darwin-arm64": "npm:0.1.0"
+    "@napi-rs/tar-darwin-x64": "npm:0.1.0"
+    "@napi-rs/tar-freebsd-x64": "npm:0.1.0"
+    "@napi-rs/tar-linux-arm-gnueabihf": "npm:0.1.0"
+    "@napi-rs/tar-linux-arm64-gnu": "npm:0.1.0"
+    "@napi-rs/tar-linux-arm64-musl": "npm:0.1.0"
+    "@napi-rs/tar-linux-x64-gnu": "npm:0.1.0"
+    "@napi-rs/tar-linux-x64-musl": "npm:0.1.0"
+    "@napi-rs/tar-win32-arm64-msvc": "npm:0.1.0"
+    "@napi-rs/tar-win32-ia32-msvc": "npm:0.1.0"
+    "@napi-rs/tar-win32-x64-msvc": "npm:0.1.0"
   dependenciesMeta:
     "@napi-rs/tar-android-arm-eabi":
       optional: true
@@ -2592,7 +2592,7 @@ __metadata:
       optional: true
     "@napi-rs/tar-win32-x64-msvc":
       optional: true
-  checksum: b0a80a08641c05a2fa035cc8e8e642fad0c25e781f292fc541daecedde3921aa96c6ae7785aea733ab6a08983e740dff1b7eefc36546ad939fdaa23e0fab5d70
+  checksum: 5f43aa9866c8252237472b6f6c0cbf61dfb27a16247c4c5d526575833f607c34d1d7379820a9fc1f455c73e8d5306ece40c37b46800d42d8b7ff9971dd2f097b
   languageName: node
   linkType: hard
 
@@ -2921,8 +2921,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.13.13"
     "@babel/preset-typescript": "npm:^7.13.0"
     "@babel/types": "npm:^7.14.0"
-    "@napi-rs/cli": "npm:^3.0.0-alpha.18"
-    "@napi-rs/cross-toolchain": "npm:^0.0.12"
+    "@napi-rs/cli": "npm:^3.0.0-alpha.22"
     "@swc/core": "npm:=1.2.220"
     "@swc/counter": "npm:^0.1.1"
     "@swc/helpers": "npm:^0.5.0"
@@ -2964,7 +2963,7 @@ __metadata:
     swc-plugin-coverage-instrument: "npm:^0.0.12"
     terser: "npm:^5.7.1"
     ts-node: "npm:^10.5.0"
-    typescript: "npm:^4.5.2"
+    typescript: "npm:^5.3.3"
   peerDependencies:
     "@swc/helpers": ^0.5.0
   peerDependenciesMeta:
@@ -8195,23 +8194,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.5.2":
-  version: 4.9.5
-  resolution: "typescript@npm:4.9.5"
+"typescript@npm:^5.3.3":
+  version: 5.3.3
+  resolution: "typescript@npm:5.3.3"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 458f7220ab11e0fc191514cc41be1707645ec9a8c2d609448a448e18c522cef9646f58728f6811185a4c35613dacdf6c98cf8965c88b3541d0288c47291e4300
+  checksum: 6e4e6a14a50c222b3d14d4ea2f729e79f972fa536ac1522b91202a9a65af3605c2928c4a790a4a50aa13694d461c479ba92cedaeb1e7b190aadaa4e4b96b8e18
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^4.5.2#optional!builtin<compat/typescript>":
-  version: 4.9.5
-  resolution: "typescript@patch:typescript@npm%3A4.9.5#optional!builtin<compat/typescript>::version=4.9.5&hash=289587"
+"typescript@patch:typescript@npm%3A^5.3.3#optional!builtin<compat/typescript>":
+  version: 5.3.3
+  resolution: "typescript@patch:typescript@npm%3A5.3.3#optional!builtin<compat/typescript>::version=5.3.3&hash=e012d7"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 5659316360b5cc2d6f5931b346401fa534107b68b60179cf14970e27978f0936c1d5c46f4b5b8175f8cba0430f522b3ce355b4b724c0ea36ce6c0347fab25afd
+  checksum: c93786fcc9a70718ba1e3819bab56064ead5817004d1b8186f8ca66165f3a2d0100fee91fa64c840dcd45f994ca5d615d8e1f566d39a7470fc1e014dbb4cf15d
   languageName: node
   linkType: hard
 
