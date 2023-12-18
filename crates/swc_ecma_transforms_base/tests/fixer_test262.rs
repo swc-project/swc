@@ -355,6 +355,21 @@ impl Fold for Normalizer {
             raw: None,
         }
     }
+
+    fn fold_simple_assign_target(&mut self, n: SimpleAssignTarget) -> SimpleAssignTarget {
+        let n = n.fold_children_with(self);
+
+        match n {
+            SimpleAssignTarget::Paren(ParenExpr { mut expr, .. }) => {
+                while let Expr::Paren(ParenExpr { expr: e, .. }) = *expr {
+                    expr = e;
+                }
+
+                SimpleAssignTarget::try_from(expr).unwrap()
+            }
+            _ => n,
+        }
+    }
 }
 
 fn normalize<T>(node: T) -> T
