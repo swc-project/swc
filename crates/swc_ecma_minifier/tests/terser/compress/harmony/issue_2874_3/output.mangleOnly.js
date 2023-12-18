@@ -2,9 +2,9 @@ function e() {
     return l + n;
 }
 let l, n;
-let o = (o)=>{
+let o = (l)=>{
     l = "A";
-    n = o;
+    n = l;
     console.log(e());
 };
 o(1);

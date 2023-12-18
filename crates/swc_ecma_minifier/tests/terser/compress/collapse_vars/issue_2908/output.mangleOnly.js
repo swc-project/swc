@@ -1,8 +1,8 @@
 var n = 0, o = 0;
-function f(f) {
-    if (1 == f) return;
+function f(o) {
+    if (1 == o) return;
     n++;
-    if (2 == f) o = n;
+    if (2 == o) o = n;
 }
 f(0);
 f(2);

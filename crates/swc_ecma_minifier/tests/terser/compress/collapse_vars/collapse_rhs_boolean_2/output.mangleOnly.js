@@ -3,7 +3,7 @@ var o;
     o = function() {};
     if (/foo/) console.log(typeof o);
 })();
-console.log((function n() {
+console.log((function o() {
     o = [];
     return !1;
 })());

@@ -2,7 +2,7 @@ function o(o) {
     try {
         try {
             throw "foo";
-        } catch (r) {
+        } catch (o) {
             return (o = true);
         }
     } finally{

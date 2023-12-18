@@ -1,5 +1,5 @@
 var n = 0;
-function r(r) {
+function r(n) {
     n = 200;
     return 100;
 }

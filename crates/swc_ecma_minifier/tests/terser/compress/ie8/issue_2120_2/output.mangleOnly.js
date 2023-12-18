@@ -5,7 +5,7 @@ try {
 } catch (a) {
     try {
         throw 0;
-    } catch (c) {
+    } catch (t) {
         if (a) t = "PASS";
     }
 }

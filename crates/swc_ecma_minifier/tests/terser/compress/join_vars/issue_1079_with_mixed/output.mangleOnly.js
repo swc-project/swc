@@ -1,4 +1,4 @@
 var t = "";
-for(let a = 0; a < netmaskBits; ++a){
+for(let t = 0; t < netmaskBits; ++t){
     t += "1";
 }
