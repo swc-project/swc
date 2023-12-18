@@ -3079,8 +3079,8 @@ impl VisitMut for IdentRenamer<'_> {
 }
 
 pub trait QueryRef {
-    fn query_ref(&self, ident: &Ident) -> Option<Expr>;
-    fn query_lhs(&self, ident: &Ident) -> Option<Expr>;
+    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>>;
+    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>>;
     /// when `foo()` is replaced with `bar.baz()`,
     /// should `bar.baz` be indirect call?
     fn should_fix_this(&self, ident: &Ident) -> bool;
@@ -3115,7 +3115,7 @@ where
                 if let Some(expr) = self.query.query_ref(shorthand) {
                     *n = KeyValueProp {
                         key: shorthand.take().into(),
-                        value: Box::new(expr),
+                        value: expr,
                     }
                     .into()
                 }
@@ -3137,7 +3137,7 @@ where
         match n {
             Pat::Ident(BindingIdent { id, .. }) => {
                 if let Some(expr) = self.query.query_lhs(id) {
-                    *n = Pat::Expr(Box::new(expr));
+                    *n = Pat::Expr(expr);
                 }
             }
             _ => n.visit_mut_children_with(self),
@@ -3148,7 +3148,19 @@ where
         match n {
             Expr::Ident(ref_ident) => {
                 if let Some(expr) = self.query.query_ref(ref_ident) {
-                    *n = expr;
+                    *n = *expr;
+                }
+            }
+
+            _ => n.visit_mut_children_with(self),
+        };
+    }
+
+    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        match n {
+            SimpleAssignTarget::Ident(ref_ident) => {
+                if let Some(expr) = self.query.query_ref(ref_ident) {
+                    *n = expr.try_into().unwrap();
                 }
             }
 
