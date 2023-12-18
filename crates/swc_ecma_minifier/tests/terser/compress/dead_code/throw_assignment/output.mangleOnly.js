@@ -53,11 +53,11 @@ function h() {
     }
 }
 function u(u) {
-    var y = 0;
+    var a = 0;
     a = function() {
-        y += u;
-        if (u < 0) throw y;
-        return y;
+        a += u;
+        if (u < 0) throw a;
+        return a;
     };
     [
         o,

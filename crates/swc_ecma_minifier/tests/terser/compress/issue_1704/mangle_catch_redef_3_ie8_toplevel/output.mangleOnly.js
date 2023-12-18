@@ -3,10 +3,10 @@ try {
     throw 0;
 } catch (o) {
     (function() {
-        function c() {
+        function o() {
             o = "FAIL";
         }
-        c(), c();
+        o(), o();
     })();
 }
 console.log(o);

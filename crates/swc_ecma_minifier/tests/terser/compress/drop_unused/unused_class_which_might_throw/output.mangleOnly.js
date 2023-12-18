@@ -3,7 +3,7 @@ try {
     class l {
         static _ = ima_throw_lol();
     }
-} catch (t) {
+} catch (l) {
     l = "PASS";
 }
 console.log(l);

@@ -3,7 +3,7 @@ try {
     class t extends might_throw_lol() {
         constructor(){}
     }
-} catch (o) {
+} catch (t) {
     t = "PASS";
 }
 console.log(t);

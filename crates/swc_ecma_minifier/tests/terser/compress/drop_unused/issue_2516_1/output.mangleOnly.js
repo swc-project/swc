@@ -1,8 +1,8 @@
 function n() {
     function n(n) {
-        a.call(null, n);
+        l.call(null, n);
     }
-    function a(n) {
+    function l(n) {
         var l = 4;
         var a = n || never_called();
         var c = (l - 1) * a;

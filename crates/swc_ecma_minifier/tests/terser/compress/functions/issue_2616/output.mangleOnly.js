@@ -1,11 +1,11 @@
 var n = "FAIL";
 (function() {
-    function o() {
-        function o(o) {
-            (true << o) - 0 / 0 || (n = "PASS");
+    function n() {
+        function n(n) {
+            (true << n) - 0 / 0 || (n = "PASS");
         }
-        o([]);
+        n([]);
     }
-    o();
+    n();
 })();
 console.log(n);
