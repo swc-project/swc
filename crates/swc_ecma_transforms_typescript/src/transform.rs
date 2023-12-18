@@ -232,6 +232,7 @@ impl VisitMut for Transform {
                 .flat_map(|key| {
                     key.init.take().map(|init| {
                         let name = key.name.clone();
+                        dbg!(&name);
                         init.make_assign_to(op!("="), name.try_into().unwrap())
                     })
                 })
@@ -681,6 +682,8 @@ impl Transform {
         debug_assert!(!var_decl.declare);
 
         mutable_export_ids.extend(find_pat_ids(&var_decl));
+
+        dbg!(&mutable_export_ids);
 
         var_decl.decls.visit_mut_with(&mut ExportedPatRewriter {
             id: id.clone().into(),
@@ -1173,6 +1176,7 @@ impl VisitMut for ExportedPatRewriter {
         let mut left = n.name.take();
         left.visit_mut_with(self);
 
+        dbg!(&left);
         n.init = Some(
             right
                 .make_assign_to(op!("="), left.try_into().unwrap())
@@ -1221,13 +1225,13 @@ struct ExportQuery {
 }
 
 impl QueryRef for ExportQuery {
-    fn query_ref(&self, ident: &Ident) -> Option<Expr> {
+    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.export_id_list
             .contains(&ident.to_id())
             .then(|| self.namesapce_id.clone().make_member(ident.clone()).into())
     }
 
-    fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
+    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.query_ref(ident)
     }
 
