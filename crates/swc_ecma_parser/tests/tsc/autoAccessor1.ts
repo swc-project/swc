@@ -6,4 +6,5 @@ class C1 {
     accessor b = 1;
     static accessor c: any;
     static accessor d = 2;
+    accessor e!: string;
 }

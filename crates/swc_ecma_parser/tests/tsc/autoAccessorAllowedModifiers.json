@@ -63,7 +63,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -102,7 +103,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": "public"
+          "accessibility": "public",
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -141,7 +143,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": "private"
+          "accessibility": "private",
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -180,7 +183,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": "protected"
+          "accessibility": "protected",
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -219,7 +223,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -258,7 +263,8 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -297,7 +303,8 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": "public"
+          "accessibility": "public",
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -336,7 +343,8 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": "private"
+          "accessibility": "private",
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -375,7 +383,8 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": "protected"
+          "accessibility": "protected",
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -422,7 +431,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -461,7 +471,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -500,7 +511,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -547,7 +559,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -586,7 +599,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": true
         }
       ],
       "superClass": null,
@@ -652,7 +666,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -691,7 +706,8 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": {
@@ -766,7 +782,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,

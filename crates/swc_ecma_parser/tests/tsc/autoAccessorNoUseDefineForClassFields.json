@@ -56,7 +56,8 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -123,7 +124,8 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -190,7 +192,8 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -230,7 +233,8 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -289,7 +293,8 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -356,7 +361,8 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -461,7 +467,8 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -528,7 +535,8 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "ClassProperty",

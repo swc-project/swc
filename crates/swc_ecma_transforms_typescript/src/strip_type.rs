@@ -158,6 +158,13 @@ impl VisitMut for StripType {
         prop.visit_mut_children_with(self);
     }
 
+    fn visit_mut_auto_accessor(&mut self,n: &mut AutoAccessor) {
+        n.type_ann = None;
+        n.accessibility = None;
+        n.definite = false;
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {
         // n.id.visit_mut_with(self);
     }

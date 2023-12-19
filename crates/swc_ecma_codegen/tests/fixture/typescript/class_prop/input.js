@@ -5,4 +5,5 @@ class MyClass {
     #prop4?: string = "test";
     static readonly prop5!: string;
     readonly #prop6 = "asdf";
+    accessor prop7!: string = "";
 }

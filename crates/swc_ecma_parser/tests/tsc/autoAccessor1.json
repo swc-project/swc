@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 66,
-    "end": 174,
+    "end": 199,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 66,
-        "end": 174,
+        "end": 199,
         "ctxt": 0
       },
       "decorators": [],
@@ -63,7 +63,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -95,7 +96,8 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -134,7 +136,8 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -166,7 +169,48 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
+        },
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 177,
+            "end": 197,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 186,
+              "end": 187,
+              "ctxt": 0
+            },
+            "value": "e",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 188,
+              "end": 196,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 190,
+                "end": 196,
+                "ctxt": 0
+              },
+              "kind": "string"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "definite": true
         }
       ],
       "superClass": null,

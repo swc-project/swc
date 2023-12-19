@@ -1345,6 +1345,15 @@ where
 
         emit!(n.key);
 
+        if let Some(type_ann) = &n.type_ann {
+            if n.definite {
+                punct!("!");
+            }
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
+
         if let Some(init) = &n.value {
             formatting_space!();
             punct!("=");

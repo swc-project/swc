@@ -63,7 +63,8 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "definite": false
         }
       ],
       "superClass": null,
