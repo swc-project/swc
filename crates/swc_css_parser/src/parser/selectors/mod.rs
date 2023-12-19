@@ -495,8 +495,6 @@ where
             tok!("ident") => {
                 let mut value: Ident = self.parse()?;
 
-                value.value = value.value.to_ascii_lowercase();
-
                 return Ok(TypeSelector::TagName(TagNameSelector {
                     span: span!(self, span.lo),
                     name: WqName {
@@ -829,8 +827,6 @@ where
         match cur!(self) {
             tok!("ident") => {
                 let mut value: Ident = self.parse()?;
-
-                value.value = value.value.to_ascii_lowercase();
 
                 Ok(AttributeSelectorModifier {
                     span: span!(self, span.lo),

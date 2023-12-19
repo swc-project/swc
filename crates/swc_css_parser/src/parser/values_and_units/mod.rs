@@ -2027,7 +2027,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2078,7 +2078,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2126,7 +2126,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2174,7 +2174,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2225,7 +2225,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2273,7 +2273,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2424,7 +2424,7 @@ where
 
                 Ok(HexColor {
                     span,
-                    value: value.to_ascii_lowercase(),
+                    value,
                     raw: Some(raw),
                 })
             }
