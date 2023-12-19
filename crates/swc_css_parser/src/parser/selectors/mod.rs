@@ -1059,7 +1059,7 @@ where
                 children: Some(children),
             })
         } else if is!(self, Ident) {
-            let mut name: Ident = self.parse()?;
+            let name: Ident = self.parse()?;
 
             Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
@@ -1181,7 +1181,7 @@ where
                 children: Some(children),
             })
         } else if is!(self, Ident) {
-            let mut name: Ident = self.parse()?;
+            let name: Ident = self.parse()?;
 
             Ok(PseudoElementSelector {
                 span: span!(self, span.lo),

@@ -31,7 +31,7 @@ where
                         if value.starts_with("--") {
                             ColorProfileName::DashedIdent(self.parse()?)
                         } else {
-                            let mut name: Ident = self.parse()?;
+                            let name: Ident = self.parse()?;
 
                             ColorProfileName::Ident(name)
                         }
@@ -1430,7 +1430,7 @@ where
     fn parse(&mut self) -> PResult<MediaType> {
         match cur!(self) {
             _ if !is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only", "layer") => {
-                let mut name: Ident = self.parse()?;
+                let name: Ident = self.parse()?;
 
                 Ok(MediaType::Ident(name))
             }
@@ -1903,7 +1903,7 @@ where
                 Ok(MediaFeatureValue::Number(left))
             }
             tok!("ident") => {
-                let mut name: Ident = self.parse()?;
+                let name: Ident = self.parse()?;
 
                 Ok(MediaFeatureValue::Ident(name))
             }
@@ -2030,7 +2030,7 @@ where
             Token::Ident { value, .. }
                 if matches_eq_ignore_ascii_case!(value, "left", "right", "first", "blank") =>
             {
-                let mut name: Ident = self.parse()?;
+                let name: Ident = self.parse()?;
 
                 name
             }
@@ -2511,7 +2511,7 @@ where
                 Ok(SizeFeatureValue::Number(left))
             }
             tok!("ident") => {
-                let mut name: Ident = self.parse()?;
+                let name: Ident = self.parse()?;
 
                 Ok(SizeFeatureValue::Ident(name))
             }
