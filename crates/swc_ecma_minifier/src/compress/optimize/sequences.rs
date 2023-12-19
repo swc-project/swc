@@ -1708,10 +1708,9 @@ impl Optimizer<'_> {
 
                                 let res = self.merge_sequential_expr(a, &mut b_expr);
 
-                                *b_left = match *b_expr {
-                                    Expr::Ident(i) => SimpleAssignTarget::Ident(i.into()),
-                                    Expr::Member(m) => SimpleAssignTarget::Member(m),
-                                    _ => unreachable!(),
+                                *b_left = match SimpleAssignTarget::try_from(b_expr) {
+                                    Ok(v) => v,
+                                    Err(err) => unreachable!("{err:?}"),
                                 };
                                 if res? {
                                     return Ok(true);
