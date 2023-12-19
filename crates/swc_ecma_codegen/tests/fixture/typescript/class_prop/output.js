@@ -6,4 +6,8 @@ class MyClass {
     static readonly prop5!: string;
     readonly #prop6 = "asdf";
     accessor prop7!: string = "";
+    public accessor prop8 = "";
+    public static accessor prop8 = "";
+    public prop9: string;
+    private static prop10: string;
 }

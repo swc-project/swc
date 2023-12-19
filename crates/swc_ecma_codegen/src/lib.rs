@@ -1335,6 +1335,8 @@ where
     fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
+        self.emit_accessibility(n.accessibility)?;
+
         if n.is_static {
             keyword!("static");
             space!();
@@ -1581,9 +1583,7 @@ where
             emit!(dec)
         }
 
-        if n.accessibility != Some(Accessibility::Public) {
-            self.emit_accessibility(n.accessibility)?;
-        }
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
