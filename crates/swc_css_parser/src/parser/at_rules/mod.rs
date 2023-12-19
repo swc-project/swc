@@ -1080,7 +1080,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -1546,7 +1546,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -1578,7 +1578,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -1610,7 +1610,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -2170,7 +2170,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -2202,7 +2202,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -2234,7 +2234,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
-                let mut ident: Ident = self.parse()?;
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }

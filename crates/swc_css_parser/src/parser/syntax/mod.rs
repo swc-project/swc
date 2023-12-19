@@ -616,7 +616,7 @@ where
 
             DeclarationName::DashedIdent(ident)
         } else {
-            let mut ident: Ident = self.parse()?;
+            let ident: Ident = self.parse()?;
 
             DeclarationName::Ident(ident)
         };

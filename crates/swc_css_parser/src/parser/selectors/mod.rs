@@ -892,9 +892,7 @@ where
                         "dir" => {
                             self.input.skip_ws();
 
-                            let mut ident: Ident = self.parse()?;
-
-                            ident.value = ident.value.to_ascii_lowercase();
+                            let ident: Ident = self.parse()?;
 
                             self.input.skip_ws();
 
