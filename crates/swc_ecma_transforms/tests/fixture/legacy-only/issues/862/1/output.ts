@@ -1,10 +1,10 @@
 export class Product extends TimestampedEntity {
-    id!: string;
-    price!: number;
-    type!: ProductType;
-    productEntityId!: string;
-    /* ANCHOR: Relations ------------------------------------------------------ */ orders!: Order[];
-    discounts!: Discount[];
+    public id!: string;
+    public price!: number;
+    public type!: ProductType;
+    public productEntityId!: string;
+    /* ANCHOR: Relations ------------------------------------------------------ */ public orders!: Order[];
+    public discounts!: Discount[];
 }
 _ts_decorate([
     PrimaryGeneratedColumn("uuid")
