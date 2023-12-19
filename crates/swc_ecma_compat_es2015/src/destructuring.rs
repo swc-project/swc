@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_common::impl_visit_mut_fn;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
@@ -547,6 +547,42 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
+impl AssignFolder {
+    pub fn handle_assign_pat(
+        &mut self,
+        span: Span,
+        mut pat: AssignPat,
+        right: &mut Box<Expr>,
+    ) -> Box<Expr> {
+        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+
+        let mut exprs = vec![Box::new(
+            AssignExpr {
+                span,
+                left: ref_ident.clone().into(),
+                op: op!("="),
+                right: right.take(),
+            }
+            .into(),
+        )];
+
+        let mut assign_cond_expr = Expr::Assign(AssignExpr {
+            span,
+            left: pat.left.take().try_into().unwrap(),
+            op: op!("="),
+            right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
+        });
+
+        assign_cond_expr.visit_mut_with(self);
+        exprs.push(Box::new(assign_cond_expr));
+
+        Box::new(Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        }))
+    }
+}
+
 #[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
@@ -913,34 +949,7 @@ impl VisitMut for AssignFolder {
                         exprs,
                     });
                 }
-                // Pat::Assign(pat) => {
-                //     let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
-                //     let mut exprs = vec![Box::new(
-                //         AssignExpr {
-                //             span: *span,
-                //             left: ref_ident.clone().into(),
-                //             op: op!("="),
-                //             right: right.take(),
-                //         }
-                //         .into(),
-                //     )];
-
-                //     let mut assign_cond_expr = Expr::Assign(AssignExpr {
-                //         span: *span,
-                //         left: pat.left.take().try_into().unwrap(),
-                //         op: op!("="),
-                //         right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
-                //     });
-
-                //     assign_cond_expr.visit_mut_with(self);
-                //     exprs.push(Box::new(assign_cond_expr));
-
-                //     *expr = Expr::Seq(SeqExpr {
-                //         span: DUMMY_SP,
-                //         exprs,
-                //     });
-                // }
                 AssignTargetPat::Invalid(..) => unreachable!(),
             }
         };
