@@ -553,7 +553,7 @@ impl AssignFolder {
         span: Span,
         mut pat: AssignPat,
         right: &mut Box<Expr>,
-    ) -> Box<Expr> {
+    ) -> Expr {
         let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
         let mut exprs = vec![Box::new(
@@ -576,10 +576,10 @@ impl AssignFolder {
         assign_cond_expr.visit_mut_with(self);
         exprs.push(Box::new(assign_cond_expr));
 
-        Box::new(Expr::Seq(SeqExpr {
+        Expr::Seq(SeqExpr {
             span: DUMMY_SP,
             exprs,
-        }))
+        })
     }
 }
 
@@ -677,19 +677,24 @@ impl VisitMut for AssignFolder {
                                             .expect("pattern after rest element?")
                                             .next()
                                             .and_then(|v| v);
-                                        let right = e
+                                        let mut right = e
                                             .map(|e| {
                                                 debug_assert_eq!(e.spread, None);
                                                 e.expr
                                             })
                                             .unwrap_or_else(|| undefined(p.span()));
 
-                                        let mut expr = Expr::Assign(AssignExpr {
-                                            span: p.span(),
-                                            left: p.take().try_into().unwrap(),
-                                            op: op!("="),
-                                            right,
-                                        });
+                                        let p = p.take();
+                                        let mut expr = if let Pat::Assign(pat) = p {
+                                            self.handle_assign_pat(*span, pat, &mut right)
+                                        } else {
+                                            Expr::Assign(AssignExpr {
+                                                span: p.span(),
+                                                left: p.try_into().unwrap(),
+                                                op: op!("="),
+                                                right,
+                                            })
+                                        };
 
                                         self.visit_mut_expr(&mut expr);
 
