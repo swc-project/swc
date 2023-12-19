@@ -3171,7 +3171,7 @@ where
     fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
         match n {
             SimpleAssignTarget::Ident(ref_ident) => {
-                if let Some(expr) = self.query.query_ref(ref_ident) {
+                if let Some(expr) = self.query.query_lhs(ref_ident) {
                     *n = expr.try_into().unwrap();
                 }
             }
