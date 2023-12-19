@@ -882,16 +882,23 @@ impl VisitMut for AssignFolder {
                             ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
                                 let computed = matches!(key, PropName::Computed(..));
 
-                                let mut expr = Expr::Assign(AssignExpr {
-                                    span,
-                                    left: value.take().try_into().unwrap(),
-                                    op: op!("="),
-                                    right: Box::new(make_ref_prop_expr(
-                                        &ref_ident,
-                                        Box::new(prop_name_to_expr(key.take())),
-                                        computed,
-                                    )),
-                                });
+                                let mut right = Box::new(make_ref_prop_expr(
+                                    &ref_ident,
+                                    Box::new(prop_name_to_expr(key.take())),
+                                    computed,
+                                ));
+                                let value = value.take();
+
+                                let mut expr = if let Pat::Assign(pat) = *value {
+                                    self.handle_assign_pat(span, pat, &mut right)
+                                } else {
+                                    Expr::Assign(AssignExpr {
+                                        span,
+                                        left: value.try_into().unwrap(),
+                                        op: op!("="),
+                                        right,
+                                    })
+                                };
 
                                 expr.visit_mut_with(self);
                                 exprs.push(Box::new(expr));
