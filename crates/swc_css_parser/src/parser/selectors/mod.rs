@@ -1061,8 +1061,6 @@ where
         } else if is!(self, Ident) {
             let mut name: Ident = self.parse()?;
 
-            name.value = name.value.to_ascii_lowercase();
-
             Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
                 name,
@@ -1184,8 +1182,6 @@ where
             })
         } else if is!(self, Ident) {
             let mut name: Ident = self.parse()?;
-
-            name.value = name.value.to_ascii_lowercase();
 
             Ok(PseudoElementSelector {
                 span: span!(self, span.lo),

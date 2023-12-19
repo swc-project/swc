@@ -33,8 +33,6 @@ where
                         } else {
                             let mut name: Ident = self.parse()?;
 
-                            name.value = name.value.to_ascii_lowercase();
-
                             ColorProfileName::Ident(name)
                         }
                     }
@@ -1434,8 +1432,6 @@ where
             _ if !is_one_of_case_insensitive_ident!(self, "not", "and", "or", "only", "layer") => {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase();
-
                 Ok(MediaType::Ident(name))
             }
             _ => {
@@ -1909,8 +1905,6 @@ where
             tok!("ident") => {
                 let mut name: Ident = self.parse()?;
 
-                name.value = name.value.to_ascii_lowercase();
-
                 Ok(MediaFeatureValue::Ident(name))
             }
             tok!("dimension") => Ok(MediaFeatureValue::Dimension(self.parse()?)),
@@ -2037,8 +2031,6 @@ where
                 if matches_eq_ignore_ascii_case!(value, "left", "right", "first", "blank") =>
             {
                 let mut name: Ident = self.parse()?;
-
-                name.value = name.value.to_ascii_lowercase();
 
                 name
             }
@@ -2520,8 +2512,6 @@ where
             }
             tok!("ident") => {
                 let mut name: Ident = self.parse()?;
-
-                name.value = name.value.to_ascii_lowercase();
 
                 Ok(SizeFeatureValue::Ident(name))
             }
