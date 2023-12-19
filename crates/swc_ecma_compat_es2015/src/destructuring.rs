@@ -1227,6 +1227,10 @@ struct DestructuringVisitor {
 impl Visit for DestructuringVisitor {
     noop_visit_type!();
 
+    fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
+        self.found = true;
+    }
+
     fn visit_pat(&mut self, node: &Pat) {
         node.visit_children_with(self);
         match *node {
