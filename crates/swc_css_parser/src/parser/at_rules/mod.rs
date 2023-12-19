@@ -902,9 +902,7 @@ where
     fn parse(&mut self) -> PResult<KeyframeSelector> {
         match cur!(self) {
             tok!("ident") => {
-                let mut ident: Ident = self.parse()?;
-
-                ident.value = ident.value.to_ascii_lowercase();
+                let ident: Ident = self.parse()?;
 
                 if ident.value != "from" && ident.value != "to" {
                     return Err(Error::new(
@@ -1018,9 +1016,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
-                let mut ident: Ident = self.parse()?;
-
-                ident.value = ident.value.to_ascii_lowercase();
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -1052,9 +1048,7 @@ where
         let span = self.input.cur_span();
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
-                let mut ident: Ident = self.parse()?;
-
-                ident.value = ident.value.to_ascii_lowercase();
+                let ident: Ident = self.parse()?;
 
                 Some(ident)
             }
@@ -1087,8 +1081,6 @@ where
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
-
-                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -1556,8 +1548,6 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase();
-
                 Some(ident)
             }
             _ => {
@@ -1590,8 +1580,6 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase();
-
                 Some(ident)
             }
             _ => {
@@ -1623,8 +1611,6 @@ where
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
-
-                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }
@@ -2186,8 +2172,6 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("not") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase();
-
                 Some(ident)
             }
             _ => {
@@ -2220,8 +2204,6 @@ where
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("and") => {
                 let mut ident: Ident = self.parse()?;
 
-                ident.value = ident.value.to_ascii_lowercase();
-
                 Some(ident)
             }
             _ => {
@@ -2253,8 +2235,6 @@ where
         let keyword = match cur!(self) {
             Token::Ident { value, .. } if value.as_ref().eq_ignore_ascii_case("or") => {
                 let mut ident: Ident = self.parse()?;
-
-                ident.value = ident.value.to_ascii_lowercase();
 
                 Some(ident)
             }

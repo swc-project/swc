@@ -618,8 +618,6 @@ where
         } else {
             let mut ident: Ident = self.parse()?;
 
-            ident.value = ident.value.to_ascii_lowercase();
-
             DeclarationName::Ident(ident)
         };
         let mut declaration = Declaration {
