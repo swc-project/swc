@@ -279,12 +279,77 @@ impl FnEnvHoister {
 impl VisitMut for FnEnvHoister {
     noop_visit_mut_type!();
 
-    fn visit_mut_pat(&mut self, n: &mut Pat) {
+    fn visit_mut_assign_target_pat(&mut self, n: &mut AssignTargetPat) {
         let in_pat = self.in_pat;
         self.in_pat = true;
         n.visit_mut_children_with(self);
         self.in_pat = in_pat;
     }
+
+    fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
+        b.visit_mut_children_with(self);
+
+        // we will not vist into fn/class so it's fine
+        if !self.extra_ident.is_empty() {
+            b.stmts.insert(
+                0,
+                Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    kind: VarDeclKind::Var,
+                    span: DUMMY_SP,
+                    decls: self
+                        .extra_ident
+                        .take()
+                        .into_iter()
+                        .map(|ident| VarDeclarator {
+                            span: DUMMY_SP,
+                            name: ident.into(),
+                            init: None,
+                            definite: false,
+                        })
+                        .collect(),
+                    declare: false,
+                }))),
+            )
+        }
+    }
+
+    fn visit_mut_block_stmt_or_expr(&mut self, b: &mut BlockStmtOrExpr) {
+        b.visit_mut_children_with(self);
+
+        // we will not vist into fn/class so it's fine
+        if !self.extra_ident.is_empty() {
+            if let BlockStmtOrExpr::Expr(e) = b {
+                *b = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts: vec![
+                        Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                            kind: VarDeclKind::Var,
+                            span: DUMMY_SP,
+                            decls: self
+                                .extra_ident
+                                .take()
+                                .into_iter()
+                                .map(|ident| VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: ident.into(),
+                                    init: None,
+                                    definite: false,
+                                })
+                                .collect(),
+                            declare: false,
+                        }))),
+                        Stmt::Return(ReturnStmt {
+                            span: e.span(),
+                            arg: Some(e.take()),
+                        }),
+                    ],
+                })
+            }
+        }
+    }
+
+    /// Don't recurse into constructor
+    fn visit_mut_class(&mut self, _: &mut Class) {}
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
         match e {
@@ -490,71 +555,6 @@ impl VisitMut for FnEnvHoister {
         }
     }
 
-    fn visit_mut_block_stmt(&mut self, b: &mut BlockStmt) {
-        b.visit_mut_children_with(self);
-
-        // we will not vist into fn/class so it's fine
-        if !self.extra_ident.is_empty() {
-            b.stmts.insert(
-                0,
-                Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    kind: VarDeclKind::Var,
-                    span: DUMMY_SP,
-                    decls: self
-                        .extra_ident
-                        .take()
-                        .into_iter()
-                        .map(|ident| VarDeclarator {
-                            span: DUMMY_SP,
-                            name: ident.into(),
-                            init: None,
-                            definite: false,
-                        })
-                        .collect(),
-                    declare: false,
-                }))),
-            )
-        }
-    }
-
-    fn visit_mut_block_stmt_or_expr(&mut self, b: &mut BlockStmtOrExpr) {
-        b.visit_mut_children_with(self);
-
-        // we will not vist into fn/class so it's fine
-        if !self.extra_ident.is_empty() {
-            if let BlockStmtOrExpr::Expr(e) = b {
-                *b = BlockStmtOrExpr::BlockStmt(BlockStmt {
-                    span: DUMMY_SP,
-                    stmts: vec![
-                        Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                            kind: VarDeclKind::Var,
-                            span: DUMMY_SP,
-                            decls: self
-                                .extra_ident
-                                .take()
-                                .into_iter()
-                                .map(|ident| VarDeclarator {
-                                    span: DUMMY_SP,
-                                    name: ident.into(),
-                                    init: None,
-                                    definite: false,
-                                })
-                                .collect(),
-                            declare: false,
-                        }))),
-                        Stmt::Return(ReturnStmt {
-                            span: e.span(),
-                            arg: Some(e.take()),
-                        }),
-                    ],
-                })
-            }
-        }
-    }
-
-    /// Don't recurse into constructor
-    fn visit_mut_class(&mut self, _: &mut Class) {}
-
     /// Don't recurse into fn
     fn visit_mut_function(&mut self, _: &mut Function) {}
 
@@ -565,13 +565,20 @@ impl VisitMut for FnEnvHoister {
         }
     }
 
-    fn visit_mut_setter_prop(&mut self, p: &mut SetterProp) {
+    fn visit_mut_method_prop(&mut self, p: &mut MethodProp) {
         if p.key.is_computed() {
             p.key.visit_mut_with(self);
         }
     }
 
-    fn visit_mut_method_prop(&mut self, p: &mut MethodProp) {
+    fn visit_mut_pat(&mut self, n: &mut Pat) {
+        let in_pat = self.in_pat;
+        self.in_pat = true;
+        n.visit_mut_children_with(self);
+        self.in_pat = in_pat;
+    }
+
+    fn visit_mut_setter_prop(&mut self, p: &mut SetterProp) {
         if p.key.is_computed() {
             p.key.visit_mut_with(self);
         }
