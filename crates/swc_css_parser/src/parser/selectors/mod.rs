@@ -493,7 +493,7 @@ where
 
         match cur!(self) {
             tok!("ident") => {
-                let mut value: Ident = self.parse()?;
+                let value: Ident = self.parse()?;
 
                 return Ok(TypeSelector::TagName(TagNameSelector {
                     span: span!(self, span.lo),
@@ -826,7 +826,7 @@ where
 
         match cur!(self) {
             tok!("ident") => {
-                let mut value: Ident = self.parse()?;
+                let value: Ident = self.parse()?;
 
                 Ok(AttributeSelectorModifier {
                     span: span!(self, span.lo),
@@ -988,7 +988,7 @@ where
                             self.input.skip_ws();
 
                             if is!(self, "ident") {
-                                let mut of: Ident = self.parse()?;
+                                let of: Ident = self.parse()?;
 
                                 children.push(PseudoClassSelectorChildren::Ident(of));
 
@@ -1200,7 +1200,7 @@ where
             Token::Ident { value, .. }
                 if matches_eq_ignore_ascii_case!(value, "odd", "even") =>
                 {
-                    let mut ident: Ident = self.parse()?;
+                    let ident: Ident = self.parse()?;
 
 
                     Ok(AnPlusB::Ident(ident))
