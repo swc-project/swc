@@ -903,8 +903,9 @@ where
         match cur!(self) {
             tok!("ident") => {
                 let ident: Ident = self.parse()?;
+                let lower = ident.value.to_ascii_lowercase();
 
-                if ident.value != "from" && ident.value != "to" {
+                if lower != "from" && lower != "to" {
                     return Err(Error::new(
                         ident.span,
                         ErrorKind::Expected("'from' or 'to' idents"),
