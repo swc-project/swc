@@ -1,7 +1,8 @@
 use std::f64::consts::PI;
 
 use swc_css_ast::{
-    matches_eq, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Number, Percentage,
+    matches_eq_ignore_ascii_case, AbsoluteColorBase, AlphaValue, Angle, ComponentValue, Number,
+    Percentage,
 };
 use swc_css_utils::{clamp_unit_f64, round_alpha};
 
@@ -10,8 +11,8 @@ use crate::compiler::Compiler;
 impl Compiler {
     pub(crate) fn process_rgb_and_hsl(&mut self, n: &mut AbsoluteColorBase) {
         if let AbsoluteColorBase::Function(function) = n {
-            let is_rgb = matches_eq!(function.name, "rgb", "rgba");
-            let is_hsl = matches_eq!(function.name, "hsl", "hsla");
+            let is_rgb = matches_eq_ignore_ascii_case!(function.name.as_str(), "rgb", "rgba");
+            let is_hsl = matches_eq_ignore_ascii_case!(function.name.as_str(), "hsl", "hsla");
 
             if is_rgb {
                 function.value = function
