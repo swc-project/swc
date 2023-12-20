@@ -2620,7 +2620,7 @@ where
 
                 let name = Ident {
                     span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value: function_name.to_ascii_lowercase(),
+                    value: function_name,
                     raw: Some(raw_function_name),
                 };
 
@@ -2905,7 +2905,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    start.push(c.to_ascii_lowercase());
+                    start.push(c);
 
                     next = chars.next();
                 }
@@ -3005,7 +3005,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    end.push(c.to_ascii_lowercase());
+                    end.push(c);
                     next = chars.next();
                 }
                 _ => {

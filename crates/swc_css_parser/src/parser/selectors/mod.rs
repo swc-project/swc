@@ -990,8 +990,6 @@ where
                             if is!(self, "ident") {
                                 let mut of: Ident = self.parse()?;
 
-                                of.value = of.value.to_ascii_lowercase();
-
                                 children.push(PseudoClassSelectorChildren::Ident(of));
 
                                 self.input.skip_ws();
@@ -1204,7 +1202,6 @@ where
                 {
                     let mut ident: Ident = self.parse()?;
 
-                    ident.value = ident.value.to_ascii_lowercase();
 
                     Ok(AnPlusB::Ident(ident))
                 }
