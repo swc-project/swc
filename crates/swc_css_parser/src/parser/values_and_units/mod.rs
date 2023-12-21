@@ -380,7 +380,7 @@ where
                 let mut has_variable = false;
                 let mut is_legacy_syntax = true;
 
-                match cur!(self) {
+                match dbg!(cur!(self)) {
                     Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, "from") => {
                         is_legacy_syntax = false;
 
@@ -562,6 +562,7 @@ where
                         self.input.skip_ws();
                     }
                     "hsl" | "hsla" => {
+                        dbg!("percentage_or_none");
                         let percentage_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
                                 tok!("percentage") => {
@@ -726,8 +727,11 @@ where
                     }
                 }
 
-                if is!(self, ",") && is_legacy_syntax {
-                    values.push(ComponentValue::Delimiter(self.parse()?));
+                dbg!(cur!(self));
+                if (is!(self, ",") || has_variable) && is_legacy_syntax {
+                    if is!(self, ",") {
+                        values.push(ComponentValue::Delimiter(self.parse()?));
+                    }
 
                     self.input.skip_ws();
 
