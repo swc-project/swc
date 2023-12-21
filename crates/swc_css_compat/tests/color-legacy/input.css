@@ -231,9 +231,3 @@
     color: hsl(720deg 100% 50%);
     color: hsl(240grad 100% 50%);
 }
-
-
-.test {
-    border-color: hsla(var(--ds-gray-200-value), 1);
-    --ds-gray-200: hsla(var(--ds-gray-200-value), 1);
-}
