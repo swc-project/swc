@@ -24,7 +24,7 @@ concurrent = [
   "swc_ecma_minifier/concurrent",
 ]
 
-debug = ["swc_ecma_visit/debug"]
+debug = ["swc_ecma_visit/debug", "swc_ecma_minifier/debug"]
 default = ["es3"]
 es3 = []
 node = ["napi", "napi-derive", "swc_compiler_base/node"]
