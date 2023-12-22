@@ -72,6 +72,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isOverride": false,
           "definite": false
         },
         {
@@ -113,6 +114,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isOverride": false,
           "definite": false
         },
         {
@@ -161,6 +163,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isOverride": false,
           "definite": false
         },
         {
@@ -202,6 +205,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isOverride": false,
           "definite": false
         },
         {

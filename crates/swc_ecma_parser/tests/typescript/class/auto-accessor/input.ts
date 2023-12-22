@@ -1,4 +1,4 @@
-class C1 {
+class C1 extends B {
     accessor a: any;
     accessor b = 1;
     static accessor c: any;
@@ -7,4 +7,5 @@ class C1 {
     protected static accessor f: number;
     private accessor g!: string;
     public accessor h = 1;
+    public override accessor i = 10;
 }

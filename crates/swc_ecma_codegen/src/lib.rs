@@ -1360,6 +1360,11 @@ where
             space!();
         }
 
+        if n.is_override {
+            keyword!("override");
+            space!();
+        }
+
         keyword!("accessor");
         space!();
 

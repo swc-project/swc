@@ -64,6 +64,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isOverride": false,
           "definite": false
         }
       ],
