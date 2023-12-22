@@ -5,7 +5,7 @@ impl Context {
     pub(crate) fn is_reserved(self, word: &Word) -> bool {
         match *word {
             Word::Keyword(Keyword::Let) => self.strict,
-            Word::Keyword(Keyword::Await) => self.in_async || self.strict,
+            Word::Keyword(Keyword::Await) => self.in_async || self.in_static_block || self.strict,
             Word::Keyword(Keyword::Yield) => self.in_generator || self.strict,
 
             Word::Null
@@ -70,7 +70,7 @@ impl Context {
             //     let await = 1;
             // }
             // ```
-            "await" => self.in_async || self.module,
+            "await" => self.in_async || self.in_static_block || self.module,
             "yield" => self.in_generator || self.strict,
 
             "null" | "true" | "false" | "break" | "case" | "catch" | "continue" | "debugger"

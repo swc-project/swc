@@ -394,6 +394,9 @@ pub struct Context {
     /// keyword.
     in_generator: bool,
 
+    /// If true, await is treated as a keyword.
+    in_static_block: bool,
+
     is_continue_allowed: bool,
     is_break_allowed: bool,
 
