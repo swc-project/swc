@@ -483,7 +483,7 @@ where
 
         if let Some(spec) = namespace_spec {
             emit!(spec);
-             if has_named_specs {
+            if has_named_specs {
                 punct!(",");
                 formatting_space!();
             }
