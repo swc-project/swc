@@ -1,4 +1,4 @@
-class Test {
+class Test extends B {
     accessor a!: string;
-    public accessor b: string = "";
+    public override accessor b: string = "";
 }

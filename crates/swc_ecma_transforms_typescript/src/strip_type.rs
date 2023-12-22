@@ -162,6 +162,7 @@ impl VisitMut for StripType {
         n.type_ann = None;
         n.accessibility = None;
         n.definite = false;
+        n.is_override = false;
         n.visit_mut_children_with(self);
     }
 
