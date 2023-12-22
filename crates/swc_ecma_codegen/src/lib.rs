@@ -415,6 +415,11 @@ where
 
         srcmap!(node, true);
 
+        if node.is_type_only {
+            keyword!("type");
+            space!();
+        }
+
         if let Some(exported) = &node.exported {
             emit!(node.orig);
             space!();
@@ -470,10 +475,15 @@ where
 
         keyword!("export");
 
+        if node.type_only {
+            space!();
+            keyword!("type");
+        }
         formatting_space!();
+
         if let Some(spec) = namespace_spec {
             emit!(spec);
-            if has_named_specs {
+             if has_named_specs {
                 punct!(",");
                 formatting_space!();
             }
@@ -521,7 +531,15 @@ where
         srcmap!(node, true);
 
         keyword!("export");
-        formatting_space!();
+
+        if node.type_only {
+            space!();
+            keyword!("type");
+            space!();
+        } else {
+            formatting_space!();
+        }
+
         punct!("*");
         formatting_space!();
         keyword!("from");
