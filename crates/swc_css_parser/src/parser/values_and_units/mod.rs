@@ -726,8 +726,10 @@ where
                     }
                 }
 
-                if is!(self, ",") && is_legacy_syntax {
-                    values.push(ComponentValue::Delimiter(self.parse()?));
+                if (is!(self, ",") || has_variable) && is_legacy_syntax {
+                    if is!(self, ",") {
+                        values.push(ComponentValue::Delimiter(self.parse()?));
+                    }
 
                     self.input.skip_ws();
 

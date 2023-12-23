@@ -44,6 +44,9 @@
 - **(css/modules)** Fix handling of `:global()` selector ([#8219](https://github.com/swc-project/swc/issues/8219)) ([02cd7c2](https://github.com/swc-project/swc/commit/02cd7c2608758476545aadf62e01f2d74ed486f2))
 
 
+- **(css/parser)** Fix parsing of `hsla(var(--foo), 1)` ([#8443](https://github.com/swc-project/swc/issues/8443)) ([d89b60a](https://github.com/swc-project/swc/commit/d89b60a000e6a40a6d624ba3903743f9c80170d1))
+
+
 - **(es)** Init filesystem cache only if plugin exists ([#7436](https://github.com/swc-project/swc/issues/7436)) ([786cf3a](https://github.com/swc-project/swc/commit/786cf3a10ffe5e2990c5473062ea42771b769124))
 
 
@@ -126,6 +129,9 @@
 
 
 - **(es/codegen)** Fix codegen of ts specific syntax in class props ([#8426](https://github.com/swc-project/swc/issues/8426)) ([7566ddf](https://github.com/swc-project/swc/commit/7566ddf0b7802650f0f25ca7f7c607f58faa4972))
+
+
+- **(es/codegen)** Fix codegen of type-only export declarations ([#8447](https://github.com/swc-project/swc/issues/8447)) ([65dec90](https://github.com/swc-project/swc/commit/65dec905c076c8e95341ada23b140a538d37abce))
 
 
 - **(es/compat)** Mark reserved function names private ([#7298](https://github.com/swc-project/swc/issues/7298)) ([dba78a0](https://github.com/swc-project/swc/commit/dba78a0031b97a4c152b506ae2072438cdba92b2))
@@ -749,9 +755,6 @@
 - **(es/typescript)** Add `ts_enum_is_mutable` to disable enum inlining ([#8115](https://github.com/swc-project/swc/issues/8115)) ([57b171d](https://github.com/swc-project/swc/commit/57b171dcbe55a8d285d5bc477844b24fdf48835a))
 
 
-- **(plugin)** Add versioned wrapper struct ([#7382](https://github.com/swc-project/swc/issues/7382)) ([bba1fad](https://github.com/swc-project/swc/commit/bba1fad35ceda0011e0cd427c670209ac4eb6ed2))
-
-
 - **(plugin/runner)** Enable in-memory precompiled module cache ([#7420](https://github.com/swc-project/swc/issues/7420)) ([f8fe365](https://github.com/swc-project/swc/commit/f8fe365c3b888bbe49e011a616b6926c9ef24fa2))
 
 
@@ -765,9 +768,6 @@
 
 
 - **(swc-info)** Add a CLI to help issue reporting ([#7871](https://github.com/swc-project/swc/issues/7871)) ([d6952ea](https://github.com/swc-project/swc/commit/d6952ea687beb5b9aff1eae26076fa98ac94818b))
-
-
-- **(swc_core)** Expose plugin proxy to the host env ([#7391](https://github.com/swc-project/swc/issues/7391)) ([05b4c11](https://github.com/swc-project/swc/commit/05b4c1149781ab1f69a93a54a462413af2603a3a))
 
 
 - **(swc_core)** Expose `visit/serde` as serde feature ([#7722](https://github.com/swc-project/swc/issues/7722)) ([2bc9637](https://github.com/swc-project/swc/commit/2bc96373b736ce4d81336c1c0340a1d4f7d7f4b0))
