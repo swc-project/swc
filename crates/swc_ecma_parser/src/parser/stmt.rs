@@ -2409,6 +2409,22 @@ export default function waitUntil(callback, options = {}) {
 
     #[test]
     #[should_panic(expected = "Expected ident")]
+    fn class_static_blocks_with_await_in_nested_class() {
+        let src = "class Foo{
+            static {
+                function foo() {
+                    class Foo {
+                        static {
+                            var await = 'bar';
+                        }
+                    }
+                }
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+    }
+
+    #[test]
     fn class_static_blocks_with_await_in_fn() {
         let src = "class Foo{
             static {

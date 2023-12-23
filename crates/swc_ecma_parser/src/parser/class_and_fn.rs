@@ -1387,6 +1387,7 @@ impl<I: Tokens> Parser<I> {
                 true
             },
             in_function: true,
+            in_static_block: false,
             is_break_allowed: false,
             is_continue_allowed: false,
             ..self.ctx()
