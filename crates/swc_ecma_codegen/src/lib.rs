@@ -1466,6 +1466,12 @@ where
                 formatting_space!();
             }
         }
+
+        if n.is_override {
+            keyword!("override");
+            space!()
+        }
+
         match n.kind {
             MethodKind::Method => {
                 if n.function.is_async {
@@ -1544,6 +1550,11 @@ where
             space!();
         }
 
+        if n.is_override {
+            keyword!("override");
+            space!()
+        }
+
         if n.readonly {
             keyword!("readonly");
             space!();
@@ -1590,13 +1601,16 @@ where
             emit!(dec)
         }
 
-        if n.accessibility != Some(Accessibility::Public) {
-            self.emit_accessibility(n.accessibility)?;
-        }
+        self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.is_override {
+            keyword!("override");
+            space!()
         }
 
         if n.readonly {

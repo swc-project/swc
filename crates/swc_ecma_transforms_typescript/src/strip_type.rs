@@ -137,6 +137,7 @@ impl VisitMut for StripType {
 
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         n.accessibility = None;
+        n.is_override = false;
         n.visit_mut_children_with(self);
     }
 
