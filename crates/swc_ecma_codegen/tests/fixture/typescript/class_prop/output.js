@@ -11,4 +11,6 @@ class MyClass extends Base {
     public prop12: string;
     private static prop13: string;
     protected override accessor prop14 = 5;
+    public override readonly prop7 = 5;
+    override readonly #prop8 = 5;
 }

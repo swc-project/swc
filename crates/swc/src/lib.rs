@@ -147,6 +147,7 @@ use swc_ecma_transforms::{
     pass::noop,
     resolver,
 };
+use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
@@ -865,6 +866,8 @@ impl Compiler {
             let is_mangler_enabled = min_opts.mangle.is_some();
 
             let module = self.run_transform(handler, false, || {
+                let module = module.fold_with(&mut paren_remover(Some(&comments)));
+
                 let module =
                     module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 

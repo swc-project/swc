@@ -1482,6 +1482,12 @@ where
                 formatting_space!();
             }
         }
+
+        if n.is_override {
+            keyword!("override");
+            space!()
+        }
+
         match n.kind {
             MethodKind::Method => {
                 if n.function.is_async {
@@ -1560,6 +1566,11 @@ where
             space!();
         }
 
+        if n.is_override {
+            keyword!("override");
+            space!()
+        }
+
         if n.readonly {
             keyword!("readonly");
             space!();
@@ -1611,6 +1622,11 @@ where
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.is_override {
+            keyword!("override");
+            space!()
         }
 
         if n.readonly {
