@@ -527,6 +527,9 @@
 - **(es/renamer)** Allow `globalThis` to be shadowed ([#8327](https://github.com/swc-project/swc/issues/8327)) ([3dd73a3](https://github.com/swc-project/swc/commit/3dd73a3cd8fddd9e19dc85c2a2bf785b585b5b9a))
 
 
+- **(es/renamer)** Correctly check top level ([#8456](https://github.com/swc-project/swc/issues/8456)) ([1e44e57](https://github.com/swc-project/swc/commit/1e44e57a095c151fc52685b9580c083620342fe7))
+
+
 - **(es/resolver)** Resolve the super class before registering a class name ([#7550](https://github.com/swc-project/swc/issues/7550)) ([1d9f972](https://github.com/swc-project/swc/commit/1d9f972fb44e0722fce8a83090cbada81decf577))
 
 
@@ -820,9 +823,6 @@
 
 - **(es/preset-env)** Ignore `tp` in the version of a browser version ([#7968](https://github.com/swc-project/swc/issues/7968)) ([005ddc5](https://github.com/swc-project/swc/commit/005ddc573e3752183783cc25dd6242b750f8beb5))
 
-
-- **(plugin)** Update `rkyv` to `v0.7.42` ([#7397](https://github.com/swc-project/swc/issues/7397)) ([3a0565f](https://github.com/swc-project/swc/commit/3a0565f3778648f2ae57043c8e1bf8c15832b61e))
-
 ### Performance
 
 
@@ -1049,9 +1049,6 @@
 
 
 
-- **(css/module)** Add a test for a fixed issue ([#7399](https://github.com/swc-project/swc/issues/7399)) ([6b92eec](https://github.com/swc-project/swc/commit/6b92eecd398e94a8d58b6b5e49679f7977a17703))
-
-
 - **(es)** Add a test for a wrong issue ([#7542](https://github.com/swc-project/swc/issues/7542)) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
 
 
@@ -1068,9 +1065,6 @@
 
 
 - **(es/modules)** Add a test for unreproducible issue ([#7655](https://github.com/swc-project/swc/issues/7655)) ([7528de1](https://github.com/swc-project/swc/commit/7528de189780cc6850fad2f744004353c8892a70))
-
-
-- **(es/parser)** Add a test for a fixed issue ([#7398](https://github.com/swc-project/swc/issues/7398)) ([eaba323](https://github.com/swc-project/swc/commit/eaba323581d2aa2b578c600f44f9b41b103d35b3))
 
 
 - **(es/parser)** Add a test for a fixed issue ([#7467](https://github.com/swc-project/swc/issues/7467)) ([8274cce](https://github.com/swc-project/swc/commit/8274cce9a7d0aca8d005a215b46f7db9ed7c5aed))
