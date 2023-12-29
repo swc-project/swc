@@ -721,6 +721,7 @@ fn html5lib_test_tree_construction(input: PathBuf) {
         let config = ParserConfig {
             scripting_enabled,
             iframe_srcdoc: false,
+            allow_self_closing: false,
         };
         let mut parser = Parser::new(lexer, config);
 
