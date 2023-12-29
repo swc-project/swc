@@ -14,9 +14,6 @@
 - **(ci)** Set `tag` for wasm publish actions ([#8200](https://github.com/swc-project/swc/issues/8200)) ([8db80b8](https://github.com/swc-project/swc/commit/8db80b8c28bba5a423194dd19ddf05ccd94eb650))
 
 
-- **(common)** Disable `tracing/release_max_level_info` ([#7401](https://github.com/swc-project/swc/issues/7401)) ([95291f2](https://github.com/swc-project/swc/commit/95291f2c5daaf039623b4db4668a91104c0c0124))
-
-
 - **(common)** Fix logic for excluding `FileName` from source maps ([#7900](https://github.com/swc-project/swc/issues/7900)) ([aa64955](https://github.com/swc-project/swc/commit/aa6495519b9271cb21d380c0c5a35fe79d31ee14))
 
 
@@ -399,6 +396,9 @@
 
 
 - **(es/minifier)** Give up terminate merge if in `try` with `finally` ([#8342](https://github.com/swc-project/swc/issues/8342)) ([ed5a9b3](https://github.com/swc-project/swc/commit/ed5a9b3f2e5b7035f657a8ea3cb38a27413369b2))
+
+
+- **(es/minifier)** Add WeakRef as a safe global reference ([#8458](https://github.com/swc-project/swc/issues/8458)) ([d681785](https://github.com/swc-project/swc/commit/d681785b428b7958e7652dc3a7c709ad85b298f9))
 
 
 - **(es/module)** Add `"use strict"` while preserving directives ([#7537](https://github.com/swc-project/swc/issues/7537)) ([f42fdd2](https://github.com/swc-project/swc/commit/f42fdd21afad775358138c3aaed4ff3c41bfb16a))

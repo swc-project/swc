@@ -1087,7 +1087,7 @@ checksum = "23d8666cb01533c39dde32bcbab8e227b4ed6679b2c925eba05feabea39508fb"
 
 [[package]]
 name = "dbg-swc"
-version = "0.90.10"
+version = "0.90.11"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3785,7 +3785,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.270.9"
+version = "0.270.10"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3854,7 +3854,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.223.7"
+version = "0.223.8"
 dependencies = [
  "anyhow",
  "crc",
@@ -3909,7 +3909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.5.9"
+version = "0.5.10"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -3968,7 +3968,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.4.7"
+version = "0.4.8"
 dependencies = [
  "anyhow",
  "base64",
@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.87.9"
+version = "0.87.10"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4541,7 +4541,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.190.7"
+version = "0.190.8"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4945,7 +4945,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.21.1"
+version = "0.21.2"
 dependencies = [
  "indexmap 2.0.2",
  "rustc-hash",
@@ -4992,7 +4992,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.237.7"
+version = "0.237.8"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5038,7 +5038,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.195.9"
+version = "0.195.10"
 dependencies = [
  "ahash 0.8.5",
  "anyhow",
@@ -5086,7 +5086,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.135.8"
+version = "0.135.9"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -5136,7 +5136,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.132.8"
+version = "0.132.9"
 dependencies = [
  "criterion",
  "once_cell",
