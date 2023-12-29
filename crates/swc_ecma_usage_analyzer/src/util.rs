@@ -39,6 +39,7 @@ pub fn is_global_var_with_pure_property_access(s: &str) -> bool {
             | "NaN"
             | "Symbol"
             | "Promise"
+            | "WeakRef"
     )
 }
 
