@@ -1,3 +1,3 @@
-var t, i;
+var Infinity, NaN;
 Infinity.toString();
 NaN.toString();
