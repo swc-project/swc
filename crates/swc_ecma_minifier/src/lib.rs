@@ -233,7 +233,13 @@ pub fn optimize(
         let _timer = timer!("mangle names");
         // TODO: base54.reset();
 
-        let preserved = idents_to_preserve(mangle.clone(), &n);
+        let mut preserved = idents_to_preserve(mangle.clone(), &n);
+
+        // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
+        let unresolved_ctxt = SyntaxContext::empty().apply_mark(marks.unresolved_mark);
+        preserved.insert(("undefined".into(), unresolved_ctxt));
+        preserved.insert(("NaN".into(), unresolved_ctxt));
+        preserved.insert(("Infinity".into(), unresolved_ctxt));
 
         let chars = CharFreq::compute(
             &n,

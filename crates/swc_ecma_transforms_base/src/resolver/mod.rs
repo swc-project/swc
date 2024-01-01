@@ -350,11 +350,19 @@ impl<'a> Resolver<'a> {
                 .insert(ident.sym.clone(), kind);
         }
 
-        let mark = self.current.mark;
+        let mut mark = self.current.mark;
 
-        if mark != Mark::root() {
-            ident.span = ident.span.apply_mark(mark);
+        if mark == Mark::root() {
+            return;
         }
+
+        if matches!(&*ident.sym, "undefined" | "NaN" | "Infinity")
+            && mark == self.config.top_level_mark
+        {
+            mark = self.config.unresolved_mark;
+        }
+
+        ident.span = ident.span.apply_mark(mark);
     }
 
     fn mark_block(&mut self, span: &mut Span) {
