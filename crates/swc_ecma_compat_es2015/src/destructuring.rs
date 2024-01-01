@@ -565,6 +565,24 @@ impl VisitMut for AssignFolder {
         self.exporting = exporting;
     }
 
+    fn visit_mut_class(&mut self, f: &mut Class) {
+        let exporting = mem::replace(&mut self.exporting, false);
+        f.visit_mut_children_with(self);
+        self.exporting = exporting;
+    }
+
+    fn visit_mut_object_lit(&mut self, f: &mut ObjectLit) {
+        let exporting = mem::replace(&mut self.exporting, false);
+        f.visit_mut_children_with(self);
+        self.exporting = exporting;
+    }
+
+    fn visit_mut_arrow_expr(&mut self, f: &mut ArrowExpr) {
+        let exporting = mem::replace(&mut self.exporting, false);
+        f.visit_mut_children_with(self);
+        self.exporting = exporting;
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         let ignore_return_value = self.ignore_return_value.take().is_some();
 
