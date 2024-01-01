@@ -4570,7 +4570,7 @@ var load228 = __swcpack_require__.bind(void 0, function(module, exports) {
     var Math1 = global.Math;
     var RangeError1 = global.RangeError;
     // eslint-disable-next-line no-shadow-restricted-names
-    global.Infinity;
+    var Infinity = global.Infinity;
     var BaseBuffer = $ArrayBuffer;
     var abs = Math1.abs;
     var pow = Math1.pow;
