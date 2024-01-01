@@ -356,7 +356,8 @@ impl<'a> Resolver<'a> {
             return;
         }
 
-        if matches!(&*ident.sym, "undefined" | "NaN" | "Infinity")
+        if kind != DeclKind::Lexical
+            && matches!(&*ident.sym, "undefined" | "NaN" | "Infinity")
             && mark == self.config.top_level_mark
         {
             mark = self.config.unresolved_mark;
