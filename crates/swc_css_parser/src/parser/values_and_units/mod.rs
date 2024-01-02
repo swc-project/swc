@@ -197,7 +197,7 @@ where
 
         let mut values = vec![];
 
-        match &**function_name {
+        match &*function_name.to_ascii_lowercase() {
             "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws();
