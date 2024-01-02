@@ -1,0 +1,16 @@
+@keyframes hahaha {
+  0%, 1% {
+    color: red;
+  }
+  100% {
+    color: red;
+  }
+}
+@keyframes ONE_TWO_THREE {
+  FROM {
+    transform: translateX(0%);
+  }
+  TO {
+    transform: translateX(100%);
+  }
+}

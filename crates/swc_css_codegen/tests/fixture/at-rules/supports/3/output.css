@@ -1,0 +1,35 @@
+@supports (--x: y , z) {
+  a {
+    color: red;
+  }
+}
+@supports (--x: ) {
+  a {
+    color: red;
+  }
+}
+@supports (--x: ) {
+  a {
+    color: red;
+  }
+}
+@supports ( --x y , z ) {
+  a {
+    color: red;
+  }
+}
+@supports ( --x ) {
+  a {
+    color: red;
+  }
+}
+@supports ( ) {
+  a {
+    color: red;
+  }
+}
+@supports ( . --x : y , z ) {
+  a {
+    color: red;
+  }
+}

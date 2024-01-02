@@ -1,0 +1,16 @@
+.class {
+  color: rgb(100%, 100%, 100%);
+  color: rgb(100%, 100%, 100%, 0.1);
+  color: rgb(100%, 100%, 100%, 100%);
+  color: rgb(100% 100% 100%);
+  color: rgb(100% 100% 100% / 0.1);
+  color: rgb(100% 100% 100% / 100%);
+  color: rgb(123, 123, 123);
+  color: rgb(123, 123, 123, 10%);
+  color: rgb(123, 123, 123, 0.1);
+  color: rgb(123 123 123);
+  color: rgb(123 123 123/ 0.1);
+  color: rgb(123 123 123/ 100%);
+  color: rgb(none none none);
+  color: rgb(none none none/ none);
+}

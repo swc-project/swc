@@ -1,0 +1,9 @@
+:lang(\*-Latn) {}
+:lang("*-Latn") {}
+html:lang(fr-be) {}
+html:lang(de) {}
+html:lang(de, fr) {}
+:lang(fr-be) > q {}
+:lang(de) > q {}
+:lang(zh, "*-hant") {}
+:lang("*-hant", zh) {}

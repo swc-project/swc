@@ -1,0 +1,1 @@
+@document url("https://www.example.com/"){h1{color:green}}@document url("http://www.w3.org/"),url-prefix("http://www.w3.org/Style/"),domain("mozilla.org"),media-document("video"),regexp("https:.*"){body{color:purple;background:yellow}}
