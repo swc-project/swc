@@ -1062,14 +1062,24 @@
           },
           "value": [
             {
-              "type": "Ident",
+              "type": "LayerName",
               "span": {
                 "start": 495,
                 "end": 502,
                 "ctxt": 0
               },
-              "value": "default",
-              "raw": "default"
+              "name": [
+                {
+                  "type": "Ident",
+                  "span": {
+                    "start": 495,
+                    "end": 502,
+                    "ctxt": 0
+                  },
+                  "value": "default",
+                  "raw": "default"
+                }
+              ]
             }
           ]
         },
@@ -1542,33 +1552,35 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "Declaration",
                 "span": {
                   "start": 710,
-                  "end": 717,
-                  "ctxt": 0
-                },
-                "value": "display",
-                "raw": "display"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 717,
-                  "end": 718,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "Ident",
-                "span": {
-                  "start": 719,
                   "end": 723,
                   "ctxt": 0
                 },
-                "value": "flex",
-                "raw": "flex"
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 710,
+                    "end": 717,
+                    "ctxt": 0
+                  },
+                  "value": "display",
+                  "raw": "display"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 719,
+                      "end": 723,
+                      "ctxt": 0
+                    },
+                    "value": "flex",
+                    "raw": "flex"
+                  }
+                ],
+                "important": null
               }
             ]
           },
@@ -9185,14 +9197,24 @@
           },
           "value": [
             {
-              "type": "Ident",
+              "type": "LayerName",
               "span": {
                 "start": 4756,
                 "end": 4763,
                 "ctxt": 0
               },
-              "value": "DEFAULT",
-              "raw": "DEFAULT"
+              "name": [
+                {
+                  "type": "Ident",
+                  "span": {
+                    "start": 4756,
+                    "end": 4763,
+                    "ctxt": 0
+                  },
+                  "value": "DEFAULT",
+                  "raw": "DEFAULT"
+                }
+              ]
             }
           ]
         },
@@ -9222,33 +9244,35 @@
             },
             "value": [
               {
-                "type": "Ident",
+                "type": "Declaration",
                 "span": {
                   "start": 4774,
-                  "end": 4781,
-                  "ctxt": 0
-                },
-                "value": "DISPLAY",
-                "raw": "DISPLAY"
-              },
-              {
-                "type": "PreservedToken",
-                "span": {
-                  "start": 4781,
-                  "end": 4782,
-                  "ctxt": 0
-                },
-                "token": "Colon"
-              },
-              {
-                "type": "Ident",
-                "span": {
-                  "start": 4783,
                   "end": 4787,
                   "ctxt": 0
                 },
-                "value": "FLEX",
-                "raw": "FLEX"
+                "name": {
+                  "type": "Ident",
+                  "span": {
+                    "start": 4774,
+                    "end": 4781,
+                    "ctxt": 0
+                  },
+                  "value": "DISPLAY",
+                  "raw": "DISPLAY"
+                },
+                "value": [
+                  {
+                    "type": "Ident",
+                    "span": {
+                      "start": 4783,
+                      "end": 4787,
+                      "ctxt": 0
+                    },
+                    "value": "FLEX",
+                    "raw": "FLEX"
+                  }
+                ],
+                "important": null
               }
             ]
           },

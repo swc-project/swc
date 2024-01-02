@@ -1326,6 +1326,14 @@
  17 | @import url("tabs.css") layer(framework.component);
     `----
 
+  x LayerName
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:15:1]
+ 15 | @import url("theme.css") layer(default);
+ 16 | @import url("theme.css") LAYER(default);
+    :                                ^^^^^^^
+ 17 | @import url("tabs.css") layer(framework.component);
+    `----
+
   x Ident
     ,-[$DIR/tests/fixture/at-rule/import/input.css:15:1]
  15 | @import url("theme.css") layer(default);
@@ -1866,6 +1874,22 @@
     ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
  19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
  20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+    :                                    ^^^^^^^^^^^^^
+ 21 | @import url("fallback-layout.css") supports(not (display: flex));
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
+ 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+ 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
+    :                                    ^^^^^^^^^^^^^
+ 21 | @import url("fallback-layout.css") supports(not (display: flex));
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
+ 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
+ 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
     :                                    ^^^^^^^
  21 | @import url("fallback-layout.css") supports(not (display: flex));
     `----
@@ -1875,22 +1899,6 @@
  19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
  20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
     :                                    ^^^^^^^
- 21 | @import url("fallback-layout.css") supports(not (display: flex));
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
- 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
- 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
-    :                                           ^
- 21 | @import url("fallback-layout.css") supports(not (display: flex));
-    `----
-
-  x Colon
-    ,-[$DIR/tests/fixture/at-rule/import/input.css:19:1]
- 19 | @import url("narrow.css") supports(display: flex) handheld and (max-width: 400px);
- 20 | @import url("narrow.css") SUPPORTS(display: flex) handheld and (max-width: 400px);
-    :                                           ^
  21 | @import url("fallback-layout.css") supports(not (display: flex));
     `----
 
@@ -10572,6 +10580,14 @@
  141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
      `----
 
+  x LayerName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
+ 139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+ 140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+     :                                 ^^^^^^^
+ 141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
+     `----
+
   x Ident
      ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
  139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
@@ -10600,6 +10616,22 @@
      ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
  139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
  140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+     :                                                   ^^^^^^^^^^^^^
+ 141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
+     `----
+
+  x Declaration
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
+ 139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+ 140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
+     :                                                   ^^^^^^^^^^^^^
+ 141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
+     `----
+
+  x DeclarationName
+     ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
+ 139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
+ 140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
      :                                                   ^^^^^^^
  141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
      `----
@@ -10609,22 +10641,6 @@
  139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
  140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
      :                                                   ^^^^^^^
- 141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
-     `----
-
-  x ComponentValue
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
- 139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
- 140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
-     :                                                          ^
- 141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
-     `----
-
-  x Colon
-     ,-[$DIR/tests/fixture/at-rule/import/input.css:139:1]
- 139 | @import url("./test.css")     layer(     default     )     supports(     display     :     flex     )     screen     and     (     min-width     :     400px     );
- 140 | @import url("./test.css") LAYER(DEFAULT) SUPPORTS(DISPLAY: FLEX) SCREEN AND (MIN-WIDTH: 400PX);
-     :                                                          ^
  141 | @import url("./test.css") /* Comment */ layer(/* Comment */default/* Comment */) /* Comment */ supports(/* Comment */display/* Comment */:/* Comment */ flex/* Comment */)/* Comment */ screen/* Comment */ and/* Comment */ (/* Comment */min-width/* Comment */: /* Comment */400px/* Comment */);
      `----
 

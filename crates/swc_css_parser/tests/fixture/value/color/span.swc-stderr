@@ -1074,7 +1074,7 @@
  12 |     color: rgb(0 255 0);
     `----
 
-  x Integer
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:10:1]
  10 |     color: rgb(255,165,0);
  11 |     color: rGb(255,165,0);
@@ -1106,7 +1106,7 @@
  12 |     color: rgb(0 255 0);
     `----
 
-  x Integer
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:10:1]
  10 |     color: rgb(255,165,0);
  11 |     color: rGb(255,165,0);
@@ -1138,7 +1138,7 @@
  12 |     color: rgb(0 255 0);
     `----
 
-  x Integer
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:10:1]
  10 |     color: rgb(255,165,0);
  11 |     color: rGb(255,165,0);
@@ -4082,7 +4082,7 @@
  32 |     color: rgba(0 255 0);
     `----
 
-  x Integer
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:30:1]
  30 |     color: rgba(255,165,0);
  31 |     color: rGbA(255,165,0);
@@ -4114,7 +4114,7 @@
  32 |     color: rgba(0 255 0);
     `----
 
-  x Integer
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:30:1]
  30 |     color: rgba(255,165,0);
  31 |     color: rGbA(255,165,0);
@@ -4146,7 +4146,7 @@
  32 |     color: rgba(0 255 0);
     `----
 
-  x Integer
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:30:1]
  30 |     color: rgba(255,165,0);
  31 |     color: rGbA(255,165,0);
@@ -6296,7 +6296,15 @@
  48 |     color: hsl(100deg, 100%, 50%);
     `----
 
-  x Integer
+  x Hue
+    ,-[$DIR/tests/fixture/value/color/input.css:46:1]
+ 46 |     color: hsl(38.824 100% 50%);
+ 47 |     color: HsL(39 100% 50%);
+    :                ^^
+ 48 |     color: hsl(100deg, 100%, 50%);
+    `----
+
+  x Number
     ,-[$DIR/tests/fixture/value/color/input.css:46:1]
  46 |     color: hsl(38.824 100% 50%);
  47 |     color: HsL(39 100% 50%);
