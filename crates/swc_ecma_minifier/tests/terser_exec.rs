@@ -112,12 +112,12 @@ fn terser_exec(input: PathBuf) {
         eprintln!("Optimizing");
 
         let output = run(cm.clone(), &handler, &input, &config);
-        let output_module = match output {
+        let output_program = match output {
             Some(v) => v,
             None => return Err(()),
         };
 
-        let actual = print(cm, &[output_module], false, false);
+        let actual = print(cm, &[output_program], false, false);
         let actual_stdout = stdout_of(&actual, Duration::from_secs(5)).unwrap();
 
         if let Some(expected_src) = expected_src {
