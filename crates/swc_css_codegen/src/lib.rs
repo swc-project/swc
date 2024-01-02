@@ -1475,13 +1475,9 @@ where
 
     #[emitter]
     fn emit_ident(&mut self, n: &Ident) -> Result {
-        let value = if self.ctx.allow_to_lowercase && self.config.minify {
-            Cow::Owned(n.value.to_ascii_lowercase())
-        } else {
-            Cow::Borrowed(&n.value)
-        };
+        let value = &n.value;
 
-        let serialized = serialize_ident(&value, self.config.minify);
+        let serialized = serialize_ident(value, self.config.minify);
 
         // The unit of a <dimension-token> may need escaping to disambiguate with
         // scientific notation.
