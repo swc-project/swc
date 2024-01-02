@@ -197,7 +197,9 @@ where
 
         let mut values = vec![];
 
-        match &*function_name.to_ascii_lowercase() {
+        let lower_fname = function_name.to_ascii_lowercase();
+
+        match &*lower_fname {
             "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws();
@@ -402,7 +404,7 @@ where
                     _ => {}
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "rgb" | "rgba" => {
                         let percentage_or_number_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -515,7 +517,7 @@ where
                     is_legacy_syntax = false;
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -631,7 +633,7 @@ where
                     }
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -819,7 +821,7 @@ where
                 match cur!(self) {
                     Token::Ident { value, .. }
                         if matches_eq_ignore_ascii_case!(value, "from")
-                            && *function_name != "device-cmyk" =>
+                            && lower_fname != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
@@ -839,7 +841,7 @@ where
                     _ => {}
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "hwb" => {
                         let hue_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -947,7 +949,7 @@ where
                 }
 
                 if !is_one_of!(self, EOF, "/") {
-                    match &**function_name {
+                    match &*lower_fname {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
@@ -1064,7 +1066,7 @@ where
                 }
 
                 if !is_one_of!(self, EOF, "/") {
-                    match &**function_name {
+                    match &*lower_fname {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
@@ -1226,7 +1228,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, "/") && function_name == "device-cmyk" {
+                if !is_one_of!(self, EOF, "/") && lower_fname == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(
                         |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
                         &mut has_variable,
@@ -1252,7 +1254,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(&*lower_fname, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_ignore_ascii_case("none") {
@@ -1539,7 +1541,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(&*lower_fname, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_ignore_ascii_case("none") {
