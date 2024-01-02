@@ -491,18 +491,18 @@
                     "end": 171,
                     "ctxt": 0
                   },
-                  "value": "rgb",
+                  "value": "rGb",
                   "raw": "rGb"
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 172,
                       "end": 175,
                       "ctxt": 0
                     },
-                    "value": 255.0,
+                    "value": 255,
                     "raw": "255"
                   },
                   {
@@ -515,13 +515,13 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 176,
                       "end": 179,
                       "ctxt": 0
                     },
-                    "value": 165.0,
+                    "value": 165,
                     "raw": "165"
                   },
                   {
@@ -534,13 +534,13 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 180,
                       "end": 181,
                       "ctxt": 0
                     },
-                    "value": 0.0,
+                    "value": 0,
                     "raw": "0"
                   }
                 ]
@@ -2419,18 +2419,18 @@
                     "end": 812,
                     "ctxt": 0
                   },
-                  "value": "rgba",
+                  "value": "rGbA",
                   "raw": "rGbA"
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 813,
                       "end": 816,
                       "ctxt": 0
                     },
-                    "value": 255.0,
+                    "value": 255,
                     "raw": "255"
                   },
                   {
@@ -2443,13 +2443,13 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 817,
                       "end": 820,
                       "ctxt": 0
                     },
-                    "value": 165.0,
+                    "value": 165,
                     "raw": "165"
                   },
                   {
@@ -2462,13 +2462,13 @@
                     "value": ","
                   },
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 821,
                       "end": 822,
                       "ctxt": 0
                     },
-                    "value": 0.0,
+                    "value": 0,
                     "raw": "0"
                   }
                 ]
@@ -3850,18 +3850,18 @@
                     "end": 1299,
                     "ctxt": 0
                   },
-                  "value": "hsl",
+                  "value": "HsL",
                   "raw": "HsL"
                 },
                 "value": [
                   {
-                    "type": "Number",
+                    "type": "Integer",
                     "span": {
                       "start": 1300,
                       "end": 1302,
                       "ctxt": 0
                     },
-                    "value": 39.0,
+                    "value": 39,
                     "raw": "39"
                   },
                   {
