@@ -20,7 +20,6 @@ where
 
 #[derive(Debug, Default, Clone, Copy)]
 pub(crate) struct Ctx {
-    pub allow_to_lowercase: bool,
     pub is_dimension_unit: bool,
     pub in_single_line_selectors: bool,
     pub in_list_of_component_values: bool,
