@@ -11,7 +11,7 @@ use swc_css_codegen::{
 };
 use swc_css_parser::parse_file;
 use swc_css_visit::{VisitMut, VisitMutWith};
-use testing::{assert_eq, run_test2, NormalizedOutput};
+use testing::{run_test2, NormalizedOutput};
 
 fn run(input: &Path, minify: bool) {
     let dir = input.parent().unwrap();
