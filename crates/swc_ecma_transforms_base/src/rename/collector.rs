@@ -51,7 +51,7 @@ where
     is_pat_decl: bool,
 
     /// [None] if there's no `eval`.
-    pub top_level_mark_for_eval: Option<Mark>,
+    pub top_level_for_eval: Option<SyntaxContext>,
 }
 
 impl<I> CustomBindingCollector<I>
@@ -59,8 +59,8 @@ where
     I: IdentLike + Eq + Hash + Send + Sync,
 {
     fn add(&mut self, i: &Ident) {
-        if let Some(top_level_mark) = self.top_level_mark_for_eval {
-            if i.span.ctxt.outer().is_descendant_of(top_level_mark) {
+        if let Some(top_level_ctxt) = self.top_level_for_eval {
+            if i.span.ctxt == top_level_ctxt {
                 self.preserved.insert(I::from_ident(i));
                 return;
             }
@@ -201,7 +201,7 @@ where
         bindings: Default::default(),
         preserved: Default::default(),
         is_pat_decl: false,
-        top_level_mark_for_eval,
+        top_level_for_eval: top_level_mark_for_eval.map(|m| SyntaxContext::empty().apply_mark(m)),
     };
     n.visit_with(&mut v);
     (v.bindings, v.preserved)

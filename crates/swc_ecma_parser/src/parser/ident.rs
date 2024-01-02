@@ -147,6 +147,10 @@ impl<I: Tokens> Parser<I> {
             match w {
                 Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(atom!("await")),
 
+                Word::Keyword(Keyword::Await) if p.ctx().in_static_block => {
+                    syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
+                }
+
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {
