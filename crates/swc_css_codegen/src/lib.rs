@@ -111,7 +111,7 @@ where
     #[emitter]
     fn emit_at_rule(&mut self, n: &AtRule) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), "@");
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
 
         if let Some(prelude) = &n.prelude {
             emit!(
@@ -436,7 +436,7 @@ where
     #[emitter]
     fn emit_keyframe_selector(&mut self, n: &KeyframeSelector) -> Result {
         match n {
-            KeyframeSelector::Ident(n) => emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n),
+            KeyframeSelector::Ident(n) => emit!(self, n),
             KeyframeSelector::Percentage(n) => emit!(self, n),
         }
     }
@@ -472,12 +472,12 @@ where
     #[emitter]
     fn emit_media_query(&mut self, n: &MediaQuery) -> Result {
         if n.modifier.is_some() {
-            emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.modifier);
+            emit!(self, n.modifier);
             space!(self);
         }
 
         if n.media_type.is_some() {
-            emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.media_type);
+            emit!(self, n.media_type);
 
             if n.condition.is_some() {
                 space!(self);
@@ -758,7 +758,7 @@ where
     #[emitter]
     fn emit_page_selector_pseudo(&mut self, n: &PageSelectorPseudo) -> Result {
         write_raw!(self, ":");
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.value);
+        emit!(self, n.value);
     }
 
     #[emitter]
@@ -926,7 +926,7 @@ where
 
     #[emitter]
     fn emit_size_feature_plain(&mut self, n: &SizeFeaturePlain) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
         write_raw!(self, ":");
         formatting_space!(self);
         emit!(self, n.value);
@@ -934,7 +934,7 @@ where
 
     #[emitter]
     fn emit_size_feature_boolean(&mut self, n: &SizeFeatureBoolean) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
     }
 
     #[emitter]
@@ -952,7 +952,7 @@ where
         formatting_space!(self);
         write_raw!(self, n.span, n.left_comparison.as_str());
         formatting_space!(self);
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
         formatting_space!(self);
         write_raw!(self, n.span, n.right_comparison.as_str());
         formatting_space!(self);
@@ -1137,7 +1137,7 @@ where
 
     #[emitter]
     fn emit_function(&mut self, n: &Function) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
         write_raw!(self, "(");
         self.emit_list_of_component_values_inner(
             &n.value,
@@ -1342,7 +1342,7 @@ where
 
     #[emitter]
     fn emit_declaration(&mut self, n: &Declaration) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
         write_raw!(self, ":");
 
         let is_custom_property = match n.name {
@@ -1401,7 +1401,7 @@ where
         write_raw!(self, lo_span_offset!(n.span, 1), "!");
 
         if self.config.minify {
-            emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.value);
+            emit!(self, n.value);
         } else {
             emit!(self, n.value);
         }
@@ -1862,7 +1862,7 @@ where
 
     #[emitter]
     fn emit_url(&mut self, n: &Url) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
         write_raw!(self, "(");
 
         if let Some(value) = &n.value {
@@ -2112,7 +2112,7 @@ where
 
     #[emitter]
     fn emit_tag_name_selector(&mut self, n: &TagNameSelector) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
     }
 
     #[emitter]
@@ -2214,7 +2214,7 @@ where
 
     #[emitter]
     fn emit_attribute_selector_modifier(&mut self, n: &AttributeSelectorModifier) -> Result {
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.value);
+        emit!(self, n.value);
     }
 
     #[emitter]
@@ -2253,7 +2253,7 @@ where
     #[emitter]
     fn emit_pseudo_class_selector(&mut self, n: &PseudoClassSelector) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), ":");
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
 
         if let Some(children) = &n.children {
             write_raw!(self, "(");
@@ -2331,7 +2331,7 @@ where
     fn emit_pseudo_element_selector(&mut self, n: &PseudoElementSelector) -> Result {
         write_raw!(self, lo_span_offset!(n.span, 1), ":");
         write_raw!(self, lo_span_offset!(n.span, 2), ":");
-        emit!(&mut *self.with_ctx(Ctx { ..self.ctx }), n.name);
+        emit!(self, n.name);
 
         if let Some(children) = &n.children {
             write_raw!(self, "(");
