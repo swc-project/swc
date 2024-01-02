@@ -54,7 +54,7 @@ use testing::assert_eq;
         // should error
         "blocks/issue_1672_if_strict",
         "blocks/issue_1672_for_strict",
-        // need support for script mode
+        // annex B
         "blocks/issue_1672_if",
         "blocks/issue_1672_for",
     )
