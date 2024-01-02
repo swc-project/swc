@@ -27,7 +27,10 @@ impl CustomMediaHandler {
     pub(crate) fn process_rules(&mut self, n: &mut Vec<Rule>) {
         n.retain(|n| match n {
             Rule::AtRule(n) => {
-                if matches!(&n.name, AtRuleName::Ident(ident) if ident.value == "custom-media") {
+                if matches!(
+                    n.prelude.as_deref(),
+                    Some(AtRulePrelude::CustomMediaPrelude(..))
+                ) {
                     return false;
                 }
 
