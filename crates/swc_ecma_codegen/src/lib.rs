@@ -1601,6 +1601,11 @@ where
             emit!(dec)
         }
 
+        if n.declare {
+            keyword!("declare");
+            space!();
+        }
+
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {

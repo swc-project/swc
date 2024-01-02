@@ -7,4 +7,5 @@ class MyClass extends Base {
     readonly #prop6 = "asdf";
     public override readonly prop7 = 5;
     override readonly #prop8 = 5;
+    declare public static readonly prop9: string;
 }

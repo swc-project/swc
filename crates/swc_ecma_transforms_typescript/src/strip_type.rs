@@ -142,6 +142,7 @@ impl VisitMut for StripType {
     }
 
     fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+        prop.declare = false;
         prop.readonly = false;
         prop.is_override = false;
         prop.is_optional = false;
