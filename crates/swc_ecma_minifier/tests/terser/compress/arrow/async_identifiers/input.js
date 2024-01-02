@@ -5,4 +5,5 @@ var await = function (x) {
     console.log("await", x);
 };
 async(1);
-await 2;
+// prettier-ignore
+await(2);

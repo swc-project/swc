@@ -1,7 +1,7 @@
 switch(function() {
-    return xxx;
+    return n;
 }){
-    case xxx:
+    case n:
         for(; console.log("FAIL");){
             function n() {}
         }
