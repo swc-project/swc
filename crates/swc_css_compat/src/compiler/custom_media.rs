@@ -16,13 +16,10 @@ pub(super) struct CustomMediaHandler {
 
 impl CustomMediaHandler {
     pub(crate) fn store_custom_media(&mut self, n: &mut AtRule) {
-        if let AtRuleName::Ident(name) = &n.name {
-            if name.value == "custom-media" {
-                if let Some(AtRulePrelude::CustomMediaPrelude(prelude)) =
-                    &mut n.prelude.as_deref_mut()
-                {
-                    self.medias.push(prelude.take());
-                }
+        if let AtRuleName::Ident(..) = &n.name {
+            if let Some(AtRulePrelude::CustomMediaPrelude(prelude)) = &mut n.prelude.as_deref_mut()
+            {
+                self.medias.push(prelude.take());
             }
         }
     }
