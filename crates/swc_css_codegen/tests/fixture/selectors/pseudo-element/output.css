@@ -1,6 +1,0 @@
-::before {
-  color: red;
-}
-::slotted(*) {
-  color: red;
-}
