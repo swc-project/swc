@@ -105,7 +105,6 @@ where
         base: &FileName,
         module_specifier: &str,
     ) -> Result<FileName, Error> {
-        dbg!("invoke_inner_resolver", base, module_specifier);
         let res = self.inner.resolve(base, module_specifier).with_context(|| {
             format!(
                 "failed to resolve `{module_specifier}` from `{base}` using inner \
@@ -174,8 +173,6 @@ where
             None
         };
 
-        dbg!(base, module_specifier);
-
         if module_specifier.starts_with('.')
             && (module_specifier == ".."
                 || module_specifier.starts_with("./")
@@ -201,7 +198,6 @@ where
 
         // https://www.typescriptlang.org/docs/handbook/module-resolution.html#path-mapping
         for (from, to) in &self.paths {
-            dbg!(from, to);
             match from {
                 Pattern::Wildcard { prefix } => {
                     debug!("Checking `{}` in `jsc.paths`", prefix);
@@ -259,7 +255,6 @@ where
                         }
 
                         if to.len() == 1 {
-                            dbg!(&errors);
                             info!(
                                 "Using `{}` for `{}` because the length of the jsc.paths entry is \
                                  1",
