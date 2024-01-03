@@ -1467,6 +1467,11 @@ where
             }
         }
 
+        if n.is_abstract {
+            keyword!("abstract");
+            space!()
+        }
+
         if n.is_override {
             keyword!("override");
             space!()
@@ -1606,6 +1611,11 @@ where
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.is_abstract {
+            keyword!("abstract");
+            space!()
         }
 
         if n.is_override {
