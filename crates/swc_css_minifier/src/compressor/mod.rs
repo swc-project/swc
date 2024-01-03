@@ -334,6 +334,10 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_function(&mut self, n: &mut Function) {
+        if let FunctionName::Ident(n) = &mut n.name {
+            n.value = n.value.to_ascii_lowercase();
+        }
+
         if matches_eq!(
             n.name, "rotate", "skew", "skewx", "skewy", "rotate3d", "rotatex", "rotatey", "rotatez"
         ) {
