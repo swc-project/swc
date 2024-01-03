@@ -311,17 +311,26 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_pseudo_class_selector(&mut self, n: &mut PseudoClassSelector) {
-        match &n.name {
+        match &mut n.name {
             Ident { value, .. }
-                if matches!(
+                if matches_eq_ignore_ascii_case!(
                     &**value,
-                    "not" | "is" | "where" | "matches" | "-moz-any" | "-webkit-any"
+                    "not",
+                    "is",
+                    "where",
+                    "matches",
+                    "-moz-any",
+                    "-webkit-any"
                 ) =>
             {
+                n.name.value = n.name.value.to_ascii_lowercase();
+
                 n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
                     in_logic_combinator_selector: true,
                     ..self.ctx
                 }));
+
+                dbg!(&n.children);
             }
             _ => {
                 n.visit_mut_children_with(self);
@@ -406,6 +415,15 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_supports_in_parens(n);
+    }
+
+    fn visit_mut_tag_name_selector(&mut self, n: &mut TagNameSelector) {
+        if self.ctx.in_logic_combinator_selector {
+            n.name.value.value = n.name.value.value.to_ascii_lowercase();
+            n.name.value.raw = None;
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_time(&mut self, n: &mut Time) {
