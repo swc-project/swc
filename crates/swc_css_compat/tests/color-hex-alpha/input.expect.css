@@ -3,10 +3,10 @@ body {
   color: red;
   color: #f00;
   color: #f00;
-  color: #fc0;
+  color: rgba(255, 204, 0, 1);
   color: #0000ff;
   color: rgba(0, 0, 255, 0);
-  color: #ffffff;
+  color: #FFFFFF;
   content: "#f00";
   content: "#0000ff00";
 }
@@ -27,7 +27,7 @@ body {
   color: #fff;
   color: #ffffff;
   color: #abdabc;
-  color: #000000;
+  color: rgba(0, 0, 0, 1);
   color: #abc;
   color: #ff0;
   color: #000;
