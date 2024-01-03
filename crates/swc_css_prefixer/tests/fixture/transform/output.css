@@ -13,16 +13,18 @@ a {
   transition: -moz-transform 1s;
   transition: -o-transform 1s;
   transition: transform 1s;
-  -webkit-transform: rotatex(45deg);
-  -moz-transform: rotatex(45deg);
-  transform: rotatex(45deg);
+  -webkit-transform: rotateX(45deg);
+  -moz-transform: rotateX(45deg);
+  -ms-transform: rotateX(45deg);
+  -o-transform: rotateX(45deg);
+  transform: rotateX(45deg);
 }
 b {
-  -webkit-transform: translatex(45deg);
-  -moz-transform: translatex(45deg);
-  -ms-transform: translatex(45deg);
-  -o-transform: translatex(45deg);
-  transform: translatex(45deg);
+  -webkit-transform: translateX(45deg);
+  -moz-transform: translateX(45deg);
+  -ms-transform: translateX(45deg);
+  -o-transform: translateX(45deg);
+  transform: translateX(45deg);
   -webkit-transform-origin: 0 0;
   -moz-transform-origin: 0 0;
   -ms-transform-origin: 0 0;
@@ -30,9 +32,11 @@ b {
   transform-origin: 0 0;
 }
 em {
-  -webkit-transform: rotatez(45deg);
-  -moz-transform: rotatez(45deg);
-  transform: rotatez(45deg);
+  -webkit-transform: rotateZ(45deg);
+  -moz-transform: rotateZ(45deg);
+  -ms-transform: rotateZ(45deg);
+  -o-transform: rotateZ(45deg);
+  transform: rotateZ(45deg);
 }
 @-webkit-keyframes anim {
   from {
@@ -66,7 +70,7 @@ em {
   transform-style: flat;
 }
 .class {
-  -webkit-transform: perspective(500px) rotatey(3deg);
-  -moz-transform: perspective(500px) rotatey(3deg);
-  transform: perspective(500px) rotatey(3deg);
+  -webkit-transform: perspective(500px) rotateY(3deg);
+  -moz-transform: perspective(500px) rotateY(3deg);
+  transform: perspective(500px) rotateY(3deg);
 }

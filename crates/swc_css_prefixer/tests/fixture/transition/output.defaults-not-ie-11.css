@@ -31,18 +31,18 @@ input[type=range]::-webkit-slider-thumb {
 }
 button::-moz-submit-invalid {
   opacity: 1;
-  transform: translatex(45px);
+  transform: translateX(45px);
   transition: opacity 0.5s 2s, transform 0.5s 0.5s;
 }
 @supports (transition: opacity 0.5s 2s, transform 0.5s 0.5s) {
   button::-moz-submit-invalid {
     opacity: 1;
-    transform: translatex(45px);
+    transform: translateX(45px);
     transition: opacity 0.5s 2s, transform 0.5s 0.5s;
   }
   button {
     opacity: 1;
-    transform: translatex(45px);
+    transform: translateX(45px);
     transition: opacity 0.5s 2s, transform 0.5s 0.5s;
   }
 }

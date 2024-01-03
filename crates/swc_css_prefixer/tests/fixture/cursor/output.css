@@ -41,7 +41,7 @@
   cursor: grabbing;
 }
 .class {
-  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image_set(url(foo.jpg) 2x) 5 5, -webkit-grab;
-  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image_set(url(foo.jpg) 2x) 5 5, -moz-grab;
-  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), image_set(url(foo.jpg) 2x) 5 5, GRAB;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, -webkit-grab;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, -moz-grab;
+  cursor: url(cursor_1.svg) 4 5, url(cursor_2.svg), IMAGE_SET(url(foo.jpg) 2x) 5 5, GRAB;
 }
