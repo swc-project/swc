@@ -598,7 +598,7 @@ impl VisitMut for CalcReplacer<'_> {
         }
 
         if let CalcValue::Function(function) = n {
-            if matches_eq_ignore_ascii_case!(function.name, "calc", "-webkit-calc", "-moz-calc") {
+            if matches_eq!(function.name, "calc", "-webkit-calc", "-moz-calc") {
                 let calc_sum = match function.value.first() {
                     Some(ComponentValue::CalcSum(calc_sum)) => *calc_sum.clone(),
                     _ => return,
