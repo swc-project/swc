@@ -4,6 +4,11 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_unicode_range(&self, unicode_range: &mut UnicodeRange) {
+        unicode_range.start = unicode_range.start.to_ascii_lowercase();
+        if let Some(end) = &mut unicode_range.end {
+            *end = end.to_ascii_lowercase();
+        }
+
         if unicode_range.end.is_none() {
             unicode_range.start = self.remove_leading_zeros(&unicode_range.start).into();
 
@@ -48,7 +53,7 @@ impl Compressor {
             if let Some(end_c) = &end.chars().nth(idx) {
                 if start_c == *end_c && question_counter == 0 {
                     minified.push(start_c);
-                } else if start_c == '0' && (*end_c == 'f' || *end_c == 'F') {
+                } else if start_c == '0' && *end_c == 'f' {
                     question_counter += 1;
 
                     minified.push('?')
