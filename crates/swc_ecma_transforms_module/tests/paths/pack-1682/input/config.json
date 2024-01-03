@@ -3,5 +3,5 @@
     "paths": {
         "@/*": ["./*"]
     },
-    "inputFile": "utils/test.ts"
+    "inputFile": "utils/test.js"
 }

@@ -1,7 +1,7 @@
 import PrismaClientProvider from "@/db/PrismaClientProvider";
 
 export default function setupTests() {
-  const context: any = {};
+  const context = {};
 
   beforeEach(() => {
     context.prisma = PrismaClientProvider.prisma;
