@@ -11,4 +11,4 @@ require_automerge_label = true
 
 # I want to use auto-merge feature of github
 [approve]
-auto_approve_usernames = []
+auto_approve_usernames = ["kdy1"]
