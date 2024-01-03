@@ -425,6 +425,8 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_url(&mut self, n: &mut Url) {
+        n.name.value = n.name.value.to_ascii_lowercase();
+
         n.visit_mut_children_with(self);
 
         self.compress_url(n);
