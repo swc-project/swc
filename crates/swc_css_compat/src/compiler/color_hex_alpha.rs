@@ -31,6 +31,9 @@ impl Compiler {
                 return;
             }
 
+            hex_color.value = hex_color.value.to_ascii_lowercase();
+            hex_color.raw = None;
+
             if let Some(shortened) = shorten_hex_color(&hex_color.value) {
                 hex_color.value = shortened.into();
                 hex_color.raw = None;
