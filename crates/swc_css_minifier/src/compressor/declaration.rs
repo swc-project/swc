@@ -6,7 +6,7 @@ use super::Compressor;
 impl Compressor {
     pub(super) fn compress_declaration(&self, declaration: &mut Declaration) {
         if let DeclarationName::Ident(Ident { value: name, .. }) = &declaration.name {
-            match &**name {
+            match &*name.to_ascii_lowercase() {
                 "display" if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
