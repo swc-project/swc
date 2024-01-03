@@ -216,6 +216,16 @@ impl VisitMut for Compressor {
         }
     }
 
+    fn visit_mut_hex_color(&mut self, n: &mut HexColor) {
+        let new = n.value.to_ascii_lowercase();
+        if new != n.value {
+            n.value = new;
+            n.raw = None;
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
         ident.visit_mut_children_with(self);
 
