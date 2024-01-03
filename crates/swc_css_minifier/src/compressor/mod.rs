@@ -55,6 +55,10 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_an_plus_b(&mut self, n: &mut AnPlusB) {
+        if let AnPlusB::Ident(n) = n {
+            n.value = n.value.to_ascii_lowercase();
+        }
+
         n.visit_mut_children_with(self);
 
         self.compress_an_plus_b(n);
@@ -369,6 +373,10 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_subclass_selector(&mut self, n: &mut SubclassSelector) {
+        if let SubclassSelector::PseudoClass(PseudoClassSelector { name, .. }) = n {
+            name.value = name.value.to_ascii_lowercase();
+        }
+
         n.visit_mut_children_with(self);
 
         self.compress_subclass_selector(n);
