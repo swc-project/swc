@@ -5,8 +5,10 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_declaration(&self, declaration: &mut Declaration) {
-        if let DeclarationName::Ident(Ident { value: name, .. }) = &declaration.name {
-            match &*name.to_ascii_lowercase() {
+        if let DeclarationName::Ident(Ident { value: name, .. }) = &mut declaration.name {
+            *name = name.to_ascii_lowercase();
+
+            match &**name {
                 "display" if declaration.value.len() > 1 => {
                     let mut outside = None;
                     let mut inside = None;
