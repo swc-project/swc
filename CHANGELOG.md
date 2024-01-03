@@ -28,6 +28,12 @@
 
 - **(html/parser)** Allow self-closing `/>` on non-void HTML elements via a flag ([#8460](https://github.com/swc-project/swc/issues/8460)) ([566063d](https://github.com/swc-project/swc/commit/566063dca5fe73834cdf5e0acf7c7f344a9806a5))
 
+### Refactor
+
+
+
+- **(css/parser)** Remove value normalization ([#8434](https://github.com/swc-project/swc/issues/8434)) ([85be8a4](https://github.com/swc-project/swc/commit/85be8a4de1d8407421aadeb5769d414b9938f693))
+
 ### Testing
 
 
@@ -1518,9 +1524,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es)** Init filesystem cache only if plugin exists ([#7436](https://github.com/swc-project/swc/issues/7436)) ([786cf3a](https://github.com/swc-project/swc/commit/786cf3a10ffe5e2990c5473062ea42771b769124))
 
 
 - **(es)** Ignore input sourcemap error ([#7446](https://github.com/swc-project/swc/issues/7446)) ([0c92e53](https://github.com/swc-project/swc/commit/0c92e534a5e3ccc74077ac03c473ad2c12fd5349))
