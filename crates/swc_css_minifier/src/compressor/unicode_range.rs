@@ -48,7 +48,7 @@ impl Compressor {
             if let Some(end_c) = &end.chars().nth(idx) {
                 if start_c == *end_c && question_counter == 0 {
                     minified.push(start_c);
-                } else if start_c == '0' && *end_c == 'f' {
+                } else if start_c == '0' && (*end_c == 'f' || *end_c == 'F') {
                     question_counter += 1;
 
                     minified.push('?')
