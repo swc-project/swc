@@ -1566,9 +1566,11 @@ where
         }
 
         emit!(n.key);
+
         if n.is_optional {
             punct!("?");
         }
+
         if let Some(type_ann) = &n.type_ann {
             if n.definite {
                 punct!("!");
@@ -1635,7 +1637,8 @@ where
 
         emit!(n.key);
 
-        // emit for a computed property, but not an identifier already marked as optional
+        // emit for a computed property, but not an identifier already marked as
+        // optional
         if n.is_optional && !n.key.as_ident().map(|i| i.optional).unwrap_or(false) {
             punct!("?");
         }
