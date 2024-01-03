@@ -76,6 +76,14 @@ impl VisitMut for Compressor {
         self.compress_keyframes_at_rule(n);
     }
 
+    fn visit_mut_at_rule_name(&mut self, n: &mut AtRuleName) {
+        if let AtRuleName::Ident(n) = n {
+            n.value = n.value.to_ascii_lowercase();
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_attribute_selector(&mut self, n: &mut AttributeSelector) {
         n.visit_mut_children_with(self);
 
@@ -187,14 +195,6 @@ impl VisitMut for Compressor {
         n.visit_mut_children_with(self);
 
         self.compress_forgiving_relative_selector_list(n);
-    }
-
-    fn visit_mut_at_rule_name(&mut self, n: &mut AtRuleName) {
-        if let AtRuleName::Ident(n) = n {
-            n.value = n.value.to_ascii_lowercase();
-        }
-
-        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_forgiving_selector_list(&mut self, n: &mut ForgivingSelectorList) {
