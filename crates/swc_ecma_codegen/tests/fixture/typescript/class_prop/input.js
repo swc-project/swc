@@ -7,11 +7,11 @@ class MyClass extends Base {
     readonly #prop6 = "asdf";
     public abstract override readonly prop7 = 5;
     override readonly #prop8 = 5;
-    accessor prop9!: string = "";
-    public accessor prop10 = "";
-    public static accessor prop11 = "";
-    public prop12: string;
-    private static prop13: string;
-    protected override accessor prop14 = 5;
     declare public static readonly prop9: string;
+    accessor prop10!: string = "";
+    public accessor prop11 = "";
+    public static accessor prop12 = "";
+    public prop13: string;
+    private static prop14: string;
+    protected override accessor prop15 = 5;
 }
