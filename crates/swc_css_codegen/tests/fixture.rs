@@ -80,6 +80,12 @@ fn run(input: &Path, minify: bool) {
             .compare_to_file(output)
             .unwrap();
 
+        if minify {
+            // We lowercase identifiers to make gzip compression rate better, so we cannot
+            // make the output equal to the input
+            return Ok(());
+        }
+
         let mut errors = vec![];
         let mut stylesheet_output: Stylesheet =
             parse_file(&fm_output, None, Default::default(), &mut errors).map_err(|err| {
