@@ -342,6 +342,13 @@ impl VisitMut for Compressor {
         }
     }
 
+    fn visit_mut_pseudo_element_selector(&mut self, n: &mut PseudoElementSelector) {
+        n.name.value = n.name.value.to_ascii_lowercase();
+        n.name.raw = None;
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_relative_selector_list(&mut self, n: &mut RelativeSelectorList) {
         n.visit_mut_children_with(self);
 
