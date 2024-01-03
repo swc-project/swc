@@ -638,6 +638,7 @@ fn html5lib_tests_verify(input: PathBuf) {
     let parser_config = ParserConfig {
         scripting_enabled,
         iframe_srcdoc: false,
+        allow_self_closing: false,
     };
     let codegen_config = CodegenConfig {
         minify: false,
