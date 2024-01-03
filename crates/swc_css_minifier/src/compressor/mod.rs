@@ -251,6 +251,8 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_length(&mut self, n: &mut Length) {
+        n.unit.value = n.unit.value.to_ascii_lowercase();
+
         n.visit_mut_children_with(self);
 
         self.compress_length(n);
