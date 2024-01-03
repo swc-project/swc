@@ -4,8 +4,8 @@ div {
   background: url(https://example.com/image.png);
   background: url("https://example.com/image.png");
   background: url('https://example.com/image.png');
-  background: url('https://example.com/image.png');
-  background: url('https://example.com/image.png');
+  background: URL('https://example.com/image.png');
+  background: URL('https://example.com/image.png');
   background: url(data:image/png;base64,iRxVB0);
   background: url(#IDofSVGpath);
   background: url("//aa.com/img.svg" prefetch);
@@ -16,7 +16,7 @@ div {
   background: url('');
   --foo: "http://www.example.com/pinkish.gif";
   background: src("http://www.example.com/pinkish.gif");
-  background: src("http://www.example.com/pinkish.gif");
+  background: SRC("http://www.example.com/pinkish.gif");
   background: src(var(--foo));
   background: url(https://example.com/image.png);
   background: url(https://example.com/image.png);
