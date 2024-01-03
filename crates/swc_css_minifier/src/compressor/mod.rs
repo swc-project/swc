@@ -57,6 +57,7 @@ impl VisitMut for Compressor {
     fn visit_mut_an_plus_b(&mut self, n: &mut AnPlusB) {
         if let AnPlusB::Ident(n) = n {
             n.value = n.value.to_ascii_lowercase();
+            n.raw = None;
         }
 
         n.visit_mut_children_with(self);
@@ -79,6 +80,7 @@ impl VisitMut for Compressor {
     fn visit_mut_at_rule_name(&mut self, n: &mut AtRuleName) {
         if let AtRuleName::Ident(n) = n {
             n.value = n.value.to_ascii_lowercase();
+            n.raw = None;
         }
 
         n.visit_mut_children_with(self);
@@ -205,6 +207,7 @@ impl VisitMut for Compressor {
 
     fn visit_mut_frequency(&mut self, n: &mut Frequency) {
         n.unit.value = n.unit.value.to_ascii_lowercase();
+        n.unit.raw = None;
 
         n.visit_mut_children_with(self);
 
@@ -214,6 +217,7 @@ impl VisitMut for Compressor {
     fn visit_mut_function(&mut self, n: &mut Function) {
         if let FunctionName::Ident(n) = &mut n.name {
             n.value = n.value.to_ascii_lowercase();
+            n.raw = None;
         }
 
         if matches_eq!(
@@ -267,6 +271,7 @@ impl VisitMut for Compressor {
 
     fn visit_mut_length(&mut self, n: &mut Length) {
         n.unit.value = n.unit.value.to_ascii_lowercase();
+        n.unit.raw = None;
 
         n.visit_mut_children_with(self);
 
@@ -324,13 +329,12 @@ impl VisitMut for Compressor {
                 ) =>
             {
                 n.name.value = n.name.value.to_ascii_lowercase();
+                n.name.raw = None;
 
                 n.visit_mut_children_with(&mut *self.with_ctx(Ctx {
                     in_logic_combinator_selector: true,
                     ..self.ctx
                 }));
-
-                dbg!(&n.children);
             }
             _ => {
                 n.visit_mut_children_with(self);
@@ -392,6 +396,7 @@ impl VisitMut for Compressor {
     fn visit_mut_subclass_selector(&mut self, n: &mut SubclassSelector) {
         if let SubclassSelector::PseudoClass(PseudoClassSelector { name, .. }) = n {
             name.value = name.value.to_ascii_lowercase();
+            name.raw = None;
         }
 
         n.visit_mut_children_with(self);
@@ -418,10 +423,8 @@ impl VisitMut for Compressor {
     }
 
     fn visit_mut_tag_name_selector(&mut self, n: &mut TagNameSelector) {
-        if self.ctx.in_logic_combinator_selector {
-            n.name.value.value = n.name.value.value.to_ascii_lowercase();
-            n.name.value.raw = None;
-        }
+        n.name.value.value = n.name.value.value.to_ascii_lowercase();
+        n.name.value.raw = None;
 
         n.visit_mut_children_with(self);
     }
@@ -470,6 +473,7 @@ impl VisitMut for Compressor {
 
     fn visit_mut_url(&mut self, n: &mut Url) {
         n.name.value = n.name.value.to_ascii_lowercase();
+        n.name.raw = None;
 
         n.visit_mut_children_with(self);
 
