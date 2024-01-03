@@ -1,7 +1,0 @@
-{
-    "baseUrl": ".",
-    "paths": {
-        "@/*": ["./*"]
-    },
-    "inputFile": "utils/test.js"
-}
