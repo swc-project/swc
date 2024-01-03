@@ -11,6 +11,9 @@
 - **(es/codegen)** Emit abstract keyword ([#8479](https://github.com/swc-project/swc/issues/8479)) ([a12eaae](https://github.com/swc-project/swc/commit/a12eaae0e544d7e485ce7ce11e56591e7ff34108))
 
 
+- **(es/codegen)** Emit declare keyword for class properties ([#8478](https://github.com/swc-project/swc/issues/8478)) ([2076ef8](https://github.com/swc-project/swc/commit/2076ef8f359941ad511c860000ec3eaa74410cac))
+
+
 - **(es/compat)** Set inserted var inside export class in destructing ([#8470](https://github.com/swc-project/swc/issues/8470)) ([4416077](https://github.com/swc-project/swc/commit/4416077f4ac1afb74575b9a0e836bb66b8dc8b9a))
 
 ### Testing
@@ -1528,14 +1531,8 @@
 
 - **(es/preset-env)** Fix pass ordering ([#7434](https://github.com/swc-project/swc/issues/7434)) ([2071f89](https://github.com/swc-project/swc/commit/2071f89d4eea7ae311b05457650e2f42c1b503ef))
 
-
-- **(swc_core)** Correctly expose plugin with host ([#7427](https://github.com/swc-project/swc/issues/7427)) ([558ca40](https://github.com/swc-project/swc/commit/558ca40b99bd3e9ac9a1742223dd9d3ef84061cb))
-
 ### Refactor
 
-
-
-- **(swc_core)** Make `common_plugin_transform` agnostic to mode ([#7422](https://github.com/swc-project/swc/issues/7422)) ([cfdd407](https://github.com/swc-project/swc/commit/cfdd40789673eef32a9b9365456860a7cb511000))
 
 
 - **(visit)** Reduce expanded LOCs ([#7442](https://github.com/swc-project/swc/issues/7442)) ([e83368e](https://github.com/swc-project/swc/commit/e83368e5744ebabab8537cb979a374ecbc2e7d95))
