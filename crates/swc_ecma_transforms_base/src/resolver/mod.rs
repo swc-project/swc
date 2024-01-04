@@ -148,6 +148,7 @@ pub fn resolver(
         current: Scope::new(ScopeKind::Fn, top_level_mark, None),
         ident_type: IdentType::Ref,
         in_type: false,
+        is_module: false,
         in_ts_module: false,
         decl_kind: DeclKind::Lexical,
         strict_mode: false,
@@ -204,6 +205,7 @@ struct Resolver<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
     in_type: bool,
+    is_module: bool,
     in_ts_module: bool,
     decl_kind: DeclKind,
     strict_mode: bool,
@@ -225,6 +227,7 @@ impl<'a> Resolver<'a> {
             current,
             ident_type: IdentType::Ref,
             in_type: false,
+            is_module: false,
             in_ts_module: false,
             config,
             decl_kind: DeclKind::Lexical,
@@ -245,6 +248,7 @@ impl<'a> Resolver<'a> {
             ident_type: IdentType::Ref,
             config: self.config,
             in_type: self.in_type,
+            is_module: self.is_module,
             in_ts_module: self.in_ts_module,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
@@ -306,7 +310,9 @@ impl<'a> Resolver<'a> {
                 return match &**sym {
                     // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
                     // non configurable global value
-                    "undefined" | "NaN" | "Infinity" if mark == self.config.top_level_mark => {
+                    "undefined" | "NaN" | "Infinity"
+                        if mark == self.config.top_level_mark && !self.is_module =>
+                    {
                         Some(self.config.unresolved_mark)
                     }
                     _ => Some(mark),
@@ -1032,6 +1038,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.strict_mode = true;
+        self.is_module = true;
         module.visit_mut_children_with(self)
     }
 
