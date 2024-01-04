@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_base"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.135.10"
+version       = "0.135.11"
 
 [lib]
 bench = false
@@ -31,15 +31,15 @@ tracing           = "0.1.37"
 swc_atoms       = { version = "0.6.5", path = "../swc_atoms" }
 swc_common      = { version = "0.33.12", path = "../swc_common" }
 swc_ecma_ast    = { version = "0.110.17", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.141.36", path = "../swc_ecma_parser" }
-swc_ecma_utils  = { version = "0.125.3", path = "../swc_ecma_utils" }
+swc_ecma_parser = { version = "0.141.37", path = "../swc_ecma_parser" }
+swc_ecma_utils  = { version = "0.125.4", path = "../swc_ecma_utils" }
 swc_ecma_visit  = { version = "0.96.17", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 criterion = "0.5"
 rayon     = "1"
 
-swc_ecma_codegen           = { version = "0.146.53", path = "../swc_ecma_codegen" }
+swc_ecma_codegen           = { version = "0.146.54", path = "../swc_ecma_codegen" }
 swc_ecma_transforms_macros = { version = "0.5.4", path = "../swc_ecma_transforms_macros" }
 swc_malloc                 = { version = "0.5.10", path = "../swc_malloc" }
 testing                    = { version = "0.35.14", path = "../testing" }
