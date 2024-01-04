@@ -9,9 +9,9 @@
 [href$=".org"] {}
 [href*="example"] {}
 [href*="insensitive" i] {}
-[href*="insensitive" i] {}
+[href*="insensitive" I] {}
 [href*="cAsE" s] {}
-[href*="cAsE" s] {}
+[href*="cAsE" S] {}
 [foo|att=val] {}
 [*|att] {}
 [*|att] {}
@@ -31,5 +31,5 @@ a[class="test"] {}
 [🐈] {}
 [🐈=🐈] {}
 [🐈|🐈=🐈] {}
-[frame=hsides i] {}
-[href*="cAsE" s] {}
+[frame=hsides I] {}
+[href*="cAsE" S] {}

@@ -213,7 +213,7 @@
                   "ctxt": 0
                 },
                 "start": "0",
-                "end": "7f",
+                "end": "7F",
                 "raw": "U+0-7F"
               }
             ],
@@ -245,7 +245,7 @@
                   "ctxt": 0
                 },
                 "start": "0025",
-                "end": "00ff",
+                "end": "00FF",
                 "raw": "U+0025-00FF"
               }
             ],
@@ -309,7 +309,7 @@
                   "ctxt": 0
                 },
                 "start": "0025",
-                "end": "00ff",
+                "end": "00FF",
                 "raw": "U+0025-00FF"
               },
               {
@@ -360,7 +360,7 @@
                   "end": 398,
                   "ctxt": 0
                 },
-                "start": "a5",
+                "start": "A5",
                 "end": null,
                 "raw": "U+A5"
               },
@@ -380,8 +380,8 @@
                   "end": 411,
                   "ctxt": 0
                 },
-                "start": "4e00",
-                "end": "9fff",
+                "start": "4E00",
+                "end": "9FFF",
                 "raw": "U+4E00-9FFF"
               },
               {
@@ -420,8 +420,8 @@
                   "end": 432,
                   "ctxt": 0
                 },
-                "start": "ff00",
-                "end": "ff9f",
+                "start": "FF00",
+                "end": "FF9F",
                 "raw": "U+FF00-FF9F"
               }
             ],
@@ -613,7 +613,7 @@
                   "ctxt": 0
                 },
                 "start": "1e1ee1",
-                "end": "ffffff",
+                "end": "FFFFFF",
                 "raw": "U+1e1ee1-FFFFFF"
               }
             ],

@@ -153,12 +153,7 @@ const L_I: ByteHandler = Some(|lexer| {
     })
 });
 
-const L_J: ByteHandler = Some(|lexer| {
-    lexer.read_word_with(|s| match s {
-        "let" => Some(Word::Keyword(Keyword::Let)),
-        _ => None,
-    })
-});
+const L_J: ByteHandler = IDN;
 
 const L_K: ByteHandler = Some(|lexer| {
     lexer.read_word_with(|s| match s {

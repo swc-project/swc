@@ -1,7 +1,9 @@
 use std::mem::take;
 
 use swc_common::DUMMY_SP;
-use swc_css_ast::{matches_eq, AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue};
+use swc_css_ast::{
+    matches_eq_ignore_ascii_case, AbsoluteColorBase, ComponentValue, Delimiter, DelimiterValue,
+};
 
 use crate::compiler::Compiler;
 
@@ -11,7 +13,8 @@ impl Compiler {
         n: &mut AbsoluteColorBase,
     ) {
         if let AbsoluteColorBase::Function(function) = n {
-            if !matches_eq!(function.name, "rgb", "rgba", "hsl", "hsla") {
+            if !matches_eq_ignore_ascii_case!(function.name.as_str(), "rgb", "rgba", "hsl", "hsla")
+            {
                 return;
             }
 

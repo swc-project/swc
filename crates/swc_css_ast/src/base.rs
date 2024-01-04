@@ -137,6 +137,15 @@ impl PartialEq<JsWord> for FunctionName {
     }
 }
 
+impl FunctionName {
+    pub fn as_str(&self) -> &str {
+        match self {
+            FunctionName::DashedIdent(v) => &v.value,
+            FunctionName::Ident(v) => &v.value,
+        }
+    }
+}
+
 #[ast_node("Function")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Function {

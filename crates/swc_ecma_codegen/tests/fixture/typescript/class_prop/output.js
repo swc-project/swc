@@ -3,6 +3,7 @@ class MyClass extends Base {
     prop2!: string;
     #prop3?: string;
     #prop4?: string = "test";
+    #privateOptionalNoType?;
     static readonly prop5!: string;
     readonly #prop6 = "asdf";
     public abstract override readonly prop7 = 5;
@@ -14,4 +15,5 @@ class MyClass extends Base {
     public prop13: string;
     private static prop14: string;
     protected override accessor prop15 = 5;
+    [value]?: string[];
 }

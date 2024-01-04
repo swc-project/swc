@@ -2,7 +2,7 @@ body {
   order: 1;
 }
 body, 
-not {
+Not {
   order: 2;
 }
 em[attr=:not],
