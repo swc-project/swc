@@ -566,7 +566,7 @@ impl VisitMut for CalcReplacer<'_> {
             return;
         }
 
-        let is_calc = n.name == "calc";
+        let is_calc = n.name.as_str().eq_ignore_ascii_case("calc");
 
         self.inside_calc = is_calc || is_webkit_calc || is_moz_calc;
 

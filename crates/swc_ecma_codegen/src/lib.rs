@@ -1467,6 +1467,11 @@ where
             }
         }
 
+        if n.is_abstract {
+            keyword!("abstract");
+            space!()
+        }
+
         if n.is_override {
             keyword!("override");
             space!()
@@ -1601,11 +1606,21 @@ where
             emit!(dec)
         }
 
+        if n.declare {
+            keyword!("declare");
+            space!();
+        }
+
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.is_abstract {
+            keyword!("abstract");
+            space!()
         }
 
         if n.is_override {

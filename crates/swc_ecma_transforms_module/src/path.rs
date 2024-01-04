@@ -161,13 +161,19 @@ where
                 false
             };
 
+            let is_resolved_as_js = if let Some(ext) = target_path.extension() {
+                ext == "js"
+            } else {
+                false
+            };
+
             let is_exact = if let Some(filename) = target_path.file_name() {
                 filename == orig_filename
             } else {
                 false
             };
 
-            if !is_resolved_as_index && !is_exact {
+            if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
                 target_path.set_file_name(orig_filename);
             } else if is_resolved_as_ts && is_exact {
                 if let Some(ext) = Path::new(orig_filename).extension() {

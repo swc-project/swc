@@ -7198,7 +7198,7 @@
                   "end": 2486,
                   "ctxt": 0
                 },
-                "value": "width",
+                "value": "WIDTH",
                 "raw": "WIDTH"
               },
               "comparison": "<=",
