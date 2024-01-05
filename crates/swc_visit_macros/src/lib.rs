@@ -1408,10 +1408,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     // impl Visit for swc_visit::All<V> where V: VisitAll
     if mode == Mode::VisitAll {
-        let mut item = q!(Vars {}, {
+        let mut item: ItemImpl = parse_quote!(
             impl<V> Visit for ::swc_visit::All<V> where V: VisitAll {}
-        })
-        .parse::<ItemImpl>();
+        );
 
         item.items
             .extend(visit_all_methods.into_iter().map(ImplItem::Fn));
