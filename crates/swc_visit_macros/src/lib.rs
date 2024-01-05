@@ -178,7 +178,7 @@ fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Var
             vis: Visibility::Inherited,
             ident: None,
             colon_token: None,
-            ty: q!({ usize }).parse(),
+            ty: parse_quote!(usize),
             mutability: FieldMutability::None,
         });
 
@@ -318,7 +318,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                     v.push(FnArg::Typed(PatType {
                         attrs: Default::default(),
                         colon_token: Default::default(),
-                        ty: q!({ usize }).parse(),
+                        ty: parse_quote!(usize),
                         pat: Box::new(Pat::Ident(PatIdent {
                             attrs: Default::default(),
                             by_ref: Default::default(),
@@ -353,13 +353,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                 pat: Pat::TupleStruct(PatTupleStruct {
                                     attrs: Default::default(),
                                     qself: None,
-                                    path: q!(
-                                        Vars {
-                                            VariantName: &variant_name
-                                        },
-                                        { Self::VariantName }
-                                    )
-                                    .parse(),
+                                    path: parse_quote!(Self::#variant_name),
                                     paren_token: name.span().as_token(),
                                     elems: {
                                         let mut v = Punctuated::new();
