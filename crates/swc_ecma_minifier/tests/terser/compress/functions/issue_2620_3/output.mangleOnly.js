@@ -1,16 +1,16 @@
 var c = "FAIL";
 (function() {
-    function c(c, n) {
-        function o() {
-            switch(c){
-                case c:
+    function n(n, o) {
+        function a() {
+            switch(n){
+                case n:
                     break;
-                case ((c = "PASS"), n):
+                case ((c = "PASS"), o):
                     break;
             }
         }
-        o();
+        a();
     }
-    c(0 / 0);
+    n(0 / 0);
 })();
 console.log(c);

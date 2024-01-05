@@ -2,13 +2,13 @@ var a = {
     a: 1,
     b: 2
 };
-console.log((function(a) {
+console.log((function(n) {
     a = {
         a: 3,
         b: 4
     };
     return {
-        x: a.a,
-        y: a.b
+        x: n.a,
+        y: n.b
     };
 })(a));

@@ -1,7 +1,7 @@
 var n = "PASS";
 for(var o = 2; --o >= 0;)(function() {
-    var n = (function() {
+    var o = (function() {
         return 1;
-    })(n && (n = "FAIL"));
+    })(o && (n = "FAIL"));
 })();
 console.log(n);

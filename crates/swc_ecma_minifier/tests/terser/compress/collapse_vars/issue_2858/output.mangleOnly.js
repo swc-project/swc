@@ -1,11 +1,11 @@
 var o;
 (function() {
-    function o() {
-        v++;
+    function n() {
+        a++;
     }
-    o();
-    var n = o();
-    var v = void 0;
-    n || (o = v);
+    n();
+    var v = n();
+    var a = void 0;
+    v || (o = a);
 })();
 console.log(o);

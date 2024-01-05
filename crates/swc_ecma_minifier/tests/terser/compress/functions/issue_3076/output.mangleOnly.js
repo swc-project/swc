@@ -1,15 +1,15 @@
 var r = "PASS";
-(function(r) {
-    var n = 2;
-    while(--r + (function() {
-        n && (r = "FAIL");
-        n = 5;
+(function(n) {
+    var t = 2;
+    while(--n + (function() {
+        t && (r = "FAIL");
+        t = 5;
         return 1;
         try {
-            var r = 5;
-        } catch (n) {
-            var n;
+            var n = 5;
+        } catch (t) {
+            var t;
         }
-    })().toString() && --n > 0);
+    })().toString() && --t > 0);
 })(2);
 console.log(r);
