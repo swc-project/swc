@@ -2443,12 +2443,12 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                     true,
                 );
 
-                let mut match_expr: ExprMatch = q!((match n {})).parse();
+                let mut match_expr: ExprMatch = parse_quote!(match n {});
                 match_expr.arms.push(arm);
 
                 Block {
                     brace_token: Default::default(),
-                    stmts: vec![q!(Vars { match_expr }, { match_expr }).parse()],
+                    stmts: vec![Stmt::Expr(match_expr.into(), None)],
                 }
             };
 
