@@ -371,21 +371,20 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                 }),
                                 guard: Default::default(),
                                 fat_arrow_token: name.span().as_token(),
-                                body: q!(({
+                                body: parse_quote!({
                                     debug_assert!(
                                         *idx == usize::MAX || index == usize::MAX,
                                         "Should be usize::MAX"
                                     );
                                     *idx = index;
-                                }))
-                                .parse(),
+                                }),
                                 comma: Some(name.span().as_token()),
                             });
                         }
                     }
                 };
 
-                arms.push(q!({ _ => {} }).parse());
+                arms.push(parse_quote!(_ => {}));
 
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
