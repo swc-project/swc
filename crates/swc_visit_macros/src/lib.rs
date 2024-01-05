@@ -390,7 +390,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
                     match_token: name.span().as_token(),
-                    expr: q!({ self }).parse(),
+                    expr: parse_quote!(self),
                     brace_token: name.span().as_token(),
                     arms,
                 });
@@ -475,13 +475,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                 ident: None,
                 ty: Type::Path(TypePath {
                     qself: Default::default(),
-                    path: q!(
-                        Vars {
-                            field_type_name: &field_type_name,
-                        },
-                        (self::fields::field_type_name)
-                    )
-                    .parse(),
+                    path: parse_quote!(self::fields::#field_type_name),
                 }),
                 mutability: FieldMutability::None,
             });
