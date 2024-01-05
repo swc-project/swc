@@ -1137,21 +1137,13 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             Some(match mode {
                 Mode::Fold(VisitorVariant::Normal)
                 | Mode::VisitMut(VisitorVariant::Normal)
-                | Mode::Visit(VisitorVariant::Normal) => q!(Vars { fn_name: &fn_name }, {
-                    {
-                        fn_name(self, n)
-                    }
-                })
-                .parse(),
+                | Mode::Visit(VisitorVariant::Normal) => parse_quote!({#fn_name(self, n)}),
 
                 Mode::Fold(VisitorVariant::WithPath)
                 | Mode::VisitMut(VisitorVariant::WithPath)
-                | Mode::Visit(VisitorVariant::WithPath) => q!(Vars { fn_name: &fn_name }, {
-                    {
-                        fn_name(self, n, __ast_path)
-                    }
-                })
-                .parse(),
+                | Mode::Visit(VisitorVariant::WithPath) => {
+                    parse_quote!({ fn_name(self, n, __ast_path) })
+                }
 
                 Mode::VisitAll => Block {
                     brace_token: Default::default(),
