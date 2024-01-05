@@ -2,11 +2,11 @@ var o = "FAIL";
 (function() {
     try {
         throw 1;
-    } catch (o) {
+    } catch (c) {
         (function o(o) {
             o && o();
         })();
-        o && (o = "PASS");
+        c && (o = "PASS");
     }
 })();
 console.log(o);

@@ -1,6 +1,6 @@
 var o;
-function f(o) {
+function f(f) {
     o = foo();
-    o *= 4 + foo();
+    f *= 4 + foo();
     c >>= 0 | foo();
 }

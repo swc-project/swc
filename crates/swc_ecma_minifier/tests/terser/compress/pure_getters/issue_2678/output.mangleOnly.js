@@ -1,6 +1,6 @@
 var n = 1, o = "FAIL";
-(function o() {
-    (n-- && o()).p;
+(function e() {
+    (n-- && e()).p;
     return {
         get p () {
             o = "PASS";

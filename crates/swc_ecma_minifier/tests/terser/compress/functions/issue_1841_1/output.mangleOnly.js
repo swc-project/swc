@@ -1,6 +1,6 @@
 var o = 10;
-!(function(o) {
-    for(var a in "hi")var n = o.baz, n = [
+!(function(a) {
+    for(var n in "hi")var r = a.baz, r = [
         (o = 42)
     ];
 })(--o);

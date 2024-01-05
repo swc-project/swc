@@ -2,11 +2,11 @@ var n = {
     a: 1,
     b: 2
 };
-function o(n) {
+function o(o) {
     n = {
         b: 3
     };
-    return n;
+    return o;
 }
 console.log((function(n) {
     return [

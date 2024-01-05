@@ -1,6 +1,6 @@
 function n(n) {
-    (function(n) {
-        n = n();
+    (function(t) {
+        n = t();
     })(function() {
         return (function(n) {
             return n;

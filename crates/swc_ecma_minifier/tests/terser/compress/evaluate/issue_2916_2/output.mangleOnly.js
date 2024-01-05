@@ -1,8 +1,8 @@
 var n = "FAIL";
-(function(n) {
+(function(o) {
     (function(n) {
         n[0] = 1;
-    })(n);
-    +n && (n = "PASS");
+    })(o);
+    +o && (n = "PASS");
 })([]);
 console.log(n);

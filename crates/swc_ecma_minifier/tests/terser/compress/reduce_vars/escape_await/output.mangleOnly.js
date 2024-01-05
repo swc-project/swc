@@ -1,7 +1,7 @@
 function n() {
     var n;
-    e().then((n)=>{
-        n = n;
+    e().then((o)=>{
+        n = o;
     });
     e().then((o)=>{
         if (n !== (n = o)) console.log("FAIL");

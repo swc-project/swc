@@ -1,7 +1,7 @@
 var o = "FAIL";
 try {
     throw 1;
-} catch (o) {
+} catch (c) {
     o = "PASS";
 }
 console.log(o);

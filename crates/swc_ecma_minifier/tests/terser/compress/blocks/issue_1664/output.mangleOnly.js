@@ -1,9 +1,9 @@
 var n = 1;
 function o() {
-    if (n) n = 2;
+    if (o) n = 2;
     {
-        function n() {}
-        n();
+        function o() {}
+        o();
     }
 }
 o();
