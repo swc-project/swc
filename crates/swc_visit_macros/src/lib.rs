@@ -9,13 +9,13 @@ use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
-    parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
-    Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
-    Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam,
-    Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
-    ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct, PatTupleStruct,
-    PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
-    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    parse, parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm,
+    AttrStyle, Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath,
+    ExprUnary, Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg, GenericArgument,
+    GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
+    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct,
+    PatTupleStruct, PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token,
+    TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -586,7 +586,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                 v.push(FnArg::Typed(PatType {
                     attrs: Default::default(),
                     colon_token: Default::default(),
-                    ty: q!({ usize }).parse(),
+                    ty: parse_quote!(usize),
                     pat: Box::new(Pat::Ident(PatIdent {
                         attrs: Default::default(),
                         by_ref: Default::default(),
@@ -628,7 +628,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                         attrs: Default::default(),
                         pat: Pat::TupleStruct(PatTupleStruct {
                             attrs: Default::default(),
-                            path: q!(Vars { name }, { Self::name }).parse(),
+                            path: parse_quote!(Self::#name),
                             qself: None,
                             paren_token: Default::default(),
                             elems: {
