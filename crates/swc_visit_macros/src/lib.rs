@@ -9,13 +9,13 @@ use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
-    parse, parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm,
-    AttrStyle, Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath,
-    ExprUnary, Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg, GenericArgument,
-    GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod,
-    ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct,
-    PatTupleStruct, PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token,
-    TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
+    Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
+    Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam,
+    Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
+    ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct, PatTupleStruct,
+    PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
+    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -646,7 +646,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                         }),
                         guard: Default::default(),
                         fat_arrow_token: name.span().as_token(),
-                        body: q!({ v.set_index(index) }).parse(),
+                        body: parse_quote!(v.set_index(index)),
                         comma: Some(name.span().as_token()),
                     })
                 }
