@@ -3104,8 +3104,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             }
 
             match mode {
-                Mode::Fold { .. } => q!(({ return n })).parse(),
-                Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => q!(({})).parse(),
+                Mode::Fold { .. } => parse_quote!(return n),
+                Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => parse_quote!({}),
             }
         }
         Type::Ptr(_) => unimplemented!("type: pointer"),
