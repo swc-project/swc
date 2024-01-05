@@ -2513,7 +2513,7 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                         Expr::Match(ExprMatch {
                             attrs: vec![],
                             match_token: Default::default(),
-                            expr: q!((n)).parse(),
+                            expr: parse_quote!(n),
                             brace_token: Default::default(),
                             arms,
                         }),
