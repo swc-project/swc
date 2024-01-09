@@ -2230,13 +2230,7 @@ fn make_arm_from_struct(
             .unwrap_or_else(|| Ident::new(&format!("_{}", i), call_site()));
 
         if !skip(ty) {
-            let expr = q!(
-                Vars {
-                    binding_ident: &binding_ident
-                },
-                { binding_ident }
-            )
-            .parse();
+            let expr: Expr = parse_quote!(#binding_ident);
 
             let ast_path = if use_ast_path {
                 Some((
@@ -2255,16 +2249,7 @@ fn make_arm_from_struct(
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                     Stmt::Expr(expr, Some(Token![;](call_site())))
                 }
-                Mode::Fold { .. } => q!(
-                    Vars {
-                        name: &binding_ident,
-                        expr
-                    },
-                    {
-                        let name = expr;
-                    }
-                )
-                .parse(),
+                Mode::Fold { .. } => parse_quote!(let #binding_ident = #expr;),
             });
         }
 
