@@ -2826,24 +2826,19 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         if as_box(arg).is_some() {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
-                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                                parse_quote!(_visitor.#ident(n)),
                                             );
 
-                                            return q!(
-                                                Vars { inner },
-                                                ({
-                                                    match n {
-                                                        Some(n) => {
-                                                            Some(swc_visit::util::map::Map::map(
-                                                                n,
-                                                                |n| inner,
-                                                            ))
-                                                        }
-                                                        None => None,
-                                                    }
-                                                })
-                                            )
-                                            .parse();
+                                            return parse_quote!({
+                                                match n {
+                                                    Some(n) => Some(
+                                                        swc_visit::util::map::Map::map(n, |n| {
+                                                            #inner
+                                                        }),
+                                                    ),
+                                                    None => None,
+                                                }
+                                            });
                                         }
                                     }
 
