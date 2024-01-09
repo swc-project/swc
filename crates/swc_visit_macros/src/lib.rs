@@ -2250,7 +2250,7 @@ fn make_arm_from_struct(
                 None
             };
 
-            let expr = visit_expr(mode, ty, &q!({ _visitor }).parse(), expr, ast_path);
+            let expr = visit_expr(mode, ty, &parse_quote!(_visitor), expr, ast_path);
             stmts.push(match mode {
                 Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
                     Stmt::Expr(expr, Some(Token![;](call_site())))
