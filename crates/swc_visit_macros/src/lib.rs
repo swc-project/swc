@@ -2827,30 +2827,22 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                     return if is_option(arg) {
                         match mode {
-                            Mode::Fold(VisitorVariant::Normal) => q!(
-                                Vars { ident },
-                                ({
-                                    swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                        _visitor.ident(v)
+                            Mode::Fold(VisitorVariant::Normal) => parse_quote!({
+                                swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                    _visitor.#ident(v)
+                                })
+                            }),
+
+                            Mode::Fold(VisitorVariant::WithPath) => parse_quote!({
+                                n.into_iter()
+                                    .enumerate()
+                                    .map(|(idx, v)| {
+                                        let mut __ast_path = __ast_path.with_index_guard(idx);
+
+                                        _visitor.#ident(v, &mut *__ast_path)
                                     })
-                                })
-                            )
-                            .parse(),
-
-                            Mode::Fold(VisitorVariant::WithPath) => q!(
-                                Vars { ident },
-                                ({
-                                    n.into_iter()
-                                        .enumerate()
-                                        .map(|(idx, v)| {
-                                            let mut __ast_path = __ast_path.with_index_guard(idx);
-
-                                            _visitor.ident(v, &mut *__ast_path)
-                                        })
-                                        .collect()
-                                })
-                            )
-                            .parse(),
+                                    .collect()
+                            }),
 
                             Mode::VisitMut(VisitorVariant::Normal) => {
                                 parse_quote!({ n.iter_mut().for_each(|v| _visitor.#ident(v)) })
