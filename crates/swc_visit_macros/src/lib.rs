@@ -732,7 +732,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
 
                     let pat = Pat::TupleStruct(PatTupleStruct {
                         attrs: Default::default(),
-                        path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        path: parse_quote!(Self::#name),
                         qself: None,
                         paren_token: Default::default(),
                         elems: {
@@ -759,7 +759,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                     let path_expr = Expr::Path(ExprPath {
                         attrs: Default::default(),
                         qself: Default::default(),
-                        path: q!(Vars { Name: &name }, (AstParentKind::Name)).parse(),
+                        path: parse_quote!(AstParentKind::#name),
                     });
 
                     arms.push(Arm {
