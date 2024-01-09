@@ -2792,16 +2792,12 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 parse_quote!(_visitor.#ident(n)),
                                             );
 
-                                            q!(
-                                                Vars { inner },
-                                                ({
-                                                    match n {
-                                                        Some(n) => inner,
-                                                        None => {}
-                                                    }
-                                                })
-                                            )
-                                            .parse()
+                                            parse_quote!({
+                                                match n {
+                                                    Some(n) => #inner,
+                                                    None => {}
+                                                }
+                                            })
                                         }
                                     };
                                 }
