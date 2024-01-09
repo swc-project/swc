@@ -1685,7 +1685,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             match mode {
                 Mode::Visit(VisitorVariant::Normal) => {
-                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
                         q!(
                             Vars {
                                 expr,
