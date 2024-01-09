@@ -1862,7 +1862,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::VisitAll => {
-                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
                         q!(
                             Vars {
                                 expr,
@@ -1898,7 +1898,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::VisitMut(VisitorVariant::Normal) => {
-                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
                         q!(
                             Vars {
                                 expr,
@@ -1930,7 +1930,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::VisitMut(VisitorVariant::WithPath) => {
-                    let default_body = adjust_expr(mode, ty, q!({ self }).parse(), |expr| {
+                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
                         q!(
                             Vars {
                                 expr,
