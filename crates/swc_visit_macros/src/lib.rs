@@ -2089,15 +2089,7 @@ fn visit_expr(
         Mode::Fold(VisitorVariant::Normal)
         | Mode::VisitMut(VisitorVariant::Normal)
         | Mode::Visit(VisitorVariant::Normal)
-        | Mode::VisitAll => q!(
-            Vars {
-                visitor,
-                expr,
-                visit_name
-            },
-            { visitor.visit_name(expr) }
-        )
-        .parse(),
+        | Mode::VisitAll => parse_quote!(#visitor.#visit_name(#expr)),
 
         Mode::Fold(VisitorVariant::WithPath)
         | Mode::VisitMut(VisitorVariant::WithPath)
