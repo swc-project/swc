@@ -2774,7 +2774,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     stmts: vec![],
                 }
             }
-            Mode::Fold { .. } => return parse_quote!(n),
+            Mode::Fold { .. } => return parse_quote!({ n }),
         }
     }
 
