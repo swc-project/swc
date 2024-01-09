@@ -2954,17 +2954,15 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::Visit(VisitorVariant::WithPath) => q!(
-                                Vars { ident },
-                                ({
+                            Mode::Visit(VisitorVariant::WithPath) => {
+                                parse_quote!({
                                     n.iter().enumerate().for_each(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.ident(v, &mut *__ast_path)
+                                        _visitor.#ident(v, &mut *__ast_path)
                                     })
                                 })
-                            )
-                            .parse(),
+                            }
                         }
                     };
                 }
