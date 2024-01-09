@@ -1391,7 +1391,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         // Add FoldWith, VisitWith
 
         let trait_decl = match mode {
-            Mode::Visit(VisitorVariant::Normal) => q!({
+            Mode::Visit(VisitorVariant::Normal) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait VisitWith<V: ?Sized + Visit> {
@@ -1416,9 +1416,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         (**self).visit_children_with(v)
                     }
                 }
-            }),
+            ),
 
-            Mode::Visit(VisitorVariant::WithPath) => q!({
+            Mode::Visit(VisitorVariant::WithPath) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
@@ -1475,7 +1475,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         (**self).visit_children_with_path(v, ast_path)
                     }
                 }
-            }),
+            ),
 
             Mode::VisitAll => q!({
                 /// A utility trait implemented for ast nodes, and allow to
