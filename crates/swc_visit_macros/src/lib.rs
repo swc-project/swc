@@ -2733,11 +2733,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
                             );
 
-                            return q!(
-                                Vars { inner },
-                                ({ swc_visit::util::map::Map::map(n, |n| inner) })
-                            )
-                            .parse();
+                            return parse_quote!(swc_visit::util::map::Map::map(n, |n| #inner));
                         }
 
                         Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
