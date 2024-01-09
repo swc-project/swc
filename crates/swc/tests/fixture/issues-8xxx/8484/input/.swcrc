@@ -61,5 +61,5 @@
             "inlineSourcesContent": false
         }
     },
-    "minify": false,
+    "minify": true,
 }
