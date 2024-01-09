@@ -2852,11 +2852,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::VisitMut(VisitorVariant::Normal) => q!(
-                                Vars { ident },
-                                ({ n.iter_mut().for_each(|v| _visitor.ident(v)) })
-                            )
-                            .parse(),
+                            Mode::VisitMut(VisitorVariant::Normal) => {
+                                parse_quote!({ n.iter_mut().for_each(|v| _visitor.#ident(v)) })
+                            }
 
                             Mode::VisitMut(VisitorVariant::WithPath) => q!(
                                 Vars { ident },
