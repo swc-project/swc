@@ -23,6 +23,9 @@
 - **(es/compat)** Set inserted var inside export class in destructing ([#8470](https://github.com/swc-project/swc/issues/8470)) ([4416077](https://github.com/swc-project/swc/commit/4416077f4ac1afb74575b9a0e836bb66b8dc8b9a))
 
 
+- **(es/compat)** Correctly handle `this` in arrow function parameters ([#8489](https://github.com/swc-project/swc/issues/8489)) ([52a8f05](https://github.com/swc-project/swc/commit/52a8f05fe419e905465e31b493d2007a1511276c))
+
+
 - **(es/module)** Fix resolving of `.js` files ([#8480](https://github.com/swc-project/swc/issues/8480)) ([b70e96f](https://github.com/swc-project/swc/commit/b70e96ffe93d3ed59420d5c66a0a4258f6bf1de7))
 
 
@@ -1507,9 +1510,6 @@
 
 
 - **(es/codegen)** Emit `;` for `TsImportEqualsDecl` ([#7464](https://github.com/swc-project/swc/issues/7464)) ([3935d02](https://github.com/swc-project/swc/commit/3935d02e365c2fcfdf517fe6dc5943f4ba2616cd))
-
-
-- **(es/parser)** Fix parsing of generic jsx element name ([#7449](https://github.com/swc-project/swc/issues/7449)) ([77850dd](https://github.com/swc-project/swc/commit/77850dd8f01f51af1e9dda3eabddd07b7e39c841))
 
 
 - **(plugin/runner)** Disable `wasi_env` cleanup ([#7458](https://github.com/swc-project/swc/issues/7458)) ([1868d36](https://github.com/swc-project/swc/commit/1868d36cfed54e48c3439ec4547251e45731c93a))
