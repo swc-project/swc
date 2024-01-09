@@ -2623,18 +2623,10 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                 );
                             }
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                                return mk_exact(
-                                    mode,
-                                    ident,
-                                    &q!(Vars { item }, { Option<& [item]> }).parse(),
-                                );
+                                return mk_exact(mode, ident, &parse_quote!(Option<&[#item]>));
                             }
                             Mode::Visit(VisitorVariant::WithPath) => {
-                                return mk_exact(
-                                    mode,
-                                    ident,
-                                    &q!(Vars { item }, { Option<&'ast [item]> }).parse(),
-                                );
+                                return mk_exact(mode, ident, &parse_quote!(Option<&'ast [#item]>));
                             }
                         }
                     }
