@@ -2587,7 +2587,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             },
             variadic: None,
             output: match mode {
-                Mode::Fold { .. } => q!(Vars { ty }, { -> ty }).parse(),
+                Mode::Fold { .. } => parse_quote!(-> #ty),
                 _ => ReturnType::Default,
             },
         }
@@ -2595,7 +2595,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
     fn mk_ref(mode: Mode, ident: Ident, ty: &Type, mutable: bool) -> Signature {
         if let Mode::Visit(VisitorVariant::WithPath) = mode {
-            return mk_exact(mode, ident, &q!(Vars { ty }, (&'ast ty)).parse());
+            return mk_exact(mode, ident, &parse_quote!(&'ast #ty));
         }
 
         mk_exact(
