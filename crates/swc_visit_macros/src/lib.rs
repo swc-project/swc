@@ -2637,17 +2637,13 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                                     match mode {
                                         Mode::Fold { .. } => {
-                                            return mk_exact(
-                                                mode,
-                                                ident,
-                                                &q!(Vars { arg }, { Vec<arg> }).parse(),
-                                            );
+                                            return mk_exact(mode, ident, &parse_quote!(Vec<#arg>));
                                         }
                                         Mode::VisitMut { .. } => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
-                                                &q!(Vars { arg }, { Vec<arg> }).parse(),
+                                                &parse_quote!(Vec<#arg>),
                                                 true,
                                             );
                                         }
@@ -2655,7 +2651,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                                             return mk_ref(
                                                 mode,
                                                 ident,
-                                                &q!(Vars { arg }, { [arg] }).parse(),
+                                                &parse_quote!([#arg]),
                                                 false,
                                             );
                                         }
