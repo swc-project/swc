@@ -247,11 +247,6 @@ where
     );
     let pass = add!(pass, ObjectSuper, es2015::object_super());
     let pass = add!(pass, FunctionName, es2015::function_name());
-    let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
-    let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
-    let pass = add!(pass, StickyRegex, es2015::sticky_regex());
-    // TODO:    InstanceOf,
-    let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
     let pass = add!(pass, ShorthandProperties, es2015::shorthand());
     let pass = add!(
         pass,
@@ -263,6 +258,11 @@ where
             unresolved_mark
         )
     );
+    let pass = add!(pass, ArrowFunctions, es2015::arrow(unresolved_mark));
+    let pass = add!(pass, DuplicateKeys, es2015::duplicate_keys());
+    let pass = add!(pass, StickyRegex, es2015::sticky_regex());
+    // TODO:    InstanceOf,
+    let pass = add!(pass, TypeOfSymbol, es2015::typeof_symbol());
     let pass = add!(
         pass,
         ForOf,

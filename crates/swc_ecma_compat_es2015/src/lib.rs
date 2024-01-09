@@ -78,11 +78,11 @@ where
         Optional::new(object_super(), !c.typescript),
         shorthand(),
         function_name(),
-        exprs(unresolved_mark),
         for_of(c.for_of),
         // Should come before parameters
         // See: https://github.com/swc-project/swc/issues/1036
         parameters(c.parameters, unresolved_mark),
+        exprs(unresolved_mark),
         computed_properties(c.computed_props),
         destructuring(c.destructuring),
         block_scoping(unresolved_mark),
