@@ -2559,7 +2559,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             fn_token: Default::default(),
             ident,
             generics: if let Mode::Visit(VisitorVariant::WithPath) = mode {
-                q!({<'ast: 'r, 'r>}).parse()
+                parse_quote!(<'ast: 'r, 'r>)
             } else {
                 Default::default()
             },
