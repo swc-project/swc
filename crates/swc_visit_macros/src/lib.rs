@@ -1335,15 +1335,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     {
         // impl Trait for Optional
-        let mut item = q!(
-            Vars {
-                Trait: Ident::new(mode.trait_name(), call_site()),
-            },
-            {
-                impl<V> Trait for ::swc_visit::Optional<V> where V: Trait {}
-            }
-        )
-        .parse::<ItemImpl>();
+        let trait_name = Ident::new(mode.trait_name(), call_site());
+
+        let mut item: ItemImpl =
+            parse_quote!(impl<V> #trait_name for ::swc_visit::Optional<V> where V: #trait_name {});
 
         item.items
             .extend(optional_methods.into_iter().map(ImplItem::Fn));
