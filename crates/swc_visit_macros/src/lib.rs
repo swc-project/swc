@@ -791,7 +791,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
                     match_token: Default::default(),
-                    expr: q!({ self }).parse(),
+                    expr: parse_quote!(self),
                     brace_token: Default::default(),
                     arms,
                 });
@@ -820,7 +820,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                 v.push(FnArg::Typed(PatType {
                     attrs: Default::default(),
                     colon_token: Default::default(),
-                    ty: q!({ usize }).parse(),
+                    ty: parse_quote!(usize),
                     pat: Box::new(Pat::Ident(PatIdent {
                         attrs: Default::default(),
                         by_ref: Default::default(),
