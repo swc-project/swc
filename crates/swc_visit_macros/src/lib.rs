@@ -891,7 +891,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         pat,
                         guard: Default::default(),
                         fat_arrow_token: stmt.span().as_token(),
-                        body: q!({ __field_kind.set_index(index) }).parse(),
+                        body: parse_quote!(__field_kind.set_index(index)),
                         comma: Some(stmt.span().as_token()),
                     });
                 }
@@ -899,7 +899,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                 let match_expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
                     match_token: Default::default(),
-                    expr: q!({ self }).parse(),
+                    expr: parse_quote!(self),
                     brace_token: Default::default(),
                     arms,
                 });
