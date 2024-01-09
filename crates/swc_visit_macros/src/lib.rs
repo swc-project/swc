@@ -3240,7 +3240,7 @@ fn inject_ast_path_arg_if_required(mode: Mode, mut visit_expr: ExprMethodCall) -
         _ => return Expr::MethodCall(visit_expr),
     }
 
-    visit_expr.args.push(q!((__ast_path)).parse());
+    visit_expr.args.push(parse_quote!(__ast_path));
 
     Expr::MethodCall(visit_expr)
 }
