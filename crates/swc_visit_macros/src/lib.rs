@@ -1301,15 +1301,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     {
         // impl Visit for &'_ mut V
 
-        let mut item = q!(
-            Vars {
-                Trait: Ident::new(mode.trait_name(), call_site()),
-            },
-            {
-                impl<'a, V> Trait for &'a mut V where V: ?Sized + Trait {}
-            }
-        )
-        .parse::<ItemImpl>();
+        let trait_name = Ident::new(mode.trait_name(), call_site());
+
+        let mut item: ItemImpl =
+            parse_quote!(impl<'a, V> #trait_name for &'a mut V where V: ?Sized + #trait_name {});
 
         item.items
             .extend(ref_methods.clone().into_iter().map(ImplItem::Fn));
