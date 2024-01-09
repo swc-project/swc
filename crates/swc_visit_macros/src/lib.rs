@@ -2055,7 +2055,7 @@ where
         expr = match mode {
             Mode::Visit { .. } | Mode::VisitAll => expr,
             Mode::VisitMut { .. } => expr,
-            Mode::Fold { .. } => q!(Vars { expr }, { *expr }).parse(),
+            Mode::Fold { .. } => parse_quote!(*#expr),
         };
     }
 
@@ -2065,7 +2065,7 @@ where
         expr = match mode {
             Mode::Visit { .. } | Mode::VisitAll => expr,
             Mode::VisitMut { .. } => expr,
-            Mode::Fold { .. } => q!(Vars { expr }, { Box::new(expr) }).parse(),
+            Mode::Fold { .. } => parse_quote!(Box::new(#expr)),
         };
     }
 
