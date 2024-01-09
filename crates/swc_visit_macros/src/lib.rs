@@ -1529,7 +1529,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }
                 }
             ),
-            Mode::Fold(VisitorVariant::WithPath) => q!({
+            Mode::Fold(VisitorVariant::WithPath) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
@@ -1573,8 +1573,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         })
                     }
                 }
-            }),
-            Mode::VisitMut(VisitorVariant::Normal) => q!({
+            ),
+            Mode::VisitMut(VisitorVariant::Normal) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait VisitMutWith<V: ?Sized + VisitMut> {
@@ -1597,8 +1597,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         (**self).visit_mut_children_with(v);
                     }
                 }
-            }),
-            Mode::VisitMut(VisitorVariant::WithPath) => q!({
+            ),
+            Mode::VisitMut(VisitorVariant::WithPath) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
@@ -1641,7 +1641,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         (**self).visit_mut_children_with_path(v, ast_path);
                     }
                 }
-            }),
+            ),
         };
         tokens.push_tokens(&trait_decl);
 
