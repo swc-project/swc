@@ -864,7 +864,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                     let pat = Pat::TupleStruct(PatTupleStruct {
                         attrs: Default::default(),
                         qself: None,
-                        path: q!(Vars { Name: &name }, (Self::Name)).parse(),
+                        path: parse_quote!(Self::#name),
                         paren_token: Default::default(),
                         elems: {
                             let mut v = Punctuated::new();
