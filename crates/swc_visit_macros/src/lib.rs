@@ -1057,15 +1057,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     }),
 
                     Mode::Visit(VisitorVariant::WithPath)
-                    | Mode::VisitMut(VisitorVariant::WithPath) => q!(
-                        Vars { visit: &name },
-                        ({
-                            if self.enabled {
-                                self.visitor.visit(n, __ast_path)
-                            }
-                        })
-                    )
-                    .parse(),
+                    | Mode::VisitMut(VisitorVariant::WithPath) => parse_quote!({
+                        if self.enabled {
+                            self.visitor.#name(n, __ast_path)
+                        }
+                    }),
 
                     Mode::Fold(VisitorVariant::Normal) => q!(
                         Vars { fold: &name },
