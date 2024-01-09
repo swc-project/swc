@@ -2551,9 +2551,9 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             paren_token: Default::default(),
             inputs: {
                 let mut p = Punctuated::default();
-                p.push_value(q!(Vars {}, { &mut self }).parse());
+                p.push_value(parse_quote!(&mut self));
                 p.push_punct(Token![,](def_site()));
-                p.push_value(q!(Vars { Type: ty }, { n: Type }).parse());
+                p.push_value(parse_quote!(n: #ty));
 
                 if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
                     p.push_punct(Token![,](def_site()));
