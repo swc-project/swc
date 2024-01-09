@@ -2609,17 +2609,13 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                     if let Some(item) = extract_generic("Vec", arg) {
                         match mode {
                             Mode::Fold { .. } => {
-                                return mk_exact(
-                                    mode,
-                                    ident,
-                                    &q!(Vars { item }, { Option<Vec<item>> }).parse(),
-                                );
+                                return mk_exact(mode, ident, &parse_quote!(Option<Vec<#item>>));
                             }
                             Mode::VisitMut { .. } => {
                                 return mk_exact(
                                     mode,
                                     ident,
-                                    &q!(Vars { item }, { &mut Option<Vec<item>> }).parse(),
+                                    &parse_quote!(&mut Option<Vec<#item>>),
                                 );
                             }
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
