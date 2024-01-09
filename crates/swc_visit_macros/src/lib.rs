@@ -653,7 +653,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                 let match_expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
                     match_token: Default::default(),
-                    expr: q!({ self }).parse(),
+                    expr: parse_quote!(self),
                     brace_token: Default::default(),
                     arms,
                 });
@@ -669,7 +669,7 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
         unsafety: Default::default(),
         impl_token: Default::default(),
         generics: Default::default(),
-        trait_: Some((None, q!((ParentKind)).parse(), Token![for](def_site()))),
+        trait_: Some((None, parse_quote!(ParentKind), Token![for](def_site()))),
         self_ty: Box::new(kind_type),
         brace_token: Default::default(),
         items: vec![set_index_item],
