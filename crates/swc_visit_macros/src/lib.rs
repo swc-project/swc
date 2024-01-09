@@ -2381,7 +2381,7 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
         },
         variadic: None,
         output: match mode {
-            Mode::Fold { .. } => q!(Vars { ty }, { -> ty }).parse(),
+            Mode::Fold { .. } => parse_quote!(-> #ty),
             _ => ReturnType::Default,
         },
     }
