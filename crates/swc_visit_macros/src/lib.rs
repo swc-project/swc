@@ -991,10 +991,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             // &'_ mut V, Box<V>
             let block = match mode.visitor_variant() {
                 Some(VisitorVariant::Normal) | None => {
-                    q!(Vars { visit: &name }, ({ (**self).visit(n) })).parse()
+                    parse_quote!({ (**self).#name(n) })
                 }
                 Some(VisitorVariant::WithPath) => {
-                    q!(Vars { visit: &name }, ({ (**self).visit(n, __ast_path) })).parse()
+                    parse_quote!({ (**self).#name(n, __ast_path) })
                 }
             };
 
