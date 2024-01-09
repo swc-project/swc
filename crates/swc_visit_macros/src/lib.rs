@@ -1050,15 +1050,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 block: match mode {
                     Mode::VisitAll
                     | Mode::Visit(VisitorVariant::Normal)
-                    | Mode::VisitMut(VisitorVariant::Normal) => q!(
-                        Vars { visit: &name },
-                        ({
-                            if self.enabled {
-                                self.visitor.visit(n)
-                            }
-                        })
-                    )
-                    .parse(),
+                    | Mode::VisitMut(VisitorVariant::Normal) => parse_quote!({
+                        if self.enabled {
+                            self.visitor.#name(n)
+                        }
+                    }),
 
                     Mode::Visit(VisitorVariant::WithPath)
                     | Mode::VisitMut(VisitorVariant::WithPath) => q!(
