@@ -1318,15 +1318,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     {
         // impl Visit for Box<V>
 
-        let mut item = q!(
-            Vars {
-                Trait: Ident::new(mode.trait_name(), call_site()),
-            },
-            {
-                impl<V> Trait for Box<V> where V: ?Sized + Trait {}
-            }
-        )
-        .parse::<ItemImpl>();
+        let trait_name = Ident::new(mode.trait_name(), call_site());
+
+        let mut item: ItemImpl = parse_quote!(
+            impl<V> #trait_name for Box<V> where V: ?Sized + #trait_name {}
+        );
 
         item.items.extend(ref_methods.into_iter().map(ImplItem::Fn));
 
