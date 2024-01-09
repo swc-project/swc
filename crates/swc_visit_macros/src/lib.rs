@@ -2761,10 +2761,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
         match mode {
             Mode::Visit(..) | Mode::VisitAll => {
                 let visit = method_name(mode, ty);
-                let visit = inject_ast_path_arg_if_required(
-                    mode,
-                    q!(Vars { visit }, { _visitor.visit(n) }).parse(),
-                );
+                let visit = inject_ast_path_arg_if_required(mode, parse_quote!(_visitor.#visit(n)));
 
                 return Block {
                     brace_token: Default::default(),
@@ -2777,7 +2774,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     stmts: vec![],
                 }
             }
-            Mode::Fold { .. } => return q!(({ n })).parse(),
+            Mode::Fold { .. } => return parse_quote!(n),
         }
     }
 
