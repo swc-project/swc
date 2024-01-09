@@ -1685,16 +1685,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             match mode {
                 Mode::Visit(VisitorVariant::Normal) => {
-                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
-                        q!(
-                            Vars {
-                                expr,
-                                method_name: &method_name
-                            },
-                            { method_name(_visitor, expr) }
-                        )
-                        .parse()
-                    });
+                    let default_body = adjust_expr(
+                        mode,
+                        ty,
+                        parse_quote!(self),
+                        |expr| parse_quote!(#method_name(_visitor, #expr)),
+                    );
 
                     if let Some(elem_ty) = extract_generic("Vec", ty) {
                         tokens.push_tokens(&q!(
