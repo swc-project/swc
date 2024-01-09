@@ -2039,14 +2039,14 @@ where
                 Mode::Fold { .. } => expr,
                 Mode::VisitMut { .. } => expr,
                 Mode::Visit { .. } | Mode::VisitAll => {
-                    q!(Vars { expr }, { expr.as_ref().map(|v| &**v) }).parse()
+                    parse_quote!(#expr.as_ref().map(|v| &**v))
                 }
             }
         } else {
             match mode {
                 Mode::Fold { .. } => expr,
                 Mode::VisitMut { .. } => expr,
-                Mode::Visit { .. } | Mode::VisitAll => q!(Vars { expr }, { expr.as_ref() }).parse(),
+                Mode::Visit { .. } | Mode::VisitAll => parse_quote!(#expr.as_ref()),
             }
         };
     }
