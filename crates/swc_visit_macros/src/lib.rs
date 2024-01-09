@@ -408,7 +408,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
             impl_token: Default::default(),
             generics: Default::default(),
             trait_: Default::default(),
-            self_ty: q!(Vars { Type: &name }, { Type }).parse(),
+            self_ty: parse_quote!(#name),
             brace_token: Default::default(),
             items: methods,
         }));
