@@ -1909,16 +1909,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::VisitMut(VisitorVariant::WithPath) => {
-                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
-                        q!(
-                            Vars {
-                                expr,
-                                method_name: &method_name
-                            },
-                            { method_name(_visitor, expr, __ast_path) }
-                        )
-                        .parse()
-                    });
+                    let default_body = adjust_expr(
+                        mode,
+                        ty,
+                        parse_quote!(self),
+                        |expr| parse_quote!(#method_name(_visitor, #expr, __ast_path)),
+                    );
 
                     tokens.push_tokens(&q!(
                         Vars {
