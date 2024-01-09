@@ -26,6 +26,9 @@
 - **(es/compat)** Correctly handle `this` in arrow function parameters ([#8489](https://github.com/swc-project/swc/issues/8489)) ([52a8f05](https://github.com/swc-project/swc/commit/52a8f05fe419e905465e31b493d2007a1511276c))
 
 
+- **(es/minifier)** Correctly escape more characters ([#8490](https://github.com/swc-project/swc/issues/8490)) ([f7c4934](https://github.com/swc-project/swc/commit/f7c4934e591bc14bc965cb28bc6b9ca1d8ac1350))
+
+
 - **(es/module)** Fix resolving of `.js` files ([#8480](https://github.com/swc-project/swc/issues/8480)) ([b70e96f](https://github.com/swc-project/swc/commit/b70e96ffe93d3ed59420d5c66a0a4258f6bf1de7))
 
 
@@ -1504,9 +1507,6 @@
 
 ### Bug Fixes
 
-
-
-- **(css/modules)** Don't drop the correct selector ([#7450](https://github.com/swc-project/swc/issues/7450)) ([d370324](https://github.com/swc-project/swc/commit/d370324cfd251af49853fe887644fcaa8d811431))
 
 
 - **(es/codegen)** Emit `;` for `TsImportEqualsDecl` ([#7464](https://github.com/swc-project/swc/issues/7464)) ([3935d02](https://github.com/swc-project/swc/commit/3935d02e365c2fcfdf517fe6dc5943f4ba2616cd))
