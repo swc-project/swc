@@ -2683,32 +2683,16 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                     match mode {
                         Mode::Fold { .. } => {
-                            return mk_exact(
-                                mode,
-                                ident,
-                                &q!(Vars { arg }, { Option<arg> }).parse(),
-                            );
+                            return mk_exact(mode, ident, &parse_quote!(Option<#arg>));
                         }
                         Mode::VisitMut { .. } => {
-                            return mk_exact(
-                                mode,
-                                ident,
-                                &q!(Vars { arg }, { &mut Option<arg> }).parse(),
-                            );
+                            return mk_exact(mode, ident, &parse_quote!(&mut Option<#arg>));
                         }
                         Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                            return mk_exact(
-                                mode,
-                                ident,
-                                &q!(Vars { arg }, { Option<& arg> }).parse(),
-                            );
+                            return mk_exact(mode, ident, &parse_quote!(Option<&#arg>));
                         }
                         Mode::Visit(VisitorVariant::WithPath) => {
-                            return mk_exact(
-                                mode,
-                                ident,
-                                &q!(Vars { arg }, { Option<&'ast arg> }).parse(),
-                            );
+                            return mk_exact(mode, ident, &parse_quote!(Option<&'ast arg>));
                         }
                     }
                 }
