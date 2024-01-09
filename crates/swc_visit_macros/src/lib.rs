@@ -1351,21 +1351,16 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     }
 
     {
+        let trait_name = Ident::new(mode.trait_name(), call_site());
         // impl Trait for Either
-        let mut item = q!(
-            Vars {
-                Trait: Ident::new(mode.trait_name(), call_site()),
-            },
+        let mut item: ItemImpl = parse_quote!(
+            impl<A, B> #trait_name for ::swc_visit::Either<A, B>
+            where
+                A: #trait_name,
+                B: #trait_name,
             {
-                impl<A, B> Trait for ::swc_visit::Either<A, B>
-                where
-                    A: Trait,
-                    B: Trait,
-                {
-                }
             }
-        )
-        .parse::<ItemImpl>();
+        );
 
         item.items
             .extend(either_methods.into_iter().map(ImplItem::Fn));
