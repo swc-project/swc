@@ -7,6 +7,7 @@ use std::{collections::HashSet, mem::replace};
 use inflector::Inflector;
 use pmutil::{q, Quote, SpanExt};
 use proc_macro2::Ident;
+use quote::quote;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
     parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
@@ -1400,9 +1401,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             .extend(visit_all_methods.into_iter().map(ImplItem::Fn));
 
         tokens.push_tokens(&item);
-        tokens.push_tokens(&q!({
+        tokens.push_tokens(&quote!(
             pub use swc_visit::All;
-        }));
+        ));
     }
 
     {
