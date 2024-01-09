@@ -1685,7 +1685,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             }
             names.insert(s);
 
-            let expr = visit_expr(mode, ty, &q!({ v }).parse(), q!({ self }).parse(), None);
+            let expr = visit_expr(mode, ty, &parse_quote!(v), parse_quote!(self), None);
 
             match mode {
                 Mode::Visit(VisitorVariant::Normal) => {
