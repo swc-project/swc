@@ -2261,19 +2261,7 @@ fn make_arm_from_struct(
     match mode {
         Mode::Fold { .. } => {
             // Append return statement
-            stmts.push(
-                q!(
-                    Vars {
-                        Path: &path,
-                        fields: &fields
-                    },
-                    {
-                        //
-                        return Path { fields };
-                    }
-                )
-                .parse(),
-            )
+            stmts.push(parse_quote!(return #path { #fields };))
         }
         Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {}
     }
