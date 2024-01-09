@@ -2359,22 +2359,22 @@ fn method_sig(mode: Mode, ty: &Type) -> Signature {
                 }
 
                 Mode::VisitMut { .. } => {
-                    p.push_value(q!(Vars { Type: ty }, { n: &mut Type }).parse());
+                    p.push_value(parse_quote!(n: &mut #ty));
                 }
 
                 Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                    p.push_value(q!(Vars { Type: ty }, { n: &Type }).parse());
+                    p.push_value(parse_quote!(n: &#ty));
                 }
 
                 Mode::Visit(VisitorVariant::WithPath) => {
-                    p.push_value(q!(Vars { Type: ty }, { n: &'ast Type }).parse());
+                    p.push_value(parse_quote!(n: &'ast #ty));
                 }
             }
 
             if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
                 p.push_punct(Token![,](def_site()));
                 let ty = ast_path_type(mode);
-                p.push_value(q!(Vars { Type: ty }, { __ast_path: Type }).parse());
+                p.push_value(parse_quote!(__ast_path: #ty));
             }
 
             p
