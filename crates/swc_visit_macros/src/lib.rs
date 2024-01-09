@@ -1849,16 +1849,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::VisitAll => {
-                    let default_body = adjust_expr(mode, ty, parse_quote!(self), |expr| {
-                        q!(
-                            Vars {
-                                expr,
-                                method_name: &method_name
-                            },
-                            { method_name(_visitor, expr,) }
-                        )
-                        .parse()
-                    });
+                    let default_body = adjust_expr(
+                        mode,
+                        ty,
+                        parse_quote!(self),
+                        |expr| parse_quote!(#method_name(_visitor, #expr)),
+                    );
 
                     tokens.push_tokens(&q!(
                         Vars {
