@@ -24,7 +24,7 @@ These macro breaks macro hygiene.
 
 ### [`/crates/swc_atoms`](crates/swc_atoms)
 
-Handle string interning for the SWC project. The crate depends on [string_cache](https://github.com/servo/string-cache) from servo.
+Handle string interning for the SWC project. The crate depends on [hstr](https://github.com/dudykr/ddbase).
 
 ### [`/crates/swc_common`](crates/swc_common)
 

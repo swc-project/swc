@@ -824,12 +824,16 @@ impl<'a> Lexer<'a> {
                 // Optimization
                 {
                     let s = l.input.uncons_while(|c| {
+                        if !c.is_ident_part() {
+                            return false;
+                        }
+
                         // Performance optimization
                         if c.is_ascii_uppercase() || c.is_ascii_digit() || !c.is_ascii() {
                             can_be_keyword = false;
                         }
 
-                        c.is_ident_part()
+                        true
                     });
                     if !s.is_empty() {
                         first = false;

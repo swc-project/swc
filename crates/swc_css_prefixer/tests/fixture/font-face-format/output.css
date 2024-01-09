@@ -10,9 +10,8 @@
   src: format("woff"), format("truetype"), format("opentype"), format("woff2"), format("embedded-opentype"), format("collection"), format("svg");
   src: format(woff), format(truetype), format(opentype), format(woff2), format(embedded-opentype), format(collection), format(svg);
 }
-@font-face{
-  src: format("woff");
-  src: format(WOFF);
+@Font-face{
+  src: FORMAT(WOFF);
 }
 @font-face{
   src: format("woff");

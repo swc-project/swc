@@ -1467,6 +1467,11 @@ where
             }
         }
 
+        if n.is_abstract {
+            keyword!("abstract");
+            space!()
+        }
+
         if n.is_override {
             keyword!("override");
             space!()
@@ -1561,10 +1566,12 @@ where
         }
 
         emit!(n.key);
+
+        if n.is_optional {
+            punct!("?");
+        }
+
         if let Some(type_ann) = &n.type_ann {
-            if n.is_optional {
-                punct!("?");
-            }
             if n.definite {
                 punct!("!");
             }
@@ -1601,11 +1608,21 @@ where
             emit!(dec)
         }
 
+        if n.declare {
+            keyword!("declare");
+            space!();
+        }
+
         self.emit_accessibility(n.accessibility)?;
 
         if n.is_static {
             keyword!("static");
             space!();
+        }
+
+        if n.is_abstract {
+            keyword!("abstract");
+            space!()
         }
 
         if n.is_override {
@@ -1619,6 +1636,12 @@ where
         }
 
         emit!(n.key);
+
+        // emit for a computed property, but not an identifier already marked as
+        // optional
+        if n.is_optional && !n.key.as_ident().map(|i| i.optional).unwrap_or(false) {
+            punct!("?");
+        }
 
         if let Some(ty) = &n.type_ann {
             if n.definite {

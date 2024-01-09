@@ -3,21 +3,21 @@
 }
 @keyframes __local__bounce {
   0% {
-    transform: translatey(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
   5% {
-    transform: translatey(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
 }
 @-webkit-keyframes __local__bounce2 {
   0% {
-    transform: translatey(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
   5% {
-    transform: translatey(-100%);
+    transform: translateY(-100%);
     opacity: 0;
   }
 }

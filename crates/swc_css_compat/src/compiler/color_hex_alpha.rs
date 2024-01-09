@@ -27,6 +27,9 @@ impl Compiler {
             .and_then(|color| color.as_mut_absolute_color_base())
             .and_then(|color| color.as_mut_hex_color())
         {
+            hex_color.value = hex_color.value.to_ascii_lowercase();
+            hex_color.raw = None;
+
             if hex_color.value.len() != 4 && hex_color.value.len() != 8 {
                 return;
             }

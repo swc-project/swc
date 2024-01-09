@@ -5,7 +5,9 @@ use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_declaration(&self, declaration: &mut Declaration) {
-        if let DeclarationName::Ident(Ident { value: name, .. }) = &declaration.name {
+        if let DeclarationName::Ident(Ident { value: name, .. }) = &mut declaration.name {
+            *name = name.to_ascii_lowercase();
+
             match &**name {
                 "display" if declaration.value.len() > 1 => {
                     let mut outside = None;
@@ -484,15 +486,19 @@ impl Compressor {
 
         match (node_1, node_2) {
             (ComponentValue::Dimension(dimension_1), ComponentValue::Dimension(dimension_2)) => {
-                let result_1 = dimension_1
-                    .as_length()
-                    .map(|length| (&length.value.value, &length.unit.value));
+                let Some(result_1) = dimension_1.as_length() else {
+                    return false;
+                };
 
-                let result_2 = dimension_2
-                    .as_length()
-                    .map(|length| (&length.value.value, &length.unit.value));
+                let Some(result_2) = dimension_2.as_length() else {
+                    return false;
+                };
 
-                result_1.is_some() && result_1 == result_2
+                result_1.value.value == result_2.value.value
+                    && result_1
+                        .unit
+                        .value
+                        .eq_ignore_ascii_case(&result_2.unit.value)
             }
             (
                 ComponentValue::Percentage(percentage_1),

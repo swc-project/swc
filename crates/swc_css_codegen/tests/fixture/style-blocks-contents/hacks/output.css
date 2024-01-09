@@ -51,7 +51,7 @@ _::selection,
 html > body .selector {}
 *:first-child + html .selector {}
 .selector, 
-x:-ie7 {}
+x:-IE7 {}
 * + html .selector {}
 body *.selector {}
 .selector\  {}

@@ -825,7 +825,7 @@
           "end": 330,
           "ctxt": 0
         },
-        "value": "supports",
+        "value": "SUPPORTS",
         "raw": "SUPPORTS"
       },
       "prelude": {
@@ -2930,7 +2930,7 @@
                 "end": 1255,
                 "ctxt": 0
               },
-              "value": "not",
+              "value": "NOT",
               "raw": "NOT"
             },
             "condition": {
@@ -3064,7 +3064,7 @@
                     "end": 1317,
                     "ctxt": 0
                   },
-                  "value": "or",
+                  "value": "OR",
                   "raw": "OR"
                 },
                 "condition": {
@@ -3115,7 +3115,7 @@
                 "end": 1344,
                 "ctxt": 0
               },
-              "value": "and",
+              "value": "AND",
               "raw": "AND"
             },
             "condition": {
@@ -3279,7 +3279,7 @@
                 "end": 1416,
                 "ctxt": 0
               },
-              "value": "or",
+              "value": "OR",
               "raw": "OR"
             },
             "condition": {
@@ -3335,7 +3335,7 @@
                       "end": 1443,
                       "ctxt": 0
                     },
-                    "value": "and",
+                    "value": "AND",
                     "raw": "AND"
                   },
                   "condition": {
@@ -3479,7 +3479,7 @@
                     "end": 1489,
                     "ctxt": 0
                   },
-                  "value": "not",
+                  "value": "NOT",
                   "raw": "NOT"
                 },
                 "condition": {
