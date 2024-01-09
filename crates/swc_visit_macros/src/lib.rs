@@ -1063,29 +1063,21 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         }
                     }),
 
-                    Mode::Fold(VisitorVariant::Normal) => q!(
-                        Vars { fold: &name },
-                        ({
-                            if self.enabled {
-                                self.visitor.fold(n)
-                            } else {
-                                n
-                            }
-                        })
-                    )
-                    .parse(),
+                    Mode::Fold(VisitorVariant::Normal) => parse_quote!({
+                        if self.enabled {
+                            self.visitor.#name(n)
+                        } else {
+                            n
+                        }
+                    }),
 
-                    Mode::Fold(VisitorVariant::WithPath) => q!(
-                        Vars { fold: &name },
-                        ({
-                            if self.enabled {
-                                self.visitor.fold(n, __ast_path)
-                            } else {
-                                n
-                            }
-                        })
-                    )
-                    .parse(),
+                    Mode::Fold(VisitorVariant::WithPath) => parse_quote!({
+                        if self.enabled {
+                            self.visitor.#name(n, __ast_path)
+                        } else {
+                            n
+                        }
+                    }),
                 },
             });
         }
