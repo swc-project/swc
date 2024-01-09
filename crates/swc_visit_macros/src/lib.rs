@@ -2948,11 +2948,9 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             )
                             .parse(),
 
-                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
-                                Vars { ident },
-                                ({ n.iter().for_each(|v| _visitor.ident(v)) })
-                            )
-                            .parse(),
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
+                                parse_quote!({ n.iter().for_each(|v| _visitor.#ident(v)) })
+                            }
 
                             Mode::Visit(VisitorVariant::WithPath) => {
                                 parse_quote!({
