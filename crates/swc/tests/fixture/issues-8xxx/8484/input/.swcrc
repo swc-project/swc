@@ -59,8 +59,7 @@
             },
             "mangle": false,
             "inlineSourcesContent": false
-        },
-        "loose": false
+        }
     },
     "minify": false,
 }
