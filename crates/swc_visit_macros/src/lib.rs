@@ -955,7 +955,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
     }
 
     // Remove `Box`
-    types.retain(|ty| as_box(ty).is_none());
+    types.retain(|ty| extract_box(ty).is_none());
     types.sort_by_cached_key(|ty| method_name_as_str(mode, ty));
     types.dedup_by_key(|ty| method_name_as_str(mode, ty));
 
@@ -1682,7 +1682,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let mut names = HashSet::new();
 
         for ty in &types {
-            if as_box(ty).is_some() {
+            if extract_box(ty).is_some() {
                 continue;
             }
 
@@ -2066,7 +2066,7 @@ where
         };
     }
 
-    if as_box(ty).is_some() {
+    if extract_box(ty).is_some() {
         expr = match mode {
             Mode::Visit { .. } | Mode::VisitAll => expr,
             Mode::VisitMut { .. } => expr,
@@ -2076,7 +2076,7 @@ where
 
     expr = visit(expr);
 
-    if as_box(ty).is_some() {
+    if extract_box(ty).is_some() {
         expr = match mode {
             Mode::Visit { .. } | Mode::VisitAll => expr,
             Mode::VisitMut { .. } => expr,
@@ -2628,7 +2628,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
             let ident = method_name(mode, ty);
 
             if !last.arguments.is_empty() {
-                if let Some(arg) = as_box(ty) {
+                if let Some(arg) = extract_box(ty) {
                     let ident = method_name(mode, arg);
                     match mode {
                         Mode::Fold { .. } => {
@@ -2791,7 +2791,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
             let last = p.path.segments.last().unwrap();
 
             if !last.arguments.is_empty() {
-                if let Some(arg) = as_box(ty) {
+                if let Some(arg) = extract_box(ty) {
                     match mode {
                         Mode::Fold(..) => {
                             let ident = method_name(mode, arg);
@@ -2823,7 +2823,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     let ident = method_name(mode, arg);
 
                                     if let Mode::Fold(..) = mode {
-                                        if as_box(arg).is_some() {
+                                        if extract_box(arg).is_some() {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
                                                 parse_quote!(_visitor.#ident(n)),
@@ -2892,7 +2892,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                     match mode {
                         Mode::Fold(v) => {
-                            if as_box(arg).is_some() {
+                            if extract_box(arg).is_some() {
                                 return match v {
                                     VisitorVariant::Normal => q!(
                                         Vars { ident },
@@ -3101,7 +3101,7 @@ fn is_option(ty: &Type) -> bool {
     false
 }
 
-fn as_box(ty: &Type) -> Option<&Type> {
+fn extract_box(ty: &Type) -> Option<&Type> {
     extract_generic("Box", ty)
 }
 
