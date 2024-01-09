@@ -2778,22 +2778,18 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 parse_quote!(_visitor.#ident(n)),
                                             );
 
-                                            q!(
-                                                Vars { inner },
-                                                ({
-                                                    match n {
-                                                        Some(n) => Some(inner),
-                                                        None => None,
-                                                    }
-                                                })
-                                            )
-                                            .parse()
+                                            parse_quote!({
+                                                match n {
+                                                    Some(n) => Some(#inner),
+                                                    None => None,
+                                                }
+                                            })
                                         }
 
                                         Mode::VisitMut(..) | Mode::Visit(..) | Mode::VisitAll => {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
-                                                q!(Vars { ident }, { _visitor.ident(n) }).parse(),
+                                                parse_quote!(_visitor.#ident(n)),
                                             );
 
                                             q!(
