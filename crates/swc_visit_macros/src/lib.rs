@@ -1477,7 +1477,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
             ),
 
-            Mode::VisitAll => q!({
+            Mode::VisitAll => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait VisitAllWith<V: ?Sized + VisitAll> {
@@ -1502,8 +1502,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         (**self).visit_all_children_with(v)
                     }
                 }
-            }),
-            Mode::Fold(VisitorVariant::Normal) => q!({
+            ),
+            Mode::Fold(VisitorVariant::Normal) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
                 pub trait FoldWith<V: ?Sized + Fold> {
@@ -1528,7 +1528,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
                     }
                 }
-            }),
+            ),
             Mode::Fold(VisitorVariant::WithPath) => q!({
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
