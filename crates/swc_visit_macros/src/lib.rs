@@ -2702,7 +2702,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             let ident = method_name(mode, arg);
                             let inner = inject_ast_path_arg_if_required(
                                 mode,
-                                q!(Vars { ident }, { _visitor.ident(*n) }).parse(),
+                                parse_quote!(_visitor.#ident(*n)),
                             );
 
                             return parse_quote!(swc_visit::util::map::Map::map(n, |n| #inner));
