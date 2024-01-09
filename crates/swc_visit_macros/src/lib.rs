@@ -2839,35 +2839,25 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 parse_quote!({ n.iter_mut().for_each(|v| _visitor.#ident(v)) })
                             }
 
-                            Mode::VisitMut(VisitorVariant::WithPath) => q!(
-                                Vars { ident },
-                                ({
-                                    n.iter_mut().enumerate().for_each(|(idx, v)| {
-                                        let mut __ast_path = __ast_path.with_index_guard(idx);
+                            Mode::VisitMut(VisitorVariant::WithPath) => parse_quote!({
+                                n.iter_mut().enumerate().for_each(|(idx, v)| {
+                                    let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.ident(v, &mut *__ast_path)
-                                    })
+                                    _visitor.#ident(v, &mut *__ast_path)
                                 })
-                            )
-                            .parse(),
+                            }),
 
-                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => q!(
-                                Vars { ident },
-                                ({ n.iter().for_each(|v| _visitor.ident(v.as_ref())) })
-                            )
-                            .parse(),
+                            Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
+                                parse_quote!({ n.iter().for_each(|v| _visitor.#ident(v.as_ref())) })
+                            }
 
-                            Mode::Visit(VisitorVariant::WithPath) => q!(
-                                Vars { ident },
-                                ({
-                                    n.iter().enumerate().for_each(|(idx, v)| {
-                                        let mut __ast_path = __ast_path.with_index_guard(idx);
+                            Mode::Visit(VisitorVariant::WithPath) => parse_quote!({
+                                n.iter().enumerate().for_each(|(idx, v)| {
+                                    let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.ident(v.as_ref(), &mut *__ast_path)
-                                    })
+                                    _visitor.#ident(v.as_ref(), &mut *__ast_path)
                                 })
-                            )
-                            .parse(),
+                            }),
                         }
                     } else {
                         match mode {
