@@ -916,7 +916,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
         impl_token: Default::default(),
         generics: Default::default(),
         trait_: None,
-        self_ty: q!({ AstParentNodeRef<'_> }).parse(),
+        self_ty: parse_quote!(AstParentNodeRef<'_>),
         brace_token: Default::default(),
         items: vec![kind_item, set_index_item],
     })
