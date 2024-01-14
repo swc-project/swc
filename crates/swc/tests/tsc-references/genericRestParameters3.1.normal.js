@@ -1,27 +1,27 @@
 //// [genericRestParameters3.ts]
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-f11("foo", "abc");
-f11("foo", 10, true);
-f11.apply(void 0, [
+f1("foo", "abc");
+f1("foo", 10, true);
+f1.apply(void 0, [
     "foo"
 ].concat(_to_consumable_array(t1)));
-f11.apply(void 0, [
+f1.apply(void 0, [
     "foo"
 ].concat(_to_consumable_array(t2)));
-f11.apply(void 0, [
+f1.apply(void 0, [
     "foo"
 ].concat(_to_consumable_array(t3)));
-f11.apply(void 0, [
+f1.apply(void 0, [
     "foo"
 ].concat(_to_consumable_array(t4)));
-f11("foo", 10); // Error
-f11("foo"); // Error
-f21 = f11;
-f31 = f11;
-f41 = f11;
-f11 = f21; // Error
-f11 = f31; // Error
-f11 = f41;
+f1("foo", 10); // Error
+f1("foo"); // Error
+f2 = f1;
+f3 = f1;
+f4 = f1;
+f1 = f2; // Error
+f1 = f3; // Error
+f1 = f4;
 foo(); // Error
 foo(100); // Error
 foo(foo); // Error
@@ -44,8 +44,8 @@ var x2 = [
     "hello"
 ];
 foo2.apply(void 0, _to_consumable_array(x2));
-ff11 = ff21;
-ff21 = ff11;
+ff1 = ff2;
+ff2 = ff1;
 function ff3(s1, s2) {
     s1 = s2;
     s2 = s1;

@@ -39,11 +39,11 @@ t2.z.toString(); // Should error
     q1.z.toFixed(); // Should error
 }var ref;
 // Assignment forms
-ref = _sliced_to_array(strArray, 1), target_string1 = ref[0], ref; // Should error
+ref = _sliced_to_array(strArray, 1), target_string = ref[0], ref; // Should error
 var ref1;
-ref1 = _sliced_to_array(strArray, 1), target_string_undef1 = ref1[0], ref1; // Should OK
+ref1 = _sliced_to_array(strArray, 1), target_string_undef = ref1[0], ref1; // Should OK
 var ref2;
-ref2 = _to_array(strArray), target_string_arr1 = ref2.slice(3), ref2; // Should OK
+ref2 = _to_array(strArray), target_string_arr = ref2.slice(3), ref2; // Should OK
 {
     var x3, y1, z1;
     var ref3;

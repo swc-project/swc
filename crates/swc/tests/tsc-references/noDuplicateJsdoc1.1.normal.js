@@ -1,4 +1,4 @@
 //// [a.js]
-/** doc */ var a = b1 = function() {
+/** doc */ var a = b = function() {
     return 0;
 };

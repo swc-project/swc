@@ -1,5 +1,5 @@
 var bmRnd;
 function a() {
-    bmRnd1 = function bmRnd1() {};
+    bmRnd = function bmRnd1() {};
 }
 eval("");

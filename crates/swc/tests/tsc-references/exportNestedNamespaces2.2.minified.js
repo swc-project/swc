@@ -2,11 +2,11 @@
 //// [mod.js]
 exports.formatters = {};
 //// [first.js]
-(exports11 = require("./mod")).formatters.j = function(v) {
+(exports = require("./mod")).formatters.j = function(v) {
     return v;
 };
 //// [second.js]
-(exports11 = require("./mod")).formatters.o = function(v) {
+(exports = require("./mod")).formatters.o = function(v) {
     return v;
 };
 //// [use.js]

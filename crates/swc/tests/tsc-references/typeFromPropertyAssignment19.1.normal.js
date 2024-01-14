@@ -1,7 +1,7 @@
 //// [types.d.ts]
 //// [semver.js]
 /// <reference path='./types.d.ts'/>
-exports1 = module.exports = C;
+exports = module.exports = C;
 C.f = function(n) {
     return n + 1;
 };

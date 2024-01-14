@@ -1,43 +1,43 @@
 //// [genericRestParameters1.ts]
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-f12 = f21;
-f21 = f12;
-f12(42, "hello", true);
-f12(t3[0], t3[1], t3[2]);
-f12.apply(void 0, _to_consumable_array(t3));
-f12.apply(void 0, [
+f1 = f2;
+f2 = f1;
+f1(42, "hello", true);
+f1(t3[0], t3[1], t3[2]);
+f1.apply(void 0, _to_consumable_array(t3));
+f1.apply(void 0, [
     42
 ].concat(_to_consumable_array(t2)));
-f12.apply(void 0, [
+f1.apply(void 0, [
     42,
     "hello"
 ].concat(_to_consumable_array(t1)));
-f12.apply(void 0, [
+f1.apply(void 0, [
     42,
     "hello",
     true
 ].concat(_to_consumable_array(t0)));
-f12(ns[0], ns[1], true);
-f12.apply(void 0, _to_consumable_array(ns).concat([
+f1(ns[0], ns[1], true);
+f1.apply(void 0, _to_consumable_array(ns).concat([
     true
 ])); // FIXME: Error, since ...ns is considered as string|number here
-f21(42, "hello", true);
-f21(t3[0], t3[1], t3[2]);
-f21.apply(void 0, _to_consumable_array(t3));
-f21.apply(void 0, [
+f2(42, "hello", true);
+f2(t3[0], t3[1], t3[2]);
+f2.apply(void 0, _to_consumable_array(t3));
+f2.apply(void 0, [
     42
 ].concat(_to_consumable_array(t2)));
-f21.apply(void 0, [
+f2.apply(void 0, [
     42,
     "hello"
 ].concat(_to_consumable_array(t1)));
-f21.apply(void 0, [
+f2.apply(void 0, [
     42,
     "hello",
     true
 ].concat(_to_consumable_array(t0)));
-f21(ns[0], ns[1], true);
-f21.apply(void 0, _to_consumable_array(ns).concat([
+f2(ns[0], ns[1], true);
+f2.apply(void 0, _to_consumable_array(ns).concat([
     true
 ])); // FIXME: Error, since ...ns is considered as string|number here
 var x10 = f10(42, "hello", true); // [number, string, boolean]
@@ -129,11 +129,11 @@ function bind(f, x) {
         ].concat(_to_consumable_array(rest)));
     };
 }
-var f211 = bind(f20, 42); // (y: string, z: boolean) => string[]
-var f22 = bind(f211, "hello"); // (z: boolean) => string[]
+var f21 = bind(f20, 42); // (y: string, z: boolean) => string[]
+var f22 = bind(f21, "hello"); // (z: boolean) => string[]
 var f23 = bind(f22, true); // () => string[]
 f20(42, "hello", true);
-f211("hello", true);
+f21("hello", true);
 f22(true);
 f23();
 var g21 = bind(g20, 42); // (y: string, z: boolean) => string[]
@@ -157,6 +157,6 @@ events.emit("move", 10, "left");
 events.emit("jump", 20, "up");
 events.emit("stop", "Bye!");
 events.emit("done");
-ff11 = ff2;
-ff11 = ff3;
-ff11 = ff4; // Error
+ff1 = ff2;
+ff1 = ff3;
+ff1 = ff4; // Error

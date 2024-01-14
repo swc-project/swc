@@ -13,21 +13,21 @@ let [x2] = g2; // ok
 let [...y1] = g1; // error
 let [...y2] = g2; // ok
 // assignment pattern over iterable
-[_1] = g1; // error
-[_1] = g2; // ok
+[_] = g1; // error
+[_] = g2; // ok
 // assignment rest pattern over iterable
-[..._1] = g1; // error
-[..._1] = g2; // ok
+[..._] = g1; // error
+[..._] = g2; // ok
 // for-of over iterable
-for (_1 of g1); // error
-for (_1 of g2); // ok
+for (_ of g1); // error
+for (_ of g2); // ok
 async function asyncfn() {
     // for-await-of over iterable
-    for await (_1 of g1); // error
-    for await (_1 of g2); // ok
+    for await (_ of g1); // error
+    for await (_ of g2); // ok
     // for-await-of over asynciterable
-    for await (_1 of g4); // error
-    for await (_1 of g5); // ok
+    for await (_ of g4); // error
+    for await (_ of g5); // ok
 }
 function* f1() {
     // yield* over iterable

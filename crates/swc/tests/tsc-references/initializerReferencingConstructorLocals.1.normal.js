@@ -4,18 +4,18 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C = function C(x) {
     "use strict";
     _class_call_check(this, C);
-    this.a = z1 // error
+    this.a = z // error
     ;
     this.c = this.z // error
     ;
-    z1 = 1;
+    z = 1;
 };
 var D = function D(x) {
     "use strict";
     _class_call_check(this, D);
-    this.a = z1 // error
+    this.a = z // error
     ;
     this.c = this.z // error
     ;
-    z1 = 1;
+    z = 1;
 };

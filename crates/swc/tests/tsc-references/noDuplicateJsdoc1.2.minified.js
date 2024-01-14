@@ -1,4 +1,4 @@
 //// [a.js]
-b11 = function() {
+b = function() {
     return 0;
 };

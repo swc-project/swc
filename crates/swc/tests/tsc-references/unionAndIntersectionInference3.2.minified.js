@@ -3,5 +3,5 @@ concatMaybe([
     1,
     2,
     3
-], 4), f211 = f111 = f211, g211 = g111 = g211, foo1(sa), foo1(sx), foo2(sa), foo2(sx), withRouter(MyComponent), foo(ab), a11 = b;
+], 4), f2 = f1 = f2, g2 = g1 = g2, foo1(sa), foo1(sx), foo2(sa), foo2(sx), withRouter(MyComponent), foo(ab), a = b;
 export { };

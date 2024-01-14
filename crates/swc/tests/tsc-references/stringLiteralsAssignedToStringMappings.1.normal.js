@@ -1,10 +1,10 @@
 //// [stringLiteralsAssignedToStringMappings.ts]
 // good
-x1 = "A";
+x = "A";
 // bad
-x1 = "a";
+x = "a";
 // good
-y1 = "1";
+y = "1";
 // bad
-y1 = "a";
-y1 = "A";
+y = "a";
+y = "A";

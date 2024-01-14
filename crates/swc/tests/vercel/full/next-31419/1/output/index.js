@@ -18,7 +18,7 @@ Promise.all(assignAll).then((r = e(function(r) {
                                 ];
                             case 1:
                                 return t.sent().forEach(function(r) {
-                                    e += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(n.id, "', now());");
+                                    insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(n.id, "', now());");
                                 }), [
                                     2
                                 ];

@@ -20,7 +20,7 @@ f = null; // ok
 C = null; // error
 var g;
 g = null; // ok
-I1 = null; // error
+I = null; // error
 var M;
 (function(M) {
     M.x = 1;

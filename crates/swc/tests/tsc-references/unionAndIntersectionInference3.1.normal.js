@@ -9,15 +9,15 @@ concatMaybe([
 const g = async (com)=>{
     throw com;
 };
-f11 = f21;
-f21 = f11;
-g11 = g21;
-g21 = g11;
+f1 = f2;
+f2 = f1;
+g1 = g2;
+g2 = g1;
 let x1 = foo1(sa); // string
 let y1 = foo1(sx); // string
 let x2 = foo2(sa); // unknown
 let y2 = foo2(sx); // { extra: number }
 withRouter(MyComponent);
 let z = foo(ab); // [AB<string>, string]
-a1 = b;
+a = b;
 export { };

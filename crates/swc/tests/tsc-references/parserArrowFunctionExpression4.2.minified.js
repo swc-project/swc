@@ -1,2 +1,2 @@
 //// [parserArrowFunctionExpression4.ts]
-a1;
+a;

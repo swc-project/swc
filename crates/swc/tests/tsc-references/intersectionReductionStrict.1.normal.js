@@ -14,10 +14,10 @@ x1[k] = "bar"; // Error
 x2[k] = "bar"; // Error
 var Tag1;
 var Tag2;
-s11 = s21;
-s21 = s11;
-t11 = t21;
-t21 = t11;
+s1 = s2;
+s2 = s1;
+t1 = t2;
+t2 = t1;
 // Repro from #36736
 var f1 = function(t) {
     return t;

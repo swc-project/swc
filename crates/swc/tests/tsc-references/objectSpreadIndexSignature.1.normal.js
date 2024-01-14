@@ -9,6 +9,6 @@ i[101];
 var ii = _object_spread({}, indexed1, indexed2);
 // both have indexer, so i[1001]: number | boolean
 ii[1001];
-indexed31 = _object_spread({}, b ? indexed31 : undefined);
+indexed3 = _object_spread({}, b ? indexed3 : undefined);
 var writable = _object_spread({}, roindex);
 writable.a = 0; // should be ok.
