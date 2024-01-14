@@ -473,6 +473,65 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
         };
     }
 
+    fn visit_mut_simple_assign_target(&mut self, e: &mut SimpleAssignTarget) {
+        if let SimpleAssignTarget::OptChain(opt) = e {
+            let is_private_access = match &*opt.base {
+                OptChainBase::Member(MemberExpr {
+                    prop: MemberProp::PrivateName(..),
+                    ..
+                }) => true,
+                OptChainBase::Call(OptCall { callee, .. }) => matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::PrivateName(..),
+                        ..
+                    })
+                ),
+                _ => false,
+            };
+
+            if is_private_access {
+                let mut v = optional_chaining_impl(
+                    crate::optional_chaining_impl::Config {
+                        no_document_all: self.c.no_document_all,
+                        pure_getter: self.c.pure_getter,
+                    },
+                    self.unresolved_mark,
+                );
+                e.visit_mut_with(&mut v);
+                assert!(!e.is_opt_chain(), "optional chaining should be removed");
+                self.vars.extend(v.take_vars());
+            }
+        }
+
+        if self.c.private_as_properties {
+            if let SimpleAssignTarget::Member(MemberExpr {
+                span,
+                obj,
+                prop: MemberProp::PrivateName(n),
+            }) = e
+            {
+                obj.visit_mut_children_with(self);
+                let (mark, _, _) = self.private.get(&n.id);
+                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+
+                *e = Expr::Call(CallExpr {
+                    callee: helper!(class_private_field_loose_base),
+                    span: *span,
+                    args: vec![obj.take().as_arg(), ident.clone().as_arg()],
+                    type_args: None,
+                })
+                .computed_member(ident)
+                .into();
+            } else {
+                e.visit_mut_children_with(self)
+            }
+            return;
+        }
+
+        e.visit_mut_children_with(self)
+    }
+
     fn visit_mut_pat(&mut self, p: &mut Pat) {
         if let Pat::Expr(expr) = &p {
             if let Expr::Member(me) = &**expr {
