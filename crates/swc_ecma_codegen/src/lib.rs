@@ -1721,7 +1721,33 @@ where
     fn emit_prop_name(&mut self, node: &PropName) -> Result {
         match node {
             PropName::Ident(ident) => {
-                emit!(ident)
+                // TODO: Use write_symbol when ident is a symbol.
+                self.emit_leading_comments_of_span(ident.span, false)?;
+
+                // Source map
+                self.wr.commit_pending_semi()?;
+
+                srcmap!(ident, true);
+
+                if self.cfg.ascii_only {
+                    if self.wr.can_ignore_invalid_unicodes() {
+                        self.wr.write_symbol(
+                            DUMMY_SP,
+                            &get_ascii_only_ident(&ident.sym, true, self.cfg.target),
+                        )?;
+                    } else {
+                        self.wr.write_symbol(
+                            DUMMY_SP,
+                            &get_ascii_only_ident(
+                                &handle_invalid_unicodes(&ident.sym),
+                                true,
+                                self.cfg.target,
+                            ),
+                        )?;
+                    }
+                } else {
+                    emit!(ident);
+                }
             }
             PropName::Str(ref n) => emit!(n),
             PropName::Num(ref n) => emit!(n),
@@ -2259,12 +2285,18 @@ where
 
         if self.cfg.ascii_only {
             if self.wr.can_ignore_invalid_unicodes() {
-                self.wr
-                    .write_symbol(DUMMY_SP, &get_ascii_only_ident(&ident.sym, self.cfg.target))?;
+                self.wr.write_symbol(
+                    DUMMY_SP,
+                    &get_ascii_only_ident(&ident.sym, false, self.cfg.target),
+                )?;
             } else {
                 self.wr.write_symbol(
                     DUMMY_SP,
-                    &get_ascii_only_ident(&handle_invalid_unicodes(&ident.sym), self.cfg.target),
+                    &get_ascii_only_ident(
+                        &handle_invalid_unicodes(&ident.sym),
+                        false,
+                        self.cfg.target,
+                    ),
                 )?;
             }
         } else if self.wr.can_ignore_invalid_unicodes() {
@@ -3751,7 +3783,7 @@ fn get_template_element_from_raw(s: &str, ascii_only: bool) -> String {
     buf
 }
 
-fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
+fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> Cow<str> {
     if sym.chars().all(|c| c.is_ascii()) {
         return Cow::Borrowed(sym);
     }
@@ -3759,6 +3791,7 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
     let mut first = true;
     let mut buf = String::with_capacity(sym.len() + 8);
     let mut iter = sym.chars().peekable();
+    let mut need_quote = false;
 
     while let Some(c) = iter.next() {
         match c {
@@ -3859,7 +3892,11 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
             '\x20'..='\x7e' => {
                 buf.push(c);
             }
-            '\u{7f}'..='\u{ff}' if !first => {
+            '\u{7f}'..='\u{ff}' => {
+                if may_need_quote {
+                    need_quote = true;
+                }
+
                 let _ = write!(buf, "\\x{:x}", c as u8);
             }
             '\u{2028}' => {
@@ -3897,7 +3934,11 @@ fn get_ascii_only_ident(sym: &str, target: EsVersion) -> Cow<str> {
         first = false;
     }
 
-    Cow::Owned(buf)
+    if need_quote {
+        Cow::Owned(format!("\"{}\"", buf))
+    } else {
+        Cow::Owned(buf)
+    }
 }
 
 fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
