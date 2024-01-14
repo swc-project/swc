@@ -104,15 +104,15 @@ bigints("-1.1e-10n");
 bigints("-1.1E-10n");
 bigints("1.1e-10n");
 // not ok
-num = str;
-anyish = "bno";
+num1 = str1;
+anyish1 = "bno";
 // ok
-str = num;
-anyish = str;
-str = anyish;
-anyish = num;
-num = anyish;
-anyish = "aok";
+str1 = num1;
+anyish1 = str1;
+str1 = anyish1;
+anyish1 = num1;
+num1 = anyish1;
+anyish1 = "aok";
 var shouldWork1 = null;
 var shouldWork2 = null;
 var exampleBad = "anything"; // fails

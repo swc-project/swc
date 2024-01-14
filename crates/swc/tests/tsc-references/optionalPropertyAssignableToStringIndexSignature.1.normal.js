@@ -1,7 +1,7 @@
 //// [optionalPropertyAssignableToStringIndexSignature.ts]
-stringDictionary = optionalProperties; // ok
-stringDictionary = undefinedProperties; // error
-probablyArray = numberLiteralKeys; // error
+stringDictionary1 = optionalProperties; // ok
+stringDictionary1 = undefinedProperties; // error
+probablyArray1 = numberLiteralKeys; // error
 var dict = optionalUndefined; // error
 function f() {
     var optional = undefined;

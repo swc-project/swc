@@ -15,7 +15,7 @@ var f;
 C = x;
 var g;
 g = x;
-I = x;
+I1 = x;
 var M;
 (function(M) {
     M.x = 1;

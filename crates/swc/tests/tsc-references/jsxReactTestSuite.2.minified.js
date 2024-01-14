@@ -23,9 +23,9 @@ Component, Namespace.Component, Namespace.DeepNamespace.Component, Component, _o
 }, y), Component, _object_spread({
     x: 1,
     y: "2"
-}, z, z), Child, Component, _object_spread_props(_object_spread({
+}, z11, z11), Child, Component, _object_spread_props(_object_spread({
     x: "1"
-}, z = {
+}, z11 = {
     y: 2
 }), {
     z: 3

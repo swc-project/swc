@@ -1,2 +1,2 @@
-y=(value// @license comment
+y11=(value// @license comment
 )=>foo();

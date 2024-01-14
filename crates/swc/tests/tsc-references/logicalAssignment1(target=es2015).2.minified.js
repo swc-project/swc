@@ -1,2 +1,2 @@
 //// [logicalAssignment1.ts]
-a && (a = "foo"), b || (b = "foo"), null != c ? c : c = "foo", d && (d = 42), e || (e = 42), null != f ? f : f = 42, g && (g = 42), h || (h = 42), null != i ? i : i = 42;
+a11 && (a11 = "foo"), b11 || (b11 = "foo"), null != c11 ? c11 : c11 = "foo", d11 && (d11 = 42), e11 || (e11 = 42), null != f11 ? f11 : f11 = 42, g11 && (g11 = 42), h11 || (h11 = 42), null != i11 ? i11 : i11 = 42;

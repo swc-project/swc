@@ -1,5 +1,5 @@
 //// [mod.js]
-var util = exports = module.exports = {};
+var util = exports1 = module.exports = {};
 if (!!false) {
     util.existy = function() {};
 }

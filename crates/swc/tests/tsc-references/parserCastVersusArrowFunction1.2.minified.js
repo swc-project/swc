@@ -1,2 +1,2 @@
 //// [parserCastVersusArrowFunction1.ts]
-a, a, a, b, a = 1, b = 2;
+a11, a11, a11, b11, a11 = 1, b11 = 2;

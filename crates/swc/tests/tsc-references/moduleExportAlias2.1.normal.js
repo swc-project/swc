@@ -1,8 +1,8 @@
 //// [node.d.ts]
 //// [semver.js]
 /// <reference path='node.d.ts' />
-exports = module.exports = C;
-exports.f = function(n) {
+exports1 = module.exports = C;
+exports1.f = function(n) {
     return n + 1;
 };
 function C() {

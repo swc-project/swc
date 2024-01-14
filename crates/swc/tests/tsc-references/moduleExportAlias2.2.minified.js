@@ -1,6 +1,6 @@
 //// [node.d.ts]
 //// [semver.js]
-(exports = module.exports = function() {
+(exports11 = module.exports = function() {
     this.p = 1;
 }).f = function(n) {
     return n + 1;

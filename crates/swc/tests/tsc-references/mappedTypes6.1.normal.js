@@ -45,45 +45,45 @@ function f10(x, y, z) {
     z = y;
     z = z;
 }
-x1.a; // number
-x1.b; // number | undefined
-x1.c; // number | undefined
-x1.d; // number | undefined
-x1 = {
+x11.a; // number
+x11.b; // number | undefined
+x11.c; // number | undefined
+x11.d; // number | undefined
+x11 = {
     a: 1
 }; // Error
-x1 = {
+x11 = {
     a: 1,
     b: 1
 };
-x1 = {
+x11 = {
     a: 1,
     b: 1,
     c: 1
 };
-x1 = {
+x11 = {
     a: 1,
     b: 1,
     c: 1,
     d: 1
 };
-x1.a; // number
-x1.b; // number | undefined
-x1.c; // number
-x1.d; // number
-x2 = {
+x11.a; // number
+x11.b; // number | undefined
+x11.c; // number
+x11.d; // number
+x21 = {
     a: 1
 }; // Error
-x2 = {
+x21 = {
     a: 1,
     b: 1
 }; // Error
-x2 = {
+x21 = {
     a: 1,
     b: 1,
     c: 1
 }; // Error
-x2 = {
+x21 = {
     a: 1,
     b: 1,
     c: 1,

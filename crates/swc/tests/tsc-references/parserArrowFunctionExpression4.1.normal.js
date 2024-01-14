@@ -1,2 +1,2 @@
 //// [parserArrowFunctionExpression4.ts]
-a = (function() {}, a);
+a1 = (function() {}, a1);

@@ -32,15 +32,15 @@ function _foo() {
                         3,
                         6
                     ];
-                    i = _step.value;
+                    i1 = _step.value;
                     result.push({
-                        x: i
+                        x: i1
                     });
                     _ = result.push;
                     _tmp = {};
                     return [
                         4,
-                        _await_async_generator(i)
+                        _await_async_generator(i1)
                     ];
                 case 3:
                     _.apply(result, [
@@ -52,7 +52,7 @@ function _foo() {
                     };
                     return [
                         4,
-                        i
+                        i1
                     ];
                 case 4:
                     _1.apply(result, [

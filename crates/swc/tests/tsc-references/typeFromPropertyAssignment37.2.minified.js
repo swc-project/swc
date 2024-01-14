@@ -1,4 +1,4 @@
 //// [mod.js]
-exports = module.exports = {};
+exports11 = module.exports = {};
 //// [use.js]
 require("./mod").existy;

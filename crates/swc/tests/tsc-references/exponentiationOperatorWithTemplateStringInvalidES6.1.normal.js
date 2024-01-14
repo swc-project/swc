@@ -11,4 +11,4 @@ var k = 10;
 k = Math.pow(k, `${3}`);
 k = Math.pow(k, `2${3}`);
 k = Math.pow(k, `2${3}4`);
-kj = Math.pow(kj, `2${3}4`);
+kj1 = Math.pow(kj1, `2${3}4`);

@@ -1,4 +1,4 @@
 //// [constructorTagOnNestedBinaryExpression.js]
-a = b = function() {
+a11 = b11 = function() {
     console.log(this);
 };

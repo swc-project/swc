@@ -1,18 +1,18 @@
 import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
-function _templateObject() {
+function t() {
     var n = _tagged_template_literal([
         "\n  position: absolute;\n"
     ]);
-    _templateObject = function t() {
+    t = function t() {
         return n;
     };
     return n;
 }
-function _templateObject1() {
+function t() {
     var n = _tagged_template_literal([
         "\n  position: absolute;\n"
     ]);
-    _templateObject1 = function t() {
+    t = function t() {
         return n;
     };
     return n;

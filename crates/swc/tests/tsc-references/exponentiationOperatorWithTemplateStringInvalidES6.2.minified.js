@@ -1,2 +1,2 @@
 //// [exponentiationOperatorWithTemplateStringInvalidES6.ts]
-kj = Math.pow(kj, "234");
+kj11 = Math.pow(kj11, "234");

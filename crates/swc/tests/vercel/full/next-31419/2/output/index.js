@@ -4,7 +4,7 @@ Promise.all(assignAll).then((e = r(function*(e) {
     for(let e in obj){
         let r = obj[e];
         r.id, (yield listOfUser(r.id)).forEach((e)=>{
-            insertQuery += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${r.id}', now());`;
+            n += `INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES ('${uuidv4()}', '${r.id}', now());`;
         });
     }
 }), function(r) {

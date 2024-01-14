@@ -21,4 +21,4 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 });
 var _a = require("@swc/helpers/_/_interop_require_wildcard")._(require("./a")), a2 = require("./a");
-x = 1, y = 1, _a.x = 1, _a.y = 1, a2.x = 1, a2.y = 1, _a.x = 1, _a.y = 1;
+x11 = 1, y11 = 1, _a.x = 1, _a.y = 1, a2.x = 1, a2.y = 1, _a.x = 1, _a.y = 1;

@@ -54,11 +54,11 @@ var x = /*#__PURE__*/ React.createElement("div", {
 /*#__PURE__*/ React.createElement(Component, _object_spread({
     x: 1,
     y: "2"
-}, z, z), /*#__PURE__*/ React.createElement(Child, null));
+}, z1, z1), /*#__PURE__*/ React.createElement(Child, null));
 /*#__PURE__*/ React.createElement(Component, _object_spread_props(_object_spread({
     x: "1"
-}, (z = {
+}, (z1 = {
     y: 2
-}, z)), {
+}, z1)), {
     z: 3
 }), "Text");
