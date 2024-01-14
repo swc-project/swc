@@ -35,8 +35,8 @@ var AD3 = /*#__PURE__*/ function(AB) {
         return _super.apply(this, arguments);
     }
     var _proto = AD3.prototype;
-    _proto.foo // need override?
-     = function foo(v) {};
+    _proto.foo = function foo(v) {} // need override?
+    ;
     _proto.baz = function baz() {};
     return AD3;
 }(AB);

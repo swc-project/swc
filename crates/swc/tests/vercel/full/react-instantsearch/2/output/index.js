@@ -257,19 +257,18 @@ export default function S(u) {
             }), w.setState(t), w.search();
         }
     }
-    function N(n) {
-        var s = n.indexId;
-        return function(n) {
-            var i = A.getState(), c = !w.derivedHelpers.length, u = i.results ? i.results : {};
-            u = !c && u.getFacetByName ? {} : u, u = c ? n.results : r(t({}, u), e({}, s, n.results));
-            var o = A.getState(), l = o.isSearchStalled;
-            w.hasPendingRequests() || (clearTimeout(V), V = null, l = !1), o.resultsFacetValues;
-            var d = a(o, [
+    function N(e) {
+        return e.indexId, function(e) {
+            var n = A.getState(), s = !w.derivedHelpers.length, i = n.results ? n.results : {};
+            i = !s && i.getFacetByName ? {} : i;
+            var c = A.getState(), u = c.isSearchStalled;
+            w.hasPendingRequests() || (clearTimeout(V), V = null, u = !1), c.resultsFacetValues;
+            var o = a(c, [
                 "resultsFacetValues"
             ]);
-            A.setState(r(t({}, d), {
-                results: u,
-                isSearchStalled: l,
+            A.setState(r(t({}, o), {
+                results: i,
+                isSearchStalled: u,
                 searching: !1,
                 error: null
             }));

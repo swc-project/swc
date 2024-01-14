@@ -25,19 +25,19 @@ function h(n, t, e) {
         L: 0
     };
 }
-export default function v(e) {
-    var u = e.dateTime, c = e.date, o = e.time, a = e.periods, l = e.days, v = e.shortDays, C = e.months, U = e.shortMonths, d = T(a), D = m(a), x = T(l), nn = m(l), nx = T(v), nA = m(v), nV = T(C), nW = m(C), nj = T(U), nq = m(U), nQ = {
+export default function v(t) {
+    var e = t.dateTime, u = t.date, c = t.time, i = t.periods, o = t.days, a = t.shortDays, l = t.months, v = t.shortMonths, C = T(i), U = m(i), d = T(o), D = m(o), x = T(a), nn = m(a), nx = T(l), nA = m(l), nW = T(v), nV = m(v), nj = {
         a: function(n) {
-            return v[n.getDay()];
+            return a[n.getDay()];
         },
         A: function(n) {
-            return l[n.getDay()];
+            return o[n.getDay()];
         },
         b: function(n) {
-            return U[n.getMonth()];
+            return v[n.getMonth()];
         },
         B: function(n) {
-            return C[n.getMonth()];
+            return l[n.getMonth()];
         },
         c: null,
         d: I,
@@ -52,7 +52,7 @@ export default function v(e) {
         m: R,
         M: k,
         p: function(n) {
-            return a[+(n.getHours() >= 12)];
+            return i[+(n.getHours() >= 12)];
         },
         q: function(n) {
             return 1 + ~~(n.getMonth() / 3);
@@ -71,18 +71,18 @@ export default function v(e) {
         Y: ni,
         Z: nf,
         "%": nY
-    }, nX = {
+    }, nq = {
         a: function(n) {
-            return v[n.getUTCDay()];
+            return a[n.getUTCDay()];
         },
         A: function(n) {
-            return l[n.getUTCDay()];
+            return o[n.getUTCDay()];
         },
         b: function(n) {
-            return U[n.getUTCMonth()];
+            return v[n.getUTCMonth()];
         },
         B: function(n) {
-            return C[n.getUTCMonth()];
+            return l[n.getUTCMonth()];
         },
         c: null,
         d: na,
@@ -97,7 +97,7 @@ export default function v(e) {
         m: ny,
         M: nC,
         p: function(n) {
-            return a[+(n.getUTCHours() >= 12)];
+            return i[+(n.getUTCHours() >= 12)];
         },
         q: function(n) {
             return 1 + ~~(n.getUTCMonth() / 3);
@@ -116,40 +116,40 @@ export default function v(e) {
         Y: nH,
         Z: nS,
         "%": nY
-    }, n_ = {
+    }, nQ = {
         a: function(n, t, e) {
-            var r = nx.exec(t.slice(e));
-            return r ? (n.w = nA.get(r[0].toLowerCase()), e + r[0].length) : -1;
-        },
-        A: function(n, t, e) {
             var r = x.exec(t.slice(e));
             return r ? (n.w = nn.get(r[0].toLowerCase()), e + r[0].length) : -1;
         },
+        A: function(n, t, e) {
+            var r = d.exec(t.slice(e));
+            return r ? (n.w = D.get(r[0].toLowerCase()), e + r[0].length) : -1;
+        },
         b: function(n, t, e) {
-            var r = nj.exec(t.slice(e));
-            return r ? (n.m = nq.get(r[0].toLowerCase()), e + r[0].length) : -1;
+            var r = nW.exec(t.slice(e));
+            return r ? (n.m = nV.get(r[0].toLowerCase()), e + r[0].length) : -1;
         },
         B: function(n, t, e) {
-            var r = nV.exec(t.slice(e));
-            return r ? (n.m = nW.get(r[0].toLowerCase()), e + r[0].length) : -1;
+            var r = nx.exec(t.slice(e));
+            return r ? (n.m = nA.get(r[0].toLowerCase()), e + r[0].length) : -1;
         },
-        c: function(n, t, e) {
-            return nG(n, u, t, e);
+        c: function(n, t, r) {
+            return nb(n, e, t, r);
         },
-        d: V,
-        e: V,
+        d: W,
+        e: W,
         f: _,
         g: Y,
         G: S,
         H: j,
         I: j,
-        j: W,
+        j: V,
         L: X,
         m: A,
         M: q,
         p: function(n, t, e) {
-            var r = d.exec(t.slice(e));
-            return r ? (n.p = D.get(r[0].toLowerCase()), e + r[0].length) : -1;
+            var r = C.exec(t.slice(e));
+            return r ? (n.p = U.get(r[0].toLowerCase()), e + r[0].length) : -1;
         },
         q: Z,
         Q: B,
@@ -161,66 +161,66 @@ export default function v(e) {
         w: w,
         W: L,
         x: function(n, t, e) {
-            return nG(n, c, t, e);
+            return nb(n, u, t, e);
         },
         X: function(n, t, e) {
-            return nG(n, o, t, e);
+            return nb(n, c, t, e);
         },
         y: Y,
         Y: S,
         Z: F,
         "%": b
     };
-    function nb(t, e) {
+    function nX(t, e) {
         return function(r) {
             var u, c, i, o = [], f = -1, a = 0, l = t.length;
             for(n(r, Date) || (r = new Date(+r)); ++f < l;)37 === t.charCodeAt(f) && (o.push(t.slice(a, f)), null != (c = y[u = t.charAt(++f)]) ? u = t.charAt(++f) : c = "e" === u ? " " : "0", (i = e[u]) && (u = i(r, c)), o.push(u), a = f + 1);
             return o.push(t.slice(a, f)), o.join("");
         };
     }
-    function nB(n, e) {
-        return function(u) {
-            var c, o, a = h(1900, void 0, 1);
-            if (nG(a, n, u += "", 0) != u.length) return null;
-            if ("Q" in a) return new Date(a.Q);
-            if ("s" in a) return new Date(1000 * a.s + ("L" in a ? a.L : 0));
-            if (!e || "Z" in a || (a.Z = 0), "p" in a && (a.H = a.H % 12 + 12 * a.p), void 0 === a.m && (a.m = "q" in a ? a.q : 0), "V" in a) {
-                if (a.V < 1 || a.V > 53) return null;
-                "w" in a || (a.w = 1), "Z" in a ? (c = (o = (c = s(h(a.y, 0, 1))).getUTCDay()) > 4 || 0 === o ? f.ceil(c) : f(c), c = i.offset(c, (a.V - 1) * 7), a.y = c.getUTCFullYear(), a.m = c.getUTCMonth(), a.d = c.getUTCDate() + (a.w + 6) % 7) : (c = (o = (c = g(h(a.y, 0, 1))).getDay()) > 4 || 0 === o ? r.ceil(c) : r(c), c = t.offset(c, (a.V - 1) * 7), a.y = c.getFullYear(), a.m = c.getMonth(), a.d = c.getDate() + (a.w + 6) % 7);
-            } else ("W" in a || "U" in a) && ("w" in a || (a.w = "u" in a ? a.u % 7 : "W" in a ? 1 : 0), o = "Z" in a ? s(h(a.y, 0, 1)).getUTCDay() : g(h(a.y, 0, 1)).getDay(), a.m = 0, a.d = "W" in a ? (a.w + 6) % 7 + 7 * a.W - (o + 5) % 7 : a.w + 7 * a.U - (o + 6) % 7);
-            return "Z" in a ? (a.H += a.Z / 100 | 0, a.M += a.Z % 100, s(a)) : g(a);
+    function n_(n, t) {
+        return function(e) {
+            var u, c, i = h(1900, void 0, 1);
+            if (nb(i, n, e += "", 0) != e.length) return null;
+            if ("Q" in i) return new Date(i.Q);
+            if ("s" in i) return new Date(1000 * i.s + ("L" in i ? i.L : 0));
+            if (!t || "Z" in i || (i.Z = 0), "p" in i && (i.H = i.H % 12 + 12 * i.p), void 0 === i.m && (i.m = "q" in i ? i.q : 0), "V" in i) {
+                if (i.V < 1 || i.V > 53) return null;
+                "w" in i || (i.w = 1), "Z" in i ? (u = (c = (u = s(h(i.y, 0, 1))).getUTCDay()) > 4 || 0 === c ? f.ceil(u) : f(u), i.y = u.getUTCFullYear(), i.m = u.getUTCMonth(), i.d = u.getUTCDate() + (i.w + 6) % 7) : (u = (c = (u = g(h(i.y, 0, 1))).getDay()) > 4 || 0 === c ? r.ceil(u) : r(u), i.y = u.getFullYear(), i.m = u.getMonth(), i.d = u.getDate() + (i.w + 6) % 7);
+            } else ("W" in i || "U" in i) && ("w" in i || (i.w = "u" in i ? i.u % 7 : "W" in i ? 1 : 0), c = "Z" in i ? s(h(i.y, 0, 1)).getUTCDay() : g(h(i.y, 0, 1)).getDay(), i.m = 0, i.d = "W" in i ? (i.w + 6) % 7 + 7 * i.W - (c + 5) % 7 : i.w + 7 * i.U - (c + 6) % 7);
+            return "Z" in i ? (i.H += i.Z / 100 | 0, i.M += i.Z % 100, s(i)) : g(i);
         };
     }
-    function nG(n, t, e, r) {
+    function nb(n, t, e, r) {
         for(var u, c, i = 0, o = t.length, f = e.length; i < o;){
             if (r >= f) return -1;
             if (37 === (u = t.charCodeAt(i++))) {
-                if (!(c = n_[(u = t.charAt(i++)) in y ? t.charAt(i++) : u]) || (r = c(n, e, r)) < 0) return -1;
+                if (!(c = nQ[(u = t.charAt(i++)) in y ? t.charAt(i++) : u]) || (r = c(n, e, r)) < 0) return -1;
             } else if (u != e.charCodeAt(r++)) return -1;
         }
         return r;
     }
-    return nQ.x = nb(c, nQ), nQ.X = nb(o, nQ), nQ.c = nb(u, nQ), nX.x = nb(c, nX), nX.X = nb(o, nX), nX.c = nb(u, nX), {
+    return nj.x = nX(u, nj), nj.X = nX(c, nj), nj.c = nX(e, nj), nq.x = nX(u, nq), nq.X = nX(c, nq), nq.c = nX(e, nq), {
         format: function(n) {
-            var t = nb(n += "", nQ);
+            var t = nX(n += "", nj);
             return t.toString = function() {
                 return n;
             }, t;
         },
         parse: function(n) {
-            var t = nB(n += "", !1);
+            var t = n_(n += "", !1);
             return t.toString = function() {
                 return n;
             }, t;
         },
         utcFormat: function(n) {
-            var t = nb(n += "", nX);
+            var t = nX(n += "", nq);
             return t.toString = function() {
                 return n;
             }, t;
         },
         utcParse: function(n) {
-            var t = nB(n += "", !0);
+            var t = n_(n += "", !0);
             return t.toString = function() {
                 return n;
             }, t;
@@ -290,11 +290,11 @@ function A(n, t, e) {
     var r = C.exec(t.slice(e, e + 2));
     return r ? (n.m = r[0] - 1, e + r[0].length) : -1;
 }
-function V(n, t, e) {
+function W(n, t, e) {
     var r = C.exec(t.slice(e, e + 2));
     return r ? (n.d = +r[0], e + r[0].length) : -1;
 }
-function W(n, t, e) {
+function V(n, t, e) {
     var r = C.exec(t.slice(e, e + 3));
     return r ? (n.m = 0, n.d = +r[0], e + r[0].length) : -1;
 }

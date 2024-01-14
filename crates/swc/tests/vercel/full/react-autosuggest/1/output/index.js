@@ -64,9 +64,9 @@ function _defineProperties(target, props) {
         descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
     }
 }
-function _assertThisInitialized(self) {
-    if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
-    return self;
+function _assertThisInitialized(self1) {
+    if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+    return self1;
 }
 function _getPrototypeOf(o) {
     return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
@@ -111,7 +111,7 @@ var ItemsList = function(_Component) {
             var NewTarget = _getPrototypeOf(this).constructor;
             result = Reflect.construct(Super, arguments, NewTarget);
         } else result = Super.apply(this, arguments);
-        return (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(this);
+        return (call = result) && ("object" === _typeof(call) || "function" == typeof call) ? call : _assertThisInitialized(self);
     };
     function ItemsList() {
         var _this;
