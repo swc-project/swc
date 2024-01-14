@@ -123,6 +123,15 @@ impl Visit for Analyzer {
         });
     }
 
+    fn visit_assign_target(&mut self, n: &AssignTarget) {
+        let old = self.is_pat_decl;
+
+        self.is_pat_decl = true;
+        n.visit_children_with(self);
+
+        self.is_pat_decl = old;
+    }
+
     fn visit_binding_ident(&mut self, i: &BindingIdent) {
         if self.is_pat_decl {
             self.add_decl(i.to_id(), self.var_belong_to_fn_scope)
