@@ -126,7 +126,7 @@ impl Visit for Analyzer {
     fn visit_assign_target(&mut self, n: &AssignTarget) {
         let old = self.is_pat_decl;
 
-        self.is_pat_decl = true;
+        self.is_pat_decl = false;
         n.visit_children_with(self);
 
         self.is_pat_decl = old;
