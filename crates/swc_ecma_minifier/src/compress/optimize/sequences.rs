@@ -1697,8 +1697,8 @@ impl Optimizer<'_> {
                 return self.merge_sequential_expr(a, &mut c.expr);
             }
 
-            Expr::Assign(b @ AssignExpr { op: op!("="), .. }) => {
-                match &mut b.left {
+            Expr::Assign(b_assign @ AssignExpr { op: op!("="), .. }) => {
+                match &mut b_assign.left {
                     AssignTarget::Simple(b_left) => {
                         trace_op!("seq: Try lhs of assign");
 
@@ -1710,6 +1710,10 @@ impl Optimizer<'_> {
 
                                 *b_left = match SimpleAssignTarget::try_from(b_expr) {
                                     Ok(v) => v,
+                                    Err(ref mut err) if is_pure_undefined(&self.expr_ctx, err) => {
+                                        *b = *err.take();
+                                        return Ok(true);
+                                    }
                                     Err(err) => unreachable!("{err:?}"),
                                 };
                                 if res? {
@@ -1728,12 +1732,12 @@ impl Optimizer<'_> {
                     _ => return Ok(false),
                 };
 
-                if self.should_not_check_rhs_of_assign(a, b)? {
+                if self.should_not_check_rhs_of_assign(a, b_assign)? {
                     return Ok(false);
                 }
 
                 trace_op!("seq: Try rhs of assign");
-                return self.merge_sequential_expr(a, &mut b.right);
+                return self.merge_sequential_expr(a, &mut b_assign.right);
             }
 
             Expr::Assign(b_assign) => {
