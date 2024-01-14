@@ -1721,6 +1721,14 @@ where
     fn emit_prop_name(&mut self, node: &PropName) -> Result {
         match node {
             PropName::Ident(ident) => {
+                // TODO: Use write_symbol when ident is a symbol.
+                self.emit_leading_comments_of_span(ident.span, false)?;
+
+                // Source map
+                self.wr.commit_pending_semi()?;
+
+                srcmap!(ident, true);
+
                 if self.cfg.ascii_only {
                     if self.wr.can_ignore_invalid_unicodes() {
                         self.wr.write_symbol(
