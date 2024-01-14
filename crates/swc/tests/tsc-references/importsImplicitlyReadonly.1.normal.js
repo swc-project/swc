@@ -22,19 +22,36 @@ _export(exports, {
 var x = 1;
 var y = 1;
 //// [b.ts]
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
-var _a = /*#__PURE__*/ _interop_require_wildcard._(require("./a"));
-var a2 = require("./a");
-var a3 = _a;
-x = 1; // Error
-y = 1; // Error
-_a.x = 1; // Error
-_a.y = 1; // Error
-a2.x = 1;
-a2.y = 1;
-a3.x = 1;
-a3.y = 1;
+//! 
+//!   x cannot reassign to an imported binding
+//!    ,-[1:1]
+//!  1 | import { x, y } from "./a";
+//!    :          |
+//!    :          `-- imported binding
+//!  2 | import * as a1 from "./a";
+//!  3 | import a2 = require("./a");
+//!  4 | const a3 = a1;
+//!  5 | 
+//!  6 | x = 1;     // Error
+//!    : ^
+//!  7 | y = 1;     // Error
+//!  8 | a1.x = 1;  // Error
+//!  9 | a1.y = 1;  // Error
+//!    `----
+//! 
+//!   x cannot reassign to an imported binding
+//!     ,-[1:1]
+//!   1 | import { x, y } from "./a";
+//!     :             |
+//!     :             `-- imported binding
+//!   2 | import * as a1 from "./a";
+//!   3 | import a2 = require("./a");
+//!   4 | const a3 = a1;
+//!   5 | 
+//!   6 | x = 1;     // Error
+//!   7 | y = 1;     // Error
+//!     : ^
+//!   8 | a1.x = 1;  // Error
+//!   9 | a1.y = 1;  // Error
+//!  10 | a2.x = 1;
+//!     `----
