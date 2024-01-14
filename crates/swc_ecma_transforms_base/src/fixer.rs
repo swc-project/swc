@@ -2,8 +2,8 @@ use std::{hash::BuildHasherDefault, mem, ops::RangeFull};
 
 use indexmap::IndexMap;
 use rustc_hash::FxHasher;
-use swc_common::{comments::Comments, util::take::Take, Span, Spanned};
-use swc_ecma_ast::*;
+use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_ecma_ast::{AssignTarget, *};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Fixes ast nodes before printing so semantics are preserved.
@@ -107,8 +107,6 @@ impl VisitMut for Fixer<'_> {
 
     array!(visit_mut_array_lit, ArrayLit);
 
-    // array!(ArrayPat);
-
     fn visit_mut_arrow_expr(&mut self, node: &mut ArrowExpr) {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -194,6 +192,25 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_assign_target(&mut self, n: &mut AssignTarget) {
+        n.visit_mut_children_with(self);
+
+        match n {
+            AssignTarget::Simple(a) => {
+                if let SimpleAssignTarget::Paren(s) = a {
+                    *n = AssignTarget::try_from(s.expr.take()).unwrap();
+                }
+            }
+            AssignTarget::Pat(b) => {
+                if let AssignTargetPat::Invalid(_) = b {
+                    *n = AssignTarget::Simple(SimpleAssignTarget::Invalid(Invalid {
+                        span: DUMMY_SP,
+                    }));
+                }
+            }
+        }
+    }
+
     fn visit_mut_await_expr(&mut self, expr: &mut AwaitExpr) {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr;
@@ -206,13 +223,6 @@ impl VisitMut for Fixer<'_> {
             }
             _ => {}
         }
-    }
-
-    fn visit_mut_yield_expr(&mut self, expr: &mut YieldExpr) {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr;
-        expr.arg.visit_mut_with(self);
-        self.ctx = old;
     }
 
     fn visit_mut_bin_expr(&mut self, expr: &mut BinExpr) {
@@ -338,31 +348,6 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
-    fn visit_mut_cond_expr(&mut self, expr: &mut CondExpr) {
-        expr.test.visit_mut_with(self);
-
-        let ctx = self.ctx;
-        self.ctx = Context::FreeExpr;
-        expr.cons.visit_mut_with(self);
-        expr.alt.visit_mut_with(self);
-        self.ctx = ctx;
-    }
-
-    fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
-        if seq.exprs.len() > 1 {
-            seq.exprs[0].visit_mut_with(self);
-
-            let ctx = self.ctx;
-            self.ctx = Context::FreeExpr;
-            for expr in seq.exprs.iter_mut().skip(1) {
-                expr.visit_mut_with(self)
-            }
-            self.ctx = ctx;
-        } else {
-            seq.exprs.visit_mut_children_with(self)
-        }
-    }
-
     fn visit_mut_block_stmt_or_expr(&mut self, body: &mut BlockStmtOrExpr) {
         body.visit_mut_children_with(self);
 
@@ -393,32 +378,6 @@ impl VisitMut for Fixer<'_> {
         self.ctx = ctx;
     }
 
-    fn visit_mut_opt_chain_base(&mut self, n: &mut OptChainBase) {
-        if !n.is_member() {
-            n.visit_mut_children_with(self);
-            return;
-        }
-
-        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
-        n.visit_mut_children_with(self);
-        self.in_opt_chain = in_opt_chain;
-    }
-
-    fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
-        let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
-        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
-
-        node.callee.visit_mut_with(self);
-        self.wrap_callee(&mut node.callee);
-
-        self.in_opt_chain = in_opt_chain;
-
-        self.ctx = Context::ForcedExpr;
-        node.args.visit_mut_with(self);
-
-        self.ctx = ctx;
-    }
-
     fn visit_mut_class(&mut self, node: &mut Class) {
         let old = self.ctx;
         self.ctx = Context::Default;
@@ -440,6 +399,23 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
 
         node.body.retain(|m| !matches!(m, ClassMember::Empty(..)));
+    }
+
+    fn visit_mut_computed_prop_name(&mut self, name: &mut ComputedPropName) {
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        name.visit_mut_children_with(self);
+        self.ctx = ctx;
+    }
+
+    fn visit_mut_cond_expr(&mut self, expr: &mut CondExpr) {
+        expr.test.visit_mut_with(self);
+
+        let ctx = self.ctx;
+        self.ctx = Context::FreeExpr;
+        expr.cons.visit_mut_with(self);
+        expr.alt.visit_mut_with(self);
+        self.ctx = ctx;
     }
 
     fn visit_mut_export_default_expr(&mut self, node: &mut ExportDefaultExpr) {
@@ -570,13 +546,6 @@ impl VisitMut for Fixer<'_> {
         }
     }
 
-    fn visit_mut_spread_element(&mut self, e: &mut SpreadElement) {
-        let old = self.ctx;
-        self.ctx = Context::ForcedExpr;
-        e.visit_mut_children_with(self);
-        self.ctx = old;
-    }
-
     fn visit_mut_member_expr(&mut self, n: &mut MemberExpr) {
         n.visit_mut_children_with(self);
 
@@ -642,18 +611,37 @@ impl VisitMut for Fixer<'_> {
         self.ctx = old;
     }
 
+    fn visit_mut_opt_call(&mut self, node: &mut OptCall) {
+        let ctx = mem::replace(&mut self.ctx, Context::Callee { is_new: false });
+        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
+
+        node.callee.visit_mut_with(self);
+        self.wrap_callee(&mut node.callee);
+
+        self.in_opt_chain = in_opt_chain;
+
+        self.ctx = Context::ForcedExpr;
+        node.args.visit_mut_with(self);
+
+        self.ctx = ctx;
+    }
+
+    fn visit_mut_opt_chain_base(&mut self, n: &mut OptChainBase) {
+        if !n.is_member() {
+            n.visit_mut_children_with(self);
+            return;
+        }
+
+        let in_opt_chain = mem::replace(&mut self.in_opt_chain, true);
+        n.visit_mut_children_with(self);
+        self.in_opt_chain = in_opt_chain;
+    }
+
     fn visit_mut_param(&mut self, node: &mut Param) {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr;
         node.visit_mut_children_with(self);
         self.ctx = old;
-    }
-
-    fn visit_mut_computed_prop_name(&mut self, name: &mut ComputedPropName) {
-        let ctx = self.ctx;
-        self.ctx = Context::FreeExpr;
-        name.visit_mut_children_with(self);
-        self.ctx = ctx;
     }
 
     fn visit_mut_prop_name(&mut self, name: &mut PropName) {
@@ -678,6 +666,28 @@ impl VisitMut for Fixer<'_> {
                 c.move_trailing(from.hi, to.hi);
             }
         }
+    }
+
+    fn visit_mut_seq_expr(&mut self, seq: &mut SeqExpr) {
+        if seq.exprs.len() > 1 {
+            seq.exprs[0].visit_mut_with(self);
+
+            let ctx = self.ctx;
+            self.ctx = Context::FreeExpr;
+            for expr in seq.exprs.iter_mut().skip(1) {
+                expr.visit_mut_with(self)
+            }
+            self.ctx = ctx;
+        } else {
+            seq.exprs.visit_mut_children_with(self)
+        }
+    }
+
+    fn visit_mut_spread_element(&mut self, e: &mut SpreadElement) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        e.visit_mut_children_with(self);
+        self.ctx = old;
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
@@ -744,6 +754,13 @@ impl VisitMut for Fixer<'_> {
         let old = self.ctx;
         self.ctx = Context::ForcedExpr;
         node.init.visit_mut_with(self);
+        self.ctx = old;
+    }
+
+    fn visit_mut_yield_expr(&mut self, expr: &mut YieldExpr) {
+        let old = self.ctx;
+        self.ctx = Context::ForcedExpr;
+        expr.arg.visit_mut_with(self);
         self.ctx = old;
     }
 }
