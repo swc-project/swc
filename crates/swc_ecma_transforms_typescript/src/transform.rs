@@ -232,7 +232,6 @@ impl VisitMut for Transform {
                 .flat_map(|key| {
                     key.init.take().map(|init| {
                         let name = key.name.clone();
-                        dbg!(&name);
                         init.make_assign_to(op!("="), name.try_into().unwrap())
                     })
                 })
