@@ -1715,7 +1715,7 @@ impl Optimizer<'_> {
                                         *b = *err.take();
                                         return Ok(true);
                                     }
-                                    Err(err) => unreachable!("{err:?}"),
+                                    Err(err) => unreachable!("{err:#?}"),
                                 };
                                 if res? {
                                     return Ok(true);
