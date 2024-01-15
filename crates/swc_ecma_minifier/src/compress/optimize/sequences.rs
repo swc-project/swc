@@ -1729,12 +1729,11 @@ impl Optimizer<'_> {
 
                                 *b_left = match SimpleAssignTarget::try_from(b_expr) {
                                     Ok(v) => v,
-                                    Err(ref mut err) if is_pure_undefined(&self.expr_ctx, err) => {
+                                    Err(ref mut err) => {
                                         b_left.take();
                                         *b = *err.take();
                                         return Ok(true);
                                     }
-                                    Err(err) => unreachable!("{err:?}"),
                                 };
                                 if res? {
                                     return Ok(true);
