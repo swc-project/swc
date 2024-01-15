@@ -4,7 +4,8 @@
         node
     ] : [];
     if (node) {
-        const key = syntheticGetKey(node, pos), data = {
+        const key = syntheticGetKey(node, pos);
+        callback({
             node,
             index,
             pos,
@@ -12,8 +13,7 @@
             parentPos: parent.node ? parent.pos : null,
             level: parent.level + 1,
             nodes: connectNodes
-        };
-        callback(data);
+        });
     }
     children && children.forEach((subNode, subIndex)=>{
         processNode(subNode, subIndex, {

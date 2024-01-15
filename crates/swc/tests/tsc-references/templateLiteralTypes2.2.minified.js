@@ -1,4 +1,2 @@
 //// [templateLiteralTypes2.ts]
-takesLiteral("foo.bar.baz"), takesLiteral("foo.bar.baz"), takesLiteral("foo.bar.".concat(someString));
-var id4 = "foo.bar.".concat(someString);
-takesLiteral(id4), takesLiteral("foo.bar.".concat(someUnion));
+takesLiteral("foo.bar.baz"), takesLiteral("foo.bar.baz"), takesLiteral("foo.bar.".concat(someString)), takesLiteral("foo.bar.".concat(someString)), takesLiteral("foo.bar.".concat(someUnion));
