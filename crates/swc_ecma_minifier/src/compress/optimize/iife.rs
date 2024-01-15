@@ -504,6 +504,7 @@ impl Optimizer<'_> {
                         }
 
                         self.changed = true;
+                        report_change!("inline: Inlining a function call (arrow)");
 
                         let vars = param_ids
                             .iter()

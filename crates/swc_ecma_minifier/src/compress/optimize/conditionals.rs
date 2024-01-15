@@ -284,6 +284,7 @@ impl Optimizer<'_> {
             debug_assert_valid(&v);
 
             self.changed = true;
+            report_change!("conditionals: Merging cons and alt as only one argument differs");
             *s = Stmt::Expr(ExprStmt {
                 span: stmt.span,
                 expr: Box::new(v),
