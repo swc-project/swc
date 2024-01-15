@@ -7,8 +7,8 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
-    StmtLike,
+    contains_arguments, contains_this_expr, is_simple_pure_expr, prepend_stmts, undefined, ExprExt,
+    IdentUsageFinder, StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -1729,12 +1729,23 @@ impl Optimizer<'_> {
 
                                 *b_left = match SimpleAssignTarget::try_from(b_expr) {
                                     Ok(v) => v,
-                                    Err(ref mut err) if is_pure_undefined(&self.expr_ctx, err) => {
+                                    Err(ref mut err) if is_simple_pure_expr(err, false) => {
                                         b_left.take();
                                         *b = *err.take();
                                         return Ok(true);
                                     }
-                                    Err(err) => unreachable!("{err:#?}"),
+                                    Err(err) => match *err {
+                                        Expr::Assign(right) => {
+                                            b_assign.left = right.left;
+                                            b_assign.right = right.right;
+
+                                            return Ok(true);
+                                        }
+
+                                        _ => {
+                                            unreachable!("{err:#?}")
+                                        }
+                                    },
                                 };
                                 if res? {
                                     return Ok(true);

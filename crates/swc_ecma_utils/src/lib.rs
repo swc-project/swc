@@ -1922,6 +1922,11 @@ impl Visit for LiteralVisitor {
 pub fn is_simple_pure_expr(expr: &Expr, pure_getters: bool) -> bool {
     match expr {
         Expr::Ident(..) | Expr::This(..) | Expr::Lit(..) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!("void"),
+            arg,
+            ..
+        }) => is_simple_pure_expr(arg, pure_getters),
         Expr::Member(m) if pure_getters => is_simple_pure_member_expr(m, pure_getters),
         _ => false,
     }
