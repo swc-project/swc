@@ -599,6 +599,36 @@ impl ProgramData {
             Expr::Bin(BinExpr { left, right, .. }) => {
                 self.contains_unresolved(left) || self.contains_unresolved(right)
             }
+            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Assign(AssignExpr { left, right, .. }) => {
+                // TODO
+                // self.contains_unresolved(left) ||
+
+                self.contains_unresolved(right)
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.contains_unresolved(test)
+                    || self.contains_unresolved(cons)
+                    || self.contains_unresolved(alt)
+            }
+            Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
+                Some(..) => self.contains_unresolved(&arg.expr),
+                None => false,
+            }),
+            Expr::Yield(YieldExpr { arg, .. }) => {
+                matches!(arg, Some(arg) if self.contains_unresolved(&arg))
+            }
+            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
+            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
+                Some(elem) => self.contains_unresolved(&elem.expr),
+                None => false,
+            }),
 
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
