@@ -596,6 +596,9 @@ impl ProgramData {
 
                 false
             }
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.contains_unresolved(left) || self.contains_unresolved(right)
+            }
 
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
