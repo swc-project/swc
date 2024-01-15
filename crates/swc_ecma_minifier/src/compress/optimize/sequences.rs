@@ -1708,7 +1708,7 @@ impl Optimizer<'_> {
 
                                 let res = self.merge_sequential_expr(a, &mut b_expr);
 
-                                *b_left = match SimpleAssignTarget::try_from(b_expr) {
+                                b_assign.left = match AssignTarget::try_from(b_expr) {
                                     Ok(v) => v,
                                     Err(err) => unreachable!("{err:#?}"),
                                 };
@@ -1720,7 +1720,7 @@ impl Optimizer<'_> {
                             _ => {}
                         }
 
-                        if !b_left.is_ident() {
+                        if b_assign.left.as_ident().is_none() {
                             return Ok(false);
                         }
                     }
