@@ -171,6 +171,7 @@ impl Optimizer<'_> {
                 );
                 if let Some(res) = res {
                     self.changed = true;
+                    report_change!("bools: Optimizing `=== null || === undefined` to `== null`");
                     *e = res;
                     return;
                 }
@@ -186,6 +187,9 @@ impl Optimizer<'_> {
                     );
                     if let Some(res) = res {
                         self.changed = true;
+                        report_change!(
+                            "bools: Optimizing `=== null || === undefined` to `== null`"
+                        );
                         *e = BinExpr {
                             span: e.span,
                             op: e.op,
