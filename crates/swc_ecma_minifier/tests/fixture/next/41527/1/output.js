@@ -9,7 +9,7 @@ class Toolbar extends Module {
         if (super(quill, options), Array.isArray(this.options.container)) {
             const container = document.createElement('div');
             addControls(container, this.options.container), quill.container.parentNode.insertBefore(container, quill.container), this.container = container;
-        } else 'string' == typeof this.options.container ? this.container = document.querySelector(this.options.container) : this.container = this.options.container;
+        } else this.container = 'string' == typeof this.options.container ? document.querySelector(this.options.container) : this.options.container;
         if (!(this.container instanceof HTMLElement)) {
             debug.error('Container required for toolbar', this.options);
             return;

@@ -33,7 +33,7 @@
                     }, this.finalEndVal = null, this.useEasing = !0, this.countDown = !1, this.error = "", this.startVal = 0, this.paused = !0, this.count = function(t) {
                         s.startTime || (s.startTime = t);
                         var i = t - s.startTime;
-                        s.remaining = s.duration - i, s.useEasing ? s.countDown ? s.frameVal = s.startVal - s.easingFn(i, 0, s.startVal - s.endVal, s.duration) : s.frameVal = s.easingFn(i, s.startVal, s.endVal - s.startVal, s.duration) : s.countDown ? s.frameVal = s.startVal - (s.startVal - s.endVal) * (i / s.duration) : s.frameVal = s.startVal + (s.endVal - s.startVal) * (i / s.duration), s.countDown ? s.frameVal = s.frameVal < s.endVal ? s.endVal : s.frameVal : s.frameVal = s.frameVal > s.endVal ? s.endVal : s.frameVal, s.frameVal = Number(s.frameVal.toFixed(s.options.decimalPlaces)), s.printValue(s.frameVal), i < s.duration ? s.rAF = requestAnimationFrame(s.count) : null !== s.finalEndVal ? s.update(s.finalEndVal) : s.callback && s.callback();
+                        s.remaining = s.duration - i, s.frameVal = s.useEasing ? s.countDown ? s.startVal - s.easingFn(i, 0, s.startVal - s.endVal, s.duration) : s.easingFn(i, s.startVal, s.endVal - s.startVal, s.duration) : s.countDown ? s.startVal - (s.startVal - s.endVal) * (i / s.duration) : s.startVal + (s.endVal - s.startVal) * (i / s.duration), s.frameVal = s.countDown ? s.frameVal < s.endVal ? s.endVal : s.frameVal : s.frameVal > s.endVal ? s.endVal : s.frameVal, s.frameVal = Number(s.frameVal.toFixed(s.options.decimalPlaces)), s.printValue(s.frameVal), i < s.duration ? s.rAF = requestAnimationFrame(s.count) : null !== s.finalEndVal ? s.update(s.finalEndVal) : s.callback && s.callback();
                     }, this.formatNumber = function(t) {
                         var a, n, e, o = (Math.abs(t).toFixed(s.options.decimalPlaces) + "").split(".");
                         if (a = o[0], n = o.length > 1 ? s.options.decimal + o[1] : "", s.options.useGrouping) {
@@ -57,7 +57,7 @@
                         var a = this.countDown ? 1 : -1;
                         this.endVal = t + a * this.options.smartEasingAmount, this.duration = this.duration / 2;
                     } else this.endVal = t, this.finalEndVal = null;
-                    this.finalEndVal ? this.useEasing = !1 : this.useEasing = this.options.useEasing;
+                    this.useEasing = !this.finalEndVal && this.options.useEasing;
                 }, t.prototype.start = function(t) {
                     this.error || (this.callback = t, this.duration > 0 ? (this.determineDirectionAndSmartEasing(), this.paused = !1, this.rAF = requestAnimationFrame(this.count)) : this.printValue(this.endVal));
                 }, t.prototype.pauseResume = function() {
@@ -476,8 +476,10 @@
                 }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
+                    var callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
+                        return isVisible && setVisible(isVisible);
+                    }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -493,9 +495,7 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
-                        return isVisible && setVisible(isVisible);
-                    }), observer.observe(el), function() {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [

@@ -4,8 +4,8 @@ var t = function() {
     function n(n) {}
     var t = null;
     return {
-        init: function(t) {
-            return t = new n(t);
+        init: function(u) {
+            return t = new n(u);
         }
     };
 }();
