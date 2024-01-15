@@ -1704,13 +1704,20 @@ impl Optimizer<'_> {
 
                         match b_left {
                             SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) => {
-                                let mut b_expr: Box<Expr> = b_left.take().into();
+                                let mut b_left_expr: Box<Expr> = b_left.take().into();
 
-                                let res = self.merge_sequential_expr(a, &mut b_expr);
+                                let res = self.merge_sequential_expr(a, &mut b_left_expr);
 
-                                b_assign.left = match AssignTarget::try_from(b_expr) {
+                                b_assign.left = match AssignTarget::try_from(b_left_expr) {
                                     Ok(v) => v,
-                                    Err(err) => unreachable!("{err:#?}"),
+                                    Err(err) => {
+                                        if is_pure_undefined(&self.expr_ctx, &err) {
+                                            *b = *b_assign.right.take();
+                                            return Ok(true);
+                                        }
+
+                                        unreachable!("{err:#?}")
+                                    }
                                 };
                                 if res? {
                                     return Ok(true);
