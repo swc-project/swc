@@ -1923,7 +1923,7 @@ pub fn is_simple_pure_expr(expr: &Expr, pure_getters: bool) -> bool {
     match expr {
         Expr::Ident(..) | Expr::This(..) | Expr::Lit(..) => true,
         Expr::Unary(UnaryExpr {
-            op: op!("void"),
+            op: op!("void") | op!("!"),
             arg,
             ..
         }) => is_simple_pure_expr(arg, pure_getters),
