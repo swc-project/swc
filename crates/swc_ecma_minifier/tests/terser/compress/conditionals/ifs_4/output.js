@@ -1,1 +1,3 @@
-x(foo)[10].bar.baz = foo && bar ? something() : something_else();
+foo && bar
+    ? (x(foo)[10].bar.baz = something())
+    : (x(foo)[10].bar.baz = something_else());
