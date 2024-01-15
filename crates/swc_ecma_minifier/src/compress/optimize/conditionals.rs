@@ -546,6 +546,10 @@ impl Optimizer<'_> {
                     && cons.left.eq_ignore_span(&alt.left)
                     && is_simple_lhs(&cons.left) =>
             {
+                if !test.is_ident() && self.data.contains_unresolved(test) {
+                    return None;
+                }
+
                 report_change!("Merging assignments in cons and alt of if statement");
                 Some(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
