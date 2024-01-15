@@ -1,7 +1,7 @@
 //// [ExportClassWhichExtendsInterfaceWithInaccessibleType.ts]
-var Point2d;
+var A1, Point2d;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-Point2d = function() {
+A1 || (A1 = {}), Point2d = function() {
     function Point2d(x, y) {
         _class_call_check(this, Point2d), this.x = x, this.y = y;
     }

@@ -43,10 +43,10 @@ var ItemsList = function(Component) {
         var _this, call;
         return !function(instance, Constructor) {
             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-        }(this, ItemsList), call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == (call && "undefined" != typeof Symbol && call.constructor === Symbol ? "symbol" : typeof call) || "function" == typeof call) ? call : function(self) {
-            if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
-            return self;
-        }(this)).storeHighlightedItemReference = function(highlightedItem) {
+        }(this, ItemsList), call = _getPrototypeOf(ItemsList).apply(this, arguments), (_this = call && ("object" == (call && "undefined" != typeof Symbol && call.constructor === Symbol ? "symbol" : typeof call) || "function" == typeof call) ? call : function(self1) {
+            if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
+            return self1;
+        }(self)).storeHighlightedItemReference = function(highlightedItem) {
             _this.props.onHighlightedItemChange(null === highlightedItem ? null : highlightedItem.item);
         }, _this;
     }
