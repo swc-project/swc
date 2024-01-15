@@ -1729,23 +1729,7 @@ impl Optimizer<'_> {
 
                                 *b_left = match SimpleAssignTarget::try_from(b_expr) {
                                     Ok(v) => v,
-                                    Err(ref mut err) if is_simple_pure_expr(err, false) => {
-                                        b_left.take();
-                                        *b = *err.take();
-                                        return Ok(true);
-                                    }
-                                    Err(err) => match *err {
-                                        Expr::Assign(right) => {
-                                            b_assign.left = right.left;
-                                            b_assign.right = right.right;
-
-                                            return Ok(true);
-                                        }
-
-                                        _ => {
-                                            unreachable!("{err:#?}")
-                                        }
-                                    },
+                                    Err(err) => unreachable!("{err:#?}"),
                                 };
                                 if res? {
                                     return Ok(true);
