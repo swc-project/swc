@@ -1082,15 +1082,11 @@ impl Optimizer<'_> {
     }
 
     fn is_ident_skippable_for_seq(&self, a: Option<&Mergable>, e: &Ident) -> bool {
-        if e.span.ctxt == self.expr_ctx.unresolved_ctxt {
-            return if self.options.pristine_globals
-                && is_global_var_with_pure_property_access(&e.sym)
-            {
-                true
-            } else {
-                log_abort!("Undeclared");
-                return false;
-            };
+        if e.span.ctxt == self.expr_ctx.unresolved_ctxt
+            && self.options.pristine_globals
+            && is_global_var_with_pure_property_access(&e.sym)
+        {
+            return true;
         }
 
         if let Some(a) = a {
@@ -1553,6 +1549,10 @@ impl Optimizer<'_> {
         match a {
             Mergable::Var(..) | Mergable::FnDecl(..) => {}
             Mergable::Expr(a) => {
+                if a.is_ident() {
+                    return Ok(false);
+                }
+
                 if let Expr::Seq(a) = a {
                     for a in a.exprs.iter_mut().rev() {
                         if self.merge_sequential_expr(&mut Mergable::Expr(a), b)? {
