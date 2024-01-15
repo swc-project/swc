@@ -1,6 +1,6 @@
 export default (function (module, exports, __webpack_require__) {
 
-	; (function (root, factory) {
+	return (function (root, factory) {
 		if (true) {
 			// CommonJS
 			module.exports = exports = factory(__webpack_require__(8249));
