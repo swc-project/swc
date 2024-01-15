@@ -1,4 +1,3 @@
 function f(a) {
-    var b;
-    return x((b = a, y(b)));
+    return x(y(a));
 }
