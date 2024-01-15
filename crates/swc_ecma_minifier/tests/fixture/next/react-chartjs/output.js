@@ -40,7 +40,8 @@ export function generateTicks$1(generationOptions, dataRange) {
         spacing = ((niceMax = maxDefined ? max : niceMax) - niceMin) / (numSpaces = count - 1);
     } else {
         numSpaces = (niceMax - niceMin) / spacing;
-        numSpaces = (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK)(numSpaces, Math.round(numSpaces), spacing / 1000) ? Math.round(numSpaces) : Math.ceil(numSpaces);
+        if ((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aK)(numSpaces, Math.round(numSpaces), spacing / 1000)) numSpaces = Math.round(numSpaces);
+        else numSpaces = Math.ceil(numSpaces);
     }
     const decimalPlaces = Math.max((0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aL)(spacing), (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.aL)(niceMin));
     niceMin = Math.round(niceMin * (factor = Math.pow(10, (0, _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__.k)(precision) ? decimalPlaces : precision))) / factor;

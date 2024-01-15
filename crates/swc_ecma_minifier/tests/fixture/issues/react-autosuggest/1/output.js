@@ -29,11 +29,11 @@ function _getRequireWildcardCache() {
     }, cache;
 }
 function _typeof(obj) {
-    return (_typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(obj) {
+    return "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? _typeof = function(obj) {
         return typeof obj;
-    } : function(obj) {
+    } : _typeof = function(obj) {
         return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    })(obj);
+    }, _typeof(obj);
 }
 function _extends() {
     return (_extends = Object.assign || function(target) {
