@@ -437,7 +437,7 @@ impl Pure<'_> {
 
                 debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
                 self.changed = true;
-                report_change!("strings: Merged to template literals");
+                report_change!("strings: Merged two template literals");
             }
             _ => {}
         }
