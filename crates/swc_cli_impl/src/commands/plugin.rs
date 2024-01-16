@@ -238,7 +238,7 @@ build-wasm32 = "build --target wasm32-unknown-unknown"
             src_path.join("lib.rs"),
             r##"use swc_core::ecma::{
     ast::Program,
-    transforms::testing::test,
+    transforms::testing::test_inline,
     visit::{as_folder, FoldWith, VisitMut},
 };
 use swc_core::plugin::{plugin_transform, proxies::TransformPluginProgramMetadata};
@@ -275,7 +275,7 @@ pub fn process_transform(program: Program, _metadata: TransformPluginProgramMeta
 // Recommended strategy to test plugin's transform is verify
 // the Visitor's behavior, instead of trying to run `process_transform` with mocks
 // unless explicitly required to do so.
-test!(
+test_inline!(
     Default::default(),
     |_| as_folder(TransformVisitor),
     boo,

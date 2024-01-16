@@ -354,13 +354,77 @@ pub fn test_transform<F, P>(
 /// NOT A PUBLIC API. DO NOT USE.
 #[doc(hidden)]
 #[track_caller]
-pub fn test_inlined_transform<F, P>(
-    test_name: &str,
-    syntax: Syntax,
-    tr: F,
-    input: &str,
-    _always_ok_if_code_eq: bool,
-) where
+pub fn test_inline_input_output<F, P>(syntax: Syntax, tr: F, input: &str, output: &str)
+where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    let _logger = testing::init();
+
+    let expected = read_to_string(output);
+    let _is_really_expected = expected.is_ok();
+    let expected = expected.unwrap_or_default();
+
+    let expected_src = Tester::run(|tester| {
+        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
+
+        let expected_src = tester.print(&expected_module, &Default::default());
+
+        println!(
+            "----- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_src
+        );
+
+        Ok(expected_src)
+    });
+
+    let actual_src = Tester::run_captured(|tester| {
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
+
+        let tr = tr(tester);
+
+        println!("----- {} -----", Color::Green.paint("Actual"));
+
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &Default::default(),
+                );
+                println!(
+                    "----- {} -----\n{}",
+                    Color::Green.paint("Hygiene"),
+                    hygiene_src
+                );
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
+
+        let actual_src = tester.print(&actual, &Default::default());
+
+        Ok(actual_src)
+    })
+    .1
+    .to_string();
+
+    assert_eq!(
+        expected_src, actual_src,
+        "Exepcted:\n{expected_src}\nActual:\n{actual_src}\n",
+    );
+}
+
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[track_caller]
+pub fn test_inlined_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
@@ -394,28 +458,62 @@ macro_rules! test_location {
     }};
 }
 
-/// Test transformation.
+#[macro_export]
+macro_rules! test_inline {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
+        #[test]
+        #[ignore]
+        fn $test_name() {
+            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+        }
+    };
+
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
+        #[test]
+        fn $test_name() {
+            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+        }
+    };
+}
+
+test_inline!(
+    ignore,
+    Syntax::default(),
+    |_| noop(),
+    noop_ignored,
+    "class Foo {}",
+    "class Foo {}"
+);
+
+test_inline!(
+    Syntax::default(),
+    |_| noop(),
+    noop_test,
+    "class Foo {}",
+    "class Foo {}"
+);
+
 #[macro_export]
 macro_rules! test {
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, true)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 }
