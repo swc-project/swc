@@ -10,6 +10,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 use crate::{
     path::{ImportResolver, Resolver},
+    top_level_this::top_level_this,
     util::{local_name_for_src, use_strict},
 };
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -33,7 +34,6 @@ struct SystemJs {
     export_values: Vec<Box<Expr>>,
     tla: bool,
     enter_async_fn: u32,
-    is_global_this: bool,
     root_fn_decl_idents: Vec<Ident>,
     module_item_meta_list: Vec<ModuleItemMeta>,
     import_idents: Vec<Id>,
@@ -51,7 +51,6 @@ pub fn system_js(unresolved_mark: Mark, config: Config) -> impl Fold {
         export_map: Default::default(),
         export_names: vec![],
         export_values: vec![],
-        is_global_this: true,
         tla: false,
         enter_async_fn: 0,
         root_fn_decl_idents: vec![],
@@ -72,7 +71,6 @@ pub fn system_js_with_resolver(
         unresolved_mark,
         resolver: Resolver::Real { base, resolver },
         config,
-        is_global_this: true,
         declare_var_idents: vec![],
         export_map: Default::default(),
         export_names: vec![],
@@ -96,19 +94,6 @@ struct ModuleItemMeta {
 }
 
 impl SystemJs {
-    fn fold_children_with_non_global_this<T>(&mut self, n: T) -> T
-    where
-        T: FoldWith<Self>,
-    {
-        let is_global_this = self.is_global_this;
-
-        self.is_global_this = false;
-        let node = n.fold_children_with(self);
-        self.is_global_this = is_global_this;
-
-        node
-    }
-
     fn export_call(&self, name: JsWord, span: Span, expr: Expr) -> CallExpr {
         CallExpr {
             span,
@@ -609,12 +594,6 @@ impl Fold for SystemJs {
 
                 Expr::Await(await_expr)
             }
-            Expr::This(this_expr) => {
-                if !self.config.allow_top_level_this && self.is_global_this {
-                    return *undefined(DUMMY_SP);
-                }
-                Expr::This(this_expr)
-            }
             _ => expr,
         }
     }
@@ -629,14 +608,6 @@ impl Fold for SystemJs {
             self.enter_async_fn -= 1;
         }
         fold_fn_expr
-    }
-
-    fn fold_class_expr(&mut self, n: ClassExpr) -> ClassExpr {
-        self.fold_children_with_non_global_this(n)
-    }
-
-    fn fold_function(&mut self, n: Function) -> Function {
-        self.fold_children_with_non_global_this(n)
     }
 
     fn fold_prop(&mut self, prop: Prop) -> Prop {
@@ -659,6 +630,13 @@ impl Fold for SystemJs {
     }
 
     fn fold_module(&mut self, module: Module) -> Module {
+        let module = {
+            let mut module = module;
+            if !self.config.allow_top_level_this {
+                top_level_this(&mut module, *undefined(DUMMY_SP));
+            }
+            module
+        };
         let mut before_body_stmts: Vec<Stmt> = vec![];
         let mut execute_stmts = vec![];
 
