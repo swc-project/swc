@@ -268,7 +268,7 @@ impl Pure<'_> {
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
                 let i = i / 2;
-                let q = tpl.quasis[i].take();
+                let q = tpl.quasis[i].clone();
 
                 cur_raw.push_str(&q.raw);
                 if let Some(cooked) = q.cooked {
