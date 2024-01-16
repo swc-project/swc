@@ -368,7 +368,7 @@ where
     let expected_src = Tester::run(|tester| {
         let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
 
-        let expected_src = tester.print(&expected_module, &tester.comments.clone());
+        let expected_src = tester.print(&expected_module, &Default::default());
 
         println!(
             "----- {} -----\n{}",
@@ -392,7 +392,7 @@ where
             Ok(ref s) if s == "1" => {
                 let hygiene_src = tester.print(
                     &actual.clone().fold_with(&mut HygieneVisualizer),
-                    &tester.comments.clone(),
+                    &Default::default(),
                 );
                 println!(
                     "----- {} -----\n{}",
@@ -407,35 +407,12 @@ where
             .fold_with(&mut crate::hygiene::hygiene())
             .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
 
-        let actual_src = {
-            let module = &actual;
-            let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
-            let mut buf = vec![];
-            {
-                let mut emitter = Emitter {
-                    cfg: Default::default(),
-                    cm: tester.cm.clone(),
-                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                        tester.cm.clone(),
-                        "\n",
-                        &mut buf,
-                        None,
-                    )),
-                    comments: Some(comments),
-                };
-
-                // println!("Emitting: {:?}", module);
-                emitter.emit_module(module).unwrap();
-            }
-
-            let s = String::from_utf8_lossy(&buf);
-            s.to_string()
-        };
+        let actual_src = tester.print(&actual, &Default::default());
 
         Ok(actual_src)
     })
-    .0
-    .unwrap();
+    .1
+    .to_string();
 
     assert_eq!(
         expected_src, actual_src,
