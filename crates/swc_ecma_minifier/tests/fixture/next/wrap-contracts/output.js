@@ -1900,7 +1900,7 @@
                         const { separator, manifest, ...forward } = AbstractSublevel.defaults(options);
                         name = trim(name, separator);
                         const reserved = separator.charCodeAt(0) + 1, parent = db[kParent] || db;
-                        if (!textEncoder.encode(name).every((x)=>x > reserved && x < 127)) throw new ModuleError(`Prefix must use bytes > ${reserved} < 127`, {
+                        if (!textEncoder.encode(name).every((x)=>x > reserved && x < 127)) throw new ModuleError(`Prefix must use bytes > ${reserved} < `, {
                             code: 'LEVEL_INVALID_PREFIX'
                         });
                         super(mergeManifests(parent, manifest), forward);

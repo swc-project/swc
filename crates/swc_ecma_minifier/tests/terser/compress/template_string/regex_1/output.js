@@ -1,1 +1,1 @@
-console.log(`${/a/} 3 ${/b/.test("b")} ${/c/}`);
+console.log(`${/a/}  ${/b/.test("b")} ${/c/}`);
