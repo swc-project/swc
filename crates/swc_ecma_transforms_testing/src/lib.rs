@@ -354,13 +354,42 @@ pub fn test_transform<F, P>(
 /// NOT A PUBLIC API. DO NOT USE.
 #[doc(hidden)]
 #[track_caller]
-pub fn test_inlined_transform<F, P>(
+pub fn test_inline_input_output<F, P>(
     test_name: &str,
     syntax: Syntax,
     tr: F,
     input: &str,
     expected_output: Option<&str>,
 ) where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    let loc = panic::Location::caller();
+
+    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
+
+    let test_file_path = CARGO_WORKSPACE_ROOT.join(loc.file());
+
+    let snapshot_dir = manifest_dir.join("tests").join("__swc_snapshots__").join(
+        test_file_path
+            .strip_prefix(&manifest_dir)
+            .expect("test_inlined_transform does not support paths outside of the crate root"),
+    );
+
+    test_fixture_inner(
+        syntax,
+        Box::new(move |tester| Box::new(tr(tester))),
+        input,
+        &snapshot_dir.join(format!("{test_name}.js")),
+        Default::default(),
+    )
+}
+
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[track_caller]
+pub fn test_inlined_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
