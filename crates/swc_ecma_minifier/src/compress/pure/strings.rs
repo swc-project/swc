@@ -356,9 +356,14 @@ impl Pure<'_> {
                                 .into();
                     }
 
-                    let new: Atom =
-                        format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
-                    l_last.raw = new;
+                    l_last.raw = format!(
+                        "{}{}",
+                        l_last.raw,
+                        rs.raw
+                            .clone()
+                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
+                    )
+                    .into();
 
                     r.take();
                 }
