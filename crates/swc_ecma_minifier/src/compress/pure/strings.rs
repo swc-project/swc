@@ -401,6 +401,12 @@ impl Pure<'_> {
             }
 
             (Expr::Lit(Lit::Str(ls)), Expr::Tpl(r)) => {
+                if let Some(raw) = &ls.raw {
+                    if raw.len() <= 2 {
+                        return;
+                    }
+                }
+
                 // Append
                 if let Some(r_first) = r.quasis.first_mut() {
                     self.changed = true;
