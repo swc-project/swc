@@ -300,6 +300,8 @@ impl Pure<'_> {
             }
         }
 
+        cur_cooked = Some(Default::default());
+
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
                 let i = i / 2;
