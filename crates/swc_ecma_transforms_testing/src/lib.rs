@@ -487,17 +487,25 @@ macro_rules! test_inline {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inline_input_output($syntax, $tr, $input, Some($output))
+            $crate::test_inline_input_output($syntax, $tr, $input, $output)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inline_input_output($syntax, $tr, $input, Some($output))
+            $crate::test_inline_input_output($syntax, $tr, $input, $output)
         }
     };
 }
+
+test_inline!(
+    Syntax::default(),
+    |_| noop(),
+    noop_test,
+    "class Foo {}",
+    "class Foo {}"
+);
 
 #[macro_export]
 macro_rules! test {
