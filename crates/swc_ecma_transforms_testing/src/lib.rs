@@ -354,35 +354,93 @@ pub fn test_transform<F, P>(
 /// NOT A PUBLIC API. DO NOT USE.
 #[doc(hidden)]
 #[track_caller]
-pub fn test_inline_input_output<F, P>(
-    test_name: &str,
-    syntax: Syntax,
-    tr: F,
-    input: &str,
-    expected_output: Option<&str>,
-) where
+pub fn test_inline_input_output<F, P>(syntax: Syntax, tr: F, input: &str, output: &str)
+where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
 {
-    let loc = panic::Location::caller();
+    let _logger = testing::init();
 
-    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
+    let expected = read_to_string(output);
+    let _is_really_expected = expected.is_ok();
+    let expected = expected.unwrap_or_default();
 
-    let test_file_path = CARGO_WORKSPACE_ROOT.join(loc.file());
+    let expected_src = Tester::run(|tester| {
+        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
 
-    let snapshot_dir = manifest_dir.join("tests").join("__swc_snapshots__").join(
-        test_file_path
-            .strip_prefix(&manifest_dir)
-            .expect("test_inlined_transform does not support paths outside of the crate root"),
+        let expected_src = tester.print(&expected_module, &tester.comments.clone());
+
+        println!(
+            "----- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_src
+        );
+
+        Ok(expected_src)
+    });
+
+    let actual_src = Tester::run_captured(|tester| {
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
+
+        let tr = tr(tester);
+
+        println!("----- {} -----", Color::Green.paint("Actual"));
+
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &tester.comments.clone(),
+                );
+                println!(
+                    "----- {} -----\n{}",
+                    Color::Green.paint("Hygiene"),
+                    hygiene_src
+                );
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
+
+        let actual_src = {
+            let module = &actual;
+            let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
+            let mut buf = vec![];
+            {
+                let mut emitter = Emitter {
+                    cfg: Default::default(),
+                    cm: tester.cm.clone(),
+                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
+                        tester.cm.clone(),
+                        "\n",
+                        &mut buf,
+                        None,
+                    )),
+                    comments: Some(comments),
+                };
+
+                // println!("Emitting: {:?}", module);
+                emitter.emit_module(module).unwrap();
+            }
+
+            let s = String::from_utf8_lossy(&buf);
+            s.to_string()
+        };
+
+        Ok(actual_src)
+    })
+    .0
+    .unwrap();
+
+    assert_eq!(
+        expected_src, actual_src,
+        "Exepcted:\n{expected_src}\nActual:\n{actual_src}\n",
     );
-
-    test_fixture_inner(
-        syntax,
-        Box::new(move |tester| Box::new(tr(tester))),
-        input,
-        &snapshot_dir.join(format!("{test_name}.js")),
-        Default::default(),
-    )
 }
 
 /// NOT A PUBLIC API. DO NOT USE.
@@ -429,26 +487,14 @@ macro_rules! test_inline {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inlined_transform(
-                stringify!($test_name),
-                $syntax,
-                $tr,
-                $input,
-                Some($output),
-            )
+            $crate::test_inline_input_output($syntax, $tr, $input, Some($output))
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(
-                stringify!($test_name),
-                $syntax,
-                $tr,
-                $input,
-                Some($output),
-            )
+            $crate::test_inline_input_output($syntax, $tr, $input, Some($output))
         }
     };
 }
@@ -459,21 +505,21 @@ macro_rules! test {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, None)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, None)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, None)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 }
