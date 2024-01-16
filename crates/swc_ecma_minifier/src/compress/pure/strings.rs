@@ -299,10 +299,6 @@ impl Pure<'_> {
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        if cur_cooked.is_none() && s.raw.is_none() {
-                            return;
-                        }
-
                         if let Some(cur_cooked) = &mut cur_cooked {
                             cur_cooked.push_str(&s.value);
                         }
