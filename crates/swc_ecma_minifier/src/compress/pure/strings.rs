@@ -266,9 +266,22 @@ impl Pure<'_> {
         let mut cur_cooked = Some(String::new());
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
+            if i % 2 == 1 {
+                let i = i / 2;
+                let e = &tpl.exprs[i];
+
+                if let Expr::Lit(Lit::Str(s)) = &**e {
+                    if cur_cooked.is_none() && s.raw.is_none() {
+                        return;
+                    }
+                }
+            }
+        }
+
+        for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
                 let i = i / 2;
-                let q = tpl.quasis[i].clone();
+                let q = tpl.quasis[i].take();
 
                 cur_raw.push_str(&q.raw);
                 if let Some(cooked) = q.cooked {
