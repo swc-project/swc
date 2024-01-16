@@ -258,8 +258,6 @@ impl Pure<'_> {
             return;
         }
 
-        dbg!(&tpl.quasis);
-
         trace_op!("compress_tpl");
 
         let mut quasis = vec![];
@@ -325,7 +323,6 @@ impl Pure<'_> {
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        dbg!(&*s.value);
                         if let Some(cur_cooked) = &mut cur_cooked {
                             cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                         }
@@ -361,8 +358,6 @@ impl Pure<'_> {
             cooked: cur_cooked.map(From::from),
             raw: cur_raw.into(),
         });
-
-        dbg!(&quasis);
 
         debug_assert_eq!(exprs.len() + 1, quasis.len());
 
