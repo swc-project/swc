@@ -1,1 +1,1 @@
-export const use = `\mathjax{$login`; 
+export const use = `\xffathjax{$login`; 
