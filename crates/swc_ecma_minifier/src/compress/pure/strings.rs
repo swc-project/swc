@@ -290,7 +290,7 @@ impl Pure<'_> {
                         }
 
                         if let Some(cur_cooked) = &mut cur_cooked {
-                            cur_cooked.push_str(&s.value);
+                            cur_cooked.push_str("");
                         }
                     }
                     _ => {
