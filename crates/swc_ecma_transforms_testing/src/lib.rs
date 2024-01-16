@@ -500,6 +500,15 @@ macro_rules! test_inline {
 }
 
 test_inline!(
+    ignore,
+    Syntax::default(),
+    |_| noop(),
+    noop_ignored,
+    "class Foo {}",
+    "class Foo {}"
+);
+
+test_inline!(
     Syntax::default(),
     |_| noop(),
     noop_test,
