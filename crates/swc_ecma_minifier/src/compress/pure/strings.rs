@@ -258,6 +258,8 @@ impl Pure<'_> {
             return;
         }
 
+        dbg!(&tpl.quasis);
+
         trace_op!("compress_tpl");
 
         let mut quasis = vec![];
@@ -323,14 +325,16 @@ impl Pure<'_> {
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
+                        dbg!(&*s.value);
                         if let Some(cur_cooked) = &mut cur_cooked {
-                            cur_cooked.push_str(&s.value);
+                            cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
                         }
 
                         if let Some(raw) = &s.raw {
                             if raw.len() >= 2 {
                                 // Exclude quotes
-                                cur_raw.push_str(&raw[1..raw.len() - 1]);
+                                cur_raw
+                                    .push_str(&convert_str_raw_to_tpl_raw(&raw[1..raw.len() - 1]));
                             }
                         }
                     }
@@ -357,6 +361,8 @@ impl Pure<'_> {
             cooked: cur_cooked.map(From::from),
             raw: cur_raw.into(),
         });
+
+        dbg!(&quasis);
 
         debug_assert_eq!(exprs.len() + 1, quasis.len());
 
@@ -582,5 +588,5 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> Cow<str> {
 }
 
 pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
-    value.replace('`', "\\`").into()
+    value.replace('`', "\\`").replace('$', "\\$").into()
 }
