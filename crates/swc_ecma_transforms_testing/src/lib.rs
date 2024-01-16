@@ -359,7 +359,7 @@ pub fn test_inlined_transform<F, P>(
     syntax: Syntax,
     tr: F,
     input: &str,
-    _always_ok_if_code_eq: bool,
+    expected_output: Option<&str>,
 ) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
@@ -394,28 +394,57 @@ macro_rules! test_location {
     }};
 }
 
-/// Test transformation.
+#[macro_export]
+macro_rules! test_inline {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
+        #[test]
+        #[ignore]
+        fn $test_name() {
+            $crate::test_inlined_transform(
+                stringify!($test_name),
+                $syntax,
+                $tr,
+                $input,
+                Some($output),
+            )
+        }
+    };
+
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
+        #[test]
+        fn $test_name() {
+            $crate::test_inlined_transform(
+                stringify!($test_name),
+                $syntax,
+                $tr,
+                $input,
+                Some($output),
+            )
+        }
+    };
+}
+
 #[macro_export]
 macro_rules! test {
     (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, None)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, false)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, None)
         }
     };
 
     ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
         #[test]
         fn $test_name() {
-            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, true)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input, None)
         }
     };
 }
