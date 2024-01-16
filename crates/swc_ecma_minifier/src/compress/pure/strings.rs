@@ -571,9 +571,9 @@ impl Pure<'_> {
 
 pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> Cow<str> {
     value
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace('$', "\\$")
+        .replace("\\\\", "\\")
+        .replace("\\`", "`")
+        .replace("\\$", "$")
         .into()
 }
 
