@@ -365,6 +365,12 @@ impl Pure<'_> {
     pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {
         match (&mut *l, &mut *r) {
             (Expr::Tpl(l), Expr::Lit(Lit::Str(rs))) => {
+                if let Some(raw) = &rs.raw {
+                    if raw.len() <= 2 {
+                        return;
+                    }
+                }
+
                 // Append
                 if let Some(l_last) = l.quasis.last_mut() {
                     self.changed = true;
@@ -385,6 +391,7 @@ impl Pure<'_> {
                         l_last.raw,
                         rs.raw
                             .clone()
+                            .map(|s| Atom::from(&s[1..s.len() - 1]))
                             .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
                     )
                     .into();
@@ -409,9 +416,15 @@ impl Pure<'_> {
                                 .into()
                     }
 
-                    let new: Atom =
-                        format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
-                            .into();
+                    let new: Atom = format!(
+                        "{}{}",
+                        ls.raw
+                            .clone()
+                            .map(|s| Atom::from(&s[1..s.len() - 1]))
+                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into()),
+                        r_first.raw
+                    )
+                    .into();
                     r_first.raw = new;
 
                     l.take();
