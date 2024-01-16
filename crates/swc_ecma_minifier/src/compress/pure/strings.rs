@@ -266,13 +266,35 @@ impl Pure<'_> {
         let mut cur_cooked = Some(String::new());
 
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
-            if i % 2 == 1 {
+            if i % 2 == 0 {
+                let i = i / 2;
+                let q = tpl.quasis[i].clone();
+
+                if q.cooked.is_some() {
+                    if let Some(cur_cooked) = &mut cur_cooked {
+                        cur_cooked.push_str("");
+                    }
+                } else {
+                    // If cooked is None, it means that the template literal contains invalid escape
+                    // sequences.
+                    cur_cooked = None;
+                }
+            } else {
                 let i = i / 2;
                 let e = &tpl.exprs[i];
 
-                if let Expr::Lit(Lit::Str(s)) = &**e {
-                    if cur_cooked.is_none() && s.raw.is_none() {
-                        return;
+                match &**e {
+                    Expr::Lit(Lit::Str(s)) => {
+                        if cur_cooked.is_none() && s.raw.is_none() {
+                            return;
+                        }
+
+                        if let Some(cur_cooked) = &mut cur_cooked {
+                            cur_cooked.push_str(&s.value);
+                        }
+                    }
+                    _ => {
+                        cur_cooked = Some(String::new());
                     }
                 }
             }
