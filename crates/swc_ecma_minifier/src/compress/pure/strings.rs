@@ -391,7 +391,7 @@ impl Pure<'_> {
                         l_last.raw,
                         rs.raw
                             .clone()
-                            .map(|s| Atom::from(&s[1..s.len() - 1]))
+                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                             .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
                     )
                     .into();
@@ -420,7 +420,7 @@ impl Pure<'_> {
                         "{}{}",
                         ls.raw
                             .clone()
-                            .map(|s| Atom::from(&s[1..s.len() - 1]))
+                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
                             .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into()),
                         r_first.raw
                     )
@@ -570,4 +570,8 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> Cow<str> {
         .replace('\n', "\\n")
         .replace('\r', "\\r")
         .into()
+}
+
+pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
+    value.replace('`', "\\`").into()
 }
