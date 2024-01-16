@@ -328,7 +328,10 @@ impl Pure<'_> {
                         }
 
                         if let Some(raw) = &s.raw {
-                            cur_raw.push_str(raw);
+                            if raw.len() >= 2 {
+                                // Exclude quotes
+                                cur_raw.push_str(&raw[1..raw.len() - 1]);
+                            }
                         }
                     }
                     _ => {
