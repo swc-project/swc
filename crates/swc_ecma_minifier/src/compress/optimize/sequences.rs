@@ -1710,13 +1710,13 @@ impl Optimizer<'_> {
 
                                 b_assign.left = match AssignTarget::try_from(b_left_expr) {
                                     Ok(v) => v,
-                                    Err(err) => {
-                                        if is_pure_undefined(&self.expr_ctx, &err) {
+                                    Err(b_left_expr) => {
+                                        if is_pure_undefined(&self.expr_ctx, &b_left_expr) {
                                             *b = *b_assign.right.take();
                                             return Ok(true);
                                         }
 
-                                        unreachable!("{err:#?}")
+                                        unreachable!("{b_left_expr:#?}")
                                     }
                                 };
                                 if res? {
