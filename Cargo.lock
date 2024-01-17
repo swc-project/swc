@@ -3909,7 +3909,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.5.23"
+version = "0.5.24"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -4010,7 +4010,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.87.24"
+version = "0.87.25"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5278,7 +5278,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_macro"
-version = "0.9.15"
+version = "0.9.16"
 dependencies = [
  "proc-macro2",
  "quote",
