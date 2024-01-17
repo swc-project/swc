@@ -53,12 +53,7 @@ pub mod memory {
     )))
 )]
 pub mod errors {
-    /// global context HANDLER in plugin's transform function.
-    pub static HANDLER: swc_plugin::pseudo_scoped_key::PseudoScopedKey<
-        swc_common::errors::Handler,
-    > = swc_plugin::pseudo_scoped_key::PseudoScopedKey {
-        inner: once_cell::sync::OnceCell::new(),
-    };
+    pub use swc_common::errors::HANDLER;
 }
 
 /// Plugin's environment metadata context.
