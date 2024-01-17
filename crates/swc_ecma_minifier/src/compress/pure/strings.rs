@@ -333,6 +333,8 @@ impl Pure<'_> {
                                 cur_raw
                                     .push_str(&convert_str_raw_to_tpl_raw(&raw[1..raw.len() - 1]));
                             }
+                        } else {
+                            cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                         }
                     }
                     _ => {
