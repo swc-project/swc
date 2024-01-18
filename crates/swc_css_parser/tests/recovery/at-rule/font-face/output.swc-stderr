@@ -2,7 +2,6 @@
   x Expected ":"
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:1]
  2 |     invalid
-   :             ^
  3 | }
    : ^
    `----
