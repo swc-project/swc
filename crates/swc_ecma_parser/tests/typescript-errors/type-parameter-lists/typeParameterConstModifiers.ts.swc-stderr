@@ -1,19 +1,4 @@
 
-  x This syntax is reserved in files with the .mts or .cts extension. Add a trailing comma, as in `<T,>() => ...`.
-    ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:41:1]
- 41 | 
- 42 | const fx1 = <const T>(x: T) => x;
-    :           ^
- 43 | const fx2 = <const T,>(x: T) => x;
-    `----
-
-  x This syntax is reserved in files with the .mts or .cts extension. Add a trailing comma, as in `<T,>() => ...`.
-    ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:42:1]
- 42 | const fx1 = <const T>(x: T) => x;
- 43 | const fx2 = <const T,>(x: T) => x;
-    :           ^
-    `----
-
   x 'const' modifier can only appear on a type parameter of a function, method or class
     ,-[$DIR/tests/typescript-errors/type-parameter-lists/typeParameterConstModifiers.ts:44:1]
  44 | 
