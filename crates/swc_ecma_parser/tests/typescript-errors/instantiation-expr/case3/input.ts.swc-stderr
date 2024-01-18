@@ -4,9 +4,3 @@
  1 | f<x> < g<y>;
    :            ^
    `----
-
-  x This syntax is reserved in files with the .mts or .cts extension. Use an `as` expression instead.
-   ,-[$DIR/tests/typescript-errors/instantiation-expr/case3/input.ts:1:1]
- 1 | f<x> < g<y>;
-   :      ^
-   `----
