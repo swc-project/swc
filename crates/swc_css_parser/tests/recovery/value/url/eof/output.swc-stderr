@@ -8,5 +8,4 @@
   x Unterminated url
    ,-[$DIR/tests/recovery/value/url/eof/input.css:1:1]
  1 | a { prop: url(foo.png
-   :                      ^
    `----

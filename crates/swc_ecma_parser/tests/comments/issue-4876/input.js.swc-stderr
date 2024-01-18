@@ -1,7 +1,7 @@
 
   > Leading (lo)
 
-Error: 
+Advice: 
   > !
   | 
   |  something v5.1.0
@@ -12,7 +12,6 @@ Error:
   | 
     ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
   9 | // a
-    :      ^
  10 | console.log(1);
     : ^
  11 | // b
@@ -20,11 +19,10 @@ Error:
 
   > Leading (lo)
 
-Error: 
+Advice: 
   >  a
     ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
   9 | // a
-    :      ^
  10 | console.log(1);
     : ^
  11 | // b
@@ -32,7 +30,7 @@ Error:
 
   > Trailing (hi)
 
-Error: 
+Advice: 
   >  b
     ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
   9 | // a
