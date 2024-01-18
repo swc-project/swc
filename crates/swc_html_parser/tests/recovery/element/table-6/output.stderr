@@ -14,11 +14,9 @@
   x Eof in tag
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
  1 | <table><td><div
-   :                ^
    `----
 
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
  1 | <table><td><div
-   :                ^
    `----

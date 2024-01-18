@@ -10,5 +10,4 @@
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  2 |     prop: "\a
  3 | }
-   :  ^
    `----

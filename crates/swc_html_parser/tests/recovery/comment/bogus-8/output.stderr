@@ -8,5 +8,4 @@
   x Eof in comment
    ,-[$DIR/tests/recovery/comment/bogus-8/input.html:1:1]
  1 | FOO<!-- BAR --!-test
-   :                     ^
    `----
