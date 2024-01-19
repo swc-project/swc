@@ -7,18 +7,18 @@ module.exports = {
 };
 //// [index.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Rectangle = require("./rectangle").Rectangle;
+var Rectangle = require("./rectangle").Rectangle, Render = function() {
+    function Render() {
+        _class_call_check(this, Render), this.objects = [];
+    }
+    var _proto = Render.prototype;
+    return _proto.addRectangle = function() {
+        var obj = new Rectangle();
+        return this.objects.push(obj), obj;
+    }, Render;
+}();
 module.exports = {
-    Render: function() {
-        function Render() {
-            _class_call_check(this, Render), this.objects = [];
-        }
-        var _proto = Render.prototype;
-        return _proto.addRectangle = function() {
-            var obj = new Rectangle();
-            return this.objects.push(obj), obj;
-        }, Render;
-    }()
+    Render: Render
 };
 //// [test.js]
 var render = new (require("./index")).Render();

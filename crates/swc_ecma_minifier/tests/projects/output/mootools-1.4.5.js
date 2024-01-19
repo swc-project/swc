@@ -1126,7 +1126,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
             value: className1,
             regexp: RegExp("(^|\\s)" + escapeRegExp(className1) + "(\\s|$)")
         });
-        else if (pseudoClass) pseudoClassValue = (pseudoClassValue = pseudoClassValue || pseudoClassQuotedValue) ? pseudoClassValue.replace(reUnescape, "") : null, currentParsed.pseudos || (currentParsed.pseudos = []), currentParsed.pseudos.push({
+        else if (pseudoClass) pseudoClassValue = pseudoClassValue || pseudoClassQuotedValue, pseudoClassValue = pseudoClassValue ? pseudoClassValue.replace(reUnescape, "") : null, currentParsed.pseudos || (currentParsed.pseudos = []), currentParsed.pseudos.push({
             key: pseudoClass.replace(reUnescape, ""),
             value: pseudoClassValue,
             type: 1 == pseudoMarker.length ? "class" : "element"
@@ -1229,7 +1229,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 }
                 if (testNode.querySelectorAll) {
                     try {
-                        testNode.innerHTML = "foo</foo>", features.starSelectsClosedQSA = (selected = testNode.querySelectorAll("*")) && !!selected.length && "/" == selected[0].nodeName.charAt(0);
+                        testNode.innerHTML = "foo</foo>", selected = testNode.querySelectorAll("*"), features.starSelectsClosedQSA = selected && !!selected.length && "/" == selected[0].nodeName.charAt(0);
                     } catch (e) {}
                     try {
                         testNode.innerHTML = '<a class="MiX"></a>', features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
@@ -1377,7 +1377,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         var special = parsed[2] || !1, a = parsed[1] || 1;
         "-" == a && (a = -1);
         var b = +parsed[3] || 0;
-        return this.cacheNTH[argument] = "n" == special ? {
+        return parsed = "n" == special ? {
             a: a,
             b: b
         } : "odd" == special ? {
@@ -1389,7 +1389,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         } : {
             a: 0,
             b: a
-        };
+        }, this.cacheNTH[argument] = parsed;
     }, local.createNTHPseudo = function(child, sibling, positions, ofType) {
         return function(node, argument) {
             var uid = this.getUID(node);
@@ -3051,7 +3051,7 @@ Elements.prototype = {
         };
     },
     parse: function(value) {
-        return (value = "string" == typeof (value = Function.from(value)()) ? value.split(" ") : Array.from(value)).map(function(val) {
+        return value = Function.from(value)(), (value = "string" == typeof value ? value.split(" ") : Array.from(value)).map(function(val) {
             val = String(val);
             var found = !1;
             return Object.each(Fx.CSS.Parsers, function(parser, key) {
@@ -3201,7 +3201,7 @@ Elements.prototype = {
         }), this;
     },
     highlight: function(start, end) {
-        end || (end = "transparent" == (end = this.retrieve("highlight:original", this.getStyle("background-color"))) ? "#fff" : end);
+        end || (end = this.retrieve("highlight:original", this.getStyle("background-color")), end = "transparent" == end ? "#fff" : end);
         var tween = this.get("tween");
         return tween.start("background-color", start || "#ffff88", end).chain((function() {
             this.setStyle("background-color", this.retrieve("highlight:original")), tween.callChain();
@@ -3250,7 +3250,7 @@ Elements.prototype = {
         var trans = this.options.transition || Fx.Transitions.Sine.easeInOut;
         if ("string" == typeof trans) {
             var data = trans.split(":");
-            trans = (trans = Fx.Transitions)[data[0]] || trans[data[0].capitalize()], data[1] && (trans = trans["ease" + data[1].capitalize() + (data[2] ? data[2].capitalize() : "")]);
+            trans = Fx.Transitions, trans = trans[data[0]] || trans[data[0].capitalize()], data[1] && (trans = trans["ease" + data[1].capitalize() + (data[2] ? data[2].capitalize() : "")]);
         }
         return trans;
     }
@@ -3435,10 +3435,14 @@ Elements.prototype = {
                 var _method = "_method=" + method;
                 data = data ? _method + "&" + data : _method, method = "post";
             }
-            this.options.urlEncoded && [
+            if (this.options.urlEncoded && [
                 "post",
                 "put"
-            ].contains(method) && (this.headers["Content-type"] = "application/x-www-form-urlencoded" + (this.options.encoding ? "; charset=" + this.options.encoding : "")), url || (url = document.location.pathname);
+            ].contains(method)) {
+                var encoding = this.options.encoding ? "; charset=" + this.options.encoding : "";
+                this.headers["Content-type"] = "application/x-www-form-urlencoded" + encoding;
+            }
+            url || (url = document.location.pathname);
             var trimPosition = url.lastIndexOf("/");
             trimPosition > -1 && (trimPosition = url.indexOf("#")) > -1 && (url = url.substr(0, trimPosition)), this.options.noCache && (url += (url.contains("?") ? "&" : "?") + String.uniqueID()), data && "get" == method && (url += (url.contains("?") ? "&" : "?") + data, data = null);
             var xhr = this.xhr;
@@ -3710,8 +3714,8 @@ Cookie.write = function(key, value, options) {
             return this.object;
         },
         initialize: function(path, options) {
-            this.instance = "Swiff_" + String.uniqueID(), this.setOptions(options);
-            var id = this.id = (options = this.options).id || this.instance, container = document.id(options.container);
+            this.instance = "Swiff_" + String.uniqueID(), this.setOptions(options), options = this.options;
+            var id = this.id = options.id || this.instance, container = document.id(options.container);
             Swiff.CallBacks[this.instance] = {};
             var params = options.params, vars = options.vars, callBacks = options.callBacks, properties = Object.append({
                 height: options.height,

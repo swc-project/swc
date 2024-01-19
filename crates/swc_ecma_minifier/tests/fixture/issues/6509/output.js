@@ -29,7 +29,7 @@ export var modifiers = {
                     return frag.trim();
                 })).indexOf(find(fragments, function(frag) {
                     return -1 !== frag.search(/,|\s/);
-                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, (ops = (ops = -1 !== divider ? [
+                })), fragments[divider] && -1 === fragments[divider].indexOf(',') && console.warn('Offsets separated by white space(s) are deprecated, use a comma (,) instead.'), splitRegex = /\s*,\s*|\s+/, ops = -1 !== divider ? [
                     fragments.slice(0, divider).concat([
                         fragments[divider].split(splitRegex)[0]
                     ]),
@@ -38,7 +38,7 @@ export var modifiers = {
                     ].concat(fragments.slice(divider + 1))
                 ] : [
                     fragments
-                ]).map(function(op, index) {
+                ], (ops = ops.map(function(op, index) {
                     var measurement = (1 === index ? !useHeight : useHeight) ? 'height' : 'width';
                     var mergeWithPrevious = false;
                     return op.reduce(function(a, b) {

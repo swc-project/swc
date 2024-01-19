@@ -33,7 +33,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var memberScope = null, aggScope = null;
         ast.name && ast.mod && (ast.name.sym = ast.mod.symbol);
         var mod = ast.mod;
-        mod && (mod.memberScope = memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), context.modDeclChain.push(ast), context.typeFlow.checker.currentModDecl = ast, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, ast.vars, mod.members.privateMembers, !0));
+        mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(ast), context.typeFlow.checker.currentModDecl = ast, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, ast.vars, mod.members.privateMembers, !0));
     }
     function preAssignClassScopes(ast, context) {
         var memberScope = null, aggScope = null;
@@ -42,14 +42,14 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         if (classType) {
             classType.symbol, memberScope = context.typeFlow.checker.scopeOf(classType), (aggScope = new SymbolAggregateScope(classType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), classType.containedScope = aggScope, classType.memberScope = memberScope;
             var instanceType = classType.instanceType;
-            instanceType.memberScope = memberScope = context.typeFlow.checker.scopeOf(instanceType), (aggScope = new SymbolAggregateScope(instanceType.symbol)).addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, instanceType, classType, null), instanceType.containedScope = aggScope;
+            memberScope = context.typeFlow.checker.scopeOf(instanceType), instanceType.memberScope = memberScope, (aggScope = new SymbolAggregateScope(instanceType.symbol)).addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, instanceType, classType, null), instanceType.containedScope = aggScope;
         } else ast.type = context.typeFlow.anyType;
     }
     function preAssignInterfaceScopes(ast, context) {
         var memberScope = null, aggScope = null;
         ast.name && ast.type && (ast.name.sym = ast.type.symbol);
         var interfaceType = ast.type;
-        interfaceType.memberScope = memberScope = context.typeFlow.checker.scopeOf(interfaceType), (aggScope = new SymbolAggregateScope(interfaceType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), interfaceType.containedScope = aggScope;
+        memberScope = context.typeFlow.checker.scopeOf(interfaceType), interfaceType.memberScope = memberScope, (aggScope = new SymbolAggregateScope(interfaceType.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), interfaceType.containedScope = aggScope;
     }
     function preAssignWithScopes(ast, context) {
         var withType = ast.type, members = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), ambientMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), withType = new Type(), withSymbol = new WithSymbol(ast.minChar, context.typeFlow.checker.locationInfo.unitIndex, withType);

@@ -565,7 +565,8 @@
             for(this.__data__ = new MapCache; ++index < length;)this.add(values[index]);
         }
         function Stack(entries) {
-            this.size = (this.__data__ = new ListCache(entries)).size;
+            var data = this.__data__ = new ListCache(entries);
+            this.size = data.size;
         }
         function arrayLikeKeys(value, inherited) {
             var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
@@ -669,7 +670,7 @@
             });
             var keysFunc = isFull ? isFlat ? getAllKeysIn : getAllKeys : isFlat ? keysIn : keys, props = isArr ? undefined : keysFunc(value);
             return arrayEach(props || value, function(subValue, key) {
-                props && (subValue = value[key = subValue]), assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
+                props && (key = subValue, subValue = value[key]), assignValue(result, key, baseClone(subValue, bitmask, customizer, key, value, stack));
             }), result;
         }
         function baseConformsTo(object, source, props) {
@@ -1486,8 +1487,8 @@
             var func = Math[methodName];
             return function(number, precision) {
                 if (number = toNumber(number), (precision = null == precision ? 0 : nativeMin(toInteger(precision), 292)) && nativeIsFinite(number)) {
-                    var pair = (toString(number) + 'e').split('e');
-                    return +((pair = (toString(func(pair[0] + 'e' + (+pair[1] + precision))) + 'e').split('e'))[0] + 'e' + (+pair[1] - precision));
+                    var pair = (toString(number) + 'e').split('e'), value = func(pair[0] + 'e' + (+pair[1] + precision));
+                    return +((pair = (toString(value) + 'e').split('e'))[0] + 'e' + (+pair[1] - precision));
                 }
                 return func(number);
             };
@@ -1543,7 +1544,7 @@
                         var partials = data[3];
                         data[3] = partials ? composeArgs(partials, value, source[4]) : value, data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
                     }
-                    (value = source[5]) && (data[5] = (partials = data[5]) ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
+                    (value = source[5]) && (partials = data[5], data[5] = partials ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
                 }
             }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = undefined === newData[9] ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
                 for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
@@ -1758,14 +1759,14 @@
             }
             return array.length = size, array;
         }
-        var stringToPath = (cache = (result = memoize(function(string) {
+        var stringToPath = (result = memoize(function(string) {
             var result = [];
             return 46 === string.charCodeAt(0) && result.push(''), string.replace(rePropName, function(match, number, quote, subString) {
                 result.push(quote ? subString.replace(reEscapeChar, '$1') : number || match);
             }), result;
         }, function(key) {
             return 500 === cache.size && cache.clear(), key;
-        })).cache, result);
+        }), cache = result.cache, result);
         function toKey(value) {
             if ('string' == typeof value || isSymbol(value)) return value;
             var result = value + '';
@@ -2414,7 +2415,7 @@
             return length ? baseSlice(array, (n = guard || undefined === n ? 1 : toInteger(n)) < 0 ? 0 : n, length) : [];
         }, lodash.dropRight = function(array, n, guard) {
             var length = null == array ? 0 : array.length;
-            return length ? baseSlice(array, 0, (n = length - (n = guard || undefined === n ? 1 : toInteger(n))) < 0 ? 0 : n) : [];
+            return length ? (n = guard || undefined === n ? 1 : toInteger(n), baseSlice(array, 0, (n = length - n) < 0 ? 0 : n)) : [];
         }, lodash.dropRightWhile = function(array, predicate) {
             return array && array.length ? baseWhile(array, getIteratee(predicate, 3), !0, !0) : [];
         }, lodash.dropWhile = function(array, predicate) {
@@ -2541,7 +2542,7 @@
             return array && array.length ? baseSlice(array, 0, (n = guard || undefined === n ? 1 : toInteger(n)) < 0 ? 0 : n) : [];
         }, lodash.takeRight = function(array, n, guard) {
             var length = null == array ? 0 : array.length;
-            return length ? baseSlice(array, (n = length - (n = guard || undefined === n ? 1 : toInteger(n))) < 0 ? 0 : n, length) : [];
+            return length ? (n = guard || undefined === n ? 1 : toInteger(n), baseSlice(array, (n = length - n) < 0 ? 0 : n, length)) : [];
         }, lodash.takeRightWhile = function(array, predicate) {
             return array && array.length ? baseWhile(array, getIteratee(predicate, 3), !1, !0) : [];
         }, lodash.takeWhile = function(array, predicate) {
@@ -2592,7 +2593,7 @@
         }, lodash.zipObjectDeep = function(props, values) {
             return baseZipObject(props || [], values || [], baseSet);
         }, lodash.zipWith = zipWith, lodash.entries = toPairs, lodash.entriesIn = toPairsIn, lodash.extend = assignIn, lodash.extendWith = assignInWith, mixin(lodash, lodash), lodash.add = add, lodash.attempt = attempt, lodash.camelCase = camelCase, lodash.capitalize = capitalize, lodash.ceil = ceil, lodash.clamp = function(number, lower, upper) {
-            return undefined === upper && (upper = lower, lower = undefined), undefined !== upper && (upper = (upper = toNumber(upper)) == upper ? upper : 0), undefined !== lower && (lower = (lower = toNumber(lower)) == lower ? lower : 0), baseClamp(toNumber(number), lower, upper);
+            return undefined === upper && (upper = lower, lower = undefined), undefined !== upper && (upper = toNumber(upper), upper = upper == upper ? upper : 0), undefined !== lower && (lower = toNumber(lower), lower = lower == lower ? lower : 0), baseClamp(toNumber(number), lower, upper);
         }, lodash.clone = function(value) {
             return baseClone(value, 4);
         }, lodash.cloneDeep = function(value) {
@@ -2688,7 +2689,7 @@
             var length = null == array ? 0 : array.length;
             if (!length) return -1;
             var index = length;
-            return undefined !== fromIndex && (index = (index = toInteger(fromIndex)) < 0 ? nativeMax(length + index, 0) : nativeMin(index, length - 1)), value == value ? function(array, value, fromIndex) {
+            return undefined !== fromIndex && (index = toInteger(fromIndex), index = index < 0 ? nativeMax(length + index, 0) : nativeMin(index, length - 1)), value == value ? function(array, value, fromIndex) {
                 for(var index = fromIndex + 1; index-- && array[index] !== value;);
                 return index;
             }(array, value, index) : baseFindIndex(array, baseIsNaN, index, !0);

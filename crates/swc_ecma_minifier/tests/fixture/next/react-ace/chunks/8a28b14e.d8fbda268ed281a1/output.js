@@ -48,10 +48,10 @@
                             uri: "",
                             exports: exports,
                             packaged: !0
-                        };
-                        define.modules[moduleName] = exports = module(function(module, callback) {
+                        }, returnValue = module(function(module, callback) {
                             return _require(moduleName, module, callback);
-                        }, exports, mod) || mod.exports, delete define.payloads[moduleName];
+                        }, exports, mod);
+                        exports = returnValue || mod.exports, define.modules[moduleName] = exports, delete define.payloads[moduleName];
                     }
                     module = define.modules[moduleName] = exports || module;
                 }
@@ -1541,7 +1541,9 @@
                         var h = editor.renderer.layerConfig.lineHeight, w = editor.renderer.layerConfig.lineHeight, t = e.timeStamp;
                         lastT = t;
                         var touchObj = touches[0], x = touchObj.clientX, y = touchObj.clientY;
-                        if (Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0, pos = new MouseEvent(e, editor).getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
+                        Math.abs(startX - x) + Math.abs(startY - y) > h && (touchStartT = -1), startX = e.clientX = x, startY = e.clientY = y, vX = vY = 0;
+                        var ev = new MouseEvent(e, editor);
+                        if (pos = ev.getDocumentPosition(), t - touchStartT < 500 && 1 == touches.length && !animationSteps) clickCount++, e.preventDefault(), e.button = 0, clearTimeout(longTouchTimer = null), editor.selection.moveToPosition(pos), (range = clickCount >= 2 ? editor.selection.getLineRange(pos.row) : editor.session.getBracketRange(pos)) && !range.isEmpty() ? editor.selection.setRange(range) : editor.selection.selectWord(), mode = "wait";
                         else {
                             clickCount = 0;
                             var cursor = editor.selection.cursor, anchor = editor.selection.isEmpty() ? cursor : editor.selection.anchor, cursorPos = editor.renderer.$cursorLayer.getPixelPosition(cursor, !0), anchorPos = editor.renderer.$cursorLayer.getPixelPosition(anchor, !0), rect = editor.renderer.scroller.getBoundingClientRect(), offsetTop = editor.renderer.layerConfig.offset, offsetLeft = editor.renderer.scrollLeft, weightedDistance = function(x, y) {
@@ -1686,7 +1688,7 @@
                     },
                     getOptions: function(optionNames) {
                         var result = {};
-                        if (optionNames) Array.isArray(optionNames) || (optionNames = Object.keys(result = optionNames));
+                        if (optionNames) Array.isArray(optionNames) || (result = optionNames, optionNames = Object.keys(result));
                         else {
                             var options = this.$options;
                             optionNames = Object.keys(options).filter(function(key) {
@@ -1760,8 +1762,8 @@
             ], function(require, exports, module) {
                 var lang = require("./lib/lang");
                 require("./lib/oop");
-                var net = require("./lib/net"), dom = require("./lib/dom");
-                module.exports = exports = new (require("./lib/app_config")).AppConfig();
+                var net = require("./lib/net"), dom = require("./lib/dom"), AppConfig = require("./lib/app_config").AppConfig;
+                module.exports = exports = new AppConfig();
                 var global = function() {
                     return this || "undefined" != typeof window && window;
                 }(), options = {
@@ -2838,7 +2840,7 @@
                         this.session.$selectLongWords ? this.moveCursorLongWordLeft() : this.moveCursorShortWordLeft();
                     }, this.moveCursorBy = function(rows, chars) {
                         var offsetX, screenPos = this.session.documentToScreenPosition(this.lead.row, this.lead.column);
-                        if (0 === chars && (0 !== rows && (this.session.$bidiHandler.isBidiRow(screenPos.row, this.lead.row) ? screenPos.column = Math.round((offsetX = this.session.$bidiHandler.getPosLeft(screenPos.column)) / this.session.$bidiHandler.charWidths[0]) : offsetX = screenPos.column * this.session.$bidiHandler.charWidths[0]), this.$desiredColumn ? screenPos.column = this.$desiredColumn : this.$desiredColumn = screenPos.column), 0 != rows && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
+                        if (0 === chars && (0 !== rows && (this.session.$bidiHandler.isBidiRow(screenPos.row, this.lead.row) ? (offsetX = this.session.$bidiHandler.getPosLeft(screenPos.column), screenPos.column = Math.round(offsetX / this.session.$bidiHandler.charWidths[0])) : offsetX = screenPos.column * this.session.$bidiHandler.charWidths[0]), this.$desiredColumn ? screenPos.column = this.$desiredColumn : this.$desiredColumn = screenPos.column), 0 != rows && this.session.lineWidgets && this.session.lineWidgets[this.lead.row]) {
                             var widget = this.session.lineWidgets[this.lead.row];
                             rows < 0 ? rows -= widget.rowsAbove || 0 : rows > 0 && (rows += widget.rowCount - (widget.rowsAbove || 0));
                         }
@@ -4641,7 +4643,7 @@
                             this.getLine(range.start.row).substring(range.start.column, range.end.column)
                         ];
                         else {
-                            lines[0] = ((lines = this.getLines(range.start.row, range.end.row))[0] || "").substring(range.start.column);
+                            lines = this.getLines(range.start.row, range.end.row), lines[0] = (lines[0] || "").substring(range.start.column);
                             var l = lines.length - 1;
                             range.end.row - range.start.row == l && (lines[l] = lines[l].substring(0, range.end.column));
                         }
@@ -4880,9 +4882,9 @@
                     }, this.update = function(html, markerLayer, session, config) {
                         if (this.regExp) for(var start = config.firstRow, end = config.lastRow, i = start; i <= end; i++){
                             var ranges = this.cache[i];
-                            null == ranges && ((ranges = lang.getMatchOffsets(session.getLine(i), this.regExp)).length > this.MAX_RANGES && (ranges = ranges.slice(0, this.MAX_RANGES)), this.cache[i] = (ranges = ranges.map(function(match) {
+                            null == ranges && ((ranges = lang.getMatchOffsets(session.getLine(i), this.regExp)).length > this.MAX_RANGES && (ranges = ranges.slice(0, this.MAX_RANGES)), ranges = ranges.map(function(match) {
                                 return new Range(i, match.offset, i, match.offset + match.length);
-                            })).length ? ranges : "");
+                            }), this.cache[i] = ranges.length ? ranges : "");
                             for(var j = ranges.length; j--;)markerLayer.drawSingleLineMarker(html, ranges[j].toScreenRange(session), this.clazz, config);
                         }
                     };
@@ -4922,14 +4924,14 @@
                     }, this.containsRow = function(row) {
                         return row >= this.start.row && row <= this.end.row;
                     }, this.walk = function(callback, endRow, endColumn) {
-                        var fold, cmp, lastEnd = 0, folds = this.folds, isNewRow = !0;
+                        var fold, cmp, stop, lastEnd = 0, folds = this.folds, isNewRow = !0;
                         null == endRow && (endRow = this.end.row, endColumn = this.end.column);
                         for(var i = 0; i < folds.length; i++){
                             if (-1 == (cmp = (fold = folds[i]).range.compareStart(endRow, endColumn))) {
                                 callback(null, endRow, endColumn, lastEnd, isNewRow);
                                 return;
                             }
-                            if (!callback(null, fold.start.row, fold.start.column, lastEnd, isNewRow) && callback(fold.placeholder, fold.start.row, fold.start.column, lastEnd) || 0 === cmp) return;
+                            if (stop = callback(null, fold.start.row, fold.start.column, lastEnd, isNewRow), (stop = !stop && callback(fold.placeholder, fold.start.row, fold.start.column, lastEnd)) || 0 === cmp) return;
                             isNewRow = !fold.sameRow, lastEnd = fold.end.column;
                         }
                         callback(null, endRow, endColumn, lastEnd, isNewRow);
@@ -6091,7 +6093,7 @@
                                 var ch = tokens[i];
                                 (12 === ch || 2 === ch) && (len -= 1);
                             }
-                            splits.length || (splits.indent = indent = function() {
+                            splits.length || (indent = function() {
                                 var indentation = 0;
                                 if (0 === maxIndent) return indentation;
                                 if (indentedSoftWrap) for(var i = 0; i < tokens.length; i++){
@@ -6102,7 +6104,7 @@
                                     else break;
                                 }
                                 return isCode && !1 !== indentedSoftWrap && (indentation += tabSize), Math.min(indentation, maxIndent);
-                            }()), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
+                            }(), splits.indent = indent), lastDocSplit += len, splits.push(lastDocSplit), lastSplit = screenPos;
                         }
                         for(var indent = 0; displayLength - lastSplit > wrapLimit - indent;){
                             var split = lastSplit + wrapLimit - indent;
@@ -7759,7 +7761,9 @@
                 "use strict";
                 require("./lib/fixoldbrowsers");
                 var oop = require("./lib/oop"), dom = require("./lib/dom"), lang = require("./lib/lang"), useragent = require("./lib/useragent"), TextInput = require("./keyboard/textinput").TextInput, MouseHandler = require("./mouse/mouse_handler").MouseHandler, FoldHandler = require("./mouse/fold_handler").FoldHandler, KeyBinding = require("./keyboard/keybinding").KeyBinding, EditSession = require("./edit_session").EditSession, Search = require("./search").Search, Range = require("./range").Range, EventEmitter = require("./lib/event_emitter").EventEmitter, CommandManager = require("./commands/command_manager").CommandManager, defaultCommands = require("./commands/default_commands").commands, config = require("./config"), TokenIterator = require("./token_iterator").TokenIterator, clipboard = require("./clipboard"), Editor = function(renderer, session, options) {
-                    this.$toDestroy = [], this.container = renderer.getContainerElement(), this.renderer = renderer, this.id = "editor" + ++Editor.$uid, this.commands = new CommandManager(useragent.isMac ? "mac" : "win", defaultCommands), "object" == typeof document && (this.textInput = new TextInput(renderer.getTextAreaContainer(), this), this.renderer.textarea = this.textInput.getElement(), this.$mouseHandler = new MouseHandler(this), new FoldHandler(this)), this.keyBinding = new KeyBinding(this), this.$search = new Search().set({
+                    this.$toDestroy = [];
+                    var container = renderer.getContainerElement();
+                    this.container = container, this.renderer = renderer, this.id = "editor" + ++Editor.$uid, this.commands = new CommandManager(useragent.isMac ? "mac" : "win", defaultCommands), "object" == typeof document && (this.textInput = new TextInput(renderer.getTextAreaContainer(), this), this.renderer.textarea = this.textInput.getElement(), this.$mouseHandler = new MouseHandler(this), new FoldHandler(this)), this.keyBinding = new KeyBinding(this), this.$search = new Search().set({
                         wrap: !0
                     }), this.$historyTracker = this.$historyTracker.bind(this), this.commands.on("exec", this.$historyTracker), this.$initOperationListeners(), this._$emitInputEvent = lang.delayedCall((function() {
                         this._signal("input", {}), this.session && this.session.bgTokenizer && this.session.bgTokenizer.scheduleStart();
@@ -10417,7 +10421,9 @@ margin: 0 10px;\
                 dom.importCssString(editorCss, "ace_editor.css", !1);
                 var VirtualRenderer = function(container, theme) {
                     var _self = this;
-                    this.container = container || dom.createElement("div"), dom.addCssClass(this.container, "ace_editor"), dom.HI_DPI && dom.addCssClass(this.container, "ace_hidpi"), this.setTheme(theme), null == config.get("useStrictCSP") && config.set("useStrictCSP", !1), this.$gutter = dom.createElement("div"), this.$gutter.className = "ace_gutter", this.container.appendChild(this.$gutter), this.$gutter.setAttribute("aria-hidden", !0), this.scroller = dom.createElement("div"), this.scroller.className = "ace_scroller", this.container.appendChild(this.scroller), this.content = dom.createElement("div"), this.content.className = "ace_content", this.scroller.appendChild(this.content), this.$gutterLayer = new GutterLayer(this.$gutter), this.$gutterLayer.on("changeGutterWidth", this.onGutterResize.bind(this)), this.$markerBack = new MarkerLayer(this.content), this.canvas = (this.$textLayer = new TextLayer(this.content)).element, this.$markerFront = new MarkerLayer(this.content), this.$cursorLayer = new CursorLayer(this.content), this.$horizScroll = !1, this.$vScroll = !1, this.scrollBar = this.scrollBarV = new VScrollBar(this.container, this), this.scrollBarH = new HScrollBar(this.container, this), this.scrollBarV.on("scroll", function(e) {
+                    this.container = container || dom.createElement("div"), dom.addCssClass(this.container, "ace_editor"), dom.HI_DPI && dom.addCssClass(this.container, "ace_hidpi"), this.setTheme(theme), null == config.get("useStrictCSP") && config.set("useStrictCSP", !1), this.$gutter = dom.createElement("div"), this.$gutter.className = "ace_gutter", this.container.appendChild(this.$gutter), this.$gutter.setAttribute("aria-hidden", !0), this.scroller = dom.createElement("div"), this.scroller.className = "ace_scroller", this.container.appendChild(this.scroller), this.content = dom.createElement("div"), this.content.className = "ace_content", this.scroller.appendChild(this.content), this.$gutterLayer = new GutterLayer(this.$gutter), this.$gutterLayer.on("changeGutterWidth", this.onGutterResize.bind(this)), this.$markerBack = new MarkerLayer(this.content);
+                    var textLayer = this.$textLayer = new TextLayer(this.content);
+                    this.canvas = textLayer.element, this.$markerFront = new MarkerLayer(this.content), this.$cursorLayer = new CursorLayer(this.content), this.$horizScroll = !1, this.$vScroll = !1, this.scrollBar = this.scrollBarV = new VScrollBar(this.container, this), this.scrollBarH = new HScrollBar(this.container, this), this.scrollBarV.on("scroll", function(e) {
                         _self.$scrollAnimation || _self.session.setScrollTop(e.data - _self.scrollMargin.top);
                     }), this.scrollBarH.on("scroll", function(e) {
                         _self.$scrollAnimation || _self.session.setScrollLeft(e.data - _self.scrollMargin.left);
@@ -11203,9 +11209,11 @@ margin: 0 10px;\
                         setTimeout(function() {
                             _self.onCursorChange();
                         });
-                    }, this.$pos = pos, this.$undoStackDepth = (session.getUndoManager().$undoStack || session.getUndoManager().$undostack || {
+                    }, this.$pos = pos;
+                    var undoStack = session.getUndoManager().$undoStack || session.getUndoManager().$undostack || {
                         length: -1
-                    }).length, this.setup(), session.selection.on("changeCursor", this.$onCursorChange);
+                    };
+                    this.$undoStackDepth = undoStack.length, this.setup(), session.selection.on("changeCursor", this.$onCursorChange);
                 };
                 (function() {
                     oop.implement(this, EventEmitter), this.setup = function() {
@@ -11510,7 +11518,9 @@ margin: 0 10px;\
                             return editor && editor.inMultiSelectMode;
                         }
                     }
-                ], exports.keyboardHandler = new (require("../keyboard/hash_handler")).HashHandler(exports.multiSelectCommands);
+                ];
+                var HashHandler = require("../keyboard/hash_handler").HashHandler;
+                exports.keyboardHandler = new HashHandler(exports.multiSelectCommands);
             }), ace.define("ace/multi_select", [
                 "require",
                 "exports",
@@ -12247,7 +12257,9 @@ background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAACCAYAAACZg
                         el: dom.createElement("div"),
                         type: "errorMarker"
                     }, el = w.el.appendChild(dom.createElement("div")), arrow = w.el.appendChild(dom.createElement("div"));
-                    arrow.className = "error_widget_arrow " + gutterAnno.className, arrow.style.left = editor.renderer.$cursorLayer.getPixelPosition(pos).left + editor.renderer.gutterWidth - 5 + "px", w.el.className = "error_widget_wrapper", el.className = "error_widget " + gutterAnno.className, el.innerHTML = gutterAnno.text.join("<br>"), el.appendChild(dom.createElement("div"));
+                    arrow.className = "error_widget_arrow " + gutterAnno.className;
+                    var left = editor.renderer.$cursorLayer.getPixelPosition(pos).left;
+                    arrow.style.left = left + editor.renderer.gutterWidth - 5 + "px", w.el.className = "error_widget_wrapper", el.className = "error_widget " + gutterAnno.className, el.innerHTML = gutterAnno.text.join("<br>"), el.appendChild(dom.createElement("div"));
                     var kb = function(_, hashId, keyString) {
                         if (0 === hashId && ("esc" === keyString || "return" === keyString)) return w.destroy(), {
                             command: "null"

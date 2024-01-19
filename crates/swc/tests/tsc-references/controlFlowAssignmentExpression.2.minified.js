@@ -1,3 +1,3 @@
 //// [controlFlowAssignmentExpression.ts]
-var obj, o;
-obj.foo = (!0).length, (o = fn()).done && o.value;
+var x, obj, o;
+x = "", x = x.length, x = !0, (x = "", obj).foo = x = x.length, (o = fn()).done && o.value;

@@ -1,8 +1,8 @@
 //// [instantiatedModule.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 M = M1 || (M1 = {}), M.Point = 1;
-var M2, M3, Color, M, M1, M21, m2, a2, M31, m3, a3, m = M1;
-M1.Point, m.Point, M2 = M21 || (M21 = {}), M2.Point = function() {
+var M2, Point, M3, Color, M, M1, M21, m2, a2, M31, m3, a3, m = M1;
+M1.Point, m.Point, M2 = M21 || (M21 = {}), Point = function() {
     function Point() {
         _class_call_check(this, Point);
     }
@@ -12,7 +12,7 @@ M1.Point, m.Point, M2 = M21 || (M21 = {}), M2.Point = function() {
             y: 0
         };
     }, Point;
-}();
+}(), M2.Point = Point;
 var m2 = M21, a2 = (m2.Point, M21.Point);
 a2.Origin(), new m2.Point(), new M21.Point(), Color = (M3 = M31 || (M31 = {})).Color || (M3.Color = {}), Color[Color.Blue = 0] = "Blue", Color[Color.Red = 1] = "Red";
 var m3 = M31, a3 = (m3.Color, M31.Color);

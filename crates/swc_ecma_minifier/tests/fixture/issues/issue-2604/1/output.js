@@ -15,8 +15,9 @@ push({
         }();
     },
     "App.jsx": function() {
+        var ShaderChunk = {};
         ShaderLib.physical = {
-            x: ({}).meshphysical_frag
+            x: ShaderChunk.meshphysical_frag
         };
     }
 });

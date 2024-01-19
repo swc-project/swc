@@ -12,4 +12,4 @@ var D, D1 = function(C) {
 }(function C() {
     _class_call_check(this, C);
 });
-D.y = (D = D1 || (D1 = {})).bar;
+D = D1 || (D1 = {}), D.y = D.bar;

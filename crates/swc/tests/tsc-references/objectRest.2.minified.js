@@ -81,7 +81,7 @@ var { b: stillNotGreat, a: soSo } = o, o = _object_without_properties(o, [
     'b',
     'a'
 ].map(_to_property_key));
-o = _object_without_properties(_o = o, [
+_o = o, o = _object_without_properties(_o, [
     'b',
     'a'
 ].map(_to_property_key)), { b: stillNotGreat, a: soSo } = _o;

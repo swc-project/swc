@@ -3,4 +3,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var C, C1 = function C() {
     _class_call_check(this, C);
 };
-C.y = (C = C1 || (C1 = {})).bar;
+C = C1 || (C1 = {}), C.y = C.bar;

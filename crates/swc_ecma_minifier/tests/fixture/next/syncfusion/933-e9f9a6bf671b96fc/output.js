@@ -206,7 +206,7 @@
                         var obj1 = arguments_1[i];
                         Object.keys(obj1).forEach(function(key) {
                             var clone, src = result[key], copy = obj1[key];
-                            Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : result[key] = util_extend([], clone = src || [], copy, clone && clone.length || copy && copy.length) : result[key] = copy;
+                            Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
                         });
                     }
                 }(i);
@@ -2302,7 +2302,7 @@
                     }, resPattern = option.format || intl_base_IntlBase.getResultantPattern(option.skeleton, dependable.dateObject, option.type, !1, '');
                     if (formatOptions.dateSeperator = intl_base_IntlBase.getDateSeparator(dependable.dateObject), util_isUndefined(resPattern)) throwError('Format options or type given must be invalid');
                     else {
-                        formatOptions.pattern = resPattern = intl_base_IntlBase.ConvertDateToWeekFormat(resPattern), formatOptions.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr));
+                        resPattern = intl_base_IntlBase.ConvertDateToWeekFormat(resPattern), formatOptions.pattern = resPattern, formatOptions.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr));
                         for(var patternMatch = resPattern.match(abbreviateRegexGlobal) || [], _i = 0; _i < patternMatch.length; _i++){
                             var str = patternMatch[_i], len = str.length, char = str[0];
                             switch('K' === char && (char = 'h'), char){
@@ -2318,7 +2318,8 @@
                                     formatOptions.designator = util_getValue('dayPeriods.format.wide', dateObject);
                                     break;
                                 case 'G':
-                                    formatOptions.era = util_getValue('eras.' + (len <= 3 ? 'eraAbbr' : 4 === len ? 'eraNames' : 'eraNarrow'), dependable.dateObject);
+                                    var eText = len <= 3 ? 'eraAbbr' : 4 === len ? 'eraNames' : 'eraNarrow';
+                                    formatOptions.era = util_getValue('eras.' + eText, dependable.dateObject);
                                     break;
                                 case 'z':
                                     formatOptions.timeZone = util_getValue('dates.timeZoneNames', dependable.parserObject);
@@ -2350,8 +2351,8 @@
                             case 'f':
                                 if (isNumber = !0, 'd' === char) curval = dObject.date;
                                 else if ('f' === char) {
-                                    isNumber = !1, processNumber = !0;
-                                    var curlength = (curvalstr = (curvalstr = value[timeSetter[char]]().toString()).substring(0, length_1)).length;
+                                    isNumber = !1, processNumber = !0, curvalstr = value[timeSetter[char]]().toString();
+                                    var curlength = (curvalstr = curvalstr.substring(0, length_1)).length;
                                     if (length_1 !== curlength) {
                                         if (length_1 > 3) continue;
                                         for(var i = 0; i < length_1 - curlength; i++)curvalstr = '0' + curvalstr.toString();
@@ -2439,7 +2440,8 @@
                     if (match && match[4]) {
                         var pattern_1 = match[4], p = pattern_1.lastIndexOf(',');
                         if (-1 !== p) {
-                            ret.primary = pattern_1.split('.')[0].length - p - 1;
+                            var temp = pattern_1.split('.')[0];
+                            ret.primary = temp.length - p - 1;
                             var s = pattern_1.lastIndexOf(',', p - 1);
                             -1 !== s && (ret.secondary = p - 1 - s);
                         }
@@ -2465,7 +2467,7 @@
                     if (!util_isUndefined(fOptions.nData.type)) {
                         value < 0 ? (value *= -1, curData = fOptions.nData) : curData = 0 === value && fOptions.zeroData || fOptions.pData;
                         var curData, fValue = '';
-                        return (curData.isPercent && (value *= 100), curData.groupOne ? fValue = this.processSignificantDigits(value, curData.minimumSignificantDigits, curData.maximumSignificantDigits) : (fValue = this.processFraction(value, curData.minimumFractionDigits, curData.maximumFractionDigits), curData.minimumIntegerDigits && (fValue = this.processMinimumIntegers(fValue, curData.minimumIntegerDigits))), 'scientific' === curData.type && (fValue = (fValue = value.toExponential(curData.maximumFractionDigits)).replace('e', dOptions.numberMapper.numberSymbols.exponential)), fValue = fValue.replace('.', dOptions.numberMapper.numberSymbols.decimal), curData.useGrouping && (fValue = this.groupNumbers(fValue, curData.groupData.primary, curData.groupSeparator || ',', dOptions.numberMapper.numberSymbols.decimal || '.', curData.groupData.secondary)), fValue = ParserBase.convertValueParts(fValue, intl_base_IntlBase.latnParseRegex, dOptions.numberMapper.mapper), 'N/A' === curData.nlead) ? curData.nlead : curData.nlead + fValue + curData.nend;
+                        return (curData.isPercent && (value *= 100), curData.groupOne ? fValue = this.processSignificantDigits(value, curData.minimumSignificantDigits, curData.maximumSignificantDigits) : (fValue = this.processFraction(value, curData.minimumFractionDigits, curData.maximumFractionDigits), curData.minimumIntegerDigits && (fValue = this.processMinimumIntegers(fValue, curData.minimumIntegerDigits))), 'scientific' === curData.type && (fValue = value.toExponential(curData.maximumFractionDigits), fValue = fValue.replace('e', dOptions.numberMapper.numberSymbols.exponential)), fValue = fValue.replace('.', dOptions.numberMapper.numberSymbols.decimal), curData.useGrouping && (fValue = this.groupNumbers(fValue, curData.groupData.primary, curData.groupSeparator || ',', dOptions.numberMapper.numberSymbols.decimal || '.', curData.groupData.secondary)), fValue = ParserBase.convertValueParts(fValue, intl_base_IntlBase.latnParseRegex, dOptions.numberMapper.mapper), 'N/A' === curData.nlead) ? curData.nlead : curData.nlead + fValue + curData.nend;
                     }
                 }, NumberFormat.processSignificantDigits = function(value, min, max) {
                     var temp = value + '';
@@ -2642,10 +2644,10 @@
                 }, DateParser.internalNumberParser = function(value, option) {
                     return (value = ParserBase.convertValueParts(value, option.numberParseRegex, option.numericPair), latnRegex.test(value)) ? +value : null;
                 }, DateParser.parseTimeZoneRegx = function(hourFormat, tZone, nRegex) {
-                    var ret, pattern = tZone.gmtFormat, cRegex = '(' + nRegex + ")(" + nRegex + ')';
-                    return ret = hourFormat.replace('+', '\\+'), ret = (ret = -1 !== hourFormat.indexOf('HH') ? ret.replace(/HH|mm/g, '(' + cRegex + ')') : ret.replace(/H|m/g, '(' + cRegex + '?)')).split(';').map(function(str) {
+                    var ret, splitStr, pattern = tZone.gmtFormat, cRegex = '(' + nRegex + ")(" + nRegex + ')';
+                    return ret = hourFormat.replace('+', '\\+'), splitStr = (ret = -1 !== hourFormat.indexOf('HH') ? ret.replace(/HH|mm/g, '(' + cRegex + ')') : ret.replace(/H|m/g, '(' + cRegex + '?)')).split(';').map(function(str) {
                         return pattern.replace('{0}', str);
-                    }).join('|') + '|' + tZone.gmtZeroFormat;
+                    }), ret = splitStr.join('|') + '|' + tZone.gmtZeroFormat;
                 }, DateParser.getZoneValue = function(flag, val1, val2, num) {
                     var ival = flag ? val1 : val2;
                     if (!ival) return 0;
@@ -2667,7 +2669,7 @@
                     };
                 }, NumberParser.getParsedNumber = function(value, options, numOptions) {
                     if (-1 !== value.indexOf(options.infinity)) return 1 / 0;
-                    value = ParserBase.convertValueParts(value, options.symbolRegex, numOptions.symbolMatch), 0 === (value = -1 !== (value = ParserBase.convertValueParts(value, numOptions.numberParseRegex, numOptions.numericPair)).indexOf('-') ? value.replace('-.', '-0.') : value).indexOf('.') && (value = '0' + value);
+                    value = ParserBase.convertValueParts(value, options.symbolRegex, numOptions.symbolMatch), value = ParserBase.convertValueParts(value, numOptions.numberParseRegex, numOptions.numericPair), 0 === (value = -1 !== value.indexOf('-') ? value.replace('-.', '-0.') : value).indexOf('.') && (value = '0' + value);
                     var isNegative, isPercent, tempValue, lead, end, ret, matches = value.match(parseRegex);
                     if (util_isNullOrUndefined(matches)) return NaN;
                     lead = matches[1], tempValue = matches[2];
@@ -2896,7 +2898,7 @@
                 }
                 function compareBlazorDateFormats(formatOptions, culture) {
                     var format = formatOptions.format || formatOptions.skeleton, curFormatMapper = util_getValue((culture || 'en-US') + '.' + format, blazorCultureFormats);
-                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
+                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper), formatOptions.format = curFormatMapper.replace(/tt/, 'a')), formatOptions;
                 }
                 function getProperNumericSkeleton(skeleton) {
                     var matches = skeleton.match(IntlBase.formatRegex), ret = {}, pattern = matches[1].toUpperCase();
@@ -4128,7 +4130,10 @@
                         },
                         get: function() {
                             var _this = this;
-                            this.properties.hasOwnProperty(key) || (this.properties[key] = getObjectArray(this, key, defaultValue, type, !1));
+                            if (!this.properties.hasOwnProperty(key)) {
+                                var defCollection = getObjectArray(this, key, defaultValue, type, !1);
+                                this.properties[key] = defCollection;
+                            }
                             var ignore = void 0 !== this.controlParent && this.controlParent.ignoreCollectionWatch || this.ignoreCollectionWatch;
                             return this.properties[key].hasOwnProperty('push') || ignore || [
                                 'push',
@@ -4246,7 +4251,10 @@
                 return __extends(Animation, _super), Animation_1 = Animation, Animation.prototype.animate = function(element, options) {
                     options = options || {};
                     var model = this.getModel(options);
-                    if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++)model.element = elements[_i], Animation_1.delayAnimation(model);
+                    if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++){
+                        var element_1 = elements[_i];
+                        model.element = element_1, Animation_1.delayAnimation(model);
+                    }
                     else model.element = element, Animation_1.delayAnimation(model);
                 }, Animation.stop = function(element, model) {
                     element.style.animation = '', element.removeAttribute('e-animate');
@@ -4491,7 +4499,7 @@
                             if (result && result.length) for(var _i = 0; _i < result.length; _i++){
                                 var res = result[_i];
                                 if (!this.platform.test(res.platform) || res.invalidPlatform) validateMsg = this.errors.platformMismatched;
-                                else if (-1 === res.version.indexOf(this.version)) validateMsg = (validateMsg = (validateMsg = this.errors.versionMismatched).replace('##LicenseVersion', res.version)).replace('##Requireversion', this.version + '.x');
+                                else if (-1 === res.version.indexOf(this.version)) validateMsg = this.errors.versionMismatched, validateMsg = validateMsg.replace('##LicenseVersion', res.version), validateMsg = validateMsg.replace('##Requireversion', this.version + '.x');
                                 else if (res.expiryDate) {
                                     var expDate = new Date(res.expiryDate), currDate = new Date();
                                     if (expDate !== currDate && expDate < currDate) validateMsg = this.errors.trailExpired;
@@ -5014,7 +5022,7 @@
                             var key = keys[i], tborder = styles['border' + key + 'Width'], tpadding = styles['padding' + key], lowerKey = key.toLowerCase();
                             this.borderWidth[lowerKey] = isNaN(parseFloat(tborder)) ? 0 : parseFloat(tborder), this.padding[lowerKey] = isNaN(parseFloat(tpadding)) ? 0 : parseFloat(tpadding);
                         }
-                        top1 = elementArea.top, this.dragLimit.left = (left = elementArea.left) + this.borderWidth.left + this.padding.left, this.dragLimit.top = ele.offsetTop + this.borderWidth.top + this.padding.top, this.dragLimit.right = left + eleWidthBound - (this.borderWidth.right + this.padding.right), this.dragLimit.bottom = top1 + eleHeightBound - (this.borderWidth.bottom + this.padding.bottom);
+                        top1 = elementArea.top, left = elementArea.left, this.dragLimit.left = left + this.borderWidth.left + this.padding.left, this.dragLimit.top = ele.offsetTop + this.borderWidth.top + this.padding.top, this.dragLimit.right = left + eleWidthBound - (this.borderWidth.right + this.padding.right), this.dragLimit.bottom = top1 + eleHeightBound - (this.borderWidth.bottom + this.padding.bottom);
                     }
                 }, Draggable.prototype.getProperTargetElement = function(evt) {
                     var ele, intCoord = this.getCoordinates(evt), prevStyle = this.helperElement.style.pointerEvents || '';
@@ -5307,7 +5315,8 @@
                     this.controlName = controlName, this.localeStrings = localeStrings, this.setLocale(locale || defaultCulture);
                 }
                 return L10n.prototype.setLocale = function(locale) {
-                    this.currentLocale = this.intGetControlConstant(L10n.locale, locale) || this.localeStrings;
+                    var intLocale = this.intGetControlConstant(L10n.locale, locale);
+                    this.currentLocale = intLocale || this.localeStrings;
                 }, L10n.load = function(localeObject) {
                     this.locale = util_extend(this.locale, localeObject, {}, !0);
                 }, L10n.prototype.getConstant = function(prop) {
@@ -5534,7 +5543,7 @@
                                         return HandleSpecialCharArrObj(strs, nameSpace, localKeys, ignorePrefix1);
                                     })) + '+ "') : cnt = '" + ' + ('global' === fNameSpace ? '' : fNameSpace) + cnt.replace(rlStr, addNameSpace(matches[1].replace(/,( |)data.|,/gi, ',' + nameSpace + '.').replace(/,( |)data.window/gi, ',window'), 'global' !== fNameSpace, nameSpace, localKeys, ignorePrefix1)) + '+"';
                                 }
-                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = cnt.match(SINGLE_SLASH) ? '"+' + NameSpaceForspecialChar(cnt = SlashReplace(cnt), -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"' : '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
+                            } else ELSE_STMT.test(cnt) ? cnt = '"; ' + cnt.replace(ELSE_STMT, '} else { \n str = str + "') : cnt.match(IF_OR_FOR) ? cnt = cnt.replace(IF_OR_FOR, '"; \n } \n str = str + "') : /@|#|\$/gm.test(cnt) ? (cnt.match(SINGLE_SLASH) && (cnt = SlashReplace(cnt)), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt.match(SINGLE_SLASH) ? (cnt = SlashReplace(cnt), cnt = '"+' + NameSpaceForspecialChar(cnt, -1 === localKeys.indexOf(cnt), nameSpace, localKeys) + '"]+"') : cnt = '"+' + addNameSpace(cnt.replace(/,/gi, '+' + nameSpace + '.'), -1 === localKeys.indexOf(cnt), nameSpace, localKeys, ignorePrefix1) + '+"';
                             return cnt;
                         }) + "\";var valueRegEx = (/value=\\'([A-Za-z0-9 _]*)((.)([\\w)(!-;?-■\\s]+)['])/g);\n    var hrefRegex = (/(?:href)([\\s='\"./]+)([\\w-./?=&\\\\#\"]+)((.)([\\w)(!-;/?-■\\s]+)['])/g);\n    if(str.match(valueRegEx)){\n        var check = str.match(valueRegEx);\n        var str1 = str;\n        for (var i=0; i < check.length; i++) {\n            var check1 = str.match(valueRegEx)[i].split('value=')[1];\n            var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n            change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n            str1 = str1.replace(check1, change);\n        }\n        str = str.replace(str, str1);\n    }\n    else if (str.match(/(?:href='')/) === null) {\n        if(str.match(hrefRegex)) {\n            var check = str.match(hrefRegex);\n            var str1 = str;\n            for (var i=0; i < check.length; i++) {\n                var check1 = str.match(hrefRegex)[i].split('href=')[1];\n                if (check1) {\n                    var change = check1.match(/^'/) !== null ? check1.replace(/^'/, '\"') : check1;\n                    change =change.match(/.$/)[0] === '\\'' ? change.replace(/.$/,'\"') : change;\n                    str1 = str1.replace(check1, change);\n                }\n            }\n            str = str.replace(str, str1);\n        }\n    }\n     return str;").bind(helper1);
                     }, Engine;
@@ -5742,9 +5751,16 @@
                         selector: '.' + cssClassName.BUTTON
                     }), this.renderComplete();
                 }, Button.prototype.initialize = function() {
-                    this.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
+                    if (this.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         this.element
-                    ], this.cssClass.split(' ')), this.isPrimary && this.element.classList.add(cssClassName.PRIMARY), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() && 'progress-btn' !== this.getModuleName()) && (this.content && (this.element.innerHTML = this.enableHtmlSanitizer ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.pJ.sanitize(this.content) : this.content), this.setIconCss()), this.enableRtl && this.element.classList.add(cssClassName.RTL), this.disabled ? this.controlStatus(this.disabled) : this.wireEvents();
+                    ], this.cssClass.split(' ')), this.isPrimary && this.element.classList.add(cssClassName.PRIMARY), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() && 'progress-btn' !== this.getModuleName()) {
+                        if (this.content) {
+                            var tempContent = this.enableHtmlSanitizer ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.pJ.sanitize(this.content) : this.content;
+                            this.element.innerHTML = tempContent;
+                        }
+                        this.setIconCss();
+                    }
+                    this.enableRtl && this.element.classList.add(cssClassName.RTL), this.disabled ? this.controlStatus(this.disabled) : this.wireEvents();
                 }, Button.prototype.controlStatus = function(disabled) {
                     this.element.disabled = disabled;
                 }, Button.prototype.setIconCss = function() {
@@ -6625,7 +6641,7 @@
                         var parseValue = this.instance.getNumberParser({
                             format: 'n'
                         })(this.element.value);
-                        if (this.hiddenInput.value = (parseValue = null === parseValue || isNaN(parseValue) ? null : parseValue) || 0 === parseValue ? parseValue.toString() : null, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.oq)(this.element, 'form')) {
+                        if (parseValue = null === parseValue || isNaN(parseValue) ? null : parseValue, this.hiddenInput.value = parseValue || 0 === parseValue ? parseValue.toString() : null, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.oq)(this.element, 'form')) {
                             var element = this.element.nextElementSibling, keyupEvent = document.createEvent('KeyboardEvent');
                             keyupEvent.initEvent('keyup', !1, !0), element.dispatchEvent(keyupEvent);
                         }
@@ -7183,33 +7199,34 @@
             }
             function calculatePosition(currentElement, positionX, positionY, parentElement, targetValues) {
                 return (popupRect = void 0, popupRect = targetValues, fixedParent = !!parentElement, currentElement) ? (positionX || (positionX = 'left'), positionY || (positionY = 'top'), parentDocument = currentElement.ownerDocument, element = currentElement, function(posX, posY, pos) {
+                    var value, value1, value2, value3, value4, value5, value6, value7, value8;
                     switch(elementRect = element.getBoundingClientRect(), posY + posX){
                         case 'topcenter':
-                            setPosx(getElementHCenter(), pos), pos.top = getElementTop();
+                            setPosx(getElementHCenter(), pos), value = getElementTop(), pos.top = value;
                             break;
                         case 'topright':
-                            setPosx(getElementRight(), pos), pos.top = getElementTop();
+                            setPosx(getElementRight(), pos), value1 = getElementTop(), pos.top = value1;
                             break;
                         case 'centercenter':
-                            setPosx(getElementHCenter(), pos), pos.top = getElementVCenter();
+                            setPosx(getElementHCenter(), pos), value2 = getElementVCenter(), pos.top = value2;
                             break;
                         case 'centerright':
-                            setPosx(getElementRight(), pos), pos.top = getElementVCenter();
+                            setPosx(getElementRight(), pos), value3 = getElementVCenter(), pos.top = value3;
                             break;
                         case 'centerleft':
-                            setPosx(getElementLeft(), pos), pos.top = getElementVCenter();
+                            setPosx(getElementLeft(), pos), value4 = getElementVCenter(), pos.top = value4;
                             break;
                         case 'bottomcenter':
-                            setPosx(getElementHCenter(), pos), pos.top = getElementBottom();
+                            setPosx(getElementHCenter(), pos), value5 = getElementBottom(), pos.top = value5;
                             break;
                         case 'bottomright':
-                            setPosx(getElementRight(), pos), pos.top = getElementBottom();
+                            setPosx(getElementRight(), pos), value6 = getElementBottom(), pos.top = value6;
                             break;
                         case 'bottomleft':
-                            setPosx(getElementLeft(), pos), pos.top = getElementBottom();
+                            setPosx(getElementLeft(), pos), value7 = getElementBottom(), pos.top = value7;
                             break;
                         default:
-                            setPosx(getElementLeft(), pos), pos.top = getElementTop();
+                            setPosx(getElementLeft(), pos), value8 = getElementTop(), pos.top = value8;
                     }
                     return pos;
                 }(positionX.toLowerCase(), positionY.toLowerCase(), {
@@ -7513,9 +7530,13 @@
                     })));
                 }, Popup.prototype.show = function(animationOptions, relativeElement) {
                     var _this = this;
-                    this.wireEvents(), 1000 !== this.zIndex && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement) || (this.zIndex = getZindexPartial((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement) ? this.element : relativeElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
-                        zIndex: this.zIndex
-                    })), animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(animationOptions) || 'object' != typeof animationOptions ? this.showAnimation : animationOptions, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
+                    if (this.wireEvents(), 1000 === this.zIndex || !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement)) {
+                        var zIndexElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement) ? this.element : relativeElement;
+                        this.zIndex = getZindexPartial(zIndexElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
+                            zIndex: this.zIndex
+                        });
+                    }
+                    animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(animationOptions) || 'object' != typeof animationOptions ? this.showAnimation : animationOptions, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
                         this.element
                     ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         this.element
@@ -9661,12 +9682,12 @@
                     }
                     return element;
                 }, Dialog.prototype.getMinHeight = function() {
-                    var computedHeaderHeight = '0px', computedFooterHeight = '0px';
+                    var minimumHeight, computedHeaderHeight = '0px', computedFooterHeight = '0px';
                     (0, ej2_base.le)(this.element.querySelector('.' + DLG_HEADER_CONTENT)) || (computedHeaderHeight = getComputedStyle(this.headerContent).height);
                     var footerEle = this.getEle(this.element.children, DLG_FOOTER_CONTENT);
                     (0, ej2_base.le)(footerEle) || (computedFooterHeight = getComputedStyle(footerEle).height);
                     var headerHeight = parseInt(computedHeaderHeight.slice(0, computedHeaderHeight.indexOf('p')), 10), footerHeight = parseInt(computedFooterHeight.slice(0, computedFooterHeight.indexOf('p')), 10);
-                    return minHeight = headerHeight + 30 + (isNaN(footerHeight) ? 0 : footerHeight), headerHeight + 30 + footerHeight;
+                    return minimumHeight = headerHeight + 30 + (isNaN(footerHeight) ? 0 : footerHeight), minHeight = minimumHeight, headerHeight + 30 + footerHeight;
                 }, Dialog.prototype.onResizeStart = function(args, dialogObj) {
                     return dialogObj.trigger('resizeStart', args), args.cancel;
                 }, Dialog.prototype.onResizing = function(args, dialogObj) {
@@ -9815,7 +9836,7 @@
                     }
                 }, Dialog.prototype.setOverlayZindex = function(zIndexValue) {
                     var zIndex;
-                    this.dlgOverlay.style.zIndex = ((zIndex = (0, ej2_base.le)(zIndexValue) ? parseInt(this.element.style.zIndex, 10) ? parseInt(this.element.style.zIndex, 10) : this.zIndex : zIndexValue) - 1).toString(), this.dlgContainer.style.zIndex = zIndex.toString();
+                    zIndex = (0, ej2_base.le)(zIndexValue) ? parseInt(this.element.style.zIndex, 10) ? parseInt(this.element.style.zIndex, 10) : this.zIndex : zIndexValue, this.dlgOverlay.style.zIndex = (zIndex - 1).toString(), this.dlgContainer.style.zIndex = zIndex.toString();
                 }, Dialog.prototype.positionChange = function() {
                     this.isModal && (isNaN(parseFloat(this.position.X)) || isNaN(parseFloat(this.position.Y))) ? !isNaN(parseFloat(this.position.X)) && isNaN(parseFloat(this.position.Y)) || isNaN(parseFloat(this.position.X)) && !isNaN(parseFloat(this.position.Y)) ? this.setPopupPosition() : (this.element.style.top = '0px', this.element.style.left = '0px', this.dlgContainer.classList.add('e-dlg-' + this.position.X + '-' + this.position.Y)) : this.setPopupPosition();
                 }, Dialog.prototype.setPopupPosition = function() {
@@ -10084,7 +10105,8 @@
                     var prevOnChange = this.isProtectedOnChange;
                     this.isProtectedOnChange = !0, this.zIndex = (0, popup.TE)(zIndexElement), this.isProtectedOnChange = prevOnChange, setPopupZindex && (this.popupObj.zIndex = this.zIndex);
                 }, Dialog.prototype.windowResizeHandler = function() {
-                    maxWidth = this.targetEle.clientWidth, maxHeight = this.targetEle.clientHeight, this.setMaxHeight();
+                    var value, value1;
+                    value = this.targetEle.clientWidth, maxWidth = value, value1 = this.targetEle.clientHeight, maxHeight = value1, this.setMaxHeight();
                 }, Dialog.prototype.getPersistData = function() {
                     return this.addOnPersist([]);
                 }, Dialog.prototype.destroy = function() {
@@ -10684,7 +10706,7 @@
                             var url = '' !== imageValue && this.createElement('div', {
                                 innerHTML: imageValue
                             }).firstElementChild.getAttribute('src') || null;
-                            value.url = url = (0, ej2_base.le)(url) ? '' : url, (0, ej2_base.le)(value.width) && (value.width = {
+                            url = (0, ej2_base.le)(url) ? '' : url, value.url = url, (0, ej2_base.le)(value.width) && (value.width = {
                                 minWidth: this.insertImageSettings.minWidth,
                                 maxWidth: this.insertImageSettings.maxWidth,
                                 width: this.insertImageSettings.width
@@ -10704,7 +10726,7 @@
                             var href = '' !== linkValue && this.createElement('div', {
                                 innerHTML: linkValue
                             }).firstElementChild.getAttribute('href') || null;
-                            value.url = href = (0, ej2_base.le)(href) ? '' : href;
+                            href = (0, ej2_base.le)(href) ? '' : href, value.url = href;
                     }
                     return value;
                 }, RichTextEditor.prototype.encode = function(value) {
@@ -11117,7 +11139,8 @@
                 }, RichTextEditor.prototype.initializeServices = function() {
                     this.serviceLocator.register('rendererFactory', new renderer_factory.z), this.serviceLocator.register('rteLocale', this.localeObj = new ej2_base.E7(this.getModuleName(), default_locale.al, this.locale)), this.serviceLocator.register('dialogRenderObject', new DialogRenderer(this));
                 }, RichTextEditor.prototype.RTERender = function() {
-                    this.contentModule = this.serviceLocator.getService('rendererFactory').getRenderer(base_enum.y2.Content), this.fullScreenModule = new FullScreen(this), this.enterKeyModule = new EnterKeyAction(this), this.renderModule.render(), this.inputElement = this.contentModule.getEditPanel(), this.setHeight(this.height), setAttributes(this.htmlAttributes, this, !1, !0), this.iframeSettings && this.setIframeSettings(), this.setCssClass(this.cssClass), this.updateEnable(), this.setPlaceHolder(), this.updateRTL(), this.updateReadOnly(), this.updatePanelValue(), this.enableHtmlEncode && !(0, ej2_base.le)(this.value) && this.setProperties({
+                    var rendererFactory = this.serviceLocator.getService('rendererFactory');
+                    this.contentModule = rendererFactory.getRenderer(base_enum.y2.Content), this.fullScreenModule = new FullScreen(this), this.enterKeyModule = new EnterKeyAction(this), this.renderModule.render(), this.inputElement = this.contentModule.getEditPanel(), this.setHeight(this.height), setAttributes(this.htmlAttributes, this, !1, !0), this.iframeSettings && this.setIframeSettings(), this.setCssClass(this.cssClass), this.updateEnable(), this.setPlaceHolder(), this.updateRTL(), this.updateReadOnly(), this.updatePanelValue(), this.enableHtmlEncode && !(0, ej2_base.le)(this.value) && this.setProperties({
                         value: this.encode((0, util.Jx)(this.value))
                     });
                 }, RichTextEditor.prototype.setIframeSettings = function() {
@@ -12611,7 +12634,7 @@
                     }
                     for(var i = 0; i < viewNode.length; i++){
                         var node = viewNode[i], nodeInnerHtml = node.innerHTML, closeTag = /<span class="e-rte-list-close-([a-z]*)"><\/span>/g, openTag = /<span class="e-rte-list-open-([a-z]*)"><\/span>/g;
-                        nodeInnerHtml = (nodeInnerHtml = nodeInnerHtml.replace(closeTag, '</$1>')).replace(openTag, '<$1 ' + this.domNode.attributes(node) + '>'), this.domNode.replaceWith(node, this.domNode.openTagString(node) + nodeInnerHtml.trim() + this.domNode.closeTagString(node));
+                        nodeInnerHtml = nodeInnerHtml.replace(closeTag, '</$1>'), nodeInnerHtml = nodeInnerHtml.replace(openTag, '<$1 ' + this.domNode.attributes(node) + '>'), this.domNode.replaceWith(node, this.domNode.openTagString(node) + nodeInnerHtml.trim() + this.domNode.closeTagString(node));
                     }
                     for(var emptyUl = this.parent.editableElement.querySelectorAll('ul:empty, ol:empty'), i = 0; i < emptyUl.length; i++)(0, ej2_base.og)(emptyUl[i]);
                     for(var emptyLi = this.parent.editableElement.querySelectorAll('li:empty'), i = 0; i < emptyLi.length; i++)(0, ej2_base.og)(emptyLi[i]);
@@ -12968,7 +12991,8 @@
                     while (node && 0 > BLOCK_TAGS.indexOf(node.nodeName.toLocaleLowerCase()))
                     return node;
                 }, InsertHtml.removingComments = function(elm) {
-                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
+                    var innerElement = elm.innerHTML;
+                    innerElement = innerElement.replace(/<!--[\s\S]*?-->/g, ''), elm.innerHTML = innerElement;
                 }, InsertHtml.findDetachEmptyElem = function(element) {
                     return (0, ej2_base.le)(element.parentElement) ? null : '' === element.parentElement.textContent.trim() && 'true' !== element.parentElement.contentEditable ? this.findDetachEmptyElem(element.parentElement) : element;
                 }, InsertHtml.removeEmptyElements = function(element) {
@@ -14353,8 +14377,8 @@
                     this.undoRedoStack.length >= this.steps && (this.undoRedoStack = this.undoRedoStack.slice(0, this.steps + 1)), (!(this.undoRedoStack.length > 1) || this.undoRedoStack[this.undoRedoStack.length - 1].range.range.collapsed !== range.collapsed || this.undoRedoStack[this.undoRedoStack.length - 1].range.startOffset !== save.range.startOffset || this.undoRedoStack[this.undoRedoStack.length - 1].range.endOffset !== save.range.endOffset || this.undoRedoStack[this.undoRedoStack.length - 1].range.range.startContainer !== save.range.startContainer || this.undoRedoStack[this.undoRedoStack.length - 1].text.trim() !== changEle.text.trim()) && (this.undoRedoStack.push(changEle), this.steps = this.undoRedoStack.length - 1, this.steps > this.undoRedoSteps && (this.undoRedoStack.shift(), this.steps--), e && e.callBack && e.callBack());
                 }, UndoRedoManager.prototype.undo = function(e) {
                     if (this.steps > 0) {
-                        var range = this.undoRedoStack[this.steps - 1].range;
-                        this.parent.editableElement.innerHTML = this.undoRedoStack[this.steps - 1].text, this.parent.editableElement.focus(), (0, common_util.FA)() && (0, common_util.ze)(this.parent.editableElement, e.selector), range.restore(), this.steps--, e.callBack && e.callBack({
+                        var range = this.undoRedoStack[this.steps - 1].range, removedContent = this.undoRedoStack[this.steps - 1].text;
+                        this.parent.editableElement.innerHTML = removedContent, this.parent.editableElement.focus(), (0, common_util.FA)() && (0, common_util.ze)(this.parent.editableElement, e.selector), range.restore(), this.steps--, e.callBack && e.callBack({
                             requestType: 'Undo',
                             editorMode: 'HTML',
                             range: range,
@@ -14596,7 +14620,7 @@
                 }, MsWordPaste.prototype.removeUnwantedElements = function(elm) {
                     for(var innerElement = elm.innerHTML, i = 0; i < this.removableElements.length; i++){
                         var regExpStartElem = RegExp('<' + this.removableElements[i] + '>', 'g'), regExpEndElem = RegExp('</' + this.removableElements[i] + '>', 'g');
-                        innerElement = (innerElement = innerElement.replace(regExpStartElem, '')).replace(regExpEndElem, '');
+                        innerElement = innerElement.replace(regExpStartElem, ''), innerElement = innerElement.replace(regExpEndElem, '');
                     }
                     elm.innerHTML = innerElement, elm.querySelectorAll(':empty');
                 }, MsWordPaste.prototype.findDetachEmptyElem = function(element) {
@@ -14653,7 +14677,8 @@
                     }
                     return styleClassObject;
                 }, MsWordPaste.prototype.removingComments = function(elm) {
-                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
+                    var innerElement = elm.innerHTML;
+                    innerElement = innerElement.replace(/<!--[\s\S]*?-->/g, ''), elm.innerHTML = innerElement;
                 }, MsWordPaste.prototype.cleanUp = function(node, listNodes) {
                     for(var prevflagState, tempCleaner = [], allNodes = node.querySelectorAll('*'), index = 0; index < allNodes.length; index++){
                         if (-1 === this.ignorableNodes.indexOf(allNodes[index].nodeName) || 3 === allNodes[index].nodeType && '' === allNodes[index].textContent.trim()) {
@@ -15942,7 +15967,7 @@
                     }
                 }, RadioButton.prototype.preRender = function() {
                     var element = this.element;
-                    if (this.formElement = (0, ej2_base.oq)(this.element, 'form'), this.tagName = this.element.tagName, this.element = element = (0, common.Rm)(this.createElement, 'EJS-RADIOBUTTON', 'radio', element, WRAPPER, 'radio'), 'radio' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'radio'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName())), 'EJS-RADIOBUTTON' === this.tagName) {
+                    if (this.formElement = (0, ej2_base.oq)(this.element, 'form'), this.tagName = this.element.tagName, element = (0, common.Rm)(this.createElement, 'EJS-RADIOBUTTON', 'radio', element, WRAPPER, 'radio'), this.element = element, 'radio' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'radio'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName())), 'EJS-RADIOBUTTON' === this.tagName) {
                         var formControlName = this.element.getAttribute('formcontrolname');
                         formControlName && (this.setProperties({
                             name: formControlName
@@ -16234,7 +16259,7 @@
                                     }(innerContainer.getElementsByClassName('e-path-circle_' + (8 === i ? 0 : i))[0], i, 0, function(begin, stop) {
                                         var series = [], increment = !1, count = 1;
                                         return function formSeries(i) {
-                                            series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = parseFloat(((i = 7) + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
+                                            series.push(i), (i !== stop || 1 === count) && (i <= begin && i > 1 && !increment ? i = parseFloat((i - 0.2).toFixed(2)) : 1 === i ? (i = 7, i = parseFloat((i + 0.2).toFixed(2)), increment = !0) : i < 8 && increment ? 8 === (i = parseFloat((i + 0.2).toFixed(2))) && (increment = !1) : i <= 8 && !increment && (i = parseFloat((i - 0.2).toFixed(2))), ++count, formSeries(i));
                                         }(begin), series;
                                     }(i, i), id);
                                 }(inner);
@@ -16462,7 +16487,14 @@
                 }, Uploader.prototype.removeActionButtons = function() {
                     this.actionButtons && (this.unwireActionButtonEvents(), (0, ej2_base.og)(this.actionButtons), this.actionButtons = null);
                 }, Uploader.prototype.renderButtonTemplates = function() {
-                    'string' == typeof this.buttons.browse ? (this.browseButton.textContent = 'Browse...' === this.buttons.browse ? this.localizedTexts('Browse') : this.buttons.browse, this.browseButton.setAttribute('title', this.browseButton.textContent)) : (this.browseButton.innerHTML = '', this.browseButton.appendChild(this.buttons.browse)), this.uploadButton && (this.buttons.upload = (0, ej2_base.le)(this.buttons.upload) ? 'Upload' : this.buttons.upload, 'string' == typeof this.buttons.upload ? (this.uploadButton.textContent = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.uploadButton.textContent)) : (this.uploadButton.innerHTML = '', this.uploadButton.appendChild(this.buttons.upload))), this.clearButton && (this.buttons.clear = (0, ej2_base.le)(this.buttons.clear) ? 'Clear' : this.buttons.clear, 'string' == typeof this.buttons.clear ? (this.clearButton.textContent = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.clearButton.textContent)) : (this.clearButton.innerHTML = '', this.clearButton.appendChild(this.buttons.clear)));
+                    if ('string' == typeof this.buttons.browse ? (this.browseButton.textContent = 'Browse...' === this.buttons.browse ? this.localizedTexts('Browse') : this.buttons.browse, this.browseButton.setAttribute('title', this.browseButton.textContent)) : (this.browseButton.innerHTML = '', this.browseButton.appendChild(this.buttons.browse)), this.uploadButton) {
+                        var uploadText = (0, ej2_base.le)(this.buttons.upload) ? 'Upload' : this.buttons.upload;
+                        this.buttons.upload = uploadText, 'string' == typeof this.buttons.upload ? (this.uploadButton.textContent = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.uploadButton.textContent)) : (this.uploadButton.innerHTML = '', this.uploadButton.appendChild(this.buttons.upload));
+                    }
+                    if (this.clearButton) {
+                        var clearText = (0, ej2_base.le)(this.buttons.clear) ? 'Clear' : this.buttons.clear;
+                        this.buttons.clear = clearText, 'string' == typeof this.buttons.clear ? (this.clearButton.textContent = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.clearButton.textContent)) : (this.clearButton.innerHTML = '', this.clearButton.appendChild(this.buttons.clear));
+                    }
                 }, Uploader.prototype.initializeUpload = function() {
                     this.element.setAttribute('tabindex', '-1');
                     var inputWrapper = this.createElement('span', {
@@ -18037,7 +18069,7 @@
                     }), e.args && null !== value && 'HTML' === this.parent.editorMode) {
                         if (0 === value.length) {
                             var htmlRegex = new RegExp(/<\/[a-z][\s\S]*>/i);
-                            this.isNotFromHtml = '' !== (value = e.args.clipboardData.getData('text/plain')), value = (value = value.replace(/</g, '&lt;')).replace(/>/g, '&gt;'), this.containsHtml = htmlRegex.test(value);
+                            value = e.args.clipboardData.getData('text/plain'), this.isNotFromHtml = '' !== value, value = value.replace(/</g, '&lt;'), value = value.replace(/>/g, '&gt;'), this.containsHtml = htmlRegex.test(value);
                             var file = e && e.args.clipboardData && e.args.clipboardData.items.length > 0 ? null === e.args.clipboardData.items[0].getAsFile() ? (0, ej2_base.le)(e.args.clipboardData.items[1]) ? null : e.args.clipboardData.items[1].getAsFile() : e.args.clipboardData.items[0].getAsFile() : null;
                             if (this.parent.notify(constant.RE, {
                                 file: file,
@@ -18186,7 +18218,10 @@
                 }, PasteCleanup.prototype.popupClose = function(popupObj, uploadObj, imgElem, e) {
                     var _this = this;
                     this.parent.inputElement.contentEditable = 'true', e.element = imgElem, this.parent.trigger(constant.AL, e, function(e) {
-                        (0, ej2_base.le)(_this.parent.insertImageSettings.path) || (imgElem.src = _this.parent.insertImageSettings.path + e.file.name, imgElem.setAttribute('alt', e.file.name));
+                        if (!(0, ej2_base.le)(_this.parent.insertImageSettings.path)) {
+                            var url = _this.parent.insertImageSettings.path + e.file.name;
+                            imgElem.src = url, imgElem.setAttribute('alt', e.file.name);
+                        }
                     }), popupObj.close(), imgElem.style.opacity = '1', uploadObj.destroy(), this.toolbarEnableDisable(!1);
                 }, PasteCleanup.prototype.refreshPopup = function(imageElement, popupObj) {
                     (this.parent.iframeSettings.enable ? this.parent.element.offsetTop + imageElement.offsetTop : imageElement.offsetTop) > this.parent.element.offsetTop + this.parent.element.offsetHeight ? (popupObj.relateTo = this.parent.inputElement, popupObj.offsetY = this.parent.iframeSettings.enable ? -30 : -65, popupObj.element.style.display = 'block') : popupObj && (popupObj.refreshPosition(imageElement), popupObj.element.style.display = 'block');
@@ -18381,7 +18416,10 @@
                     for(var i = 0; i < deniedTags.length; i++)if (deniedTags[i].split('[').length > 1) {
                         for(var userAttributes = deniedTags[i].split('[')[1].split(']')[0].split(','), allowedAttributeArray = [], deniedAttributeArray = [], j = 0; j < userAttributes.length; j++)0 > userAttributes[j].indexOf('!') ? allowedAttributeArray.push(userAttributes[j].trim()) : deniedAttributeArray.push(userAttributes[j].split('!')[1].trim());
                         var allowedAttribute = allowedAttributeArray.length > 1 ? allowedAttributeArray.join('][') : allowedAttributeArray.join(), deniedAttribute = deniedAttributeArray.length > 1 ? deniedAttributeArray.join('][') : deniedAttributeArray.join();
-                        deniedTags[i] = deniedAttribute.length > 0 ? ('' !== allowedAttribute ? deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']' : deniedTags[i].split('[')[0]) + ':not([' + deniedAttribute + '])' : deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']';
+                        if (deniedAttribute.length > 0) {
+                            var select = '' !== allowedAttribute ? deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']' : deniedTags[i].split('[')[0];
+                            deniedTags[i] = select + ':not([' + deniedAttribute + '])';
+                        } else deniedTags[i] = deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']';
                     }
                     return deniedTags;
                 }, PasteCleanup.prototype.deniedTags = function(clipBoardElem) {
@@ -20528,7 +20566,7 @@
                     ], ROOT);
                 }, Tooltip.prototype.formatPosition = function() {
                     var _a, _b;
-                    0 === this.position.indexOf('Top') || 0 === this.position.indexOf('Bottom') ? (this.tooltipPositionY = (_a = this.position.split(/(?=[A-Z])/))[0], this.tooltipPositionX = _a[1]) : (this.tooltipPositionX = (_b = this.position.split(/(?=[A-Z])/))[0], this.tooltipPositionY = _b[1]);
+                    0 === this.position.indexOf('Top') || 0 === this.position.indexOf('Bottom') ? (_a = this.position.split(/(?=[A-Z])/), this.tooltipPositionY = _a[0], this.tooltipPositionX = _a[1]) : (_b = this.position.split(/(?=[A-Z])/), this.tooltipPositionX = _b[0], this.tooltipPositionY = _b[1]);
                 }, Tooltip.prototype.renderArrow = function() {
                     this.setTipClass(this.position);
                     var tip = this.createElement('div', {
@@ -20877,7 +20915,8 @@
                     ], POPUP_OPEN), this.adjustArrow(event.target, this.position, this.tooltipPositionX, this.tooltipPositionY);
                     var pos = this.calculateTooltipOffset(this.position), x = eventPageX + pos.left + this.offsetX, y = eventPageY + pos.top + this.offsetY, elePos = this.checkCollision(event.target, x, y);
                     if (this.tooltipPositionX !== elePos.horizontal || this.tooltipPositionY !== elePos.vertical) {
-                        elePos.position = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
+                        var newpos = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical;
+                        elePos.position = newpos, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
                         var colpos = this.calculateTooltipOffset(elePos.position);
                         elePos.left = eventPageX + colpos.left - this.offsetX, elePos.top = eventPageY + colpos.top - this.offsetY;
                     }
@@ -21426,7 +21465,8 @@
                         _this.addTooltipClass(observedArgs.text), text !== observedArgs.text && (_this.customAriaText = observedArgs.text, _this.tooltipObj.content = observedArgs.text, _this.setAriaAttrValue(_this.firstHandle), 'Range' === _this.type && _this.setAriaAttrValue(_this.secondHandle));
                     }), this.isMaterialTooltip && this.setPreviousVal('change', this.value));
                 }, Slider.prototype.setTooltipContent = function() {
-                    this.tooltipObj.content = this.formatContent(this.tooltipFormatInfo, !1);
+                    var content;
+                    content = this.formatContent(this.tooltipFormatInfo, !1), this.tooltipObj.content = content;
                 }, Slider.prototype.formatContent = function(formatInfo, ariaContent) {
                     var content = '', handle1 = this.handleVal1, handle2 = this.handleVal2;
                     return (!(0, ej2_base.le)(this.customValues) && this.customValues.length > 0 && (handle1 = this.customValues[this.handleVal1], handle2 = this.customValues[this.handleVal2]), ariaContent) ? 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base.le)(this.tooltip) || (0, ej2_base.le)(this.tooltip.format) ? handle2.toString() + ' - ' + handle1.toString() : this.formatString(handle2, formatInfo).elementVal + ' - ' + this.formatString(handle1, formatInfo).elementVal : (0, ej2_base.le)(this.tooltip) || (0, ej2_base.le)(this.tooltip.format) ? handle1.toString() + ' - ' + handle2.toString() : this.formatString(handle1, formatInfo).elementVal + ' - ' + this.formatString(handle2, formatInfo).elementVal : (0, ej2_base.le)(handle1) || (content = (0, ej2_base.le)(this.tooltip) || (0, ej2_base.le)(this.tooltip.format) ? handle1.toString() : this.formatString(handle1, formatInfo).elementVal) : 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base.le)(formatInfo.format) ? handle2.toString() + ' - ' + handle1.toString() : this.formatString(handle2, formatInfo).formatString + ' - ' + this.formatString(handle1, formatInfo).formatString : (0, ej2_base.le)(formatInfo.format) ? handle1.toString() + ' - ' + handle2.toString() : this.formatString(handle1, formatInfo).formatString + ' - ' + this.formatString(handle2, formatInfo).formatString : (0, ej2_base.le)(handle1) || (content = (0, ej2_base.le)(formatInfo.format) ? handle1.toString() : this.formatString(handle1, formatInfo).formatString), content;
@@ -21845,7 +21885,7 @@
                     ], this.enableRtl && 'Vertical' !== this.orientation ? (this.handleVal1 = this.checkHandleValue(this.value[1]), this.handleVal2 = this.checkHandleValue(this.value[0])) : (this.handleVal1 = this.checkHandleValue(this.value[0]), this.handleVal2 = this.checkHandleValue(this.value[1])), this.handlePos1 = this.checkHandlePosition(this.handleVal1), this.handlePos2 = this.checkHandlePosition(this.handleVal2), this.handlePos1 > this.handlePos2 && (this.handlePos1 = this.handlePos2, this.handleVal1 = this.handleVal2), this.preHandlePos1 = this.handlePos1, this.preHandlePos2 = this.handlePos2, this.limits.enabled) {
                         this.activeHandle = 1;
                         var values_1 = this.getLimitValueAndPosition(this.handleVal1, this.limits.minStart, this.limits.minEnd);
-                        this.handleVal1 = values_1[0], this.handlePos1 = values_1[1], this.preHandlePos1 = this.handlePos1, this.activeHandle = 2, this.handleVal2 = (values_1 = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd))[0], this.handlePos2 = values_1[1], this.preHandlePos2 = this.handlePos2;
+                        this.handleVal1 = values_1[0], this.handlePos1 = values_1[1], this.preHandlePos1 = this.handlePos1, this.activeHandle = 2, values_1 = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd), this.handleVal2 = values_1[0], this.handlePos2 = values_1[1], this.preHandlePos2 = this.handlePos2;
                     }
                 }, Slider.prototype.checkHandlePosition = function(value) {
                     var pos;
@@ -21962,7 +22002,7 @@
                             y: yPostion - this.firstPartRemain
                         }, this.handlePos2 = this.xyToPosition(pos), this.handleVal2 = this.positionToValue(this.handlePos2), this.limits.enabled) {
                             var _a, _b, pos, xPostion, yPostion, value = this.getLimitValueAndPosition(this.handleVal1, this.limits.minStart, this.limits.minEnd);
-                            this.handleVal1 = value[0], this.handlePos1 = value[1], this.handleVal1 === this.limits.minEnd && this.handleValueAdjust(this.handleVal1, this.limits.minEnd, 1), this.handleVal1 === this.limits.minStart && this.handleValueAdjust(this.handleVal1, this.limits.minStart, 1), this.handleVal2 = (value = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd))[0], this.handlePos2 = value[1], this.handleVal2 === this.limits.maxStart && this.handleValueAdjust(this.handleVal2, this.limits.maxStart, 2), this.handleVal2 === this.limits.maxEnd && this.handleValueAdjust(this.handleVal2, this.limits.maxEnd, 2);
+                            this.handleVal1 = value[0], this.handlePos1 = value[1], this.handleVal1 === this.limits.minEnd && this.handleValueAdjust(this.handleVal1, this.limits.minEnd, 1), this.handleVal1 === this.limits.minStart && this.handleValueAdjust(this.handleVal1, this.limits.minStart, 1), value = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd), this.handleVal2 = value[0], this.handlePos2 = value[1], this.handleVal2 === this.limits.maxStart && this.handleValueAdjust(this.handleVal2, this.limits.maxStart, 2), this.handleVal2 === this.limits.maxEnd && this.handleValueAdjust(this.handleVal2, this.limits.maxEnd, 2);
                         }
                         this.handleVal2 === this.max && this.handleValueAdjust(this.handleVal2, this.max, 2), this.handleVal1 === this.min && this.handleValueAdjust(this.handleVal1, this.min, 1);
                     }
@@ -26954,7 +26994,7 @@
                     }
                 }, CheckBox.prototype.preRender = function() {
                     var element = this.element;
-                    this.tagName = this.element.tagName, this.element = element = (0, common.Rm)(this.createElement, 'EJS-CHECKBOX', 'checkbox', element, WRAPPER, 'checkbox'), 'checkbox' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'checkbox'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName()));
+                    this.tagName = this.element.tagName, element = (0, common.Rm)(this.createElement, 'EJS-CHECKBOX', 'checkbox', element, WRAPPER, 'checkbox'), this.element = element, 'checkbox' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'checkbox'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName()));
                 }, CheckBox.prototype.render = function() {
                     this.initWrapper(), this.initialize(), this.disabled || this.wireEvents(), this.updateHtmlAttributeToWrapper(), this.updateVueArrayModel(!0), this.renderComplete(), this.wrapper = this.getWrapper();
                 }, CheckBox.prototype.setDisabled = function() {
@@ -27194,9 +27234,9 @@
                         id: this.rteID + '_linkContent'
                     }), htmlTextbox = 'HTML' === this.parent.editorMode ? '<label>' + linkTooltip + '</label></div><div class="e-rte-field ' + this.parent.cssClass + '"><input type="text" data-role ="none" spellcheck="false" placeholder = "' + title + '" class="e-input e-rte-linkTitle ' + this.parent.cssClass + '"></div><div class="e-rte-label ' + this.parent.cssClass + '"></div><div class="e-rte-field ' + this.parent.cssClass + '"><input type="checkbox" class="e-rte-linkTarget ' + this.parent.cssClass + '"  data-role ="none"></div>' : '', content = '<div class="e-rte-label ' + this.parent.cssClass + '"><label>' + linkWebAddress + '</label></div><div class="e-rte-field ' + this.parent.cssClass + '"><input type="text" data-role ="none" spellcheck="false" placeholder="' + urlPlace + '" class="e-input e-rte-linkurl ' + this.parent.cssClass + '"/></div><div class="e-rte-label ' + this.parent.cssClass + '"><label>' + linkDisplayText + '</label></div><div class="e-rte-field ' + this.parent.cssClass + '"> <input type="text" data-role ="none" spellcheck="false" class="e-input e-rte-linkText ' + this.parent.cssClass + '" placeholder="' + textPlace + '"></div><div class="e-rte-label ' + this.parent.cssClass + '">' + htmlTextbox, contentElem = (0, util.dW)(content);
                     linkContent.appendChild(contentElem);
-                    var linkTarget = linkContent.querySelector('.e-rte-linkTarget'), linkUrl = linkContent.querySelector('.e-rte-linkurl'), linkText = linkContent.querySelector('.e-rte-linkText'), linkTitle = linkContent.querySelector('.e-rte-linkTitle');
+                    var linkTarget = linkContent.querySelector('.e-rte-linkTarget'), linkUrl = linkContent.querySelector('.e-rte-linkurl'), linkText = linkContent.querySelector('.e-rte-linkText'), linkTitle = linkContent.querySelector('.e-rte-linkTitle'), linkOpenLabel = this.i10n.getConstant('linkOpenInNewWindow');
                     this.checkBoxObj = new CheckBox({
-                        label: this.i10n.getConstant('linkOpenInNewWindow'),
+                        label: linkOpenLabel,
                         checked: !0,
                         enableRtl: this.parent.enableRtl,
                         cssClass: this.parent.cssClass
@@ -27682,7 +27722,13 @@
                     this.resizeBtnStat.column ? (this.helper.classList.add('e-column-helper'), this.helper.style.cssText = 'height: ' + getComputedStyle(this.curTable).height + '; top: ' + pos.top + 'px; left:' + (pos.left + this.calcPos(this.columnEle).left + ('last' === this.currentColumnResize ? this.columnEle.offsetWidth + 2 : 0) - 1) + 'px;') : (this.helper.classList.add('e-row-helper'), this.helper.style.cssText = 'width: ' + getComputedStyle(this.curTable).width + '; top: ' + (this.calcPos(this.rowEle).top + pos.top + this.rowEle.offsetHeight) + 'px; left:' + (this.calcPos(this.rowEle).left + pos.left) + 'px;');
                 }, Table.prototype.updateHelper = function() {
                     var pos = this.calcPos(this.curTable);
-                    this.resizeBtnStat.column ? this.helper.style.left = pos.left + this.calcPos(this.columnEle).left + ('last' === this.currentColumnResize ? this.columnEle.offsetWidth + 2 : 0) - 1 + 'px' : this.helper.style.top = this.calcPos(this.rowEle).top + pos.top + this.rowEle.offsetHeight + 'px';
+                    if (this.resizeBtnStat.column) {
+                        var left = pos.left + this.calcPos(this.columnEle).left + ('last' === this.currentColumnResize ? this.columnEle.offsetWidth + 2 : 0) - 1;
+                        this.helper.style.left = left + 'px';
+                    } else {
+                        var top_1 = this.calcPos(this.rowEle).top + pos.top + this.rowEle.offsetHeight;
+                        this.helper.style.top = top_1 + 'px';
+                    }
                 }, Table.prototype.calMaxCol = function(element) {
                     for(var maxRowIndex, max = 0, i = 0; i < element.rows.length; i++)max < element.rows[i].cells.length && (maxRowIndex = i, max = element.rows[i].cells.length);
                     return maxRowIndex;
@@ -27724,7 +27770,11 @@
                                 _this.parent.preventDefaultResize(e);
                                 var height = parseFloat(_this.rowEle.clientHeight.toString()) + mouseY;
                                 height > 20 && (_this.rowEle.style.height = height + 'px'), _this.curTable.style.height = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(tableReBox) || (tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;'), _this.updateHelper();
-                            } else _this.resizeBtnStat.tableBox && (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.remove(_this.contentModule.getEditPanel(), 'mouseover', _this.resizeHelper), _this.curTable.style.width = _this.curTable.style.width.indexOf('%') > -1 ? _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) + '%' : tableWidth + mouseX + 'px', _this.curTable.style.height = tableHeight + mouseY + 'px', tableReBox.classList.add('e-rbox-select'), tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;');
+                            } else if (_this.resizeBtnStat.tableBox) {
+                                _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.remove(_this.contentModule.getEditPanel(), 'mouseover', _this.resizeHelper);
+                                var widthType = _this.curTable.style.width.indexOf('%') > -1;
+                                _this.curTable.style.width = widthType ? _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) + '%' : tableWidth + mouseX + 'px', _this.curTable.style.height = tableHeight + mouseY + 'px', tableReBox.classList.add('e-rbox-select'), tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;';
+                            }
                         }
                     });
                 }, Table.prototype.findFirstLastColCells = function(table, isFirst) {

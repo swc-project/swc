@@ -19,10 +19,10 @@
         return item;
     }, exports.Parser = function(superClass) {
         function Parser(opts) {
-            var key, ref;
+            var key, ref, value;
             if (this.parseStringPromise = bind(this.parseStringPromise, this), this.parseString = bind(this.parseString, this), this.reset = bind(this.reset, this), this.assignOrPush = bind(this.assignOrPush, this), this.processAsync = bind(this.processAsync, this), !(this instanceof exports.Parser)) return new exports.Parser(opts);
-            for(key in this.options = {}, ref = defaults["0.2"])hasProp.call(ref, key) && (this.options[key] = ref[key]);
-            for(key in opts)hasProp.call(opts, key) && (this.options[key] = opts[key]);
+            for(key in this.options = {}, ref = defaults["0.2"])hasProp.call(ref, key) && (value = ref[key], this.options[key] = value);
+            for(key in opts)hasProp.call(opts, key) && (value = opts[key], this.options[key] = value);
             this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (this.options.tagNameProcessors || (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors.normalize)), this.reset();
         }
         return extend(Parser, superClass), Parser.prototype.processAsync = function() {
@@ -77,12 +77,12 @@
                     } else node = {}, _this3.options.attrkey in obj && (node[_this3.options.attrkey] = obj[_this3.options.attrkey], delete obj[_this3.options.attrkey]), !_this3.options.charsAsChildren && _this3.options.charkey in obj && (node[_this3.options.charkey] = obj[_this3.options.charkey], delete obj[_this3.options.charkey]), Object.getOwnPropertyNames(obj).length > 0 && (node[_this3.options.childkey] = obj), obj = node;
                 }
                 return stack.length > 0 ? _this3.assignOrPush(s, nodeName, obj) : (_this3.options.explicitRoot && (old = obj, obj = {}, obj[nodeName] = old), _this3.resultObject = obj, _this3.saxParser.ended = !0, _this3.emit("end", _this3.resultObject));
-            }), _this4 = this, this.saxParser.ontext = ontext = function(text) {
+            }), _this4 = this, ontext = function(text) {
                 var charChild, s;
                 if (s = stack[stack.length - 1]) return s[charkey] += text, _this4.options.explicitChildren && _this4.options.preserveChildrenOrder && _this4.options.charsAsChildren && (_this4.options.includeWhiteChars || "" !== text.replace(/\\n/g, "").trim()) && (s[_this4.options.childkey] = s[_this4.options.childkey] || [], charChild = {
                     "#name": "__text__"
                 }, charChild[charkey] = text, _this4.options.normalize && (charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim()), s[_this4.options.childkey].push(charChild)), s;
-            }, this.saxParser.oncdata = function(text) {
+            }, this.saxParser.ontext = ontext, this.saxParser.oncdata = function(text) {
                 var s;
                 if (s = ontext(text)) return s.cdata = !0;
             };

@@ -312,9 +312,9 @@
                 return !stack;
             },
             fireWith: function(context, args) {
-                return args = [
+                return args = args || [], args = [
                     context,
-                    (args = args || []).slice ? args.slice() : args
+                    args.slice ? args.slice() : args
                 ], list && (!fired || stack) && (firing ? stack.push(args) : fire(args)), this;
             },
             fire: function() {
@@ -444,11 +444,11 @@
             var i, l, thisCache, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[jQuery.expando] : jQuery.expando;
             if (cache[id]) {
                 if (name1 && (thisCache = pvt ? cache[id] : cache[id].data)) {
-                    for(i = 0, l = (name1 = jQuery.isArray(name1) ? name1.concat(jQuery.map(name1, jQuery.camelCase)) : (name1 in thisCache) ? [
+                    for(jQuery.isArray(name1) ? name1 = name1.concat(jQuery.map(name1, jQuery.camelCase)) : (name1 in thisCache) ? name1 = [
                         name1
-                    ] : ((name1 = jQuery.camelCase(name1)) in thisCache) ? [
+                    ] : (name1 = jQuery.camelCase(name1), name1 = (name1 in thisCache) ? [
                         name1
-                    ] : name1.split(" ")).length; i < l; i++)delete thisCache[name1[i]];
+                    ] : name1.split(" ")), i = 0, l = name1.length; i < l; i++)delete thisCache[name1[i]];
                     if (!(pvt ? isEmptyDataObject : jQuery.isEmptyObject)(thisCache)) return;
                 }
                 (pvt || (delete cache[id].data, isEmptyDataObject(cache[id]))) && (isNode ? jQuery.cleanData([
@@ -742,17 +742,17 @@
             if (!jQuery.nodeName(elem, "input")) return nodeHook && nodeHook.set(elem, value, name1);
             elem.defaultValue = value;
         }
-    }), getSetAttribute || (jQuery.attrHooks.contenteditable = {
-        get: (nodeHook = jQuery.valHooks.button = {
-            get: function(elem, name1) {
-                var ret = elem.getAttributeNode(name1);
-                return ret && ("id" === name1 || "name" === name1 || "coords" === name1 ? "" !== ret.value : ret.specified) ? ret.value : undefined;
-            },
-            set: function(elem, value, name1) {
-                var ret = elem.getAttributeNode(name1);
-                return ret || elem.setAttributeNode(ret = elem.ownerDocument.createAttribute(name1)), ret.value = value += "", "value" === name1 || value === elem.getAttribute(name1) ? value : undefined;
-            }
-        }).get,
+    }), getSetAttribute || (nodeHook = jQuery.valHooks.button = {
+        get: function(elem, name1) {
+            var ret = elem.getAttributeNode(name1);
+            return ret && ("id" === name1 || "name" === name1 || "coords" === name1 ? "" !== ret.value : ret.specified) ? ret.value : undefined;
+        },
+        set: function(elem, value, name1) {
+            var ret = elem.getAttributeNode(name1);
+            return ret || elem.setAttributeNode(ret = elem.ownerDocument.createAttribute(name1)), ret.value = value += "", "value" === name1 || value === elem.getAttribute(name1) ? value : undefined;
+        }
+    }, jQuery.attrHooks.contenteditable = {
+        get: nodeHook.get,
         set: function(elem, value, name1) {
             nodeHook.set(elem, "" !== value && value, name1);
         }
@@ -829,7 +829,7 @@
         add: function(elem, types, handler, data, selector) {
             var tmp, events, t, handleObjIn, special, eventHandle, handleObj, handlers, type, namespaces, origType, elemData = jQuery._data(elem);
             if (elemData) {
-                for(handler.handler && (handler = (handleObjIn = handler).handler, selector = handleObjIn.selector), handler.guid || (handler.guid = jQuery.guid++), (events = elemData.events) || (events = elemData.events = {}), (eventHandle = elemData.handle) || (eventHandle = elemData.handle = function(e) {
+                for(handler.handler && (handleObjIn = handler, handler = handleObjIn.handler, selector = handleObjIn.selector), handler.guid || (handler.guid = jQuery.guid++), (events = elemData.events) || (events = elemData.events = {}), (eventHandle = elemData.handle) || (eventHandle = elemData.handle = function(e) {
                     return e && jQuery.event.triggered === e.type ? undefined : jQuery.event.dispatch.apply(eventHandle.elem, arguments);
                 }, eventHandle.elem = elem), t = (types = (types || "").match(core_rnotwhite) || [
                     ""
@@ -867,7 +867,7 @@
                 elem || document
             ], type = core_hasOwn.call(event, "type") ? event.type : event, namespaces = core_hasOwn.call(event, "namespace") ? event.namespace.split(".") : [];
             if (cur = tmp = elem = elem || document, !(3 === elem.nodeType || 8 === elem.nodeType || rfocusMorph.test(type + jQuery.event.triggered))) {
-                if (type.indexOf(".") >= 0 && (type = (namespaces = type.split(".")).shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event), event.isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
+                if (type.indexOf(".") >= 0 && (namespaces = type.split("."), type = namespaces.shift(), namespaces.sort()), ontype = 0 > type.indexOf(":") && "on" + type, event = event[jQuery.expando] ? event : new jQuery.Event(type, "object" == typeof event && event), event.isTrigger = !0, event.namespace = namespaces.join("."), event.namespace_re = event.namespace ? RegExp("(^|\\.)" + namespaces.join("\\.(?:.*\\.|)") + "(\\.|$)") : null, event.result = undefined, event.target || (event.target = elem), data = null == data ? [
                     event
                 ] : jQuery.makeArray(data, [
                     event
@@ -917,7 +917,7 @@
         fix: function(event) {
             if (event[jQuery.expando]) return event;
             var i, prop, copy, type = event.type, originalEvent = event, fixHook = this.fixHooks[type];
-            for(fixHook || (this.fixHooks[type] = fixHook = rmouseEvent.test(type) ? this.mouseHooks : rkeyEvent.test(type) ? this.keyHooks : {}), copy = fixHook.props ? this.props.concat(fixHook.props) : this.props, event = new jQuery.Event(originalEvent), i = copy.length; i--;)event[prop] = originalEvent[prop = copy[i]];
+            for(fixHook || (this.fixHooks[type] = fixHook = rmouseEvent.test(type) ? this.mouseHooks : rkeyEvent.test(type) ? this.keyHooks : {}), copy = fixHook.props ? this.props.concat(fixHook.props) : this.props, event = new jQuery.Event(originalEvent), i = copy.length; i--;)prop = copy[i], event[prop] = originalEvent[prop];
             return event.target || (event.target = originalEvent.srcElement || document), 3 === event.target.nodeType && (event.target = event.target.parentNode), event.metaKey = !!event.metaKey, fixHook.filter ? fixHook.filter(event, originalEvent) : event;
         },
         props: "altKey bubbles cancelable ctrlKey currentTarget eventPhase metaKey relatedTarget shiftKey target timeStamp view which".split(" "),
@@ -2069,10 +2069,10 @@
                     elem
                 ] : elem);
                 else if (rhtml.test(elem)) {
-                    for(tmp = tmp || safe.appendChild(context.createElement("div")), tmp.innerHTML = (wrap = wrapMap[tag = (rtagName.exec(elem) || [
+                    for(tmp = tmp || safe.appendChild(context.createElement("div")), wrap = wrapMap[tag = (rtagName.exec(elem) || [
                         "",
                         ""
-                    ])[1].toLowerCase()] || wrapMap._default)[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2], j = wrap[0]; j--;)tmp = tmp.lastChild;
+                    ])[1].toLowerCase()] || wrapMap._default, tmp.innerHTML = wrap[1] + elem.replace(rxhtmlTag, "<$1></$2>") + wrap[2], j = wrap[0]; j--;)tmp = tmp.lastChild;
                     if (!jQuery.support.leadingWhitespace && rleadingWhitespace.test(elem) && nodes.push(context.createTextNode(rleadingWhitespace.exec(elem)[0])), !jQuery.support.tbody) for(j = (elem = "table" !== tag || rtbody.test(elem) ? "<table>" !== wrap[1] || rtbody.test(elem) ? 0 : tmp : tmp.firstChild) && elem.childNodes.length; j--;)jQuery.nodeName(tbody = elem.childNodes[j], "tbody") && !tbody.childNodes.length && elem.removeChild(tbody);
                     for(jQuery.merge(nodes, tmp.childNodes), tmp.textContent = ""; tmp.firstChild;)tmp.removeChild(tmp.firstChild);
                     tmp = safe.lastChild;
@@ -2139,7 +2139,7 @@
     }
     function css_defaultDisplay(nodeName) {
         var doc = document, display = elemdisplay[nodeName];
-        return display || ("none" !== (display = actualDisplay(nodeName, doc)) && display || ((doc = ((iframe = (iframe || jQuery("<iframe frameborder='0' width='0' height='0'/>").css("cssText", "display:block !important")).appendTo(doc.documentElement))[0].contentWindow || iframe[0].contentDocument).document).write("<!doctype html><html><body>"), doc.close(), display = actualDisplay(nodeName, doc), iframe.detach()), elemdisplay[nodeName] = display), display;
+        return display || ("none" !== (display = actualDisplay(nodeName, doc)) && display || (iframe = (iframe || jQuery("<iframe frameborder='0' width='0' height='0'/>").css("cssText", "display:block !important")).appendTo(doc.documentElement), (doc = (iframe[0].contentWindow || iframe[0].contentDocument).document).write("<!doctype html><html><body>"), doc.close(), display = actualDisplay(nodeName, doc), iframe.detach()), elemdisplay[nodeName] = display), display;
     }
     function actualDisplay(name1, doc) {
         var elem = jQuery(doc.createElement(name1)).appendTo(doc.body), display = jQuery.css(elem[0], "display");
@@ -2343,7 +2343,7 @@
         return function(dataTypeExpression, func) {
             "string" != typeof dataTypeExpression && (func = dataTypeExpression, dataTypeExpression = "*");
             var dataType, i = 0, dataTypes = dataTypeExpression.toLowerCase().match(core_rnotwhite) || [];
-            if (jQuery.isFunction(func)) for(; dataType = dataTypes[i++];)"+" === dataType[0] ? (structure[dataType] = structure[dataType = dataType.slice(1) || "*"] || []).unshift(func) : (structure[dataType] = structure[dataType] || []).push(func);
+            if (jQuery.isFunction(func)) for(; dataType = dataTypes[i++];)"+" === dataType[0] ? (dataType = dataType.slice(1) || "*", (structure[dataType] = structure[dataType] || []).unshift(func)) : (structure[dataType] = structure[dataType] || []).push(func);
         };
     }
     function inspectPrefiltersOrTransports(structure, options, originalOptions, jqXHR) {
@@ -2487,7 +2487,7 @@
             };
             if (deferred.promise(jqXHR).complete = completeDeferred.add, jqXHR.success = jqXHR.done, jqXHR.error = jqXHR.fail, s.url = ((url || s.url || ajaxLocation) + "").replace(rhash, "").replace(rprotocol, ajaxLocParts[1] + "//"), s.type = options.method || options.type || s.method || s.type, s.dataTypes = jQuery.trim(s.dataType || "*").toLowerCase().match(core_rnotwhite) || [
                 ""
-            ], null == s.crossDomain && (s.crossDomain = !!((parts = rurl.exec(s.url.toLowerCase())) && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || ("http:" === parts[1] ? 80 : 443)) != (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))))), s.data && s.processData && "string" != typeof s.data && (s.data = jQuery.param(s.data, s.traditional)), inspectPrefiltersOrTransports(prefilters, s, options, jqXHR), 2 === state) return jqXHR;
+            ], null == s.crossDomain && (parts = rurl.exec(s.url.toLowerCase()), s.crossDomain = !!(parts && (parts[1] !== ajaxLocParts[1] || parts[2] !== ajaxLocParts[2] || (parts[3] || ("http:" === parts[1] ? 80 : 443)) != (ajaxLocParts[3] || ("http:" === ajaxLocParts[1] ? 80 : 443))))), s.data && s.processData && "string" != typeof s.data && (s.data = jQuery.param(s.data, s.traditional)), inspectPrefiltersOrTransports(prefilters, s, options, jqXHR), 2 === state) return jqXHR;
             for(i in (fireGlobals = s.global) && 0 == jQuery.active++ && jQuery.event.trigger("ajaxStart"), s.type = s.type.toUpperCase(), s.hasContent = !rnoContent.test(s.type), cacheURL = s.url, s.hasContent || (s.data && (cacheURL = s.url += (ajax_rquery.test(cacheURL) ? "&" : "?") + s.data, delete s.data), !1 === s.cache && (s.url = rts.test(cacheURL) ? cacheURL.replace(rts, "$1_=" + ajax_nonce++) : cacheURL + (ajax_rquery.test(cacheURL) ? "&" : "?") + "_=" + ajax_nonce++)), s.ifModified && (jQuery.lastModified[cacheURL] && jqXHR.setRequestHeader("If-Modified-Since", jQuery.lastModified[cacheURL]), jQuery.etag[cacheURL] && jqXHR.setRequestHeader("If-None-Match", jQuery.etag[cacheURL])), (s.data && s.hasContent && !1 !== s.contentType || options.contentType) && jqXHR.setRequestHeader("Content-Type", s.contentType), jqXHR.setRequestHeader("Accept", s.dataTypes[0] && s.accepts[s.dataTypes[0]] ? s.accepts[s.dataTypes[0]] + ("*" !== s.dataTypes[0] ? ", " + allTypes + "; q=0.01" : "") : s.accepts["*"]), s.headers)jqXHR.setRequestHeader(i, s.headers[i]);
             if (s.beforeSend && (!1 === s.beforeSend.call(callbackContext, jqXHR, s) || 2 === state)) return jqXHR.abort();
             for(i in strAbort = "abort", {
@@ -2562,7 +2562,7 @@
                         state: "success",
                         data: response
                     };
-                }(s, response)).state, success = isSuccess.data, isSuccess = !(error = isSuccess.error))) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
+                }(s, response)).state, success = isSuccess.data, error = isSuccess.error, isSuccess = !error)) : (error = statusText, (status || !statusText) && (statusText = "error", status < 0 && (status = 0))), jqXHR.status = status, jqXHR.statusText = (nativeStatusText || statusText) + "", isSuccess ? deferred.resolveWith(callbackContext, [
                     success,
                     statusText,
                     jqXHR
@@ -2651,7 +2651,7 @@
                 return new window1.ActiveXObject("Microsoft.XMLHTTP");
             } catch (e) {}
         }();
-    } : createStandardXHR, jQuery.support.cors = !!(xhrSupported = jQuery.ajaxSettings.xhr()) && "withCredentials" in xhrSupported, (xhrSupported = jQuery.support.ajax = !!xhrSupported) && jQuery.ajaxTransport(function(s) {
+    } : createStandardXHR, xhrSupported = jQuery.ajaxSettings.xhr(), jQuery.support.cors = !!xhrSupported && "withCredentials" in xhrSupported, (xhrSupported = jQuery.support.ajax = !!xhrSupported) && jQuery.ajaxTransport(function(s) {
         if (!s.crossDomain || jQuery.support.cors) {
             var callback;
             return {
@@ -2808,7 +2808,7 @@
             jQuery.isFunction(props) ? (callback = props, props = [
                 "*"
             ]) : props = props.split(" ");
-            for(var prop, index = 0, length = props.length; index < length; index++)tweeners[prop] = tweeners[prop = props[index]] || [], tweeners[prop].unshift(callback);
+            for(var prop, index = 0, length = props.length; index < length; index++)prop = props[index], tweeners[prop] = tweeners[prop] || [], tweeners[prop].unshift(callback);
         },
         prefilter: function(callback, prepend) {
             prepend ? animationPrefilters.unshift(callback) : animationPrefilters.push(callback);

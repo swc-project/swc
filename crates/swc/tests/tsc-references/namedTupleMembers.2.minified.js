@@ -11,6 +11,6 @@ export function readSegment(param) {
     _param[0], _param[1];
 }
 export var val = null;
-r = q = r, y = x = y;
+q = r, r = q, x = y, y = x;
 export var argumentsOfGAsFirstArgument = f(getArgsForInjection(g));
 export var argumentsOfG = f.apply(void 0, _to_consumable_array(getArgsForInjection(g)));

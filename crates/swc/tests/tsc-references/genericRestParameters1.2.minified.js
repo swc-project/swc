@@ -15,7 +15,7 @@ function bind(f, x) {
         ].concat(_to_consumable_array(rest)));
     };
 }
-f2 = f1 = f2, f1(42, "hello", !0), f1(t3[0], t3[1], t3[2]), f1.apply(void 0, _to_consumable_array(t3)), f1.apply(void 0, [
+f1 = f2, f2 = f1, f1(42, "hello", !0), f1(t3[0], t3[1], t3[2]), f1.apply(void 0, _to_consumable_array(t3)), f1.apply(void 0, [
     42
 ].concat(_to_consumable_array(t2))), f1.apply(void 0, [
     42,

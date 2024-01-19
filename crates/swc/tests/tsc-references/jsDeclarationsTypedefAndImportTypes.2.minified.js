@@ -1,12 +1,13 @@
 //// [conn.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-module.exports = function() {
+var Conn = function() {
     function Conn() {
         _class_call_check(this, Conn), this.item = 3;
     }
     var _proto = Conn.prototype;
     return _proto.method = function() {}, Conn;
 }();
+module.exports = Conn;
 //// [usage.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 module.exports = {

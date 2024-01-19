@@ -659,7 +659,7 @@
         ]), Vector4;
     }();
     function WebGLRenderTarget(width, height, options) {
-        this.width = width, this.height = height, this.scissor = new Vector4(0, 0, width, height), this.scissorTest = !1, this.viewport = new Vector4(0, 0, width, height), this.texture = new Texture(void 0, (options = options || {}).mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.encoding), this.texture.image = {}, this.texture.image.width = width, this.texture.image.height = height, this.texture.generateMipmaps = void 0 !== options.generateMipmaps && options.generateMipmaps, this.texture.minFilter = void 0 !== options.minFilter ? options.minFilter : 1006, this.depthBuffer = void 0 === options.depthBuffer || options.depthBuffer, this.stencilBuffer = void 0 !== options.stencilBuffer && options.stencilBuffer, this.depthTexture = void 0 !== options.depthTexture ? options.depthTexture : null;
+        this.width = width, this.height = height, this.scissor = new Vector4(0, 0, width, height), this.scissorTest = !1, this.viewport = new Vector4(0, 0, width, height), options = options || {}, this.texture = new Texture(void 0, options.mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.encoding), this.texture.image = {}, this.texture.image.width = width, this.texture.image.height = height, this.texture.generateMipmaps = void 0 !== options.generateMipmaps && options.generateMipmaps, this.texture.minFilter = void 0 !== options.minFilter ? options.minFilter : 1006, this.depthBuffer = void 0 === options.depthBuffer || options.depthBuffer, this.stencilBuffer = void 0 !== options.stencilBuffer && options.stencilBuffer, this.depthTexture = void 0 !== options.depthTexture ? options.depthTexture : null;
     }
     function WebGLMultisampleRenderTarget(width, height, options) {
         WebGLRenderTarget.call(this, width, height, options), this.samples = 4;
@@ -2148,7 +2148,7 @@
         }, _proto.setScalar = function(scalar) {
             return this.r = scalar, this.g = scalar, this.b = scalar, this;
         }, _proto.setHex = function(hex) {
-            return this.r = ((hex = Math.floor(hex)) >> 16 & 255) / 255, this.g = (hex >> 8 & 255) / 255, this.b = (255 & hex) / 255, this;
+            return hex = Math.floor(hex), this.r = (hex >> 16 & 255) / 255, this.g = (hex >> 8 & 255) / 255, this.b = (255 & hex) / 255, this;
         }, _proto.setRGB = function(r, g, b) {
             return this.r = r, this.g = g, this.b = b, this;
         }, _proto.setHSL = function(h, s, l) {
@@ -3053,7 +3053,10 @@
             widthSegments = Math.floor(widthSegments), heightSegments = Math.floor(heightSegments);
             var indices = [], vertices = [], normals = [], uvs = [], numberOfVertices = 0, groupStart = 0;
             function buildPlane(u, v, w, udir, vdir, width, height, depth, gridX, gridY, materialIndex) {
-                for(var segmentWidth = width / gridX, segmentHeight = height / gridY, widthHalf = width / 2, heightHalf = height / 2, depthHalf = depth / 2, gridX1 = gridX + 1, gridY1 = gridY + 1, vertexCounter = 0, groupCount = 0, vector = new Vector3(), iy = 0; iy < gridY1; iy++)for(var y = iy * segmentHeight - heightHalf, ix = 0; ix < gridX1; ix++)vector[u] = (ix * segmentWidth - widthHalf) * udir, vector[v] = y * vdir, vector[w] = depthHalf, vertices.push(vector.x, vector.y, vector.z), vector[u] = 0, vector[v] = 0, vector[w] = depth > 0 ? 1 : -1, normals.push(vector.x, vector.y, vector.z), uvs.push(ix / gridX), uvs.push(1 - iy / gridY), vertexCounter += 1;
+                for(var segmentWidth = width / gridX, segmentHeight = height / gridY, widthHalf = width / 2, heightHalf = height / 2, depthHalf = depth / 2, gridX1 = gridX + 1, gridY1 = gridY + 1, vertexCounter = 0, groupCount = 0, vector = new Vector3(), iy = 0; iy < gridY1; iy++)for(var y = iy * segmentHeight - heightHalf, ix = 0; ix < gridX1; ix++){
+                    var x = ix * segmentWidth - widthHalf;
+                    vector[u] = x * udir, vector[v] = y * vdir, vector[w] = depthHalf, vertices.push(vector.x, vector.y, vector.z), vector[u] = 0, vector[v] = 0, vector[w] = depth > 0 ? 1 : -1, normals.push(vector.x, vector.y, vector.z), uvs.push(ix / gridX), uvs.push(1 - iy / gridY), vertexCounter += 1;
+                }
                 for(var _iy = 0; _iy < gridY; _iy++)for(var _ix = 0; _ix < gridX; _ix++){
                     var a = numberOfVertices + _ix + gridX1 * _iy, b = numberOfVertices + _ix + gridX1 * (_iy + 1), c = numberOfVertices + (_ix + 1) + gridX1 * (_iy + 1), d = numberOfVertices + (_ix + 1) + gridX1 * _iy;
                     indices.push(a, b, d), indices.push(b, c, d), groupCount += 6;
@@ -3140,7 +3143,7 @@
         images = void 0 !== images ? images : [], mapping = void 0 !== mapping ? mapping : 301, format = void 0 !== format ? format : 1022, Texture.call(this, images, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy, encoding), this.flipY = !1, this._needsFlipEnvMap = !0;
     }
     function WebGLCubeRenderTarget(size, options, dummy) {
-        Number.isInteger(options) && (console.warn('THREE.WebGLCubeRenderTarget: constructor signature is now WebGLCubeRenderTarget( size, options )'), options = dummy), WebGLRenderTarget.call(this, size, size, options), this.texture = new CubeTexture(void 0, (options = options || {}).mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.encoding), this.texture._needsFlipEnvMap = !1;
+        Number.isInteger(options) && (console.warn('THREE.WebGLCubeRenderTarget: constructor signature is now WebGLCubeRenderTarget( size, options )'), options = dummy), WebGLRenderTarget.call(this, size, size, options), options = options || {}, this.texture = new CubeTexture(void 0, options.mapping, options.wrapS, options.wrapT, options.magFilter, options.minFilter, options.format, options.type, options.anisotropy, options.encoding), this.texture._needsFlipEnvMap = !1;
     }
     function DataTexture(data, width, height, format, type, mapping, wrapS, wrapT, magFilter, minFilter, anisotropy, encoding) {
         Texture.call(this, null, mapping, wrapS, wrapT, magFilter, minFilter, format, type, anisotropy, encoding), this.image = {
@@ -4160,7 +4163,7 @@
             setup: function(object, material, program, geometry, index) {
                 var updateBuffers = !1;
                 if (vaoAvailable) {
-                    var wireframe, programMap, stateMap, state, state1 = (wireframe = !0 === material.wireframe, void 0 === (programMap = bindingStates[geometry.id]) && (bindingStates[geometry.id] = programMap = {}), void 0 === (stateMap = programMap[program.id]) && (programMap[program.id] = stateMap = {}), void 0 === (state = stateMap[wireframe]) && (stateMap[wireframe] = state = createBindingState(capabilities.isWebGL2 ? gl.createVertexArray() : extension.createVertexArrayOES())), state);
+                    var wireframe, programMap, stateMap, state, state1 = (wireframe = !0 === material.wireframe, void 0 === (programMap = bindingStates[geometry.id]) && (programMap = {}, bindingStates[geometry.id] = programMap), void 0 === (stateMap = programMap[program.id]) && (stateMap = {}, programMap[program.id] = stateMap), void 0 === (state = stateMap[wireframe]) && (state = createBindingState(capabilities.isWebGL2 ? gl.createVertexArray() : extension.createVertexArrayOES()), stateMap[wireframe] = state), state);
                     currentState !== state1 && bindVertexArrayObject((currentState = state1).object), (updateBuffers = function(geometry, index) {
                         var cachedAttributes = currentState.attributes, geometryAttributes = geometry.attributes, attributesNum = 0;
                         for(var key in geometryAttributes){
@@ -4642,7 +4645,7 @@
         var firstElem = array[0];
         if (firstElem <= 0 || firstElem > 0) return array;
         var n = nBlocks * blockSize, r = arrayCacheF32[n];
-        if (void 0 === r && (arrayCacheF32[n] = r = new Float32Array(n)), 0 !== nBlocks) {
+        if (void 0 === r && (r = new Float32Array(n), arrayCacheF32[n] = r), 0 !== nBlocks) {
             firstElem.toArray(r, 0);
             for(var i = 1, offset = 0; i !== nBlocks; ++i)offset += blockSize, array[i].toArray(r, offset);
         }
@@ -4658,7 +4661,7 @@
     }
     function allocTexUnits(textures, n) {
         var r = arrayCacheI32[n];
-        void 0 === r && (arrayCacheI32[n] = r = new Int32Array(n));
+        void 0 === r && (r = new Int32Array(n), arrayCacheI32[n] = r);
         for(var i = 0; i !== n; ++i)r[i] = textures.allocateTextureUnit();
         return r;
     }
@@ -5279,7 +5282,7 @@
             "vec4 linearToOutputTexel( vec4 value ) { return LinearTo" + (components = getEncodingComponents(parameters.outputEncoding))[0] + components[1] + '; }',
             parameters.depthPacking ? '#define DEPTH_PACKING ' + parameters.depthPacking : '',
             '\n'
-        ].filter(filterEmptyLine).join('\n')), vertexShader = replaceClippingPlaneNums(vertexShader = replaceLightNums(vertexShader = resolveIncludes(vertexShader), parameters), parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader = replaceLightNums(fragmentShader = resolveIncludes(fragmentShader), parameters), parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
+        ].filter(filterEmptyLine).join('\n')), vertexShader = resolveIncludes(vertexShader), vertexShader = replaceLightNums(vertexShader, parameters), vertexShader = replaceClippingPlaneNums(vertexShader, parameters), fragmentShader = resolveIncludes(fragmentShader), fragmentShader = replaceLightNums(fragmentShader, parameters), fragmentShader = replaceClippingPlaneNums(fragmentShader, parameters), vertexShader = unrollLoops(vertexShader), fragmentShader = unrollLoops(fragmentShader), parameters.isWebGL2 && !0 !== parameters.isRawShaderMaterial && (versionString = '#version 300 es\n', prefixVertex = "#define attribute in\n#define varying out\n#define texture2D texture\n" + prefixVertex, prefixFragment = [
             '#define varying in',
             parameters.glslVersion === GLSL3 ? '' : 'out highp vec4 pc_fragColor;',
             parameters.glslVersion === GLSL3 ? '' : '#define gl_FragColor pc_fragColor',
@@ -5594,7 +5597,7 @@
         };
         function getNextRenderItem(object, geometry, material, groupOrder, z, group) {
             var renderItem = renderItems[renderItemsIndex], materialProperties = properties.get(material);
-            return void 0 === renderItem ? renderItems[renderItemsIndex] = renderItem = {
+            return void 0 === renderItem ? (renderItem = {
                 id: object.id,
                 object: object,
                 geometry: geometry,
@@ -5604,7 +5607,7 @@
                 renderOrder: object.renderOrder,
                 z: z,
                 group: group
-            } : (renderItem.id = object.id, renderItem.object = object, renderItem.geometry = geometry, renderItem.material = material, renderItem.program = materialProperties.program || defaultProgram, renderItem.groupOrder = groupOrder, renderItem.renderOrder = object.renderOrder, renderItem.z = z, renderItem.group = group), renderItemsIndex++, renderItem;
+            }, renderItems[renderItemsIndex] = renderItem) : (renderItem.id = object.id, renderItem.object = object, renderItem.geometry = geometry, renderItem.material = material, renderItem.program = materialProperties.program || defaultProgram, renderItem.groupOrder = groupOrder, renderItem.renderOrder = object.renderOrder, renderItem.z = z, renderItem.group = group), renderItemsIndex++, renderItem;
         }
         return {
             opaque: opaque,
@@ -5911,18 +5914,18 @@
         var fullScreenMesh = new Mesh(fullScreenTri, shadowMaterialVertical), scope = this;
         function getDepthMaterialVariant(useMorphing, useSkinning, useInstancing) {
             var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2, material = _depthMaterials[index];
-            return void 0 === material && (_depthMaterials[index] = material = new MeshDepthMaterial({
+            return void 0 === material && (material = new MeshDepthMaterial({
                 depthPacking: 3201,
                 morphTargets: useMorphing,
                 skinning: useSkinning
-            })), material;
+            }), _depthMaterials[index] = material), material;
         }
         function getDistanceMaterialVariant(useMorphing, useSkinning, useInstancing) {
             var index = useMorphing << 0 | useSkinning << 1 | useInstancing << 2, material = _distanceMaterials[index];
-            return void 0 === material && (_distanceMaterials[index] = material = new MeshDistanceMaterial({
+            return void 0 === material && (material = new MeshDistanceMaterial({
                 morphTargets: useMorphing,
                 skinning: useSkinning
-            })), material;
+            }), _distanceMaterials[index] = material), material;
         }
         function getDepthMaterial(object, geometry, material, light, shadowCameraNear, shadowCameraFar, type) {
             var result = null, getMaterialVariant = getDepthMaterialVariant, customMaterial = object.customDepthMaterial;
@@ -5934,9 +5937,9 @@
             } else result = customMaterial;
             if (_renderer.localClippingEnabled && !0 === material.clipShadows && 0 !== material.clippingPlanes.length) {
                 var keyA = result.uuid, keyB = material.uuid, materialsForVariant = _materialCache[keyA];
-                void 0 === materialsForVariant && (_materialCache[keyA] = materialsForVariant = {});
+                void 0 === materialsForVariant && (materialsForVariant = {}, _materialCache[keyA] = materialsForVariant);
                 var cachedMaterial = materialsForVariant[keyB];
-                void 0 === cachedMaterial && (materialsForVariant[keyB] = cachedMaterial = result.clone()), result = cachedMaterial;
+                void 0 === cachedMaterial && (cachedMaterial = result.clone(), materialsForVariant[keyB] = cachedMaterial), result = cachedMaterial;
             }
             return result.visible = material.visible, result.wireframe = material.wireframe, result.side = 3 === type ? null !== material.shadowSide ? material.shadowSide : material.side : null !== material.shadowSide ? material.shadowSide : shadowSide[material.side], result.clipShadows = material.clipShadows, result.clippingPlanes = material.clippingPlanes, result.clipIntersection = material.clipIntersection, result.wireframeLinewidth = material.wireframeLinewidth, result.linewidth = material.linewidth, !0 === light.isPointLight && !0 === result.isMeshDistanceMaterial && (result.referencePosition.setFromMatrixPosition(light.matrixWorld), result.nearDistance = shadowCameraNear, result.farDistance = shadowCameraFar), result;
         }
@@ -6096,8 +6099,8 @@
                     locked = !1, currentStencilMask = null, currentStencilFunc = null, currentStencilRef = null, currentStencilFuncMask = null, currentStencilFail = null, currentStencilZFail = null, currentStencilZPass = null, currentStencilClear = null;
                 }
             };
-        }(), enabledCapabilities = {}, currentProgram = null, currentBlendingEnabled = null, currentBlending = null, currentBlendEquation = null, currentBlendSrc = null, currentBlendDst = null, currentBlendEquationAlpha = null, currentBlendSrcAlpha = null, currentBlendDstAlpha = null, currentPremultipledAlpha = !1, currentFlipSided = null, currentCullFace = null, currentLineWidth = null, currentPolygonOffsetFactor = null, currentPolygonOffsetUnits = null, maxTextures = gl.getParameter(35661), lineWidthAvailable = !1, glVersion = gl.getParameter(7938);
-        -1 !== glVersion.indexOf('WebGL') ? lineWidthAvailable = parseFloat(/^WebGL (\d)/.exec(glVersion)[1]) >= 1.0 : -1 !== glVersion.indexOf('OpenGL ES') && (lineWidthAvailable = parseFloat(/^OpenGL ES (\d)/.exec(glVersion)[1]) >= 2.0);
+        }(), enabledCapabilities = {}, currentProgram = null, currentBlendingEnabled = null, currentBlending = null, currentBlendEquation = null, currentBlendSrc = null, currentBlendDst = null, currentBlendEquationAlpha = null, currentBlendSrcAlpha = null, currentBlendDstAlpha = null, currentPremultipledAlpha = !1, currentFlipSided = null, currentCullFace = null, currentLineWidth = null, currentPolygonOffsetFactor = null, currentPolygonOffsetUnits = null, maxTextures = gl.getParameter(35661), lineWidthAvailable = !1, version = 0, glVersion = gl.getParameter(7938);
+        -1 !== glVersion.indexOf('WebGL') ? (version = parseFloat(/^WebGL (\d)/.exec(glVersion)[1]), lineWidthAvailable = version >= 1.0) : -1 !== glVersion.indexOf('OpenGL ES') && (version = parseFloat(/^OpenGL ES (\d)/.exec(glVersion)[1]), lineWidthAvailable = version >= 2.0);
         var currentTextureSlot = null, currentBoundTextures = {}, currentScissor = new Vector4(), currentViewport = new Vector4();
         function createTexture(type, target, count) {
             var data = new Uint8Array(4), texture = gl.createTexture();
@@ -6209,10 +6212,10 @@
             bindTexture: function(webglType, webglTexture) {
                 null === currentTextureSlot && activeTexture();
                 var boundTexture = currentBoundTextures[currentTextureSlot];
-                void 0 === boundTexture && (currentBoundTextures[currentTextureSlot] = boundTexture = {
+                void 0 === boundTexture && (boundTexture = {
                     type: void 0,
                     texture: void 0
-                }), (boundTexture.type !== webglType || boundTexture.texture !== webglTexture) && (gl.bindTexture(webglType, webglTexture || emptyTextures[webglType]), boundTexture.type = webglType, boundTexture.texture = webglTexture);
+                }, currentBoundTextures[currentTextureSlot] = boundTexture), (boundTexture.type !== webglType || boundTexture.texture !== webglTexture) && (gl.bindTexture(webglType, webglTexture || emptyTextures[webglType]), boundTexture.type = webglType, boundTexture.texture = webglTexture);
             },
             unbindTexture: function() {
                 var boundTexture = currentBoundTextures[currentTextureSlot];
@@ -6620,13 +6623,13 @@
         }
         this.enabled = !1, this.isPresenting = !1, this.getController = function(index) {
             var controller = controllers[index];
-            return void 0 === controller && (controllers[index] = controller = new WebXRController()), controller.getTargetRaySpace();
+            return void 0 === controller && (controller = new WebXRController(), controllers[index] = controller), controller.getTargetRaySpace();
         }, this.getControllerGrip = function(index) {
             var controller = controllers[index];
-            return void 0 === controller && (controllers[index] = controller = new WebXRController()), controller.getGripSpace();
+            return void 0 === controller && (controller = new WebXRController(), controllers[index] = controller), controller.getGripSpace();
         }, this.getHand = function(index) {
             var controller = controllers[index];
-            return void 0 === controller && (controllers[index] = controller = new WebXRController()), controller.getHandSpace();
+            return void 0 === controller && (controller = new WebXRController(), controllers[index] = controller), controller.getHandSpace();
         }, this.setFramebufferScaleFactor = function(value) {
             framebufferScaleFactor = value, !0 === scope.isPresenting && console.warn('THREE.WebXRManager: Cannot change framebuffer scale while presenting.');
         }, this.setReferenceSpaceType = function(value) {
@@ -6937,11 +6940,11 @@
                 materialProperties.envMap = cubemaps.get(material.envMap || environment);
                 return;
             } else programChange = !1;
-            programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), materialProperties.program = program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
+            programChange && (parameters.uniforms = programCache.getUniforms(material), material.onBeforeCompile(parameters, _this), program = programCache.acquireProgram(parameters, programCacheKey), materialProperties.program = program, materialProperties.uniforms = parameters.uniforms, materialProperties.outputEncoding = parameters.outputEncoding);
             var uniforms = materialProperties.uniforms;
             (material.isShaderMaterial || material.isRawShaderMaterial) && !0 !== material.clipping || (materialProperties.numClippingPlanes = clipping.numPlanes, materialProperties.numIntersection = clipping.numIntersection, uniforms.clippingPlanes = clipping.uniform), materialProperties.environment = material.isMeshStandardMaterial ? scene.environment : null, materialProperties.fog = scene.fog, materialProperties.envMap = cubemaps.get(material.envMap || materialProperties.environment), materialProperties.needsLights = material.isMeshLambertMaterial || material.isMeshToonMaterial || material.isMeshPhongMaterial || material.isMeshStandardMaterial || material.isShadowMaterial || material.isShaderMaterial && !0 === material.lights, materialProperties.lightsStateVersion = lightsStateVersion, materialProperties.needsLights && (uniforms.ambientLightColor.value = lights.state.ambient, uniforms.lightProbe.value = lights.state.probe, uniforms.directionalLights.value = lights.state.directional, uniforms.directionalLightShadows.value = lights.state.directionalShadow, uniforms.spotLights.value = lights.state.spot, uniforms.spotLightShadows.value = lights.state.spotShadow, uniforms.rectAreaLights.value = lights.state.rectArea, uniforms.ltc_1.value = lights.state.rectAreaLTC1, uniforms.ltc_2.value = lights.state.rectAreaLTC2, uniforms.pointLights.value = lights.state.point, uniforms.pointLightShadows.value = lights.state.pointShadow, uniforms.hemisphereLights.value = lights.state.hemi, uniforms.directionalShadowMap.value = lights.state.directionalShadowMap, uniforms.directionalShadowMatrix.value = lights.state.directionalShadowMatrix, uniforms.spotShadowMap.value = lights.state.spotShadowMap, uniforms.spotShadowMatrix.value = lights.state.spotShadowMatrix, uniforms.pointShadowMap.value = lights.state.pointShadowMap, uniforms.pointShadowMatrix.value = lights.state.pointShadowMatrix);
-            var progUniforms = materialProperties.program.getUniforms();
-            materialProperties.uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
+            var progUniforms = materialProperties.program.getUniforms(), uniformsList = WebGLUniforms.seqWithValue(progUniforms.seq, uniforms);
+            materialProperties.uniformsList = uniformsList;
         }
         function setProgram(camera, scene, material, object) {
             !0 !== scene.isScene && (scene = _emptyScene), textures.resetTextureUnits();
@@ -6966,7 +6969,9 @@
                     var bones = skeleton.bones;
                     if (capabilities.floatVertexTextures) {
                         if (null === skeleton.boneTexture) {
-                            var size = Math.sqrt(4 * bones.length), boneMatrices = new Float32Array((size = Math.max(size = MathUtils.ceilPowerOfTwo(size), 4)) * size * 4);
+                            var size = Math.sqrt(4 * bones.length);
+                            size = MathUtils.ceilPowerOfTwo(size);
+                            var boneMatrices = new Float32Array((size = Math.max(size, 4)) * size * 4);
                             boneMatrices.set(skeleton.boneMatrices);
                             var boneTexture = new DataTexture(boneMatrices, size, size, 1023, 1015);
                             skeleton.boneMatrices = boneMatrices, skeleton.boneTexture = boneTexture, skeleton.boneTextureSize = size;
@@ -6975,7 +6980,7 @@
                     } else p_uniforms.setOptional(_gl, skeleton, 'boneMatrices');
                 }
             }
-            return (refreshMaterial || materialProperties.receiveShadow !== object.receiveShadow) && (materialProperties.receiveShadow = object.receiveShadow, p_uniforms.setValue(_gl, 'receiveShadow', object.receiveShadow)), refreshMaterial && (p_uniforms.setValue(_gl, 'toneMappingExposure', _this.toneMappingExposure), materialProperties.needsLights && (m_uniforms.ambientLightColor.needsUpdate = value = refreshLights, m_uniforms.lightProbe.needsUpdate = value, m_uniforms.directionalLights.needsUpdate = value, m_uniforms.directionalLightShadows.needsUpdate = value, m_uniforms.pointLights.needsUpdate = value, m_uniforms.pointLightShadows.needsUpdate = value, m_uniforms.spotLights.needsUpdate = value, m_uniforms.spotLightShadows.needsUpdate = value, m_uniforms.rectAreaLights.needsUpdate = value, m_uniforms.hemisphereLights.needsUpdate = value), fog && material.fog && materials.refreshFogUniforms(m_uniforms, fog), materials.refreshMaterialUniforms(m_uniforms, material, _pixelRatio, _height), WebGLUniforms.upload(_gl, materialProperties.uniformsList, m_uniforms, textures)), material.isShaderMaterial && !0 === material.uniformsNeedUpdate && (WebGLUniforms.upload(_gl, materialProperties.uniformsList, m_uniforms, textures), material.uniformsNeedUpdate = !1), material.isSpriteMaterial && p_uniforms.setValue(_gl, 'center', object.center), p_uniforms.setValue(_gl, 'modelViewMatrix', object.modelViewMatrix), p_uniforms.setValue(_gl, 'normalMatrix', object.normalMatrix), p_uniforms.setValue(_gl, 'modelMatrix', object.matrixWorld), program;
+            return (refreshMaterial || materialProperties.receiveShadow !== object.receiveShadow) && (materialProperties.receiveShadow = object.receiveShadow, p_uniforms.setValue(_gl, 'receiveShadow', object.receiveShadow)), refreshMaterial && (p_uniforms.setValue(_gl, 'toneMappingExposure', _this.toneMappingExposure), materialProperties.needsLights && (value = refreshLights, m_uniforms.ambientLightColor.needsUpdate = value, m_uniforms.lightProbe.needsUpdate = value, m_uniforms.directionalLights.needsUpdate = value, m_uniforms.directionalLightShadows.needsUpdate = value, m_uniforms.pointLights.needsUpdate = value, m_uniforms.pointLightShadows.needsUpdate = value, m_uniforms.spotLights.needsUpdate = value, m_uniforms.spotLightShadows.needsUpdate = value, m_uniforms.rectAreaLights.needsUpdate = value, m_uniforms.hemisphereLights.needsUpdate = value), fog && material.fog && materials.refreshFogUniforms(m_uniforms, fog), materials.refreshMaterialUniforms(m_uniforms, material, _pixelRatio, _height), WebGLUniforms.upload(_gl, materialProperties.uniformsList, m_uniforms, textures)), material.isShaderMaterial && !0 === material.uniformsNeedUpdate && (WebGLUniforms.upload(_gl, materialProperties.uniformsList, m_uniforms, textures), material.uniformsNeedUpdate = !1), material.isSpriteMaterial && p_uniforms.setValue(_gl, 'center', object.center), p_uniforms.setValue(_gl, 'modelViewMatrix', object.modelViewMatrix), p_uniforms.setValue(_gl, 'normalMatrix', object.normalMatrix), p_uniforms.setValue(_gl, 'modelMatrix', object.matrixWorld), program;
         }
         animation.setAnimationLoop(function(time) {
             !xr.isPresenting && onAnimationFrameCallback && onAnimationFrameCallback(time);
@@ -8653,7 +8658,7 @@
             }(data, holeIndices, outerNode, dim)), data.length > 80 * dim) {
                 minX = maxX = data[0], minY = maxY = data[1];
                 for(var i = dim; i < outerLen; i += dim)x = data[i], y = data[i + 1], x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y);
-                invSize = 0 !== (invSize = Math.max(maxX - minX, maxY - minY)) ? 1 / invSize : 0;
+                invSize = Math.max(maxX - minX, maxY - minY), invSize = 0 !== invSize ? 1 / invSize : 0;
             }
             return function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
                 if (ear) {
@@ -8767,7 +8772,7 @@
         return a.x - b.x;
     }
     function zOrder(x, y, minX, minY, invSize) {
-        return (x = ((x = ((x = ((x = ((x = 32767 * (x - minX) * invSize) | x << 8) & 0x00FF00FF) | x << 4) & 0x0F0F0F0F) | x << 2) & 0x33333333) | x << 1) & 0x55555555) | (y = ((y = ((y = ((y = ((y = 32767 * (y - minY) * invSize) | y << 8) & 0x00FF00FF) | y << 4) & 0x0F0F0F0F) | y << 2) & 0x33333333) | y << 1) & 0x55555555) << 1;
+        return x = 32767 * (x - minX) * invSize, y = 32767 * (y - minY) * invSize, x = (x | x << 8) & 0x00FF00FF, x = (x | x << 4) & 0x0F0F0F0F, x = (x | x << 2) & 0x33333333, y = (y | y << 8) & 0x00FF00FF, y = (y | y << 4) & 0x0F0F0F0F, y = (y | y << 2) & 0x33333333, (x = (x | x << 1) & 0x55555555) | (y = (y | y << 1) & 0x55555555) << 1;
     }
     function pointInTriangle(ax, ay, bx, by, cx, cy, px, py) {
         return (cx - px) * (ay - py) - (ax - px) * (cy - py) >= 0 && (ax - px) * (by - py) - (bx - px) * (ay - py) >= 0 && (bx - px) * (cy - py) - (cx - px) * (by - py) >= 0;
@@ -9953,7 +9958,7 @@
                             for(var giveUpAt = i1 + 2;;){
                                 if (void 0 === t1) {
                                     if (t < t0) break forward_scan;
-                                    return this._cachedIndex = i1 = pp.length, this.afterEnd_(i1 - 1, t, t0);
+                                    return i1 = pp.length, this._cachedIndex = i1, this.afterEnd_(i1 - 1, t, t0);
                                 }
                                 if (i1 === giveUpAt) break;
                                 if (t0 = t1, t < (t1 = pp[++i1])) break seek;
@@ -9979,7 +9984,7 @@
                         t < pp[mid] ? right = mid : i1 = mid + 1;
                     }
                     if (t1 = pp[i1], void 0 === (t0 = pp[i1 - 1])) return this._cachedIndex = 0, this.beforeStart_(0, t, t1);
-                    if (void 0 === t1) return this._cachedIndex = i1 = pp.length, this.afterEnd_(i1 - 1, t0, t);
+                    if (void 0 === t1) return i1 = pp.length, this._cachedIndex = i1, this.afterEnd_(i1 - 1, t0, t);
                 }
                 this._cachedIndex = i1, this.intervalChanged_(i1, t0, t1);
             }
@@ -10509,7 +10514,8 @@
                             }) : view.buffer;
                             break;
                         case 'document':
-                            response = new DOMParser().parseFromString(data, mimeType);
+                            var parser = new DOMParser();
+                            response = parser.parseFromString(data, mimeType);
                             break;
                         case 'json':
                             response = JSON.parse(data);
@@ -10672,7 +10678,9 @@
         load: function(url, onLoad, onProgress, onError) {
             var texture = new Texture(), loader = new ImageLoader(this.manager);
             return loader.setCrossOrigin(this.crossOrigin), loader.setPath(this.path), loader.load(url, function(image) {
-                texture.image = image, texture.format = url.search(/\.jpe?g($|\?)/i) > 0 || 0 === url.search(/^data\:image\/jpeg/) ? 1022 : 1023, texture.needsUpdate = !0, void 0 !== onLoad && onLoad(texture);
+                texture.image = image;
+                var isJPEG = url.search(/\.jpe?g($|\?)/i) > 0 || 0 === url.search(/^data\:image\/jpeg/);
+                texture.format = isJPEG ? 1022 : 1023, texture.needsUpdate = !0, void 0 !== onLoad && onLoad(texture);
             }, onProgress, onError), texture;
         }
     }), Object.assign(Curve.prototype, {
@@ -11786,7 +11794,8 @@
                 } : null;
             }
             if (void 0 !== json && json.length > 0) {
-                (loader = new ImageLoader(new LoadingManager(onLoad))).setCrossOrigin(this.crossOrigin);
+                var manager = new LoadingManager(onLoad);
+                (loader = new ImageLoader(manager)).setCrossOrigin(this.crossOrigin);
                 for(var i = 0, il = json.length; i < il; i++){
                     var image = json[i], url = image.url;
                     if (Array.isArray(url)) {
@@ -12345,7 +12354,7 @@
     }(Object3D), _position$3 = new Vector3(), _quaternion$4 = new Quaternion(), _scale$2 = new Vector3(), _orientation$1 = new Vector3(), PositionalAudio = function(_Audio) {
         function PositionalAudio(listener) {
             var _this;
-            return _this.panner = (_this = _Audio.call(this, listener) || this).context.createPanner(), _this.panner.panningModel = 'HRTF', _this.panner.connect(_this.gain), _this;
+            return _this = _Audio.call(this, listener) || this, _this.panner = _this.context.createPanner(), _this.panner.panningModel = 'HRTF', _this.panner.connect(_this.gain), _this;
         }
         _inheritsLoose(PositionalAudio, _Audio);
         var _proto = PositionalAudio.prototype;
@@ -12654,7 +12663,7 @@
         },
         bind: function() {
             var targetObject = this.node, parsedPath = this.parsedPath, objectName = parsedPath.objectName, propertyName = parsedPath.propertyName, propertyIndex = parsedPath.propertyIndex;
-            if (targetObject || (this.node = targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) {
+            if (targetObject || (targetObject = PropertyBinding.findNode(this.rootNode, parsedPath.nodeName) || this.rootNode, this.node = targetObject), this.getValue = this._getValue_unavailable, this.setValue = this._setValue_unavailable, !targetObject) {
                 console.error('THREE.PropertyBinding: Trying to update node for track: ' + this.path + ' but it wasn\'t found.');
                 return;
             }
@@ -12739,7 +12748,7 @@
             for(var objects = this._objects, indicesByUUID = this._indicesByUUID, paths = this._paths, parsedPaths = this._parsedPaths, bindings = this._bindings, nBindings = bindings.length, knownObject = void 0, nObjects = objects.length, nCachedObjects = this.nCachedObjects_, i = 0, n = arguments.length; i !== n; ++i){
                 var object = arguments[i], uuid = object.uuid, index = indicesByUUID[uuid];
                 if (void 0 === index) {
-                    indicesByUUID[uuid] = index = nObjects++, objects.push(object);
+                    index = nObjects++, indicesByUUID[uuid] = index, objects.push(object);
                     for(var j = 0; j !== nBindings; ++j)bindings[j].push(new PropertyBinding(object, paths[j], parsedPaths[j]));
                 } else if (index < nCachedObjects) {
                     knownObject = objects[index];
@@ -12794,8 +12803,11 @@
             var indicesByPath = this._bindingsIndicesByPath, index = indicesByPath[path], bindings = this._bindings;
             if (void 0 !== index) return bindings[index];
             var paths = this._paths, parsedPaths = this._parsedPaths, objects = this._objects, nObjects = objects.length, nCachedObjects = this.nCachedObjects_, bindingsForPath = Array(nObjects);
-            indicesByPath[path] = index = bindings.length, paths.push(path), parsedPaths.push(parsedPath), bindings.push(bindingsForPath);
-            for(var i = nCachedObjects, n = objects.length; i !== n; ++i)bindingsForPath[i] = new PropertyBinding(objects[i], path, parsedPath);
+            index = bindings.length, indicesByPath[path] = index, paths.push(path), parsedPaths.push(parsedPath), bindings.push(bindingsForPath);
+            for(var i = nCachedObjects, n = objects.length; i !== n; ++i){
+                var object = objects[i];
+                bindingsForPath[i] = new PropertyBinding(object, path, parsedPath);
+            }
             return bindingsForPath;
         },
         unsubscribe_: function(path) {
@@ -12864,7 +12876,7 @@
             return this.warp(this._effectiveTimeScale, 0, duration);
         }, _proto.warp = function(startTimeScale, endTimeScale, duration) {
             var mixer = this._mixer, now = mixer.time, timeScale = this.timeScale, interpolant = this._timeScaleInterpolant;
-            null === interpolant && (this._timeScaleInterpolant = interpolant = mixer._lendControlInterpolant());
+            null === interpolant && (interpolant = mixer._lendControlInterpolant(), this._timeScaleInterpolant = interpolant);
             var times = interpolant.parameterPositions, values = interpolant.sampleValues;
             return times[0] = now, times[1] = now + duration, values[0] = startTimeScale / timeScale, values[1] = endTimeScale / timeScale, this;
         }, _proto.stopWarping = function() {
@@ -12936,7 +12948,7 @@
                     var loopDelta = Math.floor(time / duration);
                     time -= duration * loopDelta, loopCount += Math.abs(loopDelta);
                     var pending = this.repetitions - loopCount;
-                    if (pending <= 0) this.clampWhenFinished ? this.paused = !0 : this.enabled = !1, this.time = time = deltaTime > 0 ? duration : 0, this._mixer.dispatchEvent({
+                    if (pending <= 0) this.clampWhenFinished ? this.paused = !0 : this.enabled = !1, time = deltaTime > 0 ? duration : 0, this.time = time, this._mixer.dispatchEvent({
                         type: 'finished',
                         action: this,
                         direction: deltaTime > 0 ? 1 : -1
@@ -12961,7 +12973,7 @@
             pingPong ? (settings.endingStart = 2401, settings.endingEnd = 2401) : (settings.endingStart = atStart ? this.zeroSlopeAtStart ? 2401 : 2400 : 2402, settings.endingEnd = atEnd ? this.zeroSlopeAtEnd ? 2401 : 2400 : 2402);
         }, _proto._scheduleFading = function(duration, weightNow, weightThen) {
             var mixer = this._mixer, now = mixer.time, interpolant = this._weightInterpolant;
-            null === interpolant && (this._weightInterpolant = interpolant = mixer._lendControlInterpolant());
+            null === interpolant && (interpolant = mixer._lendControlInterpolant(), this._weightInterpolant = interpolant);
             var times = interpolant.parameterPositions, values = interpolant.sampleValues;
             return times[0] = now, values[0] = weightNow, times[1] = now + duration, values[1] = weightThen, this;
         }, AnimationAction;
@@ -12973,7 +12985,7 @@
         constructor: AnimationMixer,
         _bindAction: function(action, prototypeAction) {
             var root = action._localRoot || this._root, tracks = action._clip.tracks, nTracks = tracks.length, bindings = action._propertyBindings, interpolants = action._interpolants, rootUuid = root.uuid, bindingsByRoot = this._bindingsByRootAndName, bindingsByName = bindingsByRoot[rootUuid];
-            void 0 === bindingsByName && (bindingsByRoot[rootUuid] = bindingsByName = {});
+            void 0 === bindingsByName && (bindingsByName = {}, bindingsByRoot[rootUuid] = bindingsByName);
             for(var i = 0; i !== nTracks; ++i){
                 var track = tracks[i], trackName = track.name, binding = bindingsByName[trackName];
                 if (void 0 !== binding) bindings[i] = binding;
@@ -13082,7 +13094,7 @@
         },
         _addInactiveBinding: function(binding, rootUuid, trackName) {
             var bindingsByRoot = this._bindingsByRootAndName, bindings = this._bindings, bindingByName = bindingsByRoot[rootUuid];
-            void 0 === bindingByName && (bindingsByRoot[rootUuid] = bindingByName = {}), bindingByName[trackName] = binding, binding._cacheIndex = bindings.length, bindings.push(binding);
+            void 0 === bindingByName && (bindingByName = {}, bindingsByRoot[rootUuid] = bindingByName), bindingByName[trackName] = binding, binding._cacheIndex = bindings.length, bindings.push(binding);
         },
         _removeInactiveBinding: function(binding) {
             var bindings = this._bindings, propBinding = binding.binding, rootUuid = propBinding.rootNode.uuid, trackName = propBinding.path, bindingsByRoot = this._bindingsByRootAndName, bindingByName = bindingsByRoot[rootUuid], lastInactiveBinding = bindings[bindings.length - 1], cacheIndex = binding._cacheIndex;
@@ -13422,10 +13434,12 @@
                 var p1 = i / 32 * Math.PI * 2, p2 = j / 32 * Math.PI * 2;
                 positions.push(Math.cos(p1), Math.sin(p1), 1, Math.cos(p2), Math.sin(p2), 1);
             }
-            return geometry.setAttribute('position', new Float32BufferAttribute(positions, 3)), _this.cone = new LineSegments(geometry, new LineBasicMaterial({
+            geometry.setAttribute('position', new Float32BufferAttribute(positions, 3));
+            var material = new LineBasicMaterial({
                 fog: !1,
                 toneMapped: !1
-            })), _this.add(_this.cone), _this.update(), _this;
+            });
+            return _this.cone = new LineSegments(geometry, material), _this.add(_this.cone), _this.update(), _this;
         }
         _inheritsLoose(SpotLightHelper, _Object3D);
         var _proto = SpotLightHelper.prototype;

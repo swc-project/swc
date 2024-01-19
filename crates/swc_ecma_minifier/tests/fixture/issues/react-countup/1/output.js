@@ -52,7 +52,12 @@
                 }
                 return t.prototype.determineDirectionAndSmartEasing = function() {
                     var t = this.finalEndVal ? this.finalEndVal : this.endVal;
-                    this.countDown = this.startVal > t, Math.abs(t - this.startVal) > this.options.smartEasingThreshold ? (this.finalEndVal = t, this.endVal = t + (this.countDown ? 1 : -1) * this.options.smartEasingAmount, this.duration = this.duration / 2) : (this.endVal = t, this.finalEndVal = null), this.useEasing = !this.finalEndVal && this.options.useEasing;
+                    if (this.countDown = this.startVal > t, Math.abs(t - this.startVal) > this.options.smartEasingThreshold) {
+                        this.finalEndVal = t;
+                        var a = this.countDown ? 1 : -1;
+                        this.endVal = t + a * this.options.smartEasingAmount, this.duration = this.duration / 2;
+                    } else this.endVal = t, this.finalEndVal = null;
+                    this.useEasing = !this.finalEndVal && this.options.useEasing;
                 }, t.prototype.start = function(t) {
                     this.error || (this.callback = t, this.duration > 0 ? (this.determineDirectionAndSmartEasing(), this.paused = !1, this.rAF = requestAnimationFrame(this.count)) : this.printValue(this.endVal));
                 }, t.prototype.pauseResume = function() {

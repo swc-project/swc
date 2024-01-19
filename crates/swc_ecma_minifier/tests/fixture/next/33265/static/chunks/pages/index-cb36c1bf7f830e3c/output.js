@@ -1626,7 +1626,7 @@
                     return this.data.substring(offset, offset + count);
                 },
                 appendData: function(text) {
-                    this.nodeValue = this.data = text = this.data + text, this.length = text.length;
+                    text = this.data + text, this.nodeValue = this.data = text, this.length = text.length;
                 },
                 insertData: function(offset, text) {
                     this.replaceData(offset, 0, text);
@@ -1638,14 +1638,14 @@
                     this.replaceData(offset, count, "");
                 },
                 replaceData: function(offset, count, text) {
-                    this.nodeValue = this.data = text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.length = text.length;
+                    text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.nodeValue = this.data = text, this.length = text.length;
                 }
             }, _extends(CharacterData, Node), Text.prototype = {
                 nodeName: "#text",
                 nodeType: TEXT_NODE,
                 splitText: function(offset) {
                     var text = this.data, newText = text.substring(offset);
-                    this.data = this.nodeValue = text = text.substring(0, offset), this.length = text.length;
+                    text = text.substring(0, offset), this.data = this.nodeValue = text, this.length = text.length;
                     var newNode = this.ownerDocument.createTextNode(newText);
                     return this.parentNode && this.parentNode.insertBefore(newNode, this.nextSibling), newNode;
                 }
@@ -1997,7 +1997,7 @@
                             }
                         }
                         function position(p, m) {
-                            for(; p >= lineEnd && (m = linePattern.exec(source));)lineEnd = (lineStart = m.index) + m[0].length, locator.lineNumber++;
+                            for(; p >= lineEnd && (m = linePattern.exec(source));)lineStart = m.index, lineEnd = lineStart + m[0].length, locator.lineNumber++;
                             locator.columnNumber = p - lineStart + 1;
                         }
                         for(var lineStart = 0, lineEnd = 0, linePattern = /.*(?:\r\n?|\n)|.*$/g, locator = domBuilder.locator, parseStack = [
@@ -2373,7 +2373,7 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, parseAttributes = function(attributes) {
-                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && (attr[0] = (attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
+                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && (attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1), attr[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
             }, ParseStream = function(_Stream) {
                 function ParseStream() {
@@ -2841,9 +2841,9 @@
                                             return;
                                         }
                                         var mediaGroupType = this.manifest.mediaGroups[entry.attributes.TYPE];
-                                        mediaGroupType[entry.attributes["GROUP-ID"]] = mediaGroupType[entry.attributes["GROUP-ID"]] || {}, mediaGroup = mediaGroupType[entry.attributes["GROUP-ID"]], rendition.autoselect = !!(rendition = {
+                                        mediaGroupType[entry.attributes["GROUP-ID"]] = mediaGroupType[entry.attributes["GROUP-ID"]] || {}, mediaGroup = mediaGroupType[entry.attributes["GROUP-ID"]], rendition = {
                                             default: /yes/i.test(entry.attributes.DEFAULT)
-                                        }).default || /yes/i.test(entry.attributes.AUTOSELECT), entry.attributes.LANGUAGE && (rendition.language = entry.attributes.LANGUAGE), entry.attributes.URI && (rendition.uri = entry.attributes.URI), entry.attributes["INSTREAM-ID"] && (rendition.instreamId = entry.attributes["INSTREAM-ID"]), entry.attributes.CHARACTERISTICS && (rendition.characteristics = entry.attributes.CHARACTERISTICS), entry.attributes.FORCED && (rendition.forced = /yes/i.test(entry.attributes.FORCED)), mediaGroup[entry.attributes.NAME] = rendition;
+                                        }, rendition.autoselect = !!rendition.default || /yes/i.test(entry.attributes.AUTOSELECT), entry.attributes.LANGUAGE && (rendition.language = entry.attributes.LANGUAGE), entry.attributes.URI && (rendition.uri = entry.attributes.URI), entry.attributes["INSTREAM-ID"] && (rendition.instreamId = entry.attributes["INSTREAM-ID"]), entry.attributes.CHARACTERISTICS && (rendition.characteristics = entry.attributes.CHARACTERISTICS), entry.attributes.FORCED && (rendition.forced = /yes/i.test(entry.attributes.FORCED)), mediaGroup[entry.attributes.NAME] = rendition;
                                     },
                                     discontinuity: function() {
                                         currentTimeline += 1, currentUri.discontinuity = !0, this.manifest.discontinuityStarts.push(uris.length);
@@ -3020,9 +3020,9 @@
                     resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__.Z)((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
                 };
                 if (range || indexRange) {
-                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10);
+                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10), endRange = parseInt(ranges[1], 10);
                     segment.byterange = {
-                        length: parseInt(ranges[1], 10) - startRange + 1,
+                        length: endRange - startRange + 1,
                         offset: startRange
                     };
                 }
@@ -3424,7 +3424,8 @@
                 }
             }, parseAttributes = function(el) {
                 return el && el.attributes ? from(el.attributes).reduce(function(a, e) {
-                    return a[e.name] = (parsers[e.name] || parsers.DEFAULT)(e.value), a;
+                    var parseFn = parsers[e.name] || parsers.DEFAULT;
+                    return a[e.name] = parseFn(e.value), a;
                 }, {}) : {};
             }, keySystemsMap = {
                 "urn:uuid:1077efec-c0b2-4d02-ace3-3c1e52e2fb4b": "org.w3.clearkey",
@@ -3537,8 +3538,8 @@
                                     };
                                     var psshNode = findChildren(node, "cenc:pssh")[0];
                                     if (psshNode) {
-                                        var pssh = getContent(psshNode);
-                                        acc[keySystem].pssh = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__.Z)(pssh);
+                                        var pssh = getContent(psshNode), psshBuffer = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__.Z)(pssh);
+                                        acc[keySystem].pssh = psshBuffer;
                                     }
                                 }
                                 return acc;
@@ -3755,7 +3756,7 @@
         },
         9945: function(module) {
             var URL_REGEX, FIRST_SEGMENT_REGEX, SLASH_DOT_REGEX, SLASH_DOT_DOT_REGEX, URLToolkit;
-            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, module.exports = URLToolkit = {
+            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, URLToolkit = {
                 buildAbsoluteURL: function(baseURL, relativeURL, opts) {
                     if (opts = opts || {}, baseURL = baseURL.trim(), !(relativeURL = relativeURL.trim())) {
                         if (!opts.alwaysNormalize) return baseURL;
@@ -3807,7 +3808,7 @@
                 buildURLFromParts: function(parts) {
                     return parts.scheme + parts.netLoc + parts.path + parts.params + parts.query + parts.fragment;
                 }
-            };
+            }, module.exports = URLToolkit;
         },
         3407: function(module, __unused_webpack_exports, __webpack_require__) {
             var window1 = __webpack_require__(8908), vttjs = module.exports = {
@@ -3937,15 +3938,15 @@
                             classes.forEach(function(cl) {
                                 var bgColor = /^bg_/.test(cl), colorName = bgColor ? cl.slice(3) : cl;
                                 if (DEFAULT_COLOR_CLASS.hasOwnProperty(colorName)) {
-                                    var propName = bgColor ? "background-color" : "color";
-                                    node.style[propName] = DEFAULT_COLOR_CLASS[colorName];
+                                    var propName = bgColor ? "background-color" : "color", propValue = DEFAULT_COLOR_CLASS[colorName];
+                                    node.style[propName] = propValue;
                                 }
                             }), node.className = classes.join(" ");
                         }
                         tagStack.push(m[1]), current.appendChild(node), current = node;
                         continue;
                     }
-                    current.appendChild(window1.document.createTextNode((TEXTAREA_ELEMENT.innerHTML = s = t, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
+                    current.appendChild(window1.document.createTextNode((s = t, TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
                 }
                 return rootDiv;
             }
@@ -5087,8 +5088,8 @@
                 return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
             }, exports.toByteArray = function(b64) {
                 var tmp, i, lens = getLens(b64), validLen = lens[0], placeHoldersLen = lens[1], arr = new Arr((validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen), curByte = 0, len = placeHoldersLen > 0 ? validLen - 4 : validLen;
-                for(i = 0; i < len; i += 4)arr[curByte++] = (tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)]) >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
-                return 2 === placeHoldersLen && (arr[curByte++] = 0xff & (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4)), 1 === placeHoldersLen && (arr[curByte++] = (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2) >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
+                for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
+                return 2 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(function(uint8, start, end) {
                     for(var tmp, output = [], i = start; i < end; i += 3)output.push(lookup[(tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])) >> 18 & 0x3f] + lookup[tmp >> 12 & 0x3f] + lookup[tmp >> 6 & 0x3f] + lookup[0x3f & tmp]);
@@ -5673,7 +5674,7 @@
             }
             function base64ToBytes(str) {
                 return base64.toByteArray(function(str) {
-                    if ((str = (str = str.split("=")[0]).trim().replace(INVALID_BASE64_RE, "")).length < 2) return "";
+                    if (str = str.split("=")[0], (str = str.trim().replace(INVALID_BASE64_RE, "")).length < 2) return "";
                     for(; str.length % 4 != 0;)str += "=";
                     return str;
                 }(str));

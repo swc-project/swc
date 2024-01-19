@@ -1,2 +1,3 @@
 //// [exponentiationOperatorWithTemplateStringInvalidES6.ts]
-kj = Math.pow(kj, "234");
+var k = 10;
+k = 1000, k = Math.pow(k, "23"), k = Math.pow(k, "234"), kj = Math.pow(kj, "234");

@@ -55,7 +55,7 @@ ts1 = ts || (ts = {}), ts1.transformModule = function(context) {
     var moduleInfoMap = [], deferredExports = [], noSubstitution = [];
     return ts1.chainBundle(context, function(node) {
         if (node.isDeclarationFile || !(ts1.isEffectiveExternalModule(node, compilerOptions) || 4194304 & node.transformFlags || ts1.isJsonSourceFile(node) && ts1.hasJsonModuleEmitEnabled(compilerOptions) && ts1.outFile(compilerOptions))) return node;
-        currentSourceFile = node, moduleInfoMap[ts1.getOriginalNodeId(node)] = currentModuleInfo = ts1.collectExternalModuleInfo(context, node, resolver, compilerOptions);
+        currentSourceFile = node, currentModuleInfo = ts1.collectExternalModuleInfo(context, node, resolver, compilerOptions), moduleInfoMap[ts1.getOriginalNodeId(node)] = currentModuleInfo;
         var updated = (function(moduleKind) {
             switch(moduleKind){
                 case ts1.ModuleKind.AMD:

@@ -4,7 +4,7 @@ export var o = {
     m: 1
 };
 //// [index.js]
-var _require_o = require("./something").o;
+var _require_o = require("./something").o, a = _require_o.a, m = _require_o.m;
 module.exports = {
-    thing: _require_o.a + _require_o.m
+    thing: a + m
 };

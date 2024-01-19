@@ -1,2 +1,2 @@
 var a;
-a = {}, a.b = 1, window.test = a = null;
+a = {}, a.b = 1, a = null, window.test = a;

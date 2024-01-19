@@ -325,9 +325,9 @@
                 if (!b) throw Error("Invalid event type");
                 var h = p(e) ? !!e.capture : !!e, n = jb(a);
                 if (n || (a[cb] = n = new $a(a)), (c = n.add(b, c, d, h, f)).proxy) return c;
-                if (c.proxy = d = function a(c) {
+                if (d = function a(c) {
                     return mb.call(a.src, a.listener, c);
-                }, d.src = a, d.listener = c, a.addEventListener) Va || (e = h), void 0 === e && (e = !1), a.addEventListener(b.toString(), d, e);
+                }, c.proxy = d, d.src = a, d.listener = c, a.addEventListener) Va || (e = h), void 0 === e && (e = !1), a.addEventListener(b.toString(), d, e);
                 else if (a.attachEvent) a.attachEvent(lb(b.toString()), d);
                 else if (a.addListener && a.removeListener) a.addListener(d);
                 else throw Error("addEventListener and attachEvent are unavailable.");
@@ -419,7 +419,7 @@
                 }
                 get() {
                     let a;
-                    return 0 < this.h ? (this.h--, this.g = (a = this.g).next, a.next = null) : a = this.i(), a;
+                    return 0 < this.h ? (this.h--, a = this.g, this.g = a.next, a.next = null) : a = this.i(), a;
                 }
             }(()=>new wb(), (a)=>a.reset());
             class wb {
@@ -642,7 +642,7 @@
             }
             function dc() {}
             function M(a, b, c, d) {
-                this.l = a, this.j = b, this.m = c, this.X = d || 1, this.V = new E(this), this.P = ec, this.W = new Eb(a = Ja ? 125 : void 0), this.H = null, this.i = !1, this.s = this.A = this.v = this.K = this.F = this.Y = this.B = null, this.D = [], this.g = null, this.C = 0, this.o = this.u = null, this.N = -1, this.I = !1, this.O = 0, this.L = null, this.aa = this.J = this.$ = this.U = !1, this.h = new fc();
+                this.l = a, this.j = b, this.m = c, this.X = d || 1, this.V = new E(this), this.P = ec, a = Ja ? 125 : void 0, this.W = new Eb(a), this.H = null, this.i = !1, this.s = this.A = this.v = this.K = this.F = this.Y = this.B = null, this.D = [], this.g = null, this.C = 0, this.o = this.u = null, this.N = -1, this.I = !1, this.O = 0, this.L = null, this.aa = this.J = this.$ = this.U = !1, this.h = new fc();
             }
             function fc() {
                 this.i = null, this.g = "", this.h = !1;
@@ -752,7 +752,7 @@
                                     const G = m[4];
                                     null != G && (c.za = G, c.h.info("SVER=" + c.za));
                                     const Da = m[5];
-                                    null != Da && "number" == typeof Da && 0 < Da && (c.K = d = 1.5 * Da, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
+                                    null != Da && "number" == typeof Da && 0 < Da && (d = 1.5 * Da, c.K = d, c.h.info("backChannelRequestTimeoutMs_=" + d)), d = c;
                                     const ca = a.g;
                                     if (ca) {
                                         const Ea = ca.g ? ca.g.getResponseHeader("X-Client-Wire-Protocol") : null;
@@ -1052,7 +1052,7 @@
                 }
             };
             function gd(a) {
-                this.l = a || hd, this.j = (a = l.PerformanceNavigationTiming ? 0 < (a = l.performance.getEntriesByType("navigation")).length && ("hq" == a[0].nextHopProtocol || "h2" == a[0].nextHopProtocol) : !!(l.g && l.g.Ea && l.g.Ea() && l.g.Ea().Zb)) ? this.l : 1, this.g = null, 1 < this.j && (this.g = new Set()), this.h = null, this.i = [];
+                this.l = a || hd, l.PerformanceNavigationTiming ? (a = l.performance.getEntriesByType("navigation"), a = 0 < a.length && ("hq" == a[0].nextHopProtocol || "h2" == a[0].nextHopProtocol)) : a = !!(l.g && l.g.Ea && l.g.Ea() && l.g.Ea().Zb), this.j = a ? this.l : 1, this.g = null, 1 < this.j && (this.g = new Set()), this.h = null, this.i = [];
             }
             var hd = 10;
             function id(a) {
@@ -1363,7 +1363,7 @@
                         }
                     }
                 }
-                return b.D = a = a.l.splice(0, c), d;
+                return a = a.l.splice(0, c), b.D = a, d;
             }
             function Gc(a) {
                 a.g || a.u || (a.Y = 1, zb(a.Ga, a), a.A = 0);
@@ -1400,7 +1400,7 @@
                             var b1, e = a.C;
                             D(d = Sb(), new Vb(d, c, b, e)), Hc(a);
                         } else Gc(a);
-                    } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - (a.m ? 1 : 0)) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && (b.i = (b = a.i).i.concat(c)), e){
+                    } else if (3 == (e = b.o) || 0 == e && 0 < a.I || !(1 == d && (b1 = b, !(Cc(a.i) >= a.i.j - (a.m ? 1 : 0)) && (a.m ? (a.l = b1.D.concat(a.l), !0) : 1 != a.G && 2 != a.G && !(a.C >= (a.Xa ? 0 : a.Ya)) && (a.m = K(q(a.Ha, a, b1), Od(a, a.C)), a.C++, !0))) || 2 == d && Bc(a))) switch(c && 0 < c.length && (b = a.i, b.i = b.i.concat(c)), e){
                         case 1:
                             Q(a, 5);
                             break;

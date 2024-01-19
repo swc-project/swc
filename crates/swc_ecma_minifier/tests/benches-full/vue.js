@@ -490,7 +490,8 @@
         for(key in parent)mergeField(key);
         for(key in child)hasOwn(parent, key) || mergeField(key);
         function mergeField(key) {
-            options[key] = (strats[key] || defaultStrat)(parent[key], child[key], vm, key);
+            var strat = strats[key] || defaultStrat;
+            options[key] = strat(parent[key], child[key], vm, key);
         }
         return options;
     }
@@ -643,7 +644,7 @@
         observer.observe(textNode, {
             characterData: !0
         }), timerFunc = function() {
-            textNode.data = String(counter = (counter + 1) % 2);
+            counter = (counter + 1) % 2, textNode.data = String(counter);
         }, isUsingMicroTask = !0;
     } else 'undefined' != typeof setImmediate && isNative(setImmediate) ? timerFunc = function() {
         setImmediate(flushCallbacks);
@@ -694,8 +695,8 @@
     };
     initProxy = function(vm) {
         if (hasProxy) {
-            var options = vm.$options;
-            vm._renderProxy = new Proxy(vm, options.render && options.render._withStripped ? getHandler : hasHandler);
+            var options = vm.$options, handlers = options.render && options.render._withStripped ? getHandler : hasHandler;
+            vm._renderProxy = new Proxy(vm, handlers);
         } else vm._renderProxy = vm;
     };
     var seenObjects = new _Set();
@@ -839,7 +840,7 @@
             if (hasSymbol && val[Symbol.iterator]) {
                 ret = [];
                 for(var iterator = val[Symbol.iterator](), result = iterator.next(); !result.done;)ret.push(render(result.value, ret.length)), result = iterator.next();
-            } else for(i = 0, ret = Array((keys = Object.keys(val)).length), l = keys.length; i < l; i++)ret[i] = render(val[key = keys[i]], key, i);
+            } else for(i = 0, ret = Array((keys = Object.keys(val)).length), l = keys.length; i < l; i++)key = keys[i], ret[i] = render(val[key], key, i);
         }
         return isDef(ret) || (ret = []), ret._isVList = !0, ret;
     }
@@ -975,8 +976,8 @@
                 if (vm.$options._parentVnode = parentVnode, vm.$vnode = parentVnode, vm._vnode && (vm._vnode.parent = parentVnode), vm.$options._renderChildren = renderChildren, vm.$attrs = parentVnode.data.attrs || emptyObject, vm.$listeners = listeners || emptyObject, propsData && vm.$options.props) {
                     shouldObserve = !1;
                     for(var props = vm._props, propKeys = vm.$options._propKeys || [], i = 0; i < propKeys.length; i++){
-                        var key = propKeys[i];
-                        props[key] = validateProp(key, vm.$options.props, propsData, vm);
+                        var key = propKeys[i], propOptions = vm.$options.props;
+                        props[key] = validateProp(key, propOptions, propsData, vm);
                     }
                     shouldObserve = !0, vm.$options.propsData = propsData;
                 }
@@ -1007,7 +1008,7 @@
                 warn("Invalid Component definition: " + String(Ctor), context);
                 return;
             }
-            if (isUndef(Ctor.cid) && void 0 === (Ctor = function(factory, baseCtor) {
+            if (isUndef(Ctor.cid) && (asyncFactory = Ctor, void 0 === (Ctor = function(factory, baseCtor) {
                 if (isTrue(factory.error) && isDef(factory.errorComp)) return factory.errorComp;
                 if (isDef(factory.resolved)) return factory.resolved;
                 var owner = currentRenderingInstance;
@@ -1033,7 +1034,7 @@
                         timerTimeout = null, isUndef(factory.resolved) && reject("timeout (" + res.timeout + "ms)");
                     }, res.timeout)))), sync = !1, factory.loading ? factory.loadingComp : factory.resolved;
                 }
-            }(asyncFactory = Ctor, baseCtor))) return factory = asyncFactory, data1 = data, node = createEmptyVNode(), node.asyncFactory = factory, node.asyncMeta = {
+            }(asyncFactory, baseCtor)))) return factory = asyncFactory, data1 = data, node = createEmptyVNode(), node.asyncFactory = factory, node.asyncMeta = {
                 data: data1,
                 context: context,
                 children: children,
@@ -1339,14 +1340,14 @@
     }
     Vue.prototype._init = function(options) {
         var startTag, endTag, listeners, vm, options1, parentVnode, renderContext, parentData, opts, provide, opts1, parentVnode1, vnodeComponentOptions, vm1, result;
-        this._uid = uid$3++, config.performance && mark && (startTag = "vue-perf-start:" + this._uid, endTag = "vue-perf-end:" + this._uid, mark(startTag)), this._isVue = !0, options && options._isComponent ? (opts1 = this.$options = Object.create(this.constructor.options), parentVnode1 = options._parentVnode, opts1.parent = options.parent, opts1._parentVnode = parentVnode1, opts1.propsData = (vnodeComponentOptions = parentVnode1.componentOptions).propsData, opts1._parentListeners = vnodeComponentOptions.listeners, opts1._renderChildren = vnodeComponentOptions.children, opts1._componentTag = vnodeComponentOptions.tag, options.render && (opts1.render = options.render, opts1.staticRenderFns = options.staticRenderFns)) : this.$options = mergeOptions(resolveConstructorOptions(this.constructor), options || {}, this), initProxy(this), this._self = this, function(vm) {
+        this._uid = uid$3++, config.performance && mark && (startTag = "vue-perf-start:" + this._uid, endTag = "vue-perf-end:" + this._uid, mark(startTag)), this._isVue = !0, options && options._isComponent ? (opts1 = this.$options = Object.create(this.constructor.options), parentVnode1 = options._parentVnode, opts1.parent = options.parent, opts1._parentVnode = parentVnode1, vnodeComponentOptions = parentVnode1.componentOptions, opts1.propsData = vnodeComponentOptions.propsData, opts1._parentListeners = vnodeComponentOptions.listeners, opts1._renderChildren = vnodeComponentOptions.children, opts1._componentTag = vnodeComponentOptions.tag, options.render && (opts1.render = options.render, opts1.staticRenderFns = options.staticRenderFns)) : this.$options = mergeOptions(resolveConstructorOptions(this.constructor), options || {}, this), initProxy(this), this._self = this, function(vm) {
             var options = vm.$options, parent = options.parent;
             if (parent && !options.abstract) {
                 for(; parent.$options.abstract && parent.$parent;)parent = parent.$parent;
                 parent.$children.push(vm);
             }
             vm.$parent = parent, vm.$root = parent ? parent.$root : vm, vm.$children = [], vm.$refs = {}, vm._watcher = null, vm._inactive = null, vm._directInactive = !1, vm._isMounted = !1, vm._isDestroyed = !1, vm._isBeingDestroyed = !1;
-        }(this), this._events = Object.create(null), this._hasHookEvent = !1, (listeners = this.$options._parentListeners) && updateComponentListeners(this, listeners), vm = this, vm._vnode = null, vm._staticTrees = null, renderContext = (parentVnode = vm.$vnode = (options1 = vm.$options)._parentVnode) && parentVnode.context, vm.$slots = resolveSlots(options1._renderChildren, renderContext), vm.$scopedSlots = emptyObject, vm._c = function(a, b, c, d) {
+        }(this), this._events = Object.create(null), this._hasHookEvent = !1, (listeners = this.$options._parentListeners) && updateComponentListeners(this, listeners), vm = this, vm._vnode = null, vm._staticTrees = null, options1 = vm.$options, renderContext = (parentVnode = vm.$vnode = options1._parentVnode) && parentVnode.context, vm.$slots = resolveSlots(options1._renderChildren, renderContext), vm.$scopedSlots = emptyObject, vm._c = function(a, b, c, d) {
             return createElement(vm, a, b, c, d, !1);
         }, vm.$createElement = function(a, b, c, d) {
             return createElement(vm, a, b, c, d, !0);
@@ -1906,7 +1907,7 @@
     }
     function genAssignmentCode(value, assignment) {
         var res = function(val) {
-            if (len = (val = val.trim()).length, 0 > val.indexOf('[') || val.lastIndexOf(']') < len - 1) return (index$1 = val.lastIndexOf('.')) > -1 ? {
+            if (val = val.trim(), len = val.length, 0 > val.indexOf('[') || val.lastIndexOf(']') < len - 1) return (index$1 = val.lastIndexOf('.')) > -1 ? {
                 exp: val.slice(0, index$1),
                 key: '"' + val.slice(index$1 + 1) + '"'
             } : {
@@ -2922,7 +2923,7 @@
                 warn$1 = _warn;
                 var code, number, valueBinding, trueValueBinding, falseValueBinding, number1, valueBinding1, value = dir.value, modifiers = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value, modifiers), !1;
-                if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
+                if ('select' === tag) code = 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "});", addHandler(el, 'change', code = code + " " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
                 else if ('input' === tag && 'radio' === type) number1 = modifiers && modifiers.number, valueBinding1 = getBindingAttr(el, 'value') || 'null', addProp(el, 'checked', "_q(" + value + "," + (valueBinding1 = number1 ? "_n(" + valueBinding1 + ")" : valueBinding1) + ")"), addHandler(el, 'change', genAssignmentCode(value, valueBinding1), null, !0);
                 else if ('input' === tag || 'textarea' === tag) !function(el, value, modifiers) {

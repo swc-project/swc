@@ -745,11 +745,11 @@
                     });
                     for(let n = 0; n < t.length; ++n){
                         let s = e.mapValue.fields[t.get(n)];
-                        Lt(s) && s.mapValue.fields || (e.mapValue.fields[t.get(n)] = s = {
+                        Lt(s) && s.mapValue.fields || (s = {
                             mapValue: {
                                 fields: {}
                             }
-                        }), e = s;
+                        }, e.mapValue.fields[t.get(n)] = s), e = s;
                     }
                     return e.mapValue.fields;
                 }
@@ -1431,11 +1431,11 @@
                 }
                 moveRedLeft() {
                     let t = this.colorFlip();
-                    return t.right.left.isRed() && (t = (t = (t = t.copy(null, null, null, null, t.right.rotateRight())).rotateLeft()).colorFlip()), t;
+                    return t.right.left.isRed() && (t = t.copy(null, null, null, null, t.right.rotateRight()), t = t.rotateLeft(), t = t.colorFlip()), t;
                 }
                 moveRedRight() {
                     let t = this.colorFlip();
-                    return t.left.left.isRed() && (t = (t = t.rotateRight()).colorFlip()), t;
+                    return t.left.left.isRed() && (t = t.rotateRight(), t = t.colorFlip()), t;
                 }
                 rotateLeft() {
                     const t = this.copy(null, null, mn.RED, null, this.right.left);
@@ -2908,7 +2908,7 @@
                 }
                 getMutationQueue(t) {
                     let e = this.bs[t.toKey()];
-                    return e || (this.bs[t.toKey()] = e = new vr(this.Ht, this.referenceDelegate)), e;
+                    return e || (e = new vr(this.Ht, this.referenceDelegate), this.bs[t.toKey()] = e), e;
                 }
                 getTargetCache() {
                     return this.ze;
@@ -4927,7 +4927,8 @@
                 })(n, t._query).then((n)=>new xu(e, s, t, n));
             }
             !function(t, e = !0) {
-                C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.wA("firestore", (t, { options: n })=>{
+                var t1;
+                t1 = _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Jn, C = t1, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.wA("firestore", (t, { options: n })=>{
                     const i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
                     return n = Object.assign({
                         useFetchStreams: e

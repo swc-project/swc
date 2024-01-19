@@ -28,25 +28,25 @@ var f = function(e) {
     return r && !a ? -1 : !r && a ? 1 : 0;
 };
 export default function S(u) {
-    var o, l, S = u.indexName, v = u.initialState, x = u.searchClient, _ = u.resultsState, y = u.stalledSearchDelay, w = s(x, S, t({}, c));
-    d(x), w.on("search", function() {
-        V || (V = setTimeout(function() {
-            var e = A.getState(), n = (e.resultsFacetValues, a(e, [
+    var o, l, S, v = u.indexName, x = u.initialState, _ = u.searchClient, y = u.resultsState, w = u.stalledSearchDelay, F = s(_, v, t({}, c));
+    d(_), F.on("search", function() {
+        I || (I = setTimeout(function() {
+            var e = P.getState(), n = (e.resultsFacetValues, a(e, [
                 "resultsFacetValues"
             ]));
-            A.setState(r(t({}, n), {
+            P.setState(r(t({}, n), {
                 isSearchStalled: !0
             }));
-        }, y));
-    }).on("result", N({
-        indexId: S
-    })).on("error", j);
-    var F = !1, V = null, I = w.state, b = i(function() {
-        var e = P(A.getState().widgets);
-        A.setState(r(t({}, A.getState()), {
+        }, w));
+    }).on("result", j({
+        indexId: v
+    })).on("error", O);
+    var V = !1, I = null, b = F.state, A = i(function() {
+        var e = R(P.getState().widgets);
+        P.setState(r(t({}, P.getState()), {
             metadata: e,
             searching: !0
-        })), C();
+        })), N();
     });
     !function(a, s) {
         if (s && (a.transporter && !a._cacheHydrated || a._useCache && "function" == typeof a.addAlgoliaAgent)) {
@@ -152,10 +152,10 @@ export default function S(u) {
                 })));
             }(a, s);
         }
-    }(x, _);
-    var A = (o = {
-        widgets: void 0 === v ? {} : v,
-        metadata: _ ? _.metadata.map(function(e) {
+    }(_, y);
+    var P = (o = {
+        widgets: void 0 === x ? {} : x,
+        metadata: y ? y.metadata.map(function(e) {
             return r(t({
                 value: function() {
                     return {};
@@ -178,53 +178,53 @@ export default function S(u) {
                 })
             });
         }) : [],
-        results: _ ? Array.isArray(_.results) ? _.results.reduce(function(a, n) {
+        results: y ? Array.isArray(y.results) ? y.results.reduce(function(a, n) {
             return r(t({}, a), e({}, n._internalIndexId, new s.SearchResults(new s.SearchParameters(n.state), n.rawResults)));
-        }, {}) : new s.SearchResults(new s.SearchParameters(_.state), _.rawResults) : null,
+        }, {}) : new s.SearchResults(new s.SearchParameters(y.state), y.rawResults) : null,
         error: null,
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, l = [], {
+    }, l = o, S = [], {
         getState: function() {
-            return o;
+            return l;
         },
         setState: function(e) {
-            o = e, l.forEach(function(e) {
+            l = e, S.forEach(function(e) {
                 return e();
             });
         },
         subscribe: function(e) {
-            return l.push(e), function() {
-                l.splice(l.indexOf(e), 1);
+            return S.push(e), function() {
+                S.splice(S.indexOf(e), 1);
             };
         }
     });
-    function P(e) {
-        return b.getWidgets().filter(function(e) {
+    function R(e) {
+        return A.getWidgets().filter(function(e) {
             return !!e.getMetadata;
         }).map(function(t) {
             return t.getMetadata(e);
         });
     }
-    function R() {
-        var a = b.getWidgets().filter(function(e) {
+    function C() {
+        var a = A.getWidgets().filter(function(e) {
             return !!e.getSearchParameters;
         }).filter(function(e) {
             return !f(e) && !p(e);
         }).reduce(function(e, t) {
             return t.getSearchParameters(e);
-        }, I), n = b.getWidgets().filter(function(e) {
+        }, b), n = A.getWidgets().filter(function(e) {
             return !!e.getSearchParameters;
         }).filter(function(e) {
-            var t = f(e) && m(e, S), r = p(e) && g(e, S);
+            var t = f(e) && m(e, v), r = p(e) && g(e, v);
             return t || r;
         }).sort(h).reduce(function(e, t) {
             return t.getSearchParameters(e);
-        }, a), s = b.getWidgets().filter(function(e) {
+        }, a), s = A.getWidgets().filter(function(e) {
             return !!e.getSearchParameters;
         }).filter(function(e) {
-            var t = f(e) && !m(e, S), r = p(e) && !g(e, S);
+            var t = f(e) && !m(e, v), r = p(e) && !g(e, v);
             return t || r;
         }).sort(h).reduce(function(a, n) {
             var s = f(n) ? n.props.indexContextValue.targetedIndex : n.props.indexId, i = a[s] || [];
@@ -242,32 +242,32 @@ export default function S(u) {
             })
         };
     }
-    function C() {
-        if (!F) {
-            var e = R(w.state), t = e.mainParameters, r = e.derivedParameters;
-            w.derivedHelpers.slice().forEach(function(e) {
+    function N() {
+        if (!V) {
+            var e = C(F.state), t = e.mainParameters, r = e.derivedParameters;
+            F.derivedHelpers.slice().forEach(function(e) {
                 e.detach();
             }), r.forEach(function(e) {
                 var t = e.indexId, r = e.parameters;
-                w.derive(function() {
+                F.derive(function() {
                     return r;
-                }).on("result", N({
+                }).on("result", j({
                     indexId: t
-                })).on("error", j);
-            }), w.setState(t), w.search();
+                })).on("error", O);
+            }), F.setState(t), F.search();
         }
     }
-    function N(n) {
+    function j(n) {
         var s = n.indexId;
         return function(n) {
-            var i = A.getState(), c = !w.derivedHelpers.length, u = i.results ? i.results : {};
+            var i = P.getState(), c = !F.derivedHelpers.length, u = i.results ? i.results : {};
             u = !c && u.getFacetByName ? {} : u, u = c ? n.results : r(t({}, u), e({}, s, n.results));
-            var o = A.getState(), l = o.isSearchStalled;
-            w.hasPendingRequests() || (clearTimeout(V), V = null, l = !1), o.resultsFacetValues;
+            var o = P.getState(), l = o.isSearchStalled;
+            F.hasPendingRequests() || (clearTimeout(I), I = null, l = !1), o.resultsFacetValues;
             var d = a(o, [
                 "resultsFacetValues"
             ]);
-            A.setState(r(t({}, d), {
+            P.setState(r(t({}, d), {
                 results: u,
                 isSearchStalled: l,
                 searching: !1,
@@ -275,40 +275,40 @@ export default function S(u) {
             }));
         };
     }
-    function j(e) {
-        var n = e.error, s = A.getState(), i = s.isSearchStalled;
-        w.hasPendingRequests() || (clearTimeout(V), i = !1), s.resultsFacetValues;
+    function O(e) {
+        var n = e.error, s = P.getState(), i = s.isSearchStalled;
+        F.hasPendingRequests() || (clearTimeout(I), i = !1), s.resultsFacetValues;
         var c = a(s, [
             "resultsFacetValues"
         ]);
-        A.setState(r(t({}, c), {
+        P.setState(r(t({}, c), {
             isSearchStalled: i,
             error: n,
             searching: !1
         }));
     }
     return {
-        store: A,
-        widgetsManager: b,
+        store: P,
+        widgetsManager: A,
         getWidgetsIds: function() {
-            return A.getState().metadata.reduce(function(e, t) {
+            return P.getState().metadata.reduce(function(e, t) {
                 return void 0 !== t.id ? e.concat(t.id) : e;
             }, []);
         },
-        getSearchParameters: R,
+        getSearchParameters: C,
         onSearchForFacetValues: function(a) {
             var n = a.facetName, s = a.query, i = a.maxFacetHits;
-            A.setState(r(t({}, A.getState()), {
+            P.setState(r(t({}, P.getState()), {
                 searchingForFacetValues: !0
-            })), w.searchForFacetValues(n, s, Math.max(1, Math.min(void 0 === i ? 10 : i, 100))).then(function(a) {
+            })), F.searchForFacetValues(n, s, Math.max(1, Math.min(void 0 === i ? 10 : i, 100))).then(function(a) {
                 var i;
-                A.setState(r(t({}, A.getState()), {
+                P.setState(r(t({}, P.getState()), {
                     error: null,
                     searchingForFacetValues: !1,
-                    resultsFacetValues: r(t({}, A.getState().resultsFacetValues), (e(i = {}, n, a.facetHits), e(i, "query", s), i))
+                    resultsFacetValues: r(t({}, P.getState().resultsFacetValues), (e(i = {}, n, a.facetHits), e(i, "query", s), i))
                 }));
             }, function(e) {
-                A.setState(r(t({}, A.getState()), {
+                P.setState(r(t({}, P.getState()), {
                     searchingForFacetValues: !1,
                     error: e
                 }));
@@ -319,32 +319,32 @@ export default function S(u) {
             });
         },
         onExternalStateUpdate: function(e) {
-            var a = P(e);
-            A.setState(r(t({}, A.getState()), {
+            var a = R(e);
+            P.setState(r(t({}, P.getState()), {
                 widgets: e,
                 metadata: a,
                 searching: !0
-            })), C();
+            })), N();
         },
         transitionState: function(e) {
-            var t = A.getState().widgets;
-            return b.getWidgets().filter(function(e) {
+            var t = P.getState().widgets;
+            return A.getWidgets().filter(function(e) {
                 return !!e.transitionState;
             }).reduce(function(e, r) {
                 return r.transitionState(t, e);
             }, e);
         },
         updateClient: function(e) {
-            d(e), w.setClient(e), C();
+            d(e), F.setClient(e), N();
         },
         updateIndex: function(e) {
-            I = I.setIndex(e);
+            b = b.setIndex(e);
         },
         clearCache: function() {
-            w.clearCache(), C();
+            F.clearCache(), N();
         },
         skipSearch: function() {
-            F = !0;
+            V = !0;
         }
     };
 }

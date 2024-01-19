@@ -688,7 +688,7 @@
                                 if (3 == node.nodeType) return node;
                                 if (1 == node.nodeType && offset > 0) {
                                     if (node.childNodes.length > offset && 3 == node.childNodes[offset].nodeType) return node.childNodes[offset];
-                                    offset = nodeSize(node = node.childNodes[offset - 1]);
+                                    node = node.childNodes[offset - 1], offset = nodeSize(node);
                                 } else {
                                     if (1 != node.nodeType || !(offset < node.childNodes.length)) return null;
                                     node = node.childNodes[offset], offset = 0;
@@ -1302,10 +1302,14 @@
                     }
                 }(dom);
                 var contextNode = dom && dom.querySelector("[data-pm-slice]"), sliceData = contextNode && /^(\d+) (\d+) (.*)/.exec(contextNode.getAttribute("data-pm-slice"));
-                if (slice || (slice = (view.someProp("clipboardParser") || view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema)).parseSlice(dom, {
-                    preserveWhitespace: !!(asText || sliceData),
-                    context: $context
-                })), sliceData) slice = function(slice, context) {
+                if (!slice) {
+                    var parser = view.someProp("clipboardParser") || view.someProp("domParser") || prosemirror_model__WEBPACK_IMPORTED_MODULE_1__.DOMParser.fromSchema(view.state.schema);
+                    slice = parser.parseSlice(dom, {
+                        preserveWhitespace: !!(asText || sliceData),
+                        context: $context
+                    });
+                }
+                if (sliceData) slice = function(slice, context) {
                     if (!slice.size) return slice;
                     var array, schema = slice.content.firstChild.type.schema;
                     try {
@@ -2561,7 +2565,7 @@
                         }(view.dom, coords, box))) return null;
                     }
                     if (result.safari) for(var p = elt; node && p; p = parentNode(p))p.draggable && (node = offset = null);
-                    if (elt = (parent = (dom = elt).parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
+                    if (dom = elt, elt = (parent = dom.parentNode) && /^li$/i.test(parent.nodeName) && coords.left < dom.getBoundingClientRect().left ? parent : dom, node) {
                         if (result.gecko && 1 == node.nodeType && (offset = Math.min(offset, node.childNodes.length)) < node.childNodes.length) {
                             var dom, parent, box$1, next = node.childNodes[offset];
                             "IMG" == next.nodeName && (box$1 = next.getBoundingClientRect()).right <= coords.left && box$1.bottom > coords.top && offset++;

@@ -4131,8 +4131,8 @@
                     },
                     Tooltip: {
                         baseStyle: function(props) {
-                            var _ref;
-                            return _ref = {}, _ref[$bg.variable] = "colors." + mode("gray.700", "gray.300")(props), _ref.px = "8px", _ref.py = "2px", _ref.bg = [
+                            var _ref, bg = mode("gray.700", "gray.300")(props);
+                            return _ref = {}, _ref[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
                                 $bg.reference
                             ], _ref[$arrowBg.variable] = [
                                 $bg.reference

@@ -1,7 +1,7 @@
 !function(global, factory) {
     'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
-    ], factory) : factory(global.d3 = (global = 'undefined' != typeof globalThis ? globalThis : global || self).d3 || {});
+    ], factory) : (global = 'undefined' != typeof globalThis ? globalThis : global || self, factory(global.d3 = global.d3 || {}));
 }(this, function(exports1) {
     'use strict';
     function ascending(a, b) {
@@ -96,7 +96,7 @@
             const p = this._partials;
             let n = this._n, x, y, lo, hi = 0;
             if (n > 0) {
-                for(hi = p[--n]; n > 0 && (hi = (x = hi) + (y = p[--n]), !(lo = y - (hi - x))););
+                for(hi = p[--n]; n > 0 && (x = hi, hi = x + (y = p[--n]), !(lo = y - (hi - x))););
                 n > 0 && (lo < 0 && p[n - 1] < 0 || lo > 0 && p[n - 1] > 0) && (x = hi + (y = 2 * lo), y == x - hi && (hi = x));
             }
             return hi;
@@ -1503,12 +1503,12 @@
         return d ? linear(a, d) : constant$3(isNaN(a) ? b : a);
     }
     var interpolateRgb = function rgbGamma(y) {
-        var y1, color = 1 == (y1 = +(y1 = y)) ? nogamma : function(a, b) {
+        var y1, color = (y1 = y, 1 == (y1 = +y1) ? nogamma : function(a, b) {
             var a1, b1, y;
             return b - a ? (a1 = a, b1 = b, a1 = Math.pow(a1, y = y1), b1 = Math.pow(b1, y) - a1, y = 1 / y, function(t) {
                 return Math.pow(a1 + t * b1, y);
             }) : constant$3(isNaN(a) ? b : a);
-        };
+        });
         function rgb$1(start, end) {
             var r = color((start = rgb(start)).r, (end = rgb(end)).r), g = color(start.g, end.g), b = color(start.b, end.b), opacity = nogamma(start.opacity, end.opacity);
             return function(t) {
@@ -1520,7 +1520,7 @@
     function rgbSpline(spline) {
         return function(colors) {
             var i, color, n = colors.length, r = Array(n), g = Array(n), b = Array(n);
-            for(i = 0; i < n; ++i)r[i] = (color = rgb(colors[i])).r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
+            for(i = 0; i < n; ++i)color = rgb(colors[i]), r[i] = color.r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
             return r = spline(r), g = spline(g), b = spline(b), color.opacity = 1, function(t) {
                 return color.r = r(t), color.g = g(t), color.b = b(t), color + "";
             };
@@ -1672,7 +1672,7 @@
             else {
                 var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1), b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0);
                 S = (Math.log(Math.sqrt(b1 * b1 + 1) - b1) - r0) / rho, i = function(t) {
-                    var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1) * coshr0 - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
+                    var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (coshr0 * (x = rho * s + r0, ((x = Math.exp(2 * x)) - 1) / (x + 1)) - (x1 = r0, ((x1 = Math.exp(x1)) - 1 / x1) / 2));
                     return [
                         ux0 + u * dx,
                         uy0 + u * dy,
@@ -2526,7 +2526,7 @@
                     event
                 ], (t)=>{
                     const i = t.identifier;
-                    return t.point0 = (t = pointer(t, that)).slice(), t.identifier = i, t;
+                    return t = pointer(t, that), t.point0 = t.slice(), t.identifier = i, t;
                 });
                 if ("overlay" === type) {
                     selection && (moving = !0);
@@ -3199,7 +3199,7 @@
         function smoothLinear(ring, values, value) {
             ring.forEach(function(point) {
                 var v0, x = point[0], y = point[1], xt = 0 | x, yt = 0 | y, v1 = values[yt * dx + xt];
-                x > 0 && x < dx && xt === x && (point[0] = x + (value - (v0 = values[yt * dx + xt - 1])) / (v1 - v0) - 0.5), y > 0 && y < dy && yt === y && (point[1] = y + (value - (v0 = values[(yt - 1) * dx + xt])) / (v1 - v0) - 0.5);
+                x > 0 && x < dx && xt === x && (v0 = values[yt * dx + xt - 1], point[0] = x + (value - v0) / (v1 - v0) - 0.5), y > 0 && y < dy && yt === y && (v0 = values[(yt - 1) * dx + xt], point[1] = y + (value - v0) / (v1 - v0) - 0.5);
             });
         }
         return contours.contour = contour, contours.size = function(_) {
@@ -3501,7 +3501,7 @@
             }
             let h = hull[hull.length - 1], p0, p1 = 4 * h, x0, x1 = points[2 * h], y0, y1 = points[2 * h + 1];
             vectors.fill(0);
-            for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], vectors[p0 + 2] = vectors[p1] = y0 - (y1 = points[2 * h + 1]), vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
+            for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], y1 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y1, vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
         }
         render(context) {
             const buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges, inedges, hull }, circumcenters, vectors } = this;
@@ -4359,7 +4359,7 @@
         };
     }
     function defaultLocale(definition) {
-        return exports1.format = (locale = formatLocale(definition)).format, exports1.formatPrefix = locale.formatPrefix, locale;
+        return locale = formatLocale(definition), exports1.format = locale.format, exports1.formatPrefix = locale.formatPrefix, locale;
     }
     function precisionFixed(step) {
         return Math.max(0, -exponent$1(Math.abs(step)));
@@ -4756,7 +4756,7 @@
                         else interpolate(current.x, current.n.x, 1, stream);
                         current = current.n;
                     } else {
-                        if (isSubject) for(i = (points = current.p.z).length - 1; i >= 0; --i)stream.point((point = points[i])[0], point[1]);
+                        if (isSubject) for(points = current.p.z, i = points.length - 1; i >= 0; --i)stream.point((point = points[i])[0], point[1]);
                         else interpolate(current.x, current.p.x, -1, stream);
                         current = current.p;
                     }
@@ -6084,13 +6084,13 @@
         var a, b, c, n, aa, ca, i, j, k, sj, sk, x;
         if (!(n = (circles = "object" == typeof (x = circles) && "length" in x ? x : Array.from(x)).length)) return 0;
         if (a = circles[0], a.x = 0, a.y = 0, !(n > 1)) return a.r;
-        if (a.x = -(b = circles[1]).r, b.x = a.r, b.y = 0, !(n > 2)) return a.r + b.r;
+        if (b = circles[1], a.x = -b.r, b.x = a.r, b.y = 0, !(n > 2)) return a.r + b.r;
         place(b, a, c = circles[2]), a = new Node$1(a), b = new Node$1(b), c = new Node$1(c), a.next = c.previous = b, b.next = a.previous = c, c.next = b.previous = a;
         pack: for(i = 3; i < n; ++i){
             place(a._, b._, c = circles[i]), c = new Node$1(c), j = b.next, k = a.previous, sj = b._.r, sk = a._.r;
             do if (sj <= sk) {
                 if (intersects(j._, c._)) {
-                    a.next = b = j, b.previous = a, --i;
+                    b = j, a.next = b, b.previous = a, --i;
                     continue pack;
                 }
                 sj += j._.r, j = j.next;
@@ -7177,7 +7177,7 @@
                 if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
                 if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
-                    "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), d.y = (week = utcDay.offset(week, (d.V - 1) * 7)).getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), d.y = (week = day.offset(week, (d.V - 1) * 7)).getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                    "w" in d || (d.w = 1), "Z" in d ? (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay(), week = day$1 > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay(), week = day$1 > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                 } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
                 return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
             };
@@ -7456,7 +7456,7 @@
         return Math.floor(+d / 1000);
     }
     function defaultLocale$1(definition) {
-        return exports1.timeFormat = (locale$1 = formatLocale$1(definition)).format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
+        return locale$1 = formatLocale$1(definition), exports1.timeFormat = locale$1.format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
     }
     defaultLocale$1({
         dateTime: "%x, %X",
@@ -7636,7 +7636,7 @@
             return arguments.length ? domain(Array.from(_, number$3)) : domain().map(date$1);
         }, scale.ticks = function(interval) {
             var t, d = domain(), t0 = d[0], t1 = d[d.length - 1], r = t1 < t0;
-            return r && (t = t0, t0 = t1, t1 = t), t = (t = tickInterval(interval, t0, t1)) ? t.range(t0, t1 + 1) : [], r ? t.reverse() : t;
+            return r && (t = t0, t0 = t1, t1 = t), t = tickInterval(interval, t0, t1), t = t ? t.range(t0, t1 + 1) : [], r ? t.reverse() : t;
         }, scale.tickFormat = function(count, specifier) {
             return null == specifier ? tickFormat : format(specifier);
         }, scale.nice = function(interval) {
@@ -9337,7 +9337,7 @@
     }, exports1.forceCollide = function(radius) {
         var nodes, radii, random, strength = 1, iterations = 1;
         function force() {
-            for(var i, tree, node, xi, yi, ri, ri2, n = nodes.length, k = 0; k < iterations; ++k)for(i = 0, tree = quadtree(nodes, x, y).visitAfter(prepare); i < n; ++i)ri2 = (ri = radii[(node = nodes[i]).index]) * ri, xi = node.x + node.vx, yi = node.y + node.vy, tree.visit(apply);
+            for(var i, tree, node, xi, yi, ri, ri2, n = nodes.length, k = 0; k < iterations; ++k)for(i = 0, tree = quadtree(nodes, x, y).visitAfter(prepare); i < n; ++i)node = nodes[i], ri = radii[node.index], ri2 = ri * ri, xi = node.x + node.vx, yi = node.y + node.vy, tree.visit(apply);
             function apply(quad, x0, y0, x1, y1) {
                 var data = quad.data, rj = quad.r, r = ri + rj;
                 if (data) {
@@ -9374,7 +9374,7 @@
             return 1 / Math.min(count[link.source.index], count[link.target.index]);
         }, distance = constant$7(30), iterations = 1;
         function force(alpha) {
-            for(var k = 0, n = links.length; k < iterations; ++k)for(var link, source, target, x, y, l, b, i = 0; i < n; ++i)source = (link = links[i]).source, l = ((l = Math.sqrt((x = (target = link.target).x + target.vx - source.x - source.vx || jiggle(random)) * x + (y = target.y + target.vy - source.y - source.vy || jiggle(random)) * y)) - distances[i]) / l * alpha * strengths[i], x *= l, y *= l, target.vx -= x * (b = bias[i]), target.vy -= y * b, source.vx += x * (b = 1 - b), source.vy += y * b;
+            for(var k = 0, n = links.length; k < iterations; ++k)for(var link, source, target, x, y, l, b, i = 0; i < n; ++i)source = (link = links[i]).source, l = Math.sqrt((x = (target = link.target).x + target.vx - source.x - source.vx || jiggle(random)) * x + (y = target.y + target.vy - source.y - source.vy || jiggle(random)) * y), x *= l = (l - distances[i]) / l * alpha * strengths[i], y *= l, target.vx -= x * (b = bias[i]), target.vy -= y * b, source.vx += x * (b = 1 - b), source.vy += y * b;
         }
         function initialize() {
             if (nodes) {
@@ -9383,7 +9383,7 @@
                         d
                     ]));
                 for(i = 0, count = Array(n); i < m; ++i)link = links[i], link.index = i, "object" != typeof link.source && (link.source = find$1(nodeById, link.source)), "object" != typeof link.target && (link.target = find$1(nodeById, link.target)), count[link.source.index] = (count[link.source.index] || 0) + 1, count[link.target.index] = (count[link.target.index] || 0) + 1;
-                for(i = 0, bias = Array(m); i < m; ++i)bias[i] = count[(link = links[i]).source.index] / (count[link.source.index] + count[link.target.index]);
+                for(i = 0, bias = Array(m); i < m; ++i)link = links[i], bias[i] = count[link.source.index] / (count[link.source.index] + count[link.target.index]);
                 strengths = Array(m), initializeStrength(), distances = Array(m), initializeDistance();
             }
         }
@@ -9424,7 +9424,7 @@
                 for(x = y = i = 0; i < 4; ++i)(q = quad[i]) && (c = Math.abs(q.value)) && (strength += q.value, weight += c, x += c * q.x, y += c * q.y);
                 quad.x = x / weight, quad.y = y / weight;
             } else {
-                q.x = (q = quad).data.x, q.y = q.data.y;
+                q = quad, q.x = q.data.x, q.y = q.data.y;
                 do strength += strengths[q.data.index];
                 while (q = q.next)
             }
@@ -9882,7 +9882,7 @@
             return fitHeight(projection, height, object);
         }, projection;
     }, exports1.geoInterpolate = function(a, b) {
-        var x, x1, x0 = a[0] * radians$1, y0 = a[1] * radians$1, x11 = b[0] * radians$1, y1 = b[1] * radians$1, cy0 = cos$1(y0), sy0 = sin$1(y0), cy1 = cos$1(y1), sy1 = sin$1(y1), kx0 = cy0 * cos$1(x0), ky0 = cy0 * sin$1(x0), kx1 = cy1 * cos$1(x11), ky1 = cy1 * sin$1(x11), d = 2 * asin(sqrt((x = sin$1((x = y1 - y0) / 2)) * x + cy0 * cy1 * ((x1 = sin$1((x1 = x11 - x0) / 2)) * x1))), k = sin$1(d), interpolate = d ? function(t) {
+        var x, x1, x0 = a[0] * radians$1, y0 = a[1] * radians$1, x11 = b[0] * radians$1, y1 = b[1] * radians$1, cy0 = cos$1(y0), sy0 = sin$1(y0), cy1 = cos$1(y1), sy1 = sin$1(y1), kx0 = cy0 * cos$1(x0), ky0 = cy0 * sin$1(x0), kx1 = cy1 * cos$1(x11), ky1 = cy1 * sin$1(x11), d = 2 * asin(sqrt((x = y1 - y0, (x = sin$1(x / 2)) * x + cy0 * cy1 * (x1 = x11 - x0, (x1 = sin$1(x1 / 2)) * x1)))), k = sin$1(d), interpolate = d ? function(t) {
             var B = sin$1(t *= d) / k, A = sin$1(d - t) / k, x = A * kx0 + B * kx1, y = A * ky0 + B * ky1;
             return [
                 atan2(y, x) * degrees$2,
@@ -10013,7 +10013,7 @@
         return c$1.h = 360 * t - 100, c$1.s = 1.5 - 1.5 * ts, c$1.l = 0.8 - 0.9 * ts, c$1 + "";
     }, exports1.interpolateRdBu = RdBu, exports1.interpolateRdGy = RdGy, exports1.interpolateRdPu = RdPu, exports1.interpolateRdYlBu = RdYlBu, exports1.interpolateRdYlGn = RdYlGn, exports1.interpolateReds = Reds, exports1.interpolateRgb = interpolateRgb, exports1.interpolateRgbBasis = rgbBasis, exports1.interpolateRgbBasisClosed = rgbBasisClosed, exports1.interpolateRound = interpolateRound, exports1.interpolateSinebow = function(t) {
         var x;
-        return c$2.r = 255 * (x = Math.sin(t = (0.5 - t) * Math.PI)) * x, c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x, c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x, c$2 + "";
+        return t = (0.5 - t) * Math.PI, c$2.r = 255 * (x = Math.sin(t)) * x, c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x, c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x, c$2 + "";
     }, exports1.interpolateSpectral = Spectral, exports1.interpolateString = interpolateString, exports1.interpolateTransformCss = interpolateTransformCss, exports1.interpolateTransformSvg = interpolateTransformSvg, exports1.interpolateTurbo = function(t) {
         return "rgb(" + Math.max(0, Math.min(255, Math.round(34.61 + (t = Math.max(0, Math.min(1, t))) * (1172.33 - t * (10793.56 - t * (33300.12 - t * (38394.49 - 14825.05 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(23.31 + t * (557.33 + t * (1225.33 - t * (3574.96 - t * (1073.77 + 707.56 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(27.2 + t * (3211.1 - t * (15327.97 - t * (27814 - t * (22569.18 - 6838.66 * t))))))) + ")";
     }, exports1.interpolateViridis = viridis, exports1.interpolateWarm = warm, exports1.interpolateYlGn = YlGn, exports1.interpolateYlGnBu = YlGnBu, exports1.interpolateYlOrBr = YlOrBr, exports1.interpolateYlOrRd = YlOrRd, exports1.interpolateZoom = interpolateZoom, exports1.interrupt = interrupt, exports1.intersection = function(values, ...others) {
@@ -10422,7 +10422,7 @@
             return x <= x ? range[bisectRight(domain, x, 0, n)] : unknown;
         }
         return scale.domain = function(_) {
-            return arguments.length ? (n = Math.min((domain = Array.from(_)).length, range.length - 1), scale) : domain.slice();
+            return arguments.length ? (domain = Array.from(_), n = Math.min(domain.length, range.length - 1), scale) : domain.slice();
         }, scale.range = function(_) {
             return arguments.length ? (range = Array.from(_), n = Math.min(domain.length, range.length - 1), scale) : range.slice();
         }, scale.invertExtent = function(y) {
@@ -10529,7 +10529,7 @@
         var id = defaultId, parentId = defaultParentId;
         function stratify(data) {
             var d, i, root, parent, node, nodeId, nodeKey, nodes = Array.from(data), n = nodes.length, nodeByKey = new Map;
-            for(i = 0; i < n; ++i)node = nodes[i] = new Node(d = nodes[i]), null != (nodeId = id(d, i, data)) && (nodeId += "") && (nodeKey = node.id = nodeId, nodeByKey.set(nodeKey, nodeByKey.has(nodeKey) ? ambiguous : node)), null != (nodeId = parentId(d, i, data)) && (nodeId += "") && (node.parent = nodeId);
+            for(i = 0; i < n; ++i)d = nodes[i], node = nodes[i] = new Node(d), null != (nodeId = id(d, i, data)) && (nodeId += "") && (nodeKey = node.id = nodeId, nodeByKey.set(nodeKey, nodeByKey.has(nodeKey) ? ambiguous : node)), null != (nodeId = parentId(d, i, data)) && (nodeId += "") && (node.parent = nodeId);
             for(i = 0; i < n; ++i)if (nodeId = (node = nodes[i]).parent) {
                 if (!(parent = nodeByKey.get(nodeId))) throw Error("missing: " + nodeId);
                 if (parent === ambiguous) throw Error("ambiguous: " + nodeId);
@@ -10804,8 +10804,8 @@
         function touchstarted(event, ...args) {
             if (filter.apply(this, arguments)) {
                 var started, i, t, p, touches = event.touches, n = touches.length, g = gesture(this, args, event.changedTouches.length === n).event(event);
-                for(nopropagation$2(event), i = 0; i < n; ++i)p = [
-                    p = pointer(t = touches[i], this),
+                for(nopropagation$2(event), i = 0; i < n; ++i)p = pointer(t = touches[i], this), p = [
+                    p,
                     this.__zoom.invert(p),
                     t.identifier
                 ], g.touch0 ? g.touch1 || g.touch0[2] === p[2] || (g.touch1 = p, g.taps = 0) : (g.touch0 = p, started = !0, g.taps = 1 + !!touchstarting);

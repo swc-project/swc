@@ -24,7 +24,7 @@ var _obj, isMultiIndexContext = function(widget) {
     return isFirstWidgetIndex && !isSecondWidgetIndex ? -1 : !isFirstWidgetIndex && isSecondWidgetIndex ? 1 : 0;
 };
 export default function createInstantSearchManager(param) {
-    var state, listeners, indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
+    var initialState, state, listeners, indexName = param.indexName, _initialState = param.initialState, searchClient = param.searchClient, resultsState = param.resultsState, stalledSearchDelay = param.stalledSearchDelay, getMetadata = function(state) {
         return widgetsManager.getWidgets().filter(function(widget) {
             return !!widget.getMetadata;
         }).map(function(widget) {
@@ -231,7 +231,7 @@ export default function createInstantSearchManager(param) {
             hydrateSearchClientWithSingleIndexRequest(client, results);
         }
     }(searchClient, resultsState);
-    var store = (state = {
+    var store = (initialState = {
         widgets: void 0 === _initialState ? {} : _initialState,
         metadata: resultsState ? resultsState.metadata.map(function(datum) {
             return swcHelpers.objectSpread({
@@ -263,7 +263,7 @@ export default function createInstantSearchManager(param) {
         searching: !1,
         isSearchStalled: !0,
         searchingForFacetValues: !1
-    }, listeners = [], {
+    }, state = initialState, listeners = [], {
         getState: function() {
             return state;
         },

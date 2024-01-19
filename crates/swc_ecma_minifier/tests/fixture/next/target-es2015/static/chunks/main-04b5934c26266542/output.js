@@ -259,7 +259,9 @@
             __webpack_require__(1598).Z, __webpack_require__(37);
             var _react = _interop_require_default(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _mitt = _interop_require_default(__webpack_require__(5660)), _routerContext = __webpack_require__(3462), _isDynamic = __webpack_require__(8689), _querystring = __webpack_require__(466), _runtimeConfig = __webpack_require__(8027), _utils = __webpack_require__(3794), _portal = __webpack_require__(2207), _headManager = _interop_require_default(__webpack_require__(6007)), _pageLoader = _interop_require_default(__webpack_require__(5181)), _performanceRelayer = _interop_require_default(__webpack_require__(9302)), _routeAnnouncer = __webpack_require__(8982), _router = __webpack_require__(387), _isError = __webpack_require__(676), _imageConfigContext = __webpack_require__(9977), _removeBasePath = __webpack_require__(9320), _hasBasePath = __webpack_require__(4119);
             const ReactDOM = __webpack_require__(745);
-            exports.version = "12.3.2-canary.13", exports.router = router, exports.emitter = _mitt.default();
+            exports.version = "12.3.2-canary.13", exports.router = router;
+            const emitter = _mitt.default();
+            exports.emitter = emitter;
             const looseToArray = (input)=>[].slice.call(input);
             let initialMatchesMiddleware = !1;
             self.__next_require__ = __webpack_require__;
@@ -290,7 +292,7 @@
             }
             function _initialize() {
                 return (_initialize = _async_to_generator(function*() {
-                    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], window.__NEXT_DATA__ = initialData = JSON.parse(document.getElementById("__NEXT_DATA__").textContent), defaultLocale = initialData.defaultLocale;
+                    arguments.length > 0 && void 0 !== arguments[0] && arguments[0], initialData = JSON.parse(document.getElementById("__NEXT_DATA__").textContent), window.__NEXT_DATA__ = initialData, defaultLocale = initialData.defaultLocale;
                     const prefix = initialData.assetPrefix || "";
                     if (__webpack_require__.p = "".concat(prefix, "/_next/"), _runtimeConfig.setConfig({
                         serverRuntimeConfig: {},
@@ -364,7 +366,7 @@
                 let { App, err } = renderErrorProps;
                 return console.error(err), console.error("A client-side exception has occurred, see here for more info: https://nextjs.org/docs/messages/client-side-exception-occurred"), pageLoader.loadPage("/_error").then((param)=>{
                     let { page: ErrorComponent, styleSheets } = param;
-                    return (null == lastAppProps ? void 0 : lastAppProps.Component) === ErrorComponent ? Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(9185))).then((errorModule)=>Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(6029))).then((appModule)=>(renderErrorProps.App = App = appModule.default, errorModule))).then((m)=>({
+                    return (null == lastAppProps ? void 0 : lastAppProps.Component) === ErrorComponent ? Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(9185))).then((errorModule)=>Promise.resolve().then(()=>_interopRequireWildcard(__webpack_require__(6029))).then((appModule)=>(App = appModule.default, renderErrorProps.App = App, errorModule))).then((m)=>({
                             ErrorComponent: m.default,
                             styleSheets: []
                         })) : {
@@ -716,7 +718,8 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0, exports.requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
+            }), exports.cancelIdleCallback = exports.requestIdleCallback = void 0;
+            const requestIdleCallback = "undefined" != typeof self && self.requestIdleCallback && self.requestIdleCallback.bind(window) || function(cb) {
                 let start = Date.now();
                 return setTimeout(function() {
                     cb({
@@ -726,9 +729,12 @@
                         }
                     });
                 }, 1);
-            }, exports.cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
+            };
+            exports.requestIdleCallback = requestIdleCallback;
+            const cancelIdleCallback = "undefined" != typeof self && self.cancelIdleCallback && self.cancelIdleCallback.bind(window) || function(id) {
                 return clearTimeout(id);
-            }, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
+            };
+            exports.cancelIdleCallback = cancelIdleCallback, ("function" == typeof exports.default || "object" == typeof exports.default && null !== exports.default) && void 0 === exports.default.__esModule && (Object.defineProperty(exports.default, "__esModule", {
                 value: !0
             }), Object.assign(exports.default, exports), module.exports = exports.default);
         },
@@ -1251,7 +1257,9 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.AmpStateContext = void 0, exports.AmpStateContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
+            }), exports.AmpStateContext = void 0;
+            const AmpStateContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
+            exports.AmpStateContext = AmpStateContext;
         },
         7363: function(__unused_webpack_module, exports) {
             "use strict";
@@ -1275,7 +1283,9 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.HeadManagerContext = void 0, exports.HeadManagerContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
+            }), exports.HeadManagerContext = void 0;
+            const HeadManagerContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
+            exports.HeadManagerContext = HeadManagerContext;
         },
         5443: function(module, exports, __webpack_require__) {
             "use strict";
@@ -1380,7 +1390,8 @@
                 value: !0
             }), exports.ImageConfigContext = void 0;
             var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)), _imageConfig = __webpack_require__(9309);
-            exports.ImageConfigContext = _react.default.createContext(_imageConfig.imageConfigDefault);
+            const ImageConfigContext = _react.default.createContext(_imageConfig.imageConfigDefault);
+            exports.ImageConfigContext = ImageConfigContext;
         },
         9309: function(__unused_webpack_module, exports) {
             "use strict";
@@ -1484,7 +1495,9 @@
             "use strict";
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.RouterContext = void 0, exports.RouterContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext(null);
+            }), exports.RouterContext = void 0;
+            const RouterContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext(null);
+            exports.RouterContext = RouterContext;
         },
         6273: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -1806,7 +1819,7 @@
                                 isQueryUpdating: isQueryUpdating && !_this.isFallback
                             });
                             if ("route" in routeInfo && isMiddlewareMatch) {
-                                route = pathname = routeInfo.route || route, routeProps.shallow || (query = Object.assign({}, routeInfo.query || {}, query));
+                                pathname = routeInfo.route || route, route = pathname, routeProps.shallow || (query = Object.assign({}, routeInfo.query || {}, query));
                                 const cleanedParsedPathname = _hasBasePath.hasBasePath(parsed.pathname) ? _removeBasePath.removeBasePath(parsed.pathname) : parsed.pathname;
                                 if (routeMatch && pathname !== cleanedParsedPathname && Object.keys(routeMatch).forEach((key)=>{
                                     routeMatch && query[key] === routeMatch[key] && delete query[key];
@@ -1995,7 +2008,7 @@
                                                         const parsedSource = _getNextPathnameInfo.getNextPathnameInfo(_parseRelativeUrl.parseRelativeUrl(source).pathname, {
                                                             parseData: !0
                                                         });
-                                                        parsedRewriteTarget.pathname = as = _addBasePath.addBasePath(parsedSource.pathname);
+                                                        as = _addBasePath.addBasePath(parsedSource.pathname), parsedRewriteTarget.pathname = as;
                                                     }
                                                     if (!pages.includes(fsPathname)) {
                                                         const resolvedPathname = resolveDynamicRoute(fsPathname, pages);
@@ -2151,7 +2164,7 @@
                         if (_isBot.isBot(window.navigator.userAgent)) return;
                         let parsed = _parseRelativeUrl.parseRelativeUrl(url), { pathname, query } = parsed;
                         const pages = yield _this.pageLoader.getPageList(), locale = void 0 !== options.locale ? options.locale || void 0 : _this.locale;
-                        parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (parsed.pathname = pathname = parsed.pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
+                        parsed.pathname = resolveDynamicRoute(parsed.pathname, pages), _isDynamic.isDynamicRoute(parsed.pathname) && (pathname = parsed.pathname, parsed.pathname = pathname, Object.assign(query, _routeMatcher.getRouteMatcher(_routeRegex.getRouteRegex(parsed.pathname))(_parsePath.parsePath(asPath).pathname) || {}), url = _formatUrl.formatWithValidation(parsed));
                         const route = _removeTrailingSlash.removeTrailingSlash(pathname);
                         yield Promise.all([
                             _this.pageLoader._isSsg(route).then((isSsg)=>!!isSsg && fetchNextData({
@@ -2822,11 +2835,13 @@
             }
             exports.isAbsoluteUrl = (url)=>ABSOLUTE_URL_REGEX.test(url);
             const SP = "undefined" != typeof performance;
-            exports.SP = SP, exports.ST = SP && [
+            exports.SP = SP;
+            const ST = SP && [
                 "mark",
                 "measure",
                 "getEntriesByName"
-            ].every((method)=>"function" == typeof performance[method]), exports.DecodeError = class extends Error {
+            ].every((method)=>"function" == typeof performance[method]);
+            exports.ST = ST, exports.DecodeError = class extends Error {
             }, exports.NormalizeError = class extends Error {
             }, exports.PageNotFoundError = class extends Error {
                 constructor(page){
@@ -2941,7 +2956,8 @@
                 return "hidden" !== document.visibilityState || document.prerendering ? 1 / 0 : 0;
             }, m = function() {
                 d(function(n) {
-                    N = n.timeStamp;
+                    var y = n.timeStamp;
+                    N = y;
                 }, !0);
             }, h = function() {
                 return N < 0 && (N = v(), m(), o(function() {
@@ -2966,7 +2982,7 @@
                 (I || k) && (T = l(n, P, C, y.reportAllChanges), I && c([
                     I
                 ]), o(function(w) {
-                    T = l(n, P = f("FCP"), C, y.reportAllChanges), requestAnimationFrame(function() {
+                    P = f("FCP"), T = l(n, P, C, y.reportAllChanges), requestAnimationFrame(function() {
                         requestAnimationFrame(function() {
                             P.value = performance.now() - w.timeStamp, T(!0);
                         });
@@ -2996,7 +3012,7 @@
                 k && (C = l(i, w, T, y.reportAllChanges), d(function() {
                     p(k.takeRecords()), C(!0);
                 }), o(function() {
-                    P = 0, q = -1, C = l(i, w = f("CLS", 0), T, y.reportAllChanges);
+                    P = 0, q = -1, w = f("CLS", 0), C = l(i, w, T, y.reportAllChanges);
                 }));
             }, x = {
                 passive: !0,
@@ -3050,11 +3066,11 @@
                 w = l(n, N, I, y.reportAllChanges), j && d(function() {
                     m(j.takeRecords()), j.disconnect();
                 }, !0), j && o(function() {
-                    w = l(n, N = f("FID"), I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), P.push(v), S();
+                    N = f("FID"), w = l(n, N, I, y.reportAllChanges), P = [], C = -1, T = null, A(addEventListener), P.push(v), S();
                 });
             }, J = 0, K = 1 / 0, Q = 0, M = function(n) {
                 n.forEach(function(n) {
-                    n.interactionId && (K = Math.min(K, n.interactionId), J = (Q = Math.max(Q, n.interactionId)) ? (Q - K) / 7 + 1 : 0);
+                    n.interactionId && (K = Math.min(K, n.interactionId), Q = Math.max(Q, n.interactionId), J = Q ? (Q - K) / 7 + 1 : 0);
                 });
             }, B = function() {
                 return I ? J : performance.interactionCount || 0;
@@ -3112,7 +3128,7 @@
                 }), d(function() {
                     a(P.takeRecords()), w.value < 0 && R() > 0 && (w.value = 0, w.entries = []), C(!0);
                 }), o(function() {
-                    V = [], U = B(), C = l(n, w = f("INP"), T, y.reportAllChanges);
+                    V = [], U = B(), w = f("INP"), C = l(n, w, T, y.reportAllChanges);
                 }));
             }, X = {}, _ = function(n, y) {
                 y = y || {};
@@ -3142,7 +3158,7 @@
                             capture: !0
                         });
                     }), d(v, !0), o(function(w) {
-                        T = l(n, P = f("LCP"), C, y.reportAllChanges), requestAnimationFrame(function() {
+                        P = f("LCP"), T = l(n, P, C, y.reportAllChanges), requestAnimationFrame(function() {
                             requestAnimationFrame(function() {
                                 P.value = performance.now() - w.timeStamp, X[P.id] = !0, T(!0);
                             });
@@ -3168,7 +3184,7 @@
                         C.entries = [
                             P
                         ], w(!0), o(function() {
-                            (w = l(n, C = f("TTFB", 0), T, y.reportAllChanges))(!0);
+                            C = f("TTFB", 0), (w = l(n, C, T, y.reportAllChanges))(!0);
                         });
                     }
                 });

@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined1, uuid, slice, _cleanData, rcapitals, replaceFunction, bool, docElem, refNode, fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, path1, initialHref, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $, baseElement, base, undefined5, originalWidget, keepNativeFactoryDefault, orig, undefined6, pageTransitionQueue, isPageTransitioning, window2, $1, $2, undefined7, rInitialLetter, iconposClass, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined1, uuid, slice, _cleanData, rcapitals, replaceFunction, bool, docElem, refNode, fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, path1, initialHref, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, base, undefined5, originalWidget, keepNativeFactoryDefault, orig, undefined6, pageTransitionQueue, isPageTransitioning, window2, undefined7, rInitialLetter, iconposClass, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -394,7 +394,7 @@
             var parts, curOption, i, options = key;
             if (0 == arguments.length) return jQuery.widget.extend({}, this.options);
             if ("string" == typeof key) {
-                if (options = {}, key = (parts = key.split(".")).shift(), parts.length) {
+                if (options = {}, parts = key.split("."), key = parts.shift(), parts.length) {
                     for(i = 0, curOption = options[key] = jQuery.widget.extend({}, this.options[key]); i < parts.length - 1; i++)curOption[parts[i]] = curOption[parts[i]] || {}, curOption = curOption[parts[i]];
                     if (key = parts.pop(), undefined1 === value) return undefined1 === curOption[key] ? null : curOption[key];
                     curOption[key] = value;
@@ -518,7 +518,7 @@
             },
             show: function(theme, msgText, textonly) {
                 var textVisible, message, loadSettings;
-                this.resetHtml(), "object" === $.type(theme) ? theme = (loadSettings = $.extend({}, this.options, theme)).theme : (loadSettings = this.options, theme = theme || loadSettings.theme), message = msgText || (!1 === loadSettings.text ? "" : loadSettings.text), $html.addClass("ui-loading"), textVisible = loadSettings.textVisible, this.element.attr("class", loaderClass + " ui-corner-all ui-body-" + theme + " ui-loader-" + (textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), this.element.appendTo($.mobile.pageContainer), this.checkLoaderPosition(), this.window.bind("scroll", $.proxy(this.checkLoaderPosition, this));
+                this.resetHtml(), "object" === $.type(theme) ? (loadSettings = $.extend({}, this.options, theme), theme = loadSettings.theme) : (loadSettings = this.options, theme = theme || loadSettings.theme), message = msgText || (!1 === loadSettings.text ? "" : loadSettings.text), $html.addClass("ui-loading"), textVisible = loadSettings.textVisible, this.element.attr("class", loaderClass + " ui-corner-all ui-body-" + theme + " ui-loader-" + (textVisible || msgText || theme.text ? "verbose" : "default") + (loadSettings.textonly || textonly ? " ui-loader-textonly" : "")), loadSettings.html ? this.element.html(loadSettings.html) : this.element.find("h1").text(message), this.element.appendTo($.mobile.pageContainer), this.checkLoaderPosition(), this.window.bind("scroll", $.proxy(this.checkLoaderPosition, this));
             },
             hide: function() {
                 $html.removeClass("ui-loading"), this.options.text && this.element.removeClass("ui-loader-fakefix"), $.mobile.window.unbind("scroll", this.fakeFixLoader), $.mobile.window.unbind("scroll", this.checkLoaderPosition);
@@ -553,7 +553,7 @@
             }, self.stop = function() {
                 timeout_id && clearTimeout(timeout_id), timeout_id = undefined;
             }, !window.attachEvent || window.addEventListener || supports_onhashchange || (self.start = function() {
-                iframe || (iframe_src = (iframe_src = $.fn[str_hashchange].src) && iframe_src + get_fragment(), iframe = $('<iframe tabindex="-1" title="empty"/>').hide().one("load", function() {
+                iframe || (iframe_src = $.fn[str_hashchange].src, iframe_src = iframe_src && iframe_src + get_fragment(), iframe = $('<iframe tabindex="-1" title="empty"/>').hide().one("load", function() {
                     iframe_src || history_set(get_fragment()), poll();
                 }).attr("src", iframe_src || "javascript:0").insertAfter("body")[0].contentWindow, document1.onpropertychange = function() {
                     try {
@@ -778,7 +778,7 @@
         },
         squash: function(url, resolutionUrl) {
             var href, cleanedUrl, search, stateIndex, isPath = this.isPath(url), uri = this.parseUrl(url), preservedHash = uri.hash, uiState = "";
-            return resolutionUrl = resolutionUrl || (path.isPath(url) ? path.getLocation() : path.getDocumentUrl()), cleanedUrl = isPath ? path.stripHash(url) : url, (stateIndex = (cleanedUrl = path.isPath(uri.hash) ? path.stripHash(uri.hash) : cleanedUrl).indexOf(this.uiStateKey)) > -1 && (uiState = cleanedUrl.slice(stateIndex), cleanedUrl = cleanedUrl.slice(0, stateIndex)), href = path.makeUrlAbsolute(cleanedUrl, resolutionUrl), search = this.parseUrl(href).search, isPath ? ((path.isPath(preservedHash) || 0 === preservedHash.replace("#", "").indexOf(this.uiStateKey)) && (preservedHash = ""), uiState && -1 === preservedHash.indexOf(this.uiStateKey) && (preservedHash += uiState), -1 === preservedHash.indexOf("#") && "" !== preservedHash && (preservedHash = "#" + preservedHash), href = (href = path.parseUrl(href)).protocol + "//" + href.host + href.pathname + search + preservedHash) : href += href.indexOf("#") > -1 ? uiState : "#" + uiState, href;
+            return resolutionUrl = resolutionUrl || (path.isPath(url) ? path.getLocation() : path.getDocumentUrl()), cleanedUrl = isPath ? path.stripHash(url) : url, (stateIndex = (cleanedUrl = path.isPath(uri.hash) ? path.stripHash(uri.hash) : cleanedUrl).indexOf(this.uiStateKey)) > -1 && (uiState = cleanedUrl.slice(stateIndex), cleanedUrl = cleanedUrl.slice(0, stateIndex)), href = path.makeUrlAbsolute(cleanedUrl, resolutionUrl), search = this.parseUrl(href).search, isPath ? ((path.isPath(preservedHash) || 0 === preservedHash.replace("#", "").indexOf(this.uiStateKey)) && (preservedHash = ""), uiState && -1 === preservedHash.indexOf(this.uiStateKey) && (preservedHash += uiState), -1 === preservedHash.indexOf("#") && "" !== preservedHash && (preservedHash = "#" + preservedHash), href = path.parseUrl(href), href = href.protocol + "//" + href.host + href.pathname + search + preservedHash) : href += href.indexOf("#") > -1 ? uiState : "#" + uiState, href;
         },
         isPreservableHash: function(hash) {
             return 0 === hash.replace("#", "").indexOf(this.uiStateKey);
@@ -798,7 +798,7 @@
         isPermittedCrossDomainRequest: function(docUrl, reqUrl) {
             return jQuery.mobile.allowCrossDomainPages && ("file:" === docUrl.protocol || "content:" === docUrl.protocol) && -1 !== reqUrl.search(/^https?:/);
         }
-    }, path.documentUrl = path.parseLocation(), path.documentBase = ($base = jQuery("head").find("base")).length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
+    }, path.documentUrl = path.parseLocation(), $base = jQuery("head").find("base"), path.documentBase = $base.length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
         return asParsedObject ? jQuery.extend({}, path.documentBase) : path.documentBase.href;
     }, jQuery.extend(jQuery.mobile, {
         getDocumentUrl: path.getDocumentUrl,
@@ -831,7 +831,7 @@
         },
         closest: function(url) {
             var closest, a = this.activeIndex;
-            return undefined3 === (closest = this.find(url, this.stack.slice(0, a))) && (closest = undefined3 === (closest = this.find(url, this.stack.slice(a), !0)) ? closest : closest + a), closest;
+            return undefined3 === (closest = this.find(url, this.stack.slice(0, a))) && (closest = this.find(url, this.stack.slice(a), !0), closest = undefined3 === closest ? closest : closest + a), closest;
         },
         direct: function(opts) {
             var newActiveIndex = this.closest(opts.url), a = this.activeIndex;
@@ -980,8 +980,8 @@
                 return null;
             }(event1.target, eventType)) && (ve = function(event1, eventType) {
                 var oe, props, ne, prop, ct, touch, i, j, len, t = event1.type;
-                if (event1 = $.Event(event1), event1.type = eventType, oe = event1.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event1[prop] = oe[prop = props[--i]];
-                if (t.search(/mouse(down|up)|click/) > -1 && !event1.which && (event1.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event1[prop] = touch[prop = touchEventProps[j]];
+                if (event1 = $.Event(event1), event1.type = eventType, oe = event1.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)prop = props[--i], event1[prop] = oe[prop];
+                if (t.search(/mouse(down|up)|click/) > -1 && !event1.which && (event1.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)prop = touchEventProps[j], event1[prop] = touch[prop];
                 return event1;
             }(event1, eventType), $(event1.target).trigger(ve)), ve;
         }
@@ -991,7 +991,7 @@
         }
         function handleTouchStart(event1) {
             var target, flags, t, touches = getNativeEvent(event1).touches;
-            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event1.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, touchTargetPropertyName, lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, startX = (t = getNativeEvent(event1).touches[0]).pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event1, flags), triggerVirtualEvent("vmousedown", event1, flags));
+            touches && 1 === touches.length && (flags = getVirtualBindingFlags(target = event1.target)).hasVirtualBinding && (lastTouchID = nextTouchID++, $.data(target, touchTargetPropertyName, lastTouchID), clearResetTimer(), blockTouchTriggers = !1, didScroll = !1, t = getNativeEvent(event1).touches[0], startX = t.pageX, startY = t.pageY, triggerVirtualEvent("vmouseover", event1, flags), triggerVirtualEvent("vmousedown", event1, flags));
         }
         function handleScroll(event1) {
             !blockTouchTriggers && (didScroll || triggerVirtualEvent("vmousecancel", event1, getVirtualBindingFlags(event1.target)), didScroll = !0, startResetTimer());
@@ -1225,25 +1225,25 @@
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
         }, $.attrFn && ($.attrFn[event_name] = !0);
-    }(jQuery, this), $.mobile.base = base = {
-        element: (baseElement = ($ = jQuery)("head").children("base")).length ? baseElement : $("<base>", {
-            href: $.mobile.path.documentBase.hrefNoHash
-        }).prependTo($("head")),
+    }(jQuery, this), base = {
+        element: (baseElement = jQuery("head").children("base")).length ? baseElement : jQuery("<base>", {
+            href: jQuery.mobile.path.documentBase.hrefNoHash
+        }).prependTo(jQuery("head")),
         linkSelector: "[src], link[href], a[rel='external'], :jqmData(ajax='false'), a[target]",
         set: function(href) {
-            $.mobile.dynamicBaseEnabled && $.support.dynamicBaseTag && base.element.attr("href", $.mobile.path.makeUrlAbsolute(href, $.mobile.path.documentBase));
+            jQuery.mobile.dynamicBaseEnabled && jQuery.support.dynamicBaseTag && base.element.attr("href", jQuery.mobile.path.makeUrlAbsolute(href, jQuery.mobile.path.documentBase));
         },
         rewrite: function(href, page) {
-            var newPath = $.mobile.path.get(href);
+            var newPath = jQuery.mobile.path.get(href);
             page.find(base.linkSelector).each(function(i, link) {
-                var thisAttr = $(link).is("[href]") ? "href" : $(link).is("[src]") ? "src" : "action", thisUrl = $(link).attr(thisAttr);
-                thisUrl = thisUrl.replace(location.protocol + "//" + location.host + location.pathname, ""), /^(\w+:|#|\/)/.test(thisUrl) || $(link).attr(thisAttr, newPath + thisUrl);
+                var thisAttr = jQuery(link).is("[href]") ? "href" : jQuery(link).is("[src]") ? "src" : "action", thisUrl = jQuery(link).attr(thisAttr);
+                thisUrl = thisUrl.replace(location.protocol + "//" + location.host + location.pathname, ""), /^(\w+:|#|\/)/.test(thisUrl) || jQuery(link).attr(thisAttr, newPath + thisUrl);
             });
         },
         reset: function() {
-            base.element.attr("href", $.mobile.path.documentBase.hrefNoSearch);
+            base.element.attr("href", jQuery.mobile.path.documentBase.hrefNoSearch);
         }
-    }, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, jQuery.widget = (orig = jQuery.widget, function() {
+    }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, jQuery.widget = (orig = jQuery.widget, function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
     }), jQuery.extend(jQuery.widget, originalWidget), jQuery.mobile.document.on("create", function(event1) {
@@ -1269,8 +1269,8 @@
         _enhance: function() {
             var attrPrefix = "data-" + jQuery.mobile.ns, self = this;
             this.options.role && this.element.attr("data-" + jQuery.mobile.ns + "role", this.options.role), this.element.attr("tabindex", "0").addClass("ui-page ui-page-theme-" + this.options.theme), this.element.find("[" + attrPrefix + "role='content']").each(function() {
-                var $this = jQuery(this);
-                self.options.contentTheme = this.getAttribute(attrPrefix + "theme") || undefined5 || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), $this.attr("role", "main").addClass("ui-content");
+                var $this = jQuery(this), theme = this.getAttribute(attrPrefix + "theme") || undefined5;
+                self.options.contentTheme = theme || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), $this.attr("role", "main").addClass("ui-content");
             });
         },
         bindRemove: function(callback) {
@@ -1808,14 +1808,14 @@
         beforeStartOut: function(screenHeight, reverseClass, none) {
             this.doneOut(screenHeight, reverseClass, none);
         }
-    }), $1.mobile.transitionHandlers = {
-        sequential: ($1 = jQuery).mobile.SerialTransition,
-        simultaneous: $1.mobile.ConcurrentTransition
-    }, $1.mobile.defaultTransitionHandler = $1.mobile.transitionHandlers.sequential, $1.mobile.transitionFallbacks = {}, $1.mobile._maybeDegradeTransition = function(transition) {
-        return transition && !$1.support.cssTransform3d && $1.mobile.transitionFallbacks[transition] && (transition = $1.mobile.transitionFallbacks[transition]), transition;
-    }, $1.mobile.getMaxScrollForTransition = $1.mobile.getMaxScrollForTransition || function() {
-        return 3 * $1.mobile.getScreenHeight();
-    }, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", $2.mobile.transitionHandlers.slide = ($2 = jQuery).mobile.transitionHandlers.simultaneous, $2.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", jQuery.mobile.degradeInputs = {
+    }), jQuery.mobile.transitionHandlers = {
+        sequential: jQuery.mobile.SerialTransition,
+        simultaneous: jQuery.mobile.ConcurrentTransition
+    }, jQuery.mobile.defaultTransitionHandler = jQuery.mobile.transitionHandlers.sequential, jQuery.mobile.transitionFallbacks = {}, jQuery.mobile._maybeDegradeTransition = function(transition) {
+        return transition && !jQuery.support.cssTransform3d && jQuery.mobile.transitionFallbacks[transition] && (transition = jQuery.mobile.transitionFallbacks[transition]), transition;
+    }, jQuery.mobile.getMaxScrollForTransition = jQuery.mobile.getMaxScrollForTransition || function() {
+        return 3 * jQuery.mobile.getScreenHeight();
+    }, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", jQuery.mobile.transitionHandlers.slide = jQuery.mobile.transitionHandlers.simultaneous, jQuery.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", jQuery.mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -3224,10 +3224,10 @@
             },
             _calculateFinalLocation: function(desired, clampInfo) {
                 var returnValue, rectangle = clampInfo.rc, menuSize = clampInfo.menuSize;
-                return returnValue.top = Math.max(0, (returnValue = {
+                return returnValue = {
                     left: fitSegmentInsideSegment(rectangle.cx, menuSize.cx, rectangle.x, desired.x),
                     top: fitSegmentInsideSegment(rectangle.cy, menuSize.cy, rectangle.y, desired.y)
-                }).top), returnValue.top -= Math.min(returnValue.top, Math.max(0, returnValue.top + menuSize.cy - this.document.height())), returnValue;
+                }, returnValue.top = Math.max(0, returnValue.top), returnValue.top -= Math.min(returnValue.top, Math.max(0, returnValue.top + menuSize.cy - this.document.height())), returnValue;
             },
             _placementCoords: function(desired) {
                 return this._calculateFinalLocation(desired, this._clampPopupWidth());
@@ -3854,11 +3854,11 @@
                 return ar && ar.arEls.remove(), this._super();
             },
             _tryAnArrow: function(p, dir, desired, s, best) {
-                var result, diff, desiredForArrow = {}, tip = {};
-                return s.arFull[p.dimKey] > s.guideDims[p.dimKey] || (desiredForArrow[p.fst] = desired[p.fst] + (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor - s.contentBox[p.fst] + (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) * p.arrowOffsetFactor, desiredForArrow[p.snd] = desired[p.snd], tip[p.fst] = ({
+                var result, r, diff, desiredForArrow = {}, tip = {};
+                return s.arFull[p.dimKey] > s.guideDims[p.dimKey] || (desiredForArrow[p.fst] = desired[p.fst] + (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor - s.contentBox[p.fst] + (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) * p.arrowOffsetFactor, desiredForArrow[p.snd] = desired[p.snd], r = {
                     x: (result = s.result || this._calculateFinalLocation(desiredForArrow, s.clampInfo)).left,
                     y: result.top
-                })[p.fst] + s.contentBox[p.fst] + p.tipOffset, tip[p.snd] = Math.max(result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey], Math.min(result[p.prop] + s.guideOffset[p.prop] + s.guideDims[p.dimKey] - s.arHalf[p.dimKey], desired[p.snd])), diff = Math.abs(desired.x - tip.x) + Math.abs(desired.y - tip.y), (!best || diff < best.diff) && (tip[p.snd] -= s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd], best = {
+                }, tip[p.fst] = r[p.fst] + s.contentBox[p.fst] + p.tipOffset, tip[p.snd] = Math.max(result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey], Math.min(result[p.prop] + s.guideOffset[p.prop] + s.guideDims[p.dimKey] - s.arHalf[p.dimKey], desired[p.snd])), diff = Math.abs(desired.x - tip.x) + Math.abs(desired.y - tip.y), (!best || diff < best.diff) && (tip[p.snd] -= s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd], best = {
                     dir: dir,
                     diff: diff,
                     result: result,
@@ -3884,8 +3884,8 @@
                     top: 0,
                     right: 0,
                     bottom: 0
-                }), state.contentBox = {
-                    x: (gdOffset = ar.gd.offset()).left - offset.left,
+                }), gdOffset = ar.gd.offset(), state.contentBox = {
+                    x: gdOffset.left - offset.left,
                     y: gdOffset.top - offset.top,
                     cx: ar.gd.width(),
                     cy: ar.gd.height()

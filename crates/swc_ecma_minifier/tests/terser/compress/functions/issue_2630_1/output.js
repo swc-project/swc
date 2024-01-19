@@ -1,5 +1,4 @@
 var c = 0;
-(function () {
-    while (void (c = 1 + ++c));
-})(),
-    console.log(c);
+(function() {
+    while(void (c++, c = 1 + c));
+})(), console.log(c);

@@ -116,7 +116,7 @@
     }, _.shuffle = function(obj) {
         var rand, index = 0, shuffled = [];
         return each(obj, function(value) {
-            shuffled[index - 1] = shuffled[rand = _.random(index++)], shuffled[rand] = value;
+            rand = _.random(index++), shuffled[index - 1] = shuffled[rand], shuffled[rand] = value;
         }), shuffled;
     }, _.sample = function(obj, n, guard) {
         return arguments.length < 2 || guard ? obj[_.random(obj.length - 1)] : _.shuffle(obj).slice(0, Math.max(0, n));

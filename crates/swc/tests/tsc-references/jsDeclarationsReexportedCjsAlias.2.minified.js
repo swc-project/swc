@@ -1,22 +1,23 @@
 //// [lib.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var SomeClass = function() {
+    function SomeClass() {
+        _class_call_check(this, SomeClass);
+    }
+    var _proto = SomeClass.prototype;
+    return _proto.a = function() {
+        return 1;
+    }, SomeClass;
+}();
 module.exports = {
     bar: function(a) {
         return a + a;
     },
-    SomeClass: function() {
-        function SomeClass() {
-            _class_call_check(this, SomeClass);
-        }
-        var _proto = SomeClass.prototype;
-        return _proto.a = function() {
-            return 1;
-        }, SomeClass;
-    }()
+    SomeClass: SomeClass
 };
 //// [main.js]
-var _require = require("./lib");
+var _require = require("./lib"), SomeClass = _require.SomeClass, Another = _require.SomeClass;
 module.exports = {
-    SomeClass: _require.SomeClass,
-    Another: _require.SomeClass
+    SomeClass: SomeClass,
+    Another: Another
 };

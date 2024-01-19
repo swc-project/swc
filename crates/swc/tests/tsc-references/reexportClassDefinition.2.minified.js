@@ -4,8 +4,9 @@ module.exports = function x() {
     _class_call_check._(this, x);
 };
 //// [foo2.ts]
+var foo1 = require("./foo1");
 module.exports = {
-    x: require("./foo1")
+    x: foo1
 };
 //// [foo3.ts]
 Object.defineProperty(exports, "__esModule", {

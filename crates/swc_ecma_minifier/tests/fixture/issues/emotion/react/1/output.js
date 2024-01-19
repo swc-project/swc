@@ -344,7 +344,7 @@
                     }
                 }
             ], hash_browser_esm = function(str) {
-                for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)k = (0xffff & (k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16), k ^= k >>> 24, h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+                for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24, k = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16), k ^= k >>> 24, h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
                 switch(len){
                     case 3:
                         h ^= (0xff & str.charCodeAt(i + 2)) << 16;
@@ -518,7 +518,7 @@
                     return output;
                 }), stylis = function(styles) {
                     var value, value1;
-                    return serialize((value1 = function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
+                    return serialize((value = styles, value1 = function parse(value, root, parent, rule, rules, rulesets, pseudo, points, declarations) {
                         for(var value1, index = 0, offset = 0, length = pseudo, atrule = 0, property = 0, previous = 0, variable = 1, scanning = 1, ampersand = 1, character1 = 0, type = "", props = rules, children = rulesets, reference = rule, characters1 = type; scanning;)switch(previous = character1, character1 = next()){
                             case 34:
                             case 39:
@@ -615,7 +615,7 @@
                         return rulesets;
                     }("", null, null, null, [
                         ""
-                    ], value = alloc(value = styles), 0, [
+                    ], value = alloc(value), 0, [
                         0
                     ], value), characters = "", value1), serializer);
                 };
@@ -677,7 +677,11 @@
                         sheetRefCurrent[1] = !1;
                         return;
                     }
-                    void 0 !== serialized.next && emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length && (sheet.before = sheet.tags[sheet.tags.length - 1].nextElementSibling, sheet.flush()), cache.insert("", serialized, sheet, !1);
+                    if (void 0 !== serialized.next && emotion_utils_browser_esm_insertStyles(cache, serialized.next, !0), sheet.tags.length) {
+                        var element = sheet.tags[sheet.tags.length - 1].nextElementSibling;
+                        sheet.before = element, sheet.flush();
+                    }
+                    cache.insert("", serialized, sheet, !1);
                 }, [
                     cache,
                     serialized.name
@@ -832,8 +836,8 @@
                         priority: !0
                     }));
                 }, props.passHref || "a" === child.type && !("href" in child.props)) {
-                    var curLocale1 = void 0 !== locale ? locale : router && router.locale;
-                    childProps.href = router && router.isLocaleDomain && _router.getDomainLocale(as, curLocale1, router && router.locales, router && router.domainLocales) || _router.addBasePath(_router.addLocale(as, curLocale1, router && router.defaultLocale));
+                    var curLocale1 = void 0 !== locale ? locale : router && router.locale, localeDomain = router && router.isLocaleDomain && _router.getDomainLocale(as, curLocale1, router && router.locales, router && router.domainLocales);
+                    childProps.href = localeDomain || _router.addBasePath(_router.addLocale(as, curLocale1, router && router.defaultLocale));
                 }
                 return _react.default.cloneElement(child, childProps);
             };

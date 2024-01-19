@@ -492,8 +492,8 @@
     }
     function setCurrentlyValidatingElement$1(element) {
         if (element) {
-            var owner = element._owner;
-            currentExtraStackFrame = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+            var owner = element._owner, stack = describeUnknownElementTypeFrameInDEV(element.type, element._source, owner ? owner.type : null);
+            currentExtraStackFrame = stack;
         } else currentExtraStackFrame = null;
     }
     function getDeclarationErrorAddendum() {

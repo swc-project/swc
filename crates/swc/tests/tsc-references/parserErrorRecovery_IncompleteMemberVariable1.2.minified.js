@@ -1,7 +1,7 @@
 //// [parserErrorRecovery_IncompleteMemberVariable1.ts]
 var Shapes, Point, Shapes1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-Shapes = Shapes1 || (Shapes1 = {}), Point.origin = new (Point = function() {
+Shapes = Shapes1 || (Shapes1 = {}), Point = function() {
     function Point(x, y) {
         _class_call_check(this, Point), this.x = x, this.y = y;
     }
@@ -9,4 +9,4 @@ Shapes = Shapes1 || (Shapes1 = {}), Point.origin = new (Point = function() {
     return _proto.getDist = function() {
         return Math.sqrt(this.x * this.x + this.y * this.y);
     }, Point;
-}())(0, 0), Shapes.Point = Point, new Shapes1.Point(3, 4).getDist();
+}(), Point.origin = new Point(0, 0), Shapes.Point = Point, new Shapes1.Point(3, 4).getDist();

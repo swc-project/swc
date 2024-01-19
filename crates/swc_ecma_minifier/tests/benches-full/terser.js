@@ -2122,7 +2122,7 @@
         },
         wrap_commonjs: function(name) {
             var body = this.body, wrapped_tl = "(function(exports){'$ORIG';})(typeof " + name + "=='undefined'?(" + name + "={}):" + name + ");";
-            return (wrapped_tl = parse(wrapped_tl)).transform(new TreeTransformer(function(node) {
+            return wrapped_tl = parse(wrapped_tl), wrapped_tl = wrapped_tl.transform(new TreeTransformer(function(node) {
                 if (node instanceof AST_Directive && "$ORIG" == node.value) return MAP.splice(body);
             }));
         },
@@ -4176,7 +4176,7 @@
                 function quote_double() {
                     return '"' + str.replace(/\x22/g, '\\"') + '"';
                 }
-                if (str = to_utf8(str = str.replace(/[\\\b\f\n\r\v\t\x22\x27\u2028\u2029\0\ufeff]/g, function(s, i) {
+                if (str = str.replace(/[\\\b\f\n\r\v\t\x22\x27\u2028\u2029\0\ufeff]/g, function(s, i) {
                     switch(s){
                         case '"':
                             return ++dq, '"';
@@ -4206,7 +4206,7 @@
                             return /[0-9]/.test(get_full_char(str, i + 1)) ? "\\x00" : "\\0";
                     }
                     return s;
-                })), "`" === quote) return "`" + str.replace(/`/g, "\\`") + "`";
+                }), str = to_utf8(str), "`" === quote) return "`" + str.replace(/`/g, "\\`") + "`";
                 switch(options.quote_style){
                     case 1:
                         return quote_single();
@@ -4218,7 +4218,7 @@
                         return dq > sq ? quote_single() : quote_double();
                 }
             }(str, quote);
-            return options.inline_script && (ret = (ret = (ret = ret.replace(/<\x2f(script)([>\/\t\n\f\r ])/gi, "<\\/$1$2")).replace(/\x3c!--/g, "\\x3c!--")).replace(/--\x3e/g, "--\\x3e")), ret;
+            return options.inline_script && (ret = ret.replace(/<\x2f(script)([>\/\t\n\f\r ])/gi, "<\\/$1$2"), ret = ret.replace(/\x3c!--/g, "\\x3c!--"), ret = ret.replace(/--\x3e/g, "--\\x3e")), ret;
         }
         var mapping_token, mapping_name, has_parens = !1, might_need_space = !1, might_need_semicolon = !1, might_add_newline = 0, need_newline_indented = !1, need_space = !1, newline_insert = -1, last = "", mappings = options.source_map && [], do_add_mapping = mappings ? function() {
             mappings.forEach(function(mapping) {
@@ -4343,7 +4343,8 @@
             force_semicolon: force_semicolon,
             to_utf8: to_utf8,
             print_name: function(name) {
-                print(to_utf8(name.toString(), !0));
+                var name1;
+                print((name1 = name, name1 = name1.toString(), name1 = to_utf8(name1, !0)));
             },
             print_string: function(str, quote, escape_directive) {
                 var encoded = encode_string(str, quote);
@@ -6689,7 +6690,7 @@
                 if (stat instanceof AST_If) {
                     var ab = aborts(stat.body);
                     if (can_merge_flow(ab)) {
-                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, stat.condition = (stat = stat.clone()).condition.negate(compressor);
+                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, stat = stat.clone(), stat.condition = stat.condition.negate(compressor);
                         var body = as_statement_array_with_return(stat.body, ab);
                         stat.body = make_node(AST_BlockStatement, stat, {
                             body: as_statement_array(stat.alternative).concat(extract_functions())
@@ -6700,7 +6701,7 @@
                     }
                     var ab = aborts(stat.alternative);
                     if (can_merge_flow(ab)) {
-                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, stat.body = make_node(AST_BlockStatement, (stat = stat.clone()).body, {
+                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, stat = stat.clone(), stat.body = make_node(AST_BlockStatement, stat.body, {
                             body: as_statement_array(stat.body).concat(extract_functions())
                         });
                         var body = as_statement_array_with_return(stat.alternative, ab);
@@ -7402,7 +7403,7 @@
             return this._toplevel;
         }
         compress(toplevel) {
-            this._toplevel = toplevel = toplevel.resolve_defines(this), this.option("expression") && this._toplevel.process_expression(!0);
+            toplevel = toplevel.resolve_defines(this), this._toplevel = toplevel, this.option("expression") && this._toplevel.process_expression(!0);
             for(var passes = +this.options.passes || 1, min_count = 1 / 0, stopping = !1, nth_identifier = this.mangle_options && this.mangle_options.nth_identifier || base54, mangle = {
                 ie8: this.option("ie8"),
                 nth_identifier: nth_identifier
@@ -7419,7 +7420,7 @@
         before(node, descend) {
             if (has_flag(node, 0b0000000100000000)) return node;
             var was_scope = !1;
-            node instanceof AST_Scope && (node = (node = node.hoist_properties(this)).hoist_declarations(this), was_scope = !0), descend(node, this), descend(node, this);
+            node instanceof AST_Scope && (node = node.hoist_properties(this), node = node.hoist_declarations(this), was_scope = !0), descend(node, this), descend(node, this);
             var opt = node.optimize(this);
             return was_scope && opt instanceof AST_Scope && (opt.drop_unused(this), descend(opt, this)), opt === node && set_flag(opt, 0b0000000100000000), opt;
         }
@@ -7668,7 +7669,7 @@
                             });
                     }
                 }
-                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (node.init = (block = node.init).body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
+                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (block = node.init, node.init = block.body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
                 if (node instanceof AST_LabeledStatement && node.body instanceof AST_For) {
                     if (descend(node, this), node.body instanceof AST_BlockStatement) {
                         var block = node.body;
@@ -8594,7 +8595,7 @@
                 return expressions.map((exp)=>exp.clone(!0));
             }(returned_value)).optimize(compressor);
         }
-        if (can_inline && has_annotation(self1, _INLINE)) return set_flag(fn, 0b0000000100000000), (fn = (fn = make_node(fn.CTOR === AST_Defun ? AST_Function : fn.CTOR, fn, fn)).clone(!0)).figure_out_scope({}, {
+        if (can_inline && has_annotation(self1, _INLINE)) return set_flag(fn, 0b0000000100000000), fn = make_node(fn.CTOR === AST_Defun ? AST_Function : fn.CTOR, fn, fn), (fn = fn.clone(!0)).figure_out_scope({}, {
             parent_scope: find_scope(compressor),
             toplevel: compressor.get_toplevel()
         }), make_node(AST_Call, self1, {
@@ -9211,7 +9212,7 @@
     }), def_optimize(AST_DefaultAssign, function(self1, compressor) {
         if (!compressor.option("evaluate")) return self1;
         var evaluateRight = self1.right.evaluate(compressor);
-        return void 0 === evaluateRight ? self1 = self1.left : evaluateRight !== self1.right && (self1.right = best_of_expression(evaluateRight = make_node_from_constant(evaluateRight, self1.right), self1.right)), self1;
+        return void 0 === evaluateRight ? self1 = self1.left : evaluateRight !== self1.right && (evaluateRight = make_node_from_constant(evaluateRight, self1.right), self1.right = best_of_expression(evaluateRight, self1.right)), self1;
     }), def_optimize(AST_Conditional, function(self1, compressor) {
         if (!compressor.option("conditionals")) return self1;
         if (self1.condition instanceof AST_Sequence) {
