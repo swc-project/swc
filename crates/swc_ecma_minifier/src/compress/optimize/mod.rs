@@ -174,6 +174,8 @@ struct Ctx {
 
     in_with_stmt: bool,
 
+    shallow_seq_inline: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
