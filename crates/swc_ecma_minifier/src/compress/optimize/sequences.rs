@@ -19,7 +19,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::{
-        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
+        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr, Ctx},
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
@@ -1725,7 +1725,13 @@ impl Optimizer<'_> {
                             SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) => {
                                 let mut b_left_expr: Box<Expr> = b_left.take().into();
 
-                                let res = self.merge_sequential_expr(a, &mut b_left_expr);
+                                let ctx = Ctx {
+                                    shallow_seq_inline: true,
+                                    ..self.ctx
+                                };
+                                let res = self
+                                    .with_ctx(ctx)
+                                    .merge_sequential_expr(a, &mut b_left_expr);
 
                                 b_assign.left = match AssignTarget::try_from(b_left_expr) {
                                     Ok(v) => v,
