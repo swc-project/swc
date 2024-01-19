@@ -99,7 +99,7 @@ impl Babelify for SetterProp {
             base: ctx.base(self.span),
             kind: ObjectMethodKind::Set,
             key: self.key.babelify(ctx),
-            params: self.params.babelify(ctx),
+            params: vec![self.param.babelify(ctx).into()],
             body: self.body.unwrap().babelify(ctx),
             return_type: Default::default(),
             computed: Default::default(),
