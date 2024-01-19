@@ -367,6 +367,7 @@ impl Visit for FieldInitFinder {
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         let old = self.in_rhs;
+        self.in_rhs = false;
         e.left.visit_with(self);
         self.check_lhs_of_assign(&e.left);
 
