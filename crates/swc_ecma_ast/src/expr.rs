@@ -18,11 +18,8 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, PropName, Str,
-    ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
-    ArrayPat, ComputedPropName, Id, Invalid, ObjectPat,
-    ArrayPat, BindingIdent, ComputedPropName, Id, Invalid, ObjectPat,
-    ArrayPat, BindingIdent, ComputedPropName, Id, Invalid, KeyValueProp, ObjectPat, PropName, Str,
+    ArrayPat, BindingIdent, ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, ObjectPat,
+    PropName, Str,
 };
 
 #[ast_node(no_clone)]
