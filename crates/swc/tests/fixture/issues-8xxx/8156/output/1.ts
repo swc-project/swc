@@ -1,6 +1,6 @@
 "use strict";
 const s = {
-    set m (value1){
+    set m (_this, value1){
         console.log(value1);
     }
 };
