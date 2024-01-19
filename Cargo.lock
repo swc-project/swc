@@ -2796,7 +2796,7 @@ dependencies = [
 
 [[package]]
 name = "preset_env_base"
-version = "0.4.9"
+version = "0.4.10"
 dependencies = [
  "ahash 0.8.7",
  "anyhow",
@@ -4032,7 +4032,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css"
-version = "0.157.29"
+version = "0.157.30"
 dependencies = [
  "swc_css_ast",
  "swc_css_codegen",
@@ -4174,7 +4174,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_prefixer"
-version = "0.153.25"
+version = "0.153.26"
 dependencies = [
  "once_cell",
  "preset_env_base",
