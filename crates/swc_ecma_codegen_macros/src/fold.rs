@@ -1,4 +1,3 @@
-use pmutil::ToTokensExt;
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
 use syn::{
@@ -31,7 +30,7 @@ fn get_joined_span(t: &dyn ToTokens) -> Span {
 
 #[cfg(not(procmacro2_semver_exempt))]
 fn get_joined_span(t: &dyn ToTokens) -> Span {
-    let tts: TokenStream = t.dump();
+    let tts: TokenStream = t.into_token_stream();
     let mut first = None;
     for tt in tts {
         if first.is_none() {
@@ -79,7 +78,7 @@ impl Fold for InjectSelf {
             }
         };
 
-        let name = i.path.dump().to_string();
+        let name = i.path.clone().into_token_stream().to_string();
         let span = get_joined_span(&i.path);
 
         match &*name {
@@ -92,7 +91,7 @@ impl Fold for InjectSelf {
                     .map(|el| el.map_item(|expr| self.fold_expr(expr)))
                     .collect();
                 Macro {
-                    tokens: args.dump(),
+                    tokens: args.into_token_stream(),
                     ..i
                 }
             }
@@ -111,7 +110,7 @@ impl Fold for InjectSelf {
                     let args = args
                         .into_pairs()
                         .map(|el| el.map_item(|expr| self.fold_expr(expr)))
-                        .flat_map(|arg| arg.dump());
+                        .flat_map(|arg| arg.into_token_stream());
 
                     quote_spanned!(span => #parser,)
                         .into_iter()

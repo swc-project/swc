@@ -196,11 +196,11 @@ impl VisitMut for ComputedProps {
                             // mutator[f] = mutator[f] || {}
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span,
-                                left: PatOrExpr::Expr(Box::new(mutator_elem.clone())),
+                                left: mutator_elem.clone().into(),
                                 op: op!("="),
                                 right: Box::new(Expr::Bin(BinExpr {
                                     span,
-                                    left: Box::new(mutator_elem.clone()),
+                                    left: mutator_elem.clone().into(),
                                     op: op!("||"),
                                     right: Box::new(Expr::Object(ObjectLit {
                                         span,
@@ -212,9 +212,9 @@ impl VisitMut for ComputedProps {
                             // mutator[f].get = function(){}
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span,
-                                left: PatOrExpr::Expr(Box::new(
-                                    mutator_elem.make_member(quote_ident!(gs_prop_name.unwrap())),
-                                )),
+                                left: mutator_elem
+                                    .make_member(quote_ident!(gs_prop_name.unwrap()))
+                                    .into(),
                                 op: op!("="),
                                 right: Box::new(Expr::Fn(FnExpr {
                                     ident: None,
@@ -254,7 +254,7 @@ impl VisitMut for ComputedProps {
                     Box::new(Expr::Assign(AssignExpr {
                         span,
                         op: op!("="),
-                        left: PatOrExpr::Expr(Box::new(left)),
+                        left: left.into(),
                         right: value.into(),
                     }))
                 } else {

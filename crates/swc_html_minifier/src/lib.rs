@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![feature(box_patterns)]
 
 use std::{borrow::Cow, cmp::Ordering, mem::take};
 
@@ -2033,6 +2032,11 @@ impl Minifier<'_> {
             &mut swc_ecma_transforms_base::resolver(unresolved_mark, top_level_mark, false),
         );
 
+        let program = swc_ecma_visit::FoldWith::fold_with(
+            program,
+            &mut swc_ecma_transforms_base::fixer::paren_remover(Some(&comments)),
+        );
+
         let program = swc_ecma_minifier::optimize(
             program,
             cm.clone(),
@@ -2271,32 +2275,29 @@ impl Minifier<'_> {
                 let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
 
                 // Because CSS is grammar free, protect for fails
-                if let Some(swc_css_ast::Rule::QualifiedRule(box swc_css_ast::QualifiedRule {
-                    block,
-                    ..
-                })) = rules.first()
-                {
-                    swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
-
-                    minified = minified[1..minified.len() - 1].to_string();
-                } else {
+                let Some(swc_css_ast::Rule::QualifiedRule(qualified_rule)) = rules.first() else {
                     return None;
-                }
+                };
+
+                let swc_css_ast::QualifiedRule { block, .. } = &**qualified_rule;
+
+                swc_css_codegen::Emit::emit(&mut gen, &block).unwrap();
+
+                minified = minified[1..minified.len() - 1].to_string();
             }
             CssMinificationMode::MediaQueryList => {
                 let swc_css_ast::Stylesheet { rules, .. } = &stylesheet;
 
                 // Because CSS is grammar free, protect for fails
-                if let Some(swc_css_ast::Rule::AtRule(box swc_css_ast::AtRule {
-                    prelude, ..
-                })) = rules.first()
-                {
-                    swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
-
-                    minified = minified.trim().to_string();
-                } else {
+                let Some(swc_css_ast::Rule::AtRule(at_rule)) = rules.first() else {
                     return None;
-                }
+                };
+
+                let swc_css_ast::AtRule { prelude, .. } = &**at_rule;
+
+                swc_css_codegen::Emit::emit(&mut gen, &prelude).unwrap();
+
+                minified = minified.trim().to_string();
             }
         }
 

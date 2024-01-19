@@ -10,6 +10,7 @@ use swc_ecma_visit::{noop_fold_type, Fold, FoldWith, VisitWith};
 
 use crate::{
     path::{ImportResolver, Resolver},
+    top_level_this::top_level_this,
     util::{local_name_for_src, use_strict},
 };
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -33,7 +34,6 @@ struct SystemJs {
     export_values: Vec<Box<Expr>>,
     tla: bool,
     enter_async_fn: u32,
-    is_global_this: bool,
     root_fn_decl_idents: Vec<Ident>,
     module_item_meta_list: Vec<ModuleItemMeta>,
     import_idents: Vec<Id>,
@@ -51,7 +51,6 @@ pub fn system_js(unresolved_mark: Mark, config: Config) -> impl Fold {
         export_map: Default::default(),
         export_names: vec![],
         export_values: vec![],
-        is_global_this: true,
         tla: false,
         enter_async_fn: 0,
         root_fn_decl_idents: vec![],
@@ -72,7 +71,6 @@ pub fn system_js_with_resolver(
         unresolved_mark,
         resolver: Resolver::Real { base, resolver },
         config,
-        is_global_this: true,
         declare_var_idents: vec![],
         export_map: Default::default(),
         export_names: vec![],
@@ -96,19 +94,6 @@ struct ModuleItemMeta {
 }
 
 impl SystemJs {
-    fn fold_children_with_non_global_this<T>(&mut self, n: T) -> T
-    where
-        T: FoldWith<Self>,
-    {
-        let is_global_this = self.is_global_this;
-
-        self.is_global_this = false;
-        let node = n.fold_children_with(self);
-        self.is_global_this = is_global_this;
-
-        node
-    }
-
     fn export_call(&self, name: JsWord, span: Span, expr: Expr) -> CallExpr {
         CallExpr {
             span,
@@ -120,7 +105,11 @@ impl SystemJs {
 
     fn fold_module_name_ident(&mut self, ident: Ident) -> Expr {
         if &*ident.sym == "__moduleName" && ident.span.ctxt().outer() == self.unresolved_mark {
-            return self.context_ident.clone().make_member(quote_ident!("id"));
+            return self
+                .context_ident
+                .clone()
+                .make_member(quote_ident!("id"))
+                .into();
         }
         Expr::Ident(ident)
     }
@@ -344,10 +333,8 @@ impl SystemJs {
                             stmts: vec![AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Expr(Box::new(
-                                    export_obj.clone().computed_member(key_ident.clone()),
-                                )),
-                                right: Box::new(target.computed_member(key_ident)),
+                                left: export_obj.clone().computed_member(key_ident.clone()).into(),
+                                right: target.computed_member(key_ident).into(),
                             }
                             .into_stmt()],
                         })),
@@ -364,9 +351,7 @@ impl SystemJs {
                     AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Expr(Box::new(
-                            export_obj.clone().make_member(quote_ident!(sym)),
-                        )),
+                        left: export_obj.clone().make_member(quote_ident!(sym)).into(),
                         right: value,
                     }
                     .into_stmt(),
@@ -595,9 +580,11 @@ impl Fold for SystemJs {
                 _ => Expr::Call(call),
             },
             Expr::MetaProp(meta_prop_expr) => match meta_prop_expr.kind {
-                MetaPropKind::ImportMeta => {
-                    self.context_ident.clone().make_member(quote_ident!("meta"))
-                }
+                MetaPropKind::ImportMeta => self
+                    .context_ident
+                    .clone()
+                    .make_member(quote_ident!("meta"))
+                    .into(),
                 _ => Expr::MetaProp(meta_prop_expr),
             },
             Expr::Await(await_expr) => {
@@ -606,12 +593,6 @@ impl Fold for SystemJs {
                 }
 
                 Expr::Await(await_expr)
-            }
-            Expr::This(this_expr) => {
-                if !self.config.allow_top_level_this && self.is_global_this {
-                    return *undefined(DUMMY_SP);
-                }
-                Expr::This(this_expr)
             }
             _ => expr,
         }
@@ -627,14 +608,6 @@ impl Fold for SystemJs {
             self.enter_async_fn -= 1;
         }
         fold_fn_expr
-    }
-
-    fn fold_class_expr(&mut self, n: ClassExpr) -> ClassExpr {
-        self.fold_children_with_non_global_this(n)
-    }
-
-    fn fold_function(&mut self, n: Function) -> Function {
-        self.fold_children_with_non_global_this(n)
     }
 
     fn fold_prop(&mut self, prop: Prop) -> Prop {
@@ -657,6 +630,13 @@ impl Fold for SystemJs {
     }
 
     fn fold_module(&mut self, module: Module) -> Module {
+        let module = {
+            let mut module = module;
+            if !self.config.allow_top_level_this {
+                top_level_this(&mut module, *undefined(DUMMY_SP));
+            }
+            module
+        };
         let mut before_body_stmts: Vec<Stmt> = vec![];
         let mut execute_stmts = vec![];
 
@@ -697,10 +677,9 @@ impl Fold for SystemJs {
                                             left: PatOrExpr::Expr(Box::new(Expr::Ident(
                                                 specifier.local,
                                             ))),
-                                            right: Box::new(
-                                                quote_ident!(source_alias.clone())
-                                                    .make_member(quote_ident!("default")),
-                                            ),
+                                            right: quote_ident!(source_alias.clone())
+                                                .make_member(quote_ident!("default"))
+                                                .into(),
                                         }
                                         .into_stmt(),
                                     );
@@ -788,10 +767,11 @@ impl Fold for SystemJs {
                                     }
                                     ExportSpecifier::Default(specifier) => {
                                         export_names.push(specifier.exported.sym.clone());
-                                        export_values.push(Box::new(
+                                        export_values.push(
                                             quote_ident!(source_alias.clone())
-                                                .make_member(quote_ident!("default")),
-                                        ));
+                                                .make_member(quote_ident!("default"))
+                                                .into(),
+                                        );
                                     }
                                     ExportSpecifier::Namespace(specifier) => {
                                         export_names

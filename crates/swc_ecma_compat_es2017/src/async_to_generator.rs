@@ -587,7 +587,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             let value_var = VarDeclarator {
                 span: DUMMY_SP,
                 name: value.clone().into(),
-                init: Some(Box::new(step.clone().make_member(quote_ident!("value")))),
+                init: Some(step.clone().make_member(quote_ident!("value")).into()),
                 definite: false,
             };
             for_loop_body.push(
@@ -715,7 +715,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 let right = Box::new(Expr::Unary(UnaryExpr {
                     span: DUMMY_SP,
                     op: op!("!"),
-                    arg: Box::new(assign_to_step.make_member(quote_ident!("done"))),
+                    arg: assign_to_step.make_member(quote_ident!("done")).into(),
                 }));
 
                 let left = PatOrExpr::Pat(iterator_abrupt_completion.clone().into());
@@ -820,7 +820,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 right: Box::new(Expr::Bin(BinExpr {
                     span: DUMMY_SP,
                     op: op!("!="),
-                    left: Box::new(iterator.make_member(quote_ident!("return"))),
+                    left: iterator.make_member(quote_ident!("return")).into(),
                     right: Null { span: DUMMY_SP }.into(),
                 })),
             })),

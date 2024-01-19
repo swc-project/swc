@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
@@ -1050,25 +1049,23 @@ where
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
                     | ComponentValue::Percentage(_)
-                    | ComponentValue::LengthPercentage(box LengthPercentage::Percentage(_))
-                    | ComponentValue::FrequencyPercentage(box FrequencyPercentage::Percentage(_))
-                    | ComponentValue::AnglePercentage(box AnglePercentage::Percentage(_))
-                    | ComponentValue::TimePercentage(box TimePercentage::Percentage(_)) => {
-                        match next {
-                            Some(ComponentValue::Delimiter(delimiter))
-                                if matches!(
-                                    **delimiter,
-                                    Delimiter {
-                                        value: DelimiterValue::Comma,
-                                        ..
-                                    }
-                                ) =>
-                            {
-                                false
-                            }
-                            _ => !self.config.minify,
+                    | ComponentValue::LengthPercentage(_)
+                    | ComponentValue::FrequencyPercentage(_)
+                    | ComponentValue::AnglePercentage(_)
+                    | ComponentValue::TimePercentage(_) => match next {
+                        Some(ComponentValue::Delimiter(delimiter))
+                            if matches!(
+                                **delimiter,
+                                Delimiter {
+                                    value: DelimiterValue::Comma,
+                                    ..
+                                }
+                            ) =>
+                        {
+                            false
                         }
-                    }
+                        _ => !self.config.minify,
+                    },
                     ComponentValue::Color(color)
                         if matches!(
                             **color,
@@ -1118,27 +1115,6 @@ where
                                 true
                             }
                         }
-                        Some(ComponentValue::LengthPercentage(box LengthPercentage::Length(
-                            Length { value, .. },
-                        )))
-                        | Some(ComponentValue::FrequencyPercentage(
-                            box FrequencyPercentage::Frequency(Frequency { value, .. }),
-                        ))
-                        | Some(ComponentValue::AnglePercentage(box AnglePercentage::Angle(
-                            Angle { value, .. },
-                        )))
-                        | Some(ComponentValue::TimePercentage(box TimePercentage::Time(Time {
-                            value,
-                            ..
-                        }))) => {
-                            if self.config.minify {
-                                let minified = minify_numeric(value.value);
-
-                                !minified.starts_with('.')
-                            } else {
-                                true
-                            }
-                        }
                         Some(ComponentValue::Dimension(dimension)) => {
                             if self.config.minify {
                                 let value = match &**dimension {
@@ -1153,6 +1129,29 @@ where
 
                                 let minified = minify_numeric(value);
 
+                                !minified.starts_with('.')
+                            } else {
+                                true
+                            }
+                        }
+                        Some(component_value) if self.config.minify => {
+                            if let Some(minified) = match component_value {
+                                ComponentValue::LengthPercentage(p) => {
+                                    p.as_length().map(|l| l.value.value)
+                                }
+                                ComponentValue::FrequencyPercentage(p) => {
+                                    p.as_frequency().map(|f| f.value.value)
+                                }
+                                ComponentValue::AnglePercentage(p) => {
+                                    p.as_angle().map(|a| a.value.value)
+                                }
+                                ComponentValue::TimePercentage(p) => {
+                                    p.as_time().map(|t| t.value.value)
+                                }
+                                _ => None,
+                            }
+                            .map(minify_numeric)
+                            {
                                 !minified.starts_with('.')
                             } else {
                                 true

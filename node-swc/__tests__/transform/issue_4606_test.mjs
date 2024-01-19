@@ -32,10 +32,10 @@ it("should override react", async () => {
         }
     );
     expect(code).toMatchInlineSnapshot(`
-        "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+        "import { jsx as _jsx } from "react/jsx-runtime";
         export default function foo() {
-            return /*#__PURE__*/ _jsx(\\"div\\", {
-                children: \\"Hello\\"
+            return /*#__PURE__*/ _jsx("div", {
+                children: "Hello"
             });
         }
         "
@@ -68,10 +68,10 @@ it("should merge correctly", async () => {
     });
     // It should transpile react jsx with automatic runtime
     expect(code).toMatchInlineSnapshot(`
-        "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+        "import { jsx as _jsx } from "react/jsx-runtime";
         export default function foo() {
-            return /*#__PURE__*/ _jsx(\\"div\\", {
-                children: \\"Hello\\"
+            return /*#__PURE__*/ _jsx("div", {
+                children: "Hello"
             });
         }
         "
@@ -96,20 +96,20 @@ it("module config should merged correctly", async () => {
     });
     // It should transpile react jsx with automatic runtime
     expect(code).toMatchInlineSnapshot(`
-        "\\"use strict\\";
-        Object.defineProperty(exports, \\"__esModule\\", {
+        ""use strict";
+        Object.defineProperty(exports, "__esModule", {
             value: true
         });
-        Object.defineProperty(exports, \\"default\\", {
+        Object.defineProperty(exports, "default", {
             enumerable: true,
             get: function() {
                 return foo;
             }
         });
-        const _jsxruntime = require(\\"react/jsx-runtime\\");
+        const _jsxruntime = require("react/jsx-runtime");
         function foo() {
-            return /*#__PURE__*/ (0, _jsxruntime.jsx)(\\"div\\", {
-                children: \\"Hello\\"
+            return /*#__PURE__*/ (0, _jsxruntime.jsx)("div", {
+                children: "Hello"
             });
         }
         "

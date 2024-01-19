@@ -1,6 +1,7 @@
 use std::{
     borrow::Cow,
     env::current_dir,
+    fs::read_link,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
@@ -160,13 +161,19 @@ where
                 false
             };
 
+            let is_resolved_as_js = if let Some(ext) = target_path.extension() {
+                ext == "js"
+            } else {
+                false
+            };
+
             let is_exact = if let Some(filename) = target_path.file_name() {
                 filename == orig_filename
             } else {
                 false
             };
 
-            if !is_resolved_as_index && !is_exact {
+            if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
                 target_path.set_file_name(orig_filename);
             } else if is_resolved_as_ts && is_exact {
                 if let Some(ext) = Path::new(orig_filename).extension() {
@@ -212,13 +219,22 @@ where
         let orig_filename = module_specifier.split('/').last();
 
         let target = self.resolver.resolve(base, module_specifier);
-        let target = match target {
+        let mut target = match target {
             Ok(v) => v,
             Err(err) => {
                 warn!("import rewriter: failed to resolve: {}", err);
                 return Ok(module_specifier.into());
             }
         };
+
+        // Bazel uses symlink
+        //
+        // https://github.com/swc-project/swc/issues/8265
+        if let FileName::Real(resolved) = &target {
+            if let Ok(orig) = read_link(resolved) {
+                target = FileName::Real(orig);
+            }
+        }
 
         info!("Resolved to {}", target);
 

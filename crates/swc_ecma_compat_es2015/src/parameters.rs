@@ -146,14 +146,14 @@ impl Params {
                                     left: Box::new(check_arg_len(i)),
                                     op: op!("&&"),
                                     right: Box::new(Expr::Bin(BinExpr {
-                                        left: Box::new(make_arg_nth(i)),
+                                        left: make_arg_nth(i).into(),
                                         op: op!("!=="),
                                         right: undefined(DUMMY_SP),
                                         span: DUMMY_SP,
                                     })),
                                     span,
                                 })),
-                                cons: Box::new(make_arg_nth(i)),
+                                cons: make_arg_nth(i).into(),
                                 alt: right,
                             }))),
                             definite: false,
@@ -298,7 +298,7 @@ impl Params {
                                     VarDeclarator {
                                         span,
                                         name: len_ident.clone().into(),
-                                        init: Some(member_expr!(span, arguments.length)),
+                                        init: Some(member_expr!(span, arguments.length).into()),
                                         definite: false,
                                     },
                                     // a1 = new Array(_len - $i)
@@ -360,9 +360,9 @@ impl Params {
 
                                 AssignExpr {
                                     span,
-                                    left: PatOrExpr::Expr(Box::new(
-                                        arg.computed_member(make_minus_i(&idx_ident, false)),
-                                    )),
+                                    left: arg
+                                        .computed_member(make_minus_i(&idx_ident, false))
+                                        .into(),
                                     op: op!("="),
                                     right: Box::new(
                                         MemberExpr {
@@ -763,16 +763,15 @@ impl VisitMut for Params {
     }
 }
 
-fn make_arg_nth(n: usize) -> Expr {
+fn make_arg_nth(n: usize) -> MemberExpr {
     Expr::Ident(Ident::new("arguments".into(), DUMMY_SP)).computed_member(n)
 }
 
 fn check_arg_len(n: usize) -> Expr {
     Expr::Bin(BinExpr {
-        left: Box::new(
-            Expr::Ident(Ident::new("arguments".into(), DUMMY_SP))
-                .make_member(Ident::new("length".into(), DUMMY_SP)),
-        ),
+        left: Expr::Ident(Ident::new("arguments".into(), DUMMY_SP))
+            .make_member(Ident::new("length".into(), DUMMY_SP))
+            .into(),
         op: op!(">"),
         right: n.into(),
         span: DUMMY_SP,
@@ -782,7 +781,7 @@ fn check_arg_len(n: usize) -> Expr {
 fn check_arg_len_or_undef(n: usize) -> Expr {
     Expr::Cond(CondExpr {
         test: Box::new(check_arg_len(n)),
-        cons: Box::new(make_arg_nth(n)),
+        cons: make_arg_nth(n).into(),
         alt: undefined(DUMMY_SP),
         span: DUMMY_SP,
     })

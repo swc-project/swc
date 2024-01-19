@@ -579,6 +579,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
         let body = self
             .with_ctx(Context {
+                in_static_block: true,
                 in_class_field: true,
                 allow_using_decl: true,
                 ..self.ctx()
@@ -1092,6 +1093,8 @@ impl<I: Tokens> Parser<I> {
                     is_static,
                     decorators,
                     accessibility,
+                    is_override,
+                    definite,
                 }));
             }
 
@@ -1386,6 +1389,7 @@ impl<I: Tokens> Parser<I> {
                 true
             },
             in_function: true,
+            in_static_block: false,
             is_break_allowed: false,
             is_continue_allowed: false,
             ..self.ctx()

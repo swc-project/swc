@@ -1,0 +1,35 @@
+{
+    "jsc": {
+        "keepClassNames": true,
+        "output": {
+            "preamble": ""
+        },
+        "parser": {
+            "syntax": "typescript"
+        },
+        "baseUrl": ".",
+        "paths": {
+            "*": [
+                "src/*"
+            ]
+        },
+        "preserveAllComments": true,
+        "target": "es2022",
+        "transform": {
+            "decoratorMetadata": false,
+            "legacyDecorator": false
+        }
+    },
+    "minify": false,
+    "module": {
+        "allowTopLevelThis": false,
+        "ignoreDynamic": false,
+        "lazy": false,
+        "noInterop": false,
+        "preserveImportMeta": false,
+        "resolveFully": false,
+        "strict": false,
+        "strictMode": true,
+        "type": "commonjs"
+    }
+}

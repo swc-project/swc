@@ -381,7 +381,7 @@ where
         if let Expr::Call(call) = &mut rhs {
             let mut span = Span {
                 // after class
-                lo: span.hi + BytePos(5),
+                lo: span.lo + BytePos(5),
                 ..span
             };
             self.add_pure_comments(&mut span.lo);
@@ -1147,9 +1147,12 @@ where
                                 decls: vec![VarDeclarator {
                                     span: DUMMY_SP,
                                     name: proto.clone().into(),
-                                    init: Some(Box::new(
-                                        class_name.clone().make_member(quote_ident!("prototype")),
-                                    )),
+                                    init: Some(
+                                        class_name
+                                            .clone()
+                                            .make_member(quote_ident!("prototype"))
+                                            .into(),
+                                    ),
                                     definite: false,
                                 }],
                             }

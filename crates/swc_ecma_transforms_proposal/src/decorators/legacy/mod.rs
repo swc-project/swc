@@ -224,10 +224,7 @@ impl VisitMut for TscDecorator {
         if self.metadata {
             let i = self.class_name.clone();
 
-            n.visit_mut_with(&mut Metadata {
-                enums: &self.enums,
-                class_name: i.as_ref(),
-            });
+            n.visit_mut_with(&mut Metadata::new(&self.enums, i.as_ref()));
         }
 
         n.visit_mut_children_with(self);

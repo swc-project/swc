@@ -39,7 +39,11 @@ use swc_ecma_parser::{
     EsConfig, Parser, Syntax,
 };
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{
+    fixer::{fixer, paren_remover},
+    hygiene::hygiene,
+    resolver,
+};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::{FoldWith, Visit, VisitMut, VisitMutWith, VisitWith};
 use testing::{assert_eq, unignore_fixture, DebugUsingDisplay, NormalizedOutput};
@@ -142,7 +146,7 @@ fn run(
     config: &str,
     mangle: Option<TestMangleOptions>,
     skip_hygiene: bool,
-) -> Option<Module> {
+) -> Option<Program> {
     HANDLER.set(handler, || {
         let disable_hygiene = mangle.is_some() || skip_hygiene;
 
@@ -190,11 +194,16 @@ fn run(
 
         let mut parser = Parser::new_from(lexer);
         let program = parser
-            .parse_module()
+            .parse_program()
             .map_err(|err| {
                 err.into_diagnostic(handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
+            .map(|mut program| {
+                program.visit_mut_with(&mut paren_remover(Some(&comments)));
+                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+                program
+            });
 
         // Ignore parser errors.
         //
@@ -206,7 +215,7 @@ fn run(
 
         let optimization_start = Instant::now();
         let mut output = optimize(
-            program.into(),
+            program,
             cm,
             Some(&comments),
             None,
@@ -231,8 +240,7 @@ fn run(
                 unresolved_mark,
                 top_level_mark,
             },
-        )
-        .expect_module();
+        );
         let end = Instant::now();
         tracing::info!(
             "optimize({}) took {:?}",
@@ -460,18 +468,18 @@ fn fixture(input: PathBuf) {
         let mangle: Option<TestMangleOptions> = mangle.map(|s| TestMangleOptions::parse(&s));
 
         let output = run(cm.clone(), &handler, &input, &config, mangle, false);
-        let output_module = match output {
+        let output_program = match output {
             Some(v) => v,
             None => return Ok(()),
         };
 
-        let output = print(cm.clone(), &[output_module.clone()], false, false);
+        let output = print(cm.clone(), &[output_program.clone()], false, false);
 
         eprintln!("---- {} -----\n{}", Color::Green.paint("Output"), output);
 
         let expected = {
             let expected = read_to_string(dir.join("output.js")).unwrap();
-            let fm = cm.new_source_file(FileName::Anon, expected);
+            let fm = cm.new_source_file(FileName::Custom("expected.js".into()), expected);
             let lexer = Lexer::new(
                 Default::default(),
                 Default::default(),
@@ -479,19 +487,24 @@ fn fixture(input: PathBuf) {
                 None,
             );
             let mut parser = Parser::new_from(lexer);
-            let expected = parser.parse_module().map_err(|err| {
+            let expected = parser.parse_program().map_err(|err| {
                 err.into_diagnostic(&handler).emit();
             })?;
             let mut expected = expected.fold_with(&mut fixer(None));
             expected = drop_span(expected);
-            expected
-                .body
-                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+
+            match &mut expected {
+                Program::Module(m) => {
+                    m.body
+                        .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+                }
+                Program::Script(s) => s.body.retain(|s| !matches!(s, Stmt::Empty(..))),
+            }
 
             let mut normalized_expected = expected.clone();
             normalized_expected.visit_mut_with(&mut DropParens);
 
-            let mut actual = output_module.clone();
+            let mut actual = output_program.clone();
             actual.visit_mut_with(&mut DropParens);
 
             if actual.eq_ignore_span(&normalized_expected)
@@ -522,21 +535,25 @@ fn fixture(input: PathBuf) {
                     );
                     let mut parser = Parser::new_from(lexer);
                     let expected = parser
-                        .parse_module()
+                        .parse_program()
                         .map_err(|err| {
                             err.into_diagnostic(&handler).emit();
                         })
                         .ok()?;
                     let mut expected = expected.fold_with(&mut fixer(None));
                     expected = drop_span(expected);
-                    expected
-                        .body
-                        .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+                    match &mut expected {
+                        Program::Module(m) => {
+                            m.body
+                                .retain(|s| !matches!(s, ModuleItem::Stmt(Stmt::Empty(..))));
+                        }
+                        Program::Script(s) => s.body.retain(|s| !matches!(s, Stmt::Empty(..))),
+                    }
 
                     let mut normalized_expected = expected.clone();
                     normalized_expected.visit_mut_with(&mut DropParens);
 
-                    let mut actual = output_module.clone();
+                    let mut actual = output_program.clone();
                     actual.visit_mut_with(&mut DropParens);
 
                     if actual.eq_ignore_span(&normalized_expected)
@@ -598,7 +615,7 @@ fn fixture(input: PathBuf) {
             }
         }
 
-        let output_str = print(cm, &[drop_span(output_module)], false, false);
+        let output_str = print(cm, &[drop_span(output_program)], false, false);
 
         if env::var("UPDATE").map(|s| s == "1").unwrap_or(false) {
             let _ = catch_unwind(|| {

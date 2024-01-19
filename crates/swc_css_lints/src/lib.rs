@@ -1,5 +1,4 @@
 #![deny(clippy::all)]
-#![feature(box_patterns)]
 
 mod config;
 mod dataset;

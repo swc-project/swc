@@ -120,6 +120,7 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use atoms::JsWord;
+use base64::prelude::{Engine, BASE64_STANDARD};
 use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
@@ -146,6 +147,7 @@ use swc_ecma_transforms::{
     pass::noop,
     resolver,
 };
+use swc_ecma_transforms_base::fixer::paren_remover;
 use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
@@ -265,11 +267,9 @@ impl Compiler {
 
                             let content = url.path()[idx + "base64,".len()..].trim();
 
-                            let res = base64::decode_config(
-                                content.as_bytes(),
-                                base64::Config::new(base64::CharacterSet::Standard, true),
-                            )
-                            .context("failed to decode base64-encoded source map")?;
+                            let res = BASE64_STANDARD
+                                .decode(content.as_bytes())
+                                .context("failed to decode base64-encoded source map")?;
 
                             Ok(Some(sourcemap::SourceMap::from_slice(&res).context(
                                 "failed to read input source map from inlined base64 encoded \
@@ -866,6 +866,8 @@ impl Compiler {
             let is_mangler_enabled = min_opts.mangle.is_some();
 
             let module = self.run_transform(handler, false, || {
+                let module = module.fold_with(&mut paren_remover(Some(&comments)));
+
                 let module =
                     module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 

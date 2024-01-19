@@ -32,6 +32,10 @@ impl Compressor {
     }
 
     pub(super) fn compress_keyframe_selector(&mut self, keyframe_selector: &mut KeyframeSelector) {
+        if let KeyframeSelector::Ident(i) = keyframe_selector {
+            i.value = i.value.to_ascii_lowercase();
+        }
+
         match keyframe_selector {
             KeyframeSelector::Ident(i) if i.value == "from" => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {

@@ -302,7 +302,7 @@ impl<'a> VisitMut for EnumValueComputer<'a> {
                     member_name: ident.sym.clone(),
                 }) =>
             {
-                *expr = self.enum_id.clone().make_member(ident.clone());
+                *expr = self.enum_id.clone().make_member(ident.clone()).into();
             }
             Expr::Member(MemberExpr {
                 obj,

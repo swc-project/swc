@@ -1177,30 +1177,29 @@ impl Compressor {
         match &component_value {
             // Transform "calc(calc-sum)" into "simple value" when calc-sum is not a complex
             // expression
-            ComponentValue::Function(box Function { name, value, .. })
-                if is_calc_function_name(name) && value.len() == 1 =>
+            ComponentValue::Function(function)
+                if is_calc_function_name(&function.name) && function.value.len() == 1 =>
             {
-                match &value[0] {
-                    ComponentValue::CalcSum(box CalcSum {
-                        expressions: calc_sum_expressions,
-                        ..
-                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
-                        CalcProductOrOperator::Product(CalcProduct {
-                            expressions: calc_product_expressions,
-                            ..
-                        }) if calc_product_expressions.len() == 1 => {
-                            if let CalcValueOrOperator::Value(calc_value) =
-                                &calc_product_expressions[0]
-                            {
-                                if let Some(cv) =
-                                    transform_calc_value_into_component_value(calc_value)
+                match &function.value[0] {
+                    ComponentValue::CalcSum(calc_sum) if calc_sum.expressions.len() == 1 => {
+                        match &calc_sum.expressions[0] {
+                            CalcProductOrOperator::Product(CalcProduct {
+                                expressions: calc_product_expressions,
+                                ..
+                            }) if calc_product_expressions.len() == 1 => {
+                                if let CalcValueOrOperator::Value(calc_value) =
+                                    &calc_product_expressions[0]
                                 {
-                                    *component_value = cv;
+                                    if let Some(cv) =
+                                        transform_calc_value_into_component_value(calc_value)
+                                    {
+                                        *component_value = cv;
+                                    }
                                 }
                             }
+                            _ => {}
                         }
-                        _ => {}
-                    },
+                    }
                     _ => {}
                 }
             }

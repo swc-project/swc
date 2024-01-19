@@ -988,11 +988,12 @@ where
                                                 vars.push(VarDeclarator {
                                                     span: DUMMY_SP,
                                                     name: Pat::Ident(s.exported.clone().into()),
-                                                    init: Some(Box::new(
+                                                    init: Some(
                                                         mod_var
                                                             .clone()
-                                                            .make_member(quote_ident!("default")),
-                                                    )),
+                                                            .make_member(quote_ident!("default"))
+                                                            .into(),
+                                                    ),
                                                     definite: Default::default(),
                                                 });
                                             }
@@ -1020,9 +1021,12 @@ where
                                                     name: Pat::Ident(
                                                         exported.clone().unwrap().into(),
                                                     ),
-                                                    init: Some(Box::new(
-                                                        mod_var.clone().make_member(orig.clone()),
-                                                    )),
+                                                    init: Some(
+                                                        mod_var
+                                                            .clone()
+                                                            .make_member(orig.clone())
+                                                            .into(),
+                                                    ),
                                                     definite: Default::default(),
                                                 });
                                             }

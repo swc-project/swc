@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier-linux-arm-gnueabihf",
-    "version": "1.3.97",
+    "version": "1.3.100",
     "os": [
         "linux"
     ],
@@ -12,21 +12,17 @@
         "minifier.linux-arm-gnueabihf.node",
         "swc"
     ],
-    "description": "Super-fast alternative for babel",
+    "description": "Super-fast alternative for terser",
     "keywords": [
         "swc",
-        "swcpack",
-        "babel",
-        "typescript",
-        "rust",
-        "webpack",
-        "tsc"
+        "terser",
+        "minifier"
     ],
     "author": "강동윤 <kdy1997.dev@gmail.com>",
     "homepage": "https://swc.rs",
-    "license": "Apache-2.0 AND MIT",
+    "license": "Apache-2.0",
     "engines": {
-        "node": ">=10"
+        "node": ">=12"
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",

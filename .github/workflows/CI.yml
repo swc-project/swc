@@ -16,6 +16,8 @@ env:
   RUST_LOG: "off"
   # https://github.com/swc-project/swc/pull/3742
   RUST_MIN_STACK: 4194304
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
 
 jobs:
   cargo-fmt:
@@ -24,7 +26,7 @@ jobs:
     env:
       RUST_LOG: "0"
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # We explicitly do this to cache properly.
       - uses: actions-rs/toolchain@v1
@@ -40,7 +42,7 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -57,7 +59,7 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -97,7 +99,7 @@ jobs:
     if: >-
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1
@@ -108,7 +110,7 @@ jobs:
         uses: baptiste0928/cargo-install@v2
         with:
           crate: cargo-deny
-          version: "0.11.3"
+          version: "0.14.3"
 
       - name: Check licenses
         run: |
@@ -127,7 +129,7 @@ jobs:
           - macos-latest
           - windows-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
@@ -140,7 +142,7 @@ jobs:
           # toolchain: stable
           # override: true
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "18"
           cache: "yarn"
@@ -160,7 +162,7 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       # We explicitly do this to cache properly.
       - uses: actions-rs/toolchain@v1
@@ -177,7 +179,7 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "18"
           cache: "yarn"
@@ -579,12 +581,12 @@ jobs:
           git config --system core.autocrlf false
           git config --system core.eol lf
 
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: true
 
       # Source map format
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
           node-version: "18"
           cache: "yarn"
@@ -712,17 +714,19 @@ jobs:
           - windows-latest
           - macos-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Corepack
+        shell: bash
+        run: corepack enable
 
       # We explicitly do this to cache properly.
       - name: Install Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
+        uses: dtolnay/rust-toolchain@stable
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 16
+          node-version: 20
           cache: "yarn"
 
       - name: Patch
@@ -745,6 +749,7 @@ jobs:
       - name: Prepare
         run: |
           rustup target add wasm32-wasi
+          corepack enable
           yarn
 
           yarn build:dev
@@ -756,11 +761,15 @@ jobs:
       ${{ !contains(github.event.head_commit.message, 'chore: ') }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
+      - name: Corepack
+        shell: bash
+        run: corepack enable
+
+      - uses: actions/setup-node@v4
         with:
-          node-version: 14
+          node-version: 20
           cache: "yarn"
 
       - name: Set platform name
@@ -782,6 +791,7 @@ jobs:
       - name: Prepare
         run: |
           rustup target add wasm32-wasi
+          corepack enable
           yarn
 
           yarn build:dev
@@ -790,13 +800,13 @@ jobs:
           cargo clean
           (cd ./bindings && cargo clean)
 
-          yarn global add @swc/cli@0.1.56
-          yarn link
-          yarn global add file:$PWD
+          npm install -g @swc/cli@0.1.56
+          npm link
+          npm install -g file:$PWD
 
       - name: Print info
         run: |
-          yarn global list
+          npm list -g
 
       - name: (swc) three.js
         run: |
@@ -836,7 +846,8 @@ jobs:
           # (cd tests/integration/redux/repo && npx jest '.*.js' --modulePathIgnorePatterns 'typescript')
       - name: (swcpack) example react app
         run: |
-          (cd crates/swc_node_bundler/tests/integration/react && yarn && npx spack)
+          export NODE_OPTIONS="--unhandled-rejections=warn"
+          (cd crates/swc_node_bundler/tests/integration/react && npm install && npx spack)
 
   done:
     needs:

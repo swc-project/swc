@@ -99,7 +99,7 @@ describe("Published plugins", () => {
             console.log("After transformSync");
 
             expect(code).toMatchInlineSnapshot(`
-                "console.log(\\"hello world\\");
+                "console.log("hello world");
                 "
             `);
         });

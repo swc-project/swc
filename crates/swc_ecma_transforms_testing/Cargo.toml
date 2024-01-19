@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.137.41"
+version       = "0.138.12"
 
 [lib]
 bench = false
@@ -14,22 +14,22 @@ bench = false
 [dependencies]
 ansi_term  = "0.12.1"
 anyhow     = "1"
-base64     = "0.13"
+base64     = "0.21"
 hex        = "0.4.3"
 serde      = "1"
 serde_json = "1"
-sha-1      = "0.10"
+sha2       = "0.10.8"
 sourcemap  = "6.2"
 tempfile   = "3.6.0"
 
-swc_common = { version = "0.33.9", path = "../swc_common", features = [
+swc_common = { version = "0.33.12", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "0.110.10", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.146.29", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.141.23", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "0.22.11", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "0.134.39", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "0.124.29", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.96.10", path = "../swc_ecma_visit" }
-testing = { version = "0.35.11", path = "../testing" }
+swc_ecma_ast = { version = "0.110.17", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.146.55", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "0.141.37", path = "../swc_ecma_parser" }
+swc_ecma_testing = { version = "0.22.15", path = "../swc_ecma_testing" }
+swc_ecma_transforms_base = { version = "0.135.12", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "0.125.4", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.96.17", path = "../swc_ecma_visit" }
+testing = { version = "0.35.14", path = "../testing" }

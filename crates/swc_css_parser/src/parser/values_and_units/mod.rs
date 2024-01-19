@@ -197,7 +197,9 @@ where
 
         let mut values = vec![];
 
-        match &**function_name {
+        let lower_fname = function_name.to_ascii_lowercase();
+
+        match &*lower_fname {
             "calc" | "-moz-calc" | "-webkit-calc" | "sin" | "cos" | "tan" | "asin" | "acos"
             | "atan" | "sqrt" | "exp" | "abs" | "sign" => {
                 self.input.skip_ws();
@@ -402,7 +404,7 @@ where
                     _ => {}
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "rgb" | "rgba" => {
                         let percentage_or_number_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -515,7 +517,7 @@ where
                     is_legacy_syntax = false;
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -631,7 +633,7 @@ where
                     }
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "rgb" | "rgba" => {
                         let percentage_or_number = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -726,8 +728,10 @@ where
                     }
                 }
 
-                if is!(self, ",") && is_legacy_syntax {
-                    values.push(ComponentValue::Delimiter(self.parse()?));
+                if (is!(self, ",") || has_variable) && is_legacy_syntax {
+                    if is!(self, ",") {
+                        values.push(ComponentValue::Delimiter(self.parse()?));
+                    }
 
                     self.input.skip_ws();
 
@@ -817,7 +821,7 @@ where
                 match cur!(self) {
                     Token::Ident { value, .. }
                         if matches_eq_ignore_ascii_case!(value, "from")
-                            && *function_name != "device-cmyk" =>
+                            && lower_fname != "device-cmyk" =>
                     {
                         values.push(ComponentValue::Ident(self.parse()?));
 
@@ -837,7 +841,7 @@ where
                     _ => {}
                 }
 
-                match &**function_name {
+                match &*lower_fname {
                     "hwb" => {
                         let hue_or_none = self.try_parse_variable_function(
                             |parser, has_variable_before| match cur!(parser) {
@@ -945,7 +949,7 @@ where
                 }
 
                 if !is_one_of!(self, EOF, "/") {
-                    match &**function_name {
+                    match &*lower_fname {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
@@ -1062,7 +1066,7 @@ where
                 }
 
                 if !is_one_of!(self, EOF, "/") {
-                    match &**function_name {
+                    match &*lower_fname {
                         "hwb" => {
                             let percentage_or_none = self.try_parse_variable_function(
                                 |parser, has_variable_before| match cur!(parser) {
@@ -1224,7 +1228,7 @@ where
                     }
                 }
 
-                if !is_one_of!(self, EOF, "/") && function_name == "device-cmyk" {
+                if !is_one_of!(self, EOF, "/") && lower_fname == "device-cmyk" {
                     let cmyk_component = self.try_parse_variable_function(
                         |parser, _| Ok(Some(ComponentValue::CmykComponent(parser.parse()?))),
                         &mut has_variable,
@@ -1250,7 +1254,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(&*lower_fname, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_ignore_ascii_case("none") {
@@ -1537,7 +1541,7 @@ where
                             Token::Function { value, .. } if is_math_function(value) => {
                                 Ok(Some(ComponentValue::Function(parser.parse()?)))
                             }
-                            tok!("ident") if !matches!(&**function_name, "device-cmyk") => {
+                            tok!("ident") if !matches!(&*lower_fname, "device-cmyk") => {
                                 let ident: Box<Ident> = parser.parse()?;
 
                                 if ident.value.eq_ignore_ascii_case("none") {
@@ -1963,8 +1967,8 @@ where
         }
 
         match cur!(self) {
-            Token::Dimension(box DimensionToken { unit, .. }) => {
-                match unit {
+            Token::Dimension(dimension_token) => {
+                match &dimension_token.unit {
                     // <length>
                     unit if is_length_unit(unit)
                         || (self.ctx.in_container_at_rule && is_container_lengths_unit(unit)) =>
@@ -2003,13 +2007,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 // TODO validate
 
                 let unit_len = raw_unit.len() as u32;
@@ -2023,7 +2029,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2047,13 +2053,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_angle_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2072,7 +2080,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2096,13 +2104,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_time_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'s' or 'ms' units")));
                 }
@@ -2118,7 +2128,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2142,13 +2152,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_frequency_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'Hz' or 'kHz' units")));
                 }
@@ -2164,7 +2176,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2188,13 +2200,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_resolution_unit(&unit) {
                     return Err(Error::new(
                         span,
@@ -2213,7 +2227,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2237,13 +2251,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 if !is_flex_unit(&unit) {
                     return Err(Error::new(span, ErrorKind::Expected("'fr' unit")));
                 }
@@ -2259,7 +2275,7 @@ where
                     },
                     unit: Ident {
                         span: Span::new(span.hi - BytePos(unit_len), span.hi, Default::default()),
-                        value: unit.to_ascii_lowercase(),
+                        value: unit,
                         raw: Some(raw_unit),
                     },
                 })
@@ -2283,13 +2299,15 @@ where
         }
 
         match bump!(self) {
-            Token::Dimension(box DimensionToken {
-                value,
-                unit,
-                raw_value,
-                raw_unit,
-                ..
-            }) => {
+            Token::Dimension(dimension_token) => {
+                let DimensionToken {
+                    value,
+                    unit,
+                    raw_value,
+                    raw_unit,
+                    ..
+                } = *dimension_token;
+
                 let unit_len = raw_unit.len() as u32;
 
                 Ok(UnknownDimension {
@@ -2408,7 +2426,7 @@ where
 
                 Ok(HexColor {
                     span,
-                    value: value.to_ascii_lowercase(),
+                    value,
                     raw: Some(raw),
                 })
             }
@@ -2604,7 +2622,7 @@ where
 
                 let name = Ident {
                     span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                    value: function_name.to_ascii_lowercase(),
+                    value: function_name,
                     raw: Some(raw_function_name),
                 };
 
@@ -2794,11 +2812,9 @@ where
                         }
                         tok!("dimension") => {
                             let raw = match bump!(self) {
-                                Token::Dimension(box DimensionToken {
-                                    raw_value,
-                                    raw_unit,
-                                    ..
-                                }) => (raw_value, raw_unit),
+                                Token::Dimension(dimension_token) => {
+                                    (dimension_token.raw_value, dimension_token.raw_unit)
+                                }
                                 _ => {
                                     unreachable!();
                                 }
@@ -2824,11 +2840,9 @@ where
             // u <dimension-token> '?'*
             tok!("dimension") => {
                 let raw = match bump!(self) {
-                    Token::Dimension(box DimensionToken {
-                        raw_value,
-                        raw_unit,
-                        ..
-                    }) => (raw_value, raw_unit),
+                    Token::Dimension(dimension_token) => {
+                        (dimension_token.raw_value, dimension_token.raw_unit)
+                    }
                     _ => {
                         unreachable!();
                     }
@@ -2893,7 +2907,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    start.push(c.to_ascii_lowercase());
+                    start.push(c);
 
                     next = chars.next();
                 }
@@ -2993,7 +3007,7 @@ where
                     next = chars.next();
                 }
                 Some(c @ 'A'..='F') | Some(c @ 'a'..='f') => {
-                    end.push(c.to_ascii_lowercase());
+                    end.push(c);
                     next = chars.next();
                 }
                 _ => {

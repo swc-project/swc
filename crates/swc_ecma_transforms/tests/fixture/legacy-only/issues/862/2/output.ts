@@ -1,5 +1,5 @@
 export class Product extends TimestampedEntity {
-    id: string;
+    public id!: string;
 }
 _ts_decorate([
     PrimaryGeneratedColumn("uuid")

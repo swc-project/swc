@@ -6,18 +6,17 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "ast_node"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.9.5"
+version       = "0.9.6"
 
 [lib]
 bench      = false
 proc-macro = true
 
 [dependencies]
-pmutil      = "0.6.1"
 proc-macro2 = "1"
 quote       = "1"
 
-swc_macros_common = { version = "0.3.8", path = "../swc_macros_common" }
+swc_macros_common = { version = "0.3.9", path = "../swc_macros_common" }
 
   [dependencies.syn]
   features = ["derive", "fold", "parsing", "printing", "visit-mut"]

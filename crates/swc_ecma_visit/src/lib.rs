@@ -1878,6 +1878,8 @@ define!({
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
+        pub is_override: bool,
+        pub definite: bool,
     }
 
     pub enum Key {

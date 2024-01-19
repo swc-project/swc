@@ -12558,7 +12558,7 @@
                           "end": 3814,
                           "ctxt": 0
                         },
-                        "value": "and",
+                        "value": "AND",
                         "raw": "AND"
                       },
                       "condition": {
@@ -12624,7 +12624,7 @@
                       "end": 3837,
                       "ctxt": 0
                     },
-                    "value": "or",
+                    "value": "OR",
                     "raw": "OR"
                   },
                   "condition": {
@@ -12801,7 +12801,7 @@
                       "end": 3889,
                       "ctxt": 0
                     },
-                    "value": "and",
+                    "value": "AND",
                     "raw": "AND"
                   },
                   "condition": {
@@ -12872,7 +12872,7 @@
                             "end": 3912,
                             "ctxt": 0
                           },
-                          "value": "or",
+                          "value": "OR",
                           "raw": "OR"
                         },
                         "condition": {
@@ -13614,7 +13614,7 @@
                           "end": 4122,
                           "ctxt": 0
                         },
-                        "value": "not",
+                        "value": "NOT",
                         "raw": "NOT"
                       },
                       "condition": {
@@ -13652,7 +13652,7 @@
                       "end": 4134,
                       "ctxt": 0
                     },
-                    "value": "or",
+                    "value": "OR",
                     "raw": "OR"
                   },
                   "condition": {
@@ -16835,7 +16835,7 @@
                 "end": 4837,
                 "ctxt": 0
               },
-              "value": "screen",
+              "value": "SCREEN",
               "raw": "SCREEN"
             },
             "keyword": {
@@ -16870,7 +16870,7 @@
                       "end": 4849,
                       "ctxt": 0
                     },
-                    "value": "update",
+                    "value": "UPDATE",
                     "raw": "UPDATE"
                   },
                   "value": {
@@ -16880,7 +16880,7 @@
                       "end": 4855,
                       "ctxt": 0
                     },
-                    "value": "slow",
+                    "value": "SLOW",
                     "raw": "SLOW"
                   }
                 },
@@ -16898,7 +16898,7 @@
                       "end": 4860,
                       "ctxt": 0
                     },
-                    "value": "and",
+                    "value": "AND",
                     "raw": "AND"
                   },
                   "condition": {
@@ -16915,7 +16915,7 @@
                         "end": 4867,
                         "ctxt": 0
                       },
-                      "value": "width",
+                      "value": "WIDTH",
                       "raw": "WIDTH"
                     },
                     "comparison": ">",
@@ -17505,7 +17505,7 @@
           "end": 5019,
           "ctxt": 0
         },
-        "value": "media",
+        "value": "MEDIA",
         "raw": "MEDIA"
       },
       "prelude": {
@@ -17531,7 +17531,7 @@
                 "end": 5023,
                 "ctxt": 0
               },
-              "value": "all",
+              "value": "ALL",
               "raw": "ALL"
             },
             "keyword": null,
@@ -17572,7 +17572,7 @@
           "end": 5033,
           "ctxt": 0
         },
-        "value": "media",
+        "value": "MEDIA",
         "raw": "MEDIA"
       },
       "prelude": {
@@ -17615,7 +17615,7 @@
                       "end": 5057,
                       "ctxt": 0
                     },
-                    "value": "prefers-reduced-motion",
+                    "value": "PREFERS-reduced-motion",
                     "raw": "PREFERS-reduced-motion"
                   },
                   "value": {
@@ -17698,7 +17698,7 @@
                               "end": 5085,
                               "ctxt": 0
                             },
-                            "value": "root",
+                            "value": "ROOT",
                             "raw": "ROOT"
                           },
                           "children": null

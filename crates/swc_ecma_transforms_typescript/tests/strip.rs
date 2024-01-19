@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{
-    typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig,
+    tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
 };
 use swc_ecma_visit::Fold;
 
@@ -42,6 +42,33 @@ fn tr_config(
         resolver(unresolved_mark, top_level_mark, true),
         typescript(config, top_level_mark),
         Optional::new(class_fields_use_set(true), !use_define_for_class_fields),
+    )
+}
+
+fn tsxr(t: &Tester) -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    chain!(
+        resolver(unresolved_mark, top_level_mark, false),
+        tsx(
+            t.cm.clone(),
+            typescript::Config {
+                no_empty_export: true,
+                import_not_used_as_values: ImportsNotUsedAsValues::Remove,
+                ..Default::default()
+            },
+            TsxConfig::default(),
+            t.comments.clone(),
+            top_level_mark,
+        ),
+        swc_ecma_transforms_react::jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            swc_ecma_transforms_react::Options::default(),
+            top_level_mark,
+            unresolved_mark
+        ),
     )
 }
 
@@ -1766,6 +1793,41 @@ test!(
 
 test!(
     Syntax::Typescript(TsConfig {
+        tsx: true,
+        ..Default::default()
+    }),
+    |t| tsxr(t),
+    imports_not_used_as_values_jsx_prag,
+    r#"/** @jsx h */
+import html, { h } from "example";
+serve((_req) =>
+  html({
+    body: <div>Hello World!</div>,
+  })
+);
+"#
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        tsx: true,
+        ..Default::default()
+    }),
+    |t| tsxr(t),
+    imports_not_used_as_values_shebang_jsx_prag,
+    r#"#!/usr/bin/env -S deno run -A
+/** @jsx h */
+import html, { h } from "example";
+serve((_req) =>
+  html({
+    body: <div>Hello World!</div>,
+  })
+);
+"#
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
         decorators: true,
         ..Default::default()
     }),
@@ -2734,4 +2796,28 @@ test!(
     }
     console.log(I.A);
     "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            tsx(
+                t.cm.clone(),
+                typescript::Config {
+                    verbatim_module_syntax: false,
+                    ..Default::default()
+                },
+                TsxConfig::default(),
+                t.comments.clone(),
+                top_level_mark,
+            )
+        )
+    },
+    ts_jsx_bad_pragma,
+    r#"/** @jsx bad-pragma */"#
 );

@@ -1,6 +1,5 @@
-use pmutil::q;
 use proc_macro::TokenStream;
-use quote::ToTokens;
+use quote::{quote, ToTokens};
 use syn::ItemFn;
 
 mod fixture;
@@ -57,10 +56,10 @@ pub fn fixture(attr: TokenStream, item: TokenStream) -> TokenStream {
     let item: ItemFn = syn::parse(item).expect("failed to parse input as a function item");
 
     if cfg!(feature = "rust-analyzer") {
-        return q!(Vars { item }, {
+        return quote!(
             #[allow(unused)]
-            item
-        })
+            #item
+        )
         .into();
     }
 

@@ -1,16 +1,8 @@
-var foo = 0,
-    async = 1,
-    await = 2,
-    implements = 3,
-    package = 4,
-    private = 5,
-    protected = 6,
-    static = 7,
-    yield = 8;
+var foo = 0, async = 1, await = 2, implements = 3, package = 4, private = 5, protected = 6, static = 7, yield = 8;
 console.log({
     foo,
     0: 0,
-    NaN: NaN,
+    NaN,
     async,
     await,
     false: false,
@@ -22,6 +14,6 @@ console.log({
     static: static,
     this: this,
     true: true,
-    undefined: void 0,
-    yield,
+    undefined,
+    yield
 });

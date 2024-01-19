@@ -24,7 +24,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ComputedPropName, Id, Invalid,
+    ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -376,6 +376,89 @@ pub struct ObjectLit {
 
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "properties"))]
     pub props: Vec<PropOrSpread>,
+}
+
+impl ObjectLit {
+    /// See [ImportWith] for details.
+    ///
+    /// Returns [None] if this is not a valid for `with` of [crate::ImportDecl].
+    pub fn as_import_with(&self) -> Option<ImportWith> {
+        let mut values = vec![];
+        for prop in &self.props {
+            match prop {
+                PropOrSpread::Spread(..) => return None,
+                PropOrSpread::Prop(prop) => match &**prop {
+                    Prop::KeyValue(kv) => {
+                        let key = match &kv.key {
+                            PropName::Ident(i) => i.clone(),
+                            PropName::Str(s) => Ident::new(s.value.clone(), s.span),
+                            _ => return None,
+                        };
+
+                        values.push(ImportWithItem {
+                            key,
+                            value: match &*kv.value {
+                                Expr::Lit(Lit::Str(s)) => s.clone(),
+                                _ => return None,
+                            },
+                        });
+                    }
+                    _ => return None,
+                },
+            }
+        }
+
+        Some(ImportWith {
+            span: self.span,
+            values,
+        })
+    }
+}
+
+impl From<ImportWith> for ObjectLit {
+    fn from(v: ImportWith) -> Self {
+        ObjectLit {
+            span: v.span,
+            props: v
+                .values
+                .into_iter()
+                .map(|item| {
+                    PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(item.key),
+                        value: Box::new(Expr::Lit(Lit::Str(item.value))),
+                    })))
+                })
+                .collect(),
+        }
+    }
+}
+
+/// According to the current spec `with` of [crate::ImportDecl] can only have
+/// strings or idents as keys, can't be nested, can only have string literals as
+/// values:
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
+pub struct ImportWith {
+    pub span: Span,
+    pub values: Vec<ImportWithItem>,
+}
+
+impl ImportWith {
+    pub fn get(&self, key: &str) -> Option<&Str> {
+        self.values.iter().find_map(|item| {
+            if item.key.sym == key {
+                Some(&item.value)
+            } else {
+                None
+            }
+        })
+    }
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Hash, EqIgnoreSpan)]
+pub struct ImportWithItem {
+    pub key: Ident,
+    pub value: Str,
 }
 
 impl Take for ObjectLit {

@@ -336,6 +336,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
+            tok!("type") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsTypeAlias(
+                        self.parse_ts_type_alias_decl(start)?,
+                    )));
+                }
+            }
+
             tok!("enum") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
@@ -2381,6 +2394,46 @@ export default function waitUntil(callback, options = {}) {
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
+    }
+
+    #[test]
+    #[should_panic(expected = "Expected ident")]
+    fn class_static_blocks_with_await() {
+        let src = "class Foo{
+            static {
+                var await = 'bar';
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+    }
+
+    #[test]
+    #[should_panic(expected = "Expected ident")]
+    fn class_static_blocks_with_await_in_nested_class() {
+        let src = "class Foo{
+            static {
+                function foo() {
+                    class Foo {
+                        static {
+                            var await = 'bar';
+                        }
+                    }
+                }
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+    }
+
+    #[test]
+    fn class_static_blocks_with_await_in_fn() {
+        let src = "class Foo{
+            static {
+                function foo() {
+                    var await = 'bar';
+                }
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
     }
 
     #[test]

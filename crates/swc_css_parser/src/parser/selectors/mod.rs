@@ -493,9 +493,7 @@ where
 
         match cur!(self) {
             tok!("ident") => {
-                let mut value: Ident = self.parse()?;
-
-                value.value = value.value.to_ascii_lowercase();
+                let value: Ident = self.parse()?;
 
                 return Ok(TypeSelector::TagName(TagNameSelector {
                     span: span!(self, span.lo),
@@ -828,9 +826,7 @@ where
 
         match cur!(self) {
             tok!("ident") => {
-                let mut value: Ident = self.parse()?;
-
-                value.value = value.value.to_ascii_lowercase();
+                let value: Ident = self.parse()?;
 
                 Ok(AttributeSelectorModifier {
                     span: span!(self, span.lo),
@@ -892,9 +888,7 @@ where
                         "dir" => {
                             self.input.skip_ws();
 
-                            let mut ident: Ident = self.parse()?;
-
-                            ident.value = ident.value.to_ascii_lowercase();
+                            let ident: Ident = self.parse()?;
 
                             self.input.skip_ws();
 
@@ -994,9 +988,7 @@ where
                             self.input.skip_ws();
 
                             if is!(self, "ident") {
-                                let mut of: Ident = self.parse()?;
-
-                                of.value = of.value.to_ascii_lowercase();
+                                let of: Ident = self.parse()?;
 
                                 children.push(PseudoClassSelectorChildren::Ident(of));
 
@@ -1059,9 +1051,7 @@ where
                 children: Some(children),
             })
         } else if is!(self, Ident) {
-            let mut name: Ident = self.parse()?;
-
-            name.value = name.value.to_ascii_lowercase();
+            let name: Ident = self.parse()?;
 
             Ok(PseudoClassSelector {
                 span: span!(self, span.lo),
@@ -1183,9 +1173,7 @@ where
                 children: Some(children),
             })
         } else if is!(self, Ident) {
-            let mut name: Ident = self.parse()?;
-
-            name.value = name.value.to_ascii_lowercase();
+            let name: Ident = self.parse()?;
 
             Ok(PseudoElementSelector {
                 span: span!(self, span.lo),
@@ -1212,9 +1200,8 @@ where
             Token::Ident { value, .. }
                 if matches_eq_ignore_ascii_case!(value, "odd", "even") =>
                 {
-                    let mut ident: Ident = self.parse()?;
+                    let ident: Ident = self.parse()?;
 
-                    ident.value = ident.value.to_ascii_lowercase();
 
                     Ok(AnPlusB::Ident(ident))
                 }
@@ -1294,7 +1281,11 @@ where
                     }
                     tok!("dimension") => {
                         let dimension = match bump!(self) {
-                            Token::Dimension(box DimensionToken { value, raw_value, unit, .. }) => (value, raw_value, unit),
+                            Token::Dimension(dimension) => {
+                                let DimensionToken { value, raw_value, unit, .. } = *dimension;
+
+                             (value, raw_value, unit)
+                            }
                             _ => {
                                 unreachable!();
                             }

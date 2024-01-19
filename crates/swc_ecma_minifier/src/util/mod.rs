@@ -211,6 +211,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct LeapFinder {
+    found_await: bool,
     found_yield: bool,
     found_continue_with_label: bool,
     target_label: Option<Id>,
@@ -218,6 +219,12 @@ pub(crate) struct LeapFinder {
 
 impl Visit for LeapFinder {
     noop_visit_type!();
+
+    fn visit_await_expr(&mut self, n: &AwaitExpr) {
+        n.visit_children_with(self);
+
+        self.found_await = true;
+    }
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 

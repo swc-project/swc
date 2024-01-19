@@ -5,14 +5,14 @@ describe("transform", () => {
         const output = swc.transformSync("class Foo {}", {});
 
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "function _class_call_check(instance, Constructor) {
                 if (!(instance instanceof Constructor)) {
-                    throw new TypeError(\\"Cannot call a class as a function\\");
+                    throw new TypeError("Cannot call a class as a function");
                 }
             }
             var Foo = function Foo() {
-                \\"use strict\\";
+                "use strict";
                 _class_call_check(this, Foo);
             };
             ",
@@ -24,14 +24,14 @@ describe("transform", () => {
         const output = await swc.transform("class Foo {}", {});
 
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "function _class_call_check(instance, Constructor) {
                 if (!(instance instanceof Constructor)) {
-                    throw new TypeError(\\"Cannot call a class as a function\\");
+                    throw new TypeError("Cannot call a class as a function");
                 }
             }
             var Foo = function Foo() {
-                \\"use strict\\";
+                "use strict";
                 _class_call_check(this, Foo);
             };
             ",
@@ -47,14 +47,14 @@ describe("transform", () => {
 
         const output = await swc.transform(input, {});
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "function _class_call_check(instance, Constructor) {
                 if (!(instance instanceof Constructor)) {
-                    throw new TypeError(\\"Cannot call a class as a function\\");
+                    throw new TypeError("Cannot call a class as a function");
                 }
             }
             var Foo = function Foo() {
-                \\"use strict\\";
+                "use strict";
                 _class_call_check(this, Foo);
             };
             ",
@@ -99,15 +99,15 @@ describe("parse", () => {
         });
 
         expect(output).toMatchInlineSnapshot(`
-            Object {
-              "body": Array [
-                Object {
-                  "body": Array [],
+            {
+              "body": [
+                {
+                  "body": [],
                   "declare": false,
-                  "decorators": Array [],
-                  "identifier": Object {
+                  "decorators": [],
+                  "identifier": {
                     "optional": false,
-                    "span": Object {
+                    "span": {
                       "ctxt": 2,
                       "end": 289,
                       "start": 286,
@@ -115,9 +115,9 @@ describe("parse", () => {
                     "type": "Identifier",
                     "value": "Foo",
                   },
-                  "implements": Array [],
+                  "implements": [],
                   "isAbstract": false,
-                  "span": Object {
+                  "span": {
                     "ctxt": 0,
                     "end": 292,
                     "start": 280,
@@ -129,7 +129,7 @@ describe("parse", () => {
                 },
               ],
               "interpreter": null,
-              "span": Object {
+              "span": {
                 "ctxt": 0,
                 "end": 292,
                 "start": 280,
@@ -146,15 +146,15 @@ describe("parse", () => {
         });
 
         expect(output).toMatchInlineSnapshot(`
-            Object {
-              "body": Array [
-                Object {
-                  "body": Array [],
+            {
+              "body": [
+                {
+                  "body": [],
                   "declare": false,
-                  "decorators": Array [],
-                  "identifier": Object {
+                  "decorators": [],
+                  "identifier": {
                     "optional": false,
-                    "span": Object {
+                    "span": {
                       "ctxt": 2,
                       "end": 302,
                       "start": 299,
@@ -162,9 +162,9 @@ describe("parse", () => {
                     "type": "Identifier",
                     "value": "Foo",
                   },
-                  "implements": Array [],
+                  "implements": [],
                   "isAbstract": false,
-                  "span": Object {
+                  "span": {
                     "ctxt": 0,
                     "end": 305,
                     "start": 293,
@@ -176,7 +176,7 @@ describe("parse", () => {
                 },
               ],
               "interpreter": null,
-              "span": Object {
+              "span": {
                 "ctxt": 0,
                 "end": 305,
                 "start": 293,
@@ -194,7 +194,7 @@ describe("minify", () => {
         );
 
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "let somename=1;console.log(1);",
             }
         `);
@@ -206,7 +206,7 @@ describe("minify", () => {
         );
 
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "let somename=1;console.log(1);",
             }
         `);
@@ -222,7 +222,7 @@ describe("print", () => {
 
         const output = swc.printSync(input);
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "class Foo {
             }
             ",
@@ -238,7 +238,7 @@ describe("print", () => {
 
         const output = await swc.print(input);
         expect(output).toMatchInlineSnapshot(`
-            Object {
+            {
               "code": "class Foo {
             }
             ",
