@@ -604,9 +604,12 @@ impl ProgramData {
             Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
             Expr::Assign(AssignExpr { left, right, .. }) => {
                 // TODO
-                // self.contains_unresolved(left) ||
-
-                self.contains_unresolved(right)
+                (match left {
+                    AssignTarget::Simple(left) => {
+                        self.simple_assign_target_contains_unresolved(left)
+                    }
+                    AssignTarget::Pat(_) => false,
+                }) || self.contains_unresolved(right)
             }
             Expr::Cond(CondExpr {
                 test, cons, alt, ..
@@ -646,7 +649,75 @@ impl ProgramData {
                 false
             }
 
+            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
+
             _ => false,
+        }
+    }
+
+    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
+        match &*o.base {
+            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
+            OptChainBase::Call(OptCall {
+                span,
+                callee,
+                args,
+                type_args,
+            }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
+                }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+        }
+    }
+
+    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
+        if self.contains_unresolved(&n.obj) {
+            return true;
+        }
+
+        if let MemberProp::Computed(prop) = &n.prop {
+            if self.contains_unresolved(&prop.expr) {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
+        match n {
+            SimpleAssignTarget::Ident(i) => {
+                if let Some(v) = self.vars.get(&i.to_id()) {
+                    return !v.declared;
+                }
+
+                true
+            }
+            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
+            SimpleAssignTarget::SuperProp(n) => {
+                if let SuperProp::Computed(prop) = &n.prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
+            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
+            SimpleAssignTarget::TsAs(..)
+            | SimpleAssignTarget::TsSatisfies(..)
+            | SimpleAssignTarget::TsNonNull(..)
+            | SimpleAssignTarget::TsTypeAssertion(..)
+            | SimpleAssignTarget::TsInstantiation(..) => false,
+            SimpleAssignTarget::Invalid(..) => true,
         }
     }
 }
