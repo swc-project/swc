@@ -387,10 +387,6 @@
  13 | }
     `----
 
-  x Pat
-
-  x Invalid
-
   x BlockStmt
     ,-[$DIR/tests/span/js/decl/accessor.js:11:1]
  11 |     get a() { },
