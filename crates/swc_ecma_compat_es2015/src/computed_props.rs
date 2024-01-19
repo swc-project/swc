@@ -172,7 +172,6 @@ impl VisitMut for ComputedProps {
                                     body,
                                     param,
                                     key,
-                                    ..
                                 }) => (
                                     key,
                                     Box::new(Function {
@@ -180,11 +179,7 @@ impl VisitMut for ComputedProps {
                                         body,
                                         is_async: false,
                                         is_generator: false,
-                                        params: vec![Param {
-                                            span: DUMMY_SP,
-                                            decorators: Default::default(),
-                                            pat: *param,
-                                        }],
+                                        params: vec![(*param).into()],
                                         decorators: Default::default(),
                                         type_params: Default::default(),
                                         return_type: Default::default(),

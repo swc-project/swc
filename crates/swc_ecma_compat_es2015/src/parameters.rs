@@ -717,14 +717,18 @@ impl VisitMut for Params {
 
         f.visit_mut_children_with(self);
 
-        let mut params = f.params.take();
+        let mut params = vec![Param {
+            span: DUMMY_SP,
+            decorators: Default::default(),
+            pat: *f.param.take(),
+        }];
 
         let mut body = f.body.take().unwrap();
         self.visit_mut_fn_like(&mut params, &mut body, true);
 
         debug_assert!(params.len() == 1);
 
-        f.params = params;
+        f.param = Box::new(params.pop().unwrap().pat);
         f.body = Some(body);
     }
 
