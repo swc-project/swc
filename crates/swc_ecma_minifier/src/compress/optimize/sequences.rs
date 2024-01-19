@@ -7,8 +7,8 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, is_simple_pure_expr, prepend_stmts, undefined, ExprExt,
-    IdentUsageFinder, StmtLike,
+    contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
+    StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -2029,7 +2029,6 @@ impl Optimizer<'_> {
         }
 
         if self.replace_seq_assignment(a, b)? {
-            print_backtrace();
             return Ok(true);
         }
 
@@ -2678,10 +2677,4 @@ fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     }
 
     false
-}
-
-fn print_backtrace() {
-    let bt = backtrace::Backtrace::new();
-
-    println!("Backtrace: {:?}", bt);
 }
