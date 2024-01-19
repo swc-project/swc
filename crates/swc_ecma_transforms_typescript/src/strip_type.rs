@@ -23,75 +23,16 @@ impl VisitMut for StripType {
         Box<TsTypeParamInstantiation>
     );
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        n.retain(should_retain_module_item);
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>) {
-        n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
-    }
-
-    fn visit_mut_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>) {
-        n.retain(|s| match s {
-            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
-            _ => true,
-        })
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        n.retain(should_retain_stmt);
-        n.visit_mut_children_with(self);
-    }
-
-    // https://github.com/tc39/proposal-type-annotations#parameter-optionality
-    fn visit_mut_ident(&mut self, n: &mut Ident) {
-        n.optional = false;
-    }
-
     fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
         n.visit_mut_children_with(self);
         n.optional = false;
     }
 
-    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
-        pat.visit_mut_children_with(self);
-        pat.optional = false;
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        // https://github.com/tc39/proposal-type-annotations#type-assertions
-        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
-        while let Expr::TsAs(TsAsExpr { expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { expr, .. })
-        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
-        {
-            *n = *expr.take();
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    // https://github.com/tc39/proposal-type-annotations#this-parameters
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
-        if n.first()
-            .filter(|param| {
-                matches!(
-                    &param.pat,
-                    Pat::Ident(BindingIdent {
-                        id: Ident { sym, .. },
-                        ..
-                    }) if &**sym == "this"
-                )
-            })
-            .is_some()
-        {
-            n.drain(0..1);
-        }
-
+    fn visit_mut_auto_accessor(&mut self, n: &mut AutoAccessor) {
+        n.type_ann = None;
+        n.accessibility = None;
+        n.definite = false;
+        n.is_override = false;
         n.visit_mut_children_with(self);
     }
 
@@ -130,11 +71,6 @@ impl VisitMut for StripType {
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        n.accessibility = None;
-        n.visit_mut_children_with(self);
-    }
-
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
         n.accessibility = None;
         n.is_override = false;
@@ -153,6 +89,73 @@ impl VisitMut for StripType {
         prop.visit_mut_children_with(self);
     }
 
+    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
+        n.accessibility = None;
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>) {
+        n.retain(|s| match s {
+            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
+            _ => true,
+        })
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        // https://github.com/tc39/proposal-type-annotations#type-assertions
+        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
+        while let Expr::TsAs(TsAsExpr { expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        {
+            *n = *expr.take();
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    // https://github.com/tc39/proposal-type-annotations#parameter-optionality
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        n.optional = false;
+    }
+
+    fn visit_mut_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>) {
+        n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        n.retain(should_retain_module_item);
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        pat.visit_mut_children_with(self);
+        pat.optional = false;
+    }
+
+    // https://github.com/tc39/proposal-type-annotations#this-parameters
+    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
+        if n.first()
+            .filter(|param| {
+                matches!(
+                    &param.pat,
+                    Pat::Ident(BindingIdent {
+                        id: Ident { sym, .. },
+                        ..
+                    }) if &**sym == "this"
+                )
+            })
+            .is_some()
+        {
+            n.drain(0..1);
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
         prop.readonly = false;
         prop.is_override = false;
@@ -162,11 +165,14 @@ impl VisitMut for StripType {
         prop.visit_mut_children_with(self);
     }
 
-    fn visit_mut_auto_accessor(&mut self, n: &mut AutoAccessor) {
-        n.type_ann = None;
-        n.accessibility = None;
-        n.definite = false;
-        n.is_override = false;
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.this_param = None;
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        n.retain(should_retain_stmt);
         n.visit_mut_children_with(self);
     }
 

@@ -1,6 +1,6 @@
 //! Parser for object literal.
 
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
 use crate::parser::class_and_fn::is_not_this;
@@ -355,21 +355,33 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     |Function {
                                          mut params, body, ..
                                      }| {
-                                        params.retain(|p| match &p.pat {
-                                            Pat::Ident(p) => p.sym != "this",
-                                            _ => true,
-                                        });
+                                        let mut this = None;
+                                        if params.len() >= 2 {
+                                            this = Some(params.remove(0).pat);
+                                        }
+
+                                        let param = Box::new(
+                                            params
+                                                .into_iter()
+                                                .next()
+                                                .map(|v| v.pat)
+                                                .unwrap_or_else(|| {
+                                                    parser.emit_err(
+                                                        key_span,
+                                                        SyntaxError::SetterParam,
+                                                    );
+
+                                                    Pat::Invalid(Invalid { span: DUMMY_SP })
+                                                }),
+                                        );
 
                                         // debug_assert_eq!(params.len(), 1);
                                         PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
                                             span: span!(parser, start),
                                             key,
                                             body,
-                                            param: Box::new(
-                                                params.into_iter().map(|p| p.pat).next().unwrap_or(
-                                                    Pat::Invalid(Invalid { span: key_span }),
-                                                ),
-                                            ),
+                                            param,
+                                            this_param: this,
                                         })))
                                     },
                                 )

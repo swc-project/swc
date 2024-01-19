@@ -1379,6 +1379,7 @@ fn for_each_id_ref_in_expr(e: &Expr, op: &mut impl FnMut(&Ident)) {
                     }
                     Prop::Setter(p) => {
                         for_each_id_ref_in_prop_name(&p.key, op);
+
                         for_each_id_ref_in_pat(&p.param, op);
                     }
                     Prop::Method(p) => {
