@@ -159,6 +159,8 @@ fn identity(entry: PathBuf) {
         "parserGreaterThanTokenAmbiguity15.ts",
         "parserGreaterThanTokenAmbiguity16.ts",
         "parserGreaterThanTokenAmbiguity20.ts",
+        // Invalid syntax (fixer)
+        "parserAssignmentExpression1.ts",
     ];
 
     // TODO: Unignore const enum test
