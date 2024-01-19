@@ -101,6 +101,7 @@ pub(crate) fn assert_min(from: &str, to: &str) {
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to),);
 }
 
+#[track_caller]
 pub(crate) fn assert_min_target(from: &str, to: &str, target: EsVersion) {
     let out = parse_then_emit(
         from,
@@ -117,6 +118,7 @@ pub(crate) fn assert_min_target(from: &str, to: &str, target: EsVersion) {
 }
 
 /// Clone of the regular `assert_min` function but with TypeScript syntax.
+#[track_caller]
 pub(crate) fn assert_min_typescript(from: &str, to: &str) {
     let out = parse_then_emit(
         from,
@@ -611,7 +613,7 @@ fn test_get_quoted_utf16() {
     es2020("abcde", "\"abcde\"");
     es2020(
         "\x00\r\n\u{85}\u{2028}\u{2029};",
-        "\"\\x00\\r\\n\\x85\\u2028\\u2029;\"",
+        "\"\\0\\r\\n\\x85\\u2028\\u2029;\"",
     );
 
     es2020("\n", "\"\\n\"");
@@ -619,7 +621,7 @@ fn test_get_quoted_utf16() {
 
     es2020("'string'", "\"'string'\"");
 
-    es2020("\u{0}", "\"\\x00\"");
+    es2020("\u{0}", "\"\\0\"");
     es2020("\u{1}", "\"\\x01\"");
 
     es2020("\u{1000}", "\"\\u1000\"");
@@ -655,7 +657,7 @@ fn issue_1452_1() {
 fn issue_1619_1() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\x00\"+\"1\"",
+        "\"\\0\"+\"1\"",
         EsVersion::latest(),
     );
 }
@@ -664,7 +666,7 @@ fn issue_1619_1() {
 fn issue_1619_2() {
     assert_min_target(
         "\"\\x00\" + \"\\x31\"",
-        "\"\\x00\"+\"1\"",
+        "\"\\0\"+\"1\"",
         EsVersion::latest(),
     );
 }
