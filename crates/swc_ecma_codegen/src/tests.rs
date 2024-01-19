@@ -943,6 +943,38 @@ fn emit_type_import_specifier() {
     assert_eq!(DebugUsingDisplay(out.trim()), DebugUsingDisplay(to.trim()),);
 }
 
+#[test]
+fn issue_8491_1() {
+    test_all(
+        "console.log({aób: 'ó'})",
+        r#"console.log({
+            "a\xf3b": "\xf3"
+        });"#,
+        r#"console.log({"a\xf3b": "\xf3"});"#,
+        Config {
+            ascii_only: true,
+            target: EsVersion::Es5,
+            ..Default::default()
+        },
+    );
+}
+
+#[test]
+fn issue_8491_2() {
+    test_all(
+        "console.log({aób: 'ó'})",
+        r#"console.log({
+            "a\xf3b": "\xf3"
+        });"#,
+        r#"console.log({"a\xf3b": "\xf3"});"#,
+        Config {
+            ascii_only: true,
+            target: EsVersion::Es2015,
+            ..Default::default()
+        },
+    );
+}
+
 #[testing::fixture("tests/str-lits/**/*.txt")]
 fn test_str_lit(input: PathBuf) {
     test_str_lit_inner(input)
