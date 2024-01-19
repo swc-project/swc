@@ -1,1 +1,1 @@
-(function(){"use strict";"\x00"}());
+(function(){"use strict";"\0"}());
