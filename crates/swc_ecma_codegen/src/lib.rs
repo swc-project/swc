@@ -2218,7 +2218,15 @@ where
         formatting_space!();
 
         punct!("(");
+        if let Some(this) = &node.this_param {
+            emit!(this);
+            punct!(",");
+
+            formatting_space!();
+        }
+
         emit!(node.param);
+
         punct!(")");
 
         emit!(node.body);

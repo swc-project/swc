@@ -274,6 +274,43 @@
                   "value": "x",
                   "optional": false
                 },
+                "thisParam": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 204,
+                    "end": 213,
+                    "ctxt": 0
+                  },
+                  "value": "this",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 208,
+                      "end": 213,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 210,
+                        "end": 213,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 210,
+                          "end": 213,
+                          "ctxt": 0
+                        },
+                        "value": "Foo",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                },
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -526,6 +563,7 @@
                   "value": "x",
                   "optional": false
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -745,6 +783,43 @@
                   },
                   "value": "x",
                   "optional": false
+                },
+                "thisParam": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 441,
+                    "end": 450,
+                    "ctxt": 0
+                  },
+                  "value": "this",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 445,
+                      "end": 450,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 447,
+                        "end": 450,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 447,
+                          "end": 450,
+                          "ctxt": 0
+                        },
+                        "value": "Foo",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
                 },
                 "param": {
                   "type": "Identifier",
@@ -981,6 +1056,17 @@
                   },
                   "value": "x",
                   "optional": false
+                },
+                "thisParam": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 580,
+                    "end": 584,
+                    "ctxt": 0
+                  },
+                  "value": "this",
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "param": {
                   "type": "Identifier",

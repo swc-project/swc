@@ -172,6 +172,7 @@ impl VisitMut for ComputedProps {
                                     body,
                                     param,
                                     key,
+                                    ..
                                 }) => (
                                     key,
                                     Box::new(Function {

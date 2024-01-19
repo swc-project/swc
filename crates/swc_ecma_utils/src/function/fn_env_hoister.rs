@@ -665,6 +665,7 @@ fn extend_super(
                     Prop::Setter(SetterProp {
                         span: DUMMY_SP,
                         key: PropName::Ident(quote_ident!("_")),
+                        this_param: None,
                         param: value.clone().into(),
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
@@ -721,6 +722,7 @@ fn extend_super(
                         Prop::Setter(SetterProp {
                             span: DUMMY_SP,
                             key: PropName::Ident(quote_ident!("_")),
+                            this_param: None,
                             param: value.clone().into(),
                             body: Some(BlockStmt {
                                 span: DUMMY_SP,
