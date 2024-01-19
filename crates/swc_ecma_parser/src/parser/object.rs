@@ -356,7 +356,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                          mut params, body, ..
                                      }| {
                                         let mut this = None;
-                                        if params.len() <= 2 {
+                                        if params.len() >= 2 {
                                             this = Some(params.remove(0).pat);
                                         }
 
