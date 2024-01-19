@@ -150,7 +150,8 @@
         "raw": "\"./def\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "VariableDeclaration",

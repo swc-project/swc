@@ -273,6 +273,7 @@ pub struct ImportDeclaration {
     pub with: Option<Vec<ImportAttribute>>,
     #[serde(default)]
     pub import_kind: Option<ImportKind>,
+    pub phase: Option<ImportPhase>,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -282,4 +283,11 @@ pub enum ModuleExportNameType {
     Ident(Identifier),
     #[tag("StringLiteral")]
     Str(StringLiteral),
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "lowercase")]
+pub enum ImportPhase {
+    Source,
+    Defer,
 }

@@ -55,7 +55,8 @@
         "raw": "'foo'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

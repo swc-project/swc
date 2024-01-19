@@ -184,7 +184,8 @@
         "raw": "'./0'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDefaultExpression",
@@ -242,7 +243,8 @@
         "raw": "'./1'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -282,7 +284,8 @@
         "raw": "'./11'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

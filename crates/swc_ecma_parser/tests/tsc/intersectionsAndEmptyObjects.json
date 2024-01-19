@@ -4246,7 +4246,8 @@
                   "start": 1902,
                   "end": 1908,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {

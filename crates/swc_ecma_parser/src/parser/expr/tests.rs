@@ -380,7 +380,10 @@ fn issue_328() {
             span,
             expr: Box::new(Expr::Call(CallExpr {
                 span,
-                callee: Callee::Import(Import { span }),
+                callee: Callee::Import(Import {
+                    span,
+                    phase: Default::default()
+                }),
                 args: vec![ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {

@@ -200,7 +200,11 @@ where
         match n {
             Expr::Call(CallExpr {
                 span,
-                callee: Callee::Import(Import { span: import_span }),
+                callee:
+                    Callee::Import(Import {
+                        span: import_span,
+                        phase: ImportPhase::Evaluation,
+                    }),
                 args,
                 ..
             }) if !self.config.ignore_dynamic => {

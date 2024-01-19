@@ -744,6 +744,8 @@ impl Swcify for BabelImport {
     fn swcify(self, ctx: &Context) -> Self::Output {
         Import {
             span: ctx.span(&self.base),
+            // TODO
+            phase: Default::default(),
         }
     }
 }
