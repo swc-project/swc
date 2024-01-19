@@ -40,7 +40,8 @@
                 "start": 140,
                 "end": 146,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {

@@ -112,7 +112,8 @@
         "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -152,7 +153,8 @@
         "raw": "\"./anotherModule\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "VariableDeclaration",
@@ -249,7 +251,8 @@
                 "start": 318,
                 "end": 324,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -320,7 +323,8 @@
                   "start": 352,
                   "end": 358,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {
@@ -476,7 +480,8 @@
                 "start": 433,
                 "end": 439,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {

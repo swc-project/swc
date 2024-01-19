@@ -46,7 +46,8 @@
         "raw": "\"../../deps.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -86,7 +87,8 @@
         "raw": "\"../../members.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -128,7 +130,8 @@
         "raw": "\"../../../mod.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

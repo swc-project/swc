@@ -392,7 +392,8 @@
         "raw": "\"./index3\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",

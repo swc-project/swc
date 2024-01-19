@@ -278,6 +278,18 @@ where
             keyword!("type");
         }
 
+        match n.phase {
+            ImportPhase::Evaluation => {}
+            ImportPhase::Source => {
+                space!();
+                keyword!("source");
+            }
+            ImportPhase::Defer => {
+                space!();
+                keyword!("defer");
+            }
+        }
+
         let starts_with_ident = !n.specifiers.is_empty()
             && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
@@ -820,6 +832,17 @@ where
     #[emitter]
     fn emit_import_callee(&mut self, node: &Import) -> Result {
         keyword!(node.span, "import");
+        match node.phase {
+            ImportPhase::Source => {
+                punct!(".");
+                keyword!("source")
+            }
+            ImportPhase::Defer => {
+                punct!(".");
+                keyword!("defer")
+            }
+            _ => {}
+        }
     }
 
     #[emitter]

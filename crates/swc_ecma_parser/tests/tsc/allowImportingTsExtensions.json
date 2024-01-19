@@ -61,7 +61,8 @@
         "raw": "\"./ts.js\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -82,7 +83,8 @@
         "raw": "\"./ts.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -103,7 +105,8 @@
         "raw": "\"./ts.d.ts\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -124,7 +127,8 @@
         "raw": "\"./tsx.js\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -145,7 +149,8 @@
         "raw": "\"./tsx.jsx\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -166,7 +171,8 @@
         "raw": "\"./tsx.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -187,7 +193,8 @@
         "raw": "\"./tsx.tsx\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -208,7 +215,8 @@
         "raw": "\"./tsx.d.ts\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -229,7 +237,8 @@
         "raw": "\"./dts.js\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -250,7 +259,8 @@
         "raw": "\"./dts.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -271,7 +281,8 @@
         "raw": "\"./dts.d.ts\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -292,7 +303,8 @@
         "raw": "\"./thisfiledoesnotexist.ts\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

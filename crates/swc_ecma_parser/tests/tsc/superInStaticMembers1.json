@@ -6736,7 +6736,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -6969,7 +6970,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -7202,7 +7204,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -7437,7 +7440,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -7679,7 +7683,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -7923,7 +7928,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -8165,7 +8171,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -8409,7 +8416,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -8651,7 +8659,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -8895,7 +8904,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -9128,7 +9138,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -9363,7 +9374,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -9594,7 +9606,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -9827,7 +9840,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -10058,7 +10072,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",
@@ -10291,7 +10306,8 @@
         "raw": "\"./external\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",

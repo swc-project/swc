@@ -99,7 +99,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

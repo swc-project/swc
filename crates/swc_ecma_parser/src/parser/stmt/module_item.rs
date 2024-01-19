@@ -72,10 +72,12 @@ impl<I: Tokens> Parser<I> {
                 specifiers: vec![],
                 type_only: false,
                 with,
+                phase: Default::default(),
             })));
         }
 
         let mut type_only = false;
+        let mut phase = ImportPhase::Evaluation;
         let mut specifiers = vec![];
 
         'import_maybe_ident: {
@@ -104,6 +106,24 @@ impl<I: Tokens> Parser<I> {
                         .parse_ts_import_equals_decl(start, local, false, type_only)
                         .map(ModuleDecl::from)
                         .map(ModuleItem::from);
+                }
+
+                if matches!(&*local.sym, "source" | "defer") {
+                    let new_phase = match &*local.sym {
+                        "source" => ImportPhase::Source,
+                        "defer" => ImportPhase::Defer,
+                        _ => unreachable!(),
+                    };
+
+                    if is_one_of!(self, '*', '{') {
+                        phase = new_phase;
+                        break 'import_maybe_ident;
+                    }
+
+                    if is!(self, BindingIdent) && !is!(self, "from") || peeked_is!(self, "from") {
+                        phase = new_phase;
+                        local = self.parse_imported_default_binding()?;
+                    }
                 }
 
                 //TODO: Better error reporting
@@ -178,6 +198,7 @@ impl<I: Tokens> Parser<I> {
             src,
             type_only,
             with,
+            phase,
         })))
     }
 

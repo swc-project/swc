@@ -442,7 +442,8 @@
         "raw": "\"./base.js\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDeclaration",

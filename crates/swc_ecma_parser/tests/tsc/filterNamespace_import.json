@@ -331,7 +331,8 @@
         "raw": "'./ns'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

@@ -44,7 +44,8 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDefaultDeclaration",
@@ -145,7 +146,8 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDefaultDeclaration",
@@ -237,7 +239,8 @@
             "start": 354,
             "end": 360,
             "ctxt": 0
-          }
+          },
+          "phase": "evaluation"
         },
         "arguments": [
           {

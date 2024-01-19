@@ -108,7 +108,8 @@
                 "start": 150,
                 "end": 156,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
