@@ -4,7 +4,8 @@ export var C = function() {
     function C() {
         _class_call_check(this, C), this.assets = {};
     }
-    return C.prototype.m = function() {
+    var _proto = C.prototype;
+    return _proto.m = function() {
         this.assets;
     }, C;
 }();

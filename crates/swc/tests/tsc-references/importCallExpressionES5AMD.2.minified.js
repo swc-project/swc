@@ -61,7 +61,8 @@ define([
         function D() {
             _class_call_check._(this, D);
         }
-        return D.prototype.method = function() {
+        var _proto = D.prototype;
+        return _proto.method = function() {
             new Promise(function(resolve, reject) {
                 return require([
                     "./0"

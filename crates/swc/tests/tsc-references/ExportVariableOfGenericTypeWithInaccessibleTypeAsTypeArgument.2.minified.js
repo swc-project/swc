@@ -1,4 +1,4 @@
 //// [ExportVariableOfGenericTypeWithInaccessibleTypeAsTypeArgument.ts]
-var A;
+var A, A1;
 import "@swc/helpers/_/_class_call_check";
-(A || (A = {})).beez2 = [];
+A1 = A || (A = {}), A1.beez2 = [];

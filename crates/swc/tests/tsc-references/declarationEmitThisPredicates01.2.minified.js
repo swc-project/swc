@@ -18,7 +18,8 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits =
     function C() {
         _class_call_check._(this, C);
     }
-    return C.prototype.m = function() {
+    var _proto = C.prototype;
+    return _proto.m = function() {
         return _instanceof._(this, D);
     }, C;
 }(), D = function(C) {

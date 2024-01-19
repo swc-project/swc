@@ -4,8 +4,7 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var Base = function Base() {
     _class_call_check(this, Base);
-};
-(function(Base1) {
+}, Derived = function(Base1) {
     _inherits(Derived, Base1);
     var _super = _create_super(Derived);
     function Derived() {
@@ -15,4 +14,5 @@ var Base = function Base() {
         }, _this;
     }
     return Derived;
-})(Base).bar = Base.foo;
+}(Base);
+Derived.bar = Base.foo;

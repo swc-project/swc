@@ -56,9 +56,9 @@
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
             ];
-            a = new Uint16Array([
+            0xff === (b = new Uint8Array((a = new Uint16Array([
                 0xffcc
-            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0];
+            ])).buffer, a.byteOffset, a.byteLength))[0] || b[0];
             var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
@@ -97,9 +97,9 @@
                 if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
                 })).length <= 1) return toUint8(buffers[0]);
-                var totalLen = buffers.reduce(function(total, buf, i) {
+                var tempBuffer = new Uint8Array(buffers.reduce(function(total, buf, i) {
                     return total + (buf.byteLength || buf.length);
-                }, 0), tempBuffer = new Uint8Array(totalLen), offset = 0;
+                }, 0)), offset = 0;
                 return buffers.forEach(function(buf) {
                     buf = toUint8(buf), tempBuffer.set(buf, offset), offset += buf.byteLength;
                 }), tempBuffer;
@@ -912,7 +912,7 @@
                 "delete"
             ], function(method) {
                 createXHR["delete" === method ? "del" : method] = function(uri, options, callback) {
-                    return (options = initParams(uri, options, callback)).method = method.toUpperCase(), _createXHR(options);
+                    return options = initParams(uri, options, callback), options.method = method.toUpperCase(), _createXHR(options);
                 };
             });
         },
@@ -1466,7 +1466,7 @@
                         var node2;
                         switch(node.nodeType){
                             case ELEMENT_NODE:
-                                (node2 = node.cloneNode(!1)).ownerDocument = doc;
+                                node2 = node.cloneNode(!1), node2.ownerDocument = doc;
                             case DOCUMENT_FRAGMENT_NODE:
                                 break;
                             case ATTRIBUTE_NODE:
@@ -1505,7 +1505,9 @@
                 },
                 createElement: function(tagName) {
                     var node = new Element();
-                    return node.ownerDocument = this, node.nodeName = tagName, node.tagName = tagName, node.localName = tagName, node.childNodes = new NodeList(), (node.attributes = new NamedNodeMap())._ownerElement = node, node;
+                    node.ownerDocument = this, node.nodeName = tagName, node.tagName = tagName, node.localName = tagName, node.childNodes = new NodeList();
+                    var attrs = node.attributes = new NamedNodeMap();
+                    return attrs._ownerElement = node, node;
                 },
                 createDocumentFragment: function() {
                     var node = new DocumentFragment();
@@ -1624,7 +1626,7 @@
                     return this.data.substring(offset, offset + count);
                 },
                 appendData: function(text) {
-                    text = this.data + text, this.nodeValue = this.data = text, this.length = text.length;
+                    this.nodeValue = this.data = text = this.data + text, this.length = text.length;
                 },
                 insertData: function(offset, text) {
                     this.replaceData(offset, 0, text);
@@ -1636,14 +1638,14 @@
                     this.replaceData(offset, count, "");
                 },
                 replaceData: function(offset, count, text) {
-                    text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.nodeValue = this.data = text, this.length = text.length;
+                    this.nodeValue = this.data = text = this.data.substring(0, offset) + text + this.data.substring(offset + count), this.length = text.length;
                 }
             }, _extends(CharacterData, Node), Text.prototype = {
                 nodeName: "#text",
                 nodeType: TEXT_NODE,
                 splitText: function(offset) {
                     var text = this.data, newText = text.substring(offset);
-                    text = text.substring(0, offset), this.data = this.nodeValue = text, this.length = text.length;
+                    this.data = this.nodeValue = text = text.substring(0, offset), this.length = text.length;
                     var newNode = this.ownerDocument.createTextNode(newText);
                     return this.parentNode && this.parentNode.insertBefore(newNode, this.nextSibling), newNode;
                 }
@@ -2216,7 +2218,7 @@
         },
         8908: function(module, __unused_webpack_exports, __webpack_require__) {
             var win;
-            win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, module.exports = win;
+            "undefined" != typeof window ? win = window : void 0 !== __webpack_require__.g ? win = __webpack_require__.g : "undefined" != typeof self ? win = self : win = {}, module.exports = win;
         },
         7376: function(module) {
             module.exports = function(fn) {
@@ -2250,8 +2252,8 @@
                     } else if ("number" == typeof nameOrCode) return nameOrCode === keyCode;
                     return !1;
                 }
-            };
-            var codes = (exports = module.exports = keyCode).code = exports.codes = {
+            }, exports = module.exports = keyCode;
+            var codes = exports.code = exports.codes = {
                 backspace: 8,
                 tab: 9,
                 enter: 13,
@@ -2359,9 +2361,11 @@
             }(), esm_extends = __webpack_require__(7462), assertThisInitialized = __webpack_require__(7326), decode_b64_to_uint8_array = __webpack_require__(6722), LineStream = function(_Stream) {
                 function LineStream() {
                     var _this;
-                    return (_this = _Stream.call(this) || this).buffer = "", _this;
+                    return _this = _Stream.call(this) || this, _this.buffer = "", _this;
                 }
-                return (0, inheritsLoose.Z)(LineStream, _Stream), LineStream.prototype.push = function(data) {
+                (0, inheritsLoose.Z)(LineStream, _Stream);
+                var _proto = LineStream.prototype;
+                return _proto.push = function(data) {
                     var nextNewline;
                     for(this.buffer += data, nextNewline = this.buffer.indexOf("\n"); nextNewline > -1; nextNewline = this.buffer.indexOf("\n"))this.trigger("data", this.buffer.substring(0, nextNewline)), this.buffer = this.buffer.substring(nextNewline + 1);
                 }, LineStream;
@@ -2369,12 +2373,12 @@
                 var match = /([0-9.]*)?@?([0-9.]*)?/.exec(byterangeString || ""), result = {};
                 return match[1] && (result.length = parseInt(match[1], 10)), match[2] && (result.offset = parseInt(match[2], 10)), result;
             }, parseAttributes = function(attributes) {
-                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && ((attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0] = attr[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
+                for(var attr, attrs = attributes.split(RegExp('(?:^|,)((?:[^=]*)=(?:"[^"]*"|[^,]*))')), result = {}, i = attrs.length; i--;)"" !== attrs[i] && (attr[0] = (attr = /([^=]*)=(.*)/.exec(attrs[i]).slice(1))[0].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^\s+|\s+$/g, ""), attr[1] = attr[1].replace(/^['"](.*)['"]$/g, "$1"), result[attr[0]] = attr[1]);
                 return result;
             }, ParseStream = function(_Stream) {
                 function ParseStream() {
                     var _this;
-                    return (_this = _Stream.call(this) || this).customParsers = [], _this.tagMappers = [], _this;
+                    return _this = _Stream.call(this) || this, _this.customParsers = [], _this.tagMappers = [], _this;
                 }
                 (0, inheritsLoose.Z)(ParseStream, _Stream);
                 var _proto = ParseStream.prototype;
@@ -2538,35 +2542,35 @@
                                 event = {
                                     type: "tag",
                                     tagType: "cue-out-cont"
-                                }, match[1] ? event.data = match[1] : event.data = "", _this2.trigger("data", event);
+                                }, event.data = match[1] ? match[1] : "", _this2.trigger("data", event);
                                 return;
                             }
                             if (match = /^#EXT-X-CUE-OUT:?(.*)?$/.exec(newLine)) {
                                 event = {
                                     type: "tag",
                                     tagType: "cue-out"
-                                }, match[1] ? event.data = match[1] : event.data = "", _this2.trigger("data", event);
+                                }, event.data = match[1] ? match[1] : "", _this2.trigger("data", event);
                                 return;
                             }
                             if (match = /^#EXT-X-CUE-IN:?(.*)?$/.exec(newLine)) {
                                 event = {
                                     type: "tag",
                                     tagType: "cue-in"
-                                }, match[1] ? event.data = match[1] : event.data = "", _this2.trigger("data", event);
+                                }, event.data = match[1] ? match[1] : "", _this2.trigger("data", event);
                                 return;
                             }
                             if ((match = /^#EXT-X-SKIP:(.*)$/.exec(newLine)) && match[1]) {
-                                (event = {
+                                event = {
                                     type: "tag",
                                     tagType: "skip"
-                                }).attributes = parseAttributes(match[1]), event.attributes.hasOwnProperty("SKIPPED-SEGMENTS") && (event.attributes["SKIPPED-SEGMENTS"] = parseInt(event.attributes["SKIPPED-SEGMENTS"], 10)), event.attributes.hasOwnProperty("RECENTLY-REMOVED-DATERANGES") && (event.attributes["RECENTLY-REMOVED-DATERANGES"] = event.attributes["RECENTLY-REMOVED-DATERANGES"].split("	")), _this2.trigger("data", event);
+                                }, event.attributes = parseAttributes(match[1]), event.attributes.hasOwnProperty("SKIPPED-SEGMENTS") && (event.attributes["SKIPPED-SEGMENTS"] = parseInt(event.attributes["SKIPPED-SEGMENTS"], 10)), event.attributes.hasOwnProperty("RECENTLY-REMOVED-DATERANGES") && (event.attributes["RECENTLY-REMOVED-DATERANGES"] = event.attributes["RECENTLY-REMOVED-DATERANGES"].split("	")), _this2.trigger("data", event);
                                 return;
                             }
                             if ((match = /^#EXT-X-PART:(.*)$/.exec(newLine)) && match[1]) {
-                                (event = {
+                                event = {
                                     type: "tag",
                                     tagType: "part"
-                                }).attributes = parseAttributes(match[1]), [
+                                }, event.attributes = parseAttributes(match[1]), [
                                     "DURATION"
                                 ].forEach(function(key) {
                                     event.attributes.hasOwnProperty(key) && (event.attributes[key] = parseFloat(event.attributes[key]));
@@ -2579,10 +2583,10 @@
                                 return;
                             }
                             if ((match = /^#EXT-X-SERVER-CONTROL:(.*)$/.exec(newLine)) && match[1]) {
-                                (event = {
+                                event = {
                                     type: "tag",
                                     tagType: "server-control"
-                                }).attributes = parseAttributes(match[1]), [
+                                }, event.attributes = parseAttributes(match[1]), [
                                     "CAN-SKIP-UNTIL",
                                     "PART-HOLD-BACK",
                                     "HOLD-BACK"
@@ -2597,10 +2601,10 @@
                                 return;
                             }
                             if ((match = /^#EXT-X-PART-INF:(.*)$/.exec(newLine)) && match[1]) {
-                                (event = {
+                                event = {
                                     type: "tag",
                                     tagType: "part-inf"
-                                }).attributes = parseAttributes(match[1]), [
+                                }, event.attributes = parseAttributes(match[1]), [
                                     "PART-TARGET"
                                 ].forEach(function(key) {
                                     event.attributes.hasOwnProperty(key) && (event.attributes[key] = parseFloat(event.attributes[key]));
@@ -2608,10 +2612,10 @@
                                 return;
                             }
                             if ((match = /^#EXT-X-PRELOAD-HINT:(.*)$/.exec(newLine)) && match[1]) {
-                                (event = {
+                                event = {
                                     type: "tag",
                                     tagType: "preload-hint"
-                                }).attributes = parseAttributes(match[1]), [
+                                }, event.attributes = parseAttributes(match[1]), [
                                     "BYTERANGE-START",
                                     "BYTERANGE-LENGTH"
                                 ].forEach(function(key) {
@@ -2624,10 +2628,10 @@
                                 return;
                             }
                             if ((match = /^#EXT-X-RENDITION-REPORT:(.*)$/.exec(newLine)) && match[1]) {
-                                (event = {
+                                event = {
                                     type: "tag",
                                     tagType: "rendition-report"
-                                }).attributes = parseAttributes(match[1]), [
+                                }, event.attributes = parseAttributes(match[1]), [
                                     "LAST-MSN",
                                     "LAST-PART"
                                 ].forEach(function(key) {
@@ -2682,7 +2686,7 @@
                 }
             }, Parser = function(_Stream) {
                 function Parser() {
-                    (_this = _Stream.call(this) || this).lineStream = new LineStream(), _this.parseStream = new ParseStream(), _this.lineStream.pipe(_this.parseStream);
+                    _this = _Stream.call(this) || this, _this.lineStream = new LineStream(), _this.parseStream = new ParseStream(), _this.lineStream.pipe(_this.parseStream);
                     var _this, currentMap, _key, self1 = (0, assertThisInitialized.Z)(_this), uris = [], currentUri = {}, hasParts = !1, noop = function() {}, defaultMediaGroups = {
                         AUDIO: {},
                         VIDEO: {},
@@ -2837,9 +2841,9 @@
                                             return;
                                         }
                                         var mediaGroupType = this.manifest.mediaGroups[entry.attributes.TYPE];
-                                        mediaGroupType[entry.attributes["GROUP-ID"]] = mediaGroupType[entry.attributes["GROUP-ID"]] || {}, mediaGroup = mediaGroupType[entry.attributes["GROUP-ID"]], (rendition = {
+                                        mediaGroupType[entry.attributes["GROUP-ID"]] = mediaGroupType[entry.attributes["GROUP-ID"]] || {}, mediaGroup = mediaGroupType[entry.attributes["GROUP-ID"]], rendition.autoselect = !!(rendition = {
                                             default: /yes/i.test(entry.attributes.DEFAULT)
-                                        }).default ? rendition.autoselect = !0 : rendition.autoselect = /yes/i.test(entry.attributes.AUTOSELECT), entry.attributes.LANGUAGE && (rendition.language = entry.attributes.LANGUAGE), entry.attributes.URI && (rendition.uri = entry.attributes.URI), entry.attributes["INSTREAM-ID"] && (rendition.instreamId = entry.attributes["INSTREAM-ID"]), entry.attributes.CHARACTERISTICS && (rendition.characteristics = entry.attributes.CHARACTERISTICS), entry.attributes.FORCED && (rendition.forced = /yes/i.test(entry.attributes.FORCED)), mediaGroup[entry.attributes.NAME] = rendition;
+                                        }).default || /yes/i.test(entry.attributes.AUTOSELECT), entry.attributes.LANGUAGE && (rendition.language = entry.attributes.LANGUAGE), entry.attributes.URI && (rendition.uri = entry.attributes.URI), entry.attributes["INSTREAM-ID"] && (rendition.instreamId = entry.attributes["INSTREAM-ID"]), entry.attributes.CHARACTERISTICS && (rendition.characteristics = entry.attributes.CHARACTERISTICS), entry.attributes.FORCED && (rendition.forced = /yes/i.test(entry.attributes.FORCED)), mediaGroup[entry.attributes.NAME] = rendition;
                                     },
                                     discontinuity: function() {
                                         currentTimeline += 1, currentUri.discontinuity = !0, this.manifest.discontinuityStarts.push(uris.length);
@@ -2989,7 +2993,7 @@
                 for(var _len = arguments.length, objects = Array(_len), _key = 0; _key < _len; _key++)objects[_key] = arguments[_key];
                 return objects.reduce(function(result, source) {
                     return "object" != typeof source || Object.keys(source).forEach(function(key) {
-                        Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : isObject(result[key]) && isObject(source[key]) ? result[key] = merge(result[key], source[key]) : result[key] = source[key];
+                        Array.isArray(result[key]) && Array.isArray(source[key]) ? result[key] = result[key].concat(source[key]) : result[key] = isObject(result[key]) && isObject(source[key]) ? merge(result[key], source[key]) : source[key];
                     }), result;
                 }, {});
             }, range = function(start, end) {
@@ -3016,9 +3020,9 @@
                     resolvedUri: (0, _videojs_vhs_utils_es_resolve_url__WEBPACK_IMPORTED_MODULE_0__.Z)((void 0 === _ref$baseUrl ? "" : _ref$baseUrl) || "", source)
                 };
                 if (range || indexRange) {
-                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10), endRange = parseInt(ranges[1], 10);
+                    var ranges = (range || indexRange).split("-"), startRange = parseInt(ranges[0], 10);
                     segment.byterange = {
-                        length: endRange - startRange + 1,
+                        length: parseInt(ranges[1], 10) - startRange + 1,
                         offset: startRange
                     };
                 }
@@ -3123,11 +3127,11 @@
                 return playlists;
             }, formatAudioPlaylist = function(_ref, isAudioOnly) {
                 var _attributes, attributes = _ref.attributes, segments = _ref.segments, sidx = _ref.sidx, playlist = {
-                    attributes: ((_attributes = {
+                    attributes: (_attributes = {
                         NAME: attributes.id,
                         BANDWIDTH: attributes.bandwidth,
                         CODECS: attributes.codecs
-                    })["PROGRAM-ID"] = 1, _attributes),
+                    }, _attributes["PROGRAM-ID"] = 1, _attributes),
                     uri: "",
                     endList: "static" === attributes.type,
                     timeline: attributes.periodIndex,
@@ -3148,10 +3152,10 @@
                         number: 0
                     }
                 ], attributes.duration = attributes.sourceDuration);
-                var m3u8Attributes = ((_m3u8Attributes = {
+                var m3u8Attributes = (_m3u8Attributes = {
                     NAME: attributes.id,
                     BANDWIDTH: attributes.bandwidth
-                })["PROGRAM-ID"] = 1, _m3u8Attributes);
+                }, _m3u8Attributes["PROGRAM-ID"] = 1, _m3u8Attributes);
                 return attributes.codecs && (m3u8Attributes.CODECS = attributes.codecs), {
                     attributes: m3u8Attributes,
                     uri: "",
@@ -3174,7 +3178,7 @@
                         uri: ""
                     });
                     var formatted = addSidxSegmentsToPlaylist$1(formatAudioPlaylist(playlist, isAudioOnly), sidxMapping);
-                    return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && ((mainPlaylist = playlist).default = !0), a;
+                    return a[label].playlists.push(formatted), void 0 === mainPlaylist && "main" === role && (mainPlaylist = playlist, mainPlaylist.default = !0), a;
                 }, {});
                 if (!mainPlaylist) {
                     var firstLabel = Object.keys(formattedPlaylists)[0];
@@ -3183,7 +3187,7 @@
                 return formattedPlaylists;
             }, formatVideoPlaylist = function(_ref3) {
                 var _attributes2, attributes = _ref3.attributes, segments = _ref3.segments, sidx = _ref3.sidx, playlist = {
-                    attributes: ((_attributes2 = {
+                    attributes: (_attributes2 = {
                         NAME: attributes.id,
                         AUDIO: "audio",
                         SUBTITLES: "subs",
@@ -3193,7 +3197,7 @@
                         },
                         CODECS: attributes.codecs,
                         BANDWIDTH: attributes.bandwidth
-                    })["PROGRAM-ID"] = 1, _attributes2),
+                    }, _attributes2["PROGRAM-ID"] = 1, _attributes2),
                     uri: "",
                     endList: "static" === attributes.type,
                     timeline: attributes.periodIndex,
@@ -3221,10 +3225,10 @@
                     discontinuityStarts: [],
                     segments: [],
                     endList: !0,
-                    mediaGroups: ((_mediaGroups = {
+                    mediaGroups: (_mediaGroups = {
                         AUDIO: {},
                         VIDEO: {}
-                    })["CLOSED-CAPTIONS"] = {}, _mediaGroups.SUBTITLES = {}, _mediaGroups),
+                    }, _mediaGroups["CLOSED-CAPTIONS"] = {}, _mediaGroups.SUBTITLES = {}, _mediaGroups),
                     uri: "",
                     duration: duration,
                     playlists: addSidxSegmentsToPlaylists(videoPlaylists, sidxMapping)
@@ -3346,9 +3350,9 @@
                 if (segmentAttributes.duration) {
                     var _segmentAttributes = segmentAttributes, duration = _segmentAttributes.duration, _segmentAttributes$ti = _segmentAttributes.timescale;
                     segmentAttributes.duration = duration / (void 0 === _segmentAttributes$ti ? 1 : _segmentAttributes$ti);
-                } else segments.length ? segmentAttributes.duration = segments.reduce(function(max, segment) {
+                } else segmentAttributes.duration = segments.length ? segments.reduce(function(max, segment) {
                     return Math.max(max, Math.ceil(segment.duration));
-                }, 0) : segmentAttributes.duration = 0;
+                }, 0) : 0;
                 return segmentsInfo.attributes = segmentAttributes, segmentsInfo.segments = segments, segmentInfo.base && segmentAttributes.indexRange && (segmentsInfo.sidx = segments[0], segmentsInfo.segments = []), segmentsInfo;
             }, findChildren = function(element, name) {
                 return from(element.childNodes).filter(function(_ref) {
@@ -3420,8 +3424,7 @@
                 }
             }, parseAttributes = function(el) {
                 return el && el.attributes ? from(el.attributes).reduce(function(a, e) {
-                    var parseFn = parsers[e.name] || parsers.DEFAULT;
-                    return a[e.name] = parseFn(e.value), a;
+                    return a[e.name] = (parsers[e.name] || parsers.DEFAULT)(e.value), a;
                 }, {}) : {};
             }, keySystemsMap = {
                 "urn:uuid:1077efec-c0b2-4d02-ace3-3c1e52e2fb4b": "org.w3.clearkey",
@@ -3534,8 +3537,8 @@
                                     };
                                     var psshNode = findChildren(node, "cenc:pssh")[0];
                                     if (psshNode) {
-                                        var pssh = getContent(psshNode), psshBuffer = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__.Z)(pssh);
-                                        acc[keySystem].pssh = psshBuffer;
+                                        var pssh = getContent(psshNode);
+                                        acc[keySystem].pssh = pssh && (0, _videojs_vhs_utils_es_decode_b64_to_uint8_array__WEBPACK_IMPORTED_MODULE_2__.Z)(pssh);
                                     }
                                 }
                                 return acc;
@@ -3620,7 +3623,7 @@
             };
         },
         1489: function(module) {
-            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
+            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
             secondsToVideoTs = function(seconds) {
                 return 90000 * seconds;
             }, secondsToAudioTs = function(seconds, sampleRate) {
@@ -3629,21 +3632,21 @@
                 return timestamp / 90000;
             }, audioTsToSeconds = function(timestamp, sampleRate) {
                 return timestamp / sampleRate;
+            }, audioTsToVideoTs = function(timestamp, sampleRate) {
+                return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+            }, videoTsToAudioTs = function(timestamp, sampleRate) {
+                return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+            }, metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
             }, module.exports = {
                 ONE_SECOND_IN_TS: 90000,
                 secondsToVideoTs: secondsToVideoTs,
                 secondsToAudioTs: secondsToAudioTs,
                 videoTsToSeconds: videoTsToSeconds,
                 audioTsToSeconds: audioTsToSeconds,
-                audioTsToVideoTs: function(timestamp, sampleRate) {
-                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-                },
-                videoTsToAudioTs: function(timestamp, sampleRate) {
-                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-                },
-                metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-                }
+                audioTsToVideoTs: audioTsToVideoTs,
+                videoTsToAudioTs: videoTsToAudioTs,
+                metadataTsToSeconds: metadataTsToSeconds
             };
         },
         8581: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -3752,7 +3755,7 @@
         },
         9945: function(module) {
             var URL_REGEX, FIRST_SEGMENT_REGEX, SLASH_DOT_REGEX, SLASH_DOT_DOT_REGEX, URLToolkit;
-            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, URLToolkit = {
+            URL_REGEX = /^((?:[a-zA-Z0-9+\-.]+:)?)(\/\/[^\/?#]*)?((?:[^\/?#]*\/)*[^;?#]*)?(;[^?#]*)?(\?[^#]*)?(#[^]*)?$/, FIRST_SEGMENT_REGEX = /^([^\/?#]*)([^]*)$/, SLASH_DOT_REGEX = /(?:\/|^)\.(?=\/)/g, SLASH_DOT_DOT_REGEX = /(?:\/|^)\.\.\/(?!\.\.\/)[^\/]*(?=\/)/g, module.exports = URLToolkit = {
                 buildAbsoluteURL: function(baseURL, relativeURL, opts) {
                     if (opts = opts || {}, baseURL = baseURL.trim(), !(relativeURL = relativeURL.trim())) {
                         if (!opts.alwaysNormalize) return baseURL;
@@ -3804,7 +3807,7 @@
                 buildURLFromParts: function(parts) {
                     return parts.scheme + parts.netLoc + parts.path + parts.params + parts.query + parts.fragment;
                 }
-            }, module.exports = URLToolkit;
+            };
         },
         3407: function(module, __unused_webpack_exports, __webpack_require__) {
             var window1 = __webpack_require__(8908), vttjs = module.exports = {
@@ -3934,15 +3937,15 @@
                             classes.forEach(function(cl) {
                                 var bgColor = /^bg_/.test(cl), colorName = bgColor ? cl.slice(3) : cl;
                                 if (DEFAULT_COLOR_CLASS.hasOwnProperty(colorName)) {
-                                    var propName = bgColor ? "background-color" : "color", propValue = DEFAULT_COLOR_CLASS[colorName];
-                                    node.style[propName] = propValue;
+                                    var propName = bgColor ? "background-color" : "color";
+                                    node.style[propName] = DEFAULT_COLOR_CLASS[colorName];
                                 }
                             }), node.className = classes.join(" ");
                         }
                         tagStack.push(m[1]), current.appendChild(node), current = node;
                         continue;
                     }
-                    current.appendChild(window1.document.createTextNode((s = t, TEXTAREA_ELEMENT.innerHTML = s, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
+                    current.appendChild(window1.document.createTextNode((TEXTAREA_ELEMENT.innerHTML = s = t, s = TEXTAREA_ELEMENT.textContent, TEXTAREA_ELEMENT.textContent = "", s)));
                 }
                 return rootDiv;
             }
@@ -5084,8 +5087,8 @@
                 return (validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen;
             }, exports.toByteArray = function(b64) {
                 var tmp, i, lens = getLens(b64), validLen = lens[0], placeHoldersLen = lens[1], arr = new Arr((validLen + placeHoldersLen) * 3 / 4 - placeHoldersLen), curByte = 0, len = placeHoldersLen > 0 ? validLen - 4 : validLen;
-                for(i = 0; i < len; i += 4)tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)], arr[curByte++] = tmp >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
-                return 2 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4, arr[curByte++] = 0xff & tmp), 1 === placeHoldersLen && (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
+                for(i = 0; i < len; i += 4)arr[curByte++] = (tmp = revLookup[b64.charCodeAt(i)] << 18 | revLookup[b64.charCodeAt(i + 1)] << 12 | revLookup[b64.charCodeAt(i + 2)] << 6 | revLookup[b64.charCodeAt(i + 3)]) >> 16 & 0xff, arr[curByte++] = tmp >> 8 & 0xff, arr[curByte++] = 0xff & tmp;
+                return 2 === placeHoldersLen && (arr[curByte++] = 0xff & (tmp = revLookup[b64.charCodeAt(i)] << 2 | revLookup[b64.charCodeAt(i + 1)] >> 4)), 1 === placeHoldersLen && (arr[curByte++] = (tmp = revLookup[b64.charCodeAt(i)] << 10 | revLookup[b64.charCodeAt(i + 1)] << 4 | revLookup[b64.charCodeAt(i + 2)] >> 2) >> 8 & 0xff, arr[curByte++] = 0xff & tmp), arr;
             }, exports.fromByteArray = function(uint8) {
                 for(var tmp, len = uint8.length, extraBytes = len % 3, parts = [], i = 0, len2 = len - extraBytes; i < len2; i += 16383)parts.push(function(uint8, start, end) {
                     for(var tmp, output = [], i = start; i < end; i += 3)output.push(lookup[(tmp = (uint8[i] << 16 & 0xff0000) + (uint8[i + 1] << 8 & 0xff00) + (0xff & uint8[i + 2])) >> 18 & 0x3f] + lookup[tmp >> 12 & 0x3f] + lookup[tmp >> 6 & 0x3f] + lookup[0x3f & tmp]);

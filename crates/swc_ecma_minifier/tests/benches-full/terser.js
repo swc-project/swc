@@ -2,7 +2,7 @@
     'object' == typeof exports && 'undefined' != typeof module ? factory(exports, require('source-map')) : 'function' == typeof define && define.amd ? define([
         'exports',
         'source-map'
-    ], factory) : factory((global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self).Terser = {}, global1.sourceMap);
+    ], factory) : (global1 = 'undefined' != typeof globalThis ? globalThis : global1 || self, factory(global1.Terser = {}, global1.sourceMap));
 }(this, function(exports1, MOZ_SourceMap) {
     'use strict';
     let mangle_options;
@@ -104,7 +104,7 @@
             if (a.length <= 1) return a;
             var m = Math.floor(a.length / 2), left = a.slice(0, m), right = a.slice(m);
             return function(a, b) {
-                for(var r = [], ai = 0, bi = 0, i = 0; ai < a.length && bi < b.length;)0 >= cmp(a[ai], b[bi]) ? r[i++] = a[ai++] : r[i++] = b[bi++];
+                for(var r = [], ai = 0, bi = 0, i = 0; ai < a.length && bi < b.length;)r[i++] = 0 >= cmp(a[ai], b[bi]) ? a[ai++] : b[bi++];
                 return ai < a.length && r.push.apply(r, a.slice(ai)), bi < b.length && r.push.apply(r, b.slice(bi)), r;
             }(left = _ms(left), right = _ms(right));
         }(array);
@@ -1753,7 +1753,7 @@
                 var ex = make_unary(AST_UnaryPrefix, start, maybe_unary(allow_calls));
                 return ex.start = start, ex.end = prev(), ex;
             }
-            for(var val = expr_atom(allow_calls, allow_arrows); is("operator") && UNARY_POSTFIX.has(S.token.value) && !has_newline_before(S.token);)val instanceof AST_Arrow && unexpected(), (val = make_unary(AST_UnaryPostfix, S.token, val)).start = start, val.end = S.token, next();
+            for(var val = expr_atom(allow_calls, allow_arrows); is("operator") && UNARY_POSTFIX.has(S.token.value) && !has_newline_before(S.token);)val instanceof AST_Arrow && unexpected(), val = make_unary(AST_UnaryPostfix, S.token, val), val.start = start, val.end = S.token, next();
             return val;
         };
         function make_unary(ctor, token, expr) {
@@ -3177,7 +3177,7 @@
     }), def_transform(AST_Destructuring, function(self1, tw) {
         self1.names = do_list(self1.names, tw);
     }), def_transform(AST_Lambda, function(self1, tw) {
-        self1.name && (self1.name = self1.name.transform(tw)), self1.argnames = do_list(self1.argnames, tw), self1.body instanceof AST_Node ? self1.body = self1.body.transform(tw) : self1.body = do_list(self1.body, tw);
+        self1.name && (self1.name = self1.name.transform(tw)), self1.argnames = do_list(self1.argnames, tw), self1.body = self1.body instanceof AST_Node ? self1.body.transform(tw) : do_list(self1.body, tw);
     }), def_transform(AST_Call, function(self1, tw) {
         self1.expression = self1.expression.transform(tw), self1.args = do_list(self1.args, tw);
     }), def_transform(AST_Sequence, function(self1, tw) {
@@ -3378,7 +3378,7 @@
                     key: "Identifier" == key.type ? key.name : key.value,
                     value: from_moz(M.value)
                 };
-                return (M.computed && (args.key = from_moz(M.key)), M.method) ? (args.is_generator = M.value.generator, args.async = M.value.async, M.computed ? args.key = from_moz(M.key) : args.key = new AST_SymbolMethod({
+                return (M.computed && (args.key = from_moz(M.key)), M.method) ? (args.is_generator = M.value.generator, args.async = M.value.async, args.key = M.computed ? from_moz(M.key) : new AST_SymbolMethod({
                     name: args.key
                 }), new AST_ConciseMethod(args)) : "init" == M.kind ? ("Identifier" != key.type && "Literal" != key.type && (args.key = from_moz(key)), new AST_ObjectKeyVal(args)) : (("string" == typeof args.key || "number" == typeof args.key) && (args.key = new AST_SymbolMethod({
                     name: args.key
@@ -4142,9 +4142,9 @@
                 var regex_pos = options.comments.lastIndexOf("/");
                 comments = new RegExp(options.comments.substr(1, regex_pos - 1), options.comments.substr(regex_pos + 1));
             }
-            comment_filter = comments instanceof RegExp ? function(comment) {
+            comments instanceof RegExp ? comment_filter = function(comment) {
                 return "comment5" != comment.type && comments.test(comment.value);
-            } : "function" == typeof comments ? function(comment) {
+            } : comment_filter = "function" == typeof comments ? function(comment) {
                 return "comment5" != comment.type && comments(this, comment);
             } : "some" === comments ? is_some_comments : return_true;
         }
@@ -4259,7 +4259,10 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            options.beautify && print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
+            if (options.beautify) {
+                var back;
+                print((back = half ? 0.5 : 0, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
+            }
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -6387,7 +6390,7 @@
         node.DEFMETHOD("reduce_vars", func);
     }
     function reset_def(compressor, def) {
-        def.assignments = 0, def.chained = !1, def.direct_access = !1, def.escaped = 0, def.recursive_refs = 0, def.references = [], def.single_use = void 0, def.scope.pinned() ? def.fixed = !1 : def.orig[0] instanceof AST_SymbolConst || !compressor.exposed(def) ? def.fixed = def.init : def.fixed = !1;
+        def.assignments = 0, def.chained = !1, def.direct_access = !1, def.escaped = 0, def.recursive_refs = 0, def.references = [], def.single_use = void 0, def.fixed = !def.scope.pinned() && (def.orig[0] instanceof AST_SymbolConst || !compressor.exposed(def)) && def.init;
     }
     function reset_variables(tw, compressor, node) {
         node.variables.forEach(function(def) {
@@ -6686,7 +6689,7 @@
                 if (stat instanceof AST_If) {
                     var ab = aborts(stat.body);
                     if (can_merge_flow(ab)) {
-                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, (stat = stat.clone()).condition = stat.condition.negate(compressor);
+                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, stat.condition = (stat = stat.clone()).condition.negate(compressor);
                         var body = as_statement_array_with_return(stat.body, ab);
                         stat.body = make_node(AST_BlockStatement, stat, {
                             body: as_statement_array(stat.alternative).concat(extract_functions())
@@ -6697,7 +6700,7 @@
                     }
                     var ab = aborts(stat.alternative);
                     if (can_merge_flow(ab)) {
-                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, (stat = stat.clone()).body = make_node(AST_BlockStatement, stat.body, {
+                        ab.label && remove(ab.label.thedef.references, ab), CHANGED = !0, stat.body = make_node(AST_BlockStatement, (stat = stat.clone()).body, {
                             body: as_statement_array(stat.body).concat(extract_functions())
                         });
                         var body = as_statement_array_with_return(stat.alternative, ab);
@@ -6716,11 +6719,11 @@
                         continue;
                     }
                     if (value && !stat.alternative && next instanceof AST_Return && next.value) {
-                        CHANGED = !0, (stat = stat.clone()).alternative = next, statements[i] = stat.transform(compressor), statements.splice(j, 1);
+                        CHANGED = !0, stat = stat.clone(), stat.alternative = next, statements[i] = stat.transform(compressor), statements.splice(j, 1);
                         continue;
                     }
                     if (value && !stat.alternative && (!next && in_lambda && multiple_if_returns || next instanceof AST_Return)) {
-                        CHANGED = !0, (stat = stat.clone()).alternative = next || make_node(AST_Return, stat, {
+                        CHANGED = !0, stat = stat.clone(), stat.alternative = next || make_node(AST_Return, stat, {
                             value: null
                         }), statements[i] = stat.transform(compressor), next && statements.splice(j, 1);
                         continue;
@@ -6733,7 +6736,7 @@
                         return j;
                     }(i)];
                     if (compressor.option("sequences") && in_lambda && !stat.alternative && prev instanceof AST_If && prev.body instanceof AST_Return && next_index(j) == statements.length && next instanceof AST_SimpleStatement) {
-                        CHANGED = !0, (stat = stat.clone()).alternative = make_node(AST_BlockStatement, next, {
+                        CHANGED = !0, stat = stat.clone(), stat.alternative = make_node(AST_BlockStatement, next, {
                             body: [
                                 next,
                                 make_node(AST_Return, next, {
@@ -7244,7 +7247,7 @@
         this.definition().fixed = !1;
     }), def_reduce_vars(AST_SymbolRef, function(tw, descend, compressor) {
         var value, fixed_value, d = this.definition();
-        (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : fixed_value && !compressor.exposed(d) && compressor.option("unused") && !d.scope.pinned() && d.references.length - d.recursive_refs == 1 && tw.loop_ids.get(d.id) === tw.in_loop ? d.single_use = fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression() : d.single_use = !1, is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
+        (d.references.push(this), 1 == d.references.length && !d.fixed && d.orig[0] instanceof AST_SymbolDefun && tw.loop_ids.set(d.id, tw.in_loop), void 0 !== d.fixed && safe_to_read(tw, d)) ? d.fixed && ((fixed_value = this.fixed_value()) instanceof AST_Lambda && is_recursive_ref(tw, d) ? d.recursive_refs++ : d.single_use = !!(fixed_value && !compressor.exposed(d) && compressor.option("unused") && !d.scope.pinned() && d.references.length - d.recursive_refs == 1) && tw.loop_ids.get(d.id) === tw.in_loop && (fixed_value instanceof AST_Lambda && !fixed_value.pinned() || fixed_value instanceof AST_Class || d.scope === this.scope && fixed_value.is_constant_expression()), is_modified(compressor, tw, this, fixed_value, 0, !!(value = fixed_value) && (value.is_constant() || value instanceof AST_Lambda || value instanceof AST_This)) && (d.single_use ? d.single_use = "m" : d.fixed = !1)) : d.fixed = !1, mark_escaped(tw, d, this.scope, this, fixed_value, 0, 1);
     }), def_reduce_vars(AST_Toplevel, function(tw, descend, compressor) {
         this.globals.forEach(function(def) {
             reset_def(compressor, def);
@@ -7357,7 +7360,7 @@
             }));
             !0 === this.options.inline && (this.options.inline = 3);
             var pure_funcs = this.options.pure_funcs;
-            "function" == typeof pure_funcs ? this.pure_funcs = pure_funcs : this.pure_funcs = pure_funcs ? function(node) {
+            this.pure_funcs = "function" == typeof pure_funcs ? pure_funcs : pure_funcs ? function(node) {
                 return !pure_funcs.includes(node.expression.print_to_string());
             } : return_true;
             var top_retain = this.options.top_retain;
@@ -7399,7 +7402,7 @@
             return this._toplevel;
         }
         compress(toplevel) {
-            toplevel = toplevel.resolve_defines(this), this._toplevel = toplevel, this.option("expression") && this._toplevel.process_expression(!0);
+            this._toplevel = toplevel = toplevel.resolve_defines(this), this.option("expression") && this._toplevel.process_expression(!0);
             for(var passes = +this.options.passes || 1, min_count = 1 / 0, stopping = !1, nth_identifier = this.mangle_options && this.mangle_options.nth_identifier || base54, mangle = {
                 ie8: this.option("ie8"),
                 nth_identifier: nth_identifier
@@ -7665,7 +7668,7 @@
                             });
                     }
                 }
-                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (block = node.init, node.init = block.body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
+                if (node instanceof AST_For) return descend(node, this), node.init instanceof AST_BlockStatement && (node.init = (block = node.init).body.pop(), block.body.push(node)), node.init instanceof AST_SimpleStatement ? node.init = node.init.body : is_empty(node.init) && (node.init = null), block ? in_list ? MAP.splice(block.body) : block : node;
                 if (node instanceof AST_LabeledStatement && node.body instanceof AST_For) {
                     if (descend(node, this), node.body instanceof AST_BlockStatement) {
                         var block = node.body;
@@ -7731,7 +7734,7 @@
                 var defs = [];
                 const is_lambda = self1 instanceof AST_Lambda, args_as_names = is_lambda ? self1.args_as_names() : null;
                 if (vars.forEach((def, name)=>{
-                    is_lambda && args_as_names.some((x)=>x.name === def.name.name) ? vars.delete(name) : ((def = def.clone()).value = null, defs.push(def), vars.set(name, def));
+                    is_lambda && args_as_names.some((x)=>x.name === def.name.name) ? vars.delete(name) : (def = def.clone(), def.value = null, defs.push(def), vars.set(name, def));
                 }), defs.length > 0) {
                     for(; 0 < self1.body.length;){
                         if (self1.body[0] instanceof AST_SimpleStatement) {
@@ -7876,15 +7879,15 @@
                     body: body
                 });
             }
-            return first instanceof AST_If && (is_break(first.body) ? (self1.condition ? self1.condition = make_node(AST_Binary, self1.condition, {
+            return first instanceof AST_If && (is_break(first.body) ? (self1.condition = self1.condition ? make_node(AST_Binary, self1.condition, {
                 left: self1.condition,
                 operator: "&&",
                 right: first.condition.negate(compressor)
-            }) : self1.condition = first.condition.negate(compressor), drop_it(first.alternative)) : is_break(first.alternative) && (self1.condition ? self1.condition = make_node(AST_Binary, self1.condition, {
+            }) : first.condition.negate(compressor), drop_it(first.alternative)) : is_break(first.alternative) && (self1.condition = self1.condition ? make_node(AST_Binary, self1.condition, {
                 left: self1.condition,
                 operator: "&&",
                 right: first.condition
-            }) : self1.condition = first.condition, drop_it(first.body))), self1;
+            }) : first.condition, drop_it(first.body))), self1;
             function is_break(node) {
                 return node instanceof AST_Break && compressor.loopcontrol_target(node) === compressor.self();
             }
@@ -9038,7 +9041,7 @@
                 if (fixed instanceof AST_DefClass && (set_flag(fixed, 0b0000000100000000), fixed = make_node(AST_ClassExpression, fixed, fixed)), fixed instanceof AST_Defun && (set_flag(fixed, 0b0000000100000000), fixed = make_node(AST_Function, fixed, fixed)), def.recursive_refs > 0 && fixed.name instanceof AST_SymbolDefun) {
                     const defun_def = fixed.name.definition();
                     let lambda_def = fixed.variables.get(fixed.name.name), name = lambda_def && lambda_def.orig[0];
-                    name instanceof AST_SymbolLambda || ((name = make_node(AST_SymbolLambda, fixed.name, fixed.name)).scope = fixed, fixed.name = name, lambda_def = fixed.def_function(name)), walk(fixed, (node)=>{
+                    name instanceof AST_SymbolLambda || (name = make_node(AST_SymbolLambda, fixed.name, fixed.name), name.scope = fixed, fixed.name = name, lambda_def = fixed.def_function(name)), walk(fixed, (node)=>{
                         node instanceof AST_SymbolRef && node.definition() === defun_def && (node.thedef = lambda_def, lambda_def.references.push(node));
                     });
                 }
@@ -9208,7 +9211,7 @@
     }), def_optimize(AST_DefaultAssign, function(self1, compressor) {
         if (!compressor.option("evaluate")) return self1;
         var evaluateRight = self1.right.evaluate(compressor);
-        return void 0 === evaluateRight ? self1 = self1.left : evaluateRight !== self1.right && (evaluateRight = make_node_from_constant(evaluateRight, self1.right), self1.right = best_of_expression(evaluateRight, self1.right)), self1;
+        return void 0 === evaluateRight ? self1 = self1.left : evaluateRight !== self1.right && (self1.right = best_of_expression(evaluateRight = make_node_from_constant(evaluateRight, self1.right), self1.right)), self1;
     }), def_optimize(AST_Conditional, function(self1, compressor) {
         if (!compressor.option("conditionals")) return self1;
         if (self1.condition instanceof AST_Sequence) {
@@ -17717,7 +17720,7 @@
             delete options.format.ast, delete options.format.code, delete options.format.spidermonkey;
             var stream = OutputStream(options.format);
             if (toplevel.print(stream), result.code = stream.get(), options.sourceMap) {
-                if (options.sourceMap.asObject ? result.map = options.format.source_map.get().toJSON() : result.map = options.format.source_map.toString(), "inline" == options.sourceMap.url) {
+                if (result.map = options.sourceMap.asObject ? options.format.source_map.get().toJSON() : options.format.source_map.toString(), "inline" == options.sourceMap.url) {
                     var sourceMap = "object" == typeof result.map ? JSON.stringify(result.map) : result.map;
                     result.code += "\n//# sourceMappingURL=data:application/json;charset=utf-8;base64," + to_base64(sourceMap);
                 } else options.sourceMap.url && (result.code += "\n//# sourceMappingURL=" + options.sourceMap.url);
@@ -17784,7 +17787,7 @@
         }), "ecma" in program) {
             program.ecma != (0 | program.ecma) && fatal("ERROR: ecma must be an integer");
             const ecma = 0 | program.ecma;
-            ecma > 5 && ecma < 2015 ? options.ecma = ecma + 2009 : options.ecma = ecma;
+            options.ecma = ecma > 5 && ecma < 2015 ? ecma + 2009 : ecma;
         }
         if (program.format || program.beautify) {
             const chosenOption = program.format || program.beautify;
@@ -17838,9 +17841,9 @@
                         return value.length ? value.map(symdef) : void 0;
                     case "variables":
                     case "globals":
-                        var result;
-                        return value.size ? (result = [], value.forEach(function(def) {
-                            result.push(symdef(def));
+                        var callback, result;
+                        return value.size ? (callback = symdef, result = [], value.forEach(function(def) {
+                            result.push(callback(def));
                         }), result) : void 0;
                 }
                 if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {

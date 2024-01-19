@@ -7,13 +7,13 @@ class B {
 }
 var _class, _Foo, _foo = {
     writable: !0,
-    value: ((_class = class {
+    value: (_class = class {
         constructor(){
             this.field = 10, console.log("hello"), new (_class_static_private_field_spec_get(B, B, _foo2))();
         }
-    }).test = 123, _class)
+    }, _class.test = 123, _class)
 }, _foo2 = {
     writable: !0,
-    value: ((_Foo = class {
-    }).otherClass = 123, _Foo)
+    value: (_Foo = class {
+    }, _Foo.otherClass = 123, _Foo)
 };

@@ -22,9 +22,10 @@ one(function() {}), on({
             foo: "bar"
         }));
     }
-    return AnotherSampleClass.prototype.brokenMethod = function() {
+    var _proto = AnotherSampleClass.prototype;
+    return _proto.brokenMethod = function() {
         this.props.foo.concat;
     }, AnotherSampleClass;
 }(function SampleClass(props) {
     _class_call_check(this, SampleClass), this.props = Object.freeze(props);
-}))({}), (Flag1 = Flag || (Flag = {})).FLAG_1 = "flag_1", Flag1.FLAG_2 = "flag_2";
+}))({}), Flag1 = Flag || (Flag = {}), Flag1.FLAG_1 = "flag_1", Flag1.FLAG_2 = "flag_2";

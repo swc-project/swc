@@ -5,7 +5,7 @@
         return factory($, root, doc), $.mobile;
     }) : factory(root.jQuery, root, doc);
 }(this, document, function(jQuery, window, document1, undefined) {
-    var nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined1, uuid, slice, _cleanData, rcapitals, replaceFunction, bool, docElem, refNode, fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, path1, initialHref, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, baseElement, base, undefined5, originalWidget, keepNativeFactoryDefault, orig, undefined6, pageTransitionQueue, isPageTransitioning, window2, undefined7, rInitialLetter, iconposClass, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined8, rDividerListItem, origDefaultFilterCallback;
+    var nsNormalizeDict, oldFind, rbrace, jqmDataRE, window1, compensateToolbars, undefined1, uuid, slice, _cleanData, rcapitals, replaceFunction, bool, docElem, refNode, fakeBody, div, support, self, $win, dummyFnToInitNavigate, undefined2, path, $base, dialogHashKey, undefined3, path1, initialHref, undefined4, props, testElement, vendorPrefixes, heldCall, curr, diff, handler, lastCall, $, baseElement, base, undefined5, originalWidget, keepNativeFactoryDefault, orig, undefined6, pageTransitionQueue, isPageTransitioning, window2, $1, $2, undefined7, rInitialLetter, iconposClass, meta, initialContent, disabledZoom, enabledZoom, disabledInitially, undefined8, rDividerListItem, origDefaultFilterCallback;
     jQuery.mobile = {}, function($, window, undefined) {
         $.extend($.mobile, {
             version: "1.4.2",
@@ -55,7 +55,7 @@
         }
     }), jQuery.fn.jqmData = function(prop, value) {
         var result;
-        return void 0 !== prop && (prop && (prop = jQuery.mobile.nsNormalize(prop)), result = arguments.length < 2 || void 0 === value ? this.data(prop) : this.data(prop, value)), result;
+        return void 0 !== prop && (prop && (prop = jQuery.mobile.nsNormalize(prop)), arguments.length < 2 || void 0 === value ? result = this.data(prop) : result = this.data(prop, value)), result;
     }, jQuery.jqmData = function(elem, prop, value) {
         var result;
         return void 0 !== prop && (result = jQuery.data(elem, prop ? jQuery.mobile.nsNormalize(prop) : prop, value)), result;
@@ -322,7 +322,7 @@
             version: prototype.version,
             _proto: jQuery.extend({}, prototype),
             _childConstructors: []
-        }), (basePrototype = new base()).options = jQuery.widget.extend({}, basePrototype.options), jQuery.each(prototype, function(prop, value) {
+        }), basePrototype = new base(), basePrototype.options = jQuery.widget.extend({}, basePrototype.options), jQuery.each(prototype, function(prop, value) {
             var _super, _superApply;
             if (!jQuery.isFunction(value)) {
                 proxiedPrototype[prop] = value;
@@ -348,7 +348,7 @@
             jQuery.widget(childPrototype.namespace + "." + childPrototype.widgetName, constructor, child._proto);
         }), delete existingConstructor._childConstructors) : base._childConstructors.push(constructor), jQuery.widget.bridge(name, constructor), constructor;
     }, jQuery.widget.extend = function(target) {
-        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && undefined1 !== value && (jQuery.isPlainObject(value) ? target[key] = jQuery.isPlainObject(target[key]) ? jQuery.widget.extend({}, target[key], value) : jQuery.widget.extend({}, value) : target[key] = value);
+        for(var key, value, input = slice.call(arguments, 1), inputIndex = 0, inputLength = input.length; inputIndex < inputLength; inputIndex++)for(key in input[inputIndex])value = input[inputIndex][key], input[inputIndex].hasOwnProperty(key) && undefined1 !== value && (target[key] = jQuery.isPlainObject(value) ? jQuery.isPlainObject(target[key]) ? jQuery.widget.extend({}, target[key], value) : jQuery.widget.extend({}, value) : value);
         return target;
     }, jQuery.widget.bridge = function(name, object) {
         var fullName = object.prototype.widgetFullName || name;
@@ -465,7 +465,7 @@
         },
         _trigger: function(type, event1, data) {
             var prop, orig, callback = this.options[type];
-            if (data = data || {}, (event1 = jQuery.Event(event1)).type = (type === this.widgetEventPrefix ? type : this.widgetEventPrefix + type).toLowerCase(), event1.target = this.element[0], orig = event1.originalEvent) for(prop in orig)prop in event1 || (event1[prop] = orig[prop]);
+            if (data = data || {}, event1 = jQuery.Event(event1), event1.type = (type === this.widgetEventPrefix ? type : this.widgetEventPrefix + type).toLowerCase(), event1.target = this.element[0], orig = event1.originalEvent) for(prop in orig)prop in event1 || (event1[prop] = orig[prop]);
             return this.element.trigger(event1, data), !(jQuery.isFunction(callback) && !1 === callback.apply(this.element[0], [
                 event1
             ].concat(data)) || event1.isDefaultPrevented());
@@ -567,7 +567,7 @@
                 hash !== history_hash && (iframe_doc.title = document1.title, iframe_doc.open(), domain && iframe_doc.write('<script>document.domain="' + domain + '"</script>'), iframe_doc.close(), iframe.location.hash = hash);
             }), self;
         }();
-    }(jQuery, this), window.matchMedia = window.matchMedia || (refNode = (docElem = document1.documentElement).firstElementChild || docElem.firstChild, fakeBody = document1.createElement("body"), (div = document1.createElement("div")).id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
+    }(jQuery, this), window.matchMedia = window.matchMedia || (refNode = (docElem = document1.documentElement).firstElementChild || docElem.firstChild, fakeBody = document1.createElement("body"), div = document1.createElement("div"), div.id = "mq-test-1", div.style.cssText = "position:absolute;top:-100em", fakeBody.style.background = "none", fakeBody.appendChild(div), function(q) {
         return div.innerHTML = '&shy;<style media="' + q + '"> #mq-test-1 { width: 42px; }</style>', docElem.insertBefore(fakeBody, refNode), bool = 42 === div.offsetWidth, docElem.removeChild(fakeBody), {
             matches: bool,
             media: q
@@ -798,7 +798,7 @@
         isPermittedCrossDomainRequest: function(docUrl, reqUrl) {
             return jQuery.mobile.allowCrossDomainPages && ("file:" === docUrl.protocol || "content:" === docUrl.protocol) && -1 !== reqUrl.search(/^https?:/);
         }
-    }, path.documentUrl = path.parseLocation(), $base = jQuery("head").find("base"), path.documentBase = $base.length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
+    }, path.documentUrl = path.parseLocation(), path.documentBase = ($base = jQuery("head").find("base")).length ? path.parseUrl(path.makeUrlAbsolute($base.attr("href"), path.documentUrl.href)) : path.documentUrl, path.documentBaseDiffers = path.documentUrl.hrefNoHash !== path.documentBase.hrefNoHash, path.getDocumentBase = function(asParsedObject) {
         return asParsedObject ? jQuery.extend({}, path.documentBase) : path.documentBase.href;
     }, jQuery.extend(jQuery.mobile, {
         getDocumentUrl: path.getDocumentUrl,
@@ -860,7 +860,7 @@
                 url: href,
                 hash: hash,
                 title: document1.title
-            }, data), isPopStateEvent && ((popstateEvent = new jQuery.Event("popstate")).originalEvent = {
+            }, data), isPopStateEvent && (popstateEvent = new jQuery.Event("popstate"), popstateEvent.originalEvent = {
                 type: "popstate",
                 state: null
             }, this.squash(url, state), noEvents || (this.ignorePopState = !0, jQuery.mobile.window.trigger(popstateEvent))), this.history.add(state.url, state);
@@ -980,8 +980,8 @@
                 return null;
             }(event1.target, eventType)) && (ve = function(event1, eventType) {
                 var oe, props, ne, prop, ct, touch, i, j, len, t = event1.type;
-                if ((event1 = $.Event(event1)).type = eventType, oe = event1.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event1[prop = props[--i]] = oe[prop];
-                if (t.search(/mouse(down|up)|click/) > -1 && !event1.which && (event1.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event1[prop = touchEventProps[j]] = touch[prop];
+                if (event1 = $.Event(event1), event1.type = eventType, oe = event1.originalEvent, props = $.event.props, t.search(/^(mouse|click)/) > -1 && (props = mouseEventProps), oe) for(i = props.length; i;)event1[prop] = oe[prop = props[--i]];
+                if (t.search(/mouse(down|up)|click/) > -1 && !event1.which && (event1.which = 1), -1 !== t.search(/^touch/) && (t = (ne = getNativeEvent(oe)).touches, ct = ne.changedTouches, touch = t && t.length ? t[0] : ct && ct.length ? ct[0] : void 0)) for(j = 0, len = touchEventProps.length; j < len; j++)event1[prop] = touch[prop = touchEventProps[j]];
                 return event1;
             }(event1, eventType), $(event1.target).trigger(ve)), ve;
         }
@@ -1025,7 +1025,9 @@
             var realType = eventType.substr(1);
             return {
                 setup: function() {
-                    hasVirtualBindings(this) || $.data(this, dataPropertyName, {}), $.data(this, dataPropertyName)[eventType] = !0, activeDocHandlers[eventType] = (activeDocHandlers[eventType] || 0) + 1, 1 === activeDocHandlers[eventType] && $document.bind(realType, mouseEventCallback), $(this).bind(realType, dummyMouseHandler), eventCaptureSupported && (activeDocHandlers.touchstart = (activeDocHandlers.touchstart || 0) + 1, 1 === activeDocHandlers.touchstart && $document.bind("touchstart", handleTouchStart).bind("touchend", handleTouchEnd).bind("touchmove", handleTouchMove).bind("scroll", handleScroll));
+                    hasVirtualBindings(this) || $.data(this, dataPropertyName, {});
+                    var bindings = $.data(this, dataPropertyName);
+                    bindings[eventType] = !0, activeDocHandlers[eventType] = (activeDocHandlers[eventType] || 0) + 1, 1 === activeDocHandlers[eventType] && $document.bind(realType, mouseEventCallback), $(this).bind(realType, dummyMouseHandler), eventCaptureSupported && (activeDocHandlers.touchstart = (activeDocHandlers.touchstart || 0) + 1, 1 === activeDocHandlers.touchstart && $document.bind("touchstart", handleTouchStart).bind("touchend", handleTouchEnd).bind("touchmove", handleTouchMove).bind("scroll", handleScroll));
                 },
                 teardown: function() {
                     --activeDocHandlers[eventType], activeDocHandlers[eventType] || $document.unbind(realType, mouseEventCallback), eventCaptureSupported && (--activeDocHandlers.touchstart, activeDocHandlers.touchstart || $document.unbind("touchstart", handleTouchStart).unbind("touchmove", handleTouchMove).unbind("touchend", handleTouchEnd).unbind("scroll", handleScroll));
@@ -1223,25 +1225,25 @@
         }, $.fn[event_name] = function(fn) {
             return fn ? this.bind(event_name, fn) : this.trigger(event_name);
         }, $.attrFn && ($.attrFn[event_name] = !0);
-    }(jQuery, this), base = {
-        element: (baseElement = jQuery("head").children("base")).length ? baseElement : jQuery("<base>", {
-            href: jQuery.mobile.path.documentBase.hrefNoHash
-        }).prependTo(jQuery("head")),
+    }(jQuery, this), $.mobile.base = base = {
+        element: (baseElement = ($ = jQuery)("head").children("base")).length ? baseElement : $("<base>", {
+            href: $.mobile.path.documentBase.hrefNoHash
+        }).prependTo($("head")),
         linkSelector: "[src], link[href], a[rel='external'], :jqmData(ajax='false'), a[target]",
         set: function(href) {
-            jQuery.mobile.dynamicBaseEnabled && jQuery.support.dynamicBaseTag && base.element.attr("href", jQuery.mobile.path.makeUrlAbsolute(href, jQuery.mobile.path.documentBase));
+            $.mobile.dynamicBaseEnabled && $.support.dynamicBaseTag && base.element.attr("href", $.mobile.path.makeUrlAbsolute(href, $.mobile.path.documentBase));
         },
         rewrite: function(href, page) {
-            var newPath = jQuery.mobile.path.get(href);
+            var newPath = $.mobile.path.get(href);
             page.find(base.linkSelector).each(function(i, link) {
-                var thisAttr = jQuery(link).is("[href]") ? "href" : jQuery(link).is("[src]") ? "src" : "action", thisUrl = jQuery(link).attr(thisAttr);
-                thisUrl = thisUrl.replace(location.protocol + "//" + location.host + location.pathname, ""), /^(\w+:|#|\/)/.test(thisUrl) || jQuery(link).attr(thisAttr, newPath + thisUrl);
+                var thisAttr = $(link).is("[href]") ? "href" : $(link).is("[src]") ? "src" : "action", thisUrl = $(link).attr(thisAttr);
+                thisUrl = thisUrl.replace(location.protocol + "//" + location.host + location.pathname, ""), /^(\w+:|#|\/)/.test(thisUrl) || $(link).attr(thisAttr, newPath + thisUrl);
             });
         },
         reset: function() {
-            base.element.attr("href", jQuery.mobile.path.documentBase.hrefNoSearch);
+            base.element.attr("href", $.mobile.path.documentBase.hrefNoSearch);
         }
-    }, jQuery.mobile.base = base, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, jQuery.widget = (orig = jQuery.widget, function() {
+    }, jQuery.mobile.widgets = {}, originalWidget = jQuery.widget, keepNativeFactoryDefault = jQuery.mobile.keepNative, jQuery.widget = (orig = jQuery.widget, function() {
         var constructor = orig.apply(this, arguments), name = constructor.prototype.widgetName;
         return constructor.initSelector = undefined5 !== constructor.prototype.initSelector ? constructor.prototype.initSelector : ":jqmData(role='" + name + "')", jQuery.mobile.widgets[name] = constructor, constructor;
     }), jQuery.extend(jQuery.widget, originalWidget), jQuery.mobile.document.on("create", function(event1) {
@@ -1267,8 +1269,8 @@
         _enhance: function() {
             var attrPrefix = "data-" + jQuery.mobile.ns, self = this;
             this.options.role && this.element.attr("data-" + jQuery.mobile.ns + "role", this.options.role), this.element.attr("tabindex", "0").addClass("ui-page ui-page-theme-" + this.options.theme), this.element.find("[" + attrPrefix + "role='content']").each(function() {
-                var $this = jQuery(this), theme = this.getAttribute(attrPrefix + "theme") || undefined5;
-                self.options.contentTheme = theme || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), $this.attr("role", "main").addClass("ui-content");
+                var $this = jQuery(this);
+                self.options.contentTheme = this.getAttribute(attrPrefix + "theme") || undefined5 || self.options.contentTheme || self.options.dialog && self.options.theme || "dialog" === self.element.jqmData("role") && self.options.theme, $this.addClass("ui-content"), self.options.contentTheme && $this.addClass("ui-body-" + self.options.contentTheme), $this.attr("role", "main").addClass("ui-content");
             });
         },
         bindRemove: function(callback) {
@@ -1568,7 +1570,7 @@
             return jQuery.extend(triggerData, {
                 toPage: to,
                 options: settings
-            }), "string" === jQuery.type(to) ? triggerData.absUrl = jQuery.mobile.path.makeUrlAbsolute(to, this._findBaseWithDefault()) : triggerData.absUrl = settings.absUrl, this.element.trigger(pbcEvent, triggerData), !pbcEvent.isDefaultPrevented();
+            }), triggerData.absUrl = "string" === jQuery.type(to) ? jQuery.mobile.path.makeUrlAbsolute(to, this._findBaseWithDefault()) : settings.absUrl, this.element.trigger(pbcEvent, triggerData), !pbcEvent.isDefaultPrevented();
         },
         change: function(to, options) {
             if (isPageTransitioning) {
@@ -1806,14 +1808,14 @@
         beforeStartOut: function(screenHeight, reverseClass, none) {
             this.doneOut(screenHeight, reverseClass, none);
         }
-    }), jQuery.mobile.transitionHandlers = {
-        sequential: jQuery.mobile.SerialTransition,
-        simultaneous: jQuery.mobile.ConcurrentTransition
-    }, jQuery.mobile.defaultTransitionHandler = jQuery.mobile.transitionHandlers.sequential, jQuery.mobile.transitionFallbacks = {}, jQuery.mobile._maybeDegradeTransition = function(transition) {
-        return transition && !jQuery.support.cssTransform3d && jQuery.mobile.transitionFallbacks[transition] && (transition = jQuery.mobile.transitionFallbacks[transition]), transition;
-    }, jQuery.mobile.getMaxScrollForTransition = jQuery.mobile.getMaxScrollForTransition || function() {
-        return 3 * jQuery.mobile.getScreenHeight();
-    }, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", jQuery.mobile.transitionHandlers.slide = jQuery.mobile.transitionHandlers.simultaneous, jQuery.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", jQuery.mobile.degradeInputs = {
+    }), $1.mobile.transitionHandlers = {
+        sequential: ($1 = jQuery).mobile.SerialTransition,
+        simultaneous: $1.mobile.ConcurrentTransition
+    }, $1.mobile.defaultTransitionHandler = $1.mobile.transitionHandlers.sequential, $1.mobile.transitionFallbacks = {}, $1.mobile._maybeDegradeTransition = function(transition) {
+        return transition && !$1.support.cssTransform3d && $1.mobile.transitionFallbacks[transition] && (transition = $1.mobile.transitionFallbacks[transition]), transition;
+    }, $1.mobile.getMaxScrollForTransition = $1.mobile.getMaxScrollForTransition || function() {
+        return 3 * $1.mobile.getScreenHeight();
+    }, jQuery.mobile.transitionFallbacks.flip = "fade", jQuery.mobile.transitionFallbacks.flow = "fade", jQuery.mobile.transitionFallbacks.pop = "fade", $2.mobile.transitionHandlers.slide = ($2 = jQuery).mobile.transitionHandlers.simultaneous, $2.mobile.transitionFallbacks.slide = "fade", jQuery.mobile.transitionFallbacks.slidedown = "fade", jQuery.mobile.transitionFallbacks.slidefade = "fade", jQuery.mobile.transitionFallbacks.slideup = "fade", jQuery.mobile.transitionFallbacks.turn = "fade", jQuery.mobile.degradeInputs = {
         color: !1,
         date: !1,
         datetime: !1,
@@ -1829,8 +1831,8 @@
         week: !1
     }, jQuery.mobile.page.prototype.options.degradeInputs = jQuery.mobile.degradeInputs, jQuery.mobile.degradeInputsWithin = function(target) {
         (target = jQuery(target)).find("input").not(jQuery.mobile.page.prototype.keepNativeSelector()).each(function() {
-            var html, hasType, repstr, element = jQuery(this), type = this.getAttribute("type"), optType = jQuery.mobile.degradeInputs[type] || "text";
-            jQuery.mobile.degradeInputs[type] && (hasType = (html = jQuery("<div>").html(element.clone()).html()).indexOf(" type=") > -1, repstr = ' type="' + optType + '" data-' + jQuery.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(hasType ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr)));
+            var html, hasType, findstr, repstr, element = jQuery(this), type = this.getAttribute("type"), optType = jQuery.mobile.degradeInputs[type] || "text";
+            jQuery.mobile.degradeInputs[type] && (findstr = (hasType = (html = jQuery("<div>").html(element.clone()).html()).indexOf(" type=") > -1) ? /\s+type=["']?\w+['"]?/ : /\/?>/, repstr = ' type="' + optType + '" data-' + jQuery.mobile.ns + 'type="' + type + '"' + (hasType ? "" : ">"), element.replaceWith(html.replace(findstr, repstr)));
         });
     }, function($, window, undefined) {
         $.widget("mobile.page", $.mobile.page, {
@@ -1884,7 +1886,7 @@
             },
             _handleVClickSubmit: function(event1) {
                 var attrs, $target = $(event1.target).closest("vclick" === event1.type ? "a" : "form");
-                $target.length && !$target.jqmData("transition") && ((attrs = {})["data-" + $.mobile.ns + "transition"] = ($.mobile.navigate.history.getActive() || {}).transition || $.mobile.defaultDialogTransition, attrs["data-" + $.mobile.ns + "direction"] = "reverse", $target.attr(attrs));
+                $target.length && !$target.jqmData("transition") && (attrs = {}, attrs["data-" + $.mobile.ns + "transition"] = ($.mobile.navigate.history.getActive() || {}).transition || $.mobile.defaultDialogTransition, attrs["data-" + $.mobile.ns + "direction"] = "reverse", $target.attr(attrs));
             },
             _create: function() {
                 var elem = this.element, opts = this.options;
@@ -2428,7 +2430,7 @@
                 highlight: !1
             },
             _create: function() {
-                var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, control = this.element, trackTheme = this.options.trackTheme || $.mobile.getAttribute(control[0], "theme"), cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), controlID = control.attr("id"), $label = $("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document1.createElement("a"), handle = $(domHandle), domSlider = document1.createElement("div"), slider = $(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(slider));
+                var bg, options, wrapper, j, length, i, optionsCount, origTabIndex, side, activeClass, sliderImg, control = this.element, trackTheme = this.options.trackTheme || $.mobile.getAttribute(control[0], "theme"), cornerClass = this.options.corners || control.jqmData("corners") ? " ui-corner-all" : "", miniClass = this.options.mini || control.jqmData("mini") ? " ui-mini" : "", cType = control[0].nodeName.toLowerCase(), isToggleSwitch = "select" === cType, isRangeslider = control.parent().is(":jqmData(role='rangeslider')"), controlID = control.attr("id"), $label = $("[for='" + controlID + "']"), labelID = $label.attr("id") || controlID + "-label", min = isToggleSwitch ? 0 : parseFloat(control.attr("min")), max = isToggleSwitch ? control.find("option").length - 1 : parseFloat(control.attr("max")), step = window.parseFloat(control.attr("step") || 1), domHandle = document1.createElement("a"), handle = $(domHandle), domSlider = document1.createElement("div"), slider = $(domSlider), valuebg = !!this.options.highlight && !isToggleSwitch && (bg = document1.createElement("div"), bg.className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(slider));
                 if ($label.attr("id", labelID), this.isToggleSwitch = isToggleSwitch, domHandle.setAttribute("href", "#"), domSlider.setAttribute("role", "application"), domSlider.className = [
                     this.isToggleSwitch ? "ui-slider ui-slider-track ui-shadow-inset " : "ui-slider-track ui-shadow-inset ",
                     isToggleSwitch ? "ui-slider-switch" : "",
@@ -2460,8 +2462,8 @@
                 }), isToggleSwitch) {
                     for((origTabIndex = control.attr("tabindex")) && handle.attr("tabindex", origTabIndex), control.attr("tabindex", "-1").focus(function() {
                         $(this).blur(), handle.focus();
-                    }), (wrapper = document1.createElement("div")).className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
-                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", (sliderImg = document1.createElement("span")).className = [
+                    }), wrapper = document1.createElement("div"), wrapper.className = "ui-slider-inneroffset", j = 0, length = domSlider.childNodes.length; j < length; j++)wrapper.appendChild(domSlider.childNodes[j]);
+                    for(domSlider.appendChild(wrapper), handle.addClass("ui-slider-handle-snapping"), i = 0, optionsCount = (options = control.find("option")).length; i < optionsCount; i++)side = i ? "a" : "b", activeClass = i ? " " + $.mobile.activeBtnClass : "", sliderImg = document1.createElement("span"), sliderImg.className = [
                         "ui-slider-label ui-slider-label-",
                         side,
                         activeClass
@@ -2563,7 +2565,7 @@
                     trackTheme ? " ui-bar-" + trackTheme : " ui-bar-inherit",
                     cornerClass,
                     miniClass
-                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = ((bg = document1.createElement("div")).className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(this.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
+                ].join(""), (this.options.disabled || this.element.prop("disabled")) && this.disable(), this.value = this._value(), this.options.highlight && !this.isToggleSwitch && 0 === this.slider.find(".ui-slider-bg").length && (this.valuebg = (bg = document1.createElement("div"), bg.className = "ui-slider-bg " + $.mobile.activeBtnClass, $(bg).prependTo(this.slider))), this.handle.addClass("ui-btn" + (theme ? " ui-btn-" + theme : "") + " ui-shadow"), control = this.element, optionElements = (isInput = !this.isToggleSwitch) ? [] : control.find("option"), min = isInput ? parseFloat(control.attr("min")) : 0, max = isInput ? parseFloat(control.attr("max")) : optionElements.length - 1, step = isInput && parseFloat(control.attr("step")) > 0 ? parseFloat(control.attr("step")) : 1, "object" == typeof val) {
                     if (data = val, left = this.slider.offset().left, pxStep = (width = this.slider.width()) / ((max - min) / step), !this.dragging || data.pageX < left - 8 || data.pageX > left + width + 8) return;
                     percent = pxStep > 1 ? (data.pageX - left) / width * 100 : Math.round((data.pageX - left) / width * 100);
                 } else null == val && (val = isInput ? parseFloat(control.val() || 0) : control[0].selectedIndex), percent = (parseFloat(val) - min) / (max - min) * 100;
@@ -2915,12 +2917,12 @@
                 this._prepareHeightUpdate(this.options.keyupTimeoutBuffer);
             },
             _updateHeight: function() {
-                var paddingTop, scrollHeight, clientHeight, borderTop, height, scrollTop = this.window.scrollTop();
+                var scrollHeight, clientHeight, height, scrollTop = this.window.scrollTop();
                 this.keyupTimeout = 0, "onpage" in this.element[0] || this.element.css({
                     height: 0,
                     "min-height": 0,
                     "max-height": 0
-                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, borderTop = parseFloat(this.element.css("border-top-width")), height = scrollHeight + (borderTop + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (paddingTop = parseFloat(this.element.css("padding-top")), height += paddingTop + parseFloat(this.element.css("padding-bottom"))), this.element.css({
+                }), scrollHeight = this.element[0].scrollHeight, clientHeight = this.element[0].clientHeight, height = scrollHeight + (parseFloat(this.element.css("border-top-width")) + parseFloat(this.element.css("border-bottom-width"))) + 15, 0 === clientHeight && (height += parseFloat(this.element.css("padding-top")) + parseFloat(this.element.css("padding-bottom"))), this.element.css({
                     height: height,
                     "min-height": "",
                     "max-height": ""
@@ -3222,10 +3224,10 @@
             },
             _calculateFinalLocation: function(desired, clampInfo) {
                 var returnValue, rectangle = clampInfo.rc, menuSize = clampInfo.menuSize;
-                return (returnValue = {
+                return returnValue.top = Math.max(0, (returnValue = {
                     left: fitSegmentInsideSegment(rectangle.cx, menuSize.cx, rectangle.x, desired.x),
                     top: fitSegmentInsideSegment(rectangle.cy, menuSize.cy, rectangle.y, desired.y)
-                }).top = Math.max(0, returnValue.top), returnValue.top -= Math.min(returnValue.top, Math.max(0, returnValue.top + menuSize.cy - this.document.height())), returnValue;
+                }).top), returnValue.top -= Math.min(returnValue.top, Math.max(0, returnValue.top + menuSize.cy - this.document.height())), returnValue;
             },
             _placementCoords: function(desired) {
                 return this._calculateFinalLocation(desired, this._clampPopupWidth());
@@ -3583,10 +3585,10 @@
                 }, this)), $.extend(this, {
                     _ui: null,
                     _initialRefresh: !0
-                }), opts.enhanced ? this._ui = {
+                }), this._ui = opts.enhanced ? {
                     groupLegend: elem.children(".ui-controlgroup-label").children(),
                     childWrapper: elem.children(".ui-controlgroup-controls")
-                } : this._ui = this._enhance();
+                } : this._enhance();
             },
             _childWidgets: [
                 "checkboxradio",
@@ -3852,11 +3854,11 @@
                 return ar && ar.arEls.remove(), this._super();
             },
             _tryAnArrow: function(p, dir, desired, s, best) {
-                var result, r, diff, desiredForArrow = {}, tip = {};
-                return s.arFull[p.dimKey] > s.guideDims[p.dimKey] || (desiredForArrow[p.fst] = desired[p.fst] + (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor - s.contentBox[p.fst] + (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) * p.arrowOffsetFactor, desiredForArrow[p.snd] = desired[p.snd], r = {
+                var result, diff, desiredForArrow = {}, tip = {};
+                return s.arFull[p.dimKey] > s.guideDims[p.dimKey] || (desiredForArrow[p.fst] = desired[p.fst] + (s.arHalf[p.oDimKey] + s.menuHalf[p.oDimKey]) * p.offsetFactor - s.contentBox[p.fst] + (s.clampInfo.menuSize[p.oDimKey] - s.contentBox[p.oDimKey]) * p.arrowOffsetFactor, desiredForArrow[p.snd] = desired[p.snd], tip[p.fst] = ({
                     x: (result = s.result || this._calculateFinalLocation(desiredForArrow, s.clampInfo)).left,
                     y: result.top
-                }, tip[p.fst] = r[p.fst] + s.contentBox[p.fst] + p.tipOffset, tip[p.snd] = Math.max(result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey], Math.min(result[p.prop] + s.guideOffset[p.prop] + s.guideDims[p.dimKey] - s.arHalf[p.dimKey], desired[p.snd])), diff = Math.abs(desired.x - tip.x) + Math.abs(desired.y - tip.y), (!best || diff < best.diff) && (tip[p.snd] -= s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd], best = {
+                })[p.fst] + s.contentBox[p.fst] + p.tipOffset, tip[p.snd] = Math.max(result[p.prop] + s.guideOffset[p.prop] + s.arHalf[p.dimKey], Math.min(result[p.prop] + s.guideOffset[p.prop] + s.guideDims[p.dimKey] - s.arHalf[p.dimKey], desired[p.snd])), diff = Math.abs(desired.x - tip.x) + Math.abs(desired.y - tip.y), (!best || diff < best.diff) && (tip[p.snd] -= s.arHalf[p.dimKey] + result[p.prop] + s.contentBox[p.snd], best = {
                     dir: dir,
                     diff: diff,
                     result: result,
@@ -3882,8 +3884,8 @@
                     top: 0,
                     right: 0,
                     bottom: 0
-                }), gdOffset = ar.gd.offset(), state.contentBox = {
-                    x: gdOffset.left - offset.left,
+                }), state.contentBox = {
+                    x: (gdOffset = ar.gd.offset()).left - offset.left,
                     y: gdOffset.top - offset.top,
                     cx: ar.gd.width(),
                     cy: ar.gd.height()
@@ -4404,7 +4406,7 @@
         _syncTextInputOptions: function(options) {
             var idx, textinputOptions = {};
             if (this._isSearchInternal() && jQuery.mobile.textinput) {
-                for(idx in jQuery.mobile.textinput.prototype.options)undefined8 !== options[idx] && ("theme" === idx && null != this.options.filterTheme ? textinputOptions[idx] = this.options.filterTheme : textinputOptions[idx] = options[idx]);
+                for(idx in jQuery.mobile.textinput.prototype.options)undefined8 !== options[idx] && (textinputOptions[idx] = "theme" === idx && null != this.options.filterTheme ? this.options.filterTheme : options[idx]);
                 this._search.textinput("option", textinputOptions);
             }
         }
@@ -4436,7 +4438,7 @@
                     $(this).closest("li").is(".ui-state-disabled") && this.blur();
                 }), this._processTabs(), options.active = this._initialActive(), $.isArray(options.disabled) && (options.disabled = $.unique(options.disabled.concat($.map(this.tabs.filter(".ui-state-disabled"), function(li) {
                     return that.tabs.index(li);
-                }))).sort()), !1 !== this.options.active && this.anchors.length ? this.active = this._findActive(options.active) : this.active = $(), this._refresh(), this.active.length && this.load(options.active);
+                }))).sort()), this.active = !1 !== this.options.active && this.anchors.length ? this._findActive(options.active) : $(), this._refresh(), this.active.length && this.load(options.active);
             },
             _initialActive: function() {
                 var active = this.options.active, collapsible = this.options.collapsible, locationHash = location.hash.substring(1);

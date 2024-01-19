@@ -39,7 +39,8 @@ global = this, factory = function(exports1, _class_call_check, _interop_require_
         function D() {
             _class_call_check._(this, D);
         }
-        return D.prototype.method = function() {
+        var _proto = D.prototype;
+        return _proto.method = function() {
             import("./0");
         }, D;
     }();

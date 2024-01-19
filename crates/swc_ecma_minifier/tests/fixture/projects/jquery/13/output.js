@@ -3,11 +3,11 @@ function internalRemoveData(elem, name, pvt) {
         var i, l, thisCache, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[jQuery.expando] : jQuery.expando;
         if (cache[id]) {
             if (name && (thisCache = pvt ? cache[id] : cache[id].data)) {
-                for(i = 0, l = (name = jQuery.isArray(name) ? name.concat(jQuery.map(name, jQuery.camelCase)) : (name in thisCache) ? [
+                for(jQuery.isArray(name) ? name = name.concat(jQuery.map(name, jQuery.camelCase)) : name = (name in thisCache) ? [
                     name
                 ] : ((name = jQuery.camelCase(name)) in thisCache) ? [
                     name
-                ] : name.split(" ")).length; i < l; i++)delete thisCache[name[i]];
+                ] : name.split(" "), i = 0, l = name.length; i < l; i++)delete thisCache[name[i]];
                 if (!(pvt ? isEmptyDataObject : jQuery.isEmptyObject)(thisCache)) return;
             }
             (pvt || (delete cache[id].data, isEmptyDataObject(cache[id]))) && (isNode ? jQuery.cleanData([

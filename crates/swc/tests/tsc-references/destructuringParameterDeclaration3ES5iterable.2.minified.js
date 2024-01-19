@@ -53,4 +53,4 @@ function foo1() {
 ]), (_param1 = _to_array([
     1,
     2
-]))[0], _param1[1], _param1[2], _param1.slice(3), foo("hello", 1, 2), foo("hello", "world"), (E = E1 || (E1 = {}))[E.a = 0] = "a", E[E.b = 1] = "b", foo1(1, 2, 3, 0), foo1(1, 2, 3, 0, 1);
+]))[0], _param1[1], _param1[2], _param1.slice(3), foo("hello", 1, 2), foo("hello", "world"), E = E1 || (E1 = {}), E[E.a = 0] = "a", E[E.b = 1] = "b", foo1(1, 2, 3, 0), foo1(1, 2, 3, 0, 1);

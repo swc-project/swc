@@ -157,7 +157,7 @@
                     for(var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
                     var bin, bins = Array(m + 1);
-                    for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
+                    for(i = 0; i <= m; ++i)bin = bins[i] = [], bin.x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
                     for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[Object(_bisect__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
                     return bins;
                 }
@@ -1797,7 +1797,7 @@
                 return {
                     format: newFormat,
                     formatPrefix: function(specifier, value) {
-                        var f = newFormat(((specifier = Object(_formatSpecifier_js__WEBPACK_IMPORTED_MODULE_3__.default)(specifier)).type = "f", specifier)), e = 3 * Math.max(-8, Math.min(8, Math.floor(Object(_exponent_js__WEBPACK_IMPORTED_MODULE_0__.default)(value) / 3))), k = Math.pow(10, -e), prefix = prefixes[8 + e / 3];
+                        var f = newFormat((specifier = Object(_formatSpecifier_js__WEBPACK_IMPORTED_MODULE_3__.default)(specifier), specifier.type = "f", specifier)), e = 3 * Math.max(-8, Math.min(8, Math.floor(Object(_exponent_js__WEBPACK_IMPORTED_MODULE_0__.default)(value) / 3))), k = Math.pow(10, -e), prefix = prefixes[8 + e / 3];
                         return function(value) {
                             return f(k * value) + prefix;
                         };
@@ -2181,7 +2181,7 @@
             function rgbSpline(spline) {
                 return function(colors) {
                     var i, color, n = colors.length, r = Array(n), g = Array(n), b = Array(n);
-                    for(i = 0; i < n; ++i)color = Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.rgb)(colors[i]), r[i] = color.r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
+                    for(i = 0; i < n; ++i)r[i] = (color = Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.rgb)(colors[i])).r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
                     return r = spline(r), g = spline(g), b = spline(b), color.opacity = 1, function(t) {
                         return color.r = r(t), color.g = g(t), color.b = b(t), color + "";
                     };
@@ -2584,27 +2584,19 @@
         },
         "../../../node_modules/d3-scale/src/category10.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-scale/src/colors.js");
-            __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("1f77b4ff7f0e2ca02cd627289467bd8c564be377c27f7f7fbcbd2217becf");
+            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = Object(__webpack_require__("../../../node_modules/d3-scale/src/colors.js").default)("1f77b4ff7f0e2ca02cd627289467bd8c564be377c27f7f7fbcbd2217becf");
         },
         "../../../node_modules/d3-scale/src/category20.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-scale/src/colors.js");
-            __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("1f77b4aec7e8ff7f0effbb782ca02c98df8ad62728ff98969467bdc5b0d58c564bc49c94e377c2f7b6d27f7f7fc7c7c7bcbd22dbdb8d17becf9edae5");
+            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = Object(__webpack_require__("../../../node_modules/d3-scale/src/colors.js").default)("1f77b4aec7e8ff7f0effbb782ca02c98df8ad62728ff98969467bdc5b0d58c564bc49c94e377c2f7b6d27f7f7fc7c7c7bcbd22dbdb8d17becf9edae5");
         },
         "../../../node_modules/d3-scale/src/category20b.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-scale/src/colors.js");
-            __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("393b795254a36b6ecf9c9ede6379398ca252b5cf6bcedb9c8c6d31bd9e39e7ba52e7cb94843c39ad494ad6616be7969c7b4173a55194ce6dbdde9ed6");
+            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = Object(__webpack_require__("../../../node_modules/d3-scale/src/colors.js").default)("393b795254a36b6ecf9c9ede6379398ca252b5cf6bcedb9c8c6d31bd9e39e7ba52e7cb94843c39ad494ad6616be7969c7b4173a55194ce6dbdde9ed6");
         },
         "../../../node_modules/d3-scale/src/category20c.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
-            __webpack_require__.r(__webpack_exports__);
-            var _colors__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-scale/src/colors.js");
-            __webpack_exports__.default = Object(_colors__WEBPACK_IMPORTED_MODULE_0__.default)("3182bd6baed69ecae1c6dbefe6550dfd8d3cfdae6bfdd0a231a35474c476a1d99bc7e9c0756bb19e9ac8bcbddcdadaeb636363969696bdbdbdd9d9d9");
+            __webpack_require__.r(__webpack_exports__), __webpack_exports__.default = Object(__webpack_require__("../../../node_modules/d3-scale/src/colors.js").default)("3182bd6baed69ecae1c6dbefe6550dfd8d3cfdae6bfdd0a231a35474c476a1d99bc7e9c0756bb19e9ac8bcbddcdadaeb636363969696bdbdbdd9d9d9");
         },
         "../../../node_modules/d3-scale/src/colors.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -2693,8 +2685,8 @@
         "../../../node_modules/d3-scale/src/cubehelix.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var d3_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/index.js"), d3_interpolate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-interpolate/src/index.js");
-            __webpack_exports__.default = Object(d3_interpolate__WEBPACK_IMPORTED_MODULE_1__.interpolateCubehelixLong)(Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(300, 0.5, 0.0), Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(-240, 0.5, 1.0));
+            var d3_color__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-color/src/index.js");
+            __webpack_exports__.default = Object(__webpack_require__("../../../node_modules/d3-interpolate/src/index.js").interpolateCubehelixLong)(Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(300, 0.5, 0.0), Object(d3_color__WEBPACK_IMPORTED_MODULE_0__.cubehelix)(-240, 0.5, 1.0));
         },
         "../../../node_modules/d3-scale/src/identity.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -4968,19 +4960,19 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "isoSpecifier", function() {
                 return isoSpecifier;
             });
-            var _defaultLocale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-time-format/src/defaultLocale.js"), isoSpecifier = "%Y-%m-%dT%H:%M:%S.%LZ", formatIso = Date.prototype.toISOString ? function(date) {
+            var _defaultLocale_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-time-format/src/defaultLocale.js"), isoSpecifier = "%Y-%m-%dT%H:%M:%S.%LZ";
+            __webpack_exports__.default = Date.prototype.toISOString ? function(date) {
                 return date.toISOString();
             } : Object(_defaultLocale_js__WEBPACK_IMPORTED_MODULE_0__.utcFormat)(isoSpecifier);
-            __webpack_exports__.default = formatIso;
         },
         "../../../node_modules/d3-time-format/src/isoParse.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var _isoFormat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-time-format/src/isoFormat.js"), _defaultLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-time-format/src/defaultLocale.js"), parseIso = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
+            var _isoFormat_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-time-format/src/isoFormat.js"), _defaultLocale_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/d3-time-format/src/defaultLocale.js");
+            __webpack_exports__.default = +new Date("2000-01-01T00:00:00.000Z") ? function(string) {
                 var date = new Date(string);
                 return isNaN(date) ? null : date;
             } : Object(_defaultLocale_js__WEBPACK_IMPORTED_MODULE_1__.utcParse)(_isoFormat_js__WEBPACK_IMPORTED_MODULE_0__.isoSpecifier);
-            __webpack_exports__.default = parseIso;
         },
         "../../../node_modules/d3-time-format/src/locale.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -5168,7 +5160,7 @@
                         if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
                         if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                             if (d.V < 1 || d.V > 53) return null;
-                            "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                            "w" in d || (d.w = 1), "Z" in d ? (week = (day = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.utcMonday)(week), d.y = (week = d3_time__WEBPACK_IMPORTED_MODULE_0__.utcDay.offset(week, (d.V - 1) * 7)).getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day ? d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday.ceil(week) : Object(d3_time__WEBPACK_IMPORTED_MODULE_0__.timeMonday)(week), d.y = (week = d3_time__WEBPACK_IMPORTED_MODULE_0__.timeDay.offset(week, (d.V - 1) * 7)).getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                         } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day + 5) % 7 : d.w + 7 * d.U - (day + 6) % 7);
                         return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
                     };
@@ -6081,7 +6073,7 @@
                 disappearing.push(rArc), Object(_Circle__WEBPACK_IMPORTED_MODULE_2__.detachCircle)(rArc);
                 var iArc, nArcs = disappearing.length;
                 for(iArc = 1; iArc < nArcs; ++iArc)rArc = disappearing[iArc], lArc = disappearing[iArc - 1], Object(_Edge__WEBPACK_IMPORTED_MODULE_3__.setEdgeEnd)(rArc.edge, lArc.site, rArc.site, vertex);
-                lArc = disappearing[0], (rArc = disappearing[nArcs - 1]).edge = Object(_Edge__WEBPACK_IMPORTED_MODULE_3__.createEdge)(lArc.site, rArc.site, null, vertex), Object(_Circle__WEBPACK_IMPORTED_MODULE_2__.attachCircle)(lArc), Object(_Circle__WEBPACK_IMPORTED_MODULE_2__.attachCircle)(rArc);
+                lArc = disappearing[0], rArc = disappearing[nArcs - 1], rArc.edge = Object(_Edge__WEBPACK_IMPORTED_MODULE_3__.createEdge)(lArc.site, rArc.site, null, vertex), Object(_Circle__WEBPACK_IMPORTED_MODULE_2__.attachCircle)(lArc), Object(_Circle__WEBPACK_IMPORTED_MODULE_2__.attachCircle)(rArc);
             }
             function addBeach(site) {
                 for(var lArc, rArc, dxl, dxr, x = site[0], directrix = site[1], node = _Diagram__WEBPACK_IMPORTED_MODULE_4__.beaches._; node;)if ((dxl = leftBreakPoint(node, directrix) - x) > _Diagram__WEBPACK_IMPORTED_MODULE_4__.epsilon) node = node.L;
@@ -6526,7 +6518,7 @@
                 remove: function(node) {
                     node.N && (node.N.P = node.P), node.P && (node.P.N = node.N), node.N = node.P = null;
                     var sibling, next, red, parent = node.U, left = node.L, right = node.R;
-                    if (next = left ? right ? RedBlackFirst(right) : left : right, parent ? parent.L === node ? parent.L = next : parent.R = next : this._ = next, left && right ? (red = next.C, next.C = node.C, next.L = left, left.U = next, next !== right ? (parent = next.U, next.U = node.U, node = next.R, parent.L = node, next.R = right, right.U = next) : (next.U = parent, parent = next, node = next.R)) : (red = node.C, node = next), node && (node.U = parent), !red) {
+                    if (next = left ? right ? RedBlackFirst(right) : left : right, parent ? parent.L === node ? parent.L = next : parent.R = next : this._ = next, left && right ? (red = next.C, next.C = node.C, next.L = left, left.U = next, next !== right ? (parent = next.U, next.U = node.U, parent.L = node = next.R, next.R = right, right.U = next) : (next.U = parent, parent = next, node = next.R)) : (red = node.C, node = next), node && (node.U = parent), !red) {
                         if (node && node.C) {
                             node.C = !1;
                             return;
@@ -6908,9 +6900,9 @@
             };
         },
         "../../../node_modules/json-stringify-safe/stringify.js": function(module1, exports1) {
-            (module1.exports = function(obj, replacer, spaces, cycleReplacer) {
+            exports1 = module1.exports = function(obj, replacer, spaces, cycleReplacer) {
                 return JSON.stringify(obj, serializer(replacer, cycleReplacer), spaces);
-            }).getSerialize = serializer;
+            }, exports1.getSerialize = serializer;
             function serializer(replacer, cycleReplacer) {
                 var stack = [], keys = [];
                 return null == cycleReplacer && (cycleReplacer = function(key, value) {
@@ -6949,8 +6941,7 @@
             ListCache.prototype.clear = listCacheClear, ListCache.prototype.delete = listCacheDelete, ListCache.prototype.get = listCacheGet, ListCache.prototype.has = listCacheHas, ListCache.prototype.set = listCacheSet, module1.exports = ListCache;
         },
         "../../../node_modules/lodash/_Symbol.js": function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__("../../../node_modules/lodash/_root.js").Symbol;
-            module1.exports = Symbol1;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_root.js").Symbol;
         },
         "../../../node_modules/lodash/_apply.js": function(module1, exports1) {
             module1.exports = function(func, thisArg, args) {
@@ -7082,8 +7073,7 @@
             };
         },
         "../../../node_modules/lodash/_baseFor.js": function(module1, exports1, __webpack_require__) {
-            var baseFor = __webpack_require__("../../../node_modules/lodash/_createBaseFor.js")();
-            module1.exports = baseFor;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_createBaseFor.js")();
         },
         "../../../node_modules/lodash/_baseForOwn.js": function(module1, exports1, __webpack_require__) {
             var baseFor = __webpack_require__("../../../node_modules/lodash/_baseFor.js"), keys = __webpack_require__("../../../node_modules/lodash/keys.js");
@@ -7192,8 +7182,7 @@
             };
         },
         "../../../node_modules/lodash/_baseKeys.js": function(module1, exports1, __webpack_require__) {
-            var nativeKeys = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
-            module1.exports = nativeKeys;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
         },
         "../../../node_modules/lodash/_baseMap.js": function(module1, exports1) {
             module1.exports = function(array, iteratee) {
@@ -7553,13 +7542,13 @@
             };
         },
         "../../../node_modules/lodash/_defineProperty.js": function(module1, exports1, __webpack_require__) {
-            var getNative = __webpack_require__("../../../node_modules/lodash/_getNative.js"), defineProperty = function() {
+            var getNative = __webpack_require__("../../../node_modules/lodash/_getNative.js");
+            module1.exports = function() {
                 try {
                     var func = getNative(Object, 'defineProperty');
                     return func({}, '', {}), func;
                 } catch (e) {}
             }();
-            module1.exports = defineProperty;
         },
         "../../../node_modules/lodash/_equalArrays.js": function(module1, exports1, __webpack_require__) {
             var SetCache = __webpack_require__("../../../node_modules/lodash/_SetCache.js"), arraySome = __webpack_require__("../../../node_modules/lodash/_arraySome.js"), cacheHas = __webpack_require__("../../../node_modules/lodash/_cacheHas.js");
@@ -7634,13 +7623,11 @@
         },
         "../../../node_modules/lodash/_freeGlobal.js": function(module1, exports1, __webpack_require__) {
             (function(global) {
-                var freeGlobal = 'object' == typeof global && global && global.Object === Object && global;
-                module1.exports = freeGlobal;
+                module1.exports = 'object' == typeof global && global && global.Object === Object && global;
             }).call(this, __webpack_require__("../../../node_modules/webpack/buildin/global.js"));
         },
         "../../../node_modules/lodash/_getAllKeys.js": function(module1, exports1, __webpack_require__) {
-            var nativeKeys = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
-            module1.exports = nativeKeys;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
         },
         "../../../node_modules/lodash/_getAllKeysIn.js": function(module1, exports1) {
             module1.exports = function(object) {
@@ -7677,8 +7664,7 @@
             };
         },
         "../../../node_modules/lodash/_getPrototype.js": function(module1, exports1, __webpack_require__) {
-            var getPrototype = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.getPrototypeOf, Object);
-            module1.exports = getPrototype;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.getPrototypeOf, Object);
         },
         "../../../node_modules/lodash/_getTag.js": function(module1, exports1) {
             var nativeObjectToString = Object.prototype.toString;
@@ -7794,14 +7780,14 @@
         },
         "../../../node_modules/lodash/_nodeUtil.js": function(module1, exports1, __webpack_require__) {
             (function(module1) {
-                var freeGlobal = __webpack_require__("../../../node_modules/lodash/_freeGlobal.js"), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && 'object' == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
+                var freeGlobal = __webpack_require__("../../../node_modules/lodash/_freeGlobal.js"), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && 'object' == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process;
+                module1.exports = function() {
                     try {
                         var types = freeModule && freeModule.require && freeModule.require('util').types;
                         if (types) return types;
                         return freeProcess && freeProcess.binding && freeProcess.binding('util');
                     } catch (e) {}
                 }();
-                module1.exports = nodeUtil;
             }).call(this, __webpack_require__("../../../node_modules/webpack/buildin/module.js")(module1));
         },
         "../../../node_modules/lodash/_overArg.js": function(module1, exports1) {
@@ -7823,8 +7809,8 @@
             };
         },
         "../../../node_modules/lodash/_root.js": function(module1, exports1, __webpack_require__) {
-            var freeGlobal = __webpack_require__("../../../node_modules/lodash/_freeGlobal.js"), freeSelf = 'object' == typeof self && self && self.Object === Object && self, root = freeGlobal || freeSelf || Function('return this')();
-            module1.exports = root;
+            var freeGlobal = __webpack_require__("../../../node_modules/lodash/_freeGlobal.js"), freeSelf = 'object' == typeof self && self && self.Object === Object && self;
+            module1.exports = freeGlobal || freeSelf || Function('return this')();
         },
         "../../../node_modules/lodash/_setToArray.js": function(module1, exports1) {
             module1.exports = function() {
@@ -7842,13 +7828,13 @@
             };
         },
         "../../../node_modules/lodash/_stringToPath.js": function(module1, exports1, __webpack_require__) {
-            var memoizeCapped = __webpack_require__("../../../node_modules/lodash/_memoizeCapped.js"), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
+            var memoizeCapped = __webpack_require__("../../../node_modules/lodash/_memoizeCapped.js"), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g;
+            module1.exports = memoizeCapped(function(string) {
                 var result = [];
                 return 46 === string.charCodeAt(0) && result.push(''), string.replace(rePropName, function(match, number, quote, subString) {
                     result.push(quote ? subString.replace(reEscapeChar, '$1') : number || match);
                 }), result;
             });
-            module1.exports = stringToPath;
         },
         "../../../node_modules/lodash/_toKey.js": function(module1, exports1, __webpack_require__) {
             var isSymbol = __webpack_require__("../../../node_modules/lodash/isSymbol.js"), INFINITY = 1 / 0;
@@ -7866,14 +7852,14 @@
             };
         },
         "../../../node_modules/lodash/assign.js": function(module1, exports1, __webpack_require__) {
-            var assignValue = __webpack_require__("../../../node_modules/lodash/_assignValue.js"), copyObject = __webpack_require__("../../../node_modules/lodash/_copyObject.js"), createAssigner = __webpack_require__("../../../node_modules/lodash/_createAssigner.js"), isArrayLike = __webpack_require__("../../../node_modules/lodash/isArrayLike.js"), isPrototype = __webpack_require__("../../../node_modules/lodash/_isPrototype.js"), keys = __webpack_require__("../../../node_modules/lodash/keys.js"), hasOwnProperty = Object.prototype.hasOwnProperty, assign = createAssigner(function(object, source) {
+            var assignValue = __webpack_require__("../../../node_modules/lodash/_assignValue.js"), copyObject = __webpack_require__("../../../node_modules/lodash/_copyObject.js"), createAssigner = __webpack_require__("../../../node_modules/lodash/_createAssigner.js"), isArrayLike = __webpack_require__("../../../node_modules/lodash/isArrayLike.js"), isPrototype = __webpack_require__("../../../node_modules/lodash/_isPrototype.js"), keys = __webpack_require__("../../../node_modules/lodash/keys.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
+            module1.exports = createAssigner(function(object, source) {
                 if (isPrototype(source) || isArrayLike(source)) {
                     copyObject(source, keys(source), object);
                     return;
                 }
                 for(var key in source)hasOwnProperty.call(source, key) && assignValue(object, key, source[key]);
             });
-            module1.exports = assign;
         },
         "../../../node_modules/lodash/constant.js": function(module1, exports1) {
             module1.exports = function(value) {
@@ -7919,7 +7905,8 @@
             };
         },
         "../../../node_modules/lodash/defaults.js": function(module1, exports1, __webpack_require__) {
-            var baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), eq = __webpack_require__("../../../node_modules/lodash/eq.js"), isIterateeCall = __webpack_require__("../../../node_modules/lodash/_isIterateeCall.js"), keysIn = __webpack_require__("../../../node_modules/lodash/keysIn.js"), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, defaults = baseRest(function(object, sources) {
+            var baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), eq = __webpack_require__("../../../node_modules/lodash/eq.js"), isIterateeCall = __webpack_require__("../../../node_modules/lodash/_isIterateeCall.js"), keysIn = __webpack_require__("../../../node_modules/lodash/keysIn.js"), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty;
+            module1.exports = baseRest(function(object, sources) {
                 object = Object(object);
                 var index = -1, length = sources.length, guard = length > 2 ? sources[2] : void 0;
                 for(guard && isIterateeCall(sources[0], sources[1], guard) && (length = 1); ++index < length;)for(var source = sources[index], props = keysIn(source), propsIndex = -1, propsLength = props.length; ++propsIndex < propsLength;){
@@ -7928,19 +7915,18 @@
                 }
                 return object;
             });
-            module1.exports = defaults;
         },
         "../../../node_modules/lodash/delay.js": function(module1, exports1, __webpack_require__) {
-            var baseDelay = __webpack_require__("../../../node_modules/lodash/_baseDelay.js"), baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), toNumber = __webpack_require__("../../../node_modules/lodash/toNumber.js"), delay = baseRest(function(func, wait, args) {
+            var baseDelay = __webpack_require__("../../../node_modules/lodash/_baseDelay.js"), baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), toNumber = __webpack_require__("../../../node_modules/lodash/toNumber.js");
+            module1.exports = baseRest(function(func, wait, args) {
                 return baseDelay(func, toNumber(wait) || 0, args);
             });
-            module1.exports = delay;
         },
         "../../../node_modules/lodash/difference.js": function(module1, exports1, __webpack_require__) {
-            var baseDifference = __webpack_require__("../../../node_modules/lodash/_baseDifference.js"), baseFlatten = __webpack_require__("../../../node_modules/lodash/_baseFlatten.js"), baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__("../../../node_modules/lodash/isArrayLikeObject.js"), difference = baseRest(function(array, values) {
+            var baseDifference = __webpack_require__("../../../node_modules/lodash/_baseDifference.js"), baseFlatten = __webpack_require__("../../../node_modules/lodash/_baseFlatten.js"), baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__("../../../node_modules/lodash/isArrayLikeObject.js");
+            module1.exports = baseRest(function(array, values) {
                 return isArrayLikeObject(array) ? baseDifference(array, baseFlatten(values, 1, isArrayLikeObject, !0)) : [];
             });
-            module1.exports = difference;
         },
         "../../../node_modules/lodash/eq.js": function(module1, exports1) {
             module1.exports = function(value, other) {
@@ -7948,8 +7934,7 @@
             };
         },
         "../../../node_modules/lodash/find.js": function(module1, exports1, __webpack_require__) {
-            var find = __webpack_require__("../../../node_modules/lodash/_createFind.js")(__webpack_require__("../../../node_modules/lodash/findIndex.js"));
-            module1.exports = find;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_createFind.js")(__webpack_require__("../../../node_modules/lodash/findIndex.js"));
         },
         "../../../node_modules/lodash/findIndex.js": function(module1, exports1, __webpack_require__) {
             var baseFindIndex = __webpack_require__("../../../node_modules/lodash/_baseFindIndex.js"), baseIteratee = __webpack_require__("../../../node_modules/lodash/_baseIteratee.js"), toInteger = __webpack_require__("../../../node_modules/lodash/toInteger.js"), nativeMax = Math.max;
@@ -7967,8 +7952,7 @@
             };
         },
         "../../../node_modules/lodash/flow.js": function(module1, exports1, __webpack_require__) {
-            var flow = __webpack_require__("../../../node_modules/lodash/_createFlow.js")();
-            module1.exports = flow;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_createFlow.js")();
         },
         "../../../node_modules/lodash/forOwn.js": function(module1, exports1, __webpack_require__) {
             var baseForOwn = __webpack_require__("../../../node_modules/lodash/_baseForOwn.js"), castFunction = __webpack_require__("../../../node_modules/lodash/_castFunction.js");
@@ -7993,12 +7977,12 @@
             };
         },
         "../../../node_modules/lodash/groupBy.js": function(module1, exports1, __webpack_require__) {
-            var baseAssignValue = __webpack_require__("../../../node_modules/lodash/_baseAssignValue.js"), createAggregator = __webpack_require__("../../../node_modules/lodash/_createAggregator.js"), hasOwnProperty = Object.prototype.hasOwnProperty, groupBy = createAggregator(function(result, value, key) {
+            var baseAssignValue = __webpack_require__("../../../node_modules/lodash/_baseAssignValue.js"), createAggregator = __webpack_require__("../../../node_modules/lodash/_createAggregator.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
+            module1.exports = createAggregator(function(result, value, key) {
                 hasOwnProperty.call(result, key) ? result[key].push(value) : baseAssignValue(result, key, [
                     value
                 ]);
             });
-            module1.exports = groupBy;
         },
         "../../../node_modules/lodash/hasIn.js": function(module1, exports1, __webpack_require__) {
             var baseHasIn = __webpack_require__("../../../node_modules/lodash/_baseHasIn.js"), hasPath = __webpack_require__("../../../node_modules/lodash/_hasPath.js");
@@ -8018,10 +8002,10 @@
             };
         },
         "../../../node_modules/lodash/invert.js": function(module1, exports1, __webpack_require__) {
-            var constant = __webpack_require__("../../../node_modules/lodash/constant.js"), createInverter = __webpack_require__("../../../node_modules/lodash/_createInverter.js"), identity = __webpack_require__("../../../node_modules/lodash/identity.js"), nativeObjectToString = Object.prototype.toString, invert = createInverter(function(result, value, key) {
+            var constant = __webpack_require__("../../../node_modules/lodash/constant.js"), createInverter = __webpack_require__("../../../node_modules/lodash/_createInverter.js"), identity = __webpack_require__("../../../node_modules/lodash/identity.js"), nativeObjectToString = Object.prototype.toString;
+            module1.exports = createInverter(function(result, value, key) {
                 null != value && 'function' != typeof value.toString && (value = nativeObjectToString.call(value)), result[value] = key;
             }, constant(identity));
-            module1.exports = invert;
         },
         "../../../node_modules/lodash/isArguments.js": function(module1, exports1) {
             module1.exports = function() {
@@ -8029,8 +8013,7 @@
             };
         },
         "../../../node_modules/lodash/isArray.js": function(module1, exports1) {
-            var isArray = Array.isArray;
-            module1.exports = isArray;
+            module1.exports = Array.isArray;
         },
         "../../../node_modules/lodash/isArrayLike.js": function(module1, exports1, __webpack_require__) {
             var isFunction = __webpack_require__("../../../node_modules/lodash/isFunction.js"), isLength = __webpack_require__("../../../node_modules/lodash/isLength.js");
@@ -8050,8 +8033,8 @@
             };
         },
         "../../../node_modules/lodash/isDate.js": function(module1, exports1, __webpack_require__) {
-            var baseIsDate = __webpack_require__("../../../node_modules/lodash/_baseIsDate.js"), baseUnary = __webpack_require__("../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__("../../../node_modules/lodash/_nodeUtil.js"), nodeIsDate = nodeUtil && nodeUtil.isDate, isDate = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
-            module1.exports = isDate;
+            var baseIsDate = __webpack_require__("../../../node_modules/lodash/_baseIsDate.js"), baseUnary = __webpack_require__("../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__("../../../node_modules/lodash/_nodeUtil.js"), nodeIsDate = nodeUtil && nodeUtil.isDate;
+            module1.exports = nodeIsDate ? baseUnary(nodeIsDate) : baseIsDate;
         },
         "../../../node_modules/lodash/isEmpty.js": function(module1, exports1, __webpack_require__) {
             var baseKeys = __webpack_require__("../../../node_modules/lodash/_baseKeys.js"), getTag = __webpack_require__("../../../node_modules/lodash/_getTag.js"), isArguments = __webpack_require__("../../../node_modules/lodash/isArguments.js"), isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), isArrayLike = __webpack_require__("../../../node_modules/lodash/isArrayLike.js"), isBuffer = __webpack_require__("../../../node_modules/lodash/isBuffer.js"), isPrototype = __webpack_require__("../../../node_modules/lodash/_isPrototype.js"), isTypedArray = __webpack_require__("../../../node_modules/lodash/isTypedArray.js"), hasOwnProperty = Object.prototype.hasOwnProperty;
@@ -8123,8 +8106,8 @@
             };
         },
         "../../../node_modules/lodash/isRegExp.js": function(module1, exports1, __webpack_require__) {
-            var baseIsRegExp = __webpack_require__("../../../node_modules/lodash/_baseIsRegExp.js"), baseUnary = __webpack_require__("../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__("../../../node_modules/lodash/_nodeUtil.js"), nodeIsRegExp = nodeUtil && nodeUtil.isRegExp, isRegExp = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
-            module1.exports = isRegExp;
+            var baseIsRegExp = __webpack_require__("../../../node_modules/lodash/_baseIsRegExp.js"), baseUnary = __webpack_require__("../../../node_modules/lodash/_baseUnary.js"), nodeUtil = __webpack_require__("../../../node_modules/lodash/_nodeUtil.js"), nodeIsRegExp = nodeUtil && nodeUtil.isRegExp;
+            module1.exports = nodeIsRegExp ? baseUnary(nodeIsRegExp) : baseIsRegExp;
         },
         "../../../node_modules/lodash/isString.js": function(module1, exports1, __webpack_require__) {
             var baseGetTag = __webpack_require__("../../../node_modules/lodash/_baseGetTag.js"), isArray = __webpack_require__("../../../node_modules/lodash/isArray.js"), isObjectLike = __webpack_require__("../../../node_modules/lodash/isObjectLike.js");
@@ -8148,8 +8131,7 @@
             };
         },
         "../../../node_modules/lodash/keys.js": function(module1, exports1, __webpack_require__) {
-            var nativeKeys = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
-            module1.exports = nativeKeys;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_overArg.js")(Object.keys, Object);
         },
         "../../../node_modules/lodash/keysIn.js": function(module1, exports1) {
             module1.exports = function(object) {
@@ -8215,10 +8197,10 @@
             };
         },
         "../../../node_modules/lodash/pick.js": function(module1, exports1, __webpack_require__) {
-            var basePick = __webpack_require__("../../../node_modules/lodash/_basePick.js"), pick = __webpack_require__("../../../node_modules/lodash/_flatRest.js")(function(object, paths) {
+            var basePick = __webpack_require__("../../../node_modules/lodash/_basePick.js");
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_flatRest.js")(function(object, paths) {
                 return null == object ? {} : basePick(object, paths);
             });
-            module1.exports = pick;
         },
         "../../../node_modules/lodash/pickBy.js": function(module1, exports1, __webpack_require__) {
             var arrayMap = __webpack_require__("../../../node_modules/lodash/_arrayMap.js"), baseIteratee = __webpack_require__("../../../node_modules/lodash/_baseIteratee.js"), basePickBy = __webpack_require__("../../../node_modules/lodash/_basePickBy.js"), getAllKeysIn = __webpack_require__("../../../node_modules/lodash/_getAllKeysIn.js");
@@ -8241,8 +8223,7 @@
             };
         },
         "../../../node_modules/lodash/range.js": function(module1, exports1, __webpack_require__) {
-            var range = __webpack_require__("../../../node_modules/lodash/_createRange.js")();
-            module1.exports = range;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_createRange.js")();
         },
         "../../../node_modules/lodash/some.js": function(module1, exports1) {
             module1.exports = function(array, predicate) {
@@ -8303,8 +8284,7 @@
             };
         },
         "../../../node_modules/lodash/toPairs.js": function(module1, exports1, __webpack_require__) {
-            var toPairs = __webpack_require__("../../../node_modules/lodash/_createToPairs.js")(__webpack_require__("../../../node_modules/lodash/keys.js"));
-            module1.exports = toPairs;
+            module1.exports = __webpack_require__("../../../node_modules/lodash/_createToPairs.js")(__webpack_require__("../../../node_modules/lodash/keys.js"));
         },
         "../../../node_modules/lodash/toString.js": function(module1, exports1, __webpack_require__) {
             var baseToString = __webpack_require__("../../../node_modules/lodash/_baseToString.js");
@@ -8338,10 +8318,10 @@
             };
         },
         "../../../node_modules/lodash/without.js": function(module1, exports1, __webpack_require__) {
-            var baseDifference = __webpack_require__("../../../node_modules/lodash/_baseDifference.js"), baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__("../../../node_modules/lodash/isArrayLikeObject.js"), without = baseRest(function(array, values) {
+            var baseDifference = __webpack_require__("../../../node_modules/lodash/_baseDifference.js"), baseRest = __webpack_require__("../../../node_modules/lodash/_baseRest.js"), isArrayLikeObject = __webpack_require__("../../../node_modules/lodash/isArrayLikeObject.js");
+            module1.exports = baseRest(function(array, values) {
                 return isArrayLikeObject(array) ? baseDifference(array, values) : [];
             });
-            module1.exports = without;
         },
         "../../../node_modules/object-assign/index.js": function(module1, exports1, __webpack_require__) {
             "use strict";
@@ -8929,9 +8909,13 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
-                        labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
-                    }), childProps;
+                    if (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) {
+                        var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey;
+                        childProps[eventKey] = {
+                            labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
+                        };
+                    }
+                    return childProps;
                 }, initialChildProps);
             };
         },
@@ -10120,29 +10104,29 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = getBarPosition(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
-                        alignment: alignment,
-                        barRatio: barRatio,
-                        barWidth: barWidth,
-                        cornerRadius: cornerRadius,
-                        data: data,
-                        datum: datum,
-                        getPath: getPath,
-                        horizontal: horizontal,
-                        index: index,
-                        polar: polar,
-                        origin: origin,
-                        scale: scale,
-                        style: style.data,
-                        width: width,
-                        height: height,
-                        x: x,
-                        y: y,
-                        y0: y0,
-                        x0: x0
-                    };
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = getBarPosition(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0;
                     return childProps[eventKey] = {
-                        data: dataProps
+                        data: {
+                            alignment: alignment,
+                            barRatio: barRatio,
+                            barWidth: barWidth,
+                            cornerRadius: cornerRadius,
+                            data: data,
+                            datum: datum,
+                            getPath: getPath,
+                            horizontal: horizontal,
+                            index: index,
+                            polar: polar,
+                            origin: origin,
+                            scale: scale,
+                            style: style.data,
+                            width: width,
+                            height: height,
+                            x: x,
+                            y: y,
+                            y0: y0,
+                            x0: x0
+                        }
                     }, (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
@@ -10973,10 +10957,10 @@
                         index: index,
                         datum: datum,
                         positions: positions
-                    }, props), dataObj = TYPES.reduce(function(memo, type) {
+                    }, props);
+                    return acc[eventKey] = TYPES.reduce(function(memo, type) {
                         return memo[type] = "median" === type ? getMedianProps(dataProps) : "min" === type || "max" === type ? getWhiskerProps(dataProps, type) : getBoxProps(dataProps, type), memo;
-                    }, {});
-                    return acc[eventKey] = dataObj, TYPES.forEach(function(type) {
+                    }, {}), TYPES.forEach(function(type) {
                         var labelText = getText(dataProps, type), labelProp = props.labels || props["".concat(type, "Labels")];
                         if (null != labelText || labelProp && (events || sharedEvents)) {
                             var target = "".concat(type, "Labels");
@@ -13531,7 +13515,7 @@
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryChart), (_this = (call = (VictoryChart.__proto__ || Object.getPrototypeOf(VictoryChart)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {}, props.animate && (_this.state = {
+                    }(this, VictoryChart), _this = (call = (VictoryChart.__proto__ || Object.getPrototypeOf(VictoryChart)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), _this.state = {}, props.animate && (_this.state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1,
                         animating: !0
@@ -14033,8 +14017,8 @@
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryAnimation), (_this = (call = (VictoryAnimation.__proto__ || Object.getPrototypeOf(VictoryAnimation)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
-                        data: Array.isArray(_this.props.data) ? _this.props.data[0] : _this.props.data,
+                    }(this, VictoryAnimation), _this.state = {
+                        data: Array.isArray((_this = (call = (VictoryAnimation.__proto__ || Object.getPrototypeOf(VictoryAnimation)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).props.data) ? _this.props.data[0] : _this.props.data,
                         animationInfo: {
                             progress: 0,
                             animating: !1
@@ -14245,10 +14229,10 @@
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryClipContainer), (_this = (call = (VictoryClipContainer.__proto__ || Object.getPrototypeOf(VictoryClipContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    }(this, VictoryClipContainer), _this = (call = (VictoryClipContainer.__proto__ || Object.getPrototypeOf(VictoryClipContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
-                    }(this)).clipId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.clipId ? props.clipId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_0___default()("victory-clip-"), _this;
+                    }(this), _this.clipId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.clipId ? props.clipId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_0___default()("victory-clip-"), _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -14493,10 +14477,10 @@
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryContainer), (_this = (call = (VictoryContainer.__proto__ || Object.getPrototypeOf(VictoryContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    }(this, VictoryContainer), _this = (call = (VictoryContainer.__proto__ || Object.getPrototypeOf(VictoryContainer)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
-                    }(this)).containerId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.containerId ? props.containerId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("victory-container-"), _this.savePortalRef = function(portal) {
+                    }(this), _this.containerId = lodash_isObject__WEBPACK_IMPORTED_MODULE_1___default()(props) && void 0 !== props.containerId ? props.containerId : lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("victory-container-"), _this.savePortalRef = function(portal) {
                         return _this.portalRef = portal, portal;
                     }, _this.portalUpdate = function(key, el) {
                         return _this.portalRef.portalUpdate(key, el);
@@ -15164,12 +15148,12 @@
                 return self1;
             }
             var Portal = function(_React$Component) {
-                var staticProps;
+                var protoProps, staticProps;
                 function Portal(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, Portal), (_this = (call = (Portal.__proto__ || Object.getPrototypeOf(Portal)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).map = {}, _this.index = 1, _this.portalUpdate = _this.portalUpdate.bind(_assertThisInitialized(_this)), _this.portalRegister = _this.portalRegister.bind(_assertThisInitialized(_this)), _this.portalDeregister = _this.portalDeregister.bind(_assertThisInitialized(_this)), _this;
+                    }(this, Portal), _this = (call = (Portal.__proto__ || Object.getPrototypeOf(Portal)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), _this.map = {}, _this.index = 1, _this.portalUpdate = _this.portalUpdate.bind(_assertThisInitialized(_this)), _this.portalRegister = _this.portalRegister.bind(_assertThisInitialized(_this)), _this.portalDeregister = _this.portalDeregister.bind(_assertThisInitialized(_this)), _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -15181,7 +15165,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), _defineProperties(Portal.prototype, [
+                }(Portal, _React$Component), protoProps = [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -15218,7 +15202,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ]), staticProps && _defineProperties(Portal, staticProps), Portal;
+                ], _defineProperties(Portal.prototype, protoProps), staticProps && _defineProperties(Portal, staticProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -16518,12 +16502,12 @@
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryTransition), (_this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = {
+                    }(this, VictoryTransition), _this = (call = (VictoryTransition.__proto__ || Object.getPrototypeOf(VictoryTransition)).call(this, props, context)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this), _this.state = {
                         nodesShouldLoad: !1,
                         nodesDoneLoad: !1
                     };
-                    var call, _this, child = _this.props.children, polar = child.props.polar;
-                    return _this.continuous = !polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
+                    var call, _this, child = _this.props.children;
+                    return _this.continuous = !child.props.polar && child.type && !0 === child.type.continuous, _this.getTransitionState = _this.getTransitionState.bind(_assertThisInitialized(_this)), _this.timer = _this.context.transitionTimer, _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -16772,8 +16756,8 @@
                         {
                             key: "componentDidUpdate",
                             value: function(prevProps) {
-                                var _this3 = this, calculatedState = this.getStateChanges(prevProps);
-                                this.calculatedState = calculatedState;
+                                var _this3 = this;
+                                this.calculatedState = this.getStateChanges(prevProps);
                                 var globalEventKeys = lodash_keys__WEBPACK_IMPORTED_MODULE_6___default()(this.globalEvents);
                                 lodash_difference__WEBPACK_IMPORTED_MODULE_0___default()(this.prevGlobalEventKeys, globalEventKeys).forEach(function(key) {
                                     return _this3.removeGlobalListener(key);
@@ -17281,205 +17265,205 @@
                     prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
                     prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string)
                 ])
-            }, baseProps = {
-                animate: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
-                ]),
-                containerComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
-                domain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
-                    })
-                ]),
-                maxDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ])
-                    })
-                ]),
-                minDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
-                        ])
-                    })
-                ]),
-                domainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
-                        ])
-                    }),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
-                ]),
-                eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-                    ]),
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                ]),
-                events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf([
-                        "data",
-                        "labels",
-                        "parent"
-                    ]),
-                    eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-                        ]),
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                    ]),
-                    eventHandlers: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
-                })),
-                externalEventMutations: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    callback: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
-                    childName: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
-                    ]),
-                    eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
-                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-                        ]),
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                    ]),
-                    mutation: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
-                    target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
-                    ])
-                })),
-                groupComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
-                height: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative,
-                name: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
-                }),
-                padding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        top: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                        bottom: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                        left: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                        right: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
-                    })
-                ]),
-                polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                range: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
-                    })
-                ]),
-                scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
-                    })
-                ]),
-                sharedEvents: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                    getEventState: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                }),
-                singleQuadrantDomainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
-                        ]),
-                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
-                        ])
-                    })
-                ]),
-                standalone: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                theme: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-                width: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
-            }, primitiveProps = {
-                active: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                ariaLabel: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                clipPath: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                data: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
-                ]),
-                desc: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-                id: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                index: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
-                ]),
-                origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                    x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
-                }),
-                polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
-                role: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
-                        x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
-                        y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
-                    })
-                ]),
-                shapeRendering: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
-                style: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
-                tabIndex: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
-                    prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
-                ]),
-                transform: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
             };
             __webpack_exports__.default = {
-                baseProps: baseProps,
+                baseProps: {
+                    animate: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
+                    ]),
+                    containerComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
+                    domain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
+                        })
+                    ]),
+                    maxDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ])
+                        })
+                    ]),
+                    minDomain: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.instanceOf(Date)
+                            ])
+                        })
+                    ]),
+                    domainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
+                            ])
+                        }),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number)
+                    ]),
+                    eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func,
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                        ]),
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                    ]),
+                    events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOf([
+                            "data",
+                            "labels",
+                            "parent"
+                        ]),
+                        eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                            ]),
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                        ]),
+                        eventHandlers: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
+                    })),
+                    externalEventMutations: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.arrayOf(prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        callback: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
+                        childName: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
+                        ]),
+                        eventKey: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                            _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.allOfType([
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.integer,
+                                _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                            ]),
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                        ]),
+                        mutation: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.function,
+                        target: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                            prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array
+                        ])
+                    })),
+                    groupComponent: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.element,
+                    height: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative,
+                    name: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
+                    }),
+                    padding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            top: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                            bottom: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                            left: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                            right: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
+                        })
+                    ]),
+                    polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    range: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.domain
+                        })
+                    ]),
+                    scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
+                        })
+                    ]),
+                    sharedEvents: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                        getEventState: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    }),
+                    singleQuadrantDomainPadding: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+                            ]),
+                            y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                                prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool
+                            ])
+                        })
+                    ]),
+                    standalone: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    theme: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+                    width: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.nonNegative
+                },
                 dataProps: dataProps,
-                primitiveProps: primitiveProps
+                primitiveProps: {
+                    active: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    ariaLabel: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    className: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    clipPath: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    data: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.array,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object
+                    ]),
+                    desc: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    events: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+                    id: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    index: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                    ]),
+                    origin: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                        x: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        y: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number
+                    }),
+                    polar: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.bool,
+                    role: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    scale: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.shape({
+                            x: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale,
+                            y: _prop_types__WEBPACK_IMPORTED_MODULE_1__.default.scale
+                        })
+                    ]),
+                    shapeRendering: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string,
+                    style: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.object,
+                    tabIndex: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.oneOfType([
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.number,
+                        prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.func
+                    ]),
+                    transform: prop_types__WEBPACK_IMPORTED_MODULE_0___default.a.string
+                }
             };
         },
         "../../victory-core/es/victory-util/data.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -17585,8 +17569,8 @@
                 return props.categories && !Array.isArray(props.categories) ? props.categories[axis] : props.categories;
             }
             function getStringsFromAxes(props, axis) {
-                var tickValues = props.tickValues, tickFormat = props.tickFormat;
-                return (tickValues && (Array.isArray(tickValues) || tickValues[axis]) ? tickValues[axis] || tickValues : tickFormat && Array.isArray(tickFormat) ? tickFormat : []).filter(function(val) {
+                var tickValueArray, tickValues = props.tickValues, tickFormat = props.tickFormat;
+                return tickValues && (Array.isArray(tickValues) || tickValues[axis]) ? tickValueArray = tickValues[axis] || tickValues : tickValueArray = tickFormat && Array.isArray(tickFormat) ? tickFormat : [], tickValueArray.filter(function(val) {
                     return "string" == typeof val;
                 });
             }
@@ -18107,8 +18091,8 @@
                 getExternalMutationsWithChildren: function(mutations, baseProps, baseState, childNames) {
                     var _this3 = this;
                     return baseProps = baseProps || {}, baseState = baseState || {}, childNames.reduce(function(memo, childName) {
-                        var childState = baseState[childName], mutation = _this3.getExternalMutations(mutations, baseProps[childName], baseState[childName], childName);
-                        return memo[childName] = mutation || childState, lodash_pickBy__WEBPACK_IMPORTED_MODULE_4___default()(memo, function(v) {
+                        var childState = baseState[childName];
+                        return memo[childName] = _this3.getExternalMutations(mutations, baseProps[childName], baseState[childName], childName) || childState, lodash_pickBy__WEBPACK_IMPORTED_MODULE_4___default()(memo, function(v) {
                             return !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(v);
                         });
                     }, {});
@@ -18123,19 +18107,16 @@
                                 target: "parent"
                             });
                             memo[eventKey] = void 0 !== mutation ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, keyState, mutation) : keyState;
-                        } else {
-                            var targets = lodash_uniq__WEBPACK_IMPORTED_MODULE_2___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(keyProps).concat(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(keyState)));
-                            memo[eventKey] = targets.reduce(function(m, target) {
-                                var mutation = _this4.getExternalMutation(mutations, keyProps[target], keyState[target], {
-                                    eventKey: eventKey,
-                                    target: target,
-                                    childName: childName
-                                });
-                                return m[target] = void 0 !== mutation ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, keyState[target], mutation) : keyState[target], lodash_pickBy__WEBPACK_IMPORTED_MODULE_4___default()(m, function(v) {
-                                    return !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(v);
-                                });
-                            }, {});
-                        }
+                        } else memo[eventKey] = lodash_uniq__WEBPACK_IMPORTED_MODULE_2___default()(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(keyProps).concat(lodash_keys__WEBPACK_IMPORTED_MODULE_0___default()(keyState))).reduce(function(m, target) {
+                            var mutation = _this4.getExternalMutation(mutations, keyProps[target], keyState[target], {
+                                eventKey: eventKey,
+                                target: target,
+                                childName: childName
+                            });
+                            return m[target] = void 0 !== mutation ? lodash_assign__WEBPACK_IMPORTED_MODULE_8___default()({}, keyState[target], mutation) : keyState[target], lodash_pickBy__WEBPACK_IMPORTED_MODULE_4___default()(m, function(v) {
+                                return !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(v);
+                            });
+                        }, {});
                         return lodash_pickBy__WEBPACK_IMPORTED_MODULE_4___default()(memo, function(v) {
                             return !lodash_isEmpty__WEBPACK_IMPORTED_MODULE_7___default()(v);
                         });
@@ -22460,7 +22441,8 @@
             }
             function getKeyedData(data) {
                 return data.reduce(function(keyedData, datum, idx) {
-                    return keyedData[getDatumKey(datum, idx)] = datum, keyedData;
+                    var key = getDatumKey(datum, idx);
+                    return keyedData[key] = datum, keyedData;
                 }, {});
             }
             function getKeyedDataDifference(a, b) {
@@ -23018,10 +23000,10 @@
                         }).reduce(function(localHandlers, finalHandlers) {
                             return lodash_forOwn__WEBPACK_IMPORTED_MODULE_5___default()(localHandlers, function(localHandler, eventName) {
                                 var existingHandler = finalHandlers[eventName];
-                                existingHandler ? finalHandlers[eventName] = function() {
+                                finalHandlers[eventName] = existingHandler ? function() {
                                     var existingMutations = ensureArray(existingHandler.apply(void 0, arguments)), localMutations = ensureArray(localHandler.apply(void 0, arguments));
                                     return existingMutations.concat(localMutations);
-                                } : finalHandlers[eventName] = localHandler;
+                                } : localHandler;
                             }), finalHandlers;
                         })
                     };
@@ -23035,7 +23017,7 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = function(_NaiveCombinedContain) {
-                    var staticProps;
+                    var protoProps, staticProps;
                     function VictoryCombinedContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23055,7 +23037,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), _defineProperties(VictoryCombinedContainer.prototype, [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -23066,7 +23048,7 @@
                                 }, props.children);
                             }
                         }
-                    ]), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
+                    ], _defineProperties(VictoryCombinedContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -24385,26 +24367,26 @@
                     return Math.abs(scale.x(datum.x1) - current);
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0, dataProps = {
-                        alignment: "middle",
-                        barWidth: binSpacing ? getDistance(datum) - binSpacing : getDistance(datum),
-                        cornerRadius: cornerRadius,
-                        data: data,
-                        datum: datum,
-                        horizontal: horizontal,
-                        index: index,
-                        scale: scale,
-                        style: style.data,
-                        width: width,
-                        height: height,
-                        x: x,
-                        y: y,
-                        y0: y0,
-                        x0: x0,
-                        getPath: getPath
-                    };
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _getBarPosition = Object(victory_bar__WEBPACK_IMPORTED_MODULE_3__.getBarPosition)(props, datum), x = _getBarPosition.x, y = _getBarPosition.y, y0 = _getBarPosition.y0, x0 = _getBarPosition.x0;
                     return childProps[eventKey] = {
-                        data: dataProps
+                        data: {
+                            alignment: "middle",
+                            barWidth: binSpacing ? getDistance(datum) - binSpacing : getDistance(datum),
+                            cornerRadius: cornerRadius,
+                            data: data,
+                            datum: datum,
+                            horizontal: horizontal,
+                            index: index,
+                            scale: scale,
+                            style: style.data,
+                            width: width,
+                            height: height,
+                            x: x,
+                            y: y,
+                            y0: y0,
+                            x0: x0,
+                            getPath: getPath
+                        }
                     }, (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
@@ -24686,7 +24668,7 @@
                     for(var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
                     for(; tz[m - 1] > x1;)tz.pop(), --m;
                     var bin, bins = Array(m + 1);
-                    for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
+                    for(i = 0; i <= m; ++i)bin = bins[i] = [], bin.x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
                     for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[Object(_bisect_js__WEBPACK_IMPORTED_MODULE_1__.default)(tz, x, 0, m)].push(data[i]);
                     return bins;
                 }
@@ -26083,9 +26065,13 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    return (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey] = {
-                        labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
-                    }), childProps;
+                    if (null != victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) {
+                        var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey;
+                        childProps[eventKey] = {
+                            labels: victory_core__WEBPACK_IMPORTED_MODULE_2__.LabelHelpers.getProps(props, index)
+                        };
+                    }
+                    return childProps;
                 }, initialChildProps);
             };
         },
@@ -26325,8 +26311,8 @@
                     fill: fill
                 }, style.data);
             }, getLabelText = function(props, datum, index) {
-                var text;
-                return null == (text = datum.label ? datum.label : Array.isArray(props.labels) ? props.labels[index] : lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x) || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text) ? text : "".concat(text);
+                var text, text1;
+                return datum.label ? text = datum.label : Array.isArray(props.labels) ? text = props.labels[index] : text = lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(props.labels) ? props.labels : datum.xName || datum._x, null == (text1 = text) || lodash_isFunction__WEBPACK_IMPORTED_MODULE_2___default()(text1) ? text1 : "".concat(text1);
             }, getLabelArc = function(radius, labelRadius, style) {
                 var padding = style && style.padding || 0, arcRadius = labelRadius || radius + padding;
                 return d3_shape__WEBPACK_IMPORTED_MODULE_5__.arc().outerRadius(arcRadius).innerRadius(arcRadius);
@@ -26404,11 +26390,7 @@
                         data: dataProps
                     };
                     var text = getLabelText(props, datum, index);
-                    if (null != text || labels && (events || sharedEvents)) {
-                        var evaluatedText = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(text, dataProps);
-                        childProps[eventKey].labels = getLabelProps(evaluatedText, lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, props, dataProps), calculatedValues);
-                    }
-                    return childProps;
+                    return (null != text || labels && (events || sharedEvents)) && (childProps[eventKey].labels = getLabelProps(victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateProp(text, dataProps), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default()({}, props, dataProps), calculatedValues)), childProps;
                 }, initialChildProps);
             };
         },
@@ -27524,22 +27506,22 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum), dataProps = {
-                        x: _Helpers$scalePoint.x,
-                        y: _Helpers$scalePoint.y,
-                        datum: datum,
-                        data: data,
-                        index: index,
-                        scale: scale,
-                        polar: polar,
-                        origin: origin,
-                        horizontal: horizontal,
-                        size: getSize(datum, props),
-                        symbol: getSymbol(datum, props),
-                        style: style.data
-                    };
+                    var eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_3__.Helpers.scalePoint(props, datum);
                     return childProps[eventKey] = {
-                        data: dataProps
+                        data: {
+                            x: _Helpers$scalePoint.x,
+                            y: _Helpers$scalePoint.y,
+                            datum: datum,
+                            data: data,
+                            index: index,
+                            scale: scale,
+                            polar: polar,
+                            origin: origin,
+                            horizontal: horizontal,
+                            size: getSize(datum, props),
+                            symbol: getSymbol(datum, props),
+                            style: style.data
+                        }
                     }, (null != victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_3__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };
@@ -28112,7 +28094,7 @@
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictorySharedEvents), (_this = (call = (VictorySharedEvents.__proto__ || Object.getPrototypeOf(VictorySharedEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state = _this.state || {}, _this.getScopedEvents = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getScopedEvents.bind(_assertThisInitialized(_this)), _this.getEventState = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getEventState.bind(_assertThisInitialized(_this)), _this.baseProps = _this.getBaseProps(props), _this.sharedEventsCache = {}, _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
+                    }(this, VictorySharedEvents), _this.state = (_this = (call = (VictorySharedEvents.__proto__ || Object.getPrototypeOf(VictorySharedEvents)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : _assertThisInitialized(this)).state || {}, _this.getScopedEvents = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getScopedEvents.bind(_assertThisInitialized(_this)), _this.getEventState = victory_core__WEBPACK_IMPORTED_MODULE_9__.Events.getEventState.bind(_assertThisInitialized(_this)), _this.baseProps = _this.getBaseProps(props), _this.sharedEventsCache = {}, _this.globalEvents = {}, _this.prevGlobalEventKeys = [], _this.boundGlobalEvents = {}, _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -28899,10 +28881,10 @@
                     var _this, call;
                     return !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
-                    }(this, VictoryTooltip), (_this = (call = (VictoryTooltip.__proto__ || Object.getPrototypeOf(VictoryTooltip)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
+                    }(this, VictoryTooltip), _this = (call = (VictoryTooltip.__proto__ || Object.getPrototypeOf(VictoryTooltip)).call(this, props)) && ("object" == typeof call || "function" == typeof call) ? call : function(self1) {
                         if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                         return self1;
-                    }(this)).id = void 0 === props.id ? lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("tooltip-") : props.id, _this;
+                    }(this), _this.id = void 0 === props.id ? lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default()("tooltip-") : props.id, _this;
                 }
                 return !function(subClass, superClass) {
                     if ("function" != typeof superClass && null !== superClass) throw TypeError("Super expression must either be null or a function");
@@ -30005,20 +29987,20 @@
                     }
                 };
                 return data.reduce(function(childProps, datum, index) {
-                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum), dataProps = {
-                        x: _Helpers$scalePoint.x,
-                        y: _Helpers$scalePoint.y,
-                        datum: datum,
-                        data: data,
-                        index: index,
-                        scale: scale,
-                        polygon: polygon,
-                        origin: origin,
-                        size: props.size,
-                        style: style.data
-                    };
+                    var polygon = lodash_without__WEBPACK_IMPORTED_MODULE_1___default()(polygons[index], "data"), eventKey = lodash_isNil__WEBPACK_IMPORTED_MODULE_0___default()(datum.eventKey) ? index : datum.eventKey, _Helpers$scalePoint = victory_core__WEBPACK_IMPORTED_MODULE_4__.Helpers.scalePoint(props, datum);
                     return childProps[eventKey] = {
-                        data: dataProps
+                        data: {
+                            x: _Helpers$scalePoint.x,
+                            y: _Helpers$scalePoint.y,
+                            datum: datum,
+                            data: data,
+                            index: index,
+                            scale: scale,
+                            polygon: polygon,
+                            origin: origin,
+                            size: props.size,
+                            style: style.data
+                        }
                     }, (null != victory_core__WEBPACK_IMPORTED_MODULE_4__.LabelHelpers.getText(props, datum, index) || labels && (events || sharedEvents)) && (childProps[eventKey].labels = victory_core__WEBPACK_IMPORTED_MODULE_4__.LabelHelpers.getProps(props, index)), childProps;
                 }, initialChildProps);
             };

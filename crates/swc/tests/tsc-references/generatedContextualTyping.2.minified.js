@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, Base = function Base() {
+var x193, x194, x195, x196, x197, x198, x199, x200, x201, x202, x203, x204, x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x1931, x1941, x1951, x1961, x1971, x1981, x1991, x2001, x2011, x2021, x2031, x2041, Base = function Base() {
     _class_call_check(this, Base);
 }, Derived1 = function(Base) {
     _inherits(Derived1, Base);
@@ -21,53 +21,53 @@ var x181, x182, x183, x184, x185, x186, x187, x188, x189, x190, x191, x192, x193
 }(Base);
 new Base();
 var d1 = new Derived1(), d2 = new Derived2();
-x181 || (x181 = {}), x182 || (x182 = {}), x183 || (x183 = {}), x184 || (x184 = {}), x185 || (x185 = {}), x186 || (x186 = {}), x187 || (x187 = {}), x188 || (x188 = {}), x189 || (x189 = {}), x190 || (x190 = {}), x191 || (x191 = {}), x192 || (x192 = {}), (x193 || (x193 = {})).t = function() {
+x181 || (x181 = {}), x182 || (x182 = {}), x183 || (x183 = {}), x184 || (x184 = {}), x185 || (x185 = {}), x186 || (x186 = {}), x187 || (x187 = {}), x188 || (x188 = {}), x189 || (x189 = {}), x190 || (x190 = {}), x191 || (x191 = {}), x192 || (x192 = {}), x193 = x1931 || (x1931 = {}), x193.t = function() {
     return [
         d1,
         d2
     ];
-}, (x194 || (x194 = {})).t = function() {
+}, x194 = x1941 || (x1941 = {}), x194.t = function() {
     return [
         d1,
         d2
     ];
-}, (x195 || (x195 = {})).t = function() {
+}, x195 = x1951 || (x1951 = {}), x195.t = function() {
     return [
         d1,
         d2
     ];
-}, (x196 || (x196 = {})).t = function() {
+}, x196 = x1961 || (x1961 = {}), x196.t = function() {
     return [
         d1,
         d2
     ];
-}, (x197 || (x197 = {})).t = function() {
+}, x197 = x1971 || (x1971 = {}), x197.t = function() {
     return [
         d1,
         d2
     ];
-}, (x198 || (x198 = {})).t = function() {
+}, x198 = x1981 || (x1981 = {}), x198.t = function() {
     return [
         d1,
         d2
     ];
-}, (x199 || (x199 = {})).t = [
+}, x199 = x1991 || (x1991 = {}), x199.t = [
     d1,
     d2
-], (x200 || (x200 = {})).t = [
+], x200 = x2001 || (x2001 = {}), x200.t = [
     d1,
     d2
-], (x201 || (x201 = {})).t = [
+], x201 = x2011 || (x2011 = {}), x201.t = [
     d1,
     d2
-], (x202 || (x202 = {})).t = {
+], x202 = x2021 || (x2021 = {}), x202.t = {
     n: [
         d1,
         d2
     ]
-}, (x203 || (x203 = {})).t = function(n) {
+}, x203 = x2031 || (x2031 = {}), x203.t = function(n) {
     return null;
-}, (x204 || (x204 = {})).t = {
+}, x204 = x2041 || (x2041 = {}), x204.t = {
     func: function(n) {
         return [
             d1,

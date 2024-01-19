@@ -1,8 +1,8 @@
 //// [module.d.ts]
 //// [classPoint.ts]
-var A;
+var A, A1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(A || (A = {})).Point = function Point(x, y) {
+A1 = A || (A = {}), A1.Point = function Point(x, y) {
     _class_call_check(this, Point), this.x = x, this.y = y;
 };
 //// [test.ts]

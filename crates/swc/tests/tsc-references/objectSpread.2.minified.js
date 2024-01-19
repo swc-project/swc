@@ -32,18 +32,21 @@ _object_spread_props(_object_spread({}, o), {
     c: "overriden"
 })), {
     c: -1
-}), _object_spread({}, o), _object_spread_props(_object_spread({}, {
+}), _object_spread({}, o);
+var getter = _object_spread_props(_object_spread({}, {
     get a () {
         return 6;
     }
 }), {
     c: 7
-}).a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
+});
+getter.a = 12, _object_spread({}, function() {}), _object_spread({}, anything);
 var c = new (function() {
     function C() {
         _class_call_check(this, C), this.p = 1;
     }
-    return C.prototype.m = function() {}, C;
+    var _proto = C.prototype;
+    return _proto.m = function() {}, C;
 }())();
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {

@@ -1,6 +1,6 @@
 //// [classDoesNotDependOnPrivateMember.ts]
-var M;
+var M, M1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(M || (M = {})).C = function C() {
+M1 = M || (M = {}), M1.C = function C() {
     _class_call_check(this, C);
 };

@@ -87,7 +87,8 @@ export var K = function() {
     function K() {
         _class_call_check(this, K), this.p1 = 12, this.p2 = "ok";
     }
-    return K.prototype.method = function() {
+    var _proto = K.prototype;
+    return _proto.method = function() {
         return this.p1;
     }, K;
 }();
@@ -111,7 +112,7 @@ export var N = function(L) {
     var _super = _create_super(N);
     function N(param) {
         var _this;
-        return _class_call_check(this, N), (_this = _super.call(this)).another = param, _this;
+        return _class_call_check(this, N), _this = _super.call(this), _this.another = param, _this;
     }
     return N;
 }(L);
@@ -120,7 +121,7 @@ export var O = function(N) {
     var _super = _create_super(O);
     function O(param) {
         var _this;
-        return _class_call_check(this, O), (_this = _super.call(this, param)).another2 = param, _this;
+        return _class_call_check(this, O), _this = _super.call(this, param), _this.another2 = param, _this;
     }
     return O;
 }(N);

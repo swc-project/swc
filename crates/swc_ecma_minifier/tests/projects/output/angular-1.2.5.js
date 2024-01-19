@@ -355,7 +355,7 @@
             if (!getterIfNoArguments || null != param) for(; list.length;)for(setIndex = 0, setLength = (set = list.shift()).length; setIndex < setLength; setIndex++)for(element = jqLite(set[setIndex]), fireEvent ? element.triggerHandler("$destroy") : fireEvent = !fireEvent, childIndex = 0, childLength = (children = element.children()).length; childIndex < childLength; childIndex++)list.push(jQuery(children[childIndex]));
             return originalJqFn.apply(this, arguments);
         }
-        originalJqFn = originalJqFn.$original || originalJqFn, removePatch.$original = originalJqFn, jQuery.fn[name] = removePatch;
+        removePatch.$original = originalJqFn = originalJqFn.$original || originalJqFn, jQuery.fn[name] = removePatch;
     }
     function JQLite(element) {
         if (element instanceof JQLite) return element;
@@ -580,7 +580,7 @@
         on: function onFn(element, type, fn, unsupported) {
             if (isDefined(unsupported)) throw jqLiteMinErr("onargs", "jqLite#on() does not support the `selector` or `eventData` parameters");
             var events, eventHandler, events1 = jqLiteExpandoStore(element, "events"), handle = jqLiteExpandoStore(element, "handle");
-            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, (eventHandler = function(event, type) {
+            events1 || jqLiteExpandoStore(element, "events", events1 = {}), !handle && jqLiteExpandoStore(element, "handle", (events = events1, eventHandler = function(event, type) {
                 if (event.preventDefault || (event.preventDefault = function() {
                     event.returnValue = !1;
                 }), event.stopPropagation || (event.stopPropagation = function() {
@@ -596,7 +596,7 @@
                 }, forEach(events[type || event.type], function(fn) {
                     fn.call(element, event);
                 }), msie <= 8 ? (event.preventDefault = null, event.stopPropagation = null, event.isDefaultPrevented = null) : (delete event.preventDefault, delete event.stopPropagation, delete event.isDefaultPrevented);
-            }).elem = element, handle = eventHandler)), forEach(type.split(" "), function(type) {
+            }, eventHandler.elem = element, handle = eventHandler)), forEach(type.split(" "), function(type) {
                 var eventFns = events1[type];
                 if (!eventFns) {
                     if ("mouseenter" == type || "mouseleave" == type) {
@@ -944,9 +944,9 @@
             }
         }, self.defer = function(fn, delay) {
             var timeoutId;
-            return outstandingRequestCount++, pendingDeferIds[timeoutId = setTimeout1(function() {
+            return outstandingRequestCount++, timeoutId = setTimeout1(function() {
                 delete pendingDeferIds[timeoutId], completeOutstandingRequest(fn);
-            }, delay || 0)] = !0, timeoutId;
+            }, delay || 0), pendingDeferIds[timeoutId] = !0, timeoutId;
         }, self.defer.cancel = function(deferId) {
             return !!pendingDeferIds[deferId] && (delete pendingDeferIds[deferId], clearTimeout(deferId), completeOutstandingRequest(noop), !0);
         };
@@ -997,7 +997,7 @@
                     }
                 };
                 function refresh(entry) {
-                    entry != freshEnd && (staleEnd ? staleEnd == entry && (staleEnd = entry.n) : staleEnd = entry, link(entry.n, entry.p), link(entry, freshEnd), (freshEnd = entry).n = null);
+                    entry != freshEnd && (staleEnd ? staleEnd == entry && (staleEnd = entry.n) : staleEnd = entry, link(entry.n, entry.p), link(entry, freshEnd), freshEnd = entry, freshEnd.n = null);
                 }
                 function link(nextEntry, prevEntry) {
                     nextEntry != prevEntry && (nextEntry && (nextEntry.p = prevEntry), prevEntry && (prevEntry.n = nextEntry));
@@ -1245,7 +1245,7 @@
                                     $attrs: attrs,
                                     $transclude: transcludeFn
                                 };
-                                "@" == (controller = directive.controller) && (controller = attrs[directive.name]), controllerInstance = $controller(controller, locals), elementControllers[directive.name] = controllerInstance, hasElementTranscludeDirective || $element.data("$" + directive.name + "Controller", controllerInstance), directive.controllerAs && (locals.$scope[directive.controllerAs] = controllerInstance);
+                                "@" == (controller = directive.controller) && (controller = attrs[directive.name]), elementControllers[directive.name] = controllerInstance = $controller(controller, locals), hasElementTranscludeDirective || $element.data("$" + directive.name + "Controller", controllerInstance), directive.controllerAs && (locals.$scope[directive.controllerAs] = controllerInstance);
                             }), i = 0, ii = preLinkFns.length; i < ii; i++)try {
                                 (linkFn = preLinkFns[i])(linkFn.isolateScope ? isolateScope : scope, $element, attrs, linkFn.require && getControllers(linkFn.require, $element, elementControllers), transcludeFn);
                             } catch (e) {
@@ -1268,7 +1268,7 @@
                 function createBoundTranscludeFn(scope, transcludeFn) {
                     return function(transcludedScope, cloneFn, controllers) {
                         var scopeCreated = !1;
-                        transcludedScope || ((transcludedScope = scope.$new()).$$transcluded = !0, scopeCreated = !0);
+                        transcludedScope || (transcludedScope = scope.$new(), transcludedScope.$$transcluded = !0, scopeCreated = !0);
                         var clone = transcludeFn(transcludedScope, cloneFn, controllers);
                         return scopeCreated && clone.on("$destroy", bind(transcludedScope, transcludedScope.$destroy)), clone;
                     };
@@ -1283,7 +1283,7 @@
                                 if (attr = nAttrs[j], !msie || msie >= 8 || attr.specified) {
                                     ngAttrName = directiveNormalize(name = attr.name), NG_ATTR_BINDING.test(ngAttrName) && (name = snake_case(ngAttrName.substr(6), "-"));
                                     var directiveNName = ngAttrName.replace(/(Start|End)$/, "");
-                                    ngAttrName === directiveNName + "Start" && (attrStartName = name, attrEndName = name.substr(0, name.length - 5) + "end", name = name.substr(0, name.length - 6)), attrsMap[nName = directiveNormalize(name.toLowerCase())] = name, attrs[nName] = value = trim(msie && "href" == name ? decodeURIComponent(node.getAttribute(name, 2)) : attr.value), getBooleanAttrName(node, nName) && (attrs[nName] = !0), function(node, directives, value, name) {
+                                    ngAttrName === directiveNName + "Start" && (attrStartName = name, attrEndName = name.substr(0, name.length - 5) + "end", name = name.substr(0, name.length - 6)), nName = directiveNormalize(name.toLowerCase()), attrsMap[nName] = name, attrs[nName] = value = trim(msie && "href" == name ? decodeURIComponent(node.getAttribute(name, 2)) : attr.value), getBooleanAttrName(node, nName) && (attrs[nName] = !0), function(node, directives, value, name) {
                                         var interpolateFn = $interpolate(value, !0);
                                         if (interpolateFn) {
                                             if ("multiple" === name && "SELECT" === nodeName_(node)) throw $compileMinErr("selmulti", "Binding to the 'multiple' attribute is not supported. Element: {0}", startingTag(node));
@@ -1713,14 +1713,14 @@
                 function $interpolate(text, mustHaveExpression, trustedContext) {
                     for(var startIndex, endIndex, fn, exp, index = 0, parts = [], length = text.length, hasInterpolation = !1, concat = []; index < length;)-1 != (startIndex = text.indexOf(startSymbol, index)) && -1 != (endIndex = text.indexOf(endSymbol, startIndex + startSymbolLength)) ? (index != startIndex && parts.push(text.substring(index, startIndex)), parts.push(fn = $parse(exp = text.substring(startIndex + startSymbolLength, endIndex))), fn.exp = exp, index = endIndex + endSymbolLength, hasInterpolation = !0) : (index != length && parts.push(text.substring(index)), index = length);
                     if ((length = parts.length) || (parts.push(""), length = 1), trustedContext && parts.length > 1) throw $interpolateMinErr("noconcat", "Error while interpolating: {0}\nStrict Contextual Escaping disallows interpolations that concatenate multiple expressions when a trusted value is required.  See http://docs.angularjs.org/api/ng.$sce", text);
-                    if (!mustHaveExpression || hasInterpolation) return concat.length = length, (fn = function(context) {
+                    if (!mustHaveExpression || hasInterpolation) return concat.length = length, fn = function(context) {
                         try {
                             for(var part, i = 0, ii = length; i < ii; i++)"function" == typeof (part = parts[i]) && (part = part(context), part = trustedContext ? $sce.getTrusted(trustedContext, part) : $sce.valueOf(part), null === part || isUndefined(part) ? part = "" : "string" != typeof part && (part = toJson(part))), concat[i] = part;
                             return concat.join("");
                         } catch (err) {
                             $exceptionHandler($interpolateMinErr("interr", "Can't interpolate: {0}\n{1}", text, err.toString()));
                         }
-                    }).exp = text, fn.parts = parts, fn;
+                    }, fn.exp = text, fn.parts = parts, fn;
                 }
                 return $interpolate.startSymbol = function() {
                     return startSymbol;
@@ -2242,13 +2242,13 @@
         options = options || {};
         for(var key, element = path.split("."), i = 0; element.length > 1; i++){
             var propertyObj = obj[key = ensureSafeMemberName(element.shift(), fullExp)];
-            propertyObj || (propertyObj = {}, obj[key] = propertyObj), (obj = propertyObj).then && options.unwrapPromises && (promiseWarning(fullExp), "$$v" in obj || function(promise) {
+            propertyObj || (obj[key] = propertyObj = {}), (obj = propertyObj).then && options.unwrapPromises && (promiseWarning(fullExp), "$$v" in obj || function(promise) {
                 promise.then(function(val) {
                     promise.$$v = val;
                 });
             }(obj), undefined === obj.$$v && (obj.$$v = {}), obj = obj.$$v);
         }
-        return obj[key = ensureSafeMemberName(element.shift(), fullExp)] = setValue, setValue;
+        return key = ensureSafeMemberName(element.shift(), fullExp), obj[key] = setValue, setValue;
     }
     Parser.ZERO = function() {
         return 0;
@@ -2408,8 +2408,8 @@
                 })), v = v.$$v), v;
             }, {
                 assign: function(self, value, locals) {
-                    var key = indexFn(self, locals);
-                    return ensureSafeObject(obj(self, locals), parser.text)[key] = value;
+                    var key = indexFn(self, locals), safe = ensureSafeObject(obj(self, locals), parser.text);
+                    return safe[key] = value;
                 }
             });
         },
@@ -2466,15 +2466,15 @@
     function cspSafeGetterFn(key0, key1, key2, key3, key4, fullExp, options) {
         return ensureSafeMemberName(key0, fullExp), ensureSafeMemberName(key1, fullExp), ensureSafeMemberName(key2, fullExp), ensureSafeMemberName(key3, fullExp), ensureSafeMemberName(key4, fullExp), options.unwrapPromises ? function(scope, locals) {
             var promise, pathVal = locals && locals.hasOwnProperty(key0) ? locals : scope;
-            return null == pathVal || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            return null == pathVal || ((pathVal = pathVal[key0]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || (promise = pathVal, promise.$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key1 && null != pathVal && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key1 && null != pathVal && ((pathVal = pathVal[key1]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || (promise = pathVal, promise.$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key2 && null != pathVal && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key2 && null != pathVal && ((pathVal = pathVal[key2]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || (promise = pathVal, promise.$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key3 && null != pathVal && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key3 && null != pathVal && ((pathVal = pathVal[key3]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || (promise = pathVal, promise.$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
-            })), pathVal = pathVal.$$v), key4 && null != pathVal && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || ((promise = pathVal).$$v = undefined, promise.then(function(val) {
+            })), pathVal = pathVal.$$v), key4 && null != pathVal && (pathVal = pathVal[key4]) && pathVal.then && (promiseWarning(fullExp), "$$v" in pathVal || (promise = pathVal, promise.$$v = undefined, promise.then(function(val) {
                 promise.$$v = val;
             })), pathVal = pathVal.$$v))))), pathVal;
         } : function(scope, locals) {
@@ -2717,7 +2717,7 @@
                     constructor: Scope,
                     $new: function(isolate) {
                         var ChildScope, child;
-                        return isolate ? ((child = new Scope()).$root = this.$root, child.$$asyncQueue = this.$$asyncQueue, child.$$postDigestQueue = this.$$postDigestQueue) : ((ChildScope = function() {}).prototype = this, (child = new ChildScope()).$id = nextUid()), child.this = child, child.$$listeners = {}, child.$parent = this, child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null, child.$$prevSibling = this.$$childTail, this.$$childHead ? (this.$$childTail.$$nextSibling = child, this.$$childTail = child) : this.$$childHead = this.$$childTail = child, child;
+                        return isolate ? (child = new Scope(), child.$root = this.$root, child.$$asyncQueue = this.$$asyncQueue, child.$$postDigestQueue = this.$$postDigestQueue) : (ChildScope = function() {}, ChildScope.prototype = this, child = new ChildScope(), child.$id = nextUid()), child.this = child, child.$$listeners = {}, child.$parent = this, child.$$watchers = child.$$nextSibling = child.$$childHead = child.$$childTail = null, child.$$prevSibling = this.$$childTail, this.$$childHead ? (this.$$childTail.$$nextSibling = child, this.$$childTail = child) : this.$$childHead = this.$$childTail = child, child;
                     },
                     $watch: function(watchExp, listener, objectEquality) {
                         var get = compileToFn(watchExp, "watch"), array = this.$$watchers, watcher = {
@@ -2748,7 +2748,7 @@
                         return this.$watch(function() {
                             if (isObject(newValue = objGetter(self))) {
                                 if (isArrayLike(newValue)) {
-                                    oldValue !== internalArray && (oldLength = (oldValue = internalArray).length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (changeDetected++, oldValue.length = oldLength = newLength);
+                                    oldValue !== internalArray && (oldValue = internalArray, oldLength = oldValue.length = 0, changeDetected++), newLength = newValue.length, oldLength !== newLength && (changeDetected++, oldValue.length = oldLength = newLength);
                                     for(var newLength, key, i = 0; i < newLength; i++)oldValue[i] !== newValue[i] && (changeDetected++, oldValue[i] = newValue[i]);
                                 } else {
                                     for(key in oldValue !== internalObject && (oldValue = internalObject = {}, oldLength = 0, changeDetected++), newLength = 0, newValue)newValue.hasOwnProperty(key) && (newLength++, oldValue.hasOwnProperty(key) ? oldValue[key] !== newValue[key] && (changeDetected++, oldValue[key] = newValue[key]) : (oldLength++, oldValue[key] = newValue[key], changeDetected++));
@@ -2878,7 +2878,7 @@
                             event
                         ], arguments, 1);
                         do {
-                            for(i = 0, current = next, event.currentScope = current, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
+                            for(i = 0, event.currentScope = current = next, length = (listeners = current.$$listeners[name] || []).length; i < length; i++){
                                 if (!listeners[i]) {
                                     listeners.splice(i, 1), i--, length--;
                                     continue;
@@ -3068,12 +3068,7 @@
                     history: !!($window.history && $window.history.pushState && !(android < 4) && !boxee),
                     hashchange: "onhashchange" in $window && (!documentMode || documentMode > 7),
                     hasEvent: function(event) {
-                        if ("input" == event && 9 == msie) return !1;
-                        if (isUndefined(eventSupport[event])) {
-                            var divElm = document1.createElement("div");
-                            eventSupport[event] = "on" + event in divElm;
-                        }
-                        return eventSupport[event];
+                        return ("input" != event || 9 != msie) && (isUndefined(eventSupport[event]) && (eventSupport[event] = "on" + event in document1.createElement("div")), eventSupport[event]);
                     },
                     csp: csp(),
                     vendorPrefix: vendorPrefix,
@@ -3095,7 +3090,7 @@
                 var deferreds = {};
                 function timeout(fn, delay, invokeApply) {
                     var timeoutId, deferred = $q.defer(), promise = deferred.promise, skipApply = isDefined(invokeApply) && !invokeApply;
-                    return timeoutId = $browser.defer(function() {
+                    return promise.$$timeoutId = timeoutId = $browser.defer(function() {
                         try {
                             deferred.resolve(fn());
                         } catch (e) {
@@ -3104,7 +3099,7 @@
                             delete deferreds[promise.$$timeoutId];
                         }
                         skipApply || $rootScope.$apply();
-                    }, delay), promise.$$timeoutId = timeoutId, deferreds[timeoutId] = deferred, promise;
+                    }, delay), deferreds[timeoutId] = deferred, promise;
                 }
                 return timeout.cancel = function(promise) {
                     return !!promise && promise.$$timeoutId in deferreds && (deferreds[promise.$$timeoutId].reject("canceled"), delete deferreds[promise.$$timeoutId], $browser.defer.cancel(promise.$$timeoutId));
@@ -3535,8 +3530,7 @@
                     ctrl.$setViewValue(attr.value);
                 });
             }), ctrl.$render = function() {
-                var value = attr.value;
-                element[0].checked = value == ctrl.$viewValue;
+                element[0].checked = attr.value == ctrl.$viewValue;
             }, attr.$observe("value", ctrl.$render);
         },
         checkbox: function(scope, element, attr, ctrl) {
@@ -4245,7 +4239,7 @@
                                     ctrl.$setViewValue(value);
                                 });
                             }), ctrl.$render = render, scope.$watch(render);
-                        }(scope, element, ngModelCtrl1) : multiple ? (scope1 = scope, selectElement = element, (ctrl = ngModelCtrl1).$render = function() {
+                        }(scope, element, ngModelCtrl1) : multiple ? (scope1 = scope, selectElement = element, ctrl = ngModelCtrl1, ctrl.$render = function() {
                             var items = new HashMap(ctrl.$viewValue);
                             forEach(selectElement.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));

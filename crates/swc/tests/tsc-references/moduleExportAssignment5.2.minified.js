@@ -4,6 +4,7 @@ var axios = new (function() {
     function Axios() {
         _class_call_check(this, Axios);
     }
-    return Axios.prototype.m = function() {}, Axios;
+    var _proto = Axios.prototype;
+    return _proto.m = function() {}, Axios;
 }())();
 axios.m(), module.exports = axios, module.exports.default = axios;

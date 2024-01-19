@@ -1,6 +1,6 @@
 //// [part1.ts]
-var A, A1;
-((A1 = A || (A = {})).Utils || (A1.Utils = {})).mirror = function(p) {
+var A, A1, Utils;
+Utils = (A1 = A || (A = {})).Utils || (A1.Utils = {}), Utils.mirror = function(p) {
     return {
         x: p.y,
         y: p.x
@@ -10,9 +10,9 @@ var A, A1;
     y: 0
 };
 //// [part2.ts]
-var A, A1;
+var A, A1, Utils;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-((A1 = A || (A = {})).Utils || (A1.Utils = {})).Plane = function Plane(tl, br) {
+Utils = (A1 = A || (A = {})).Utils || (A1.Utils = {}), Utils.Plane = function Plane(tl, br) {
     _class_call_check(this, Plane), this.tl = tl, this.br = br;
 };
 //// [part3.ts]

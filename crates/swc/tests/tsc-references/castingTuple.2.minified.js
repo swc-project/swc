@@ -7,7 +7,7 @@ var E1, E2, E11, E21, C = function C() {
 }, D = function D() {
     _class_call_check(this, D);
 };
-(E11 = E1 || (E1 = {}))[E11.one = 0] = "one", (E21 = E2 || (E2 = {}))[E21.one = 0] = "one";
+E11 = E1 || (E1 = {}), E11[E11.one = 0] = "one", E21 = E2 || (E2 = {}), E21[E21.one = 0] = "one";
 var classCDTuple = [
     new C(),
     new D()

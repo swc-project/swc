@@ -1,4 +1,5 @@
 //// [exportedAliasedEnumTag.js]
-(module.exports = {}).Type = {
+var middlewarify = module.exports = {};
+middlewarify.Type = {
     BEFORE: "before"
 };

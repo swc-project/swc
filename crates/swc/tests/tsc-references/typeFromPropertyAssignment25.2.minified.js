@@ -10,7 +10,7 @@ Common.I = function _class() {
     var _super = _create_super(_class);
     function _class() {
         var _this;
-        return _class_call_check(this, _class), (_this = _super.call(this)).o = 2, _this;
+        return _class_call_check(this, _class), _this = _super.call(this), _this.o = 2, _this;
     }
     return _class;
 }(Common.I);

@@ -1,7 +1,7 @@
 //// [ExportFunctionWithInaccessibleTypesInReturnTypeAnnotation.ts]
 var A, A1, Line;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(A1 = A || (A = {})).Point = function Point() {
+A1 = A || (A = {}), A1.Point = function Point() {
     _class_call_check(this, Point);
 }, Line = function Line(start, end) {
     _class_call_check(this, Line), this.start = start, this.end = end;

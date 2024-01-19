@@ -9,7 +9,7 @@ export var A = function A() {
 };
 var C1;
 export { C1 as C };
-(C = C1 || (C1 = {}))[C.One = 0] = "One", C[C.Two = 1] = "Two";
+C = C1 || (C1 = {}), C[C.One = 0] = "One", C[C.Two = 1] = "Two";
 export { _default as default };
 //// [/b.ts]
 console.log(void 0, void 0);

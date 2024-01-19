@@ -6,8 +6,8 @@ Object.defineProperty(exports, "__esModule", {
     value: !0
 }), require("./a");
 //// [/c.ts]
-var I;
-(I || (I = {})).x = 1, module.exports = I;
+var I, I1;
+I1 = I || (I = {}), I1.x = 1, module.exports = I;
 //// [/d.ts]
 require("./c"), module.exports = J;
 //// [/e.d.ts]

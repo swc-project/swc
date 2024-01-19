@@ -11,7 +11,7 @@ class TestWithStatics {
         }), _class_private_field_set(this, _prop, 0);
     }
 }
-TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop), TestWithStatics["X_ z_ zz"] = (_foo = new WeakMap(), (_Inner = class Inner {
+TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop), TestWithStatics["X_ z_ zz"] = (_foo = new WeakMap(), _Inner = class Inner {
     m() {
         _class_private_field_get(new TestWithStatics(), _prop);
     }
@@ -28,7 +28,7 @@ TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop), Tes
             value: void 0
         }), _class_private_field_set(this, _foo, 10);
     }
-}).C = class {
+}, _Inner.C = class {
     m() {
         _class_private_field_get(new TestWithStatics(), _prop), _class_private_field_get(new _Inner(), _foo);
     }

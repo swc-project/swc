@@ -745,11 +745,11 @@
                     });
                     for(let n = 0; n < t.length; ++n){
                         let s = e.mapValue.fields[t.get(n)];
-                        Lt(s) && s.mapValue.fields || (s = {
+                        Lt(s) && s.mapValue.fields || (e.mapValue.fields[t.get(n)] = s = {
                             mapValue: {
                                 fields: {}
                             }
-                        }, e.mapValue.fields[t.get(n)] = s), e = s;
+                        }), e = s;
                     }
                     return e.mapValue.fields;
                 }
@@ -2908,7 +2908,7 @@
                 }
                 getMutationQueue(t) {
                     let e = this.bs[t.toKey()];
-                    return e || (e = new vr(this.Ht, this.referenceDelegate), this.bs[t.toKey()] = e), e;
+                    return e || (this.bs[t.toKey()] = e = new vr(this.Ht, this.referenceDelegate)), e;
                 }
                 getTargetCache() {
                     return this.ze;
@@ -3403,7 +3403,7 @@
                         var e1, e2;
                         let n;
                         const s = e.target;
-                        return (n = Ht(s) ? {
+                        return n = Ht(s) ? {
                             documents: {
                                 documents: [
                                     Hn(t, s.path)
@@ -3483,7 +3483,7 @@
                                 });
                                 return null !== o && (n.structuredQuery.limit = o), e.startAt && (n.structuredQuery.startAt = ls(e.startAt)), e.endAt && (n.structuredQuery.endAt = ls(e.endAt)), n;
                             }(t, s)
-                        }).targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (e1 = e.resumeToken, t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = (e2 = e.snapshotVersion.toTimestamp(), t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
+                        }, n.targetId = e.targetId, e.resumeToken.approximateByteSize() > 0 ? n.resumeToken = (e1 = e.resumeToken, t.D ? e1.toBase64() : e1.toUint8Array()) : e.snapshotVersion.compareTo(rt.min()) > 0 && (n.readTime = (e2 = e.snapshotVersion.toTimestamp(), t.D ? `${new Date(1e3 * e2.seconds).toISOString().replace(/\.\d*/, "").replace("Z", "")}.${("000000000" + e2.nanoseconds).slice(-9)}Z` : {
                             seconds: "" + e2.seconds,
                             nanos: e2.nanoseconds
                         })), n;
@@ -4117,7 +4117,7 @@
                     t.Oo.forEach((n, s)=>{
                         const i = s.view.io(e);
                         i.snapshot && t2.push(i.snapshot);
-                    }), (t1 = t.eventManager).onlineState = e, s = !1, t1.queries.forEach((t, n)=>{
+                    }), t1 = t.eventManager, t1.onlineState = e, s = !1, t1.queries.forEach((t, n)=>{
                         for (const t of n.listeners)t.io(e) && (s = !0);
                     }), s && jo(t1), t2.length && t.$o.Rr(t2), t.onlineState = e, t.isPrimaryClient && t.sharedClientState.setOnlineState(e);
                 }
@@ -4184,12 +4184,13 @@
                 }(t.localStore, r));
             }
             async function Tc(t, e) {
+                var e1;
                 if (!t.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t1 = await hr(t.localStore, e);
-                    t.currentUser = e, t.Ko.forEach((t)=>{
+                    t.currentUser = e, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", t.Ko.forEach((t)=>{
                         t.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
+                            t.reject(new j(K.CANCELLED, e1));
                         });
                     }), t.Ko.clear(), t.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(t, t1.Wn);
                 }

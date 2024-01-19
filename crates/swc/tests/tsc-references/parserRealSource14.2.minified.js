@@ -158,7 +158,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     var AstPathContext = function AstPathContext() {
         _class_call_check(this, AstPathContext), this.path = new TypeScript.AstPath();
     };
-    TypeScript.AstPathContext = AstPathContext, (GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}))[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript.getAstPathToPosition = function(script, pos) {
+    TypeScript.AstPathContext = AstPathContext, GetAstPathOptions = TypeScript.GetAstPathOptions || (TypeScript.GetAstPathOptions = {}), GetAstPathOptions[GetAstPathOptions.Default = 0] = "Default", GetAstPathOptions[GetAstPathOptions.EdgeInclusive = 1] = "EdgeInclusive", GetAstPathOptions[GetAstPathOptions.DontPruneSearchBasedOnPosition = 2] = "DontPruneSearchBasedOnPosition", TypeScript.getAstPathToPosition = function(script, pos) {
         var options = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0, lookInComments = function(comments) {
             if (comments && comments.length > 0) for(var i = 0; i < comments.length; i++){
                 var minChar = comments[i].minChar, limChar = comments[i].limChar;

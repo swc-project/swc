@@ -3,7 +3,7 @@ export const E = {
         var i, len, req, url, requests = [];
         for(Lang.isArray(urls) || (urls = [
             urls
-        ]), (options = Y.merge(this.options, options)).attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
+        ]), options = Y.merge(this.options, options), options.attributes = Y.merge(this.options.attributes, options.attributes), i = 0, len = urls.length; i < len; ++i){
             if (url = urls[i], req = {
                 attributes: {}
             }, "string" == typeof url) req.url = url;

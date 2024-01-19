@@ -19,14 +19,16 @@ var c, RoyalGuard = function() {
     function LeadGuard() {
         return _class_call_check(this, LeadGuard), _super.apply(this, arguments);
     }
-    return LeadGuard.prototype.lead = function() {}, LeadGuard;
+    var _proto = LeadGuard.prototype;
+    return _proto.lead = function() {}, LeadGuard;
 }(RoyalGuard), FollowerGuard = function(RoyalGuard) {
     _inherits(FollowerGuard, RoyalGuard);
     var _super = _create_super(FollowerGuard);
     function FollowerGuard() {
         return _class_call_check(this, FollowerGuard), _super.apply(this, arguments);
     }
-    return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
+    var _proto = FollowerGuard.prototype;
+    return _proto.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard(), b = new LeadGuard();
 b.isFollower = b.isLeader, b.isLeader = b.isFollower, a.isFollower = a.isLeader, a.isLeader = a.isFollower, ({
     invalidGuard: function(c) {

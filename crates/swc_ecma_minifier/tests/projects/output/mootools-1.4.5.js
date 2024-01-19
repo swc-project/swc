@@ -1229,7 +1229,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
                 }
                 if (testNode.querySelectorAll) {
                     try {
-                        testNode.innerHTML = "foo</foo>", selected = testNode.querySelectorAll("*"), features.starSelectsClosedQSA = selected && !!selected.length && "/" == selected[0].nodeName.charAt(0);
+                        testNode.innerHTML = "foo</foo>", features.starSelectsClosedQSA = (selected = testNode.querySelectorAll("*")) && !!selected.length && "/" == selected[0].nodeName.charAt(0);
                     } catch (e) {}
                     try {
                         testNode.innerHTML = '<a class="MiX"></a>', features.brokenMixedCaseQSA = !testNode.querySelectorAll(".MiX").length;
@@ -1377,7 +1377,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         var special = parsed[2] || !1, a = parsed[1] || 1;
         "-" == a && (a = -1);
         var b = +parsed[3] || 0;
-        return parsed = "n" == special ? {
+        return this.cacheNTH[argument] = "n" == special ? {
             a: a,
             b: b
         } : "odd" == special ? {
@@ -1389,7 +1389,7 @@ Event.Keys = {}, Event.Keys = new Hash(Event.Keys), function() {
         } : {
             a: 0,
             b: a
-        }, this.cacheNTH[argument] = parsed;
+        };
     }, local.createNTHPseudo = function(child, sibling, positions, ofType) {
         return function(node, argument) {
             var uid = this.getUID(node);
@@ -2203,7 +2203,8 @@ Elements.prototype = {
             return null != dflt && null == prop && (prop = storage[property] = dflt), null != prop ? prop : null;
         },
         store: function(property, value) {
-            return get(Slick.uidOf(this))[property] = value, this;
+            var storage = get(Slick.uidOf(this));
+            return storage[property] = value, this;
         },
         eliminate: function(property) {
             var storage = get(Slick.uidOf(this));
@@ -2239,7 +2240,8 @@ Elements.prototype = {
     if (!supportsHTML5Elements) for(var tags = "abbr article aside audio canvas datalist details figcaption figure footer header hgroup mark meter nav output progress section summary time video".split(" "), fragment = document.createDocumentFragment(), l = tags.length; l--;)fragment.createElement(tags[l]);
     div = null;
     var supportsTableInnerHTML = Function.attempt(function() {
-        return document.createElement("table").innerHTML = "<tr><td></td></tr>", !0;
+        var table = document.createElement("table");
+        return table.innerHTML = "<tr><td></td></tr>", !0;
     }), tr = document.createElement("tr"), html = "<td></td>";
     tr.innerHTML = html;
     var supportsTRInnerHTML = tr.innerHTML == html;
@@ -3433,14 +3435,10 @@ Elements.prototype = {
                 var _method = "_method=" + method;
                 data = data ? _method + "&" + data : _method, method = "post";
             }
-            if (this.options.urlEncoded && [
+            this.options.urlEncoded && [
                 "post",
                 "put"
-            ].contains(method)) {
-                var encoding = this.options.encoding ? "; charset=" + this.options.encoding : "";
-                this.headers["Content-type"] = "application/x-www-form-urlencoded" + encoding;
-            }
-            url || (url = document.location.pathname);
+            ].contains(method) && (this.headers["Content-type"] = "application/x-www-form-urlencoded" + (this.options.encoding ? "; charset=" + this.options.encoding : "")), url || (url = document.location.pathname);
             var trimPosition = url.lastIndexOf("/");
             trimPosition > -1 && (trimPosition = url.indexOf("#")) > -1 && (url = url.substr(0, trimPosition)), this.options.noCache && (url += (url.contains("?") ? "&" : "?") + String.uniqueID()), data && "get" == method && (url += (url.contains("?") ? "&" : "?") + data, data = null);
             var xhr = this.xhr;
@@ -3712,8 +3710,8 @@ Cookie.write = function(key, value, options) {
             return this.object;
         },
         initialize: function(path, options) {
-            this.instance = "Swiff_" + String.uniqueID(), this.setOptions(options), options = this.options;
-            var id = this.id = options.id || this.instance, container = document.id(options.container);
+            this.instance = "Swiff_" + String.uniqueID(), this.setOptions(options);
+            var id = this.id = (options = this.options).id || this.instance, container = document.id(options.container);
             Swiff.CallBacks[this.instance] = {};
             var params = options.params, vars = options.vars, callBacks = options.callBacks, properties = Object.append({
                 height: options.height,

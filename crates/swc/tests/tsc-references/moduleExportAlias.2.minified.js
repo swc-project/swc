@@ -10,4 +10,19 @@
 //!  4 | b.func3;
 //!    `----
 //// [b.js]
-exports.func1 = function() {}, exports.func2 = function() {}, module.exports.func3 = function() {}, module.exports.func4 = function() {}, (exports = module.exports).func5 = function() {}, (module.exports = exports).func6 = function() {}, exports.func7 = function() {}, module.exports.func8 = function() {}, (module.exports = exports = {}).func9 = function() {}, (exports = module.exports = {}).func10 = function() {}, (exports = module.exports = {}).func11 = function() {}, module.exports.func12 = function() {}, (exports = module.exports = {}).func11 = function() {}, module.exports.func12 = function() {}, (exports = module.exports = {}).func13 = function() {}, module.exports.func14 = function() {}, (exports = module.exports = {}).func15 = function() {}, module.exports.func16 = function() {}, module.exports = exports = {}, exports.func17 = function() {}, module.exports.func18 = function() {}, module.exports = {}, exports.func19 = function() {}, module.exports.func20 = function() {};
+var exportsAlias = exports;
+exportsAlias.func1 = function() {}, exports.func2 = function() {};
+var moduleExportsAlias = module.exports;
+moduleExportsAlias.func3 = function() {}, module.exports.func4 = function() {};
+var multipleDeclarationAlias1 = exports = module.exports;
+multipleDeclarationAlias1.func5 = function() {};
+var multipleDeclarationAlias2 = module.exports = exports;
+multipleDeclarationAlias2.func6 = function() {};
+var multipleDeclarationAlias3 = exports;
+multipleDeclarationAlias3.func7 = function() {};
+var multipleDeclarationAlias4 = module.exports;
+multipleDeclarationAlias4.func8 = function() {};
+var multipleDeclarationAlias5 = module.exports = exports = {};
+multipleDeclarationAlias5.func9 = function() {};
+var multipleDeclarationAlias6 = exports = module.exports = {};
+multipleDeclarationAlias6.func10 = function() {}, exports = module.exports = {}, exports.func11 = function() {}, module.exports.func12 = function() {}, exports = module.exports = {}, exports.func11 = function() {}, module.exports.func12 = function() {}, exports = module.exports = {}, exports.func13 = function() {}, module.exports.func14 = function() {}, exports = module.exports = {}, exports.func15 = function() {}, module.exports.func16 = function() {}, module.exports = exports = {}, exports.func17 = function() {}, module.exports.func18 = function() {}, module.exports = {}, exports.func19 = function() {}, module.exports.func20 = function() {};

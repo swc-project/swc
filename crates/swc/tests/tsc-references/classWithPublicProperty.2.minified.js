@@ -6,7 +6,8 @@ var C = function() {
             return "";
         };
     }
-    return C.prototype.c = function() {
+    var _proto = C.prototype;
+    return _proto.c = function() {
         return "";
     }, C.f = function() {
         return "";

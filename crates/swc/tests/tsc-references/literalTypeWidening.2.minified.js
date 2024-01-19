@@ -17,4 +17,4 @@ langCodes.map(function(code) {
     return {
         code: code
     };
-}), (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", f(0);
+}), E = E1 || (E1 = {}), E[E.A = 0] = "A", E[E.B = 1] = "B", f(0);

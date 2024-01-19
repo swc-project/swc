@@ -565,8 +565,7 @@
             for(this.__data__ = new MapCache; ++index < length;)this.add(values[index]);
         }
         function Stack(entries) {
-            var data = this.__data__ = new ListCache(entries);
-            this.size = data.size;
+            this.size = (this.__data__ = new ListCache(entries)).size;
         }
         function arrayLikeKeys(value, inherited) {
             var isArr = isArray(value), isArg = !isArr && isArguments(value), isBuff = !isArr && !isArg && isBuffer(value), isType = !isArr && !isArg && !isBuff && isTypedArray(value), skipIndexes = isArr || isArg || isBuff || isType, result = skipIndexes ? baseTimes(value.length, String) : [], length = result.length;
@@ -651,7 +650,7 @@
                             case stringTag:
                                 return new Ctor(object);
                             case regexpTag:
-                                return (result = new object.constructor(object.source, reFlags.exec(object))).lastIndex = object.lastIndex, result;
+                                return result = new object.constructor(object.source, reFlags.exec(object)), result.lastIndex = object.lastIndex, result;
                             case setTag:
                                 return new Ctor;
                             case symbolTag:
@@ -1544,7 +1543,7 @@
                         var partials = data[3];
                         data[3] = partials ? composeArgs(partials, value, source[4]) : value, data[4] = partials ? replaceHolders(data[3], PLACEHOLDER) : source[4];
                     }
-                    (value = source[5]) && (partials = data[5], data[5] = partials ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
+                    (value = source[5]) && (data[5] = (partials = data[5]) ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
                 }
             }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = undefined === newData[9] ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
                 for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];

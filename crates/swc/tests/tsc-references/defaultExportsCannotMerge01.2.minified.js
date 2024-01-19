@@ -11,7 +11,7 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return Decl1;
     }
-}), (Decl = Decl1 || (Decl1 = {})).x = 10, Decl.y = 20;
+}), Decl = Decl1 || (Decl1 = {}), Decl.x = 10, Decl.y = 20;
 //// [m2.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

@@ -22,7 +22,8 @@ export var MyClass = function() {
     function MyClass(props) {
         _class_call_check(this, MyClass), this.props = props;
     }
-    return MyClass.prototype.render = function() {
+    var _proto = MyClass.prototype;
+    return _proto.render = function() {
         return predom.apply(void 0, [
             "p",
             null,

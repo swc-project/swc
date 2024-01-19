@@ -1,2 +1,2 @@
 //// [optionalPropertyAssignableToStringIndexSignature.ts]
-stringDictionary = optionalProperties, probablyArray = numberLiteralKeys, optionalUndefined;
+stringDictionary = optionalProperties, stringDictionary = undefinedProperties, probablyArray = numberLiteralKeys, optionalUndefined;

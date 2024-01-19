@@ -1,1 +1,1 @@
-let a=0;function g(l){let o;return o=a,`${arr.map(l=>{a=o+"str"})}`}globalThis.g=g,g([1,2,3]),console.log(a);
+let a=0;function g(l){var o;let t;return o=l,t=a,`${o.map(l=>{a=t+"str"})}`}globalThis.g=g,g([1,2,3]),console.log(a);

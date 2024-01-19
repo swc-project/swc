@@ -8,14 +8,16 @@ var i, a, B = function(A) {
     function B() {
         return _class_call_check(this, B), _super.apply(this, arguments);
     }
-    return B.prototype.bar = function() {
+    var _proto = B.prototype;
+    return _proto.bar = function() {
         return "";
     }, B;
 }(function() {
     function A() {
         _class_call_check(this, A);
     }
-    return A.prototype.foo = function() {
+    var _proto = A.prototype;
+    return _proto.foo = function() {
         return "";
     }, A;
 }()), C = function() {

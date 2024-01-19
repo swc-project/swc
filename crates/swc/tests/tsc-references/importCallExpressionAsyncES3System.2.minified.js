@@ -42,7 +42,8 @@ System.register([
                 function cl1() {
                     _class_call_check(this, cl1);
                 }
-                return cl1.prototype.m = function() {
+                var _proto = cl1.prototype;
+                return _proto.m = function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             switch(_state.label){

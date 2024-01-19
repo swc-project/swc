@@ -15,7 +15,8 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits =
     function App() {
         return _class_call_check._(this, App), _super.apply(this, arguments);
     }
-    return App.prototype.render = function() {
+    var _proto = App.prototype;
+    return _proto.render = function() {
         return _react.createElement(_button.Button, null);
     }, App;
 }(_react.Component);
@@ -34,7 +35,8 @@ var _class_call_check = require("@swc/helpers/_/_class_call_check"), _inherits =
     function Button() {
         return _class_call_check._(this, Button), _super.apply(this, arguments);
     }
-    return Button.prototype.render = function() {
+    var _proto = Button.prototype;
+    return _proto.render = function() {
         return _react.createElement("button", null, "Some button");
     }, Button;
 }(_react.Component);

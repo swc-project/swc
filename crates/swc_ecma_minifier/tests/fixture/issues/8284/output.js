@@ -9,4 +9,4 @@ global1 = this, factory = function(exports1) {
     }() || {}));
 }, "object" == typeof exports && "undefined" != typeof module ? factory(exports) : "function" == typeof define && define.amd ? define([
     "exports"
-], factory) : factory((global1 = "undefined" != typeof globalThis ? globalThis : global1 || self).Sentry = {});
+], factory) : (global1 = "undefined" != typeof globalThis ? globalThis : global1 || self, factory(global1.Sentry = {}));

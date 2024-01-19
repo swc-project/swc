@@ -95,7 +95,8 @@
         listenToOnce: "once"
     }, function(implementation, method) {
         Events[method] = function(obj, name, callback) {
-            return (this._listeningTo || (this._listeningTo = {}))[obj._listenId || (obj._listenId = _.uniqueId("l"))] = obj, callback || "object" != typeof name || (callback = this), obj[implementation](name, callback, this), this;
+            var listeningTo = this._listeningTo || (this._listeningTo = {}), id = obj._listenId || (obj._listenId = _.uniqueId("l"));
+            return listeningTo[id] = obj, callback || "object" != typeof name || (callback = this), obj[implementation](name, callback, this), this;
         };
     }), Events.bind = Events.on, Events.unbind = Events.off, _.extend(Backbone, Events);
     var Model = Backbone.Model = function(attributes, options) {
@@ -383,7 +384,7 @@
         },
         _prepareModel: function(attrs, options) {
             if (attrs instanceof Model) return attrs.collection || (attrs.collection = this), attrs;
-            (options = options ? _.clone(options) : {}).collection = this;
+            options = options ? _.clone(options) : {}, options.collection = this;
             var model = new this.model(attrs, options);
             return model.validationError ? (this.trigger("invalid", this, model.validationError, options), !1) : model;
         },

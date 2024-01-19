@@ -8,14 +8,16 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
     function Derived() {
         return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
-    return Derived.prototype.foo = function() {
+    var _proto = Derived.prototype;
+    return _proto.foo = function() {
         return 2;
     }, Derived;
 })(function() {
     function Base() {
         _class_call_check(this, Base);
     }
-    return Base.prototype.foo = function() {
+    var _proto = Base.prototype;
+    return _proto.foo = function() {
         return 1;
     }, Base.create = function() {
         return new this();

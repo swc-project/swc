@@ -6,21 +6,24 @@ var BaseA = function() {
     function BaseA(x) {
         _class_call_check(this, BaseA), this.x = x;
     }
-    return BaseA.prototype.createInstance = function() {
+    var _proto = BaseA.prototype;
+    return _proto.createInstance = function() {
         new BaseA(1);
     }, BaseA;
 }(), BaseB = function() {
     function BaseB(x) {
         _class_call_check(this, BaseB), this.x = x;
     }
-    return BaseB.prototype.createInstance = function() {
+    var _proto = BaseB.prototype;
+    return _proto.createInstance = function() {
         new BaseB(2);
     }, BaseB;
 }(), BaseC = function() {
     function BaseC(x) {
         _class_call_check(this, BaseC), this.x = x;
     }
-    return BaseC.prototype.createInstance = function() {
+    var _proto = BaseC.prototype;
+    return _proto.createInstance = function() {
         new BaseC(3);
     }, BaseC.staticInstance = function() {
         new BaseC(4);
@@ -30,7 +33,7 @@ var BaseA = function() {
     var _super = _create_super(DerivedA);
     function DerivedA(x) {
         var _this;
-        return _class_call_check(this, DerivedA), (_this = _super.call(this, x)).x = x, _this;
+        return _class_call_check(this, DerivedA), _this = _super.call(this, x), _this.x = x, _this;
     }
     var _proto = DerivedA.prototype;
     return _proto.createInstance = function() {
@@ -45,7 +48,7 @@ var BaseA = function() {
     var _super = _create_super(DerivedB);
     function DerivedB(x) {
         var _this;
-        return _class_call_check(this, DerivedB), (_this = _super.call(this, x)).x = x, _this;
+        return _class_call_check(this, DerivedB), _this = _super.call(this, x), _this.x = x, _this;
     }
     var _proto = DerivedB.prototype;
     return _proto.createInstance = function() {
@@ -60,7 +63,7 @@ var BaseA = function() {
     var _super = _create_super(DerivedC);
     function DerivedC(x) {
         var _this;
-        return _class_call_check(this, DerivedC), (_this = _super.call(this, x)).x = x, _this;
+        return _class_call_check(this, DerivedC), _this = _super.call(this, x), _this.x = x, _this;
     }
     var _proto = DerivedC.prototype;
     return _proto.createInstance = function() {

@@ -3,10 +3,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-(M || (M = {})).fn = function(x) {
+M = M1 || (M1 = {}), M.fn = function(x) {
     return "";
-}, void 0 === x || _type_of(x), void 0 === M || _type_of(M), M.fn(1);
-var M, x, C = function C() {
+}, void 0 === x || _type_of(x), void 0 === M1 || _type_of(M1), M1.fn(1);
+var M, M1, x, C = function C() {
     _class_call_check(this, C);
 }, D = function(C) {
     _inherits(D, C);

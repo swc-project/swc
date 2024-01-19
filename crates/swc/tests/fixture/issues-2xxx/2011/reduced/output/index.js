@@ -1,7 +1,8 @@
 var n;
-module.exports = ((n = function() {
+module.exports = (n = function() {
     function n() {}
-    return n.prototype.it = function() {
+    var t = n.prototype;
+    return t.it = function() {
         this.bb = new n.MyA();
     }, n;
-}()).MyA = function() {}, n);
+}(), n.MyA = function() {}, n);

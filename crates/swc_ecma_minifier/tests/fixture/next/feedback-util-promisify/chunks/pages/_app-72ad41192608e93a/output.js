@@ -38,7 +38,7 @@
                                 (function(b, r, a, n, c, h, _, s, d, k) {
                                     if (!b[n] || !b[n]._q) {
                                         for(; s < _.length;)c(h, _[s++]);
-                                        (d = r.createElement(a)).async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
+                                        d = r.createElement(a), d.async = 1, d.src = "https://cdn.branch.io/branch-latest.min.js", (k = r.getElementsByTagName(a)[0]).parentNode.insertBefore(d, k), b[n] = h;
                                     }
                                 })(window, document, "script", "branch", function(b, r) {
                                     b[r] = function() {
@@ -107,8 +107,8 @@
                             return (t + f) * 3 / 4 - f;
                         }, r.toByteArray = function(e) {
                             var r, h, t = getLens(e), i = t[0], o = t[1], u = new n((i + o) * 3 / 4 - o), a = 0, s = o > 0 ? i - 4 : i;
-                            for(h = 0; h < s; h += 4)r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)], u[a++] = r >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
-                            return 2 === o && (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4, u[a++] = 255 & r), 1 === o && (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2, u[a++] = r >> 8 & 255, u[a++] = 255 & r), u;
+                            for(h = 0; h < s; h += 4)u[a++] = (r = f[e.charCodeAt(h)] << 18 | f[e.charCodeAt(h + 1)] << 12 | f[e.charCodeAt(h + 2)] << 6 | f[e.charCodeAt(h + 3)]) >> 16 & 255, u[a++] = r >> 8 & 255, u[a++] = 255 & r;
+                            return 2 === o && (u[a++] = 255 & (r = f[e.charCodeAt(h)] << 2 | f[e.charCodeAt(h + 1)] >> 4)), 1 === o && (u[a++] = (r = f[e.charCodeAt(h)] << 10 | f[e.charCodeAt(h + 1)] << 4 | f[e.charCodeAt(h + 2)] >> 2) >> 8 & 255, u[a++] = 255 & r), u;
                         }, r.fromByteArray = function(e) {
                             for(var r, f = e.length, n = f % 3, i = [], u = 0, a = f - n; u < a; u += 16383)i.push(function(e, r, t1) {
                                 for(var f, n = [], i = r; i < t1; i += 3)n.push(t[(f = (e[i] << 16 & 16711680) + (e[i + 1] << 8 & 65280) + (255 & e[i + 2])) >> 18 & 63] + t[f >> 12 & 63] + t[f >> 6 & 63] + t[63 & f]);
@@ -742,9 +742,7 @@
                     }
                     return n.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var t = __nccwpck_require__(293);
-                module.exports = t;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(293);
             }();
         },
         6774: function() {},
@@ -774,12 +772,12 @@
                         }
                         !function() {
                             try {
-                                r = "function" == typeof setTimeout ? setTimeout : defaultSetTimout;
+                                "function" == typeof setTimeout ? r = setTimeout : r = defaultSetTimout;
                             } catch (e) {
                                 r = defaultSetTimout;
                             }
                             try {
-                                n = "function" == typeof clearTimeout ? clearTimeout : defaultClearTimeout;
+                                "function" == typeof clearTimeout ? n = clearTimeout : n = defaultClearTimeout;
                             } catch (e) {
                                 n = defaultClearTimeout;
                             }
@@ -847,9 +845,7 @@
                     }
                     return i.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var r = __nccwpck_require__(162);
-                module.exports = r;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(162);
             }();
         },
         9720: function(module, __unused_webpack_exports, __webpack_require__) {
@@ -1677,8 +1673,7 @@
                     },
                     793: function(r, t, e) {
                         "use strict";
-                        var o = e(517);
-                        r.exports = o.call(Function.call, Object.prototype.hasOwnProperty);
+                        r.exports = e(517).call(Function.call, Object.prototype.hasOwnProperty);
                     },
                     526: function(r) {
                         "function" == typeof Object.create ? r.exports = function(r, t) {
@@ -2634,9 +2629,7 @@
                     }
                     return n.exports;
                 }
-                __nccwpck_require__.ab = "//";
-                var e = __nccwpck_require__(650);
-                module.exports = e;
+                __nccwpck_require__.ab = "//", module.exports = __nccwpck_require__(650);
             }();
         }
     },

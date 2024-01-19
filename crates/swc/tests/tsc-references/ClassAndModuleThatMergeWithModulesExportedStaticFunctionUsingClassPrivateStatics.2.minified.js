@@ -8,6 +8,6 @@ var clodule, clodule1 = function() {
         return 42;
     }, clodule;
 }();
-(clodule = clodule1 || (clodule1 = {})).fn = function(x, y) {
+clodule = clodule1 || (clodule1 = {}), clodule.fn = function(x, y) {
     return clodule.sfn("a");
 };

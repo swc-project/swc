@@ -1,7 +1,7 @@
 !function(global, factory) {
     'object' == typeof exports && 'undefined' != typeof module ? factory(exports) : 'function' == typeof define && define.amd ? define([
         'exports'
-    ], factory) : factory((global = 'undefined' != typeof globalThis ? globalThis : global || self).d3 = global.d3 || {});
+    ], factory) : factory(global.d3 = (global = 'undefined' != typeof globalThis ? globalThis : global || self).d3 || {});
 }(this, function(exports1) {
     'use strict';
     function ascending(a, b) {
@@ -182,7 +182,7 @@
             for(var m = tz.length; tz[0] <= x0;)tz.shift(), --m;
             for(; tz[m - 1] > x1;)tz.pop(), --m;
             var bin, bins = Array(m + 1);
-            for(i = 0; i <= m; ++i)(bin = bins[i] = []).x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
+            for(i = 0; i <= m; ++i)bin = bins[i] = [], bin.x0 = i > 0 ? tz[i - 1] : x0, bin.x1 = i < m ? tz[i] : x1;
             for(i = 0; i < n; ++i)x0 <= (x = values[i]) && x <= x1 && bins[bisectRight(tz, x, 0, m)].push(data[i]);
             return bins;
         }
@@ -715,7 +715,7 @@
                     previous._next = next || null;
                 }
             }
-            return (update = new Selection(update, parents))._enter = enter, update._exit = exit, update;
+            return update = new Selection(update, parents), update._enter = enter, update._exit = exit, update;
         },
         enter: function() {
             return new Selection(this._enter || this._groups.map(sparse), this._parents);
@@ -1520,7 +1520,7 @@
     function rgbSpline(spline) {
         return function(colors) {
             var i, color, n = colors.length, r = Array(n), g = Array(n), b = Array(n);
-            for(i = 0; i < n; ++i)color = rgb(colors[i]), r[i] = color.r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
+            for(i = 0; i < n; ++i)r[i] = (color = rgb(colors[i])).r || 0, g[i] = color.g || 0, b[i] = color.b || 0;
             return r = spline(r), g = spline(g), b = spline(b), color.opacity = 1, function(t) {
                 return color.r = r(t), color.g = g(t), color.b = b(t), color + "";
             };
@@ -2526,7 +2526,7 @@
                     event
                 ], (t)=>{
                     const i = t.identifier;
-                    return (t = pointer(t, that)).point0 = t.slice(), t.identifier = i, t;
+                    return t.point0 = (t = pointer(t, that)).slice(), t.identifier = i, t;
                 });
                 if ("overlay" === type) {
                     selection && (moving = !0);
@@ -2727,23 +2727,29 @@
                     const x0 = x;
                     if (directed) {
                         const subgroupIndex = range(~n + 1, n).filter((j)=>j < 0 ? matrix[~j * n + i] : matrix[i * n + j]);
-                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))j < 0 ? (chords[~j * n + i] || (chords[~j * n + i] = {
-                            source: null,
-                            target: null
-                        })).target = {
-                            index: i,
-                            startAngle: x,
-                            endAngle: x += matrix[~j * n + i] * k,
-                            value: matrix[~j * n + i]
-                        } : (chords[i * n + j] || (chords[i * n + j] = {
-                            source: null,
-                            target: null
-                        })).source = {
-                            index: i,
-                            startAngle: x,
-                            endAngle: x += matrix[i * n + j] * k,
-                            value: matrix[i * n + j]
-                        };
+                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))if (j < 0) {
+                            const chord = chords[~j * n + i] || (chords[~j * n + i] = {
+                                source: null,
+                                target: null
+                            });
+                            chord.target = {
+                                index: i,
+                                startAngle: x,
+                                endAngle: x += matrix[~j * n + i] * k,
+                                value: matrix[~j * n + i]
+                            };
+                        } else {
+                            const chord = chords[i * n + j] || (chords[i * n + j] = {
+                                source: null,
+                                target: null
+                            });
+                            chord.source = {
+                                index: i,
+                                startAngle: x,
+                                endAngle: x += matrix[i * n + j] * k,
+                                value: matrix[i * n + j]
+                            };
+                        }
                         groups[i] = {
                             index: i,
                             startAngle: x0,
@@ -2757,15 +2763,15 @@
                             if (i < j ? (chord = chords[i * n + j] || (chords[i * n + j] = {
                                 source: null,
                                 target: null
-                            })).source = {
+                            }), chord.source = {
                                 index: i,
                                 startAngle: x,
                                 endAngle: x += matrix[i * n + j] * k,
                                 value: matrix[i * n + j]
-                            } : ((chord = chords[j * n + i] || (chords[j * n + i] = {
+                            }) : (chord = chords[j * n + i] || (chords[j * n + i] = {
                                 source: null,
                                 target: null
-                            })).target = {
+                            }), chord.target = {
                                 index: i,
                                 startAngle: x,
                                 endAngle: x += matrix[i * n + j] * k,
@@ -2785,7 +2791,7 @@
                     x += dx;
                 }
             }
-            return (chords = Object.values(chords)).groups = groups, sortChords ? chords.sort(sortChords) : chords;
+            return chords = Object.values(chords), chords.groups = groups, sortChords ? chords.sort(sortChords) : chords;
         }
         return chord.padAngle = function(_) {
             return arguments.length ? (padAngle = max$2(0, _), chord) : padAngle;
@@ -3193,7 +3199,7 @@
         function smoothLinear(ring, values, value) {
             ring.forEach(function(point) {
                 var v0, x = point[0], y = point[1], xt = 0 | x, yt = 0 | y, v1 = values[yt * dx + xt];
-                x > 0 && x < dx && xt === x && (v0 = values[yt * dx + xt - 1], point[0] = x + (value - v0) / (v1 - v0) - 0.5), y > 0 && y < dy && yt === y && (v0 = values[(yt - 1) * dx + xt], point[1] = y + (value - v0) / (v1 - v0) - 0.5);
+                x > 0 && x < dx && xt === x && (point[0] = x + (value - (v0 = values[yt * dx + xt - 1])) / (v1 - v0) - 0.5), y > 0 && y < dy && yt === y && (point[1] = y + (value - (v0 = values[(yt - 1) * dx + xt])) / (v1 - v0) - 0.5);
             });
         }
         return contours.contour = contour, contours.size = function(_) {
@@ -3495,7 +3501,7 @@
             }
             let h = hull[hull.length - 1], p0, p1 = 4 * h, x0, x1 = points[2 * h], y0, y1 = points[2 * h + 1];
             vectors.fill(0);
-            for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], y1 = points[2 * h + 1], vectors[p0 + 2] = vectors[p1] = y0 - y1, vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
+            for(let i = 0; i < hull.length; ++i)h = hull[i], p0 = p1, x0 = x1, y0 = y1, p1 = 4 * h, x1 = points[2 * h], vectors[p0 + 2] = vectors[p1] = y0 - (y1 = points[2 * h + 1]), vectors[p0 + 3] = vectors[p1 + 1] = x1 - x0;
         }
         render(context) {
             const buffer = null == context ? context = new Path$1 : void 0, { delaunay: { halfedges, inedges, hull }, circumcenters, vectors } = this;
@@ -4099,12 +4105,12 @@
         var x0 = this._x0, y0 = this._y0, x1 = this._x1, y1 = this._y1;
         if (isNaN(x0)) x1 = (x0 = Math.floor(x)) + 1, y1 = (y0 = Math.floor(y)) + 1;
         else {
-            for(var parent, i, z = x1 - x0 || 1, node = this._root; x0 > x || x >= x1 || y0 > y || y >= y1;)switch(i = (y < y0) << 1 | x < x0, (parent = [
+            for(var parent, i, z = x1 - x0 || 1, node = this._root; x0 > x || x >= x1 || y0 > y || y >= y1;)switch(i = (y < y0) << 1 | x < x0, parent = [
                 ,
                 ,
                 ,
                 , 
-            ])[i] = node, node = parent, z *= 2, i){
+            ], parent[i] = node, node = parent, z *= 2, i){
                 case 0:
                     x1 = x0 + z, y1 = y0 + z;
                     break;
@@ -4345,7 +4351,7 @@
         return {
             format: newFormat,
             formatPrefix: function(specifier, value) {
-                var f = newFormat(((specifier = formatSpecifier(specifier)).type = "f", specifier)), e = 3 * Math.max(-8, Math.min(8, Math.floor(exponent$1(value) / 3))), k = Math.pow(10, -e), prefix = prefixes[8 + e / 3];
+                var f = newFormat((specifier = formatSpecifier(specifier), specifier.type = "f", specifier)), e = 3 * Math.max(-8, Math.min(8, Math.floor(exponent$1(value) / 3))), k = Math.pow(10, -e), prefix = prefixes[8 + e / 3];
                 return function(value) {
                     return f(k * value) + prefix;
                 };
@@ -4353,7 +4359,7 @@
         };
     }
     function defaultLocale(definition) {
-        return locale = formatLocale(definition), exports1.format = locale.format, exports1.formatPrefix = locale.formatPrefix, locale;
+        return exports1.format = (locale = formatLocale(definition)).format, exports1.formatPrefix = locale.formatPrefix, locale;
     }
     function precisionFixed(step) {
         return Math.max(0, -exponent$1(Math.abs(step)));
@@ -6077,20 +6083,20 @@
     function packEnclose(circles) {
         var a, b, c, n, aa, ca, i, j, k, sj, sk, x;
         if (!(n = (circles = "object" == typeof (x = circles) && "length" in x ? x : Array.from(x)).length)) return 0;
-        if ((a = circles[0]).x = 0, a.y = 0, !(n > 1)) return a.r;
-        if (b = circles[1], a.x = -b.r, b.x = a.r, b.y = 0, !(n > 2)) return a.r + b.r;
+        if (a = circles[0], a.x = 0, a.y = 0, !(n > 1)) return a.r;
+        if (a.x = -(b = circles[1]).r, b.x = a.r, b.y = 0, !(n > 2)) return a.r + b.r;
         place(b, a, c = circles[2]), a = new Node$1(a), b = new Node$1(b), c = new Node$1(c), a.next = c.previous = b, b.next = a.previous = c, c.next = b.previous = a;
         pack: for(i = 3; i < n; ++i){
             place(a._, b._, c = circles[i]), c = new Node$1(c), j = b.next, k = a.previous, sj = b._.r, sk = a._.r;
             do if (sj <= sk) {
                 if (intersects(j._, c._)) {
-                    b = j, a.next = b, b.previous = a, --i;
+                    a.next = b = j, b.previous = a, --i;
                     continue pack;
                 }
                 sj += j._.r, j = j.next;
             } else {
                 if (intersects(k._, c._)) {
-                    (a = k).next = b, b.previous = a, --i;
+                    a = k, a.next = b, b.previous = a, --i;
                     continue pack;
                 }
                 sk += k._.r, k = k.previous;
@@ -6145,7 +6151,7 @@
         node.x0 = Math.round(node.x0), node.y0 = Math.round(node.y0), node.x1 = Math.round(node.x1), node.y1 = Math.round(node.y1);
     }
     function treemapDice(parent, x0, y0, x1, y1) {
-        for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)(node = nodes[i]).y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
+        for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (x1 - x0) / parent.value; ++i < n;)node = nodes[i], node.y0 = y0, node.y1 = y1, node.x0 = x0, node.x1 = x0 += node.value * k;
     }
     equalEarthRaw.invert = function(x, y) {
         for(var delta, fy, l = y, l2 = l * l, l6 = l2 * l2 * l2, i = 0; i < 12 && (fy = l * (1.340264 + -0.081106 * l2 + l6 * (0.000893 + 0.003796 * l2)) - y, l -= delta = fy / (1.340264 + -0.24331799999999998 * l2 + l6 * (0.0062510000000000005 + 0.034164 * l2)), l6 = (l2 = l * l) * l2 * l2, !(1e-12 > abs$2(delta))); ++i);
@@ -6279,7 +6285,7 @@
         this._ = node, this.parent = null, this.children = null, this.A = null, this.a = this, this.z = 0, this.m = 0, this.c = 0, this.s = 0, this.t = null, this.i = i;
     }
     function treemapSlice(parent, x0, y0, x1, y1) {
-        for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (y1 - y0) / parent.value; ++i < n;)(node = nodes[i]).x0 = x0, node.x1 = x1, node.y0 = y0, node.y1 = y0 += node.value * k;
+        for(var node, nodes = parent.children, i = -1, n = nodes.length, k = parent.value && (y1 - y0) / parent.value; ++i < n;)node = nodes[i], node.x0 = x0, node.x1 = x1, node.y0 = y0, node.y1 = y0 += node.value * k;
     }
     TreeNode.prototype = Object.create(Node.prototype);
     var phi = (1 + Math.sqrt(5)) / 2;
@@ -7171,7 +7177,7 @@
                 if ("s" in d) return new Date(1000 * d.s + ("L" in d ? d.L : 0));
                 if (!Z || "Z" in d || (d.Z = 0), "p" in d && (d.H = d.H % 12 + 12 * d.p), void 0 === d.m && (d.m = "q" in d ? d.q : 0), "V" in d) {
                     if (d.V < 1 || d.V > 53) return null;
-                    "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), week = utcDay.offset(week, (d.V - 1) * 7), d.y = week.getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), week = day.offset(week, (d.V - 1) * 7), d.y = week.getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
+                    "w" in d || (d.w = 1), "Z" in d ? (week = (day$1 = (week = utcDate(newDate(d.y, 0, 1))).getUTCDay()) > 4 || 0 === day$1 ? utcMonday.ceil(week) : utcMonday(week), d.y = (week = utcDay.offset(week, (d.V - 1) * 7)).getUTCFullYear(), d.m = week.getUTCMonth(), d.d = week.getUTCDate() + (d.w + 6) % 7) : (week = (day$1 = (week = localDate(newDate(d.y, 0, 1))).getDay()) > 4 || 0 === day$1 ? monday.ceil(week) : monday(week), d.y = (week = day.offset(week, (d.V - 1) * 7)).getFullYear(), d.m = week.getMonth(), d.d = week.getDate() + (d.w + 6) % 7);
                 } else ("W" in d || "U" in d) && ("w" in d || (d.w = "u" in d ? d.u % 7 : "W" in d ? 1 : 0), day$1 = "Z" in d ? utcDate(newDate(d.y, 0, 1)).getUTCDay() : localDate(newDate(d.y, 0, 1)).getDay(), d.m = 0, d.d = "W" in d ? (d.w + 6) % 7 + 7 * d.W - (day$1 + 5) % 7 : d.w + 7 * d.U - (day$1 + 6) % 7);
                 return "Z" in d ? (d.H += d.Z / 100 | 0, d.M += d.Z % 100, utcDate(d)) : localDate(d);
             };
@@ -7450,7 +7456,7 @@
         return Math.floor(+d / 1000);
     }
     function defaultLocale$1(definition) {
-        return locale$1 = formatLocale$1(definition), exports1.timeFormat = locale$1.format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
+        return exports1.timeFormat = (locale$1 = formatLocale$1(definition)).format, exports1.timeParse = locale$1.parse, exports1.utcFormat = locale$1.utcFormat, exports1.utcParse = locale$1.utcParse, locale$1;
     }
     defaultLocale$1({
         dateTime: "%x, %X",
@@ -9351,7 +9357,7 @@
         function initialize() {
             if (nodes) {
                 var i, node, n = nodes.length;
-                for(i = 0, radii = Array(n); i < n; ++i)radii[(node = nodes[i]).index] = +radius(node, i, nodes);
+                for(i = 0, radii = Array(n); i < n; ++i)node = nodes[i], radii[node.index] = +radius(node, i, nodes);
             }
         }
         return "function" != typeof radius && (radius = constant$7(null == radius ? 1 : +radius)), force.initialize = function(_nodes, _random) {
@@ -9376,8 +9382,8 @@
                         id(d, i, nodes),
                         d
                     ]));
-                for(i = 0, count = Array(n); i < m; ++i)(link = links[i]).index = i, "object" != typeof link.source && (link.source = find$1(nodeById, link.source)), "object" != typeof link.target && (link.target = find$1(nodeById, link.target)), count[link.source.index] = (count[link.source.index] || 0) + 1, count[link.target.index] = (count[link.target.index] || 0) + 1;
-                for(i = 0, bias = Array(m); i < m; ++i)link = links[i], bias[i] = count[link.source.index] / (count[link.source.index] + count[link.target.index]);
+                for(i = 0, count = Array(n); i < m; ++i)link = links[i], link.index = i, "object" != typeof link.source && (link.source = find$1(nodeById, link.source)), "object" != typeof link.target && (link.target = find$1(nodeById, link.target)), count[link.source.index] = (count[link.source.index] || 0) + 1, count[link.target.index] = (count[link.target.index] || 0) + 1;
+                for(i = 0, bias = Array(m); i < m; ++i)bias[i] = count[(link = links[i]).source.index] / (count[link.source.index] + count[link.target.index]);
                 strengths = Array(m), initializeStrength(), distances = Array(m), initializeDistance();
             }
         }
@@ -9409,7 +9415,7 @@
         function initialize() {
             if (nodes) {
                 var i, node, n = nodes.length;
-                for(i = 0, strengths = Array(n); i < n; ++i)strengths[(node = nodes[i]).index] = +strength(node, i, nodes);
+                for(i = 0, strengths = Array(n); i < n; ++i)node = nodes[i], strengths[node.index] = +strength(node, i, nodes);
             }
         }
         function accumulate(quad) {
@@ -9418,7 +9424,7 @@
                 for(x = y = i = 0; i < 4; ++i)(q = quad[i]) && (c = Math.abs(q.value)) && (strength += q.value, weight += c, x += c * q.x, y += c * q.y);
                 quad.x = x / weight, quad.y = y / weight;
             } else {
-                (q = quad).x = q.data.x, q.y = q.data.y;
+                q.x = (q = quad).data.x, q.y = q.data.y;
                 do strength += strengths[q.data.index];
                 while (q = q.next)
             }
@@ -9486,7 +9492,7 @@
         }
         function initializeNodes() {
             for(var node, i = 0, n = nodes.length; i < n; ++i){
-                if ((node = nodes[i]).index = i, null != node.fx && (node.x = node.fx), null != node.fy && (node.y = node.fy), isNaN(node.x) || isNaN(node.y)) {
+                if (node = nodes[i], node.index = i, null != node.fx && (node.x = node.fx), null != node.fy && (node.y = node.fy), isNaN(node.x) || isNaN(node.y)) {
                     var radius = 10 * Math.sqrt(0.5 + i), angle = i * initialAngle;
                     node.x = radius * Math.cos(angle), node.y = radius * Math.sin(angle);
                 }
@@ -10007,7 +10013,7 @@
         return c$1.h = 360 * t - 100, c$1.s = 1.5 - 1.5 * ts, c$1.l = 0.8 - 0.9 * ts, c$1 + "";
     }, exports1.interpolateRdBu = RdBu, exports1.interpolateRdGy = RdGy, exports1.interpolateRdPu = RdPu, exports1.interpolateRdYlBu = RdYlBu, exports1.interpolateRdYlGn = RdYlGn, exports1.interpolateReds = Reds, exports1.interpolateRgb = interpolateRgb, exports1.interpolateRgbBasis = rgbBasis, exports1.interpolateRgbBasisClosed = rgbBasisClosed, exports1.interpolateRound = interpolateRound, exports1.interpolateSinebow = function(t) {
         var x;
-        return t = (0.5 - t) * Math.PI, c$2.r = 255 * (x = Math.sin(t)) * x, c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x, c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x, c$2 + "";
+        return c$2.r = 255 * (x = Math.sin(t = (0.5 - t) * Math.PI)) * x, c$2.g = 255 * (x = Math.sin(t + pi_1_3)) * x, c$2.b = 255 * (x = Math.sin(t + pi_2_3)) * x, c$2 + "";
     }, exports1.interpolateSpectral = Spectral, exports1.interpolateString = interpolateString, exports1.interpolateTransformCss = interpolateTransformCss, exports1.interpolateTransformSvg = interpolateTransformSvg, exports1.interpolateTurbo = function(t) {
         return "rgb(" + Math.max(0, Math.min(255, Math.round(34.61 + (t = Math.max(0, Math.min(1, t))) * (1172.33 - t * (10793.56 - t * (33300.12 - t * (38394.49 - 14825.05 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(23.31 + t * (557.33 + t * (1225.33 - t * (3574.96 - t * (1073.77 + 707.56 * t))))))) + ", " + Math.max(0, Math.min(255, Math.round(27.2 + t * (3211.1 - t * (15327.97 - t * (27814 - t * (22569.18 - 6838.66 * t))))))) + ")";
     }, exports1.interpolateViridis = viridis, exports1.interpolateWarm = warm, exports1.interpolateYlGn = YlGn, exports1.interpolateYlGnBu = YlGnBu, exports1.interpolateYlOrBr = YlOrBr, exports1.interpolateYlOrRd = YlOrRd, exports1.interpolateZoom = interpolateZoom, exports1.interrupt = interrupt, exports1.intersection = function(values, ...others) {
@@ -10523,7 +10529,7 @@
         var id = defaultId, parentId = defaultParentId;
         function stratify(data) {
             var d, i, root, parent, node, nodeId, nodeKey, nodes = Array.from(data), n = nodes.length, nodeByKey = new Map;
-            for(i = 0; i < n; ++i)d = nodes[i], node = nodes[i] = new Node(d), null != (nodeId = id(d, i, data)) && (nodeId += "") && (nodeKey = node.id = nodeId, nodeByKey.set(nodeKey, nodeByKey.has(nodeKey) ? ambiguous : node)), null != (nodeId = parentId(d, i, data)) && (nodeId += "") && (node.parent = nodeId);
+            for(i = 0; i < n; ++i)node = nodes[i] = new Node(d = nodes[i]), null != (nodeId = id(d, i, data)) && (nodeId += "") && (nodeKey = node.id = nodeId, nodeByKey.set(nodeKey, nodeByKey.has(nodeKey) ? ambiguous : node)), null != (nodeId = parentId(d, i, data)) && (nodeId += "") && (node.parent = nodeId);
             for(i = 0; i < n; ++i)if (nodeId = (node = nodes[i]).parent) {
                 if (!(parent = nodeByKey.get(nodeId))) throw Error("missing: " + nodeId);
                 if (parent === ambiguous) throw Error("ambiguous: " + nodeId);
@@ -10607,7 +10613,7 @@
             } else w && (v.z = w.z + separation(v._, w._));
             v.parent.A = function(v, w, ancestor) {
                 if (w) {
-                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), (vop = nextRight(vop)).a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (function(wm, wp, shift) {
+                    for(var vim, ancestor1, shift, vip = v, vop = v, vim1 = w, vom = vip.parent.children[0], sip = vip.m, sop = vop.m, sim = vim1.m, som = vom.m; vim1 = nextRight(vim1), vip = nextLeft(vip), vim1 && vip;)vom = nextLeft(vom), vop = nextRight(vop), vop.a = v, (shift = vim1.z + sim - vip.z - sip + separation(vim1._, vip._)) > 0 && (function(wm, wp, shift) {
                         var change = shift / (wp.i - wm.i);
                         wp.c -= change, wp.s += shift, wm.c += change, wp.z += shift, wp.m += shift;
                     }((vim = vim1, ancestor1 = ancestor, vim.a.parent === v.parent ? vim.a : ancestor1), v, shift), sip += shift, sop += shift), sim += vim1.m, sip += vip.m, som += vom.m, sop += vop.m;

@@ -23,19 +23,15 @@ export { ns };
 import * as ns from "./cls";
 export { ns as classContainer };
 //// [cjs.js]
-var ns = require("./cls");
 module.exports = {
-    ns: ns
+    ns: require("./cls")
 };
 //// [cjs2.js]
-var ns = require("./cls");
-module.exports = ns;
+module.exports = require("./cls");
 //// [cjs3.js]
-var ns = require("./cls");
-module.exports.ns = ns;
+module.exports.ns = require("./cls");
 //// [cjs4.js]
-var ns = require("./cls");
-module.exports.names = ns;
+module.exports.names = require("./cls");
 //// [includeAll.js]
 import "./cjs4";
 import "./cjs3";

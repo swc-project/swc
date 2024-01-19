@@ -307,10 +307,12 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
     }
     return impl.FALLBACK_PHONE = "UnknownPhone", impl.FALLBACK_TABLET = "UnknownTablet", impl.FALLBACK_MOBILE = "UnknownMobile", isArray = "isArray" in Array ? Array.isArray : function(value) {
         return "[object Array]" === Object.prototype.toString.call(value);
-    }, !function() {
+    }, isArray = "isArray" in Array ? function(value) {
+        return "[object Array]" === Object.prototype.toString.call(value);
+    } : Array.isArray, !function() {
         var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
         for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
-            for(isArray(values = mobileDetectRules.props[key]) || (values = [
+            for(values = mobileDetectRules.props[key], isArray(values) || (values = [
                 values
             ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf("[VER]")) >= 0 && (value = value.substring(0, verPos) + "([\\w._\\+]+)" + value.substring(verPos + 5)), values[i] = RegExp(value, "i");
             mobileDetectRules.props[key] = values;
@@ -400,7 +402,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         mobileGrade: function() {
             return undefined === this._cache.grade && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
         }
-    }, MobileDetect.isPhoneSized = "undefined" != typeof window && window.screen ? function(maxPhoneWidth) {
+    }, "undefined" != typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
         return maxPhoneWidth < 0 ? undefined : impl.getDeviceSmallerSide() <= maxPhoneWidth;
-    } : function() {}, MobileDetect._impl = impl, MobileDetect.version = "1.3.3 2016-07-31", MobileDetect;
+    } : MobileDetect.isPhoneSized = function() {}, MobileDetect._impl = impl, MobileDetect.version = "1.3.3 2016-07-31", MobileDetect;
 });

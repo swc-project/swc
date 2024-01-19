@@ -67,7 +67,7 @@ var _a, util = require("@firebase/util"), tslib = require("tslib"), component = 
             options: this.options
         };
     }, FirebaseAppImpl;
-}(), ERRORS = ((_a = {})["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS), firebase$1 = function createFirebaseNamespace() {
+}(), ERRORS = (_a = {}, _a["no-app"] = "No Firebase App '{$appName}' has been created - call Firebase App.initializeApp()", _a["invalid-app-argument"] = "firebase.{$appName}() takes either no argument or a Firebase App instance.", _a), ERROR_FACTORY = new util.ErrorFactory("app-compat", "Firebase", ERRORS), firebase$1 = function createFirebaseNamespace() {
     var namespace = function(firebaseAppImpl) {
         var apps = {}, namespace = {
             __esModule: !0,

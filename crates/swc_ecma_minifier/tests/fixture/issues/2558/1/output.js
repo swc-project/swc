@@ -33,7 +33,7 @@
             construct: function(target, args) {
                 return new target(new URLSearchParamsPolyfill(args[0]).toString());
             }
-        })).toString = Function.prototype.toString.bind(URLSearchParamsPolyfill) : propValue = URLSearchParamsPolyfill, Object.defineProperty(self, "URLSearchParams", {
+        }), propValue.toString = Function.prototype.toString.bind(URLSearchParamsPolyfill)) : propValue = URLSearchParamsPolyfill, Object.defineProperty(self, "URLSearchParams", {
             value: propValue
         });
         var USPProto = self.URLSearchParams.prototype;

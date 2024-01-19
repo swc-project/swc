@@ -9,7 +9,7 @@ var Base = function Base(x) {
     var _super = _create_super(Derived);
     function Derived(y, z) {
         var _this;
-        return _class_call_check(this, Derived), (_this = _super.call(this, 2)).b = "", _this.b = y, _this;
+        return _class_call_check(this, Derived), _this = _super.call(this, 2), _this.b = "", _this.b = y, _this;
     }
     return Derived;
 }(Base), Derived2 = function(Derived) {
@@ -35,7 +35,7 @@ var D2 = function(D) {
     var _super = _create_super(D);
     function D(y, z) {
         var _this;
-        return _class_call_check(this, D), (_this = _super.call(this, 2)).b = null, _this.b = y, _this;
+        return _class_call_check(this, D), _this = _super.call(this, 2), _this.b = null, _this.b = y, _this;
     }
     return D;
 }(Base));

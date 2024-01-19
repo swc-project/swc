@@ -66,7 +66,7 @@ var isServerSide = "undefined" == typeof document, META = "M", TITLE = "T", LINK
                     var _ref;
                     return "charset" === meta.keyword ? {
                         charset: meta[meta.keyword]
-                    } : ((_ref = {})[meta.keyword] = meta[meta.keyword], _ref.content = meta.content, _ref);
+                    } : (_ref = {}, _ref[meta.keyword] = meta[meta.keyword], _ref.content = meta.content, _ref);
                 })
             };
         }

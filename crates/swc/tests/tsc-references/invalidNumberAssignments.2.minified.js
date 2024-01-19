@@ -1,4 +1,4 @@
 //// [invalidNumberAssignments.ts]
-var M;
+var M, M1;
 import "@swc/helpers/_/_class_call_check";
-(M || (M = {})).x = 1;
+M1 = M || (M = {}), M1.x = 1;

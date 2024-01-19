@@ -15,8 +15,8 @@ export function removeFromMatrix(matrix, id) {
                 ]
             ];
         }
-    } else (newMatrix = [
+    } else newMatrix = [
         ...matrix
-    ])[indexOfIdToRemove] = _.without(row, id);
+    ], newMatrix[indexOfIdToRemove] = _.without(row, id);
     return newMatrix || matrix;
 }

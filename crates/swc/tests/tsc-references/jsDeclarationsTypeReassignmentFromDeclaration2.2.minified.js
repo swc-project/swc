@@ -9,5 +9,4 @@
 //!    : ^^^^^^^^^^^^^^^^^^
 //!    `----
 //// [index.js]
-var items = require("./some-mod")();
-module.exports = items;
+module.exports = require("./some-mod")();

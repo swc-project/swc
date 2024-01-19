@@ -6,7 +6,8 @@ NonGeneric || (NonGeneric = {}), (r = (c = new (function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
-    return C.prototype.fn = function() {
+    var _proto = C.prototype;
+    return _proto.fn = function() {
         return this;
     }, _create_class(C, [
         {
@@ -21,7 +22,8 @@ NonGeneric || (NonGeneric = {}), (r = (c = new (function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
-    return C.prototype.fn = function() {
+    var _proto = C.prototype;
+    return _proto.fn = function() {
         return this;
     }, _create_class(C, [
         {

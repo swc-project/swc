@@ -867,7 +867,7 @@
                     var deco = curComputed[i], prev = prevComputed[i];
                     if (i) {
                         var parent = void 0;
-                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || ((parent = document.createElement(deco.nodeName)).pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
+                        prev && prev.nodeName == deco.nodeName && curDOM != outerDOM && (parent = curDOM.parentNode) && parent.tagName.toLowerCase() == deco.nodeName || (parent = document.createElement(deco.nodeName), parent.pmIsDeco = !0, parent.appendChild(curDOM), prev = noDeco[0]), curDOM = parent;
                     }
                     !function(dom, prev, cur) {
                         for(var name in prev)"class" == name || "style" == name || "nodeName" == name || name in cur || dom.removeAttribute(name);

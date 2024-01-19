@@ -1,7 +1,7 @@
 //// [parserindenter.ts]
-var Formatting1, Indenter;
+var Formatting, Formatting1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-Formatting1 || (Formatting1 = {}), Indenter = function() {
+Formatting1 = Formatting || (Formatting = {}), Formatting1.Indenter = function() {
     function Indenter(logger, tree, snapshot, languageHostIndentation, editorOptions, firstToken, smartIndent) {
         _class_call_check(this, Indenter), this.logger = logger, this.tree = tree, this.snapshot = snapshot, this.languageHostIndentation = languageHostIndentation, this.editorOptions = editorOptions, this.firstToken = firstToken, this.smartIndent = smartIndent, this.indentationBag = new IndentationBag(this.snapshot), this.scriptBlockBeginLineNumber = -1, this.offsetIndentationDeltas = new Dictionary_int_int(), this.tree.Root.SetIndentationOverride(""), this.ApplyScriptBlockIndentation(this.languageHostIndentation, this.tree), this.FillInheritedIndentation(this.tree);
     }
@@ -179,7 +179,7 @@ Formatting1 || (Formatting1 = {}), Indenter = function() {
                 null != parent && parent.AuthorNode.Details.Kind != AuthorParseNodeKind.apnkProg && (offset = parent.AuthorNode.Details.StartOffset, indentNode = parent);
             } else {
                 indentNode = tree.StartNodeSelf, offset = tree.StartNodePreviousSibling.Details.StartOffset;
-                for(var parent, lineNum = this.snapshot.GetLineNumberFromPosition(offset), node = indentNode; null != node.Parent && this.snapshot.GetLineNumberFromPosition(node.Parent.AuthorNode.Details.StartOffset) == lineNum;)(node = node.Parent).CanIndent() && ((indentNode = node).IndentationDelta = 0);
+                for(var parent, lineNum = this.snapshot.GetLineNumberFromPosition(offset), node = indentNode; null != node.Parent && this.snapshot.GetLineNumberFromPosition(node.Parent.AuthorNode.Details.StartOffset) == lineNum;)(node = node.Parent).CanIndent() && (indentNode = node, indentNode.IndentationDelta = 0);
             }
         }
         if (null != indentNode) {
@@ -235,4 +235,4 @@ Formatting1 || (Formatting1 = {}), Indenter = function() {
         }
         return indentSize;
     }, Indenter;
-}(), Formatting.Indenter = Indenter;
+}();

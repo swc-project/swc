@@ -5,7 +5,8 @@ new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.f = function() {
+    var _proto = C.prototype;
+    return _proto.f = function() {
         var x;
         return x.toString() + x.toString();
     }, C;

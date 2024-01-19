@@ -1,10 +1,10 @@
 //// [foo_0.ts]
-var Foo, Foo1, Foo2;
-(Foo1 = Foo || (Foo = {})).a = function() {
+var Foo, Foo1, Foo2, Test;
+Foo1 = Foo || (Foo = {}), Foo1.a = function() {
     return 5;
-}, Foo1.b = !0, (Foo2 = Foo || (Foo = {})).c = function(a) {
+}, Foo1.b = !0, Foo2 = Foo || (Foo = {}), Foo2.c = function(a) {
     return a;
-}, (Foo2.Test || (Foo2.Test = {})).answer = 42, module.exports = Foo;
+}, Test = Foo2.Test || (Foo2.Test = {}), Test.answer = 42, module.exports = Foo;
 //// [foo_1.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

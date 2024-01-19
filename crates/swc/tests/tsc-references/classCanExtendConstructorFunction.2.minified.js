@@ -19,9 +19,10 @@ var db = new (function(Wagon) {
     var _super = _create_super(Sql);
     function Sql() {
         var _this;
-        return _class_call_check(this, Sql), (_this = _super.call(this)).foonly = 12, _this;
+        return _class_call_check(this, Sql), _this = _super.call(this), _this.foonly = 12, _this;
     }
-    return Sql.prototype.load = function(files, format) {
+    var _proto = Sql.prototype;
+    return _proto.load = function(files, format) {
         if ("xmlolololol" === format) throw Error("please do not use XML. It was a joke.");
         _get(_get_prototype_of(Sql.prototype), "speed", this).call(this), _get(_get_prototype_of(Sql.prototype), "weight", this).call(this);
     }, Sql;
@@ -36,7 +37,7 @@ var c = new (function(Wagon1) {
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
-        return _class_call_check(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
+        return _class_call_check(this, Conestoga), _this = _super.call(this, "nope"), _this.drunkOO = drunkOO, _this;
     }
     return Conestoga.circle = function(others) {
         return others.length;
@@ -56,7 +57,8 @@ var Chowder = function(Soup) {
     function Chowder() {
         return _class_call_check(this, Chowder), _super.apply(this, arguments);
     }
-    return Chowder.prototype.log = function() {
+    var _proto = Chowder.prototype;
+    return _proto.log = function() {
         return this.flavour;
     }, Chowder;
 }(Soup);

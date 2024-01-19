@@ -3,16 +3,21 @@ define([
     "exports",
     "handlebars"
 ], function(require, exports, hb) {
-    return window.Handlebars = hb;
+    var win = window;
+    return win.Handlebars = hb;
 }), def(function(hb) {
-    return window.Handlebars = hb;
+    var win = window;
+    return win.Handlebars = hb;
 }), def(function(hb) {
-    return window.Handlebars = hb;
+    var win = window;
+    return win.Handlebars = hb;
 }), def(function(hb) {
-    return g().Handlebars = hb;
+    var win = g();
+    return win.Handlebars = hb;
 }), def(function(hb) {
-    var prop = g1();
-    return g2()[prop] = hb;
+    var prop = g1(), win = g2();
+    return win[prop] = hb;
 }), def(function(hb) {
-    return g2()[g1()] = hb;
+    var win = g2(), prop = g1();
+    return win[prop] = hb;
 });

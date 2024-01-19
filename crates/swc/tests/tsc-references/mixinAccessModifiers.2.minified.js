@@ -22,7 +22,8 @@ var C4 = function(_Mix) {
     function C4() {
         return _class_call_check(this, C4), _super.apply(this, arguments);
     }
-    return C4.prototype.f = function(c4, c5, c6) {
+    var _proto = C4.prototype;
+    return _proto.f = function(c4, c5, c6) {
         c4.p, c5.p, c6.p;
     }, C4.g = function() {
         C4.s, C5.s, C6.s;
@@ -36,7 +37,8 @@ var C4 = function(_Mix) {
     function C5() {
         return _class_call_check(this, C5), _super.apply(this, arguments);
     }
-    return C5.prototype.f = function(c4, c5, c6) {
+    var _proto = C5.prototype;
+    return _proto.f = function(c4, c5, c6) {
         c4.p, c5.p, c6.p;
     }, C5.g = function() {
         C4.s, C5.s, C6.s;
@@ -47,7 +49,8 @@ var C4 = function(_Mix) {
     function C6() {
         return _class_call_check(this, C6), _super.apply(this, arguments);
     }
-    return C6.prototype.f = function(c4, c5, c6) {
+    var _proto = C6.prototype;
+    return _proto.f = function(c4, c5, c6) {
         c4.p, c5.p, c6.p;
     }, C6.g = function() {
         C4.s, C5.s, C6.s;

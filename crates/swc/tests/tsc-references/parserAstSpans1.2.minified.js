@@ -52,7 +52,7 @@ var c2 = function() {
     var _super = _create_super(c3);
     function c3() {
         var _this;
-        return _class_call_check(this, c3), (_this = _super.call(this, 10)).p1 = _get((_assert_this_initialized(_this), _get_prototype_of(c3.prototype)), "c2_p1", _this), _this;
+        return _class_call_check(this, c3), _this.p1 = _get((_assert_this_initialized(_this = _super.call(this, 10)), _get_prototype_of(c3.prototype)), "c2_p1", _this), _this;
     }
     var _proto = c3.prototype;
     return _proto.f1 = function() {}, _proto.nc_f1 = function() {}, _create_class(c3, [

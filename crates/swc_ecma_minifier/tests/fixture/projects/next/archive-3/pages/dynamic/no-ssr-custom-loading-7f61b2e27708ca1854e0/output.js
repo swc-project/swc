@@ -50,13 +50,12 @@
         },
         8183: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
+            var obj;
             Object.defineProperty(exports, "__esModule", {
                 value: !0
-            }), exports.LoadableContext = void 0;
-            var obj, LoadableContext = ((obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
+            }), exports.LoadableContext = void 0, exports.LoadableContext = ((obj = __webpack_require__(2735)) && obj.__esModule ? obj : {
                 default: obj
             }).default.createContext(null);
-            exports.LoadableContext = LoadableContext;
         },
         880: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -317,7 +316,8 @@
         6502: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512), Hello = (0, __webpack_require__(4652).default)(function() {
+            var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(4512);
+            __webpack_exports__.default = (0, __webpack_require__(4652).default)(function() {
                 return __webpack_require__.e(916).then(__webpack_require__.bind(__webpack_require__, 6974));
             }, {
                 ssr: !1,
@@ -337,7 +337,6 @@
                     ]
                 }
             });
-            __webpack_exports__.default = Hello;
         },
         6637: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             (window.__NEXT_P = window.__NEXT_P || []).push([

@@ -8,7 +8,8 @@ var c = new (function() {
             console.log(self.x);
         };
     }
-    return C.prototype.mreal = function() {
+    var _proto = C.prototype;
+    return _proto.mreal = function() {
         this.y = 2;
     }, C;
 }())();

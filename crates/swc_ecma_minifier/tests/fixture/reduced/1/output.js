@@ -1,5 +1,5 @@
 var A, B, A2;
-((A2 = A || (A = {})).Point || (A2.Point = {})).Origin = {
+A2 = A || (A = {}), (A2.Point || (A2.Point = {})).Origin = {
     x: 0,
     y: 0
 }, (A || (A = {})).Point = function() {

@@ -265,10 +265,10 @@
                         ], max = (1 << bitsPerPixel) - 1;
                         hist = function(imageWrapper, bitsPerPixel) {
                             bitsPerPixel || (bitsPerPixel = 8);
-                            for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, bucketCnt = 1 << bitsPerPixel, hist = new Int32Array(bucketCnt); length--;)hist[imageData[length] >> bitShift]++;
+                            for(var imageData = imageWrapper.data, length = imageData.length, bitShift = 8 - bitsPerPixel, hist = new Int32Array(1 << bitsPerPixel); length--;)hist[imageData[length] >> bitShift]++;
                             return hist;
                         }(imageWrapper, bitsPerPixel);
-                        for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), m12 = mx(0, k) * p2 - mx(k + 1, max) * p1, vet[k] = m12 * m12 / p12;
+                        for(var k = 1; k < max; k++)0 == (p12 = (p1 = px(0, k)) * (p2 = px(k + 1, max))) && (p12 = 1), vet[k] = (m12 = mx(0, k) * p2 - mx(k + 1, max) * p1) * m12 / p12;
                         return array_helper.a.maxIndex(vet);
                     }() << bitShift;
                 }(imageWrapper);
@@ -294,7 +294,7 @@
                 };
                 for(i = 0; i < list.length; i++)if ((score = scoreFunc.apply(this, [
                     list[i]
-                ])) > min) for(pos = 0, (hit = queue[minIdx]).score = score, hit.item = list[i], min = Number.MAX_VALUE; pos < top; pos++)queue[pos].score < min && (min = queue[pos].score, minIdx = pos);
+                ])) > min) for(pos = 0, hit = queue[minIdx], hit.score = score, hit.item = list[i], min = Number.MAX_VALUE; pos < top; pos++)queue[pos].score < min && (min = queue[pos].score, minIdx = pos);
                 return queue;
             }
             function grayAndHalfSampleFromCanvasData(canvasData, size, outArray) {
@@ -347,7 +347,7 @@
                 }, nrOfPatchesIdx = nrOfPatchesMap[patchSize] || nrOfPatchesMap.medium, nrOfPatches = nrOfPatchesList[nrOfPatchesIdx], desiredPatchSize = Math.floor(wideSide / nrOfPatches);
                 function findPatchSizeForDivisors(divisors) {
                     for(var i = 0, found = divisors[Math.floor(divisors.length / 2)]; i < divisors.length - 1 && divisors[i] < desiredPatchSize;)i++;
-                    return (i > 0 && (found = Math.abs(divisors[i] - desiredPatchSize) > Math.abs(divisors[i - 1] - desiredPatchSize) ? divisors[i - 1] : divisors[i]), desiredPatchSize / found < nrOfPatchesList[nrOfPatchesIdx + 1] / nrOfPatchesList[nrOfPatchesIdx] && desiredPatchSize / found > nrOfPatchesList[nrOfPatchesIdx - 1] / nrOfPatchesList[nrOfPatchesIdx]) ? {
+                    return (i > 0 && (Math.abs(divisors[i] - desiredPatchSize) > Math.abs(divisors[i - 1] - desiredPatchSize) ? found = divisors[i - 1] : found = divisors[i]), desiredPatchSize / found < nrOfPatchesList[nrOfPatchesIdx + 1] / nrOfPatchesList[nrOfPatchesIdx] && desiredPatchSize / found > nrOfPatchesList[nrOfPatchesIdx - 1] / nrOfPatchesList[nrOfPatchesIdx]) ? {
                         x: found,
                         y: found
                     } : null;
@@ -376,8 +376,8 @@
                     var value, parsed = {
                         value: parseFloat(value = area[key]),
                         unit: (value.indexOf("%"), value.length, "%")
-                    }, calculated = _dimensionsConverters[key](parsed, context);
-                    return result[key] = calculated, result;
+                    };
+                    return result[key] = _dimensionsConverters[key](parsed, context), result;
                 }, {});
                 return {
                     sx: parsedArea.left,
@@ -458,7 +458,7 @@
             function assertNumberPositive(val) {
                 if (val < 0) throw Error("expected positive number, received ".concat(val));
             }
-            var ImageWrapper = function() {
+            __webpack_exports__.a = function() {
                 function ImageWrapper(size, data) {
                     var ArrayType = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : Uint8Array, initialize = arguments.length > 3 ? arguments[3] : void 0;
                     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, ImageWrapper), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "data", void 0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "size", void 0), _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(this, "indexMapping", void 0), data ? this.data = data : (this.data = new ArrayType(size.x * size.y), initialize && _array_helper__WEBPACK_IMPORTED_MODULE_6__.a.init(this.data, 0)), this.size = size;
@@ -529,7 +529,7 @@
                                 rad: 0
                             };
                             for(y = 0; y < height; y++)for(x = 0, ysq = y * y; x < width; x++)(val = data[y * width + x]) > 0 && (label = labelSum[val - 1], label.m00 += 1, label.m01 += y, label.m10 += x, label.m11 += x * y, label.m02 += ysq, label.m20 += x * x);
-                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI, label.theta = (180 * tmp / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
+                            for(i = 0; i < labelCount; i++)isNaN((label = labelSum[i]).m00) || 0 === label.m00 || (x_ = label.m10 / label.m00, y_ = label.m01 / label.m00, mu11 = label.m11 / label.m00 - x_ * y_, label.theta = (180 * (tmp = 0.5 * Math.atan(tmp = (label.m02 / label.m00 - y_ * y_ - (label.m20 / label.m00 - x_ * x_)) / (2 * mu11)) + (mu11 >= 0 ? PI_4 : -PI_4) + PI) / PI + 90) % 180 - 90, label.theta < 0 && (label.theta += 180), label.rad = tmp > PI ? tmp - PI : tmp, label.vec = vec2.clone([
                                 Math.cos(tmp),
                                 Math.sin(tmp)
                             ]), result.push(label));
@@ -588,7 +588,6 @@
                     }
                 ]), ImageWrapper;
             }();
-            __webpack_exports__.a = ImageWrapper;
         },
         function(module1, exports1, __webpack_require__) {
             module1.exports = __webpack_require__(228);
@@ -613,18 +612,17 @@
             };
         },
         function(module1, exports1) {
-            var isArray = Array.isArray;
-            module1.exports = isArray;
+            module1.exports = Array.isArray;
         },
         function(module1, exports1, __webpack_require__) {
-            var baseMerge = __webpack_require__(90), merge = __webpack_require__(145)(function(object, source, srcIndex) {
+            var baseMerge = __webpack_require__(90);
+            module1.exports = __webpack_require__(145)(function(object, source, srcIndex) {
                 baseMerge(object, source, srcIndex);
             });
-            module1.exports = merge;
         },
         function(module1, exports1, __webpack_require__) {
-            var freeGlobal = __webpack_require__(45), freeSelf = "object" == typeof self && self && self.Object === Object && self, root = freeGlobal || freeSelf || Function("return this")();
-            module1.exports = root;
+            var freeGlobal = __webpack_require__(45), freeSelf = "object" == typeof self && self && self.Object === Object && self;
+            module1.exports = freeGlobal || freeSelf || Function("return this")();
         },
         function(module1, exports1) {
             module1.exports = function(value) {
@@ -735,8 +733,8 @@
                                     dir: 0
                                 };
                                 if (_trace(current, color, label, edgelabel)) {
-                                    Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P;
-                                    do current.dir = (current.dir + 6) % 8, _trace(current, color, label, edgelabel), ldir !== current.dir ? (Cv.dir = current.dir, (P = vertex2D(current.cx, current.cy, 0)).prev = Cv, Cv.next = P, P.next = null, Cv = P) : (Cv.dir = ldir, Cv.x = current.cx, Cv.y = current.cy), ldir = current.dir;
+                                    Cv = Fv = vertex2D(sx, sy, current.dir), ldir = current.dir, P = vertex2D(current.cx, current.cy, 0), P.prev = Cv, Cv.next = P, P.next = null, Cv = P;
+                                    do current.dir = (current.dir + 6) % 8, _trace(current, color, label, edgelabel), ldir !== current.dir ? (Cv.dir = current.dir, P = vertex2D(current.cx, current.cy, 0), P.prev = Cv, Cv.next = P, P.next = null, Cv = P) : (Cv.dir = ldir, Cv.x = current.cx, Cv.y = current.cy), ldir = current.dir;
                                     while (current.cx !== sx || current.cy !== sy)
                                     Fv.prev = Cv.prev, Cv.prev.next = Fv;
                                 }
@@ -857,7 +855,7 @@
                                 0,
                                 0
                             ];
-                            for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)patch = patchesFound[j], _imageToPatchGrid.data[patch.index] = patch, _patchGrid.data[patch.index] = 1;
+                            for(_common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_patchLabelGrid.data, 0), _common_array_helper__WEBPACK_IMPORTED_MODULE_4__.a.init(_imageToPatchGrid.data, null), j = 0; j < patchesFound.length; j++)_imageToPatchGrid.data[patch.index] = patch = patchesFound[j], _patchGrid.data[patch.index] = 1;
                             for(_patchGrid.zeroBorder(); (currIdx = function() {
                                 var i;
                                 for(i = 0; i < _patchLabelGrid.data.length; i++)if (0 === _patchLabelGrid.data[i] && 1 === _patchGrid.data[i]) return i;
@@ -1013,12 +1011,10 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Symbol1 = __webpack_require__(17).Symbol;
-            module1.exports = Symbol1;
+            module1.exports = __webpack_require__(17).Symbol;
         },
         function(module1, exports1, __webpack_require__) {
-            var nativeCreate = __webpack_require__(35)(Object, "create");
-            module1.exports = nativeCreate;
+            module1.exports = __webpack_require__(35)(Object, "create");
         },
         function(module1, exports1, __webpack_require__) {
             var isKeyable = __webpack_require__(117);
@@ -1028,12 +1024,12 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var baseIsArguments = __webpack_require__(132), isObjectLike = __webpack_require__(18), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, propertyIsEnumerable = objectProto.propertyIsEnumerable, isArguments = baseIsArguments(function() {
+            var baseIsArguments = __webpack_require__(132), isObjectLike = __webpack_require__(18), objectProto = Object.prototype, hasOwnProperty = objectProto.hasOwnProperty, propertyIsEnumerable = objectProto.propertyIsEnumerable;
+            module1.exports = baseIsArguments(function() {
                 return arguments;
             }()) ? baseIsArguments : function(value) {
                 return isObjectLike(value) && hasOwnProperty.call(value, "callee") && !propertyIsEnumerable.call(value, "callee");
             };
-            module1.exports = isArguments;
         },
         function(module1, exports1) {
             var reIsUint = /^(?:0|[1-9]\d*)$/;
@@ -1147,13 +1143,11 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Map1 = __webpack_require__(35)(__webpack_require__(17), "Map");
-            module1.exports = Map1;
+            module1.exports = __webpack_require__(35)(__webpack_require__(17), "Map");
         },
         function(module1, exports1, __webpack_require__) {
             (function(global) {
-                var freeGlobal = "object" == typeof global && global && global.Object === Object && global;
-                module1.exports = freeGlobal;
+                module1.exports = "object" == typeof global && global && global.Object === Object && global;
             }).call(this, __webpack_require__(46));
         },
         function(module1, exports1) {
@@ -1186,17 +1180,16 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var getNative = __webpack_require__(35), defineProperty = function() {
+            var getNative = __webpack_require__(35);
+            module1.exports = function() {
                 try {
                     var func = getNative(Object, "defineProperty");
                     return func({}, "", {}), func;
                 } catch (e) {}
             }();
-            module1.exports = defineProperty;
         },
         function(module1, exports1, __webpack_require__) {
-            var getPrototype = __webpack_require__(131)(Object.getPrototypeOf, Object);
-            module1.exports = getPrototype;
+            module1.exports = __webpack_require__(131)(Object.getPrototypeOf, Object);
         },
         function(module1, exports1) {
             var objectProto = Object.prototype;
@@ -1207,13 +1200,13 @@
         },
         function(module1, exports1, __webpack_require__) {
             (function(module1) {
-                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0, nativeIsBuffer = Buffer ? Buffer.isBuffer : void 0;
-                module1.exports = nativeIsBuffer || stubFalse;
+                var root = __webpack_require__(17), stubFalse = __webpack_require__(134), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, Buffer = freeModule && freeModule.exports === freeExports ? root.Buffer : void 0;
+                module1.exports = (Buffer ? Buffer.isBuffer : void 0) || stubFalse;
             }).call(this, __webpack_require__(38)(module1));
         },
         function(module1, exports1, __webpack_require__) {
-            var baseIsTypedArray = __webpack_require__(136), baseUnary = __webpack_require__(137), nodeUtil = __webpack_require__(138), nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray, isTypedArray = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
-            module1.exports = isTypedArray;
+            var baseIsTypedArray = __webpack_require__(136), baseUnary = __webpack_require__(137), nodeUtil = __webpack_require__(138), nodeIsTypedArray = nodeUtil && nodeUtil.isTypedArray;
+            module1.exports = nodeIsTypedArray ? baseUnary(nodeIsTypedArray) : baseIsTypedArray;
         },
         function(module1, exports1) {
             module1.exports = function(object, key) {
@@ -1250,8 +1243,8 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var baseSetToString = __webpack_require__(148), setToString = __webpack_require__(150)(baseSetToString);
-            module1.exports = setToString;
+            var baseSetToString = __webpack_require__(148);
+            module1.exports = __webpack_require__(150)(baseSetToString);
         },
         function(module1, exports1, __webpack_require__) {
             var arrayLikeToArray = __webpack_require__(61);
@@ -1440,10 +1433,10 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var basePick = __webpack_require__(229), pick = __webpack_require__(243)(function(object, paths) {
+            var basePick = __webpack_require__(229);
+            module1.exports = __webpack_require__(243)(function(object, paths) {
                 return null == object ? {} : basePick(object, paths);
             });
-            module1.exports = pick;
         },
         function(module1, exports1, __webpack_require__) {
             var getPrototypeOf = __webpack_require__(2), setPrototypeOf = __webpack_require__(41), isNativeFunction = __webpack_require__(248), construct = __webpack_require__(249);
@@ -1501,9 +1494,9 @@
                             for(i = 0; i < 400; i++)colorMap[i] = 0;
                             for(cy = 1, colorMap[0] = imageData[0], cc = null; cy < height - 1; cy++)for(cx = 1, labelindex = 0, bc = colorMap[0]; cx < width - 1; cx++)if (0 === labelData[pos = cy * width + cx]) {
                                 if ((color = imageData[pos]) !== bc) {
-                                    if (0 === labelindex) colorMap[lc = connectedCount + 1] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, (p = Rasterizer.createContour2D()).dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
+                                    if (0 === labelindex) lc = connectedCount + 1, colorMap[lc] = color, bc = color, null !== (vertex = tracer.contourTracing(cy, cx, lc, color, Rasterizer.DIR.OUTSIDE_EDGE)) && (connectedCount++, labelindex = lc, p = Rasterizer.createContour2D(), p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = labelindex, p.firstVertex = vertex, p.nextpeer = cc, p.insideContours = null, null !== cc && (cc.prevpeer = p), cc = p);
                                     else if (null !== (vertex = tracer.contourTracing(cy, cx, Rasterizer.DIR.INSIDE_EDGE, color, labelindex))) {
-                                        for((p = Rasterizer.createContour2D()).firstVertex = vertex, p.insideContours = null, 0 === depthlabel ? p.dir = Rasterizer.CONTOUR_DIR.CCW_DIR : p.dir = Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
+                                        for(p = Rasterizer.createContour2D(), p.firstVertex = vertex, p.insideContours = null, p.dir = 0 === depthlabel ? Rasterizer.CONTOUR_DIR.CCW_DIR : Rasterizer.CONTOUR_DIR.CW_DIR, p.index = depthlabel, sc = cc; null !== sc && sc.index !== labelindex;)sc = sc.nextpeer;
                                         null !== sc && (p.nextpeer = sc.insideContours, null !== sc.insideContours && (sc.insideContours.prevpeer = p), sc.insideContours = p);
                                     }
                                 } else labelData[pos] = labelindex;
@@ -1709,8 +1702,7 @@
         function(module1, exports1, __webpack_require__) {
             var ListCache = __webpack_require__(24), stackClear = __webpack_require__(97), stackDelete = __webpack_require__(98), stackGet = __webpack_require__(99), stackHas = __webpack_require__(100), stackSet = __webpack_require__(101);
             function Stack(entries) {
-                var data = this.__data__ = new ListCache(entries);
-                this.size = data.size;
+                this.size = (this.__data__ = new ListCache(entries)).size;
             }
             Stack.prototype.clear = stackClear, Stack.prototype.delete = stackDelete, Stack.prototype.get = stackGet, Stack.prototype.has = stackHas, Stack.prototype.set = stackSet, module1.exports = Stack;
         },
@@ -1817,8 +1809,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var coreJsData = __webpack_require__(17)["__core-js_shared__"];
-            module1.exports = coreJsData;
+            module1.exports = __webpack_require__(17)["__core-js_shared__"];
         },
         function(module1, exports1) {
             var funcToString = Function.prototype.toString;
@@ -1930,8 +1921,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var baseFor = __webpack_require__(122)();
-            module1.exports = baseFor;
+            module1.exports = __webpack_require__(122)();
         },
         function(module1, exports1) {
             module1.exports = function(fromRight) {
@@ -1985,8 +1975,7 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var Uint8Array1 = __webpack_require__(17).Uint8Array;
-            module1.exports = Uint8Array1;
+            module1.exports = __webpack_require__(17).Uint8Array;
         },
         function(module1, exports1) {
             module1.exports = function(source, array) {
@@ -2002,7 +1991,8 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var isObject = __webpack_require__(14), objectCreate = Object.create, baseCreate = function() {
+            var isObject = __webpack_require__(14), objectCreate = Object.create;
+            module1.exports = function() {
                 function object() {}
                 return function(proto) {
                     if (!isObject(proto)) return {};
@@ -2012,7 +2002,6 @@
                     return object.prototype = void 0, result;
                 };
             }();
-            module1.exports = baseCreate;
         },
         function(module1, exports1) {
             module1.exports = function(func, transform) {
@@ -2063,14 +2052,14 @@
         },
         function(module1, exports1, __webpack_require__) {
             (function(module1) {
-                var freeGlobal = __webpack_require__(45), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process, nodeUtil = function() {
+                var freeGlobal = __webpack_require__(45), freeExports = exports1 && !exports1.nodeType && exports1, freeModule = freeExports && "object" == typeof module1 && module1 && !module1.nodeType && module1, freeProcess = freeModule && freeModule.exports === freeExports && freeGlobal.process;
+                module1.exports = function() {
                     try {
                         var types = freeModule && freeModule.require && freeModule.require("util").types;
                         if (types) return types;
                         return freeProcess && freeProcess.binding && freeProcess.binding("util");
                     } catch (e) {}
                 }();
-                module1.exports = nodeUtil;
             }).call(this, __webpack_require__(38)(module1));
         },
         function(module1, exports1, __webpack_require__) {
@@ -2156,7 +2145,8 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57), baseSetToString = defineProperty ? function(func, string) {
+            var constant = __webpack_require__(149), defineProperty = __webpack_require__(49), identity = __webpack_require__(57);
+            module1.exports = defineProperty ? function(func, string) {
                 return defineProperty(func, "toString", {
                     configurable: !0,
                     enumerable: !1,
@@ -2164,7 +2154,6 @@
                     writable: !0
                 });
             } : identity;
-            module1.exports = baseSetToString;
         },
         function(module1, exports1) {
             module1.exports = function(value) {
@@ -2376,9 +2365,8 @@
         },
         function(module1, exports1) {
             module1.exports = function(out, scale) {
-                scale = scale || 1.0;
                 var r = 2.0 * Math.random() * Math.PI;
-                return out[0] = Math.cos(r) * scale, out[1] = Math.sin(r) * scale, out;
+                return out[0] = Math.cos(r) * (scale = scale || 1.0), out[1] = Math.sin(r) * scale, out;
             };
         },
         function(module1, exports1) {
@@ -2621,8 +2609,8 @@
                 "use strict";
                 var undefined, Op = Object.prototype, hasOwn = Op.hasOwnProperty, $Symbol = "function" == typeof Symbol ? Symbol : {}, iteratorSymbol = $Symbol.iterator || "@@iterator", asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator", toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
                 function wrap(innerFn, outerFn, self1, tryLocsList) {
-                    var state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype), context = new Context(tryLocsList || []);
-                    return generator._invoke = (state = GenStateSuspendedStart, function(method, arg) {
+                    var context, state, generator = Object.create((outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator).prototype);
+                    return generator._invoke = (context = new Context(tryLocsList || []), state = GenStateSuspendedStart, function(method, arg) {
                         if (state === GenStateExecuting) throw Error("Generator is already running");
                         if (state === GenStateCompleted) {
                             if ("throw" === method) throw arg;
@@ -2920,13 +2908,13 @@
             };
         },
         function(module1, exports1, __webpack_require__) {
-            var memoizeCapped = __webpack_require__(234), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = memoizeCapped(function(string) {
+            var memoizeCapped = __webpack_require__(234), rePropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g, reEscapeChar = /\\(\\)?/g;
+            module1.exports = memoizeCapped(function(string) {
                 var result = [];
                 return 46 === string.charCodeAt(0) && result.push(""), string.replace(rePropName, function(match, number, quote, subString) {
                     result.push(quote ? subString.replace(reEscapeChar, "$1") : number || match);
                 }), result;
             });
-            module1.exports = stringToPath;
         },
         function(module1, exports1, __webpack_require__) {
             var memoize = __webpack_require__(235);
@@ -3056,7 +3044,7 @@
         function(module1, exports1, __webpack_require__) {
             var setPrototypeOf = __webpack_require__(41), isNativeReflectConstruct = __webpack_require__(250);
             function _construct(Parent, args, Class) {
-                return isNativeReflectConstruct() ? module1.exports = _construct = Reflect.construct : module1.exports = _construct = function(Parent, args, Class) {
+                return module1.exports = _construct = isNativeReflectConstruct() ? Reflect.construct : function(Parent, args, Class) {
                     var a = [
                         null
                     ];
@@ -3118,7 +3106,7 @@
         function(module1, exports1) {
             module1.exports = function(out, a) {
                 var a0 = a[0], a1 = a[1], a2 = a[2], a3 = a[3], det = a0 * a3 - a2 * a1;
-                return det ? (det = 1.0 / det, out[0] = a3 * det, out[1] = -a1 * det, out[2] = -a2 * det, out[3] = a0 * det, out) : null;
+                return det ? (out[0] = a3 * (det = 1.0 / det), out[1] = -a1 * det, out[2] = -a2 * det, out[3] = a0 * det, out) : null;
             };
         },
         function(module1, exports1) {
@@ -3252,7 +3240,7 @@
                 }
             };
             var image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
-            (BarcodeDirection = BarcodeDirection1 || (BarcodeDirection1 = {}))[BarcodeDirection.Forward = 1] = "Forward", BarcodeDirection[BarcodeDirection.Reverse = -1] = "Reverse";
+            BarcodeDirection = BarcodeDirection1 || (BarcodeDirection1 = {}), BarcodeDirection[BarcodeDirection.Forward = 1] = "Forward", BarcodeDirection[BarcodeDirection.Reverse = -1] = "Reverse";
             var barcode_reader = function() {
                 function BarcodeReader(config, supplements) {
                     return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;
@@ -3313,8 +3301,8 @@
                         key: "_fillCounters",
                         value: function() {
                             var offset = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : this._nextUnset(this._row), end = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : this._row.length, isWhite = !(arguments.length > 2) || void 0 === arguments[2] || arguments[2], counters = [], counterPos = 0;
-                            counters[0] = 0;
-                            for(var i = offset; i < end; i++)this._row[i] ^ (isWhite ? 1 : 0) ? counters[counterPos]++ : (counters[++counterPos] = 1, isWhite = !isWhite);
+                            counters[counterPos] = 0;
+                            for(var i = offset; i < end; i++)this._row[i] ^ (isWhite ? 1 : 0) ? counters[counterPos]++ : (counterPos++, counters[counterPos] = 1, isWhite = !isWhite);
                             return counters;
                         }
                     },
@@ -4269,7 +4257,7 @@
                                     if (bestMatch.end = i, -1 === bestMatch.code || bestMatch.error > this.AVG_CODE_ERROR) return null;
                                     return this.CODE_PATTERN[bestMatch.code] && (bestMatch.correction.bar = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.bar), bestMatch.correction.space = this.calculateCorrection(this.CODE_PATTERN[bestMatch.code], counter, this.MODULE_INDICES.space)), bestMatch;
                                 }
-                                counter[++counterPos] = 1, isWhite = !isWhite;
+                                counterPos++, counter[counterPos] = 1, isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -4669,7 +4657,7 @@
                                     if (bestMatch.error > 0.48) return null;
                                     return bestMatch;
                                 }
-                                counter[++counterPos] = 1, isWhite = !isWhite;
+                                counterPos++, counter[counterPos] = 1, isWhite = !isWhite;
                             }
                             return null;
                         }
@@ -6487,7 +6475,7 @@
                                     prop: config.debug.showPattern
                                 }
                             ];
-                            for(i = 0; i < vis.length; i++)!0 === vis[i].prop ? vis[i].node.style.display = "block" : vis[i].node.style.display = "none";
+                            for(i = 0; i < vis.length; i++)vis[i].node.style.display = !0 === vis[i].prop ? "block" : "none";
                         }
                     }(), {
                         decodeFromBoundingBox: function(box) {
@@ -6497,7 +6485,7 @@
                             var i, result, barcodes = [], multiple = config.multiple;
                             for(i = 0; i < boxes.length; i++){
                                 var box = boxes[i];
-                                if ((result = _decodeFromBoundingBox(box) || {}).box = box, multiple) barcodes.push(result);
+                                if (result = _decodeFromBoundingBox(box) || {}, result.box = box, multiple) barcodes.push(result);
                                 else if (result.codeResult) return result;
                             }
                             if (multiple) return {
@@ -6567,9 +6555,9 @@
                     unsubscribe: function(eventName, callback) {
                         if (eventName) {
                             var _event = getEvent(eventName);
-                            _event && callback ? _event.subscribers = _event.subscribers.filter(function(subscriber) {
+                            _event.subscribers = _event && callback ? _event.subscribers.filter(function(subscriber) {
                                 return subscriber.callback !== callback;
-                            }) : _event.subscribers = [];
+                            }) : [];
                         } else events = {};
                     }
                 };
@@ -6787,7 +6775,7 @@
                 return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
             }
             function getCanvasAndContext(selector, className) {
-                var canvas, canvas1 = ((canvas = document.querySelector(selector)) || ((canvas = document.createElement("canvas")).className = className), canvas), context = canvas1.getContext("2d");
+                var canvas, canvas1 = ((canvas = document.querySelector(selector)) || (canvas = document.createElement("canvas"), canvas.className = className), canvas), context = canvas1.getContext("2d");
                 return {
                     canvas: canvas1,
                     context: context
@@ -7104,7 +7092,7 @@
             }
             FrameGrabber.create = function(inputStream, canvas) {
                 var _canvas, _that = {}, _streamConfig = inputStream.getConfig(), _videoSize = Object(cv_utils.h)(inputStream.getRealWidth(), inputStream.getRealHeight()), _canvasSize = inputStream.getCanvasSize(), _size = Object(cv_utils.h)(inputStream.getWidth(), inputStream.getHeight()), topRight = inputStream.getTopRight(), _sx = topRight.x, _sy = topRight.y, _ctx = null, _data = null;
-                return (_canvas = canvas || document.createElement("canvas")).width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
+                return _canvas = canvas || document.createElement("canvas"), _canvas.width = _canvasSize.x, _canvas.height = _canvasSize.y, _ctx = _canvas.getContext("2d"), _data = new Uint8Array(_size.x * _size.y), console.log("FrameGrabber", JSON.stringify({
                     size: _size,
                     topRight: topRight,
                     videoSize: _videoSize,

@@ -9,9 +9,11 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }, A;
 })().doSomething(), console.log(FOO);
 var FOO = "FOO";
-console.log(FOO), function() {
+console.log(FOO);
+var CFA = function() {
     function CFA() {
         _class_call_check(this, CFA);
     }
     return CFA.doSomething = function() {}, CFA;
-}().t = 1;
+}();
+CFA.t = 1;

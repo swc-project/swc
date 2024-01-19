@@ -1,11 +1,11 @@
 //// [genericSetterInClassType.ts]
 var Generic, c;
-Generic || (Generic = {}), (c = new class {
+Generic || (Generic = {}), c.y = (c = new class {
     get y() {
         return 1;
     }
     set y(v) {}
-}()).y = c.y, new class {
+}()).y, new class {
     #value;
     get value() {
         return this.#value;

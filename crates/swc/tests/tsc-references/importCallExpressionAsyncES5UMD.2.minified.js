@@ -49,7 +49,8 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
         function cl1() {
             _class_call_check._(this, cl1);
         }
-        return cl1.prototype.m = function() {
+        var _proto = cl1.prototype;
+        return _proto.m = function() {
             return _async_to_generator._(function() {
                 return _ts_generator._(this, function(_state) {
                     switch(_state.label){

@@ -5,7 +5,8 @@ ImmediatelyFix || (ImmediatelyFix = {}), (c = new (function() {
     function C() {
         _class_call_check(this, C);
     }
-    return C.prototype.foo = function(x) {
+    var _proto = C.prototype;
+    return _proto.foo = function(x) {
         return x(null);
     }, C;
 }())()).foo(function(x) {
@@ -18,7 +19,8 @@ ImmediatelyFix || (ImmediatelyFix = {}), (c = new (function() {
     function C2() {
         _class_call_check(this, C2);
     }
-    return C2.prototype.foo = function(x) {
+    var _proto = C2.prototype;
+    return _proto.foo = function(x) {
         return x(null);
     }, C2;
 }())()).foo(function(x) {

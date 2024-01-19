@@ -1,8 +1,8 @@
 //// [node.d.ts]
 //// [semver.js]
-(exports = module.exports = function() {
+exports = module.exports = function() {
     this.p = 1;
-}).f = function(n) {
+}, exports.f = function(n) {
     return n + 1;
 };
 //// [index.js]

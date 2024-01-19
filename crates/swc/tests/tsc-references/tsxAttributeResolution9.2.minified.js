@@ -24,6 +24,7 @@ define([
         function MyComponent() {
             _class_call_check._(this, MyComponent);
         }
-        return MyComponent.prototype.render = function() {}, MyComponent;
+        var _proto = MyComponent.prototype;
+        return _proto.render = function() {}, MyComponent;
     }();
 });

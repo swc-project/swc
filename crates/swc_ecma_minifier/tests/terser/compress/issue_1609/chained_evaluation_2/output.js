@@ -1,6 +1,7 @@
-(function () {
-    (function () {
-        var b = "long piece of string";
-        f(b).bar = b;
+(function() {
+    (function() {
+        var c, b = "long piece of string";
+        c = f(b);
+        c.bar = b;
     })();
 })();

@@ -21,7 +21,7 @@ Object.defineProperty(exports, "__esModule", {
     }
 });
 //// [test/foo_2.ts]
-var M2;
+var M2, M21;
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "M2", {
@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return M2;
     }
-}), (M2 || (M2 = {})).x = !0;
+}), M21 = M2 || (M2 = {}), M21.x = !0;
 //// [test/foo_3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

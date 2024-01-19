@@ -1,14 +1,14 @@
 //// [mod1.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Alias = function() {
+module.exports = function() {
     function Alias() {
         _class_call_check(this, Alias);
     }
-    return Alias.prototype.bar = function() {
+    var _proto = Alias.prototype;
+    return _proto.bar = function() {
         return 1;
     }, Alias;
 }();
-module.exports = Alias;
 //// [main.js]
 import A from "./mod1";
 A.prototype.foo = 0, A.prototype.func = function() {

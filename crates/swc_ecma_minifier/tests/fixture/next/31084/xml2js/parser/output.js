@@ -19,10 +19,10 @@
         return item;
     }, exports.Parser = function(superClass) {
         function Parser(opts) {
-            var key, ref, value;
+            var key, ref;
             if (this.parseStringPromise = bind(this.parseStringPromise, this), this.parseString = bind(this.parseString, this), this.reset = bind(this.reset, this), this.assignOrPush = bind(this.assignOrPush, this), this.processAsync = bind(this.processAsync, this), !(this instanceof exports.Parser)) return new exports.Parser(opts);
-            for(key in this.options = {}, ref = defaults["0.2"])hasProp.call(ref, key) && (value = ref[key], this.options[key] = value);
-            for(key in opts)hasProp.call(opts, key) && (value = opts[key], this.options[key] = value);
+            for(key in this.options = {}, ref = defaults["0.2"])hasProp.call(ref, key) && (this.options[key] = ref[key]);
+            for(key in opts)hasProp.call(opts, key) && (this.options[key] = opts[key]);
             this.options.xmlns && (this.options.xmlnskey = this.options.attrkey + "ns"), this.options.normalizeTags && (this.options.tagNameProcessors || (this.options.tagNameProcessors = []), this.options.tagNameProcessors.unshift(processors.normalize)), this.reset();
         }
         return extend(Parser, superClass), Parser.prototype.processAsync = function() {
@@ -51,7 +51,7 @@
                 if (!_this1.saxParser.ended) return _this1.saxParser.ended = !0, _this1.emit("end", _this1.resultObject);
             }), this.saxParser.ended = !1, this.EXPLICIT_CHARKEY = this.options.explicitCharkey, this.resultObject = null, stack = [], attrkey = this.options.attrkey, charkey = this.options.charkey, this.saxParser.onopentag = (_this2 = this, function(node) {
                 var key, newValue, obj, processedKey, ref;
-                if ((obj = {})[charkey] = "", !_this2.options.ignoreAttrs) for(key in ref = node.attributes)hasProp.call(ref, key) && (attrkey in obj || _this2.options.mergeAttrs || (obj[attrkey] = {}), newValue = _this2.options.attrValueProcessors ? processItem(_this2.options.attrValueProcessors, node.attributes[key], key) : node.attributes[key], processedKey = _this2.options.attrNameProcessors ? processItem(_this2.options.attrNameProcessors, key) : key, _this2.options.mergeAttrs ? _this2.assignOrPush(obj, processedKey, newValue) : obj[attrkey][processedKey] = newValue);
+                if (obj = {}, obj[charkey] = "", !_this2.options.ignoreAttrs) for(key in ref = node.attributes)hasProp.call(ref, key) && (attrkey in obj || _this2.options.mergeAttrs || (obj[attrkey] = {}), newValue = _this2.options.attrValueProcessors ? processItem(_this2.options.attrValueProcessors, node.attributes[key], key) : node.attributes[key], processedKey = _this2.options.attrNameProcessors ? processItem(_this2.options.attrNameProcessors, key) : key, _this2.options.mergeAttrs ? _this2.assignOrPush(obj, processedKey, newValue) : obj[attrkey][processedKey] = newValue);
                 return obj["#name"] = _this2.options.tagNameProcessors ? processItem(_this2.options.tagNameProcessors, node.name) : node.name, _this2.options.xmlns && (obj[_this2.options.xmlnskey] = {
                     uri: node.uri,
                     local: node.local
@@ -76,13 +76,13 @@
                         }
                     } else node = {}, _this3.options.attrkey in obj && (node[_this3.options.attrkey] = obj[_this3.options.attrkey], delete obj[_this3.options.attrkey]), !_this3.options.charsAsChildren && _this3.options.charkey in obj && (node[_this3.options.charkey] = obj[_this3.options.charkey], delete obj[_this3.options.charkey]), Object.getOwnPropertyNames(obj).length > 0 && (node[_this3.options.childkey] = obj), obj = node;
                 }
-                return stack.length > 0 ? _this3.assignOrPush(s, nodeName, obj) : (_this3.options.explicitRoot && (old = obj, (obj = {})[nodeName] = old), _this3.resultObject = obj, _this3.saxParser.ended = !0, _this3.emit("end", _this3.resultObject));
-            }), _this4 = this, ontext = function(text) {
+                return stack.length > 0 ? _this3.assignOrPush(s, nodeName, obj) : (_this3.options.explicitRoot && (old = obj, obj = {}, obj[nodeName] = old), _this3.resultObject = obj, _this3.saxParser.ended = !0, _this3.emit("end", _this3.resultObject));
+            }), _this4 = this, this.saxParser.ontext = ontext = function(text) {
                 var charChild, s;
-                if (s = stack[stack.length - 1]) return s[charkey] += text, _this4.options.explicitChildren && _this4.options.preserveChildrenOrder && _this4.options.charsAsChildren && (_this4.options.includeWhiteChars || "" !== text.replace(/\\n/g, "").trim()) && (s[_this4.options.childkey] = s[_this4.options.childkey] || [], (charChild = {
+                if (s = stack[stack.length - 1]) return s[charkey] += text, _this4.options.explicitChildren && _this4.options.preserveChildrenOrder && _this4.options.charsAsChildren && (_this4.options.includeWhiteChars || "" !== text.replace(/\\n/g, "").trim()) && (s[_this4.options.childkey] = s[_this4.options.childkey] || [], charChild = {
                     "#name": "__text__"
-                })[charkey] = text, _this4.options.normalize && (charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim()), s[_this4.options.childkey].push(charChild)), s;
-            }, this.saxParser.ontext = ontext, this.saxParser.oncdata = function(text) {
+                }, charChild[charkey] = text, _this4.options.normalize && (charChild[charkey] = charChild[charkey].replace(/\s{2,}/g, " ").trim()), s[_this4.options.childkey].push(charChild)), s;
+            }, this.saxParser.oncdata = function(text) {
                 var s;
                 if (s = ontext(text)) return s.cdata = !0;
             };

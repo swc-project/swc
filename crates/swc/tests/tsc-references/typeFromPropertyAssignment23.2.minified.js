@@ -6,23 +6,26 @@ var _this = this, B = function() {
     function B() {
         _class_call_check(this, B), this.n = 1;
     }
-    return B.prototype.foo = function() {}, B;
-}();
-(function(B) {
+    var _proto = B.prototype;
+    return _proto.foo = function() {}, B;
+}(), C = function(B) {
     _inherits(C, B);
     var _super = _create_super(C);
     function C() {
         return _class_call_check(this, C), _super.apply(this, arguments);
     }
     return C;
-})(B).prototype.foo = function() {}, function(B) {
+}(B);
+C.prototype.foo = function() {};
+var D = function(B) {
     _inherits(D, B);
     var _super = _create_super(D);
     function D() {
         return _class_call_check(this, D), _super.apply(this, arguments);
     }
     return D;
-}(B).prototype.foo = function() {
+}(B);
+D.prototype.foo = function() {
     _this.n = "not checked, so no error";
 };
 var Module = function Module() {

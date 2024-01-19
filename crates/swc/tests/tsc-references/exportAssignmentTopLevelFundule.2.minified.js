@@ -2,10 +2,11 @@
 define([
     "require"
 ], function(require) {
-    function foo() {
+    var foo;
+    function foo1() {
         return "test";
     }
-    return (foo || (foo = {})).answer = 42, foo;
+    return foo = foo1 || (foo1 = {}), foo.answer = 42, foo1;
 });
 //// [foo_1.ts]
 define([

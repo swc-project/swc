@@ -10,7 +10,7 @@
                     return _app;
                 }
             });
-            var initialState, state, listeners, setState, _lg$1, _md$1, _sm$1, _baseStyleRoot, _Input$baseStyle$fiel, _Input$baseStyle, _Input$variants$unsty$1, _xs, _sm, _md, _lg, _xl, _container2, _container3, _container4, _Input$variants$unsty, _Input$sizes$xs$field, _Input$sizes$sm$field, _Input$sizes$md$field, _Input$sizes$lg$field, jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), emotion_react_browser_esm = __webpack_require__(917), CSSReset$1 = function() {
+            var initialState, state, listeners, setState, config, _lg$1, _md$1, _sm$1, _baseStyleRoot, _Input$baseStyle$fiel, _Input$baseStyle, _Input$variants$unsty$1, _xs, _sm, _md, _lg, _xl, _container2, _container3, _container4, _Input$variants$unsty, _Input$sizes$xs$field, _Input$sizes$sm$field, _Input$sizes$md$field, _Input$sizes$lg$field, jsx_runtime = __webpack_require__(5893), react = __webpack_require__(7294), emotion_react_browser_esm = __webpack_require__(917), CSSReset$1 = function() {
                 return react.createElement(emotion_react_browser_esm.xB, {
                     styles: '\n      html {\n        line-height: 1.5;\n        -webkit-text-size-adjust: 100%;\n        font-family: system-ui, sans-serif;\n        -webkit-font-smoothing: antialiased;\n        text-rendering: optimizeLegibility;\n        -moz-osx-font-smoothing: grayscale;\n        touch-action: manipulation;\n      }\n\n      body {\n        position: relative;\n        min-height: 100%;\n        font-feature-settings: \'kern\';\n      }\n\n      *,\n      *::before,\n      *::after {\n        border-width: 0;\n        border-style: solid;\n        box-sizing: border-box;\n      }\n\n      main {\n        display: block;\n      }\n\n      hr {\n        border-top-width: 1px;\n        box-sizing: content-box;\n        height: 0;\n        overflow: visible;\n      }\n\n      pre,\n      code,\n      kbd,\n      samp {\n        font-family: SFMono-Regular,  Menlo, Monaco, Consolas, monospace;\n        font-size: 1em;\n      }\n\n      a {\n        background-color: transparent;\n        color: inherit;\n        text-decoration: inherit;\n      }\n\n      abbr[title] {\n        border-bottom: none;\n        text-decoration: underline;\n        -webkit-text-decoration: underline dotted;\n        text-decoration: underline dotted;\n      }\n\n      b,\n      strong {\n        font-weight: bold;\n      }\n\n      small {\n        font-size: 80%;\n      }\n\n      sub,\n      sup {\n        font-size: 75%;\n        line-height: 0;\n        position: relative;\n        vertical-align: baseline;\n      }\n\n      sub {\n        bottom: -0.25em;\n      }\n\n      sup {\n        top: -0.5em;\n      }\n\n      img {\n        border-style: none;\n      }\n\n      button,\n      input,\n      optgroup,\n      select,\n      textarea {\n        font-family: inherit;\n        font-size: 100%;\n        line-height: 1.15;\n        margin: 0;\n      }\n\n      button,\n      input {\n        overflow: visible;\n      }\n\n      button,\n      select {\n        text-transform: none;\n      }\n\n      button::-moz-focus-inner,\n      [type="button"]::-moz-focus-inner,\n      [type="reset"]::-moz-focus-inner,\n      [type="submit"]::-moz-focus-inner {\n        border-style: none;\n        padding: 0;\n      }\n\n      fieldset {\n        padding: 0.35em 0.75em 0.625em;\n      }\n\n      legend {\n        box-sizing: border-box;\n        color: inherit;\n        display: table;\n        max-width: 100%;\n        padding: 0;\n        white-space: normal;\n      }\n\n      progress {\n        vertical-align: baseline;\n      }\n\n      textarea {\n        overflow: auto;\n      }\n\n      [type="checkbox"],\n      [type="radio"] {\n        box-sizing: border-box;\n        padding: 0;\n      }\n\n      [type="number"]::-webkit-inner-spin-button,\n      [type="number"]::-webkit-outer-spin-button {\n        -webkit-appearance: none !important;\n      }\n\n      input[type="number"] {\n        -moz-appearance: textfield;\n      }\n\n      [type="search"] {\n        -webkit-appearance: textfield;\n        outline-offset: -2px;\n      }\n\n      [type="search"]::-webkit-search-decoration {\n        -webkit-appearance: none !important;\n      }\n\n      ::-webkit-file-upload-button {\n        -webkit-appearance: button;\n        font: inherit;\n      }\n\n      details {\n        display: block;\n      }\n\n      summary {\n        display: list-item;\n      }\n\n      template {\n        display: none;\n      }\n\n      [hidden] {\n        display: none !important;\n      }\n\n      body,\n      blockquote,\n      dl,\n      dd,\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6,\n      hr,\n      figure,\n      p,\n      pre {\n        margin: 0;\n      }\n\n      button {\n        background: transparent;\n        padding: 0;\n      }\n\n      fieldset {\n        margin: 0;\n        padding: 0;\n      }\n\n      ol,\n      ul {\n        margin: 0;\n        padding: 0;\n      }\n\n      textarea {\n        resize: vertical;\n      }\n\n      button,\n      [role="button"] {\n        cursor: pointer;\n      }\n\n      button::-moz-focus-inner {\n        border: 0 !important;\n      }\n\n      table {\n        border-collapse: collapse;\n      }\n\n      h1,\n      h2,\n      h3,\n      h4,\n      h5,\n      h6 {\n        font-size: inherit;\n        font-weight: inherit;\n      }\n\n      button,\n      input,\n      optgroup,\n      select,\n      textarea {\n        padding: 0;\n        line-height: inherit;\n        color: inherit;\n      }\n\n      img,\n      svg,\n      video,\n      canvas,\n      audio,\n      iframe,\n      embed,\n      object {\n        display: block;\n      }\n\n      img,\n      video {\n        max-width: 100%;\n        height: auto;\n      }\n\n      [data-js-focus-visible] :focus:not([data-focus-visible-added]):not([data-focus-visible-disabled]) {\n        outline: none;\n        box-shadow: none;\n      }\n\n      select::-ms-expand {\n        display: none;\n      }\n    '
                 });
@@ -18,8 +18,8 @@
                 strict: !1,
                 name: "PortalManagerContext"
             }), PortalManagerContextProvider = _createContext$1[0], usePortalManager = _createContext$1[1];
-            function PortalManager(props1) {
-                var children = props1.children, zIndex = props1.zIndex;
+            function PortalManager(props) {
+                var children = props.children, zIndex = props.zIndex;
                 return react.createElement(PortalManagerContextProvider, {
                     value: {
                         zIndex: zIndex
@@ -41,19 +41,19 @@
             ], _createContext = (0, chakra_ui_react_utils_esm.kr)({
                 strict: !1,
                 name: "PortalContext"
-            }), PortalContextProvider = _createContext[0], usePortalContext = _createContext[1], PORTAL_CLASSNAME = "chakra-portal", Container = function(props1) {
+            }), PortalContextProvider = _createContext[0], usePortalContext = _createContext[1], PORTAL_CLASSNAME = "chakra-portal", Container = function(props) {
                 return react.createElement("div", {
                     className: "chakra-portal-zIndex",
                     style: {
                         position: "absolute",
-                        zIndex: props1.zIndex,
+                        zIndex: props.zIndex,
                         top: 0,
                         left: 0,
                         right: 0
                     }
-                }, props1.children);
-            }, DefaultPortal = function(props1) {
-                var appendToParentPortal = props1.appendToParentPortal, children = props1.children, tempNode = react.useRef(null), portal = react.useRef(null), forceUpdate = (0, chakra_ui_hooks_esm.NW)(), parentPortal = usePortalContext(), manager = usePortalManager();
+                }, props.children);
+            }, DefaultPortal = function(props) {
+                var appendToParentPortal = props.appendToParentPortal, children = props.children, tempNode = react.useRef(null), portal = react.useRef(null), forceUpdate = (0, chakra_ui_hooks_esm.NW)(), parentPortal = usePortalContext(), manager = usePortalManager();
                 (0, use_animation_state_5054a9f7_esm.a)(function() {
                     if (tempNode.current) {
                         var doc = tempNode.current.ownerDocument, host = appendToParentPortal && null != parentPortal ? parentPortal : doc.body;
@@ -74,8 +74,8 @@
                 }, _children), portal.current) : react.createElement("span", {
                     ref: tempNode
                 });
-            }, ContainerPortal = function(props1) {
-                var children = props1.children, containerRef = props1.containerRef, appendToParentPortal = props1.appendToParentPortal, containerEl = containerRef.current, host = null != containerEl ? containerEl : chakra_ui_utils_esm.jU ? document.body : void 0, portal = react.useMemo(function() {
+            }, ContainerPortal = function(props) {
+                var children = props.children, containerRef = props.containerRef, appendToParentPortal = props.appendToParentPortal, containerEl = containerRef.current, host = null != containerEl ? containerEl : chakra_ui_utils_esm.jU ? document.body : void 0, portal = react.useMemo(function() {
                     var node = null == containerEl ? void 0 : containerEl.ownerDocument.createElement("div");
                     return node && (node.className = PORTAL_CLASSNAME), node;
                 }, [
@@ -94,13 +94,13 @@
                     value: appendToParentPortal ? portal : null
                 }, children), portal) : null;
             };
-            function Portal(props1) {
-                var containerRef = props1.containerRef, rest = function(source, excluded) {
+            function Portal(props) {
+                var containerRef = props.containerRef, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
-                }(props1, _excluded);
+                }(props, _excluded);
                 return containerRef ? react.createElement(ContainerPortal, _extends({
                     containerRef: containerRef
                 }, rest)) : react.createElement(DefaultPortal, rest);
@@ -191,8 +191,8 @@
                 },
                 document: ssrDocument
             }, EnvironmentContext = (0, react.createContext)(defaultEnv);
-            function EnvironmentProvider(props1) {
-                var children = props1.children, environmentProp = props1.environment, _useState = (0, react.useState)(null), node = _useState[0], setNode = _useState[1], context = (0, react.useMemo)(function() {
+            function EnvironmentProvider(props) {
+                var children = props.children, environmentProp = props.environment, _useState = (0, react.useState)(null), node = _useState[0], setNode = _useState[1], context = (0, react.useMemo)(function() {
                     var _ref, doc = null == node ? void 0 : node.ownerDocument, win = null == node ? void 0 : node.ownerDocument.defaultView;
                     return null != (_ref = null != environmentProp ? environmentProp : doc ? {
                         document: doc,
@@ -215,8 +215,8 @@
                 }));
             }
             chakra_ui_utils_esm.Ts && (EnvironmentContext.displayName = "EnvironmentContext"), chakra_ui_utils_esm.Ts && (EnvironmentProvider.displayName = "EnvironmentProvider");
-            var chakra_ui_provider_esm_ChakraProvider = function(props1) {
-                var children = props1.children, colorModeManager = props1.colorModeManager, portalZIndex = props1.portalZIndex, _props$resetCSS = props1.resetCSS, _props$theme = props1.theme, theme = void 0 === _props$theme ? {} : _props$theme, environment = props1.environment, cssVarsRoot = props1.cssVarsRoot, _children = react.createElement(EnvironmentProvider, {
+            var chakra_ui_provider_esm_ChakraProvider = function(props) {
+                var children = props.children, colorModeManager = props.colorModeManager, portalZIndex = props.portalZIndex, _props$resetCSS = props.resetCSS, _props$theme = props.theme, theme = void 0 === _props$theme ? {} : _props$theme, environment = props.environment, cssVarsRoot = props.cssVarsRoot, _children = react.createElement(EnvironmentProvider, {
                     environment: environment
                 }, children);
                 return react.createElement(chakra_ui_system_esm.f6, {
@@ -315,20 +315,20 @@
             function util_pad2(c) {
                 return 1 === c.length ? "0" + c : String(c);
             }
-            function rgbToHsl(r1, g, b) {
-                var max = Math.max(r1 = bound01(r1, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r1, g, b), h = 0, s = 0, l = (max + min) / 2;
+            function rgbToHsl(r, g, b) {
+                var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, s = 0, l = (max + min) / 2;
                 if (max === min) s = 0, h = 0;
                 else {
                     var d = max - min;
                     switch(s = l > 0.5 ? d / (2 - max - min) : d / (max + min), max){
-                        case r1:
+                        case r:
                             h = (g - b) / d + (g < b ? 6 : 0);
                             break;
                         case g:
-                            h = (b - r1) / d + 2;
+                            h = (b - r) / d + 2;
                             break;
                         case b:
-                            h = (r1 - g) / d + 4;
+                            h = (r - g) / d + 4;
                     }
                     h /= 6;
                 }
@@ -341,19 +341,19 @@
             function hue2rgb(p, q, t) {
                 return (t < 0 && (t += 1), t > 1 && (t -= 1), t < 1 / 6) ? p + 6 * t * (q - p) : t < 0.5 ? q : t < 2 / 3 ? p + (q - p) * (2 / 3 - t) * 6 : p;
             }
-            function rgbToHsv(r1, g, b) {
-                var max = Math.max(r1 = bound01(r1, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r1, g, b), h = 0, d = max - min;
+            function rgbToHsv(r, g, b) {
+                var max = Math.max(r = bound01(r, 255), g = bound01(g, 255), b = bound01(b, 255)), min = Math.min(r, g, b), h = 0, d = max - min;
                 if (max === min) h = 0;
                 else {
                     switch(max){
-                        case r1:
+                        case r:
                             h = (g - b) / d + (g < b ? 6 : 0);
                             break;
                         case g:
-                            h = (b - r1) / d + 2;
+                            h = (b - r) / d + 2;
                             break;
                         case b:
-                            h = (r1 - g) / d + 4;
+                            h = (r - g) / d + 4;
                     }
                     h /= 6;
                 }
@@ -363,9 +363,9 @@
                     v: max
                 };
             }
-            function rgbToHex(r1, g, b, allow3Char) {
+            function rgbToHex(r, g, b, allow3Char) {
                 var hex = [
-                    util_pad2(Math.round(r1).toString(16)),
+                    util_pad2(Math.round(r).toString(16)),
                     util_pad2(Math.round(g).toString(16)),
                     util_pad2(Math.round(b).toString(16))
                 ];
@@ -547,7 +547,7 @@
                         g: (0xff00 & color1) >> 8,
                         b: 0xff & color1
                     }), this.originalInput = color;
-                    var color1, color2, g, b, h, s, v, i, f, p, q, t, mod, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (rgb = {
+                    var color1, color2, r, g, b, h, s, v, i, f, p, q, t, mod, rgb, a, s1, v1, l, ok, format, _a, rgb1 = (rgb = {
                         r: 0,
                         g: 0,
                         b: 0
@@ -613,7 +613,7 @@
                             b: parseIntFromHex(match[3] + match[3]),
                             format: named ? "name" : "hex"
                         };
-                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (color2.r, g = color2.g, b = color2.b, rgb = {
+                    }(color2)), "object" == typeof color2 && (isValidCSSUnit(color2.r) && isValidCSSUnit(color2.g) && isValidCSSUnit(color2.b) ? (r = color2.r, g = color2.g, b = color2.b, rgb = {
                         r: 255 * bound01(r, 255),
                         g: 255 * bound01(g, 255),
                         b: 255 * bound01(b, 255)
@@ -643,13 +643,13 @@
                             q
                         ][mod]
                     }, ok = !0, format = "hsv") : isValidCSSUnit(color2.h) && isValidCSSUnit(color2.s) && isValidCSSUnit(color2.l) && (s1 = convertToPercentage(color2.s), l = convertToPercentage(color2.l), rgb = function(h, s, l) {
-                        if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r1 = l;
+                        if (h = bound01(h, 360), s = bound01(s, 100), l = bound01(l, 100), 0 === s) g = l, b = l, r = l;
                         else {
-                            var r1, g, b, q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
-                            r1 = hue2rgb(p, q, h + 1 / 3), g = hue2rgb(p, q, h), b = hue2rgb(p, q, h - 1 / 3);
+                            var r, g, b, q = l < 0.5 ? l * (1 + s) : l + s - l * s, p = 2 * l - q;
+                            r = hue2rgb(p, q, h + 1 / 3), g = hue2rgb(p, q, h), b = hue2rgb(p, q, h - 1 / 3);
                         }
                         return {
-                            r: 255 * r1,
+                            r: 255 * r,
                             g: 255 * g,
                             b: 255 * b
                         };
@@ -704,8 +704,8 @@
                 }, TinyColor.prototype.toHexString = function(allow3Char) {
                     return void 0 === allow3Char && (allow3Char = !1), "#" + this.toHex(allow3Char);
                 }, TinyColor.prototype.toHex8 = function(allow4Char) {
-                    var g, b, a, allow4Char1, hex;
-                    return void 0 === allow4Char && (allow4Char = !1), this.r, g = this.g, b = this.b, a = this.a, allow4Char1 = allow4Char, hex = [
+                    var r, g, b, a, allow4Char1, hex;
+                    return void 0 === allow4Char && (allow4Char = !1), r = this.r, g = this.g, b = this.b, a = this.a, allow4Char1 = allow4Char, hex = [
                         util_pad2(Math.round(r).toString(16)),
                         util_pad2(Math.round(g).toString(16)),
                         util_pad2(Math.round(b).toString(16)),
@@ -721,8 +721,8 @@
                         a: this.a
                     };
                 }, TinyColor.prototype.toRgbString = function() {
-                    var r1 = Math.round(this.r), g = Math.round(this.g), b = Math.round(this.b);
-                    return 1 === this.a ? "rgb(".concat(r1, ", ").concat(g, ", ").concat(b, ")") : "rgba(".concat(r1, ", ").concat(g, ", ").concat(b, ", ").concat(this.roundA, ")");
+                    var r = Math.round(this.r), g = Math.round(this.g), b = Math.round(this.b);
+                    return 1 === this.a ? "rgb(".concat(r, ", ").concat(g, ", ").concat(b, ")") : "rgba(".concat(r, ", ").concat(g, ", ").concat(b, ", ").concat(this.roundA, ")");
                 }, TinyColor.prototype.toPercentageRgb = function() {
                     var fmt = function(x) {
                         return "".concat(Math.round(100 * bound01(x, 255)), "%");
@@ -782,8 +782,8 @@
                 }, TinyColor.prototype.greyscale = function() {
                     return this.desaturate(100);
                 }, TinyColor.prototype.spin = function(amount) {
-                    var hsl = this.toHsl(), hue1 = (hsl.h + amount) % 360;
-                    return hsl.h = hue1 < 0 ? 360 + hue1 : hue1, new TinyColor(hsl);
+                    var hsl = this.toHsl(), hue = (hsl.h + amount) % 360;
+                    return hsl.h = hue < 0 ? 360 + hue : hue, new TinyColor(hsl);
                 }, TinyColor.prototype.mix = function(color, amount) {
                     void 0 === amount && (amount = 50);
                     var rgb1 = this.toRgb(), rgb2 = new TinyColor(color).toRgb(), p = amount / 100;
@@ -850,11 +850,11 @@
                     return this.toRgbString() === new TinyColor(color).toRgbString();
                 }, TinyColor;
             }();
-            function getColorInfo(hue1) {
-                hue1 >= 334 && hue1 <= 360 && (hue1 -= 360);
+            function getColorInfo(hue) {
+                hue >= 334 && hue <= 360 && (hue -= 360);
                 for(var _i = 0; _i < bounds.length; _i++){
                     var color = defineColor(bounds[_i]);
-                    if (color.hueRange && hue1 >= color.hueRange[0] && hue1 <= color.hueRange[1]) return color;
+                    if (color.hueRange && hue >= color.hueRange[0] && hue <= color.hueRange[1]) return color;
                 }
                 throw Error("Color not found");
             }
@@ -1200,8 +1200,8 @@
                 };
             }
             function mode(light, dark) {
-                return function(props1) {
-                    return "dark" === props1.colorMode ? dark : light;
+                return function(props) {
+                    return "dark" === props.colorMode ? dark : light;
                 };
             }
             function orient(options) {
@@ -1217,15 +1217,15 @@
                     return target;
                 }).apply(this, arguments);
             }
-            function _defineProperties(target, props1) {
-                for(var i = 0; i < props1.length; i++){
-                    var descriptor = props1[i];
+            function _defineProperties(target, props) {
+                for(var i = 0; i < props.length; i++){
+                    var descriptor = props[i];
                     descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
                 }
             }
             var Anatomy = function() {
                 var protoProps, staticProps;
-                function Anatomy(name1) {
+                function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
                         if (!_this.called) {
@@ -1300,8 +1300,8 @@
                     writable: !1
                 }), Anatomy;
             }();
-            function anatomy(name1) {
-                return new Anatomy(name1);
+            function anatomy(name) {
+                return new Anatomy(name);
             }
             function toRef(operand) {
                 return (0, chakra_ui_utils_esm.Kn)(operand) && operand.reference ? operand.reference : String(operand);
@@ -1330,8 +1330,8 @@
                     "/"
                 ].concat(operands)) + ")";
             }, _negate = function(x) {
-                var value1 = toRef(x);
-                return null == value1 || Number.isNaN(parseFloat(value1)) ? _multiply(value1, -1) : String(value1).startsWith("-") ? String(value1).slice(1) : "-" + value1;
+                var value = toRef(x);
+                return null == value || Number.isNaN(parseFloat(value)) ? _multiply(value, -1) : String(value).startsWith("-") ? String(value).slice(1) : "-" + value;
             }, calc = Object.assign(function(x) {
                 return {
                     add: function() {
@@ -1372,18 +1372,18 @@
                 divide: _divide,
                 negate: _negate
             });
-            function chakra_ui_theme_tools_esm_escape(value1) {
-                var replaceValue, valueStr = (value1.toString(), void 0 === replaceValue && (replaceValue = "-"), value.replace(/\s+/g, replaceValue));
-                return valueStr.includes("\\.") ? value1 : Number.isInteger(parseFloat(value1.toString())) ? value1 : valueStr.replace(".", "\\.");
+            function chakra_ui_theme_tools_esm_escape(value) {
+                var value1, replaceValue, valueStr = (value1 = value.toString(), void 0 === replaceValue && (replaceValue = "-"), value1.replace(/\s+/g, replaceValue));
+                return valueStr.includes("\\.") ? value : Number.isInteger(parseFloat(value.toString())) ? value : valueStr.replace(".", "\\.");
             }
-            function cssVar(name1, options) {
-                var prefix, prefix1, fallback, fallback1;
+            function cssVar(name, options) {
+                var fallback, prefix, prefix1, fallback1, cssVariable = (void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (void 0 === (prefix1 = prefix) && (prefix1 = ""), [
+                    prefix1,
+                    chakra_ui_theme_tools_esm_escape(name)
+                ].filter(Boolean).join("-")));
                 return {
-                    variable: (void 0 === (prefix = null == options ? void 0 : options.prefix) && (prefix = ""), "--" + (void 0 === (prefix1 = prefix) && (prefix1 = ""), [
-                        prefix1,
-                        chakra_ui_theme_tools_esm_escape(value)
-                    ].filter(Boolean).join("-"))),
-                    reference: (fallback = "string" == typeof (fallback1 = null == options ? void 0 : options.fallback) ? fallback1 : null == fallback1 ? void 0 : fallback1.reference, "var(" + chakra_ui_theme_tools_esm_escape(name) + (fallback ? ", " + fallback : "") + ")")
+                    variable: cssVariable,
+                    reference: (fallback1 = "string" == typeof (fallback = null == options ? void 0 : options.fallback) ? fallback : null == fallback ? void 0 : fallback.reference, "var(" + chakra_ui_theme_tools_esm_escape(cssVariable) + (fallback1 ? ", " + fallback1 : "") + ")")
                 };
             }
             var accordionAnatomy = anatomy("accordion").parts("root", "container", "button", "panel").extend("icon"), alertAnatomy = anatomy("alert").parts("title", "description", "container").extend("icon", "spinner"), avatarAnatomy = anatomy("avatar").parts("label", "badge", "container").extend("excessLabel", "group"), breadcrumbAnatomy = anatomy("breadcrumb").parts("link", "item", "container").extend("separator");
@@ -1487,9 +1487,9 @@
                     }
                 }
             };
-            function getBg(props1) {
-                var theme = props1.theme, c = props1.colorScheme;
-                return mode(getColor(theme, c + ".100", c), transparentize(c + ".200", 0.16)(theme))(props1);
+            function getBg(props) {
+                var theme = props.theme, c = props.colorScheme;
+                return mode(getColor(theme, c + ".100", c), transparentize(c + ".200", 0.16)(theme))(props);
             }
             var Alert = {
                 parts: alertAnatomy.keys,
@@ -1520,60 +1520,60 @@
                     }
                 },
                 variants: {
-                    subtle: function(props1) {
-                        var c = props1.colorScheme;
+                    subtle: function(props) {
+                        var c = props.colorScheme;
                         return {
                             container: {
-                                bg: getBg(props1)
+                                bg: getBg(props)
                             },
                             icon: {
-                                color: mode(c + ".500", c + ".200")(props1)
+                                color: mode(c + ".500", c + ".200")(props)
                             },
                             spinner: {
-                                color: mode(c + ".500", c + ".200")(props1)
+                                color: mode(c + ".500", c + ".200")(props)
                             }
                         };
                     },
-                    "left-accent": function(props1) {
-                        var c = props1.colorScheme;
+                    "left-accent": function(props) {
+                        var c = props.colorScheme;
                         return {
                             container: {
                                 paddingStart: 3,
                                 borderStartWidth: "4px",
-                                borderStartColor: mode(c + ".500", c + ".200")(props1),
-                                bg: getBg(props1)
+                                borderStartColor: mode(c + ".500", c + ".200")(props),
+                                bg: getBg(props)
                             },
                             icon: {
-                                color: mode(c + ".500", c + ".200")(props1)
+                                color: mode(c + ".500", c + ".200")(props)
                             },
                             spinner: {
-                                color: mode(c + ".500", c + ".200")(props1)
+                                color: mode(c + ".500", c + ".200")(props)
                             }
                         };
                     },
-                    "top-accent": function(props1) {
-                        var c = props1.colorScheme;
+                    "top-accent": function(props) {
+                        var c = props.colorScheme;
                         return {
                             container: {
                                 pt: 2,
                                 borderTopWidth: "4px",
-                                borderTopColor: mode(c + ".500", c + ".200")(props1),
-                                bg: getBg(props1)
+                                borderTopColor: mode(c + ".500", c + ".200")(props),
+                                bg: getBg(props)
                             },
                             icon: {
-                                color: mode(c + ".500", c + ".200")(props1)
+                                color: mode(c + ".500", c + ".200")(props)
                             },
                             spinner: {
-                                color: mode(c + ".500", c + ".200")(props1)
+                                color: mode(c + ".500", c + ".200")(props)
                             }
                         };
                     },
-                    solid: function(props1) {
-                        var c = props1.colorScheme;
+                    solid: function(props) {
+                        var c = props.colorScheme;
                         return {
                             container: {
-                                bg: mode(c + ".500", c + ".200")(props1),
-                                color: mode("white", "gray.900")(props1)
+                                bg: mode(c + ".500", c + ".200")(props),
+                                color: mode("white", "gray.900")(props)
                             }
                         };
                     }
@@ -1582,16 +1582,16 @@
                     variant: "subtle",
                     colorScheme: "blue"
                 }
-            }, baseStyleContainer$3 = function(props1) {
-                var list, opts, fallback, name1 = props1.name, theme = props1.theme, bg = name1 ? (opts = {
-                    string: name1
+            }, baseStyleContainer$3 = function(props) {
+                var list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
+                    string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {
-                        var seed, res, totalColors = options.count, colors = [];
+                        var hue, seed, res, totalColors = options.count, colors = [];
                         for(options.count = void 0; totalColors > colors.length;)options.count = null, options.seed && (options.seed += 1), colors.push(random(options));
                         return options.count = totalColors, colors;
                     }
-                    var h = (options.hue, seed = options.seed, (res = randomWithin(function(colorInput) {
+                    var h = (hue = options.hue, seed = options.seed, (res = randomWithin(function(colorInput) {
                         var num = parseInt(colorInput, 10);
                         if (!Number.isNaN(num) && num < 360 && num > 0) return [
                             num,
@@ -1607,10 +1607,10 @@
                             }
                             var parsed = new module_TinyColor(colorInput);
                             if (parsed.isValid) {
-                                var hue1 = parsed.toHsv().h;
+                                var hue = parsed.toHsv().h;
                                 return [
-                                    hue1,
-                                    hue1
+                                    hue,
+                                    hue
                                 ];
                             }
                         }
@@ -1618,13 +1618,13 @@
                             0,
                             360
                         ];
-                    }(hue), seed)) < 0 && (res = 360 + res), res), s = function(hue1, options) {
+                    }(hue), seed)) < 0 && (res = 360 + res), res), s = function(hue, options) {
                         if ("monochrome" === options.hue) return 0;
                         if ("random" === options.luminosity) return randomWithin([
                             0,
                             100
                         ], options.seed);
-                        var saturationRange = getColorInfo(hue1).saturationRange, sMin = saturationRange[0], sMax = saturationRange[1];
+                        var saturationRange = getColorInfo(hue).saturationRange, sMin = saturationRange[0], sMax = saturationRange[1];
                         switch(options.luminosity){
                             case "bright":
                                 sMin = 55;
@@ -1685,7 +1685,7 @@
                 return isBgDark || (color = "gray.800"), {
                     bg: bg,
                     color: color,
-                    borderColor: mode("white", "gray.800")(props1),
+                    borderColor: mode("white", "gray.800")(props),
                     verticalAlign: "top"
                 };
             };
@@ -1718,7 +1718,7 @@
                 full: getSize$3("100%")
             }, Avatar = {
                 parts: avatarAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         badge: {
                             transform: "translate(25%, 25%)",
@@ -1727,9 +1727,9 @@
                             borderColor: mode("white", "gray.800")(props)
                         },
                         excessLabel: {
-                            bg: mode("gray.200", "whiteAlpha.400")(props1)
+                            bg: mode("gray.200", "whiteAlpha.400")(props)
                         },
-                        container: baseStyleContainer$3(props1)
+                        container: baseStyleContainer$3(props)
                     };
                 },
                 sizes: sizes$k,
@@ -1745,22 +1745,22 @@
                     fontWeight: "bold"
                 },
                 variants: {
-                    solid: function(props1) {
-                        var c = props1.colorScheme, theme = props1.theme, dark = transparentize(c + ".500", 0.6)(theme);
+                    solid: function(props) {
+                        var c = props.colorScheme, theme = props.theme, dark = transparentize(c + ".500", 0.6)(theme);
                         return {
-                            bg: mode(c + ".500", dark)(props1),
-                            color: mode("white", "whiteAlpha.800")(props1)
+                            bg: mode(c + ".500", dark)(props),
+                            color: mode("white", "whiteAlpha.800")(props)
                         };
                     },
-                    subtle: function(props1) {
-                        var c = props1.colorScheme, theme = props1.theme, darkBg = transparentize(c + ".200", 0.16)(theme);
+                    subtle: function(props) {
+                        var c = props.colorScheme, theme = props.theme, darkBg = transparentize(c + ".200", 0.16)(theme);
                         return {
-                            bg: mode(c + ".100", darkBg)(props1),
-                            color: mode(c + ".800", c + ".200")(props1)
+                            bg: mode(c + ".100", darkBg)(props),
+                            color: mode(c + ".800", c + ".200")(props)
                         };
                     },
-                    outline: function(props1) {
-                        var c = props1.colorScheme, theme = props1.theme, darkColor = transparentize(c + ".200", 0.8)(theme), color = mode(getColor(theme, c + ".500"), darkColor)(props1);
+                    outline: function(props) {
+                        var c = props.colorScheme, theme = props.theme, darkColor = transparentize(c + ".200", 0.8)(theme), color = mode(getColor(theme, c + ".500"), darkColor)(props);
                         return {
                             color: color,
                             boxShadow: "inset 0 0 0px 1px " + color
@@ -1790,26 +1790,26 @@
                         }
                     }
                 }
-            }, variantGhost = function(props1) {
-                var c = props1.colorScheme, theme = props1.theme;
+            }, variantGhost = function(props) {
+                var c = props.colorScheme, theme = props.theme;
                 if ("gray" === c) return {
-                    color: mode("inherit", "whiteAlpha.900")(props1),
+                    color: mode("inherit", "whiteAlpha.900")(props),
                     _hover: {
-                        bg: mode("gray.100", "whiteAlpha.200")(props1)
+                        bg: mode("gray.100", "whiteAlpha.200")(props)
                     },
                     _active: {
-                        bg: mode("gray.200", "whiteAlpha.300")(props1)
+                        bg: mode("gray.200", "whiteAlpha.300")(props)
                     }
                 };
                 var darkHoverBg = transparentize(c + ".200", 0.12)(theme), darkActiveBg = transparentize(c + ".200", 0.24)(theme);
                 return {
-                    color: mode(c + ".600", c + ".200")(props1),
+                    color: mode(c + ".600", c + ".200")(props),
                     bg: "transparent",
                     _hover: {
-                        bg: mode(c + ".50", darkHoverBg)(props1)
+                        bg: mode(c + ".50", darkHoverBg)(props)
                     },
                     _active: {
-                        bg: mode(c + ".100", darkActiveBg)(props1)
+                        bg: mode(c + ".100", darkActiveBg)(props)
                     }
                 };
             }, accessibleColorMap = {
@@ -1825,8 +1825,8 @@
                     hoverBg: "cyan.500",
                     activeBg: "cyan.600"
                 }
-            }, baseStyleControl$1 = function(props1) {
-                var c = props1.colorScheme;
+            }, baseStyleControl$1 = function(props) {
+                var c = props.colorScheme;
                 return {
                     w: "100%",
                     transitionProperty: "box-shadow",
@@ -1836,33 +1836,33 @@
                     borderColor: "inherit",
                     color: "white",
                     _checked: {
-                        bg: mode(c + ".500", c + ".200")(props1),
-                        borderColor: mode(c + ".500", c + ".200")(props1),
-                        color: mode("white", "gray.900")(props1),
+                        bg: mode(c + ".500", c + ".200")(props),
+                        borderColor: mode(c + ".500", c + ".200")(props),
+                        color: mode("white", "gray.900")(props),
                         _hover: {
-                            bg: mode(c + ".600", c + ".300")(props1),
-                            borderColor: mode(c + ".600", c + ".300")(props1)
+                            bg: mode(c + ".600", c + ".300")(props),
+                            borderColor: mode(c + ".600", c + ".300")(props)
                         },
                         _disabled: {
-                            borderColor: mode("gray.200", "transparent")(props1),
-                            bg: mode("gray.200", "whiteAlpha.300")(props1),
-                            color: mode("gray.500", "whiteAlpha.500")(props1)
+                            borderColor: mode("gray.200", "transparent")(props),
+                            bg: mode("gray.200", "whiteAlpha.300")(props),
+                            color: mode("gray.500", "whiteAlpha.500")(props)
                         }
                     },
                     _indeterminate: {
-                        bg: mode(c + ".500", c + ".200")(props1),
-                        borderColor: mode(c + ".500", c + ".200")(props1),
-                        color: mode("white", "gray.900")(props1)
+                        bg: mode(c + ".500", c + ".200")(props),
+                        borderColor: mode(c + ".500", c + ".200")(props),
+                        color: mode("white", "gray.900")(props)
                     },
                     _disabled: {
-                        bg: mode("gray.100", "whiteAlpha.100")(props1),
-                        borderColor: mode("gray.100", "transparent")(props1)
+                        bg: mode("gray.100", "whiteAlpha.100")(props),
+                        borderColor: mode("gray.100", "transparent")(props)
                     },
                     _focusVisible: {
                         boxShadow: "outline"
                     },
                     _invalid: {
-                        borderColor: mode("red.500", "red.300")(props1)
+                        borderColor: mode("red.500", "red.300")(props)
                     }
                 };
             }, baseStyleContainer$2 = {
@@ -1879,11 +1879,11 @@
                 transitionDuration: "normal"
             }, Checkbox = {
                 parts: checkboxAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         icon: baseStyleIcon$4,
                         container: baseStyleContainer$2,
-                        control: baseStyleControl$1(props1),
+                        control: baseStyleControl$1(props),
                         label: baseStyleLabel$3
                     };
                 },
@@ -1930,19 +1930,19 @@
                     colorScheme: "blue"
                 }
             }, $size$1 = cssVar("close-button-size"), sizes$h = {
-                lg: ((_lg$1 = {})[$size$1.variable] = "40px", _lg$1.fontSize = "16px", _lg$1),
-                md: ((_md$1 = {})[$size$1.variable] = "32px", _md$1.fontSize = "12px", _md$1),
-                sm: ((_sm$1 = {})[$size$1.variable] = "24px", _sm$1.fontSize = "10px", _sm$1)
+                lg: (_lg$1 = {}, _lg$1[$size$1.variable] = "40px", _lg$1.fontSize = "16px", _lg$1),
+                md: (_md$1 = {}, _md$1[$size$1.variable] = "32px", _md$1.fontSize = "12px", _md$1),
+                sm: (_sm$1 = {}, _sm$1[$size$1.variable] = "24px", _sm$1.fontSize = "10px", _sm$1)
             }, variants$8 = Badge.variants, defaultProps$h = Badge.defaultProps;
-            function getSize$2(value1) {
-                return "full" === value1 ? {
+            function getSize$2(value) {
+                return "full" === value ? {
                     dialog: {
                         maxW: "100vw",
                         h: "100vh"
                     }
                 } : {
                     dialog: {
-                        maxW: value1
+                        maxW: value
                     }
                 };
             }
@@ -1953,16 +1953,16 @@
                 display: "flex",
                 zIndex: "modal",
                 justifyContent: "center"
-            }, baseStyleDialog$1 = function(props1) {
-                var isFullHeight = props1.isFullHeight;
+            }, baseStyleDialog$1 = function(props) {
+                var isFullHeight = props.isFullHeight;
                 return sizes_501602a9_esm_extends({}, isFullHeight && {
                     height: "100vh"
                 }, {
                     zIndex: "modal",
                     maxH: "100vh",
-                    bg: mode("white", "gray.700")(props1),
+                    bg: mode("white", "gray.700")(props),
                     color: "inherit",
-                    boxShadow: mode("lg", "dark-lg")(props1)
+                    boxShadow: mode("lg", "dark-lg")(props)
                 });
             }, baseStyleHeader$2 = {
                 px: 6,
@@ -1990,11 +1990,11 @@
                 full: getSize$2("full")
             }, Drawer = {
                 parts: drawerAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         overlay: baseStyleOverlay$1,
                         dialogContainer: baseStyleDialogContainer$1,
-                        dialog: baseStyleDialog$1(props1),
+                        dialog: baseStyleDialog$1(props),
                         header: baseStyleHeader$2,
                         closeButton: baseStyleCloseButton$3,
                         body: baseStyleBody$2,
@@ -2043,7 +2043,7 @@
                 }
             }, Form = {
                 parts: formAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         container: {
                             width: "100%",
@@ -2055,7 +2055,7 @@
                         },
                         helperText: {
                             mt: 2,
-                            color: mode("gray.500", "whiteAlpha.600")(props1),
+                            color: mode("gray.500", "whiteAlpha.600")(props),
                             lineHeight: "normal",
                             fontSize: "sm"
                         }
@@ -2063,7 +2063,7 @@
                 }
             }, FormError = {
                 parts: formErrorAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         text: {
                             color: mode("red.500", "red.300")(props),
@@ -2073,7 +2073,7 @@
                         },
                         icon: {
                             marginEnd: "0.5em",
-                            color: mode("red.500", "red.300")(props1)
+                            color: mode("red.500", "red.300")(props)
                         }
                     };
                 }
@@ -2120,11 +2120,11 @@
                     addon: size.xs
                 }
             };
-            function getDefaults(props1) {
-                var fc = props1.focusBorderColor, ec = props1.errorBorderColor;
+            function getDefaults(props) {
+                var fc = props.focusBorderColor, ec = props.errorBorderColor;
                 return {
-                    focusBorderColor: fc || mode("blue.500", "blue.300")(props1),
-                    errorBorderColor: ec || mode("red.500", "red.300")(props1)
+                    focusBorderColor: fc || mode("blue.500", "blue.300")(props),
+                    errorBorderColor: ec || mode("red.500", "red.300")(props)
                 };
             }
             var Input = {
@@ -2142,15 +2142,15 @@
                 },
                 sizes: sizes$e,
                 variants: {
-                    outline: function(props1) {
-                        var theme = props1.theme, _getDefaults = getDefaults(props1), fc = _getDefaults.focusBorderColor, ec = _getDefaults.errorBorderColor;
+                    outline: function(props) {
+                        var theme = props.theme, _getDefaults = getDefaults(props), fc = _getDefaults.focusBorderColor, ec = _getDefaults.errorBorderColor;
                         return {
                             field: {
                                 border: "1px solid",
                                 borderColor: "inherit",
                                 bg: "inherit",
                                 _hover: {
-                                    borderColor: mode("gray.300", "whiteAlpha.400")(props1)
+                                    borderColor: mode("gray.300", "whiteAlpha.400")(props)
                                 },
                                 _readOnly: {
                                     boxShadow: "none !important",
@@ -2172,20 +2172,20 @@
                             },
                             addon: {
                                 border: "1px solid",
-                                borderColor: mode("inherit", "whiteAlpha.50")(props1),
-                                bg: mode("gray.100", "whiteAlpha.300")(props1)
+                                borderColor: mode("inherit", "whiteAlpha.50")(props),
+                                bg: mode("gray.100", "whiteAlpha.300")(props)
                             }
                         };
                     },
-                    filled: function(props1) {
-                        var theme = props1.theme, _getDefaults2 = getDefaults(props1), fc = _getDefaults2.focusBorderColor, ec = _getDefaults2.errorBorderColor;
+                    filled: function(props) {
+                        var theme = props.theme, _getDefaults2 = getDefaults(props), fc = _getDefaults2.focusBorderColor, ec = _getDefaults2.errorBorderColor;
                         return {
                             field: {
                                 border: "2px solid",
                                 borderColor: "transparent",
-                                bg: mode("gray.100", "whiteAlpha.50")(props1),
+                                bg: mode("gray.100", "whiteAlpha.50")(props),
                                 _hover: {
-                                    bg: mode("gray.200", "whiteAlpha.100")(props1)
+                                    bg: mode("gray.200", "whiteAlpha.100")(props)
                                 },
                                 _readOnly: {
                                     boxShadow: "none !important",
@@ -2206,12 +2206,12 @@
                             addon: {
                                 border: "2px solid",
                                 borderColor: "transparent",
-                                bg: mode("gray.100", "whiteAlpha.50")(props1)
+                                bg: mode("gray.100", "whiteAlpha.50")(props)
                             }
                         };
                     },
-                    flushed: function(props1) {
-                        var theme = props1.theme, _getDefaults3 = getDefaults(props1), fc = _getDefaults3.focusBorderColor, ec = _getDefaults3.errorBorderColor;
+                    flushed: function(props) {
+                        var theme = props.theme, _getDefaults3 = getDefaults(props), fc = _getDefaults3.focusBorderColor, ec = _getDefaults3.errorBorderColor;
                         return {
                             field: {
                                 borderBottom: "1px solid",
@@ -2287,12 +2287,12 @@
                 transitionDuration: "normal"
             }, Menu = {
                 parts: menuAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         button: baseStyleButton,
                         list: {
-                            bg: mode("#fff", "gray.700")(props1),
-                            boxShadow: mode("sm", "dark-lg")(props1),
+                            bg: mode("#fff", "gray.700")(props),
+                            boxShadow: mode("sm", "dark-lg")(props),
                             color: "inherit",
                             minW: "3xs",
                             py: "2",
@@ -2307,13 +2307,13 @@
                             transitionDuration: "ultra-fast",
                             transitionTimingFunction: "ease-in",
                             _focus: {
-                                bg: mode("gray.100", "whiteAlpha.100")(props1)
+                                bg: mode("gray.100", "whiteAlpha.100")(props)
                             },
                             _active: {
-                                bg: mode("gray.200", "whiteAlpha.200")(props1)
+                                bg: mode("gray.200", "whiteAlpha.200")(props)
                             },
                             _expanded: {
-                                bg: mode("gray.100", "whiteAlpha.100")(props1)
+                                bg: mode("gray.100", "whiteAlpha.100")(props)
                             },
                             _disabled: {
                                 opacity: 0.4,
@@ -2328,16 +2328,16 @@
             }, baseStyleOverlay = {
                 bg: "blackAlpha.600",
                 zIndex: "modal"
-            }, baseStyleDialog = function(props1) {
-                var scrollBehavior = props1.scrollBehavior;
+            }, baseStyleDialog = function(props) {
+                var scrollBehavior = props.scrollBehavior;
                 return {
                     borderRadius: "md",
-                    bg: mode("white", "gray.700")(props1),
+                    bg: mode("white", "gray.700")(props),
                     color: "inherit",
                     my: "3.75rem",
                     zIndex: "modal",
                     maxH: "inside" === scrollBehavior ? "calc(100% - 7.5rem)" : void 0,
-                    boxShadow: mode("lg", "dark-lg")(props1)
+                    boxShadow: mode("lg", "dark-lg")(props)
                 };
             }, baseStyleHeader$1 = {
                 px: 6,
@@ -2352,8 +2352,8 @@
                 px: 6,
                 py: 4
             };
-            function getSize$1(value1) {
-                return "full" === value1 ? {
+            function getSize$1(value) {
+                return "full" === value ? {
                     dialog: {
                         maxW: "100vw",
                         minH: "100vh",
@@ -2364,7 +2364,7 @@
                     }
                 } : {
                     dialog: {
-                        maxW: value1
+                        maxW: value
                     }
                 };
             }
@@ -2382,24 +2382,24 @@
                 full: getSize$1("full")
             }, Modal = {
                 parts: modalAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         overlay: baseStyleOverlay,
                         dialogContainer: {
                             display: "flex",
                             zIndex: "modal",
                             justifyContent: "center",
-                            alignItems: props1.isCentered ? "center" : "flex-start",
-                            overflow: "inside" === props1.scrollBehavior ? "hidden" : "auto"
+                            alignItems: props.isCentered ? "center" : "flex-start",
+                            overflow: "inside" === props.scrollBehavior ? "hidden" : "auto"
                         },
-                        dialog: baseStyleDialog(props1),
+                        dialog: baseStyleDialog(props),
                         header: baseStyleHeader$1,
                         closeButton: baseStyleCloseButton$2,
                         body: {
                             px: 6,
                             py: 2,
                             flex: 1,
-                            overflow: "inside" === props1.scrollBehavior ? "auto" : void 0
+                            overflow: "inside" === props.scrollBehavior ? "auto" : void 0
                         },
                         footer: baseStyleFooter$1
                     };
@@ -2408,7 +2408,7 @@
                 defaultProps: {
                     size: "md"
                 }
-            }, variants$5 = Input.variants, defaultProps$b = Input.defaultProps, $stepperWidth = cssVar("number-input-stepper-width"), $inputPadding = cssVar("number-input-input-padding"), inputPaddingValue = calc($stepperWidth).add("0.5rem").toString(), baseStyleRoot$1 = ((_baseStyleRoot = {})[$stepperWidth.variable] = "24px", _baseStyleRoot[$inputPadding.variable] = inputPaddingValue, _baseStyleRoot), baseStyleField$1 = null != (_Input$baseStyle$fiel = null == (_Input$baseStyle = Input.baseStyle) ? void 0 : _Input$baseStyle.field) ? _Input$baseStyle$fiel : {}, baseStyleStepperGroup = {
+            }, variants$5 = Input.variants, defaultProps$b = Input.defaultProps, $stepperWidth = cssVar("number-input-stepper-width"), $inputPadding = cssVar("number-input-input-padding"), inputPaddingValue = calc($stepperWidth).add("0.5rem").toString(), baseStyleRoot$1 = (_baseStyleRoot = {}, _baseStyleRoot[$stepperWidth.variable] = "24px", _baseStyleRoot[$inputPadding.variable] = inputPaddingValue, _baseStyleRoot), baseStyleField$1 = null != (_Input$baseStyle$fiel = null == (_Input$baseStyle = Input.baseStyle) ? void 0 : _Input$baseStyle.field) ? _Input$baseStyle$fiel : {}, baseStyleStepperGroup = {
                 width: [
                     $stepperWidth.reference
                 ]
@@ -2445,17 +2445,17 @@
                 lg: getSize("lg")
             }, NumberInput = {
                 parts: numberInputAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         root: baseStyleRoot$1,
                         field: baseStyleField$1,
                         stepperGroup: baseStyleStepperGroup,
                         stepper: {
                             borderStart: "1px solid",
-                            borderStartColor: mode("inherit", "whiteAlpha.300")(props1),
-                            color: mode("inherit", "whiteAlpha.800")(props1),
+                            borderStartColor: mode("inherit", "whiteAlpha.300")(props),
+                            color: mode("inherit", "whiteAlpha.800")(props),
                             _active: {
-                                bg: mode("gray.200", "whiteAlpha.300")(props1)
+                                bg: mode("gray.200", "whiteAlpha.300")(props)
                             },
                             _disabled: {
                                 opacity: 0.4,
@@ -2470,24 +2470,24 @@
             }, baseStyle$f = sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
                 textAlign: "center"
             }), variants$4 = {
-                outline: function(props1) {
+                outline: function(props) {
                     var _Input$variants$outli;
-                    return null != (_Input$variants$outli = Input.variants.outline(props1).field) ? _Input$variants$outli : {};
+                    return null != (_Input$variants$outli = Input.variants.outline(props).field) ? _Input$variants$outli : {};
                 },
-                flushed: function(props1) {
+                flushed: function(props) {
                     var _Input$variants$flush;
-                    return null != (_Input$variants$flush = Input.variants.flushed(props1).field) ? _Input$variants$flush : {};
+                    return null != (_Input$variants$flush = Input.variants.flushed(props).field) ? _Input$variants$flush : {};
                 },
-                filled: function(props1) {
+                filled: function(props) {
                     var _Input$variants$fille;
-                    return null != (_Input$variants$fille = Input.variants.filled(props1).field) ? _Input$variants$fille : {};
+                    return null != (_Input$variants$fille = Input.variants.filled(props).field) ? _Input$variants$fille : {};
                 },
                 unstyled: null != (_Input$variants$unsty$1 = Input.variants.unstyled.field) ? _Input$variants$unsty$1 : {}
             }, defaultProps$a = Input.defaultProps, $popperBg = cssVar("popper-bg"), $arrowBg$1 = cssVar("popper-arrow-bg"), $arrowShadowColor = cssVar("popper-arrow-shadow-color"), baseStylePopper = {
                 zIndex: 10
-            }, baseStyleContent = function(props1) {
-                var _ref, bg = mode("white", "gray.700")(props1), shadowColor = mode("gray.200", "whiteAlpha.300")(props1);
-                return (_ref = {})[$popperBg.variable] = "colors." + bg, _ref.bg = $popperBg.reference, _ref[$arrowBg$1.variable] = $popperBg.reference, _ref[$arrowShadowColor.variable] = "colors." + shadowColor, _ref.width = "xs", _ref.border = "1px solid", _ref.borderColor = "inherit", _ref.borderRadius = "md", _ref.boxShadow = "sm", _ref.zIndex = "inherit", _ref._focusVisible = {
+            }, baseStyleContent = function(props) {
+                var _ref, bg = mode("white", "gray.700")(props), shadowColor = mode("gray.200", "whiteAlpha.300")(props);
+                return _ref = {}, _ref[$popperBg.variable] = "colors." + bg, _ref.bg = $popperBg.reference, _ref[$arrowBg$1.variable] = $popperBg.reference, _ref[$arrowShadowColor.variable] = "colors." + shadowColor, _ref.width = "xs", _ref.border = "1px solid", _ref.borderColor = "inherit", _ref.borderRadius = "md", _ref.boxShadow = "sm", _ref.zIndex = "inherit", _ref._focusVisible = {
                     outline: 0,
                     boxShadow: "outline"
                 }, _ref;
@@ -2510,10 +2510,10 @@
                 padding: 2
             }, Popover = {
                 parts: popoverAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         popper: baseStylePopper,
-                        content: baseStyleContent(props1),
+                        content: baseStyleContent(props),
                         header: baseStyleHeader,
                         body: baseStyleBody,
                         footer: baseStyleFooter,
@@ -2526,12 +2526,12 @@
                 fontSize: "0.25em",
                 fontWeight: "bold",
                 color: "white"
-            }, baseStyleFilledTrack$1 = function(props1) {
+            }, baseStyleFilledTrack$1 = function(props) {
                 var c, t, isIndeterminate, hasStripe, stripeStyle, bgColor, gradient;
                 return sizes_501602a9_esm_extends({
                     transitionProperty: "common",
                     transitionDuration: "slow"
-                }, (c = props1.colorScheme, t = props1.theme, isIndeterminate = props1.isIndeterminate, hasStripe = props1.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props1), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor = mode(c + ".500", c + ".200")(props1)) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
+                }, (c = props.colorScheme, t = props.theme, isIndeterminate = props.isIndeterminate, hasStripe = props.hasStripe, stripeStyle = mode(generateStripe(), generateStripe("1rem", "rgba(0,0,0,0.1)"))(props), gradient = "linear-gradient(\n    to right,\n    transparent 0%,\n    " + getColor(t, bgColor = mode(c + ".500", c + ".200")(props)) + " 50%,\n    transparent 100%\n  )", sizes_501602a9_esm_extends({}, !isIndeterminate && hasStripe && stripeStyle, isIndeterminate ? {
                     bgImage: gradient
                 } : {
                     bgColor: bgColor
@@ -2560,12 +2560,12 @@
                         }
                     }
                 },
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         label: baseStyleLabel$2,
-                        filledTrack: baseStyleFilledTrack$1(props1),
+                        filledTrack: baseStyleFilledTrack$1(props),
                         track: {
-                            bg: mode("gray.100", "whiteAlpha.300")(props1)
+                            bg: mode("gray.100", "whiteAlpha.300")(props)
                         }
                     };
                 },
@@ -2573,8 +2573,8 @@
                     size: "md",
                     colorScheme: "blue"
                 }
-            }, baseStyleControl = function(props1) {
-                var _Checkbox$baseStyle$c = Checkbox.baseStyle(props1).control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
+            }, baseStyleControl = function(props) {
+                var _Checkbox$baseStyle$c = Checkbox.baseStyle(props).control, control = void 0 === _Checkbox$baseStyle$c ? {} : _Checkbox$baseStyle$c;
                 return sizes_501602a9_esm_extends({}, control, {
                     borderRadius: "full",
                     _checked: sizes_501602a9_esm_extends({}, control._checked, {
@@ -2591,11 +2591,11 @@
                 });
             }, Radio = {
                 parts: radioAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
-                        label: Checkbox.baseStyle(props1).label,
-                        container: Checkbox.baseStyle(props1).container,
-                        control: baseStyleControl(props1)
+                        label: Checkbox.baseStyle(props).label,
+                        container: Checkbox.baseStyle(props).container,
+                        control: baseStyleControl(props)
                     };
                 },
                 sizes: {
@@ -2661,15 +2661,15 @@
                 }
             }), Select = {
                 parts: selectAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         field: sizes_501602a9_esm_extends({}, Input.baseStyle.field, {
-                            bg: mode("white", "gray.700")(props1),
+                            bg: mode("white", "gray.700")(props),
                             appearance: "none",
                             paddingBottom: "1px",
                             lineHeight: "normal",
                             "> option, > optgroup": {
-                                bg: mode("white", "gray.700")(props1)
+                                bg: mode("white", "gray.700")(props)
                             }
                         }),
                         icon: baseStyleIcon$1
@@ -2678,8 +2678,8 @@
                 sizes: sizes$8,
                 variants: Input.variants,
                 defaultProps: Input.defaultProps
-            }, baseStyleContainer$1 = function(props1) {
-                var orientation = props1.orientation;
+            }, baseStyleContainer$1 = function(props) {
+                var orientation = props.orientation;
                 return sizes_501602a9_esm_extends({
                     display: "inline-block",
                     position: "relative",
@@ -2698,24 +2698,24 @@
                         w: "100%"
                     }
                 }));
-            }, baseStyleFilledTrack = function(props1) {
-                var c = props1.colorScheme;
+            }, baseStyleFilledTrack = function(props) {
+                var c = props.colorScheme;
                 return {
                     width: "inherit",
                     height: "inherit",
-                    bg: mode(c + ".500", c + ".200")(props1)
+                    bg: mode(c + ".500", c + ".200")(props)
                 };
             }, Slider = {
                 parts: sliderAnatomy.keys,
                 sizes: {
-                    lg: function(props1) {
+                    lg: function(props) {
                         return {
                             thumb: {
                                 w: "16px",
                                 h: "16px"
                             },
                             track: orient({
-                                orientation: props1.orientation,
+                                orientation: props.orientation,
                                 horizontal: {
                                     h: "4px"
                                 },
@@ -2725,14 +2725,14 @@
                             })
                         };
                     },
-                    md: function(props1) {
+                    md: function(props) {
                         return {
                             thumb: {
                                 w: "14px",
                                 h: "14px"
                             },
                             track: orient({
-                                orientation: props1.orientation,
+                                orientation: props.orientation,
                                 horizontal: {
                                     h: "4px"
                                 },
@@ -2742,14 +2742,14 @@
                             })
                         };
                     },
-                    sm: function(props1) {
+                    sm: function(props) {
                         return {
                             thumb: {
                                 w: "10px",
                                 h: "10px"
                             },
                             track: orient({
-                                orientation: props1.orientation,
+                                orientation: props.orientation,
                                 horizontal: {
                                     h: "2px"
                                 },
@@ -2760,15 +2760,15 @@
                         };
                     }
                 },
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
-                        container: baseStyleContainer$1(props1),
+                        container: baseStyleContainer$1(props),
                         track: {
                             overflow: "hidden",
                             borderRadius: "sm",
-                            bg: mode("gray.200", "whiteAlpha.200")(props1),
+                            bg: mode("gray.200", "whiteAlpha.200")(props),
                             _disabled: {
-                                bg: mode("gray.300", "whiteAlpha.300")(props1)
+                                bg: mode("gray.300", "whiteAlpha.300")(props)
                             }
                         },
                         thumb: sizes_501602a9_esm_extends({
@@ -2792,7 +2792,7 @@
                                 bg: "gray.300"
                             }
                         }, orient({
-                            orientation: props1.orientation,
+                            orientation: props.orientation,
                             vertical: {
                                 left: "50%",
                                 transform: "translateX(-50%)",
@@ -2808,7 +2808,7 @@
                                 }
                             }
                         })),
-                        filledTrack: baseStyleFilledTrack(props1)
+                        filledTrack: baseStyleFilledTrack(props)
                     };
                 },
                 defaultProps: {
@@ -2823,11 +2823,11 @@
                     $size.reference
                 ]
             }, sizes$6 = {
-                xs: ((_xs = {})[$size.variable] = "0.75rem", _xs),
-                sm: ((_sm = {})[$size.variable] = "1rem", _sm),
-                md: ((_md = {})[$size.variable] = "1.5rem", _md),
-                lg: ((_lg = {})[$size.variable] = "2rem", _lg),
-                xl: ((_xl = {})[$size.variable] = "3rem", _xl)
+                xs: (_xs = {}, _xs[$size.variable] = "0.75rem", _xs),
+                sm: (_sm = {}, _sm[$size.variable] = "1rem", _sm),
+                md: (_md = {}, _md[$size.variable] = "1.5rem", _md),
+                lg: (_lg = {}, _lg[$size.variable] = "2rem", _lg),
+                xl: (_xl = {}, _xl[$size.variable] = "3rem", _xl)
             }, Stat = {
                 parts: statAnatomy.keys,
                 baseStyle: {
@@ -2866,8 +2866,8 @@
                 defaultProps: {
                     size: "md"
                 }
-            }, $width = cssVar("switch-track-width"), $height = cssVar("switch-track-height"), $diff = cssVar("switch-track-diff"), diffValue = calc.subtract($width, $height), $translateX = cssVar("switch-thumb-x"), baseStyleTrack = function(props1) {
-                var c = props1.colorScheme;
+            }, $width = cssVar("switch-track-width"), $height = cssVar("switch-track-height"), $diff = cssVar("switch-track-diff"), diffValue = calc.subtract($width, $height), $translateX = cssVar("switch-thumb-x"), baseStyleTrack = function(props) {
+                var c = props.colorScheme;
                 return {
                     borderRadius: "full",
                     p: "2px",
@@ -2879,7 +2879,7 @@
                     ],
                     transitionProperty: "common",
                     transitionDuration: "fast",
-                    bg: mode("gray.300", "whiteAlpha.400")(props1),
+                    bg: mode("gray.300", "whiteAlpha.400")(props),
                     _focusVisible: {
                         boxShadow: "outline"
                     },
@@ -2888,7 +2888,7 @@
                         cursor: "not-allowed"
                     },
                     _checked: {
-                        bg: mode(c + ".500", c + ".200")(props1)
+                        bg: mode(c + ".500", c + ".200")(props)
                     }
                 };
             }, baseStyleThumb = {
@@ -2907,21 +2907,21 @@
                 }
             }, sizes$4 = {
                 sm: {
-                    container: ((_container2 = {})[$width.variable] = "1.375rem", _container2[$height.variable] = "0.75rem", _container2)
+                    container: (_container2 = {}, _container2[$width.variable] = "1.375rem", _container2[$height.variable] = "0.75rem", _container2)
                 },
                 md: {
-                    container: ((_container3 = {})[$width.variable] = "1.875rem", _container3[$height.variable] = "1rem", _container3)
+                    container: (_container3 = {}, _container3[$width.variable] = "1.875rem", _container3[$height.variable] = "1rem", _container3)
                 },
                 lg: {
-                    container: ((_container4 = {})[$width.variable] = "2.875rem", _container4[$height.variable] = "1.5rem", _container4)
+                    container: (_container4 = {}, _container4[$width.variable] = "2.875rem", _container4[$height.variable] = "1.5rem", _container4)
                 }
             }, Switch = {
                 parts: switchAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     var _rtl, _container;
                     return {
-                        container: ((_container = {})[$diff.variable] = diffValue, _container[$translateX.variable] = $diff.reference, _container._rtl = ((_rtl = {})[$translateX.variable] = calc($diff).negate().toString(), _rtl), _container),
-                        track: baseStyleTrack(props1),
+                        container: (_container = {}, _container[$diff.variable] = diffValue, _container[$translateX.variable] = $diff.reference, _container._rtl = (_rtl = {}, _rtl[$translateX.variable] = calc($diff).negate().toString(), _rtl), _container),
+                        track: baseStyleTrack(props),
                         thumb: baseStyleThumb
                     };
                 },
@@ -2960,20 +2960,20 @@
                     }
                 },
                 variants: {
-                    simple: function(props1) {
-                        var c = props1.colorScheme;
+                    simple: function(props) {
+                        var c = props.colorScheme;
                         return {
                             th: sizes_501602a9_esm_extends({
-                                color: mode("gray.600", "gray.400")(props1),
+                                color: mode("gray.600", "gray.400")(props),
                                 borderBottom: "1px",
-                                borderColor: mode(c + ".100", c + ".700")(props1)
+                                borderColor: mode(c + ".100", c + ".700")(props)
                             }, numericStyles),
                             td: sizes_501602a9_esm_extends({
                                 borderBottom: "1px",
-                                borderColor: mode(c + ".100", c + ".700")(props1)
+                                borderColor: mode(c + ".100", c + ".700")(props)
                             }, numericStyles),
                             caption: {
-                                color: mode("gray.600", "gray.100")(props1)
+                                color: mode("gray.600", "gray.100")(props)
                             },
                             tfoot: {
                                 tr: {
@@ -2986,30 +2986,30 @@
                             }
                         };
                     },
-                    striped: function(props1) {
-                        var c = props1.colorScheme;
+                    striped: function(props) {
+                        var c = props.colorScheme;
                         return {
                             th: sizes_501602a9_esm_extends({
-                                color: mode("gray.600", "gray.400")(props1),
+                                color: mode("gray.600", "gray.400")(props),
                                 borderBottom: "1px",
-                                borderColor: mode(c + ".100", c + ".700")(props1)
+                                borderColor: mode(c + ".100", c + ".700")(props)
                             }, numericStyles),
                             td: sizes_501602a9_esm_extends({
                                 borderBottom: "1px",
-                                borderColor: mode(c + ".100", c + ".700")(props1)
+                                borderColor: mode(c + ".100", c + ".700")(props)
                             }, numericStyles),
                             caption: {
-                                color: mode("gray.600", "gray.100")(props1)
+                                color: mode("gray.600", "gray.100")(props)
                             },
                             tbody: {
                                 tr: {
                                     "&:nth-of-type(odd)": {
                                         "th, td": {
                                             borderBottomWidth: "1px",
-                                            borderColor: mode(c + ".100", c + ".700")(props1)
+                                            borderColor: mode(c + ".100", c + ".700")(props)
                                         },
                                         td: {
-                                            background: mode(c + ".100", c + ".700")(props1)
+                                            background: mode(c + ".100", c + ".700")(props)
                                         }
                                     }
                                 }
@@ -3089,27 +3089,27 @@
                     size: "md",
                     colorScheme: "gray"
                 }
-            }, baseStyleTablist = function(props1) {
-                var _props$align = props1.align;
+            }, baseStyleTablist = function(props) {
+                var _props$align = props.align;
                 return {
                     justifyContent: ({
                         end: "flex-end",
                         center: "center",
                         start: "flex-start"
                     })[void 0 === _props$align ? "start" : _props$align],
-                    flexDirection: "vertical" === props1.orientation ? "column" : "row"
+                    flexDirection: "vertical" === props.orientation ? "column" : "row"
                 };
             }, baseStyleTabpanel = {
                 p: 4
             }, Tabs = {
                 parts: tabsAnatomy.keys,
-                baseStyle: function(props1) {
+                baseStyle: function(props) {
                     return {
                         root: {
-                            display: "vertical" === props1.orientation ? "flex" : "block"
+                            display: "vertical" === props.orientation ? "flex" : "block"
                         },
                         tab: {
-                            flex: props1.isFitted ? 1 : void 0,
+                            flex: props.isFitted ? 1 : void 0,
                             transitionProperty: "common",
                             transitionDuration: "normal",
                             _focusVisible: {
@@ -3121,7 +3121,7 @@
                                 opacity: 0.4
                             }
                         },
-                        tablist: baseStyleTablist(props1),
+                        tablist: baseStyleTablist(props),
                         tabpanel: baseStyleTabpanel
                     };
                 },
@@ -3149,15 +3149,15 @@
                     }
                 },
                 variants: {
-                    line: function(props1) {
-                        var _tablist, _tab, c = props1.colorScheme, orientation = props1.orientation, borderProp = "vertical" === orientation ? "borderStart" : "borderBottom";
+                    line: function(props) {
+                        var _tablist, _tab, c = props.colorScheme, orientation = props.orientation, borderProp = "vertical" === orientation ? "borderStart" : "borderBottom";
                         return {
-                            tablist: ((_tablist = {})[borderProp] = "2px solid", _tablist.borderColor = "inherit", _tablist),
-                            tab: ((_tab = {})[borderProp] = "2px solid", _tab.borderColor = "transparent", _tab["vertical" === orientation ? "marginStart" : "marginBottom"] = "-2px", _tab._selected = {
-                                color: mode(c + ".600", c + ".300")(props1),
+                            tablist: (_tablist = {}, _tablist[borderProp] = "2px solid", _tablist.borderColor = "inherit", _tablist),
+                            tab: (_tab = {}, _tab[borderProp] = "2px solid", _tab.borderColor = "transparent", _tab["vertical" === orientation ? "marginStart" : "marginBottom"] = "-2px", _tab._selected = {
+                                color: mode(c + ".600", c + ".300")(props),
                                 borderColor: "currentColor"
                             }, _tab._active = {
-                                bg: mode("gray.200", "whiteAlpha.300")(props1)
+                                bg: mode("gray.200", "whiteAlpha.300")(props)
                             }, _tab._disabled = {
                                 _active: {
                                     bg: "none"
@@ -3165,8 +3165,8 @@
                             }, _tab)
                         };
                     },
-                    enclosed: function(props1) {
-                        var c = props1.colorScheme;
+                    enclosed: function(props) {
+                        var c = props.colorScheme;
                         return {
                             tab: {
                                 borderTopRadius: "md",
@@ -3174,9 +3174,9 @@
                                 borderColor: "transparent",
                                 mb: "-1px",
                                 _selected: {
-                                    color: mode(c + ".600", c + ".300")(props1),
+                                    color: mode(c + ".600", c + ".300")(props),
                                     borderColor: "inherit",
-                                    borderBottomColor: mode("white", "gray.800")(props1)
+                                    borderBottomColor: mode("white", "gray.800")(props)
                                 }
                             },
                             tablist: {
@@ -3186,20 +3186,20 @@
                             }
                         };
                     },
-                    "enclosed-colored": function(props1) {
-                        var c = props1.colorScheme;
+                    "enclosed-colored": function(props) {
+                        var c = props.colorScheme;
                         return {
                             tab: {
                                 border: "1px solid",
                                 borderColor: "inherit",
-                                bg: mode("gray.50", "whiteAlpha.50")(props1),
+                                bg: mode("gray.50", "whiteAlpha.50")(props),
                                 mb: "-1px",
                                 _notLast: {
                                     marginEnd: "-1px"
                                 },
                                 _selected: {
-                                    bg: mode("#fff", "gray.800")(props1),
-                                    color: mode(c + ".600", c + ".300")(props1),
+                                    bg: mode("#fff", "gray.800")(props),
+                                    color: mode(c + ".600", c + ".300")(props),
                                     borderColor: "inherit",
                                     borderTopColor: "currentColor",
                                     borderBottomColor: "transparent"
@@ -3212,8 +3212,8 @@
                             }
                         };
                     },
-                    "soft-rounded": function(props1) {
-                        var c = props1.colorScheme, theme = props1.theme;
+                    "soft-rounded": function(props) {
+                        var c = props.colorScheme, theme = props.theme;
                         return {
                             tab: {
                                 borderRadius: "full",
@@ -3226,16 +3226,16 @@
                             }
                         };
                     },
-                    "solid-rounded": function(props1) {
-                        var c = props1.colorScheme;
+                    "solid-rounded": function(props) {
+                        var c = props.colorScheme;
                         return {
                             tab: {
                                 borderRadius: "full",
                                 fontWeight: "semibold",
-                                color: mode("gray.600", "inherit")(props1),
+                                color: mode("gray.600", "inherit")(props),
                                 _selected: {
-                                    color: mode("#fff", "gray.800")(props1),
-                                    bg: mode(c + ".600", c + ".300")(props1)
+                                    color: mode("#fff", "gray.800")(props),
+                                    bg: mode(c + ".600", c + ".300")(props)
                                 }
                             }
                         };
@@ -3250,19 +3250,19 @@
             }, Tag = {
                 parts: tagAnatomy.keys,
                 variants: {
-                    subtle: function(props1) {
+                    subtle: function(props) {
                         return {
-                            container: Badge.variants.subtle(props1)
+                            container: Badge.variants.subtle(props)
                         };
                     },
-                    solid: function(props1) {
+                    solid: function(props) {
                         return {
-                            container: Badge.variants.solid(props1)
+                            container: Badge.variants.solid(props)
                         };
                     },
-                    outline: function(props1) {
+                    outline: function(props) {
                         return {
-                            container: Badge.variants.outline(props1)
+                            container: Badge.variants.outline(props)
                         };
                     }
                 },
@@ -3346,17 +3346,17 @@
                 lineHeight: "short",
                 verticalAlign: "top"
             }), variants = {
-                outline: function(props1) {
+                outline: function(props) {
                     var _Input$variants$outli;
-                    return null != (_Input$variants$outli = Input.variants.outline(props1).field) ? _Input$variants$outli : {};
+                    return null != (_Input$variants$outli = Input.variants.outline(props).field) ? _Input$variants$outli : {};
                 },
-                flushed: function(props1) {
+                flushed: function(props) {
                     var _Input$variants$flush;
-                    return null != (_Input$variants$flush = Input.variants.flushed(props1).field) ? _Input$variants$flush : {};
+                    return null != (_Input$variants$flush = Input.variants.flushed(props).field) ? _Input$variants$flush : {};
                 },
-                filled: function(props1) {
+                filled: function(props) {
                     var _Input$variants$fille;
-                    return null != (_Input$variants$fille = Input.variants.filled(props1).field) ? _Input$variants$fille : {};
+                    return null != (_Input$variants$fille = Input.variants.filled(props).field) ? _Input$variants$fille : {};
                 },
                 unstyled: null != (_Input$variants$unsty = Input.variants.unstyled.field) ? _Input$variants$unsty : {}
             }, chakra_ui_theme_components_esm_sizes = {
@@ -3364,7 +3364,13 @@
                 sm: null != (_Input$sizes$sm$field = Input.sizes.sm.field) ? _Input$sizes$sm$field : {},
                 md: null != (_Input$sizes$md$field = Input.sizes.md.field) ? _Input$sizes$md$field : {},
                 lg: null != (_Input$sizes$lg$field = Input.sizes.lg.field) ? _Input$sizes$lg$field : {}
-            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), breakpoints = ((0, chakra_ui_utils_esm.ZK)({
+            }, $bg = cssVar("tooltip-bg"), $arrowBg = cssVar("popper-arrow-bg"), breakpoints = (config = {
+                sm: "30em",
+                md: "48em",
+                lg: "62em",
+                xl: "80em",
+                "2xl": "96em"
+            }, (0, chakra_ui_utils_esm.ZK)({
                 condition: !0,
                 message: "[chakra-ui]: createBreakpoints(...) will be deprecated pretty soonsimply pass the breakpoints as an object. Remove the createBreakpoint(..) call"
             }), chakra_ui_theme_tools_esm_extends({
@@ -3727,56 +3733,56 @@
                         },
                         variants: {
                             ghost: variantGhost,
-                            outline: function(props1) {
-                                var c = props1.colorScheme, borderColor = mode("gray.200", "whiteAlpha.300")(props1);
+                            outline: function(props) {
+                                var c = props.colorScheme, borderColor = mode("gray.200", "whiteAlpha.300")(props);
                                 return sizes_501602a9_esm_extends({
                                     border: "1px solid",
                                     borderColor: "gray" === c ? borderColor : "currentColor",
                                     ".chakra-button__group[data-attached] > &:not(:last-of-type)": {
                                         marginEnd: "-1px"
                                     }
-                                }, variantGhost(props1));
+                                }, variantGhost(props));
                             },
-                            solid: function(props1) {
-                                var _accessibleColorMap$c, c = props1.colorScheme;
+                            solid: function(props) {
+                                var _accessibleColorMap$c, c = props.colorScheme;
                                 if ("gray" === c) {
-                                    var _bg = mode("gray.100", "whiteAlpha.200")(props1);
+                                    var _bg = mode("gray.100", "whiteAlpha.200")(props);
                                     return {
                                         bg: _bg,
                                         _hover: {
-                                            bg: mode("gray.200", "whiteAlpha.300")(props1),
+                                            bg: mode("gray.200", "whiteAlpha.300")(props),
                                             _disabled: {
                                                 bg: _bg
                                             }
                                         },
                                         _active: {
-                                            bg: mode("gray.300", "whiteAlpha.400")(props1)
+                                            bg: mode("gray.300", "whiteAlpha.400")(props)
                                         }
                                     };
                                 }
-                                var _ref = null != (_accessibleColorMap$c = accessibleColorMap[c]) ? _accessibleColorMap$c : {}, _ref$bg = _ref.bg, _ref$color = _ref.color, _ref$hoverBg = _ref.hoverBg, _ref$activeBg = _ref.activeBg, background = mode(void 0 === _ref$bg ? c + ".500" : _ref$bg, c + ".200")(props1);
+                                var _ref = null != (_accessibleColorMap$c = accessibleColorMap[c]) ? _accessibleColorMap$c : {}, _ref$bg = _ref.bg, _ref$color = _ref.color, _ref$hoverBg = _ref.hoverBg, _ref$activeBg = _ref.activeBg, background = mode(void 0 === _ref$bg ? c + ".500" : _ref$bg, c + ".200")(props);
                                 return {
                                     bg: background,
-                                    color: mode(void 0 === _ref$color ? "white" : _ref$color, "gray.800")(props1),
+                                    color: mode(void 0 === _ref$color ? "white" : _ref$color, "gray.800")(props),
                                     _hover: {
-                                        bg: mode(void 0 === _ref$hoverBg ? c + ".600" : _ref$hoverBg, c + ".300")(props1),
+                                        bg: mode(void 0 === _ref$hoverBg ? c + ".600" : _ref$hoverBg, c + ".300")(props),
                                         _disabled: {
                                             bg: background
                                         }
                                     },
                                     _active: {
-                                        bg: mode(void 0 === _ref$activeBg ? c + ".700" : _ref$activeBg, c + ".400")(props1)
+                                        bg: mode(void 0 === _ref$activeBg ? c + ".700" : _ref$activeBg, c + ".400")(props)
                                     }
                                 };
                             },
-                            link: function(props1) {
-                                var c = props1.colorScheme;
+                            link: function(props) {
+                                var c = props.colorScheme;
                                 return {
                                     padding: 0,
                                     height: "auto",
                                     lineHeight: "normal",
                                     verticalAlign: "baseline",
-                                    color: mode(c + ".500", c + ".200")(props1),
+                                    color: mode(c + ".500", c + ".200")(props),
                                     _hover: {
                                         textDecoration: "underline",
                                         _disabled: {
@@ -3784,7 +3790,7 @@
                                         }
                                     },
                                     _active: {
-                                        color: mode(c + ".700", c + ".500")(props1)
+                                        color: mode(c + ".700", c + ".500")(props)
                                     }
                                 };
                             },
@@ -3831,8 +3837,8 @@
                     },
                     Checkbox: Checkbox,
                     CloseButton: {
-                        baseStyle: function(props1) {
-                            var hoverBg = mode("blackAlpha.100", "whiteAlpha.100")(props1), activeBg = mode("blackAlpha.200", "whiteAlpha.200")(props1);
+                        baseStyle: function(props) {
+                            var hoverBg = mode("blackAlpha.100", "whiteAlpha.100")(props), activeBg = mode("blackAlpha.200", "whiteAlpha.200")(props);
                             return {
                                 w: [
                                     $size$1.reference
@@ -3994,9 +4000,9 @@
                     },
                     Input: Input,
                     Kbd: {
-                        baseStyle: function(props1) {
+                        baseStyle: function(props) {
                             return {
-                                bg: mode("gray.100", "whiteAlpha")(props1),
+                                bg: mode("gray.100", "whiteAlpha")(props),
                                 borderRadius: "md",
                                 borderWidth: "1px",
                                 borderBottomWidth: "3px",
@@ -4065,8 +4071,8 @@
                     Radio: Radio,
                     Select: Select,
                     Skeleton: {
-                        baseStyle: function(props1) {
-                            var defaultStartColor = mode("gray.100", "gray.800")(props1), defaultEndColor = mode("gray.400", "gray.600")(props1), _props$startColor = props1.startColor, _props$endColor = props1.endColor, speed = props1.speed, theme = props1.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
+                        baseStyle: function(props) {
+                            var defaultStartColor = mode("gray.100", "gray.800")(props), defaultEndColor = mode("gray.400", "gray.600")(props), _props$startColor = props.startColor, _props$endColor = props.endColor, speed = props.speed, theme = props.theme, start = getColor(theme, void 0 === _props$startColor ? defaultStartColor : _props$startColor), end = getColor(theme, void 0 === _props$endColor ? defaultEndColor : _props$endColor);
                             return {
                                 opacity: 0.7,
                                 borderRadius: "2px",
@@ -4086,7 +4092,7 @@
                         }
                     },
                     SkipLink: {
-                        baseStyle: function(props1) {
+                        baseStyle: function(props) {
                             return {
                                 borderRadius: "md",
                                 fontWeight: "semibold",
@@ -4096,7 +4102,7 @@
                                     position: "fixed",
                                     top: "1.5rem",
                                     insetStart: "1.5rem",
-                                    bg: mode("white", "gray.700")(props1)
+                                    bg: mode("white", "gray.700")(props)
                                 }
                             };
                         }
@@ -4124,13 +4130,13 @@
                         }
                     },
                     Tooltip: {
-                        baseStyle: function(props1) {
-                            var _ref, bg = mode("gray.700", "gray.300")(props1);
-                            return (_ref = {})[$bg.variable] = "colors." + bg, _ref.px = "8px", _ref.py = "2px", _ref.bg = [
+                        baseStyle: function(props) {
+                            var _ref;
+                            return _ref = {}, _ref[$bg.variable] = "colors." + mode("gray.700", "gray.300")(props), _ref.px = "8px", _ref.py = "2px", _ref.bg = [
                                 $bg.reference
                             ], _ref[$arrowBg.variable] = [
                                 $bg.reference
-                            ], _ref.color = mode("whiteAlpha.900", "gray.900")(props1), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
+                            ], _ref.color = mode("whiteAlpha.900", "gray.900")(props), _ref.borderRadius = "sm", _ref.fontWeight = "medium", _ref.fontSize = "sm", _ref.boxShadow = "md", _ref.maxW = "320px", _ref.zIndex = "tooltip", _ref;
                         }
                     }
                 },
@@ -4181,8 +4187,8 @@
                 "100%": {
                     transform: "rotate(360deg)"
                 }
-            }), chakra_ui_spinner_esm_Spinner = (0, chakra_ui_system_esm.Gp)(function(props1, ref) {
-                var styles = (0, chakra_ui_system_esm.mq)("Spinner", props1), _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props1), _omitThemingProps$lab = _omitThemingProps.label, label = void 0 === _omitThemingProps$lab ? "Loading..." : _omitThemingProps$lab, _omitThemingProps$thi = _omitThemingProps.thickness, _omitThemingProps$spe = _omitThemingProps.speed, _omitThemingProps$emp = _omitThemingProps.emptyColor, emptyColor = void 0 === _omitThemingProps$emp ? "transparent" : _omitThemingProps$emp, className = _omitThemingProps.className, rest = function(source, excluded) {
+            }), chakra_ui_spinner_esm_Spinner = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
+                var styles = (0, chakra_ui_system_esm.mq)("Spinner", props), _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props), _omitThemingProps$lab = _omitThemingProps.label, label = void 0 === _omitThemingProps$lab ? "Loading..." : _omitThemingProps$lab, _omitThemingProps$thi = _omitThemingProps.thickness, _omitThemingProps$spe = _omitThemingProps.speed, _omitThemingProps$emp = _omitThemingProps.emptyColor, emptyColor = void 0 === _omitThemingProps$emp ? "transparent" : _omitThemingProps$emp, className = _omitThemingProps.className, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
@@ -4214,10 +4220,10 @@
                     return target;
                 }).apply(this, arguments);
             }
-            var WarningIcon = function(props1) {
+            var WarningIcon = function(props) {
                 return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
                     viewBox: "0 0 24 24"
-                }, props1), react.createElement("path", {
+                }, props), react.createElement("path", {
                     fill: "currentColor",
                     d: "M11.983,0a12.206,12.206,0,0,0-8.51,3.653A11.8,11.8,0,0,0,0,12.207,11.779,11.779,0,0,0,11.8,24h.214A12.111,12.111,0,0,0,24,11.791h0A11.766,11.766,0,0,0,11.983,0ZM10.5,16.542a1.476,1.476,0,0,1,1.449-1.53h.027a1.527,1.527,0,0,1,1.523,1.47,1.475,1.475,0,0,1-1.449,1.53h-.027A1.529,1.529,0,0,1,10.5,16.542ZM11,12.5v-6a1,1,0,0,1,2,0v6a1,1,0,1,1-2,0Z"
                 }));
@@ -4225,10 +4231,10 @@
                 "status"
             ], _createStylesContext = (0, chakra_ui_system_esm.eC)("Alert"), StylesProvider = _createStylesContext[0], useStyles = _createStylesContext[1], STATUSES = {
                 info: {
-                    icon: function(props1) {
+                    icon: function(props) {
                         return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
                             viewBox: "0 0 24 24"
-                        }, props1), react.createElement("path", {
+                        }, props), react.createElement("path", {
                             fill: "currentColor",
                             d: "M12,0A12,12,0,1,0,24,12,12.013,12.013,0,0,0,12,0Zm.25,5a1.5,1.5,0,1,1-1.5,1.5A1.5,1.5,0,0,1,12.25,5ZM14.5,18.5h-4a1,1,0,0,1,0-2h.75a.25.25,0,0,0,.25-.25v-4.5a.25.25,0,0,0-.25-.25H10.5a1,1,0,0,1,0-2h1a2,2,0,0,1,2,2v4.75a.25.25,0,0,0,.25.25h.75a1,1,0,1,1,0,2Z"
                         }));
@@ -4240,10 +4246,10 @@
                     colorScheme: "orange"
                 },
                 success: {
-                    icon: function(props1) {
+                    icon: function(props) {
                         return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_alert_esm_extends({
                             viewBox: "0 0 24 24"
-                        }, props1), react.createElement("path", {
+                        }, props), react.createElement("path", {
                             fill: "currentColor",
                             d: "M12,0A12,12,0,1,0,24,12,12.014,12.014,0,0,0,12,0Zm6.927,8.2-6.845,9.289a1.011,1.011,0,0,1-1.43.188L5.764,13.769a1,1,0,1,1,1.25-1.562l4.076,3.261,6.227-8.451A1,1,0,1,1,18.927,8.2Z"
                         }));
@@ -4261,13 +4267,13 @@
             }, chakra_ui_alert_esm_createContext = (0, chakra_ui_react_utils_esm.kr)({
                 name: "AlertContext",
                 errorMessage: "useAlertContext: `context` is undefined. Seems you forgot to wrap alert components in `<Alert />`"
-            }), AlertProvider = chakra_ui_alert_esm_createContext[0], useAlertContext = chakra_ui_alert_esm_createContext[1], chakra_ui_alert_esm_Alert = (0, chakra_ui_system_esm.Gp)(function(props1, ref) {
-                var _props$colorScheme, _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props1), _omitThemingProps$sta = _omitThemingProps.status, status = void 0 === _omitThemingProps$sta ? "info" : _omitThemingProps$sta, rest = function(source, excluded) {
+            }), AlertProvider = chakra_ui_alert_esm_createContext[0], useAlertContext = chakra_ui_alert_esm_createContext[1], chakra_ui_alert_esm_Alert = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
+                var _props$colorScheme, _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props), _omitThemingProps$sta = _omitThemingProps.status, status = void 0 === _omitThemingProps$sta ? "info" : _omitThemingProps$sta, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
-                }(_omitThemingProps, chakra_ui_alert_esm_excluded), colorScheme = null != (_props$colorScheme = props1.colorScheme) ? _props$colorScheme : STATUSES[status].colorScheme, styles = (0, chakra_ui_system_esm.jC)("Alert", chakra_ui_alert_esm_extends({}, props1, {
+                }(_omitThemingProps, chakra_ui_alert_esm_excluded), colorScheme = null != (_props$colorScheme = props.colorScheme) ? _props$colorScheme : STATUSES[status].colorScheme, styles = (0, chakra_ui_system_esm.jC)("Alert", chakra_ui_alert_esm_extends({}, props, {
                     colorScheme: colorScheme
                 })), alertStyles = chakra_ui_alert_esm_extends({
                     width: "100%",
@@ -4286,35 +4292,35 @@
                     role: "alert",
                     ref: ref
                 }, rest, {
-                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert", props1.className),
+                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert", props.className),
                     __css: alertStyles
                 }))));
-            }), AlertTitle = (0, chakra_ui_system_esm.Gp)(function(props1, ref) {
+            }), AlertTitle = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
                 var styles = useStyles();
                 return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
-                }, props1, {
-                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert__title", props1.className),
+                }, props, {
+                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert__title", props.className),
                     __css: styles.title
                 }));
-            }), AlertDescription = (0, chakra_ui_system_esm.Gp)(function(props1, ref) {
+            }), AlertDescription = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
                 var styles = useStyles(), descriptionStyles = chakra_ui_alert_esm_extends({
                     display: "inline"
                 }, styles.description);
                 return react.createElement(chakra_ui_system_esm.m$.div, chakra_ui_alert_esm_extends({
                     ref: ref
-                }, props1, {
-                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert__desc", props1.className),
+                }, props, {
+                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert__desc", props.className),
                     __css: descriptionStyles
                 }));
-            }), AlertIcon = function(props1) {
+            }), AlertIcon = function(props) {
                 var status = useAlertContext().status, BaseIcon = STATUSES[status].icon, styles = useStyles(), css = "loading" === status ? styles.spinner : styles.icon;
                 return react.createElement(chakra_ui_system_esm.m$.span, chakra_ui_alert_esm_extends({
                     display: "inherit"
-                }, props1, {
-                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert__icon", props1.className),
+                }, props, {
+                    className: (0, chakra_ui_utils_esm.cx)("chakra-alert__icon", props.className),
                     __css: css
-                }), props1.children || react.createElement(BaseIcon, {
+                }), props.children || react.createElement(BaseIcon, {
                     h: "100%",
                     w: "100%"
                 }));
@@ -4332,16 +4338,16 @@
                 "children",
                 "isDisabled",
                 "__css"
-            ], CloseIcon = function(props1) {
+            ], CloseIcon = function(props) {
                 return react.createElement(chakra_ui_icon_esm.JO, chakra_ui_close_button_esm_extends({
                     focusable: "false",
                     "aria-hidden": !0
-                }, props1), react.createElement("path", {
+                }, props), react.createElement("path", {
                     fill: "currentColor",
                     d: "M.439,21.44a1.5,1.5,0,0,0,2.122,2.121L11.823,14.3a.25.25,0,0,1,.354,0l9.262,9.263a1.5,1.5,0,1,0,2.122-2.121L14.3,12.177a.25.25,0,0,1,0-.354l9.263-9.262A1.5,1.5,0,0,0,21.439.44L12.177,9.7a.25.25,0,0,1-.354,0L2.561.44A1.5,1.5,0,0,0,.439,2.561L9.7,11.823a.25.25,0,0,1,0,.354Z"
                 }));
-            }, chakra_ui_close_button_esm_CloseButton = (0, chakra_ui_system_esm.Gp)(function(props1, ref) {
-                var styles = (0, chakra_ui_system_esm.mq)("CloseButton", props1), _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props1), children = _omitThemingProps.children, isDisabled = _omitThemingProps.isDisabled, __css = _omitThemingProps.__css, rest = function(source, excluded) {
+            }, chakra_ui_close_button_esm_CloseButton = (0, chakra_ui_system_esm.Gp)(function(props, ref) {
+                var styles = (0, chakra_ui_system_esm.mq)("CloseButton", props), _omitThemingProps = (0, chakra_ui_system_esm.Lr)(props), children = _omitThemingProps.children, isDisabled = _omitThemingProps.isDisabled, __css = _omitThemingProps.__css, rest = function(source, excluded) {
                     if (null == source) return {};
                     var key, i, target = {}, sourceKeys = Object.keys(source);
                     for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
@@ -4414,12 +4420,12 @@
                 removeToast: function(id, position) {
                     setState(function(prevState) {
                         var _extends2;
-                        return chakra_ui_toast_esm_extends({}, prevState, ((_extends2 = {})[position] = prevState[position].filter(function(toast) {
+                        return chakra_ui_toast_esm_extends({}, prevState, (_extends2 = {}, _extends2[position] = prevState[position].filter(function(toast) {
                             return toast.id != id;
                         }), _extends2));
                     });
                 },
-                notify: function(message1, options) {
+                notify: function(message, options) {
                     var options1, _options$id, _options$position, id, position, toast = (void 0 === (options1 = options) && (options1 = {}), counter += 1, {
                         id: id = null != (_options$id = options1.id) ? _options$id : counter,
                         message: message,
@@ -4439,15 +4445,15 @@
                         ].concat(null != (_prevToasts$position = prevToasts[position1]) ? _prevToasts$position : []) : [].concat(null != (_prevToasts$position2 = prevToasts[position1]) ? _prevToasts$position2 : [], [
                             toast
                         ]);
-                        return chakra_ui_toast_esm_extends({}, prevToasts, ((_extends3 = {})[position1] = toasts, _extends3));
+                        return chakra_ui_toast_esm_extends({}, prevToasts, (_extends3 = {}, _extends3[position1] = toasts, _extends3));
                     }), id1;
                 },
                 update: function(id, options) {
                     id && setState(function(prevState) {
                         var options1, _options, render, _options$toastCompone, ToastComponent, nextState = chakra_ui_toast_esm_extends({}, prevState), _findToast = findToast(nextState, id), position = _findToast.position, index = _findToast.index;
                         return position && -1 !== index && (nextState[position][index] = chakra_ui_toast_esm_extends({}, nextState[position][index], options, {
-                            message: (void 0 === (options1 = options) && (options1 = {}), render = (_options = options1).render, ToastComponent = void 0 === (_options$toastCompone = _options.toastComponent) ? Toast : _options$toastCompone, function(props1) {
-                                return (0, chakra_ui_utils_esm.mf)(render) ? render(props1) : react.createElement(ToastComponent, chakra_ui_toast_esm_extends({}, props1, options1));
+                            message: (void 0 === (options1 = options) && (options1 = {}), render = (_options = options1).render, ToastComponent = void 0 === (_options$toastCompone = _options.toastComponent) ? Toast : _options$toastCompone, function(props) {
+                                return (0, chakra_ui_utils_esm.mf)(render) ? render(props) : react.createElement(ToastComponent, chakra_ui_toast_esm_extends({}, props, options1));
                             })
                         })), nextState;
                     });
@@ -4474,7 +4480,7 @@
                 close: function(id) {
                     setState(function(prevState) {
                         var _extends4, position = getToastPosition(prevState, id);
-                        return position ? chakra_ui_toast_esm_extends({}, prevState, ((_extends4 = {})[position] = prevState[position].map(function(toast) {
+                        return position ? chakra_ui_toast_esm_extends({}, prevState, (_extends4 = {}, _extends4[position] = prevState[position].map(function(toast) {
                             return toast.id == id ? chakra_ui_toast_esm_extends({}, toast, {
                                 requestClose: !0
                             }) : toast;
@@ -4484,8 +4490,8 @@
                 isActive: function(id) {
                     return !!findToast(toastStore.getState(), id).position;
                 }
-            }), counter = 0, Toast = function(props1) {
-                var status = props1.status, _props$variant = props1.variant, id = props1.id, title = props1.title, isClosable = props1.isClosable, onClose = props1.onClose, description = props1.description, icon = props1.icon, alertTitleId = void 0 !== id ? "toast-" + id + "-title" : void 0;
+            }), counter = 0, Toast = function(props) {
+                var status = props.status, _props$variant = props.variant, id = props.id, title = props.title, isClosable = props.isClosable, onClose = props.onClose, description = props.description, icon = props.icon, alertTitleId = void 0 !== id ? "toast-" + id + "-title" : void 0;
                 return react.createElement(chakra_ui_alert_esm_Alert, {
                     status: status,
                     variant: void 0 === _props$variant ? "solid" : _props$variant,
@@ -4512,17 +4518,17 @@
                     top: 1
                 }));
             }, toastMotionVariants = {
-                initial: function(props1) {
-                    var _ref, position = props1.position, dir = [
+                initial: function(props) {
+                    var _ref, position = props.position, dir = [
                         "top",
                         "bottom"
                     ].includes(position) ? "y" : "x", factor = [
                         "top-right",
                         "bottom-right"
                     ].includes(position) ? 1 : -1;
-                    return "bottom" === position && (factor = 1), (_ref = {
+                    return "bottom" === position && (factor = 1), _ref = {
                         opacity: 0
-                    })[dir] = 24 * factor, _ref;
+                    }, _ref[dir] = 24 * factor, _ref;
                 },
                 animate: {
                     opacity: 1,
@@ -4552,8 +4558,8 @@
                         ]
                     }
                 }
-            }, ToastComponent = react.memo(function(props1) {
-                var id = props1.id, message1 = props1.message, onCloseComplete = props1.onCloseComplete, onRequestRemove = props1.onRequestRemove, _props$requestClose = props1.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props1.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props1.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props1.containerStyle, _props$motionVariants = props1.motionVariants, _props$toastSpacing = props1.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence.hO)();
+            }, ToastComponent = react.memo(function(props) {
+                var id = props.id, message = props.message, onCloseComplete = props.onCloseComplete, onRequestRemove = props.onRequestRemove, _props$requestClose = props.requestClose, requestClose = void 0 !== _props$requestClose && _props$requestClose, _props$position = props.position, position = void 0 === _props$position ? "bottom" : _props$position, _props$duration = props.duration, duration = void 0 === _props$duration ? 5000 : _props$duration, containerStyle = props.containerStyle, _props$motionVariants = props.motionVariants, _props$toastSpacing = props.toastSpacing, toastSpacing = void 0 === _props$toastSpacing ? "0.5rem" : _props$toastSpacing, _React$useState = react.useState(duration), delay = _React$useState[0], setDelay = _React$useState[1], isPresent = (0, use_presence.hO)();
                 (0, chakra_ui_hooks_esm.rf)(function() {
                     isPresent || null == onCloseComplete || onCloseComplete();
                 }, [
@@ -4615,14 +4621,14 @@
                     "aria-atomic": "true",
                     className: "chakra-toast__inner",
                     __css: containerStyles
-                }, (0, chakra_ui_utils_esm.Pu)(message1, {
+                }, (0, chakra_ui_utils_esm.Pu)(message, {
                     id: id,
                     onClose: close
                 })));
             });
             chakra_ui_utils_esm.Ts && (ToastComponent.displayName = "ToastComponent");
-            var ToastProvider = function(props1) {
-                var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props1.children, motionVariants = props1.motionVariants, _props$component = props1.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props1.portalProps, toastList = (0, chakra_ui_utils_esm.Yd)(state).map(function(position) {
+            var ToastProvider = function(props) {
+                var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props.children, motionVariants = props.motionVariants, _props$component = props.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props.portalProps, toastList = (0, chakra_ui_utils_esm.Yd)(state).map(function(position) {
                     var top, bottom, right, left, toasts = state[position];
                     return react.createElement("ul", {
                         role: "region",
@@ -4677,13 +4683,13 @@
                             "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                                 return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                             }))), ownKeys.forEach(function(key) {
-                                var value1;
-                                value1 = source[key], key in target ? Object.defineProperty(target, key, {
-                                    value: value1,
+                                var value;
+                                value = source[key], key in target ? Object.defineProperty(target, key, {
+                                    value: value,
                                     enumerable: !0,
                                     configurable: !0,
                                     writable: !0
-                                }) : target[key] = value1;
+                                }) : target[key] = value;
                             });
                         }
                         return target;

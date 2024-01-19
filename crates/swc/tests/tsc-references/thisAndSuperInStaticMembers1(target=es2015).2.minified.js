@@ -22,6 +22,6 @@ _define_property(C, "x", void 0), _define_property(C, "y1", C.x), _define_proper
     x: 0
 }), _define_property(C, "z12", { x: _update(_get_prototype_of(C), "a", C, !0)._ = 0 } = {
     x: 0
-}), _define_property(C, "z13", (_tmp = {
+}), _define_property(C, "z13", (_update(_get_prototype_of(C), "a", C, !0)._ = _extends({}, _object_destructuring_empty(_tmp = {
     x: 0
-}, _update(_get_prototype_of(C), "a", C, !0)._ = _extends({}, _object_destructuring_empty(_tmp)), _tmp)), _define_property(C, "z14", ++_update(_get_prototype_of(C), "a", C, !0)._), _define_property(C, "z15", --_update(_get_prototype_of(C), "a", C, !0)._), _define_property(C, "z16", ++_update(_get_prototype_of(C), "a", C, !0)._), _define_property(C, "z17", _update(_get_prototype_of(C), "a", C, !0)._++), _define_property(C, "z18", _get(_get_prototype_of(C), "a", C)``);
+})), _tmp)), _define_property(C, "z14", ++_update(_get_prototype_of(C), "a", C, !0)._), _define_property(C, "z15", --_update(_get_prototype_of(C), "a", C, !0)._), _define_property(C, "z16", ++_update(_get_prototype_of(C), "a", C, !0)._), _define_property(C, "z17", _update(_get_prototype_of(C), "a", C, !0)._++), _define_property(C, "z18", _get(_get_prototype_of(C), "a", C)``);

@@ -8,7 +8,8 @@ export var Element = function() {
     function Element() {
         _class_call_check(this, Element);
     }
-    return Element.prototype.cloneNode = function() {
+    var _proto = Element.prototype;
+    return _proto.cloneNode = function() {
         return this;
     }, _create_class(Element, [
         {
@@ -34,7 +35,8 @@ export var TextElement = function(HTMLElement) {
     function TextElement() {
         return _class_call_check(this, TextElement), _super.apply(this, arguments);
     }
-    return TextElement.prototype.toString = function() {}, _create_class(TextElement, [
+    var _proto = TextElement.prototype;
+    return _proto.toString = function() {}, _create_class(TextElement, [
         {
             key: "innerHTML",
             get: function() {

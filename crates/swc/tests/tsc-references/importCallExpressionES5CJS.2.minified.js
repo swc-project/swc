@@ -40,7 +40,8 @@ var p2 = Promise.resolve().then(function() {
     function D() {
         _class_call_check._(this, D);
     }
-    return D.prototype.method = function() {
+    var _proto = D.prototype;
+    return _proto.method = function() {
         Promise.resolve().then(function() {
             return _interop_require_wildcard._(require("./0"));
         });

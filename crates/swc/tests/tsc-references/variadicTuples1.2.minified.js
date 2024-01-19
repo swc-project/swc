@@ -1,8 +1,8 @@
 //// [variadicTuples1.ts]
 import "@swc/helpers/_/_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-function concat(t, u1) {
-    return _to_consumable_array(t).concat(_to_consumable_array(u1));
+function concat(t, u) {
+    return _to_consumable_array(t).concat(_to_consumable_array(u));
 }
 function curry(f) {
     for(var _len = arguments.length, _$a = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)_$a[_key - 1] = arguments[_key];
@@ -11,7 +11,10 @@ function curry(f) {
         return f.apply(void 0, _to_consumable_array(_$a).concat(_to_consumable_array(b)));
     };
 }
-[
+u = [
+    10,
+    !0
+], [
     1
 ].concat(_to_consumable_array([
     "hello"
@@ -31,11 +34,15 @@ function curry(f) {
     1,
     2,
     3
-]), _to_consumable_array([
+]), u1 = [
+    4,
+    5,
+    6
+], _to_consumable_array([
     1,
     2,
     3
-]).concat(_to_consumable_array(u)), ft1([
+]).concat(_to_consumable_array(u1)), ft1([
     "hello",
     42
 ]), ft2([
@@ -61,7 +68,7 @@ function curry(f) {
         "def"
     ]
 ]);
-var fn1 = function(a1, b, c, d) {
+var u, u1, fn1 = function(a1, b, c, d) {
     return 0;
 };
 curry(fn1), curry(fn1, 1), curry(fn1, 1, "abc"), curry(fn1, 1, "abc", !0), curry(fn1, 1, "abc", !0, [
@@ -77,8 +84,8 @@ var fn3 = function() {
     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
     return 0;
 };
-function curry2(f, t, u1) {
-    return f.apply(void 0, _to_consumable_array(t).concat(_to_consumable_array(u1)));
+function curry2(f, t, u) {
+    return f.apply(void 0, _to_consumable_array(t).concat(_to_consumable_array(u)));
 }
 function callApi(method) {
     return function() {

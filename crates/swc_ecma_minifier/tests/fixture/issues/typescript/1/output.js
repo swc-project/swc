@@ -1,5 +1,5 @@
 var ts, ts1, dynamicImportUMDHelper;
-(ts1 = ts || (ts = {})).transformModule = function(context) {
+ts1 = ts || (ts = {}), ts1.transformModule = function(context) {
     var currentSourceFile, currentModuleInfo, needUMDDynamicImportHelper, factory = context.factory, emitHelpers = context.getEmitHelperFactory, startLexicalEnvironment = context.startLexicalEnvironment, endLexicalEnvironment = context.endLexicalEnvironment, hoistVariableDeclaration = context.hoistVariableDeclaration, compilerOptions = context.getCompilerOptions(), resolver = context.getEmitResolver(), host = context.getEmitHost(), languageVersion = ts1.getEmitScriptTarget(compilerOptions), moduleKind = ts1.getEmitModuleKind(compilerOptions), previousOnSubstituteNode = context.onSubstituteNode, previousOnEmitNode = context.onEmitNode;
     context.onSubstituteNode = function(hint, node) {
         return (node = previousOnSubstituteNode(hint, node)).id && noSubstitution[node.id] ? node : 1 === hint ? function(node) {
@@ -55,7 +55,7 @@ var ts, ts1, dynamicImportUMDHelper;
     var moduleInfoMap = [], deferredExports = [], noSubstitution = [];
     return ts1.chainBundle(context, function(node) {
         if (node.isDeclarationFile || !(ts1.isEffectiveExternalModule(node, compilerOptions) || 4194304 & node.transformFlags || ts1.isJsonSourceFile(node) && ts1.hasJsonModuleEmitEnabled(compilerOptions) && ts1.outFile(compilerOptions))) return node;
-        currentSourceFile = node, currentModuleInfo = ts1.collectExternalModuleInfo(context, node, resolver, compilerOptions), moduleInfoMap[ts1.getOriginalNodeId(node)] = currentModuleInfo;
+        currentSourceFile = node, moduleInfoMap[ts1.getOriginalNodeId(node)] = currentModuleInfo = ts1.collectExternalModuleInfo(context, node, resolver, compilerOptions);
         var updated = (function(moduleKind) {
             switch(moduleKind){
                 case ts1.ModuleKind.AMD:

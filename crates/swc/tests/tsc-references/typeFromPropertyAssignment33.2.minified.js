@@ -1,6 +1,6 @@
 //// [ns.ts]
-var ExpandoMerge, ExpandoMerge1;
-(ExpandoMerge1 = ExpandoMerge || (ExpandoMerge = {})).p3 = 333, ExpandoMerge1.p4 = 4, ExpandoMerge1.p5 = 5, ExpandoMerge1.p6 = 6, ExpandoMerge1.p7 = 7, ExpandoMerge1.p8 = 6, ExpandoMerge1.p9 = 7, (ExpandoMerge || (ExpandoMerge = {})).p2 = 222;
+var ExpandoMerge, ExpandoMerge1, ExpandoMerge2;
+ExpandoMerge1 = ExpandoMerge || (ExpandoMerge = {}), ExpandoMerge1.p3 = 333, ExpandoMerge1.p4 = 4, ExpandoMerge1.p5 = 5, ExpandoMerge1.p6 = 6, ExpandoMerge1.p7 = 7, ExpandoMerge1.p8 = 6, ExpandoMerge1.p9 = 7, ExpandoMerge2 = ExpandoMerge || (ExpandoMerge = {}), ExpandoMerge2.p2 = 222;
 //// [expando.ts]
 function ExpandoMerge(n) {
     return n;

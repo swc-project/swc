@@ -1,2 +1,2 @@
 //// [stringLiteralsAssignedToStringMappings.ts]
-x = "A", y = "1";
+x = "A", x = "a", y = "1", y = "a", y = "A";

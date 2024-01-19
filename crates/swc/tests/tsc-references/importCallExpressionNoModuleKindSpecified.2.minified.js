@@ -4,7 +4,8 @@ export var B = function() {
     function B() {
         _class_call_check(this, B);
     }
-    return B.prototype.print = function() {
+    var _proto = B.prototype;
+    return _proto.print = function() {
         return "I am B";
     }, B;
 }();

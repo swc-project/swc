@@ -206,7 +206,7 @@
                         var obj1 = arguments_1[i];
                         Object.keys(obj1).forEach(function(key) {
                             var clone, src = result[key], copy = obj1[key];
-                            Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : (clone = src || [], result[key] = util_extend([], clone, copy, clone && clone.length || copy && copy.length)) : result[key] = copy;
+                            Array.isArray(copy) && Array.isArray(src) && (copy.length, src.length), deep && (util_isObject(copy) || Array.isArray(copy)) ? util_isObject(copy) ? Array.isArray(clone = src || {}) && clone.hasOwnProperty('isComplexArray') ? util_extend(clone, {}, copy, deep) : result[key] = util_extend(clone, {}, copy, deep) : result[key] = util_extend([], clone = src || [], copy, clone && clone.length || copy && copy.length) : result[key] = copy;
                         });
                     }
                 }(i);
@@ -501,7 +501,7 @@
                 VND: '₫',
                 TWD: 'NT$'
             };
-            dateCorrection = [
+            HijriParser = HijriParser1 || (HijriParser1 = {}), dateCorrection = [
                 28607,
                 28636,
                 28665,
@@ -2243,7 +2243,7 @@
                 79930,
                 79960,
                 79990
-            ], (HijriParser = HijriParser1 || (HijriParser1 = {})).getHijriDate = function(gDate) {
+            ], HijriParser.getHijriDate = function(gDate) {
                 var day = gDate.getDate(), month = gDate.getMonth(), year = gDate.getFullYear(), tMonth = month + 1, tYear = year;
                 tMonth < 3 && (tYear -= 1, tMonth += 12);
                 var yPrefix = Math.floor(tYear / 100.), julilanOffset = yPrefix - Math.floor(yPrefix / 4.) - 2, julianNumber = Math.floor(365.25 * (tYear + 4716)) + Math.floor(30.6001 * (tMonth + 1)) + day - julilanOffset - 1524;
@@ -2302,7 +2302,7 @@
                     }, resPattern = option.format || intl_base_IntlBase.getResultantPattern(option.skeleton, dependable.dateObject, option.type, !1, '');
                     if (formatOptions.dateSeperator = intl_base_IntlBase.getDateSeparator(dependable.dateObject), util_isUndefined(resPattern)) throwError('Format options or type given must be invalid');
                     else {
-                        resPattern = intl_base_IntlBase.ConvertDateToWeekFormat(resPattern), formatOptions.pattern = resPattern, formatOptions.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr));
+                        formatOptions.pattern = resPattern = intl_base_IntlBase.ConvertDateToWeekFormat(resPattern), formatOptions.numMapper = ParserBase.getNumberMapper(dependable.parserObject, ParserBase.getNumberingSystem(cldr));
                         for(var patternMatch = resPattern.match(abbreviateRegexGlobal) || [], _i = 0; _i < patternMatch.length; _i++){
                             var str = patternMatch[_i], len = str.length, char = str[0];
                             switch('K' === char && (char = 'h'), char){
@@ -2318,8 +2318,7 @@
                                     formatOptions.designator = util_getValue('dayPeriods.format.wide', dateObject);
                                     break;
                                 case 'G':
-                                    var eText = len <= 3 ? 'eraAbbr' : 4 === len ? 'eraNames' : 'eraNarrow';
-                                    formatOptions.era = util_getValue('eras.' + eText, dependable.dateObject);
+                                    formatOptions.era = util_getValue('eras.' + (len <= 3 ? 'eraAbbr' : 4 === len ? 'eraNames' : 'eraNarrow'), dependable.dateObject);
                                     break;
                                 case 'z':
                                     formatOptions.timeZone = util_getValue('dates.timeZoneNames', dependable.parserObject);
@@ -2440,8 +2439,7 @@
                     if (match && match[4]) {
                         var pattern_1 = match[4], p = pattern_1.lastIndexOf(',');
                         if (-1 !== p) {
-                            var temp = pattern_1.split('.')[0];
-                            ret.primary = temp.length - p - 1;
+                            ret.primary = pattern_1.split('.')[0].length - p - 1;
                             var s = pattern_1.lastIndexOf(',', p - 1);
                             -1 !== s && (ret.secondary = p - 1 - s);
                         }
@@ -2898,7 +2896,7 @@
                 }
                 function compareBlazorDateFormats(formatOptions, culture) {
                     var format = formatOptions.format || formatOptions.skeleton, curFormatMapper = util_getValue((culture || 'en-US') + '.' + format, blazorCultureFormats);
-                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper), formatOptions.format = curFormatMapper.replace(/tt/, 'a')), formatOptions;
+                    return curFormatMapper || (curFormatMapper = util_getValue('en-US.' + format, blazorCultureFormats)), curFormatMapper && (formatOptions.format = (curFormatMapper = ConvertDateToWeekFormat(curFormatMapper)).replace(/tt/, 'a')), formatOptions;
                 }
                 function getProperNumericSkeleton(skeleton) {
                     var matches = skeleton.match(IntlBase.formatRegex), ret = {}, pattern = matches[1].toUpperCase();
@@ -2914,7 +2912,7 @@
                         var fraction = match[7];
                         if (fraction && needFraction) {
                             var fmatch = fraction.match(fractionRegex);
-                            util_isNullOrUndefined(fmatch) ? nData.minimumFraction = 0 : nData.minimumFraction = fmatch.length, nData.maximumFraction = fraction.length - 1;
+                            nData.minimumFraction = util_isNullOrUndefined(fmatch) ? 0 : fmatch.length, nData.maximumFraction = fraction.length - 1;
                         }
                     }
                     return nData;
@@ -3967,7 +3965,7 @@
             }
             var isColEName = /]/, Base = function() {
                 function Base(options, element) {
-                    this.isRendered = !1, this.isComplexArraySetter = !1, this.isServerRendered = !1, this.allowServerDataBinding = !0, this.isProtectedOnChange = !0, this.properties = {}, this.changedProperties = {}, this.oldProperties = {}, this.bulkChanges = {}, this.refreshing = !1, this.ignoreCollectionWatch = !1, this.finalUpdate = function() {}, this.childChangedProperties = {}, this.modelObserver = new Observer(this), util_isUndefined(element) || ('string' == typeof element ? this.element = document.querySelector(element) : this.element = element, util_isNullOrUndefined(this.element) || (this.isProtectedOnChange = !1, this.addInstance())), util_isUndefined(options) || this.setProperties(options, !0), this.isDestroyed = !1;
+                    this.isRendered = !1, this.isComplexArraySetter = !1, this.isServerRendered = !1, this.allowServerDataBinding = !0, this.isProtectedOnChange = !0, this.properties = {}, this.changedProperties = {}, this.oldProperties = {}, this.bulkChanges = {}, this.refreshing = !1, this.ignoreCollectionWatch = !1, this.finalUpdate = function() {}, this.childChangedProperties = {}, this.modelObserver = new Observer(this), util_isUndefined(element) || (this.element = 'string' == typeof element ? document.querySelector(element) : element, util_isNullOrUndefined(this.element) || (this.isProtectedOnChange = !1, this.addInstance())), util_isUndefined(options) || this.setProperties(options, !0), this.isDestroyed = !1;
                 }
                 return Base.prototype.setProperties = function(prop, muteOnChange) {
                     var prevDetection = this.isProtectedOnChange;
@@ -4088,7 +4086,7 @@
             }
             function getArrayModel(keyString, value, isControlParent, arrayFunction) {
                 var modelObject = keyString;
-                return isControlParent && ((modelObject = {})[keyString] = value, value && 'object' == typeof value && (modelObject[keyString].ejsAction = arrayFunction)), modelObject;
+                return isControlParent && (modelObject = {}, modelObject[keyString] = value, value && 'object' == typeof value && (modelObject[keyString].ejsAction = arrayFunction)), modelObject;
             }
             function Property(defaultValue) {
                 return function(target, key) {
@@ -4130,10 +4128,7 @@
                         },
                         get: function() {
                             var _this = this;
-                            if (!this.properties.hasOwnProperty(key)) {
-                                var defCollection = getObjectArray(this, key, defaultValue, type, !1);
-                                this.properties[key] = defCollection;
-                            }
+                            this.properties.hasOwnProperty(key) || (this.properties[key] = getObjectArray(this, key, defaultValue, type, !1));
                             var ignore = void 0 !== this.controlParent && this.controlParent.ignoreCollectionWatch || this.ignoreCollectionWatch;
                             return this.properties[key].hasOwnProperty('push') || ignore || [
                                 'push',
@@ -4251,19 +4246,12 @@
                 return __extends(Animation, _super), Animation_1 = Animation, Animation.prototype.animate = function(element, options) {
                     options = options || {};
                     var model = this.getModel(options);
-                    if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++){
-                        var element_1 = elements[_i];
-                        model.element = element_1, Animation_1.delayAnimation(model);
-                    }
+                    if ('string' == typeof element) for(var elements = Array.prototype.slice.call(selectAll(element, document)), _i = 0; _i < elements.length; _i++)model.element = elements[_i], Animation_1.delayAnimation(model);
                     else model.element = element, Animation_1.delayAnimation(model);
                 }, Animation.stop = function(element, model) {
                     element.style.animation = '', element.removeAttribute('e-animate');
                     var animationId = element.getAttribute('e-animation-id');
-                    if (animationId) {
-                        var frameId = parseInt(animationId, 10);
-                        cancelAnimationFrame(frameId), element.removeAttribute('e-animation-id');
-                    }
-                    model && model.end && model.end.call(this, model);
+                    animationId && (cancelAnimationFrame(parseInt(animationId, 10)), element.removeAttribute('e-animation-id')), model && model.end && model.end.call(this, model);
                 }, Animation.delayAnimation = function(model) {
                     'Disable' === animationMode ? (model.begin && model.begin.call(this, model), model.end && model.end.call(this, model)) : model.delay ? setTimeout(function() {
                         Animation_1.applyAnimation(model);
@@ -4939,11 +4927,11 @@
                         if (this.dragArea) {
                             if (this.pageX !== pagex || this.skipDistanceCheck) {
                                 var helperWidth = helperElement.offsetWidth + (parseFloat(styles.marginLeft) + parseFloat(styles.marginRight));
-                                left = this.dragLimit.left > dLeft && dLeft > 0 ? this.dragLimit.left : this.dragLimit.right + window.pageXOffset < dLeft + helperWidth && dLeft > 0 ? dLeft - (dLeft - this.dragLimit.right) + window.pageXOffset - helperWidth : dLeft < 0 ? this.dragLimit.left : dLeft;
+                                this.dragLimit.left > dLeft && dLeft > 0 ? left = this.dragLimit.left : this.dragLimit.right + window.pageXOffset < dLeft + helperWidth && dLeft > 0 ? left = dLeft - (dLeft - this.dragLimit.right) + window.pageXOffset - helperWidth : left = dLeft < 0 ? this.dragLimit.left : dLeft;
                             }
                             if (this.pageY !== pagey || this.skipDistanceCheck) {
                                 var helperHeight = helperElement.offsetHeight + (parseFloat(styles.marginTop) + parseFloat(styles.marginBottom));
-                                top1 = this.dragLimit.top > dTop && dTop > 0 ? this.dragLimit.top : this.dragLimit.bottom + window.pageYOffset < dTop + helperHeight && dTop > 0 ? dTop - (dTop - this.dragLimit.bottom) + window.pageYOffset - helperHeight : dTop < 0 ? this.dragLimit.top : dTop;
+                                this.dragLimit.top > dTop && dTop > 0 ? top1 = this.dragLimit.top : this.dragLimit.bottom + window.pageYOffset < dTop + helperHeight && dTop > 0 ? top1 = dTop - (dTop - this.dragLimit.bottom) + window.pageYOffset - helperHeight : top1 = dTop < 0 ? this.dragLimit.top : dTop;
                             }
                         } else left = dLeft, top1 = dTop;
                         var iTop = tTop + this.borderWidth.top, iLeft = tLeft + this.borderWidth.left;
@@ -5026,7 +5014,7 @@
                             var key = keys[i], tborder = styles['border' + key + 'Width'], tpadding = styles['padding' + key], lowerKey = key.toLowerCase();
                             this.borderWidth[lowerKey] = isNaN(parseFloat(tborder)) ? 0 : parseFloat(tborder), this.padding[lowerKey] = isNaN(parseFloat(tpadding)) ? 0 : parseFloat(tpadding);
                         }
-                        top1 = elementArea.top, left = elementArea.left, this.dragLimit.left = left + this.borderWidth.left + this.padding.left, this.dragLimit.top = ele.offsetTop + this.borderWidth.top + this.padding.top, this.dragLimit.right = left + eleWidthBound - (this.borderWidth.right + this.padding.right), this.dragLimit.bottom = top1 + eleHeightBound - (this.borderWidth.bottom + this.padding.bottom);
+                        top1 = elementArea.top, this.dragLimit.left = (left = elementArea.left) + this.borderWidth.left + this.padding.left, this.dragLimit.top = ele.offsetTop + this.borderWidth.top + this.padding.top, this.dragLimit.right = left + eleWidthBound - (this.borderWidth.right + this.padding.right), this.dragLimit.bottom = top1 + eleHeightBound - (this.borderWidth.bottom + this.padding.bottom);
                     }
                 }, Draggable.prototype.getProperTargetElement = function(evt) {
                     var ele, intCoord = this.getCoordinates(evt), prevStyle = this.helperElement.style.pointerEvents || '';
@@ -5319,8 +5307,7 @@
                     this.controlName = controlName, this.localeStrings = localeStrings, this.setLocale(locale || defaultCulture);
                 }
                 return L10n.prototype.setLocale = function(locale) {
-                    var intLocale = this.intGetControlConstant(L10n.locale, locale);
-                    this.currentLocale = intLocale || this.localeStrings;
+                    this.currentLocale = this.intGetControlConstant(L10n.locale, locale) || this.localeStrings;
                 }, L10n.load = function(localeObject) {
                     this.locale = util_extend(this.locale, localeObject, {}, !0);
                 }, L10n.prototype.getConstant = function(prop) {
@@ -5433,14 +5420,15 @@
                     var eleStyle = getComputedStyle(element), style = eleStyle.overflow + eleStyle.overflowX + eleStyle.overflowY;
                     return !!/(auto|scroll)/.test(style);
                 }, Touch.prototype.tapHoldEvent = function(evt) {
-                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), this.trigger('tapHold', {
+                    var eTapArgs;
+                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), eTapArgs = {
                         originalEvent: evt
-                    }), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
+                    }, this.trigger('tapHold', eTapArgs), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
                 }, Touch.prototype.calcPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {
                         originalEvent: evt
-                    }, this.distanceX = Math.abs(Math.abs(point.clientX) - Math.abs(this.startPoint.clientX)), this.distanceY = Math.abs(Math.abs(point.clientY) - Math.abs(this.startPoint.clientY)), this.distanceX > this.distanceY ? this.movedDirection = point.clientX > this.startPoint.clientX ? 'Right' : 'Left' : this.movedDirection = point.clientY < this.startPoint.clientY ? 'Up' : 'Down';
+                    }, this.distanceX = Math.abs(Math.abs(point.clientX) - Math.abs(this.startPoint.clientX)), this.distanceY = Math.abs(Math.abs(point.clientY) - Math.abs(this.startPoint.clientY)), this.movedDirection = this.distanceX > this.distanceY ? point.clientX > this.startPoint.clientX ? 'Right' : 'Left' : point.clientY < this.startPoint.clientY ? 'Up' : 'Down';
                 }, Touch.prototype.calcScrollPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {
@@ -5754,16 +5742,9 @@
                         selector: '.' + cssClassName.BUTTON
                     }), this.renderComplete();
                 }, Button.prototype.initialize = function() {
-                    if (this.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
+                    this.cssClass && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         this.element
-                    ], this.cssClass.split(' ')), this.isPrimary && this.element.classList.add(cssClassName.PRIMARY), !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() && 'progress-btn' !== this.getModuleName()) {
-                        if (this.content) {
-                            var tempContent = this.enableHtmlSanitizer ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.pJ.sanitize(this.content) : this.content;
-                            this.element.innerHTML = tempContent;
-                        }
-                        this.setIconCss();
-                    }
-                    this.enableRtl && this.element.classList.add(cssClassName.RTL), this.disabled ? this.controlStatus(this.disabled) : this.wireEvents();
+                    ], this.cssClass.split(' ')), this.isPrimary && this.element.classList.add(cssClassName.PRIMARY), (!(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.xr)() && 'progress-btn' !== this.getModuleName()) && (this.content && (this.element.innerHTML = this.enableHtmlSanitizer ? _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.pJ.sanitize(this.content) : this.content), this.setIconCss()), this.enableRtl && this.element.classList.add(cssClassName.RTL), this.disabled ? this.controlStatus(this.disabled) : this.wireEvents();
                 }, Button.prototype.controlStatus = function(disabled) {
                     this.element.disabled = disabled;
                 }, Button.prototype.setIconCss = function() {
@@ -6635,7 +6616,7 @@
                     setTimeout(function() {
                         if (_this.element.selectionStart > 0) {
                             var currentPos = _this.element.selectionStart, prevPos = _this.element.selectionStart - 1, valArray = _this.element.value.split(''), numericObject = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.NE)(_this.locale), decimalSeparator = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.NA)('decimal', numericObject), ignoreKeyCode = decimalSeparator.charCodeAt(0);
-                            ' ' === _this.element.value[prevPos] && _this.element.selectionStart > 0 && !iOS ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.prevVal) ? _this.element.value = _this.element.value.trim() : 0 !== prevPos ? _this.element.value = _this.prevVal : 0 === prevPos && (_this.element.value = _this.element.value.trim()), _this.element.setSelectionRange(prevPos, prevPos)) : isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 1])) && 45 !== _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) ? (valArray.indexOf(_this.element.value[_this.element.selectionStart - 1]) !== valArray.lastIndexOf(_this.element.value[_this.element.selectionStart - 1]) && _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) === ignoreKeyCode || _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) !== ignoreKeyCode) && (_this.element.value = _this.element.value.substring(0, prevPos) + _this.element.value.substring(currentPos, _this.element.value.length), _this.element.setSelectionRange(prevPos, prevPos), isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 1])) && _this.element.selectionStart > 0 && _this.element.value.length && _this.preventHandler()) : isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 2])) && _this.element.selectionStart > 1 && 45 !== _this.element.value[_this.element.selectionStart - 2].charCodeAt(0) && (valArray.indexOf(_this.element.value[_this.element.selectionStart - 2]) !== valArray.lastIndexOf(_this.element.value[_this.element.selectionStart - 2]) && _this.element.value[_this.element.selectionStart - 2].charCodeAt(0) === ignoreKeyCode || _this.element.value[_this.element.selectionStart - 2].charCodeAt(0) !== ignoreKeyCode) && (_this.element.setSelectionRange(prevPos, prevPos), _this.nextEle = _this.element.value[_this.element.selectionStart], _this.cursorPosChanged = !0, _this.preventHandler()), !0 === _this.cursorPosChanged && _this.element.value[_this.element.selectionStart] === _this.nextEle && isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 1])) && (_this.element.setSelectionRange(_this.element.selectionStart + 1, _this.element.selectionStart + 1), _this.cursorPosChanged = !1, _this.nextEle = null), '' === _this.element.value.trim() && _this.element.setSelectionRange(0, 0), _this.element.selectionStart > 0 && (45 === _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) && _this.element.selectionStart > 1 && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.prevVal) ? _this.element.value = _this.element.value : _this.element.value = _this.prevVal, _this.element.setSelectionRange(_this.element.selectionStart, _this.element.selectionStart)), _this.element.value[_this.element.selectionStart - 1] === decimalSeparator && 0 === _this.decimals && _this.validateDecimalOnType && (_this.element.value = _this.element.value.substring(0, prevPos) + _this.element.value.substring(currentPos, _this.element.value.length))), _this.prevVal = _this.element.value;
+                            ' ' === _this.element.value[prevPos] && _this.element.selectionStart > 0 && !iOS ? ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.prevVal) ? _this.element.value = _this.element.value.trim() : 0 !== prevPos ? _this.element.value = _this.prevVal : 0 === prevPos && (_this.element.value = _this.element.value.trim()), _this.element.setSelectionRange(prevPos, prevPos)) : isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 1])) && 45 !== _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) ? (valArray.indexOf(_this.element.value[_this.element.selectionStart - 1]) !== valArray.lastIndexOf(_this.element.value[_this.element.selectionStart - 1]) && _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) === ignoreKeyCode || _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) !== ignoreKeyCode) && (_this.element.value = _this.element.value.substring(0, prevPos) + _this.element.value.substring(currentPos, _this.element.value.length), _this.element.setSelectionRange(prevPos, prevPos), isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 1])) && _this.element.selectionStart > 0 && _this.element.value.length && _this.preventHandler()) : isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 2])) && _this.element.selectionStart > 1 && 45 !== _this.element.value[_this.element.selectionStart - 2].charCodeAt(0) && (valArray.indexOf(_this.element.value[_this.element.selectionStart - 2]) !== valArray.lastIndexOf(_this.element.value[_this.element.selectionStart - 2]) && _this.element.value[_this.element.selectionStart - 2].charCodeAt(0) === ignoreKeyCode || _this.element.value[_this.element.selectionStart - 2].charCodeAt(0) !== ignoreKeyCode) && (_this.element.setSelectionRange(prevPos, prevPos), _this.nextEle = _this.element.value[_this.element.selectionStart], _this.cursorPosChanged = !0, _this.preventHandler()), !0 === _this.cursorPosChanged && _this.element.value[_this.element.selectionStart] === _this.nextEle && isNaN(parseFloat(_this.element.value[_this.element.selectionStart - 1])) && (_this.element.setSelectionRange(_this.element.selectionStart + 1, _this.element.selectionStart + 1), _this.cursorPosChanged = !1, _this.nextEle = null), '' === _this.element.value.trim() && _this.element.setSelectionRange(0, 0), _this.element.selectionStart > 0 && (45 === _this.element.value[_this.element.selectionStart - 1].charCodeAt(0) && _this.element.selectionStart > 1 && (_this.element.value = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(_this.prevVal) ? _this.element.value : _this.prevVal, _this.element.setSelectionRange(_this.element.selectionStart, _this.element.selectionStart)), _this.element.value[_this.element.selectionStart - 1] === decimalSeparator && 0 === _this.decimals && _this.validateDecimalOnType && (_this.element.value = _this.element.value.substring(0, prevPos) + _this.element.value.substring(currentPos, _this.element.value.length))), _this.prevVal = _this.element.value;
                         }
                     });
                 }, NumericTextBox.prototype.keyUpHandler = function() {
@@ -6644,7 +6625,7 @@
                         var parseValue = this.instance.getNumberParser({
                             format: 'n'
                         })(this.element.value);
-                        if (parseValue = null === parseValue || isNaN(parseValue) ? null : parseValue, this.hiddenInput.value = parseValue || 0 === parseValue ? parseValue.toString() : null, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.oq)(this.element, 'form')) {
+                        if (this.hiddenInput.value = (parseValue = null === parseValue || isNaN(parseValue) ? null : parseValue) || 0 === parseValue ? parseValue.toString() : null, (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.oq)(this.element, 'form')) {
                             var element = this.element.nextElementSibling, keyupEvent = document.createEvent('KeyboardEvent');
                             keyupEvent.initEvent('keyup', !1, !0), element.dispatchEvent(keyupEvent);
                         }
@@ -7049,11 +7030,11 @@
                 var elemData = element.getBoundingClientRect();
                 if (targetContainer = viewPortElement, parentDocument = element.ownerDocument, position || (position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(element, 'left', 'top')), axis.X) {
                     var containerWidth = targetContainer ? getTargetContainerWidth() : getViewPortWidth(), containerLeft = ContainerLeft(), containerRight = ContainerRight(), overLeft = containerLeft - position.left, overRight = position.left + elemData.width - containerRight;
-                    elemData.width > containerWidth ? overLeft > 0 && overRight <= 0 ? position.left = containerRight - elemData.width : overRight > 0 && overLeft <= 0 ? position.left = containerLeft : position.left = overLeft > overRight ? containerRight - elemData.width : containerLeft : overLeft > 0 ? position.left += overLeft : overRight > 0 && (position.left -= overRight);
+                    elemData.width > containerWidth ? position.left = overLeft > 0 && overRight <= 0 ? containerRight - elemData.width : overRight > 0 && overLeft <= 0 ? containerLeft : overLeft > overRight ? containerRight - elemData.width : containerLeft : overLeft > 0 ? position.left += overLeft : overRight > 0 && (position.left -= overRight);
                 }
                 if (axis.Y) {
                     var containerHeight = targetContainer ? getTargetContainerHeight() : getViewPortHeight(), containerTop = ContainerTop(), containerBottom = ContainerBottom(), overTop = containerTop - position.top, overBottom = position.top + elemData.height - containerBottom;
-                    elemData.height > containerHeight ? overTop > 0 && overBottom <= 0 ? position.top = containerBottom - elemData.height : overBottom > 0 && overTop <= 0 ? position.top = containerTop : position.top = overTop > overBottom ? containerBottom - elemData.height : containerTop : overTop > 0 ? position.top += overTop : overBottom > 0 && (position.top -= overBottom);
+                    elemData.height > containerHeight ? position.top = overTop > 0 && overBottom <= 0 ? containerBottom - elemData.height : overBottom > 0 && overTop <= 0 ? containerTop : overTop > overBottom ? containerBottom - elemData.height : containerTop : overTop > 0 ? position.top += overTop : overBottom > 0 && (position.top -= overBottom);
                 }
                 return position;
             }
@@ -7098,10 +7079,10 @@
                     };
                     targetContainer = viewPortElement, parentDocument = target.ownerDocument, elementRect = elementRect1, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, fixedParent, elementRect), tEdge.TL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'top', fixedParent, elementRect), tEdge.TR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'top', fixedParent, elementRect), tEdge.BR = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'left', 'bottom', fixedParent, elementRect), tEdge.BL = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, 'right', 'bottom', fixedParent, elementRect), setPosition(eEdge, pos, elementRect1), axis.X && function leftFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = leftCollideCheck(edge.TL.left, edge.TR.left);
-                        tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && ('right' === pos.posX ? pos.posX = 'left' : pos.posX = 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
+                        tEdge.TL.left - getBodyScrollLeft() <= ContainerLeft() && (collideSide.leftSide = !1), tEdge.TR.left > ContainerRight() && (collideSide.rightSide = !1), (collideSide.leftSide && !collideSide.rightSide || !collideSide.leftSide && collideSide.rightSide) && (pos.posX = 'right' === pos.posX ? 'left' : 'right', pos.offsetX = pos.offsetX + elementRect.width, pos.offsetX = -1 * pos.offsetX, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1), setPosition(edge, pos, elementRect), deepCheck && leftFlip(target, edge, tEdge, pos, elementRect, !1));
                     }(target, eEdge, tEdge, pos, elementRect1, !0), axis.Y && tEdge.TL.top > -1 && function topFlip(target, edge, tEdge, pos, elementRect, deepCheck) {
                         var collideSide = topCollideCheck(edge.TL.top, edge.BL.top);
-                        tEdge.TL.top - getBodyScrollTop() <= ContainerTop() && (collideSide.topSide = !1), tEdge.BL.top >= ContainerBottom() && target.getBoundingClientRect().bottom < window.innerHeight && (collideSide.bottomSide = !1), (collideSide.topSide && !collideSide.bottomSide || !collideSide.topSide && collideSide.bottomSide) && ('top' === pos.posY ? pos.posY = 'bottom' : pos.posY = 'top', pos.offsetY = pos.offsetY + elementRect.height, pos.offsetY = -1 * pos.offsetY, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1, elementRect), setPosition(edge, pos, elementRect), deepCheck && topFlip(target, edge, tEdge, pos, elementRect, !1));
+                        tEdge.TL.top - getBodyScrollTop() <= ContainerTop() && (collideSide.topSide = !1), tEdge.BL.top >= ContainerBottom() && target.getBoundingClientRect().bottom < window.innerHeight && (collideSide.bottomSide = !1), (collideSide.topSide && !collideSide.bottomSide || !collideSide.topSide && collideSide.bottomSide) && (pos.posY = 'top' === pos.posY ? 'bottom' : 'top', pos.offsetY = pos.offsetY + elementRect.height, pos.offsetY = -1 * pos.offsetY, pos.position = (0, _position__WEBPACK_IMPORTED_MODULE_1__.k)(target, pos.posX, pos.posY, !1, elementRect), setPosition(edge, pos, elementRect), deepCheck && topFlip(target, edge, tEdge, pos, elementRect, !1));
                     }(target, eEdge, tEdge, pos, elementRect1, !0), function(element, pos, elementRect) {
                         var left = 0, top1 = 0;
                         if (null != element.offsetParent && ('absolute' === getComputedStyle(element.offsetParent).position || 'relative' === getComputedStyle(element.offsetParent).position)) {
@@ -7202,34 +7183,33 @@
             }
             function calculatePosition(currentElement, positionX, positionY, parentElement, targetValues) {
                 return (popupRect = void 0, popupRect = targetValues, fixedParent = !!parentElement, currentElement) ? (positionX || (positionX = 'left'), positionY || (positionY = 'top'), parentDocument = currentElement.ownerDocument, element = currentElement, function(posX, posY, pos) {
-                    var value, value1, value2, value3, value4, value5, value6, value7, value8;
                     switch(elementRect = element.getBoundingClientRect(), posY + posX){
                         case 'topcenter':
-                            setPosx(getElementHCenter(), pos), value = getElementTop(), pos.top = value;
+                            setPosx(getElementHCenter(), pos), pos.top = getElementTop();
                             break;
                         case 'topright':
-                            setPosx(getElementRight(), pos), value1 = getElementTop(), pos.top = value1;
+                            setPosx(getElementRight(), pos), pos.top = getElementTop();
                             break;
                         case 'centercenter':
-                            setPosx(getElementHCenter(), pos), value2 = getElementVCenter(), pos.top = value2;
+                            setPosx(getElementHCenter(), pos), pos.top = getElementVCenter();
                             break;
                         case 'centerright':
-                            setPosx(getElementRight(), pos), value3 = getElementVCenter(), pos.top = value3;
+                            setPosx(getElementRight(), pos), pos.top = getElementVCenter();
                             break;
                         case 'centerleft':
-                            setPosx(getElementLeft(), pos), value4 = getElementVCenter(), pos.top = value4;
+                            setPosx(getElementLeft(), pos), pos.top = getElementVCenter();
                             break;
                         case 'bottomcenter':
-                            setPosx(getElementHCenter(), pos), value5 = getElementBottom(), pos.top = value5;
+                            setPosx(getElementHCenter(), pos), pos.top = getElementBottom();
                             break;
                         case 'bottomright':
-                            setPosx(getElementRight(), pos), value6 = getElementBottom(), pos.top = value6;
+                            setPosx(getElementRight(), pos), pos.top = getElementBottom();
                             break;
                         case 'bottomleft':
-                            setPosx(getElementLeft(), pos), value7 = getElementBottom(), pos.top = value7;
+                            setPosx(getElementLeft(), pos), pos.top = getElementBottom();
                             break;
                         default:
-                            setPosx(getElementLeft(), pos), value8 = getElementTop(), pos.top = value8;
+                            setPosx(getElementLeft(), pos), pos.top = getElementTop();
                     }
                     return pos;
                 }(positionX.toLowerCase(), positionY.toLowerCase(), {
@@ -7533,13 +7513,9 @@
                     })));
                 }, Popup.prototype.show = function(animationOptions, relativeElement) {
                     var _this = this;
-                    if (this.wireEvents(), 1000 === this.zIndex || !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement)) {
-                        var zIndexElement = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement) ? this.element : relativeElement;
-                        this.zIndex = getZindexPartial(zIndexElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
-                            zIndex: this.zIndex
-                        });
-                    }
-                    animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(animationOptions) || 'object' != typeof animationOptions ? this.showAnimation : animationOptions, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
+                    this.wireEvents(), 1000 !== this.zIndex && (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement) || (this.zIndex = getZindexPartial((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(relativeElement) ? this.element : relativeElement), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.V7)(this.element, {
+                        zIndex: this.zIndex
+                    })), animationOptions = (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(animationOptions) || 'object' != typeof animationOptions ? this.showAnimation : animationOptions, ('none' !== this.collision.X || 'none' !== this.collision.Y) && ((0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)([
                         this.element
                     ], CLASSNAMES.CLOSE), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)([
                         this.element
@@ -8035,7 +8011,7 @@
                             var childNodes = this.parent.contentModule.getEditPanel().childNodes;
                             if (0 === childNodes.length || 1 === childNodes.length && 0 === childNodes[0].childNodes.length && ('BR' === childNodes[0].tagName || ('P' === childNodes[0].tagName || 'DIV' === childNodes[0].tagName) && '' === childNodes[0].textContent)) {
                                 var node = this.parent.contentModule.getEditPanel();
-                                'DIV' === this.parent.enterKey ? node.innerHTML = '<div><br/></div>' : 'BR' === this.parent.enterKey ? node.innerHTML = '<br/>' : node.innerHTML = '<p><br/></p>', this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), node.childNodes[0], 0);
+                                node.innerHTML = 'DIV' === this.parent.enterKey ? '<div><br/></div>' : 'BR' === this.parent.enterKey ? '<br/>' : '<p><br/></p>', this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), node.childNodes[0], 0);
                             }
                     }
                 }, Render;
@@ -8212,13 +8188,17 @@
                             id: this.parent.element.id + '_source-view'
                         }) : this.parent.element.querySelector('#' + this.parent.element.id + '_source-view')).appendChild(this.previewElement), this.parent.element.appendChild(rteContent), rteContent.style.height = this.contentModule.getPanel().style.height, rteContent.style.marginTop = this.contentModule.getPanel().style.marginTop, this.getPanel().value = this.getTextAreaValue(), this.contentModule.getPanel().style.display = 'none', rteContent.style.display = 'block', this.getPanel().style.display = 'block';
                     } else this.contentModule.getPanel().appendChild(this.previewElement), this.getPanel().value = this.getTextAreaValue(), this.contentModule.getEditPanel().style.display = 'none', this.previewElement.style.display = 'block';
-                    this.parent.isBlur = !1, this.parent.disableToolbarItem(this.parent.toolbarSettings.items), this.parent.enableToolbarItem('SourceCode'), this.parent.getToolbar() && (0, ej2_base.IV)([
+                    if (this.parent.isBlur = !1, this.parent.disableToolbarItem(this.parent.toolbarSettings.items), this.parent.enableToolbarItem('SourceCode'), this.parent.getToolbar() && (0, ej2_base.IV)([
                         this.parent.getToolbar()
                     ], [
                         classes.Yi
                     ]), (0, ej2_base.IV)(tbItems, [
                         classes.XS
-                    ]), this.parent.setContentHeight('sourceCode', !0), this.wireEvent(this.previewElement), this.unWireBaseKeyDown(), this.previewElement.focus(), this.parent.updateValue(), (0, ej2_base.le)(this.parent.placeholder) || this.parent.iframeSettings.enable || (this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder').style.display = 'none'), this.parent.trigger(constant.i8, {
+                    ]), this.parent.setContentHeight('sourceCode', !0), this.wireEvent(this.previewElement), this.unWireBaseKeyDown(), this.previewElement.focus(), this.parent.updateValue(), !(0, ej2_base.le)(this.parent.placeholder) && !this.parent.iframeSettings.enable) {
+                        var placeHolderWrapper = this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder');
+                        placeHolderWrapper.style.display = 'none';
+                    }
+                    this.parent.trigger(constant.i8, {
                         requestType: 'SourceCode',
                         targetItem: 'SourceCode',
                         args: args
@@ -8236,11 +8216,15 @@
                         baseToolbar: this.parent.getBaseToolbarObject()
                     });
                     var serializeValue = this.parent.serializeValue(editHTML.value);
-                    value = null === serializeValue || '' === serializeValue ? 'DIV' === this.parent.enterKey ? '<div><br/></div>' : 'BR' === this.parent.enterKey ? '<br/>' : '<p><br/></p>' : serializeValue, this.parent.iframeSettings.enable ? (editHTML.parentElement.style.display = 'none', editHTML.style.display = 'none', this.contentModule.getPanel().style.display = 'block') : (editHTML.style.display = 'none', this.contentModule.getEditPanel().style.display = 'block'), this.contentModule.getEditPanel().innerHTML = value, this.parent.isBlur = !1, this.parent.enableToolbarItem(this.parent.toolbarSettings.items), this.parent.getToolbar() && (0, ej2_base.IV)([
+                    if (value = null === serializeValue || '' === serializeValue ? 'DIV' === this.parent.enterKey ? '<div><br/></div>' : 'BR' === this.parent.enterKey ? '<br/>' : '<p><br/></p>' : serializeValue, this.parent.iframeSettings.enable ? (editHTML.parentElement.style.display = 'none', editHTML.style.display = 'none', this.contentModule.getPanel().style.display = 'block') : (editHTML.style.display = 'none', this.contentModule.getEditPanel().style.display = 'block'), this.contentModule.getEditPanel().innerHTML = value, this.parent.isBlur = !1, this.parent.enableToolbarItem(this.parent.toolbarSettings.items), this.parent.getToolbar() && (0, ej2_base.IV)([
                         this.parent.getToolbar()
                     ], [
                         classes.Yi
-                    ]), this.parent.setContentHeight('preview', !0), this.unWireEvent(), this.wireBaseKeyDown(), this.contentModule.getEditPanel().focus(), this.parent.updateValue(), (0, ej2_base.le)(this.parent.placeholder) || 0 !== this.contentModule.getEditPanel().innerText.length || (this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder').style.display = 'block'), this.parent.trigger(constant.i8, {
+                    ]), this.parent.setContentHeight('preview', !0), this.unWireEvent(), this.wireBaseKeyDown(), this.contentModule.getEditPanel().focus(), this.parent.updateValue(), !(0, ej2_base.le)(this.parent.placeholder) && 0 === this.contentModule.getEditPanel().innerText.length) {
+                        var placeHolderWrapper = this.parent.element.querySelector('.rte-placeholder.e-rte-placeholder');
+                        placeHolderWrapper.style.display = 'block';
+                    }
+                    this.parent.trigger(constant.i8, {
                         requestType: 'Preview',
                         targetItem: 'Preview',
                         args: args
@@ -9313,7 +9297,7 @@
                         this.parent.trigger(constant.m2, actionBeginArgs, function(actionBeginArgs) {
                             if (!actionBeginArgs.cancel) {
                                 if (!(_this.range.startOffset === _this.range.endOffset && _this.range.startContainer === _this.range.endContainer)) {
-                                    if (_this.range.deleteContents(), '#text' === _this.range.startContainer.nodeName && 0 === _this.range.startContainer.textContent.length && _this.range.startContainer.parentElement !== _this.parent.inputElement) 'BR' === _this.parent.enterKey ? _this.range.startContainer.parentElement.innerHTML = '&#8203;' : _this.range.startContainer.parentElement.innerHTML = '<br>';
+                                    if (_this.range.deleteContents(), '#text' === _this.range.startContainer.nodeName && 0 === _this.range.startContainer.textContent.length && _this.range.startContainer.parentElement !== _this.parent.inputElement) _this.range.startContainer.parentElement.innerHTML = 'BR' === _this.parent.enterKey ? '&#8203;' : '<br>';
                                     else if (_this.range.startContainer === _this.parent.inputElement && '' === _this.range.startContainer.innerHTML) {
                                         _this.range.startContainer.innerHTML = '<br>';
                                         var focusElem = _this.range.startContainer.childNodes[_this.range.startOffset];
@@ -9831,7 +9815,7 @@
                     }
                 }, Dialog.prototype.setOverlayZindex = function(zIndexValue) {
                     var zIndex;
-                    zIndex = (0, ej2_base.le)(zIndexValue) ? parseInt(this.element.style.zIndex, 10) ? parseInt(this.element.style.zIndex, 10) : this.zIndex : zIndexValue, this.dlgOverlay.style.zIndex = (zIndex - 1).toString(), this.dlgContainer.style.zIndex = zIndex.toString();
+                    this.dlgOverlay.style.zIndex = ((zIndex = (0, ej2_base.le)(zIndexValue) ? parseInt(this.element.style.zIndex, 10) ? parseInt(this.element.style.zIndex, 10) : this.zIndex : zIndexValue) - 1).toString(), this.dlgContainer.style.zIndex = zIndex.toString();
                 }, Dialog.prototype.positionChange = function() {
                     this.isModal && (isNaN(parseFloat(this.position.X)) || isNaN(parseFloat(this.position.Y))) ? !isNaN(parseFloat(this.position.X)) && isNaN(parseFloat(this.position.Y)) || isNaN(parseFloat(this.position.X)) && !isNaN(parseFloat(this.position.Y)) ? this.setPopupPosition() : (this.element.style.top = '0px', this.element.style.left = '0px', this.dlgContainer.classList.add('e-dlg-' + this.position.X + '-' + this.position.Y)) : this.setPopupPosition();
                 }, Dialog.prototype.setPopupPosition = function() {
@@ -10371,7 +10355,7 @@
                     var options, options1, alertButtonModel, alertDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_ALERT
                     });
-                    return document.body.appendChild(dialogElement), (alertDialogObj = 'string' == typeof args ? createDialog({
+                    return document.body.appendChild(dialogElement), alertDialogObj = 'string' == typeof args ? createDialog({
                         content: args,
                         position: {
                             X: 'center',
@@ -10390,7 +10374,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
+                    }, dialogElement) : createDialog((options = {}, options.buttons = [], options1 = options = formOptions(options, args), alertButtonModel = [
                         {
                             buttonModel: {
                                 isPrimary: !0,
@@ -10400,14 +10384,14 @@
                                 this.hide();
                             }
                         }
-                    ], (0, ej2_base.le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement)).close = function() {
+                    ], (0, ej2_base.le)(args.okButton) ? options1.buttons = alertButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, alertButtonModel[0]), options = options1), dialogElement), alertDialogObj.close = function() {
                         args && args.close && args.close.apply(alertDialogObj), alertDialogObj.destroy(), alertDialogObj.element.classList.contains('e-dlg-modal') ? (alertDialogObj.element.parentElement.remove(), alertDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : alertDialogObj.element.remove();
                     }, alertDialogObj;
                 }, DialogUtility.confirm = function(args) {
                     var options, options1, okButtonModel, cancelButtonModel, confirmDialogObj, dialogElement = (0, ej2_base.az)('div', {
                         className: DLG_UTIL_CONFIRM
                     });
-                    return document.body.appendChild(dialogElement), (confirmDialogObj = 'string' == typeof args ? createDialog({
+                    return document.body.appendChild(dialogElement), confirmDialogObj = 'string' == typeof args ? createDialog({
                         position: {
                             X: 'center',
                             Y: 'top'
@@ -10434,7 +10418,7 @@
                                 }
                             }
                         ]
-                    }, dialogElement) : createDialog(((options = {}).buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
+                    }, dialogElement) : createDialog((options = {}, options.buttons = [], options1 = options = formOptions(options, args), okButtonModel = {
                         buttonModel: {
                             isPrimary: !0,
                             content: 'OK'
@@ -10449,7 +10433,7 @@
                         click: function() {
                             this.hide();
                         }
-                    }, (0, ej2_base.le)(args.okButton) ? options1.buttons[0] = okButtonModel : options1.buttons[0] = formButtonModel(options1.buttons[0], args.okButton, okButtonModel), (0, ej2_base.le)(args.cancelButton) ? options1.buttons[1] = cancelButtonModel : options1.buttons[1] = formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement)).close = function() {
+                    }, options1.buttons[0] = (0, ej2_base.le)(args.okButton) ? okButtonModel : formButtonModel(options1.buttons[0], args.okButton, okButtonModel), options1.buttons[1] = (0, ej2_base.le)(args.cancelButton) ? cancelButtonModel : formButtonModel(options1.buttons[1], args.cancelButton, cancelButtonModel), options = options1), dialogElement), confirmDialogObj.close = function() {
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };
@@ -10464,7 +10448,7 @@
                     this.parent.isDestroyed || (this.parent.off(constant.ob, this.removeEventListener), this.parent.off(constant.P0, this.moduleDestroy));
                 }, DialogRenderer.prototype.render = function(e) {
                     var dlgObj;
-                    return e.beforeOpen = this.beforeOpen.bind(this), e.open = this.open.bind(this), (0, ej2_base.le)(e.close) && (e.close = this.close.bind(this)), e.beforeClose = this.beforeClose.bind(this), (dlgObj = new Dialog(e)).isStringTemplate = !0, dlgObj;
+                    return e.beforeOpen = this.beforeOpen.bind(this), e.open = this.open.bind(this), (0, ej2_base.le)(e.close) && (e.close = this.close.bind(this)), e.beforeClose = this.beforeClose.bind(this), dlgObj = new Dialog(e), dlgObj.isStringTemplate = !0, dlgObj;
                 }, DialogRenderer.prototype.beforeOpen = function(args) {
                     this.parent.trigger(constant.Yb, args, this.beforeOpenCallback.bind(this, args));
                 }, DialogRenderer.prototype.beforeOpenCallback = function(args) {
@@ -10700,7 +10684,7 @@
                             var url = '' !== imageValue && this.createElement('div', {
                                 innerHTML: imageValue
                             }).firstElementChild.getAttribute('src') || null;
-                            url = (0, ej2_base.le)(url) ? '' : url, value.url = url, (0, ej2_base.le)(value.width) && (value.width = {
+                            value.url = url = (0, ej2_base.le)(url) ? '' : url, (0, ej2_base.le)(value.width) && (value.width = {
                                 minWidth: this.insertImageSettings.minWidth,
                                 maxWidth: this.insertImageSettings.maxWidth,
                                 width: this.insertImageSettings.width
@@ -10720,7 +10704,7 @@
                             var href = '' !== linkValue && this.createElement('div', {
                                 innerHTML: linkValue
                             }).firstElementChild.getAttribute('href') || null;
-                            href = (0, ej2_base.le)(href) ? '' : href, value.url = href;
+                            value.url = href = (0, ej2_base.le)(href) ? '' : href;
                     }
                     return value;
                 }, RichTextEditor.prototype.encode = function(value) {
@@ -11083,13 +11067,13 @@
                     var getTextArea = this.element.querySelector('.e-rte-srctextarea');
                     value ? (getTextArea && 'block' === getTextArea.style.display && (getTextArea.value = this.value), this.valueContainer && (this.valueContainer.value = this.enableHtmlEncode ? this.value : value), 'HTML' === this.editorMode && this.inputElement && this.inputElement.innerHTML.replace('&amp;', '&').trim() !== value.trim() ? this.inputElement.innerHTML = value : 'Markdown' === this.editorMode && this.inputElement && this.inputElement.value.trim() !== value.trim() && (this.inputElement.value = value)) : (getTextArea && 'block' === getTextArea.style.display && (getTextArea.value = ''), 'HTML' === this.editorMode ? 'DIV' === this.enterKey ? this.inputElement.innerHTML = '<div><br/></div>' : 'BR' === this.enterKey ? this.inputElement.innerHTML = '<br/>' : (this.inputElement.innerHTML = '<p><br/></p>', '' === value && this.formatter && this.inputElement && this.formatter.editorManager.nodeSelection.setCursorPoint(this.contentModule.getDocument(), this.inputElement.firstElementChild, this.inputElement.firstElementChild.childElementCount)) : this.inputElement.value = '', this.valueContainer && (this.valueContainer.value = '')), this.showCharCount && this.countModule.refresh();
                 }, RichTextEditor.prototype.setHeight = function(height) {
-                    'auto' !== height ? this.element.style.height = (0, ej2_base.Ac)(height) : this.element.style.height = 'auto', 'Expand' === this.toolbarSettings.type && ('string' == typeof this.height && this.height.indexOf('px') > -1 || 'number' == typeof this.height) ? this.element.classList.add(classes.yw) : this.element.classList.remove(classes.yw);
+                    this.element.style.height = 'auto' !== height ? (0, ej2_base.Ac)(height) : 'auto', 'Expand' === this.toolbarSettings.type && ('string' == typeof this.height && this.height.indexOf('px') > -1 || 'number' == typeof this.height) ? this.element.classList.add(classes.yw) : this.element.classList.remove(classes.yw);
                 }, RichTextEditor.prototype.setPlaceHolder = function() {
                     this.inputElement && this.placeholder && !0 !== this.iframeSettings.enable && ('Markdown' !== this.editorMode ? (this.placeHolderWrapper || (this.placeHolderWrapper = this.createElement('span', {
                         className: "rte-placeholder e-rte-placeholder " + this.cssClass
                     }), this.inputElement && this.inputElement.parentElement.insertBefore(this.placeHolderWrapper, this.inputElement), (0, ej2_base.Y4)(this.placeHolderWrapper, {
                         style: 'font-size: 14px; margin-left: 0px; margin-right: 0px;'
-                    })), this.placeHolderWrapper.innerHTML = this.placeholder, 0 !== this.inputElement.textContent.length || (0, ej2_base.le)(this.inputElement.firstChild) || 'BR' !== this.inputElement.firstChild.nodeName && ('P' !== this.inputElement.firstChild.nodeName && 'DIV' !== this.inputElement.firstChild.nodeName || (0, ej2_base.le)(this.inputElement.firstChild.firstChild) || 'BR' !== this.inputElement.firstChild.firstChild.nodeName) ? this.placeHolderWrapper.style.display = 'none' : this.placeHolderWrapper.style.display = 'block') : this.inputElement.setAttribute('placeholder', this.placeholder));
+                    })), this.placeHolderWrapper.innerHTML = this.placeholder, this.placeHolderWrapper.style.display = 0 !== this.inputElement.textContent.length || (0, ej2_base.le)(this.inputElement.firstChild) || 'BR' !== this.inputElement.firstChild.nodeName && ('P' !== this.inputElement.firstChild.nodeName && 'DIV' !== this.inputElement.firstChild.nodeName || (0, ej2_base.le)(this.inputElement.firstChild.firstChild) || 'BR' !== this.inputElement.firstChild.firstChild.nodeName) ? 'none' : 'block') : this.inputElement.setAttribute('placeholder', this.placeholder));
                 }, RichTextEditor.prototype.setWidth = function(width) {
                     'auto' !== width ? (0, ej2_base.V7)(this.element, {
                         width: (0, ej2_base.Ac)(this.width)
@@ -11133,8 +11117,7 @@
                 }, RichTextEditor.prototype.initializeServices = function() {
                     this.serviceLocator.register('rendererFactory', new renderer_factory.z), this.serviceLocator.register('rteLocale', this.localeObj = new ej2_base.E7(this.getModuleName(), default_locale.al, this.locale)), this.serviceLocator.register('dialogRenderObject', new DialogRenderer(this));
                 }, RichTextEditor.prototype.RTERender = function() {
-                    var rendererFactory = this.serviceLocator.getService('rendererFactory');
-                    this.contentModule = rendererFactory.getRenderer(base_enum.y2.Content), this.fullScreenModule = new FullScreen(this), this.enterKeyModule = new EnterKeyAction(this), this.renderModule.render(), this.inputElement = this.contentModule.getEditPanel(), this.setHeight(this.height), setAttributes(this.htmlAttributes, this, !1, !0), this.iframeSettings && this.setIframeSettings(), this.setCssClass(this.cssClass), this.updateEnable(), this.setPlaceHolder(), this.updateRTL(), this.updateReadOnly(), this.updatePanelValue(), this.enableHtmlEncode && !(0, ej2_base.le)(this.value) && this.setProperties({
+                    this.contentModule = this.serviceLocator.getService('rendererFactory').getRenderer(base_enum.y2.Content), this.fullScreenModule = new FullScreen(this), this.enterKeyModule = new EnterKeyAction(this), this.renderModule.render(), this.inputElement = this.contentModule.getEditPanel(), this.setHeight(this.height), setAttributes(this.htmlAttributes, this, !1, !0), this.iframeSettings && this.setIframeSettings(), this.setCssClass(this.cssClass), this.updateEnable(), this.setPlaceHolder(), this.updateRTL(), this.updateReadOnly(), this.updatePanelValue(), this.enableHtmlEncode && !(0, ej2_base.le)(this.value) && this.setProperties({
                         value: this.encode((0, util.Jx)(this.value))
                     });
                 }, RichTextEditor.prototype.setIframeSettings = function() {
@@ -11275,7 +11258,7 @@
                             this.element
                         ], [
                             classes.Mv
-                        ]), 'HTML' === this.editorMode ? this.cloneValue = '<p><br></p>' === this.inputElement.innerHTML || '<div><br></div>' === this.inputElement.innerHTML || '<br>' === this.inputElement.innerHTML ? null : this.enableHtmlEncode ? this.encode((0, util.Jx)(this.inputElement.innerHTML)) : this.inputElement.innerHTML : this.cloneValue = '' === this.inputElement.value ? null : this.inputElement.value;
+                        ]), this.cloneValue = 'HTML' === this.editorMode ? '<p><br></p>' === this.inputElement.innerHTML || '<div><br></div>' === this.inputElement.innerHTML || '<br>' === this.inputElement.innerHTML ? null : this.enableHtmlEncode ? this.encode((0, util.Jx)(this.inputElement.innerHTML)) : this.inputElement.innerHTML : '' === this.inputElement.value ? null : this.inputElement.value;
                         var active = document.activeElement;
                         if ((active === this.element || active === this.getToolbarElement() || active === this.contentModule.getEditPanel() || this.iframeSettings.enable && active === this.contentModule.getPanel() && e.target && !e.target.classList.contains('e-img-inner') && e.target && e.target.parentElement && !e.target.parentElement.classList.contains('e-img-wrap') || (0, ej2_base.oq)(active, '.e-rte-toolbar') === this.getToolbarElement()) && (this.contentModule.getEditPanel().focus(), !(0, ej2_base.le)(this.getToolbarElement()))) {
                             this.getToolbarElement().setAttribute('tabindex', '-1');
@@ -12139,7 +12122,7 @@
                     return divNode.innerText = value, divNode.innerHTML.replace(/<br\s*[\/]?>/gi, '\n');
                 }, DOMNode.prototype.saveMarker = function(save, action) {
                     var startTextNode, endTextNode, start = this.parent.querySelector('.' + markerClassName.startSelection), end = this.parent.querySelector('.' + markerClassName.endSelection);
-                    if ('' === start.textContent && (0, ej2_base.le)(end) && 'tab' !== action && (1 === start.childNodes.length && 'BR' === start.childNodes[0].nodeName ? start.innerHTML = '&#65279;&#65279;<br>' : start.innerHTML = '&#65279;&#65279;'), this.hasClass(start, markerClassName.startSelection) && start.classList.length > 1) {
+                    if ('' === start.textContent && (0, ej2_base.le)(end) && 'tab' !== action && (start.innerHTML = 1 === start.childNodes.length && 'BR' === start.childNodes[0].nodeName ? '&#65279;&#65279;<br>' : '&#65279;&#65279;'), this.hasClass(start, markerClassName.startSelection) && start.classList.length > 1) {
                         var replace = this.createTagString('p', start, this.encode(start.textContent));
                         this.replaceWith(start, replace), (start = this.parent.querySelector('.' + markerClassName.startSelection)).classList.remove(markerClassName.startSelection), startTextNode = start.childNodes[0];
                     } else startTextNode = this.unWrap(start)[0];
@@ -12286,7 +12269,7 @@
                                 this.parent.nodeCutter.GetSpliceNode(range, nearBlockNode);
                             }
                             var insertTag = void 0;
-                            'DIV' === e.enterAction ? (insertTag = (0, ej2_base.az)('div')).innerHTML = '<br>' : 'P' === e.enterAction ? (insertTag = (0, ej2_base.az)('p')).innerHTML = '<br>' : insertTag = (0, ej2_base.az)('br'), this.parent.domNode.insertAfter(insertTag, startNodeParent), e.event.preventDefault(), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, insertTag, 0), '' === startNodeParent.textContent ? (0, ej2_base.og)(startNodeParent) : (0, ej2_base.og)(startNode);
+                            'DIV' === e.enterAction ? (insertTag = (0, ej2_base.az)('div'), insertTag.innerHTML = '<br>') : 'P' === e.enterAction ? (insertTag = (0, ej2_base.az)('p'), insertTag.innerHTML = '<br>') : insertTag = (0, ej2_base.az)('br'), this.parent.domNode.insertAfter(insertTag, startNodeParent), e.event.preventDefault(), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, insertTag, 0), '' === startNodeParent.textContent ? (0, ej2_base.og)(startNodeParent) : (0, ej2_base.og)(startNode);
                         }
                     }
                 }, Lists.prototype.backspaceList = function(e) {
@@ -12752,7 +12735,7 @@
                     (range.startContainer !== range.endContainer || range.startOffset !== range.endOffset) && range.deleteContents();
                 }, Formats.prototype.paraFocus = function(referNode, enterAction) {
                     var insertTag;
-                    'DIV' === enterAction ? (insertTag = (0, ej2_base.az)('div')).innerHTML = '<br>' : 'BR' === enterAction ? insertTag = (0, ej2_base.az)('br') : (insertTag = (0, ej2_base.az)('p')).innerHTML = '<br>', this.parent.domNode.insertAfter(insertTag, referNode), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, insertTag, 0), (0, ej2_base.og)(referNode.lastChild);
+                    'DIV' === enterAction ? (insertTag = (0, ej2_base.az)('div'), insertTag.innerHTML = '<br>') : 'BR' === enterAction ? insertTag = (0, ej2_base.az)('br') : (insertTag = (0, ej2_base.az)('p'), insertTag.innerHTML = '<br>'), this.parent.domNode.insertAfter(insertTag, referNode), this.parent.nodeSelection.setCursorPoint(this.parent.currentDocument, insertTag, 0), (0, ej2_base.og)(referNode.lastChild);
                 }, Formats.prototype.isNotEndCursor = function(preElem, range) {
                     var nodeCutter = new NodeCutter(), isEnd = range.startOffset === preElem.lastChild.textContent.length && preElem.lastChild.textContent === range.startContainer.textContent;
                     if (0 === preElem.textContent.indexOf(range.startContainer.textContent) && (0 === range.startOffset && 0 === range.endOffset || 'PRE' === range.startContainer.nodeName)) {
@@ -12985,8 +12968,7 @@
                     while (node && 0 > BLOCK_TAGS.indexOf(node.nodeName.toLocaleLowerCase()))
                     return node;
                 }, InsertHtml.removingComments = function(elm) {
-                    var innerElement = elm.innerHTML;
-                    innerElement = innerElement.replace(/<!--[\s\S]*?-->/g, ''), elm.innerHTML = innerElement;
+                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
                 }, InsertHtml.findDetachEmptyElem = function(element) {
                     return (0, ej2_base.le)(element.parentElement) ? null : '' === element.parentElement.textContent.trim() && 'true' !== element.parentElement.contentEditable ? this.findDetachEmptyElem(element.parentElement) : element;
                 }, InsertHtml.removeEmptyElements = function(element) {
@@ -13124,12 +13106,12 @@
                         finalinlineNodes[j_1 + 1] = inlineNodes[i + 1], j_1++;
                     }
                     var j = 0;
-                    anchorNodes[0] = this.createAchorNode(e);
+                    anchorNodes[j] = this.createAchorNode(e);
                     for(var i = 0; i < finalinlineNodes.length; i++)if (0 === i && (cloneNode = finalinlineNodes[i].cloneNode(!0), anchorNodes[i].appendChild(cloneNode)), i < finalinlineNodes.length - 1) {
                         if (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode) {
                             var cln = finalinlineNodes[i + 1].cloneNode(!0);
                             anchorNodes[j].appendChild(cln);
-                        } else anchorNodes[j += 1] = this.createAchorNode(e), cloneNode = finalinlineNodes[i + 1].cloneNode(!0), anchorNodes[j].appendChild(cloneNode);
+                        } else j += 1, anchorNodes[j] = this.createAchorNode(e), cloneNode = finalinlineNodes[i + 1].cloneNode(!0), anchorNodes[j].appendChild(cloneNode);
                     }
                     this.parent.nodeSelection.setRange(document, save.range);
                     for(var i = 0, j_2 = 0, k = 0; i <= finalinlineNodes.length; i++)0 === i && (finalinlineNodes[i].parentNode.insertBefore(anchorNodes[j_2], finalinlineNodes[i].nextSibling), 1 === this.parent.domNode.blockNodes().length && this.parent.nodeSelection.setSelectionNode(this.parent.currentDocument, anchorNodes[j_2]), removeNodes[k] = finalinlineNodes[i], k++), i < finalinlineNodes.length - 1 && (finalinlineNodes[i].parentNode === finalinlineNodes[i + 1].parentNode || (j_2 += 1, finalinlineNodes[i + 1].parentNode.insertBefore(anchorNodes[j_2], finalinlineNodes[i + 1])), removeNodes[k] = finalinlineNodes[i + 1], k++);
@@ -13679,7 +13661,7 @@
                         elements: this.parent.nodeSelection.getSelectedNodes(this.parent.currentDocument)
                     });
                 }, TableCommand.prototype.tableVerticalAlign = function(e) {
-                    'AlignTop' === e.item.subCommand ? e.item.tableCell.style.verticalAlign = 'top' : 'AlignMiddle' === e.item.subCommand ? e.item.tableCell.style.verticalAlign = 'middle' : e.item.tableCell.style.verticalAlign = 'bottom', e.callBack && e.callBack({
+                    e.item.tableCell.style.verticalAlign = 'AlignTop' === e.item.subCommand ? 'top' : 'AlignMiddle' === e.item.subCommand ? 'middle' : 'bottom', e.callBack && e.callBack({
                         requestType: e.item.subCommand,
                         editorMode: 'HTML',
                         event: e.event,
@@ -13994,7 +13976,7 @@
                         isCursor = range.collapsed;
                         for(var isSubSup = !1, index = 0; index < nodes.length; index++){
                             var formatNode = isFormatted.getFormattedNode(nodes[index], format, endNode);
-                            null === formatNode && ('subscript' === format ? isSubSup = null !== (formatNode = isFormatted.getFormattedNode(nodes[index], 'superscript', endNode)) : 'superscript' === format && (isSubSup = null !== (formatNode = isFormatted.getFormattedNode(nodes[index], 'subscript', endNode)))), 0 === index && null === formatNode && (isFormat = !0), null !== formatNode && (!isFormat || isFontStyle) ? nodes[index] = this.removeFormat(nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value, domSelection, endNode, domNode) : nodes[index] = this.insertFormat(docElement, nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value), domSelection = this.applySelection(nodes, domSelection, nodeCutter, index, isCollapsed);
+                            null === formatNode && ('subscript' === format ? isSubSup = null !== (formatNode = isFormatted.getFormattedNode(nodes[index], 'superscript', endNode)) : 'superscript' === format && (isSubSup = null !== (formatNode = isFormatted.getFormattedNode(nodes[index], 'subscript', endNode)))), 0 === index && null === formatNode && (isFormat = !0), nodes[index] = null !== formatNode && (!isFormat || isFontStyle) ? this.removeFormat(nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value, domSelection, endNode, domNode) : this.insertFormat(docElement, nodes, index, formatNode, isCursor, isFormat, isFontStyle, range, nodeCutter, format, value), domSelection = this.applySelection(nodes, domSelection, nodeCutter, index, isCollapsed);
                         }
                         (0, common_util.FA)() && (0, common_util.ze)(endNode, selector), preventRestore || save.restore(), isSubSup && this.applyFormat(docElement, format, endNode, enterAction);
                     }
@@ -14371,8 +14353,8 @@
                     this.undoRedoStack.length >= this.steps && (this.undoRedoStack = this.undoRedoStack.slice(0, this.steps + 1)), (!(this.undoRedoStack.length > 1) || this.undoRedoStack[this.undoRedoStack.length - 1].range.range.collapsed !== range.collapsed || this.undoRedoStack[this.undoRedoStack.length - 1].range.startOffset !== save.range.startOffset || this.undoRedoStack[this.undoRedoStack.length - 1].range.endOffset !== save.range.endOffset || this.undoRedoStack[this.undoRedoStack.length - 1].range.range.startContainer !== save.range.startContainer || this.undoRedoStack[this.undoRedoStack.length - 1].text.trim() !== changEle.text.trim()) && (this.undoRedoStack.push(changEle), this.steps = this.undoRedoStack.length - 1, this.steps > this.undoRedoSteps && (this.undoRedoStack.shift(), this.steps--), e && e.callBack && e.callBack());
                 }, UndoRedoManager.prototype.undo = function(e) {
                     if (this.steps > 0) {
-                        var range = this.undoRedoStack[this.steps - 1].range, removedContent = this.undoRedoStack[this.steps - 1].text;
-                        this.parent.editableElement.innerHTML = removedContent, this.parent.editableElement.focus(), (0, common_util.FA)() && (0, common_util.ze)(this.parent.editableElement, e.selector), range.restore(), this.steps--, e.callBack && e.callBack({
+                        var range = this.undoRedoStack[this.steps - 1].range;
+                        this.parent.editableElement.innerHTML = this.undoRedoStack[this.steps - 1].text, this.parent.editableElement.focus(), (0, common_util.FA)() && (0, common_util.ze)(this.parent.editableElement, e.selector), range.restore(), this.steps--, e.callBack && e.callBack({
                             requestType: 'Undo',
                             editorMode: 'HTML',
                             range: range,
@@ -14671,8 +14653,7 @@
                     }
                     return styleClassObject;
                 }, MsWordPaste.prototype.removingComments = function(elm) {
-                    var innerElement = elm.innerHTML;
-                    innerElement = innerElement.replace(/<!--[\s\S]*?-->/g, ''), elm.innerHTML = innerElement;
+                    elm.innerHTML = elm.innerHTML.replace(/<!--[\s\S]*?-->/g, '');
                 }, MsWordPaste.prototype.cleanUp = function(node, listNodes) {
                     for(var prevflagState, tempCleaner = [], allNodes = node.querySelectorAll('*'), index = 0; index < allNodes.length; index++){
                         if (-1 === this.ignorableNodes.indexOf(allNodes[index].nodeName) || 3 === allNodes[index].nodeType && '' === allNodes[index].textContent.trim()) {
@@ -14751,7 +14732,7 @@
                     for(var temp, prevList, elem, root = (0, ej2_base.az)('div'), pLevel = 1, listCount = 0, index = 0; index < collection.length; index++){
                         var pElement = (0, ej2_base.az)('p');
                         if (pElement.innerHTML = collection[index].content.join(' '), 1 === collection[index].nestedLevel && 0 === listCount && collection[index].content) root.appendChild(temp = (0, ej2_base.az)(collection[index].listType)), (prevList = (0, ej2_base.az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
-                        else if (collection[index].nestedLevel === pLevel) prevList.parentElement.tagName.toLowerCase() === collection[index].listType ? (prevList.parentElement.appendChild(prevList = (0, ej2_base.az)('li')), prevList.appendChild(pElement)) : ((temp = (0, ej2_base.az)(collection[index].listType)).style.listStyleType = collection[index].listStyleTypeName, prevList.parentElement.parentElement.appendChild(temp), (prevList = (0, ej2_base.az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()));
+                        else if (collection[index].nestedLevel === pLevel) prevList.parentElement.tagName.toLowerCase() === collection[index].listType ? (prevList.parentElement.appendChild(prevList = (0, ej2_base.az)('li')), prevList.appendChild(pElement)) : (temp = (0, ej2_base.az)(collection[index].listType), temp.style.listStyleType = collection[index].listStyleTypeName, prevList.parentElement.parentElement.appendChild(temp), (prevList = (0, ej2_base.az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()));
                         else if (collection[index].nestedLevel > pLevel) {
                             if ((0, ej2_base.le)(prevList)) root.appendChild(temp = (0, ej2_base.az)(collection[index].listType)), (prevList = (0, ej2_base.az)('li')).appendChild(pElement), temp.appendChild(prevList), temp.setAttribute('level', collection[index].nestedLevel.toString()), temp.style.listStyleType = collection[index].listStyleTypeName;
                             else {
@@ -15278,7 +15259,9 @@
                                 case 'default':
                                     this.fontColorPicker.setProperties({
                                         value: newProp.fontColor.default
-                                    }), (0, this.fontColorDropDown.element).querySelector('.' + this.tools.fontcolor.icon).style.borderBottomColor = newProp.fontColor.default;
+                                    });
+                                    var fontBorder = (0, this.fontColorDropDown.element).querySelector('.' + this.tools.fontcolor.icon);
+                                    fontBorder.style.borderBottomColor = newProp.fontColor.default;
                                     break;
                                 case 'mode':
                                     this.fontColorPicker.setProperties({
@@ -15306,7 +15289,9 @@
                                 case 'default':
                                     this.backgroundColorPicker.setProperties({
                                         value: newProp.backgroundColor.default
-                                    }), (0, this.backgroundColorDropDown.element).querySelector('.' + this.tools.backgroundcolor.icon).style.borderBottomColor = newProp.backgroundColor.default;
+                                    });
+                                    var backgroundBorder = (0, this.backgroundColorDropDown.element).querySelector('.' + this.tools.backgroundcolor.icon);
+                                    backgroundBorder.style.borderBottomColor = newProp.backgroundColor.default;
                                     break;
                                 case 'mode':
                                     this.backgroundColorPicker.setProperties({
@@ -15341,7 +15326,7 @@
                 }, XhtmlValidation.prototype.removeEventListener = function() {
                     this.parent.off(constant.F, this.enableXhtmlValidation), this.parent.off(constant.ob, this.removeEventListener);
                 }, XhtmlValidation.prototype.enableXhtmlValidation = function() {
-                    this.parent.enableXhtml && ((0, ej2_base.le)(this.parent.inputElement) ? this.currentElement = this.parent.element : this.currentElement = this.parent.inputElement, this.clean(this.currentElement), this.AddRootElement(), this.ImageTags(), this.removeTags(), this.RemoveUnsupported(), this.currentElement.innerHTML = this.selfEncloseValidation(this.currentElement.innerHTML, "\n" === this.currentElement.innerText ? this.currentElement.innerText.length : this.currentElement.innerText.trim().length), this.parent.setProperties({
+                    this.parent.enableXhtml && (this.currentElement = (0, ej2_base.le)(this.parent.inputElement) ? this.parent.element : this.parent.inputElement, this.clean(this.currentElement), this.AddRootElement(), this.ImageTags(), this.removeTags(), this.RemoveUnsupported(), this.currentElement.innerHTML = this.selfEncloseValidation(this.currentElement.innerHTML, "\n" === this.currentElement.innerText ? this.currentElement.innerText.length : this.currentElement.innerText.trim().length), this.parent.setProperties({
                         value: this.currentElement.innerHTML
                     }, !0));
                 }, XhtmlValidation.prototype.selfEncloseValidation = function(currentValue, valueLength) {
@@ -15592,7 +15577,7 @@
                         if (this.deleteRangeElement = rootElement = this.getRootBlockNode(currentRange.startContainer), 'OL' === this.deleteRangeElement.tagName || 'UL' === this.deleteRangeElement.tagName) (liElement = this.getRangeLiNode(currentRange.startContainer)).nextElementSibling && liElement.nextElementSibling.childElementCount > 0 && !liElement.nextElementSibling.querySelector('BR') ? (0, ej2_base.le)(liElement.lastElementChild) ? this.deleteRangeElement = liElement : (this.deleteRangeElement = liElement.lastElementChild, isLiElement = !0) : this.deleteRangeElement = this.getRangeElement(liElement);
                         else if (3 === this.deleteRangeElement.nodeType || 'TABLE' === this.deleteRangeElement.tagName || !(0, ej2_base.le)(this.deleteRangeElement.nextElementSibling) && 'TABLE' === this.deleteRangeElement.nextElementSibling.tagName) return;
                         if (this.getCaretIndex(currentRange, this.deleteRangeElement) === this.deleteRangeElement.textContent.length) {
-                            if ((0, ej2_base.le)(liElement) ? this.deleteOldRangeElement = this.deleteRangeElement.nextElementSibling : isLiElement || !(0, ej2_base.le)(liElement.nextElementSibling) ? this.deleteOldRangeElement = this.getRangeElement(liElement.nextElementSibling) : this.deleteOldRangeElement = rootElement.nextElementSibling, (0, ej2_base.le)(this.deleteOldRangeElement)) return;
+                            if (this.deleteOldRangeElement = (0, ej2_base.le)(liElement) ? this.deleteRangeElement.nextElementSibling : isLiElement || !(0, ej2_base.le)(liElement.nextElementSibling) ? this.getRangeElement(liElement.nextElementSibling) : rootElement.nextElementSibling, (0, ej2_base.le)(this.deleteOldRangeElement)) return;
                             if (0 === currentRange.startOffset && 1 === currentRange.endOffset && 'IMG' === this.deleteRangeElement.childNodes[0].nodeName ? (this.parent.formatter.editorManager.nodeSelection.setSelectionText(this.parent.contentModule.getDocument(), this.deleteRangeElement, this.deleteRangeElement, 0, 1), this.isImageDelete = !0) : (this.parent.formatter.editorManager.nodeSelection.setCursorPoint(this.parent.contentModule.getDocument(), this.deleteRangeElement, this.deleteRangeElement.childNodes.length), this.isImageDelete = !1), this.deleteRangeElement.querySelector('BR') && (0, ej2_base.og)(this.deleteRangeElement.querySelector('BR')), (0, ej2_base.le)(this.deleteRangeElement) || 'OL' === this.deleteOldRangeElement.tagName || 'UL' === this.deleteOldRangeElement.tagName || this.deleteOldRangeElement === this.deleteRangeElement) this.deleteRangeElement = null, this.deleteOldRangeElement = null;
                             else {
                                 for(; this.deleteOldRangeElement.firstChild;)this.deleteRangeElement.appendChild(this.deleteOldRangeElement.childNodes[0]);
@@ -15854,7 +15839,7 @@
                         event: event
                     }), 'EJS-RADIOBUTTON' === this.tagName && event.stopPropagation();
                 }, RadioButton.prototype.updateChange = function() {
-                    for(var input, instance, radioGrp = this.getRadioGroup(), i = 0; i < radioGrp.length; i++)(input = radioGrp[i]) !== this.element && ((instance = (0, ej2_base.s8)(input, RadioButton_1)).checked = !1, 'EJS-RADIOBUTTON' === this.tagName && (instance.angularValue = this.value));
+                    for(var input, instance, radioGrp = this.getRadioGroup(), i = 0; i < radioGrp.length; i++)(input = radioGrp[i]) !== this.element && (instance = (0, ej2_base.s8)(input, RadioButton_1), instance.checked = !1, 'EJS-RADIOBUTTON' === this.tagName && (instance.angularValue = this.value));
                 }, RadioButton.prototype.destroy = function() {
                     var _this = this, radioWrap = this.wrapper;
                     _super.prototype.destroy.call(this), radioWrap && (this.disabled || this.unWireEvents(), 'INPUT' === this.tagName ? (radioWrap.parentNode && radioWrap.parentNode.insertBefore(this.element, radioWrap), (0, ej2_base.og)(radioWrap), this.element.checked = !1, [
@@ -15957,7 +15942,7 @@
                     }
                 }, RadioButton.prototype.preRender = function() {
                     var element = this.element;
-                    if (this.formElement = (0, ej2_base.oq)(this.element, 'form'), this.tagName = this.element.tagName, element = (0, common.Rm)(this.createElement, 'EJS-RADIOBUTTON', 'radio', element, WRAPPER, 'radio'), this.element = element, 'radio' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'radio'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName())), 'EJS-RADIOBUTTON' === this.tagName) {
+                    if (this.formElement = (0, ej2_base.oq)(this.element, 'form'), this.tagName = this.element.tagName, this.element = element = (0, common.Rm)(this.createElement, 'EJS-RADIOBUTTON', 'radio', element, WRAPPER, 'radio'), 'radio' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'radio'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName())), 'EJS-RADIOBUTTON' === this.tagName) {
                         var formControlName = this.element.getAttribute('formcontrolname');
                         formControlName && (this.setProperties({
                             name: formControlName
@@ -16051,28 +16036,28 @@
                             var uniqueID, uniqueID1, uniqueID2, uniqueID3, uniqueID4, uniqueID5, uniqueID6, uniqueID7, innerContainer = container.querySelector('.' + CLS_SPININWRAP), svg = innerContainer.querySelector('svg');
                             switch((0, ej2_base.le)(svg) || innerContainer.removeChild(svg), theme){
                                 case 'Material':
-                                    globalTimeOut[uniqueID1 = random_generator()] = {
+                                    uniqueID1 = random_generator(), globalTimeOut[uniqueID1] = {
                                         timeOut: 0,
                                         type: 'Material',
                                         radius: radius
                                     }, create_material_element(innerContainer, uniqueID1, makeElement, CLS_MATERIALSPIN), mat_calculate_attributes(radius, innerContainer, 'Material', CLS_MATERIALSPIN);
                                     break;
                                 case 'Fabric':
-                                    globalTimeOut[uniqueID2 = random_generator()] = {
+                                    uniqueID2 = random_generator(), globalTimeOut[uniqueID2] = {
                                         timeOut: 0,
                                         type: 'Fabric',
                                         radius: radius
                                     }, create_fabric_element(innerContainer, uniqueID2, CLS_FABRICSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_FABRICSPIN);
                                     break;
                                 case 'Fluent':
-                                    globalTimeOut[uniqueID3 = random_generator()] = {
+                                    uniqueID3 = random_generator(), globalTimeOut[uniqueID3] = {
                                         timeOut: 0,
                                         type: 'Fluent',
                                         radius: radius
                                     }, create_fabric_element(innerContainer, uniqueID3, CLS_FLUENTSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_FLUENTSPIN);
                                     break;
                                 case 'Bootstrap':
-                                    globalTimeOut[uniqueID = random_generator()] = {
+                                    uniqueID = random_generator(), globalTimeOut[uniqueID] = {
                                         timeOut: 0,
                                         type: 'Bootstrap',
                                         radius: radius
@@ -16093,21 +16078,21 @@
                                     }(innerContainer, radius);
                                     break;
                                 case 'HighContrast':
-                                    globalTimeOut[uniqueID4 = random_generator()] = {
+                                    uniqueID4 = random_generator(), globalTimeOut[uniqueID4] = {
                                         timeOut: 0,
                                         type: 'HighContrast',
                                         radius: radius
                                     }, create_fabric_element(innerContainer, uniqueID4, CLS_HIGHCONTRASTSPIN, makeElement), fb_calculate_attributes(radius, innerContainer, CLS_HIGHCONTRASTSPIN);
                                     break;
                                 case 'Bootstrap4':
-                                    globalTimeOut[uniqueID5 = random_generator()] = {
+                                    uniqueID5 = random_generator(), globalTimeOut[uniqueID5] = {
                                         timeOut: 0,
                                         type: 'Bootstrap4',
                                         radius: radius
                                     }, create_material_element(innerContainer, uniqueID5, makeElement, CLS_BOOT4SPIN), mat_calculate_attributes(radius, innerContainer, 'Bootstrap4', CLS_BOOT4SPIN);
                                     break;
                                 case 'Bootstrap5':
-                                    globalTimeOut[uniqueID6 = random_generator()] = {
+                                    uniqueID6 = random_generator(), globalTimeOut[uniqueID6] = {
                                         timeOut: 0,
                                         type: 'Bootstrap5',
                                         radius: radius
@@ -16115,7 +16100,7 @@
                                     break;
                                 case 'Tailwind':
                                 case 'Tailwind-dark':
-                                    globalTimeOut[uniqueID7 = random_generator()] = {
+                                    uniqueID7 = random_generator(), globalTimeOut[uniqueID7] = {
                                         timeOut: 0,
                                         type: 'Tailwind',
                                         radius: radius
@@ -16123,8 +16108,8 @@
                             }
                         }(theme, container.wrap, radius, makeElement), (0, ej2_base.le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
                     } else {
-                        var container3, template = (0, ej2_base.le)(args.template) ? null : args.template;
-                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
+                        var container3, inner, template = (0, ej2_base.le)(args.template) ? null : args.template;
+                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), inner = container3.querySelector('.e-spinner-inner'), inner.innerHTML = template;
                     }
                     container.wrap.classList.add(CLS_HIDESPIN);
                 }
@@ -16388,7 +16373,8 @@
                     }
                     return keyValue;
                 }, Uploader.prototype.updateFileList = function() {
-                    if (this.fileList.length > 0 && !(0, ej2_base.le)(this.uploadWrapper.querySelector('.' + LIST_PARENT))) for(var i = 0; i < this.fileList.length; i++)this.fileList[i].querySelector('.e-file-status').innerHTML = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.filesData[i].status = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.fileList[i].classList.contains(UPLOAD_SUCCESS) && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('delete')), this.fileList[i].querySelector('.e-file-play-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('resume')), this.fileList[i].querySelector('.e-file-remove-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('remove')), this.fileList[i].querySelector('.e-file-reload-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('retry')), this.autoUpload || (this.uploadButton.innerText = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.localizedTexts('Upload')), this.clearButton.innerText = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.localizedTexts('Clear')));
+                    var element;
+                    if (this.fileList.length > 0 && !(0, ej2_base.le)(this.uploadWrapper.querySelector('.' + LIST_PARENT))) for(var i = 0; i < this.fileList.length; i++)element = this.fileList[i].querySelector('.e-file-status'), element.innerHTML = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.filesData[i].status = this.localizedTexts(this.getKeyValue(this.filesData[i].status)), this.fileList[i].classList.contains(UPLOAD_SUCCESS) && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('delete')), this.fileList[i].querySelector('.e-file-play-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('resume')), this.fileList[i].querySelector('.e-file-remove-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('remove')), this.fileList[i].querySelector('.e-file-reload-btn') && this.fileList[i].querySelector('.e-icons').setAttribute('title', this.localizedTexts('retry')), this.autoUpload || (this.uploadButton.innerText = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.localizedTexts('Upload')), this.clearButton.innerText = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.localizedTexts('Clear')));
                 }, Uploader.prototype.reRenderFileList = function() {
                     this.listParent && ((0, ej2_base.og)(this.listParent), this.listParent = null, this.fileList = [], this.createFileList(this.filesData), this.actionButtons && (this.removeActionButtons(), this.renderActionButtons(), this.checkActionButtonStatus()));
                 }, Uploader.prototype.preRender = function() {
@@ -16476,14 +16462,7 @@
                 }, Uploader.prototype.removeActionButtons = function() {
                     this.actionButtons && (this.unwireActionButtonEvents(), (0, ej2_base.og)(this.actionButtons), this.actionButtons = null);
                 }, Uploader.prototype.renderButtonTemplates = function() {
-                    if ('string' == typeof this.buttons.browse ? (this.browseButton.textContent = 'Browse...' === this.buttons.browse ? this.localizedTexts('Browse') : this.buttons.browse, this.browseButton.setAttribute('title', this.browseButton.textContent)) : (this.browseButton.innerHTML = '', this.browseButton.appendChild(this.buttons.browse)), this.uploadButton) {
-                        var uploadText = (0, ej2_base.le)(this.buttons.upload) ? 'Upload' : this.buttons.upload;
-                        this.buttons.upload = uploadText, 'string' == typeof this.buttons.upload ? (this.uploadButton.textContent = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.uploadButton.textContent)) : (this.uploadButton.innerHTML = '', this.uploadButton.appendChild(this.buttons.upload));
-                    }
-                    if (this.clearButton) {
-                        var clearText = (0, ej2_base.le)(this.buttons.clear) ? 'Clear' : this.buttons.clear;
-                        this.buttons.clear = clearText, 'string' == typeof this.buttons.clear ? (this.clearButton.textContent = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.clearButton.textContent)) : (this.clearButton.innerHTML = '', this.clearButton.appendChild(this.buttons.clear));
-                    }
+                    'string' == typeof this.buttons.browse ? (this.browseButton.textContent = 'Browse...' === this.buttons.browse ? this.localizedTexts('Browse') : this.buttons.browse, this.browseButton.setAttribute('title', this.browseButton.textContent)) : (this.browseButton.innerHTML = '', this.browseButton.appendChild(this.buttons.browse)), this.uploadButton && (this.buttons.upload = (0, ej2_base.le)(this.buttons.upload) ? 'Upload' : this.buttons.upload, 'string' == typeof this.buttons.upload ? (this.uploadButton.textContent = 'Upload' === this.buttons.upload ? this.localizedTexts('Upload') : this.buttons.upload, this.uploadButton.setAttribute('title', this.uploadButton.textContent)) : (this.uploadButton.innerHTML = '', this.uploadButton.appendChild(this.buttons.upload))), this.clearButton && (this.buttons.clear = (0, ej2_base.le)(this.buttons.clear) ? 'Clear' : this.buttons.clear, 'string' == typeof this.buttons.clear ? (this.clearButton.textContent = 'Clear' === this.buttons.clear ? this.localizedTexts('Clear') : this.buttons.clear, this.clearButton.setAttribute('title', this.clearButton.textContent)) : (this.clearButton.innerHTML = '', this.clearButton.appendChild(this.buttons.clear)));
                 }, Uploader.prototype.initializeUpload = function() {
                     this.element.setAttribute('tabindex', '-1');
                     var inputWrapper = this.createElement('span', {
@@ -17019,7 +16998,10 @@
                     if ('safari' !== this.browserName) {
                         var inputElement = this.element.cloneNode(!0);
                         inputElement.classList.add('e-hidden-file-input');
-                        for(var _i = 0; _i < fileData.length; _i++)fileData[_i].input = inputElement;
+                        for(var _i = 0; _i < fileData.length; _i++){
+                            var listItem = fileData[_i];
+                            listItem.input = inputElement;
+                        }
                         inputElement.setAttribute('name', this.uploaderName), this.uploadWrapper.querySelector('.' + INPUT_WRAPPER).appendChild(inputElement), 'msie' !== this.browserName && 'edge' !== this.browserName && (this.element.value = '');
                     }
                 }, Uploader.prototype.getFileSize = function(fileData) {
@@ -17143,7 +17125,10 @@
                     var text = nameElement.textContent;
                     nameElement.dataset.tail = text.slice(text.length - 10);
                 }, Uploader.prototype.setListToFileInfo = function(fileData, fileList) {
-                    for(var _i = 0; _i < fileData.length; _i++)fileData[_i].list = fileList;
+                    for(var _i = 0; _i < fileData.length; _i++){
+                        var listItem = fileData[_i];
+                        listItem.list = fileList;
+                    }
                 }, Uploader.prototype.truncateName = function(name) {
                     'edge' !== this.browserName && name.offsetWidth < name.scrollWidth ? this.getSlicedName(name) : name.offsetWidth + 1 < name.scrollWidth && this.getSlicedName(name);
                 }, Uploader.prototype.getFileType = function(name) {
@@ -18052,7 +18037,7 @@
                     }), e.args && null !== value && 'HTML' === this.parent.editorMode) {
                         if (0 === value.length) {
                             var htmlRegex = new RegExp(/<\/[a-z][\s\S]*>/i);
-                            value = e.args.clipboardData.getData('text/plain'), this.isNotFromHtml = '' !== value, value = (value = value.replace(/</g, '&lt;')).replace(/>/g, '&gt;'), this.containsHtml = htmlRegex.test(value);
+                            this.isNotFromHtml = '' !== (value = e.args.clipboardData.getData('text/plain')), value = (value = value.replace(/</g, '&lt;')).replace(/>/g, '&gt;'), this.containsHtml = htmlRegex.test(value);
                             var file = e && e.args.clipboardData && e.args.clipboardData.items.length > 0 ? null === e.args.clipboardData.items[0].getAsFile() ? (0, ej2_base.le)(e.args.clipboardData.items[1]) ? null : e.args.clipboardData.items[1].getAsFile() : e.args.clipboardData.items[0].getAsFile() : null;
                             if (this.parent.notify(constant.RE, {
                                 file: file,
@@ -18163,7 +18148,7 @@
                             });
                         },
                         beforeUpload: function(args) {
-                            _this.parent.isServerRendered ? ((beforeUploadArgs = JSON.parse(JSON.stringify(args))).filesData = rawFile, args.cancel = !0, _this.parent.trigger(constant.Go, beforeUploadArgs, function(beforeUploadArgs) {
+                            _this.parent.isServerRendered ? (beforeUploadArgs = JSON.parse(JSON.stringify(args)), beforeUploadArgs.filesData = rawFile, args.cancel = !0, _this.parent.trigger(constant.Go, beforeUploadArgs, function(beforeUploadArgs) {
                                 beforeUploadArgs.cancel || (_this.toolbarEnableDisable(!0), _this.uploadObj.currentRequestHeader = beforeUploadArgs.currentRequest ? beforeUploadArgs.currentRequest : _this.uploadObj.currentRequestHeader, _this.uploadObj.customFormDatas = beforeUploadArgs.customFormData && beforeUploadArgs.customFormData.length > 0 ? beforeUploadArgs.customFormData : _this.uploadObj.customFormDatas, _this.uploadObj.uploadFiles(rawFile, null));
                             })) : (_this.parent.trigger(constant.cA, args), _this.toolbarEnableDisable(!0));
                         },
@@ -18201,10 +18186,7 @@
                 }, PasteCleanup.prototype.popupClose = function(popupObj, uploadObj, imgElem, e) {
                     var _this = this;
                     this.parent.inputElement.contentEditable = 'true', e.element = imgElem, this.parent.trigger(constant.AL, e, function(e) {
-                        if (!(0, ej2_base.le)(_this.parent.insertImageSettings.path)) {
-                            var url = _this.parent.insertImageSettings.path + e.file.name;
-                            imgElem.src = url, imgElem.setAttribute('alt', e.file.name);
-                        }
+                        (0, ej2_base.le)(_this.parent.insertImageSettings.path) || (imgElem.src = _this.parent.insertImageSettings.path + e.file.name, imgElem.setAttribute('alt', e.file.name));
                     }), popupObj.close(), imgElem.style.opacity = '1', uploadObj.destroy(), this.toolbarEnableDisable(!1);
                 }, PasteCleanup.prototype.refreshPopup = function(imageElement, popupObj) {
                     (this.parent.iframeSettings.enable ? this.parent.element.offsetTop + imageElement.offsetTop : imageElement.offsetTop) > this.parent.element.offsetTop + this.parent.element.offsetHeight ? (popupObj.relateTo = this.parent.inputElement, popupObj.offsetY = this.parent.iframeSettings.enable ? -30 : -65, popupObj.element.style.display = 'block') : popupObj && (popupObj.refreshPosition(imageElement), popupObj.element.style.display = 'block');
@@ -18399,10 +18381,7 @@
                     for(var i = 0; i < deniedTags.length; i++)if (deniedTags[i].split('[').length > 1) {
                         for(var userAttributes = deniedTags[i].split('[')[1].split(']')[0].split(','), allowedAttributeArray = [], deniedAttributeArray = [], j = 0; j < userAttributes.length; j++)0 > userAttributes[j].indexOf('!') ? allowedAttributeArray.push(userAttributes[j].trim()) : deniedAttributeArray.push(userAttributes[j].split('!')[1].trim());
                         var allowedAttribute = allowedAttributeArray.length > 1 ? allowedAttributeArray.join('][') : allowedAttributeArray.join(), deniedAttribute = deniedAttributeArray.length > 1 ? deniedAttributeArray.join('][') : deniedAttributeArray.join();
-                        if (deniedAttribute.length > 0) {
-                            var select = '' !== allowedAttribute ? deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']' : deniedTags[i].split('[')[0];
-                            deniedTags[i] = select + ':not([' + deniedAttribute + '])';
-                        } else deniedTags[i] = deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']';
+                        deniedTags[i] = deniedAttribute.length > 0 ? ('' !== allowedAttribute ? deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']' : deniedTags[i].split('[')[0]) + ':not([' + deniedAttribute + '])' : deniedTags[i].split('[')[0] + '[' + allowedAttribute + ']';
                     }
                     return deniedTags;
                 }, PasteCleanup.prototype.deniedTags = function(clipBoardElem) {
@@ -18635,7 +18614,7 @@
                     var target = e.target, width = target.offsetWidth;
                     this.element;
                     var navLeftEle = this.element.querySelector('.' + CLS_HSCROLLNAVLEFT), navRightEle = this.element.querySelector('.' + CLS_HSCROLLNAVRIGHT), leftOverlay = this.element.querySelector('.' + CLS_LEFTOVERLAY), rightOverlay = this.element.querySelector('.' + CLS_RIGHTOVERLAY), scrollLeft = target.scrollLeft;
-                    if (scrollLeft <= 0 && (scrollLeft = -scrollLeft), this.isDevice && (this.enableRtl && !(this.browserCheck || this.ieCheck) && (leftOverlay = this.element.querySelector('.' + CLS_RIGHTOVERLAY), rightOverlay = this.element.querySelector('.' + CLS_LEFTOVERLAY)), scrollLeft < 40 ? leftOverlay.style.width = scrollLeft + 'px' : leftOverlay.style.width = '40px', target.scrollWidth - Math.ceil(width + scrollLeft) < 40 ? rightOverlay.style.width = target.scrollWidth - Math.ceil(width + scrollLeft) + 'px' : rightOverlay.style.width = '40px'), 0 === scrollLeft) this.arrowDisabling(navLeftEle, navRightEle);
+                    if (scrollLeft <= 0 && (scrollLeft = -scrollLeft), this.isDevice && (this.enableRtl && !(this.browserCheck || this.ieCheck) && (leftOverlay = this.element.querySelector('.' + CLS_RIGHTOVERLAY), rightOverlay = this.element.querySelector('.' + CLS_LEFTOVERLAY)), leftOverlay.style.width = scrollLeft < 40 ? scrollLeft + 'px' : '40px', target.scrollWidth - Math.ceil(width + scrollLeft) < 40 ? rightOverlay.style.width = target.scrollWidth - Math.ceil(width + scrollLeft) + 'px' : rightOverlay.style.width = '40px'), 0 === scrollLeft) this.arrowDisabling(navLeftEle, navRightEle);
                     else if (Math.ceil(width + scrollLeft + .1) >= target.scrollWidth) this.arrowDisabling(navRightEle, navLeftEle);
                     else {
                         var disEle = this.element.querySelector('.' + CLS_HSCROLLNAV + '.' + CLS_DISABLE);
@@ -18847,7 +18826,7 @@
                     this.repeatScroll();
                 }, VScroll.prototype.scrollEventHandler = function(e) {
                     var target = e.target, height = target.offsetHeight, navUpEle = this.element.querySelector('.' + CLS_VSCROLLNAVUP), navDownEle = this.element.querySelector('.' + CLS_VSCROLLNAVDOWN), upOverlay = this.element.querySelector('.' + CLS_UPOVERLAY), downOverlay = this.element.querySelector('.' + CLS_DOWNOVERLAY), scrollTop = target.scrollTop;
-                    if (scrollTop <= 0 && (scrollTop = -scrollTop), this.isDevice && (scrollTop < 40 ? upOverlay.style.height = scrollTop + 'px' : upOverlay.style.height = '40px', target.scrollHeight - Math.ceil(height + scrollTop) < 40 ? downOverlay.style.height = target.scrollHeight - Math.ceil(height + scrollTop) + 'px' : downOverlay.style.height = '40px'), 0 === scrollTop) this.arrowDisabling(navUpEle, navDownEle);
+                    if (scrollTop <= 0 && (scrollTop = -scrollTop), this.isDevice && (upOverlay.style.height = scrollTop < 40 ? scrollTop + 'px' : '40px', target.scrollHeight - Math.ceil(height + scrollTop) < 40 ? downOverlay.style.height = target.scrollHeight - Math.ceil(height + scrollTop) + 'px' : downOverlay.style.height = '40px'), 0 === scrollTop) this.arrowDisabling(navUpEle, navDownEle);
                     else if (Math.ceil(height + scrollTop + .1) >= target.scrollHeight) this.arrowDisabling(navDownEle, navUpEle);
                     else {
                         var disEle = this.element.querySelector('.' + CLS_VSCROLLNAV + '.' + v_scroll_CLS_DISABLE);
@@ -19167,10 +19146,10 @@
                         width: (0, ej2_base.Ac)(this.width)
                     })), this.destroyMode(), this.refreshOverflow();
                 }, Toolbar.prototype.initScroll = function(element, innerItems) {
-                    !this.scrollModule && this.checkOverflow(element, innerItems[0]) && (this.tbarAlign && this.element.querySelector('.' + CLS_ITEMS + ' .' + CLS_TBARCENTER).removeAttribute('style'), this.isVertical ? this.scrollModule = new VScroll({
+                    !this.scrollModule && this.checkOverflow(element, innerItems[0]) && (this.tbarAlign && this.element.querySelector('.' + CLS_ITEMS + ' .' + CLS_TBARCENTER).removeAttribute('style'), this.scrollModule = this.isVertical ? new VScroll({
                         scrollStep: this.scrollStep,
                         enableRtl: this.enableRtl
-                    }, innerItems[0]) : this.scrollModule = new HScroll({
+                    }, innerItems[0]) : new HScroll({
                         scrollStep: this.scrollStep,
                         enableRtl: this.enableRtl
                     }, innerItems[0]), this.cssClass && (0, ej2_base.cn)([
@@ -19631,7 +19610,7 @@
                     if ('object' == typeof templateProp && (isComponent = 'function' == typeof templateProp.appendTo), 'string' != typeof templateProp && isComponent) {
                         if ('Input' === itemType) {
                             var ele = this.createElement('input');
-                            item.id ? ele.id = item.id : ele.id = (0, ej2_base.QI)('tbr-ipt'), innerEle.appendChild(ele), templateProp.appendTo(ele);
+                            ele.id = item.id ? item.id : (0, ej2_base.QI)('tbr-ipt'), innerEle.appendChild(ele), templateProp.appendTo(ele);
                         }
                     } else {
                         var templateFn = void 0, val = templateProp, regEx = new RegExp(/<(?=.*? .*?\/ ?>|br|hr|input|!--|wbr)[a-z]+.*?>|<([a-z]+).*?<\/\1>/i);
@@ -19659,7 +19638,7 @@
                     });
                     dom.setAttribute('type', 'button');
                     var textStr = item.text;
-                    item.id ? dom.id = item.id : dom.id = (0, ej2_base.QI)('e-tbr-btn');
+                    dom.id = item.id ? item.id : (0, ej2_base.QI)('e-tbr-btn');
                     var btnTxt = this.createElement('span', {
                         className: 'e-tbar-btn-text'
                     });
@@ -19950,7 +19929,7 @@
                         targetType: 'relative',
                         content: this.target ? this.getTargetElement() : '',
                         enableRtl: this.enableRtl
-                    }), 'fixed' === this.dropDown.element.style.position && this.dropDown.refreshPosition(this.element), this.dropDown.hide(), (0, ej2_base.Y4)(this.element, ((_a = {})['aria-haspopup'] = this.items.length || this.target ? 'true' : 'false', _a['aria-expanded'] = 'false', _a['aria-owns'] = this.getPopUpElement().id, _a.type = 'button', _a['aria-label'] = this.element.textContent ? this.element.textContent : 'dropdownbutton', _a)), this.cssClass && (0, ej2_base.cn)([
+                    }), 'fixed' === this.dropDown.element.style.position && this.dropDown.refreshPosition(this.element), this.dropDown.hide(), (0, ej2_base.Y4)(this.element, (_a = {}, _a['aria-haspopup'] = this.items.length || this.target ? 'true' : 'false', _a['aria-expanded'] = 'false', _a['aria-owns'] = this.getPopUpElement().id, _a.type = 'button', _a['aria-label'] = this.element.textContent ? this.element.textContent : 'dropdownbutton', _a)), this.cssClass && (0, ej2_base.cn)([
                         div
                     ], this.cssClass.split(' ')), this.isPopupCreated = !0;
                 }, DropDownButton.prototype.getTargetElement = function() {
@@ -20549,7 +20528,7 @@
                     ], ROOT);
                 }, Tooltip.prototype.formatPosition = function() {
                     var _a, _b;
-                    0 === this.position.indexOf('Top') || 0 === this.position.indexOf('Bottom') ? (_a = this.position.split(/(?=[A-Z])/), this.tooltipPositionY = _a[0], this.tooltipPositionX = _a[1]) : (_b = this.position.split(/(?=[A-Z])/), this.tooltipPositionX = _b[0], this.tooltipPositionY = _b[1]);
+                    0 === this.position.indexOf('Top') || 0 === this.position.indexOf('Bottom') ? (this.tooltipPositionY = (_a = this.position.split(/(?=[A-Z])/))[0], this.tooltipPositionX = _a[1]) : (this.tooltipPositionX = (_b = this.position.split(/(?=[A-Z])/))[0], this.tooltipPositionY = _b[1]);
                 }, Tooltip.prototype.renderArrow = function() {
                     this.setTipClass(this.position);
                     var tip = this.createElement('div', {
@@ -20561,7 +20540,7 @@
                         className: ARROW_TIP_INNER + ' ' + this.tipClass
                     })), this.tooltipEle.appendChild(tip);
                 }, Tooltip.prototype.setTipClass = function(position) {
-                    0 === position.indexOf('Right') ? this.tipClass = TIP_LEFT : 0 === position.indexOf('Bottom') ? this.tipClass = TIP_TOP : 0 === position.indexOf('Left') ? this.tipClass = TIP_RIGHT : this.tipClass = TIP_BOTTOM;
+                    this.tipClass = 0 === position.indexOf('Right') ? TIP_LEFT : 0 === position.indexOf('Bottom') ? TIP_TOP : 0 === position.indexOf('Left') ? TIP_RIGHT : TIP_BOTTOM;
                 }, Tooltip.prototype.renderPopup = function(target) {
                     var elePos = this.mouseTrail ? {
                         top: 0,
@@ -20898,8 +20877,7 @@
                     ], POPUP_OPEN), this.adjustArrow(event.target, this.position, this.tooltipPositionX, this.tooltipPositionY);
                     var pos = this.calculateTooltipOffset(this.position), x = eventPageX + pos.left + this.offsetX, y = eventPageY + pos.top + this.offsetY, elePos = this.checkCollision(event.target, x, y);
                     if (this.tooltipPositionX !== elePos.horizontal || this.tooltipPositionY !== elePos.vertical) {
-                        var newpos = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical;
-                        elePos.position = newpos, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
+                        elePos.position = 0 === this.position.indexOf('Bottom') || 0 === this.position.indexOf('Top') ? elePos.vertical + elePos.horizontal : elePos.horizontal + elePos.vertical, this.adjustArrow(event.target, elePos.position, elePos.horizontal, elePos.vertical);
                         var colpos = this.calculateTooltipOffset(elePos.position);
                         elePos.left = eventPageX + colpos.left - this.offsetX, elePos.top = eventPageY + colpos.top - this.offsetY;
                     }
@@ -21432,7 +21410,7 @@
                         this.sliderContainer
                     ], slider_classNames.rtl);
                     var preDir = 'Vertical' !== this.orientation ? this.horDir : this.verDir;
-                    this.enableRtl ? this.horDir = 'right' : this.horDir = 'left', this.verDir = 'bottom', preDir !== ('Vertical' !== this.orientation ? this.horDir : this.verDir) && 'Horizontal' === this.orientation && ((0, ej2_base.V7)(this.firstHandle, {
+                    this.horDir = this.enableRtl ? 'right' : 'left', this.verDir = 'bottom', preDir !== ('Vertical' !== this.orientation ? this.horDir : this.verDir) && 'Horizontal' === this.orientation && ((0, ej2_base.V7)(this.firstHandle, {
                         right: '',
                         left: 'auto'
                     }), 'Range' === this.type && (0, ej2_base.V7)(this.secondHandle, {
@@ -21448,8 +21426,7 @@
                         _this.addTooltipClass(observedArgs.text), text !== observedArgs.text && (_this.customAriaText = observedArgs.text, _this.tooltipObj.content = observedArgs.text, _this.setAriaAttrValue(_this.firstHandle), 'Range' === _this.type && _this.setAriaAttrValue(_this.secondHandle));
                     }), this.isMaterialTooltip && this.setPreviousVal('change', this.value));
                 }, Slider.prototype.setTooltipContent = function() {
-                    var content;
-                    content = this.formatContent(this.tooltipFormatInfo, !1), this.tooltipObj.content = content;
+                    this.tooltipObj.content = this.formatContent(this.tooltipFormatInfo, !1);
                 }, Slider.prototype.formatContent = function(formatInfo, ariaContent) {
                     var content = '', handle1 = this.handleVal1, handle2 = this.handleVal2;
                     return (!(0, ej2_base.le)(this.customValues) && this.customValues.length > 0 && (handle1 = this.customValues[this.handleVal1], handle2 = this.customValues[this.handleVal2]), ariaContent) ? 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base.le)(this.tooltip) || (0, ej2_base.le)(this.tooltip.format) ? handle2.toString() + ' - ' + handle1.toString() : this.formatString(handle2, formatInfo).elementVal + ' - ' + this.formatString(handle1, formatInfo).elementVal : (0, ej2_base.le)(this.tooltip) || (0, ej2_base.le)(this.tooltip.format) ? handle1.toString() + ' - ' + handle2.toString() : this.formatString(handle1, formatInfo).elementVal + ' - ' + this.formatString(handle2, formatInfo).elementVal : (0, ej2_base.le)(handle1) || (content = (0, ej2_base.le)(this.tooltip) || (0, ej2_base.le)(this.tooltip.format) ? handle1.toString() : this.formatString(handle1, formatInfo).elementVal) : 'Range' === this.type ? content = this.enableRtl && 'Vertical' !== this.orientation ? (0, ej2_base.le)(formatInfo.format) ? handle2.toString() + ' - ' + handle1.toString() : this.formatString(handle2, formatInfo).formatString + ' - ' + this.formatString(handle1, formatInfo).formatString : (0, ej2_base.le)(formatInfo.format) ? handle1.toString() + ' - ' + handle2.toString() : this.formatString(handle1, formatInfo).formatString + ' - ' + this.formatString(handle2, formatInfo).formatString : (0, ej2_base.le)(handle1) || (content = (0, ej2_base.le)(formatInfo.format) ? handle1.toString() : this.formatString(handle1, formatInfo).formatString), content;
@@ -21547,7 +21524,7 @@
                     if (this.isMaterialTooltip) {
                         this.refreshTooltip(this.firstHandle);
                         var tooltipContentElement = this.tooltipElement.firstElementChild;
-                        tooltipContentElement.classList.remove(slider_classNames.materialTooltipHide), tooltipContentElement.classList.add(slider_classNames.materialTooltipShow), this.firstHandle.style.cursor = 'default', this.tooltipElement.style.transition = this.scaleTransform, this.tooltipElement.classList.add(slider_classNames.materialTooltipOpen), this.materialHandle.style.transform = 'scale(0)', tooltipContentElement.innerText.length > 4 ? this.tooltipElement.style.transform = 'scale(1)' : this.tooltipElement.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate, 'Default' === this.type ? setTimeout(function() {
+                        tooltipContentElement.classList.remove(slider_classNames.materialTooltipHide), tooltipContentElement.classList.add(slider_classNames.materialTooltipShow), this.firstHandle.style.cursor = 'default', this.tooltipElement.style.transition = this.scaleTransform, this.tooltipElement.classList.add(slider_classNames.materialTooltipOpen), this.materialHandle.style.transform = 'scale(0)', this.tooltipElement.style.transform = tooltipContentElement.innerText.length > 4 ? 'scale(1)' : this.getTooltipTransformProperties(this.previousTooltipClass).rotate, 'Default' === this.type ? setTimeout(function() {
                             _this.tooltipElement.style.transition = _this.transition.handle;
                         }, 2500) : setTimeout(function() {
                             _this.tooltipElement.style.transition = 'none';
@@ -21566,7 +21543,7 @@
                     void 0 !== this.tooltipCollidedPosition && this.tooltipCollidedPosition === args.collidedPosition && args.element.classList.contains(tooltipClass) || (this.isMaterialTooltip && (void 0 !== tooltipClass && (args.element.classList.remove(this.previousTooltipClass), args.element.classList.add(tooltipClass), this.previousTooltipClass = tooltipClass), args.element.style.transform && args.element.classList.contains(slider_classNames.materialTooltipOpen) && args.element.firstElementChild.innerText.length <= 4 && (args.element.style.transform = this.getTooltipTransformProperties(this.previousTooltipClass).rotate)), this.tooltipCollidedPosition = args.collidedPosition), this.isMaterialTooltip && this.tooltipElement && -1 !== this.tooltipElement.style.transform.indexOf('translate') && this.setTooltipTransform();
                 }, Slider.prototype.setTooltipTransform = function() {
                     var transformProperties = this.getTooltipTransformProperties(this.previousTooltipClass);
-                    this.tooltipElement.firstElementChild.innerText.length > 4 ? this.tooltipElement.style.transform = transformProperties.translate + " scale(0.01)" : this.tooltipElement.style.transform = transformProperties.translate + " " + transformProperties.rotate + " scale(0.01)";
+                    this.tooltipElement.style.transform = this.tooltipElement.firstElementChild.innerText.length > 4 ? transformProperties.translate + " scale(0.01)" : transformProperties.translate + " " + transformProperties.rotate + " scale(0.01)";
                 }, Slider.prototype.renderTooltip = function() {
                     this.tooltipObj = new Tooltip({
                         showTipPointer: this.isBootstrap || this.isMaterial || this.isBootstrap4 || this.isTailwind || this.isBootstrap5 || this.isFluent,
@@ -21696,7 +21673,7 @@
                             'aria-hidden': 'true'
                         }
                     });
-                    li.appendChild(span), (0, ej2_base.le)(this.customValues) ? this.formatTicksValue(li, start, span, tickWidth) : this.enableHtmlSanitizer ? span.innerHTML = ej2_base.pJ.sanitize(start.toString()) : span.innerHTML = start.toString();
+                    li.appendChild(span), (0, ej2_base.le)(this.customValues) ? this.formatTicksValue(li, start, span, tickWidth) : span.innerHTML = this.enableHtmlSanitizer ? ej2_base.pJ.sanitize(start.toString()) : start.toString();
                 }, Slider.prototype.formatTicksValue = function(li, start, spanElement, tickWidth) {
                     var _this = this, tickText = this.formatNumber(start), text = (0, ej2_base.le)(this.ticks) || (0, ej2_base.le)(this.ticks.format) ? tickText : this.formatString(start, this.ticksFormatInfo).formatString;
                     this.trigger('renderingTicks', {
@@ -21704,7 +21681,7 @@
                         text: text,
                         tickElement: li
                     }, function(observedArgs) {
-                        li.setAttribute('title', observedArgs.text.toString()), spanElement && (_this.enableHtmlSanitizer ? spanElement.innerHTML = ej2_base.pJ.sanitize(observedArgs.text.toString()) : spanElement.innerHTML = observedArgs.text.toString());
+                        li.setAttribute('title', observedArgs.text.toString()), spanElement && (spanElement.innerHTML = _this.enableHtmlSanitizer ? ej2_base.pJ.sanitize(observedArgs.text.toString()) : observedArgs.text.toString());
                     });
                 }, Slider.prototype.scaleAlignment = function() {
                     this.tickValuePosition(), this.orientation, 'Vertical' === this.orientation ? this.element.getBoundingClientRect().width <= 15 ? this.sliderContainer.classList.add(slider_classNames.sliderSmallSize) : this.sliderContainer.classList.remove(slider_classNames.sliderSmallSize) : this.element.getBoundingClientRect().height <= 15 ? this.sliderContainer.classList.add(slider_classNames.sliderSmallSize) : this.sliderContainer.classList.remove(slider_classNames.sliderSmallSize);
@@ -21716,7 +21693,7 @@
                         this.sliderContainer.querySelectorAll('.' + slider_classNames.tick + '.' + slider_classNames.large + ' .' + slider_classNames.tickValue)
                     ];
                     other = 'Both' === this.ticks.placement ? [].slice.call(tickElements[0], 2) : [].slice.call(tickElements[0], 1);
-                    for(var tickWidth = 'Vertical' === this.orientation ? 2 * first.height : 2 * first.width, i = 0; i < this.firstChild.children.length; i++)'Vertical' === this.orientation ? this.firstChild.children[i].style.top = -(firstChild.height / 2) + 'px' : this.enableRtl ? this.firstChild.children[i].style.left = (tickWidth - this.firstChild.children[i].getBoundingClientRect().width) / 2 + 'px' : this.firstChild.children[i].style.left = -(firstChild.width / 2) + 'px';
+                    for(var tickWidth = 'Vertical' === this.orientation ? 2 * first.height : 2 * first.width, i = 0; i < this.firstChild.children.length; i++)'Vertical' === this.orientation ? this.firstChild.children[i].style.top = -(firstChild.height / 2) + 'px' : this.firstChild.children[i].style.left = this.enableRtl ? (tickWidth - this.firstChild.children[i].getBoundingClientRect().width) / 2 + 'px' : -(firstChild.width / 2) + 'px';
                     for(var i = 0; i < other.length; i++)otherChild = other[i].getBoundingClientRect(), 'Vertical' === this.orientation ? (0, ej2_base.V7)(other[i], {
                         top: (tickWidth - otherChild.height) / 2 + 'px'
                     }) : (0, ej2_base.V7)(other[i], {
@@ -21794,7 +21771,7 @@
                         this.checkHandlePosition(currentValue)
                     ];
                 }, Slider.prototype.setValue = function() {
-                    if (!(0, ej2_base.le)(this.customValues) && this.customValues.length > 0 && (this.min = 0, this.max = this.customValues.length - 1, this.setBarColor()), this.setAriaAttributes(this.firstHandle), this.handleVal1 = (0, ej2_base.le)(this.value) ? this.checkHandleValue(parseFloat(this.min.toString())) : this.checkHandleValue(parseFloat(this.value.toString())), this.handlePos1 = this.checkHandlePosition(this.handleVal1), this.preHandlePos1 = this.handlePos1, (0, ej2_base.le)(this.activeHandle) ? 'Range' === this.type ? this.activeHandle = 2 : this.activeHandle = 1 : this.activeHandle = this.activeHandle, 'Default' === this.type || 'MinRange' === this.type) {
+                    if (!(0, ej2_base.le)(this.customValues) && this.customValues.length > 0 && (this.min = 0, this.max = this.customValues.length - 1, this.setBarColor()), this.setAriaAttributes(this.firstHandle), this.handleVal1 = (0, ej2_base.le)(this.value) ? this.checkHandleValue(parseFloat(this.min.toString())) : this.checkHandleValue(parseFloat(this.value.toString())), this.handlePos1 = this.checkHandlePosition(this.handleVal1), this.preHandlePos1 = this.handlePos1, this.activeHandle = (0, ej2_base.le)(this.activeHandle) ? 'Range' === this.type ? 2 : 1 : this.activeHandle, 'Default' === this.type || 'MinRange' === this.type) {
                         if (this.limits.enabled) {
                             var values = this.getLimitValueAndPosition(this.handleVal1, this.limits.minStart, this.limits.minEnd);
                             this.handleVal1 = values[0], this.handlePos1 = values[1], this.preHandlePos1 = this.handlePos1;
@@ -21859,16 +21836,16 @@
                     'change' === eventName ? this.previousVal = value : this.previousChanged = value;
                 }, Slider.prototype.updateRangeValue = function() {
                     var values = this.value.toString().split(',').map(Number);
-                    if (this.enableRtl && 'Vertical' !== this.orientation || this.rtl ? this.value = [
+                    if (this.value = this.enableRtl && 'Vertical' !== this.orientation || this.rtl ? [
                         values[1],
                         values[0]
-                    ] : this.value = [
+                    ] : [
                         values[0],
                         values[1]
                     ], this.enableRtl && 'Vertical' !== this.orientation ? (this.handleVal1 = this.checkHandleValue(this.value[1]), this.handleVal2 = this.checkHandleValue(this.value[0])) : (this.handleVal1 = this.checkHandleValue(this.value[0]), this.handleVal2 = this.checkHandleValue(this.value[1])), this.handlePos1 = this.checkHandlePosition(this.handleVal1), this.handlePos2 = this.checkHandlePosition(this.handleVal2), this.handlePos1 > this.handlePos2 && (this.handlePos1 = this.handlePos2, this.handleVal1 = this.handleVal2), this.preHandlePos1 = this.handlePos1, this.preHandlePos2 = this.handlePos2, this.limits.enabled) {
                         this.activeHandle = 1;
                         var values_1 = this.getLimitValueAndPosition(this.handleVal1, this.limits.minStart, this.limits.minEnd);
-                        this.handleVal1 = values_1[0], this.handlePos1 = values_1[1], this.preHandlePos1 = this.handlePos1, this.activeHandle = 2, values_1 = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd), this.handleVal2 = values_1[0], this.handlePos2 = values_1[1], this.preHandlePos2 = this.handlePos2;
+                        this.handleVal1 = values_1[0], this.handlePos1 = values_1[1], this.preHandlePos1 = this.handlePos1, this.activeHandle = 2, this.handleVal2 = (values_1 = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd))[0], this.handlePos2 = values_1[1], this.preHandlePos2 = this.handlePos2;
                     }
                 }, Slider.prototype.checkHandlePosition = function(value) {
                     var pos;
@@ -21985,7 +21962,7 @@
                             y: yPostion - this.firstPartRemain
                         }, this.handlePos2 = this.xyToPosition(pos), this.handleVal2 = this.positionToValue(this.handlePos2), this.limits.enabled) {
                             var _a, _b, pos, xPostion, yPostion, value = this.getLimitValueAndPosition(this.handleVal1, this.limits.minStart, this.limits.minEnd);
-                            this.handleVal1 = value[0], this.handlePos1 = value[1], this.handleVal1 === this.limits.minEnd && this.handleValueAdjust(this.handleVal1, this.limits.minEnd, 1), this.handleVal1 === this.limits.minStart && this.handleValueAdjust(this.handleVal1, this.limits.minStart, 1), value = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd), this.handleVal2 = value[0], this.handlePos2 = value[1], this.handleVal2 === this.limits.maxStart && this.handleValueAdjust(this.handleVal2, this.limits.maxStart, 2), this.handleVal2 === this.limits.maxEnd && this.handleValueAdjust(this.handleVal2, this.limits.maxEnd, 2);
+                            this.handleVal1 = value[0], this.handlePos1 = value[1], this.handleVal1 === this.limits.minEnd && this.handleValueAdjust(this.handleVal1, this.limits.minEnd, 1), this.handleVal1 === this.limits.minStart && this.handleValueAdjust(this.handleVal1, this.limits.minStart, 1), this.handleVal2 = (value = this.getLimitValueAndPosition(this.handleVal2, this.limits.maxStart, this.limits.maxEnd))[0], this.handlePos2 = value[1], this.handleVal2 === this.limits.maxStart && this.handleValueAdjust(this.handleVal2, this.limits.maxStart, 2), this.handleVal2 === this.limits.maxEnd && this.handleValueAdjust(this.handleVal2, this.limits.maxEnd, 2);
                         }
                         this.handleVal2 === this.max && this.handleValueAdjust(this.handleVal2, this.max, 2), this.handleVal1 === this.min && this.handleValueAdjust(this.handleVal1, this.min, 1);
                     }
@@ -22088,7 +22065,7 @@
                     if (9 === event.keyCode && event.target.classList.contains(slider_classNames.sliderHandle) && (this.focusSliderElement(), !event.target.classList.contains(slider_classNames.sliderTabHandle))) {
                         this.element.querySelector('.' + slider_classNames.sliderTabHandle) && this.element.querySelector('.' + slider_classNames.sliderTabHandle).classList.remove(slider_classNames.sliderTabHandle), event.target.classList.add(slider_classNames.sliderTabHandle);
                         var parentElement = event.target.parentElement;
-                        parentElement === this.element && (parentElement.querySelector('.' + slider_classNames.sliderTrack).classList.add(slider_classNames.sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && parentElement.querySelector('.' + slider_classNames.rangeBar).classList.add(slider_classNames.sliderTabRange)), 'Range' === this.type && (event.target.previousSibling.classList.contains(slider_classNames.sliderHandle) ? this.activeHandle = 2 : this.activeHandle = 1), this.getHandle().focus(), this.tooltipToggle(this.getHandle());
+                        parentElement === this.element && (parentElement.querySelector('.' + slider_classNames.sliderTrack).classList.add(slider_classNames.sliderTabTrack), ('Range' === this.type || 'MinRange' === this.type) && parentElement.querySelector('.' + slider_classNames.rangeBar).classList.add(slider_classNames.sliderTabRange)), 'Range' === this.type && (this.activeHandle = event.target.previousSibling.classList.contains(slider_classNames.sliderHandle) ? 2 : 1), this.getHandle().focus(), this.tooltipToggle(this.getHandle());
                     }
                     this.closeTooltip(), this.changeEvent('changed', event);
                 }, Slider.prototype.hover = function(event) {
@@ -22151,7 +22128,7 @@
                                     ] : this.min : newProp.value;
                                     this.setProperties({
                                         value: value
-                                    }, !0), (0, ej2_base.le)(oldProp.value) || oldProp.value.toString() === value.toString() || (this.setValue(), this.refreshTooltip(this.tooltipTarget), 'Range' === this.type && ((0, ej2_base.le)(newProp.value) || oldProp.value[1] === value[1] ? this.activeHandle = 1 : this.activeHandle = 2));
+                                    }, !0), (0, ej2_base.le)(oldProp.value) || oldProp.value.toString() === value.toString() || (this.setValue(), this.refreshTooltip(this.tooltipTarget), 'Range' !== this.type || (this.activeHandle = (0, ej2_base.le)(newProp.value) || oldProp.value[1] === value[1] ? 1 : 2));
                                 }
                                 break;
                             case 'min':
@@ -22611,7 +22588,7 @@
                     return (0, ej2_base.Ys)('.' + HSVCONTAINER, this.container);
                 }, ColorPicker.prototype.setHandlerPosition = function() {
                     var dragHandler = this.getDragHandler(), hsvArea = (0, ej2_base.Ys)('.' + HSVAREA, this.container);
-                    this.enableRtl ? dragHandler.style.left = (0, ej2_base.Ac)(hsvArea.offsetWidth * Math.abs(100 - this.hsv[1]) / 100) : dragHandler.style.left = (0, ej2_base.Ac)(hsvArea.offsetWidth * this.hsv[1] / 100), dragHandler.style.top = (0, ej2_base.Ac)(hsvArea.offsetHeight * (100 - this.hsv[2]) / 100);
+                    dragHandler.style.left = this.enableRtl ? (0, ej2_base.Ac)(hsvArea.offsetWidth * Math.abs(100 - this.hsv[1]) / 100) : (0, ej2_base.Ac)(hsvArea.offsetWidth * this.hsv[1] / 100), dragHandler.style.top = (0, ej2_base.Ac)(hsvArea.offsetHeight * (100 - this.hsv[2]) / 100);
                 }, ColorPicker.prototype.createSlider = function() {
                     var sliderPreviewWrapper = this.createElement('div', {
                         className: 'e-slider-preview'
@@ -22974,7 +22951,7 @@
                         'e-rh-value',
                         'e-gs-value',
                         'e-bv-value'
-                    ], i = 0, len = clsName.length; i < len; i++)(inst = (0, ej2_base.s8)((0, ej2_base.Ys)('.' + clsName[i], this.container), numerictextbox.N)).value = Math.round(value[i]), format && (inst.placeholder = clsName[i].substr(idx, 1).toUpperCase(), inst.max = max ? max[i] : 255), inst.dataBind();
+                    ], i = 0, len = clsName.length; i < len; i++)inst = (0, ej2_base.s8)((0, ej2_base.Ys)('.' + clsName[i], this.container), numerictextbox.N), inst.value = Math.round(value[i]), format && (inst.placeholder = clsName[i].substr(idx, 1).toUpperCase(), inst.max = max ? max[i] : 255), inst.dataBind();
                 }, ColorPicker.prototype.previewHandler = function(e) {
                     var target = e.target, pValue = this.rgbToHex(this.rgb);
                     this.rgb = this.convertRgbToNumberArray(target.style.backgroundColor), this.rgb[3] || (this.rgb[3] = 1);
@@ -24996,7 +24973,7 @@
                 y2: function() {
                     return RenderType;
                 }
-            }), (RenderType1 = RenderType || (RenderType = {}))[RenderType1.Toolbar = 0] = "Toolbar", RenderType1[RenderType1.Content = 1] = "Content", RenderType1[RenderType1.Popup = 2] = "Popup", RenderType1[RenderType1.LinkToolbar = 3] = "LinkToolbar", RenderType1[RenderType1.TextToolbar = 4] = "TextToolbar", RenderType1[RenderType1.ImageToolbar = 5] = "ImageToolbar", RenderType1[RenderType1.InlineToolbar = 6] = "InlineToolbar", RenderType1[RenderType1.TableToolbar = 7] = "TableToolbar", (ToolbarType1 = ToolbarType || (ToolbarType = {})).Expand = "Expand", ToolbarType1.MultiRow = "MultiRow", ToolbarType1.Scrollable = "Scrollable", (DialogType1 = DialogType || (DialogType = {})).InsertLink = "InsertLink", DialogType1.InsertImage = "InsertImage", DialogType1.InsertTable = "InsertTable";
+            }), RenderType1 = RenderType || (RenderType = {}), RenderType1[RenderType1.Toolbar = 0] = "Toolbar", RenderType1[RenderType1.Content = 1] = "Content", RenderType1[RenderType1.Popup = 2] = "Popup", RenderType1[RenderType1.LinkToolbar = 3] = "LinkToolbar", RenderType1[RenderType1.TextToolbar = 4] = "TextToolbar", RenderType1[RenderType1.ImageToolbar = 5] = "ImageToolbar", RenderType1[RenderType1.InlineToolbar = 6] = "InlineToolbar", RenderType1[RenderType1.TableToolbar = 7] = "TableToolbar", ToolbarType1 = ToolbarType || (ToolbarType = {}), ToolbarType1.Expand = "Expand", ToolbarType1.MultiRow = "MultiRow", ToolbarType1.Scrollable = "Scrollable", DialogType1 = DialogType || (DialogType = {}), DialogType1.InsertLink = "InsertLink", DialogType1.InsertImage = "InsertImage", DialogType1.InsertTable = "InsertTable";
         },
         5932: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -26977,7 +26954,7 @@
                     }
                 }, CheckBox.prototype.preRender = function() {
                     var element = this.element;
-                    this.tagName = this.element.tagName, element = (0, common.Rm)(this.createElement, 'EJS-CHECKBOX', 'checkbox', element, WRAPPER, 'checkbox'), this.element = element, 'checkbox' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'checkbox'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName()));
+                    this.tagName = this.element.tagName, this.element = element = (0, common.Rm)(this.createElement, 'EJS-CHECKBOX', 'checkbox', element, WRAPPER, 'checkbox'), 'checkbox' !== this.element.getAttribute('type') && this.element.setAttribute('type', 'checkbox'), this.element.id || (this.element.id = (0, ej2_base.QI)('e-' + this.getModuleName()));
                 }, CheckBox.prototype.render = function() {
                     this.initWrapper(), this.initialize(), this.disabled || this.wireEvents(), this.updateHtmlAttributeToWrapper(), this.updateVueArrayModel(!0), this.renderComplete(), this.wrapper = this.getWrapper();
                 }, CheckBox.prototype.setDisabled = function() {
@@ -27217,9 +27194,9 @@
                         id: this.rteID + '_linkContent'
                     }), htmlTextbox = 'HTML' === this.parent.editorMode ? '<label>' + linkTooltip + '</label></div><div class="e-rte-field ' + this.parent.cssClass + '"><input type="text" data-role ="none" spellcheck="false" placeholder = "' + title + '" class="e-input e-rte-linkTitle ' + this.parent.cssClass + '"></div><div class="e-rte-label ' + this.parent.cssClass + '"></div><div class="e-rte-field ' + this.parent.cssClass + '"><input type="checkbox" class="e-rte-linkTarget ' + this.parent.cssClass + '"  data-role ="none"></div>' : '', content = '<div class="e-rte-label ' + this.parent.cssClass + '"><label>' + linkWebAddress + '</label></div><div class="e-rte-field ' + this.parent.cssClass + '"><input type="text" data-role ="none" spellcheck="false" placeholder="' + urlPlace + '" class="e-input e-rte-linkurl ' + this.parent.cssClass + '"/></div><div class="e-rte-label ' + this.parent.cssClass + '"><label>' + linkDisplayText + '</label></div><div class="e-rte-field ' + this.parent.cssClass + '"> <input type="text" data-role ="none" spellcheck="false" class="e-input e-rte-linkText ' + this.parent.cssClass + '" placeholder="' + textPlace + '"></div><div class="e-rte-label ' + this.parent.cssClass + '">' + htmlTextbox, contentElem = (0, util.dW)(content);
                     linkContent.appendChild(contentElem);
-                    var linkTarget = linkContent.querySelector('.e-rte-linkTarget'), linkUrl = linkContent.querySelector('.e-rte-linkurl'), linkText = linkContent.querySelector('.e-rte-linkText'), linkTitle = linkContent.querySelector('.e-rte-linkTitle'), linkOpenLabel = this.i10n.getConstant('linkOpenInNewWindow');
+                    var linkTarget = linkContent.querySelector('.e-rte-linkTarget'), linkUrl = linkContent.querySelector('.e-rte-linkurl'), linkText = linkContent.querySelector('.e-rte-linkText'), linkTitle = linkContent.querySelector('.e-rte-linkTitle');
                     this.checkBoxObj = new CheckBox({
-                        label: linkOpenLabel,
+                        label: this.i10n.getConstant('linkOpenInNewWindow'),
                         checked: !0,
                         enableRtl: this.parent.enableRtl,
                         cssClass: this.parent.cssClass
@@ -27267,7 +27244,7 @@
                             _this.dialogRenderObj.close(args), _this.dialogObj = null;
                         }
                     };
-                    this.dialogObj = this.dialogRenderObj.render(dialogModel), this.dialogObj.createElement = this.parent.createElement, this.dialogObj.appendTo(linkDialogEle), linkDialogEle.style.maxHeight = 'inherit', !(0, ej2_base.le)(this.dialogObj) && ((0, ej2_base.le)(inputDetails) || (linkUrl.value = inputDetails.url, linkText.value = inputDetails.text, linkTitle.value = inputDetails.title, inputDetails.target ? this.checkBoxObj.checked = !0 : this.checkBoxObj.checked = !1, this.dialogObj.header = inputDetails.header, this.dialogObj.element.querySelector('.e-insertLink').textContent = inputDetails.btnText), this.checkUrl(!1), ('HTML' === this.parent.editorMode && (0, ej2_base.le)(inputDetails) && (!(0, ej2_base.le)(selectText) && '' !== selectText && 0 === e.selection.range.startOffset || e.selection.range.startOffset !== e.selection.range.endOffset) || 'Markdown' === e.module) && (linkText.value = selectText), ej2_base.bi.add(this.parent.element.ownerDocument, 'mousedown', this.onDocumentClick, this), this.quickToolObj && (this.hideLinkQuickToolbar(), this.quickToolObj.inlineQTBar && document.body.contains(this.quickToolObj.inlineQTBar.element) && this.quickToolObj.inlineQTBar.hidePopup()));
+                    this.dialogObj = this.dialogRenderObj.render(dialogModel), this.dialogObj.createElement = this.parent.createElement, this.dialogObj.appendTo(linkDialogEle), linkDialogEle.style.maxHeight = 'inherit', !(0, ej2_base.le)(this.dialogObj) && ((0, ej2_base.le)(inputDetails) || (linkUrl.value = inputDetails.url, linkText.value = inputDetails.text, linkTitle.value = inputDetails.title, this.checkBoxObj.checked = !!inputDetails.target, this.dialogObj.header = inputDetails.header, this.dialogObj.element.querySelector('.e-insertLink').textContent = inputDetails.btnText), this.checkUrl(!1), ('HTML' === this.parent.editorMode && (0, ej2_base.le)(inputDetails) && (!(0, ej2_base.le)(selectText) && '' !== selectText && 0 === e.selection.range.startOffset || e.selection.range.startOffset !== e.selection.range.endOffset) || 'Markdown' === e.module) && (linkText.value = selectText), ej2_base.bi.add(this.parent.element.ownerDocument, 'mousedown', this.onDocumentClick, this), this.quickToolObj && (this.hideLinkQuickToolbar(), this.quickToolObj.inlineQTBar && document.body.contains(this.quickToolObj.inlineQTBar.element) && this.quickToolObj.inlineQTBar.hidePopup()));
                 }, Link.prototype.insertlink = function(e) {
                     var linkTitle, argsValue, linkEle = this.selfLink.dialogObj.element, linkUrl = linkEle.querySelector('.e-rte-linkurl').value, linkText = linkEle.querySelector('.e-rte-linkText').value;
                     'HTML' === this.selfLink.parent.editorMode && (linkTitle = linkEle.querySelector('.e-rte-linkTitle').value);
@@ -27640,7 +27617,7 @@
                                 contenteditable: 'false'
                             }
                         });
-                        colReEle.classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_3__.IJ, _base_classes__WEBPACK_IMPORTED_MODULE_3__.rp), columns.length === i ? colReEle.style.cssText = 'height: ' + height + 'px; width: 4px; top: ' + pos.top + 'px; left:' + (pos.left + this.calcPos(columns[i - 1]).left + columns[i - 1].offsetWidth) + 'px;' : colReEle.style.cssText = 'height: ' + height + 'px; width: 4px; top: ' + pos.top + 'px; left:' + (pos.left + this.calcPos(columns[i]).left) + 'px;', this.contentModule.getEditPanel().appendChild(colReEle);
+                        colReEle.classList.add(_base_classes__WEBPACK_IMPORTED_MODULE_3__.IJ, _base_classes__WEBPACK_IMPORTED_MODULE_3__.rp), colReEle.style.cssText = columns.length === i ? 'height: ' + height + 'px; width: 4px; top: ' + pos.top + 'px; left:' + (pos.left + this.calcPos(columns[i - 1]).left + columns[i - 1].offsetWidth) + 'px;' : 'height: ' + height + 'px; width: 4px; top: ' + pos.top + 'px; left:' + (pos.left + this.calcPos(columns[i]).left) + 'px;', this.contentModule.getEditPanel().appendChild(colReEle);
                     }
                     for(var i = 0; rows.length > i; i++){
                         var rowReEle = this.parent.createElement('span', {
@@ -27705,13 +27682,7 @@
                     this.resizeBtnStat.column ? (this.helper.classList.add('e-column-helper'), this.helper.style.cssText = 'height: ' + getComputedStyle(this.curTable).height + '; top: ' + pos.top + 'px; left:' + (pos.left + this.calcPos(this.columnEle).left + ('last' === this.currentColumnResize ? this.columnEle.offsetWidth + 2 : 0) - 1) + 'px;') : (this.helper.classList.add('e-row-helper'), this.helper.style.cssText = 'width: ' + getComputedStyle(this.curTable).width + '; top: ' + (this.calcPos(this.rowEle).top + pos.top + this.rowEle.offsetHeight) + 'px; left:' + (this.calcPos(this.rowEle).left + pos.left) + 'px;');
                 }, Table.prototype.updateHelper = function() {
                     var pos = this.calcPos(this.curTable);
-                    if (this.resizeBtnStat.column) {
-                        var left = pos.left + this.calcPos(this.columnEle).left + ('last' === this.currentColumnResize ? this.columnEle.offsetWidth + 2 : 0) - 1;
-                        this.helper.style.left = left + 'px';
-                    } else {
-                        var top_1 = this.calcPos(this.rowEle).top + pos.top + this.rowEle.offsetHeight;
-                        this.helper.style.top = top_1 + 'px';
-                    }
+                    this.resizeBtnStat.column ? this.helper.style.left = pos.left + this.calcPos(this.columnEle).left + ('last' === this.currentColumnResize ? this.columnEle.offsetWidth + 2 : 0) - 1 + 'px' : this.helper.style.top = this.calcPos(this.rowEle).top + pos.top + this.rowEle.offsetHeight + 'px';
                 }, Table.prototype.calMaxCol = function(element) {
                     for(var maxRowIndex, max = 0, i = 0; i < element.rows.length; i++)max < element.rows[i].cells.length && (maxRowIndex = i, max = element.rows[i].cells.length);
                     return maxRowIndex;
@@ -27753,11 +27724,7 @@
                                 _this.parent.preventDefaultResize(e);
                                 var height = parseFloat(_this.rowEle.clientHeight.toString()) + mouseY;
                                 height > 20 && (_this.rowEle.style.height = height + 'px'), _this.curTable.style.height = '', (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(tableReBox) || (tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;'), _this.updateHelper();
-                            } else if (_this.resizeBtnStat.tableBox) {
-                                _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.remove(_this.contentModule.getEditPanel(), 'mouseover', _this.resizeHelper);
-                                var widthType = _this.curTable.style.width.indexOf('%') > -1;
-                                _this.curTable.style.width = widthType ? _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) + '%' : tableWidth + mouseX + 'px', _this.curTable.style.height = tableHeight + mouseY + 'px', tableReBox.classList.add('e-rbox-select'), tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;';
-                            }
+                            } else _this.resizeBtnStat.tableBox && (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.bi.remove(_this.contentModule.getEditPanel(), 'mouseover', _this.resizeHelper), _this.curTable.style.width = _this.curTable.style.width.indexOf('%') > -1 ? _this.convertPixelToPercentage(tableWidth + mouseX, widthCompare) + '%' : tableWidth + mouseX + 'px', _this.curTable.style.height = tableHeight + mouseY + 'px', tableReBox.classList.add('e-rbox-select'), tableReBox.style.cssText = 'top: ' + (_this.calcPos(_this.curTable).top + tableHeight - 4) + 'px; left:' + (_this.calcPos(_this.curTable).left + tableWidth - 4) + 'px;');
                         }
                     });
                 }, Table.prototype.findFirstLastColCells = function(table, isFirst) {
@@ -27815,7 +27782,7 @@
                         selection: selection,
                         subCommand: delKey ? cmd.item.subCommand : args.item.subCommand
                     };
-                    this.parent.formatter.process(this.parent, delKey ? cmd : args, args.originalEvent, value), this.contentModule.getEditPanel().focus(), (null === this.parent.inputElement.innerHTML || '' === this.parent.inputElement.innerHTML) && ('DIV' === this.parent.enterKey ? this.contentModule.getEditPanel().innerHTML = '<div><br/></div>' : 'BR' === this.parent.enterKey ? this.contentModule.getEditPanel().innerHTML = '<br/>' : this.contentModule.getEditPanel().innerHTML = '<p><br/></p>'), this.removeResizeElement(), this.hideTableQuickToolbar();
+                    this.parent.formatter.process(this.parent, delKey ? cmd : args, args.originalEvent, value), this.contentModule.getEditPanel().focus(), (null === this.parent.inputElement.innerHTML || '' === this.parent.inputElement.innerHTML) && (this.contentModule.getEditPanel().innerHTML = 'DIV' === this.parent.enterKey ? '<div><br/></div>' : 'BR' === this.parent.enterKey ? '<br/>' : '<p><br/></p>'), this.removeResizeElement(), this.hideTableQuickToolbar();
                 }, Table.prototype.renderDlgContent = function(args) {
                     var _this = this;
                     if (_syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.AR.isDevice || this.parent.inlineMode.enable) {
