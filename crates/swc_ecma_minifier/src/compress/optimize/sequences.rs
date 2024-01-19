@@ -19,7 +19,7 @@ use super::{is_pure_undefined, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::{
-        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr, Ctx},
+        optimize::{unused::PropertyAccessOpts, util::replace_id_with_expr},
         util::{is_directive, is_ident_used_by, replace_expr},
     },
     option::CompressOptions,
@@ -1697,7 +1697,9 @@ impl Optimizer<'_> {
                 return self.merge_sequential_expr(a, &mut c.expr);
             }
 
-            Expr::Assign(b_assign @ AssignExpr { op: op!("="), .. }) => {
+            Expr::Assign(b_assign @ AssignExpr { op: op!("="), .. })
+                if !matches!(a, Mergable::Expr(Expr::Assign(..))) =>
+            {
                 match &mut b_assign.left {
                     AssignTarget::Simple(b_left) => {
                         trace_op!("seq: Try lhs of assign");
@@ -1706,13 +1708,7 @@ impl Optimizer<'_> {
                             SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) => {
                                 let mut b_left_expr: Box<Expr> = b_left.take().into();
 
-                                let ctx = Ctx {
-                                    shallow_seq_inline: true,
-                                    ..self.ctx
-                                };
-                                let res = self
-                                    .with_ctx(ctx)
-                                    .merge_sequential_expr(a, &mut b_left_expr);
+                                let res = self.merge_sequential_expr(a, &mut b_left_expr);
 
                                 b_assign.left = match AssignTarget::try_from(b_left_expr) {
                                     Ok(v) => v,
@@ -2033,6 +2029,7 @@ impl Optimizer<'_> {
         }
 
         if self.replace_seq_assignment(a, b)? {
+            print_backtrace();
             return Ok(true);
         }
 
@@ -2339,12 +2336,6 @@ impl Optimizer<'_> {
         };
 
         if let Some(a_right) = a_right {
-            if self.ctx.shallow_seq_inline
-                && !matches!(&**a_right, Expr::Ident(..) | Expr::Member(..))
-            {
-                return Ok(false);
-            }
-
             if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
                 return Ok(false);
             }
@@ -2687,4 +2678,10 @@ fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     }
 
     false
+}
+
+fn print_backtrace() {
+    let bt = backtrace::Backtrace::new();
+
+    println!("Backtrace: {:?}", bt);
 }
