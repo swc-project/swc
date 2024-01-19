@@ -1,1 +1,1 @@
-console.log("\x000");
+console.log("\00");

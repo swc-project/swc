@@ -1,4 +1,4 @@
 (function() {
     "use strict";
-    "\x00";
+    "\0";
 }());
