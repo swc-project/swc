@@ -74,11 +74,17 @@ macro_rules! impl_visit_mut_fn {
 
             f.visit_mut_children_with(self);
 
-            let (mut params, body) =
-                self.visit_mut_fn_like(&mut f.params, &mut f.body.take().unwrap());
+            let (mut params, body) = self.visit_mut_fn_like(
+                &mut vec![Param {
+                    span: DUMMY_SP,
+                    decorators: vec![],
+                    pat: *f.param.take(),
+                }],
+                &mut f.body.take().unwrap(),
+            );
             debug_assert!(params.len() == 1);
 
-            f.params = params;
+            f.param = Box::new(params.into_iter().next().unwrap().pat);
             f.body = Some(body);
         }
 
