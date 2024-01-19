@@ -2218,11 +2218,15 @@ where
         formatting_space!();
 
         punct!("(");
-        self.emit_list(
-            node.span(),
-            Some(&node.params),
-            ListFormat::CommaListElements,
-        )?;
+        if let Some(this) = &node.this_param {
+            emit!(this);
+            punct!(",");
+
+            formatting_space!();
+        }
+
+        emit!(node.param);
+
         punct!(")");
 
         emit!(node.body);

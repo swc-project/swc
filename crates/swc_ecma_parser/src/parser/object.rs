@@ -351,15 +351,28 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     false,
                                 )
                                 .map(|v| *v)
-                                .map(|Function { params, body, .. }| {
-                                    // debug_assert_eq!(params.len(), 1);
-                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                        span: span!(parser, start),
-                                        key,
-                                        body,
-                                        params,
-                                    })))
-                                })
+                                .map(
+                                    |Function {
+                                         mut params, body, ..
+                                     }| {
+                                        let mut this = None;
+                                        if params.len() <= 2 {
+                                            this = Some(params.remove(0).pat);
+                                        }
+
+                                        let param =
+                                            Box::new(params.into_iter().next().unwrap().pat);
+
+                                        // debug_assert_eq!(params.len(), 1);
+                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                            span: span!(parser, start),
+                                            key,
+                                            body,
+                                            param,
+                                            this_param: this,
+                                        })))
+                                    },
+                                )
                         }
                         "async" => parser
                             .parse_fn_args_body(
