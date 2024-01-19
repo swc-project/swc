@@ -2797,3 +2797,27 @@ test!(
     console.log(I.A);
     "#
 );
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            tsx(
+                t.cm.clone(),
+                typescript::Config {
+                    verbatim_module_syntax: false,
+                    ..Default::default()
+                },
+                TsxConfig::default(),
+                t.comments.clone(),
+                top_level_mark,
+            )
+        )
+    },
+    ts_jsx_bad_pragma,
+    r#"/** @jsx bad-pragma */"#
+);
