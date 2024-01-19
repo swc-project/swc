@@ -1,2 +1,2 @@
 "use strict";
-console.log("\x001");
+console.log("\01");
