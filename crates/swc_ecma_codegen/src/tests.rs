@@ -948,9 +948,9 @@ fn issue_8491_1() {
     test_all(
         "console.log({aób: 'ó'})",
         r#"console.log({
-            "a\xf3b": "\xf3"
-        });"#,
-        r#"console.log({"a\xf3b": "\xf3"});"#,
+    "a\xf3b": "\xf3"
+});"#,
+        r#"console.log({"a\xf3b":"\xf3"})"#,
         Config {
             ascii_only: true,
             target: EsVersion::Es5,
@@ -964,9 +964,9 @@ fn issue_8491_2() {
     test_all(
         "console.log({aób: 'ó'})",
         r#"console.log({
-            "a\xf3b": "\xf3"
-        });"#,
-        r#"console.log({"a\xf3b": "\xf3"});"#,
+    "a\xf3b": "\xf3"
+});"#,
+        r#"console.log({"a\xf3b":"\xf3"})"#,
         Config {
             ascii_only: true,
             target: EsVersion::Es2015,
