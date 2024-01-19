@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Add a test for a fixed issue ([#8520](https://github.com/swc-project/swc/issues/8520)) ([8fac2bb](https://github.com/swc-project/swc/commit/8fac2bb03ce63eb66774fa007285fa8ae8575038))
 
+
+- **(es/module)** Add a test for a fixed issue ([#8521](https://github.com/swc-project/swc/issues/8521)) ([4b4a0a2](https://github.com/swc-project/swc/commit/4b4a0a244deef02a86165b8fd0a070408abfa654))
+
 ## [1.3.104] - 2024-01-17
 
 ### Bug Fixes
@@ -1492,12 +1495,6 @@
 
 
 - **(es/parser)** Disallow tagged tpl in optional chaining ([#7515](https://github.com/swc-project/swc/issues/7515)) ([6c00a24](https://github.com/swc-project/swc/commit/6c00a2422addf0e402bb221e80f6f8acad839b28))
-
-### Performance
-
-
-
-- **(css/prefixer)** Convert macro to a function call to reduce binary size ([#7507](https://github.com/swc-project/swc/issues/7507)) ([d545df6](https://github.com/swc-project/swc/commit/d545df6dd951fa2f5756830c40c21ae251e4e634))
 
 ### Refactor
 
