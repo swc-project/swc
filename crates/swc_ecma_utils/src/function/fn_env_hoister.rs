@@ -665,7 +665,8 @@ fn extend_super(
                     Prop::Setter(SetterProp {
                         span: DUMMY_SP,
                         key: PropName::Ident(quote_ident!("_")),
-                        params: vec![value.clone().into()],
+                        this_param: None,
+                        param: value.clone().into(),
                         body: Some(BlockStmt {
                             span: DUMMY_SP,
                             stmts: vec![Expr::Ident(
@@ -721,7 +722,8 @@ fn extend_super(
                         Prop::Setter(SetterProp {
                             span: DUMMY_SP,
                             key: PropName::Ident(quote_ident!("_")),
-                            params: vec![value.clone().into()],
+                            this_param: None,
+                            param: value.clone().into(),
                             body: Some(BlockStmt {
                                 span: DUMMY_SP,
                                 stmts: vec![Expr::Ident(

@@ -92,7 +92,7 @@ impl Visit for ThisVisitor {
     /// Don't recurse into fn
     fn visit_setter_prop(&mut self, n: &SetterProp) {
         n.key.visit_with(self);
-        n.params.visit_with(self);
+        n.param.visit_with(self);
     }
 
     fn visit_this_expr(&mut self, _: &ThisExpr) {
