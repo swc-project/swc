@@ -623,7 +623,7 @@ impl ProgramData {
                 None => false,
             }),
             Expr::Yield(YieldExpr { arg, .. }) => {
-                matches!(arg, Some(arg) if self.contains_unresolved(&arg))
+                matches!(arg, Some(arg) if self.contains_unresolved(arg))
             }
             Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
             Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
