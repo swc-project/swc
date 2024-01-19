@@ -7,7 +7,7 @@
         "parser": {
             "syntax": "typescript"
         },
-        "baseUrl": "/Users/nielssegers/personal/swc-paths/",
+        "baseUrl": ".",
         "paths": {
             "*": [
                 "src/*"
