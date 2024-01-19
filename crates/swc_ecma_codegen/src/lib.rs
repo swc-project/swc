@@ -1353,8 +1353,15 @@ where
     fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
+        self.emit_accessibility(n.accessibility)?;
+
         if n.is_static {
             keyword!("static");
+            space!();
+        }
+
+        if n.is_override {
+            keyword!("override");
             space!();
         }
 
@@ -1362,6 +1369,15 @@ where
         space!();
 
         emit!(n.key);
+
+        if let Some(type_ann) = &n.type_ann {
+            if n.definite {
+                punct!("!");
+            }
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
 
         if let Some(init) = &n.value {
             formatting_space!();
