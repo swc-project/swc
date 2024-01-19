@@ -33,6 +33,12 @@ impl KeywordRenamer {
 impl VisitMut for KeywordRenamer {
     noop_visit_mut_type!();
 
+    fn visit_mut_binding_ident(&mut self, n: &mut BindingIdent) {
+        if let Some(new) = self.renamed(&n.id) {
+            n.id = new;
+        }
+    }
+
     fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
         c.class.visit_mut_with(self);
         if let Some(renamed) = self.renamed(&c.ident) {
