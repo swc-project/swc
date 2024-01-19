@@ -2339,6 +2339,12 @@ impl Optimizer<'_> {
         };
 
         if let Some(a_right) = a_right {
+            if self.ctx.shallow_seq_inline
+                && !matches!(&**a_right, Expr::Ident(..) | Expr::Member(..))
+            {
+                return Ok(false);
+            }
+
             if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
                 return Ok(false);
             }
