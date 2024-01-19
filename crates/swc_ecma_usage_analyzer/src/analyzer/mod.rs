@@ -1096,7 +1096,7 @@ where
                     in_pat_of_param: true,
                     ..a.ctx
                 };
-                n.params.visit_with(&mut *a.with_ctx(ctx));
+                n.param.visit_with(&mut *a.with_ctx(ctx));
             }
 
             n.body.visit_with(a);
