@@ -231,7 +231,7 @@ impl Optimizer<'_> {
                         Prop::Shorthand(_) => false,
                         Prop::KeyValue(..) => false,
 
-                        Prop::Setter(_) => false,
+                        Prop::Setter(_) => true,
                         Prop::Method(_) => false,
                     },
                 });
