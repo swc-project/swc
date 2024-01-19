@@ -372,15 +372,15 @@ dependencies = [
 
 [[package]]
 name = "browserslist-rs"
-version = "0.13.0"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e33066f72a558361eeb1077b0aff0f1dce1ac75bdc20b38a642f155f767b2824"
+checksum = "4f2557836820eed97f79071bb3294b2640e71e0bc4301336a210a1b8b4947c15"
 dependencies = [
  "ahash 0.8.7",
  "anyhow",
  "chrono",
  "either",
- "itertools",
+ "itertools 0.12.0",
  "nom",
  "once_cell",
  "quote",
@@ -872,7 +872,7 @@ dependencies = [
  "clap 4.4.18",
  "criterion-plot",
  "is-terminal",
- "itertools",
+ "itertools 0.10.5",
  "num-traits",
  "once_cell",
  "oorandom",
@@ -893,7 +893,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6b50826342786a51a89e2da3a28f1c32b06e387201bc2d19791f622c673706b1"
 dependencies = [
  "cast",
- "itertools",
+ "itertools 0.10.5",
 ]
 
 [[package]]
@@ -1879,6 +1879,15 @@ name = "itertools"
 version = "0.10.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
+version = "0.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "25db6b064527c5d482d0423354fcd07a89a2dfe07b67892e62411946db7f07b0"
 dependencies = [
  "either",
 ]
