@@ -658,12 +658,7 @@ impl ProgramData {
     fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
         match &*o.base {
             OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
-            OptChainBase::Call(OptCall {
-                span,
-                callee,
-                args,
-                type_args,
-            }) => {
+            OptChainBase::Call(OptCall { callee, args, .. }) => {
                 if self.contains_unresolved(callee) {
                     return true;
                 }
