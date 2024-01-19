@@ -405,7 +405,7 @@ impl VisitMut for Generator {
     fn visit_mut_getter_prop(&mut self, _: &mut GetterProp) {}
 
     fn visit_mut_setter_prop(&mut self, e: &mut SetterProp) {
-        e.params.visit_mut_with(self);
+        e.param.visit_mut_with(self);
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
@@ -1274,7 +1274,11 @@ impl Generator {
                             KeyValueProp {
                                 key: quote_ident!("set").into(),
                                 value: Function {
-                                    params: s.params,
+                                    params: vec![Param {
+                                        span: DUMMY_SP,
+                                        decorators: Default::default(),
+                                        pat: *s.param,
+                                    }],
                                     decorators: Default::default(),
                                     span: s.span,
                                     body: s.body,
