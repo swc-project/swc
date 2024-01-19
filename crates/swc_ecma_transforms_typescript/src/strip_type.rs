@@ -33,59 +33,6 @@ impl VisitMut for StripType {
         n.accessibility = None;
         n.definite = false;
         n.is_override = false;
-    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
-        pat.visit_mut_children_with(self);
-        pat.optional = false;
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        // https://github.com/tc39/proposal-type-annotations#type-assertions
-        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
-        while let Expr::TsAs(TsAsExpr { expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { expr, .. })
-        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
-        {
-            *n = *expr.take();
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
-        // https://github.com/tc39/proposal-type-annotations#type-assertions
-        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
-        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
-        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
-        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
-        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
-        {
-            *n = expr.take().try_into().unwrap();
-        }
-
-        n.visit_mut_children_with(self);
-    }
-
-    // https://github.com/tc39/proposal-type-annotations#this-parameters
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
-        if n.first()
-            .filter(|param| {
-                matches!(
-                    &param.pat,
-                    Pat::Ident(BindingIdent {
-                        id: Ident { sym, .. },
-                        ..
-                    }) if &**sym == "this"
-                )
-            })
-            .is_some()
-        {
-            n.drain(0..1);
-        }
-
         n.visit_mut_children_with(self);
     }
 
@@ -220,6 +167,21 @@ impl VisitMut for StripType {
 
     fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
         n.this_param = None;
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        // https://github.com/tc39/proposal-type-annotations#type-assertions
+        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
+        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        {
+            *n = expr.take().try_into().unwrap();
+        }
 
         n.visit_mut_children_with(self);
     }
