@@ -1736,6 +1736,15 @@ impl Optimizer<'_> {
                 //     _ => return Ok(false),
                 // };
 
+                match &b_assign.left {
+                    AssignTarget::Simple(b_left) => {
+                        if !self.is_simple_assign_target_skippable_for_seq(Some(a), b_left) {
+                            return Ok(false);
+                        }
+                    }
+                    _ => return Ok(false),
+                }
+
                 if self.should_not_check_rhs_of_assign(a, b_assign)? {
                     return Ok(false);
                 }
