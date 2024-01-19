@@ -1,6 +1,6 @@
 //! Parser for object literal.
 
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
 use crate::parser::class_and_fn::is_not_this;
@@ -360,8 +360,20 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                             this = Some(params.remove(0).pat);
                                         }
 
-                                        let param =
-                                            Box::new(params.into_iter().next().unwrap().pat);
+                                        let param = Box::new(
+                                            params
+                                                .into_iter()
+                                                .next()
+                                                .map(|v| v.pat)
+                                                .unwrap_or_else(|| {
+                                                    parser.emit_err(
+                                                        key_span,
+                                                        SyntaxError::SetterParam,
+                                                    );
+
+                                                    Pat::Invalid(Invalid { span: DUMMY_SP })
+                                                }),
+                                        );
 
                                         // debug_assert_eq!(params.len(), 1);
                                         PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
