@@ -1697,45 +1697,44 @@ impl Optimizer<'_> {
                 return self.merge_sequential_expr(a, &mut c.expr);
             }
 
-            Expr::Assign(b_assign @ AssignExpr { op: op!("="), .. })
-                if !matches!(a, Mergable::Expr(Expr::Assign(..))) =>
-            {
-                match &mut b_assign.left {
-                    AssignTarget::Simple(b_left) => {
-                        trace_op!("seq: Try lhs of assign");
+            Expr::Assign(b_assign @ AssignExpr { op: op!("="), .. }) => {
+                // match &mut b_assign.left {
+                //     AssignTarget::Simple(b_left) => {
+                //         trace_op!("seq: Try lhs of assign");
 
-                        match b_left {
-                            SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) => {
-                                let mut b_left_expr: Box<Expr> = b_left.take().into();
+                //         match b_left {
+                //             SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) =>
+                // {                 let mut b_left_expr: Box<Expr> =
+                // b_left.take().into();
 
-                                let res = self.merge_sequential_expr(a, &mut b_left_expr);
+                //                 let res = self.merge_sequential_expr(a, &mut b_left_expr);
 
-                                b_assign.left = match AssignTarget::try_from(b_left_expr) {
-                                    Ok(v) => v,
-                                    Err(b_left_expr) => {
-                                        if is_pure_undefined(&self.expr_ctx, &b_left_expr) {
-                                            *b = *b_assign.right.take();
-                                            return Ok(true);
-                                        }
+                //                 b_assign.left = match AssignTarget::try_from(b_left_expr) {
+                //                     Ok(v) => v,
+                //                     Err(b_left_expr) => {
+                //                         if is_pure_undefined(&self.expr_ctx, &b_left_expr) {
+                //                             *b = *b_assign.right.take();
+                //                             return Ok(true);
+                //                         }
 
-                                        unreachable!("{b_left_expr:#?}")
-                                    }
-                                };
-                                if res? {
-                                    return Ok(true);
-                                }
-                            }
+                //                         unreachable!("{b_left_expr:#?}")
+                //                     }
+                //                 };
+                //                 if res? {
+                //                     return Ok(true);
+                //                 }
+                //             }
 
-                            _ => {}
-                        }
+                //             _ => {}
+                //         }
 
-                        if b_assign.left.as_ident().is_none() {
-                            return Ok(false);
-                        }
-                    }
+                //         if b_assign.left.as_ident().is_none() {
+                //             return Ok(false);
+                //         }
+                //     }
 
-                    _ => return Ok(false),
-                };
+                //     _ => return Ok(false),
+                // };
 
                 if self.should_not_check_rhs_of_assign(a, b_assign)? {
                     return Ok(false);
