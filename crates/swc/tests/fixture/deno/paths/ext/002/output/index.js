@@ -1,2 +1,2 @@
-import styles from "./foo.ts/index.js";
+import styles from "./foo.ts/index";
 console.log(styles);
