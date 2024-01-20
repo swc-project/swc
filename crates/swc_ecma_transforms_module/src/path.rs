@@ -155,8 +155,8 @@ where
                 false
             };
 
-            let is_resolved_as_ts = if let Some(ext) = target_path.extension() {
-                ext == "ts" || ext == "tsx"
+            let is_resolved_as_non_js = if let Some(ext) = target_path.extension() {
+                ext != "js"
             } else {
                 false
             };
@@ -174,21 +174,31 @@ where
             };
 
             if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
+                dbg!();
                 target_path.set_file_name(orig_filename);
-            } else if is_resolved_as_ts && is_exact {
-                if let Some(ext) = Path::new(orig_filename).extension() {
-                    target_path.set_extension(ext);
-                } else {
-                    target_path.set_extension("js");
-                }
-            } else if self.config.resolve_fully && is_resolved_as_ts {
-                target_path.set_extension("js");
-            } else if is_resolved_as_ts && is_resolved_as_index {
+            } else if (is_resolved_as_index && !self.config.resolve_fully)
+                || (is_resolved_as_non_js && is_resolved_as_index)
+            {
+                dbg!();
                 if orig_filename == "index" {
+                    dbg!();
                     target_path.set_extension("");
                 } else {
+                    dbg!();
                     target_path.pop();
                 }
+            } else if is_resolved_as_non_js && is_exact {
+                dbg!();
+                if let Some(ext) = Path::new(orig_filename).extension() {
+                    dbg!();
+                    target_path.set_extension(ext);
+                } else {
+                    dbg!();
+                    target_path.set_extension("js");
+                }
+            } else if self.config.resolve_fully && is_resolved_as_non_js {
+                dbg!();
+                target_path.set_extension("js");
             }
         } else {
             target_path.set_extension("");
