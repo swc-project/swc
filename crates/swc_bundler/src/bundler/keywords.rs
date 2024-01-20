@@ -84,8 +84,6 @@ impl VisitMut for KeywordRenamer {
     }
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
-        n.visit_mut_children_with(self);
-
         if let ObjectPatProp::Assign(pat) = n {
             if let Some(renamed) = self.renamed(&pat.key) {
                 match &mut pat.value {
@@ -107,7 +105,10 @@ impl VisitMut for KeywordRenamer {
                     }
                 }
             }
+            return;
         }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {
