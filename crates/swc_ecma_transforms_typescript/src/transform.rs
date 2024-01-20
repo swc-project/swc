@@ -682,8 +682,6 @@ impl Transform {
 
         mutable_export_ids.extend(find_pat_ids(&var_decl));
 
-        dbg!(&mutable_export_ids);
-
         var_decl.decls.visit_mut_with(&mut ExportedPatRewriter {
             id: id.clone().into(),
         });
@@ -1175,7 +1173,6 @@ impl VisitMut for ExportedPatRewriter {
         let mut left = n.name.take();
         left.visit_mut_with(self);
 
-        dbg!(&left);
         n.init = Some(
             right
                 .make_assign_to(op!("="), left.try_into().unwrap())
