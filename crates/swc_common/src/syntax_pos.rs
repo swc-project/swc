@@ -272,7 +272,10 @@ impl std::fmt::Display for FileName {
             FileName::Anon => write!(fmt, "<anon>"),
             FileName::ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
             FileName::Url(ref u) => write!(fmt, "{}", u),
-            FileName::Custom(ref s) | FileName::Internal(ref s) => write!(fmt, "<{}>", s),
+            FileName::Custom(ref s) => {
+                write!(fmt, "{}", s)
+            }
+            FileName::Internal(ref s) => write!(fmt, "<{}>", s),
         }
     }
 }

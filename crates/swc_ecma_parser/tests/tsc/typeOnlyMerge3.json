@@ -113,7 +113,8 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsModuleDeclaration",
@@ -268,7 +269,8 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

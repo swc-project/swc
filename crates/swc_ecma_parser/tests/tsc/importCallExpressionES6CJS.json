@@ -87,7 +87,8 @@
             "start": 117,
             "end": 123,
             "ctxt": 0
-          }
+          },
+          "phase": "evaluation"
         },
         "arguments": [
           {
@@ -148,7 +149,8 @@
                 "start": 141,
                 "end": 147,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -350,7 +352,8 @@
                   "start": 218,
                   "end": 224,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {
@@ -443,7 +446,8 @@
                       "start": 266,
                       "end": 272,
                       "ctxt": 0
-                    }
+                    },
+                    "phase": "evaluation"
                   },
                   "arguments": [
                     {
@@ -567,7 +571,8 @@
                             "start": 335,
                             "end": 341,
                             "ctxt": 0
-                          }
+                          },
+                          "phase": "evaluation"
                         },
                         "arguments": [
                           {
@@ -712,7 +717,8 @@
                               "start": 418,
                               "end": 424,
                               "ctxt": 0
-                            }
+                            },
+                            "phase": "evaluation"
                           },
                           "arguments": [
                             {

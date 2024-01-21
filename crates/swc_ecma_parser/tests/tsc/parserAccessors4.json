@@ -59,6 +59,7 @@
                   "value": "Foo",
                   "optional": false
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {

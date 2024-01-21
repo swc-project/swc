@@ -185,7 +185,8 @@
                         "start": 255,
                         "end": 261,
                         "ctxt": 0
-                      }
+                      },
+                      "phase": "evaluation"
                     },
                     "arguments": [
                       {

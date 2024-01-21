@@ -245,6 +245,7 @@ where
                             src: Box::new(src.clone()),
                             type_only: false,
                             with: None,
+                            phase: Default::default(),
                         };
 
                         if self.top_level {
@@ -646,6 +647,7 @@ where
                         src: Box::new(src),
                         type_only: false,
                         with: None,
+                        phase: Default::default(),
                     };
 
                     // if self.top_level {

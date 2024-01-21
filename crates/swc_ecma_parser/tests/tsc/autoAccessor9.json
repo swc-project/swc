@@ -56,7 +56,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -153,7 +155,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",
@@ -294,7 +298,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -544,7 +550,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",
@@ -641,7 +649,9 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -738,7 +748,9 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "ClassProperty",

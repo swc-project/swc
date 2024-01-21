@@ -80,6 +80,7 @@ impl VisitMut for ExportNamespaceFrom {
                         src: src.clone(),
                         type_only: false,
                         with: with.clone(),
+                        phase: Default::default(),
                     })));
 
                     stmts.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(

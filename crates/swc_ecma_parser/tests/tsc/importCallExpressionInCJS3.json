@@ -447,7 +447,8 @@
                   "start": 332,
                   "end": 338,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {

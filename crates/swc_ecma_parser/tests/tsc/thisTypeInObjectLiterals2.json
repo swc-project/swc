@@ -400,6 +400,7 @@
                   "value": "e",
                   "optional": false
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {

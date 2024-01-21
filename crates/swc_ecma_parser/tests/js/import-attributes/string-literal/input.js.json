@@ -76,7 +76,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",

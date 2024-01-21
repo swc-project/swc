@@ -24,7 +24,7 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ComputedPropName, Id, Invalid, KeyValueProp, PropName, Str,
+    ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -1207,11 +1207,15 @@ impl Take for Super {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Import {
     pub span: Span,
+    pub phase: ImportPhase,
 }
 
 impl Take for Import {
     fn dummy() -> Self {
-        Import { span: DUMMY_SP }
+        Import {
+            span: DUMMY_SP,
+            phase: ImportPhase::default(),
+        }
     }
 }
 

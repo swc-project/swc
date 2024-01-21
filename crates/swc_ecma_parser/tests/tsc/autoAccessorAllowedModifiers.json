@@ -63,7 +63,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -102,7 +104,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": "public"
+          "accessibility": "public",
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -141,7 +145,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": "private"
+          "accessibility": "private",
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -180,7 +186,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": "protected"
+          "accessibility": "protected",
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -219,7 +227,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -258,7 +268,9 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -297,7 +309,9 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": "public"
+          "accessibility": "public",
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -336,7 +350,9 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": "private"
+          "accessibility": "private",
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -375,7 +391,9 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": "protected"
+          "accessibility": "protected",
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -422,7 +440,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -461,7 +481,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -500,7 +522,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -547,7 +571,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -586,7 +612,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": true
         }
       ],
       "superClass": null,
@@ -652,7 +680,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": true,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -691,7 +721,9 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": true,
+          "definite": false
         }
       ],
       "superClass": {
@@ -766,7 +798,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,

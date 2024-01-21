@@ -243,7 +243,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -315,7 +316,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

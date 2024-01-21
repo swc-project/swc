@@ -278,6 +278,18 @@ where
             keyword!("type");
         }
 
+        match n.phase {
+            ImportPhase::Evaluation => {}
+            ImportPhase::Source => {
+                space!();
+                keyword!("source");
+            }
+            ImportPhase::Defer => {
+                space!();
+                keyword!("defer");
+            }
+        }
+
         let starts_with_ident = !n.specifiers.is_empty()
             && match &n.specifiers[0] {
                 ImportSpecifier::Default(_) => true,
@@ -820,6 +832,17 @@ where
     #[emitter]
     fn emit_import_callee(&mut self, node: &Import) -> Result {
         keyword!(node.span, "import");
+        match node.phase {
+            ImportPhase::Source => {
+                punct!(".");
+                keyword!("source")
+            }
+            ImportPhase::Defer => {
+                punct!(".");
+                keyword!("defer")
+            }
+            _ => {}
+        }
     }
 
     #[emitter]
@@ -1353,8 +1376,15 @@ where
     fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
 
+        self.emit_accessibility(n.accessibility)?;
+
         if n.is_static {
             keyword!("static");
+            space!();
+        }
+
+        if n.is_override {
+            keyword!("override");
             space!();
         }
 
@@ -1362,6 +1392,15 @@ where
         space!();
 
         emit!(n.key);
+
+        if let Some(type_ann) = &n.type_ann {
+            if n.definite {
+                punct!("!");
+            }
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
 
         if let Some(init) = &n.value {
             formatting_space!();
@@ -2202,7 +2241,15 @@ where
         formatting_space!();
 
         punct!("(");
+        if let Some(this) = &node.this_param {
+            emit!(this);
+            punct!(",");
+
+            formatting_space!();
+        }
+
         emit!(node.param);
+
         punct!(")");
 
         emit!(node.body);
