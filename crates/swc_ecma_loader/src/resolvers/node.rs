@@ -8,6 +8,7 @@ use std::{
     io::BufReader,
     path::{Component, Path, PathBuf},
 };
+use std::collections::HashSet;
 
 use anyhow::{bail, Context, Error};
 use dashmap::DashMap;
@@ -24,6 +25,7 @@ use swc_common::{
 use tracing::{debug, trace, Level};
 
 use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
+use crate::resolvers::exports::Exports;
 
 static PACKAGE: &str = "package.json";
 
@@ -81,6 +83,8 @@ struct PackageJson {
     browser: Option<Browser>,
     #[serde(default)]
     module: Option<String>,
+    #[serde(default)]
+    exports: Option<Exports>,
 }
 
 #[derive(Deserialize)]
@@ -97,6 +101,7 @@ enum StringOrBool {
     Bool(bool),
 }
 
+
 #[derive(Debug, Default)]
 pub struct NodeModulesResolver {
     target_env: TargetEnv,
@@ -104,6 +109,7 @@ pub struct NodeModulesResolver {
     // if true do not resolve symlink
     preserve_symlinks: bool,
     ignore_node_modules: bool,
+    extra_export_conditions: Vec<String>,
 }
 
 static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
@@ -120,6 +126,7 @@ impl NodeModulesResolver {
             alias,
             preserve_symlinks,
             ignore_node_modules: false,
+            extra_export_conditions: vec![],
         }
     }
 
@@ -134,6 +141,22 @@ impl NodeModulesResolver {
             alias,
             preserve_symlinks,
             ignore_node_modules: true,
+            extra_export_conditions: vec![],
+        }
+    }
+
+    pub fn with_export_conditions(
+        target_env: TargetEnv,
+        alias: AHashMap<String, String>,
+        preserve_symlinks: bool,
+        extra_export_conditions: Vec<String>,
+    ) -> Self {
+        Self {
+            target_env,
+            alias,
+            preserve_symlinks,
+            ignore_node_modules: false,
+            extra_export_conditions,
         }
     }
 
@@ -146,6 +169,44 @@ impl NodeModulesResolver {
             }
         }
         bail!("index not found")
+    }
+
+    /// Resolve a path from the "exports" directive in the package.json file, if present.
+    fn resolve_export(
+        &self,
+        pkg_dir: &Path,
+        rel_target: &str,
+    ) -> Result<Option<PathBuf>, Error> {
+        if cfg!(debug_assertions) {
+            trace!("resolve_export({:?}, {:?})", pkg_dir, rel_target);
+        }
+
+        let package_json_path = pkg_dir.join(PACKAGE);
+        if !package_json_path.is_file() {
+            bail!("package.json not found: {}", package_json_path.display());
+        }
+
+        let file = File::open(&package_json_path)?;
+        let reader = BufReader::new(file);
+        let pkg: PackageJson = serde_json::from_reader(reader)
+            .context(format!("failed to deserialize {}", package_json_path.display()))?;
+
+        let Some(exports) = &pkg.exports else {
+            bail!("no exports field in {}", package_json_path.display());
+        };
+
+        let mut conditions = HashSet::from_iter(self.extra_export_conditions.iter().map(|s| s.as_str()));
+        conditions.extend({
+            let slice : &[_] = match self.target_env {
+                TargetEnv::Node => &["node-addons", "node", "import", "require", "default"],
+                TargetEnv::Browser => &["browser", "import", "default"],
+            };
+            slice
+        });
+
+        // The result is relative to the package directory, whereas we want to return an absolute path.
+        let result = exports.resolve_import_path(rel_target, &conditions).map(|p| p.to_path_buf());
+        Ok(result.map(|p| pkg_dir.join(p)))
     }
 
     /// Resolve a path as a file. If `path` refers to a file, it is returned;
@@ -225,6 +286,7 @@ impl NodeModulesResolver {
 
         bail!("file not found: {}", path.display())
     }
+
 
     /// Resolve a path as a directory, using the "main" key from a package.json
     /// file if it exists, or resolving to the index.EXT file if it exists.
@@ -394,10 +456,12 @@ impl NodeModulesResolver {
         while let Some(dir) = path {
             let node_modules = dir.join("node_modules");
             if node_modules.is_dir() {
+                let (pkg_name, pkg_path) = self.pkg_name_from_target(target);
                 let path = node_modules.join(target);
+                let pkg_dir = node_modules.join(pkg_name);
                 if let Some(result) = self
-                    .resolve_as_file(&path)
-                    .ok()
+                    .resolve_export(&pkg_dir, pkg_path).ok()
+                    .or_else(|| self.resolve_as_file(&path).ok())
                     .or_else(|| self.resolve_as_directory(&path, true).ok())
                     .flatten()
                 {
@@ -408,6 +472,31 @@ impl NodeModulesResolver {
         }
 
         Ok(None)
+    }
+
+    /// Resolve the package name from a target import path, e.g.:
+    /// - "foo" => ("foo", "")
+    /// - "foo/bar" => ("foo", "bar")
+    /// - "@foo/bar" => ("@foo/bar", "")
+    /// - "@foo/bar/baz" => ("@foo/bar", "baz")
+    fn pkg_name_from_target<'a>(&self, target: &'a str) -> (&'a str, &'a str) {
+        match target.find('/') {
+            None => (target, ""),
+            Some(idx) => {
+                if target.starts_with('@') {
+                    let rem = &target[idx + 1..];
+                    match rem.find('/') {
+                        None => (target, ""),
+                        Some(rem_idx) => {
+                            let sep = idx + rem_idx + 1;
+                            (&target[..sep], &target[sep + 1..])
+                        }
+                    }
+                } else {
+                    (&target[..idx], &target[(idx + 1)..])
+                }
+            },
+        }
     }
 }
 
