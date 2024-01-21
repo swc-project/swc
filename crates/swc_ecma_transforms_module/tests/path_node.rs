@@ -51,7 +51,7 @@ fn issue_4730() {
                     .join("packages")
                     .join("a")
                     .join("src")
-                    .join("index.ts")
+                    .join("index.js")
                     .display()
                     .to_string()],
             );
@@ -62,7 +62,7 @@ fn issue_4730() {
                     .join("packages")
                     .join("b")
                     .join("src")
-                    .join("index.ts")
+                    .join("index.js")
                     .display()
                     .to_string()],
             );
