@@ -173,12 +173,16 @@ where
                 false
             };
 
-            if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
+            if orig_filename == "index" {
+                if self.config.resolve_fully {
+                    target_path.set_file_name("index.js");
+                } else {
+                    target_path.set_file_name("index");
+                }
+            } else if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
                 dbg!();
                 target_path.set_file_name(orig_filename);
-            } else if (is_resolved_as_index && !self.config.resolve_fully)
-                || (is_resolved_as_non_js && is_resolved_as_index)
-            {
+            } else if is_resolved_as_non_js && is_resolved_as_index {
                 dbg!();
                 if orig_filename == "index" {
                     dbg!();
@@ -201,6 +205,7 @@ where
                 target_path.set_extension("js");
             }
         } else {
+            dbg!();
             target_path.set_extension("");
         }
 
@@ -252,7 +257,7 @@ where
         } = target;
         let slug = slug.as_deref().or(orig_slug);
 
-        info!("Resolved as {} with slug = {slug:?}", target);
+        info!("Resolved as {target:?} with slug = {slug:?}");
 
         let mut target = match target {
             FileName::Real(v) => {
