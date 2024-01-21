@@ -17,6 +17,7 @@ use swc_common::{
     FileName, Mark, SourceMap,
 };
 use swc_ecma_ast::{EsVersion, Program};
+use swc_ecma_loader::resolve::Resolution;
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_ecma_transforms_base::{
     helpers::{inject_helpers, Helpers, HELPERS},
@@ -273,10 +274,8 @@ impl NodeResolver {
             None => bail!("not found"),
         }
     }
-}
 
-impl Resolve for NodeResolver {
-    fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+    fn resolve_inner(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
         if let Ok(v) = Url::parse(target) {
             return Ok(FileName::Custom(v.to_string()));
         }
@@ -335,5 +334,15 @@ impl Resolve for NodeResolver {
 
         self.resolve_node_modules(base_dir, target)
             .and_then(|p| self.wrap(p))
+    }
+}
+
+impl Resolve for NodeResolver {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
+        self.resolve_inner(base, module_specifier)
+            .map(|filename| Resolution {
+                filename,
+                slug: None,
+            })
     }
 }
