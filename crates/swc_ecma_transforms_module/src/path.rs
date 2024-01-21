@@ -173,11 +173,10 @@ where
                 false
             };
 
-            dbg!();
             if orig_filename == "index" {
                 // Import: `./foo/index`
                 // Resolved: `./foo/index.js`
-                dbg!();
+
                 if self.config.resolve_fully {
                     target_path.set_file_name("index.js");
                 } else {
@@ -186,33 +185,26 @@ where
             } else if is_resolved_as_index && is_resolved_as_js && orig_filename != "index.js" {
                 // Import: `./foo`
                 // Resolved: `./foo/index.js`
-                dbg!();
+
                 target_path.pop();
             } else if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
-                dbg!();
                 target_path.set_file_name(orig_filename);
             } else if is_resolved_as_non_js && is_exact {
                 if let Some(ext) = Path::new(orig_filename).extension() {
-                    dbg!();
                     target_path.set_extension(ext);
                 } else {
-                    dbg!();
                     target_path.set_extension("js");
                 }
             } else if self.config.resolve_fully && is_resolved_as_non_js {
-                dbg!();
                 target_path.set_extension("js");
             } else if is_resolved_as_non_js && is_resolved_as_index {
                 if orig_filename == "index" {
-                    dbg!();
                     target_path.set_extension("");
                 } else {
-                    dbg!();
                     target_path.pop();
                 }
             }
         } else {
-            dbg!();
             target_path.set_extension("");
         }
 
@@ -272,10 +264,10 @@ where
                 if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
                     v
                 } else {
-                    return Ok(self.to_specifier(v, orig_slug));
+                    return Ok(self.to_specifier(v, slug));
                 }
             }
-            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), orig_slug)),
+            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), slug)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -321,7 +313,7 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(self.to_specifier(target, orig_slug)),
+            None => return Ok(self.to_specifier(target, slug)),
         };
 
         debug!("Relative path: {}", rel_path.display());
@@ -351,7 +343,7 @@ where
             Cow::Owned(format!("./{}", s))
         };
 
-        Ok(self.to_specifier(s.into_owned().into(), orig_slug))
+        Ok(self.to_specifier(s.into_owned().into(), slug))
     }
 }
 
