@@ -180,29 +180,21 @@ where
                     target_path.set_file_name("index");
                 }
             } else if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
-                dbg!();
                 target_path.set_file_name(orig_filename);
-            } else if is_resolved_as_non_js && is_resolved_as_index {
-                dbg!();
-                if orig_filename == "index" {
-                    dbg!();
-                    target_path.set_extension("");
-                } else {
-                    dbg!();
-                    target_path.pop();
-                }
             } else if is_resolved_as_non_js && is_exact {
-                dbg!();
                 if let Some(ext) = Path::new(orig_filename).extension() {
-                    dbg!();
                     target_path.set_extension(ext);
                 } else {
-                    dbg!();
                     target_path.set_extension("js");
                 }
             } else if self.config.resolve_fully && is_resolved_as_non_js {
-                dbg!();
                 target_path.set_extension("js");
+            } else if is_resolved_as_non_js && is_resolved_as_index {
+                if orig_filename == "index" {
+                    target_path.set_extension("");
+                } else {
+                    target_path.pop();
+                }
             }
         } else {
             dbg!();
