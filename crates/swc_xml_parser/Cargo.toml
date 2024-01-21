@@ -20,7 +20,7 @@ debug = []
 
 [dependencies]
 swc_atoms   = { version = "0.6.5", path = "../swc_atoms" }
-swc_common  = { version = "0.33.13", path = "../swc_common" }
+swc_common  = { version = "0.33.14", path = "../swc_common" }
 swc_xml_ast = { version = "0.12.13", path = "../swc_xml_ast" }
 
 [dev-dependencies]

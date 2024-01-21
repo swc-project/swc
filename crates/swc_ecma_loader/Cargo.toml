@@ -37,7 +37,7 @@ serde_json  = { version = "1.0.64", optional = true }
 tracing     = "0.1.37"
 
 swc_cached = { version = "0.3.18", optional = true, path = "../swc_cached" }
-swc_common = { version = "0.33.13", path = "../swc_common" }
+swc_common = { version = "0.33.14", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = "1.4.0"

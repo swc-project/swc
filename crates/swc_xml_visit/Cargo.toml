@@ -26,6 +26,6 @@ path    = []
 serde = { version = "1", optional = true }
 
 swc_atoms   = { version = "0.6.5", path = "../swc_atoms" }
-swc_common  = { version = "0.33.13", path = "../swc_common" }
+swc_common  = { version = "0.33.14", path = "../swc_common" }
 swc_visit   = { version = "0.5.8", path = "../swc_visit" }
 swc_xml_ast = { version = "0.12.13", path = "../swc_xml_ast" }

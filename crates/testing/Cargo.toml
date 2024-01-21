@@ -23,7 +23,7 @@ serde_json         = "1"
 tracing            = "0.1.37"
 tracing-subscriber = { version = "0.3.17", features = ["env-filter"] }
 
-swc_common = { version = "0.33.13", path = "../swc_common", features = [
+swc_common = { version = "0.33.14", path = "../swc_common", features = [
   "tty-emitter",
 ] }
 swc_error_reporters = { version = "0.17.13", path = "../swc_error_reporters" }
