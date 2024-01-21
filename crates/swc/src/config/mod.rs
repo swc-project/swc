@@ -619,7 +619,7 @@ impl Options {
                                 &plugin_name,
                             )?;
 
-                            let path = if let FileName::Real(value) = resolved_path {
+                            let path = if let FileName::Real(value) = resolved_path.filename {
                                 value
                             } else {
                                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
