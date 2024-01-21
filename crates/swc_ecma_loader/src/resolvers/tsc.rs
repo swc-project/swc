@@ -4,7 +4,7 @@ use anyhow::{bail, Context, Error};
 use swc_common::FileName;
 use tracing::{debug, info, trace, warn, Level};
 
-use crate::resolve::Resolve;
+use crate::resolve::{Resolution, Resolve};
 
 #[derive(Debug)]
 enum Pattern {
@@ -117,7 +117,7 @@ where
             Ok(resolved) => {
                 info!(
                     "Resolved `{}` as `{}` from `{}`",
-                    module_specifier, resolved, base
+                    module_specifier, resolved.filename, base
                 );
 
                 let is_base_in_node_modules = if let FileName::Real(v) = base {
@@ -128,7 +128,7 @@ where
                 } else {
                     false
                 };
-                let is_target_in_node_modules = if let FileName::Real(v) = &resolved {
+                let is_target_in_node_modules = if let FileName::Real(v) = &resolved.filename {
                     v.components().any(|c| match c {
                         Component::Normal(v) => v == "node_modules",
                         _ => false,
@@ -142,7 +142,7 @@ where
                     return Ok(FileName::Real(module_specifier.into()));
                 }
 
-                Ok(resolved)
+                Ok(resolved.filename)
             }
 
             Err(err) => {
@@ -157,7 +157,7 @@ impl<R> Resolve for TsConfigResolver<R>
 where
     R: Resolve,
 {
-    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
