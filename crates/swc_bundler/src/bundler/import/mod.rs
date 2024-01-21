@@ -57,6 +57,7 @@ where
             let path = self
                 .resolver
                 .resolve(base, module_specifier)
+                .map(|v| v.filename)
                 .with_context(|| format!("failed to resolve {} from {}", module_specifier, base))?;
 
             let path = Lrc::new(path);
