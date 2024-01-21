@@ -13,7 +13,7 @@ use pathdiff::diff_paths;
 use swc_atoms::JsWord;
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_loader::resolve::Resolve;
+use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use tracing::{debug, info, warn, Level};
 
@@ -226,7 +226,7 @@ where
             None
         };
 
-        let orig_filename = module_specifier.split('/').last();
+        let orig_slug = module_specifier.split('/').last();
 
         let target = self.resolver.resolve(base, module_specifier);
         let mut target = match target {
@@ -240,13 +240,19 @@ where
         // Bazel uses symlink
         //
         // https://github.com/swc-project/swc/issues/8265
-        if let FileName::Real(resolved) = &target {
+        if let FileName::Real(resolved) = &target.filename {
             if let Ok(orig) = read_link(resolved) {
-                target = FileName::Real(orig);
+                target.filename = FileName::Real(orig);
             }
         }
 
-        info!("Resolved to {}", target);
+        let Resolution {
+            filename: target,
+            slug,
+        } = target;
+        let slug = slug.as_deref().or(orig_slug);
+
+        info!("Resolved as {} with slug = {slug:?}", target);
 
         let mut target = match target {
             FileName::Real(v) => {
@@ -254,10 +260,10 @@ where
                 if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
                     v
                 } else {
-                    return Ok(self.to_specifier(v, orig_filename));
+                    return Ok(self.to_specifier(v, orig_slug));
                 }
             }
-            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), orig_filename)),
+            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), orig_slug)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -303,7 +309,7 @@ where
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(self.to_specifier(target, orig_filename)),
+            None => return Ok(self.to_specifier(target, orig_slug)),
         };
 
         debug!("Relative path: {}", rel_path.display());
@@ -333,7 +339,7 @@ where
             Cow::Owned(format!("./{}", s))
         };
 
-        Ok(self.to_specifier(s.into_owned().into(), orig_filename))
+        Ok(self.to_specifier(s.into_owned().into(), orig_slug))
     }
 }
 
