@@ -5,14 +5,14 @@ use lru::LruCache;
 use parking_lot::Mutex;
 use swc_common::FileName;
 
-use crate::resolve::Resolve;
+use crate::resolve::{Resolution, Resolve};
 
 #[derive(Debug)]
 pub struct CachingResolver<R>
 where
     R: Resolve,
 {
-    cache: Mutex<LruCache<(FileName, String), FileName>>,
+    cache: Mutex<LruCache<(FileName, String), Resolution>>,
     inner: R,
 }
 
@@ -43,7 +43,7 @@ impl<R> Resolve for CachingResolver<R>
 where
     R: Resolve,
 {
-    fn resolve(&self, base: &FileName, src: &str) -> Result<FileName, Error> {
+    fn resolve(&self, base: &FileName, src: &str) -> Result<Resolution, Error> {
         {
             let mut lock = self.cache.lock();
             //

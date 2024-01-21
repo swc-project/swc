@@ -4,7 +4,10 @@ use std::collections::HashMap;
 
 use anyhow::{anyhow, Error};
 use swc_common::{collections::AHashMap, FileName};
-use swc_ecma_loader::{resolve::Resolve, resolvers::tsc::TsConfigResolver};
+use swc_ecma_loader::{
+    resolve::{Resolution, Resolve},
+    resolvers::tsc::TsConfigResolver,
+};
 
 #[test]
 fn base_dir_exact() {}
@@ -34,7 +37,13 @@ fn exact() {
             .resolve(&FileName::Anon, "jquery")
             .expect("should resolve");
 
-        assert_eq!(resolved, FileName::Custom("success".into()));
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("success".into()),
+                slug: None
+            }
+        );
     }
 
     {
@@ -64,7 +73,13 @@ fn pattern_1() {
             .resolve(&FileName::Anon, "folder1/file2")
             .expect("should resolve");
 
-        assert_eq!(resolved, FileName::Custom("success-2".into()));
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("success-2".into()),
+                slug: None
+            }
+        );
     }
 
     {
@@ -72,18 +87,28 @@ fn pattern_1() {
             .resolve(&FileName::Anon, "folder2/file3")
             .expect("should resolve");
 
-        assert_eq!(resolved, FileName::Custom("success-3".into()));
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("success-3".into()),
+                slug: None
+            }
+        );
     }
 }
 
 struct TestResolver(AHashMap<String, String>);
 
 impl Resolve for TestResolver {
-    fn resolve(&self, _: &FileName, src: &str) -> Result<FileName, Error> {
+    fn resolve(&self, _: &FileName, src: &str) -> Result<Resolution, Error> {
         self.0
             .get(src)
             .cloned()
             .map(FileName::Custom)
+            .map(|v| Resolution {
+                filename: v,
+                slug: None,
+            })
             .ok_or_else(|| anyhow!("failed to resolve `{}`", src))
     }
 }
