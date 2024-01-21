@@ -104,7 +104,7 @@ where
         &self,
         base: &FileName,
         module_specifier: &str,
-    ) -> Result<FileName, Error> {
+    ) -> Result<Resolution, Error> {
         let res = self.inner.resolve(base, module_specifier).with_context(|| {
             format!(
                 "failed to resolve `{module_specifier}` from `{base}` using inner \
@@ -139,10 +139,13 @@ where
 
                 // If node_modules is in path, we should return module specifier.
                 if !is_base_in_node_modules && is_target_in_node_modules {
-                    return Ok(FileName::Real(module_specifier.into()));
+                    return Ok(Resolution {
+                        filename: FileName::Real(module_specifier.into()),
+                        ..resolved
+                    });
                 }
 
-                Ok(resolved.filename)
+                Ok(resolved)
             }
 
             Err(err) => {
@@ -260,7 +263,10 @@ where
                                  1",
                                 replaced, module_specifier
                             );
-                            return Ok(FileName::Real(replaced.into()));
+                            return Ok(Resolution {
+                                slug: Some(replaced.split('/').last().unwrap().into()),
+                                filename: FileName::Real(replaced.into()),
+                            });
                         }
                     }
 
@@ -278,8 +284,12 @@ where
                     }
 
                     let tp = Path::new(&to[0]);
+                    let slug = to[0].split('/').last().map(|v| v.into());
                     if tp.is_absolute() {
-                        return Ok(FileName::Real(tp.into()));
+                        return Ok(Resolution {
+                            filename: FileName::Real(tp.into()),
+                            slug,
+                        });
                     }
 
                     if let Ok(res) = self.resolve(&self.base_url_filename, &format!("./{}", &to[0]))
@@ -287,7 +297,10 @@ where
                         return Ok(res);
                     }
 
-                    return Ok(FileName::Real(self.base_url.join(&to[0])));
+                    return Ok(Resolution {
+                        filename: FileName::Real(self.base_url.join(&to[0])),
+                        slug,
+                    });
                 }
             }
         }
