@@ -253,7 +253,7 @@ where
                             Err(err) => err,
                         });
 
-                        if to.len() == 1 {
+                        if to.len() == 1 && prefix != "*" {
                             info!(
                                 "Using `{}` for `{}` because the length of the jsc.paths entry is \
                                  1",
