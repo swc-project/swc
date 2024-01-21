@@ -260,7 +260,13 @@ where
                                 replaced, module_specifier
                             );
                             return Ok(Resolution {
-                                slug: Some(replaced.split('/').last().unwrap().into()),
+                                slug: Some(
+                                    replaced
+                                        .split(std::path::MAIN_SEPARATOR)
+                                        .last()
+                                        .unwrap()
+                                        .into(),
+                                ),
                                 filename: FileName::Real(replaced.into()),
                             });
                         }
@@ -280,7 +286,10 @@ where
                     }
 
                     let tp = Path::new(&to[0]);
-                    let slug = to[0].split('/').last().map(|v| v.into());
+                    let slug = to[0]
+                        .split(std::path::MAIN_SEPARATOR)
+                        .last()
+                        .map(|v| v.into());
                     if tp.is_absolute() {
                         return Ok(Resolution {
                             filename: FileName::Real(tp.into()),
