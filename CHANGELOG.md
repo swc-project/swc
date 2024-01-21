@@ -5,6 +5,9 @@
 
 
 
+- **(common)** Remove `<` and `>` from `Display` impl of `FileName::Custom` ([#8530](https://github.com/swc-project/swc/issues/8530)) ([014a6cd](https://github.com/swc-project/swc/commit/014a6cda8205183f6c3a5e395b6f89cbf7b388b9))
+
+
 - **(es/codegen)** Fix codegen of `\\0` ([#8433](https://github.com/swc-project/swc/issues/8433)) ([9f1ce3a](https://github.com/swc-project/swc/commit/9f1ce3acd6965302afb3a65713f429fd1ddf4a2b))
 
 
@@ -1486,18 +1489,6 @@
 - **(es/compat)** Fix handling of `this` of optional chaining pass ([#7527](https://github.com/swc-project/swc/issues/7527)) ([4644d00](https://github.com/swc-project/swc/commit/4644d005d2ca06ad002dc7c6ff6c4d19e1734970))
 
 ## [1.3.63] - 2023-06-13
-
-### Bug Fixes
-
-
-
-- **(es/react)** Default to empty string when emitting refresh signature ([#7514](https://github.com/swc-project/swc/issues/7514)) ([8e933c8](https://github.com/swc-project/swc/commit/8e933c8a9fdf8867deb7f0d108b99430949aad54))
-
-### Features
-
-
-
-- **(es/parser)** Disallow tagged tpl in optional chaining ([#7515](https://github.com/swc-project/swc/issues/7515)) ([6c00a24](https://github.com/swc-project/swc/commit/6c00a2422addf0e402bb221e80f6f8acad839b28))
 
 ### Refactor
 
