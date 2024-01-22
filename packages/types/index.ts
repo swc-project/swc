@@ -540,6 +540,13 @@ export interface EnvConfig {
 
     loose?: boolean;
 
+    /**
+     * Transpiles the broken syntax to the closest non-broken modern syntax
+     *
+     * Defaults to false.
+     */
+    bugfixes?: boolean;
+
     /// Skipped es features.
     ///
     /// e.g.)
