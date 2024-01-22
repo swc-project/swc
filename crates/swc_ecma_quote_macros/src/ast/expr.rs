@@ -75,7 +75,7 @@ impl_struct!(CondExpr, [span, test, cons, alt]);
 impl_struct!(CallExpr, [span, callee, args, type_args]);
 impl_struct!(ExprOrSpread, [spread, expr]);
 impl_struct!(Super, [span]);
-impl_struct!(Import, [span]);
+impl_struct!(Import, [span, phase]);
 impl_struct!(NewExpr, [span, callee, args, type_args]);
 impl_struct!(SeqExpr, [span, exprs]);
 
