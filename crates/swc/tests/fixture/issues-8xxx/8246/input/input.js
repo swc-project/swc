@@ -18,4 +18,7 @@ function main() {
             console.log('method another executed')
         }
     })
+
+    result.test()
 }
+main()
