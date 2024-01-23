@@ -765,10 +765,10 @@ impl Compiler {
                 .source_map
                 .as_ref()
                 .map(|obj| -> Result<_, Error> {
-                    let orig = obj
-                        .content
-                        .as_ref()
-                        .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
+                    let orig = obj.content.as_ref().map(|s| {
+                        sourcemap::SourceMap::from_slice(s.as_bytes())
+                            .context("failed to decode sourcemap string (for minify)")
+                    });
                     let orig = match orig {
                         Some(v) => Some(v?),
                         None => None,
