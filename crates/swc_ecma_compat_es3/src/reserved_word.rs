@@ -33,7 +33,7 @@ impl VisitMut for ReservedWord {
         let mut extra_exports = vec![];
 
         n.iter_mut().for_each(|module_item| {
-            if let Some((ident, decl)) = match module_item {
+            match module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     decl: decl @ Decl::Fn(..) | decl @ Decl::Class(..),
                     ..
@@ -50,25 +50,61 @@ impl VisitMut for ReservedWord {
                         return;
                     }
 
-                    Some((ident, decl.take()))
+                    *module_item = ModuleItem::Stmt(decl.take().into());
+
+                    let mut orig = ident.clone();
+                    orig.visit_mut_with(self);
+
+                    extra_exports.push(
+                        ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: orig.into(),
+                            exported: Some(ident.into()),
+                            is_type_only: false,
+                        }
+                        .into(),
+                    );
                 }
 
-                _ => None,
-            } {
-                *module_item = ModuleItem::Stmt(decl.into());
-
-                let mut orig = ident.clone();
-                orig.visit_mut_with(self);
-
-                extra_exports.push(
-                    ExportNamedSpecifier {
-                        span: DUMMY_SP,
-                        orig: orig.into(),
-                        exported: Some(ident.into()),
-                        is_type_only: false,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(var),
+                    ..
+                })) => {
+                    if var.decls.iter().all(|var| {
+                        if let Pat::Ident(i) = &var.name {
+                            !i.id.sym.is_reserved_in_es3()
+                        } else {
+                            true
+                        }
+                    }) {
+                        return;
                     }
-                    .into(),
-                );
+
+                    for var in &var.decls {
+                        let ident = var.name.clone().expect_ident().id;
+
+                        if !ident.is_reserved_in_es3() {
+                            return;
+                        }
+
+                        let mut orig = ident.clone();
+                        orig.visit_mut_with(self);
+
+                        extra_exports.push(
+                            ExportNamedSpecifier {
+                                span: DUMMY_SP,
+                                orig: orig.into(),
+                                exported: Some(ident.into()),
+                                is_type_only: false,
+                            }
+                            .into(),
+                        );
+                    }
+
+                    *module_item = ModuleItem::Stmt(Decl::Var(var.take()).into());
+                }
+
+                _ => {}
             }
 
             module_item.visit_mut_with(self);
