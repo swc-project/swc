@@ -23,7 +23,7 @@ pub enum SourceMapContent {
 }
 
 impl SourceMapContent {
-    pub fn into_sourcemap(self) -> Result<SourceMap> {
+    pub fn to_sourcemap(&self) -> Result<SourceMap> {
         match self {
             SourceMapContent::Json(s) => {
                 SourceMap::from_slice(s.as_bytes()).context("failed to parse sourcemap")
@@ -102,8 +102,14 @@ impl SourceMapContent {
                     }
                 }
 
-                let mut map = SourceMap::new(file, tokens, names, sources, sources_content);
-                map.set_source_root(source_root);
+                let mut map = SourceMap::new(
+                    file.clone(),
+                    tokens,
+                    names.clone(),
+                    sources.clone(),
+                    sources_content.clone(),
+                );
+                map.set_source_root(source_root.clone());
                 Ok(map)
             }
         }
