@@ -1,7 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -27,7 +26,6 @@ struct ReservedWord {
     pub preserve_import: bool,
 }
 
-#[swc_trace]
 impl VisitMut for ReservedWord {
     noop_visit_mut_type!();
 
@@ -37,27 +35,24 @@ impl VisitMut for ReservedWord {
         n.iter_mut().for_each(|module_item| {
             if let Some((ident, decl)) = match module_item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: decl @ Decl::Fn(..),
+                    decl: decl @ Decl::Fn(..) | decl @ Decl::Class(..),
                     ..
                 })) => {
-                    let ident = decl
-                        .as_fn_decl()
-                        .filter(|fn_decl| fn_decl.ident.is_reserved_in_es3())
-                        .map(|fn_decl| fn_decl.ident.clone());
+                    let ident = match decl {
+                        Decl::Class(d) => d.ident.clone(),
+                        Decl::Fn(d) => d.ident.clone(),
+                        _ => {
+                            unreachable!()
+                        }
+                    };
 
-                    ident.map(|ident| (ident, decl.take()))
-                }
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
-                    decl: decl @ Decl::Class(..),
-                    ..
-                })) => {
-                    let ident = decl
-                        .as_class()
-                        .filter(|c| c.ident.is_reserved_in_es3())
-                        .map(|c| c.ident.clone());
+                    if !ident.is_reserved_in_es3() {
+                        return;
+                    }
 
-                    ident.map(|ident| (ident, decl.take()))
+                    Some((ident, decl.take()))
                 }
+
                 _ => None,
             } {
                 *module_item = ModuleItem::Stmt(decl.into());
