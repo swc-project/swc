@@ -34,6 +34,12 @@
 
 - **(swc_core)** Expose `preset_env_base` ([#8537](https://github.com/swc-project/swc/issues/8537)) ([793f265](https://github.com/swc-project/swc/commit/793f2651a8c44c43cde8b83d4f98eda6e274676c))
 
+### Miscellaneous Tasks
+
+
+
+- **(common)** Update `sourcemap` ([#8544](https://github.com/swc-project/swc/issues/8544)) ([4630426](https://github.com/swc-project/swc/commit/4630426d6aa77af992787456e476b8862c25a45e))
+
 ## [1.3.105] - 2024-01-21
 
 ### Bug Fixes
