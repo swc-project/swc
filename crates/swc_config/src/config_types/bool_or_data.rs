@@ -69,6 +69,14 @@ impl<T> BoolOrDataConfig<T> {
     pub fn into_inner(self) -> Option<BoolOr<T>> {
         self.0
     }
+
+    pub fn inner(&self) -> Option<BoolOr<&T>> {
+        match &self.0 {
+            Some(BoolOr::Data(v)) => Some(BoolOr::Data(v)),
+            Some(BoolOr::Bool(b)) => Some(BoolOr::Bool(*b)),
+            None => None,
+        }
+    }
 }
 
 impl<T> From<T> for BoolOrDataConfig<T> {
