@@ -3,9 +3,10 @@ use serde::{Deserialize, Serialize};
 use sourcemap::{vlq::parse_vlq_segment, RawToken, SourceMap};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged, rename_all = "camelCase")]
+#[serde(untagged)]
 pub enum SourceMapContent {
     Json(String),
+    #[serde(rename_all = "camelCase")]
     Parsed {
         #[serde(default)]
         sources: Vec<String>,
