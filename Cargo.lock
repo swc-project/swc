@@ -4536,7 +4536,6 @@ dependencies = [
  "ryu-js",
  "serde",
  "serde_json",
- "sourcemap",
  "swc_atoms",
  "swc_common",
  "swc_config",
