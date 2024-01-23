@@ -11117,24 +11117,25 @@ fn issue_8246_1() {
     run_exec_test(
         r#"
         function withLog(methods) {
-            let result = {};
-            for(let methodName1 in methods){
-                var methodName;
-                result[methodName1] = (methodName = methodName1, function() {
-                    return console.log(methodName + ' invoked'), methods[methodName].apply(this, arguments);
-                });
+            const result = {};
+            for(const methodName in methods){
+                result[methodName] = ((methodName)=>function() {
+                        console.log(methodName + ' invoked');
+                        return methods[methodName].apply(this, arguments);
+                    })(methodName);
             }
             return result;
         }
         function main() {
-            withLog({
+            const result = withLog({
                 test () {
                     console.log('method test executed');
                 },
                 another () {
                     console.log('method another executed');
                 }
-            }).test();
+            });
+            result.test();
         }
         main();
         "#,
