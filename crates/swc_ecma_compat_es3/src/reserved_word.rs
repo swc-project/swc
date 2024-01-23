@@ -1,7 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
-use swc_trace_macro::swc_trace;
 
 /// babel: `@babel/plugin-transform-reserved-words`
 ///
@@ -27,7 +26,6 @@ struct ReservedWord {
     pub preserve_import: bool,
 }
 
-#[swc_trace]
 impl VisitMut for ReservedWord {
     noop_visit_mut_type!();
 
@@ -35,31 +33,78 @@ impl VisitMut for ReservedWord {
         let mut extra_exports = vec![];
 
         n.iter_mut().for_each(|module_item| {
-            if let Some((ident, decl)) = match module_item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
-                    let ident = decl
-                        .as_fn_decl()
-                        .filter(|fn_decl| fn_decl.ident.is_reserved_in_es3())
-                        .map(|fn_decl| fn_decl.ident.clone());
+            match module_item {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: decl @ Decl::Fn(..) | decl @ Decl::Class(..),
+                    ..
+                })) => {
+                    let ident = match decl {
+                        Decl::Class(d) => d.ident.clone(),
+                        Decl::Fn(d) => d.ident.clone(),
+                        _ => {
+                            unreachable!()
+                        }
+                    };
 
-                    ident.map(|ident| (ident, decl.take()))
-                }
-                _ => None,
-            } {
-                *module_item = ModuleItem::Stmt(decl.into());
-
-                let mut orig = ident.clone();
-                orig.visit_mut_with(self);
-
-                extra_exports.push(
-                    ExportNamedSpecifier {
-                        span: DUMMY_SP,
-                        orig: orig.into(),
-                        exported: Some(ident.into()),
-                        is_type_only: false,
+                    if !ident.is_reserved_in_es3() {
+                        return;
                     }
-                    .into(),
-                );
+
+                    *module_item = ModuleItem::Stmt(decl.take().into());
+
+                    let mut orig = ident.clone();
+                    orig.visit_mut_with(self);
+
+                    extra_exports.push(
+                        ExportNamedSpecifier {
+                            span: DUMMY_SP,
+                            orig: orig.into(),
+                            exported: Some(ident.into()),
+                            is_type_only: false,
+                        }
+                        .into(),
+                    );
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: Decl::Var(var),
+                    ..
+                })) => {
+                    if var.decls.iter().all(|var| {
+                        if let Pat::Ident(i) = &var.name {
+                            !i.id.sym.is_reserved_in_es3()
+                        } else {
+                            true
+                        }
+                    }) {
+                        return;
+                    }
+
+                    for var in &var.decls {
+                        let ident = var.name.clone().expect_ident().id;
+
+                        if !ident.is_reserved_in_es3() {
+                            return;
+                        }
+
+                        let mut orig = ident.clone();
+                        orig.visit_mut_with(self);
+
+                        extra_exports.push(
+                            ExportNamedSpecifier {
+                                span: DUMMY_SP,
+                                orig: orig.into(),
+                                exported: Some(ident.into()),
+                                is_type_only: false,
+                            }
+                            .into(),
+                        );
+                    }
+
+                    *module_item = ModuleItem::Stmt(Decl::Var(var.take()).into());
+                }
+
+                _ => {}
             }
 
             module_item.visit_mut_with(self);
