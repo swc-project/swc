@@ -1,8 +1,7 @@
 //! NOT A PUBLIC API
 
 use serde::{Deserialize, Serialize};
-use sourcemap::SourceMap;
-use swc_config::config_types::BoolOrDataConfig;
+use swc_config::{config_types::BoolOrDataConfig, SourceMapContent};
 
 use crate::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
@@ -76,15 +75,7 @@ pub struct TerserSourceMapOption {
     pub root: Option<String>,
 
     #[serde(default)]
-    pub content: Option<TerserSourceMapContent>,
-}
-
-/// `sourceMap.content` of `minify()`.
-#[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(untagged, rename_all = "camelCase")]
-pub enum TerserSourceMapContent {
-    Str(String),
-    Parsed(serde_json::Value),
+    pub content: Option<SourceMapContent>,
 }
 
 /// Parser options for `minify()`, which should have the same API as terser.
