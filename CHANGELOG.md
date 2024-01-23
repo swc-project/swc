@@ -5,6 +5,9 @@
 
 
 
+- **(binding/types)** Add `bugfixes` field to EnvConfig ([#8538](https://github.com/swc-project/swc/issues/8538)) ([49ebdf9](https://github.com/swc-project/swc/commit/49ebdf9fb7c9228c711c303c822add29bc3c8364))
+
+
 - **(es/ast)** Add `definite` and `is_override` to `AutoAccessor` ([#8436](https://github.com/swc-project/swc/issues/8436)) ([572bcae](https://github.com/swc-project/swc/commit/572bcaefc1b6ba9f92c57a35ede61fec9f3221bd))
 
 
@@ -1487,12 +1490,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Fix optional chaining ([#7530](https://github.com/swc-project/swc/issues/7530)) ([990e48e](https://github.com/swc-project/swc/commit/990e48e0e81c339b42b0bf33b62a6f7126b0e2e8))
-
-
-- **(es/module)** Add `"use strict"` while preserving directives ([#7537](https://github.com/swc-project/swc/issues/7537)) ([f42fdd2](https://github.com/swc-project/swc/commit/f42fdd21afad775358138c3aaed4ff3c41bfb16a))
 
 
 - **(es/typescript)** Don't panic of `@jsxFrag null` ([#7540](https://github.com/swc-project/swc/issues/7540)) ([76aa91f](https://github.com/swc-project/swc/commit/76aa91f83cf37a11aa55feba40d6f73819fc811d))
