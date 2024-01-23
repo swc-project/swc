@@ -11141,6 +11141,7 @@ fn issue_8246_1() {
         "#,
         r#"
         {
+            "ecma": 2015,
             "arguments": false,
             "arrows": true,
             "booleans": true,
@@ -11184,7 +11185,8 @@ fn issue_8246_1() {
             "unsafe_undefined": false,
             "unused": true,
             "const_to_let": true,
-            "pristine_globals": true
+            "pristine_globals": true,
+            "passes": 5
         }
         "#,
         false,
