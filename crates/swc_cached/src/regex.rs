@@ -1,6 +1,6 @@
 //! Regex cache
 
-use std::{ops::Deref, sync::Arc};
+use std::{ops::Deref, str::FromStr, sync::Arc};
 
 pub use anyhow::Error;
 use anyhow::{Context, Result};
@@ -75,5 +75,13 @@ impl Serialize for CachedRegex {
 impl From<&'_ str> for CachedRegex {
     fn from(s: &'_ str) -> Self {
         Self::new(s).unwrap()
+    }
+}
+
+impl FromStr for CachedRegex {
+    type Err = Error;
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::new(s)
     }
 }
