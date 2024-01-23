@@ -17,10 +17,10 @@ anyhow = "1.0.75"
 base64 = "0.21.0"
 pathdiff = "0.2.0"
 serde = { version = "1.0.188", features = ["derive"] }
-sourcemap = "6.2"
+sourcemap = "6.4"
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.14", path = "../swc_common", features = [
-    "sourcemap",
+  "sourcemap",
 ] }
 swc_config = { version = "0.1.9", path = "../swc_config" }
 swc_ecma_ast = { version = "0.111.0", path = "../swc_ecma_ast" }
@@ -30,14 +30,14 @@ swc_ecma_parser = { version = "0.142.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.97.0", path = "../swc_ecma_visit" }
 swc_timer = { version = "0.21.15", path = "../swc_timer" }
 
-    [dependencies.napi-derive]
-    default-features = false
-    features         = ["type-def"]
-    optional         = true
-    version          = "2.0.0"
+  [dependencies.napi-derive]
+  default-features = false
+  features         = ["type-def"]
+  optional         = true
+  version          = "2.0.0"
 
-    [dependencies.napi]
-    default-features = false
-    features         = ["napi3"]
-    optional         = true
-    version          = "2.0.0"
+  [dependencies.napi]
+  default-features = false
+  features         = ["napi3"]
+  optional         = true
+  version          = "2.0.0"
