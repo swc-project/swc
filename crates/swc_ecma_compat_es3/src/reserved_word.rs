@@ -36,11 +36,25 @@ impl VisitMut for ReservedWord {
 
         n.iter_mut().for_each(|module_item| {
             if let Some((ident, decl)) = match module_item {
-                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. })) => {
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: decl @ Decl::Fn(..),
+                    ..
+                })) => {
                     let ident = decl
                         .as_fn_decl()
                         .filter(|fn_decl| fn_decl.ident.is_reserved_in_es3())
                         .map(|fn_decl| fn_decl.ident.clone());
+
+                    ident.map(|ident| (ident, decl.take()))
+                }
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
+                    decl: decl @ Decl::Class(..),
+                    ..
+                })) => {
+                    let ident = decl
+                        .as_class()
+                        .filter(|c| c.ident.is_reserved_in_es3())
+                        .map(|c| c.ident.clone());
 
                     ident.map(|ident| (ident, decl.take()))
                 }
