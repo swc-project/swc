@@ -1,6 +1,7 @@
 //! NOT A PUBLIC API
 
 use serde::{Deserialize, Serialize};
+use sourcemap::SourceMap;
 use swc_config::config_types::BoolOrDataConfig;
 
 use crate::option::{
@@ -59,6 +60,8 @@ fn true_by_default() -> bool {
     true
 }
 
+/// `sourceMap` of `minify()`.`
+///
 /// `jsc.minify.sourceMap`
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -73,7 +76,15 @@ pub struct TerserSourceMapOption {
     pub root: Option<String>,
 
     #[serde(default)]
-    pub content: Option<String>,
+    pub content: Option<TerserSourceMapContent>,
+}
+
+/// `sourceMap.content` of `minify()`.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(untagged, rename_all = "camelCase")]
+pub enum TerserSourceMapContent {
+    Str(String),
+    Parsed(serde_json::Value),
 }
 
 /// Parser options for `minify()`, which should have the same API as terser.
