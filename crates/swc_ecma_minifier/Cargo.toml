@@ -52,7 +52,6 @@ tracing           = "0.1.37"
 
 sourcemap = "6.4"
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
-swc_cached = { version = "0.3.18", path = "../swc_cached" }
 swc_common = { version = "0.33.15", path = "../swc_common" }
 swc_config = { version = "0.1.9", path = "../swc_config" }
 swc_ecma_ast = { version = "0.111.1", path = "../swc_ecma_ast", features = [
