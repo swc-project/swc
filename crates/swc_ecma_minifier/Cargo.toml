@@ -50,7 +50,6 @@ serde             = { version = "1.0.118", features = ["derive"] }
 serde_json        = "1.0.61"
 tracing           = "0.1.37"
 
-sourcemap = "6.4"
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.15", path = "../swc_common" }
 swc_config = { version = "0.1.9", path = "../swc_config" }
