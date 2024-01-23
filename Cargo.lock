@@ -3966,6 +3966,7 @@ dependencies = [
  "indexmap 2.1.0",
  "serde",
  "serde_json",
+ "swc_cached",
  "swc_config_macro",
 ]
 
@@ -4533,6 +4534,7 @@ dependencies = [
  "ryu-js",
  "serde",
  "serde_json",
+ "sourcemap",
  "swc_atoms",
  "swc_cached",
  "swc_common",
