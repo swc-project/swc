@@ -9,7 +9,7 @@ use once_cell::sync::Lazy;
 #[doc(hidden)]
 pub use serde_wasm_bindgen;
 use serde_wasm_bindgen::Serializer;
-use swc::{config::ErrorFormat, Compiler, HandlerOpts};
+use swc::{config::ErrorFormat, Compiler, HandlerOpts, PrintArgs};
 #[doc(hidden)]
 pub use swc::{
     config::{Options, ParseOptions, SourceMapsConfig},
@@ -149,6 +149,7 @@ macro_rules! build_parse_sync {
     pub fn parse_sync(s: $crate::wasm::js_sys::JsString, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
       use serde::Serialize;
       use $crate::wasm::VisitMutWith;
+      use $crate::wasm::PrintArgs;
 
       let c = $crate::wasm::compiler();
 
