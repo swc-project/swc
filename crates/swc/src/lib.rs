@@ -636,6 +636,7 @@ impl Compiler {
                     ),
                 },
                 opts.output_path.as_deref(),
+                opts.source_root.clone(),
                 opts.source_file_name.clone(),
                 handler,
                 Some(config),

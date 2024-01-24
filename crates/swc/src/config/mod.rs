@@ -220,6 +220,7 @@ impl Options {
         base: &FileName,
         parse: impl FnOnce(Syntax, EsVersion, IsModule) -> Result<Program, Error>,
         output_path: Option<&Path>,
+        source_root: Option<String>,
         source_file_name: Option<String>,
         handler: &Handler,
         config: Option<Config>,
@@ -769,6 +770,7 @@ impl Options {
             inline_sources_content: cfg.inline_sources_content.into_bool(),
             input_source_map: cfg.input_source_map.clone().unwrap_or_default(),
             output_path: output_path.map(|v| v.to_path_buf()),
+            source_root,
             source_file_name,
             comments: comments.cloned(),
             preserve_comments,
@@ -1076,6 +1078,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub is_module: IsModule,
     pub output_path: Option<PathBuf>,
 
+    pub source_root: Option<String>,
     pub source_file_name: Option<String>,
 
     pub comments: Option<SingleThreadedComments>,
@@ -1107,6 +1110,7 @@ where
             input_source_map: self.input_source_map,
             is_module: self.is_module,
             output_path: self.output_path,
+            source_root: self.source_root,
             source_file_name: self.source_file_name,
             preserve_comments: self.preserve_comments,
             inline_sources_content: self.inline_sources_content,
