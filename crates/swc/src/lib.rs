@@ -119,18 +119,17 @@ use std::{
 };
 
 use anyhow::{bail, Context, Error};
-use atoms::JsWord;
 use base64::prelude::{Engine, BASE64_STANDARD};
-use common::{collections::AHashMap, comments::SingleThreadedComments, errors::HANDLER};
+use common::{comments::SingleThreadedComments, errors::HANDLER};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
 pub use sourcemap;
 use swc_common::{
-    chain, comments::Comments, errors::Handler, sync::Lrc, BytePos, FileName, Mark, SourceFile,
-    SourceMap, Spanned, GLOBALS,
+    chain, comments::Comments, errors::Handler, sync::Lrc, FileName, Mark, SourceFile, SourceMap,
+    Spanned, GLOBALS,
 };
-pub use swc_compiler_base::TransformOutput;
+pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_codegen::{self, Node};
@@ -437,37 +436,11 @@ impl Compiler {
     /// This method receives target file path, but does not write file to the
     /// path. See: https://github.com/swc-project/swc/issues/1255
     #[allow(clippy::too_many_arguments)]
-    pub fn print<T>(
-        &self,
-        node: &T,
-        source_file_name: Option<&str>,
-        output_path: Option<PathBuf>,
-        inline_sources_content: bool,
-        source_map: SourceMapsConfig,
-        source_map_names: &AHashMap<BytePos, JsWord>,
-        orig: Option<&sourcemap::SourceMap>,
-        comments: Option<&dyn Comments>,
-        emit_source_map_columns: bool,
-        preamble: &str,
-        codegen_config: swc_ecma_codegen::Config,
-    ) -> Result<TransformOutput, Error>
+    pub fn print<T>(&self, node: &T, args: PrintArgs) -> Result<TransformOutput, Error>
     where
         T: Node + VisitWith<swc_compiler_base::IdentCollector>,
     {
-        swc_compiler_base::print(
-            self.cm.clone(),
-            node,
-            source_file_name,
-            output_path,
-            inline_sources_content,
-            source_map,
-            source_map_names,
-            orig,
-            comments,
-            emit_source_map_columns,
-            preamble,
-            codegen_config,
-        )
+        swc_compiler_base::print(self.cm.clone(), node, args)
     }
 }
 
@@ -894,22 +867,25 @@ impl Compiler {
 
             self.print(
                 &module,
-                Some(&fm.name.to_string()),
-                opts.output_path.clone().map(From::from),
-                opts.inline_sources_content,
-                source_map,
-                &source_map_names,
-                orig.as_ref(),
-                Some(&comments),
-                opts.emit_source_map_columns,
-                &opts.format.preamble,
-                swc_ecma_codegen::Config::default()
-                    .with_target(target)
-                    .with_minify(true)
-                    .with_ascii_only(opts.format.ascii_only)
-                    .with_emit_assert_for_import_attributes(
-                        opts.format.emit_assert_for_import_attributes,
-                    ),
+                PrintArgs {
+                    source_root: None,
+                    source_file_name: Some(&fm.name.to_string()),
+                    output_path: opts.output_path.clone().map(From::from),
+                    inline_sources_content: opts.inline_sources_content,
+                    source_map,
+                    source_map_names: &source_map_names,
+                    orig: orig.as_ref(),
+                    comments: Some(&comments),
+                    emit_source_map_columns: opts.emit_source_map_columns,
+                    preamble: &opts.format.preamble,
+                    codegen_config: swc_ecma_codegen::Config::default()
+                        .with_target(target)
+                        .with_minify(true)
+                        .with_ascii_only(opts.format.ascii_only)
+                        .with_emit_assert_for_import_attributes(
+                            opts.format.emit_assert_for_import_attributes,
+                        ),
+                },
             )
         })
     }
@@ -973,28 +949,31 @@ impl Compiler {
 
             self.print(
                 &program,
-                config.source_file_name.as_deref(),
-                config.output_path,
-                config.inline_sources_content,
-                config.source_maps,
-                &source_map_names,
-                orig,
-                config.comments.as_ref().map(|v| v as _),
-                config.emit_source_map_columns,
-                &config.output.preamble,
-                swc_ecma_codegen::Config::default()
-                    .with_target(config.target)
-                    .with_minify(config.minify)
-                    .with_ascii_only(
-                        config
-                            .output
-                            .charset
-                            .map(|v| matches!(v, OutputCharset::Ascii))
-                            .unwrap_or(false),
-                    )
-                    .with_emit_assert_for_import_attributes(
-                        config.emit_assert_for_import_attributes,
-                    ),
+                PrintArgs {
+                    source_root: config.source_root.as_deref(),
+                    source_file_name: config.source_file_name.as_deref(),
+                    output_path: config.output_path,
+                    inline_sources_content: config.inline_sources_content,
+                    source_map: config.source_maps,
+                    source_map_names: &source_map_names,
+                    orig,
+                    comments: config.comments.as_ref().map(|v| v as _),
+                    emit_source_map_columns: config.emit_source_map_columns,
+                    preamble: &config.output.preamble,
+                    codegen_config: swc_ecma_codegen::Config::default()
+                        .with_target(config.target)
+                        .with_minify(config.minify)
+                        .with_ascii_only(
+                            config
+                                .output
+                                .charset
+                                .map(|v| matches!(v, OutputCharset::Ascii))
+                                .unwrap_or(false),
+                        )
+                        .with_emit_assert_for_import_attributes(
+                            config.emit_assert_for_import_attributes,
+                        ),
+                },
             )
         })
     }
