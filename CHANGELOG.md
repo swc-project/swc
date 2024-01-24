@@ -8,6 +8,9 @@
 - **(binding/types)** Add `bugfixes` field to EnvConfig ([#8538](https://github.com/swc-project/swc/issues/8538)) ([49ebdf9](https://github.com/swc-project/swc/commit/49ebdf9fb7c9228c711c303c822add29bc3c8364))
 
 
+- **(common)** Fix source map generation with `inputSourceMap` ([#8546](https://github.com/swc-project/swc/issues/8546)) ([043ee85](https://github.com/swc-project/swc/commit/043ee85d0852c7c7d6193ad699074a599326aeec))
+
+
 - **(es/ast)** Add `definite` and `is_override` to `AutoAccessor` ([#8436](https://github.com/swc-project/swc/issues/8436)) ([572bcae](https://github.com/swc-project/swc/commit/572bcaefc1b6ba9f92c57a35ede61fec9f3221bd))
 
 
@@ -1488,9 +1491,6 @@
 
 ### Testing
 
-
-
-- **(es)** Add a test for a wrong issue ([#7542](https://github.com/swc-project/swc/issues/7542)) ([70bc605](https://github.com/swc-project/swc/commit/70bc605c6769759b0e896e7e5e91bb070d719552))
 
 
 - **(es)** Add one more test for a wrong issue ([#7545](https://github.com/swc-project/swc/issues/7545)) ([862f095](https://github.com/swc-project/swc/commit/862f095e656edf6c0e86f1ad8065d8095e162cfa))

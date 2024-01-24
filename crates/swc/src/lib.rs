@@ -765,14 +765,8 @@ impl Compiler {
                 .source_map
                 .as_ref()
                 .map(|obj| -> Result<_, Error> {
-                    let orig = obj
-                        .content
-                        .as_ref()
-                        .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
-                    let orig = match orig {
-                        Some(v) => Some(v?),
-                        None => None,
-                    };
+                    let orig = obj.content.as_ref().map(|s| s.to_sourcemap()).transpose()?;
+
                     Ok((SourceMapsConfig::Bool(true), orig))
                 })
                 .unwrap_as_option(|v| {

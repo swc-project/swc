@@ -328,7 +328,7 @@ binding_macros                   = { optional = true, version = "0.62.2", path =
 swc                              = { optional = true, version = "0.271.2", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.6.5", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.224.2", path = "../swc_bundler" }
-swc_cached                       = { optional = true, version = "0.3.18", path = "../swc_cached" }
+swc_cached                       = { optional = true, version = "0.3.19", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "0.33.15", path = "../swc_common" }
 swc_css_ast                      = { optional = true, version = "0.140.16", path = "../swc_css_ast" }
 swc_css_codegen                  = { optional = true, version = "0.151.25", path = "../swc_css_codegen" }

@@ -3868,7 +3868,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cached"
-version = "0.3.18"
+version = "0.3.19"
 dependencies = [
  "ahash 0.8.7",
  "anyhow",
@@ -3961,11 +3961,14 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.9"
+version = "0.1.10"
 dependencies = [
+ "anyhow",
  "indexmap 2.1.0",
  "serde",
  "serde_json",
+ "sourcemap",
+ "swc_cached",
  "swc_config_macro",
 ]
 
@@ -4534,7 +4537,6 @@ dependencies = [
  "serde",
  "serde_json",
  "swc_atoms",
- "swc_cached",
  "swc_common",
  "swc_config",
  "swc_ecma_ast",

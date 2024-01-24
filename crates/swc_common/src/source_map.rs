@@ -1269,11 +1269,13 @@ impl SourceMap {
                     if config.skip(&f.name) {
                         continue;
                     }
-                    src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                    if orig.is_none() {
+                        src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
-                    inline_sources_content = config.inline_sources_content(&f.name);
-                    if inline_sources_content && orig.is_none() {
-                        builder.set_source_contents(src_id, Some(&f.src));
+                        inline_sources_content = config.inline_sources_content(&f.name);
+                        if inline_sources_content && orig.is_none() {
+                            builder.set_source_contents(src_id, Some(&f.src));
+                        }
                     }
 
                     ch_state = ByteToCharPosState::default();

@@ -1,0 +1,23 @@
+{
+    "compress": {
+        "negate_iife": false,
+        "sequences": 30
+    },
+    "mangle": {
+        "safari10": true
+    },
+    "output": {
+        "semicolons": false
+    },
+    "sourceMap": {
+        "filename": "input.js",
+        "url": "input.map",
+        "content": {
+            "version": 3,
+            "sources": ["input-preprocess.js"],
+            "sourcesContent": ["const a = {aób: 'ó'}\n\nconsole.log(a)"],
+            "names": ["console", "log", "aób"],
+            "mappings": "AAEAA,QAAQC,GAAG,CAFD;IAACC,UAAK;AAAG"
+        }
+    }
+}
