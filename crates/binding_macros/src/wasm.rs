@@ -9,7 +9,9 @@ use once_cell::sync::Lazy;
 #[doc(hidden)]
 pub use serde_wasm_bindgen;
 use serde_wasm_bindgen::Serializer;
-use swc::{config::ErrorFormat, Compiler, HandlerOpts, PrintArgs};
+#[doc(hidden)]
+pub use swc::PrintArgs;
+use swc::{config::ErrorFormat, Compiler, HandlerOpts};
 #[doc(hidden)]
 pub use swc::{
     config::{Options, ParseOptions, SourceMapsConfig},
