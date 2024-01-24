@@ -8,7 +8,7 @@ const func_bag = {
 func_bag.func2 = function() {
     return void 0 === this ? "PASS" : "FAIL";
 };
-var x;
+let x;
 console.log((x = func_bag.func)());
-var x1;
+let x1;
 console.log((x1 = func_bag.func2)());
