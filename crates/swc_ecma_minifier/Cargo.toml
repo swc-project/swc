@@ -52,7 +52,7 @@ tracing           = "0.1.37"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.15", path = "../swc_common" }
-swc_config = { version = "0.1.9", path = "../swc_config", features = [
+swc_config = { version = "0.1.10", path = "../swc_config", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "0.111.1", path = "../swc_ecma_ast", features = [

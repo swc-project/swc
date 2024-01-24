@@ -67,14 +67,14 @@ tracing      = "0.1.37"
 url          = "2.4.0"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
-swc_cached = { version = "0.3.18", path = "../swc_cached" }
+swc_cached = { version = "0.3.19", path = "../swc_cached" }
 swc_common = { version = "0.33.15", path = "../swc_common", features = [
   "ahash",
   "sourcemap",
   "parking_lot",
 ] }
 swc_compiler_base = { version = "0.5.2", path = "../swc_compiler_base" }
-swc_config = { version = "0.1.9", path = "../swc_config" }
+swc_config = { version = "0.1.10", path = "../swc_config" }
 swc_ecma_ast = { version = "0.111.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.147.1", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.112.1", path = "../swc_ecma_ext_transforms" }
