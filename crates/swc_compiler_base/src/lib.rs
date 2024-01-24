@@ -207,24 +207,36 @@ where
         panic!("The module contains only dummy spans\n{}", src);
     }
 
+    let mut map = if source_map.enabled() {
+        Some(cm.build_source_map_with_config(
+            &src_map_buf,
+            orig,
+            SwcSourceMapConfig {
+                source_file_name,
+                output_path: output_path.as_deref(),
+                names: source_map_names,
+                inline_sources_content,
+                emit_columns: emit_source_map_columns,
+            },
+        ))
+    } else {
+        None
+    };
+
+    if let Some(map) = &mut map {
+        if source_root.is_some() {
+            map.set_source_root(source_root)
+        }
+    }
+
     let (code, map) = match source_map {
         SourceMapsConfig::Bool(v) => {
             if v {
                 let mut buf = vec![];
 
-                cm.build_source_map_with_config(
-                    &src_map_buf,
-                    orig,
-                    SwcSourceMapConfig {
-                        source_file_name,
-                        output_path: output_path.as_deref(),
-                        names: source_map_names,
-                        inline_sources_content,
-                        emit_columns: emit_source_map_columns,
-                    },
-                )
-                .to_writer(&mut buf)
-                .context("failed to write source map")?;
+                map.unwrap()
+                    .to_writer(&mut buf)
+                    .context("failed to write source map")?;
                 let map = String::from_utf8(buf).context("source map is not utf-8")?;
                 (src, Some(map))
             } else {
@@ -235,19 +247,9 @@ where
             let mut src = src;
             let mut buf = vec![];
 
-            cm.build_source_map_with_config(
-                &src_map_buf,
-                orig,
-                SwcSourceMapConfig {
-                    source_file_name,
-                    output_path: output_path.as_deref(),
-                    names: source_map_names,
-                    inline_sources_content,
-                    emit_columns: emit_source_map_columns,
-                },
-            )
-            .to_writer(&mut buf)
-            .context("failed to write source map file")?;
+            map.unwrap()
+                .to_writer(&mut buf)
+                .context("failed to write source map file")?;
             let map = String::from_utf8(buf).context("source map is not utf-8")?;
 
             src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
