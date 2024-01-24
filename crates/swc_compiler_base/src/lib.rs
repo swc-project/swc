@@ -5,6 +5,7 @@ use std::{
 
 use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
+use once_cell::sync::Lazy;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
@@ -107,6 +108,26 @@ pub struct PrintArgs<'a> {
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
+}
+
+impl Default for PrintArgs<'_> {
+    fn default() -> Self {
+        static DUMMY_NAMES: Lazy<AHashMap<BytePos, JsWord>> = Lazy::new(Default::default);
+
+        PrintArgs {
+            source_root: None,
+            source_file_name: None,
+            output_path: None,
+            inline_sources_content: false,
+            source_map: Default::default(),
+            source_map_names: &DUMMY_NAMES,
+            orig: None,
+            comments: None,
+            emit_source_map_columns: false,
+            preamble: "",
+            codegen_config: Default::default(),
+        }
+    }
 }
 
 /// Converts ast node to source string and sourcemap.
