@@ -1747,12 +1747,16 @@ fn build_resolver(
     }
 
     let r = {
-        let r = TsConfigResolver::new(
-            NodeModulesResolver::without_node_modules(Default::default(), Default::default(), true),
-            base_url.clone(),
-            paths.clone(),
+        let r = NodeModulesResolver::without_node_modules(
+            swc_ecma_loader::TargetEnv::Node,
+            Default::default(),
+            true,
         );
-        let r = CachingResolver::new(40, r);
+
+        let r = CachingResolver::new(1024, r);
+
+        let r = TsConfigResolver::new(r, base_url.clone(), paths.clone());
+        let r = CachingResolver::new(256, r);
 
         let r = NodeImportResolver::with_config(
             r,
