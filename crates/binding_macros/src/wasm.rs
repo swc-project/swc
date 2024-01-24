@@ -229,6 +229,8 @@ macro_rules! build_print_sync {
   ($(#[$m:meta])*, $opt: expr) => {
     $(#[$m])*
     pub fn print_sync(s: $crate::wasm::JsValue, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
+      use $crate::wasm::PrintArgs;
+
       let c = $crate::wasm::compiler();
 
       $crate::wasm::try_with_handler_globals(
