@@ -419,6 +419,19 @@ where
 
                 Some(prelude)
             }
+
+            "value" => {
+                if self.config.css_modules {
+                    let span = self.input.cur_span();
+                    let _: ComponentValue = self.parse()?;
+
+                    self.errors.push(Error::new(span, ErrorKind::ValueAtRule));
+
+                    self.input.skip_ws();
+                }
+
+                return Err(Error::new(Default::default(), ErrorKind::Ignore));
+            }
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
