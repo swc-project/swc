@@ -310,6 +310,13 @@ where
             }
         }
 
+        // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
+        if let Ok(v) =
+            self.invoke_inner_resolver(base, self.base_url.join(module_specifier).to_str().unwrap())
+        {
+            return Ok(v);
+        }
+
         if let Ok(v) = self.invoke_inner_resolver(&self.base_url_filename, module_specifier) {
             return Ok(v);
         }

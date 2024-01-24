@@ -97,6 +97,46 @@ fn pattern_1() {
     }
 }
 
+#[test]
+fn base_url_precedence() {
+    let mut map = HashMap::default();
+    map.insert("./src/common/helper".to_string(), "helper".to_string());
+
+    let r = TsConfigResolver::new(
+        TestResolver(map),
+        ".".into(),
+        vec![("@common/*".into(), vec!["src/common/*".into()])],
+    );
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "@common/helper")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("helper".into()),
+                slug: None
+            }
+        );
+    }
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "src/common/helper")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("helper".into()),
+                slug: None
+            }
+        );
+    }
+}
+
 struct TestResolver(AHashMap<String, String>);
 
 impl Resolve for TestResolver {
