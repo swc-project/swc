@@ -3945,6 +3945,7 @@ dependencies = [
  "base64",
  "napi",
  "napi-derive",
+ "once_cell",
  "pathdiff",
  "serde",
  "sourcemap",
