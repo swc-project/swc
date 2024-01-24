@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_core"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.88.4"
+version       = "0.89.0"
   [package.metadata.docs.rs]
   features = [
     "allocator_node",
@@ -324,8 +324,8 @@ __visit = ["__ecma", "swc_ecma_visit"]
 once_cell = { optional = true, version = "1.18.0" }
 
 # swc_* dependencies
-binding_macros                   = { optional = true, version = "0.62.2", path = "../binding_macros" }
-swc                              = { optional = true, version = "0.271.2", path = "../swc" }
+binding_macros                   = { optional = true, version = "0.63.0", path = "../binding_macros" }
+swc                              = { optional = true, version = "0.272.0", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.6.5", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.224.2", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.19", path = "../swc_cached" }
@@ -358,7 +358,7 @@ swc_ecma_usage_analyzer          = { optional = true, version = "0.22.1", path =
 swc_ecma_utils                   = { optional = true, version = "0.126.1", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.97.1", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "0.5.10", path = "../swc_malloc" }
-swc_node_bundler                 = { optional = true, version = "0.60.2", path = "../swc_node_bundler" }
+swc_node_bundler                 = { optional = true, version = "0.61.0", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.8", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.16", path = "../swc_plugin_macro" }

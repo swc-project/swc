@@ -17,6 +17,9 @@
 - **(es/ast)** Fix definition of `SetterProp` ([#8314](https://github.com/swc-project/swc/issues/8314)) ([bc38ac9](https://github.com/swc-project/swc/commit/bc38ac906c427ba060f3da47c64726fe417162ed))
 
 
+- **(es/codegen)** Set `sourceRoot` of sourcemaps ([#6086](https://github.com/swc-project/swc/issues/6086)) ([ae78669](https://github.com/swc-project/swc/commit/ae786692a0d20254bc233472a23035ba1be25e46))
+
+
 - **(es/compat)** Support vars from `reserved_word` pass ([#8543](https://github.com/swc-project/swc/issues/8543)) ([fc929e9](https://github.com/swc-project/swc/commit/fc929e962ba18afa98ae4523e50ff630527a218f))
 
 
@@ -1473,9 +1476,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es)** Accept `parse` option for `minify()` ([#7543](https://github.com/swc-project/swc/issues/7543)) ([1d84e95](https://github.com/swc-project/swc/commit/1d84e952feefc3cd50e379455bb6648b82c42256))
 
 
 - **(es/compat)** Visit arrow body from optional chaining pass ([#7549](https://github.com/swc-project/swc/issues/7549)) ([bc6e950](https://github.com/swc-project/swc/commit/bc6e95052eaf60d71c544c8a88c8440d7a2b437c))
