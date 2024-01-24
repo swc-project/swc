@@ -1,0 +1,8 @@
+@value blue: #0c77f8;
+@value red: #ff0000;
+@value green: #aaf200;
+
+.button {
+  color: blue;
+  display: inline-block;
+}
