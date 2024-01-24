@@ -96,17 +96,17 @@ pub fn parse_js(
 }
 
 pub struct PrintArgs<'a> {
-    source_root: Option<&'a str>,
-    source_file_name: Option<&'a str>,
-    output_path: Option<PathBuf>,
-    inline_sources_content: bool,
-    source_map: SourceMapsConfig,
-    source_map_names: &'a AHashMap<BytePos, JsWord>,
-    orig: Option<&'a sourcemap::SourceMap>,
-    comments: Option<&'a dyn Comments>,
-    emit_source_map_columns: bool,
-    preamble: &'a str,
-    codegen_config: swc_ecma_codegen::Config,
+    pub source_root: Option<&'a str>,
+    pub source_file_name: Option<&'a str>,
+    pub output_path: Option<PathBuf>,
+    pub inline_sources_content: bool,
+    pub source_map: SourceMapsConfig,
+    pub source_map_names: &'a AHashMap<BytePos, JsWord>,
+    pub orig: Option<&'a sourcemap::SourceMap>,
+    pub comments: Option<&'a dyn Comments>,
+    pub emit_source_map_columns: bool,
+    pub preamble: &'a str,
+    pub codegen_config: swc_ecma_codegen::Config,
 }
 
 /// Converts ast node to source string and sourcemap.
