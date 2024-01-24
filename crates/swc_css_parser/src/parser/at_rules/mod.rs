@@ -425,8 +425,7 @@ where
                     let span = self.input.cur_span();
                     let _: ComponentValue = self.parse()?;
 
-                    self.errors
-                        .push(Error::new(span.with_lo(lo), ErrorKind::ValueAtRule));
+                    self.errors.push(Error::new(span, ErrorKind::ValueAtRule));
 
                     self.input.skip_ws();
                 }
