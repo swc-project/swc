@@ -17,6 +17,9 @@
 - **(es/compat)** Support vars from `reserved_word` pass ([#8543](https://github.com/swc-project/swc/issues/8543)) ([fc929e9](https://github.com/swc-project/swc/commit/fc929e962ba18afa98ae4523e50ff630527a218f))
 
 
+- **(es/minifier)** Fix a bug related to inliner and the variable scoping ([#8542](https://github.com/swc-project/swc/issues/8542)) ([aa70131](https://github.com/swc-project/swc/commit/aa70131c558158abd3dcd3fca53dfe444c511ae1))
+
+
 - **(es/module)** Fix resolving of dependencies ([#8533](https://github.com/swc-project/swc/issues/8533)) ([71fb5c1](https://github.com/swc-project/swc/commit/71fb5c12a75bec27cc775069f83b576019d261f2))
 
 
