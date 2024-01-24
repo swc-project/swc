@@ -203,8 +203,9 @@ pub mod resolver {
     }
 }
 
-type SwcImportResolver =
-    Arc<NodeImportResolver<CachingResolver<TsConfigResolver<NodeModulesResolver>>>>;
+type SwcImportResolver = Arc<
+    NodeImportResolver<CachingResolver<TsConfigResolver<CachingResolver<NodeModulesResolver>>>>,
+>;
 
 /// All methods accept [Handler], which is a storage for errors.
 ///
