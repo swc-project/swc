@@ -95,6 +95,20 @@ pub fn parse_js(
     res
 }
 
+pub struct PrintArgs<'a> {
+    source_root: Option<&'a str>,
+    source_file_name: Option<&'a str>,
+    output_path: Option<PathBuf>,
+    inline_sources_content: bool,
+    source_map: SourceMapsConfig,
+    source_map_names: &'a AHashMap<BytePos, JsWord>,
+    orig: Option<&'a sourcemap::SourceMap>,
+    comments: Option<&'a dyn Comments>,
+    emit_source_map_columns: bool,
+    preamble: &'a str,
+    codegen_config: swc_ecma_codegen::Config,
+}
+
 /// Converts ast node to source string and sourcemap.
 ///
 ///
@@ -108,16 +122,19 @@ pub fn parse_js(
 pub fn print<T>(
     cm: Lrc<SourceMap>,
     node: &T,
-    source_file_name: Option<&str>,
-    output_path: Option<PathBuf>,
-    inline_sources_content: bool,
-    source_map: SourceMapsConfig,
-    source_map_names: &AHashMap<BytePos, JsWord>,
-    orig: Option<&sourcemap::SourceMap>,
-    comments: Option<&dyn Comments>,
-    emit_source_map_columns: bool,
-    preamble: &str,
-    codegen_config: swc_ecma_codegen::Config,
+    PrintArgs {
+        source_root,
+        source_file_name,
+        output_path,
+        inline_sources_content,
+        source_map,
+        source_map_names,
+        orig,
+        comments,
+        emit_source_map_columns,
+        preamble,
+        codegen_config,
+    }: PrintArgs,
 ) -> Result<TransformOutput, Error>
 where
     T: Node + VisitWith<IdentCollector>,
