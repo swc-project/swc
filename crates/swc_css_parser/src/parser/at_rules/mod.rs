@@ -419,6 +419,17 @@ where
 
                 Some(prelude)
             }
+
+            "value" => {
+                if self.config.css_modules {
+                    let span = self.input.cur_span();
+                    let _: ComponentValue = self.parse()?;
+
+                    self.errors.push(Error::new(span, ErrorKind::ValueAtRule));
+                }
+
+                return Err(Error::new(Default::default(), ErrorKind::Ignore));
+            }
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
@@ -747,16 +758,6 @@ where
                     rule_list.into_iter().map(ComponentValue::from).collect();
 
                 rule_list
-            }
-            "value" => {
-                if self.config.css_modules {
-                    let span = self.input.cur_span();
-                    let _: ComponentValue = self.parse()?;
-
-                    self.errors.push(Error::new(span, ErrorKind::ValueAtRule));
-                }
-
-                return Err(Error::new(Default::default(), ErrorKind::Ignore));
             }
             _ => {
                 return Err(Error::new(Default::default(), ErrorKind::Ignore));
