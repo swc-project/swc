@@ -14,7 +14,7 @@ use swc_core::{
     base::{
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
-        Compiler, TransformOutput,
+        Compiler, PrintArgs, TransformOutput,
     },
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
     common::{collections::AHashMap, Globals, Span, GLOBALS},
@@ -126,19 +126,15 @@ impl Task for BundleTask {
 
                             let output = self.swc.print(
                                 &m,
-                                None,
-                                None,
-                                true,
-                                SourceMapsConfig::Bool(true),
-                                // TODO
-                                &Default::default(),
-                                None,
-                                None,
-                                true,
-                                Default::default(),
-                                swc_core::ecma::codegen::Config::default()
-                                    .with_target(codegen_target)
-                                    .with_minify(minify),
+                                PrintArgs {
+                                    inline_sources_content: true,
+                                    source_map: SourceMapsConfig::Bool(true),
+                                    emit_source_map_columns: true,
+                                    codegen_config: swc_core::ecma::codegen::Config::default()
+                                        .with_target(codegen_target)
+                                        .with_minify(minify),
+                                    ..Default::default()
+                                },
                             )?;
 
                             Ok((k, output))

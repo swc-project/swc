@@ -7,7 +7,7 @@ use std::{
 };
 
 use anyhow::Error;
-use swc::{config::SourceMapsConfig, resolver::environment_resolver};
+use swc::{resolver::environment_resolver, PrintArgs};
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{errors::HANDLER, FileName, Globals, Span, GLOBALS};
 use swc_ecma_ast::{
@@ -87,16 +87,12 @@ fn pass(input_dir: PathBuf) {
                     let code = compiler
                         .print(
                             &bundled.module.fold_with(&mut fixer(None)),
-                            None,
-                            None,
-                            false,
-                            SourceMapsConfig::Bool(false),
-                            &Default::default(),
-                            None,
-                            Some(&comments),
-                            false,
-                            Default::default(),
-                            swc_ecma_codegen::Config::default().with_target(EsVersion::Es2020),
+                            PrintArgs {
+                                comments: Some(&comments),
+                                codegen_config: swc_ecma_codegen::Config::default()
+                                    .with_target(EsVersion::Es2020),
+                                ..Default::default()
+                            },
                         )
                         .expect("failed to print?")
                         .code;

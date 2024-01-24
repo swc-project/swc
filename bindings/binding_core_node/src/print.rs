@@ -7,7 +7,7 @@ use napi::{
 use swc_core::{
     base::{
         config::{Options, SourceMapsConfig},
-        Compiler, TransformOutput,
+        Compiler, PrintArgs, TransformOutput,
     },
     common::GLOBALS,
     ecma::ast::{EsVersion, Program},
@@ -37,21 +37,19 @@ impl Task for PrintTask {
             self.c
                 .print(
                     &program,
-                    None,
-                    options.output_path.clone(),
-                    true,
-                    options
-                        .source_maps
-                        .clone()
-                        .unwrap_or(SourceMapsConfig::Bool(false)),
-                    &Default::default(),
-                    None,
-                    None,
-                    options.config.emit_source_map_columns.into_bool(),
-                    Default::default(),
-                    swc_core::ecma::codegen::Config::default()
-                        .with_target(options.config.jsc.target.unwrap_or(EsVersion::Es2020))
-                        .with_minify(options.config.minify.into_bool()),
+                    PrintArgs {
+                        output_path: options.output_path.clone(),
+                        inline_sources_content: true,
+                        source_map: options
+                            .source_maps
+                            .clone()
+                            .unwrap_or(SourceMapsConfig::Bool(false)),
+                        emit_source_map_columns: options.config.emit_source_map_columns.into_bool(),
+                        codegen_config: swc_core::ecma::codegen::Config::default()
+                            .with_target(options.config.jsc.target.unwrap_or(EsVersion::Es2020))
+                            .with_minify(options.config.minify.into_bool()),
+                        ..Default::default()
+                    },
                 )
                 .convert_err()
         })
@@ -99,21 +97,19 @@ pub fn print_sync(program: String, options: Buffer) -> napi::Result<TransformOut
     GLOBALS.set(&Default::default(), || {
         c.print(
             &program,
-            None,
-            options.output_path,
-            true,
-            options
-                .source_maps
-                .clone()
-                .unwrap_or(SourceMapsConfig::Bool(false)),
-            &Default::default(),
-            None,
-            None,
-            options.config.emit_source_map_columns.into_bool(),
-            Default::default(),
-            swc_core::ecma::codegen::Config::default()
-                .with_target(codegen_target)
-                .with_minify(options.config.minify.into_bool()),
+            PrintArgs {
+                output_path: options.output_path,
+                inline_sources_content: true,
+                source_map: options
+                    .source_maps
+                    .clone()
+                    .unwrap_or(SourceMapsConfig::Bool(false)),
+                emit_source_map_columns: options.config.emit_source_map_columns.into_bool(),
+                codegen_config: swc_core::ecma::codegen::Config::default()
+                    .with_target(codegen_target)
+                    .with_minify(options.config.minify.into_bool()),
+                ..Default::default()
+            },
         )
         .convert_err()
     })
