@@ -628,6 +628,24 @@ fn recovery(input: PathBuf) {
     stylesheet_recovery_test_tokens(input, Default::default());
 }
 
+#[testing::fixture("tests/recovery-cssmodules/**/input.css")]
+fn recovery_2(input: PathBuf) {
+    stylesheet_recovery_test(
+        input.clone(),
+        ParserConfig {
+            css_modules: true,
+            ..Default::default()
+        },
+    );
+    stylesheet_recovery_test_tokens(
+        input,
+        ParserConfig {
+            css_modules: true,
+            ..Default::default()
+        },
+    );
+}
+
 #[testing::fixture("tests/fixture/**/input.css")]
 #[testing::fixture("tests/recovery/**/input.css")]
 fn span_visualizer(input: PathBuf) {
