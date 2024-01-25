@@ -1499,7 +1499,10 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let old_extra_lets = self.extra_lets.take();
+        let extra_vars = self.extra_vars.take();
+        let extra_lets = self.extra_lets.take();
+        let pre_class_inits = self.pre_class_inits.take();
+        let extra_exports = self.extra_exports.take();
 
         let mut new = Vec::with_capacity(n.len());
 
@@ -1559,7 +1562,10 @@ impl VisitMut for Decorator202203 {
             n.visit_mut_with(&mut IdentRenamer::new(&self.rename_map));
         }
 
-        self.extra_lets = old_extra_lets;
+        self.extra_vars = extra_vars;
+        self.extra_lets = extra_lets;
+        self.pre_class_inits = pre_class_inits;
+        self.extra_exports = extra_exports;
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
