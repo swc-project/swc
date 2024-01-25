@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/decorator)** Skip TypeScript class method/prop declarations ([#8555](https://github.com/swc-project/swc/issues/8555)) ([6a8dd8c](https://github.com/swc-project/swc/commit/6a8dd8cbb384372657923d4c1094e8053661aa56))
+
 ## [1.3.106] - 2024-01-25
 
 ### Bug Fixes
@@ -1476,12 +1484,6 @@
 - **(deps)** Update `syn` to `v2` ([#7557](https://github.com/swc-project/swc/issues/7557)) ([5441004](https://github.com/swc-project/swc/commit/54410047fa7ccb1330fb2e9db27a3c0b2a24a02e))
 
 ## [1.3.66] - 2023-06-20
-
-### Bug Fixes
-
-
-
-- **(es/resolver)** Resolve the super class before registering a class name ([#7550](https://github.com/swc-project/swc/issues/7550)) ([1d9f972](https://github.com/swc-project/swc/commit/1d9f972fb44e0722fce8a83090cbada81decf577))
 
 ### Features
 
