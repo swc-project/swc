@@ -1,6 +1,8 @@
 use std::path::{Component, Path, PathBuf};
 
 use anyhow::{bail, Context, Error};
+#[cfg(windows)]
+use normpath::BasePath;
 use swc_common::FileName;
 use tracing::{debug, info, trace, warn, Level};
 
