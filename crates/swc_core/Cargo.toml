@@ -348,7 +348,7 @@ swc_ecma_preset_env              = { optional = true, version = "0.205.3", path 
 swc_ecma_quote_macros            = { optional = true, version = "0.53.2", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms_base         = { optional = true, version = "0.136.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "0.162.1", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module       = { optional = true, version = "0.179.2", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_module       = { optional = true, version = "0.179.3", path = "../swc_ecma_transforms_module" }
 swc_ecma_transforms_optimization = { optional = true, version = "0.197.3", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_transforms_proposal     = { optional = true, version = "0.170.3", path = "../swc_ecma_transforms_proposal" }
 swc_ecma_transforms_react        = { optional = true, version = "0.182.2", path = "../swc_ecma_transforms_react" }
