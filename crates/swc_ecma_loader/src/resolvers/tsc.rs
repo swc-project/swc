@@ -1,8 +1,6 @@
 use std::path::{Component, Path, PathBuf};
 
 use anyhow::{bail, Context, Error};
-#[cfg(windows)]
-use normpath::BasePath;
 use swc_common::FileName;
 use tracing::{debug, info, trace, warn, Level};
 
@@ -312,15 +310,14 @@ where
             }
         }
 
-        #[cfg(windows)]
-        let path = {
-            let base_dir = BasePath::new(self.base_url.as_path()).unwrap();
-            base_dir.join(module_specifier).into_path_buf()
-        };
-        #[cfg(not(windows))]
         let path = self.base_url.join(module_specifier);
+        #[cfg(windows)]
+        let path_string: String = path.to_string_lossy().replace("\\", "/");
+        #[cfg(not(windows))]
+        let path_string: String = path.to_string_lossy().to_string();
+
         // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
-        if let Ok(v) = self.invoke_inner_resolver(base, path.to_str().unwrap()) {
+        if let Ok(v) = self.invoke_inner_resolver(base, path_string.as_str()) {
             return Ok(v);
         }
 
