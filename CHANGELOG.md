@@ -10,6 +10,9 @@
 
 - **(es/decorator)** Preserve state while traversing the `module_items` scope ([#8556](https://github.com/swc-project/swc/issues/8556)) ([f416aff](https://github.com/swc-project/swc/commit/f416aff7d7036de72509132603d9b423a0b95f68))
 
+
+- **(es/loader)** Make `tsc` resolver work for bare specifier ([#8550](https://github.com/swc-project/swc/issues/8550)) ([d6a4615](https://github.com/swc-project/swc/commit/d6a46158987d0e96d6184d41c2fdd73df92d6681))
+
 ## [1.3.106] - 2024-01-25
 
 ### Bug Fixes
