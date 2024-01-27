@@ -735,14 +735,14 @@ impl Decorator202203 {
     fn process_decorators_of_class_members(&mut self, members: &mut [ClassMember]) {
         for mut m in members {
             match &mut m {
-                ClassMember::Method(m) => {
+                ClassMember::Method(m) if m.function.body.is_some() => {
                     self.process_decorators(&mut m.function.decorators);
                     self.process_prop_name(&mut m.key);
                 }
-                ClassMember::PrivateMethod(m) => {
+                ClassMember::PrivateMethod(m) if m.function.body.is_some() => {
                     self.process_decorators(&mut m.function.decorators);
                 }
-                ClassMember::ClassProp(m) => {
+                ClassMember::ClassProp(m) if !m.declare => {
                     self.process_decorators(&mut m.decorators);
                     self.process_prop_name(&mut m.key);
                 }
@@ -1333,6 +1333,11 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        // method without body is TypeScript's method declaration.
+        if n.function.body.is_none() {
+            return;
+        }
+
         n.visit_mut_children_with(self);
 
         if n.function.decorators.is_empty() {
@@ -1383,6 +1388,10 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
+        if p.declare {
+            return;
+        }
+
         p.visit_mut_children_with(self);
 
         if p.decorators.is_empty() {
@@ -1490,7 +1499,10 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let old_extra_lets = self.extra_lets.take();
+        let extra_vars = self.extra_vars.take();
+        let extra_lets = self.extra_lets.take();
+        let pre_class_inits = self.pre_class_inits.take();
+        let extra_exports = self.extra_exports.take();
 
         let mut new = Vec::with_capacity(n.len());
 
@@ -1550,7 +1562,10 @@ impl VisitMut for Decorator202203 {
             n.visit_mut_with(&mut IdentRenamer::new(&self.rename_map));
         }
 
-        self.extra_lets = old_extra_lets;
+        self.extra_vars = extra_vars;
+        self.extra_lets = extra_lets;
+        self.pre_class_inits = pre_class_inits;
+        self.extra_exports = extra_exports;
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
