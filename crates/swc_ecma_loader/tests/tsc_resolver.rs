@@ -97,6 +97,98 @@ fn pattern_1() {
     }
 }
 
+#[test]
+fn base_url_works_for_bare_specifier() {
+    let mut map = HashMap::default();
+    map.insert("./src/common/helper".to_string(), "helper".to_string());
+
+    let r = TsConfigResolver::new(
+        TestResolver(map),
+        ".".into(),
+        vec![("@common/*".into(), vec!["src/common/*".into()])],
+    );
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "@common/helper")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("helper".into()),
+                slug: None
+            }
+        );
+    }
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "src/common/helper")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("helper".into()),
+                slug: None
+            }
+        );
+    }
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "./src/common/helper")
+            .expect("should resolve");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("helper".into()),
+                slug: None
+            }
+        );
+    }
+}
+
+#[test]
+fn base_url_precedence() {
+    let mut map = HashMap::default();
+    map.insert("./jquery".to_string(), "jq in base url".to_string());
+    map.insert("jquery".to_string(), "jq in node module".to_string());
+    map.insert("react".to_string(), "react in node module".to_string());
+
+    let r = TsConfigResolver::new(TestResolver(map), ".".into(), vec![]);
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "jquery")
+            .expect("should resolve from base url");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("jq in base url".into()),
+                slug: None
+            }
+        );
+    }
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "react")
+            .expect("should resolve from node modules");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("react in node module".into()),
+                slug: None
+            }
+        );
+    }
+}
+
 struct TestResolver(AHashMap<String, String>);
 
 impl Resolve for TestResolver {
