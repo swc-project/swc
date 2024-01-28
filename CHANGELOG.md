@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.3.107] - 2024-01-28
 
 ### Bug Fixes
 
@@ -1455,9 +1455,6 @@
 
 ### Features
 
-
-
-- **(es/minifier)** Support `__NO_SIDE_EFFECTS__` ([#7532](https://github.com/swc-project/swc/issues/7532)) ([3ad07a7](https://github.com/swc-project/swc/commit/3ad07a7d2e5c9507a786dc338f0cf50191916aa3))
 
 
 - **(es/minifier)** Enable `hoist_props` by default ([#7535](https://github.com/swc-project/swc/issues/7535)) ([07a8580](https://github.com/swc-project/swc/commit/07a858030c1a368b3152bfdb57471a35c47c3b32))
