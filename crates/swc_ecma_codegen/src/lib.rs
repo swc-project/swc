@@ -3998,12 +3998,7 @@ fn get_quoted_utf16(v: &str, ascii_only: bool, target: EsVersion) -> String {
     while let Some(c) = iter.next() {
         match c {
             '\x00' => {
-                if target < EsVersion::Es5
-                    || match iter.peek() {
-                        Some('0'..='9') => true,
-                        _ => false,
-                    }
-                {
+                if target < EsVersion::Es5 || matches!(iter.peek(), Some('0'..='9')) {
                     buf.push_str("\\x00");
                 } else {
                     buf.push_str("\\0");
