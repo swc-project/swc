@@ -1549,7 +1549,8 @@ impl Optimizer<'_> {
         }
 
         if match &*b {
-            Expr::Arrow(..)
+            Expr::Ident(..)
+            | Expr::Arrow(..)
             | Expr::Fn(..)
             | Expr::Class(..)
             | Expr::Lit(..)
