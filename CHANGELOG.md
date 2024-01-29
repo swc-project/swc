@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/testing)** Make `test_inline!` not read output as a file ([#8569](https://github.com/swc-project/swc/issues/8569)) ([d683089](https://github.com/swc-project/swc/commit/d683089be1116f7944fcd3dbd4536b343becdf5e))
+
 ## [1.3.107] - 2024-01-28
 
 ### Bug Fixes
