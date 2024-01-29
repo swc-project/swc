@@ -17,7 +17,7 @@ var D = /*#__PURE__*/ function() {
         _class_call_check(this, D);
     }
     var _proto = D.prototype;
-    _proto.x // error
-     = function x(v) {};
+    _proto.x = function x(v) {} // error
+    ;
     return D;
 }();
