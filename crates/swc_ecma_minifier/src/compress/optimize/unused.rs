@@ -228,8 +228,26 @@ impl Optimizer<'_> {
                     PropOrSpread::Prop(p) => match &**p {
                         Prop::Assign(_) => true,
                         Prop::Getter(_) => !opts.allow_getter,
-                        Prop::Shorthand(_) => false,
-                        Prop::KeyValue(..) => false,
+                        Prop::Shorthand(p) => {
+                            // Check if `p` is __proto__
+
+                            if p.sym == "__proto__" {
+                                return true;
+                            }
+
+                            false
+                        }
+                        Prop::KeyValue(k) => {
+                            // Check if `k` is __proto__
+
+                            if let PropName::Ident(i) = &k.key {
+                                if i.sym == "__proto__" {
+                                    return true;
+                                }
+                            }
+
+                            false
+                        }
 
                         Prop::Setter(_) => true,
                         Prop::Method(_) => false,
