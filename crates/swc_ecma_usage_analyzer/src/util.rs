@@ -3,7 +3,7 @@ use swc_ecma_ast::Stmt;
 pub fn is_global_var_with_pure_property_access(s: &str) -> bool {
     match s {
         "JSON" | "Array" | "Set" | "Map" | "String" | "Object" | "Number" | "Date" | "BigInt"
-        | "Boolean" | "Math" | "Error" => return true,
+        | "Boolean" | "Math" | "Error" | "Reflect" => return true,
         _ => {}
     }
 
@@ -41,6 +41,7 @@ pub fn is_global_var_with_pure_property_access(s: &str) -> bool {
             | "Symbol"
             | "Promise"
             | "WeakRef"
+            | "ArrayBuffer"
     )
 }
 
