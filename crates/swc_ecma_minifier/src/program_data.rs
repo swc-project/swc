@@ -574,10 +574,14 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
-                if is_global_var_with_pure_property_access(&i.sym) || i.sym == "arguments" {
+                // We treat `window` and `global` as resolved
+                if is_global_var_with_pure_property_access(&i.sym)
+                    || matches!(&*i.sym, "arguments" | "window" | "global")
+                {
                     return false;
                 }
 
