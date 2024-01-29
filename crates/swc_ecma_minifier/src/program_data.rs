@@ -16,6 +16,7 @@ use swc_ecma_usage_analyzer::{
         Ctx, ScopeKind, UsageAnalyzer,
     },
     marks::Marks,
+    util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_visit::VisitWith;
 
@@ -576,6 +577,10 @@ impl ProgramData {
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
+                if is_global_var_with_pure_property_access(&i.sym) {
+                    return false;
+                }
+
                 if let Some(v) = self.vars.get(&i.to_id()) {
                     return !v.declared;
                 }
@@ -689,6 +694,10 @@ impl ProgramData {
     fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
         match n {
             SimpleAssignTarget::Ident(i) => {
+                if is_global_var_with_pure_property_access(&i.sym) {
+                    return false;
+                }
+
                 if let Some(v) = self.vars.get(&i.to_id()) {
                     return !v.declared;
                 }
