@@ -361,12 +361,10 @@ where
 {
     let _logger = testing::init();
 
-    let expected = read_to_string(output);
-    let _is_really_expected = expected.is_ok();
-    let expected = expected.unwrap_or_default();
+    let expected = output;
 
     let expected_src = Tester::run(|tester| {
-        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, &expected)?;
+        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, expected)?;
 
         let expected_src = tester.print(&expected_module, &Default::default());
 
