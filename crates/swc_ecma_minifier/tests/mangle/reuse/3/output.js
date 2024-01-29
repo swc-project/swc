@@ -876,8 +876,8 @@ class X {
     renderRows(u) {
         let t = "";
         const e = new Array(u.columns).fill(1);
-        for(let t = 0; t < u.rows.length; t++){
-            t += this.renderRow(e, t, u);
+        for(let n = 0; n < u.rows.length; n++){
+            t += this.renderRow(e, n, u);
         }
         return t.slice(0, -1);
     }
@@ -988,8 +988,8 @@ class X {
     renderBorderRow(u, t, e, n) {
         let i = "";
         let s = 1;
-        for(let i = 0; i < n.columns; i++){
-            if (e[i] > 1) {
+        for(let r = 0; r < n.columns; r++){
+            if (e[r] > 1) {
                 if (!t) {
                     throw new Error("invalid layout");
                 }
@@ -998,8 +998,8 @@ class X {
                     continue;
                 }
             }
-            i += this.renderBorderCell(i, u, t, e, n);
-            s = t?.[i].getColSpan() ?? 1;
+            i += this.renderBorderCell(r, u, t, e, n);
+            s = t?.[r].getColSpan() ?? 1;
         }
         return i.length ? " ".repeat(this.options.indent) + i + "\n" : "";
     }
@@ -1038,23 +1038,23 @@ class X {
                 const e = h(o);
                 const n = h(A);
                 const i = F(s);
-                const c = F(r);
-                const f = F(o);
-                const p = F(A);
-                const B = E && l && C && a;
-                const d = i && f && c && p;
-                const D = u && e && t && n;
-                if (d && B) {
+                const f = F(r);
+                const p = F(o);
+                const B = F(A);
+                const d = E && l && C && a;
+                const D = i && p && f && B;
+                const g = u && e && t && n;
+                if (D && d) {
                     c += this.options.chars.middle;
-                } else if (D && B && s === o && r === A) {
+                } else if (g && d && s === o && r === A) {
                     c += this.options.chars.mid;
                 } else if (u && e && s === o) {
                     c += this.options.chars.topMid;
                 } else if (t && n && r === A) {
                     c += this.options.chars.bottomMid;
-                } else if (i && c && s === r) {
+                } else if (i && f && s === r) {
                     c += this.options.chars.leftMid;
-                } else if (f && p && o === A) {
+                } else if (p && B && o === A) {
                     c += this.options.chars.rightMid;
                 } else {
                     c += this.options.chars.midMid;
@@ -2331,10 +2331,10 @@ function _${ur(t)}() {` + (!u.getParent() ? `\n\n    local context state state_d
         }
         if (u.hasArguments()) {
             const e = t.split(" ").slice(1).join(" ");
-            const n = u.getArguments()[0];
-            const i = this.addAction(n, e);
-            if (i) {
-                n += `\n        __${ur(this.cmd.getName())}_complete ${i.arg.name} ${i.arg.action} ${i.cmd}`;
+            const i = u.getArguments()[0];
+            const s = this.addAction(i, e);
+            if (s) {
+                n += `\n        __${ur(this.cmd.getName())}_complete ${s.arg.name} ${s.arg.action} ${s.cmd}`;
             }
         }
         if (n) {
