@@ -1725,29 +1725,25 @@ impl Optimizer<'_> {
                     AssignTarget::Simple(b_left) => {
                         trace_op!("seq: Try lhs of assign");
 
-                        match b_left {
-                            SimpleAssignTarget::Ident(..) | SimpleAssignTarget::Member(..) => {
-                                let mut b_left_expr: Box<Expr> = b_left.take().into();
+                        if let SimpleAssignTarget::Member(..) = b_left {
+                            let mut b_left_expr: Box<Expr> = b_left.take().into();
 
-                                let res = self.merge_sequential_expr(a, &mut b_left_expr);
+                            let res = self.merge_sequential_expr(a, &mut b_left_expr);
 
-                                b_assign.left = match AssignTarget::try_from(b_left_expr) {
-                                    Ok(v) => v,
-                                    Err(b_left_expr) => {
-                                        if is_pure_undefined(&self.expr_ctx, &b_left_expr) {
-                                            *b = *b_assign.right.take();
-                                            return Ok(true);
-                                        }
-
-                                        unreachable!("{b_left_expr:#?}")
+                            b_assign.left = match AssignTarget::try_from(b_left_expr) {
+                                Ok(v) => v,
+                                Err(b_left_expr) => {
+                                    if is_pure_undefined(&self.expr_ctx, &b_left_expr) {
+                                        *b = *b_assign.right.take();
+                                        return Ok(true);
                                     }
-                                };
-                                if res? {
-                                    return Ok(true);
-                                }
-                            }
 
-                            _ => {}
+                                    unreachable!("{b_left_expr:#?}")
+                                }
+                            };
+                            if res? {
+                                return Ok(true);
+                            }
                         }
 
                         if b_assign.left.as_ident().is_none() {
