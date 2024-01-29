@@ -4259,7 +4259,10 @@
         } : function() {
             might_need_space = !0;
         }, indent = options.beautify ? function(half) {
-            options.beautify && print(" ".repeat(options.indent_start + indentation - (half ? 0.5 : 0) * options.indent_level));
+            if (options.beautify) {
+                var back;
+                print((back = half ? 0.5 : 0, " ".repeat(options.indent_start + indentation - back * options.indent_level)));
+            }
         } : noop, with_indent = options.beautify ? function(col, cont) {
             !0 === col && (col = next_indent());
             var save_indentation = indentation;
@@ -17838,9 +17841,9 @@
                         return value.length ? value.map(symdef) : void 0;
                     case "variables":
                     case "globals":
-                        var result;
-                        return value.size ? (result = [], value.forEach(function(def) {
-                            result.push(symdef(def));
+                        var callback, result;
+                        return value.size ? (callback = symdef, result = [], value.forEach(function(def) {
+                            result.push(callback(def));
                         }), result) : void 0;
                 }
                 if (!skip_keys.has(key) && !(value instanceof AST_Token) && !(value instanceof Map)) {
