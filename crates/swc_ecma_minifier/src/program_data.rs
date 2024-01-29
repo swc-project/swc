@@ -577,7 +577,7 @@ impl ProgramData {
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
-                if is_global_var_with_pure_property_access(&i.sym) {
+                if is_global_var_with_pure_property_access(&i.sym) || i.sym == "arguments" {
                     return false;
                 }
 
