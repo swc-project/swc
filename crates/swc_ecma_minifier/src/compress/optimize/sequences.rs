@@ -1517,6 +1517,10 @@ impl Optimizer<'_> {
     ///
     /// Returns [Err] iff we should stop checking.
     fn merge_sequential_expr(&mut self, a: &mut Mergable, b: &mut Expr) -> Result<bool, ()> {
+        if let Mergable::Drop = a {
+            return Ok(false);
+        }
+
         #[cfg(feature = "debug")]
         let _tracing = {
             let b_str = dump(&*b, false);
@@ -1524,7 +1528,7 @@ impl Optimizer<'_> {
                 Mergable::Expr(e) => dump(*e, false),
                 Mergable::Var(e) => dump(*e, false),
                 Mergable::FnDecl(e) => dump(*e, false),
-                Mergable::Drop => return Ok(false),
+                Mergable::Drop => unreachable!(),
             };
 
             Some(
@@ -1549,8 +1553,7 @@ impl Optimizer<'_> {
         }
 
         if match &*b {
-            Expr::Ident(..)
-            | Expr::Arrow(..)
+            Expr::Arrow(..)
             | Expr::Fn(..)
             | Expr::Class(..)
             | Expr::Lit(..)
