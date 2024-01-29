@@ -409,8 +409,8 @@ where
 
         Ok(actual_src)
     })
-    .1
-    .to_string();
+    .0
+    .unwrap();
 
     assert_eq!(
         expected_src, actual_src,
