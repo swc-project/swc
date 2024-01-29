@@ -11056,8 +11056,8 @@ margin: 0 10px;\
                                 var blobBuilder = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
                                 return blobBuilder.append(script), blobBuilder.getBlob("application/javascript");
                             }
-                        }(workerUrl), blobURL = (window.URL || window.webkitURL).createObjectURL(blob);
-                        return new Worker(blobURL);
+                        }(workerUrl);
+                        return new Worker((window.URL || window.webkitURL).createObjectURL(blob));
                     }
                     return new Worker(workerUrl);
                 }
