@@ -444,11 +444,7 @@
                     }
                 }(), function() {
                     var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Welcome);
-                    if (hasNativeReflectConstruct) {
-                        var NewTarget = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor;
-                        result = Reflect.construct(Super, arguments, NewTarget);
-                    } else result = Super.apply(this, arguments);
-                    return (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(this, result);
+                    return result = hasNativeReflectConstruct ? Reflect.construct(Super, arguments, (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor) : Super.apply(this, arguments), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(this, result);
                 });
                 function Welcome() {
                     var _this;
