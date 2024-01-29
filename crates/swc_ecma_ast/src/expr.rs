@@ -1411,13 +1411,11 @@ impl From<SimpleAssignTarget> for Box<Expr> {
 
 impl AssignTarget {
     pub fn as_ident(&self) -> Option<&Ident> {
-        self.as_simple().and_then(|p| p.as_ident()).map(|v| &v.id)
+        Some(&self.as_simple()?.as_ident()?.id)
     }
 
     pub fn as_ident_mut(&mut self) -> Option<&mut Ident> {
-        self.as_mut_simple()
-            .and_then(|p| p.as_mut_ident())
-            .map(|v| &mut v.id)
+        Some(&mut self.as_mut_simple()?.as_mut_ident()?.id)
     }
 }
 
