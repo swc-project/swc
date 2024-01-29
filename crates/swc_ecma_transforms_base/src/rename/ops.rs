@@ -608,6 +608,9 @@ where
     #[inline]
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
 
+    #[inline]
+    fn visit_mut_simple_assign_target(&mut self, _: &mut SimpleAssignTarget) {}
+
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let orig = i.clone();
         if self.orig.rename_ident(i).is_ok() {
