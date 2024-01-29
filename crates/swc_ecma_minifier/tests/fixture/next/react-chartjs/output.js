@@ -1,3 +1,4 @@
+var _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__ = globalThis._chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__ || {};
 export function generateTicks$1(generationOptions, dataRange) {
     let factor, niceMin, niceMax, numSpaces;
     const ticks = [];
