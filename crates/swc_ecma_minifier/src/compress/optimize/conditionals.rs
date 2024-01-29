@@ -545,7 +545,7 @@ impl Optimizer<'_> {
                 if cons.op == op!("=")
                     && cons.op == alt.op
                     && cons.left.eq_ignore_span(&alt.left)
-                    && is_simple_lhs(&cons.left) =>
+                    && cons.left.as_ident().is_some() =>
             {
                 if !test.is_ident() && self.data.contains_unresolved(test) {
                     return None;
@@ -853,8 +853,4 @@ fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
         Stmt::Expr(e) => Some(&mut *e.expr),
         _ => None,
     }
-}
-
-fn is_simple_lhs(l: &AssignTarget) -> bool {
-    l.is_simple()
 }
