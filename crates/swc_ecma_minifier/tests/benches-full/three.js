@@ -581,11 +581,12 @@
             var s = Math.sqrt(1 - q.w * q.w);
             return s < 0.0001 ? (this.x = 1, this.y = 0, this.z = 0) : (this.x = q.x / s, this.y = q.y / s, this.z = q.z / s), this;
         }, _proto.setAxisAngleFromRotationMatrix = function(m) {
-            var x, y, z, te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10];
+            var angle, x, y, z, te = m.elements, m11 = te[0], m12 = te[4], m13 = te[8], m21 = te[1], m22 = te[5], m23 = te[9], m31 = te[2], m32 = te[6], m33 = te[10];
             if (0.01 > Math.abs(m12 - m21) && 0.01 > Math.abs(m13 - m31) && 0.01 > Math.abs(m23 - m32)) {
                 if (0.1 > Math.abs(m12 + m21) && 0.1 > Math.abs(m13 + m31) && 0.1 > Math.abs(m23 + m32) && 0.1 > Math.abs(m11 + m22 + m33 - 3)) return this.set(1, 0, 0, 0), this;
+                angle = Math.PI;
                 var xx = (m11 + 1) / 2, yy = (m22 + 1) / 2, zz = (m33 + 1) / 2, xy = (m12 + m21) / 4, xz = (m13 + m31) / 4, yz = (m23 + m32) / 4;
-                return xx > yy && xx > zz ? xx < 0.01 ? (x = 0, y = 0.707106781, z = 0.707106781) : (y = xy / (x = Math.sqrt(xx)), z = xz / x) : yy > zz ? yy < 0.01 ? (x = 0.707106781, y = 0, z = 0.707106781) : (x = xy / (y = Math.sqrt(yy)), z = yz / y) : zz < 0.01 ? (x = 0.707106781, y = 0.707106781, z = 0) : (x = xz / (z = Math.sqrt(zz)), y = yz / z), this.set(x, y, z, Math.PI), this;
+                return xx > yy && xx > zz ? xx < 0.01 ? (x = 0, y = 0.707106781, z = 0.707106781) : (y = xy / (x = Math.sqrt(xx)), z = xz / x) : yy > zz ? yy < 0.01 ? (x = 0.707106781, y = 0, z = 0.707106781) : (x = xy / (y = Math.sqrt(yy)), z = yz / y) : zz < 0.01 ? (x = 0.707106781, y = 0.707106781, z = 0) : (x = xz / (z = Math.sqrt(zz)), y = yz / z), this.set(x, y, z, angle), this;
             }
             var s = Math.sqrt((m32 - m23) * (m32 - m23) + (m13 - m31) * (m13 - m31) + (m21 - m12) * (m21 - m12));
             return 0.001 > Math.abs(s) && (s = 1), this.x = (m32 - m23) / s, this.y = (m13 - m31) / s, this.z = (m21 - m12) / s, this.w = Math.acos((m11 + m22 + m33 - 1) / 2), this;
@@ -6966,9 +6967,7 @@
                     var bones = skeleton.bones;
                     if (capabilities.floatVertexTextures) {
                         if (null === skeleton.boneTexture) {
-                            var size = Math.sqrt(4 * bones.length);
-                            size = Math.max(size = MathUtils.ceilPowerOfTwo(size), 4);
-                            var boneMatrices = new Float32Array(size * size * 4);
+                            var size = Math.sqrt(4 * bones.length), boneMatrices = new Float32Array((size = Math.max(size = MathUtils.ceilPowerOfTwo(size), 4)) * size * 4);
                             boneMatrices.set(skeleton.boneMatrices);
                             var boneTexture = new DataTexture(boneMatrices, size, size, 1023, 1015);
                             skeleton.boneMatrices = boneMatrices, skeleton.boneTexture = boneTexture, skeleton.boneTextureSize = size;
@@ -11545,7 +11544,7 @@
                 if (void 0 !== interleavedBufferMap[uuid]) return interleavedBufferMap[uuid];
                 var interleavedBuffer = json.interleavedBuffers[uuid], buffer = function(json, uuid) {
                     if (void 0 !== arrayBufferMap[uuid]) return arrayBufferMap[uuid];
-                    var arrayBuffer = json.arrayBuffers[uuid], ab = new Uint32Array(arrayBuffer).buffer;
+                    var ab = new Uint32Array(json.arrayBuffers[uuid]).buffer;
                     return arrayBufferMap[uuid] = ab, ab;
                 }(json, interleavedBuffer.buffer), ib = new InterleavedBuffer(getTypedArray(interleavedBuffer.type, buffer), interleavedBuffer.stride);
                 return ib.uuid = interleavedBuffer.uuid, interleavedBufferMap[uuid] = ib, ib;
@@ -13489,7 +13488,7 @@
                 fog: !1,
                 toneMapped: !1
             }), void 0 === _this.color && (_this.material.vertexColors = !0);
-            var position = geometry.getAttribute('position'), colors = new Float32Array(3 * position.count);
+            var colors = new Float32Array(3 * geometry.getAttribute('position').count);
             return geometry.setAttribute('color', new BufferAttribute(colors, 3)), _this.add(new Mesh(geometry, _this.material)), _this.update(), _this;
         }
         _inheritsLoose(HemisphereLightHelper, _Object3D);
