@@ -195,7 +195,7 @@
         }), window.addEventListener('test-passive', null, opts);
     } catch (e) {}
     var isServerRendering = function() {
-        return void 0 === _isServer && (inBrowser || inWeex || 'undefined' == typeof global ? _isServer = !1 : _isServer = global.process && 'server' === global.process.env.VUE_ENV), _isServer;
+        return void 0 === _isServer && (_isServer = !inBrowser && !inWeex && 'undefined' != typeof global && global.process && 'server' === global.process.env.VUE_ENV), _isServer;
     }, devtools = inBrowser && window.__VUE_DEVTOOLS_GLOBAL_HOOK__;
     function isNative(Ctor) {
         return 'function' == typeof Ctor && /native code/.test(Ctor.toString());
