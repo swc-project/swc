@@ -3,4 +3,3 @@ try {
 } catch (a) {
     console.log(a);
 }
-function a() {}
