@@ -1,4 +1,4 @@
-var Modle = window.Model || {};
+var Model = window.Model || {};
 
 export const E = {
     set: function (models, options) {
