@@ -67,6 +67,8 @@ fn issue_8495_1() -> Result<()> {
         .arg("compile")
         .arg("--source-maps")
         .arg("true")
+        .arg("--source-file-name")
+        .arg("input.ts")
         .arg("--config-file")
         .arg(".swcrc")
         .arg("--out-file")
