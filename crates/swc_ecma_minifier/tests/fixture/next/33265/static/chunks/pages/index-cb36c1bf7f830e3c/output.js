@@ -41,8 +41,7 @@
                 }
             });
             var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                var obj;
-                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || ArrayBuffer.isView(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
@@ -56,9 +55,9 @@
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
             ];
-            a = new Uint16Array([
+            0xff === (b = new Uint8Array((a = new Uint16Array([
                 0xffcc
-            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0];
+            ])).buffer, a.byteOffset, a.byteLength))[0] || b[0];
             var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
@@ -97,9 +96,9 @@
                 if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
                 })).length <= 1) return toUint8(buffers[0]);
-                var totalLen = buffers.reduce(function(total, buf, i) {
+                var tempBuffer = new Uint8Array(buffers.reduce(function(total, buf, i) {
                     return total + (buf.byteLength || buf.length);
-                }, 0), tempBuffer = new Uint8Array(totalLen), offset = 0;
+                }, 0)), offset = 0;
                 return buffers.forEach(function(buf) {
                     buf = toUint8(buf), tempBuffer.set(buf, offset), offset += buf.byteLength;
                 }), tempBuffer;
@@ -2216,7 +2215,7 @@
         },
         8908: function(module, __unused_webpack_exports, __webpack_require__) {
             var win;
-            win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, module.exports = win;
+            "undefined" != typeof window ? win = window : void 0 !== __webpack_require__.g ? win = __webpack_require__.g : "undefined" != typeof self ? win = self : win = {}, module.exports = win;
         },
         7376: function(module) {
             module.exports = function(fn) {
@@ -3620,7 +3619,7 @@
             };
         },
         1489: function(module) {
-            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
+            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
             secondsToVideoTs = function(seconds) {
                 return 90000 * seconds;
             }, secondsToAudioTs = function(seconds, sampleRate) {
@@ -3629,21 +3628,21 @@
                 return timestamp / 90000;
             }, audioTsToSeconds = function(timestamp, sampleRate) {
                 return timestamp / sampleRate;
+            }, audioTsToVideoTs = function(timestamp, sampleRate) {
+                return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+            }, videoTsToAudioTs = function(timestamp, sampleRate) {
+                return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+            }, metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
             }, module.exports = {
                 ONE_SECOND_IN_TS: 90000,
                 secondsToVideoTs: secondsToVideoTs,
                 secondsToAudioTs: secondsToAudioTs,
                 videoTsToSeconds: videoTsToSeconds,
                 audioTsToSeconds: audioTsToSeconds,
-                audioTsToVideoTs: function(timestamp, sampleRate) {
-                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-                },
-                videoTsToAudioTs: function(timestamp, sampleRate) {
-                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-                },
-                metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-                }
+                audioTsToVideoTs: audioTsToVideoTs,
+                videoTsToAudioTs: videoTsToAudioTs,
+                metadataTsToSeconds: metadataTsToSeconds
             };
         },
         8581: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
