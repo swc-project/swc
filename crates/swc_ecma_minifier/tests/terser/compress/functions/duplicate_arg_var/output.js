@@ -1,2 +1,1 @@
-console.log(((b = "PASS"), b + "ING"));
-var b;
+console.log("PASSING");
