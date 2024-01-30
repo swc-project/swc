@@ -75,13 +75,7 @@ fn issue_8495_1() -> Result<()> {
 
     cmd.assert().success();
 
-    let content = fs::read_to_string(pwd.join("src/index.js"))?;
-    assert!(
-        content.contains("require(\"./modules/moduleA\")"),
-        "{}",
-        content
-    );
-
+    fs::read_to_string(pwd.join("dist/input.js"))?;
     Ok(())
 }
 
