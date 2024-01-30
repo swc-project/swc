@@ -537,7 +537,8 @@
                                           "ctxt": 0
                                         },
                                         "value": "Reflect",
-                                        "optional": false
+                                        "optional": false,
+                                        "typeAnnotation": null
                                       },
                                       "value": null
                                     }
@@ -1820,7 +1821,8 @@
                               "ctxt": 0
                             },
                             "value": "Reflect",
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "value": null
                         }
@@ -3261,7 +3263,8 @@
                     "ctxt": 0
                   },
                   "value": "Reflect",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -4026,7 +4029,8 @@
                     "ctxt": 0
                   },
                   "value": "Reflect",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

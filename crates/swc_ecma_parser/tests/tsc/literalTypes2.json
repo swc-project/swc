@@ -6081,7 +6081,8 @@
                           "ctxt": 0
                         },
                         "value": "c1",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -6108,7 +6109,8 @@
                           "ctxt": 0
                         },
                         "value": "c2",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -6136,7 +6138,8 @@
                           "ctxt": 0
                         },
                         "value": "c3",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "StringLiteral",
@@ -6275,7 +6278,8 @@
                           "ctxt": 0
                         },
                         "value": "x1",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "BooleanLiteral",
@@ -6302,7 +6306,8 @@
                           "ctxt": 0
                         },
                         "value": "x2",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -6330,7 +6335,8 @@
                           "ctxt": 0
                         },
                         "value": "x3",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "StringLiteral",

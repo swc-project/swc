@@ -229,7 +229,8 @@
                     "ctxt": 0
                   },
                   "value": "Rectangle",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -683,7 +684,8 @@
                     "ctxt": 0
                   },
                   "value": "Render",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

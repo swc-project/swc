@@ -342,7 +342,8 @@
                     "ctxt": 0
                   },
                   "value": "taskGroups",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -361,7 +362,8 @@
                     "ctxt": 0
                   },
                   "value": "taskNameToGroup",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

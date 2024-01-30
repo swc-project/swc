@@ -282,7 +282,8 @@
                     "ctxt": 0
                   },
                   "value": "apply",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

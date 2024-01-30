@@ -306,7 +306,8 @@
                     "ctxt": 0
                   },
                   "value": "SomeClass",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },

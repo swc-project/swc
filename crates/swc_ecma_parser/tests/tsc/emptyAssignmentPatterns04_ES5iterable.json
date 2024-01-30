@@ -238,7 +238,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -257,7 +258,8 @@
                     "ctxt": 0
                   },
                   "value": "y",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -276,7 +278,8 @@
                     "ctxt": 0
                   },
                   "value": "z",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
