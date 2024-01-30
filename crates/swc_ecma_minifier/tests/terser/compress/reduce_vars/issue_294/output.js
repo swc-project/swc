@@ -1,6 +1,5 @@
-module.exports = function (input) {
-    var value;
+module.exports = function(input) {
     return {
-        mappedKey: ((value = input.key), value || "CONDITIONAL_DEFAULT_VALUE"),
+        mappedKey: input.key || "CONDITIONAL_DEFAULT_VALUE"
     };
 };
