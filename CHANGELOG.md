@@ -5,6 +5,9 @@
 
 
 
+- **(es/proposals)** Support using `using` keyword with functions ([#8574](https://github.com/swc-project/swc/issues/8574)) ([d81596c](https://github.com/swc-project/swc/commit/d81596cd2b03ab7523937ae3206797a9c3b819bf))
+
+
 - **(es/testing)** Make `test_inline!` not read output as a file ([#8569](https://github.com/swc-project/swc/issues/8569)) ([d683089](https://github.com/swc-project/swc/commit/d683089be1116f7944fcd3dbd4536b343becdf5e))
 
 ### Testing
@@ -1487,9 +1490,6 @@
 
 ### Build
 
-
-
-- **(cargo)** Update deps ([#7564](https://github.com/swc-project/swc/issues/7564)) ([d12dc70](https://github.com/swc-project/swc/commit/d12dc70c9108d5863e0ca2e4f05f4aefcfb4380e))
 
 
 - **(cargo)** Update deps ([#7566](https://github.com/swc-project/swc/issues/7566)) ([d57d0d3](https://github.com/swc-project/swc/commit/d57d0d3ad3f8ce7ed449eec5896eb2f10b83a930))
