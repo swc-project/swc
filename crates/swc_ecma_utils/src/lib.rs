@@ -1301,7 +1301,7 @@ pub trait ExprExt {
                             | "Boolean"
                             | "Number"
                             | "String"
-                            | "Bigint"
+                            | "BigInt"
                             | "Error"
                             | "RegExp"
                             | "Function"
