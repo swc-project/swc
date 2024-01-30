@@ -208,7 +208,10 @@ collapse_vars/issue_2436_12/input.js
 collapse_vars/issue_2436_14/input.js
 collapse_vars/issue_2436_2/input.js
 collapse_vars/issue_2436_3/input.js
+collapse_vars/issue_2436_4/input.js
 collapse_vars/issue_2436_5/input.js
+collapse_vars/issue_2436_8/input.js
+collapse_vars/issue_2436_9/input.js
 collapse_vars/issue_2437_1/input.js
 collapse_vars/issue_2437_2/input.js
 collapse_vars/issue_2453/input.js
@@ -320,6 +323,7 @@ dead_code/dead_code_2_should_warn_strict/input.js
 dead_code/dead_code_block_decls_die/input.js
 dead_code/dead_code_const_annotation_regex/input.js
 dead_code/dead_code_const_declaration/input.js
+dead_code/dead_code_constant_boolean_should_warn_more/input.js
 dead_code/dead_code_constant_boolean_should_warn_more_strict/input.js
 dead_code/global_timeout_and_interval_symbols/input.js
 dead_code/issue_2233_1/input.js
@@ -442,6 +446,7 @@ drop_unused/issue_2226_1/input.js
 drop_unused/issue_2418_1/input.js
 drop_unused/issue_2418_2/input.js
 drop_unused/issue_2418_3/input.js
+drop_unused/issue_2418_4/input.js
 drop_unused/issue_2418_5/input.js
 drop_unused/issue_2660_1/input.js
 drop_unused/issue_2768/input.js
@@ -590,6 +595,7 @@ functions/deduplicate_parenthesis/input.js
 functions/drop_lone_use_strict/input.js
 functions/drop_lone_use_strict_arrows_1/input.js
 functions/drop_lone_use_strict_arrows_2/input.js
+functions/duplicate_arg_var/input.js
 functions/duplicate_argnames/input.js
 functions/empty_body/input.js
 functions/function_returning_constant_literal/input.js
@@ -618,6 +624,7 @@ functions/issue_2531_2/input.js
 functions/issue_2531_3/input.js
 functions/issue_2601_1/input.js
 functions/issue_2604_1/input.js
+functions/issue_2616/input.js
 functions/issue_2620_1/input.js
 functions/issue_2620_4/input.js
 functions/issue_2630_1/input.js
@@ -969,6 +976,7 @@ issue_597/issue_1725/input.js
 issue_611/issue_611/input.js
 issue_637/wrongly_optimized/input.js
 issue_640/cond_5/input.js
+issue_640/conditional/input.js
 issue_640/dead_code_const_annotation_regex/input.js
 issue_640/drop_console_2/input.js
 issue_640/drop_value/input.js
@@ -995,6 +1003,8 @@ issue_973/this_binding_side_effects/input.js
 issue_976/eval_collapse_vars/input.js
 issue_t120/issue_t120_1/input.js
 issue_t120/issue_t120_2/input.js
+issue_t292/no_flatten_with_arg_colliding_with_arg_value_inner_scope/input.js
+issue_t292/no_flatten_with_var_colliding_with_arg_value_inner_scope/input.js
 issue_t50/issue_t50/input.js
 issue_t50/issue_t50_const/input.js
 issue_t50/issue_t50_let/input.js
@@ -1047,6 +1057,10 @@ loops/issue_186_braces_ie8/input.js
 loops/issue_186_ie8/input.js
 loops/issue_2740_1/input.js
 loops/issue_2740_2/input.js
+loops/issue_2740_4/input.js
+loops/issue_2740_6/input.js
+loops/issue_2740_7/input.js
+loops/issue_2740_8/input.js
 loops/issue_2904/input.js
 loops/keep_collapse_const_in_own_block_scope/input.js
 loops/keep_collapse_const_in_own_block_scope_2/input.js
@@ -1139,6 +1153,7 @@ parameters/default_arguments/input.js
 parameters/default_values_in_destructurings/input.js
 parameters/destructuring_arguments_1/input.js
 parameters/destructuring_arguments_2/input.js
+parameters/destructuring_arguments_3/input.js
 parameters/regression_arrow_functions_and_hoist/input.js
 parameters/regression_assign_arrow_functions/input.js
 properties/accessor_1/input.js
@@ -1250,8 +1265,12 @@ reduce_vars/const_expr_1/input.js
 reduce_vars/const_expr_2/input.js
 reduce_vars/defun_assign/input.js
 reduce_vars/defun_call/input.js
+reduce_vars/defun_catch_1/input.js
+reduce_vars/defun_catch_2/input.js
+reduce_vars/defun_catch_3/input.js
 reduce_vars/defun_catch_4/input.js
 reduce_vars/defun_catch_5/input.js
+reduce_vars/defun_catch_6/input.js
 reduce_vars/defun_inline_1/input.js
 reduce_vars/defun_inline_2/input.js
 reduce_vars/defun_inline_3/input.js
@@ -1322,6 +1341,7 @@ reduce_vars/issue_2440_eval_2/input.js
 reduce_vars/issue_2440_with_1/input.js
 reduce_vars/issue_2440_with_2/input.js
 reduce_vars/issue_2442/input.js
+reduce_vars/issue_2449/input.js
 reduce_vars/issue_2450_1/input.js
 reduce_vars/issue_2450_2/input.js
 reduce_vars/issue_2450_3/input.js
@@ -1339,6 +1359,7 @@ reduce_vars/issue_2860_1/input.js
 reduce_vars/issue_2869/input.js
 reduce_vars/issue_2916/input.js
 reduce_vars/issue_2919/input.js
+reduce_vars/issue_294/input.js
 reduce_vars/issue_2992/input.js
 reduce_vars/issue_3042_1/input.js
 reduce_vars/issue_3042_2/input.js
@@ -1391,12 +1412,15 @@ reduce_vars/recursive_inlining_5/input.js
 reduce_vars/redefine_arguments_1/input.js
 reduce_vars/redefine_arguments_2/input.js
 reduce_vars/redefine_arguments_3/input.js
+reduce_vars/redefine_farg_2/input.js
+reduce_vars/redefine_farg_3/input.js
 reduce_vars/reduce_class_with_side_effects_in_extends/input.js
 reduce_vars/reduce_class_with_side_effects_in_properties/input.js
 reduce_vars/reduce_funcs_in_array_1/input.js
 reduce_vars/reduce_funcs_in_array_2/input.js
 reduce_vars/reduce_funcs_in_object_literal_1/input.js
 reduce_vars/reduce_funcs_in_object_literal_2/input.js
+reduce_vars/regex_loop/input.js
 reduce_vars/side_effects_assign/input.js
 reduce_vars/single_use_class_referenced_in_array/input.js
 reduce_vars/single_use_class_referenced_in_object_literal/input.js
