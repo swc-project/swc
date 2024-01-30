@@ -1474,6 +1474,8 @@ where
     fn emit_class_method(&mut self, n: &ClassMethod) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        self.emit_leading_comments_of_span(n.key.span(), false)?;
+
         srcmap!(n, true);
 
         for d in &n.function.decorators {
