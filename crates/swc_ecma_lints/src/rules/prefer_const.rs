@@ -235,11 +235,15 @@ impl Visit for PreferConst {
 
     fn visit_assign_expr(&mut self, assign_expr: &AssignExpr) {
         if let op!("=") = assign_expr.op {
-            if let AssignTarget::Pat(pat) = &assign_expr.left {
-                match pat {
+            match &assign_expr.left {
+                AssignTarget::Simple(SimpleAssignTarget::Ident(l)) => {
+                    self.consider_mutation_for_ident(l, false);
+                }
+
+                AssignTarget::Pat(pat) => match pat {
                     AssignTargetPat::Array(ArrayPat { elems, .. }) => {
                         elems.iter().flatten().for_each(|elem| {
-                            self.consider_mutation(elem, false);
+                            self.consider_mutation(elem, true);
                         })
                     }
                     AssignTargetPat::Object(ObjectPat { props, .. }) => {
@@ -254,7 +258,8 @@ impl Visit for PreferConst {
                         });
                     }
                     AssignTargetPat::Invalid(_) => {}
-                }
+                },
+                _ => (),
             }
         }
 
