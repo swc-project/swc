@@ -186,6 +186,7 @@ collapse_vars/issue_2187_1/input.js
 collapse_vars/issue_2187_3/input.js
 collapse_vars/issue_2203_1/input.js
 collapse_vars/issue_2203_3/input.js
+collapse_vars/issue_2250_1/input.js
 collapse_vars/issue_2250_2/input.js
 collapse_vars/issue_2313_1/input.js
 collapse_vars/issue_2313_2/input.js

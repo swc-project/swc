@@ -43,7 +43,6 @@ collapse_vars/issue_1858/input.js
 collapse_vars/issue_2187_2/input.js
 collapse_vars/issue_2203_2/input.js
 collapse_vars/issue_2203_4/input.js
-collapse_vars/issue_2250_1/input.js
 collapse_vars/issue_2298/input.js
 collapse_vars/issue_2319_1/input.js
 collapse_vars/issue_2319_3/input.js
