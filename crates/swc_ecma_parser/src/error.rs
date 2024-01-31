@@ -125,7 +125,7 @@ pub enum SyntaxError {
     },
     ReservedWordInImport,
     AssignProperty,
-    Expected(&'static TokenKind, String),
+    Expected(TokenKind, String),
     ExpectedSemiForExprStmt {
         expr: Span,
     },

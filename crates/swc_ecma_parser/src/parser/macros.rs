@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(crate::token::TokenKind::Word(ref w)) => !ctx.is_reserved(w),
+            Ok(crate::token::TokenKind::Word(w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -92,7 +92,7 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(crate::token::TokenKind::Word(ref w)) => !ctx.is_reserved(w),
+            Ok(crate::token::TokenKind::Word(w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
