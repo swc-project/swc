@@ -150,7 +150,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn eat_any_ts_modifier(&mut self) -> PResult<bool> {
         let has_modifier = self.syntax().typescript()
             && matches!(
-                *cur!(self, false)?,
+                cur!(self, false)?,
                 Word(Word::Ident(IdentLike::Known(
                     known_ident!("public")
                         | known_ident!("protected")

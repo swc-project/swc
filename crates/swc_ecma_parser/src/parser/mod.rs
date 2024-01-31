@@ -12,7 +12,7 @@ use self::{input::Buffer, util::ParseObject};
 use crate::{
     error::SyntaxError,
     lexer::Lexer,
-    token::{Token, Word},
+    token::{Token, TokenKind, Word},
     Context, EsVersion, Syntax, TsConfig,
 };
 #[cfg(test)]
@@ -207,7 +207,7 @@ impl<I: Tokens> Parser<I> {
 
     fn parse_shebang(&mut self) -> PResult<Option<Atom>> {
         match cur!(self, false) {
-            Ok(&Token::Shebang(..)) => match bump!(self) {
+            Ok(TokenKind::Shebang(..)) => match bump!(self) {
                 Token::Shebang(v) => Ok(Some(v)),
                 _ => unreachable!(),
             },

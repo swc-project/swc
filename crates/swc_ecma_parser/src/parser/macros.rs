@@ -142,7 +142,7 @@ macro_rules! is_one_of {
 // This will panic if current != token
 macro_rules! assert_and_bump {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &tok!($t);
+        const TOKEN: crate::token::TokenKind = tok!($t);
         if cfg!(debug_assertions) && !is!($p, $t) {
             unreachable!(
                 "assertion failed: expected {:?}, got {:?}",
