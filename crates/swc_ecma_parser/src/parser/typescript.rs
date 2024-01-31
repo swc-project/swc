@@ -1486,7 +1486,9 @@ impl<I: Tokens> Parser<I> {
         }
         // Instead of fullStart, we create a node here.
         let start = cur_pos!(self);
-        let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
+        let readonly = self
+            .parse_ts_modifier(&[word_kind!("readonly")], false)?
+            .is_some();
 
         let idx = self.try_parse_ts_index_signature(start, readonly, false)?;
         if let Some(idx) = idx {
@@ -1496,7 +1498,9 @@ impl<I: Tokens> Parser<I> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let readonly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
+            let readonly = p
+                .parse_ts_modifier(&[word_kind!("readonly")], false)?
+                .is_some();
 
             let is_get = if eat!(p, "get") {
                 true
@@ -2308,7 +2312,9 @@ impl<I: Tokens> Parser<I> {
                 if is!(self, "infer") {
                     self.parse_ts_infer_type().map(TsType::from).map(Box::new)
                 } else {
-                    let readonly = self.parse_ts_modifier(&["readonly"], false)?.is_some();
+                    let readonly = self
+                        .parse_ts_modifier(&[word_kind!("readonly")], false)?
+                        .is_some();
                     self.parse_ts_array_type_or_higher(readonly)
                 }
             }
@@ -2475,8 +2481,8 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if is!(p, IdentName) {
-                let value = match cur!(p, true)? {
-                    TokenKind::Word(w) => w.clone().into(),
+                let value: Atom = match cur!(p, true)? {
+                    TokenKind::Word(w) => w.clone().try_into().unwrap(),
                     _ => unreachable!(),
                 };
                 return p

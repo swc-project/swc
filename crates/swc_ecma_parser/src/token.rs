@@ -157,6 +157,21 @@ pub enum WordKind {
     Ident(IdentKind),
 }
 
+impl TryFrom<WordKind> for Atom {
+    type Error = ();
+
+    fn try_from(w: WordKind) -> Result<Self, Self::Error> {
+        match w {
+            WordKind::Keyword(k) => Ok(k.into()),
+            WordKind::Null => Ok(atom!("null")),
+            WordKind::True => Ok(atom!("true")),
+            WordKind::False => Ok(atom!("false")),
+            WordKind::Ident(IdentKind::Known(i)) => Ok(i.into()),
+            WordKind::Ident(IdentKind::Other) => Err(()),
+        }
+    }
+}
+
 impl From<Keyword> for WordKind {
     #[inline(always)]
     fn from(kwd: Keyword) -> Self {
