@@ -384,7 +384,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn is(&mut self, expected: &TokenKind) -> bool {
+    pub fn is(&mut self, expected: TokenKind) -> bool {
         match self.cur() {
             Some(t) => *expected == t,
             _ => false,
@@ -392,7 +392,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
-    pub fn eat(&mut self, expected: &TokenKind) -> bool {
+    pub fn eat(&mut self, expected: TokenKind) -> bool {
         let v = self.is(expected);
         if v {
             self.bump();
