@@ -176,7 +176,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// babel: `getTokenFromCode`
-    fn read_token(&mut self) -> LexResult<Option<Token>> {
+    fn read_token(&mut self) -> LexResult<Option<TokenKind>> {
         let byte = match self.input.as_str().as_bytes().first() {
             Some(&v) => v,
             None => return Ok(None),
@@ -219,7 +219,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_dot(&mut self) -> LexResult<Token> {
+    fn read_token_dot(&mut self) -> LexResult<TokenKind> {
         // Check for eof
         let next = match self.input.peek() {
             Some(next) => next,
@@ -294,7 +294,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_colon(&mut self) -> LexResult<Token> {
+    fn read_token_colon(&mut self) -> LexResult<TokenKind> {
         unsafe {
             // Safety: cur() is Some(':')
             self.input.bump();
@@ -306,7 +306,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_zero(&mut self) -> LexResult<Token> {
+    fn read_token_zero(&mut self) -> LexResult<TokenKind> {
         let next = self.input.peek();
 
         let bigint = match next {
@@ -404,21 +404,21 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let mut token = if is_mul {
-            Token::BinOp(BinOpToken::Mul)
+            TokenKind::BinOp(BinOpToken::Mul)
         } else {
-            Token::BinOp(BinOpToken::Mod)
+            TokenKind::BinOp(BinOpToken::Mod)
         };
 
         // check for **
         if is_mul && self.input.eat_byte(b'*') {
-            token = Token::BinOp(BinOpToken::Exp)
+            token = TokenKind::BinOp(BinOpToken::Exp)
         }
 
         if self.input.eat_byte(b'=') {
             token = match token {
-                Token::BinOp(BinOpToken::Mul) => Token::AssignOp(AssignOp::MulAssign),
-                Token::BinOp(BinOpToken::Mod) => Token::AssignOp(AssignOp::ModAssign),
-                Token::BinOp(BinOpToken::Exp) => Token::AssignOp(AssignOp::ExpAssign),
+                TokenKind::BinOp(BinOpToken::Mul) => TokenKind::AssignOp(AssignOp::MulAssign),
+                TokenKind::BinOp(BinOpToken::Mod) => TokenKind::AssignOp(AssignOp::ModAssign),
+                TokenKind::BinOp(BinOpToken::Exp) => TokenKind::AssignOp(AssignOp::ExpAssign),
                 _ => unreachable!(),
             }
         }
@@ -576,7 +576,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(vec![c.into()]))
     }
 
-    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_plus_minus(&mut self, c: u8) -> LexResult<Option<TokenKind>> {
         let start = self.cur_pos();
 
         unsafe {
@@ -600,18 +600,18 @@ impl<'a> Lexer<'a> {
             }
 
             if c == b'+' {
-                Token::PlusPlus
+                TokenKind::PlusPlus
             } else {
-                Token::MinusMinus
+                TokenKind::MinusMinus
             }
         } else if self.input.eat_byte(b'=') {
-            Token::AssignOp(if c == b'+' {
+            TokenKind::AssignOp(if c == b'+' {
                 AssignOp::AddAssign
             } else {
                 AssignOp::SubAssign
             })
         } else {
-            Token::BinOp(if c == b'+' {
+            TokenKind::BinOp(if c == b'+' {
                 BinOpToken::Add
             } else {
                 BinOpToken::Sub
@@ -619,7 +619,7 @@ impl<'a> Lexer<'a> {
         }))
     }
 
-    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<Token>> {
+    fn read_token_bang_or_eq(&mut self, c: u8) -> LexResult<Option<TokenKind>> {
         let start = self.cur_pos();
         let had_line_break_before_last = self.had_line_break_before_last();
 
@@ -633,7 +633,7 @@ impl<'a> Lexer<'a> {
 
             if self.input.eat_byte(b'=') {
                 if c == b'!' {
-                    Token::BinOp(BinOpToken::NotEqEq)
+                    TokenKind::BinOp(BinOpToken::NotEqEq)
                 } else {
                     // =======
                     //    ^
@@ -644,21 +644,21 @@ impl<'a> Lexer<'a> {
                         return self.read_token();
                     }
 
-                    Token::BinOp(BinOpToken::EqEqEq)
+                    TokenKind::BinOp(BinOpToken::EqEqEq)
                 }
             } else if c == b'!' {
-                Token::BinOp(BinOpToken::NotEq)
+                TokenKind::BinOp(BinOpToken::NotEq)
             } else {
-                Token::BinOp(BinOpToken::EqEq)
+                TokenKind::BinOp(BinOpToken::EqEq)
             }
         } else if c == b'=' && self.input.eat_byte(b'>') {
             // "=>"
 
-            Token::Arrow
+            TokenKind::Arrow
         } else if c == b'!' {
-            Token::Bang
+            TokenKind::Bang
         } else {
-            Token::AssignOp(AssignOp::Assign)
+            TokenKind::AssignOp(AssignOp::Assign)
         }))
     }
 }
@@ -679,7 +679,7 @@ impl<'a> Lexer<'a> {
     }
 
     #[inline(never)]
-    fn read_token_lt_gt(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_lt_gt(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.cur() == Some('<') || self.cur() == Some('>'));
 
         let had_line_break_before_last = self.had_line_break_before_last();
@@ -729,15 +729,15 @@ impl<'a> Lexer<'a> {
 
         let token = if self.eat(b'=') {
             match op {
-                BinOpToken::Lt => Token::BinOp(BinOpToken::LtEq),
-                BinOpToken::Gt => Token::BinOp(BinOpToken::GtEq),
-                BinOpToken::LShift => Token::AssignOp(AssignOp::LShiftAssign),
-                BinOpToken::RShift => Token::AssignOp(AssignOp::RShiftAssign),
-                BinOpToken::ZeroFillRShift => Token::AssignOp(AssignOp::ZeroFillRShiftAssign),
+                BinOpToken::Lt => TokenKind::BinOp(BinOpToken::LtEq),
+                BinOpToken::Gt => TokenKind::BinOp(BinOpToken::GtEq),
+                BinOpToken::LShift => TokenKind::AssignOp(AssignOp::LShiftAssign),
+                BinOpToken::RShift => TokenKind::AssignOp(AssignOp::RShiftAssign),
+                BinOpToken::ZeroFillRShift => TokenKind::AssignOp(AssignOp::ZeroFillRShiftAssign),
                 _ => unreachable!(),
             }
         } else {
-            Token::BinOp(op)
+            TokenKind::BinOp(op)
         };
 
         // All conflict markers consist of the same character repeated seven times.
