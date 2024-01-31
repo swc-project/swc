@@ -1661,7 +1661,7 @@ impl<I: Tokens> Parser<I> {
             }
             debug_assert_ne!(
                 cur!(self, false).ok(),
-                Some(&tok!('(')),
+                Some(tok!('(')),
                 "parse_new_expr() should eat paren if it exists"
             );
             return Ok(Box::new(Expr::New(NewExpr { type_args, ..ne })));
@@ -1747,7 +1747,7 @@ impl<I: Tokens> Parser<I> {
             let is_async = is!(self, "async")
                 && matches!(
                     peek!(self),
-                    Ok(tok!('(') | tok!("function") | Token::TokenKind::Word(..))
+                    Ok(tok!('(') | tok!("function") | TokenKind::Word(..))
                 );
 
             let start = cur_pos!(self);
@@ -1774,7 +1774,7 @@ impl<I: Tokens> Parser<I> {
                     } else {
                         let mut expr = self.parse_bin_expr()?;
 
-                        if let Ok(&Token::AssignOp(..)) = cur!(self, false) {
+                        if let Ok(TokenKind::AssignOp(..)) = cur!(self, false) {
                             expr = self.finish_assignment_expr(start, expr)?
                         }
 
@@ -2013,9 +2013,7 @@ impl<I: Tokens> Parser<I> {
             || (!is!(self, '*')
                 && !is!(self, '/')
                 && !is!(self, "/=")
-                && !cur!(self, false)
-                    .map(|t| t.kind().starts_expr())
-                    .unwrap_or(true))
+                && !cur!(self, false).map(|t| t.starts_expr()).unwrap_or(true))
         {
             Ok(Box::new(Expr::Yield(YieldExpr {
                 span: span!(self, start),

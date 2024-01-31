@@ -141,7 +141,7 @@ impl<I: Tokens> Parser<I> {
         let op = match word {
             tok!("in") if ctx.include_in_expr => op!("in"),
             tok!("instanceof") => op!("instanceof"),
-            Token::BinOp(op) => op.into(),
+            TokenKind::BinOp(op) => op.into(),
             _ => {
                 return Ok((left, None));
             }
