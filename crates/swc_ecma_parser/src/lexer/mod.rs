@@ -1036,7 +1036,7 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
-                        self.value = Some(Token::Str {
+                        l.value = Some(Token::Str {
                             value: l.atoms.atom(&*out),
                             raw: l.atoms.atom(raw),
                         });
@@ -1071,7 +1071,7 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            self.value = Some(Token::Str {
+            l.value = Some(Token::Str {
                 value: l.atoms.atom(&*out),
                 raw: l.atoms.atom(raw),
             });
