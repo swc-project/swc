@@ -35,7 +35,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let pos = {
-            let modifier = match *cur!(self, true)? {
+            let modifier = match cur!(self, true)? {
                 Token::Word(ref w @ Word::Ident(..))
                 | Token::Word(ref w @ Word::Keyword(Keyword::In | Keyword::Const)) => w.cow(),
 
@@ -729,7 +729,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
-        let id = match *cur!(self, true)? {
+        let id = match cur!(self, true)? {
             Token::Str { .. } => self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
@@ -1181,7 +1181,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         expect!(self, "require");
         expect!(self, '(');
-        match *cur!(self, true)? {
+        match cur!(self, true)? {
             Token::Str { .. } => {}
             _ => unexpected!(self, "a string literal"),
         }
@@ -1385,7 +1385,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
-                let key = match *cur!(p, true)? {
+                let key = match cur!(p, true)? {
                     Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
@@ -2023,7 +2023,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        match *cur!(self, true)? {
+        match cur!(self, true)? {
             Token::Word(Word::Ident(..))
             | tok!("void")
             | tok!("yield")
@@ -2470,7 +2470,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if is!(p, IdentName) {
-                let value = match *cur!(p, true)? {
+                let value = match cur!(p, true)? {
                     Token::Word(ref w) => w.clone().into(),
                     _ => unreachable!(),
                 };
