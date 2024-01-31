@@ -200,7 +200,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// `#`
-    fn read_token_number_sign(&mut self) -> LexResult<Option<Token>> {
+    fn read_token_number_sign(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.cur().is_some());
 
         unsafe {
@@ -214,7 +214,7 @@ impl<'a> Lexer<'a> {
             !self.input.is_at_start() || self.cur() != Some('!'),
             "#! should have already been handled by read_shebang()"
         );
-        Ok(Some(Token::Hash))
+        Ok(Some(TokenKind::Hash))
     }
 
     /// Read a token given `.`.
@@ -333,7 +333,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_logical(&mut self, c: u8) -> LexResult<Token> {
+    fn read_token_logical(&mut self, c: u8) -> LexResult<TokenKind> {
         let had_line_break_before_last = self.had_line_break_before_last();
         let start = self.cur_pos();
 
@@ -667,7 +667,7 @@ impl<'a> Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     #[inline(never)]
-    fn read_slash(&mut self) -> LexResult<Option<Token>> {
+    fn read_slash(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert_eq!(self.cur(), Some('/'));
 
         // Divide operator
@@ -1006,7 +1006,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// See https://tc39.github.io/ecma262/#sec-literals-string-literals
-    fn read_str_lit(&mut self) -> LexResult<Token> {
+    fn read_str_lit(&mut self) -> LexResult<TokenKind> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
         let mut raw = String::new();
@@ -1068,10 +1068,11 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
-            Ok(Token::Str {
+            self.value = Some(Token::Str {
                 value: l.atoms.atom(&*out),
                 raw: l.atoms.atom(raw),
-            })
+            });
+            Ok(TokenKind::Str)
         })
     }
 

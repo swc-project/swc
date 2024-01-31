@@ -339,7 +339,7 @@ macro_rules! single_char {
     ($name:ident, $c:literal, $token:ident) => {
         const $name: ByteHandler = Some(|lexer| {
             lexer.input.bump_bytes(1);
-            Ok(Some(Token::$token))
+            Ok(Some(TokenKind::$token))
         });
     };
 }
@@ -365,9 +365,9 @@ const CRT: ByteHandler = Some(|lexer| {
     lexer.input.bump_bytes(1);
     Ok(Some(if lexer.input.cur_as_ascii() == Some(b'=') {
         lexer.input.bump_bytes(1);
-        Token::AssignOp(AssignOp::BitXorAssign)
+        TokenKind::AssignOp(AssignOp::BitXorAssign)
     } else {
-        Token::BinOp(BinOpToken::BitXor)
+        TokenKind::BinOp(BinOpToken::BitXor)
     }))
 });
 
