@@ -21,7 +21,7 @@ pub use self::{
 };
 use crate::{
     error::{Error, SyntaxError},
-    token::{BinOpToken, IdentLike, Token, Word},
+    token::{BinOpToken, IdentLike, Token, TokenKind, Word},
     Context, Syntax,
 };
 
@@ -262,7 +262,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_question_mark(&mut self) -> LexResult<Token> {
+    fn read_token_question_mark(&mut self) -> LexResult<TokenKind> {
         match self.input.peek() {
             Some('?') => {
                 unsafe {
@@ -397,7 +397,7 @@ impl<'a> Lexer<'a> {
     ///
     /// This is extracted as a method to reduce size of `read_token`.
     #[inline(never)]
-    fn read_token_mul_mod(&mut self, c: u8) -> LexResult<Token> {
+    fn read_token_mul_mod(&mut self, c: u8) -> LexResult<TokenKind> {
         let is_mul = c == b'*';
         unsafe {
             // Safety: cur() is Some(c)
@@ -796,7 +796,7 @@ impl<'a> Lexer<'a> {
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
-        if has_escape && self.ctx.is_reserved(&word) {
+        if has_escape && self.ctx.is_reserved(word.kind()) {
             self.error(
                 start,
                 SyntaxError::EscapeInReservedWord { word: word.into() },
