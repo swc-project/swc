@@ -234,10 +234,7 @@ impl<'a> Lexer<'a> {
             }
         };
         if next.is_ascii_digit() {
-            return self.read_number(true).map(|v| match v {
-                Left((value, raw)) => Token::Num { value, raw },
-                Right((value, raw)) => Token::BigInt { value, raw },
-            });
+            return self.read_number_as_token_kind(true);
         }
 
         unsafe {
@@ -316,16 +313,21 @@ impl<'a> Lexer<'a> {
             Some('o') | Some('O') => self.read_radix_number::<8>(),
             Some('b') | Some('B') => self.read_radix_number::<2>(),
             _ => {
-                return self.read_number(false).map(|v| match v {
-                    Left((value, raw)) => Token::Num { value, raw },
-                    Right((value, raw)) => Token::BigInt { value, raw },
-                });
+                return self.read_number_as_token_kind(false);
             }
         };
 
         bigint.map(|v| match v {
-            Left((value, raw)) => Token::Num { value, raw },
-            Right((value, raw)) => Token::BigInt { value, raw },
+            Left((value, raw)) => {
+                self.value = Some(Token::Num { value, raw });
+
+                TokenKind::Num
+            }
+            Right((value, raw)) => {
+                self.value = Some(Token::BigInt { value, raw });
+
+                TokenKind::BigInt
+            }
         })
     }
 

@@ -31,6 +31,31 @@ impl<const RADIX: u8> LazyBigInt<RADIX> {
 }
 
 impl<'a> Lexer<'a> {
+    pub(super) fn read_number_as_token(&mut self, starts_with_dot: bool) -> LexResult<Token> {
+        self.read_number(true).map(|v| match v {
+            Left((value, raw)) => Token::Num { value, raw },
+            Right((value, raw)) => Token::BigInt { value, raw },
+        })
+    }
+
+    pub(super) fn read_number_as_token_kind(
+        &mut self,
+        starts_with_dot: bool,
+    ) -> LexResult<TokenKind> {
+        self.read_number(true).map(|v| match v {
+            Left((value, raw)) => {
+                self.value = Some(Token::Num { value, raw });
+
+                TokenKind::Num
+            }
+            Right((value, raw)) => {
+                self.value = Some(Token::BigInt { value, raw });
+
+                TokenKind::BigInt
+            }
+        })
+    }
+
     /// Reads an integer, octal integer, or floating-point number
     pub(super) fn read_number(
         &mut self,
