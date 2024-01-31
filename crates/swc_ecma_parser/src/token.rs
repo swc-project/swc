@@ -8,7 +8,7 @@ use std::{
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{atom, Atom, AtomStore, JsWord};
-use swc_common::{Span, Spanned};
+use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
@@ -474,16 +474,16 @@ impl BinOpToken {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct TokenAndSpan {
-    pub token: Token,
+    pub token: TokenKind,
     /// Had a line break before this token?
     pub had_line_break: bool,
-    pub span: Span,
+    pub span: (BytePos, BytePos),
 }
 
 impl Spanned for TokenAndSpan {
     #[inline]
     fn span(&self) -> Span {
-        self.span
+        Span::new(self.span.0, self.span.1, Default::default())
     }
 }
 
