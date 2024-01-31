@@ -53,7 +53,7 @@ impl<I: Tokens> Parser<I> {
 
             let v = match cur!(p, true)? {
                 TokenKind::Str => match bump!(p) {
-                    Token::Str { value, raw } => PropName::Str(Str {
+                    Some(Token::Str { value, raw }) => PropName::Str(Str {
                         span: span!(p, start),
                         value,
                         raw: Some(raw),
@@ -61,7 +61,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 TokenKind::Num => match bump!(p) {
-                    Token::Num { value, raw } => PropName::Num(Number {
+                    Some(Token::Num { value, raw }) => PropName::Num(Number {
                         span: span!(p, start),
                         value,
                         raw: Some(raw),
@@ -69,7 +69,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 TokenKind::BigInt => match bump!(p) {
-                    Token::BigInt { value, raw } => PropName::BigInt(BigInt {
+                    Some(Token::BigInt { value, raw }) => PropName::BigInt(BigInt {
                         span: span!(p, start),
                         value,
                         raw: Some(raw),
@@ -77,7 +77,7 @@ impl<I: Tokens> Parser<I> {
                     _ => unreachable!(),
                 },
                 TokenKind::Word(..) => match bump!(p) {
-                    Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
+                    Some(Token::Word(w)) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },
                 tok!('[') => {

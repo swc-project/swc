@@ -1103,7 +1103,7 @@ impl<I: Tokens> Parser<I> {
 
         let (raw, cooked) = match cur!(self, true)? {
             TokenKind::Template => match bump!(self) {
-                Token::Template { raw, cooked, .. } => match cooked {
+                Some(Token::Template { raw, cooked, .. }) => match cooked {
                     Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
                         if is_tagged_tpl {
@@ -2068,7 +2068,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Bool(Bool { span, value })
             }
             TokenKind::Str => match bump!(self) {
-                Token::Str { value, raw } => Lit::Str(Str {
+                Some(Token::Str { value, raw }) => Lit::Str(Str {
                     span: span!(self, start),
                     value,
                     raw: Some(raw),
@@ -2076,7 +2076,7 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             },
             TokenKind::Num => match bump!(self) {
-                Token::Num { value, raw } => Lit::Num(Number {
+                Some(Token::Num { value, raw }) => Lit::Num(Number {
                     span: span!(self, start),
                     value,
                     raw: Some(raw),
@@ -2084,7 +2084,7 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             },
             TokenKind::BigInt => match bump!(self) {
-                Token::BigInt { value, raw } => Lit::BigInt(BigInt {
+                Some(Token::BigInt { value, raw }) => Lit::BigInt(BigInt {
                     span: span!(self, start),
                     value,
                     raw: Some(raw),

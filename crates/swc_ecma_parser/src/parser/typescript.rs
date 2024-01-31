@@ -304,7 +304,7 @@ impl<I: Tokens> Parser<I> {
 
         let arg = match cur!(self, true)? {
             TokenKind::Str => match bump!(self) {
-                Token::Str { value, raw } => Str {
+                Some(Token::Str { value, raw }) => Str {
                     span: arg_span,
                     value,
                     raw: Some(raw),

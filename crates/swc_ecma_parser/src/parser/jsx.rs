@@ -16,7 +16,7 @@ impl<I: Tokens> Parser<I> {
         let ctx = self.ctx();
         match cur!(self, true)? {
             TokenKind::JSXName { .. } => match bump!(self) {
-                Token::JSXName { name } => {
+                Some(Token::JSXName { name }) => {
                     let span = self.input.prev_span();
                     Ok(Ident::new(name, span))
                 }
@@ -433,7 +433,7 @@ impl<I: Tokens> Parser<I> {
         let token = bump!(self);
         let span = self.input.prev_span();
         match token {
-            Token::JSXText { raw } => Ok(JSXText {
+            Some(Token::JSXText { raw }) => Ok(JSXText {
                 span,
                 // TODO
                 value: raw.clone(),

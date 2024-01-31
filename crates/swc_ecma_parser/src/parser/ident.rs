@@ -59,12 +59,12 @@ impl<I: Tokens> Parser<I> {
 
         let w = match cur!(self, true) {
             Ok(TokenKind::Word(..)) => match bump!(self) {
-                Word(w) => w.into(),
+                Some(Token::Word(w)) => w.into(),
                 _ => unreachable!(),
             },
 
             Ok(TokenKind::JSXName { .. }) if in_type => match bump!(self) {
-                Token::JSXName { name } => name,
+                Some(Token::JSXName { name }) => name,
                 _ => unreachable!(),
             },
 
@@ -100,7 +100,7 @@ impl<I: Tokens> Parser<I> {
         let word = self.parse_with(|p| {
             let w = match cur!(p, true) {
                 Ok(TokenKind::Word(..)) => match bump!(p) {
-                    Word(w) => w,
+                    Some(Token::Word(w)) => w,
                     _ => unreachable!(),
                 },
                 _ => syntax_error!(p, SyntaxError::ExpectedIdent),
