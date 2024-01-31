@@ -335,6 +335,10 @@ impl<I: Tokens> Buffer<I> {
 
         let v = self.cur_value.take();
 
+        if self.next.is_some() {
+            return v;
+        }
+
         match v {
             Some(v) => Some(v),
             None => self.iter.value(),
