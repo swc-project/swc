@@ -19,7 +19,7 @@ macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Ok(crate::token::TokenKind::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -27,49 +27,49 @@ macro_rules! is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Ok(crate::token::TokenKind::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match cur!($p, false) {
-            Ok(&Word(..)) => true,
+            Ok(crate::token::TokenKind::Word(..)) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Str) => {{
         match cur!($p, false) {
-            Ok(&Token::Str { .. }) => true,
+            Ok(crate::token::TokenKind::Str) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Num) => {{
         match cur!($p, false) {
-            Ok(&Token::Num { .. }) => true,
+            Ok(crate::token::TokenKind::Num) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Regex) => {{
         match cur!($p, false) {
-            Ok(&Token::Regex { .. }) => true,
+            Ok(crate::token::TokenKind::Regex { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,BigInt) => {{
         match cur!($p, false) {
-            Ok(&Token::BigInt { .. }) => true,
+            Ok(crate::token::TokenKind::BigInt { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,';') => {{
         match $p.input.cur() {
-            Some(&Token::Semi) | None | Some(&tok!('}')) => true,
+            Some(crate::token::TokenKind::Semi) | None | Some(tok!('}')) => true,
             _ => $p.input.had_line_break_before_cur(),
         }
     }};
@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Ok(crate::token::TokenKind::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
