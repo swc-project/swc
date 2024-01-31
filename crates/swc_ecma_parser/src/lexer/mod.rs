@@ -1177,10 +1177,10 @@ impl<'a> Lexer<'a> {
                 }
 
                 // TODO: Handle error
-                self.value = Token::Template {
+                self.value = Some(Token::Template {
                     cooked: cooked.map(Atom::from),
                     raw: self.atoms.atom(&*raw),
-                };
+                });
                 return Ok(TokenKind::Template);
             }
 

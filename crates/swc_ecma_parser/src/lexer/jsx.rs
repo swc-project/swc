@@ -4,7 +4,7 @@ use super::*;
 use crate::token::Token;
 
 impl<'a> Lexer<'a> {
-    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
+    pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.syntax.jsx());
 
         let mut chunk_start = self.input.cur_pos();
@@ -37,7 +37,7 @@ impl<'a> Lexer<'a> {
                                 // Safety: cur() was Some('<')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagStart));
+                            return Ok(Some(TokenKind::JSXTagStart));
                         }
                         return self.read_token();
                     }
@@ -46,9 +46,10 @@ impl<'a> Lexer<'a> {
                         self.input.slice(chunk_start, cur_pos)
                     });
 
-                    return Ok(Some(Token::JSXText {
+                    self.value = Some(Token::JSXText {
                         raw: self.atoms.atom(out),
-                    }));
+                    });
+                    return Ok(Some(TokenKind::JSXText));
                 }
                 '>' => {
                     self.emit_error(
