@@ -319,7 +319,7 @@ impl<'a> Iterator for Lexer<'a> {
                             return self.read_token();
                         }
 
-                        return Ok(Some(Token::JSXTagStart));
+                        return Ok(Some(TokenKind::JSXTagStart));
                     }
                 }
             }
@@ -334,13 +334,20 @@ impl<'a> Iterator for Lexer<'a> {
             self.read_token()
         })();
 
-        let token = match res.map_err(Token::Error).map_err(Some) {
+        let token = match res
+            .map_err(|err| {
+                self.value = Some(Token::Error(err));
+
+                TokenKind::Error
+            })
+            .map_err(Some)
+        {
             Ok(t) => t,
             Err(e) => e,
         };
 
         let span = self.span(start);
-        if let Some(ref token) = token {
+        if let Some(token) = token {
             if let Some(comments) = self.comments_buffer.as_mut() {
                 for comment in comments.take_pending_leading() {
                     comments.push(BufferedComment {
@@ -351,7 +358,7 @@ impl<'a> Iterator for Lexer<'a> {
                 }
             }
 
-            self.state.update(start, token.kind());
+            self.state.update(start, token);
             self.state.prev_hi = self.last_pos();
             self.state.had_line_break_before_last = self.had_line_break_before_last();
         }
@@ -361,7 +368,7 @@ impl<'a> Iterator for Lexer<'a> {
             TokenAndSpan {
                 token,
                 had_line_break: self.had_line_break_before_last(),
-                span,
+                span: (span.lo, span.hi),
             }
         })
     }
