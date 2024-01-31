@@ -872,7 +872,7 @@ impl<I: Tokens> Parser<I> {
             && is!(self, ':')
         {
             self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+                let return_type = p.parse_ts_type_or_type_predicate_ann(tok!(':'))?;
 
                 if !is!(p, "=>") {
                     unexpected!(p, "fail")
@@ -1102,7 +1102,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let (raw, cooked) = match cur!(self, true)? {
-            Token::Template { .. } => match bump!(self) {
+            TokenKind::Template => match bump!(self) {
                 Token::Template { raw, cooked, .. } => match cooked {
                     Ok(cooked) => (raw, Some(cooked)),
                     Err(err) => {
@@ -1597,14 +1597,14 @@ impl<I: Tokens> Parser<I> {
                 }
             }
             match cur!(self, true)? {
-                Token::JSXText { .. } => {
+                TokenKind::JSXText => {
                     return self
                         .parse_jsx_text()
                         .map(Lit::JSXText)
                         .map(Expr::Lit)
                         .map(Box::new);
                 }
-                Token::JSXTagStart => {
+                TokenKind::JSXTagStart => {
                     return self.parse_jsx_element().map(into_expr);
                 }
                 _ => {}
@@ -1747,7 +1747,7 @@ impl<I: Tokens> Parser<I> {
             let is_async = is!(self, "async")
                 && matches!(
                     peek!(self),
-                    Ok(tok!('(') | tok!("function") | Token::Word(..))
+                    Ok(tok!('(') | tok!("function") | Token::TokenKind::Word(..))
                 );
 
             let start = cur_pos!(self);
@@ -2057,19 +2057,19 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let v = match cur!(self, true)? {
-            Word(Word::Null) => {
+            TokenKind::Word(WordKind::Null) => {
                 bump!(self);
                 let span = span!(self, start);
                 Lit::Null(Null { span })
             }
-            Word(Word::True) | Word(Word::False) => {
+            TokenKind::Word(WordKind::True) | TokenKind::Word(WordKind::False) => {
                 let value = is!(self, "true");
                 bump!(self);
                 let span = span!(self, start);
 
                 Lit::Bool(Bool { span, value })
             }
-            Token::Str { .. } => match bump!(self) {
+            TokenKind::Str => match bump!(self) {
                 Token::Str { value, raw } => Lit::Str(Str {
                     span: span!(self, start),
                     value,
@@ -2077,7 +2077,7 @@ impl<I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::Num { .. } => match bump!(self) {
+            TokenKind::Num => match bump!(self) {
                 Token::Num { value, raw } => Lit::Num(Number {
                     span: span!(self, start),
                     value,
@@ -2085,7 +2085,7 @@ impl<I: Tokens> Parser<I> {
                 }),
                 _ => unreachable!(),
             },
-            Token::BigInt { .. } => match bump!(self) {
+            TokenKind::BigInt => match bump!(self) {
                 Token::BigInt { value, raw } => Lit::BigInt(BigInt {
                     span: span!(self, start),
                     value,

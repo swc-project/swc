@@ -3,7 +3,7 @@ use either::Either;
 use swc_atoms::atom;
 
 use super::*;
-use crate::token::{IdentLike, Keyword};
+use crate::token::{IdentLike, Keyword, TokenKind};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
