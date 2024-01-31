@@ -31,13 +31,6 @@ impl<const RADIX: u8> LazyBigInt<RADIX> {
 }
 
 impl<'a> Lexer<'a> {
-    pub(super) fn read_number_as_token(&mut self, starts_with_dot: bool) -> LexResult<Token> {
-        self.read_number(starts_with_dot).map(|v| match v {
-            Left((value, raw)) => Token::Num { value, raw },
-            Right((value, raw)) => Token::BigInt { value, raw },
-        })
-    }
-
     pub(super) fn read_number_as_token_kind(
         &mut self,
         starts_with_dot: bool,

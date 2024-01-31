@@ -1,10 +1,7 @@
 //! Ported from [babel/babylon][]
 //!
 //! [babel/babylon]:https://github.com/babel/babel/blob/2d378d076eb0c5fe63234a8b509886005c01d7ee/packages/babylon/src/tokenizer/types.js
-use std::{
-    borrow::Cow,
-    fmt::{self, Debug, Display, Formatter},
-};
+use std::fmt::{self, Debug, Display, Formatter};
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{atom, Atom, AtomStore, JsWord};
@@ -326,48 +323,6 @@ pub enum Token {
 
     Shebang(Atom),
     Error(Error),
-}
-
-impl Token {
-    pub(crate) fn kind(&self) -> TokenKind {
-        match self {
-            Self::Arrow => TokenKind::Arrow,
-            Self::Hash => TokenKind::Hash,
-            Self::At => TokenKind::At,
-            Self::Dot => TokenKind::Dot,
-            Self::DotDotDot => TokenKind::DotDotDot,
-            Self::Bang => TokenKind::Bang,
-            Self::LParen => TokenKind::LParen,
-            Self::RParen => TokenKind::RParen,
-            Self::LBracket => TokenKind::LBracket,
-            Self::RBracket => TokenKind::RBracket,
-            Self::LBrace => TokenKind::LBrace,
-            Self::RBrace => TokenKind::RBrace,
-            Self::Semi => TokenKind::Semi,
-            Self::Comma => TokenKind::Comma,
-            Self::BackQuote => TokenKind::BackQuote,
-            Self::Template { .. } => TokenKind::Template,
-            Self::Colon => TokenKind::Colon,
-            Self::BinOp(op) => TokenKind::BinOp(*op),
-            Self::AssignOp(op) => TokenKind::AssignOp(*op),
-            Self::DollarLBrace => TokenKind::DollarLBrace,
-            Self::QuestionMark => TokenKind::QuestionMark,
-            Self::PlusPlus => TokenKind::PlusPlus,
-            Self::MinusMinus => TokenKind::MinusMinus,
-            Self::Tilde => TokenKind::Tilde,
-            Self::Str { .. } => TokenKind::Str,
-            Self::Regex(..) => TokenKind::Regex,
-            Self::Num { .. } => TokenKind::Num,
-            Self::BigInt { .. } => TokenKind::BigInt,
-            Self::JSXName { .. } => TokenKind::JSXName,
-            Self::JSXText { .. } => TokenKind::JSXText,
-            Self::JSXTagStart => TokenKind::JSXTagStart,
-            Self::JSXTagEnd => TokenKind::JSXTagEnd,
-            Self::Shebang(..) => TokenKind::Shebang,
-            Self::Error(..) => TokenKind::Error,
-            Self::Word(w) => TokenKind::Word(w.kind()),
-        }
-    }
 }
 
 impl TokenKind {
@@ -893,19 +848,6 @@ impl TokenKind {
             | TokenKind::Word(WordKind::Keyword(Keyword::Yield))
             | TokenKind::Word(WordKind::Keyword(Keyword::Await)) => true,
             _ => false,
-        }
-    }
-}
-
-impl Word {
-    pub(crate) fn cow(&self) -> Cow<JsWord> {
-        match *self {
-            Word::Keyword(k) => Cow::Owned(k.into()),
-            Word::Ident(IdentLike::Known(w)) => Cow::Owned(w.into()),
-            Word::Ident(IdentLike::Other(ref w)) => Cow::Borrowed(w),
-            Word::False => Cow::Owned(atom!("false")),
-            Word::True => Cow::Owned(atom!("true")),
-            Word::Null => Cow::Owned(atom!("null")),
         }
     }
 }
