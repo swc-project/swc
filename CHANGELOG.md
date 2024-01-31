@@ -8,6 +8,9 @@
 - **(cli)** Make Rust CLI use sourcemap code from the `swc` crate ([#8576](https://github.com/swc-project/swc/issues/8576)) ([82bc061](https://github.com/swc-project/swc/commit/82bc061b8caad9b240f3c2ab75c2a53aed502297))
 
 
+- **(es/codegen)** Fix codegen of async methods with decorators ([#8575](https://github.com/swc-project/swc/issues/8575)) ([8c32225](https://github.com/swc-project/swc/commit/8c322250b7276f002fc0848bbb5c53bdb8802c00))
+
+
 - **(es/proposals)** Support using `using` keyword with functions ([#8574](https://github.com/swc-project/swc/issues/8574)) ([d81596c](https://github.com/swc-project/swc/commit/d81596cd2b03ab7523937ae3206797a9c3b819bf))
 
 
@@ -1469,9 +1472,6 @@
 
 
 - **(es/parser)** Adjust context while parsing type arguments of TypeScript type queries ([#7582](https://github.com/swc-project/swc/issues/7582)) ([9d5dda1](https://github.com/swc-project/swc/commit/9d5dda12991dac031064b139eb61d2d03dcd8571))
-
-
-- **(estree/compat)** Adjust `loc.col` ([#7565](https://github.com/swc-project/swc/issues/7565)) ([d86f8f6](https://github.com/swc-project/swc/commit/d86f8f6a3c1f6ad5de3078ade5c8a905f7067f24))
 
 ### Features
 

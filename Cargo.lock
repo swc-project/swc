@@ -307,7 +307,7 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.63.6"
+version = "0.63.7"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -1049,7 +1049,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.90.44"
+version = "0.90.45"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3756,7 +3756,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.272.6"
+version = "0.272.7"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3825,7 +3825,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.224.7"
+version = "0.224.8"
 dependencies = [
  "anyhow",
  "crc",
@@ -3939,7 +3939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.6.5"
+version = "0.6.6"
 dependencies = [
  "anyhow",
  "base64",
@@ -3985,7 +3985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.89.6"
+version = "0.89.7"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4240,7 +4240,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.147.2"
+version = "0.147.3"
 dependencies = [
  "base64",
  "criterion",
@@ -4274,7 +4274,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4302,7 +4302,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4328,7 +4328,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4345,7 +4345,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4363,7 +4363,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4382,7 +4382,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4398,7 +4398,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4416,7 +4416,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4430,7 +4430,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "0.3.3"
+version = "0.3.4"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4447,7 +4447,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "0.3.4"
+version = "0.3.5"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -4474,7 +4474,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.91.3"
+version = "0.91.4"
 dependencies = [
  "auto_impl",
  "dashmap",
@@ -4517,7 +4517,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.191.7"
+version = "0.191.8"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4585,7 +4585,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.205.7"
+version = "0.205.8"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4650,7 +4650,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.228.7"
+version = "0.228.8"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4675,7 +4675,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.136.3"
+version = "0.136.4"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.4.2",
@@ -4702,7 +4702,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.125.3"
+version = "0.125.4"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4714,7 +4714,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.162.4"
+version = "0.162.5"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4763,7 +4763,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.179.7"
+version = "0.179.8"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4792,7 +4792,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.197.7"
+version = "0.197.8"
 dependencies = [
  "dashmap",
  "indexmap 2.1.0",
@@ -4822,7 +4822,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.170.7"
+version = "0.170.8"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4846,7 +4846,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.182.6"
+version = "0.182.7"
 dependencies = [
  "base64",
  "dashmap",
@@ -4874,7 +4874,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.139.4"
+version = "0.139.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4898,7 +4898,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.187.7"
+version = "0.187.8"
 dependencies = [
  "criterion",
  "ryu-js",
@@ -4967,7 +4967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.238.8"
+version = "0.238.9"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
@@ -5013,7 +5013,7 @@ dependencies = [
 
 [[package]]
 name = "swc_estree_compat"
-version = "0.197.6"
+version = "0.197.7"
 dependencies = [
  "ahash 0.8.7",
  "anyhow",
@@ -5061,7 +5061,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html"
-version = "0.136.7"
+version = "0.136.8"
 dependencies = [
  "swc_html_ast",
  "swc_html_codegen",
@@ -5111,7 +5111,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_minifier"
-version = "0.133.7"
+version = "0.133.8"
 dependencies = [
  "criterion",
  "once_cell",
@@ -5196,7 +5196,7 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.61.6"
+version = "0.61.7"
 dependencies = [
  "anyhow",
  "dashmap",
