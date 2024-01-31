@@ -122,6 +122,7 @@ pub struct Lexer<'a> {
 
     pub(crate) ctx: Context,
     input: StringInput<'a>,
+    value: Option<Token>,
     start_pos: BytePos,
 
     state: State,
@@ -152,6 +153,7 @@ impl<'a> Lexer<'a> {
             comments_buffer: comments.is_some().then(CommentsBuffer::new),
             ctx: Default::default(),
             input,
+            value: None,
             start_pos,
             state: State::new(syntax, start_pos),
             syntax,
@@ -1155,7 +1157,7 @@ impl<'a> Lexer<'a> {
         Ok(Some(self.atoms.atom(s)))
     }
 
-    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
+    fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<TokenKind> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());
@@ -1175,10 +1177,11 @@ impl<'a> Lexer<'a> {
                 }
 
                 // TODO: Handle error
-                return Ok(Token::Template {
+                self.value = Token::Template {
                     cooked: cooked.map(Atom::from),
                     raw: self.atoms.atom(&*raw),
-                });
+                };
+                return Ok(TokenKind::Template);
             }
 
             if c == '\\' {
