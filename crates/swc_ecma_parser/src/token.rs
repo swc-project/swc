@@ -628,64 +628,11 @@ impl From<Keyword> for Word {
 impl From<Word> for JsWord {
     fn from(w: Word) -> Self {
         match w {
-            Word::Keyword(k) => match k {
-                Await => "await",
-                Break => "break",
-                Case => "case",
-                Catch => "catch",
-                Continue => "continue",
-                Debugger => "debugger",
-                Default_ => "default",
-                Do => "do",
-                Else => "else",
+            Word::Keyword(k) => k.into(),
 
-                Finally => "finally",
-                For => "for",
-
-                Function => "function",
-
-                If => "if",
-
-                Return => "return",
-
-                Switch => "switch",
-
-                Throw => "throw",
-
-                Try => "try",
-                Var => "var",
-                Let => "let",
-                Const => "const",
-                While => "while",
-                With => "with",
-
-                New => "new",
-                This => "this",
-                Super => "super",
-
-                Class => "class",
-
-                Extends => "extends",
-
-                Export => "export",
-                Import => "import",
-
-                Yield => "yield",
-
-                In => "in",
-                InstanceOf => "instanceof",
-
-                TypeOf => "typeof",
-
-                Void => "void",
-
-                Delete => "delete",
-            }
-            .into(),
-
-            Word::Null => "null".into(),
-            Word::True => "true".into(),
-            Word::False => "false".into(),
+            Word::Null => atom!("null"),
+            Word::True => atom!("true"),
+            Word::False => atom!("false"),
 
             Word::Ident(w) => w.into(),
         }
@@ -734,9 +681,9 @@ macro_rules! declare_keyword {
     ($(
         $name:ident => $value:tt,
     )*) => {
-        impl Keyword {
-            pub(crate)  fn into_js_word(self) -> JsWord {
-                match self {
+        impl From<Keyword> for JsWord {
+            fn from(k: Keyword) -> Self {
+                match k {
                     $(Keyword::$name => atom!($value),)*
                 }
             }
@@ -896,7 +843,7 @@ impl Keyword {
 
 impl Debug for Keyword {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
-        write!(f, "keyword '{}'", self.into_js_word())?;
+        write!(f, "keyword '{}'", JsWord::from(*self))?;
 
         Ok(())
     }
@@ -952,10 +899,10 @@ impl TokenKind {
 
 impl Word {
     pub(crate) fn cow(&self) -> Cow<JsWord> {
-        match self {
-            Word::Keyword(k) => Cow::Owned(k.into_js_word()),
-            Word::Ident(IdentLike::Known(w)) => Cow::Owned((*w).into()),
-            Word::Ident(IdentLike::Other(w)) => Cow::Borrowed(w),
+        match *self {
+            Word::Keyword(k) => Cow::Owned(k.into()),
+            Word::Ident(IdentLike::Known(w)) => Cow::Owned(w.into()),
+            Word::Ident(IdentLike::Other(ref w)) => Cow::Borrowed(w),
             Word::False => Cow::Owned(atom!("false")),
             Word::True => Cow::Owned(atom!("true")),
             Word::Null => Cow::Owned(atom!("null")),
