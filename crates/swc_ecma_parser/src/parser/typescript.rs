@@ -5,7 +5,11 @@ use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
+use crate::{
+    lexer::TokenContexts,
+    parser::class_and_fn::IsSimpleParameterList,
+    token::{Keyword, TokenKind, WordKind},
+};
 
 impl<I: Tokens> Parser<I> {
     /// `tsNextTokenCanFollowModifier`
@@ -36,8 +40,10 @@ impl<I: Tokens> Parser<I> {
 
         let pos = {
             let modifier = match cur!(self, true)? {
-                Token::Word(ref w @ Word::Ident(..))
-                | Token::Word(ref w @ Word::Keyword(Keyword::In | Keyword::Const)) => w.cow(),
+                TokenKind::Word(ref w @ WordKind::Ident(..))
+                | TokenKind::Word(ref w @ WordKind::Keyword(Keyword::In | Keyword::Const)) => {
+                    w.cow()
+                }
 
                 _ => return Ok(None),
             };
@@ -299,7 +305,7 @@ impl<I: Tokens> Parser<I> {
         let arg_span = self.input.cur_span();
 
         let arg = match cur!(self, true)? {
-            Token::Str { .. } => match bump!(self) {
+            TokenKind::Str => match bump!(self) {
                 Token::Str { value, raw } => Str {
                     span: arg_span,
                     value,

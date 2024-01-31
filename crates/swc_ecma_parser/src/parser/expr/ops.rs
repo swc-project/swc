@@ -138,7 +138,7 @@ impl<I: Tokens> Parser<I> {
             Ok(cur) => cur,
             Err(..) => return Ok((left, None)),
         };
-        let op = match *word {
+        let op = match word {
             tok!("in") if ctx.include_in_expr => op!("in"),
             tok!("instanceof") => op!("instanceof"),
             Token::BinOp(op) => op.into(),
