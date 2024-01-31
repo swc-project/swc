@@ -20,6 +20,8 @@ pub trait Tokens: Clone + Iterator<Item = TokenAndSpan> {
     fn syntax(&self) -> Syntax;
     fn target(&self) -> EsVersion;
 
+    fn value(&mut self) -> Option<Token>;
+
     fn start_pos(&self) -> BytePos {
         BytePos(0)
     }
@@ -142,6 +144,10 @@ impl Tokens for TokensInput {
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
+
+    fn value(&mut self) -> Option<Token> {
+        todo!()
+    }
 }
 
 /// Note: Lexer need access to parser's context to lex correctly.
@@ -254,6 +260,10 @@ impl<I: Tokens> Tokens for Capturing<I> {
     fn take_errors(&mut self) -> Vec<Error> {
         self.inner.take_errors()
     }
+
+    fn value(&mut self) -> Option<Token> {
+        todo!()
+    }
 }
 
 /// This struct is responsible for managing current token and peeked token.
@@ -310,7 +320,7 @@ impl<I: Tokens> Buffer<I> {
     }
 
     /// Returns current token.
-    pub fn bump(&mut self) -> Token {
+    pub fn bump(&mut self) -> Option<Token> {
         let prev = match self.cur.take() {
             Some(t) => t,
             None => unsafe {
@@ -322,7 +332,7 @@ impl<I: Tokens> Buffer<I> {
         };
         self.prev_span = prev.span;
 
-        prev.token
+        self.iter.value()
     }
 
     pub fn knows_cur(&self) -> bool {

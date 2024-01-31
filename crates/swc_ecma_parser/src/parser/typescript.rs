@@ -736,7 +736,7 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             })?,
             TokenKind::Num => {
-                let Token::Num { raw, value } = bump!(self) else {
+                let Some(Token::Num { raw, value }) = bump!(self) else {
                     unreachable!()
                 };
                 let mut new_raw = String::new();

@@ -344,7 +344,7 @@ impl<I: Tokens> Parser<I> {
                         self.input.set_next_regexp(None);
 
                         match bump!(self) {
-                            Token::Regex(exp, flags) => {
+                            Some(Token::Regex(exp, flags)) => {
                                 let span = span!(self, start);
 
                                 let mut flags_count = flags.chars().fold(
