@@ -1,7 +1,9 @@
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
+use crate::{
+    error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, token::TokenKind, Tokens,
+};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {

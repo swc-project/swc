@@ -44,7 +44,7 @@ impl<I: Tokens> Parser<I> {
 
         // Handle import 'mod.js'
         let str_start = cur_pos!(self);
-        if let Ok(&Token::Str { .. }) = cur!(self, false) {
+        if let Ok(TokenKind::Str) = cur!(self, false) {
             let src = match bump!(self) {
                 Token::Str { value, raw, .. } => Box::new(Str {
                     span: span!(self, str_start),

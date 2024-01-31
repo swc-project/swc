@@ -735,7 +735,7 @@ impl<I: Tokens> Parser<I> {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
-            Token::Num { value, ref raw } => {
+            TokenKind::Num => {
                 let mut new_raw = String::new();
 
                 new_raw.push('"');
@@ -755,7 +755,7 @@ impl<I: Tokens> Parser<I> {
                     raw: Some(new_raw.into()),
                 })
             }
-            Token::LBracket => {
+            TokenKind::LBracket => {
                 assert_and_bump!(self, '[');
                 let _ = self.parse_expr()?;
 
@@ -2945,7 +2945,7 @@ mod tests {
             let token = &tokens[10];
             assert_eq!(
                 token.token,
-                Token::BinOp(BinOpToken::ZeroFillRShift),
+                TokenKind::BinOp(BinOpToken::ZeroFillRShift),
                 "Token: {:#?}",
                 token.token
             );
