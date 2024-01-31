@@ -364,13 +364,25 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_access_modifier(&mut self) -> PResult<Option<Accessibility>> {
         Ok(self
-            .parse_ts_modifier(&["public", "protected", "private", "in", "out"], false)?
+            .parse_ts_modifier(
+                &[
+                    word_kind!("public"),
+                    word_kind!("protected"),
+                    word_kind!("private"),
+                    word_kind!("in"),
+                    word_kind!("out"),
+                ],
+                false,
+            )?
             .and_then(|s| match s {
-                "public" => Some(Accessibility::Public),
-                "protected" => Some(Accessibility::Protected),
-                "private" => Some(Accessibility::Private),
+                word_kind!("public") => Some(Accessibility::Public),
+                word_kind!("protected") => Some(Accessibility::Protected),
+                word_kind!("private") => Some(Accessibility::Private),
                 other => {
-                    self.emit_err(self.input.prev_span(), SyntaxError::TS1274(other.into()));
+                    self.emit_err(
+                        self.input.prev_span(),
+                        SyntaxError::TS1274(other.try_into().unwrap()),
+                    );
                     None
                 }
             }))
@@ -608,12 +620,18 @@ impl<I: Tokens> Parser<I> {
         let mut readonly = None;
         let mut modifier_span = None;
         let declare = declare_token.is_some();
-        while let Some(modifier) =
-            self.parse_ts_modifier(&["abstract", "readonly", "override", "static"], true)?
-        {
+        while let Some(modifier) = self.parse_ts_modifier(
+            &[
+                word_kind!("abstract"),
+                word_kind!("readonly"),
+                word_kind!("override"),
+                word_kind!("static"),
+            ],
+            true,
+        )? {
             modifier_span = Some(self.input.prev_span());
             match modifier {
-                "abstract" => {
+                word_kind!("abstract") => {
                     if is_abstract {
                         self.emit_err(
                             self.input.prev_span(),
@@ -628,7 +646,7 @@ impl<I: Tokens> Parser<I> {
                         is_abstract = true;
                     }
                 }
-                "override" => {
+                word_kind!("override") => {
                     if is_override {
                         self.emit_err(
                             self.input.prev_span(),
@@ -650,7 +668,7 @@ impl<I: Tokens> Parser<I> {
                         is_override = true;
                     }
                 }
-                "readonly" => {
+                word_kind!("readonly") => {
                     let readonly_span = self.input.prev_span();
                     if readonly.is_some() {
                         self.emit_err(readonly_span, SyntaxError::TS1030("readonly".into()));
@@ -658,7 +676,7 @@ impl<I: Tokens> Parser<I> {
                         readonly = Some(readonly_span);
                     }
                 }
-                "static" => {
+                word_kind!("static") => {
                     if is_override {
                         self.emit_err(
                             self.input.prev_span(),
@@ -921,7 +939,10 @@ impl<I: Tokens> Parser<I> {
         {
             // handle async foo(){}
 
-            if self.parse_ts_modifier(&["override"], false)?.is_some() {
+            if self
+                .parse_ts_modifier(&[word_kind!("override")], false)?
+                .is_some()
+            {
                 is_override = true;
                 self.emit_err(
                     self.input.prev_span(),

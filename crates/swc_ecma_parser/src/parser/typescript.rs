@@ -31,9 +31,9 @@ impl<I: Tokens> Parser<I> {
     /// `tsParseModifier`
     pub(super) fn parse_ts_modifier(
         &mut self,
-        allowed_modifiers: &[&'static str],
+        allowed_modifiers: &[WordKind],
         stop_on_start_of_class_static_blocks: bool,
-    ) -> PResult<Option<&'static str>> {
+    ) -> PResult<Option<WordKind>> {
         if !self.input.syntax().typescript() {
             return Ok(None);
         }
@@ -41,12 +41,12 @@ impl<I: Tokens> Parser<I> {
         let pos = {
             let modifier = match cur!(self, true)? {
                 TokenKind::Word(w @ WordKind::Ident(..))
-                | TokenKind::Word(w @ WordKind::Keyword(Keyword::In | Keyword::Const)) => w.cow(),
+                | TokenKind::Word(w @ WordKind::Keyword(Keyword::In | Keyword::Const)) => w,
 
                 _ => return Ok(None),
             };
 
-            allowed_modifiers.iter().position(|s| **s == **modifier)
+            allowed_modifiers.iter().position(|&s| s == modifier)
         };
 
         if let Some(pos) = pos {

@@ -160,7 +160,15 @@ impl<I: Tokens> Parser<I> {
             )
             && (peeked_is!(self, IdentName) || peeked_is!(self, '{') || peeked_is!(self, '['));
         if has_modifier {
-            let _ = self.parse_ts_modifier(&["public", "protected", "private", "readonly"], false);
+            let _ = self.parse_ts_modifier(
+                &[
+                    word_kind!("public"),
+                    word_kind!("protected"),
+                    word_kind!("private"),
+                    word_kind!("readonly"),
+                ],
+                false,
+            );
         }
 
         Ok(has_modifier)
@@ -336,8 +344,10 @@ impl<I: Tokens> Parser<I> {
             let accessibility = self.parse_access_modifier()?;
             (
                 accessibility,
-                self.parse_ts_modifier(&["override"], false)?.is_some(),
-                self.parse_ts_modifier(&["readonly"], false)?.is_some(),
+                self.parse_ts_modifier(&[word_kind!("override")], false)?
+                    .is_some(),
+                self.parse_ts_modifier(&[word_kind!("readonly")], false)?
+                    .is_some(),
             )
         } else {
             (None, false, false)
