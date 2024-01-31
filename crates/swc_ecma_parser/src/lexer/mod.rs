@@ -766,13 +766,16 @@ impl<'a> Lexer<'a> {
 
     /// This can be used if there's no keyword starting with the first
     /// character.
-    fn read_ident_unknown(&mut self) -> LexResult<Token> {
+    fn read_ident_unknown(&mut self) -> LexResult<TokenKind> {
         debug_assert!(self.cur().is_some());
 
         let (word, _) = self
             .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
 
-        Ok(Word(word))
+        let kind = word.kind();
+        self.value = Some(Token::Word(word));
+
+        Ok(TokenKind::Word(kind))
     }
 
     /// This can be used if there's no keyword starting with the first
@@ -780,7 +783,7 @@ impl<'a> Lexer<'a> {
     fn read_word_with(
         &mut self,
         convert: impl FnOnce(&str) -> Option<Word>,
-    ) -> LexResult<Option<Token>> {
+    ) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.cur().is_some());
 
         let start = self.cur_pos();
@@ -794,17 +797,21 @@ impl<'a> Lexer<'a> {
             Word::Ident(IdentLike::Other(l.atoms.atom(s)))
         })?;
 
+        let kind = word.kind();
+
         // Note: ctx is store in lexer because of this error.
         // 'await' and 'yield' may have semantic of reserved word, which means lexer
         // should know context or parser should handle this error. Our approach to this
         // problem is former one.
-        if has_escape && self.ctx.is_reserved(word.kind()) {
+        if has_escape && self.ctx.is_reserved(kind) {
             self.error(
                 start,
                 SyntaxError::EscapeInReservedWord { word: word.into() },
             )?
         } else {
-            Ok(Some(Token::Word(word)))
+            self.value = Some(Token::Word(word));
+
+            Ok(Some(TokenKind::Word(kind)))
         }
     }
 
