@@ -189,6 +189,10 @@ impl Tokens for Lexer<'_> {
     fn take_errors(&mut self) -> Vec<Error> {
         take(&mut self.errors.borrow_mut())
     }
+
+    fn value(&mut self) -> Option<Token> {
+        self.value.take()
+    }
 }
 
 impl<'a> Iterator for Lexer<'a> {
