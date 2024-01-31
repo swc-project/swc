@@ -150,166 +150,6 @@ macro_rules! tok {
         crate::token::TokenKind::RBracket
     };
 
-    ("await") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Await,
-        ))
-    };
-    ("break") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Break,
-        ))
-    };
-    ("case") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Case))
-    };
-    ("catch") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Catch,
-        ))
-    };
-    ("class") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Class,
-        ))
-    };
-    ("const") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Const,
-        ))
-    };
-    ("continue") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Continue,
-        ))
-    };
-    ("debugger") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Debugger,
-        ))
-    };
-    ("default") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Default_,
-        ))
-    };
-    ("delete") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Delete,
-        ))
-    };
-    ("do") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Do))
-    };
-    ("else") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Else))
-    };
-    ("export") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Export,
-        ))
-    };
-    ("extends") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Extends,
-        ))
-    };
-    ("false") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::False)
-    };
-    ("finally") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Finally,
-        ))
-    };
-    ("for") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::For))
-    };
-    ("function") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Function,
-        ))
-    };
-    ("if") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::If))
-    };
-    ("in") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::In))
-    };
-    ("instanceof") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::InstanceOf,
-        ))
-    };
-    ("import") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Import,
-        ))
-    };
-    ("let") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Let))
-    };
-    ("new") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::New))
-    };
-    ("null") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Null)
-    };
-
-    ("return") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Return,
-        ))
-    };
-    ("super") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Super,
-        ))
-    };
-    ("switch") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Switch,
-        ))
-    };
-    ("this") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::This))
-    };
-    ("throw") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Throw,
-        ))
-    };
-    ("true") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::True)
-    };
-    ("try") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Try))
-    };
-    ("typeof") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::TypeOf,
-        ))
-    };
-    ("var") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Var))
-    };
-    ("void") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::Void))
-    };
-    ("while") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::While,
-        ))
-    };
-    ("with") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(crate::token::Keyword::With))
-    };
-    ("yield") => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Keyword(
-            crate::token::Keyword::Yield,
-        ))
-    };
-
     // ----------
     // JSX
     // ----------
@@ -322,9 +162,129 @@ macro_rules! tok {
     };
 
     ($tt:tt) => {
-        crate::token::TokenKind::Word(crate::token::WordKind::Ident(
-            crate::token::IdentKind::Known(known_ident!($tt)),
-        ))
+        crate::token::TokenKind::Word(word_kind!($tt))
+    };
+}
+
+macro_rules! word_kind {
+    ("await") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Await)
+    };
+    ("break") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Break)
+    };
+    ("case") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Case)
+    };
+    ("catch") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Catch)
+    };
+    ("class") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Class)
+    };
+    ("const") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Const)
+    };
+    ("continue") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Continue)
+    };
+    ("debugger") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Debugger)
+    };
+    ("default") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Default_)
+    };
+    ("delete") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Delete)
+    };
+    ("do") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Do)
+    };
+    ("else") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Else)
+    };
+    ("export") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Export)
+    };
+    ("extends") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Extends)
+    };
+    ("false") => {
+        crate::token::WordKind::False
+    };
+    ("finally") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Finally)
+    };
+    ("for") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::For)
+    };
+    ("function") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Function)
+    };
+    ("if") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::If)
+    };
+    ("in") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::In)
+    };
+    ("instanceof") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::InstanceOf)
+    };
+    ("import") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Import)
+    };
+    ("let") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Let)
+    };
+    ("new") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::New)
+    };
+    ("null") => {
+        crate::token::WordKind::Null
+    };
+
+    ("return") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Return)
+    };
+    ("super") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Super)
+    };
+    ("switch") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Switch)
+    };
+    ("this") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::This)
+    };
+    ("throw") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Throw)
+    };
+    ("true") => {
+        crate::token::WordKind::True
+    };
+    ("try") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Try)
+    };
+    ("typeof") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::TypeOf)
+    };
+    ("var") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Var)
+    };
+    ("void") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Void)
+    };
+    ("while") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::While)
+    };
+    ("with") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::With)
+    };
+    ("yield") => {
+        crate::token::WordKind::Keyword(crate::token::Keyword::Yield)
+    };
+
+    ($tt:tt) => {
+        crate::token::WordKind::Ident(crate::token::IdentKind::Known(known_ident!($tt)))
     };
 }
 
