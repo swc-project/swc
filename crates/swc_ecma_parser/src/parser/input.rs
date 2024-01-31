@@ -300,11 +300,6 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
-    #[allow(dead_code)]
-    pub fn cur_debug(&self) -> Option<&Token> {
-        self.cur.as_ref().map(|it| &it.token)
-    }
-
     #[cold]
     #[inline(never)]
     pub fn dump_cur(&mut self) -> String {

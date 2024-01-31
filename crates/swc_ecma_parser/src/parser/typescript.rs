@@ -736,13 +736,14 @@ impl<I: Tokens> Parser<I> {
                 _ => unreachable!(),
             })?,
             TokenKind::Num => {
+                let Token::Num { raw, value } = bump!(self) else {
+                    unreachable!()
+                };
                 let mut new_raw = String::new();
 
                 new_raw.push('"');
-                new_raw.push_str(raw);
+                new_raw.push_str(&raw);
                 new_raw.push('"');
-
-                bump!(self);
 
                 let span = span!(self, start);
 
