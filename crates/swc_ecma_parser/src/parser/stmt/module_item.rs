@@ -1,3 +1,5 @@
+use swc_atoms::Atom;
+
 use super::*;
 
 impl<I: Tokens> Parser<I> {
@@ -375,8 +377,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
-            let sym = match cur!(self, true)? {
-                TokenKind::Word(w) => w.clone().into(),
+            let sym: Atom = match cur!(self, true)? {
+                TokenKind::Word(w) => w.clone().try_into().unwrap(),
                 _ => unreachable!(),
             };
             // TODO: remove clone

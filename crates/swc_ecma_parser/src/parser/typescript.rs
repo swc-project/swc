@@ -393,26 +393,26 @@ impl<I: Tokens> Parser<I> {
 
         while let Some(modifer) = self.parse_ts_modifier(
             &[
-                "public",
-                "private",
-                "protected",
-                "readonly",
-                "abstract",
-                "const",
-                "override",
-                "in",
-                "out",
+                word_kind!("public"),
+                word_kind!("private"),
+                word_kind!("protected"),
+                word_kind!("readonly"),
+                word_kind!("abstract"),
+                word_kind!("const"),
+                word_kind!("override"),
+                word_kind!("in"),
+                word_kind!("out"),
             ],
             false,
         )? {
             match modifer {
-                "const" => {
+                word_kind!("const") => {
                     is_const = true;
                     if !permit_const {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1277("const".into()));
                     }
                 }
-                "in" => {
+                word_kind!("in") => {
                     if !permit_in_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1274("in".into()));
                     } else if is_in {
@@ -425,7 +425,7 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_in = true;
                 }
-                "out" => {
+                word_kind!("out") => {
                     if !permit_in_out {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS1274("out".into()));
                     } else if is_out {
@@ -433,7 +433,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     is_out = true;
                 }
-                other => self.emit_err(self.input.prev_span(), SyntaxError::TS1273(other.into())),
+                other => self.emit_err(
+                    self.input.prev_span(),
+                    SyntaxError::TS1273(other.try_into().unwrap()),
+                ),
             };
         }
 
