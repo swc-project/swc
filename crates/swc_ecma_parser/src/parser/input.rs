@@ -273,7 +273,7 @@ pub(super) struct Buffer<I: Tokens> {
     /// Span of the previous token.
     prev_span: (BytePos, BytePos),
     cur: Option<TokenAndSpan>,
-    /// Peeked token
+    cur_value: Option<Token>,
     next: Option<TokenAndSpan>,
 }
 
@@ -293,6 +293,7 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: None,
+            cur_value: None,
             prev_span: (start_pos, start_pos),
             next: None,
         }
@@ -332,7 +333,12 @@ impl<I: Tokens> Buffer<I> {
         };
         self.prev_span = prev.span;
 
-        self.iter.value()
+        let v = self.cur_value.take();
+
+        match v {
+            Some(v) => Some(v),
+            None => self.iter.value(),
+        }
     }
 
     pub fn knows_cur(&self) -> bool {
@@ -346,6 +352,7 @@ impl<I: Tokens> Buffer<I> {
         );
 
         if self.next.is_none() {
+            self.cur_value = self.iter.value();
             self.next = self.iter.next();
         }
 
