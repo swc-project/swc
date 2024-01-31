@@ -440,8 +440,8 @@ impl<I: Tokens> Parser<I> {
         }
 
         let name = self.in_type().parse_ident_name()?;
-        let constraint = self.eat_then_parse_ts_type(&tok!("extends"))?;
-        let default = self.eat_then_parse_ts_type(&tok!('='))?;
+        let constraint = self.eat_then_parse_ts_type(tok!("extends"))?;
+        let default = self.eat_then_parse_ts_type(tok!('='))?;
 
         Ok(TsTypeParam {
             span: span!(self, start),

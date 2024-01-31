@@ -239,7 +239,7 @@ macro_rules! cur {
         let pos = $p.input.last_pos();
         let last = Span::new(pos, pos, Default::default());
         let is_err_token = match $p.input.cur() {
-            Some(&$crate::token::Token::Error(..)) => true,
+            Some($crate::token::TokenKind::Error) => true,
             _ => false,
         };
         if is_err_token {

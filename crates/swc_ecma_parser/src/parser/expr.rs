@@ -832,7 +832,7 @@ impl<I: Tokens> Parser<I> {
             // TODO: Remove clone
             let items_ref = &paren_items;
             if let Some(expr) = self.try_parse_ts(|p| {
-                let return_type = p.parse_ts_type_or_type_predicate_ann(&tok!(':'))?;
+                let return_type = p.parse_ts_type_or_type_predicate_ann(tok!(':'))?;
 
                 expect!(p, "=>");
 
@@ -920,7 +920,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: None,
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if let Ok(&Token::BinOp(..)) = cur!(self, false) {
+                if let Ok(TokenKind::BinOp(..)) = cur!(self, false) {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =

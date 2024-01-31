@@ -77,11 +77,11 @@ impl<I: Tokens> Parser<I> {
     // https://tc39.es/ecma262/#prod-ModuleExportName
     pub(super) fn parse_module_export_name(&mut self) -> PResult<ModuleExportName> {
         let module_export_name = match cur!(self, false) {
-            Ok(&Token::Str { .. }) => match self.parse_lit()? {
+            Ok(TokenKind::Str) => match self.parse_lit()? {
                 Lit::Str(str_lit) => ModuleExportName::Str(str_lit),
                 _ => unreachable!(),
             },
-            Ok(&Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
+            Ok(TokenKind::Word(..)) => ModuleExportName::Ident(self.parse_ident_name()?),
             _ => {
                 unexpected!(self, "identifier or string");
             }
