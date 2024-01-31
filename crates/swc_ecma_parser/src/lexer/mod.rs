@@ -349,7 +349,7 @@ impl<'a> Lexer<'a> {
 
         // '|=', '&='
         if self.input.eat_byte(b'=') {
-            return Ok(Token::AssignOp(match token {
+            return Ok(TokenKind::AssignOp(match token {
                 BinOpToken::BitAnd => AssignOp::BitAndAssign,
                 BinOpToken::BitOr => AssignOp::BitOrAssign,
                 _ => unreachable!(),
@@ -368,7 +368,7 @@ impl<'a> Lexer<'a> {
                     // Safety: cur() is Some('=')
                     self.input.bump();
                 }
-                return Ok(Token::AssignOp(match token {
+                return Ok(TokenKind::AssignOp(match token {
                     BinOpToken::BitAnd => op!("&&="),
                     BinOpToken::BitOr => op!("||="),
                     _ => unreachable!(),
@@ -385,14 +385,14 @@ impl<'a> Lexer<'a> {
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
-            return Ok(Token::BinOp(match token {
+            return Ok(TokenKind::BinOp(match token {
                 BinOpToken::BitAnd => BinOpToken::LogicalAnd,
                 BinOpToken::BitOr => BinOpToken::LogicalOr,
                 _ => unreachable!(),
             }));
         }
 
-        Ok(Token::BinOp(token))
+        Ok(TokenKind::BinOp(token))
     }
 
     /// Read a token given `*` or `%`.
