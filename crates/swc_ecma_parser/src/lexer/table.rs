@@ -4,14 +4,13 @@
 //!
 //! https://github.com/ratel-rust/ratel-core/blob/e55a1310ba69a3f5ce2a9a6eef643feced02ac08/ratel/src/lexer/mod.rs#L665
 
-use either::Either;
 use swc_common::input::Input;
 use swc_ecma_ast::AssignOp;
 
 use super::{pos_span, util::CharExt, LexResult, Lexer};
 use crate::{
     error::SyntaxError,
-    token::{BinOpToken, IdentLike, Keyword, KnownIdent, Token, TokenKind, Word},
+    token::{BinOpToken, IdentLike, Keyword, KnownIdent, TokenKind, Word},
 };
 
 pub(super) type ByteHandler = Option<for<'aa> fn(&mut Lexer<'aa>) -> LexResult<Option<TokenKind>>>;

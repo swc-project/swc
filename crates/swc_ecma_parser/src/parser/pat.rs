@@ -6,7 +6,7 @@ use swc_common::Spanned;
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
-    token::{IdentKind, IdentLike, TokenKind, WordKind},
+    token::{IdentKind, TokenKind, WordKind},
 };
 
 impl<I: Tokens> Parser<I> {
