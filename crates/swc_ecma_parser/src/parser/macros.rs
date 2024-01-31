@@ -92,21 +92,21 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Ok(crate::token::TokenKind::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match peek!($p) {
-            Ok(&Word(..)) => true,
+            Ok(crate::token::TokenKind::Word(..)) => true,
             _ => false,
         }
     }};
 
     ($p:expr, JSXName) => {{
         match peek!($p) {
-            Ok(&Token::JSXName { .. }) => true,
+            Ok(crate::token::TokenKind::Token::JSXName { .. }) => true,
             _ => false,
         }
     }};
@@ -117,7 +117,7 @@ macro_rules! peeked_is {
 
     ($p:expr, $t:tt) => {
         match peek!($p).ok() {
-            Some(&token_including_semi!($t)) => true,
+            Some(token_including_semi!($t)) => true,
             _ => false,
         }
     };
@@ -198,7 +198,7 @@ macro_rules! eat_exact {
 macro_rules! is_exact {
     ($p:expr, $t:tt) => {{
         match $p.input.cur() {
-            Some(&token_including_semi!($t)) => true,
+            Some(token_including_semi!($t)) => true,
             _ => false,
         }
     }};
@@ -207,7 +207,7 @@ macro_rules! is_exact {
 /// This handles automatic semicolon insertion.
 macro_rules! expect {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
+        const TOKEN: &Token = token_including_semi!($t);
         if !eat!($p, $t) {
             let cur = $p.input.dump_cur();
             syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
@@ -217,7 +217,7 @@ macro_rules! expect {
 
 macro_rules! expect_exact {
     ($p:expr, $t:tt) => {{
-        const TOKEN: &Token = &token_including_semi!($t);
+        const TOKEN: &Token = token_including_semi!($t);
         if !eat_exact!($p, $t) {
             let cur = $p.input.dump_cur();
             syntax_error!($p, $p.input.cur_span(), SyntaxError::Expected(TOKEN, cur))
