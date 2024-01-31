@@ -89,11 +89,11 @@ impl<I: Tokens> Parser<I> {
                     JSXExpr::Expr(..) => Ok(node.into()),
                 }
             }
-            Token::Str { .. } => {
+            TokenKind::Str => {
                 let lit = self.parse_lit()?;
                 Ok(JSXAttrValue::Lit(lit))
             }
-            Token::JSXTagStart => {
+            TokenKind::JSXTagStart => {
                 let expr = self.parse_jsx_element()?;
                 match expr {
                     Either::Left(n) => Ok(JSXAttrValue::JSXFragment(n)),
@@ -315,7 +315,7 @@ impl<I: Tokens> Parser<I> {
             if !self_closing {
                 'contents: loop {
                     match cur!(p, true)? {
-                        Token::JSXTagStart => {
+                        TokenKind::JSXTagStart => {
                             let start = cur_pos!(p);
 
                             if peeked_is!(p, '/') {
@@ -333,7 +333,7 @@ impl<I: Tokens> Parser<I> {
                                 Either::Right(e) => JSXElementChild::from(Box::new(e)),
                             })?);
                         }
-                        Token::JSXText { .. } => {
+                        TokenKind::JSXText => {
                             children.push(p.parse_jsx_text().map(JSXElementChild::from)?)
                         }
                         tok!('{') => {
@@ -410,7 +410,10 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({ matches!(*cur!(self, true)?, Token::JSXTagStart | tok!('<')) });
+        debug_assert!(matches!(
+            cur!(self, true)?,
+            TokenKind::JSXTagStart | tok!('<')
+        ));
 
         let start_pos = cur_pos!(self);
 

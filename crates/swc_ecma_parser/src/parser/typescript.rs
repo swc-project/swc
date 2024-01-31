@@ -1124,7 +1124,7 @@ impl<I: Tokens> Parser<I> {
 
         let id = self.parse_ident_name()?;
         let type_params = self.try_parse_ts_type_params(true, false)?;
-        let type_ann = self.expect_then_parse_ts_type(&tok!('='), "=")?;
+        let type_ann = self.expect_then_parse_ts_type(tok!('='), "=")?;
         expect!(self, ';');
         Ok(Box::new(TsTypeAliasDecl {
             declare: false,
@@ -1287,7 +1287,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
         let type_ann = if is!(self, ':') {
-            Some(self.parse_ts_type_or_type_predicate_ann(&tok!(':'))?)
+            Some(self.parse_ts_type_or_type_predicate_ann(tok!(':'))?)
         } else {
             None
         };
@@ -1424,7 +1424,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, '(');
             let params = self.parse_ts_binding_list_for_signature()?;
             let type_ann = if is!(self, ':') {
-                self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+                self.parse_ts_type_or_type_predicate_ann(tok!(':'))
                     .map(Some)?
             } else {
                 None
@@ -1613,7 +1613,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
         let name = self.parse_ident_name()?;
-        let constraint = Some(self.expect_then_parse_ts_type(&tok!("in"), "in")?);
+        let constraint = Some(self.expect_then_parse_ts_type(tok!("in"), "in")?);
 
         Ok(TsTypeParam {
             span: span!(self, start),
@@ -1836,7 +1836,7 @@ impl<I: Tokens> Parser<I> {
         let type_params = self.try_parse_ts_type_params(false, true)?;
         expect!(self, '(');
         let params = self.parse_ts_binding_list_for_signature()?;
-        let type_ann = self.parse_ts_type_or_type_predicate_ann(&tok!("=>"))?;
+        let type_ann = self.parse_ts_type_or_type_predicate_ann(tok!("=>"))?;
         // ----- end
 
         Ok(if is_fn_type {
@@ -1967,7 +1967,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, ':') {
-            self.parse_ts_type_or_type_predicate_ann(&tok!(':'))
+            self.parse_ts_type_or_type_predicate_ann(tok!(':'))
                 .map(Some)
         } else {
             Ok(None)
@@ -1995,7 +1995,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(None);
         }
 
-        self.eat_then_parse_ts_type(&tok!(':'))
+        self.eat_then_parse_ts_type(tok!(':'))
     }
 
     /// `tsTryParseTypeParameters`
@@ -2697,7 +2697,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_ts_union_or_intersection_type(
             UnionOrIntersection::Intersection,
             |p| p.parse_ts_type_operator_or_higher(),
-            &tok!('&'),
+            tok!('&'),
         )
     }
 
@@ -2709,7 +2709,7 @@ impl<I: Tokens> Parser<I> {
         self.parse_ts_union_or_intersection_type(
             UnionOrIntersection::Union,
             |p| p.parse_ts_intersection_type_or_higher(),
-            &tok!('|'),
+            tok!('|'),
         )
     }
 
