@@ -186,7 +186,7 @@ impl<I: Tokens> Iterator for Capturing<I> {
 
                 // remove tokens that could change due to backtracing
                 while let Some(last) = v.last() {
-                    if last.span.lo >= ts.span.lo {
+                    if last.span.0 >= ts.span.0 {
                         v.pop();
                     } else {
                         break;
@@ -261,7 +261,7 @@ impl<I: Tokens> Tokens for Capturing<I> {
 pub(super) struct Buffer<I: Tokens> {
     iter: I,
     /// Span of the previous token.
-    prev_span: Span,
+    prev_span: (BytePos, BytePos),
     cur: Option<TokenAndSpan>,
     /// Peeked token
     next: Option<TokenAndSpan>,
@@ -283,12 +283,12 @@ impl<I: Tokens> Buffer<I> {
         Buffer {
             iter: lexer,
             cur: None,
-            prev_span: Span::new(start_pos, start_pos, Default::default()),
+            prev_span: (start_pos, start_pos),
             next: None,
         }
     }
 
-    pub fn store(&mut self, token: Token) {
+    pub fn store(&mut self, token: TokenKind) {
         debug_assert!(self.next.is_none());
         debug_assert!(self.cur.is_none());
         let span = self.prev_span;
@@ -334,7 +334,7 @@ impl<I: Tokens> Buffer<I> {
         self.cur.is_some()
     }
 
-    pub fn peek(&mut self) -> Option<&Token> {
+    pub fn peek(&mut self) -> Option<TokenKind> {
         debug_assert!(
             self.cur.is_some(),
             "parser should not call peek() without knowing current token"
@@ -344,7 +344,7 @@ impl<I: Tokens> Buffer<I> {
             self.next = self.iter.next();
         }
 
-        self.next.as_ref().map(|ts| &ts.token)
+        self.next.as_ref().map(|ts| ts.token)
     }
 
     /// Returns true on eof.
@@ -371,28 +371,28 @@ impl<I: Tokens> Buffer<I> {
 
     /// Get current token. Returns `None` only on eof.
     #[inline]
-    pub fn cur(&mut self) -> Option<&Token> {
+    pub fn cur(&mut self) -> Option<TokenKind> {
         if self.cur.is_none() {
             // If we have peeked a token, take it instead of calling lexer.next()
             self.cur = self.next.take().or_else(|| self.iter.next());
         }
 
         match &self.cur {
-            Some(v) => Some(&v.token),
+            Some(v) => Some(v.token),
             None => None,
         }
     }
 
     #[inline]
-    pub fn is(&mut self, expected: &Token) -> bool {
+    pub fn is(&mut self, expected: &TokenKind) -> bool {
         match self.cur() {
-            Some(t) => *expected == *t,
+            Some(t) => *expected == t,
             _ => false,
         }
     }
 
     #[inline]
-    pub fn eat(&mut self, expected: &Token) -> bool {
+    pub fn eat(&mut self, expected: &TokenKind) -> bool {
         let v = self.is(expected);
         if v {
             self.bump();
@@ -406,7 +406,7 @@ impl<I: Tokens> Buffer<I> {
         let _ = self.cur();
         self.cur
             .as_ref()
-            .map(|item| item.span.lo)
+            .map(|item| item.span.0)
             .unwrap_or_else(|| {
                 // eof
                 self.last_pos()
@@ -421,19 +421,19 @@ impl<I: Tokens> Buffer<I> {
             .map(|item| item.span)
             .unwrap_or(self.prev_span);
 
-        Span::new(data.lo, data.hi, data.ctxt)
+        Span::new(data.0, data.0, Default::default())
     }
 
     /// Returns last byte position of previous token.
     #[inline]
     pub fn last_pos(&self) -> BytePos {
-        self.prev_span.hi
+        self.prev_span.1
     }
 
     /// Returns span of the previous token.
     #[inline]
     pub fn prev_span(&self) -> Span {
-        self.prev_span
+        Span::new(self.prev_span.0, self.prev_span.1, Default::default())
     }
 
     #[inline]
