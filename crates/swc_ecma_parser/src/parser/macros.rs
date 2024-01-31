@@ -106,7 +106,7 @@ macro_rules! peeked_is {
 
     ($p:expr, JSXName) => {{
         match peek!($p) {
-            Ok(crate::token::TokenKind::Token::JSXName { .. }) => true,
+            Ok(crate::token::TokenKind::JSXName { .. }) => true,
             _ => false,
         }
     }};

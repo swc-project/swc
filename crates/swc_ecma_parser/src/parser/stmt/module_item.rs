@@ -165,7 +165,7 @@ impl<I: Tokens> Parser<I> {
             let str_start = cur_pos!(self);
 
             match cur!(self, true)? {
-                Token::Str { .. } => match bump!(self) {
+                TokenKind::Str => match bump!(self) {
                     Token::Str { value, raw, .. } => Box::new(Str {
                         span: span!(self, str_start),
                         value,
@@ -376,7 +376,7 @@ impl<I: Tokens> Parser<I> {
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
             let sym = match cur!(self, true)? {
-                Token::Word(ref w) => w.clone().into(),
+                TokenKind::Word(w) => w.clone().into(),
                 _ => unreachable!(),
             };
             // TODO: remove clone
