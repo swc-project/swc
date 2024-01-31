@@ -784,7 +784,7 @@ impl<'a> Lexer<'a> {
     /// character.
     fn read_word_with(
         &mut self,
-        convert: impl FnOnce(&str) -> Option<Word>,
+        convert: &dyn Fn(&str) -> Option<Word>,
     ) -> LexResult<Option<TokenKind>> {
         debug_assert!(self.cur().is_some());
 
