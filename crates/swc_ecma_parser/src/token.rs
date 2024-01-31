@@ -134,6 +134,7 @@ define_known_ident!(
     Protected => "protected",
     Private => "private",
     Public => "public",
+    Out => "out",
 );
 
 impl std::str::FromStr for KnownIdent {
