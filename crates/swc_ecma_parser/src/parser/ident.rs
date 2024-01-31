@@ -99,7 +99,7 @@ impl<I: Tokens> Parser<I> {
 
         let word = self.parse_with(|p| {
             let w = match cur!(p, true) {
-                Ok(&Word(..)) => match bump!(p) {
+                Ok(TokenKind::Word(..)) => match bump!(p) {
                     Word(w) => w,
                     _ => unreachable!(),
                 },

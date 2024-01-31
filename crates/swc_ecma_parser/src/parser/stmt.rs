@@ -306,7 +306,7 @@ impl<'a, I: Tokens> Parser<I> {
             tok!("let") if include_decl => {
                 let strict = self.ctx().strict;
                 let is_keyword = match peek!(self) {
-                    Ok(t) => t.kind().follows_keyword_let(strict),
+                    Ok(t) => t.follows_keyword_let(strict),
                     _ => false,
                 };
 
@@ -457,7 +457,7 @@ impl<'a, I: Tokens> Parser<I> {
                 expr,
             }))
         } else {
-            if let Token::BinOp(..) = *cur!(self, false)? {
+            if let TokenKind::BinOp(..) = cur!(self, false)? {
                 self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                 let expr = self.parse_bin_op_recursively(expr, 0)?;
                 return Ok(ExprStmt {
@@ -946,7 +946,7 @@ impl<'a, I: Tokens> Parser<I> {
             while !eat!(self, ';') {
                 bump!(self);
 
-                if let Some(Token::Error(_)) = self.input.cur() {
+                if let Some(TokenKind::Error) = self.input.cur() {
                     break;
                 }
             }

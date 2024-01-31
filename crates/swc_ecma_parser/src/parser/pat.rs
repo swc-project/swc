@@ -6,7 +6,7 @@ use swc_common::Spanned;
 use super::{util::ExprExt, *};
 use crate::{
     parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
-    token::IdentLike,
+    token::{IdentLike, TokenKind},
 };
 
 impl<I: Tokens> Parser<I> {
@@ -49,7 +49,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_binding_pat_or_ident);
 
         match cur!(self, true)? {
-            tok!("yield") | Word(..) => self.parse_binding_ident().map(Pat::from),
+            tok!("yield") | TokenKind::Word(..) => self.parse_binding_ident().map(Pat::from),
             tok!('[') => self.parse_array_binding_pat(),
             tok!('{') => self.parse_object(),
             // tok!('(') => {

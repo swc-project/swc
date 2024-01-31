@@ -63,7 +63,7 @@ pub struct TokensInput {
 
 impl TokensInput {
     pub fn new(tokens: Vec<TokenAndSpan>, ctx: Context, syntax: Syntax, target: EsVersion) -> Self {
-        let start_pos = tokens.first().map(|t| t.span.lo).unwrap_or(BytePos(0));
+        let start_pos = tokens.first().map(|t| t.span.0).unwrap_or(BytePos(0));
 
         TokensInput {
             iter: tokens.into_iter(),

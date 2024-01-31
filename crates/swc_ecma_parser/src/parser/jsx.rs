@@ -2,6 +2,7 @@ use either::Either;
 use swc_common::{Span, Spanned, SyntaxContext};
 
 use super::*;
+use crate::token::TokenKind;
 
 #[cfg(test)]
 mod tests;
@@ -14,7 +15,7 @@ impl<I: Tokens> Parser<I> {
 
         let ctx = self.ctx();
         match cur!(self, true)? {
-            Token::JSXName { .. } => match bump!(self) {
+            TokenKind::JSXName { .. } => match bump!(self) {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
                     Ok(Ident::new(name, span))
