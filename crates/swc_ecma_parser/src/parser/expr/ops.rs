@@ -263,7 +263,7 @@ impl<I: Tokens> Parser<I> {
 
         // Parse update expression
         if is!(self, "++") || is!(self, "--") {
-            let op = if cur!(self, true) == tok!("++") {
+            let op = if cur!(self, true)? == tok!("++") {
                 op!("++")
             } else {
                 op!("--")
