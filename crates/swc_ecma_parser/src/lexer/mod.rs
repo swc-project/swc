@@ -1036,10 +1036,11 @@ impl<'a> Lexer<'a> {
 
                         l.bump();
 
-                        return Ok(Token::Str {
+                        self.value = Some(Token::Str {
                             value: l.atoms.atom(&*out),
                             raw: l.atoms.atom(raw),
                         });
+                        return Ok(TokenKind::Str);
                     }
                     '\\' => {
                         raw.push(c);
@@ -1079,7 +1080,7 @@ impl<'a> Lexer<'a> {
     }
 
     /// Expects current char to be '/'
-    fn read_regexp(&mut self, start: BytePos) -> LexResult<Token> {
+    fn read_regexp(&mut self, start: BytePos) -> LexResult<TokenKind> {
         unsafe {
             // Safety: start is valid position, and cur() is Some('/')
             self.input.reset_to(start);
@@ -1150,7 +1151,8 @@ impl<'a> Lexer<'a> {
         .map(|(value, _)| value)
         .unwrap_or_default();
 
-        Ok(Token::Regex(content, flags))
+        self.value = Some(Token::Regex(content, flags));
+        Ok(TokenKind::Regex)
     }
 
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {

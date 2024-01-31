@@ -283,15 +283,7 @@ const L_Z: ByteHandler = IDN;
 const ZER: ByteHandler = Some(|lexer| lexer.read_token_zero().map(Some));
 
 /// Numbers
-const DIG: ByteHandler = Some(|lexer| {
-    lexer
-        .read_number(false)
-        .map(|v| match v {
-            Either::Left((value, raw)) => Token::Num { value, raw },
-            Either::Right((value, raw)) => Token::BigInt { value, raw },
-        })
-        .map(Some)
-});
+const DIG: ByteHandler = Some(|lexer| lexer.read_number_as_token_kind(false).map(Some));
 
 /// String literals with `'` or `"`
 const QOT: ByteHandler = Some(|lexer| lexer.read_str_lit().map(Some));
