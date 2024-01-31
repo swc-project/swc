@@ -204,7 +204,8 @@ impl<'a> Iterator for Lexer<'a> {
 
             if self.state.is_first {
                 if let Some(shebang) = self.read_shebang()? {
-                    return Ok(Some(Token::Shebang(shebang)));
+                    self.value = Some(Token::Shebang(shebang));
+                    return Ok(Some(TokenKind::Shebang));
                 }
             }
 
@@ -290,7 +291,7 @@ impl<'a> Iterator for Lexer<'a> {
                                 // Safety: cur() is Some('>')
                                 self.input.bump();
                             }
-                            return Ok(Some(Token::JSXTagEnd));
+                            return Ok(Some(TokenKind::JSXTagEnd));
                         }
 
                         if (c == '\'' || c == '"')

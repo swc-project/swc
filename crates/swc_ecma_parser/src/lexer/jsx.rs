@@ -210,7 +210,7 @@ impl<'a> Lexer<'a> {
         Ok(out)
     }
 
-    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<Token> {
+    pub(super) fn read_jsx_str(&mut self, quote: char) -> LexResult<TokenKind> {
         debug_assert!(self.syntax.jsx());
 
         let mut raw = String::new();
@@ -323,10 +323,11 @@ impl<'a> Lexer<'a> {
 
         raw.push(quote);
 
-        Ok(Token::Str {
+        self.value = Some(Token::Str {
             value: self.atoms.atom(out),
             raw: self.atoms.atom(raw),
-        })
+        });
+        Ok(TokenKind::Str)
     }
 
     /// Read a JSX identifier (valid tag or attribute name).
@@ -335,7 +336,7 @@ impl<'a> Lexer<'a> {
     /// escape characters and so can be read as single slice.
     /// Also assumes that first character was already checked
     /// by isIdentifierStart in readToken.
-    pub(super) fn read_jsx_word(&mut self) -> LexResult<Token> {
+    pub(super) fn read_jsx_word(&mut self) -> LexResult<TokenKind> {
         debug_assert!(self.syntax.jsx());
         debug_assert!(self.input.cur().is_some());
         debug_assert!(self.input.cur().unwrap().is_ident_start());
@@ -350,9 +351,10 @@ impl<'a> Lexer<'a> {
             }
         });
 
-        Ok(Token::JSXName {
+        self.value = Some(Token::JSXName {
             name: self.atoms.atom(slice),
-        })
+        });
+        Ok(TokenKind::JSXName)
     }
 }
 
