@@ -283,7 +283,7 @@ impl<I: Tokens> Parser<I> {
 
         // Parse unary expression
         if is_one_of!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
-            let op = match bump!(self) {
+            let op = match cur!(self, true)? {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
                 tok!("typeof") => op!("typeof"),
@@ -293,6 +293,7 @@ impl<I: Tokens> Parser<I> {
                 tok!('!') => op!("!"),
                 _ => unreachable!(),
             };
+            bump!(self);
             let arg_start = cur_pos!(self) - BytePos(1);
             let arg = match self.parse_unary_expr() {
                 Ok(expr) => expr,

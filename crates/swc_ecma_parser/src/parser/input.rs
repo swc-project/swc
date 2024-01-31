@@ -386,7 +386,7 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub fn is(&mut self, expected: TokenKind) -> bool {
         match self.cur() {
-            Some(t) => *expected == t,
+            Some(t) => expected == t,
             _ => false,
         }
     }
