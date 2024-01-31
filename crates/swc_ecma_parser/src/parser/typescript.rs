@@ -40,10 +40,8 @@ impl<I: Tokens> Parser<I> {
 
         let pos = {
             let modifier = match cur!(self, true)? {
-                TokenKind::Word(ref w @ WordKind::Ident(..))
-                | TokenKind::Word(ref w @ WordKind::Keyword(Keyword::In | Keyword::Const)) => {
-                    w.cow()
-                }
+                TokenKind::Word(w @ WordKind::Ident(..))
+                | TokenKind::Word(w @ WordKind::Keyword(Keyword::In | Keyword::Const)) => w.cow(),
 
                 _ => return Ok(None),
             };
@@ -142,7 +140,7 @@ impl<I: Tokens> Parser<I> {
             }
 
             if kind == ParsingContext::EnumMembers {
-                const TOKEN: &Token = &Token::Comma;
+                const TOKEN: TokenKind = TokenKind::Comma;
                 let cur = match cur!(self, false).ok() {
                     Some(tok) => format!("{:?}", tok),
                     None => "EOF".to_string(),
@@ -593,7 +591,7 @@ impl<I: Tokens> Parser<I> {
             ) {
                 Ok(None)
             } else if p.input.had_line_break_before_cur()
-                || matches!(cur!(p, false), Ok(Token::BinOp(..)))
+                || matches!(cur!(p, false), Ok(TokenKind::BinOp(..)))
                 || !p.is_start_of_expr()?
             {
                 Ok(Some(type_args))
@@ -733,7 +731,7 @@ impl<I: Tokens> Parser<I> {
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
         let id = match cur!(self, true)? {
-            Token::Str { .. } => self.parse_lit().map(|lit| match lit {
+            TokenKind::Str => self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
             })?,
@@ -879,7 +877,7 @@ impl<I: Tokens> Parser<I> {
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id))
-        } else if matches!(*cur!(self, true)?, Token::Str { .. }) {
+        } else if matches!(cur!(self, true)?, TokenKind::Str { .. }) {
             let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
@@ -1185,7 +1183,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "require");
         expect!(self, '(');
         match cur!(self, true)? {
-            Token::Str { .. } => {}
+            TokenKind::Str => {}
             _ => unexpected!(self, "a string literal"),
         }
         let expr = match self.parse_lit()? {
@@ -1389,7 +1387,7 @@ impl<I: Tokens> Parser<I> {
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
                 let key = match cur!(p, true)? {
-                    Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
+                    TokenKind::Num | TokenKind::Str => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
                             p.emit_err(e.span(), SyntaxError::PrivateNameInInterface);
@@ -2027,7 +2025,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         match cur!(self, true)? {
-            Token::Word(Word::Ident(..))
+            TokenKind::Word(WordKind::Ident(..))
             | tok!("void")
             | tok!("yield")
             | tok!("null")
@@ -2087,9 +2085,9 @@ impl<I: Tokens> Parser<I> {
                     }
                 }
             }
-            Token::BigInt { .. }
-            | Token::Str { .. }
-            | Token::Num { .. }
+            TokenKind::BigInt
+            | TokenKind::Str
+            | TokenKind::Num
             | tok!("true")
             | tok!("false")
             | tok!('`') => {
@@ -2103,7 +2101,7 @@ impl<I: Tokens> Parser<I> {
 
                 bump!(self);
 
-                if !matches!(*cur!(self, true)?, Token::Num { .. } | Token::BigInt { .. }) {
+                if !matches!(cur!(self, true)?, TokenKind::Num | TokenKind::BigInt) {
                     unexpected!(self, "numeric literal or bigint literal")
                 }
 
@@ -2474,7 +2472,7 @@ impl<I: Tokens> Parser<I> {
                     .map(Some);
             } else if is!(p, IdentName) {
                 let value = match cur!(p, true)? {
-                    Token::Word(ref w) => w.clone().into(),
+                    TokenKind::Word(w) => w.clone().into(),
                     _ => unreachable!(),
                 };
                 return p
@@ -2561,7 +2559,7 @@ impl<I: Tokens> Parser<I> {
                     bump!(self);
                 }
 
-                if matches!(*cur!(self, true)?, Token::Str { .. }) {
+                if matches!(cur!(self, true)?, TokenKind::Str) {
                     return self
                         .parse_ts_ambient_external_module_decl(start)
                         .map(From::from)
