@@ -3,7 +3,7 @@
 use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
-use crate::parser::class_and_fn::is_not_this;
+use crate::{parser::class_and_fn::is_not_this, token::TokenKind};
 
 impl<I: Tokens> Parser<I> {
     /// Parse a object literal or object pattern.
@@ -52,7 +52,7 @@ impl<I: Tokens> Parser<I> {
             let start = cur_pos!(p);
 
             let v = match cur!(p, true)? {
-                Token::Str { .. } => match bump!(p) {
+                TokenKind::Str => match bump!(p) {
                     Token::Str { value, raw } => PropName::Str(Str {
                         span: span!(p, start),
                         value,
@@ -60,7 +60,7 @@ impl<I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Token::Num { .. } => match bump!(p) {
+                TokenKind::Num => match bump!(p) {
                     Token::Num { value, raw } => PropName::Num(Number {
                         span: span!(p, start),
                         value,
@@ -68,7 +68,7 @@ impl<I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Token::BigInt { .. } => match bump!(p) {
+                TokenKind::BigInt => match bump!(p) {
                     Token::BigInt { value, raw } => PropName::BigInt(BigInt {
                         span: span!(p, start),
                         value,
@@ -76,7 +76,7 @@ impl<I: Tokens> Parser<I> {
                     }),
                     _ => unreachable!(),
                 },
-                Word(..) => match bump!(p) {
+                TokenKind::Word(..) => match bump!(p) {
                     Word(w) => PropName::Ident(Ident::new(w.into(), span!(p, start))),
                     _ => unreachable!(),
                 },

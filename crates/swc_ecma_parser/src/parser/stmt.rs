@@ -2,7 +2,7 @@ use swc_common::Spanned;
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
-use crate::error::SyntaxError;
+use crate::{error::SyntaxError, token::TokenKind};
 
 mod module_item;
 
@@ -15,7 +15,7 @@ impl<'a, I: Tokens> Parser<I> {
         &mut self,
         mut allow_directives: bool,
         top_level: bool,
-        end: Option<&'static Token>,
+        end: Option<TokenKind>,
     ) -> PResult<Vec<Type>>
     where
         Self: StmtLikeParser<'a, Type>,
