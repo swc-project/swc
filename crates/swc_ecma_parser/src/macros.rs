@@ -280,15 +280,15 @@ macro_rules! tok {
     };
 
     ($tt:tt) => {
-        crate::token::TokenKind::Word(crate::token::Word::Ident(crate::token::IdentLike::Known(
-            known_ident!($tt),
-        )))
+        crate::token::TokenKind::Word(crate::token::WordKind::Ident(
+            crate::token::IdentLike::Known(known_ident!($tt)),
+        ))
     };
 }
 
 macro_rules! token_including_semi {
     (';') => {
-        Token::Semi
+        crate::token::TokenKind::Semi
     };
     ($t:tt) => {
         tok!($t)
