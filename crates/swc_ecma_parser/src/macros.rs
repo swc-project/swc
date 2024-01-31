@@ -323,7 +323,7 @@ macro_rules! tok {
 
     ($tt:tt) => {
         crate::token::TokenKind::Word(crate::token::WordKind::Ident(
-            crate::token::IdentLike::Known(known_ident!($tt)),
+            crate::token::IdentKind::Known(known_ident!($tt)),
         ))
     };
 }

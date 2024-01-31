@@ -8,7 +8,7 @@ use swc_common::{
     Span, Spanned,
 };
 
-use crate::token::{Token, TokenKind};
+use crate::token::TokenKind;
 
 /// Note: this struct is 8 bytes.
 #[derive(Debug, Clone, PartialEq)]
