@@ -297,8 +297,6 @@ reduce_vars/iife/input.js
 reduce_vars/iife_new/input.js
 reduce_vars/inner_var_for_2/input.js
 reduce_vars/inverted_var/input.js
-reduce_vars/issue_1670_4/input.js
-reduce_vars/issue_1670_5/input.js
 reduce_vars/issue_1850_2/input.js
 reduce_vars/issue_2485/input.js
 reduce_vars/issue_2757_1/input.js
