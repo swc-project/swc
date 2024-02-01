@@ -8950,20 +8950,13 @@
         "../../victory-area/es/victory-area.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-area/es/helper-methods.js"), _area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-area/es/area.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-area/es/helper-methods.js"), _area__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-area/es/area.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50,
                 interpolation: "linear"
             }, VictoryArea = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryArea() {
                     var call;
                     return !function(instance, Constructor) {
@@ -8999,7 +8992,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryArea.prototype, protoProps), staticProps && _defineProperties(VictoryArea, staticProps), VictoryArea;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryArea.prototype, protoProps), VictoryArea;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryArea, "animationWhitelist", {
                 configurable: !0,
@@ -9507,19 +9505,12 @@
         "../../victory-axis/es/victory-axis.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-axis/es/helper-methods.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), react__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_3__), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-axis/es/helper-methods.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryAxis = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -9643,7 +9634,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_3___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], _defineProperties(VictoryAxis.prototype, protoProps), staticProps && _defineProperties(VictoryAxis, staticProps), VictoryAxis;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryAxis.prototype, protoProps), VictoryAxis;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryAxis, "animationWhitelist", {
                 configurable: !0,
@@ -10458,19 +10454,12 @@
         "../../victory-bar/es/victory-bar.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-bar/es/helper-methods.js"), _bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-bar/es/bar.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-bar/es/helper-methods.js"), _bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-bar/es/bar.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryBar = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryBar() {
                     var call;
                     return !function(instance, Constructor) {
@@ -10506,7 +10495,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryBar.prototype, protoProps), staticProps && _defineProperties(VictoryBar, staticProps), VictoryBar;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryBar.prototype, protoProps), VictoryBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryBar, "animationWhitelist", {
                 configurable: !0,
@@ -11010,12 +11004,6 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var fallbackProps = {
                 width: 450,
                 height: 300,
@@ -11026,7 +11014,7 @@
                     left: 20
                 }
             }, VictoryBoxPlot = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryBoxPlot() {
                     var call;
                     return !function(instance, Constructor) {
@@ -11092,7 +11080,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryBoxPlot.prototype, protoProps), staticProps && _defineProperties(VictoryBoxPlot, staticProps), VictoryBoxPlot;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryBoxPlot.prototype, protoProps), VictoryBoxPlot;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryBoxPlot, "animationWhitelist", {
                 configurable: !0,
@@ -11825,16 +11818,10 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var brushContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var protoProps;
                     function VictoryBrushContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -11939,7 +11926,12 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_3___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getRect(props)));
                             }
                         }
-                    ], _defineProperties(VictoryBrushContainer.prototype, protoProps), staticProps && _defineProperties(VictoryBrushContainer, staticProps), VictoryBrushContainer;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictoryBrushContainer.prototype, protoProps), VictoryBrushContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -12051,12 +12043,6 @@
                 return VictoryBrushLine;
             });
             var lodash_pick__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/pick.js"), lodash_pick__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_pick__WEBPACK_IMPORTED_MODULE_0__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_1__), lodash_defaults__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_2__), lodash_assign__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), prop_types__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_5__), victory_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-core/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_7__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
@@ -12152,7 +12138,7 @@
                     fill: "none"
                 }
             }, VictoryBrushLine = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryBrushLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -12311,7 +12297,12 @@
                             return react__WEBPACK_IMPORTED_MODULE_4___default.a.createElement("g", this.props.events, this.renderLine(this.props), this.renderBrushArea(this.props), this.renderBrush(this.props), this.renderHandles(this.props));
                         }
                     }
-                ], _defineProperties(VictoryBrushLine.prototype, protoProps), staticProps && _defineProperties(VictoryBrushLine, staticProps), VictoryBrushLine;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryBrushLine.prototype, protoProps), VictoryBrushLine;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryBrushLine, "propTypes", {
                 configurable: !0,
@@ -12940,12 +12931,6 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var fallbackProps = {
                 width: 450,
                 height: 300,
@@ -13014,7 +12999,7 @@
             ], datumHasXandY = function(datum) {
                 return !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._x) && !lodash_isNil__WEBPACK_IMPORTED_MODULE_1___default()(datum._y);
             }, VictoryCandlestick = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryCandlestick() {
                     var call;
                     return !function(instance, Constructor) {
@@ -13079,7 +13064,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryCandlestick.prototype, protoProps), staticProps && _defineProperties(VictoryCandlestick, staticProps), VictoryCandlestick;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryCandlestick.prototype, protoProps), VictoryCandlestick;
             }(react__WEBPACK_IMPORTED_MODULE_3___default.a.Component);
             Object.defineProperty(VictoryCandlestick, "animationWhitelist", {
                 configurable: !0,
@@ -13511,12 +13501,6 @@
                 return VictoryChart;
             });
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_assign__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_1__), lodash_defaults__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-shared-events/es/index.js"), victory_axis__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-axis/es/index.js"), victory_polar_axis__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../victory-polar-axis/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("../../victory-chart/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_10__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -13526,7 +13510,7 @@
                 height: 300,
                 padding: 50
             }, VictoryChart = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryChart(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -13609,7 +13593,12 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryChart.prototype, protoProps), staticProps && _defineProperties(VictoryChart, staticProps), VictoryChart;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryChart.prototype, protoProps), VictoryChart;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryChart, "displayName", {
                 configurable: !0,
@@ -13873,15 +13862,8 @@
         "../../victory-core/es/victory-accessible-group/victory-accessible-group.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var VictoryAccessibleGroup = function(_React$Component) {
-                var protoProps, staticProps;
+            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), VictoryAccessibleGroup = function(_React$Component) {
+                var protoProps;
                 function VictoryAccessibleGroup() {
                     var call;
                     return !function(instance, Constructor) {
@@ -13921,7 +13903,12 @@
                             }, children);
                         }
                     }
-                ], _defineProperties(VictoryAccessibleGroup.prototype, protoProps), staticProps && _defineProperties(VictoryAccessibleGroup, staticProps), VictoryAccessibleGroup;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryAccessibleGroup.prototype, protoProps), VictoryAccessibleGroup;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAccessibleGroup, "displayName", {
                 configurable: !0,
@@ -14017,18 +14004,12 @@
                 return VictoryAnimation;
             });
             var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), d3_ease__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/d3-ease/src/index.js"), _util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/victory-animation/util.js"), _victory_util_timer_context__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/victory-util/timer-context.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_5__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var VictoryAnimation = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryAnimation(props, context) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14135,7 +14116,12 @@
                             return this.props.children(this.state.data, this.state.animationInfo);
                         }
                     }
-                ], _defineProperties(VictoryAnimation.prototype, protoProps), staticProps && _defineProperties(VictoryAnimation, staticProps), VictoryAnimation;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryAnimation.prototype, protoProps), VictoryAnimation;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryAnimation, "displayName", {
                 configurable: !0,
@@ -14233,14 +14219,8 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var VictoryClipContainer = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryClipContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14386,7 +14366,12 @@
                             return this.renderClippedGroup(clipProps, this.clipId);
                         }
                     }
-                ], _defineProperties(VictoryClipContainer.prototype, protoProps), staticProps && _defineProperties(VictoryClipContainer, staticProps), VictoryClipContainer;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryClipContainer.prototype, protoProps), VictoryClipContainer;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryClipContainer, "displayName", {
                 configurable: !0,
@@ -14481,14 +14466,8 @@
                 }
                 return target;
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var VictoryContainer = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryContainer(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -14635,7 +14614,12 @@
                             return this.renderContainer(this.props, svgProps, style);
                         }
                     }
-                ], _defineProperties(VictoryContainer.prototype, protoProps), staticProps && _defineProperties(VictoryContainer, staticProps), VictoryContainer;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryContainer.prototype, protoProps), VictoryContainer;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryContainer, "displayName", {
                 configurable: !0,
@@ -15153,18 +15137,11 @@
                 return Portal;
             });
             var lodash_keys__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/victory-util/prop-types.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var Portal = function(_React$Component) {
-                var staticProps;
                 function Portal(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -15181,7 +15158,12 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), _defineProperties(Portal.prototype, [
+                }(Portal, _React$Component), function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(Portal.prototype, [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -15218,7 +15200,7 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ]), staticProps && _defineProperties(Portal, staticProps), Portal;
+                ]), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -15243,15 +15225,8 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "default", function() {
                 return VictoryPortal;
             });
-            var lodash_defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_log__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/victory-util/log.js"), _victory_util_helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/victory-util/helpers.js"), _portal_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/victory-portal/portal-context.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var VictoryPortal = function(_React$Component) {
-                var protoProps, staticProps;
+            var lodash_defaults__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), prop_types__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_2__), _victory_util_log__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/victory-util/log.js"), _victory_util_helpers__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/victory-util/helpers.js"), _portal_context__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/victory-portal/portal-context.js"), VictoryPortal = function(_React$Component) {
+                var protoProps;
                 function VictoryPortal() {
                     var call;
                     return !function(instance, Constructor) {
@@ -15309,7 +15284,12 @@
                             return this.renderPortal(child);
                         }
                     }
-                ], _defineProperties(VictoryPortal.prototype, protoProps), staticProps && _defineProperties(VictoryPortal, staticProps), VictoryPortal;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryPortal.prototype, protoProps), VictoryPortal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryPortal, "displayName", {
                 configurable: !0,
@@ -16503,18 +16483,12 @@
                     return target;
                 }).apply(this, arguments);
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var VictoryTransition = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryTransition(props, context) {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16660,7 +16634,12 @@
                             });
                         }
                     }
-                ], _defineProperties(VictoryTransition.prototype, protoProps), staticProps && _defineProperties(VictoryTransition, staticProps), VictoryTransition;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryTransition.prototype, protoProps), VictoryTransition;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryTransition, "displayName", {
                 configurable: !0,
@@ -16702,12 +16681,6 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -16728,7 +16701,7 @@
             ];
             __webpack_exports__.default = function(WrappedComponent, options) {
                 return function(_WrappedComponent) {
-                    var protoProps, staticProps;
+                    var protoProps;
                     function addEvents(props) {
                         !function(instance, Constructor) {
                             if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -16954,7 +16927,12 @@
                                 return this.renderContainer(groupComponent, children);
                             }
                         }
-                    ], _defineProperties(addEvents.prototype, protoProps), staticProps && _defineProperties(addEvents, staticProps), addEvents;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(addEvents.prototype, protoProps), addEvents;
                 }(WrappedComponent);
             };
         },
@@ -22383,15 +22361,8 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "default", function() {
                 return Timer;
             });
-            var d3_timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-timer/src/index.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var Timer = function() {
-                var protoProps, staticProps;
+            var d3_timer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/d3-timer/src/index.js"), Timer = function() {
+                var protoProps;
                 function Timer() {
                     !function(instance, Constructor) {
                         if (!(instance instanceof Constructor)) throw TypeError("Cannot call a class as a function");
@@ -22448,7 +22419,12 @@
                             null !== id && this.subscribers[id - 1] && (delete this.subscribers[id - 1], this.activeSubscriptions--), 0 === this.activeSubscriptions && this.stop();
                         }
                     }
-                ], _defineProperties(Timer.prototype, protoProps), staticProps && _defineProperties(Timer, staticProps), Timer;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(Timer.prototype, protoProps), Timer;
             }();
         },
         "../../victory-core/es/victory-util/transitions.js": function(module1, __webpack_exports__, __webpack_require__) {
@@ -22979,12 +22955,6 @@
                 }
                 return target;
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var ensureArray = function(thing) {
                 return thing ? Array.isArray(thing) ? thing : [
                     thing
@@ -22997,7 +22967,7 @@
                     }(_ref) || function(arr, i) {
                         var _arr = [], _n = !0, _d = !1, _e = void 0;
                         try {
-                            for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                            for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
                         } catch (err) {
                             _d = !0, _e = err;
                         } finally{
@@ -23035,7 +23005,6 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = function(_NaiveCombinedContain) {
-                    var staticProps;
                     function VictoryCombinedContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23055,7 +23024,12 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), _defineProperties(VictoryCombinedContainer.prototype, [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictoryCombinedContainer.prototype, [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -23066,7 +23040,7 @@
                                 }, props.children);
                             }
                         }
-                    ]), staticProps && _defineProperties(VictoryCombinedContainer, staticProps), VictoryCombinedContainer;
+                    ]), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -23259,16 +23233,10 @@
                     writable: !0
                 }) : obj[key] = value, obj;
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var cursorContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var protoProps;
                     function VictoryCursorContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23372,7 +23340,12 @@
                                 return _toConsumableArray(react__WEBPACK_IMPORTED_MODULE_4___default.a.Children.toArray(props.children)).concat(_toConsumableArray(this.getCursorElements(props)));
                             }
                         }
-                    ], _defineProperties(VictoryCursorContainer.prototype, protoProps), staticProps && _defineProperties(VictoryCursorContainer, staticProps), VictoryCursorContainer;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictoryCursorContainer.prototype, protoProps), VictoryCursorContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -23731,19 +23704,12 @@
         "../../victory-errorbar/es/victory-errorbar.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _error_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-errorbar/es/error-bar.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-errorbar/es/helper-methods.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _error_bar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-errorbar/es/error-bar.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-errorbar/es/helper-methods.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryErrorBar = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryErrorBar() {
                     var call;
                     return !function(instance, Constructor) {
@@ -23779,7 +23745,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryErrorBar.prototype, protoProps), staticProps && _defineProperties(VictoryErrorBar, staticProps), VictoryErrorBar;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryErrorBar.prototype, protoProps), VictoryErrorBar;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryErrorBar, "animationWhitelist", {
                 configurable: !0,
@@ -24005,9 +23976,9 @@
                 return childComponents.map(function(child, index) {
                     var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
-                        var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis(axis, props.horizontal), domain = calculatedProps.domain[axis], range = calculatedProps.range[currentAxis];
+                        var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis("x", props.horizontal), domain = calculatedProps.domain.x, range = calculatedProps.range[currentAxis];
                         return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
-                    }(props2, "x", calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
+                    }(props2, 0, calculatedProps2)), style = "voronoi" === role || "tooltip" === role || "label" === role ? child.props.style : victory_core__WEBPACK_IMPORTED_MODULE_2__.Wrapper.getChildStyle(child, index, calculatedProps), labels = props.labels ? function(props, datasets, index) {
                         if (props.labels) return Math.floor(datasets.length / 2) === index ? props.labels : void 0;
                     }(props, datasets, index) : child.props.labels, name = child.props.name || "".concat(parentName, "-").concat(role, "-").concat(index);
                     return react__WEBPACK_IMPORTED_MODULE_1___default.a.cloneElement(child, lodash_assign__WEBPACK_IMPORTED_MODULE_0___default()({
@@ -24048,12 +24019,6 @@
                 return VictoryGroup;
             });
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-shared-events/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-group/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -24064,7 +24029,7 @@
                 padding: 50,
                 offset: 0
             }, VictoryGroup = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryGroup(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -24142,7 +24107,12 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryGroup.prototype, protoProps), staticProps && _defineProperties(VictoryGroup, staticProps), VictoryGroup;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryGroup.prototype, protoProps), VictoryGroup;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryGroup, "displayName", {
                 configurable: !0,
@@ -24422,19 +24392,12 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "VictoryHistogram", function() {
                 return VictoryHistogram;
             });
-            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-bar/es/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-histogram/es/helper-methods.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_bar__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-bar/es/index.js"), victory_core__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-histogram/es/helper-methods.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryHistogram = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryHistogram() {
                     var call;
                     return !function(instance, Constructor) {
@@ -24470,7 +24433,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryHistogram.prototype, protoProps), staticProps && _defineProperties(VictoryHistogram, staticProps), VictoryHistogram;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryHistogram.prototype, protoProps), VictoryHistogram;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryHistogram, "animationWhitelist", {
                 configurable: !0,
@@ -25675,12 +25643,6 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var fallbackProps = {
                 orientation: "vertical",
                 titleOrientation: "top",
@@ -25689,7 +25651,7 @@
                 x: 0,
                 y: 0
             }, VictoryLegend = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryLegend() {
                     var call;
                     return !function(instance, Constructor) {
@@ -25746,7 +25708,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : react__WEBPACK_IMPORTED_MODULE_0___default.a.cloneElement(props.groupComponent, {}, children);
                         }
                     }
-                ], _defineProperties(VictoryLegend.prototype, protoProps), staticProps && _defineProperties(VictoryLegend, staticProps), VictoryLegend;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryLegend.prototype, protoProps), VictoryLegend;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryLegend, "displayName", {
                 configurable: !0,
@@ -26104,20 +26071,13 @@
         "../../victory-line/es/victory-line.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-line/es/helper-methods.js"), _curve__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-line/es/curve.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), _helper_methods__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-line/es/helper-methods.js"), _curve__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-line/es/curve.js"), victory_core__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-core/es/index.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50,
                 interpolation: "linear"
             }, VictoryLine = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryLine() {
                     var call;
                     return !function(instance, Constructor) {
@@ -26153,7 +26113,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryLine.prototype, protoProps), staticProps && _defineProperties(VictoryLine, staticProps), VictoryLine;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryLine.prototype, protoProps), VictoryLine;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryLine, "animationWhitelist", {
                 configurable: !0,
@@ -26525,14 +26490,7 @@
         "../../victory-pie/es/victory-pie.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-pie/es/slice.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-pie/es/helper-methods.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), prop_types__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _slice__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-pie/es/slice.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../victory-pie/es/helper-methods.js"), fallbackProps = {
                 endAngle: 360,
                 height: 400,
                 innerRadius: 0,
@@ -26554,7 +26512,7 @@
                 ],
                 labelPosition: "centroid"
             }, VictoryPie = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryPie() {
                     var call;
                     return !function(instance, Constructor) {
@@ -26590,7 +26548,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryPie.prototype, protoProps), staticProps && _defineProperties(VictoryPie, staticProps), VictoryPie;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryPie.prototype, protoProps), VictoryPie;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryPie, "animationWhitelist", {
                 configurable: !0,
@@ -27135,18 +27098,12 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryPolarAxis = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryPolarAxis() {
                     var call;
                     return !function(instance, Constructor) {
@@ -27233,7 +27190,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryPolarAxis.prototype, protoProps), staticProps && _defineProperties(VictoryPolarAxis, staticProps), VictoryPolarAxis;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryPolarAxis.prototype, protoProps), VictoryPolarAxis;
             }(react__WEBPACK_IMPORTED_MODULE_2___default.a.Component);
             Object.defineProperty(VictoryPolarAxis, "animationWhitelist", {
                 configurable: !0,
@@ -27555,21 +27517,14 @@
         "../../victory-scatter/es/victory-scatter.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-scatter/es/helper-methods.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var prop_types__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_0__), react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__), victory_core__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-core/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-scatter/es/helper-methods.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50,
                 size: 3,
                 symbol: "circle"
             }, VictoryScatter = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryScatter() {
                     var call;
                     return !function(instance, Constructor) {
@@ -27605,7 +27560,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryScatter.prototype, protoProps), staticProps && _defineProperties(VictoryScatter, staticProps), VictoryScatter;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryScatter.prototype, protoProps), VictoryScatter;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(VictoryScatter, "animationWhitelist", {
                 configurable: !0,
@@ -27947,16 +27907,10 @@
                 }
                 return target;
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var selectionContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var protoProps;
                     function VictorySelectionContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -28009,7 +27963,12 @@
                                 ]);
                             }
                         }
-                    ], _defineProperties(VictorySelectionContainer.prototype, protoProps), staticProps && _defineProperties(VictorySelectionContainer, staticProps), VictorySelectionContainer;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictorySelectionContainer.prototype, protoProps), VictorySelectionContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -28096,18 +28055,12 @@
                 return VictorySharedEvents;
             });
             var lodash_difference__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/difference.js"), lodash_difference__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_difference__WEBPACK_IMPORTED_MODULE_0__), lodash_keys__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/keys.js"), lodash_keys__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_keys__WEBPACK_IMPORTED_MODULE_1__), lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/fromPairs.js"), lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_fromPairs__WEBPACK_IMPORTED_MODULE_2__), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_3__), lodash_defaults__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_4__), lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../../node_modules/lodash/isFunction.js"), lodash_isFunction__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(lodash_isFunction__WEBPACK_IMPORTED_MODULE_5__), lodash_assign__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_6__), react__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_7___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_7__), prop_types__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_8__), victory_core__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("../../victory-core/es/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_10__), json_stringify_safe__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__("../../../node_modules/json-stringify-safe/stringify.js"), json_stringify_safe__WEBPACK_IMPORTED_MODULE_11___default = __webpack_require__.n(json_stringify_safe__WEBPACK_IMPORTED_MODULE_11__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
             }
             var VictorySharedEvents = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictorySharedEvents(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28238,7 +28191,7 @@
                             }(arr = this.sharedEventsCache[name] || []) || function(arr, i) {
                                 var _arr = [], _n = !0, _d = !1, _e = void 0;
                                 try {
-                                    for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                                    for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
                                 } catch (err) {
                                     _d = !0, _e = err;
                                 } finally{
@@ -28349,7 +28302,12 @@
                             });
                         }
                     }
-                ], _defineProperties(VictorySharedEvents.prototype, protoProps), staticProps && _defineProperties(VictorySharedEvents, staticProps), VictorySharedEvents;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictorySharedEvents.prototype, protoProps), VictorySharedEvents;
             }(react__WEBPACK_IMPORTED_MODULE_7___default.a.Component);
             Object.defineProperty(VictorySharedEvents, "displayName", {
                 configurable: !0,
@@ -28592,12 +28550,6 @@
                 return VictoryStack;
             });
             var lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/isEmpty.js"), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_isEmpty__WEBPACK_IMPORTED_MODULE_0__), lodash_defaults__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_1__), lodash_assign__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_2__), prop_types__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_3__), react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_4__), victory_core__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("../../victory-core/es/index.js"), victory_shared_events__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../victory-shared-events/es/index.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-stack/es/helper-methods.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../../node_modules/react-fast-compare/index.js"), react_fast_compare__WEBPACK_IMPORTED_MODULE_8___default = __webpack_require__.n(react_fast_compare__WEBPACK_IMPORTED_MODULE_8__);
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             function _assertThisInitialized(self1) {
                 if (void 0 === self1) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                 return self1;
@@ -28607,7 +28559,7 @@
                 height: 300,
                 padding: 50
             }, VictoryStack = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryStack(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -28685,7 +28637,12 @@
                             }, newChildren);
                         }
                     }
-                ], _defineProperties(VictoryStack.prototype, protoProps), staticProps && _defineProperties(VictoryStack, staticProps), VictoryStack;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryStack.prototype, protoProps), VictoryStack;
             }(react__WEBPACK_IMPORTED_MODULE_4___default.a.Component);
             Object.defineProperty(VictoryStack, "displayName", {
                 configurable: !0,
@@ -28882,19 +28839,12 @@
             __webpack_require__.r(__webpack_exports__), __webpack_require__.d(__webpack_exports__, "default", function() {
                 return VictoryTooltip;
             });
-            var lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/orderBy.js"), lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/uniqueId.js"), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__), prop_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__), victory_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-core/es/index.js"), _flyout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../victory-tooltip/es/flyout.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("../../../node_modules/lodash/orderBy.js"), lodash_orderBy__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(lodash_orderBy__WEBPACK_IMPORTED_MODULE_0__), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../../node_modules/lodash/isPlainObject.js"), lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1___default = __webpack_require__.n(lodash_isPlainObject__WEBPACK_IMPORTED_MODULE_1__), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../../node_modules/lodash/uniqueId.js"), lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2___default = __webpack_require__.n(lodash_uniqueId__WEBPACK_IMPORTED_MODULE_2__), lodash_defaults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../../node_modules/lodash/defaults.js"), lodash_defaults__WEBPACK_IMPORTED_MODULE_3___default = __webpack_require__.n(lodash_defaults__WEBPACK_IMPORTED_MODULE_3__), lodash_assign__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("../../../node_modules/lodash/assign.js"), lodash_assign__WEBPACK_IMPORTED_MODULE_4___default = __webpack_require__.n(lodash_assign__WEBPACK_IMPORTED_MODULE_4__), react__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_5___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_5__), prop_types__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("../../../node_modules/prop-types/index.js"), prop_types__WEBPACK_IMPORTED_MODULE_6___default = __webpack_require__.n(prop_types__WEBPACK_IMPORTED_MODULE_6__), victory_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("../../victory-core/es/index.js"), _flyout__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("../../victory-tooltip/es/flyout.js"), fallbackProps = {
                 cornerRadius: 5,
                 pointerLength: 10,
                 pointerWidth: 10
             }, VictoryTooltip = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryTooltip(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -29238,7 +29188,12 @@
                             return this.renderTooltip(props);
                         }
                     }
-                ], _defineProperties(VictoryTooltip.prototype, protoProps), staticProps && _defineProperties(VictoryTooltip, staticProps), VictoryTooltip;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryTooltip.prototype, protoProps), VictoryTooltip;
             }(react__WEBPACK_IMPORTED_MODULE_5___default.a.Component);
             Object.defineProperty(VictoryTooltip, "displayName", {
                 configurable: !0,
@@ -29505,16 +29460,10 @@
                 }
                 return target;
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var voronoiContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var protoProps;
                     function VictoryVoronoiContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -29670,7 +29619,12 @@
                                 ]);
                             }
                         }
-                    ], _defineProperties(VictoryVoronoiContainer.prototype, protoProps), staticProps && _defineProperties(VictoryVoronoiContainer, staticProps), VictoryVoronoiContainer;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictoryVoronoiContainer.prototype, protoProps), VictoryVoronoiContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
@@ -30038,19 +29992,12 @@
         "../../victory-voronoi/es/victory-voronoi.js": function(module1, __webpack_exports__, __webpack_require__) {
             "use strict";
             __webpack_require__.r(__webpack_exports__);
-            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), victory_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../victory-core/es/index.js"), _voronoi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-voronoi/es/voronoi.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-voronoi/es/helper-methods.js");
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
-            var fallbackProps = {
+            var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("react"), react__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__), victory_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("../../victory-core/es/index.js"), _voronoi__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("../../victory-voronoi/es/voronoi.js"), _helper_methods__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("../../victory-voronoi/es/helper-methods.js"), fallbackProps = {
                 width: 450,
                 height: 300,
                 padding: 50
             }, VictoryVoronoi = function(_React$Component) {
-                var protoProps, staticProps;
+                var protoProps;
                 function VictoryVoronoi() {
                     var call;
                     return !function(instance, Constructor) {
@@ -30086,7 +30033,12 @@
                             return props.standalone ? this.renderContainer(props.containerComponent, children) : children;
                         }
                     }
-                ], _defineProperties(VictoryVoronoi.prototype, protoProps), staticProps && _defineProperties(VictoryVoronoi, staticProps), VictoryVoronoi;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(VictoryVoronoi.prototype, protoProps), VictoryVoronoi;
             }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
             Object.defineProperty(VictoryVoronoi, "animationWhitelist", {
                 configurable: !0,
@@ -30327,16 +30279,10 @@
                     throw TypeError("Invalid attempt to spread non-iterable instance");
                 }();
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var zoomContainerMixin = function(base) {
                 var _class, _temp;
                 return _temp = _class = function(_base) {
-                    var protoProps, staticProps;
+                    var protoProps;
                     function VictoryZoomContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -30430,7 +30376,12 @@
                                 return this.clipDataComponents(children, props);
                             }
                         }
-                    ], _defineProperties(VictoryZoomContainer.prototype, protoProps), staticProps && _defineProperties(VictoryZoomContainer, staticProps), VictoryZoomContainer;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictoryZoomContainer.prototype, protoProps), VictoryZoomContainer;
                 }(base), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,
