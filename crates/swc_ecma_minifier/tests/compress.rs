@@ -31,7 +31,7 @@ use swc_ecma_minifier::{
     optimize,
     option::{
         terser::TerserCompressorOptions, CompressOptions, ExtraOptions, MangleOptions,
-        MinifyOptions,
+        MinifyOptions, TopLevelOptions,
     },
 };
 use swc_ecma_parser::{
@@ -150,7 +150,7 @@ fn run(
     HANDLER.set(handler, || {
         let disable_hygiene = mangle.is_some() || skip_hygiene;
 
-        let (_module, config) = parse_compressor_config(cm.clone(), config);
+        let (_module, mut config) = parse_compressor_config(cm.clone(), config);
 
         let fm = cm.load_file(input).expect("failed to load input.js");
         let comments = SingleThreadedComments::default();
@@ -212,6 +212,14 @@ fn run(
             Ok(v) => v,
             _ => return None,
         };
+
+        if config.top_level.is_none() {
+            if program.is_module() {
+                config.top_level = Some(TopLevelOptions { functions: true });
+            } else {
+                config.top_level = Some(TopLevelOptions { functions: false });
+            }
+        }
 
         let optimization_start = Instant::now();
         let mut output = optimize(
