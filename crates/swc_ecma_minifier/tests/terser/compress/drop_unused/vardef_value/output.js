@@ -1,6 +1,5 @@
 function f() {
-    var a = (function () {
+    return (function() {
         return x();
-    })();
-    return a(42);
+    })()(42);
 }

@@ -1,4 +1,1 @@
-!(function () {
-    var a;
-    console.log(a);
-})();
+console.log(void 0);
