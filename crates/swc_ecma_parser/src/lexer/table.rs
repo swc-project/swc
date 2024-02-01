@@ -198,7 +198,7 @@ const L_O: ByteHandler = Some(|lexer| {
 const L_P: ByteHandler = Some(|lexer| {
     lexer.read_word_with(|s| match s {
         "public" => Some(Word::Ident(IdentLike::Known(KnownIdent::Public))),
-        "pacakge" => Some(Word::Ident(IdentLike::Known(KnownIdent::Package))),
+        "package" => Some(Word::Ident(IdentLike::Known(KnownIdent::Package))),
         "protected" => Some(Word::Ident(IdentLike::Known(KnownIdent::Protected))),
         "private" => Some(Word::Ident(IdentLike::Known(KnownIdent::Private))),
         _ => None,
