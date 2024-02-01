@@ -135,7 +135,7 @@ impl Optimizer<'_> {
     /// ```
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
-        if self.options.inline == 0 {
+        if self.options.inline == 0 && !self.options.reduce_vars && !self.options.reduce_fns {
             return;
         }
 
@@ -206,6 +206,12 @@ impl Optimizer<'_> {
                                     param.id.span.ctxt
                                 );
                                 vars.insert(param.to_id(), arg.clone());
+                            } else {
+                                trace_op!(
+                                    "iife: Trying to inline argument ({}{:?}) (not inlinable)",
+                                    param.id.sym,
+                                    param.id.span.ctxt
+                                );
                             }
                         } else {
                             trace_op!(
