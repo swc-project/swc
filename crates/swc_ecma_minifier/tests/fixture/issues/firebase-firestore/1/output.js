@@ -198,11 +198,11 @@
                     let n = "";
                     for(; n.length < 20;){
                         const s = function(t) {
-                            const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
+                            const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
                             if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
-                            else for(let e = 0; e < t; e++)n[e] = Math.floor(256 * Math.random());
+                            else for(let e = 0; e < 40; e++)n[e] = Math.floor(256 * Math.random());
                             return n;
-                        }(40);
+                        }(0);
                         for(let i = 0; i < s.length; ++i)n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
                     }
                     return n;
@@ -4722,11 +4722,11 @@
             }
             function Su(t, e) {
                 return "string" == typeof e ? function(t, e, n) {
-                    if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, n);
+                    if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, void 0);
                     try {
                         return new Ja(...e.split("."))._internalPath;
                     } catch (s) {
-                        throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, n);
+                        throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, void 0);
                     }
                 }(t, e) : e instanceof Ja ? e._internalPath : e._delegate._internalPath;
             }
