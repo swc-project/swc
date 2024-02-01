@@ -1,1 +1,4 @@
-console.log(void 0);
+!function() {
+    var a;
+    console.log(a);
+}();
