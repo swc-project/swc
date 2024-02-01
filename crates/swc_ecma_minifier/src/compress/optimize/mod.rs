@@ -2041,6 +2041,7 @@ impl VisitMut for Optimizer<'_> {
 
         let ctx = Ctx {
             top_level: false,
+            in_fn_like: true,
             is_lhs_of_assign: false,
             is_exact_lhs_of_assign: false,
             ..self.ctx
@@ -2062,7 +2063,14 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
-        e.visit_mut_children_with(self);
+        let ctx = Ctx {
+            top_level: false,
+            in_fn_like: true,
+            is_lhs_of_assign: false,
+            is_exact_lhs_of_assign: false,
+            ..self.ctx
+        };
+        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
