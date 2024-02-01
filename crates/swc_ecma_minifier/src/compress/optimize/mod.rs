@@ -1663,6 +1663,7 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_class_expr(&mut self, e: &mut ClassExpr) {
         if !self.options.keep_classnames {
             if e.ident.is_some() && !contains_eval(&e.class, true) {
@@ -2255,6 +2256,7 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
         s.visit_mut_children_with(self);
 
@@ -2269,8 +2271,14 @@ impl VisitMut for Optimizer<'_> {
         }
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_script(&mut self, s: &mut Script) {
-        s.visit_mut_children_with(self);
+        let ctx = Ctx {
+            top_level: true,
+            skip_standalone: true,
+            ..self.ctx
+        };
+        s.visit_mut_children_with(&mut *self.with_ctx(ctx));
 
         if self.vars.inline_with_multi_replacer(s) {
             self.changed = true;
@@ -2279,6 +2287,7 @@ impl VisitMut for Optimizer<'_> {
         drop_invalid_stmts(&mut s.body);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
         let ctx = Ctx {
             top_level: true,
@@ -2701,6 +2710,7 @@ impl VisitMut for Optimizer<'_> {
         debug_assert_valid(s);
     }
 
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_stmts(&mut self, stmts: &mut Vec<Stmt>) {
         // Skip if `use asm` exists.
         if maybe_par!(
