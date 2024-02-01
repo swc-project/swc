@@ -3,10 +3,7 @@ function f() {
         x();
         return a;
     }
-    var a = function() {
-        y();
-        return 2;
-    }();
+    var a = (y(), 2);
     var b = 2;
     return a + 2;
 }
