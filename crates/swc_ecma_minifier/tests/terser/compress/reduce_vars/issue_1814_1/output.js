@@ -1,6 +1,5 @@
 const a = 42;
 !function() {
-    !function(a) {
-        console.log(a++, 42);
-    }(0);
+    var a;
+    a = 0, console.log(a++, 42);
 }();

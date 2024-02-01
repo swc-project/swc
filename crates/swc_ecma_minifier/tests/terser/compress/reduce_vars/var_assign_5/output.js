@@ -1,6 +1,5 @@
 !function() {
     var a;
-    !function(b) {
-        console.log(a = 2, b);
-    }(a);
+    var b;
+    b = a, console.log(a = 2, b);
 }();
