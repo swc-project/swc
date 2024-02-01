@@ -176,6 +176,7 @@ impl Optimizer<'_> {
                 .filter(|usage| usage.used_recursively)
                 .is_some()
             {
+                log_abort!("iife: [x] Recursive?");
                 return;
             }
         }
