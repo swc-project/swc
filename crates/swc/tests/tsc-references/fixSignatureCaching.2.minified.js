@@ -346,7 +346,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         return impl.detectMobileBrowsers.tabletPattern.test(userAgent);
     }, impl.prepareDetectionCache = function(cache, userAgent, maxPhoneWidth) {
         var phone, tablet, phoneSized;
-        if (undefined === cache.mobile) {
+        if (void 0 === cache.mobile) {
             if (tablet = impl.findMatch(impl.mobileDetectRules.tablets, userAgent)) {
                 cache.mobile = cache.tablet = tablet, cache.phone = null;
                 return;
