@@ -557,7 +557,13 @@ impl Optimizer<'_> {
         options: &CompressOptions,
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
-            Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
+            Stmt::Expr(e) => {
+                if !self.options.sequences() && !self.options.collapse_vars {
+                    return None;
+                } else {
+                    vec![Mergable::Expr(&mut e.expr)]
+                }
+            }
             Stmt::Decl(Decl::Var(v)) => {
                 if options.reduce_vars || options.collapse_vars {
                     v.decls.iter_mut().map(Mergable::Var).collect()
