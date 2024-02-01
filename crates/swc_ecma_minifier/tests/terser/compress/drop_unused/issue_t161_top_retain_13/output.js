@@ -1,2 +1,2 @@
-const g = ()=>y, y = 3;
-console.log(2, 3, 4, 6, 8, 12, 2, 3, 4);
+const f = ()=>x, g = ()=>y, h = ()=>z, x = 2, y = 3, z = 4;
+console.log(x, y, z, x * y, x * z, y * z, x, y, z);

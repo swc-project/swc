@@ -3,13 +3,19 @@ class Alpha {
         return x;
     }
 }
-let x = 2, z = 4;
-console.log(2, 3, 4, 6, 8, 12, 2, 3, 4, new Alpha().num(), new class {
+class Beta {
     num() {
-        return 3;
+        return y;
     }
-}().num(), new class {
+}
+class Carrot {
     num() {
         return z;
     }
-}().num());
+}
+function f() {
+    return x;
+}
+const g = ()=>y, h = ()=>z;
+let x = 2, y = 3, z = 4;
+console.log(x, y, z, x * y, x * z, y * z, f(), y, z, new Alpha().num(), new Beta().num(), new Carrot().num());

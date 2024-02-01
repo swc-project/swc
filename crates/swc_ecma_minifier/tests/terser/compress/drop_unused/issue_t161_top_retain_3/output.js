@@ -1,1 +1,7 @@
-console.log(2, 3);
+function f() {
+    return 2;
+}
+function g() {
+    return 3;
+}
+console.log(f(), g());
