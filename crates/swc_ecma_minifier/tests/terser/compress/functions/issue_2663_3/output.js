@@ -1,11 +1,12 @@
 (function(outputs) {
     var handlers = [];
     for(var i = 0; i < outputs.length; i++){
+        var output = outputs[i];
         var handleEventClosure = function(eventName) {
             return function() {
                 return console.log(eventName);
             };
-        }(outputs[i].eventName);
+        }(output.eventName);
         handlers.push(handleEventClosure);
     }
     return handlers;
