@@ -3,12 +3,6 @@ import { Component } from "react";
 import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
 function _getPrototypeOf(o) {
     return (_getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function(o) {
         return o.__proto__ || Object.getPrototypeOf(o);
@@ -38,7 +32,7 @@ function _setPrototypeOf(o, p) {
 }
 var ItemsList = function(Component) {
     "use strict";
-    var protoProps, staticProps;
+    var protoProps;
     function ItemsList() {
         var _this, call;
         return !function(instance, Constructor) {
@@ -95,7 +89,12 @@ var ItemsList = function(Component) {
                 }));
             }
         }
-    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
+    ], function(target, props) {
+        for(var i = 0; i < props.length; i++){
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }(ItemsList.prototype, protoProps), ItemsList;
 }(Component);
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,
