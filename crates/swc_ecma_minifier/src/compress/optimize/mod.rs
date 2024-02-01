@@ -178,8 +178,8 @@ struct Ctx {
 
 impl Ctx {
     pub fn is_top_level_for_block_level_vars(self) -> bool {
-        if self.top_level {
-            return true;
+        if !self.top_level {
+            return false;
         }
 
         if self.in_fn_like || self.in_block {
