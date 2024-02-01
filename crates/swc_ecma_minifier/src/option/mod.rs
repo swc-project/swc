@@ -348,10 +348,6 @@ impl CompressOptions {
 
     /// Returns `true` if any of toplevel optimizer is enabled.
     pub(crate) fn top_level(&self) -> bool {
-        if !self.top_retain.is_empty() {
-            return true;
-        }
-
         self.top_level.map(|v| v.functions).unwrap_or(false)
     }
 }
