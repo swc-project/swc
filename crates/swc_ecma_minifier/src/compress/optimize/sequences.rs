@@ -612,7 +612,7 @@ impl Optimizer<'_> {
     where
         T: ModuleItemExt,
     {
-        if !self.options.sequences() && !self.options.collapse_vars {
+        if !self.options.sequences() && !self.options.collapse_vars && !self.options.reduce_vars {
             log_abort!("sequences: [x] Disabled");
             return;
         }
