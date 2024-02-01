@@ -558,10 +558,13 @@ impl Optimizer<'_> {
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
             Stmt::Expr(e) => {
-                if !self.options.sequences() && !self.options.collapse_vars {
-                    return None;
-                } else {
+                if self.options.sequences()
+                    || self.options.collapse_vars
+                    || self.options.side_effects
+                {
                     vec![Mergable::Expr(&mut e.expr)]
+                } else {
+                    return None;
                 }
             }
             Stmt::Decl(Decl::Var(v)) => {
