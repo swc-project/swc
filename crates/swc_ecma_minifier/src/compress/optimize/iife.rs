@@ -13,6 +13,7 @@ use super::{util::NormalMultiReplacer, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::optimize::Ctx,
+    program_data::{ProgramData, ScopeData},
     util::{idents_captured_by, idents_used_by, make_number},
 };
 
@@ -148,6 +149,13 @@ impl Optimizer<'_> {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+
+        if let Some(scope) = find_scope(self.data, callee) {
+            if scope.used_arguments {
+                log_abort!("iife: [x] Found usage of arguments");
+                return;
+            }
+        }
 
         fn clean_params(callee: &mut Expr) {
             match callee {
@@ -1039,6 +1047,14 @@ impl Optimizer<'_> {
 
             _ => false,
         }
+    }
+}
+
+fn find_scope<'a>(data: &'a ProgramData, callee: &Expr) -> Option<&'a ScopeData> {
+    match callee {
+        Expr::Arrow(callee) => data.scopes.get(&callee.span.ctxt),
+        Expr::Fn(callee) => data.scopes.get(&callee.function.span.ctxt),
+        _ => None,
     }
 }
 
