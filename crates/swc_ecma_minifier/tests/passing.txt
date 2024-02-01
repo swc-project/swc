@@ -1308,6 +1308,7 @@ reduce_vars/issue_1533_1/input.js
 reduce_vars/issue_1533_2/input.js
 reduce_vars/issue_1595_1/input.js
 reduce_vars/issue_1595_2/input.js
+reduce_vars/issue_1595_3/input.js
 reduce_vars/issue_1595_4/input.js
 reduce_vars/issue_1606/input.js
 reduce_vars/issue_1670_1/input.js
