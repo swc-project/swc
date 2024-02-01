@@ -179,11 +179,11 @@ impl Optimizer<'_> {
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
                     Pat::Ident(param) => {
+                        if param.sym == "arguments" {
+                            continue;
+                        }
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
                             if usage.reassigned {
-                                continue;
-                            }
-                            if usage.ref_count != 1 {
                                 continue;
                             }
                         }
