@@ -1,4 +1,3 @@
-use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
 
@@ -96,81 +95,6 @@ impl Optimizer<'_> {
 
             if let Some(init) = n.init.as_deref() {
                 self.mode.store(name.to_id(), init);
-            }
-
-            if let Some(Expr::Object(init)) = n.init.as_deref_mut() {
-                for prop in &mut init.props {
-                    let prop = match prop {
-                        PropOrSpread::Spread(_) => continue,
-                        PropOrSpread::Prop(prop) => prop,
-                    };
-
-                    if let Prop::KeyValue(p) = &mut **prop {
-                        self.vars.inline_with_multi_replacer(&mut p.value);
-
-                        let value = match &*p.value {
-                            Expr::Lit(..) => p.value.clone(),
-                            Expr::Fn(..) | Expr::Arrow(..) => {
-                                if self.options.hoist_props {
-                                    p.value.clone()
-                                } else {
-                                    continue;
-                                }
-                            }
-                            _ => continue,
-                        };
-
-                        match &p.key {
-                            PropName::Str(s) => {
-                                trace_op!(
-                                    "hoist_props: Storing a variable (`{}`) to inline properties",
-                                    name.id
-                                );
-                                self.simple_props
-                                    .insert((name.to_id(), s.value.clone()), value);
-                            }
-                            PropName::Ident(i) => {
-                                trace_op!(
-                                    "hoist_props: Storing a variable(`{}`) to inline properties",
-                                    name.id
-                                );
-                                self.simple_props
-                                    .insert((name.to_id(), i.sym.clone()), value);
-                            }
-                            _ => {}
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /// Replace property accesses to known values.
-    pub(super) fn replace_props(&mut self, e: &mut Expr) {
-        let member = match e {
-            Expr::Member(m) => m,
-            Expr::OptChain(m) => match &mut *m.base {
-                OptChainBase::Member(m) => m,
-                _ => return,
-            },
-            _ => return,
-        };
-        if let Expr::Ident(obj) = &*member.obj {
-            if let MemberProp::Ident(prop) = &member.prop {
-                if let Some(mut value) = self
-                    .simple_props
-                    .get(&(obj.to_id(), prop.sym.clone()))
-                    .cloned()
-                {
-                    if let Expr::Fn(f) = &mut *value {
-                        f.function.span = DUMMY_SP;
-                    }
-
-                    report_change!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
-                    self.changed = true;
-                    *e = *value;
-                    return;
-                }
             }
         }
     }
