@@ -14,6 +14,9 @@ impl Optimizer<'_> {
         if self.ctx.is_exported {
             return;
         }
+        if self.ctx.in_top_level() && !self.options.top_level() {
+            return;
+        }
 
         let mut new = Vec::with_capacity(n.len());
         for mut n in n.take() {
