@@ -26,7 +26,6 @@ impl Optimizer<'_> {
             let new_vars = self.hoist_props_of_var(&mut n);
 
             if let Some(new_vars) = new_vars {
-                self.changed = true;
                 new.extend(new_vars);
             } else {
                 new.push(n);
@@ -101,7 +100,7 @@ impl Optimizer<'_> {
                                         *v -= 1;
                                     }
                                 }
-                                _ => {}
+                                _ => return None,
                             }
                         }
                         Prop::Shorthand(p) => {
@@ -131,6 +130,7 @@ impl Optimizer<'_> {
 
             let object = n.init.as_mut()?.as_mut_object()?;
 
+            self.changed = true;
             report_change!(
                 "hoist_props: Hoisting properties of a variable `{}`",
                 name.id.sym
