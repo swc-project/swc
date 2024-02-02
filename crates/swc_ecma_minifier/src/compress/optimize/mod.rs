@@ -31,7 +31,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::ProgramData,
+    program_data::{ProgramData, VarUsageInfo},
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
@@ -323,7 +323,7 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if self.ctx.is_exported {
+        if let Some(VarUsageInfo { exported: true, .. }) = self.data.vars.get(&id.clone().to_id()) {
             return false;
         }
 

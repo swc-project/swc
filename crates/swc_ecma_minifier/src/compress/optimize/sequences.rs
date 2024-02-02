@@ -1525,9 +1525,8 @@ impl Optimizer<'_> {
         // Respect top_retain
         if let Some(a_id) = a.id() {
             if a_id.0 == "arguments"
-                || (self.ctx.in_top_level()
-                    && a_id.1 == self.marks.top_level_ctxt
-                    && self.options.top_retain.contains(&a_id.0))
+                || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
+                    && !self.may_remove_ident(&Ident::from(a_id)))
             {
                 return Ok(false);
             }
