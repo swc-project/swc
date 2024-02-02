@@ -89,7 +89,6 @@ pub(super) fn optimizer<'a>(
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
-        simple_props: Default::default(),
         typeofs: Default::default(),
         data,
         ctx,
@@ -208,8 +207,6 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    /// Used for `hoist_props`.
-    simple_props: Box<FxHashMap<(Id, JsWord), Box<Expr>>>,
     typeofs: Box<AHashMap<Id, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
@@ -1805,12 +1802,6 @@ impl VisitMut for Optimizer<'_> {
         }
 
         self.optimize_str_access_to_arguments(e);
-
-        if e.is_seq() {
-            debug_assert_valid(e);
-        }
-
-        self.replace_props(e);
 
         if e.is_seq() {
             debug_assert_valid(e);
