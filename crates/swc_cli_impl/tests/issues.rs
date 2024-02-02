@@ -58,6 +58,29 @@ fn issue_8265_1() -> Result<()> {
     Ok(())
 }
 
+#[test]
+fn issue_8495_1() -> Result<()> {
+    let pwd = Path::new("tests/fixture-manual/8495").canonicalize()?;
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&pwd)
+        .arg("compile")
+        .arg("--source-maps")
+        .arg("true")
+        .arg("--source-file-name")
+        .arg("input.ts")
+        .arg("--config-file")
+        .arg(".swcrc")
+        .arg("--out-file")
+        .arg("dist/input.js")
+        .arg("src/input.ts");
+
+    cmd.assert().success();
+
+    fs::read_to_string(pwd.join("dist/input.js"))?;
+    Ok(())
+}
+
 /// ln -s $a $b
 fn symlink(a: &Path, b: &Path) {
     #[cfg(unix)]

@@ -1217,14 +1217,7 @@
                     return target;
                 }).apply(this, arguments);
             }
-            function _defineProperties(target, props) {
-                for(var i = 0; i < props.length; i++){
-                    var descriptor = props[i];
-                    descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                }
-            }
             var Anatomy = function() {
-                var staticProps;
                 function Anatomy(name) {
                     var _this = this;
                     this.map = {}, this.called = !1, this.assert = function() {
@@ -1267,7 +1260,12 @@
                         };
                     }, this.__type = {};
                 }
-                return _defineProperties(Anatomy.prototype, [
+                return function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(Anatomy.prototype, [
                     {
                         key: "selectors",
                         get: function() {
@@ -1296,7 +1294,7 @@
                             return Object.keys(this.map);
                         }
                     }
-                ]), staticProps && _defineProperties(Anatomy, staticProps), Object.defineProperty(Anatomy, "prototype", {
+                ]), Object.defineProperty(Anatomy, "prototype", {
                     writable: !1
                 }), Anatomy;
             }();

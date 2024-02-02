@@ -125,13 +125,13 @@ export var O = function(N) {
     return O;
 }(N);
 export var VariableBase = function(x) {
-    _inherits(VariableBase, null);
+    _inherits(VariableBase, x);
     var _super = _create_super(VariableBase);
     function VariableBase() {
         return _class_call_check(this, VariableBase), _super.apply(this, arguments);
     }
     return VariableBase;
-}(0);
+}(null);
 export var HasStatics = function() {
     function HasStatics() {
         _class_call_check(this, HasStatics);

@@ -58,12 +58,6 @@ function ownKeys(object, enumerableOnly) {
     }
     return keys;
 }
-function _defineProperties(target, props) {
-    for(var i = 0; i < props.length; i++){
-        var descriptor = props[i];
-        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-    }
-}
 function _assertThisInitialized(self) {
     if (void 0 === self) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
     return self;
@@ -97,7 +91,7 @@ var ItemsList = function(_Component) {
             }
         }), superClass && _setPrototypeOf(subClass, superClass);
     }(ItemsList, _Component);
-    var protoProps, staticProps, _super = function() {
+    var protoProps, _super = function() {
         var call, result, Super = _getPrototypeOf(ItemsList);
         if (function() {
             if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -169,7 +163,12 @@ var ItemsList = function(_Component) {
                 }));
             }
         }
-    ], _defineProperties(ItemsList.prototype, protoProps), staticProps && _defineProperties(ItemsList, staticProps), ItemsList;
+    ], function(target, props) {
+        for(var i = 0; i < props.length; i++){
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }(ItemsList.prototype, protoProps), ItemsList;
 }(_react.Component);
 exports.default = ItemsList, _defineProperty(ItemsList, "propTypes", {
     items: _propTypes.default.array.isRequired,

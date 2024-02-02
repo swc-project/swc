@@ -844,7 +844,7 @@
                 }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -855,7 +855,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 2) || function() {
+                }(arr, 0) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var ref, id, observer, elements;

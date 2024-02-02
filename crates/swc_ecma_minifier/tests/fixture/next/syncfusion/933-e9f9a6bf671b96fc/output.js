@@ -16221,17 +16221,17 @@
                                     previousId: 0
                                 }, function animateMaterial(spinnerInfo) {
                                     (function(start, end, easing, duration, count, max, spinnerInfo) {
-                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
+                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
                                         (function mat_animation(spinnerInfo) {
-                                            var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, duration));
+                                            var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, 1333));
                                             (function(value, container) {
                                                 if (!(0, ej2_base.le)(container.querySelector('svg.e-spin-material')) && !(0, ej2_base.le)(container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle'))) {
                                                     var path = container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle');
                                                     path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, value, 75) + ''), path.setAttribute('transform', 'rotate(' + rotate + ' ' + diameter / 2 + ' ' + diameter / 2 + ')');
                                                 }
-                                            })(easing(currentTime, start, change, duration), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < duration ? globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
+                                            })(easing(currentTime, 1, 148, 1333), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < 1333 ? globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
                                         })(spinnerInfo);
-                                    })(1, 0, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
+                                    })(0, 0, easeAnimation, 0, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
                                 }({
                                     uniqueID: id,
                                     container: inner,
