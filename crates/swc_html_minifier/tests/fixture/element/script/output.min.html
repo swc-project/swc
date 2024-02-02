@@ -19,7 +19,7 @@
 
         </script><script id=data type=application/json>{"foo":"bar"}</script><script>
             broken    broken
-        </script><script>var a=3,a=9</script><script type=module>import t from"foo.js";let test=58800,test1="testtest"</script><script>let d=new Date;alert("Today's date is "+d)</script><script src=javascript.js>
+        </script><script>var a=3,a=9</script><script type=module>import"foo.js"</script><script>let d=new Date;alert("Today's date is "+d)</script><script src=javascript.js>
 
 
 
@@ -60,4 +60,4 @@
     <div>topLevel - script</div>
     <script>var topLevel=function(){let o="bar";o&&(o+="baz"),console.log(o)}</script>
     <div>topLevel - module</div>
-    <script type=module>var topLevel=function(){let o="bar";o&&(o+="baz"),console.log(o)}</script>
+    <script type=module></script>
