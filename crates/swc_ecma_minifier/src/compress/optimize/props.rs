@@ -49,11 +49,12 @@ impl Optimizer<'_> {
                 .vars
                 .get(&name.to_id())
                 .map(|v| {
+                    dbg!(v);
                     !v.mutated()
                         && !v.used_as_ref
                         && !v.used_as_arg
                         && !v.used_in_cond
-                        && !v.is_infected()
+                        // && !v.is_infected()
                         && !v.indexed_with_dynamic_key
                 })
                 .unwrap_or(false)
@@ -79,14 +80,9 @@ impl Optimizer<'_> {
 
                     match &**prop {
                         Prop::KeyValue(p) => {
-                            match &*p.value {
-                                Expr::Ident(..)
-                                | Expr::Lit(..)
-                                | Expr::Arrow(..)
-                                | Expr::Fn(..)
-                                | Expr::Class(..) => {}
-                                _ => return None,
-                            };
+                            if !is_expr_fine_for_hoist_props(&p.value) {
+                                return None;
+                            }
 
                             match &p.key {
                                 PropName::Str(s) => {
@@ -200,6 +196,28 @@ impl Optimizer<'_> {
                 }
             }
         }
+    }
+}
+
+fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
+    match value {
+        Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) | Expr::Fn(..) | Expr::Class(..) => true,
+
+        Expr::Array(a) => a.elems.iter().all(|elem| match elem {
+            Some(elem) => elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr),
+            None => true,
+        }),
+
+        Expr::Object(o) => o.props.iter().all(|prop| match prop {
+            PropOrSpread::Spread(_) => false,
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::Shorthand(..) => true,
+                Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value),
+                _ => false,
+            },
+        }),
+
+        _ => false,
     }
 }
 
