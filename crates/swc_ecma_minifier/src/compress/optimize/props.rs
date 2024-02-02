@@ -22,9 +22,8 @@ impl Optimizer<'_> {
         for mut n in n.take() {
             let new_vars = self.hoist_props_of_var(&mut n);
 
-            dbg!(&new_vars);
-
             if let Some(new_vars) = new_vars {
+                self.changed = true;
                 new.extend(new_vars);
             } else {
                 new.push(n);
@@ -128,6 +127,11 @@ impl Optimizer<'_> {
 
             let object = n.init.as_mut()?.as_mut_object()?;
 
+            report_change!(
+                "hoist_props: Hoisting properties of a variable `{}`",
+                name.id.sym
+            );
+
             for prop in &mut object.props {
                 let prop = match prop {
                     PropOrSpread::Spread(_) => unreachable!(),
@@ -159,6 +163,9 @@ impl Optimizer<'_> {
                     definite: false,
                 };
 
+                self.hoisted_props
+                    .insert((name.to_id(), suffix), new_var_name);
+
                 new_vars.push(new_var);
             }
 
@@ -166,6 +173,30 @@ impl Optimizer<'_> {
         }
 
         None
+    }
+
+    pub(super) fn replace_props(&mut self, e: &mut Expr) {
+        let member = match e {
+            Expr::Member(m) => m,
+            Expr::OptChain(m) => match &mut *m.base {
+                OptChainBase::Member(m) => m,
+                _ => return,
+            },
+            _ => return,
+        };
+        if let Expr::Ident(obj) = &*member.obj {
+            if let MemberProp::Ident(prop) = &member.prop {
+                if let Some(value) = self
+                    .hoisted_props
+                    .get(&(obj.to_id(), prop.sym.clone()))
+                    .cloned()
+                {
+                    report_change!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
+                    self.changed = true;
+                    *e = value.into();
+                }
+            }
+        }
     }
 }
 
