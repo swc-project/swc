@@ -3133,6 +3133,8 @@ where
     }
 
     fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        n.visit_mut_children_with(self);
+
         if let JSXElementName::Ident(ident) = n {
             if let Some(expr) = self.query.query_jsx(ident) {
                 *n = expr;
