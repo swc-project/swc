@@ -2575,8 +2575,11 @@ impl Optimizer<'_> {
                                         // TODO: Side effect of p.value
                                         return Ok(Some(p.value.clone()));
                                     } else {
-                                        // TODO: Skip properties
-                                        break;
+                                        if p.key.is_computed()
+                                            || p.value.may_have_side_effects(&self.expr_ctx)
+                                        {
+                                            break;
+                                        }
                                     }
                                 }
                                 _ => return Ok(None),
