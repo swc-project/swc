@@ -1675,6 +1675,11 @@ impl Optimizer<'_> {
             }
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
+                // Try inlining whole member expression first
+                if self.replace_seq_props(a, obj, prop)? {
+                    return Ok(true);
+                }
+
                 trace_op!("seq: Try object of member");
                 return self.merge_sequential_expr(a, obj);
             }
@@ -2518,6 +2523,32 @@ impl Optimizer<'_> {
         dump_change_detail!("sequences: {}", dump(&*b, false));
 
         Ok(true)
+    }
+
+    fn replace_seq_props(
+        &mut self,
+        a: &mut Mergable,
+        obj: &Expr,
+        prop: &MemberProp,
+    ) -> Result<bool, ()> {
+        if !self.options.hoist_props {
+            return Ok(false);
+        }
+
+        if let (Expr::Ident(obj), Some(a_id)) = (&*obj, a.id()) {
+            if obj.to_id() == a_id {
+                match prop {
+                    MemberProp::Ident(prop) => {
+                        // We can inline a.b if a = { b: 1 } where prop is b
+
+                        let a_value = match a {};
+                    }
+                    _ => {}
+                }
+            }
+        }
+
+        Ok(false)
     }
 
     /// TODO(kdy1): Optimize this
