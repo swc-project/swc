@@ -731,6 +731,7 @@ impl SimplifyExpr {
                 // because overriding `undefined` is always hard error in swc.
                 "undefined"
             }
+            Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => "number",
 
             _ => {
                 return;
