@@ -207,6 +207,11 @@ fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
     match value {
         Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) | Expr::Fn(..) | Expr::Class(..) => true,
 
+        Expr::Unary(u) => match u.op {
+            op!("void") | op!("typeof") | op!("!") => is_expr_fine_for_hoist_props(&u.arg),
+            _ => false,
+        },
+
         Expr::Array(a) => a.elems.iter().all(|elem| match elem {
             Some(elem) => elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr),
             None => true,
