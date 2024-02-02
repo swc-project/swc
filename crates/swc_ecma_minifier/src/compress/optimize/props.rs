@@ -162,7 +162,8 @@ impl Optimizer<'_> {
                     definite: false,
                 };
 
-                self.hoisted_props
+                self.vars
+                    .hoisted_props
                     .insert((name.to_id(), suffix), new_var_name);
 
                 new_vars.push(new_var);
@@ -186,6 +187,7 @@ impl Optimizer<'_> {
         if let Expr::Ident(obj) = &*member.obj {
             if let MemberProp::Ident(prop) = &member.prop {
                 if let Some(value) = self
+                    .vars
                     .hoisted_props
                     .get(&(obj.to_id(), prop.sym.clone()))
                     .cloned()

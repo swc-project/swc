@@ -89,7 +89,6 @@ pub(super) fn optimizer<'a>(
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
-        hoisted_props: Default::default(),
         typeofs: Default::default(),
         data,
         ctx,
@@ -208,8 +207,6 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    /// Used for `hoist_props`.
-    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
     typeofs: Box<AHashMap<Id, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
@@ -232,6 +229,9 @@ struct Vars {
     ///
     /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
+
+    /// Used for `hoist_props`.
+    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
@@ -276,6 +276,7 @@ impl Vars {
                 lits_for_cmp: &self.lits_for_cmp,
                 lits_for_array_access: &self.lits_for_array_access,
                 lits: &self.lits,
+                hoisted_props: &self.hoisted_props,
                 vars_to_remove: &self.removed,
                 changed: false,
             };
