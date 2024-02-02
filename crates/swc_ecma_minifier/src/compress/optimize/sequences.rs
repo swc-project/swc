@@ -608,6 +608,78 @@ impl Optimizer<'_> {
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn hoist_props_with_seq<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
+    where
+        T: ModuleItemExt,
+    {
+        if !self.options.hoist_props {
+            log_abort!("hoist_props: [x] Disabled");
+            return;
+        }
+
+        if self.ctx.is_top_level_for_block_level_vars() && !self.options.top_level() {
+            log_abort!("hoist_props: [x] Top level");
+            return;
+        }
+
+        if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
+            log_abort!("hoist_props: Eval call");
+            return;
+        }
+
+        let mut exprs = vec![];
+        let mut buf = vec![];
+
+        for stmt in stmts.iter_mut() {
+            let is_end = matches!(
+                stmt.as_stmt(),
+                Some(
+                    Stmt::If(..)
+                        | Stmt::Throw(..)
+                        | Stmt::Return(..)
+                        | Stmt::Switch(..)
+                        | Stmt::For(..)
+                        | Stmt::ForIn(..)
+                        | Stmt::ForOf(..)
+                ) | None
+            );
+            let can_skip = match stmt.as_stmt() {
+                Some(Stmt::Decl(Decl::Fn(..))) => true,
+                _ => false,
+            };
+
+            let items = if let Some(stmt) = stmt.as_stmt_mut() {
+                self.seq_exprs_of(stmt, self.options)
+            } else {
+                None
+            };
+            if let Some(items) = items {
+                buf.extend(items)
+            } else {
+                exprs.push(take(&mut buf));
+
+                if !can_skip {
+                    continue;
+                }
+            }
+            if is_end {
+                exprs.push(take(&mut buf));
+            }
+        }
+
+        if will_terminate {
+            buf.push(Mergable::Drop);
+        }
+        exprs.push(buf);
+
+        for mut exprs in exprs {
+            let _ = self.merge_sequences_in_exprs(&mut exprs);
+        }
+
+        cleanup_stmts_for_seq(stmts);
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn merge_sequences_in_stmts<T>(&mut self, stmts: &mut Vec<T>, will_terminate: bool)
     where
         T: ModuleItemExt,
@@ -689,35 +761,7 @@ impl Optimizer<'_> {
             let _ = self.merge_sequences_in_exprs(&mut exprs);
         }
 
-        stmts.retain_mut(|stmt| {
-            if let Some(Stmt::Expr(es)) = stmt.as_stmt_mut() {
-                if let Expr::Seq(e) = &mut *es.expr {
-                    e.exprs.retain(|e| !e.is_invalid());
-                    if e.exprs.len() == 1 {
-                        es.expr = e.exprs.pop().unwrap();
-                        return true;
-                    }
-                }
-            }
-
-            match stmt.as_stmt_mut() {
-                Some(Stmt::Decl(Decl::Var(v))) => {
-                    v.decls.retain(|decl| {
-                        // We dropped variable declarations using sequential inlining
-                        if matches!(decl.name, Pat::Invalid(..)) {
-                            return false;
-                        }
-                        !matches!(decl.init.as_deref(), Some(Expr::Invalid(..)))
-                    });
-
-                    !v.decls.is_empty()
-                }
-                Some(Stmt::Decl(Decl::Fn(f))) => !f.ident.is_dummy(),
-                Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
-
-                _ => true,
-            }
-        });
+        cleanup_stmts_for_seq(stmts);
     }
 
     pub(super) fn normalize_sequences(&self, seq: &mut SeqExpr) {
@@ -2645,4 +2689,39 @@ fn can_drop_op_for(a: AssignOp, b: AssignOp) -> bool {
     }
 
     false
+}
+
+fn cleanup_stmts_for_seq<T>(stmts: &mut Vec<T>)
+where
+    T: ModuleItemExt,
+{
+    stmts.retain_mut(|stmt| {
+        if let Some(Stmt::Expr(es)) = stmt.as_stmt_mut() {
+            if let Expr::Seq(e) = &mut *es.expr {
+                e.exprs.retain(|e| !e.is_invalid());
+                if e.exprs.len() == 1 {
+                    es.expr = e.exprs.pop().unwrap();
+                    return true;
+                }
+            }
+        }
+
+        match stmt.as_stmt_mut() {
+            Some(Stmt::Decl(Decl::Var(v))) => {
+                v.decls.retain(|decl| {
+                    // We dropped variable declarations using sequential inlining
+                    if matches!(decl.name, Pat::Invalid(..)) {
+                        return false;
+                    }
+                    !matches!(decl.init.as_deref(), Some(Expr::Invalid(..)))
+                });
+
+                !v.decls.is_empty()
+            }
+            Some(Stmt::Decl(Decl::Fn(f))) => !f.ident.is_dummy(),
+            Some(Stmt::Expr(s)) if s.expr.is_invalid() => false,
+
+            _ => true,
+        }
+    });
 }

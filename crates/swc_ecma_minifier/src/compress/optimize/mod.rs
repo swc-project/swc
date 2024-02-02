@@ -466,6 +466,13 @@ impl Optimizer<'_> {
             stmts.visit_with(&mut AssertValid);
         }
 
+        self.hoist_props_with_seq(stmts, will_terminate);
+
+        #[cfg(debug_assertions)]
+        {
+            stmts.visit_with(&mut AssertValid);
+        }
+
         self.merge_sequences_in_stmts(stmts, will_terminate);
 
         #[cfg(debug_assertions)]
