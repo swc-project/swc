@@ -1525,7 +1525,9 @@ impl Optimizer<'_> {
         // Respect top_retain
         if let Some(a_id) = a.id() {
             if a_id.0 == "arguments"
-                || (self.ctx.in_top_level() && self.options.top_retain.contains(&a_id.0))
+                || (self.ctx.in_top_level()
+                    && a_id.1 == self.marks.top_level_ctxt
+                    && self.options.top_retain.contains(&a_id.0))
             {
                 return Ok(false);
             }
