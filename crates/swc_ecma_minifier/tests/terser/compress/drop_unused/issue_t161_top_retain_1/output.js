@@ -1,7 +1,6 @@
 function f() {
     return 2;
 }
-function g() {
+console.log(f(), function() {
     return 3;
-}
-console.log(f(), g());
+}());
