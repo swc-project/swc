@@ -1,6 +1,6 @@
-use swc_common::util::take::Take;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
+use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
@@ -66,34 +66,42 @@ impl Optimizer<'_> {
             if let Some(Expr::Object(init)) = n.init.as_deref() {
                 for prop in &init.props {
                     let prop = match prop {
-                        PropOrSpread::Spread(_) => continue,
+                        PropOrSpread::Spread(_) => return None,
                         PropOrSpread::Prop(prop) => prop,
                     };
 
-                    if let Prop::KeyValue(p) = &**prop {
-                        match &*p.value {
-                            Expr::Lit(..) | Expr::Arrow(..) => {}
-                            Expr::Fn(f) => {
-                                if contains_this_expr(&f.function.body) {
-                                    continue;
+                    match &**prop {
+                        Prop::KeyValue(p) => {
+                            match &*p.value {
+                                Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) => {}
+                                Expr::Fn(f) => {
+                                    if contains_this_expr(&f.function.body) {
+                                        return None;
+                                    }
                                 }
-                            }
-                            _ => continue,
-                        };
+                                _ => return None,
+                            };
 
-                        match &p.key {
-                            PropName::Str(s) => {
-                                if let Some(v) = unknown_used_props.get_mut(&s.value) {
-                                    *v -= 1;
+                            match &p.key {
+                                PropName::Str(s) => {
+                                    if let Some(v) = unknown_used_props.get_mut(&s.value) {
+                                        *v -= 1;
+                                    }
                                 }
-                            }
-                            PropName::Ident(i) => {
-                                if let Some(v) = unknown_used_props.get_mut(&i.sym) {
-                                    *v -= 1;
+                                PropName::Ident(i) => {
+                                    if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                                        *v -= 1;
+                                    }
                                 }
+                                _ => {}
                             }
-                            _ => {}
                         }
+                        Prop::Shorthand(p) => {
+                            if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                                *v -= 1;
+                            }
+                        }
+                        _ => return None,
                     }
                 }
             } else {
@@ -110,6 +118,46 @@ impl Optimizer<'_> {
             if let Some(init) = n.init.as_deref() {
                 self.mode.store(name.to_id(), init);
             }
+
+            let mut new_vars = vec![];
+
+            let object = n.init.as_mut()?.as_mut_object()?;
+
+            for prop in &mut object.props {
+                let prop = match prop {
+                    PropOrSpread::Spread(_) => unreachable!(),
+                    PropOrSpread::Prop(prop) => prop,
+                };
+
+                let value = match &mut **prop {
+                    Prop::KeyValue(p) => p.value.take(),
+                    Prop::Shorthand(p) => p.clone().into(),
+                    _ => unreachable!(),
+                };
+
+                let suffix = match &**prop {
+                    Prop::KeyValue(p) => match &p.key {
+                        PropName::Ident(i) => i.sym.clone(),
+                        PropName::Str(s) => s.value.clone(),
+                        _ => return None,
+                    },
+                    Prop::Shorthand(p) => p.sym.clone(),
+                    _ => return None,
+                };
+
+                let new_var_name = private_ident!(format!("{}_{}", name.id.sym, suffix));
+
+                let new_var = VarDeclarator {
+                    span: DUMMY_SP,
+                    name: new_var_name.clone().into(),
+                    init: Some(value),
+                    definite: false,
+                };
+
+                new_vars.push(new_var);
+            }
+
+            return Some(new_vars);
         }
 
         None
