@@ -14,6 +14,9 @@
 - **(es/lexer)** Fix typo in `package` keyword ([#8589](https://github.com/swc-project/swc/issues/8589)) ([8413a6c](https://github.com/swc-project/swc/commit/8413a6c48e94613b9ba264210acab4f7f1787057))
 
 
+- **(es/minifier)** Fix top-level check ([#8583](https://github.com/swc-project/swc/issues/8583)) ([a7c5255](https://github.com/swc-project/swc/commit/a7c5255ad1ad98c183b676af5caaf9057a9eccf1))
+
+
 - **(es/proposals)** Support using `using` keyword with functions ([#8574](https://github.com/swc-project/swc/issues/8574)) ([d81596c](https://github.com/swc-project/swc/commit/d81596cd2b03ab7523937ae3206797a9c3b819bf))
 
 
@@ -1481,9 +1484,6 @@
 
 ### Features
 
-
-
-- **(es/minifier)** Inline constants even if they are exported ([#7583](https://github.com/swc-project/swc/issues/7583)) ([398e922](https://github.com/swc-project/swc/commit/398e922ca0214e03556bb84fe632e5e03badd533))
 
 
 - **(plugin/runner)** Share runtime `Engine` ([#7590](https://github.com/swc-project/swc/issues/7590)) ([9512ea3](https://github.com/swc-project/swc/commit/9512ea31ff1bb0c70f4f96a620b429fa01f48e0c))
