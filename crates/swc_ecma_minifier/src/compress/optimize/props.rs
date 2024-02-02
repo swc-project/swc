@@ -1,3 +1,4 @@
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
 
@@ -6,9 +7,7 @@ use crate::util::deeply_contains_this_expr;
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {
-    /// Store values of properties so we can replace property accesses with the
-    /// values.
-    pub(super) fn store_var_for_prop_hoisting(&mut self, n: &mut VarDeclarator) {
+    pub(super) fn hoist_props_of_vars(&mut self, n: &mut Vec<VarDeclarator>) {
         if !self.options.hoist_props {
             return;
         }
@@ -16,9 +15,24 @@ impl Optimizer<'_> {
             return;
         }
 
+        let mut new = Vec::with_capacity(n.len());
+        for mut n in n.take() {
+            let new_vars = self.hoist_props_of_var(&mut n);
+
+            if let Some(new_vars) = new_vars {
+                new.extend(new_vars);
+            } else {
+                new.push(n);
+            }
+        }
+
+        *n = new;
+    }
+
+    fn hoist_props_of_var(&mut self, n: &mut VarDeclarator) -> Option<Vec<VarDeclarator>> {
         if let Pat::Ident(name) = &mut n.name {
             if self.options.top_retain.contains(&name.id.sym) {
-                return;
+                return None;
             }
 
             // If a variable is initialized multiple time, we currently don't do anything
@@ -38,7 +52,7 @@ impl Optimizer<'_> {
                 .unwrap_or(false)
             {
                 log_abort!("[x] bad usage");
-                return;
+                return None;
             }
 
             // We should abort if unknown property is used.
@@ -84,19 +98,21 @@ impl Optimizer<'_> {
                 }
             } else {
                 if self.mode.should_be_very_correct() {
-                    return;
+                    return None;
                 }
             }
 
             if !unknown_used_props.iter().all(|(_, v)| *v == 0) {
                 log_abort!("[x] unknown used props: {:?}", unknown_used_props);
-                return;
+                return None;
             }
 
             if let Some(init) = n.init.as_deref() {
                 self.mode.store(name.to_id(), init);
             }
         }
+
+        None
     }
 }
 

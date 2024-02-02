@@ -2908,8 +2908,6 @@ impl VisitMut for Optimizer<'_> {
             }
         };
 
-        self.store_var_for_prop_hoisting(var);
-
         self.drop_unused_properties(var);
 
         debug_assert_valid(&var.init);
@@ -2917,6 +2915,8 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
+        self.hoist_props_of_vars(vars);
+
         vars.retain_mut(|var| {
             if var.name.is_invalid() {
                 self.changed = true;
