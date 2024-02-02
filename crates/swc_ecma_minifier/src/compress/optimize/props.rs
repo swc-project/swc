@@ -46,21 +46,13 @@ impl Optimizer<'_> {
 
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
-            if !self
-                .data
-                .vars
-                .get(&name.to_id())
-                .map(|v| {
-                    dbg!(!v.mutated())
-                        && dbg!(!v.used_as_ref)
-                        && dbg!(!v.used_as_arg)
-                        && dbg!(!v.used_in_cond)
-                        // We cannot have proper values in hoisted_props for this case.
-                        && dbg!(!v.used_above_decl)
-                        // && !v.is_infected()
-                        && dbg!(!v.indexed_with_dynamic_key)
-                })
-                .unwrap_or(false)
+            let usage = self.data.vars.get(&name.to_id())?;
+            if usage.mutated()
+                || usage.used_as_ref
+                || usage.used_as_arg
+                || usage.used_in_cond
+                || usage.used_above_decl
+                || usage.indexed_with_dynamic_key
             {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
                 return None;
