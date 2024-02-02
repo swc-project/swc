@@ -2535,15 +2535,31 @@ impl Optimizer<'_> {
             return Ok(false);
         }
 
-        if let (Expr::Ident(obj), Some(a_id)) = (&*obj, a.id()) {
+        if let (Expr::Ident(obj), Some(a_id)) = (obj, a.id()) {
             if obj.to_id() == a_id {
-                match prop {
-                    MemberProp::Ident(prop) => {
-                        // We can inline a.b if a = { b: 1 } where prop is b
+                if let MemberProp::Ident(prop) = prop {
+                    // We can inline a.b if a = { b: 1 } where prop is b
 
-                        let a_value = match a {};
-                    }
-                    _ => {}
+                    let a_value = match a {
+                        Mergable::Var(a) => match &mut a.init {
+                            Some(v) => v,
+                            None => return Ok(false),
+                        },
+                        Mergable::Expr(a) => match a {
+                            Expr::Assign(AssignExpr {
+                                op: op!("="),
+                                right,
+                                ..
+                            }) => right,
+                            _ => return Ok(false),
+                        },
+                        Mergable::FnDecl(..) | Mergable::Drop => return Ok(false),
+                    };
+
+                    let a_value = match a_value.as_mut_object() {
+                        Some(v) => v,
+                        None => return Ok(false),
+                    };
                 }
             }
         }
