@@ -89,7 +89,6 @@ pub(super) fn optimizer<'a>(
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
-        vars_for_prop_hoisting: Default::default(),
         simple_props: Default::default(),
         typeofs: Default::default(),
         data,
@@ -209,8 +208,6 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    /// Used for `hoist_props`.
-    vars_for_prop_hoisting: Box<FxHashMap<Id, Box<Expr>>>,
     /// Used for `hoist_props`.
     simple_props: Box<FxHashMap<(Id, JsWord), Box<Expr>>>,
     typeofs: Box<AHashMap<Id, JsWord>>,
