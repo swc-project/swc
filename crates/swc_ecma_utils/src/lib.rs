@@ -3021,13 +3021,21 @@ impl VisitMut for IdentRenamer<'_> {
 }
 
 pub trait QueryRef {
-    fn query_ref(&self, ident: &Ident) -> Option<Expr>;
-    fn query_lhs(&self, ident: &Ident) -> Option<Expr>;
+    fn query_ref(&self, _ident: &Ident) -> Option<Expr> {
+        None
+    }
+    fn query_lhs(&self, _ident: &Ident) -> Option<Expr> {
+        None
+    }
     /// ref used in JSX
-    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName>;
+    fn query_jsx(&self, _ident: &Ident) -> Option<JSXElementName> {
+        None
+    }
     /// when `foo()` is replaced with `bar.baz()`,
     /// should `bar.baz` be indirect call?
-    fn should_fix_this(&self, ident: &Ident) -> bool;
+    fn should_fix_this(&self, _ident: &Ident) -> bool {
+        false
+    }
 }
 
 /// Replace `foo` with `bar` or `bar.baz`
