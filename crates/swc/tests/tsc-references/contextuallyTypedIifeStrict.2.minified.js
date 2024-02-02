@@ -20,6 +20,9 @@
     });
 }(), function(first) {
     for(var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++)rest[_key - 1] = arguments[_key];
+    first || rest.map(function(n) {
+        return n > 0;
+    });
 }(8, 9, 10), function() {
     var _ref = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {
         r: 18

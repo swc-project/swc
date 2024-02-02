@@ -5568,7 +5568,7 @@
                         key: null == d ? null : "" + d,
                         children: a,
                         containerInfo: b,
-                        implementation: null
+                        implementation: c
                     };
                 }(a, b, null, c);
             }, exports.createRoot = function(a, b) {

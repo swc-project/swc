@@ -8577,8 +8577,8 @@
                         return this.init.prototype.extend(this);
                     }
                 }, s = u.WordArray = l.extend({
-                    init: function(e, t) {
-                        e = this.words = e || [], void 0 != t ? this.sigBytes = t : this.sigBytes = 4 * e.length;
+                    init: function(e, r) {
+                        e = this.words = e || [], t != r ? this.sigBytes = r : this.sigBytes = 4 * e.length;
                     },
                     toString: function(e) {
                         return (e || f).stringify(this);
@@ -15603,21 +15603,15 @@
                     298: function(e, t, r) {
                         "use strict";
                         function i(e, t) {
-                            for(var r = 0; r < t.length; r++){
-                                var n = t[r];
-                                n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
-                            }
+                            return t && ("object" === c(t) || "function" == typeof t) ? t : o(e);
                         }
-                        function o(e, t) {
-                            return t && ("object" === f(t) || "function" == typeof t) ? t : a(e);
-                        }
-                        function a(e) {
+                        function o(e) {
                             if (void 0 === e) throw ReferenceError("this hasn't been initialised - super() hasn't been called");
                             return e;
                         }
-                        function u(e) {
+                        function a(e) {
                             var t = "function" == typeof Map ? new Map() : void 0;
-                            return (u = function(e) {
+                            return (a = function(e) {
                                 if (null === e || -1 === Function.toString.call(e).indexOf("[native code]")) return e;
                                 if ("function" != typeof e) throw TypeError("Super expression must either be null or a function");
                                 if (void 0 !== t) {
@@ -15625,7 +15619,7 @@
                                     t.set(e, r);
                                 }
                                 function r() {
-                                    return l(e, arguments, c(this).constructor);
+                                    return u(e, arguments, s(this).constructor);
                                 }
                                 return r.prototype = Object.create(e.prototype, {
                                     constructor: {
@@ -15634,11 +15628,11 @@
                                         writable: !0,
                                         configurable: !0
                                     }
-                                }), s(r, e);
+                                }), l(r, e);
                             })(e);
                         }
-                        function l(e, t, r) {
-                            return (l = !function() {
+                        function u(e, t, r) {
+                            return (u = !function() {
                                 if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
                                 if ("function" == typeof Proxy) return !0;
                                 try {
@@ -15652,31 +15646,31 @@
                                 ];
                                 n.push.apply(n, t);
                                 var i = new (Function.bind.apply(e, n))();
-                                return r && s(i, r.prototype), i;
+                                return r && l(i, r.prototype), i;
                             } : Reflect.construct).apply(null, arguments);
                         }
-                        function s(e, t) {
-                            return (s = Object.setPrototypeOf || function(e, t) {
+                        function l(e, t) {
+                            return (l = Object.setPrototypeOf || function(e, t) {
                                 return e.__proto__ = t, e;
                             })(e, t);
                         }
-                        function c(e) {
-                            return (c = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
+                        function s(e) {
+                            return (s = Object.setPrototypeOf ? Object.getPrototypeOf : function(e) {
                                 return e.__proto__ || Object.getPrototypeOf(e);
                             })(e);
                         }
-                        function f(e) {
-                            return (f = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
+                        function c(e) {
+                            return (c = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function(e) {
                                 return typeof e;
                             } : function(e) {
                                 return e && "function" == typeof Symbol && e.constructor === Symbol && e !== Symbol.prototype ? "symbol" : typeof e;
                             })(e);
                         }
-                        var d = r(650).inspect, p = r(823).codes.ERR_INVALID_ARG_TYPE;
-                        function h(e, t, r) {
+                        var f = r(650).inspect, d = r(823).codes.ERR_INVALID_ARG_TYPE;
+                        function p(e, t, r) {
                             return (void 0 === r || r > e.length) && (r = e.length), e.substring(r - t.length, r) === t;
                         }
-                        var y = "", g = "", v = "", b = "", m = {
+                        var h = "", y = "", g = "", v = "", b = {
                             deepStrictEqual: "Expected values to be strictly deep-equal:",
                             strictEqual: "Expected values to be strictly equal:",
                             strictEqualObject: 'Expected "actual" to be reference-equal to "expected":',
@@ -15689,7 +15683,7 @@
                             notEqual: 'Expected "actual" to be loosely unequal to:',
                             notIdentical: "Values identical but not reference-equal:"
                         };
-                        function D(e) {
+                        function m(e) {
                             var t = Object.keys(e), r = Object.create(Object.getPrototypeOf(e));
                             return t.forEach(function(t) {
                                 r[t] = e[t];
@@ -15697,8 +15691,8 @@
                                 value: e.message
                             }), r;
                         }
-                        function w(e) {
-                            return d(e, {
+                        function D(e) {
+                            return f(e, {
                                 compact: !1,
                                 customInspect: !1,
                                 depth: 1e3,
@@ -15710,65 +15704,65 @@
                                 getters: !0
                             });
                         }
-                        var E = function(e) {
-                            var t, r;
-                            function u(e) {
+                        var w = function(e) {
+                            var t;
+                            function r(e) {
                                 if (!function(e, t) {
                                     if (!(e instanceof t)) throw TypeError("Cannot call a class as a function");
-                                }(this, u), "object" !== f(e) || null === e) throw new p("options", "Object", e);
-                                var t, r = e.message, i = e.operator, l = e.stackStartFn, s = e.actual, d = e.expected, E = Error.stackTraceLimit;
-                                if (Error.stackTraceLimit = 0, null != r) t = o(this, c(u).call(this, String(r)));
-                                else if (n.stderr && n.stderr.isTTY && (n.stderr && n.stderr.getColorDepth && 1 !== n.stderr.getColorDepth() ? (y = "[34m", g = "[32m", b = "[39m", v = "[31m") : (y = "", g = "", b = "", v = "")), "object" === f(s) && null !== s && "object" === f(d) && null !== d && "stack" in s && s instanceof Error && "stack" in d && d instanceof Error && (s = D(s), d = D(d)), "deepStrictEqual" === i || "strictEqual" === i) t = o(this, c(u).call(this, function(e, t, r) {
-                                    var i = "", o = "", a = 0, u = "", l = !1, s = w(e), c = s.split("\n"), d = w(t).split("\n"), p = 0, D = "";
-                                    if ("strictEqual" === r && "object" === f(e) && "object" === f(t) && null !== e && null !== t && (r = "strictEqualObject"), 1 === c.length && 1 === d.length && c[0] !== d[0]) {
-                                        var E = c[0].length + d[0].length;
+                                }(this, r), "object" !== c(e) || null === e) throw new d("options", "Object", e);
+                                var t, a = e.message, u = e.operator, l = e.stackStartFn, f = e.actual, w = e.expected, E = Error.stackTraceLimit;
+                                if (Error.stackTraceLimit = 0, null != a) t = i(this, s(r).call(this, String(a)));
+                                else if (n.stderr && n.stderr.isTTY && (n.stderr && n.stderr.getColorDepth && 1 !== n.stderr.getColorDepth() ? (h = "[34m", y = "[32m", v = "[39m", g = "[31m") : (h = "", y = "", v = "", g = "")), "object" === c(f) && null !== f && "object" === c(w) && null !== w && "stack" in f && f instanceof Error && "stack" in w && w instanceof Error && (f = m(f), w = m(w)), "deepStrictEqual" === u || "strictEqual" === u) t = i(this, s(r).call(this, function(e, t, r) {
+                                    var i = "", o = "", a = 0, u = "", l = !1, s = D(e), f = s.split("\n"), d = D(t).split("\n"), m = 0, w = "";
+                                    if ("strictEqual" === r && "object" === c(e) && "object" === c(t) && null !== e && null !== t && (r = "strictEqualObject"), 1 === f.length && 1 === d.length && f[0] !== d[0]) {
+                                        var E = f[0].length + d[0].length;
                                         if (E <= 10) {
-                                            if (("object" !== f(e) || null === e) && ("object" !== f(t) || null === t) && (0 !== e || 0 !== t)) return "".concat(m[r], "\n\n") + "".concat(c[0], " !== ").concat(d[0], "\n");
+                                            if (("object" !== c(e) || null === e) && ("object" !== c(t) || null === t) && (0 !== e || 0 !== t)) return "".concat(b[r], "\n\n") + "".concat(f[0], " !== ").concat(d[0], "\n");
                                         } else if ("strictEqualObject" !== r && E < (n.stderr && n.stderr.isTTY ? n.stderr.columns : 80)) {
-                                            for(; c[0][p] === d[0][p];)p++;
-                                            p > 2 && (D = "\n  ".concat(function(e, t) {
+                                            for(; f[0][m] === d[0][m];)m++;
+                                            m > 2 && (w = "\n  ".concat(function(e, t) {
                                                 if (t = Math.floor(t), 0 == e.length || 0 == t) return "";
                                                 var r = e.length * t;
                                                 for(t = Math.floor(Math.log(t) / Math.log(2)); t;)e += e, t--;
                                                 return e + e.substring(0, r - e.length);
-                                            }(" ", p), "^"), p = 0);
+                                            }(" ", m), "^"), m = 0);
                                         }
                                     }
-                                    for(var _ = c[c.length - 1], x = d[d.length - 1]; _ === x && (p++ < 2 ? u = "\n  ".concat(_).concat(u) : i = _, c.pop(), d.pop(), 0 !== c.length && 0 !== d.length);)_ = c[c.length - 1], x = d[d.length - 1];
-                                    var S = Math.max(c.length, d.length);
+                                    for(var _ = f[f.length - 1], x = d[d.length - 1]; _ === x && (m++ < 2 ? u = "\n  ".concat(_).concat(u) : i = _, f.pop(), d.pop(), 0 !== f.length && 0 !== d.length);)_ = f[f.length - 1], x = d[d.length - 1];
+                                    var S = Math.max(f.length, d.length);
                                     if (0 === S) {
                                         var A = s.split("\n");
-                                        if (A.length > 30) for(A[26] = "".concat(y, "...").concat(b); A.length > 27;)A.pop();
-                                        return "".concat(m.notIdentical, "\n\n").concat(A.join("\n"), "\n");
+                                        if (A.length > 30) for(A[26] = "".concat(h, "...").concat(v); A.length > 27;)A.pop();
+                                        return "".concat(b.notIdentical, "\n\n").concat(A.join("\n"), "\n");
                                     }
-                                    p > 3 && (u = "\n".concat(y, "...").concat(b).concat(u), l = !0), "" !== i && (u = "\n  ".concat(i).concat(u), i = "");
-                                    var k = 0, T = m[r] + "\n".concat(g, "+ actual").concat(b, " ").concat(v, "- expected").concat(b), O = " ".concat(y, "...").concat(b, " Lines skipped");
-                                    for(p = 0; p < S; p++){
-                                        var C = p - a;
-                                        if (c.length < p + 1) C > 1 && p > 2 && (C > 4 ? (o += "\n".concat(y, "...").concat(b), l = !0) : C > 3 && (o += "\n  ".concat(d[p - 2]), k++), o += "\n  ".concat(d[p - 1]), k++), a = p, i += "\n".concat(v, "-").concat(b, " ").concat(d[p]), k++;
-                                        else if (d.length < p + 1) C > 1 && p > 2 && (C > 4 ? (o += "\n".concat(y, "...").concat(b), l = !0) : C > 3 && (o += "\n  ".concat(c[p - 2]), k++), o += "\n  ".concat(c[p - 1]), k++), a = p, o += "\n".concat(g, "+").concat(b, " ").concat(c[p]), k++;
+                                    m > 3 && (u = "\n".concat(h, "...").concat(v).concat(u), l = !0), "" !== i && (u = "\n  ".concat(i).concat(u), i = "");
+                                    var k = 0, T = b[r] + "\n".concat(y, "+ actual").concat(v, " ").concat(g, "- expected").concat(v), O = " ".concat(h, "...").concat(v, " Lines skipped");
+                                    for(m = 0; m < S; m++){
+                                        var C = m - a;
+                                        if (f.length < m + 1) C > 1 && m > 2 && (C > 4 ? (o += "\n".concat(h, "...").concat(v), l = !0) : C > 3 && (o += "\n  ".concat(d[m - 2]), k++), o += "\n  ".concat(d[m - 1]), k++), a = m, i += "\n".concat(g, "-").concat(v, " ").concat(d[m]), k++;
+                                        else if (d.length < m + 1) C > 1 && m > 2 && (C > 4 ? (o += "\n".concat(h, "...").concat(v), l = !0) : C > 3 && (o += "\n  ".concat(f[m - 2]), k++), o += "\n  ".concat(f[m - 1]), k++), a = m, o += "\n".concat(y, "+").concat(v, " ").concat(f[m]), k++;
                                         else {
-                                            var P = d[p], F = c[p], R = F !== P && (!h(F, ",") || F.slice(0, -1) !== P);
-                                            R && h(P, ",") && P.slice(0, -1) === F && (R = !1, F += ","), R ? (C > 1 && p > 2 && (C > 4 ? (o += "\n".concat(y, "...").concat(b), l = !0) : C > 3 && (o += "\n  ".concat(c[p - 2]), k++), o += "\n  ".concat(c[p - 1]), k++), a = p, o += "\n".concat(g, "+").concat(b, " ").concat(F), i += "\n".concat(v, "-").concat(b, " ").concat(P), k += 2) : (o += i, i = "", (1 === C || 0 === p) && (o += "\n  ".concat(F), k++));
+                                            var P = d[m], F = f[m], R = F !== P && (!p(F, ",") || F.slice(0, -1) !== P);
+                                            R && p(P, ",") && P.slice(0, -1) === F && (R = !1, F += ","), R ? (C > 1 && m > 2 && (C > 4 ? (o += "\n".concat(h, "...").concat(v), l = !0) : C > 3 && (o += "\n  ".concat(f[m - 2]), k++), o += "\n  ".concat(f[m - 1]), k++), a = m, o += "\n".concat(y, "+").concat(v, " ").concat(F), i += "\n".concat(g, "-").concat(v, " ").concat(P), k += 2) : (o += i, i = "", (1 === C || 0 === m) && (o += "\n  ".concat(F), k++));
                                         }
-                                        if (k > 20 && p < S - 2) return "".concat(T).concat(O, "\n").concat(o, "\n").concat(y, "...").concat(b).concat(i, "\n") + "".concat(y, "...").concat(b);
+                                        if (k > 20 && m < S - 2) return "".concat(T).concat(O, "\n").concat(o, "\n").concat(h, "...").concat(v).concat(i, "\n") + "".concat(h, "...").concat(v);
                                     }
-                                    return "".concat(T).concat(l ? O : "", "\n").concat(o).concat(i).concat(u).concat(D);
-                                }(s, d, i)));
-                                else if ("notDeepStrictEqual" === i || "notStrictEqual" === i) {
-                                    var _ = m[i], x = w(s).split("\n");
-                                    if ("notStrictEqual" === i && "object" === f(s) && null !== s && (_ = m.notStrictEqualObject), x.length > 30) for(x[26] = "".concat(y, "...").concat(b); x.length > 27;)x.pop();
-                                    t = 1 === x.length ? o(this, c(u).call(this, "".concat(_, " ").concat(x[0]))) : o(this, c(u).call(this, "".concat(_, "\n\n").concat(x.join("\n"), "\n")));
+                                    return "".concat(T).concat(l ? O : "", "\n").concat(o).concat(i).concat(u).concat(w);
+                                }(f, w, u)));
+                                else if ("notDeepStrictEqual" === u || "notStrictEqual" === u) {
+                                    var _ = b[u], x = D(f).split("\n");
+                                    if ("notStrictEqual" === u && "object" === c(f) && null !== f && (_ = b.notStrictEqualObject), x.length > 30) for(x[26] = "".concat(h, "...").concat(v); x.length > 27;)x.pop();
+                                    t = 1 === x.length ? i(this, s(r).call(this, "".concat(_, " ").concat(x[0]))) : i(this, s(r).call(this, "".concat(_, "\n\n").concat(x.join("\n"), "\n")));
                                 } else {
-                                    var S = w(s), A = "", k = m[i];
-                                    "notDeepEqual" === i || "notEqual" === i ? (S = "".concat(m[i], "\n\n").concat(S)).length > 1024 && (S = "".concat(S.slice(0, 1021), "...")) : (A = "".concat(w(d)), S.length > 512 && (S = "".concat(S.slice(0, 509), "...")), A.length > 512 && (A = "".concat(A.slice(0, 509), "...")), "deepEqual" === i || "equal" === i ? S = "".concat(k, "\n\n").concat(S, "\n\nshould equal\n\n") : A = " ".concat(i, " ").concat(A)), t = o(this, c(u).call(this, "".concat(S).concat(A)));
+                                    var S = D(f), A = "", k = b[u];
+                                    "notDeepEqual" === u || "notEqual" === u ? (S = "".concat(b[u], "\n\n").concat(S)).length > 1024 && (S = "".concat(S.slice(0, 1021), "...")) : (A = "".concat(D(w)), S.length > 512 && (S = "".concat(S.slice(0, 509), "...")), A.length > 512 && (A = "".concat(A.slice(0, 509), "...")), "deepEqual" === u || "equal" === u ? S = "".concat(k, "\n\n").concat(S, "\n\nshould equal\n\n") : A = " ".concat(u, " ").concat(A)), t = i(this, s(r).call(this, "".concat(S).concat(A)));
                                 }
-                                return Error.stackTraceLimit = E, t.generatedMessage = !r, Object.defineProperty(a(t), "name", {
+                                return Error.stackTraceLimit = E, t.generatedMessage = !a, Object.defineProperty(o(t), "name", {
                                     value: "AssertionError [ERR_ASSERTION]",
                                     enumerable: !1,
                                     writable: !0,
                                     configurable: !0
-                                }), t.code = "ERR_ASSERTION", t.actual = s, t.expected = d, t.operator = i, Error.captureStackTrace && Error.captureStackTrace(a(t), l), t.stack, t.name = "AssertionError", o(t);
+                                }), t.code = "ERR_ASSERTION", t.actual = f, t.expected = w, t.operator = u, Error.captureStackTrace && Error.captureStackTrace(o(t), l), t.stack, t.name = "AssertionError", i(t);
                             }
                             return !function(e, t) {
                                 if ("function" != typeof t && null !== t) throw TypeError("Super expression must either be null or a function");
@@ -15778,8 +15772,8 @@
                                         writable: !0,
                                         configurable: !0
                                     }
-                                }), t && s(e, t);
-                            }(u, e), t = [
+                                }), t && l(e, t);
+                            }(r, e), t = [
                                 {
                                     key: "toString",
                                     value: function() {
@@ -15787,9 +15781,9 @@
                                     }
                                 },
                                 {
-                                    key: d.custom,
+                                    key: f.custom,
                                     value: function(e, t) {
-                                        return d(this, function(e) {
+                                        return f(this, function(e) {
                                             for(var t = 1; t < arguments.length; t++){
                                                 var r = null != arguments[t] ? arguments[t] : {}, n = Object.keys(r);
                                                 "function" == typeof Object.getOwnPropertySymbols && (n = n.concat(Object.getOwnPropertySymbols(r).filter(function(e) {
@@ -15811,9 +15805,14 @@
                                         }));
                                     }
                                 }
-                            ], i(u.prototype, t), r && i(u, r), u;
-                        }(u(Error));
-                        e.exports = E;
+                            ], function(e, t) {
+                                for(var r = 0; r < t.length; r++){
+                                    var n = t[r];
+                                    n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                                }
+                            }(r.prototype, t), r;
+                        }(a(Error));
+                        e.exports = w;
                     },
                     823: function(e, t, r) {
                         "use strict";
@@ -15868,12 +15867,12 @@
                             }), r > 2) ? "one of ".concat(t, " ").concat(e.slice(0, r - 1).join(", "), ", or ") + e[r - 1] : 2 === r ? "one of ".concat(t, " ").concat(e[0], " or ").concat(e[1]) : "of ".concat(t, " ").concat(e[0]);
                         }
                         s("ERR_AMBIGUOUS_ARGUMENT", 'The "%s" argument is ambiguous. %s', TypeError), s("ERR_INVALID_ARG_TYPE", function(e, t, i) {
-                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(!u || u < 0 ? 0 : +u, o.length) === o)) ? (d = "must not be", t = t.replace(/^not /, "")) : d = "must be", l = " argument", (void 0 === s || s > e.length) && (s = e.length), e.substring(s - l.length, s) === l) p = "The ".concat(e, " ").concat(d, " ").concat(c(t, "type"));
+                            if ((void 0 === a && (a = r(313)), a("string" == typeof e, "'name' must be a string"), "string" == typeof t && (o = "not ", t.substr(0, o.length) === o)) ? (f = "must not be", t = t.replace(/^not /, "")) : f = "must be", u = " argument", (void 0 === l || l > e.length) && (l = e.length), e.substring(l - u.length, l) === u) d = "The ".concat(e, " ").concat(f, " ").concat(c(t, "type"));
                             else {
-                                var o, u, l, s, f, d, p, h = ("number" != typeof f && (f = 0), f + 1 > e.length || -1 === e.indexOf(".", f)) ? "argument" : "property";
-                                p = 'The "'.concat(e, '" ').concat(h, " ").concat(d, " ").concat(c(t, "type"));
+                                var o, u, l, s, f, d, p = ("number" != typeof s && (s = 0), s + 1 > e.length || -1 === e.indexOf(".", s)) ? "argument" : "property";
+                                d = 'The "'.concat(e, '" ').concat(p, " ").concat(f, " ").concat(c(t, "type"));
                             }
-                            return p + ". Received type ".concat(n(i));
+                            return d + ". Received type ".concat(n(i));
                         }, TypeError), s("ERR_INVALID_ARG_VALUE", function(e, t) {
                             var n = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : "is invalid";
                             void 0 === u && (u = r(650));
@@ -20844,14 +20843,14 @@
                         r("ERR_INVALID_OPT_VALUE", function(e, t) {
                             return 'The value "' + t + '" is invalid for option "' + e + '"';
                         }, TypeError), r("ERR_INVALID_ARG_TYPE", function(e, t, r) {
-                            var i, o, a, u, l;
-                            let s, c;
-                            if ("string" == typeof t && (i = "not ", t.substr(!o || o < 0 ? 0 : +o, i.length) === i) ? (s = "must not be", t = t.replace(/^not /, "")) : s = "must be", a = " argument", (void 0 === u || u > e.length) && (u = e.length), e.substring(u - a.length, u) === a) c = `The ${e} ${s} ${n(t, "type")}`;
+                            var i, o, a, u;
+                            let l, s;
+                            if ("string" == typeof t && (i = "not ", t.substr(0, i.length) === i) ? (l = "must not be", t = t.replace(/^not /, "")) : l = "must be", o = " argument", (void 0 === a || a > e.length) && (a = e.length), e.substring(a - o.length, a) === o) s = `The ${e} ${l} ${n(t, "type")}`;
                             else {
-                                const r = ("number" != typeof l && (l = 0), l + 1 > e.length || -1 === e.indexOf(".", l)) ? "argument" : "property";
-                                c = `The "${e}" ${r} ${s} ${n(t, "type")}`;
+                                const r = ("number" != typeof u && (u = 0), u + 1 > e.length || -1 === e.indexOf(".", u)) ? "argument" : "property";
+                                s = `The "${e}" ${r} ${l} ${n(t, "type")}`;
                             }
-                            return c + `. Received type ${typeof r}`;
+                            return s + `. Received type ${typeof r}`;
                         }, TypeError), r("ERR_STREAM_PUSH_AFTER_EOF", "stream.push() after EOF"), r("ERR_METHOD_NOT_IMPLEMENTED", function(e) {
                             return "The " + e + " method is not implemented";
                         }), r("ERR_STREAM_PREMATURE_CLOSE", "Premature close"), r("ERR_STREAM_DESTROYED", function(e) {
@@ -21545,19 +21544,13 @@
                             }
                             return r;
                         }
-                        function i(e, t) {
-                            for(var r = 0; r < t.length; r++){
-                                var n = t[r];
-                                n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
-                            }
-                        }
-                        var o = r(300).Buffer, a = r(837).inspect, u = a && a.custom || "inspect";
+                        var i = r(300).Buffer, o = r(837).inspect, a = o && o.custom || "inspect";
                         e.exports = function() {
-                            var e, t;
-                            function r() {
+                            var e;
+                            function t() {
                                 !function(e, t) {
                                     if (!(e instanceof t)) throw TypeError("Cannot call a class as a function");
-                                }(this, r), this.head = null, this.tail = null, this.length = 0;
+                                }(this, t), this.head = null, this.tail = null, this.length = 0;
                             }
                             return e = [
                                 {
@@ -21606,8 +21599,8 @@
                                 {
                                     key: "concat",
                                     value: function(e) {
-                                        if (0 === this.length) return o.alloc(0);
-                                        for(var t, r, n = o.allocUnsafe(e >>> 0), i = this.head, a = 0; i;)t = i.data, r = a, o.prototype.copy.call(t, n, r), a += i.data.length, i = i.next;
+                                        if (0 === this.length) return i.alloc(0);
+                                        for(var t, r, n = i.allocUnsafe(e >>> 0), o = this.head, a = 0; o;)t = o.data, r = a, i.prototype.copy.call(t, n, r), a += o.data.length, o = o.next;
                                         return n;
                                     }
                                 },
@@ -21642,11 +21635,11 @@
                                 {
                                     key: "_getBuffer",
                                     value: function(e) {
-                                        var t = o.allocUnsafe(e), r = this.head, n = 1;
+                                        var t = i.allocUnsafe(e), r = this.head, n = 1;
                                         for(r.data.copy(t), e -= r.data.length; r = r.next;){
-                                            var i = r.data, a = e > i.length ? i.length : e;
-                                            if (i.copy(t, t.length - e, 0, a), 0 == (e -= a)) {
-                                                a === i.length ? (++n, r.next ? this.head = r.next : this.head = this.tail = null) : (this.head = r, r.data = i.slice(a));
+                                            var o = r.data, a = e > o.length ? o.length : e;
+                                            if (o.copy(t, t.length - e, 0, a), 0 == (e -= a)) {
+                                                a === o.length ? (++n, r.next ? this.head = r.next : this.head = this.tail = null) : (this.head = r, r.data = o.slice(a));
                                                 break;
                                             }
                                             ++n;
@@ -21655,9 +21648,9 @@
                                     }
                                 },
                                 {
-                                    key: u,
+                                    key: a,
                                     value: function(e, t) {
-                                        return a(this, function(e) {
+                                        return o(this, function(e) {
                                             for(var t = 1; t < arguments.length; t++){
                                                 var r = null != arguments[t] ? arguments[t] : {};
                                                 t % 2 ? n(Object(r), !0).forEach(function(t) {
@@ -21679,7 +21672,12 @@
                                         }));
                                     }
                                 }
-                            ], i(r.prototype, e), t && i(r, t), r;
+                            ], function(e, t) {
+                                for(var r = 0; r < t.length; r++){
+                                    var n = t[r];
+                                    n.enumerable = n.enumerable || !1, n.configurable = !0, "value" in n && (n.writable = !0), Object.defineProperty(e, n.key, n);
+                                }
+                            }(t.prototype, e), t;
                         }();
                     },
                     364: function(e) {
@@ -28207,10 +28205,10 @@
                 if (r) return (r = r.call(e)).next.bind(r);
                 if (Array.isArray(e) || (r = function(e, t) {
                     if (e) {
-                        if ("string" == typeof e) return n(e, t);
+                        if ("string" == typeof e) return n(e, void 0);
                         var r = Object.prototype.toString.call(e).slice(8, -1);
                         if ("Object" === r && e.constructor && (r = e.constructor.name), "Map" === r || "Set" === r) return Array.from(e);
-                        if ("Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)) return n(e, t);
+                        if ("Arguments" === r || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(r)) return n(e, void 0);
                     }
                 }(e)) || t && e && "number" == typeof e.length) {
                     r && (e = r);

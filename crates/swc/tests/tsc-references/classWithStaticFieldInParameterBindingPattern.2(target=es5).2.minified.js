@@ -12,8 +12,8 @@ var _class, _class1, C = function C() {
         return _class_call_check(this, _class), _super.apply(this, arguments);
     }
     return _class;
-}(C)).x = 1, _class).x], function() {
-    (void 0)[((_class1 = function(C) {
+}(C)).x = 1, _class).x], function(param) {
+    param[((_class1 = function(C) {
         _inherits(_class, C);
         var _super = _create_super(_class);
         function _class() {

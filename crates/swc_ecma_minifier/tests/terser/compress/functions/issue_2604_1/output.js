@@ -2,10 +2,8 @@ var a = "FAIL";
 (function() {
     try {
         throw 1;
-    } catch (b1) {
-        var b;
-        b && b();
-        b1 && (a = "PASS");
+    } catch (b) {
+        b && (a = "PASS");
     }
 })();
 console.log(a);
