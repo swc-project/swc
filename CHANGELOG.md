@@ -34,6 +34,9 @@
 
 - **(es/minifer)** Update the passing terser test list ([#8573](https://github.com/swc-project/swc/issues/8573)) ([8b86638](https://github.com/swc-project/swc/commit/8b86638970797fe352db40128aabfb6a8cf9a43e))
 
+
+- **(es/testing)** Ensure that `test_inline!` is working properly ([#8590](https://github.com/swc-project/swc/issues/8590)) ([872a47b](https://github.com/swc-project/swc/commit/872a47b851504f4c0095f7c9f2729d50451c97a6))
+
 ## [1.3.107] - 2024-01-28
 
 ### Bug Fixes
