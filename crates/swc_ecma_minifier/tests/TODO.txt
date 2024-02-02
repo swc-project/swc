@@ -46,7 +46,6 @@ collapse_vars/issue_2203_4/input.js
 collapse_vars/issue_2298/input.js
 collapse_vars/issue_2319_1/input.js
 collapse_vars/issue_2319_3/input.js
-collapse_vars/issue_2436_1/input.js
 collapse_vars/issue_2436_10/input.js
 collapse_vars/issue_2436_11/input.js
 collapse_vars/issue_2436_13/input.js
@@ -135,7 +134,6 @@ evaluate/issue_2535_1/input.js
 evaluate/issue_399/input.js
 evaluate/prototype_function/input.js
 evaluate/self_comparison_1/input.js
-evaluate/self_comparison_2/input.js
 export/export_default_named_async_function/input.js
 export/export_default_named_generator/input.js
 export/module_mangle_export_default_class/input.js
