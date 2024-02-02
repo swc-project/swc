@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
+use swc_ecma_utils::{private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
@@ -80,24 +80,23 @@ impl Optimizer<'_> {
                     match &**prop {
                         Prop::KeyValue(p) => {
                             match &*p.value {
-                                Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) => {}
-                                Expr::Fn(f) => {
-                                    if contains_this_expr(&f.function.body) {
-                                        return None;
-                                    }
-                                }
+                                Expr::Ident(..)
+                                | Expr::Lit(..)
+                                | Expr::Arrow(..)
+                                | Expr::Fn(..)
+                                | Expr::Class(..) => {}
                                 _ => return None,
                             };
 
                             match &p.key {
                                 PropName::Str(s) => {
                                     if let Some(v) = unknown_used_props.get_mut(&s.value) {
-                                        *v -= 1;
+                                        *v = 0;
                                     }
                                 }
                                 PropName::Ident(i) => {
                                     if let Some(v) = unknown_used_props.get_mut(&i.sym) {
-                                        *v -= 1;
+                                        *v = 0;
                                     }
                                 }
                                 _ => return None,
@@ -105,7 +104,7 @@ impl Optimizer<'_> {
                         }
                         Prop::Shorthand(p) => {
                             if let Some(v) = unknown_used_props.get_mut(&p.sym) {
-                                *v -= 1;
+                                *v = 0;
                             }
                         }
                         _ => return None,
