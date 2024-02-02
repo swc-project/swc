@@ -352,7 +352,7 @@ impl CompressOptions {
             return true;
         }
 
-        self.top_level.map(|v| v.functions).unwrap_or(false)
+        self.top_level.map(|v| v.functions).unwrap_or(false) || self.module
     }
 }
 

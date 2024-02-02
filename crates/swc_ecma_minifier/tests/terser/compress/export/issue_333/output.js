@@ -1,8 +1,7 @@
-function shortOut() {
-    return function () {};
-}
-var setToString = shortOut();
-var _setToString = setToString;
+var setToString;
+var _setToString = function shortOut() {
+    return function() {};
+}();
 export function baseRest() {
     return _setToString();
 }
