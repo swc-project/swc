@@ -1,4 +1,4 @@
 "use strict";
 console.log(function(a) {
-    return a || a(), a;
+    return 42;
 }(42));

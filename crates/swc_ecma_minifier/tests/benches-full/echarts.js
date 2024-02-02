@@ -5030,22 +5030,22 @@
                     case CMD.C:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i++], y3 = data[i++];
                         l = function(x0, y0, x1, y1, x2, y2, x3, y3, iteration) {
-                            for(var px = x0, py = y0, d = 0, step = 1 / iteration, i = 1; i <= iteration; i++){
-                                var t = i * step, x = cubicAt(x0, x1, x2, x3, t), y = cubicAt(y0, y1, y2, y3, t), dx = x - px, dy = y - py;
+                            for(var px = x0, py = y0, d = 0, i = 1; i <= 10; i++){
+                                var t = 0.1 * i, x = cubicAt(x0, x1, x2, x3, t), y = cubicAt(y0, y1, y2, y3, t), dx = x - px, dy = y - py;
                                 d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
                             }
                             return d;
-                        }(xi, yi, x1, y1, x2, y2, x3, y3, 10), xi = x3, yi = y3;
+                        }(xi, yi, x1, y1, x2, y2, x3, y3, 0), xi = x3, yi = y3;
                         break;
                     case CMD.Q:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++];
                         l = function(x0, y0, x1, y1, x2, y2, iteration) {
-                            for(var px = x0, py = y0, d = 0, step = 1 / iteration, i = 1; i <= iteration; i++){
-                                var t = i * step, x = quadraticAt(x0, x1, x2, t), y = quadraticAt(y0, y1, y2, t), dx = x - px, dy = y - py;
+                            for(var px = x0, py = y0, d = 0, i = 1; i <= 10; i++){
+                                var t = 0.1 * i, x = quadraticAt(x0, x1, x2, t), y = quadraticAt(y0, y1, y2, t), dx = x - px, dy = y - py;
                                 d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
                             }
                             return d;
-                        }(xi, yi, x1, y1, x2, y2, 10), xi = x2, yi = y2;
+                        }(xi, yi, x1, y1, x2, y2, 0), xi = x2, yi = y2;
                         break;
                     case CMD.A:
                         var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], delta = data[i++], endAngle = delta + startAngle;
@@ -10770,13 +10770,13 @@
                         var width = rect.width, height = rect.height;
                         switch(pos){
                             case 'top':
-                                outPt.set(rect.x + width / 2, rect.y - distance), outDir.set(0, -1);
+                                outPt.set(rect.x + width / 2, rect.y - 0), outDir.set(0, -1);
                                 break;
                             case 'bottom':
-                                outPt.set(rect.x + width / 2, rect.y + height + distance), outDir.set(0, 1);
+                                outPt.set(rect.x + width / 2, rect.y + height + 0), outDir.set(0, 1);
                                 break;
                             case 'left':
-                                outPt.set(rect.x - distance, rect.y + height / 2), outDir.set(-1, 0);
+                                outPt.set(rect.x - 0, rect.y + height / 2), outDir.set(-1, 0);
                                 break;
                             case 'right':
                                 outPt.set(rect.x + width + distance, rect.y + height / 2), outDir.set(1, 0);
@@ -22912,11 +22912,11 @@
                             var points = [
                                 [
                                     head ? x : x - 5,
-                                    y
+                                    0
                                 ],
                                 [
                                     x + itemWidth,
-                                    y
+                                    0
                                 ],
                                 [
                                     x + itemWidth,
@@ -30199,10 +30199,10 @@
         }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
         !function(path, morphingData, morphT) {
             if (isIndividualMorphingPath(path)) {
-                updateIndividualMorphingPath(path, morphingData, morphT);
+                updateIndividualMorphingPath(path, morphingData, 0);
                 return;
             }
-            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, morphT);
+            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, 0);
         }(toPath, function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
             for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
                 var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
@@ -30225,7 +30225,8 @@
                     var idx = (offset + k) % len2 + 2;
                     newFromSubpathBezier[k + 2] = fromSubpathBezier[idx] - fromCp[0], newFromSubpathBezier[k + 3] = fromSubpathBezier[idx + 1] - fromCp[1];
                 }
-                if (newFromSubpathBezier[0] = fromSubpathBezier[offset] - fromCp[0], newFromSubpathBezier[1] = fromSubpathBezier[offset + 1] - fromCp[1], searchAngleIteration > 0) for(var step = searchAngleRange / searchAngleIteration, angle = -searchAngleRange / 2; angle <= searchAngleRange / 2; angle += step){
+                newFromSubpathBezier[0] = fromSubpathBezier[offset] - fromCp[0], newFromSubpathBezier[1] = fromSubpathBezier[offset + 1] - fromCp[1];
+                for(var step = searchAngleRange / 10, angle = -searchAngleRange / 2; angle <= searchAngleRange / 2; angle += step){
                     for(var sa = Math.sin(angle), ca = Math.cos(angle), score = 0, k = 0; k < fromSubpathBezier.length; k += 2){
                         var x0 = newFromSubpathBezier[k], y0 = newFromSubpathBezier[k + 1], x1 = toSubpathBezier[k] - toCp[0], y1 = toSubpathBezier[k + 1] - toCp[1], newX1 = x1 * ca - y1 * sa, newY1 = x1 * sa + y1 * ca;
                         tmpArr_1[k] = newX1, tmpArr_1[k + 1] = newY1;
@@ -30237,7 +30238,6 @@
                         for(var m = 0; m < tmpArr_1.length; m++)newToSubpathBezier[m] = tmpArr_1[m];
                     }
                 }
-                else for(var i_1 = 0; i_1 < len; i_1 += 2)newToSubpathBezier[i_1] = toSubpathBezier[i_1] - toCp[0], newToSubpathBezier[i_1 + 1] = toSubpathBezier[i_1 + 1] - toCp[1];
                 result.push({
                     from: newFromSubpathBezier,
                     to: newToSubpathBezier,
@@ -30247,7 +30247,7 @@
                 });
             }
             return result;
-        }(_a[0], _a[1], 10, Math.PI), 0);
+        }(_a[0], _a[1], 0, Math.PI), 0);
         var oldDone = animationOpts && animationOpts.done, oldAborted = animationOpts && animationOpts.aborted, oldDuring = animationOpts && animationOpts.during;
         return toPath.animateTo({
             __morphT: 1
@@ -36199,20 +36199,17 @@
                     function setVisual(key, value) {
                         setItemVisualFromData(data, dataIndex, key, value);
                     }
-                    function eachItem(valueOrIndex, index) {
-                        dataIndex = null == dimension ? valueOrIndex : index;
+                    each(stateList, function(state) {
+                        var visualTypes = VisualMapping.prepareVisualTypes(visualMappings[state]);
+                        visualTypesMap[state] = visualTypes;
+                    }), data.each(function(valueOrIndex, index) {
+                        dataIndex = valueOrIndex;
                         var rawDataItem = data.getRawDataItem(dataIndex);
                         if (!rawDataItem || !1 !== rawDataItem.visualMap) for(var valueState = getValueState.call(void 0, valueOrIndex), mappings = visualMappings[valueState], visualTypes = visualTypesMap[valueState], i = 0, len = visualTypes.length; i < len; i++){
                             var type = visualTypes[i];
                             mappings[type] && mappings[type].applyVisual(valueOrIndex, getVisual, setVisual);
                         }
-                    }
-                    each(stateList, function(state) {
-                        var visualTypes = VisualMapping.prepareVisualTypes(visualMappings[state]);
-                        visualTypesMap[state] = visualTypes;
-                    }), null == dimension ? data.each(eachItem) : data.each([
-                        dimension
-                    ], eachItem);
+                    });
                 }(STATE_LIST, visualMappings, data, getValueState);
             });
         }), function(api, throttleType, throttleDelay, brushSelected, payload) {

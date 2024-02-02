@@ -3180,10 +3180,10 @@
             }
         }
         !function(fn, a, b) {
-            if (isBatchingEventUpdates) return fn(a, b);
+            if (isBatchingEventUpdates) return fn(void 0, void 0);
             isBatchingEventUpdates = !0;
             try {
-                return batchedEventUpdatesImpl(fn, a, b);
+                return batchedEventUpdatesImpl(fn, void 0, void 0);
             } finally{
                 isBatchingEventUpdates = !1, finishEventHandler();
             }
@@ -7489,7 +7489,7 @@
                     if (null !== lastEffect) {
                         var firstEffect = lastEffect.next, effect = firstEffect;
                         do {
-                            if ((effect.tag & tag) === tag) {
+                            if ((3 & effect.tag) === tag) {
                                 var destroy = effect.destroy;
                                 effect.destroy = void 0, void 0 !== destroy && destroy();
                             }
@@ -8282,7 +8282,7 @@
                             if (null !== lastEffect) {
                                 var firstEffect = lastEffect.next, effect = firstEffect;
                                 do {
-                                    if ((effect.tag & tag) === tag) {
+                                    if ((3 & effect.tag) === tag) {
                                         var create = effect.create;
                                         effect.destroy = create();
                                         var destroy = effect.destroy;
@@ -9037,7 +9037,7 @@
                 key: null == key ? null : "" + key,
                 children: children,
                 containerInfo: containerInfo,
-                implementation: null
+                implementation: implementation
             };
         }(children, container, null, key);
     }

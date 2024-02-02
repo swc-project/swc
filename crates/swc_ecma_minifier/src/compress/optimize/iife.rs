@@ -13,6 +13,7 @@ use super::{util::NormalMultiReplacer, Optimizer};
 use crate::debug::dump;
 use crate::{
     compress::optimize::Ctx,
+    program_data::{ProgramData, ScopeData},
     util::{idents_captured_by, idents_used_by, make_number},
 };
 
@@ -135,7 +136,7 @@ impl Optimizer<'_> {
     /// ```
     #[cfg_attr(feature = "debug", tracing::instrument(skip(self, e)))]
     pub(super) fn inline_args_of_iife(&mut self, e: &mut CallExpr) {
-        if self.options.inline == 0 {
+        if self.options.inline == 0 && !self.options.reduce_vars && !self.options.reduce_fns {
             return;
         }
 
@@ -148,6 +149,13 @@ impl Optimizer<'_> {
             Callee::Super(_) | Callee::Import(_) => return,
             Callee::Expr(e) => &mut **e,
         };
+
+        if let Some(scope) = find_scope(self.data, callee) {
+            if scope.used_arguments {
+                log_abort!("iife: [x] Found usage of arguments");
+                return;
+            }
+        }
 
         fn clean_params(callee: &mut Expr) {
             match callee {
@@ -168,6 +176,7 @@ impl Optimizer<'_> {
                 .filter(|usage| usage.used_recursively)
                 .is_some()
             {
+                log_abort!("iife: [x] Recursive?");
                 return;
             }
         }
@@ -179,11 +188,11 @@ impl Optimizer<'_> {
             for (idx, param) in params.iter_mut().enumerate() {
                 match &mut **param {
                     Pat::Ident(param) => {
+                        if param.sym == "arguments" {
+                            continue;
+                        }
                         if let Some(usage) = self.data.vars.get(&param.to_id()) {
                             if usage.reassigned {
-                                continue;
-                            }
-                            if usage.ref_count != 1 {
                                 continue;
                             }
                         }
@@ -206,6 +215,12 @@ impl Optimizer<'_> {
                                     param.id.span.ctxt
                                 );
                                 vars.insert(param.to_id(), arg.clone());
+                            } else {
+                                trace_op!(
+                                    "iife: Trying to inline argument ({}{:?}) (not inlinable)",
+                                    param.id.sym,
+                                    param.id.span.ctxt
+                                );
                             }
                         } else {
                             trace_op!(
@@ -1033,6 +1048,14 @@ impl Optimizer<'_> {
 
             _ => false,
         }
+    }
+}
+
+fn find_scope<'a>(data: &'a ProgramData, callee: &Expr) -> Option<&'a ScopeData> {
+    match callee {
+        Expr::Arrow(callee) => data.scopes.get(&callee.span.ctxt),
+        Expr::Fn(callee) => data.scopes.get(&callee.function.span.ctxt),
+        _ => None,
     }
 }
 
