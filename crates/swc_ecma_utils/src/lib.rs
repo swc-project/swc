@@ -3023,6 +3023,8 @@ impl VisitMut for IdentRenamer<'_> {
 pub trait QueryRef {
     fn query_ref(&self, ident: &Ident) -> Option<Expr>;
     fn query_lhs(&self, ident: &Ident) -> Option<Expr>;
+    /// ref used in JSX
+    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName>;
     /// when `foo()` is replaced with `bar.baz()`,
     /// should `bar.baz` be indirect call?
     fn should_fix_this(&self, ident: &Ident) -> bool;
@@ -3127,6 +3129,14 @@ where
 
         if should_fix_this && n.tag.is_member() {
             *n = n.take().into_indirect()
+        }
+    }
+
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        if let JSXElementName::Ident(ident) = n {
+            if let Some(expr) = self.query.query_jsx(ident) {
+                *n = expr;
+            }
         }
     }
 }
