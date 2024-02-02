@@ -37,7 +37,9 @@ impl Optimizer<'_> {
 
     fn hoist_props_of_var(&mut self, n: &mut VarDeclarator) -> Option<Vec<VarDeclarator>> {
         if let Pat::Ident(name) = &mut n.name {
-            if self.options.top_retain.contains(&name.id.sym) {
+            if name.id.span.ctxt == self.marks.top_level_ctxt
+                && self.options.top_retain.contains(&name.id.sym)
+            {
                 log_abort!("hoist_props: Variable `{}` is retained", name.id.sym);
                 return None;
             }
@@ -49,7 +51,6 @@ impl Optimizer<'_> {
                 .vars
                 .get(&name.to_id())
                 .map(|v| {
-                    dbg!(v);
                     !v.mutated()
                         && !v.used_as_ref
                         && !v.used_as_arg
