@@ -28,6 +28,9 @@
 
 - **(es/minifier)** Inline more IIFE arguments ([#8584](https://github.com/swc-project/swc/issues/8584)) ([18e0b53](https://github.com/swc-project/swc/commit/18e0b53fbb19eb016fe3695a169ac7f0708c96d3))
 
+
+- **(es/minifier)** Respect more options ([#8582](https://github.com/swc-project/swc/issues/8582)) ([fd997d3](https://github.com/swc-project/swc/commit/fd997d3712cf83d5de5bb63b3e2ac38871c4b736))
+
 ### Testing
 
 
@@ -1478,12 +1481,6 @@
 - **(es/compat)** Remove usage of `box_patterns` ([#7613](https://github.com/swc-project/swc/issues/7613)) ([0a26066](https://github.com/swc-project/swc/commit/0a26066b7b01d06a6d9e3df2ab7c7e47f4aa9e4c))
 
 ## [1.3.67] - 2023-06-29
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Don't drop assignments to unused top-level variables ([#7581](https://github.com/swc-project/swc/issues/7581)) ([a685c88](https://github.com/swc-project/swc/commit/a685c88c61248e5bff98fb339a71b40b8fd4e528))
 
 ### Features
 
