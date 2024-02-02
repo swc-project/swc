@@ -2943,6 +2943,8 @@ impl VisitMut for Optimizer<'_> {
             true
         });
 
+        self.hoist_props_of_vars(vars);
+
         let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
         if !uses_eval && !self.ctx.dont_use_prepend_nor_append {
@@ -3050,8 +3052,6 @@ impl VisitMut for Optimizer<'_> {
                 true
             });
         }
-
-        self.hoist_props_of_vars(vars);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
