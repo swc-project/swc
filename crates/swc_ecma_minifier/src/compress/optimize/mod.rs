@@ -2924,8 +2924,6 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_var_declarators(&mut self, vars: &mut Vec<VarDeclarator>) {
-        self.hoist_props_of_vars(vars);
-
         vars.retain_mut(|var| {
             if var.name.is_invalid() {
                 self.changed = true;
@@ -3052,6 +3050,8 @@ impl VisitMut for Optimizer<'_> {
                 true
             });
         }
+
+        self.hoist_props_of_vars(vars);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
