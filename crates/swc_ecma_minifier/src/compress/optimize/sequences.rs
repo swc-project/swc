@@ -1676,7 +1676,8 @@ impl Optimizer<'_> {
 
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
                 // Try inlining whole member expression first
-                if self.replace_seq_props(a, obj, prop)? {
+                if let Some(value) = self.replace_seq_props(a, obj, prop)? {
+                    *b = *value;
                     return Ok(true);
                 }
 
@@ -2530,20 +2531,22 @@ impl Optimizer<'_> {
         a: &mut Mergable,
         obj: &Expr,
         prop: &MemberProp,
-    ) -> Result<bool, ()> {
+    ) -> Result<Option<Box<Expr>>, ()> {
         if !self.options.hoist_props {
-            return Ok(false);
+            return Ok(None);
         }
 
         if let (Expr::Ident(obj), Some(a_id)) = (obj, a.id()) {
             if obj.to_id() == a_id {
+                // TOOD: Analyze `usage`
+
                 if let MemberProp::Ident(prop) = prop {
                     // We can inline a.b if a = { b: 1 } where prop is b
 
                     let a_value = match a {
                         Mergable::Var(a) => match &mut a.init {
                             Some(v) => v,
-                            None => return Ok(false),
+                            None => return Ok(None),
                         },
                         Mergable::Expr(a) => match a {
                             Expr::Assign(AssignExpr {
@@ -2551,20 +2554,40 @@ impl Optimizer<'_> {
                                 right,
                                 ..
                             }) => right,
-                            _ => return Ok(false),
+                            _ => return Ok(None),
                         },
-                        Mergable::FnDecl(..) | Mergable::Drop => return Ok(false),
+                        Mergable::FnDecl(..) | Mergable::Drop => return Ok(None),
                     };
 
                     let a_value = match a_value.as_mut_object() {
                         Some(v) => v,
-                        None => return Ok(false),
+                        None => return Ok(None),
                     };
+
+                    for a_prop in a_value.props.iter() {
+                        match a_prop {
+                            PropOrSpread::Spread(..) => return Ok(None),
+                            PropOrSpread::Prop(p) => match &**p {
+                                Prop::Shorthand(..) => return Ok(None),
+                                Prop::KeyValue(p) => {
+                                    if p.key.is_ident() && p.key.as_ident().unwrap().sym == prop.sym
+                                    {
+                                        // TODO: Side effect of p.value
+                                        return Ok(Some(p.value.clone()));
+                                    } else {
+                                        // TODO: Skip properties
+                                        break;
+                                    }
+                                }
+                                _ => return Ok(None),
+                            },
+                        }
+                    }
                 }
             }
         }
 
-        Ok(false)
+        Ok(None)
     }
 
     /// TODO(kdy1): Optimize this
