@@ -54,6 +54,8 @@ impl Optimizer<'_> {
                         && !v.used_as_ref
                         && !v.used_as_arg
                         && !v.used_in_cond
+                        // We cannot have proper values in hoisted_props for this case.
+                        && !v.used_above_decl
                         // && !v.is_infected()
                         && !v.indexed_with_dynamic_key
                 })
