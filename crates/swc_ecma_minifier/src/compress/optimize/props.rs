@@ -19,6 +19,8 @@ impl Optimizer<'_> {
         for mut n in n.take() {
             let new_vars = self.hoist_props_of_var(&mut n);
 
+            dbg!(&new_vars);
+
             if let Some(new_vars) = new_vars {
                 new.extend(new_vars);
             } else {
@@ -48,6 +50,7 @@ impl Optimizer<'_> {
                         && !v.used_in_cond
                         && (!v.is_fn_local || !self.mode.should_be_very_correct())
                         && !v.is_infected()
+                        && !v.indexed_with_dynamic_key
                 })
                 .unwrap_or(false)
             {
@@ -139,10 +142,10 @@ impl Optimizer<'_> {
                     Prop::KeyValue(p) => match &p.key {
                         PropName::Ident(i) => i.sym.clone(),
                         PropName::Str(s) => s.value.clone(),
-                        _ => return None,
+                        _ => unreachable!(),
                     },
                     Prop::Shorthand(p) => p.sym.clone(),
-                    _ => return None,
+                    _ => unreachable!(),
                 };
 
                 let new_var_name = private_ident!(format!("{}_{}", name.id.sym, suffix));
