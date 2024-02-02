@@ -478,7 +478,7 @@ test_inline!(
     ignore,
     Syntax::default(),
     |_| noop(),
-    noop_ignored,
+    test_inline_ignored,
     "class Foo {}",
     "class Foo {}"
 );
@@ -486,10 +486,16 @@ test_inline!(
 test_inline!(
     Syntax::default(),
     |_| noop(),
-    noop_test,
+    test_inline_pass,
     "class Foo {}",
     "class Foo {}"
 );
+
+#[test]
+#[should_panic]
+fn test_inline_should_fail() {
+    test_inline_input_output(Default::default(), |_| noop(), "class Foo {}", "");
+}
 
 #[macro_export]
 macro_rules! test {
