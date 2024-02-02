@@ -142,52 +142,6 @@ impl Optimizer<'_> {
                     }
                 }
             }
-
-            // If the variable is used multiple time, just ignore it.
-            if !self
-                .data
-                .vars
-                .get(&name.to_id())
-                .map(|v| {
-                    v.ref_count == 1
-                        && v.has_property_access
-                        && !v.mutated()
-                        && v.is_fn_local
-                        && !v.executed_multiple_time
-                        && !v.used_as_arg
-                        && !v.used_in_cond
-                })
-                .unwrap_or(false)
-            {
-                return;
-            }
-
-            let init = match n.init.take() {
-                Some(v) => v,
-                None => return,
-            };
-
-            if let Expr::This(..) = &*init {
-                n.init = Some(init);
-                return;
-            }
-
-            match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
-                Some(prev) => {
-                    panic!(
-                        "two variable with same name and same span hygiene is invalid\nPrevious \
-                         value: {:?}",
-                        prev
-                    );
-                }
-                None => {
-                    trace_op!(
-                        "hoist_props: Stored {}{:?} to inline property access",
-                        name.id.sym,
-                        name.id.span.ctxt
-                    );
-                }
-            }
         }
     }
 
@@ -217,12 +171,6 @@ impl Optimizer<'_> {
                     *e = *value;
                     return;
                 }
-            }
-
-            if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
-                member.obj = value;
-                self.changed = true;
-                report_change!("hoist_props: Inlined a property");
             }
         }
     }
