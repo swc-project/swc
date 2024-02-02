@@ -557,7 +557,16 @@ impl Optimizer<'_> {
         options: &CompressOptions,
     ) -> Option<Vec<Mergable<'a>>> {
         Some(match s {
-            Stmt::Expr(e) => vec![Mergable::Expr(&mut e.expr)],
+            Stmt::Expr(e) => {
+                if self.options.sequences()
+                    || self.options.collapse_vars
+                    || self.options.side_effects
+                {
+                    vec![Mergable::Expr(&mut e.expr)]
+                } else {
+                    return None;
+                }
+            }
             Stmt::Decl(Decl::Var(v)) => {
                 if options.reduce_vars || options.collapse_vars {
                     v.decls.iter_mut().map(Mergable::Var).collect()
@@ -612,7 +621,7 @@ impl Optimizer<'_> {
     where
         T: ModuleItemExt,
     {
-        if !self.options.sequences() && !self.options.collapse_vars {
+        if !self.options.sequences() && !self.options.collapse_vars && !self.options.reduce_vars {
             log_abort!("sequences: [x] Disabled");
             return;
         }
@@ -1512,6 +1521,16 @@ impl Optimizer<'_> {
                 .entered(),
             )
         };
+
+        // Respect top_retain
+        if let Some(a_id) = a.id() {
+            if a_id.0 == "arguments"
+                || (matches!(a, Mergable::Var(_) | Mergable::FnDecl(_))
+                    && !self.may_remove_ident(&Ident::from(a_id)))
+            {
+                return Ok(false);
+            }
+        }
 
         if match &*b {
             Expr::Arrow(..)

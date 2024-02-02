@@ -31,7 +31,7 @@ use crate::{
     maybe_par,
     mode::Mode,
     option::{CompressOptions, MangleOptions},
-    program_data::ProgramData,
+    program_data::{ProgramData, VarUsageInfo},
     util::{
         contains_eval, contains_leaping_continue_with_label, make_number, ExprOptExt, ModuleItemExt,
     },
@@ -323,7 +323,7 @@ impl From<&Function> for FnMetadata {
 
 impl Optimizer<'_> {
     fn may_remove_ident(&self, id: &Ident) -> bool {
-        if self.ctx.is_exported {
+        if let Some(VarUsageInfo { exported: true, .. }) = self.data.vars.get(&id.clone().to_id()) {
             return false;
         }
 
@@ -2041,6 +2041,7 @@ impl VisitMut for Optimizer<'_> {
 
         let ctx = Ctx {
             top_level: false,
+            in_fn_like: true,
             is_lhs_of_assign: false,
             is_exact_lhs_of_assign: false,
             ..self.ctx
@@ -2062,7 +2063,14 @@ impl VisitMut for Optimizer<'_> {
             }
         }
 
-        e.visit_mut_children_with(self);
+        let ctx = Ctx {
+            top_level: false,
+            in_fn_like: true,
+            is_lhs_of_assign: false,
+            is_exact_lhs_of_assign: false,
+            ..self.ctx
+        };
+        e.visit_mut_children_with(&mut *self.with_ctx(ctx));
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]

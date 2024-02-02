@@ -430,7 +430,9 @@ impl Optimizer<'_> {
     pub(super) fn invoke_iife(&mut self, e: &mut Expr) {
         trace_op!("iife: invoke_iife");
 
-        if self.options.inline == 0 {
+        if self.options.inline == 0
+            && !(self.options.reduce_vars && self.options.reduce_fns && self.options.evaluate)
+        {
             let skip = match e {
                 Expr::Call(v) => !v.callee.span().is_dummy(),
                 _ => true,
