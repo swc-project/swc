@@ -1677,6 +1677,8 @@ impl Optimizer<'_> {
             Expr::Member(MemberExpr { obj, prop, .. }) if !prop.is_computed() => {
                 // Try inlining whole member expression first
                 if let Some(value) = self.replace_seq_props(a, obj, prop)? {
+                    self.changed = true;
+                    report_change!("hoist_props: Replacing a member expression with value");
                     *b = *value;
                     return Ok(true);
                 }
