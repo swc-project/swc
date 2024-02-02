@@ -51,18 +51,18 @@ impl Optimizer<'_> {
                 .vars
                 .get(&name.to_id())
                 .map(|v| {
-                    !v.mutated()
-                        && !v.used_as_ref
-                        && !v.used_as_arg
-                        && !v.used_in_cond
+                    dbg!(!v.mutated())
+                        && dbg!(!v.used_as_ref)
+                        && dbg!(!v.used_as_arg)
+                        && dbg!(!v.used_in_cond)
                         // We cannot have proper values in hoisted_props for this case.
-                        && !v.used_above_decl
+                        && dbg!(!v.used_above_decl)
                         // && !v.is_infected()
-                        && !v.indexed_with_dynamic_key
+                        && dbg!(!v.indexed_with_dynamic_key)
                 })
                 .unwrap_or(false)
             {
-                log_abort!("hoist_props: Variable `{}` is not a candidate", name.id.sym);
+                log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
                 return None;
             }
 
