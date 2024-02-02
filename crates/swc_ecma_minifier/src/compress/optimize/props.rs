@@ -9,12 +9,15 @@ use crate::util::deeply_contains_this_expr;
 impl Optimizer<'_> {
     pub(super) fn hoist_props_of_vars(&mut self, n: &mut Vec<VarDeclarator>) {
         if !self.options.hoist_props {
+            log_abort!("hoist_props: option is disabled");
             return;
         }
         if self.ctx.is_exported {
+            log_abort!("hoist_props: Exported variable is not hoisted");
             return;
         }
         if self.ctx.in_top_level() && !self.options.top_level() {
+            log_abort!("hoist_props: Top-level variable is not hoisted");
             return;
         }
 
@@ -36,6 +39,7 @@ impl Optimizer<'_> {
     fn hoist_props_of_var(&mut self, n: &mut VarDeclarator) -> Option<Vec<VarDeclarator>> {
         if let Pat::Ident(name) = &mut n.name {
             if self.options.top_retain.contains(&name.id.sym) {
+                log_abort!("hoist_props: Variable `{}` is retained", name.id.sym);
                 return None;
             }
 
@@ -55,7 +59,7 @@ impl Optimizer<'_> {
                 })
                 .unwrap_or(false)
             {
-                log_abort!("[x] bad usage");
+                log_abort!("hoist_props: Variable `{}` is not a candidate", name.id.sym);
                 return None;
             }
 
