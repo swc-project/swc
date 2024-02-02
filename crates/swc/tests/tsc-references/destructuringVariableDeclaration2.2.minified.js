@@ -1,9 +1,4 @@
 //// [destructuringVariableDeclaration2.ts]
-var _ref = {
-    a1: !0,
-    a2: 1
-};
-_ref.a1, _ref.a2;
 var _ref1 = [
     1,
     2,
