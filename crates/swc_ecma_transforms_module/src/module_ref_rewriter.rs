@@ -71,6 +71,11 @@ impl QueryRef for ImportQuery {
         None
     }
 
+    fn query_jsx(&self, _: &Ident) -> Option<JSXElementName> {
+        // We do not need to handle JSX since there is no jsx preserve option in swc
+        None
+    }
+
     fn should_fix_this(&self, ident: &Ident) -> bool {
         if self.helper_ctxt.iter().any(|ctxt| ctxt == &ident.span.ctxt) {
             return false;

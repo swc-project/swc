@@ -1231,6 +1231,16 @@ impl QueryRef for ExportQuery {
         self.query_ref(ident)
     }
 
+    fn query_jsx(&self, ident: &Ident) -> Option<JSXElementName> {
+        self.export_id_list.contains(&ident.to_id()).then(|| {
+            JSXMemberExpr {
+                obj: JSXObject::Ident(self.namesapce_id.clone().into()),
+                prop: ident.clone(),
+            }
+            .into()
+        })
+    }
+
     fn should_fix_this(&self, _: &Ident) -> bool {
         // tsc does not care about `this` in namespace.
         false
