@@ -585,33 +585,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc-lab/html@workspace:html":
-  version: 0.0.0-use.local
-  resolution: "@swc-lab/html@workspace:html"
-  dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.22"
-    "@swc/counter": "npm:^0.1.1"
-    "@swc/types": "workspace:^"
-    "@types/node": "npm:^20.7.1"
-    cross-env: "npm:^7.0.3"
-    typescript: "npm:^5.2.2"
-  languageName: unknown
-  linkType: soft
-
-"@swc-lab/xml@workspace:xml":
-  version: 0.0.0-use.local
-  resolution: "@swc-lab/xml@workspace:xml"
-  dependencies:
-    "@napi-rs/cli": "npm:^3.0.0-alpha.22"
-    "@swc/counter": "npm:^0.1.1"
-    "@swc/types": "workspace:^"
-    "@types/node": "npm:^20.7.1"
-    cross-env: "npm:^7.0.3"
-    typescript: "npm:^5.2.2"
-  languageName: unknown
-  linkType: soft
-
-"@swc/counter@npm:^0.1.1, @swc/counter@workspace:^, @swc/counter@workspace:counter":
+"@swc/counter@workspace:^, @swc/counter@workspace:counter":
   version: 0.0.0-use.local
   resolution: "@swc/counter@workspace:counter"
   languageName: unknown
@@ -622,6 +596,7 @@ __metadata:
   resolution: "@swc/helpers@workspace:helpers"
   dependencies:
     "@ast-grep/napi": "npm:^0.3.1"
+    "@swc/counter": "workspace:^"
     dprint: "npm:^0.35.3"
     magic-string: "npm:^0.30.0"
     tslib: "npm:^2.4.0"
@@ -646,6 +621,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc/types@workspace:types"
   dependencies:
+    "@swc/counter": "workspace:^"
     typescript: "npm:^5.2.2"
   languageName: unknown
   linkType: soft
