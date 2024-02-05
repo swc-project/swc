@@ -12117,27 +12117,23 @@
                     min > globalMax - size ? globalMax - size : Math.max(min, globalMin),
                     max < globalMin + size ? globalMin + size : Math.min(max, globalMax)
                 ];
-            }, fallbackProps = {
-                brushAreaStyle: {
-                    stroke: "none",
-                    fill: "black",
-                    opacity: function(_ref) {
-                        return _ref.active ? 0.2 : 0.1;
-                    }
-                },
-                brushStyle: {
-                    pointerEvents: "none",
-                    stroke: "none",
-                    fill: "black",
-                    opacity: function(_ref2) {
-                        return _ref2.active ? 0.4 : 0.3;
-                    }
-                },
-                handleStyle: {
-                    pointerEvents: "none",
-                    stroke: "none",
-                    fill: "none"
+            }, fallbackProps_brushAreaStyle = {
+                stroke: "none",
+                fill: "black",
+                opacity: function(_ref) {
+                    return _ref.active ? 0.2 : 0.1;
                 }
+            }, fallbackProps_brushStyle = {
+                pointerEvents: "none",
+                stroke: "none",
+                fill: "black",
+                opacity: function(_ref2) {
+                    return _ref2.active ? 0.4 : 0.3;
+                }
+            }, fallbackProps_handleStyle = {
+                pointerEvents: "none",
+                stroke: "none",
+                fill: "none"
             }, VictoryBrushLine = function(_React$Component) {
                 var protoProps;
                 function VictoryBrushLine() {
@@ -12225,7 +12221,7 @@
                         value: function(props) {
                             var handleComponent = props.handleComponent, handleStyle = props.handleStyle, id = props.id, brushDomain = props.brushDomain, _props$datum = props.datum, datum = void 0 === _props$datum ? {} : _props$datum, _props$activeBrushes2 = props.activeBrushes, activeBrushes = void 0 === _props$activeBrushes2 ? {} : _props$activeBrushes2;
                             if (!brushDomain) return null;
-                            var handleDimensions = this.getHandleDimensions(props), style = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps.handleStyle, handleStyle), minDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
+                            var handleDimensions = this.getHandleDimensions(props), style = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps_handleStyle, handleStyle), minDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 handleValue: victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMinValue(brushDomain)
                             }, datum), maxDatum = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 handleValue: victory_core__WEBPACK_IMPORTED_MODULE_6__.Collection.getMaxValue(brushDomain)
@@ -12253,7 +12249,7 @@
                         value: function(props) {
                             var brushComponent = props.brushComponent, brushStyle = props.brushStyle, _props$activeBrushes3 = props.activeBrushes, _props$datum2 = props.datum;
                             if (!props.brushDomain) return null;
-                            var brushWidth = props.brushWidth || props.width, rectDimensions = this.getRectDimensions(props, brushWidth), baseStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps.brushStyle, brushStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
+                            var brushWidth = props.brushWidth || props.width, rectDimensions = this.getRectDimensions(props, brushWidth), baseStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({}, fallbackProps_brushStyle, brushStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
                                 datum: void 0 === _props$datum2 ? {} : _props$datum2,
                                 active: (void 0 === _props$activeBrushes3 ? {} : _props$activeBrushes3).brush
                             }), brushProps = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
@@ -12267,7 +12263,7 @@
                         value: function(props) {
                             var brushAreaComponent = props.brushAreaComponent, brushAreaStyle = props.brushAreaStyle, _props$activeBrushes4 = props.activeBrushes, _props$datum3 = props.datum, brushAreaWidth = props.brushAreaWidth || props.width, cursor = this.getCursor(props), rectDimensions = this.getRectDimensions(props, brushAreaWidth, getFullDomain(props)), baseStyle = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
                                 cursor: cursor
-                            }, fallbackProps.brushAreaStyle, brushAreaStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
+                            }, fallbackProps_brushAreaStyle, brushAreaStyle), style = victory_core__WEBPACK_IMPORTED_MODULE_6__.Helpers.evaluateStyle(baseStyle, {
                                 datum: void 0 === _props$datum3 ? {} : _props$datum3,
                                 active: (void 0 === _props$activeBrushes4 ? {} : _props$activeBrushes4).brushArea
                             }), brushAreaProps = lodash_assign__WEBPACK_IMPORTED_MODULE_3___default()({
