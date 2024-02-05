@@ -31,6 +31,6 @@
         "typescript": "^5.2.2"
     },
     "dependencies": {
-        "@swc/counter": "workspace:^"
+        "@swc/counter": "^0.1.3"
     }
 }
