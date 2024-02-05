@@ -53,6 +53,7 @@ impl Optimizer<'_> {
                 || usage.used_as_ref
                 || usage.used_as_arg
                 || usage.indexed_with_dynamic_key
+                || usage.used_recursively
             {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
                 return None;
