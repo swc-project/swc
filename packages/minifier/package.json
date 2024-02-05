@@ -57,7 +57,7 @@
         "url": "https://opencollective.com/swc"
     },
     "dependencies": {
-        "@swc/counter": "workspace:^",
+        "@swc/counter": "^0.1.3",
         "@swc/types": "workspace:^"
     },
     "devDependencies": {

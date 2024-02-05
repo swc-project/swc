@@ -23,8 +23,8 @@ on:
         description: Package name to publish
         options:
           - minifier
-          - html
-          - xml
+          # - html
+          # - xml
 
 jobs:
   build-node:

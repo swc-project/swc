@@ -169,7 +169,7 @@
     ],
     "packageManager": "yarn@4.0.2",
     "dependencies": {
-        "@swc/counter": "^0.1.1",
+        "@swc/counter": "^0.1.2",
         "@swc/types": "^0.1.5"
     }
 }
