@@ -457,9 +457,11 @@ where
                 Expr::Ident(Ident { sym, .. }) if *sym == *"eval" => {
                     self.scope.mark_eval_called();
                 }
-                Expr::Member(m) => for_each_id_ref_in_expr(&m.obj, &mut |id| {
-                    self.data.var_or_default(id.to_id()).mark_used_as_ref()
-                }),
+                Expr::Member(m) if !m.obj.is_ident() => {
+                    for_each_id_ref_in_expr(&m.obj, &mut |id| {
+                        self.data.var_or_default(id.to_id()).mark_used_as_ref()
+                    })
+                }
                 _ => {}
             }
         }
