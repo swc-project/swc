@@ -147,13 +147,19 @@ impl Optimizer<'_> {
                     _ => unreachable!(),
                 };
 
-                let suffix = match &**prop {
+                let (key, suffix) = match &**prop {
                     Prop::KeyValue(p) => match &p.key {
-                        PropName::Ident(i) => i.sym.clone(),
-                        PropName::Str(s) => s.value.clone(),
+                        PropName::Ident(i) => (i.sym.clone(), i.sym.clone()),
+                        PropName::Str(s) => (
+                            s.value.clone(),
+                            s.value
+                                .clone()
+                                .replace(|c: char| !Ident::is_valid_continue(c), "$")
+                                .into(),
+                        ),
                         _ => unreachable!(),
                     },
-                    Prop::Shorthand(p) => p.sym.clone(),
+                    Prop::Shorthand(p) => (p.sym.clone(), p.sym.clone()),
                     _ => unreachable!(),
                 };
 
@@ -168,7 +174,7 @@ impl Optimizer<'_> {
 
                 self.vars
                     .hoisted_props
-                    .insert((name.to_id(), suffix), new_var_name);
+                    .insert((name.to_id(), key), new_var_name);
 
                 new_vars.push(new_var);
             }
@@ -189,17 +195,24 @@ impl Optimizer<'_> {
             _ => return,
         };
         if let Expr::Ident(obj) = &*member.obj {
-            if let MemberProp::Ident(prop) = &member.prop {
-                if let Some(value) = self
-                    .vars
-                    .hoisted_props
-                    .get(&(obj.to_id(), prop.sym.clone()))
-                    .cloned()
-                {
-                    report_change!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
-                    self.changed = true;
-                    *e = value.into();
-                }
+            let sym = match &member.prop {
+                MemberProp::Ident(i) => &i.sym,
+                MemberProp::Computed(e) => match &*e.expr {
+                    Expr::Lit(Lit::Str(s)) => &s.value,
+                    _ => return,
+                },
+                _ => return,
+            };
+
+            if let Some(value) = self
+                .vars
+                .hoisted_props
+                .get(&(obj.to_id(), sym.clone()))
+                .cloned()
+            {
+                report_change!("hoist_props: Inlining `{}.{}`", obj.sym, sym);
+                self.changed = true;
+                *e = value.into();
             }
         }
     }
