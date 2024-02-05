@@ -28,11 +28,7 @@ var b, crate, RoyalGuard = function() {
     }
     return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard();
-a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow();
-var holder2 = {
-    a: a
-};
-holder2.a.isLeader(), holder2.a;
+a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow(), a.isLeader();
 var ArrowGuard = function ArrowGuard() {
     var _this = this;
     _class_call_check(this, ArrowGuard), this.isElite = function() {
