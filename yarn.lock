@@ -2923,7 +2923,7 @@ __metadata:
     "@babel/types": "npm:^7.14.0"
     "@napi-rs/cli": "npm:^3.0.0-alpha.22"
     "@swc/core": "npm:=1.2.220"
-    "@swc/counter": "npm:^0.1.1"
+    "@swc/counter": "npm:^0.1.2"
     "@swc/helpers": "npm:^0.5.0"
     "@swc/plugin-jest": "npm:^1.5.113"
     "@swc/types": "npm:^0.1.5"
@@ -2972,10 +2972,10 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@swc/counter@npm:^0.1.1":
-  version: 0.1.1
-  resolution: "@swc/counter@npm:0.1.1"
-  checksum: bb974babd493ba01c0d4a95ab610c3fc15fbf609c08cb0342798e485f57ecc0950abbf84e07124e63c5fe610b492d9a8dd03701d3b9ef7329d9e8bf3cc44980f
+"@swc/counter@npm:^0.1.2":
+  version: 0.1.2
+  resolution: "@swc/counter@npm:0.1.2"
+  checksum: 8427c594f1f0cf44b83885e9c8fe1e370c9db44ae96e07a37c117a6260ee97797d0709483efbcc244e77bac578690215f45b23254c4cd8a70fb25ddbb50bf33e
   languageName: node
   linkType: hard
 
