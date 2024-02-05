@@ -51,6 +51,7 @@ serde_json        = "1.0.61"
 tracing           = "0.1.37"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
+swc_cached = { version = "0.3.19", path = "../swc_cached" }
 swc_common = { version = "0.33.16", path = "../swc_common" }
 swc_config = { version = "0.1.10", path = "../swc_config", features = [
   "sourcemap",
