@@ -1,6 +1,6 @@
 use swc_ecma_ast::*;
 
-impl_enum!(AssignTarget, [Simple, Pat]);
+impl_enum!(AssignTarget, [Simple, Pat], true);
 impl_enum!(
     SimpleAssignTarget,
     [
