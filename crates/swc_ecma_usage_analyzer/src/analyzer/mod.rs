@@ -917,8 +917,15 @@ where
             let v = self.data.var_or_default(obj.to_id());
             v.mark_has_property_access();
 
-            if let MemberProp::Computed(..) = e.prop {
-                v.mark_indexed_with_dynamic_key();
+            if let MemberProp::Computed(prop) = &e.prop {
+                match &*prop.expr {
+                    Expr::Lit(Lit::Str(s)) => {
+                        v.add_accessed_property(s.value.clone());
+                    }
+                    _ => {
+                        v.mark_indexed_with_dynamic_key();
+                    }
+                }
             }
 
             if let MemberProp::Ident(prop) = &e.prop {
