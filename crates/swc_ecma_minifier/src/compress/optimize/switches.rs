@@ -405,12 +405,12 @@ impl Optimizer<'_> {
                         };
                         *s = Stmt::If(IfStmt {
                             span: sw.span,
-                            test: Expr::Bin(BinExpr {
+                            test: BinExpr {
                                 span: DUMMY_SP,
                                 op: op!("==="),
                                 left: sw.discriminant.take(),
                                 right: case.test.take().unwrap(),
-                            })
+                            }
                             .into(),
                             cons: Stmt::Block(BlockStmt {
                                 span: DUMMY_SP,

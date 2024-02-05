@@ -218,8 +218,13 @@ expect(foo()).toBe(false);
 test!(
     Syntax::default(),
     |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default())
+        )
     },
     issue_1022_1,
     "
@@ -232,8 +237,13 @@ test!(
 test!(
     Syntax::default(),
     |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default())
+        )
     },
     issue_1022_2,
     "
@@ -247,8 +257,13 @@ test!(
 test!(
     Syntax::default(),
     |Tester { comments, .. }| {
-        let mark = Mark::fresh(Mark::root());
-        es2015::es2015(mark, Some(comments.clone()), Default::default())
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            es2015::es2015(unresolved_mark, Some(comments.clone()), Default::default())
+        )
     },
     issue_1022_3,
     "

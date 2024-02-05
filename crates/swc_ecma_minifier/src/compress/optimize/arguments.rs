@@ -189,6 +189,10 @@ impl VisitMut for ArgReplacer<'_> {
                             if let Some(param) = self.params.get(idx) {
                                 if let Pat::Ident(i) = &param.pat {
                                     self.changed = true;
+                                    report_change!(
+                                        "arguments: Replacing access to arguments to normal \
+                                         reference"
+                                    );
                                     *n = Expr::Ident(i.id.clone());
                                 }
                             }

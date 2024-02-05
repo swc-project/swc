@@ -4055,15 +4055,13 @@
                     };
                 }
                 async sign(jwk, data, { saltLength } = {}) {
-                    let signature = await this.driver.sign({
+                    return new Uint8Array(await this.driver.sign({
                         name: "RSA-PSS",
                         saltLength: 32
-                    }, await this.jwkToCryptoKey(jwk), data);
-                    return new Uint8Array(signature);
+                    }, await this.jwkToCryptoKey(jwk), data));
                 }
                 async hash(data, algorithm = "SHA-256") {
-                    let digest = await this.driver.digest(algorithm, data);
-                    return new Uint8Array(digest);
+                    return new Uint8Array(await this.driver.digest(algorithm, data));
                 }
                 async verify(publicModulus, data, signature) {
                     const publicKey = {
@@ -19293,8 +19291,7 @@
                 });
             }
             async function readBlobAsUint8Array(blob) {
-                const arrayBuffer = await readBlobAsArrayBuffer(blob);
-                return new Uint8Array(arrayBuffer);
+                return new Uint8Array(await readBlobAsArrayBuffer(blob));
             }
             function isBlob(v) {
                 return 'undefined' != typeof Blob && v instanceof Blob;
@@ -19325,8 +19322,8 @@
                     return this.blob.size;
                 }
                 async read(offset, length) {
-                    const blob = this.blob.slice(offset, offset + length), arrayBuffer = await readBlobAsArrayBuffer(blob);
-                    return new Uint8Array(arrayBuffer);
+                    const blob = this.blob.slice(offset, offset + length);
+                    return new Uint8Array(await readBlobAsArrayBuffer(blob));
                 }
                 async sliceAsBlob(offset, length, type = '') {
                     return this.blob.slice(offset, offset + length, type);
@@ -19354,8 +19351,7 @@
                         }
                     });
                     if (!req.ok) throw Error(`failed http request ${this.url}, status: ${req.status} offset: ${offset} size: ${size}: ${req.statusText}`);
-                    const buffer = await req.arrayBuffer();
-                    return new Uint8Array(buffer);
+                    return new Uint8Array(await req.arrayBuffer());
                 }
             }
             function inflate(data, buf) {
@@ -19850,8 +19846,7 @@
                     return await readEntryDataAsArrayBuffer(this._reader, this._rawEntry);
                 }
                 async text() {
-                    const buffer = await this.arrayBuffer();
-                    return decodeBuffer(new Uint8Array(buffer));
+                    return decodeBuffer(new Uint8Array(await this.arrayBuffer()));
                 }
                 async json() {
                     return JSON.parse(await this.text());
@@ -22171,14 +22166,13 @@
                 }
             }
             function generateResponse(wasmBinary) {
-                const init = {
+                return new Response(wasmBinary, {
                     status: 200,
                     statusText: 'OK',
                     headers: {
                         'Content-Type': 'application/wasm'
                     }
-                };
-                return new Response(wasmBinary, init);
+                });
             }
             async function getWasmModule(wasmResponse, binary) {
                 return WebAssembly.compileStreaming ? await WebAssembly.compileStreaming(wasmResponse) : await WebAssembly.compile(binary);
@@ -22939,16 +22933,14 @@
                                 storeValue(ret_ptr, loadString(value_ptr, value_len));
                             },
                             'syscall/js.valueGet': (retval, v_addr, p_ptr, p_len)=>{
-                                let prop = loadString(p_ptr, p_len), value = loadValue(v_addr);
-                                storeValue(retval, Reflect.get(value, prop));
+                                let prop = loadString(p_ptr, p_len);
+                                storeValue(retval, Reflect.get(loadValue(v_addr), prop));
                             },
                             'syscall/js.valueSet': (v_addr, p_ptr, p_len, x_addr)=>{
-                                const v = loadValue(v_addr), p = loadString(p_ptr, p_len), x = loadValue(x_addr);
-                                Reflect.set(v, p, x);
+                                Reflect.set(loadValue(v_addr), loadString(p_ptr, p_len), loadValue(x_addr));
                             },
                             'syscall/js.valueDelete': (v_addr, p_ptr, p_len)=>{
-                                const v = loadValue(v_addr), p = loadString(p_ptr, p_len);
-                                Reflect.deleteProperty(v, p);
+                                Reflect.deleteProperty(loadValue(v_addr), loadString(p_ptr, p_len));
                             },
                             'syscall/js.valueIndex': (ret_addr, v_addr, i)=>{
                                 storeValue(ret_addr, Reflect.get(loadValue(v_addr), i));

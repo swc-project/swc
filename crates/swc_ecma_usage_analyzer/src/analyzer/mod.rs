@@ -161,13 +161,13 @@ where
         if let Pat::Expr(e) = p {
             match &**e {
                 Expr::Ident(i) => self.data.report_assign(self.ctx, i.to_id(), is_op),
-                _ => self.mark_mutation(e),
+                _ => self.mark_mutation_if_member(e.as_member()),
             }
         }
     }
 
-    fn report_assign_expr(&mut self, e: &Expr, is_op: bool) {
-        if let Expr::Ident(i) = e {
+    fn report_assign_expr_if_ident(&mut self, e: Option<&Ident>, is_op: bool) {
+        if let Some(i) = e {
             self.data.report_assign(self.ctx, i.to_id(), is_op)
         }
     }
@@ -202,8 +202,8 @@ where
         self.data.truncate_initialized_cnt(cnt)
     }
 
-    fn mark_mutation(&mut self, e: &Expr) {
-        if let Expr::Member(m) = e {
+    fn mark_mutation_if_member(&mut self, e: Option<&MemberExpr>) {
+        if let Some(m) = e {
             for_each_id_ref_in_expr(&m.obj, &mut |id| {
                 self.data.mark_property_mutation(id.to_id())
             });
@@ -257,21 +257,21 @@ where
         n.right.visit_with(&mut *self.with_ctx(ctx));
 
         match &n.left {
-            PatOrExpr::Pat(p) => self.report_assign_pat(p, is_op_assign),
-            PatOrExpr::Expr(e) => {
-                self.report_assign_expr(e, is_op_assign);
-                self.mark_mutation(e)
+            AssignTarget::Pat(p) => {
+                for id in find_pat_ids(p) {
+                    self.data.report_assign(self.ctx, id, is_op_assign)
+                }
+            }
+            AssignTarget::Simple(e) => {
+                self.report_assign_expr_if_ident(e.as_ident().map(|v| &v.id), is_op_assign);
+                self.mark_mutation_if_member(e.as_member())
             }
         };
 
         if n.op == op!("=") {
             let left = match &n.left {
-                PatOrExpr::Expr(left) => leftmost(left),
-                PatOrExpr::Pat(left) => match &**left {
-                    Pat::Ident(p) => Some(p.to_id()),
-                    Pat::Expr(p) => leftmost(p),
-                    _ => None,
-                },
+                AssignTarget::Simple(left) => left.leftmost().map(Ident::to_id),
+                AssignTarget::Pat(..) => None,
             };
 
             if let Some(left) = left {
@@ -348,6 +348,11 @@ where
             };
             e.visit_children_with(&mut *self.with_ctx(ctx));
         }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        self.visit_pat_id(&n.id);
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -979,15 +984,6 @@ where
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_object_pat_prop(&mut self, n: &ObjectPatProp) {
-        n.visit_children_with(self);
-
-        if let ObjectPatProp::Assign(p) = n {
-            self.visit_pat_id(&p.key);
-        }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_param(&mut self, n: &Param) {
         let ctx = Ctx {
             in_pat_of_param: false,
@@ -1008,8 +1004,7 @@ where
     fn visit_pat(&mut self, n: &Pat) {
         match n {
             Pat::Ident(i) => {
-                n.visit_children_with(self);
-                self.visit_pat_id(&i.id);
+                i.visit_with(self);
             }
             _ => {
                 let ctx = Ctx {
@@ -1017,22 +1012,6 @@ where
                     ..self.ctx
                 };
                 n.visit_children_with(&mut *self.with_ctx(ctx));
-            }
-        }
-    }
-
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    fn visit_pat_or_expr(&mut self, n: &PatOrExpr) {
-        match n {
-            PatOrExpr::Expr(e) => {
-                if let Expr::Ident(i) = &**e {
-                    self.visit_pat_id(i)
-                } else {
-                    e.visit_with(self);
-                }
-            }
-            PatOrExpr::Pat(p) => {
-                p.visit_with(self);
             }
         }
     }
@@ -1205,7 +1184,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_unary_expr(&mut self, n: &UnaryExpr) {
         if n.op == op!("delete") {
-            self.mark_mutation(&n.arg);
+            self.mark_mutation_if_member(n.arg.as_member());
         }
         n.visit_children_with(self);
     }
@@ -1214,8 +1193,8 @@ where
     fn visit_update_expr(&mut self, n: &UpdateExpr) {
         n.visit_children_with(self);
 
-        self.report_assign_expr(&n.arg, true);
-        self.mark_mutation(&n.arg);
+        self.report_assign_expr_if_ident(n.arg.as_ident(), true);
+        self.mark_mutation_if_member(n.arg.as_member());
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -1494,14 +1473,6 @@ fn for_each_id_ref_in_pat(p: &Pat, op: &mut impl FnMut(&Ident)) {
 fn for_each_id_ref_in_fn(f: &Function, op: &mut impl FnMut(&Ident)) {
     for p in &f.params {
         for_each_id_ref_in_pat(&p.pat, op);
-    }
-}
-
-fn leftmost(p: &Expr) -> Option<Id> {
-    match p {
-        Expr::Ident(i) => Some(i.to_id()),
-        Expr::Member(MemberExpr { obj, .. }) => leftmost(obj),
-        _ => None,
     }
 }
 

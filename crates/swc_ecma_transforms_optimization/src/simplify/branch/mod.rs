@@ -114,11 +114,11 @@ impl VisitMut for Remover {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(l),
+                left: AssignTarget::Simple(l),
                 right: r,
                 ..
-            }) if match &**l {
-                Pat::Ident(l) => match &**r {
+            }) if match &*l {
+                SimpleAssignTarget::Ident(l) => match &**r {
                     Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
                     _ => false,
                 },
@@ -133,11 +133,13 @@ impl VisitMut for Remover {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
                 right,
                 ..
-            }) if match &**left {
-                Pat::Array(arr) => arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none()),
+            }) if match &*left {
+                AssignTargetPat::Array(arr) => {
+                    arr.elems.is_empty() || arr.elems.iter().all(|v| v.is_none())
+                }
                 _ => false,
             } =>
             {
@@ -149,11 +151,11 @@ impl VisitMut for Remover {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
                 right,
                 ..
-            }) if match &**left {
-                Pat::Object(obj) => obj.props.is_empty(),
+            }) if match &*left {
+                AssignTargetPat::Object(obj) => obj.props.is_empty(),
                 _ => false,
             } =>
             {
@@ -1467,11 +1469,11 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
 
         Expr::Assign(AssignExpr {
             op: op!("="),
-            left: PatOrExpr::Pat(left),
+            left: AssignTarget::Simple(left),
             right,
             ..
-        }) if match &*left {
-            Pat::Ident(l) => match &*right {
+        }) if match &left {
+            SimpleAssignTarget::Ident(l) => match &*right {
                 Expr::Ident(r) => l.id.sym == r.sym && l.id.span.ctxt() == r.span.ctxt(),
                 _ => false,
             },

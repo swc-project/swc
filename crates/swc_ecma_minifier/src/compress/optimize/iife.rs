@@ -521,6 +521,7 @@ impl Optimizer<'_> {
                         }
 
                         self.changed = true;
+                        report_change!("inline: Inlining a function call (arrow)");
 
                         let vars = param_ids
                             .iter()
@@ -550,7 +551,7 @@ impl Optimizer<'_> {
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(param.clone().into()),
+                                    left: param.clone().into(),
                                     right: arg.expr.take(),
                                 })));
                             }
@@ -866,12 +867,12 @@ impl Optimizer<'_> {
                 }
 
                 exprs.push(
-                    Expr::Assign(AssignExpr {
+                    AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(Box::new(Pat::Ident(param.clone().into()))),
+                        left: param.clone().into(),
                         right: arg,
-                    })
+                    }
                     .into(),
                 )
             };
@@ -926,7 +927,7 @@ impl Optimizer<'_> {
                             exprs.push(Box::new(Expr::Assign(AssignExpr {
                                 span: DUMMY_SP,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(Box::new(decl.name.clone())),
+                                left: decl.name.clone().try_into().unwrap(),
                                 right: decl.init.take().unwrap(),
                             })))
                         }

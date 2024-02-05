@@ -232,7 +232,7 @@ impl VisitMut for Transform {
                 .flat_map(|key| {
                     key.init.take().map(|init| {
                         let name = key.name.clone();
-                        init.make_assign_to(op!("="), name.into())
+                        init.make_assign_to(op!("="), name.try_into().unwrap())
                     })
                 })
                 .chain(iter::once(n.take()))
@@ -697,10 +697,10 @@ impl Transform {
         let expr = if expr_list.len() == 1 {
             expr_list[0].take()
         } else {
-            Expr::Seq(SeqExpr {
+            SeqExpr {
                 span: DUMMY_SP,
                 exprs: expr_list,
-            })
+            }
             .into()
         };
 
@@ -864,13 +864,13 @@ impl Transform {
         ident: Ident,
         is_export: bool,
     ) -> Expr {
-        let mut left: Expr = ident.clone().into();
-        let mut assign_left: Pat = ident.clone().into();
+        let mut left: SimpleAssignTarget = ident.clone().into();
+        let mut assign_left: SimpleAssignTarget = ident.clone().into();
 
         if is_export {
             if let Some(id) = container_name.clone() {
                 left = Ident::from(id).make_member(ident).into();
-                assign_left = Pat::Expr(Box::new(left.clone()))
+                assign_left = left.clone();
             }
         }
 
@@ -910,7 +910,7 @@ impl Transform {
             init_arg = AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Pat(Box::new(Pat::Ident(ident.clone().into()))),
+                left: ident.clone().into(),
                 right: init_arg,
             }
             .into();
@@ -1175,7 +1175,7 @@ impl VisitMut for ExportedPatRewriter {
 
         n.init = Some(
             right
-                .make_assign_to(op!("="), PatOrExpr::Pat(left.into()))
+                .make_assign_to(op!("="), left.try_into().unwrap())
                 .into(),
         );
     }
@@ -1194,18 +1194,18 @@ impl VisitMut for ExportedPatRewriter {
             let left = Box::new(Pat::Expr(self.id.clone().make_member(key.clone()).into()));
 
             let value = if let Some(right) = value.take() {
-                Pat::Assign(AssignPat {
+                AssignPat {
                     span: DUMMY_SP,
                     left,
                     right,
-                })
+                }
                 .into()
             } else {
                 left
             };
 
             *n = ObjectPatProp::KeyValue(KeyValuePatProp {
-                key: PropName::Ident(key.clone()),
+                key: PropName::Ident(key.clone().into()),
                 value,
             });
             return;
@@ -1221,13 +1221,13 @@ struct ExportQuery {
 }
 
 impl QueryRef for ExportQuery {
-    fn query_ref(&self, ident: &Ident) -> Option<Expr> {
+    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.export_id_list
             .contains(&ident.to_id())
             .then(|| self.namesapce_id.clone().make_member(ident.clone()).into())
     }
 
-    fn query_lhs(&self, ident: &Ident) -> Option<Expr> {
+    fn query_lhs(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.query_ref(ident)
     }
 

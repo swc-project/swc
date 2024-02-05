@@ -11,7 +11,7 @@
 
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
-use swc_common::{ast_node, EqIgnoreSpan, Span};
+use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span};
 
 pub use self::{
     class::{
@@ -19,13 +19,7 @@ pub use self::{
         MethodKind, PrivateMethod, PrivateProp, StaticBlock,
     },
     decl::{ClassDecl, Decl, FnDecl, UsingDecl, VarDecl, VarDeclKind, VarDeclarator},
-    expr::{
-        ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BlockStmtOrExpr, CallExpr, Callee,
-        ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Import, MemberExpr, MemberProp,
-        MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, OptCall, OptChainBase, OptChainExpr,
-        ParenExpr, PatOrExpr, PropOrSpread, SeqExpr, SpreadElement, Super, SuperProp,
-        SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
-    },
+    expr::*,
     function::{Function, Param, ParamOrTsParamProp},
     ident::{BindingIdent, Id, Ident, IdentExt, PrivateName},
     jsx::{
@@ -97,10 +91,16 @@ mod typescript;
 
 /// Represents a invalid node.
 #[ast_node("Invalid")]
-#[derive(Eq, Hash, Copy, EqIgnoreSpan)]
+#[derive(Eq, Default, Hash, Copy, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct Invalid {
     pub span: Span,
+}
+
+impl Take for Invalid {
+    fn dummy() -> Self {
+        Invalid::default()
+    }
 }
 
 /// Note: This type implements `Serailize` and `Deserialize` if `serde` is
@@ -164,12 +164,12 @@ pub use self::{
         ArchivedVarDeclKind, ArchivedVarDeclarator,
     },
     expr::{
-        ArchivedArrayLit, ArchivedArrowExpr, ArchivedAssignExpr, ArchivedAwaitExpr,
-        ArchivedBinExpr, ArchivedBlockStmtOrExpr, ArchivedCallExpr, ArchivedCallee,
-        ArchivedClassExpr, ArchivedCondExpr, ArchivedExpr, ArchivedExprOrSpread, ArchivedFnExpr,
-        ArchivedImport, ArchivedMemberExpr, ArchivedMemberProp, ArchivedMetaPropExpr,
-        ArchivedMetaPropKind, ArchivedNewExpr, ArchivedObjectLit, ArchivedOptCall,
-        ArchivedOptChainBase, ArchivedOptChainExpr, ArchivedParenExpr, ArchivedPatOrExpr,
+        ArchivedArrayLit, ArchivedArrowExpr, ArchivedAssignExpr, ArchivedAssignTarget,
+        ArchivedAwaitExpr, ArchivedBinExpr, ArchivedBlockStmtOrExpr, ArchivedCallExpr,
+        ArchivedCallee, ArchivedClassExpr, ArchivedCondExpr, ArchivedExpr, ArchivedExprOrSpread,
+        ArchivedFnExpr, ArchivedImport, ArchivedMemberExpr, ArchivedMemberProp,
+        ArchivedMetaPropExpr, ArchivedMetaPropKind, ArchivedNewExpr, ArchivedObjectLit,
+        ArchivedOptCall, ArchivedOptChainBase, ArchivedOptChainExpr, ArchivedParenExpr,
         ArchivedPropOrSpread, ArchivedSeqExpr, ArchivedSpreadElement, ArchivedSuper,
         ArchivedSuperProp, ArchivedSuperPropExpr, ArchivedTaggedTpl, ArchivedThisExpr, ArchivedTpl,
         ArchivedTplElement, ArchivedUnaryExpr, ArchivedUpdateExpr, ArchivedYieldExpr,

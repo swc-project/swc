@@ -203,7 +203,8 @@
                           "ctxt": 0
                         },
                         "value": "grey",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

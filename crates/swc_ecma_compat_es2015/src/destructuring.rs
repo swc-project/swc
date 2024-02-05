@@ -1,7 +1,7 @@
 use std::{iter, mem};
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
+use swc_common::{util::take::Take, Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_compat_common::impl_visit_mut_fn;
 use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
@@ -109,7 +109,7 @@ macro_rules! impl_for_for_stmt {
                         // Unpack variables
                         let stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(pat.take()),
+                            left: pat.take().try_into().unwrap(),
                             op: op!("="),
                             right: Box::new(left_ident.into()),
                         }
@@ -374,7 +374,7 @@ impl AssignFolder {
                                         decls,
                                         Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            Box::new(key.clone().into()),
+                                            key.clone().into(),
                                             computed,
                                         ))),
                                     );
@@ -395,7 +395,7 @@ impl AssignFolder {
                                         name: key.clone().into(),
                                         init: Some(Box::new(make_ref_prop_expr(
                                             &ref_ident,
-                                            Box::new(key.clone().into()),
+                                            key.clone().into(),
                                             computed,
                                         ))),
                                         definite: false,
@@ -547,6 +547,42 @@ struct AssignFolder {
     ignore_return_value: Option<()>,
 }
 
+impl AssignFolder {
+    pub fn handle_assign_pat(
+        &mut self,
+        span: Span,
+        mut pat: AssignPat,
+        right: &mut Box<Expr>,
+    ) -> Expr {
+        let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
+
+        let mut exprs = vec![Box::new(
+            AssignExpr {
+                span,
+                left: ref_ident.clone().into(),
+                op: op!("="),
+                right: right.take(),
+            }
+            .into(),
+        )];
+
+        let mut assign_cond_expr = Expr::Assign(AssignExpr {
+            span,
+            left: pat.left.take().try_into().unwrap(),
+            op: op!("="),
+            right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
+        });
+
+        assign_cond_expr.visit_mut_with(self);
+        exprs.push(Box::new(assign_cond_expr));
+
+        Expr::Seq(SeqExpr {
+            span: DUMMY_SP,
+            exprs,
+        })
+    }
+}
+
 #[swc_trace]
 #[fast_path(DestructuringVisitor)]
 impl VisitMut for AssignFolder {
@@ -596,23 +632,21 @@ impl VisitMut for AssignFolder {
 
         if let Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(pat),
+            left: AssignTarget::Pat(pat),
             op: op!("="),
             right,
         }) = expr
         {
-            match &mut **pat {
-                Pat::Expr(pat_expr) => {
-                    *expr = Expr::Assign(AssignExpr {
-                        span: *span,
-                        left: PatOrExpr::Expr(pat_expr.take()),
-                        op: op!("="),
-                        right: right.take(),
-                    });
-                }
-
-                Pat::Ident(..) => {}
-                Pat::Array(ArrayPat { elems, .. }) => {
+            match pat {
+                // Pat::Expr(pat_expr) => {
+                //     *expr = Expr::Assign(AssignExpr {
+                //         span: *span,
+                //         left: pat_expr.take().try_into().unwrap(),
+                //         op: op!("="),
+                //         right: right.take(),
+                //     });
+                // }
+                AssignTargetPat::Array(ArrayPat { elems, .. }) => {
                     let mut exprs = Vec::with_capacity(elems.len() + 1);
 
                     if is_literal(right) && ignore_return_value {
@@ -626,7 +660,7 @@ impl VisitMut for AssignFolder {
                                     Some(Pat::Rest(p)) => {
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span: p.span(),
-                                            left: PatOrExpr::Pat(p.arg.take()),
+                                            left: p.arg.take().try_into().unwrap(),
                                             op: op!("="),
                                             right: Box::new(Expr::Array(ArrayLit {
                                                 span: DUMMY_SP,
@@ -643,19 +677,24 @@ impl VisitMut for AssignFolder {
                                             .expect("pattern after rest element?")
                                             .next()
                                             .and_then(|v| v);
-                                        let right = e
+                                        let mut right = e
                                             .map(|e| {
                                                 debug_assert_eq!(e.spread, None);
                                                 e.expr
                                             })
                                             .unwrap_or_else(|| undefined(p.span()));
 
-                                        let mut expr = Expr::Assign(AssignExpr {
-                                            span: p.span(),
-                                            left: Box::new(p.take()).into(),
-                                            op: op!("="),
-                                            right,
-                                        });
+                                        let p = p.take();
+                                        let mut expr = if let Pat::Assign(pat) = p {
+                                            self.handle_assign_pat(*span, pat, &mut right)
+                                        } else {
+                                            Expr::Assign(AssignExpr {
+                                                span: p.span(),
+                                                left: p.try_into().unwrap(),
+                                                op: op!("="),
+                                                right,
+                                            })
+                                        };
 
                                         self.visit_mut_expr(&mut expr);
 
@@ -690,7 +729,7 @@ impl VisitMut for AssignFolder {
                     exprs.push(Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
                         op: op!("="),
-                        left: PatOrExpr::Pat(ref_ident.clone().into()),
+                        left: ref_ident.clone().into(),
                         right: if self.c.loose {
                             right.take()
                         } else {
@@ -750,14 +789,14 @@ impl VisitMut for AssignFolder {
                                 let assign_ref_ident = make_ref_ident(self.c, &mut self.vars, None);
                                 exprs.push(Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(assign_ref_ident.clone().into()),
+                                    left: assign_ref_ident.clone().into(),
                                     op: op!("="),
                                     right: ref_ident.clone().computed_member(i as f64).into(),
                                 })));
 
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: *span,
-                                    left: PatOrExpr::Pat(left.take()),
+                                    left: left.take().try_into().unwrap(),
                                     op: op!("="),
                                     right: Box::new(make_cond_expr(assign_ref_ident, right.take())),
                                 });
@@ -769,7 +808,7 @@ impl VisitMut for AssignFolder {
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(arg.take()),
+                                    left: arg.take().try_into().unwrap(),
                                     right: Box::new(Expr::Call(CallExpr {
                                         span: DUMMY_SP,
                                         callee: ref_ident
@@ -788,7 +827,7 @@ impl VisitMut for AssignFolder {
                                 let mut assign_expr = Expr::Assign(AssignExpr {
                                     span: elem_span,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(Box::new(elem.take())),
+                                    left: elem.take().try_into().unwrap(),
                                     right: make_ref_idx_expr(&ref_ident, i).into(),
                                 });
 
@@ -806,14 +845,14 @@ impl VisitMut for AssignFolder {
                         exprs,
                     })
                 }
-                Pat::Object(ObjectPat { props, .. }) if props.is_empty() => {
+                AssignTargetPat::Object(ObjectPat { props, .. }) if props.is_empty() => {
                     let mut right = right.take();
                     right.visit_mut_with(self);
 
                     *expr = helper_expr!(object_destructuring_empty)
                         .as_call(DUMMY_SP, vec![right.as_arg()]);
                 }
-                Pat::Object(ObjectPat { span, props, .. }) => {
+                AssignTargetPat::Object(ObjectPat { span, props, .. }) => {
                     if props.len() == 1 {
                         if let ObjectPatProp::Assign(p @ AssignPatProp { value: None, .. }) =
                             &props[0]
@@ -821,7 +860,7 @@ impl VisitMut for AssignFolder {
                             *expr = Expr::Assign(AssignExpr {
                                 span: *span,
                                 op: op!("="),
-                                left: PatOrExpr::Pat(p.key.clone().into()),
+                                left: p.key.clone().into(),
                                 right: right.take().make_member(p.key.clone()).into(),
                             });
                             return;
@@ -832,7 +871,7 @@ impl VisitMut for AssignFolder {
 
                     let mut exprs = vec![Box::new(Expr::Assign(AssignExpr {
                         span: *span,
-                        left: PatOrExpr::Pat(ref_ident.clone().into()),
+                        left: ref_ident.clone().into(),
                         op: op!("="),
                         right: right.take(),
                     }))];
@@ -843,16 +882,23 @@ impl VisitMut for AssignFolder {
                             ObjectPatProp::KeyValue(KeyValuePatProp { key, value }) => {
                                 let computed = matches!(key, PropName::Computed(..));
 
-                                let mut expr = Expr::Assign(AssignExpr {
-                                    span,
-                                    left: PatOrExpr::Pat(value.take()),
-                                    op: op!("="),
-                                    right: Box::new(make_ref_prop_expr(
-                                        &ref_ident,
-                                        Box::new(prop_name_to_expr(key.take())),
-                                        computed,
-                                    )),
-                                });
+                                let mut right = Box::new(make_ref_prop_expr(
+                                    &ref_ident,
+                                    Box::new(prop_name_to_expr(key.take())),
+                                    computed,
+                                ));
+                                let value = value.take();
+
+                                let mut expr = if let Pat::Assign(pat) = *value {
+                                    self.handle_assign_pat(span, pat, &mut right)
+                                } else {
+                                    Expr::Assign(AssignExpr {
+                                        span,
+                                        left: value.try_into().unwrap(),
+                                        op: op!("="),
+                                        right,
+                                    })
+                                };
 
                                 expr.visit_mut_with(self);
                                 exprs.push(Box::new(expr));
@@ -867,18 +913,18 @@ impl VisitMut for AssignFolder {
 
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: PatOrExpr::Pat(prop_ident.clone().into()),
+                                            left: prop_ident.clone().into(),
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
-                                                Box::new(key.clone().into()),
+                                                key.clone().into(),
                                                 computed,
                                             )),
                                         })));
 
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: PatOrExpr::Pat(key.clone().into()),
+                                            left: key.clone().into(),
                                             op: op!("="),
                                             right: Box::new(make_cond_expr(
                                                 prop_ident,
@@ -889,11 +935,11 @@ impl VisitMut for AssignFolder {
                                     None => {
                                         exprs.push(Box::new(Expr::Assign(AssignExpr {
                                             span,
-                                            left: PatOrExpr::Pat(key.clone().into()),
+                                            left: key.clone().into(),
                                             op: op!("="),
                                             right: Box::new(make_ref_prop_expr(
                                                 &ref_ident,
-                                                Box::new(key.clone().into()),
+                                                key.clone().into(),
                                                 computed,
                                             )),
                                         })));
@@ -915,37 +961,8 @@ impl VisitMut for AssignFolder {
                         exprs,
                     });
                 }
-                Pat::Assign(pat) => {
-                    let ref_ident = make_ref_ident(self.c, &mut self.vars, None);
 
-                    let mut exprs = vec![Box::new(
-                        AssignExpr {
-                            span: *span,
-                            left: PatOrExpr::Pat(ref_ident.clone().into()),
-                            op: op!("="),
-                            right: right.take(),
-                        }
-                        .into(),
-                    )];
-
-                    let mut assign_cond_expr = Expr::Assign(AssignExpr {
-                        span: *span,
-                        left: pat.left.take().into(),
-                        op: op!("="),
-                        right: Box::new(make_cond_expr(ref_ident, pat.right.take())),
-                    });
-
-                    assign_cond_expr.visit_mut_with(self);
-                    exprs.push(Box::new(assign_cond_expr));
-
-                    *expr = Expr::Seq(SeqExpr {
-                        span: DUMMY_SP,
-                        exprs,
-                    });
-                }
-                Pat::Rest(pat) => unimplemented!("rest pattern {:?}", pat),
-
-                Pat::Invalid(..) => unreachable!(),
+                AssignTargetPat::Invalid(..) => unreachable!(),
             }
         };
     }
@@ -1230,6 +1247,10 @@ struct DestructuringVisitor {
 
 impl Visit for DestructuringVisitor {
     noop_visit_type!();
+
+    fn visit_assign_target_pat(&mut self, _: &AssignTargetPat) {
+        self.found = true;
+    }
 
     fn visit_pat(&mut self, node: &Pat) {
         node.visit_children_with(self);

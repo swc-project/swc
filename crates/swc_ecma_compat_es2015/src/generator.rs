@@ -12,7 +12,7 @@ use swc_common::{
     SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{ext::AsOptExpr, helper};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, undefined,
     ExprFactory,
@@ -172,7 +172,7 @@ enum OpArgs {
     LabelExpr(Label, Box<Expr>),
     Stmt(Box<Stmt>),
     OptExpr(Option<Box<Expr>>),
-    PatAndExpr(PatOrExpr, Box<Expr>),
+    PatAndExpr(AssignTarget, Box<Expr>),
 }
 
 /// whether a generated code block is opening or closing at the current
@@ -476,7 +476,7 @@ impl VisitMut for Generator {
                     let cons_span = node.cons.span();
                     node.cons.visit_mut_with(self);
                     self.emit_assignment(
-                        PatOrExpr::Pat(result_local.clone().into()),
+                        result_local.clone().into(),
                         node.cons.take(),
                         Some(cons_span),
                     );
@@ -486,7 +486,7 @@ impl VisitMut for Generator {
                     let alt_span = node.cons.span();
                     node.alt.visit_mut_with(self);
                     self.emit_assignment(
-                        PatOrExpr::Pat(result_local.clone().into()),
+                        result_local.clone().into(),
                         node.alt.take(),
                         Some(alt_span),
                     );
@@ -573,8 +573,8 @@ impl VisitMut for Generator {
             }
 
             Expr::Assign(node) if contains_yield(&node.right) => {
-                match node.left.as_expr_mut() {
-                    Some(Expr::Member(left)) => {
+                match node.left.as_mut_simple() {
+                    Some(SimpleAssignTarget::Member(left)) => {
                         match &mut left.prop {
                             MemberProp::Ident(..) | MemberProp::PrivateName(..) => {
                                 //      a.b = yield;
@@ -624,7 +624,8 @@ impl VisitMut for Generator {
                     }
                 }
                 if node.op != op!("=") {
-                    let left_of_right = self.cache_expression(node.left.take().expect_expr());
+                    let left_of_right =
+                        self.cache_expression(node.left.take().expect_simple().into());
 
                     node.right.visit_mut_with(self);
 
@@ -669,7 +670,7 @@ impl VisitMut for Generator {
                     });
 
                 self.emit_assignment(
-                    PatOrExpr::Pat(temp.clone().into()),
+                    temp.clone().into(),
                     Box::new(Expr::Object(ObjectLit {
                         span: DUMMY_SP,
                         props: node
@@ -1212,21 +1213,23 @@ impl Generator {
                 Prop::Shorthand(p) => Expr::Assign(AssignExpr {
                     span: p.span.with_ctxt(SyntaxContext::empty()),
                     op: op!("="),
-                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: MemberProp::Ident(p.clone()),
-                    }))),
+                    }
+                    .into(),
                     right: Box::new(Expr::Ident(p)),
                 }),
                 Prop::KeyValue(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: p.key.into(),
-                    }))),
+                    }
+                    .into(),
                     right: p.value,
                 }),
                 Prop::Assign(_) => {
@@ -1238,11 +1241,12 @@ impl Generator {
                 Prop::Method(p) => Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                    left: MemberExpr {
                         span: DUMMY_SP,
                         obj: Box::new(Expr::Ident(temp.clone())),
                         prop: p.key.into(),
-                    }))),
+                    }
+                    .into(),
                     right: p.function.into(),
                 }),
             },
@@ -1373,7 +1377,7 @@ impl Generator {
         let left_span = node.left.span();
         node.left.visit_mut_with(self);
         self.emit_assignment(
-            PatOrExpr::Pat(result_local.clone().into()),
+            result_local.clone().into(),
             node.left.take(),
             Some(left_span),
         );
@@ -1397,7 +1401,7 @@ impl Generator {
         let right_span = node.right.span();
         node.right.visit_mut_with(self);
         self.emit_assignment(
-            PatOrExpr::Pat(result_local.clone().into()),
+            result_local.clone().into(),
             node.right.take(),
             Some(right_span),
         );
@@ -1524,7 +1528,7 @@ impl Generator {
         node.init.map(|right| AssignExpr {
             span: node.span,
             op: op!("="),
-            left: PatOrExpr::Pat(Box::new(node.name.clone())),
+            left: node.name.clone().try_into().unwrap(),
             right,
         })
     }
@@ -1735,7 +1739,7 @@ impl Generator {
             self.hoist_variable_declaration(&keys_index);
 
             self.emit_assignment(
-                PatOrExpr::Pat(keys_array.clone().into()),
+                keys_array.clone().into(),
                 Box::new(ArrayLit::dummy().into()),
                 None,
             );
@@ -1759,7 +1763,7 @@ impl Generator {
                 })),
             }));
 
-            self.emit_assignment(PatOrExpr::Pat(keys_index.clone().into()), 0.into(), None);
+            self.emit_assignment(keys_index.clone().into(), 0.into(), None);
 
             let condition_label = self.define_label();
             let increment_label = self.define_label();
@@ -1793,7 +1797,7 @@ impl Generator {
                 }
             };
             self.emit_assignment(
-                PatOrExpr::Pat(Box::new(variable)),
+                variable.try_into().unwrap(),
                 Box::new(Expr::Member(MemberExpr {
                     span: DUMMY_SP,
                     obj: Box::new(keys_array.into()),
@@ -2096,7 +2100,7 @@ impl Generator {
                 let span = node.span();
 
                 let temp = self.create_temp_variable();
-                self.emit_assignment(PatOrExpr::Pat(temp.clone().into()), node, Some(span));
+                self.emit_assignment(temp.clone().into(), node, Some(span));
                 temp
             }
         }
@@ -2298,7 +2302,7 @@ impl Generator {
         exception.catch_label = Some(catch_label);
 
         self.emit_assignment(
-            PatOrExpr::Pat(name.clone().into()),
+            name.clone().into(),
             Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: self
@@ -2694,7 +2698,7 @@ impl Generator {
     /// - `left`: The left-hand side of the assignment.
     /// - `right`: The right-hand side of the assignment.
     /// - `loc`: An optional source map location for the assignment.
-    fn emit_assignment(&mut self, left: PatOrExpr, right: Box<Expr>, loc: Option<Span>) {
+    fn emit_assignment(&mut self, left: AssignTarget, right: Box<Expr>, loc: Option<Span>) {
         self.emit_worker(OpCode::Assign, Some(OpArgs::PatAndExpr(left, right)), loc);
     }
 
@@ -3237,7 +3241,7 @@ impl Generator {
     }
 
     /// Writes an Assign operation to the current label's statement list.
-    fn write_assign(&mut self, left: PatOrExpr, right: Box<Expr>, op_loc: Option<Span>) {
+    fn write_assign(&mut self, left: AssignTarget, right: Box<Expr>, op_loc: Option<Span>) {
         self.write_stmt(Stmt::Expr(ExprStmt {
             span: op_loc.unwrap_or(DUMMY_SP),
             expr: Box::new(Expr::Assign(AssignExpr {

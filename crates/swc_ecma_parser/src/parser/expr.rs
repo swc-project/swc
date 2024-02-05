@@ -157,9 +157,14 @@ impl<I: Tokens> Parser<I> {
         match cur!(self, false) {
             Ok(&Token::AssignOp(op)) => {
                 let left = if op == AssignOp::Assign {
-                    self.reparse_expr_as_pat(PatType::AssignPat, cond)
-                        .map(Box::new)
-                        .map(PatOrExpr::Pat)?
+                    match AssignTarget::try_from(
+                        self.reparse_expr_as_pat(PatType::AssignPat, cond)?,
+                    ) {
+                        Ok(pat) => pat,
+                        Err(expr) => {
+                            syntax_error!(self, expr.span(), SyntaxError::InvalidAssignTarget)
+                        }
+                    }
                 } else {
                     // It is an early Reference Error if IsValidSimpleAssignmentTarget of
                     // LeftHandSideExpression is false.
@@ -180,7 +185,12 @@ impl<I: Tokens> Parser<I> {
                     }
 
                     // TODO
-                    PatOrExpr::Expr(cond)
+                    match AssignTarget::try_from(cond) {
+                        Ok(v) => v,
+                        Err(v) => {
+                            syntax_error!(self, v.span(), SyntaxError::InvalidAssignTarget);
+                        }
+                    }
                 };
 
                 bump!(self);
@@ -818,7 +828,7 @@ impl<I: Tokens> Parser<I> {
 
         let has_pattern = paren_items
             .iter()
-            .any(|item| matches!(item, PatOrExprOrSpread::Pat(..)));
+            .any(|item| matches!(item, AssignTargetOrSpread::Pat(..)));
 
         let will_expect_colon_for_cond = self.ctx().will_expect_colon_for_cond;
         // This is slow path. We handle arrow in conditional expression.
@@ -934,7 +944,7 @@ impl<I: Tokens> Parser<I> {
             // AssignProp in lhs to check against assignment in object literals
             // like (a, {b = 1});
             for expr_or_spread in paren_items.iter() {
-                if let PatOrExprOrSpread::ExprOrSpread(e) = expr_or_spread {
+                if let AssignTargetOrSpread::ExprOrSpread(e) = expr_or_spread {
                     if let Expr::Object(o) = &*e.expr {
                         for p in o.props.iter() {
                             if let PropOrSpread::Prop(prop) = p {
@@ -952,7 +962,7 @@ impl<I: Tokens> Parser<I> {
             .into_iter()
             .map(|item| -> PResult<_> {
                 match item {
-                    PatOrExprOrSpread::ExprOrSpread(e) => Ok(e),
+                    AssignTargetOrSpread::ExprOrSpread(e) => Ok(e),
                     _ => syntax_error!(self, item.span(), SyntaxError::InvalidExpr),
                 }
             })
@@ -1422,12 +1432,12 @@ impl<I: Tokens> Parser<I> {
                 }
             } else {
                 Ok((
-                    Expr::Call(CallExpr {
+                    CallExpr {
                         span: span!(self, start),
                         callee: obj,
                         args,
                         type_args: None,
-                    })
+                    }
                     .into(),
                     true,
                 ))
@@ -1586,8 +1596,8 @@ impl<I: Tokens> Parser<I> {
         if self.input.syntax().jsx() {
             fn into_expr(e: Either<JSXFragment, JSXElement>) -> Box<Expr> {
                 match e {
-                    Either::Left(l) => Box::new(l.into()),
-                    Either::Right(r) => Box::new(Box::new(r).into()),
+                    Either::Left(l) => l.into(),
+                    Either::Right(r) => r.into(),
                 }
             }
             match *cur!(self, true)? {
@@ -1718,7 +1728,9 @@ impl<I: Tokens> Parser<I> {
 
     // Returns (args_or_pats, trailing_comma)
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
-    pub(super) fn parse_args_or_pats(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
+    pub(super) fn parse_args_or_pats(
+        &mut self,
+    ) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
         self.with_ctx(Context {
             will_expect_colon_for_cond: false,
             ..self.ctx()
@@ -1726,7 +1738,7 @@ impl<I: Tokens> Parser<I> {
         .parse_args_or_pats_inner()
     }
 
-    fn parse_args_or_pats_inner(&mut self) -> PResult<(Vec<PatOrExprOrSpread>, Option<Span>)> {
+    fn parse_args_or_pats_inner(&mut self) -> PResult<(Vec<AssignTargetOrSpread>, Option<Span>)> {
         trace_cur!(self, parse_args_or_pats);
 
         expect!(self, '(');
@@ -1918,24 +1930,24 @@ impl<I: Tokens> Parser<I> {
                     self.emit_err(span!(self, modifier_start), SyntaxError::TS2369);
                 }
 
-                items.push(PatOrExprOrSpread::Pat(pat))
+                items.push(AssignTargetOrSpread::Pat(pat))
             } else {
                 if has_modifier {
                     self.emit_err(span!(self, modifier_start), SyntaxError::TS2369);
                 }
 
-                items.push(PatOrExprOrSpread::ExprOrSpread(arg));
+                items.push(AssignTargetOrSpread::ExprOrSpread(arg));
             }
 
             // https://github.com/swc-project/swc/issues/433
             if eat!(self, "=>") && {
                 debug_assert_eq!(items.len(), 1);
                 match items[0] {
-                    PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
-                    | PatOrExprOrSpread::Pat(Pat::Expr(ref expr)) => {
+                    AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { ref expr, .. })
+                    | AssignTargetOrSpread::Pat(Pat::Expr(ref expr)) => {
                         matches!(**expr, Expr::Ident(..))
                     }
-                    PatOrExprOrSpread::Pat(Pat::Ident(..)) => true,
+                    AssignTargetOrSpread::Pat(Pat::Ident(..)) => true,
                     _ => false,
                 }
             } {
@@ -1948,7 +1960,7 @@ impl<I: Tokens> Parser<I> {
                     self.parse_fn_body(false, false, true, params.is_simple_parameter_list())?;
                 let span = span!(self, start);
 
-                items.push(PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                items.push(AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                     expr: Box::new(
                         ArrowExpr {
                             span,
@@ -1979,7 +1991,7 @@ impl<I: Tokens> Parser<I> {
 }
 
 #[ast_node]
-pub(in crate::parser) enum PatOrExprOrSpread {
+pub(in crate::parser) enum AssignTargetOrSpread {
     #[tag("ExprOrSpread")]
     ExprOrSpread(ExprOrSpread),
     #[tag("*")]

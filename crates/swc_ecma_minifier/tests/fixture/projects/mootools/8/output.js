@@ -1,4 +1,4 @@
-var setEngine = function(name, version) {
+var Browser = window.Browser || {}, setEngine = function(name, version) {
     Browser.Engine.name = name, Browser.Engine[name + version] = !0, Browser.Engine.version = version;
 };
 if (Browser.ie) switch(Browser.Engine.trident = !0, Browser.version){

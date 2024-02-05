@@ -1288,7 +1288,8 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "ArrayExpression",
@@ -1533,7 +1534,8 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "StringLiteral",

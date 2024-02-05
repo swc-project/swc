@@ -113,8 +113,6 @@ impl VisitMut for Inlining<'_> {
         tracing::trace!("{:?}; Fold<AssignExpr>", self.phase);
         self.pat_mode = PatFoldingMode::Assign;
 
-        e.left.map_with_mut(|n| n.normalize_expr());
-
         match e.op {
             op!("=") => {
                 let mut v = WriteVisitor {
@@ -125,9 +123,9 @@ impl VisitMut for Inlining<'_> {
                 e.right.visit_with(&mut v);
 
                 match &mut e.left {
-                    PatOrExpr::Expr(left) => {
+                    AssignTarget::Simple(left) => {
                         //
-                        if let Expr::Member(ref left) = &**left {
+                        if let SimpleAssignTarget::Member(ref left) = &*left {
                             tracing::trace!("Assign to member expression!");
                             let mut v = IdentListVisitor {
                                 scope: &mut self.scope,
@@ -137,7 +135,7 @@ impl VisitMut for Inlining<'_> {
                             e.right.visit_with(&mut v);
                         }
                     }
-                    PatOrExpr::Pat(p) => {
+                    AssignTarget::Pat(p) => {
                         p.visit_mut_with(self);
                     }
                 }

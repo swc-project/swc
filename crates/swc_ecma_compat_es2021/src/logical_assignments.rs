@@ -29,12 +29,12 @@ impl Operators {
         (
             ComputedPropName {
                 span: c.span,
-                expr: Expr::Assign(AssignExpr {
+                expr: AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(alias.clone().into()),
+                    left: alias.clone().into(),
                     op: op!("="),
                     right: c.expr,
-                })
+                }
                 .into(),
             },
             ComputedPropName {
@@ -66,12 +66,12 @@ impl VisitMut for Operators {
         if let Expr::Assign(AssignExpr {
             span,
             op: op @ (op!("&&=") | op!("||=") | op!("??=")),
-            left: PatOrExpr::Expr(left),
+            left: AssignTarget::Simple(left),
             right,
         }) = e
         {
-            let (left_expr, r_assign_target) = match &mut **left {
-                Expr::SuperProp(SuperPropExpr {
+            let (left_expr, r_assign_target) = match &mut *left {
+                SimpleAssignTarget::SuperProp(SuperPropExpr {
                     span,
                     obj,
                     prop: SuperProp::Computed(c),
@@ -97,7 +97,7 @@ impl VisitMut for Operators {
                         ),
                     )
                 }
-                Expr::Member(m) => {
+                SimpleAssignTarget::Member(m) => {
                     let (left_obj, right_obj) = match *m.obj.take() {
                         // TODO: local vars
                         obj @ Expr::This(_) => (obj.clone().into(), obj.into()),
@@ -114,7 +114,7 @@ impl VisitMut for Operators {
                                 Box::new(Expr::Assign(AssignExpr {
                                     span: DUMMY_SP,
                                     op: op!("="),
-                                    left: PatOrExpr::Pat(alias.clone().into()),
+                                    left: alias.clone().into(),
                                     right: obj.into(),
                                 })),
                                 Box::new(Expr::Ident(alias)),
@@ -144,7 +144,7 @@ impl VisitMut for Operators {
                     )
                 }
                 _ => {
-                    let expr = left.take();
+                    let expr: Box<Expr> = left.take().into();
                     (expr.clone(), expr)
                 }
             };
@@ -152,7 +152,7 @@ impl VisitMut for Operators {
             let right = Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
                 op: op!("="),
-                left: PatOrExpr::Expr(r_assign_target),
+                left: r_assign_target.try_into().unwrap(),
                 right: right.take(),
             }));
 

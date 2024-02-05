@@ -128,7 +128,7 @@ impl TscDecorator {
                 self.prepended_exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(var_name.clone().into()),
+                    left: var_name.clone().into(),
                     right: k.expr.take(),
                 })));
 
@@ -252,7 +252,7 @@ impl VisitMut for TscDecorator {
                 self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(class_name.into()),
+                    left: class_name.into(),
                     right: decorated,
                 })));
             }

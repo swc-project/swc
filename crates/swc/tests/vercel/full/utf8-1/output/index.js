@@ -5,9 +5,7 @@ import n from "./on-demand-entries-client";
 import { addMessageListener as r, connectHMR as c } from "./error-overlay/websocket";
 var o = JSON.parse(document.getElementById("__NEXT_DATA__").textContent);
 window.__NEXT_DATA__ = o;
-var s = o.assetPrefix, i = o.page;
-s = s || "";
-var _ = null, u = __webpack_hash__, d = s + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
+var s = o.assetPrefix, i = o.page, _ = null, u = __webpack_hash__, d = (s = s || "") + (s.endsWith("/") ? "" : "/") + "_next/static/webpack/";
 function p() {
     return (p = e(function() {
         var e, a;

@@ -1822,7 +1822,8 @@
                         "ctxt": 0
                       },
                       "value": "q",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": null
                   }
@@ -1940,7 +1941,8 @@
                         "ctxt": 0
                       },
                       "value": "p",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "NumericLiteral",
@@ -2074,7 +2076,8 @@
                           "ctxt": 0
                         },
                         "value": "r",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "NumericLiteral",
@@ -2242,7 +2245,8 @@
                           "ctxt": 0
                         },
                         "value": "u",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": {
                         "type": "NumericLiteral",

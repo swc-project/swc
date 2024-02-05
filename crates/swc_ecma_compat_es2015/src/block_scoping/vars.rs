@@ -266,6 +266,14 @@ impl VisitMut for BlockScopedVars {
         }
     }
 
+    fn visit_mut_binding_ident(&mut self, i: &mut BindingIdent) {
+        if let Some(kind) = self.var_decl_kind {
+            self.scope.vars.insert(i.to_id(), kind);
+        } else if !self.is_param {
+            self.add_usage(i.to_id())
+        }
+    }
+
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
         self.with_scope(ScopeKind::Block, |v| {
             n.visit_mut_children_with(v);
@@ -414,18 +422,6 @@ impl VisitMut for BlockScopedVars {
 
         self.var_decl_kind = old_var_decl_kind;
         self.is_param = old_is_param;
-    }
-
-    fn visit_mut_pat(&mut self, n: &mut Pat) {
-        n.visit_mut_children_with(self);
-
-        if let Pat::Ident(i) = n {
-            if let Some(kind) = self.var_decl_kind {
-                self.scope.vars.insert(i.to_id(), kind);
-            } else if !self.is_param {
-                self.add_usage(i.to_id())
-            }
-        }
     }
 
     fn visit_mut_prop(&mut self, n: &mut Prop) {

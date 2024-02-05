@@ -154,7 +154,7 @@ impl ForOf {
                             decls: vec![VarDeclarator {
                                 span: DUMMY_SP,
                                 name: var.decls.into_iter().next().unwrap().name,
-                                init: Some(Expr::Ident(arr).computed_member(i).into()),
+                                init: Some(arr.computed_member(i).into()),
                                 definite: false,
                             }],
                         }
@@ -166,7 +166,7 @@ impl ForOf {
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: pat.into(),
+                        left: pat.try_into().unwrap(),
                         op: op!("="),
                         right: arr.computed_member(i).into(),
                     }
@@ -266,7 +266,7 @@ impl ForOf {
                     &mut body.stmts,
                     AssignExpr {
                         span: DUMMY_SP,
-                        left: pat.into(),
+                        left: pat.try_into().unwrap(),
                         op: op!("="),
                         right: step.clone().make_member(quote_ident!("value")).into(),
                     }
@@ -354,7 +354,7 @@ impl ForOf {
                 }
                 ForHead::Pat(pat) => AssignExpr {
                     span: DUMMY_SP,
-                    left: PatOrExpr::Pat(pat),
+                    left: pat.try_into().unwrap(),
                     op: op!("="),
                     right: step_value.into(),
                 }
@@ -433,7 +433,7 @@ impl ForOf {
                 arg: {
                     let step_expr = Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(step.into()),
+                        left: step.into(),
                         op: op!("="),
                         // `_iterator.next()`
                         right: Box::new(Expr::Call(CallExpr {
@@ -447,7 +447,7 @@ impl ForOf {
 
                     Box::new(Expr::Assign(AssignExpr {
                         span: DUMMY_SP,
-                        left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
+                        left: normal_completion_ident.clone().into(),
                         op: op!("="),
                         right: step_expr.make_member(quote_ident!("done")).into(),
                     }))
@@ -457,7 +457,7 @@ impl ForOf {
             // `_iteratorNormalCompletion = true`
             update: Some(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(normal_completion_ident.clone().into()),
+                left: normal_completion_ident.clone().into(),
                 op: op!("="),
                 right: true.into(),
             }))),
@@ -491,7 +491,7 @@ impl ForOf {
                         // _didIteratorError = true;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(error_flag_ident.clone().into()),
+                            left: error_flag_ident.clone().into(),
                             op: op!("="),
                             right: true.into(),
                         }
@@ -499,7 +499,7 @@ impl ForOf {
                         // _iteratorError = err;
                         AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(error_ident.clone().into()),
+                            left: error_ident.clone().into(),
                             op: op!("="),
                             right: Box::new(Expr::Ident(quote_ident!("err"))),
                         }

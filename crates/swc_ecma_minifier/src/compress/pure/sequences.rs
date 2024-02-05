@@ -19,19 +19,14 @@ impl Pure<'_> {
             &*seq.exprs[seq.exprs.len() - 1],
         ) {
             // Check if lhs is same as `ident`.
-            match &assign.left {
-                PatOrExpr::Expr(_) => {}
-                PatOrExpr::Pat(left) => {
-                    if let Pat::Ident(left) = &**left {
-                        if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
-                            report_change!(
-                                "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
-                                left.id
-                            );
-                            self.changed = true;
-                            seq.exprs.pop();
-                        }
-                    }
+            if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
+                if left.id.sym == ident.sym && left.id.span.ctxt == ident.span.ctxt {
+                    report_change!(
+                        "drop_useless_ident_ref_in_seq: Dropping `{}` as it's useless",
+                        left.id
+                    );
+                    self.changed = true;
+                    seq.exprs.pop();
                 }
             }
         }

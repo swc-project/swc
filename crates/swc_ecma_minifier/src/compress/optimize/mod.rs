@@ -1,3 +1,5 @@
+#![allow(clippy::collapsible_match)]
+
 use std::iter::once;
 
 use rustc_hash::{FxHashMap, FxHashSet};
@@ -518,14 +520,8 @@ impl Optimizer<'_> {
 
         // TODO: Handle pure properties.
         let lhs = match &e.left {
-            PatOrExpr::Expr(e) => match &**e {
-                Expr::Ident(i) => i,
-                _ => return,
-            },
-            PatOrExpr::Pat(p) => match &**p {
-                Pat::Ident(i) => &i.id,
-                _ => return,
-            },
+            AssignTarget::Simple(SimpleAssignTarget::Ident(i)) => i,
+            _ => return,
         };
 
         // If left operand of a binary expression is not same as lhs, this method has
@@ -912,10 +908,10 @@ impl Optimizer<'_> {
 
             Expr::Assign(AssignExpr {
                 op, left, right, ..
-            }) if left.is_expr() && !op.may_short_circuit() => {
-                if let PatOrExpr::Expr(expr) = left {
-                    if let Expr::Member(m) = &**expr {
-                        if !expr.may_have_side_effects(&self.expr_ctx)
+            }) if left.is_simple() && !op.may_short_circuit() => {
+                if let AssignTarget::Simple(expr) = left {
+                    if let SimpleAssignTarget::Member(m) = expr {
+                        if !m.obj.may_have_side_effects(&self.expr_ctx)
                             && (m.obj.is_object()
                                 || m.obj.is_fn_expr()
                                 || m.obj.is_arrow()
@@ -944,22 +940,20 @@ impl Optimizer<'_> {
 
             Expr::Assign(AssignExpr {
                 op: op!("="),
-                left: PatOrExpr::Pat(pat),
+                left: AssignTarget::Simple(SimpleAssignTarget::Ident(i)),
                 right,
                 ..
             }) => {
-                if let Pat::Ident(i) = &mut **pat {
-                    let old = i.id.to_id();
-                    self.store_var_for_inlining(&mut i.id, right, true);
+                let old = i.id.to_id();
+                self.store_var_for_inlining(&mut i.id, right, true);
 
-                    if i.is_dummy() && self.options.unused {
-                        report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
-                        self.vars.removed.insert(old);
-                    }
+                if i.is_dummy() && self.options.unused {
+                    report_change!("inline: Removed variable ({}{:?})", old.0, old.1);
+                    self.vars.removed.insert(old);
+                }
 
-                    if right.is_invalid() {
-                        return None;
-                    }
+                if right.is_invalid() {
+                    return None;
                 }
             }
 
@@ -3120,21 +3114,18 @@ fn is_callee_this_aware(callee: &Expr) -> bool {
     true
 }
 
-fn is_expr_access_to_arguments(l: &Expr) -> bool {
+fn is_expr_access_to_arguments(l: &SimpleAssignTarget) -> bool {
     match l {
-        Expr::Member(MemberExpr { obj, .. }) => {
+        SimpleAssignTarget::Member(MemberExpr { obj, .. }) => {
             matches!(&**obj, Expr::Ident(Ident { sym, .. }) if (&**sym == "arguments"))
         }
         _ => false,
     }
 }
 
-fn is_left_access_to_arguments(l: &PatOrExpr) -> bool {
+fn is_left_access_to_arguments(l: &AssignTarget) -> bool {
     match l {
-        PatOrExpr::Expr(e) => is_expr_access_to_arguments(e),
-        PatOrExpr::Pat(pat) => match &**pat {
-            Pat::Expr(e) => is_expr_access_to_arguments(e),
-            _ => false,
-        },
+        AssignTarget::Simple(e) => is_expr_access_to_arguments(e),
+        _ => false,
     }
 }

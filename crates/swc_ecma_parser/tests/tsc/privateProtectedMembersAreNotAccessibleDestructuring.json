@@ -292,7 +292,8 @@
                                 "ctxt": 0
                               },
                               "value": "priv",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           },
@@ -311,7 +312,8 @@
                                 "ctxt": 0
                               },
                               "value": "prot",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           }
@@ -669,7 +671,8 @@
                     "ctxt": 0
                   },
                   "value": "priv",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -731,7 +734,8 @@
                     "ctxt": 0
                   },
                   "value": "prot",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -793,7 +797,8 @@
                     "ctxt": 0
                   },
                   "value": "privateMethod",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -975,7 +980,8 @@
                     "ctxt": 0
                   },
                   "value": "priv",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -994,7 +1000,8 @@
                     "ctxt": 0
                   },
                   "value": "prot",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -1013,7 +1020,8 @@
                     "ctxt": 0
                   },
                   "value": "privateMethod",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

@@ -33,6 +33,12 @@ impl KeywordRenamer {
 impl VisitMut for KeywordRenamer {
     noop_visit_mut_type!();
 
+    fn visit_mut_binding_ident(&mut self, n: &mut BindingIdent) {
+        if let Some(new) = self.renamed(&n.id) {
+            n.id = new;
+        }
+    }
+
     fn visit_mut_class_decl(&mut self, c: &mut ClassDecl) {
         c.class.visit_mut_with(self);
         if let Some(renamed) = self.renamed(&c.ident) {
@@ -78,14 +84,12 @@ impl VisitMut for KeywordRenamer {
     }
 
     fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
-        n.visit_mut_children_with(self);
-
         if let ObjectPatProp::Assign(pat) = n {
             if let Some(renamed) = self.renamed(&pat.key) {
                 match &mut pat.value {
                     Some(default) => {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(pat.key.take()),
+                            key: PropName::Ident(pat.key.take().into()),
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: pat.span,
                                 left: Box::new(Pat::Ident(renamed.into())),
@@ -95,13 +99,16 @@ impl VisitMut for KeywordRenamer {
                     }
                     None => {
                         *n = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(pat.key.take()),
+                            key: PropName::Ident(pat.key.take().into()),
                             value: Box::new(Pat::Ident(renamed.into())),
                         })
                     }
                 }
             }
+            return;
         }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_pat(&mut self, n: &mut Pat) {

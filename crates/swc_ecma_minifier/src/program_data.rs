@@ -16,6 +16,7 @@ use swc_ecma_usage_analyzer::{
         Ctx, ScopeKind, UsageAnalyzer,
     },
     marks::Marks,
+    util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_visit::VisitWith;
 
@@ -573,9 +574,17 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
+                // We treat `window` and `global` as resolved
+                if is_global_var_with_pure_property_access(&i.sym)
+                    || matches!(&*i.sym, "arguments" | "window" | "global")
+                {
+                    return false;
+                }
+
                 if let Some(v) = self.vars.get(&i.to_id()) {
                     return !v.declared;
                 }
@@ -596,6 +605,42 @@ impl ProgramData {
 
                 false
             }
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.contains_unresolved(left) || self.contains_unresolved(right)
+            }
+            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Assign(AssignExpr { left, right, .. }) => {
+                // TODO
+                (match left {
+                    AssignTarget::Simple(left) => {
+                        self.simple_assign_target_contains_unresolved(left)
+                    }
+                    AssignTarget::Pat(_) => false,
+                }) || self.contains_unresolved(right)
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.contains_unresolved(test)
+                    || self.contains_unresolved(cons)
+                    || self.contains_unresolved(alt)
+            }
+            Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
+                Some(..) => self.contains_unresolved(&arg.expr),
+                None => false,
+            }),
+            Expr::Yield(YieldExpr { arg, .. }) => {
+                matches!(arg, Some(arg) if self.contains_unresolved(arg))
+            }
+            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
+            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
+                Some(elem) => self.contains_unresolved(&elem.expr),
+                None => false,
+            }),
 
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
@@ -613,7 +658,74 @@ impl ProgramData {
                 false
             }
 
+            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
+
             _ => false,
+        }
+    }
+
+    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
+        match &*o.base {
+            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
+            OptChainBase::Call(OptCall { callee, args, .. }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
+                }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+        }
+    }
+
+    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
+        if self.contains_unresolved(&n.obj) {
+            return true;
+        }
+
+        if let MemberProp::Computed(prop) = &n.prop {
+            if self.contains_unresolved(&prop.expr) {
+                return true;
+            }
+        }
+
+        false
+    }
+
+    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
+        match n {
+            SimpleAssignTarget::Ident(i) => {
+                if is_global_var_with_pure_property_access(&i.sym) {
+                    return false;
+                }
+
+                if let Some(v) = self.vars.get(&i.to_id()) {
+                    return !v.declared;
+                }
+
+                true
+            }
+            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
+            SimpleAssignTarget::SuperProp(n) => {
+                if let SuperProp::Computed(prop) = &n.prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
+                    }
+                }
+
+                false
+            }
+            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
+            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
+            SimpleAssignTarget::TsAs(..)
+            | SimpleAssignTarget::TsSatisfies(..)
+            | SimpleAssignTarget::TsNonNull(..)
+            | SimpleAssignTarget::TsTypeAssertion(..)
+            | SimpleAssignTarget::TsInstantiation(..) => false,
+            SimpleAssignTarget::Invalid(..) => true,
         }
     }
 }

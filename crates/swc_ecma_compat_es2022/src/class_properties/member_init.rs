@@ -101,17 +101,17 @@ impl MemberInitRecord {
                         )
                     };
                     normal_init.push(
-                        Expr::Call(CallExpr {
+                        CallExpr {
                             span,
                             callee,
                             args,
                             type_args: Default::default(),
-                        })
+                        }
                         .into(),
                     )
                 }
                 MemberInit::PrivProp(PrivProp { span, name, value }) => value_init.push(
-                    Expr::Call(CallExpr {
+                    CallExpr {
                         span,
                         callee: if self.c.private_as_properties {
                             obj_def_prop()
@@ -124,7 +124,7 @@ impl MemberInitRecord {
                             get_value_desc(value).as_arg(),
                         ],
                         type_args: Default::default(),
-                    })
+                    }
                     .into(),
                 ),
                 MemberInit::PrivAccessor(PrivAccessor {
@@ -133,7 +133,7 @@ impl MemberInitRecord {
                     getter,
                     setter,
                 }) => normal_init.push(
-                    Expr::Call(CallExpr {
+                    CallExpr {
                         span,
                         callee: if self.c.private_as_properties {
                             obj_def_prop()
@@ -146,7 +146,7 @@ impl MemberInitRecord {
                             get_accessor_desc(getter, setter).as_arg(),
                         ],
                         type_args: Default::default(),
-                    })
+                    }
                     .into(),
                 ),
                 MemberInit::PubProp(PubProp { span, name, value }) => value_init.push(
@@ -290,7 +290,7 @@ impl MemberInitRecord {
                     if self.c.private_as_properties {
                         normal_init.push(Stmt::Expr(ExprStmt {
                             span,
-                            expr: Expr::Call(CallExpr {
+                            expr: CallExpr {
                                 span,
                                 callee: obj_def_prop(),
                                 args: vec![
@@ -299,7 +299,7 @@ impl MemberInitRecord {
                                     get_method_desc(Box::new(fn_name.into())).as_arg(),
                                 ],
                                 type_args: None,
-                            })
+                            }
                             .into(),
                         }))
                     } else {

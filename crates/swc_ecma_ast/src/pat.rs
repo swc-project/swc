@@ -66,7 +66,6 @@ macro_rules! pat_to_other {
     ($T:ty) => {
         bridge_from!(crate::Param, crate::Pat, $T);
         bridge_from!(Box<crate::Pat>, crate::Pat, $T);
-        bridge_from!(crate::PatOrExpr, crate::Pat, $T);
     };
 }
 
@@ -169,7 +168,9 @@ pub struct KeyValuePatProp {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct AssignPatProp {
     pub span: Span,
-    pub key: Ident,
+    /// Note: This type is to help implementing visitor and the field `type_ann`
+    /// is always [None].
+    pub key: BindingIdent,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub value: Option<Box<Expr>>,

@@ -171,6 +171,21 @@ impl VisitMut for StripType {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        // https://github.com/tc39/proposal-type-annotations#type-assertions
+        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
+        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        {
+            *n = expr.take().try_into().unwrap();
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         n.retain(should_retain_stmt);
         n.visit_mut_children_with(self);

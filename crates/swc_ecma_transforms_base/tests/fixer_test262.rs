@@ -299,6 +299,14 @@ impl Fold for Normalizer {
         expr
     }
 
+    fn fold_number(&mut self, n: Number) -> Number {
+        Number {
+            span: n.span,
+            value: n.value,
+            raw: None,
+        }
+    }
+
     fn fold_prop_name(&mut self, name: PropName) -> PropName {
         let name = name.fold_children_with(self);
 
@@ -328,6 +336,21 @@ impl Fold for Normalizer {
         }
     }
 
+    fn fold_simple_assign_target(&mut self, n: SimpleAssignTarget) -> SimpleAssignTarget {
+        let n = n.fold_children_with(self);
+
+        match n {
+            SimpleAssignTarget::Paren(ParenExpr { mut expr, .. }) => {
+                while let Expr::Paren(ParenExpr { expr: e, .. }) = *expr {
+                    expr = e;
+                }
+
+                SimpleAssignTarget::try_from(expr).unwrap()
+            }
+            _ => n,
+        }
+    }
+
     fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
         let stmt = stmt.fold_children_with(self);
 
@@ -344,14 +367,6 @@ impl Fold for Normalizer {
         Str {
             span: s.span,
             value: s.value,
-            raw: None,
-        }
-    }
-
-    fn fold_number(&mut self, n: Number) -> Number {
-        Number {
-            span: n.span,
-            value: n.value,
             raw: None,
         }
     }

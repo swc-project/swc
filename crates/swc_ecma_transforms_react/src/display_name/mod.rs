@@ -27,16 +27,16 @@ impl VisitMut for DisplayName {
             return;
         }
 
-        if let Some(
-            Expr::Member(MemberExpr {
+        if let AssignTarget::Simple(
+            SimpleAssignTarget::Member(MemberExpr {
                 prop: MemberProp::Ident(prop),
                 ..
             })
-            | Expr::SuperProp(SuperPropExpr {
+            | SimpleAssignTarget::SuperProp(SuperPropExpr {
                 prop: SuperProp::Ident(prop),
                 ..
             }),
-        ) = expr.left.as_expr()
+        ) = &expr.left
         {
             return expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {

@@ -6642,7 +6642,8 @@
             };
         },
         "../../../node_modules/delaunator/delaunator.js": function(module1, exports1, __webpack_require__) {
-            module1.exports = function() {
+            var factory;
+            factory = function() {
                 'use strict';
                 var EDGE_STACK = new Uint32Array(512), Delaunator = function(coords) {
                     var n = coords.length >> 1;
@@ -6807,7 +6808,7 @@
                     var t = this.trianglesLen;
                     return this._triangles[t] = i0, this._triangles[t + 1] = i1, this._triangles[t + 2] = i2, this._link(t, a), this._link(t + 1, b), this._link(t + 2, c), this.trianglesLen += 3, t;
                 }, Delaunator;
-            }();
+            }, module1.exports = factory();
         },
         "../../../node_modules/delaunay-find/lib/index.js": function(module1, exports1, __webpack_require__) {
             "use strict";
@@ -15142,6 +15143,7 @@
                 return self1;
             }
             var Portal = function(_React$Component) {
+                var protoProps;
                 function Portal(props) {
                     var _this, call;
                     return !function(instance, Constructor) {
@@ -15158,12 +15160,7 @@
                             configurable: !0
                         }
                     }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                }(Portal, _React$Component), function(target, props) {
-                    for(var i = 0; i < props.length; i++){
-                        var descriptor = props[i];
-                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                    }
-                }(Portal.prototype, [
+                }(Portal, _React$Component), protoProps = [
                     {
                         key: "portalRegister",
                         value: function() {
@@ -15200,7 +15197,12 @@
                             return react__WEBPACK_IMPORTED_MODULE_1___default.a.createElement("svg", this.props, this.getChildren());
                         }
                     }
-                ]), Portal;
+                ], function(target, props) {
+                    for(var i = 0; i < props.length; i++){
+                        var descriptor = props[i];
+                        descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                    }
+                }(Portal.prototype, protoProps), Portal;
             }(react__WEBPACK_IMPORTED_MODULE_1___default.a.Component);
             Object.defineProperty(Portal, "displayName", {
                 configurable: !0,
@@ -23005,6 +23007,7 @@
                     return Class.displayName.match(/Victory(.*)Container/)[1] || "";
                 }).join("");
                 return _temp = _class = function(_NaiveCombinedContain) {
+                    var protoProps;
                     function VictoryCombinedContainer() {
                         var call;
                         return function(instance, Constructor) {
@@ -23024,12 +23027,7 @@
                                 configurable: !0
                             }
                         }), superClass && (Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass);
-                    }(VictoryCombinedContainer, _NaiveCombinedContain), function(target, props) {
-                        for(var i = 0; i < props.length; i++){
-                            var descriptor = props[i];
-                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-                        }
-                    }(VictoryCombinedContainer.prototype, [
+                    }(VictoryCombinedContainer, _NaiveCombinedContain), protoProps = [
                         {
                             key: "getChildren",
                             value: function(props) {
@@ -23040,7 +23038,12 @@
                                 }, props.children);
                             }
                         }
-                    ]), VictoryCombinedContainer;
+                    ], function(target, props) {
+                        for(var i = 0; i < props.length; i++){
+                            var descriptor = props[i];
+                            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+                        }
+                    }(VictoryCombinedContainer.prototype, protoProps), VictoryCombinedContainer;
                 }(NaiveCombinedContainer), Object.defineProperty(_class, "displayName", {
                     configurable: !0,
                     enumerable: !0,

@@ -2770,10 +2770,36 @@ where
     }
 
     #[emitter]
-    fn emit_pat_or_expr(&mut self, node: &PatOrExpr) -> Result {
+    fn emit_assign_target(&mut self, node: &AssignTarget) -> Result {
         match *node {
-            PatOrExpr::Expr(ref n) => emit!(n),
-            PatOrExpr::Pat(ref n) => emit!(n),
+            AssignTarget::Simple(ref n) => emit!(n),
+            AssignTarget::Pat(ref n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_simple_assign_target(&mut self, node: &SimpleAssignTarget) -> Result {
+        match node {
+            SimpleAssignTarget::Ident(n) => emit!(n),
+            SimpleAssignTarget::Member(n) => emit!(n),
+            SimpleAssignTarget::Invalid(n) => emit!(n),
+            SimpleAssignTarget::SuperProp(n) => emit!(n),
+            SimpleAssignTarget::Paren(n) => emit!(n),
+            SimpleAssignTarget::OptChain(n) => emit!(n),
+            SimpleAssignTarget::TsAs(n) => emit!(n),
+            SimpleAssignTarget::TsNonNull(n) => emit!(n),
+            SimpleAssignTarget::TsSatisfies(n) => emit!(n),
+            SimpleAssignTarget::TsTypeAssertion(n) => emit!(n),
+            SimpleAssignTarget::TsInstantiation(n) => emit!(n),
+        }
+    }
+
+    #[emitter]
+    fn emit_assign_target_pat(&mut self, node: &AssignTargetPat) -> Result {
+        match node {
+            AssignTargetPat::Array(n) => emit!(n),
+            AssignTargetPat::Object(n) => emit!(n),
+            AssignTargetPat::Invalid(n) => emit!(n),
         }
     }
 
@@ -3029,27 +3055,32 @@ where
         false
     }
 
-    fn has_leading_comment(&self, arg: &Expr) -> bool {
-        fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
-            let lo = span.lo;
-
-            // see #415
-            if let Some(cmt) = cmt.get_leading(lo) {
-                if cmt.iter().any(|cmt| {
-                    cmt.kind == CommentKind::Line
-                        || cmt
-                            .text
-                            .chars()
-                            // https://tc39.es/ecma262/#table-line-terminator-code-points
-                            .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
-                }) {
+    fn simple_assign_target_has_leading_comment(&self, arg: &SimpleAssignTarget) -> bool {
+        match arg {
+            SimpleAssignTarget::Ident(i) => {
+                span_has_leading_comment(self.comments.as_ref().unwrap(), i.span)
+            }
+            SimpleAssignTarget::Member(m) => {
+                if self.has_leading_comment(&m.obj) {
                     return true;
                 }
+
+                false
             }
 
-            false
-        }
+            SimpleAssignTarget::SuperProp(m) => {
+                if span_has_leading_comment(self.comments.as_ref().unwrap(), m.span) {
+                    return true;
+                }
 
+                false
+            }
+
+            _ => false,
+        }
+    }
+
+    fn has_leading_comment(&self, arg: &Expr) -> bool {
         let cmt = if let Some(cmt) = self.comments {
             if span_has_leading_comment(cmt, arg.span()) {
                 return true;
@@ -3113,17 +3144,12 @@ where
                 }
 
                 let has_leading = match &e.left {
-                    PatOrExpr::Expr(e) => self.has_leading_comment(e),
+                    AssignTarget::Simple(e) => self.simple_assign_target_has_leading_comment(e),
 
-                    PatOrExpr::Pat(p) => match &**p {
-                        Pat::Expr(e) => self.has_leading_comment(e),
-                        Pat::Ident(i) => span_has_leading_comment(cmt, i.span),
-                        Pat::Array(a) => span_has_leading_comment(cmt, a.span),
-                        Pat::Object(o) => span_has_leading_comment(cmt, o.span),
-                        // TODO: remove after #8333
-                        Pat::Rest(r) => span_has_leading_comment(cmt, r.span),
-                        Pat::Assign(a) => span_has_leading_comment(cmt, a.span),
-                        Pat::Invalid(_) => false,
+                    AssignTarget::Pat(p) => match p {
+                        AssignTargetPat::Array(a) => span_has_leading_comment(cmt, a.span),
+                        AssignTargetPat::Object(o) => span_has_leading_comment(cmt, o.span),
+                        AssignTargetPat::Invalid(..) => false,
                     },
                 };
 
@@ -4292,4 +4318,24 @@ fn minify_number(num: f64) -> String {
     }
 
     printed
+}
+
+fn span_has_leading_comment(cmt: &dyn Comments, span: Span) -> bool {
+    let lo = span.lo;
+
+    // see #415
+    if let Some(cmt) = cmt.get_leading(lo) {
+        if cmt.iter().any(|cmt| {
+            cmt.kind == CommentKind::Line
+                || cmt
+                    .text
+                    .chars()
+                    // https://tc39.es/ecma262/#table-line-terminator-code-points
+                    .any(|c| c == '\n' || c == '\r' || c == '\u{2028}' || c == '\u{2029}')
+        }) {
+            return true;
+        }
+    }
+
+    false
 }

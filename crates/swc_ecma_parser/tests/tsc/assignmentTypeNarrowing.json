@@ -382,7 +382,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -600,7 +601,8 @@
                     "ctxt": 0
                   },
                   "value": "x",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "StringLiteral",

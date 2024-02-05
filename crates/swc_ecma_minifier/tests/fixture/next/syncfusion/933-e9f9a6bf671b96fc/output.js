@@ -4259,11 +4259,7 @@
                 }, Animation.stop = function(element, model) {
                     element.style.animation = '', element.removeAttribute('e-animate');
                     var animationId = element.getAttribute('e-animation-id');
-                    if (animationId) {
-                        var frameId = parseInt(animationId, 10);
-                        cancelAnimationFrame(frameId), element.removeAttribute('e-animation-id');
-                    }
-                    model && model.end && model.end.call(this, model);
+                    animationId && (cancelAnimationFrame(parseInt(animationId, 10)), element.removeAttribute('e-animation-id')), model && model.end && model.end.call(this, model);
                 }, Animation.delayAnimation = function(model) {
                     'Disable' === animationMode ? (model.begin && model.begin.call(this, model), model.end && model.end.call(this, model)) : model.delay ? setTimeout(function() {
                         Animation_1.applyAnimation(model);
@@ -5433,9 +5429,10 @@
                     var eleStyle = getComputedStyle(element), style = eleStyle.overflow + eleStyle.overflowX + eleStyle.overflowY;
                     return !!/(auto|scroll)/.test(style);
                 }, Touch.prototype.tapHoldEvent = function(evt) {
-                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), this.trigger('tapHold', {
+                    var eTapArgs;
+                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), eTapArgs = {
                         originalEvent: evt
-                    }), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
+                    }, this.trigger('tapHold', eTapArgs), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
                 }, Touch.prototype.calcPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {

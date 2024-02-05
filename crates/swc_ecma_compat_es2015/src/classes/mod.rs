@@ -275,7 +275,7 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         if let Some(value) = &mut n.value {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
-                c.ident = Some(n.key.clone().private());
+                c.ident = Some((*n.key).clone().private());
             }
         }
 
@@ -335,17 +335,8 @@ where
         } = a
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
-                match left {
-                    PatOrExpr::Pat(pat) => {
-                        if let Pat::Ident(i) = &**pat {
-                            c.ident = Some(i.id.clone().private())
-                        }
-                    }
-                    PatOrExpr::Expr(expr) => {
-                        if let Expr::Ident(ident) = &**expr {
-                            c.ident = Some(ident.clone().private())
-                        }
-                    }
+                if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
+                    c.ident = Some((**ident).clone().private())
                 }
             }
         }
@@ -1166,11 +1157,12 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                            left: MemberExpr {
                                 span,
                                 obj: Box::new(proto.clone().into()),
                                 prop: mk_key_prop_member(prop),
-                            }))),
+                            }
+                            .into(),
                             right: escape_keywords(method),
                         })),
                     }));
@@ -1189,11 +1181,12 @@ where
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span,
                             op: op!("="),
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(MemberExpr {
+                            left: MemberExpr {
                                 span,
                                 obj: Box::new(class_name.clone().into()),
                                 prop: mk_key_prop_member(prop),
-                            }))),
+                            }
+                            .into(),
                             right: escape_keywords(method),
                         })),
                     }));

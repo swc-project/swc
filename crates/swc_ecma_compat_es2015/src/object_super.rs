@@ -116,7 +116,7 @@ impl VisitMut for ObjectSuper {
                 *expr = Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Expr(Box::new(Expr::Ident(obj.clone()))),
+                    left: obj.clone().into(),
                     right: Box::new(expr.take()),
                 });
                 self.extra_vars.push(obj);
@@ -293,25 +293,15 @@ impl SuperReplacer {
                 op,
                 right,
             }) => {
-                let mut left = left.take().normalize_expr();
-
-                if let PatOrExpr::Expr(expr) = &mut left {
-                    if let Expr::SuperProp(SuperPropExpr {
-                        obj: Super { span: super_token },
-                        prop,
-                        ..
-                    }) = &mut **expr
-                    {
-                        *n = self.super_to_set_call(
-                            *super_token,
-                            false,
-                            prop,
-                            *op,
-                            right.take(),
-                            false,
-                        );
-                        return;
-                    }
+                if let AssignTarget::Simple(SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                })) = left
+                {
+                    *n =
+                        self.super_to_set_call(*super_token, false, prop, *op, right.take(), false);
+                    return;
                 }
                 left.visit_mut_children_with(self);
                 *n = Expr::Assign(AssignExpr {
@@ -411,7 +401,7 @@ impl SuperReplacer {
                         self.vars.push(ref_ident.clone());
                         *prop = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(ref_ident.clone().into()),
+                            left: ref_ident.clone().into(),
                             op: op!("="),
                             right: prop.take(),
                         });
@@ -450,9 +440,7 @@ impl SuperReplacer {
                                             Box::new(
                                                 AssignExpr {
                                                     span: DUMMY_SP,
-                                                    left: PatOrExpr::Pat(
-                                                        update_ident.clone().into(),
-                                                    ),
+                                                    left: update_ident.clone().into(),
                                                     op: op!("="),
                                                     right: Box::new(Expr::Unary(UnaryExpr {
                                                         span: DUMMY_SP,

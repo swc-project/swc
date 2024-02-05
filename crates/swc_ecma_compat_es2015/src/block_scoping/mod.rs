@@ -291,12 +291,12 @@ impl BlockScoping {
                                     // _type_of(_ret)
                                     let callee = helper!(type_of);
 
-                                    Expr::Call(CallExpr {
+                                    CallExpr {
                                         span: Default::default(),
                                         callee,
                                         args: vec![ret.clone().as_arg()],
                                         type_args: None,
-                                    })
+                                    }
                                     .into()
                                 },
                                 //"object"
@@ -668,12 +668,12 @@ impl VisitMut for FlowHelper<'_> {
 
     fn visit_mut_assign_expr(&mut self, n: &mut AssignExpr) {
         match &n.left {
-            PatOrExpr::Expr(e) => {
-                if let Expr::Ident(i) = &**e {
+            AssignTarget::Simple(e) => {
+                if let SimpleAssignTarget::Ident(i) = e {
                     self.check(i.to_id());
                 }
             }
-            PatOrExpr::Pat(p) => {
+            AssignTarget::Pat(p) => {
                 let ids: Vec<Id> = find_pat_ids(p);
 
                 for id in ids {
@@ -752,11 +752,11 @@ impl VisitMut for FlowHelper<'_> {
                 *node = Stmt::Return(ReturnStmt {
                     span,
                     arg: Some(
-                        Expr::Lit(Lit::Str(Str {
+                        Lit::Str(Str {
                             span,
                             value,
                             raw: None,
-                        }))
+                        })
                         .into(),
                     ),
                 });
@@ -855,7 +855,7 @@ impl MutationHandler<'_> {
         for (id, ctxt) in &*self.map {
             exprs.push(Box::new(Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into()),
+                left: Ident::new(id.0.clone(), DUMMY_SP.with_ctxt(id.1)).into(),
                 op: op!("="),
                 right: Box::new(Expr::Ident(Ident::new(
                     id.0.clone(),

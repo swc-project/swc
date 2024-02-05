@@ -82,7 +82,8 @@
                           "ctxt": 0
                         },
                         "value": "t",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

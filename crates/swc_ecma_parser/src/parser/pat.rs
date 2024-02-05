@@ -5,7 +5,7 @@ use swc_common::Spanned;
 
 use super::{util::ExprExt, *};
 use crate::{
-    parser::{class_and_fn::is_not_this, expr::PatOrExprOrSpread},
+    parser::{class_and_fn::is_not_this, expr::AssignTargetOrSpread},
     token::IdentLike,
 };
 
@@ -599,8 +599,10 @@ impl<I: Tokens> Parser<I> {
                 Ok(Pat::Assign(AssignPat {
                     span,
                     left: match left {
-                        PatOrExpr::Expr(left) => Box::new(self.reparse_expr_as_pat(pat_ty, left)?),
-                        PatOrExpr::Pat(left) => left,
+                        AssignTarget::Simple(left) => {
+                            Box::new(self.reparse_expr_as_pat(pat_ty, left.into())?)
+                        }
+                        AssignTarget::Pat(pat) => pat.into(),
                     },
                     right,
                 }))
@@ -623,7 +625,7 @@ impl<I: Tokens> Parser<I> {
                                     Prop::Shorthand(id) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
                                             span: id.span(),
-                                            key: id,
+                                            key: id.into(),
                                             value: None,
                                         }))
                                     }
@@ -639,7 +641,7 @@ impl<I: Tokens> Parser<I> {
                                     Prop::Assign(assign_prop) => {
                                         Ok(ObjectPatProp::Assign(AssignPatProp {
                                             span,
-                                            key: assign_prop.key,
+                                            key: assign_prop.key.into(),
                                             value: Some(assign_prop.value),
                                         }))
                                     }
@@ -797,7 +799,7 @@ impl<I: Tokens> Parser<I> {
 
     pub(super) fn parse_paren_items_as_params(
         &mut self,
-        mut exprs: Vec<PatOrExprOrSpread>,
+        mut exprs: Vec<AssignTargetOrSpread>,
         trailing_comma: Option<Span>,
     ) -> PResult<Vec<Pat>> {
         let pat_ty = PatType::BindingPat;
@@ -811,16 +813,16 @@ impl<I: Tokens> Parser<I> {
 
         for expr in exprs.drain(..len - 1) {
             match expr {
-                PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: Some(..), ..
                 })
-                | PatOrExprOrSpread::Pat(Pat::Rest(..)) => {
+                | AssignTargetOrSpread::Pat(Pat::Rest(..)) => {
                     self.emit_err(expr.span(), SyntaxError::TS1014)
                 }
-                PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+                AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                     spread: None, expr, ..
                 }) => params.push(self.reparse_expr_as_pat(pat_ty, expr)?),
-                PatOrExprOrSpread::Pat(pat) => params.push(pat),
+                AssignTargetOrSpread::Pat(pat) => params.push(pat),
             }
         }
 
@@ -829,7 +831,7 @@ impl<I: Tokens> Parser<I> {
         let outer_expr_span = expr.span();
         let last = match expr {
             // Rest
-            PatOrExprOrSpread::ExprOrSpread(ExprOrSpread {
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread {
                 spread: Some(dot3_token),
                 expr,
             }) => {
@@ -849,10 +851,10 @@ impl<I: Tokens> Parser<I> {
                     })
                 })?
             }
-            PatOrExprOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
+            AssignTargetOrSpread::ExprOrSpread(ExprOrSpread { expr, .. }) => {
                 self.reparse_expr_as_pat(pat_ty, expr)?
             }
-            PatOrExprOrSpread::Pat(pat) => {
+            AssignTargetOrSpread::Pat(pat) => {
                 if let Some(trailing_comma) = trailing_comma {
                     if let Pat::Rest(..) = pat {
                         self.emit_err(trailing_comma, SyntaxError::CommaAfterRestElement);
@@ -1129,7 +1131,7 @@ mod tests {
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
                     span,
-                    key: ident("prop"),
+                    key: ident("prop").into(),
                     value: Some(Box::new(Expr::Lit(Lit::Num(Number {
                         span,
                         value: 10.0,
@@ -1148,7 +1150,7 @@ mod tests {
                 value: Box::new(Expr::Assign(AssignExpr {
                     span,
                     op: AssignOp::Assign,
-                    left: PatOrExpr::Pat(Box::new(Pat::Ident(ident(assign_name).into()))),
+                    left: ident(assign_name).into(),
                     right: Box::new(expr),
                 })),
             })))
@@ -1164,7 +1166,7 @@ mod tests {
                 optional: false,
                 props: vec![ObjectPatProp::Assign(AssignPatProp {
                     span,
-                    key: ident("obj"),
+                    key: ident("obj").into(),
                     value: Some(Box::new(Expr::Object(ObjectLit {
                         span,
                         props: vec![

@@ -281,8 +281,8 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                 left,
                 op,
                 right,
-            }) if left.as_expr().is_some() && left.as_expr().unwrap().is_member() => {
-                let mut left: MemberExpr = left.take().expr().unwrap().member().unwrap();
+            }) if left.as_simple().is_some() && left.as_simple().unwrap().is_member() => {
+                let mut left: MemberExpr = left.take().expect_simple().expect_member();
                 left.visit_mut_with(self);
                 right.visit_mut_with(self);
 
@@ -291,7 +291,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     _ => {
                         *e = Expr::Assign(AssignExpr {
                             span: *span,
-                            left: PatOrExpr::Expr(Box::new(Expr::Member(left))),
+                            left: left.into(),
                             op: *op,
                             right: right.take(),
                         });
@@ -325,7 +325,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                     Box::new(
                         AssignExpr {
                             span: obj.span(),
-                            left: PatOrExpr::Pat(var.clone().into()),
+                            left: var.clone().into(),
                             op: op!("="),
                             right: obj,
                         }
@@ -363,12 +363,12 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
                         type_args: Default::default(),
                     });
                 } else if kind.is_readonly() {
-                    let err = Expr::Call(CallExpr {
+                    let err = CallExpr {
                         span: DUMMY_SP,
                         callee: helper!(read_only_error),
                         args: vec![format!("#{}", n.id.sym).as_arg()],
                         type_args: None,
-                    })
+                    }
                     .into();
                     *e = Expr::Seq(SeqExpr {
                         span: *span,
@@ -388,7 +388,7 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
             }
 
             Expr::Assign(AssignExpr {
-                left: PatOrExpr::Pat(left),
+                left: AssignTarget::Pat(left),
 
                 right,
                 ..
@@ -471,6 +471,65 @@ impl<'a> VisitMut for PrivateAccessVisitor<'a> {
 
             _ => e.visit_mut_children_with(self),
         };
+    }
+
+    fn visit_mut_simple_assign_target(&mut self, e: &mut SimpleAssignTarget) {
+        if let SimpleAssignTarget::OptChain(opt) = e {
+            let is_private_access = match &*opt.base {
+                OptChainBase::Member(MemberExpr {
+                    prop: MemberProp::PrivateName(..),
+                    ..
+                }) => true,
+                OptChainBase::Call(OptCall { callee, .. }) => matches!(
+                    &**callee,
+                    Expr::Member(MemberExpr {
+                        prop: MemberProp::PrivateName(..),
+                        ..
+                    })
+                ),
+                _ => false,
+            };
+
+            if is_private_access {
+                let mut v = optional_chaining_impl(
+                    crate::optional_chaining_impl::Config {
+                        no_document_all: self.c.no_document_all,
+                        pure_getter: self.c.pure_getter,
+                    },
+                    self.unresolved_mark,
+                );
+                e.visit_mut_with(&mut v);
+                assert!(!e.is_opt_chain(), "optional chaining should be removed");
+                self.vars.extend(v.take_vars());
+            }
+        }
+
+        if self.c.private_as_properties {
+            if let SimpleAssignTarget::Member(MemberExpr {
+                span,
+                obj,
+                prop: MemberProp::PrivateName(n),
+            }) = e
+            {
+                obj.visit_mut_children_with(self);
+                let (mark, _, _) = self.private.get(&n.id);
+                let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
+
+                *e = Expr::Call(CallExpr {
+                    callee: helper!(class_private_field_loose_base),
+                    span: *span,
+                    args: vec![obj.take().as_arg(), ident.clone().as_arg()],
+                    type_args: None,
+                })
+                .computed_member(ident)
+                .into();
+            } else {
+                e.visit_mut_children_with(self)
+            }
+            return;
+        }
+
+        e.visit_mut_children_with(self)
     }
 
     fn visit_mut_pat(&mut self, p: &mut Pat) {
@@ -728,7 +787,7 @@ impl<'a> PrivateAccessVisitor<'a> {
                             } else if aliased {
                                 AssignExpr {
                                     span: DUMMY_SP,
-                                    left: PatOrExpr::Pat(var.clone().into()),
+                                    left: var.clone().into(),
                                     op: op!("="),
                                     right: obj.take(),
                                 }

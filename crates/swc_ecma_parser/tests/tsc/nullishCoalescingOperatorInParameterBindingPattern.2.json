@@ -443,7 +443,8 @@
                         "ctxt": 0
                       },
                       "value": "d",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "Identifier",

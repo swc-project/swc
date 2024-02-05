@@ -493,11 +493,11 @@ impl Pure<'_> {
                         [ExprOrSpread { spread: None, expr }] => Some(Expr::Unary(UnaryExpr {
                             span: *span,
                             op: op!("!"),
-                            arg: Expr::Unary(UnaryExpr {
+                            arg: UnaryExpr {
                                 span: *span,
                                 op: op!("!"),
                                 arg: expr.take(),
-                            })
+                            }
                             .into(),
                         })),
                         _ => None,
@@ -530,11 +530,11 @@ impl Pure<'_> {
                                 span: *span,
                                 left: expr.take(),
                                 op: op!(bin, "+"),
-                                right: Expr::Lit(Lit::Str(Str {
+                                right: Lit::Str(Str {
                                     span: *span,
                                     value: "".into(),
                                     raw: None,
-                                }))
+                                })
                                 .into(),
                             }))
                         }

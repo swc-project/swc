@@ -5,8 +5,8 @@ use swc_ecma_ast::{
     FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
     MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
-    OptChainExpr, ParenExpr, PatOrExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement,
-    SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
+    OptChainExpr, ParenExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp,
+    SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
     TsTypeParamInstantiation, UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
@@ -66,7 +66,7 @@ impl Swcify for Expression {
             Expression::Literal(Literal::BigInt(e)) => Expr::Lit(e.swcify(ctx).into()),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
-            Expression::JSXElement(e) => Box::new(e.swcify(ctx)).into(),
+            Expression::JSXElement(e) => return e.swcify(ctx).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Decimal(e)) => e.swcify(ctx).into(),
             Expression::TSAs(e) => e.swcify(ctx).into(),
@@ -103,7 +103,7 @@ impl Swcify for AssignmentExpression {
                     self.operator,
                 )
             }),
-            left: PatOrExpr::Pat(Box::new(self.left.swcify(ctx))),
+            left: self.left.swcify(ctx).try_into().unwrap(),
             right: self.right.swcify(ctx),
         }
     }

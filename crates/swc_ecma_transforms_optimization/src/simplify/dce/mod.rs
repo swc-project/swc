@@ -815,8 +815,8 @@ impl VisitMut for TreeShaker {
 
         if let Expr::Assign(a) = n {
             if match &a.left {
-                PatOrExpr::Expr(l) => l.is_invalid(),
-                PatOrExpr::Pat(l) => l.is_invalid(),
+                AssignTarget::Simple(l) => l.is_invalid(),
+                AssignTarget::Pat(l) => l.is_invalid(),
             } {
                 *n = *a.right.take();
             }

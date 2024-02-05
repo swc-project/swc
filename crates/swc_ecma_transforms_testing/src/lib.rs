@@ -25,10 +25,9 @@ use swc_common::{
     errors::{Handler, HANDLER},
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    util::take::Take,
     FileName, Mark, SourceMap, DUMMY_SP,
 };
-use swc_ecma_ast::{Pat, *};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -39,7 +38,7 @@ use swc_ecma_transforms_base::{
     pass::noop,
 };
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut};
 use tempfile::tempdir_in;
 use testing::{
     assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT,
@@ -183,9 +182,7 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = Program::Module(module)
-            .fold_with(&mut tr)
-            .fold_with(&mut as_folder(Normalizer));
+        let module = Program::Module(module).fold_with(&mut tr);
 
         Ok(module.expect_module())
     }
@@ -736,19 +733,6 @@ macro_rules! compare_stdout {
             $crate::compare_stdout($syntax, $tr, $input)
         }
     };
-}
-
-struct Normalizer;
-impl VisitMut for Normalizer {
-    fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
-        node.visit_mut_children_with(self);
-
-        if let PatOrExpr::Pat(pat) = node {
-            if let Pat::Expr(e) = &mut **pat {
-                *node = PatOrExpr::Expr(e.take());
-            }
-        }
-    }
 }
 
 /// Converts `foo#1` to `foo__1` so it can be verified by the test.

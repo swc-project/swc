@@ -1,4 +1,7 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    ops::{Deref, DerefMut},
+};
 
 use phf::phf_set;
 use scoped_tls::scoped_thread_local;
@@ -8,7 +11,7 @@ use swc_common::{
 };
 use unicode_id::UnicodeID;
 
-use crate::typescript::TsTypeAnn;
+use crate::{typescript::TsTypeAnn, Expr};
 
 /// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
@@ -38,11 +41,23 @@ pub struct BindingIdent {
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
-impl std::ops::Deref for BindingIdent {
+impl From<BindingIdent> for Box<Expr> {
+    fn from(bi: BindingIdent) -> Self {
+        Box::new(Expr::Ident(bi.id))
+    }
+}
+
+impl Deref for BindingIdent {
     type Target = Ident;
 
     fn deref(&self) -> &Self::Target {
         &self.id
+    }
+}
+
+impl DerefMut for BindingIdent {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.id
     }
 }
 

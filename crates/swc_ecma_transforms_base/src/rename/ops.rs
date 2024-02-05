@@ -502,14 +502,14 @@ where
         n.visit_mut_children_with(self);
 
         if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = p.key.clone();
+            let mut renamed = p.key.id.clone();
             if self.rename_ident(&mut renamed).is_ok() {
                 if renamed.sym == p.key.sym {
                     return;
                 }
 
                 *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.take()),
+                    key: PropName::Ident(p.key.id.take()),
                     value: match p.value.take() {
                         Some(default_expr) => Box::new(Pat::Assign(AssignPat {
                             span: p.span,
@@ -607,6 +607,9 @@ where
 
     #[inline]
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
+    #[inline]
+    fn visit_mut_simple_assign_target(&mut self, _: &mut SimpleAssignTarget) {}
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let orig = i.clone();

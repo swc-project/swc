@@ -1562,7 +1562,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         node.visit_mut_children_with(self);
 
-        self.add_pat_id(&mut node.key);
+        self.add_pat_id(&mut node.key.id);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -1818,7 +1818,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
+    fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
 
     #[inline]
     fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}

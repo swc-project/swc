@@ -4,7 +4,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_ast::{Pat, *};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
@@ -112,8 +112,7 @@ impl<'a> Tester<'a> {
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
-            }))
-            .fold_with(&mut Normalizer);
+            }));
 
         Ok(module)
     }
@@ -149,20 +148,6 @@ impl Fold for HygieneVisualizer {
             sym: format!("{}{:?}", ident.sym, ident.span.ctxt()).into(),
             ..ident
         }
-    }
-}
-
-struct Normalizer;
-impl Fold for Normalizer {
-    fn fold_pat_or_expr(&mut self, mut n: PatOrExpr) -> PatOrExpr {
-        if let PatOrExpr::Pat(pat) = n {
-            if let Pat::Expr(expr) = *pat {
-                return PatOrExpr::Expr(expr);
-            }
-            n = PatOrExpr::Pat(pat);
-        }
-
-        n
     }
 }
 

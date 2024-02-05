@@ -637,14 +637,12 @@ impl Pure<'_> {
                 _ => return,
             }
 
-            if let PatOrExpr::Pat(a_left) = a_left {
-                if let Pat::Ident(a_left) = &**a_left {
-                    if let Expr::Ident(b_id) = b {
-                        if b_id.to_id() == a_left.id.to_id() {
-                            report_change!("evaluate: Trivial: `{}`", a_left.id);
-                            *b = *a_right.clone();
-                            self.changed = true;
-                        }
+            if let AssignTarget::Simple(SimpleAssignTarget::Ident(a_left)) = a_left {
+                if let Expr::Ident(b_id) = b {
+                    if b_id.to_id() == a_left.id.to_id() {
+                        report_change!("evaluate: Trivial: `{}`", a_left.id);
+                        *b = *a_right.clone();
+                        self.changed = true;
                     }
                 }
             }

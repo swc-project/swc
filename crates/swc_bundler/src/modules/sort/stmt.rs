@@ -337,15 +337,14 @@ struct FieldInitFinder {
 }
 
 impl FieldInitFinder {
-    fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
-        match lhs {
-            PatOrExpr::Expr(e) => {
-                self.check_lhs_expr_of_assign(e);
-            }
-            PatOrExpr::Pat(pat) => {
-                if let Pat::Expr(e) = &**pat {
-                    self.check_lhs_expr_of_assign(e);
+    fn check_lhs_of_assign(&mut self, lhs: &AssignTarget) {
+        if let AssignTarget::Simple(SimpleAssignTarget::Member(m)) = lhs {
+            match &*m.obj {
+                Expr::Ident(i) => {
+                    self.accessed.insert(i.into());
                 }
+                Expr::Member(..) => self.check_lhs_expr_of_assign(&m.obj),
+                _ => {}
             }
         }
     }
@@ -368,6 +367,7 @@ impl Visit for FieldInitFinder {
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         let old = self.in_rhs;
+        self.in_rhs = false;
         e.left.visit_with(self);
         self.check_lhs_of_assign(&e.left);
 

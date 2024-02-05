@@ -155,6 +155,12 @@ fn identity(entry: PathBuf) {
         "asyncFunctionDeclaration4_es5.ts",
         "asyncFunctionDeclaration4_es6.ts",
         "topLevelAwait.2.ts",
+        "parserGreaterThanTokenAmbiguity11.ts",
+        "parserGreaterThanTokenAmbiguity15.ts",
+        "parserGreaterThanTokenAmbiguity16.ts",
+        "parserGreaterThanTokenAmbiguity20.ts",
+        // Invalid syntax (fixer)
+        "parserAssignmentExpression1.ts",
     ];
 
     // TODO: Unignore const enum test

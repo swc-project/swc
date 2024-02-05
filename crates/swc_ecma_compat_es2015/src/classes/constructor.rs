@@ -254,7 +254,7 @@ impl VisitMut for ConstructorFolder<'_> {
 
             *expr = Expr::Assign(AssignExpr {
                 span: DUMMY_SP,
-                left: PatOrExpr::Pat(quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into()),
+                left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                 op: op!("="),
                 right,
             });
@@ -318,9 +318,7 @@ impl VisitMut for ConstructorFolder<'_> {
                     Some(SuperFoldingMode::Assign) => {
                         *stmt = AssignExpr {
                             span: DUMMY_SP,
-                            left: PatOrExpr::Pat(
-                                quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
-                            ),
+                            left: quote_ident!(DUMMY_SP.apply_mark(self.mark), "_this").into(),
                             op: op!("="),
                             right: expr,
                         }
@@ -436,7 +434,7 @@ pub(super) fn make_possible_return_value(mode: ReturningMode) -> Expr {
                 vec![ThisExpr { span: DUMMY_SP }.as_arg(), {
                     let apply = Box::new(Expr::Call(CallExpr {
                         span: DUMMY_SP,
-                        callee: get_prototype_of(Expr::Ident(class_name))
+                        callee: get_prototype_of(Box::new(Expr::Ident(class_name)))
                             .make_member(fn_name)
                             .as_callee(),
 

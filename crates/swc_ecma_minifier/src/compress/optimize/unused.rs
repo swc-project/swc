@@ -228,10 +228,28 @@ impl Optimizer<'_> {
                     PropOrSpread::Prop(p) => match &**p {
                         Prop::Assign(_) => true,
                         Prop::Getter(_) => !opts.allow_getter,
-                        Prop::Shorthand(_) => false,
-                        Prop::KeyValue(..) => false,
+                        Prop::Shorthand(p) => {
+                            // Check if `p` is __proto__
 
-                        Prop::Setter(_) => false,
+                            if p.sym == "__proto__" {
+                                return true;
+                            }
+
+                            false
+                        }
+                        Prop::KeyValue(k) => {
+                            // Check if `k` is __proto__
+
+                            if let PropName::Ident(i) = &k.key {
+                                if i.sym == "__proto__" {
+                                    return true;
+                                }
+                            }
+
+                            false
+                        }
+
+                        Prop::Setter(_) => true,
                         Prop::Method(_) => false,
                     },
                 });
@@ -452,10 +470,10 @@ impl Optimizer<'_> {
                         self.prepend_stmts.push(Stmt::Expr(ExprStmt {
                             span: DUMMY_SP,
                             expr: if side_effects.len() > 1 {
-                                Expr::Seq(SeqExpr {
+                                SeqExpr {
                                     span: DUMMY_SP,
                                     exprs: side_effects,
-                                })
+                                }
                                 .into()
                             } else {
                                 side_effects.remove(0)
@@ -554,22 +572,19 @@ impl Optimizer<'_> {
             Expr::Assign(e) => e,
             _ => return,
         };
-        assign.left.map_with_mut(|left| left.normalize_ident());
 
-        if let PatOrExpr::Pat(p) = &assign.left {
-            if let Pat::Ident(left) = &**p {
-                if let Some(var) = self.data.vars.get(&left.to_id()) {
-                    // TODO: We don't need fn_local check
-                    if var.declared && var.is_fn_local && var.usage_count == 1 {
-                        self.changed = true;
-                        report_change!(
-                            "unused: Dropping an op-assign '{}{:?}' because it is not used",
-                            left.id.sym,
-                            left.id.span.ctxt
-                        );
-                        // This will remove the op-assign.
-                        *e = *assign.right.take();
-                    }
+        if let AssignTarget::Simple(SimpleAssignTarget::Ident(left)) = &assign.left {
+            if let Some(var) = self.data.vars.get(&left.to_id()) {
+                // TODO: We don't need fn_local check
+                if var.declared && var.is_fn_local && var.usage_count == 1 {
+                    self.changed = true;
+                    report_change!(
+                        "unused: Dropping an op-assign '{}{:?}' because it is not used",
+                        left.id.sym,
+                        left.id.span.ctxt
+                    );
+                    // This will remove the op-assign.
+                    *e = *assign.right.take();
                 }
             }
         }
@@ -611,51 +626,39 @@ impl Optimizer<'_> {
             dump(&assign.left, false)
         );
 
-        assign.left.map_with_mut(|v| v.normalize_ident());
-
-        match &mut assign.left {
-            PatOrExpr::Expr(_) => {
-                log_abort!(
-                    "unused: Preserving assignment to `{}` because it's an expression",
-                    dump(&assign.left, false)
-                );
+        if let AssignTarget::Simple(SimpleAssignTarget::Ident(i)) = &mut assign.left {
+            if !self.may_remove_ident(&i.id) {
+                return;
             }
-            PatOrExpr::Pat(left) => {
-                if let Pat::Ident(i) = &**left {
-                    if !self.may_remove_ident(&i.id) {
-                        return;
-                    }
 
-                    if let Some(var) = self.data.vars.get(&i.to_id()) {
-                        // technically this is inline
-                        if !var.inline_prevented
-                            && !var.exported
-                            && var.usage_count == 0
-                            && var.declared
-                            && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
-                        {
-                            report_change!(
-                                "unused: Dropping assignment to var '{}{:?}', which is never used",
-                                i.id.sym,
-                                i.id.span.ctxt
-                            );
-                            self.changed = true;
-                            if self.ctx.is_this_aware_callee {
-                                *e = Expr::Seq(SeqExpr {
-                                    span: DUMMY_SP,
-                                    exprs: vec![0.into(), assign.right.take()],
-                                })
-                            } else {
-                                *e = *assign.right.take();
-                            }
-                        } else {
-                            log_abort!(
-                                "unused: Preserving assignment to `{}` because of usage: {:?}",
-                                dump(&assign.left, false),
-                                var
-                            )
-                        }
+            if let Some(var) = self.data.vars.get(&i.to_id()) {
+                // technically this is inline
+                if !var.inline_prevented
+                    && !var.exported
+                    && var.usage_count == 0
+                    && var.declared
+                    && (!var.declared_as_fn_param || !used_arguments || self.ctx.in_strict)
+                {
+                    report_change!(
+                        "unused: Dropping assignment to var '{}{:?}', which is never used",
+                        i.id.sym,
+                        i.id.span.ctxt
+                    );
+                    self.changed = true;
+                    if self.ctx.is_this_aware_callee {
+                        *e = Expr::Seq(SeqExpr {
+                            span: DUMMY_SP,
+                            exprs: vec![0.into(), assign.right.take()],
+                        })
+                    } else {
+                        *e = *assign.right.take();
                     }
+                } else {
+                    log_abort!(
+                        "unused: Preserving assignment to `{}` because of usage: {:?}",
+                        dump(&assign.left, false),
+                        var
+                    )
                 }
             }
         }

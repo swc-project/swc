@@ -4,22 +4,23 @@ function _classCallCheck(instance, Constructor) {
 }
 module.exports = (obj = ClassB = function() {
     "use strict";
+    var protoProps;
     function ClassB() {
         _classCallCheck(this, ClassB);
     }
-    return function(target, props) {
-        for(var i = 0; i < props.length; i++){
-            var descriptor = props[i];
-            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
-        }
-    }(ClassB.prototype, [
+    return protoProps = [
         {
             key: "it",
             value: function() {
                 this.bb = new ClassB.MyA();
             }
         }
-    ]), ClassB;
+    ], function(target, props) {
+        for(var i = 0; i < props.length; i++){
+            var descriptor = props[i];
+            descriptor.enumerable = descriptor.enumerable || !1, descriptor.configurable = !0, "value" in descriptor && (descriptor.writable = !0), Object.defineProperty(target, descriptor.key, descriptor);
+        }
+    }(ClassB.prototype, protoProps), ClassB;
 }(), value = function ClassA() {
     "use strict";
     _classCallCheck(this, ClassA);

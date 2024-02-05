@@ -1126,7 +1126,7 @@ fn add_require(imports: Vec<(Ident, Ident)>, src: &str, unresolved_mark: Mark) -
                         } else {
                             ObjectPatProp::Assign(AssignPatProp {
                                 span: DUMMY_SP,
-                                key: local,
+                                key: local.into(),
                                 value: None,
                             })
                         }

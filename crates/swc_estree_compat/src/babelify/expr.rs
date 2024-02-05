@@ -2,11 +2,11 @@ use copyless::BoxHelper;
 use serde::{Deserialize, Serialize};
 use swc_common::{BytePos, Span, Spanned};
 use swc_ecma_ast::{
-    ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BlockStmtOrExpr, CallExpr,
-    Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident, Import, Lit, MemberExpr,
-    MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr, PatOrExpr, PropOrSpread,
-    SeqExpr, SpreadElement, Super, SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, Tpl, TplElement,
-    UnaryExpr, UpdateExpr, YieldExpr,
+    ArrayLit, ArrowExpr, AssignExpr, AssignTarget, AssignTargetPat, AwaitExpr, BinExpr, BinaryOp,
+    BlockStmtOrExpr, CallExpr, Callee, ClassExpr, CondExpr, Expr, ExprOrSpread, FnExpr, Ident,
+    Import, Lit, MemberExpr, MemberProp, MetaPropExpr, MetaPropKind, NewExpr, ObjectLit, ParenExpr,
+    PropOrSpread, SeqExpr, SimpleAssignTarget, SpreadElement, Super, SuperProp, SuperPropExpr,
+    TaggedTpl, ThisExpr, Tpl, TplElement, UnaryExpr, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
     flavor::Flavor, ArrayExprEl, ArrayExpression, ArrowFuncExprBody, ArrowFunctionExpression,
@@ -721,17 +721,38 @@ impl Babelify for BlockStmtOrExpr {
     }
 }
 
-impl Babelify for PatOrExpr {
+impl Babelify for AssignTarget {
     type Output = LVal;
 
     fn babelify(self, ctx: &Context) -> Self::Output {
         match self {
-            PatOrExpr::Expr(e) => match *e {
-                Expr::Ident(i) => LVal::Id(i.babelify(ctx)),
-                Expr::Member(me) => LVal::MemberExpr(me.babelify(ctx)),
-                _ => panic!("illegal conversion: Cannot convert {:?} to LVal", &e),
-            },
-            PatOrExpr::Pat(p) => p.babelify(ctx).into(),
+            AssignTarget::Simple(s) => s.babelify(ctx),
+            AssignTarget::Pat(p) => p.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for SimpleAssignTarget {
+    type Output = LVal;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            SimpleAssignTarget::Ident(i) => LVal::Id(i.babelify(ctx)),
+            SimpleAssignTarget::Member(m) => LVal::MemberExpr(m.babelify(ctx)),
+            SimpleAssignTarget::SuperProp(s) => LVal::MemberExpr(s.babelify(ctx)),
+            _ => unreachable!(),
+        }
+    }
+}
+
+impl Babelify for AssignTargetPat {
+    type Output = LVal;
+
+    fn babelify(self, ctx: &Context) -> Self::Output {
+        match self {
+            AssignTargetPat::Array(a) => LVal::ArrayPat(a.babelify(ctx)),
+            AssignTargetPat::Object(o) => LVal::ObjectPat(o.babelify(ctx)),
+            AssignTargetPat::Invalid(_) => todo!(),
         }
     }
 }

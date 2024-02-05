@@ -247,7 +247,7 @@ pub trait ExprFactory: Into<Box<Expr>> {
 
     /// Creates a assign expr `$lhs $op $self`
     #[cfg_attr(not(debug_assertions), inline(always))]
-    fn make_assign_to(self, op: AssignOp, left: PatOrExpr) -> Expr {
+    fn make_assign_to(self, op: AssignOp, left: AssignTarget) -> Expr {
         let right = self.into();
 
         Expr::Assign(AssignExpr {
