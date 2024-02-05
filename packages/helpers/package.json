@@ -36,6 +36,7 @@
         "zx": "^7.2.1"
     },
     "dependencies": {
+        "@swc/counter": "workspace:^",
         "tslib": "^2.4.0"
     },
     "exports": {

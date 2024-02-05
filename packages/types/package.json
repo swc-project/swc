@@ -29,5 +29,8 @@
     "homepage": "https://swc.rs",
     "devDependencies": {
         "typescript": "^5.2.2"
+    },
+    "dependencies": {
+        "@swc/counter": "workspace:^"
     }
 }
