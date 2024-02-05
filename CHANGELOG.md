@@ -37,6 +37,12 @@
 
 - **(es/minifier)** Respect more options ([#8582](https://github.com/swc-project/swc/issues/8582)) ([fd997d3](https://github.com/swc-project/swc/commit/fd997d3712cf83d5de5bb63b3e2ac38871c4b736))
 
+### Refactor
+
+
+
+- **(es/ast)** Improve type definitions of patterns ([#8532](https://github.com/swc-project/swc/issues/8532)) ([7f2a2c1](https://github.com/swc-project/swc/commit/7f2a2c1e406021b8907b8fd35da456bfdc5f55ac))
+
 ### Testing
 
 
@@ -1461,9 +1467,6 @@
 
 
 - **(plugin/runner)** Disable wasi env cleanup ([#7607](https://github.com/swc-project/swc/issues/7607)) ([8209594](https://github.com/swc-project/swc/commit/8209594a8c11d2a65061763fef5d3a7780976f39))
-
-
-- **(xml/codegen)** Fix wrong minification of spaces in a self-closing tag ([#7595](https://github.com/swc-project/swc/issues/7595)) ([769d651](https://github.com/swc-project/swc/commit/769d6516a50796e6642d6724e8472dd32d871612))
 
 ### Features
 
