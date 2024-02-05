@@ -3880,7 +3880,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.8.0"
+version = "0.8.1"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -3985,7 +3985,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.0"
+version = "0.90.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4613,7 +4613,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote"
-version = "0.59.0"
+version = "0.59.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4624,7 +4624,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_quote_macros"
-version = "0.54.0"
+version = "0.54.1"
 dependencies = [
  "anyhow",
  "proc-macro2",
@@ -4967,7 +4967,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecmascript"
-version = "0.239.0"
+version = "0.239.1"
 dependencies = [
  "swc_ecma_ast",
  "swc_ecma_codegen",
