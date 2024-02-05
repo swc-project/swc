@@ -793,6 +793,49 @@ impl Optimizer<'_> {
             v.properties
         };
 
+        let mut unknown_used_props = self
+            .data
+            .vars
+            .get(&name.to_id())
+            .map(|v| v.accessed_props.clone())
+            .unwrap_or_default();
+
+        // If there's an access to an unknown property, we should preserve all
+        // properties.
+        for prop in &obj.props {
+            let prop = match prop {
+                PropOrSpread::Spread(_) => return None,
+                PropOrSpread::Prop(prop) => prop,
+            };
+
+            match &**prop {
+                Prop::KeyValue(p) => match &p.key {
+                    PropName::Str(s) => {
+                        if let Some(v) = unknown_used_props.get_mut(&s.value) {
+                            *v = 0;
+                        }
+                    }
+                    PropName::Ident(i) => {
+                        if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                            *v = 0;
+                        }
+                    }
+                    _ => return None,
+                },
+                Prop::Shorthand(p) => {
+                    if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                        *v = 0;
+                    }
+                }
+                _ => return None,
+            }
+        }
+
+        if !unknown_used_props.iter().all(|(_, v)| *v == 0) {
+            log_abort!("[x] unknown used props: {:?}", unknown_used_props);
+            return None;
+        }
+
         let should_preserve_property = |sym: &JsWord| {
             if let "toString" = &**sym {
                 return true;
