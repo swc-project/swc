@@ -48,13 +48,21 @@ impl Optimizer<'_> {
             // smart.
             let usage = self.data.vars.get(&name.to_id())?;
             if usage.mutated()
-                || usage.used_as_ref
-                || usage.used_as_arg
                 || usage.used_in_cond
                 || usage.used_above_decl
+                || usage.used_as_ref
+                || usage.used_as_arg
                 || usage.indexed_with_dynamic_key
             {
                 log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
+                return None;
+            }
+
+            if usage.accessed_props.is_empty() {
+                log_abort!(
+                    "hoist_props: Variable `{}` is not accessed with known keys",
+                    name.id
+                );
                 return None;
             }
 
