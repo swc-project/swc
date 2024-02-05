@@ -8537,57 +8537,6 @@
         },
         8249: function(e, t, r) {
             var n;
-            e.exports = n || function(e, t) {
-                if ("undefined" != typeof window && window.crypto && (n = window.crypto), "undefined" != typeof self && self.crypto && (n = self.crypto), "undefined" != typeof globalThis && globalThis.crypto && (n = globalThis.crypto), !n && "undefined" != typeof window && window.msCrypto && (n = window.msCrypto), !n && void 0 !== r.g && r.g.crypto && (n = r.g.crypto), !n) try {
-                    n = r(2480);
-                } catch (e) {}
-                var n, i = function() {
-                    if (n) {
-                        if ("function" == typeof n.getRandomValues) try {
-                            return n.getRandomValues(new Uint32Array(1))[0];
-                        } catch (e) {}
-                        if ("function" == typeof n.randomBytes) try {
-                            return n.randomBytes(4).readInt32LE();
-                        } catch (e) {}
-                    }
-                    throw Error("Native crypto module could not be used to get secure random number.");
-                }, o = Object.create || function() {
-                    function e() {}
-                    return function(t) {
-                        var r;
-                        return e.prototype = t, r = new e(), e.prototype = null, r;
-                    };
-                }(), a = {}, u = a.lib = {}, l = u.Base = {
-                    extend: function(e) {
-                        var t = o(this);
-                        return e && t.mixIn(e), t.hasOwnProperty("init") && this.init !== t.init || (t.init = function() {
-                            t.$super.init.apply(this, arguments);
-                        }), t.init.prototype = t, t.$super = this, t;
-                    },
-                    create: function() {
-                        var e = this.extend();
-                        return e.init.apply(e, arguments), e;
-                    },
-                    init: function() {},
-                    mixIn: function(e) {
-                        for(var t in e)e.hasOwnProperty(t) && (this[t] = e[t]);
-                        e.hasOwnProperty("toString") && (this.toString = e.toString);
-                    },
-                    clone: function() {
-                        return this.init.prototype.extend(this);
-                    }
-                }, s = u.WordArray = l.extend({
-                    init: function(e, r) {
-                        e = this.words = e || [], t != r ? this.sigBytes = r : this.sigBytes = 4 * e.length;
-                    },
-                    toString: function(e) {
-                        return (e || f).stringify(this);
-                    },
-                    concat: function(e) {
-                        var t = this.words, r = e.words, n = this.sigBytes, i = e.sigBytes;
-                        if (this.clamp(), n % 4) for(var o = 0; o < i; o++){
-                            var a = r[o >>> 2] >>> 24 - o % 4 * 8 & 0xff;
-                            t[n + o >>> 2] |= a << 24 - (n + o) % 4 * 8;
             n = function() {
                 var e = e || function(e, t) {
                     if ("undefined" != typeof window && window.crypto && (n = window.crypto), "undefined" != typeof self && self.crypto && (n = self.crypto), "undefined" != typeof globalThis && globalThis.crypto && (n = globalThis.crypto), !n && "undefined" != typeof window && window.msCrypto && (n = window.msCrypto), !n && void 0 !== r.g && r.g.crypto && (n = r.g.crypto), !n) try {
@@ -8629,8 +8578,8 @@
                             return this.init.prototype.extend(this);
                         }
                     }, s = u.WordArray = l.extend({
-                        init: function(e, t) {
-                            e = this.words = e || [], void 0 != t ? this.sigBytes = t : this.sigBytes = 4 * e.length;
+                        init: function(e, r) {
+                            e = this.words = e || [], t != r ? this.sigBytes = r : this.sigBytes = 4 * e.length;
                         },
                         toString: function(e) {
                             return (e || f).stringify(this);
