@@ -24,6 +24,7 @@ pub enum VarPos {
     Ident,
     Expr,
     Pat,
+    AssignTarget,
     Str,
 }
 
@@ -138,6 +139,7 @@ pub(super) fn prepare_vars(
                 VarPos::Ident => "Ident",
                 VarPos::Expr => "Expr",
                 VarPos::Pat => "Pat",
+                VarPos::AssignTarget => "AssignTarget",
                 VarPos::Str => "Str",
             },
             call_site(),
