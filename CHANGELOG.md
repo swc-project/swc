@@ -7,6 +7,9 @@
 
 - **(es/quote)** Allow variables typed `AssignTarget` ([#8602](https://github.com/swc-project/swc/issues/8602)) ([6a48be4](https://github.com/swc-project/swc/commit/6a48be4b6b91c71687c2edc1cf9db9538d9f5650))
 
+
+- **(es/quote)** Support `AssignTarget`, really ([#8603](https://github.com/swc-project/swc/issues/8603)) ([ef91661](https://github.com/swc-project/swc/commit/ef916614f1b714bc765721fd7a35a4a471ac6811))
+
 ### Refactor
 
 
@@ -1475,9 +1478,6 @@
 
 
 - **(es/minifier)** Add usage to inlined ident eagerly ([#7597](https://github.com/swc-project/swc/issues/7597)) ([4f866de](https://github.com/swc-project/swc/commit/4f866de8788558a4f9f3e3f889048136c7896ee3))
-
-
-- **(es/parser)** Re-lex `<<` as two `<`-s if required ([#7439](https://github.com/swc-project/swc/issues/7439)) ([6850372](https://github.com/swc-project/swc/commit/68503726a78cfc37cd995eda69a3e8982b6fdf57))
 
 ### Features
 
