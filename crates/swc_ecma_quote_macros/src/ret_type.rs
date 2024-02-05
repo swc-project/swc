@@ -39,6 +39,7 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
                 "Expr" => return parse(input_str, &mut |p| p.parse_expr().map(|v| *v)),
                 "Pat" => return parse(input_str, &mut |p| p.parse_pat()),
                 "Stmt" => return parse(input_str, &mut |p| p.parse_stmt_list_item(true)),
+                "AssignTarget" => return parse(input_str, &mut |p| p.parse_assign_target()),
                 "ModuleItem" => return parse(input_str, &mut |p| p.parse_module_item()),
                 _ => {}
             }
