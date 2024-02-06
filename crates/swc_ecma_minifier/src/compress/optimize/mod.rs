@@ -2965,6 +2965,9 @@ impl VisitMut for Optimizer<'_> {
             for v in vars.iter_mut() {
                 let mut storage = None;
                 self.drop_unused_var_declarator(v, &mut storage);
+                if let Some(expr) = &mut storage {
+                    expr.visit_mut_with(self);
+                }
                 side_effects.extend(storage);
 
                 // Dropped. Side effects of the initializer is stored in `side_effects`.
