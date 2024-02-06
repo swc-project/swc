@@ -890,6 +890,20 @@ struct ThisPropertyVisitor {
 impl Visit for ThisPropertyVisitor {
     noop_visit_type!();
 
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
+        if self.should_abort {
+            return;
+        }
+
+        e.visit_children_with(self);
+
+        if let Expr::This(..) = &*e.right {
+            if e.op == op!("=") || e.op.may_short_circuit() {
+                self.should_abort = true;
+            }
+        }
+    }
+
     fn visit_call_expr(&mut self, n: &CallExpr) {
         n.visit_children_with(self);
 
