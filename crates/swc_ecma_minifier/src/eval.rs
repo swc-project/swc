@@ -83,7 +83,8 @@ impl Evaluator {
             self.module.visit_mut_with(&mut compressor(
                 marks,
                 &CompressOptions {
-                    hoist_props: true,
+                    // We should not drop unused variables.
+                    unused: false,
                     top_level: Some(TopLevelOptions { functions: true }),
                     ..Default::default()
                 },
