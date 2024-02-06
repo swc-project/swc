@@ -1,6 +1,4 @@
-var o = {
-    f: (x)=>{
-        console.log(x);
-    }
+var o_f = (x) => {
+    console.log(x);
 };
-o.f(o.f);
+o_f(o_f);
