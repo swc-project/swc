@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/lists/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.192.0"
+version       = "0.192.1"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -52,7 +52,7 @@ tracing           = "0.1.37"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.16", path = "../swc_common" }
-swc_config = { version = "0.1.10", path = "../swc_config", features = [
+swc_config = { version = "0.1.11", path = "../swc_config", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "0.112.0", path = "../swc_ecma_ast", features = [
@@ -61,7 +61,7 @@ swc_ecma_ast = { version = "0.112.0", path = "../swc_ecma_ast", features = [
 swc_ecma_codegen = { version = "0.148.0", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.143.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base = { version = "0.137.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.198.0", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_optimization = { version = "0.198.1", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "0.23.0", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "0.127.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.98.0", path = "../swc_ecma_visit" }
