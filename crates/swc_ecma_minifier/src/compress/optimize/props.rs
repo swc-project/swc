@@ -178,6 +178,7 @@ impl Optimizer<'_> {
 
                 new_vars.push(new_var);
             }
+            n.name.take();
 
             return Some(new_vars);
         }
