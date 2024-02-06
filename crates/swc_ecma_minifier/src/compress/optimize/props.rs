@@ -178,6 +178,7 @@ impl Optimizer<'_> {
 
                 new_vars.push(new_var);
             }
+            // Mark the variable as dropped.
             n.name.take();
 
             return Some(new_vars);
