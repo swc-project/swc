@@ -26,7 +26,7 @@ impl Optimizer<'_> {
         var: &mut VarDeclarator,
         storage_for_side_effects: &mut Option<Box<Expr>>,
     ) {
-        if !self.options.unused {
+        if self.mode.preserve_vars() {
             return;
         }
         if var.name.is_invalid() {
