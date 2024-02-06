@@ -585,7 +585,7 @@
           "accessibility": null,
           "isAbstract": false,
           "isOptional": false,
-          "isOverride": false
+          "isOverride": true
         }
       ],
       "superClass": null,
@@ -1328,7 +1328,7 @@
                   "accessibility": null,
                   "isAbstract": false,
                   "isOptional": false,
-                  "isOverride": false
+                  "isOverride": true
                 }
               ],
               "superClass": null,
