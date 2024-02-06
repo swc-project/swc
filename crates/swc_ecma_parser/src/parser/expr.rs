@@ -1596,7 +1596,7 @@ impl<I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
-        let type_args = if self.input.syntax().typescript() && is!(self, '<') {
+        let type_args = if self.input.syntax().typescript() && is_one_of!(self, '<', "<<") {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
                 if is!(p, '(') {

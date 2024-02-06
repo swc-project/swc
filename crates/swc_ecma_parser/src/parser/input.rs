@@ -384,6 +384,19 @@ impl<I: Tokens> Buffer<I> {
     }
 
     #[inline]
+    pub fn cut_lshift(&mut self) {
+        debug_assert!(
+            self.is(&tok!("<<")),
+            "parser should only call cut_lshift when encountering LShift token"
+        );
+        self.cur = Some(TokenAndSpan {
+            token: tok!('<'),
+            span: self.cur_span().with_lo(self.cur_span().lo + BytePos(1)),
+            had_line_break: false,
+        });
+    }
+
+    #[inline]
     pub fn is(&mut self, expected: &Token) -> bool {
         match self.cur() {
             Some(t) => *expected == *t,
