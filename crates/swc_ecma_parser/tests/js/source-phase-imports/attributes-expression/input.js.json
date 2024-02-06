@@ -1,5 +1,5 @@
 {
-  "type": "Script",
+  "type": "Module",
   "span": {
     "start": 1,
     "end": 47,
@@ -17,17 +17,17 @@
         "type": "CallExpression",
         "span": {
           "start": 1,
-          "end": 14,
+          "end": 46,
           "ctxt": 0
         },
         "callee": {
           "type": "Import",
           "span": {
             "start": 1,
-            "end": 7,
+            "end": 14,
             "ctxt": 0
           },
-          "phase": "evaluation"
+          "phase": "source"
         },
         "arguments": [
           {

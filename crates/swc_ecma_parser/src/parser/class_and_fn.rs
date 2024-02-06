@@ -622,9 +622,8 @@ impl<I: Tokens> Parser<I> {
                             self.input.prev_span(),
                             SyntaxError::TS1029("abstract".into(), "override".into()),
                         );
-                    } else {
-                        is_abstract = true;
                     }
+                    is_abstract = true;
                 }
                 "override" => {
                     if is_override {
@@ -644,9 +643,8 @@ impl<I: Tokens> Parser<I> {
                         );
                     } else if !self.ctx().has_super_class {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS4112);
-                    } else {
-                        is_override = true;
                     }
+                    is_override = true;
                 }
                 "readonly" => {
                     let readonly_span = self.input.prev_span();
