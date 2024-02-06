@@ -897,6 +897,10 @@ impl Visit for ThisPropertyVisitor {
 
         e.visit_children_with(self);
 
+        if self.should_abort {
+            return;
+        }
+
         if let Expr::This(..) = &*e.right {
             if e.op == op!("=") || e.op.may_short_circuit() {
                 self.should_abort = true;
@@ -905,7 +909,15 @@ impl Visit for ThisPropertyVisitor {
     }
 
     fn visit_call_expr(&mut self, n: &CallExpr) {
+        if self.should_abort {
+            return;
+        }
+
         n.visit_children_with(self);
+
+        if self.should_abort {
+            return;
+        }
 
         for arg in &n.args {
             if arg.expr.is_this() {
@@ -921,6 +933,10 @@ impl Visit for ThisPropertyVisitor {
         }
 
         e.visit_children_with(self);
+
+        if self.should_abort {
+            return;
+        }
 
         if let Expr::This(..) = &*e.obj {
             match &e.prop {
