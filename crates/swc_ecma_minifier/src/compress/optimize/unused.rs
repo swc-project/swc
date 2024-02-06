@@ -790,6 +790,9 @@ impl Optimizer<'_> {
         let properties_used_via_this = {
             let mut v = ThisPropertyVisitor::default();
             obj.visit_with(&mut v);
+            if v.should_abort {
+                return None;
+            }
             v.properties
         };
 
