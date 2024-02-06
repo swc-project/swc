@@ -331,7 +331,7 @@ where
                     let var = self.data.var_or_default(obj.to_id());
 
                     match &*e.left {
-                        Expr::Lit(Lit::Str(prop)) => {
+                        Expr::Lit(Lit::Str(prop)) if prop.value.parse::<f64>().is_err() => {
                             var.add_accessed_property(prop.value.clone());
                         }
 
@@ -919,7 +919,7 @@ where
 
             if let MemberProp::Computed(prop) = &e.prop {
                 match &*prop.expr {
-                    Expr::Lit(Lit::Str(s)) => {
+                    Expr::Lit(Lit::Str(s)) if s.value.parse::<f64>().is_err() => {
                         v.add_accessed_property(s.value.clone());
                     }
                     _ => {
