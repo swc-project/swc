@@ -11,6 +11,9 @@
 - **(es/parser)** Fix parsing of dynamic source phase imports ([#8611](https://github.com/swc-project/swc/issues/8611)) ([7d724d8](https://github.com/swc-project/swc/commit/7d724d8ea3d222721ddc1c2913771c3367b6f689))
 
 
+- **(es/parser)** Rescan `<<` as `<` when parsing type args ([#8607](https://github.com/swc-project/swc/issues/8607)) ([9e6dad9](https://github.com/swc-project/swc/commit/9e6dad9baf900b44591c97c5467494c893f02661))
+
+
 - **(es/quote)** Allow variables typed `AssignTarget` ([#8602](https://github.com/swc-project/swc/issues/8602)) ([6a48be4](https://github.com/swc-project/swc/commit/6a48be4b6b91c71687c2edc1cf9db9538d9f5650))
 
 
