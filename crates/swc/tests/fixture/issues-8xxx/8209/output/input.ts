@@ -1,3 +1,1 @@
-const Context = createContext(
-    (key) => properties[key]?.default
-);
+const Context = createContext((key)=>properties[key]?.default);

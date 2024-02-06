@@ -9,11 +9,8 @@
       "optimizer": {
         "globals": {
           "vars": {
-            "__NODE__": false
+            "__NODE__": "true"
           }
-        },
-        "simplify": {
-          "preserveImportsWithSideEffects": false
         },
       },
     },
