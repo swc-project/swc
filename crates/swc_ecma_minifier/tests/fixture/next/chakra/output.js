@@ -2076,48 +2076,26 @@
                         }
                     };
                 }
-            }, size = {
-                lg: {
-                    fontSize: "lg",
-                    px: 4,
-                    h: 12,
-                    borderRadius: "md"
-                },
-                md: {
-                    fontSize: "md",
-                    px: 4,
-                    h: 10,
-                    borderRadius: "md"
-                },
-                sm: {
-                    fontSize: "sm",
-                    px: 3,
-                    h: 8,
-                    borderRadius: "sm"
-                },
-                xs: {
-                    fontSize: "xs",
-                    px: 2,
-                    h: 6,
-                    borderRadius: "sm"
-                }
-            }, sizes$e = {
-                lg: {
-                    field: size.lg,
-                    addon: size.lg
-                },
-                md: {
-                    field: size.md,
-                    addon: size.md
-                },
-                sm: {
-                    field: size.sm,
-                    addon: size.sm
-                },
-                xs: {
-                    field: size.xs,
-                    addon: size.xs
-                }
+            }, size_lg = {
+                fontSize: "lg",
+                px: 4,
+                h: 12,
+                borderRadius: "md"
+            }, size_md = {
+                fontSize: "md",
+                px: 4,
+                h: 10,
+                borderRadius: "md"
+            }, size_sm = {
+                fontSize: "sm",
+                px: 3,
+                h: 8,
+                borderRadius: "sm"
+            }, size_xs = {
+                fontSize: "xs",
+                px: 2,
+                h: 6,
+                borderRadius: "sm"
             };
             function getDefaults(props) {
                 var fc = props.focusBorderColor, ec = props.errorBorderColor;
@@ -2139,7 +2117,24 @@
                         transitionDuration: "normal"
                     }
                 },
-                sizes: sizes$e,
+                sizes: {
+                    lg: {
+                        field: size_lg,
+                        addon: size_lg
+                    },
+                    md: {
+                        field: size_md,
+                        addon: size_md
+                    },
+                    sm: {
+                        field: size_sm,
+                        addon: size_sm
+                    },
+                    xs: {
+                        field: size_xs,
+                        addon: size_xs
+                    }
+                },
                 variants: {
                     outline: function(props) {
                         var theme = props.theme, _getDefaults = getDefaults(props), fc = _getDefaults.focusBorderColor, ec = _getDefaults.errorBorderColor;
