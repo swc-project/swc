@@ -24,6 +24,7 @@ pub enum VarPos {
     Ident,
     Expr,
     Pat,
+    AssignTarget,
     Str,
 }
 
@@ -105,7 +106,8 @@ pub(super) fn prepare_vars(
                     "Expr" => VarPos::Expr,
                     "Pat" => VarPos::Pat,
                     "Str" => VarPos::Str,
-                    _ => panic!("Invalid type: {}", segment.ident),
+                    "AssignTarget" => VarPos::AssignTarget,
+                    _ => panic!("Invalid type: {:?}", segment.ident),
                 }
             }
             None => VarPos::Ident,
@@ -138,6 +140,7 @@ pub(super) fn prepare_vars(
                 VarPos::Ident => "Ident",
                 VarPos::Expr => "Expr",
                 VarPos::Pat => "Pat",
+                VarPos::AssignTarget => "AssignTarget",
                 VarPos::Str => "Str",
             },
             call_site(),

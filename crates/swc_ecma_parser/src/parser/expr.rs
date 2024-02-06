@@ -267,21 +267,6 @@ impl<I: Tokens> Parser<I> {
                     })));
                 }
 
-                tok!("import") => {
-                    let import = self.parse_ident_name()?;
-
-                    if is!(self, '.') {
-                        self.state.found_module_item = true;
-                        if !self.ctx().can_be_module {
-                            let span = span!(self, start);
-                            self.emit_err(span, SyntaxError::ImportMetaInScript);
-                        }
-                        return self.parse_import_meta_prop(start, import.span);
-                    }
-
-                    return self.parse_dynamic_import(start, import.span, ImportPhase::Evaluation);
-                }
-
                 tok!("async") => {
                     if peeked_is!(self, "function")
                         && !self.input.has_linebreak_between_cur_and_peeked()
@@ -548,30 +533,6 @@ impl<I: Tokens> Parser<I> {
         self.parse_member_expr_or_new_expr(false)
     }
 
-    /// `parseImportMetaProperty`
-    pub(super) fn parse_import_meta_prop(
-        &mut self,
-        start: BytePos,
-        import_span: Span,
-    ) -> PResult<Box<Expr>> {
-        expect!(self, '.');
-
-        let ident = self.parse_ident_name()?;
-
-        match &*ident.sym {
-            "meta" => Ok(MetaPropExpr {
-                span: span!(self, import_span.lo()),
-                kind: MetaPropKind::ImportMeta,
-            }
-            .into()),
-            "source" => self.parse_dynamic_import(start, import_span, ImportPhase::Source),
-            // TODO: The proposal doesn't mention import.defer yet because it was
-            // pending on a decision for import.source. Wait to enable it until it's
-            // included in the proposal.
-            _ => unexpected!(self, "meta"),
-        }
-    }
-
     /// `is_new_expr`: true iff we are parsing production 'NewExpression'.
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn parse_member_expr_or_new_expr(&mut self, is_new_expr: bool) -> PResult<Box<Expr>> {
@@ -690,11 +651,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_subscripts(base, true, false);
         }
         if eat!(self, "import") {
-            let base = Callee::Import(Import {
-                span: span!(self, start),
-                phase: Default::default(),
-            });
-            return self.parse_subscripts(base, true, false);
+            return self.parse_dynamic_import_or_import_meta(start, true);
         }
         let obj = self.parse_primary_expr()?;
         return_if_arrow!(self, obj);
@@ -1633,11 +1590,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_subscripts(obj, false, false);
         }
         if eat!(self, "import") {
-            let obj = Callee::Import(Import {
-                span: span!(self, start),
-                phase: Default::default(),
-            });
-            return self.parse_subscripts(obj, false, false);
+            return self.parse_dynamic_import_or_import_meta(start, false);
         }
 
         let callee = self.parse_new_expr()?;
@@ -2104,24 +2057,51 @@ impl<I: Tokens> Parser<I> {
         Ok(v)
     }
 
-    pub(super) fn parse_dynamic_import(
+    pub(super) fn parse_dynamic_import_or_import_meta(
         &mut self,
         start: BytePos,
-        import_span: Span,
+        no_call: bool,
+    ) -> PResult<Box<Expr>> {
+        if eat!(self, '.') {
+            self.state.found_module_item = true;
+
+            let ident = self.parse_ident_name()?;
+
+            match &*ident.sym {
+                "meta" => {
+                    let span = span!(self, start);
+                    if !self.ctx().can_be_module {
+                        self.emit_err(span, SyntaxError::ImportMetaInScript);
+                    }
+                    let expr = MetaPropExpr {
+                        span,
+                        kind: MetaPropKind::ImportMeta,
+                    };
+                    self.parse_subscripts(Callee::Expr(expr.into()), no_call, false)
+                }
+                "source" => self.parse_dynamic_import_call(start, no_call, ImportPhase::Source),
+                // TODO: The proposal doesn't mention import.defer yet because it was
+                // pending on a decision for import.source. Wait to enable it until it's
+                // included in the proposal.
+                _ => unexpected!(self, "meta"),
+            }
+        } else {
+            self.parse_dynamic_import_call(start, no_call, ImportPhase::Evaluation)
+        }
+    }
+
+    fn parse_dynamic_import_call(
+        &mut self,
+        start: BytePos,
+        no_call: bool,
         phase: ImportPhase,
     ) -> PResult<Box<Expr>> {
-        let args = self.parse_args(true)?;
-        let import = Box::new(Expr::Call(CallExpr {
+        let import = Callee::Import(Import {
             span: span!(self, start),
-            callee: Callee::Import(Import {
-                span: import_span,
-                phase,
-            }),
-            args,
-            type_args: Default::default(),
-        }));
+            phase,
+        });
 
-        self.parse_subscripts(Callee::Expr(import), true, false)
+        self.parse_subscripts(import, no_call, false)
     }
 
     pub(super) fn check_assign_target(&mut self, expr: &Expr, deny_call: bool) {
