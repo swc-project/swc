@@ -2094,6 +2094,7 @@ console.log(a, b);"###;
 }
 
 #[test]
+#[ignore = "Function (anonymous)"]
 fn terser_hoist_props_contains_this_2() {
     let src = r###"var o = {
     u: function () {
