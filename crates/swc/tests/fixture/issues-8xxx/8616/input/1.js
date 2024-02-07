@@ -4,7 +4,6 @@ var Module = (() => {
     if (typeof __filename !== 'undefined') _scriptDir ||= __filename;
     return (
         function (moduleArg = {}) {
-            'use strict';
             var Module = moduleArg;
             var readyPromiseResolve, readyPromiseReject; Module["ready"] = new Promise((resolve, reject) => { readyPromiseResolve = resolve; readyPromiseReject = reject }); "use strict";
 
