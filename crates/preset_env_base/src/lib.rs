@@ -72,6 +72,21 @@ pub struct BrowserData<T: Default> {
     pub bun: T,
 }
 
+impl<T> BrowserData<T>
+where
+    T: Default,
+{
+    pub fn insert(&mut self, k: &str, v: T) -> T {
+        for (key, value) in self.iter_mut() {
+            if k == key {
+                return std::mem::replace(value, v);
+            }
+        }
+
+        panic!("unknown key: {}", k)
+    }
+}
+
 /// A map of browser names to data for feature support in browser.
 ///
 /// This type mainly stores `minimum version for each browsers with support for
