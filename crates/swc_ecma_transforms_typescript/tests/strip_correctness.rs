@@ -29,19 +29,6 @@ fn identity(entry: PathBuf) {
         "stack-size",
         "issue-716",
         "parenthesizedTypes.ts",
-        // TODO: Unignore unicode escape test
-        "unicodeExtendedEscapes",
-        // Trolling with yield
-        "generatorTypeCheck40.ts",
-        "generatorTypeCheck55.ts",
-        "generatorTypeCheck60.ts",
-        "FunctionDeclaration6_es6.ts",
-        "FunctionDeclaration7_es6.ts",
-        // Trolling with pattern
-        "restPropertyWithBindingPattern.ts",
-        "elementAccessChain.3",
-        "propertyAccessChain.3",
-        // TODO: Unignore
         // These tests are hard to debug because file is large
         "emitCompoundExponentiationAssignmentWithIndexingOnLHS3.ts",
         "emitExponentiationOperator1.ts",
@@ -54,8 +41,23 @@ fn identity(entry: PathBuf) {
         "letIdentifierInElementAccess01.ts",
         // decorator
         "issue-2417",
-        // Invalid syntax (fixer)
+    ];
+
+    // TODO: Unignore
+    let postponed = &[
+        "constEnum4.ts",
+        "decoratorOnClassMethod11.ts",
+        "elementAccessChain.3.ts",
+        "usingDeclarationsInForOf.1.ts",
+        "usingDeclarationsInForAwaitOf.ts",
+        "tsxReactEmitNesting.tsx",
+        "staticAutoAccessorsWithDecorators.ts",
+        "generatorTypeCheck59.ts",
+        "generatorTypeCheck61.ts",
         "parserAssignmentExpression1.ts",
+        "objectRestNegative.ts",
+        "parserSuperExpression2.ts",
+        "propertyAccessChain.3.ts",
     ];
 
     // TODO: Unignore const enum test
@@ -63,6 +65,9 @@ fn identity(entry: PathBuf) {
         || file_name.contains("issue-866")
         || file_name.contains("jsdocTypeFromChainedAssignment3")
         || file_name.contains("enumConstantMembers")
+        || postponed
+            .iter()
+            .any(|postponed| file_name.ends_with(postponed))
         || ignored.iter().any(|ignored| file_name.contains(ignored));
 
     if ignore {
