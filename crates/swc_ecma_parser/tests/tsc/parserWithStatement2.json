@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 19,
+    "end": 20,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "WithStatement",
       "span": {
         "start": 1,
-        "end": 19,
+        "end": 20,
         "ctxt": 0
       },
       "object": {
@@ -26,8 +26,8 @@
       "body": {
         "type": "ReturnStatement",
         "span": {
-          "start": 12,
-          "end": 19,
+          "start": 13,
+          "end": 20,
           "ctxt": 0
         },
         "argument": null

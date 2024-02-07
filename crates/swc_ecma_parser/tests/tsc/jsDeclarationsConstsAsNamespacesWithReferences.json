@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 116,
-    "end": 231,
+    "start": 122,
+    "end": 243,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 116,
-        "end": 168,
+        "start": 122,
+        "end": 176,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 123,
-          "end": 168,
+          "start": 129,
+          "end": 176,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 129,
-              "end": 167,
+              "start": 135,
+              "end": 175,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 129,
-                "end": 135,
+                "start": 135,
+                "end": 141,
                 "ctxt": 0
               },
               "value": "colors",
@@ -44,8 +44,8 @@
             "init": {
               "type": "ObjectExpression",
               "span": {
-                "start": 138,
-                "end": 167,
+                "start": 144,
+                "end": 175,
                 "ctxt": 0
               },
               "properties": [
@@ -54,8 +54,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 144,
-                      "end": 153,
+                      "start": 151,
+                      "end": 160,
                       "ctxt": 0
                     },
                     "value": "royalBlue",
@@ -64,8 +64,8 @@
                   "value": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 155,
-                      "end": 164,
+                      "start": 162,
+                      "end": 171,
                       "ctxt": 0
                     },
                     "value": "#6400e4",
@@ -82,15 +82,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 170,
-        "end": 231,
+        "start": 180,
+        "end": 243,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 177,
-          "end": 231,
+          "start": 187,
+          "end": 243,
           "ctxt": 0
         },
         "kind": "const",
@@ -99,15 +99,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 183,
-              "end": 230,
+              "start": 193,
+              "end": 242,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 183,
-                "end": 194,
+                "start": 193,
+                "end": 204,
                 "ctxt": 0
               },
               "value": "brandColors",
@@ -117,8 +117,8 @@
             "init": {
               "type": "ObjectExpression",
               "span": {
-                "start": 197,
-                "end": 230,
+                "start": 207,
+                "end": 242,
                 "ctxt": 0
               },
               "properties": [
@@ -127,8 +127,8 @@
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 203,
-                      "end": 209,
+                      "start": 214,
+                      "end": 220,
                       "ctxt": 0
                     },
                     "value": "purple",
@@ -137,15 +137,15 @@
                   "value": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 211,
-                      "end": 227,
+                      "start": 222,
+                      "end": 238,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 211,
-                        "end": 217,
+                        "start": 222,
+                        "end": 228,
                         "ctxt": 0
                       },
                       "value": "colors",
@@ -154,8 +154,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 218,
-                        "end": 227,
+                        "start": 229,
+                        "end": 238,
                         "ctxt": 0
                       },
                       "value": "royalBlue",

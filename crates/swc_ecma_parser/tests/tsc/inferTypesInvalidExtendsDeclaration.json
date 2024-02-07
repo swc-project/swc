@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 24,
-    "end": 85,
+    "start": 26,
+    "end": 87,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsTypeAliasDeclaration",
       "span": {
-        "start": 24,
-        "end": 85,
+        "start": 26,
+        "end": 87,
         "ctxt": 0
       },
       "declare": false,
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 29,
-          "end": 33,
+          "start": 31,
+          "end": 35,
           "ctxt": 0
         },
         "value": "Test",
@@ -27,23 +27,23 @@
       "typeParams": {
         "type": "TsTypeParameterDeclaration",
         "span": {
-          "start": 33,
-          "end": 36,
+          "start": 35,
+          "end": 38,
           "ctxt": 0
         },
         "parameters": [
           {
             "type": "TsTypeParameter",
             "span": {
-              "start": 34,
-              "end": 35,
+              "start": 36,
+              "end": 37,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 34,
-                "end": 35,
+                "start": 36,
+                "end": 37,
                 "ctxt": 0
               },
               "value": "T",
@@ -60,22 +60,22 @@
       "typeAnnotation": {
         "type": "TsConditionalType",
         "span": {
-          "start": 39,
-          "end": 84,
+          "start": 41,
+          "end": 86,
           "ctxt": 0
         },
         "checkType": {
           "type": "TsTypeReference",
           "span": {
-            "start": 39,
-            "end": 40,
+            "start": 41,
+            "end": 42,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 39,
-              "end": 40,
+              "start": 41,
+              "end": 42,
               "ctxt": 0
             },
             "value": "T",
@@ -86,22 +86,22 @@
         "extendsType": {
           "type": "TsInferType",
           "span": {
-            "start": 49,
-            "end": 66,
+            "start": 51,
+            "end": 68,
             "ctxt": 0
           },
           "typeParam": {
             "type": "TsTypeParameter",
             "span": {
-              "start": 55,
-              "end": 56,
+              "start": 57,
+              "end": 58,
               "ctxt": 0
             },
             "name": {
               "type": "Identifier",
               "span": {
-                "start": 55,
-                "end": 56,
+                "start": 57,
+                "end": 58,
                 "ctxt": 0
               },
               "value": "A",
@@ -113,15 +113,15 @@
             "constraint": {
               "type": "TsTypeReference",
               "span": {
-                "start": 65,
-                "end": 66,
+                "start": 67,
+                "end": 68,
                 "ctxt": 0
               },
               "typeName": {
                 "type": "Identifier",
                 "span": {
-                  "start": 65,
-                  "end": 66,
+                  "start": 67,
+                  "end": 68,
                   "ctxt": 0
                 },
                 "value": "B",
@@ -135,8 +135,8 @@
         "trueType": {
           "type": "TsKeywordType",
           "span": {
-            "start": 69,
-            "end": 75,
+            "start": 71,
+            "end": 77,
             "ctxt": 0
           },
           "kind": "number"
@@ -144,8 +144,8 @@
         "falseType": {
           "type": "TsKeywordType",
           "span": {
-            "start": 78,
-            "end": 84,
+            "start": 80,
+            "end": 86,
             "ctxt": 0
           },
           "kind": "string"

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 103,
+    "end": 105,
     "ctxt": 0
   },
   "body": [
@@ -87,8 +87,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 36,
-        "end": 72,
+        "start": 37,
+        "end": 73,
         "ctxt": 0
       },
       "kind": "var",
@@ -97,15 +97,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 40,
-            "end": 71,
+            "start": 41,
+            "end": 72,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 40,
-              "end": 41,
+              "start": 41,
+              "end": 42,
               "ctxt": 0
             },
             "value": "b",
@@ -115,16 +115,16 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 44,
-              "end": 71,
+              "start": 45,
+              "end": 72,
               "ctxt": 0
             },
             "operator": "!==",
             "left": {
               "type": "StringLiteral",
               "span": {
-                "start": 44,
-                "end": 49,
+                "start": 45,
+                "end": 50,
                 "ctxt": 0
               },
               "value": "foo",
@@ -133,22 +133,22 @@
             "right": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 54,
-                "end": 71,
+                "start": 55,
+                "end": 72,
                 "ctxt": 0
               },
               "expression": {
                 "type": "TsAsExpression",
                 "span": {
-                  "start": 55,
-                  "end": 70,
+                  "start": 56,
+                  "end": 71,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 55,
-                    "end": 60,
+                    "start": 56,
+                    "end": 61,
                     "ctxt": 0
                   },
                   "value": "bar",
@@ -157,8 +157,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 64,
-                    "end": 70,
+                    "start": 65,
+                    "end": 71,
                     "ctxt": 0
                   },
                   "kind": "string"
@@ -173,8 +173,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 73,
-        "end": 103,
+        "start": 75,
+        "end": 105,
         "ctxt": 0
       },
       "kind": "var",
@@ -183,15 +183,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 77,
-            "end": 102,
+            "start": 79,
+            "end": 104,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 77,
-              "end": 78,
+              "start": 79,
+              "end": 80,
               "ctxt": 0
             },
             "value": "c",
@@ -201,16 +201,16 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 81,
-              "end": 102,
+              "start": 83,
+              "end": 104,
               "ctxt": 0
             },
             "operator": "==",
             "left": {
               "type": "StringLiteral",
               "span": {
-                "start": 81,
-                "end": 86,
+                "start": 83,
+                "end": 88,
                 "ctxt": 0
               },
               "value": "foo",
@@ -219,22 +219,22 @@
             "right": {
               "type": "ParenthesisExpression",
               "span": {
-                "start": 90,
-                "end": 102,
+                "start": 92,
+                "end": 104,
                 "ctxt": 0
               },
               "expression": {
                 "type": "TsTypeAssertion",
                 "span": {
-                  "start": 91,
-                  "end": 101,
+                  "start": 93,
+                  "end": 103,
                   "ctxt": 0
                 },
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 96,
-                    "end": 101,
+                    "start": 98,
+                    "end": 103,
                     "ctxt": 0
                   },
                   "value": "bar",
@@ -243,8 +243,8 @@
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 92,
-                    "end": 95,
+                    "start": 94,
+                    "end": 97,
                     "ctxt": 0
                   },
                   "kind": "any"

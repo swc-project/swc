@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 2,
-    "end": 24,
+    "start": 3,
+    "end": 25,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 2,
-        "end": 24,
+        "start": 3,
+        "end": 25,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,30 +19,30 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 6,
-            "end": 24,
+            "start": 7,
+            "end": 25,
             "ctxt": 0
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
-              "start": 6,
-              "end": 12,
+              "start": 7,
+              "end": 13,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 8,
-                  "end": 10,
+                  "start": 9,
+                  "end": 11,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 8,
-                    "end": 10,
+                    "start": 9,
+                    "end": 11,
                     "ctxt": 0
                   },
                   "value": "as",
@@ -58,8 +58,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 15,
-              "end": 24,
+              "start": 16,
+              "end": 25,
               "ctxt": 0
             },
             "properties": [
@@ -68,8 +68,8 @@
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 17,
-                    "end": 19,
+                    "start": 18,
+                    "end": 20,
                     "ctxt": 0
                   },
                   "value": "as",
@@ -78,8 +78,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 21,
-                    "end": 22,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": 1.0,

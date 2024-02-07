@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 48,
+    "end": 49,
     "ctxt": 0
   },
   "body": [
@@ -81,15 +81,15 @@
     {
       "type": "TryStatement",
       "span": {
-        "start": 19,
-        "end": 48,
+        "start": 20,
+        "end": 49,
         "ctxt": 0
       },
       "block": {
         "type": "BlockStatement",
         "span": {
-          "start": 23,
-          "end": 25,
+          "start": 24,
+          "end": 26,
           "ctxt": 0
         },
         "stmts": []
@@ -97,30 +97,30 @@
       "handler": {
         "type": "CatchClause",
         "span": {
-          "start": 26,
-          "end": 48,
+          "start": 27,
+          "end": 49,
           "ctxt": 0
         },
         "param": {
           "type": "ObjectPattern",
           "span": {
-            "start": 33,
-            "end": 44,
+            "start": 34,
+            "end": 45,
             "ctxt": 0
           },
           "properties": [
             {
               "type": "AssignmentPatternProperty",
               "span": {
-                "start": 35,
-                "end": 36,
+                "start": 36,
+                "end": 37,
                 "ctxt": 0
               },
               "key": {
                 "type": "Identifier",
                 "span": {
-                  "start": 35,
-                  "end": 36,
+                  "start": 36,
+                  "end": 37,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -132,20 +132,20 @@
             {
               "type": "RestElement",
               "span": {
-                "start": 38,
-                "end": 42,
+                "start": 39,
+                "end": 43,
                 "ctxt": 0
               },
               "rest": {
-                "start": 38,
-                "end": 41,
+                "start": 39,
+                "end": 42,
                 "ctxt": 0
               },
               "argument": {
                 "type": "Identifier",
                 "span": {
-                  "start": 41,
-                  "end": 42,
+                  "start": 42,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -161,8 +161,8 @@
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 46,
-            "end": 48,
+            "start": 47,
+            "end": 49,
             "ctxt": 0
           },
           "stmts": []

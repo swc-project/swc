@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 75,
+    "end": 78,
     "ctxt": 0
   },
   "body": [
@@ -90,8 +90,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 41,
-          "end": 42,
+          "start": 42,
+          "end": 43,
           "ctxt": 0
         },
         "value": "f",
@@ -102,16 +102,16 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 43,
-            "end": 52,
+            "start": 44,
+            "end": 53,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "Identifier",
             "span": {
-              "start": 43,
-              "end": 52,
+              "start": 44,
+              "end": 53,
               "ctxt": 0
             },
             "value": "x",
@@ -119,15 +119,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 44,
-                "end": 52,
+                "start": 45,
+                "end": 53,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 46,
-                  "end": 52,
+                  "start": 47,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -138,23 +138,23 @@
       ],
       "decorators": [],
       "span": {
-        "start": 32,
-        "end": 75,
+        "start": 33,
+        "end": 78,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 60,
-          "end": 75,
+          "start": 61,
+          "end": 78,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 66,
-              "end": 73,
+              "start": 68,
+              "end": 75,
               "ctxt": 0
             },
             "argument": null
@@ -167,15 +167,15 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 53,
-          "end": 59,
+          "start": 54,
+          "end": 60,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
-            "start": 55,
-            "end": 59,
+            "start": 56,
+            "end": 60,
             "ctxt": 0
           },
           "kind": "void"

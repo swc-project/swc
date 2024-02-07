@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 91,
+    "start": 17,
+    "end": 97,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 26,
-          "end": 27,
+          "start": 27,
+          "end": 28,
           "ctxt": 0
         },
         "value": "g",
@@ -22,37 +22,37 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 16,
-        "end": 91,
+        "start": 17,
+        "end": 97,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 30,
-          "end": 91,
+          "start": 31,
+          "end": 97,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 36,
-              "end": 44,
+              "start": 38,
+              "end": 46,
               "ctxt": 0
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
-                "start": 36,
-                "end": 43,
+                "start": 38,
+                "end": 45,
                 "ctxt": 0
               },
               "argument": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 42,
-                  "end": 43,
+                  "start": 44,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "value": 0.0,
@@ -66,8 +66,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 58,
-                "end": 60,
+                "start": 61,
+                "end": 63,
                 "ctxt": 0
               },
               "value": "g2",
@@ -77,30 +77,30 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 49,
-              "end": 89,
+              "start": 52,
+              "end": 94,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 63,
-                "end": 89,
+                "start": 66,
+                "end": 94,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 73,
-                    "end": 83,
+                    "start": 77,
+                    "end": 87,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "StringLiteral",
                     "span": {
-                      "start": 80,
-                      "end": 82,
+                      "start": 84,
+                      "end": 86,
                       "ctxt": 0
                     },
                     "value": "",

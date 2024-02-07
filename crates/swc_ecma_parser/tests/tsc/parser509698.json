@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 48,
-    "end": 107,
+    "start": 50,
+    "end": 110,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 65,
-          "end": 68,
+          "start": 67,
+          "end": 70,
           "ctxt": 0
         },
         "value": "foo",
@@ -22,8 +22,8 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 48,
-        "end": 77,
+        "start": 50,
+        "end": 79,
         "ctxt": 0
       },
       "body": null,
@@ -33,15 +33,15 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 70,
-          "end": 76,
+          "start": 72,
+          "end": 78,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
-            "start": 72,
-            "end": 76,
+            "start": 74,
+            "end": 78,
             "ctxt": 0
           },
           "kind": "void"
@@ -53,8 +53,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 95,
-          "end": 98,
+          "start": 98,
+          "end": 101,
           "ctxt": 0
         },
         "value": "bar",
@@ -64,8 +64,8 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 78,
-        "end": 107,
+        "start": 81,
+        "end": 110,
         "ctxt": 0
       },
       "body": null,
@@ -75,15 +75,15 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 100,
-          "end": 106,
+          "start": 103,
+          "end": 109,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsKeywordType",
           "span": {
-            "start": 102,
-            "end": 106,
+            "start": 105,
+            "end": 109,
             "ctxt": 0
           },
           "kind": "void"

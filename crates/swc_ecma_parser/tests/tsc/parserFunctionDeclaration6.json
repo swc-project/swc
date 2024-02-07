@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 47,
+    "end": 50,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "BlockStatement",
       "span": {
         "start": 1,
-        "end": 47,
+        "end": 50,
         "ctxt": 0
       },
       "stmts": [
@@ -19,8 +19,8 @@
           "identifier": {
             "type": "Identifier",
             "span": {
-              "start": 16,
-              "end": 19,
+              "start": 17,
+              "end": 20,
               "ctxt": 0
             },
             "value": "foo",
@@ -30,8 +30,8 @@
           "params": [],
           "decorators": [],
           "span": {
-            "start": 7,
-            "end": 22,
+            "start": 8,
+            "end": 23,
             "ctxt": 0
           },
           "body": null,
@@ -45,8 +45,8 @@
           "identifier": {
             "type": "Identifier",
             "span": {
-              "start": 36,
-              "end": 39,
+              "start": 38,
+              "end": 41,
               "ctxt": 0
             },
             "value": "bar",
@@ -56,15 +56,15 @@
           "params": [],
           "decorators": [],
           "span": {
-            "start": 27,
-            "end": 45,
+            "start": 29,
+            "end": 47,
             "ctxt": 0
           },
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 42,
-              "end": 45,
+              "start": 44,
+              "end": 47,
               "ctxt": 0
             },
             "stmts": []

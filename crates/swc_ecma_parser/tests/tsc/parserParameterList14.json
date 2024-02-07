@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 40,
+    "end": 42,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": true,
       "span": {
         "start": 1,
-        "end": 40,
+        "end": 42,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 21,
-            "end": 38,
+            "start": 22,
+            "end": 39,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 21,
-              "end": 24,
+              "start": 22,
+              "end": 25,
               "ctxt": 0
             },
             "value": "foo",
@@ -48,23 +48,23 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 25,
-                  "end": 30,
+                  "start": 26,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "AssignmentPattern",
                   "span": {
-                    "start": 25,
-                    "end": 30,
+                    "start": 26,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 25,
-                      "end": 26,
+                      "start": 26,
+                      "end": 27,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -74,8 +74,8 @@
                   "right": {
                     "type": "NumericLiteral",
                     "span": {
-                      "start": 29,
-                      "end": 30,
+                      "start": 30,
+                      "end": 31,
                       "ctxt": 0
                     },
                     "value": 1.0,
@@ -86,8 +86,8 @@
             ],
             "decorators": [],
             "span": {
-              "start": 21,
-              "end": 38,
+              "start": 22,
+              "end": 39,
               "ctxt": 0
             },
             "body": null,
@@ -97,15 +97,15 @@
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 31,
-                "end": 37,
+                "start": 32,
+                "end": 38,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 33,
-                  "end": 37,
+                  "start": 34,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "kind": "void"

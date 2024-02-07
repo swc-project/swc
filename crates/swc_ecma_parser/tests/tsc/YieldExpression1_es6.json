@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 23,
+    "start": 18,
+    "end": 24,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 23,
+        "start": 18,
+        "end": 24,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 17,
-          "end": 22,
+          "start": 18,
+          "end": 23,
           "ctxt": 0
         },
         "value": "yield",

@@ -1,0 +1,206 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 174,
+    "end": 276,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 174,
+        "end": 184,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 188,
+        "end": 209,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 200,
+            "end": 208,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 200,
+              "end": 203,
+              "ctxt": 0
+            },
+            "value": "dec",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 203,
+                "end": 208,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 205,
+                  "end": 208,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 225,
+          "end": 226,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 213,
+        "end": 231,
+        "ctxt": 0
+      },
+      "decorators": [
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 213,
+            "end": 217,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 214,
+              "end": 217,
+              "ctxt": 0
+            },
+            "value": "dec",
+            "optional": false
+          }
+        }
+      ],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 235,
+        "end": 253,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 244,
+            "end": 250,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 244,
+              "end": 245,
+              "ctxt": 0
+            },
+            "value": "C",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 249,
+              "end": 250,
+              "ctxt": 0
+            },
+            "value": "D",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "UsingDeclaration",
+      "span": {
+        "start": 257,
+        "end": 275,
+        "ctxt": 0
+      },
+      "isAwait": false,
+      "decls": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 263,
+            "end": 275,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 263,
+              "end": 268,
+              "ctxt": 0
+            },
+            "value": "after",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NullLiteral",
+            "span": {
+              "start": 271,
+              "end": 275,
+              "ctxt": 0
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 275,
+        "end": 276,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

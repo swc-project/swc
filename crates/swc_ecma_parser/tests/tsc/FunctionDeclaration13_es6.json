@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 100,
+    "start": 18,
+    "end": 104,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 28,
-          "end": 31,
+          "start": 29,
+          "end": 32,
           "ctxt": 0
         },
         "value": "foo",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 17,
-        "end": 100,
+        "start": 18,
+        "end": 104,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 34,
-          "end": 100,
+          "start": 35,
+          "end": 104,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 85,
-              "end": 98,
+              "start": 88,
+              "end": 101,
               "ctxt": 0
             },
             "kind": "var",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 89,
-                  "end": 97,
+                  "start": 92,
+                  "end": 100,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 89,
-                    "end": 90,
+                    "start": 92,
+                    "end": 93,
                     "ctxt": 0
                   },
                   "value": "v",
@@ -63,22 +63,22 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 90,
-                      "end": 97,
+                      "start": 93,
+                      "end": 100,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsTypeReference",
                       "span": {
-                        "start": 92,
-                        "end": 97,
+                        "start": 95,
+                        "end": 100,
                         "ctxt": 0
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
-                          "start": 92,
-                          "end": 97,
+                          "start": 95,
+                          "end": 100,
                           "ctxt": 0
                         },
                         "value": "yield",

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 130,
-    "end": 204,
+    "start": 138,
+    "end": 215,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 130,
-        "end": 168,
+        "start": 138,
+        "end": 176,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 136,
-            "end": 167,
+            "start": 144,
+            "end": 175,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 136,
-              "end": 139,
+              "start": 144,
+              "end": 147,
               "ctxt": 0
             },
             "value": "foo",
@@ -41,16 +41,16 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 152,
-                  "end": 153,
+                  "start": 160,
+                  "end": 161,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
-                    "start": 152,
-                    "end": 153,
+                    "start": 160,
+                    "end": 161,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -61,16 +61,16 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 155,
-                  "end": 156,
+                  "start": 163,
+                  "end": 164,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
-                    "start": 155,
-                    "end": 156,
+                    "start": 163,
+                    "end": 164,
                     "ctxt": 0
                   },
                   "value": "b",
@@ -81,28 +81,28 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 158,
-                  "end": 162,
+                  "start": 166,
+                  "end": 170,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "RestElement",
                   "span": {
-                    "start": 158,
-                    "end": 162,
+                    "start": 166,
+                    "end": 170,
                     "ctxt": 0
                   },
                   "rest": {
-                    "start": 158,
-                    "end": 161,
+                    "start": 166,
+                    "end": 169,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "Identifier",
                     "span": {
-                      "start": 161,
-                      "end": 162,
+                      "start": 169,
+                      "end": 170,
                       "ctxt": 0
                     },
                     "value": "r",
@@ -115,15 +115,15 @@
             ],
             "decorators": [],
             "span": {
-              "start": 142,
-              "end": 167,
+              "start": 150,
+              "end": 175,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 164,
-                "end": 167,
+                "start": 172,
+                "end": 175,
                 "ctxt": 0
               },
               "stmts": []
@@ -140,22 +140,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 189,
-        "end": 204,
+        "start": 200,
+        "end": 215,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 189,
-          "end": 203,
+          "start": 200,
+          "end": 214,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 189,
-            "end": 192,
+            "start": 200,
+            "end": 203,
             "ctxt": 0
           },
           "value": "foo",
@@ -167,8 +167,8 @@
             "expression": {
               "type": "BooleanLiteral",
               "span": {
-                "start": 193,
-                "end": 198,
+                "start": 204,
+                "end": 209,
                 "ctxt": 0
               },
               "value": false
@@ -179,8 +179,8 @@
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 200,
-                "end": 202,
+                "start": 211,
+                "end": 213,
                 "ctxt": 0
               },
               "value": "",

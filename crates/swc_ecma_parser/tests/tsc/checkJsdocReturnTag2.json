@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 143,
-    "end": 290,
+    "start": 151,
+    "end": 307,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 152,
-          "end": 153,
+          "start": 160,
+          "end": 161,
           "ctxt": 0
         },
         "value": "f",
@@ -22,30 +22,30 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 143,
-        "end": 173,
+        "start": 151,
+        "end": 183,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 156,
-          "end": 173,
+          "start": 164,
+          "end": 183,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 162,
-              "end": 171,
+              "start": 171,
+              "end": 180,
               "ctxt": 0
             },
             "argument": {
               "type": "NumericLiteral",
               "span": {
-                "start": 169,
-                "end": 170,
+                "start": 178,
+                "end": 179,
                 "ctxt": 0
               },
               "value": 5.0,
@@ -64,8 +64,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 260,
-          "end": 262,
+          "start": 275,
+          "end": 277,
           "ctxt": 0
         },
         "value": "f1",
@@ -75,38 +75,38 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 251,
-        "end": 290,
+        "start": 266,
+        "end": 307,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 265,
-          "end": 290,
+          "start": 280,
+          "end": 307,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 271,
-              "end": 288,
+              "start": 287,
+              "end": 304,
               "ctxt": 0
             },
             "argument": {
               "type": "BinaryExpression",
               "span": {
-                "start": 278,
-                "end": 287,
+                "start": 294,
+                "end": 303,
                 "ctxt": 0
               },
               "operator": "||",
               "left": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 278,
-                  "end": 279,
+                  "start": 294,
+                  "end": 295,
                   "ctxt": 0
                 },
                 "value": 5.0,
@@ -115,8 +115,8 @@
               "right": {
                 "type": "BooleanLiteral",
                 "span": {
-                  "start": 283,
-                  "end": 287,
+                  "start": 299,
+                  "end": 303,
                   "ctxt": 0
                 },
                 "value": true

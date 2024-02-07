@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 2009,
+    "end": 2093,
     "ctxt": 0
   },
   "body": [
@@ -89,8 +89,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 33,
-        "end": 49,
+        "start": 35,
+        "end": 51,
         "ctxt": 0
       },
       "kind": "var",
@@ -99,15 +99,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 37,
-            "end": 48,
+            "start": 39,
+            "end": 50,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 37,
-              "end": 40,
+              "start": 39,
+              "end": 42,
               "ctxt": 0
             },
             "value": "str",
@@ -115,15 +115,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 40,
-                "end": 48,
+                "start": 42,
+                "end": 50,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 42,
-                  "end": 48,
+                  "start": 44,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -138,8 +138,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 50,
-        "end": 68,
+        "start": 53,
+        "end": 71,
         "ctxt": 0
       },
       "kind": "var",
@@ -148,15 +148,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 54,
-            "end": 67,
+            "start": 57,
+            "end": 70,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 54,
-              "end": 58,
+              "start": 57,
+              "end": 61,
               "ctxt": 0
             },
             "value": "bool",
@@ -164,15 +164,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 58,
-                "end": 67,
+                "start": 61,
+                "end": 70,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 60,
-                  "end": 67,
+                  "start": 63,
+                  "end": 70,
                   "ctxt": 0
                 },
                 "kind": "boolean"
@@ -187,8 +187,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 69,
-        "end": 85,
+        "start": 73,
+        "end": 89,
         "ctxt": 0
       },
       "kind": "var",
@@ -197,15 +197,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 73,
-            "end": 84,
+            "start": 77,
+            "end": 88,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 73,
-              "end": 76,
+              "start": 77,
+              "end": 80,
               "ctxt": 0
             },
             "value": "num",
@@ -213,15 +213,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 76,
-                "end": 84,
+                "start": 80,
+                "end": 88,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 78,
-                  "end": 84,
+                  "start": 82,
+                  "end": 88,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -236,8 +236,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 86,
-        "end": 116,
+        "start": 91,
+        "end": 121,
         "ctxt": 0
       },
       "kind": "var",
@@ -246,15 +246,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 90,
-            "end": 115,
+            "start": 95,
+            "end": 120,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 90,
-              "end": 98,
+              "start": 95,
+              "end": 103,
               "ctxt": 0
             },
             "value": "strOrNum",
@@ -262,23 +262,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 98,
-                "end": 115,
+                "start": 103,
+                "end": 120,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 100,
-                  "end": 115,
+                  "start": 105,
+                  "end": 120,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 100,
-                      "end": 106,
+                      "start": 105,
+                      "end": 111,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -286,8 +286,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 109,
-                      "end": 115,
+                      "start": 114,
+                      "end": 120,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -304,8 +304,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 117,
-        "end": 149,
+        "start": 123,
+        "end": 155,
         "ctxt": 0
       },
       "kind": "var",
@@ -314,15 +314,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 121,
-            "end": 148,
+            "start": 127,
+            "end": 154,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 121,
-              "end": 130,
+              "start": 127,
+              "end": 136,
               "ctxt": 0
             },
             "value": "strOrBool",
@@ -330,23 +330,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 130,
-                "end": 148,
+                "start": 136,
+                "end": 154,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 132,
-                  "end": 148,
+                  "start": 138,
+                  "end": 154,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 132,
-                      "end": 138,
+                      "start": 138,
+                      "end": 144,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -354,8 +354,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 141,
-                      "end": 148,
+                      "start": 147,
+                      "end": 154,
                       "ctxt": 0
                     },
                     "kind": "boolean"
@@ -372,8 +372,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 150,
-        "end": 181,
+        "start": 157,
+        "end": 188,
         "ctxt": 0
       },
       "kind": "var",
@@ -382,15 +382,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 154,
-            "end": 181,
+            "start": 161,
+            "end": 188,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 154,
-              "end": 163,
+              "start": 161,
+              "end": 170,
               "ctxt": 0
             },
             "value": "numOrBool",
@@ -398,23 +398,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 163,
-                "end": 181,
+                "start": 170,
+                "end": 188,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 165,
-                  "end": 181,
+                  "start": 172,
+                  "end": 188,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 165,
-                      "end": 171,
+                      "start": 172,
+                      "end": 178,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -422,8 +422,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 174,
-                      "end": 181,
+                      "start": 181,
+                      "end": 188,
                       "ctxt": 0
                     },
                     "kind": "boolean"
@@ -440,8 +440,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 182,
-        "end": 228,
+        "start": 190,
+        "end": 236,
         "ctxt": 0
       },
       "kind": "var",
@@ -450,15 +450,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 186,
-            "end": 227,
+            "start": 194,
+            "end": 235,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 186,
-              "end": 200,
+              "start": 194,
+              "end": 208,
               "ctxt": 0
             },
             "value": "strOrNumOrBool",
@@ -466,23 +466,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 200,
-                "end": 227,
+                "start": 208,
+                "end": 235,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 202,
-                  "end": 227,
+                  "start": 210,
+                  "end": 235,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 202,
-                      "end": 208,
+                      "start": 210,
+                      "end": 216,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -490,8 +490,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 211,
-                      "end": 217,
+                      "start": 219,
+                      "end": 225,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -499,8 +499,8 @@
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 220,
-                      "end": 227,
+                      "start": 228,
+                      "end": 235,
                       "ctxt": 0
                     },
                     "kind": "boolean"
@@ -517,8 +517,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 229,
-        "end": 252,
+        "start": 238,
+        "end": 261,
         "ctxt": 0
       },
       "kind": "var",
@@ -527,15 +527,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 233,
-            "end": 251,
+            "start": 242,
+            "end": 260,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 233,
-              "end": 239,
+              "start": 242,
+              "end": 248,
               "ctxt": 0
             },
             "value": "strOrC",
@@ -543,23 +543,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 239,
-                "end": 251,
+                "start": 248,
+                "end": 260,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 241,
-                  "end": 251,
+                  "start": 250,
+                  "end": 260,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 241,
-                      "end": 247,
+                      "start": 250,
+                      "end": 256,
                       "ctxt": 0
                     },
                     "kind": "string"
@@ -567,15 +567,15 @@
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 250,
-                      "end": 251,
+                      "start": 259,
+                      "end": 260,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 250,
-                        "end": 251,
+                        "start": 259,
+                        "end": 260,
                         "ctxt": 0
                       },
                       "value": "C",
@@ -595,8 +595,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 253,
-        "end": 276,
+        "start": 263,
+        "end": 286,
         "ctxt": 0
       },
       "kind": "var",
@@ -605,15 +605,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 257,
-            "end": 275,
+            "start": 267,
+            "end": 285,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 257,
-              "end": 263,
+              "start": 267,
+              "end": 273,
               "ctxt": 0
             },
             "value": "numOrC",
@@ -621,23 +621,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 263,
-                "end": 275,
+                "start": 273,
+                "end": 285,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 265,
-                  "end": 275,
+                  "start": 275,
+                  "end": 285,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 265,
-                      "end": 271,
+                      "start": 275,
+                      "end": 281,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -645,15 +645,15 @@
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 274,
-                      "end": 275,
+                      "start": 284,
+                      "end": 285,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 274,
-                        "end": 275,
+                        "start": 284,
+                        "end": 285,
                         "ctxt": 0
                       },
                       "value": "C",
@@ -673,8 +673,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 277,
-        "end": 302,
+        "start": 288,
+        "end": 313,
         "ctxt": 0
       },
       "kind": "var",
@@ -683,15 +683,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 281,
-            "end": 301,
+            "start": 292,
+            "end": 312,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 281,
-              "end": 288,
+              "start": 292,
+              "end": 299,
               "ctxt": 0
             },
             "value": "boolOrC",
@@ -699,23 +699,23 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 288,
-                "end": 301,
+                "start": 299,
+                "end": 312,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsUnionType",
                 "span": {
-                  "start": 290,
-                  "end": 301,
+                  "start": 301,
+                  "end": 312,
                   "ctxt": 0
                 },
                 "types": [
                   {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 290,
-                      "end": 297,
+                      "start": 301,
+                      "end": 308,
                       "ctxt": 0
                     },
                     "kind": "boolean"
@@ -723,15 +723,15 @@
                   {
                     "type": "TsTypeReference",
                     "span": {
-                      "start": 300,
-                      "end": 301,
+                      "start": 311,
+                      "end": 312,
                       "ctxt": 0
                     },
                     "typeName": {
                       "type": "Identifier",
                       "span": {
-                        "start": 300,
-                        "end": 301,
+                        "start": 311,
+                        "end": 312,
                         "ctxt": 0
                       },
                       "value": "C",
@@ -751,8 +751,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 303,
-        "end": 312,
+        "start": 315,
+        "end": 324,
         "ctxt": 0
       },
       "kind": "var",
@@ -761,15 +761,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 307,
-            "end": 311,
+            "start": 319,
+            "end": 323,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 307,
-              "end": 308,
+              "start": 319,
+              "end": 320,
               "ctxt": 0
             },
             "value": "c",
@@ -777,22 +777,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 308,
-                "end": 311,
+                "start": 320,
+                "end": 323,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 310,
-                  "end": 311,
+                  "start": 322,
+                  "end": 323,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 310,
-                    "end": 311,
+                    "start": 322,
+                    "end": 323,
                     "ctxt": 0
                   },
                   "value": "C",
@@ -810,31 +810,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 576,
-        "end": 688,
+        "start": 594,
+        "end": 711,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 580,
-          "end": 610,
+          "start": 598,
+          "end": 628,
           "ctxt": 0
         },
         "operator": "===",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 580,
-            "end": 596,
+            "start": 598,
+            "end": 614,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 587,
-              "end": 596,
+              "start": 605,
+              "end": 614,
               "ctxt": 0
             },
             "value": "strOrBool",
@@ -844,8 +844,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 601,
-            "end": 610,
+            "start": 619,
+            "end": 628,
             "ctxt": 0
           },
           "value": "boolean",
@@ -855,31 +855,31 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 612,
-          "end": 648,
+          "start": 630,
+          "end": 668,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 618,
-              "end": 635,
+              "start": 637,
+              "end": 654,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 618,
-                "end": 634,
+                "start": 637,
+                "end": 653,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 618,
-                  "end": 622,
+                  "start": 637,
+                  "end": 641,
                   "ctxt": 0
                 },
                 "value": "bool",
@@ -889,8 +889,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 625,
-                  "end": 634,
+                  "start": 644,
+                  "end": 653,
                   "ctxt": 0
                 },
                 "value": "strOrBool",
@@ -903,31 +903,31 @@
       "alternate": {
         "type": "BlockStatement",
         "span": {
-          "start": 654,
-          "end": 688,
+          "start": 675,
+          "end": 711,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 660,
-              "end": 676,
+              "start": 682,
+              "end": 698,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 660,
-                "end": 675,
+                "start": 682,
+                "end": 697,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 660,
-                  "end": 663,
+                  "start": 682,
+                  "end": 685,
                   "ctxt": 0
                 },
                 "value": "str",
@@ -937,8 +937,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 666,
-                  "end": 675,
+                  "start": 688,
+                  "end": 697,
                   "ctxt": 0
                 },
                 "value": "strOrBool",
@@ -952,31 +952,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 689,
-        "end": 801,
+        "start": 713,
+        "end": 830,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 693,
-          "end": 723,
+          "start": 717,
+          "end": 747,
           "ctxt": 0
         },
         "operator": "===",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 693,
-            "end": 709,
+            "start": 717,
+            "end": 733,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 700,
-              "end": 709,
+              "start": 724,
+              "end": 733,
               "ctxt": 0
             },
             "value": "numOrBool",
@@ -986,8 +986,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 714,
-            "end": 723,
+            "start": 738,
+            "end": 747,
             "ctxt": 0
           },
           "value": "boolean",
@@ -997,31 +997,31 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 725,
-          "end": 761,
+          "start": 749,
+          "end": 787,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 731,
-              "end": 748,
+              "start": 756,
+              "end": 773,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 731,
-                "end": 747,
+                "start": 756,
+                "end": 772,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 731,
-                  "end": 735,
+                  "start": 756,
+                  "end": 760,
                   "ctxt": 0
                 },
                 "value": "bool",
@@ -1031,8 +1031,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 738,
-                  "end": 747,
+                  "start": 763,
+                  "end": 772,
                   "ctxt": 0
                 },
                 "value": "numOrBool",
@@ -1045,31 +1045,31 @@
       "alternate": {
         "type": "BlockStatement",
         "span": {
-          "start": 767,
-          "end": 801,
+          "start": 794,
+          "end": 830,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 773,
-              "end": 789,
+              "start": 801,
+              "end": 817,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 773,
-                "end": 788,
+                "start": 801,
+                "end": 816,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 773,
-                  "end": 776,
+                  "start": 801,
+                  "end": 804,
                   "ctxt": 0
                 },
                 "value": "num",
@@ -1079,8 +1079,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 779,
-                  "end": 788,
+                  "start": 807,
+                  "end": 816,
                   "ctxt": 0
                 },
                 "value": "numOrBool",
@@ -1094,31 +1094,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 802,
-        "end": 943,
+        "start": 832,
+        "end": 978,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 806,
-          "end": 841,
+          "start": 836,
+          "end": 871,
           "ctxt": 0
         },
         "operator": "===",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 806,
-            "end": 827,
+            "start": 836,
+            "end": 857,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 813,
-              "end": 827,
+              "start": 843,
+              "end": 857,
               "ctxt": 0
             },
             "value": "strOrNumOrBool",
@@ -1128,8 +1128,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 832,
-            "end": 841,
+            "start": 862,
+            "end": 871,
             "ctxt": 0
           },
           "value": "boolean",
@@ -1139,31 +1139,31 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 843,
-          "end": 884,
+          "start": 873,
+          "end": 916,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 849,
-              "end": 871,
+              "start": 880,
+              "end": 902,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 849,
-                "end": 870,
+                "start": 880,
+                "end": 901,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 849,
-                  "end": 853,
+                  "start": 880,
+                  "end": 884,
                   "ctxt": 0
                 },
                 "value": "bool",
@@ -1173,8 +1173,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 856,
-                  "end": 870,
+                  "start": 887,
+                  "end": 901,
                   "ctxt": 0
                 },
                 "value": "strOrNumOrBool",
@@ -1187,31 +1187,31 @@
       "alternate": {
         "type": "BlockStatement",
         "span": {
-          "start": 890,
-          "end": 943,
+          "start": 923,
+          "end": 978,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 896,
-              "end": 922,
+              "start": 930,
+              "end": 956,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 896,
-                "end": 921,
+                "start": 930,
+                "end": 955,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 896,
-                  "end": 904,
+                  "start": 930,
+                  "end": 938,
                   "ctxt": 0
                 },
                 "value": "strOrNum",
@@ -1221,8 +1221,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 907,
-                  "end": 921,
+                  "start": 941,
+                  "end": 955,
                   "ctxt": 0
                 },
                 "value": "strOrNumOrBool",
@@ -1236,31 +1236,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 944,
-        "end": 1043,
+        "start": 980,
+        "end": 1084,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 948,
-          "end": 976,
+          "start": 984,
+          "end": 1012,
           "ctxt": 0
         },
         "operator": "===",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 948,
-            "end": 962,
+            "start": 984,
+            "end": 998,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 955,
-              "end": 962,
+              "start": 991,
+              "end": 998,
               "ctxt": 0
             },
             "value": "boolOrC",
@@ -1270,8 +1270,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 967,
-            "end": 976,
+            "start": 1003,
+            "end": 1012,
             "ctxt": 0
           },
           "value": "boolean",
@@ -1281,70 +1281,22 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 978,
-          "end": 1012,
+          "start": 1014,
+          "end": 1050,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 984,
-              "end": 999,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 984,
-                "end": 998,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 984,
-                  "end": 988,
-                  "ctxt": 0
-                },
-                "value": "bool",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 991,
-                  "end": 998,
-                  "ctxt": 0
-                },
-                "value": "boolOrC",
-                "optional": false
-              }
-            }
-          }
-        ]
-      },
-      "alternate": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1018,
-          "end": 1043,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1024,
+              "start": 1021,
               "end": 1036,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 1024,
+                "start": 1021,
                 "end": 1035,
                 "ctxt": 0
               },
@@ -1352,11 +1304,11 @@
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 1024,
+                  "start": 1021,
                   "end": 1025,
                   "ctxt": 0
                 },
-                "value": "c",
+                "value": "bool",
                 "optional": false,
                 "typeAnnotation": null
               },
@@ -1373,708 +1325,35 @@
             }
           }
         ]
-      }
-    },
-    {
-      "type": "IfStatement",
-      "span": {
-        "start": 1045,
-        "end": 1184,
-        "ctxt": 0
-      },
-      "test": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1049,
-          "end": 1078,
-          "ctxt": 0
-        },
-        "operator": "===",
-        "left": {
-          "type": "UnaryExpression",
-          "span": {
-            "start": 1049,
-            "end": 1064,
-            "ctxt": 0
-          },
-          "operator": "typeof",
-          "argument": {
-            "type": "Identifier",
-            "span": {
-              "start": 1056,
-              "end": 1064,
-              "ctxt": 0
-            },
-            "value": "strOrNum",
-            "optional": false
-          }
-        },
-        "right": {
-          "type": "StringLiteral",
-          "span": {
-            "start": 1069,
-            "end": 1078,
-            "ctxt": 0
-          },
-          "value": "boolean",
-          "raw": "\"boolean\""
-        }
-      },
-      "consequent": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1080,
-          "end": 1116,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "VariableDeclaration",
-            "span": {
-              "start": 1086,
-              "end": 1108,
-              "ctxt": 0
-            },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
-                "type": "VariableDeclarator",
-                "span": {
-                  "start": 1090,
-                  "end": 1107,
-                  "ctxt": 0
-                },
-                "id": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 1090,
-                    "end": 1092,
-                    "ctxt": 0
-                  },
-                  "value": "z1",
-                  "optional": false,
-                  "typeAnnotation": {
-                    "type": "TsTypeAnnotation",
-                    "span": {
-                      "start": 1092,
-                      "end": 1096,
-                      "ctxt": 0
-                    },
-                    "typeAnnotation": {
-                      "type": "TsTypeLiteral",
-                      "span": {
-                        "start": 1094,
-                        "end": 1096,
-                        "ctxt": 0
-                      },
-                      "members": []
-                    }
-                  }
-                },
-                "init": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 1099,
-                    "end": 1107,
-                    "ctxt": 0
-                  },
-                  "value": "strOrNum",
-                  "optional": false
-                },
-                "definite": false
-              }
-            ]
-          }
-        ]
       },
       "alternate": {
         "type": "BlockStatement",
         "span": {
-          "start": 1122,
-          "end": 1184,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "VariableDeclaration",
-            "span": {
-              "start": 1128,
-              "end": 1163,
-              "ctxt": 0
-            },
-            "kind": "let",
-            "declare": false,
-            "declarations": [
-              {
-                "type": "VariableDeclarator",
-                "span": {
-                  "start": 1132,
-                  "end": 1162,
-                  "ctxt": 0
-                },
-                "id": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 1132,
-                    "end": 1134,
-                    "ctxt": 0
-                  },
-                  "value": "z2",
-                  "optional": false,
-                  "typeAnnotation": {
-                    "type": "TsTypeAnnotation",
-                    "span": {
-                      "start": 1134,
-                      "end": 1151,
-                      "ctxt": 0
-                    },
-                    "typeAnnotation": {
-                      "type": "TsUnionType",
-                      "span": {
-                        "start": 1136,
-                        "end": 1151,
-                        "ctxt": 0
-                      },
-                      "types": [
-                        {
-                          "type": "TsKeywordType",
-                          "span": {
-                            "start": 1136,
-                            "end": 1142,
-                            "ctxt": 0
-                          },
-                          "kind": "string"
-                        },
-                        {
-                          "type": "TsKeywordType",
-                          "span": {
-                            "start": 1145,
-                            "end": 1151,
-                            "ctxt": 0
-                          },
-                          "kind": "number"
-                        }
-                      ]
-                    }
-                  }
-                },
-                "init": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 1154,
-                    "end": 1162,
-                    "ctxt": 0
-                  },
-                  "value": "strOrNum",
-                  "optional": false
-                },
-                "definite": false
-              }
-            ]
-          }
-        ]
-      }
-    },
-    {
-      "type": "IfStatement",
-      "span": {
-        "start": 1401,
-        "end": 1513,
-        "ctxt": 0
-      },
-      "test": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1405,
-          "end": 1435,
-          "ctxt": 0
-        },
-        "operator": "!==",
-        "left": {
-          "type": "UnaryExpression",
-          "span": {
-            "start": 1405,
-            "end": 1421,
-            "ctxt": 0
-          },
-          "operator": "typeof",
-          "argument": {
-            "type": "Identifier",
-            "span": {
-              "start": 1412,
-              "end": 1421,
-              "ctxt": 0
-            },
-            "value": "strOrBool",
-            "optional": false
-          }
-        },
-        "right": {
-          "type": "StringLiteral",
-          "span": {
-            "start": 1426,
-            "end": 1435,
-            "ctxt": 0
-          },
-          "value": "boolean",
-          "raw": "\"boolean\""
-        }
-      },
-      "consequent": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1437,
-          "end": 1471,
+          "start": 1057,
+          "end": 1084,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 1443,
-              "end": 1459,
+              "start": 1064,
+              "end": 1076,
               "ctxt": 0
             },
             "expression": {
               "type": "AssignmentExpression",
               "span": {
-                "start": 1443,
-                "end": 1458,
+                "start": 1064,
+                "end": 1075,
                 "ctxt": 0
               },
               "operator": "=",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 1443,
-                  "end": 1446,
-                  "ctxt": 0
-                },
-                "value": "str",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1449,
-                  "end": 1458,
-                  "ctxt": 0
-                },
-                "value": "strOrBool",
-                "optional": false
-              }
-            }
-          }
-        ]
-      },
-      "alternate": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1477,
-          "end": 1513,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1483,
-              "end": 1500,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1483,
-                "end": 1499,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1483,
-                  "end": 1487,
-                  "ctxt": 0
-                },
-                "value": "bool",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1490,
-                  "end": 1499,
-                  "ctxt": 0
-                },
-                "value": "strOrBool",
-                "optional": false
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "IfStatement",
-      "span": {
-        "start": 1514,
-        "end": 1626,
-        "ctxt": 0
-      },
-      "test": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1518,
-          "end": 1548,
-          "ctxt": 0
-        },
-        "operator": "!==",
-        "left": {
-          "type": "UnaryExpression",
-          "span": {
-            "start": 1518,
-            "end": 1534,
-            "ctxt": 0
-          },
-          "operator": "typeof",
-          "argument": {
-            "type": "Identifier",
-            "span": {
-              "start": 1525,
-              "end": 1534,
-              "ctxt": 0
-            },
-            "value": "numOrBool",
-            "optional": false
-          }
-        },
-        "right": {
-          "type": "StringLiteral",
-          "span": {
-            "start": 1539,
-            "end": 1548,
-            "ctxt": 0
-          },
-          "value": "boolean",
-          "raw": "\"boolean\""
-        }
-      },
-      "consequent": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1550,
-          "end": 1584,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1556,
-              "end": 1572,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1556,
-                "end": 1571,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1556,
-                  "end": 1559,
-                  "ctxt": 0
-                },
-                "value": "num",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1562,
-                  "end": 1571,
-                  "ctxt": 0
-                },
-                "value": "numOrBool",
-                "optional": false
-              }
-            }
-          }
-        ]
-      },
-      "alternate": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1590,
-          "end": 1626,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1596,
-              "end": 1613,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1596,
-                "end": 1612,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1596,
-                  "end": 1600,
-                  "ctxt": 0
-                },
-                "value": "bool",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1603,
-                  "end": 1612,
-                  "ctxt": 0
-                },
-                "value": "numOrBool",
-                "optional": false
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "IfStatement",
-      "span": {
-        "start": 1627,
-        "end": 1768,
-        "ctxt": 0
-      },
-      "test": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1631,
-          "end": 1666,
-          "ctxt": 0
-        },
-        "operator": "!==",
-        "left": {
-          "type": "UnaryExpression",
-          "span": {
-            "start": 1631,
-            "end": 1652,
-            "ctxt": 0
-          },
-          "operator": "typeof",
-          "argument": {
-            "type": "Identifier",
-            "span": {
-              "start": 1638,
-              "end": 1652,
-              "ctxt": 0
-            },
-            "value": "strOrNumOrBool",
-            "optional": false
-          }
-        },
-        "right": {
-          "type": "StringLiteral",
-          "span": {
-            "start": 1657,
-            "end": 1666,
-            "ctxt": 0
-          },
-          "value": "boolean",
-          "raw": "\"boolean\""
-        }
-      },
-      "consequent": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1668,
-          "end": 1721,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1674,
-              "end": 1700,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1674,
-                "end": 1699,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1674,
-                  "end": 1682,
-                  "ctxt": 0
-                },
-                "value": "strOrNum",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1685,
-                  "end": 1699,
-                  "ctxt": 0
-                },
-                "value": "strOrNumOrBool",
-                "optional": false
-              }
-            }
-          }
-        ]
-      },
-      "alternate": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1727,
-          "end": 1768,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1733,
-              "end": 1755,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1733,
-                "end": 1754,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1733,
-                  "end": 1737,
-                  "ctxt": 0
-                },
-                "value": "bool",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1740,
-                  "end": 1754,
-                  "ctxt": 0
-                },
-                "value": "strOrNumOrBool",
-                "optional": false
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "type": "IfStatement",
-      "span": {
-        "start": 1769,
-        "end": 1868,
-        "ctxt": 0
-      },
-      "test": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1773,
-          "end": 1801,
-          "ctxt": 0
-        },
-        "operator": "!==",
-        "left": {
-          "type": "UnaryExpression",
-          "span": {
-            "start": 1773,
-            "end": 1787,
-            "ctxt": 0
-          },
-          "operator": "typeof",
-          "argument": {
-            "type": "Identifier",
-            "span": {
-              "start": 1780,
-              "end": 1787,
-              "ctxt": 0
-            },
-            "value": "boolOrC",
-            "optional": false
-          }
-        },
-        "right": {
-          "type": "StringLiteral",
-          "span": {
-            "start": 1792,
-            "end": 1801,
-            "ctxt": 0
-          },
-          "value": "boolean",
-          "raw": "\"boolean\""
-        }
-      },
-      "consequent": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1803,
-          "end": 1828,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1809,
-              "end": 1821,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1809,
-                "end": 1820,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1809,
-                  "end": 1810,
+                  "start": 1064,
+                  "end": 1065,
                   "ctxt": 0
                 },
                 "value": "c",
@@ -2084,56 +1363,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 1813,
-                  "end": 1820,
-                  "ctxt": 0
-                },
-                "value": "boolOrC",
-                "optional": false
-              }
-            }
-          }
-        ]
-      },
-      "alternate": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 1834,
-          "end": 1868,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 1840,
-              "end": 1855,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "AssignmentExpression",
-              "span": {
-                "start": 1840,
-                "end": 1854,
-                "ctxt": 0
-              },
-              "operator": "=",
-              "left": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1840,
-                  "end": 1844,
-                  "ctxt": 0
-                },
-                "value": "bool",
-                "optional": false,
-                "typeAnnotation": null
-              },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 1847,
-                  "end": 1854,
+                  "start": 1068,
+                  "end": 1075,
                   "ctxt": 0
                 },
                 "value": "boolOrC",
@@ -2147,31 +1378,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 1870,
-        "end": 2009,
+        "start": 1088,
+        "end": 1232,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 1874,
-          "end": 1903,
+          "start": 1092,
+          "end": 1121,
           "ctxt": 0
         },
-        "operator": "!==",
+        "operator": "===",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 1874,
-            "end": 1889,
+            "start": 1092,
+            "end": 1107,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 1881,
-              "end": 1889,
+              "start": 1099,
+              "end": 1107,
               "ctxt": 0
             },
             "value": "strOrNum",
@@ -2181,8 +1412,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 1894,
-            "end": 1903,
+            "start": 1112,
+            "end": 1121,
             "ctxt": 0
           },
           "value": "boolean",
@@ -2192,16 +1423,16 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 1905,
-          "end": 1967,
+          "start": 1123,
+          "end": 1161,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 1911,
-              "end": 1946,
+              "start": 1130,
+              "end": 1152,
               "ctxt": 0
             },
             "kind": "let",
@@ -2210,15 +1441,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 1915,
-                  "end": 1945,
+                  "start": 1134,
+                  "end": 1151,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 1915,
-                    "end": 1917,
+                    "start": 1134,
+                    "end": 1136,
                     "ctxt": 0
                   },
                   "value": "z1",
@@ -2226,45 +1457,26 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 1917,
-                      "end": 1934,
+                      "start": 1136,
+                      "end": 1140,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
-                      "type": "TsUnionType",
+                      "type": "TsTypeLiteral",
                       "span": {
-                        "start": 1919,
-                        "end": 1934,
+                        "start": 1138,
+                        "end": 1140,
                         "ctxt": 0
                       },
-                      "types": [
-                        {
-                          "type": "TsKeywordType",
-                          "span": {
-                            "start": 1919,
-                            "end": 1925,
-                            "ctxt": 0
-                          },
-                          "kind": "string"
-                        },
-                        {
-                          "type": "TsKeywordType",
-                          "span": {
-                            "start": 1928,
-                            "end": 1934,
-                            "ctxt": 0
-                          },
-                          "kind": "number"
-                        }
-                      ]
+                      "members": []
                     }
                   }
                 },
                 "init": {
                   "type": "Identifier",
                   "span": {
-                    "start": 1937,
-                    "end": 1945,
+                    "start": 1143,
+                    "end": 1151,
                     "ctxt": 0
                   },
                   "value": "strOrNum",
@@ -2279,16 +1491,16 @@
       "alternate": {
         "type": "BlockStatement",
         "span": {
-          "start": 1973,
-          "end": 2009,
+          "start": 1168,
+          "end": 1232,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 1979,
-              "end": 2001,
+              "start": 1175,
+              "end": 1210,
               "ctxt": 0
             },
             "kind": "let",
@@ -2297,15 +1509,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 1983,
-                  "end": 2000,
+                  "start": 1179,
+                  "end": 1209,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 1983,
-                    "end": 1985,
+                    "start": 1179,
+                    "end": 1181,
                     "ctxt": 0
                   },
                   "value": "z2",
@@ -2313,15 +1525,803 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 1985,
-                      "end": 1989,
+                      "start": 1181,
+                      "end": 1198,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsUnionType",
+                      "span": {
+                        "start": 1183,
+                        "end": 1198,
+                        "ctxt": 0
+                      },
+                      "types": [
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 1183,
+                            "end": 1189,
+                            "ctxt": 0
+                          },
+                          "kind": "string"
+                        },
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 1192,
+                            "end": 1198,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "init": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1201,
+                    "end": 1209,
+                    "ctxt": 0
+                  },
+                  "value": "strOrNum",
+                  "optional": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1455,
+        "end": 1572,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1459,
+          "end": 1489,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 1459,
+            "end": 1475,
+            "ctxt": 0
+          },
+          "operator": "typeof",
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 1466,
+              "end": 1475,
+              "ctxt": 0
+            },
+            "value": "strOrBool",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1480,
+            "end": 1489,
+            "ctxt": 0
+          },
+          "value": "boolean",
+          "raw": "\"boolean\""
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1491,
+          "end": 1527,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1498,
+              "end": 1514,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1498,
+                "end": 1513,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1498,
+                  "end": 1501,
+                  "ctxt": 0
+                },
+                "value": "str",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1504,
+                  "end": 1513,
+                  "ctxt": 0
+                },
+                "value": "strOrBool",
+                "optional": false
+              }
+            }
+          }
+        ]
+      },
+      "alternate": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1534,
+          "end": 1572,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1541,
+              "end": 1558,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1541,
+                "end": 1557,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1541,
+                  "end": 1545,
+                  "ctxt": 0
+                },
+                "value": "bool",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1548,
+                  "end": 1557,
+                  "ctxt": 0
+                },
+                "value": "strOrBool",
+                "optional": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1574,
+        "end": 1691,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1578,
+          "end": 1608,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 1578,
+            "end": 1594,
+            "ctxt": 0
+          },
+          "operator": "typeof",
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 1585,
+              "end": 1594,
+              "ctxt": 0
+            },
+            "value": "numOrBool",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1599,
+            "end": 1608,
+            "ctxt": 0
+          },
+          "value": "boolean",
+          "raw": "\"boolean\""
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1610,
+          "end": 1646,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1617,
+              "end": 1633,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1617,
+                "end": 1632,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1617,
+                  "end": 1620,
+                  "ctxt": 0
+                },
+                "value": "num",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1623,
+                  "end": 1632,
+                  "ctxt": 0
+                },
+                "value": "numOrBool",
+                "optional": false
+              }
+            }
+          }
+        ]
+      },
+      "alternate": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1653,
+          "end": 1691,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1660,
+              "end": 1677,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1660,
+                "end": 1676,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1660,
+                  "end": 1664,
+                  "ctxt": 0
+                },
+                "value": "bool",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1667,
+                  "end": 1676,
+                  "ctxt": 0
+                },
+                "value": "numOrBool",
+                "optional": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1693,
+        "end": 1839,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1697,
+          "end": 1732,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 1697,
+            "end": 1718,
+            "ctxt": 0
+          },
+          "operator": "typeof",
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 1704,
+              "end": 1718,
+              "ctxt": 0
+            },
+            "value": "strOrNumOrBool",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1723,
+            "end": 1732,
+            "ctxt": 0
+          },
+          "value": "boolean",
+          "raw": "\"boolean\""
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1734,
+          "end": 1789,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1741,
+              "end": 1767,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1741,
+                "end": 1766,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1741,
+                  "end": 1749,
+                  "ctxt": 0
+                },
+                "value": "strOrNum",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1752,
+                  "end": 1766,
+                  "ctxt": 0
+                },
+                "value": "strOrNumOrBool",
+                "optional": false
+              }
+            }
+          }
+        ]
+      },
+      "alternate": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1796,
+          "end": 1839,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1803,
+              "end": 1825,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1803,
+                "end": 1824,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1803,
+                  "end": 1807,
+                  "ctxt": 0
+                },
+                "value": "bool",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1810,
+                  "end": 1824,
+                  "ctxt": 0
+                },
+                "value": "strOrNumOrBool",
+                "optional": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1841,
+        "end": 1945,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1845,
+          "end": 1873,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 1845,
+            "end": 1859,
+            "ctxt": 0
+          },
+          "operator": "typeof",
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 1852,
+              "end": 1859,
+              "ctxt": 0
+            },
+            "value": "boolOrC",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1864,
+            "end": 1873,
+            "ctxt": 0
+          },
+          "value": "boolean",
+          "raw": "\"boolean\""
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1875,
+          "end": 1902,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1882,
+              "end": 1894,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1882,
+                "end": 1893,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1882,
+                  "end": 1883,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1886,
+                  "end": 1893,
+                  "ctxt": 0
+                },
+                "value": "boolOrC",
+                "optional": false
+              }
+            }
+          }
+        ]
+      },
+      "alternate": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1909,
+          "end": 1945,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1916,
+              "end": 1931,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1916,
+                "end": 1930,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1916,
+                  "end": 1920,
+                  "ctxt": 0
+                },
+                "value": "bool",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1923,
+                  "end": 1930,
+                  "ctxt": 0
+                },
+                "value": "boolOrC",
+                "optional": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1949,
+        "end": 2093,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1953,
+          "end": 1982,
+          "ctxt": 0
+        },
+        "operator": "!==",
+        "left": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 1953,
+            "end": 1968,
+            "ctxt": 0
+          },
+          "operator": "typeof",
+          "argument": {
+            "type": "Identifier",
+            "span": {
+              "start": 1960,
+              "end": 1968,
+              "ctxt": 0
+            },
+            "value": "strOrNum",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 1973,
+            "end": 1982,
+            "ctxt": 0
+          },
+          "value": "boolean",
+          "raw": "\"boolean\""
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 1984,
+          "end": 2048,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 1991,
+              "end": 2026,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 1995,
+                  "end": 2025,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1995,
+                    "end": 1997,
+                    "ctxt": 0
+                  },
+                  "value": "z1",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 1997,
+                      "end": 2014,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsUnionType",
+                      "span": {
+                        "start": 1999,
+                        "end": 2014,
+                        "ctxt": 0
+                      },
+                      "types": [
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 1999,
+                            "end": 2005,
+                            "ctxt": 0
+                          },
+                          "kind": "string"
+                        },
+                        {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 2008,
+                            "end": 2014,
+                            "ctxt": 0
+                          },
+                          "kind": "number"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "init": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2017,
+                    "end": 2025,
+                    "ctxt": 0
+                  },
+                  "value": "strOrNum",
+                  "optional": false
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "alternate": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 2055,
+          "end": 2093,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 2062,
+              "end": 2084,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 2066,
+                  "end": 2083,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2066,
+                    "end": 2068,
+                    "ctxt": 0
+                  },
+                  "value": "z2",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 2068,
+                      "end": 2072,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsTypeLiteral",
                       "span": {
-                        "start": 1987,
-                        "end": 1989,
+                        "start": 2070,
+                        "end": 2072,
                         "ctxt": 0
                       },
                       "members": []
@@ -2331,8 +2331,8 @@
                 "init": {
                   "type": "Identifier",
                   "span": {
-                    "start": 1992,
-                    "end": 2000,
+                    "start": 2075,
+                    "end": 2083,
                     "ctxt": 0
                   },
                   "value": "strOrNum",

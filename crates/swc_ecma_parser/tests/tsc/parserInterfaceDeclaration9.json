@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 204,
+    "end": 217,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 68,
+        "end": 71,
         "ctxt": 0
       },
       "id": {
@@ -30,23 +30,23 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 14,
-          "end": 68,
+          "end": 71,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsGetterSignature",
             "span": {
-              "start": 20,
-              "end": 38,
+              "start": 21,
+              "end": 39,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 24,
-                "end": 27,
+                "start": 25,
+                "end": 28,
                 "ctxt": 0
               },
               "value": "foo",
@@ -57,15 +57,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 29,
-                "end": 37,
+                "start": 30,
+                "end": 38,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 31,
-                  "end": 37,
+                  "start": 32,
+                  "end": 38,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -75,16 +75,16 @@
           {
             "type": "TsSetterSignature",
             "span": {
-              "start": 43,
-              "end": 66,
+              "start": 45,
+              "end": 68,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 50,
+                "start": 49,
+                "end": 52,
                 "ctxt": 0
               },
               "value": "foo",
@@ -95,8 +95,8 @@
             "param": {
               "type": "Identifier",
               "span": {
-                "start": 51,
-                "end": 64,
+                "start": 53,
+                "end": 66,
                 "ctxt": 0
               },
               "value": "value",
@@ -104,15 +104,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 56,
-                  "end": 64,
+                  "start": 58,
+                  "end": 66,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 58,
-                    "end": 64,
+                    "start": 60,
+                    "end": 66,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -126,15 +126,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 70,
-        "end": 137,
+        "start": 75,
+        "end": 145,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 80,
-          "end": 82,
+          "start": 85,
+          "end": 87,
           "ctxt": 0
         },
         "value": "I2",
@@ -146,24 +146,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 83,
-          "end": 137,
+          "start": 88,
+          "end": 145,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsGetterSignature",
             "span": {
-              "start": 89,
-              "end": 107,
+              "start": 95,
+              "end": 113,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 93,
-                "end": 96,
+                "start": 99,
+                "end": 102,
                 "ctxt": 0
               },
               "value": "foo",
@@ -174,15 +174,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 98,
-                "end": 106,
+                "start": 104,
+                "end": 112,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 100,
-                  "end": 106,
+                  "start": 106,
+                  "end": 112,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -192,16 +192,16 @@
           {
             "type": "TsSetterSignature",
             "span": {
-              "start": 112,
-              "end": 135,
+              "start": 119,
+              "end": 142,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 116,
-                "end": 119,
+                "start": 123,
+                "end": 126,
                 "ctxt": 0
               },
               "value": "foo",
@@ -212,8 +212,8 @@
             "param": {
               "type": "Identifier",
               "span": {
-                "start": 120,
-                "end": 133,
+                "start": 127,
+                "end": 140,
                 "ctxt": 0
               },
               "value": "value",
@@ -221,15 +221,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 125,
-                  "end": 133,
+                  "start": 132,
+                  "end": 140,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 127,
-                    "end": 133,
+                    "start": 134,
+                    "end": 140,
                     "ctxt": 0
                   },
                   "kind": "number"
@@ -243,15 +243,15 @@
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 139,
-        "end": 204,
+        "start": 149,
+        "end": 217,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 149,
-          "end": 151,
+          "start": 159,
+          "end": 161,
           "ctxt": 0
         },
         "value": "I3",
@@ -263,24 +263,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 152,
-          "end": 204,
+          "start": 162,
+          "end": 217,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsGetterSignature",
             "span": {
-              "start": 158,
-              "end": 175,
+              "start": 169,
+              "end": 186,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 162,
-                "end": 165,
+                "start": 173,
+                "end": 176,
                 "ctxt": 0
               },
               "value": "foo",
@@ -291,15 +291,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 167,
-                "end": 175,
+                "start": 178,
+                "end": 186,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 169,
-                  "end": 175,
+                  "start": 180,
+                  "end": 186,
                   "ctxt": 0
                 },
                 "kind": "number"
@@ -309,16 +309,16 @@
           {
             "type": "TsSetterSignature",
             "span": {
-              "start": 180,
-              "end": 202,
+              "start": 192,
+              "end": 214,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 184,
-                "end": 187,
+                "start": 196,
+                "end": 199,
                 "ctxt": 0
               },
               "value": "foo",
@@ -329,8 +329,8 @@
             "param": {
               "type": "Identifier",
               "span": {
-                "start": 188,
-                "end": 201,
+                "start": 200,
+                "end": 213,
                 "ctxt": 0
               },
               "value": "value",
@@ -338,15 +338,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 193,
-                  "end": 201,
+                  "start": 205,
+                  "end": 213,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 195,
-                    "end": 201,
+                    "start": 207,
+                    "end": 213,
                     "ctxt": 0
                   },
                   "kind": "number"

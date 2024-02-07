@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 78,
-    "end": 225,
+    "start": 83,
+    "end": 234,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 84,
-          "end": 88,
+          "start": 89,
+          "end": 93,
           "ctxt": 0
         },
         "value": "Base",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 78,
-        "end": 105,
+        "start": 83,
+        "end": 110,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 91,
-            "end": 103,
+            "start": 96,
+            "end": 108,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 91,
-              "end": 97,
+              "start": 96,
+              "end": 102,
               "ctxt": 0
             },
             "value": "method",
@@ -47,15 +47,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 91,
-              "end": 103,
+              "start": 96,
+              "end": 108,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 101,
-                "end": 103,
+                "start": 106,
+                "end": 108,
                 "ctxt": 0
               },
               "stmts": []
@@ -84,8 +84,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 112,
-          "end": 119,
+          "start": 118,
+          "end": 125,
           "ctxt": 0
         },
         "value": "Derived",
@@ -93,8 +93,8 @@
       },
       "declare": false,
       "span": {
-        "start": 106,
-        "end": 225,
+        "start": 112,
+        "end": 234,
         "ctxt": 0
       },
       "decorators": [],
@@ -102,15 +102,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 139,
-            "end": 177,
+            "start": 146,
+            "end": 184,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 139,
-              "end": 146,
+              "start": 146,
+              "end": 153,
               "ctxt": 0
             },
             "value": "method1",
@@ -120,60 +120,60 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 139,
-              "end": 177,
+              "start": 146,
+              "end": 184,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 149,
-                "end": 177,
+                "start": 156,
+                "end": 184,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 151,
-                    "end": 175,
+                    "start": 158,
+                    "end": 182,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "OptionalChainingExpression",
                     "span": {
-                      "start": 158,
-                      "end": 174,
+                      "start": 165,
+                      "end": 181,
                       "ctxt": 0
                     },
                     "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {
-                        "start": 158,
-                        "end": 174,
+                        "start": 165,
+                        "end": 181,
                         "ctxt": 0
                       },
                       "callee": {
                         "type": "SuperPropExpression",
                         "span": {
-                          "start": 158,
-                          "end": 170,
+                          "start": 165,
+                          "end": 177,
                           "ctxt": 0
                         },
                         "obj": {
                           "type": "Super",
                           "span": {
-                            "start": 158,
-                            "end": 163,
+                            "start": 165,
+                            "end": 170,
                             "ctxt": 0
                           }
                         },
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 164,
-                            "end": 170,
+                            "start": 171,
+                            "end": 177,
                             "ctxt": 0
                           },
                           "value": "method",
@@ -202,15 +202,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 182,
-            "end": 223,
+            "start": 190,
+            "end": 231,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 182,
-              "end": 189,
+              "start": 190,
+              "end": 197,
               "ctxt": 0
             },
             "value": "method2",
@@ -220,67 +220,67 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 182,
-              "end": 223,
+              "start": 190,
+              "end": 231,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 192,
-                "end": 223,
+                "start": 200,
+                "end": 231,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 194,
-                    "end": 221,
+                    "start": 202,
+                    "end": 229,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "OptionalChainingExpression",
                     "span": {
-                      "start": 201,
-                      "end": 220,
+                      "start": 209,
+                      "end": 228,
                       "ctxt": 0
                     },
                     "optional": true,
                     "base": {
                       "type": "CallExpression",
                       "span": {
-                        "start": 201,
-                        "end": 220,
+                        "start": 209,
+                        "end": 228,
                         "ctxt": 0
                       },
                       "callee": {
                         "type": "SuperPropExpression",
                         "span": {
-                          "start": 201,
-                          "end": 216,
+                          "start": 209,
+                          "end": 224,
                           "ctxt": 0
                         },
                         "obj": {
                           "type": "Super",
                           "span": {
-                            "start": 201,
-                            "end": 206,
+                            "start": 209,
+                            "end": 214,
                             "ctxt": 0
                           }
                         },
                         "property": {
                           "type": "Computed",
                           "span": {
-                            "start": 206,
-                            "end": 216,
+                            "start": 214,
+                            "end": 224,
                             "ctxt": 0
                           },
                           "expression": {
                             "type": "StringLiteral",
                             "span": {
-                              "start": 207,
-                              "end": 215,
+                              "start": 215,
+                              "end": 223,
                               "ctxt": 0
                             },
                             "value": "method",
@@ -311,8 +311,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 128,
-          "end": 132,
+          "start": 134,
+          "end": 138,
           "ctxt": 0
         },
         "value": "Base",

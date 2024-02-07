@@ -1,0 +1,94 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 89,
+    "end": 137,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 104,
+          "end": 105,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 89,
+        "end": 137,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 108,
+          "end": 137,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "UsingDeclaration",
+            "span": {
+              "start": 115,
+              "end": 133,
+              "ctxt": 0
+            },
+            "isAwait": true,
+            "decls": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 127,
+                  "end": 133,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 127,
+                    "end": 128,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 131,
+                    "end": 133,
+                    "ctxt": 0
+                  },
+                  "properties": []
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 133,
+              "end": 134,
+              "ctxt": 0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,59 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 89,
+    "end": 102,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "UsingDeclaration",
+      "span": {
+        "start": 89,
+        "end": 101,
+        "ctxt": 0
+      },
+      "isAwait": false,
+      "decls": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 95,
+            "end": 101,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 95,
+              "end": 96,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 99,
+              "end": 101,
+              "ctxt": 0
+            },
+            "properties": []
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 101,
+        "end": 102,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

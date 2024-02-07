@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 234,
-    "end": 710,
+    "start": 244,
+    "end": 745,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 240,
-          "end": 241,
+          "start": 250,
+          "end": 251,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 234,
-        "end": 660,
+        "start": 244,
+        "end": 692,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 281,
-            "end": 318,
+            "start": 295,
+            "end": 332,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 288,
-              "end": 306,
+              "start": 302,
+              "end": 320,
               "ctxt": 0
             },
             "value": "readonlyStaticCall",
@@ -46,15 +46,15 @@
           "value": {
             "type": "CallExpression",
             "span": {
-              "start": 309,
-              "end": 317,
+              "start": 323,
+              "end": 331,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 309,
-                "end": 315,
+                "start": 323,
+                "end": 329,
                 "ctxt": 0
               },
               "value": "Symbol",
@@ -77,15 +77,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 385,
-            "end": 411,
+            "start": 404,
+            "end": 430,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 392,
-              "end": 410,
+              "start": 411,
+              "end": 429,
               "ctxt": 0
             },
             "value": "readonlyStaticType",
@@ -106,15 +106,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 478,
-            "end": 522,
+            "start": 502,
+            "end": 546,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 485,
-              "end": 510,
+              "start": 509,
+              "end": 534,
               "ctxt": 0
             },
             "value": "readonlyStaticTypeAndCall",
@@ -123,15 +123,15 @@
           "value": {
             "type": "CallExpression",
             "span": {
-              "start": 513,
-              "end": 521,
+              "start": 537,
+              "end": 545,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 513,
-                "end": 519,
+                "start": 537,
+                "end": 543,
                 "ctxt": 0
               },
               "value": "Symbol",
@@ -154,15 +154,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 527,
-            "end": 565,
+            "start": 552,
+            "end": 590,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 534,
-              "end": 553,
+              "start": 559,
+              "end": 578,
               "ctxt": 0
             },
             "value": "readwriteStaticCall",
@@ -171,15 +171,15 @@
           "value": {
             "type": "CallExpression",
             "span": {
-              "start": 556,
-              "end": 564,
+              "start": 581,
+              "end": 589,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 556,
-                "end": 562,
+                "start": 581,
+                "end": 587,
                 "ctxt": 0
               },
               "value": "Symbol",
@@ -202,66 +202,18 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 604,
-            "end": 628,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 604,
-              "end": 616,
-              "ctxt": 0
-            },
-            "value": "readonlyCall",
-            "optional": false
-          },
-          "value": {
-            "type": "CallExpression",
-            "span": {
-              "start": 619,
-              "end": 627,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "Identifier",
-              "span": {
-                "start": 619,
-                "end": 625,
-                "ctxt": 0
-              },
-              "value": "Symbol",
-              "optional": false
-            },
-            "arguments": [],
-            "typeArguments": null
-          },
-          "typeAnnotation": null,
-          "isStatic": false,
-          "decorators": [],
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false,
-          "readonly": false,
-          "declare": false,
-          "definite": false
-        },
-        {
-          "type": "ClassProperty",
-          "span": {
-            "start": 633,
+            "start": 634,
             "end": 658,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 633,
+              "start": 634,
               "end": 646,
               "ctxt": 0
             },
-            "value": "readwriteCall",
+            "value": "readonlyCall",
             "optional": false
           },
           "value": {
@@ -294,6 +246,54 @@
           "readonly": false,
           "declare": false,
           "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 664,
+            "end": 689,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 664,
+              "end": 677,
+              "ctxt": 0
+            },
+            "value": "readwriteCall",
+            "optional": false
+          },
+          "value": {
+            "type": "CallExpression",
+            "span": {
+              "start": 680,
+              "end": 688,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 680,
+                "end": 686,
+                "ctxt": 0
+              },
+              "value": "Symbol",
+              "optional": false
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -305,8 +305,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 691,
-        "end": 710,
+        "start": 726,
+        "end": 745,
         "ctxt": 0
       },
       "kind": "const",
@@ -315,15 +315,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 697,
-            "end": 709,
+            "start": 732,
+            "end": 744,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 697,
-              "end": 698,
+              "start": 732,
+              "end": 733,
               "ctxt": 0
             },
             "value": "a",
@@ -333,15 +333,15 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 701,
-              "end": 709,
+              "start": 736,
+              "end": 744,
               "ctxt": 0
             },
             "callee": {
               "type": "Identifier",
               "span": {
-                "start": 701,
-                "end": 707,
+                "start": 736,
+                "end": 742,
                 "ctxt": 0
               },
               "value": "Symbol",

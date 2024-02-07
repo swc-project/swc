@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 16,
-    "end": 121,
+    "start": 17,
+    "end": 128,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 16,
-        "end": 51,
+        "start": 17,
+        "end": 52,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 20,
-            "end": 50,
+            "start": 21,
+            "end": 51,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 26,
+              "start": 21,
+              "end": 27,
               "ctxt": 0
             },
             "value": "symbol",
@@ -37,22 +37,22 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 29,
-              "end": 50,
+              "start": 30,
+              "end": 51,
               "ctxt": 0
             },
             "callee": {
               "type": "MemberExpression",
               "span": {
-                "start": 29,
-                "end": 39,
+                "start": 30,
+                "end": 40,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 29,
-                  "end": 35,
+                  "start": 30,
+                  "end": 36,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -61,8 +61,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 36,
-                  "end": 39,
+                  "start": 37,
+                  "end": 40,
                   "ctxt": 0
                 },
                 "value": "for",
@@ -75,8 +75,8 @@
                 "expression": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 40,
-                    "end": 49,
+                    "start": 41,
+                    "end": 50,
                     "ctxt": 0
                   },
                   "value": "myThing",
@@ -95,8 +95,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 59,
-          "end": 62,
+          "start": 62,
+          "end": 65,
           "ctxt": 0
         },
         "value": "Bar",
@@ -104,8 +104,8 @@
       },
       "declare": false,
       "span": {
-        "start": 53,
-        "end": 121,
+        "start": 56,
+        "end": 128,
         "ctxt": 0
       },
       "decorators": [],
@@ -113,22 +113,22 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 69,
-            "end": 119,
+            "start": 73,
+            "end": 125,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 69,
-              "end": 77,
+              "start": 73,
+              "end": 81,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 70,
-                "end": 76,
+                "start": 74,
+                "end": 80,
                 "ctxt": 0
               },
               "value": "symbol",
@@ -139,59 +139,59 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 69,
-              "end": 119,
+              "start": 73,
+              "end": 125,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 80,
-                "end": 119,
+                "start": 84,
+                "end": 125,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ReturnStatement",
                   "span": {
-                    "start": 90,
-                    "end": 113,
+                    "start": 95,
+                    "end": 118,
                     "ctxt": 0
                   },
                   "argument": {
                     "type": "CallExpression",
                     "span": {
-                      "start": 97,
-                      "end": 112,
+                      "start": 102,
+                      "end": 117,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "SuperPropExpression",
                       "span": {
-                        "start": 97,
-                        "end": 110,
+                        "start": 102,
+                        "end": 115,
                         "ctxt": 0
                       },
                       "obj": {
                         "type": "Super",
                         "span": {
-                          "start": 97,
-                          "end": 102,
+                          "start": 102,
+                          "end": 107,
                           "ctxt": 0
                         }
                       },
                       "property": {
                         "type": "Computed",
                         "span": {
-                          "start": 102,
-                          "end": 110,
+                          "start": 107,
+                          "end": 115,
                           "ctxt": 0
                         },
                         "expression": {
                           "type": "Identifier",
                           "span": {
-                            "start": 103,
-                            "end": 109,
+                            "start": 108,
+                            "end": 114,
                             "ctxt": 0
                           },
                           "value": "symbol",

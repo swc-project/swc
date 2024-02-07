@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 21,
-    "end": 420,
+    "start": 23,
+    "end": 449,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 29,
+          "start": 29,
+          "end": 31,
           "ctxt": 0
         },
         "value": "C1",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 21,
-        "end": 54,
+        "start": 23,
+        "end": 58,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 36,
-            "end": 52,
+            "start": 39,
+            "end": 55,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 45,
-              "end": 47,
+              "start": 48,
+              "end": 50,
               "ctxt": 0
             },
             "value": "a0",
@@ -46,8 +46,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 50,
-              "end": 51,
+              "start": 53,
+              "end": 54,
               "ctxt": 0
             },
             "value": 1.0,
@@ -72,8 +72,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 62,
-          "end": 64,
+          "start": 68,
+          "end": 70,
           "ctxt": 0
         },
         "value": "C2",
@@ -81,8 +81,8 @@
       },
       "declare": false,
       "span": {
-        "start": 56,
-        "end": 119,
+        "start": 62,
+        "end": 128,
         "ctxt": 0
       },
       "decorators": [],
@@ -90,22 +90,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 71,
-            "end": 96,
+            "start": 78,
+            "end": 103,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 71,
-              "end": 91,
+              "start": 78,
+              "end": 98,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 72,
-                "end": 91,
+                "start": 79,
+                "end": 98,
                 "ctxt": 0
               },
               "value": "a1_accessor_storage",
@@ -115,8 +115,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 94,
-              "end": 95,
+              "start": 101,
+              "end": 102,
               "ctxt": 0
             },
             "value": 1.0,
@@ -134,15 +134,15 @@
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 101,
-            "end": 117,
+            "start": 109,
+            "end": 125,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 110,
-              "end": 112,
+              "start": 118,
+              "end": 120,
               "ctxt": 0
             },
             "value": "a1",
@@ -151,8 +151,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 115,
-              "end": 116,
+              "start": 123,
+              "end": 124,
               "ctxt": 0
             },
             "value": 2.0,
@@ -177,8 +177,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 127,
-          "end": 129,
+          "start": 138,
+          "end": 140,
           "ctxt": 0
         },
         "value": "C3",
@@ -186,8 +186,8 @@
       },
       "declare": false,
       "span": {
-        "start": 121,
-        "end": 332,
+        "start": 132,
+        "end": 353,
         "ctxt": 0
       },
       "decorators": [],
@@ -195,22 +195,22 @@
         {
           "type": "PrivateProperty",
           "span": {
-            "start": 136,
-            "end": 168,
+            "start": 148,
+            "end": 180,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 143,
-              "end": 163,
+              "start": 155,
+              "end": 175,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 144,
-                "end": 163,
+                "start": 156,
+                "end": 175,
                 "ctxt": 0
               },
               "value": "a2_accessor_storage",
@@ -220,8 +220,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 166,
-              "end": 167,
+              "start": 178,
+              "end": 179,
               "ctxt": 0
             },
             "value": 1.0,
@@ -239,15 +239,15 @@
         {
           "type": "StaticBlock",
           "span": {
-            "start": 173,
-            "end": 330,
+            "start": 186,
+            "end": 350,
             "ctxt": 0
           },
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 180,
-              "end": 330,
+              "start": 193,
+              "end": 350,
               "ctxt": 0
             },
             "stmts": [
@@ -256,8 +256,8 @@
                 "identifier": {
                   "type": "Identifier",
                   "span": {
-                    "start": 196,
-                    "end": 204,
+                    "start": 210,
+                    "end": 218,
                     "ctxt": 0
                   },
                   "value": "C3_Inner",
@@ -265,8 +265,8 @@
                 },
                 "declare": false,
                 "span": {
-                  "start": 190,
-                  "end": 324,
+                  "start": 204,
+                  "end": 343,
                   "ctxt": 0
                 },
                 "decorators": [],
@@ -274,15 +274,15 @@
                   {
                     "type": "AutoAccessor",
                     "span": {
-                      "start": 219,
-                      "end": 235,
+                      "start": 234,
+                      "end": 250,
                       "ctxt": 0
                     },
                     "key": {
                       "type": "Identifier",
                       "span": {
-                        "start": 228,
-                        "end": 230,
+                        "start": 243,
+                        "end": 245,
                         "ctxt": 0
                       },
                       "value": "a2",
@@ -291,8 +291,8 @@
                     "value": {
                       "type": "NumericLiteral",
                       "span": {
-                        "start": 233,
-                        "end": 234,
+                        "start": 248,
+                        "end": 249,
                         "ctxt": 0
                       },
                       "value": 2.0,
@@ -308,45 +308,45 @@
                   {
                     "type": "StaticBlock",
                     "span": {
-                      "start": 248,
-                      "end": 314,
+                      "start": 264,
+                      "end": 332,
                       "ctxt": 0
                     },
                     "body": {
                       "type": "BlockStatement",
                       "span": {
-                        "start": 255,
-                        "end": 314,
+                        "start": 271,
+                        "end": 332,
                         "ctxt": 0
                       },
                       "stmts": [
                         {
                           "type": "ExpressionStatement",
                           "span": {
-                            "start": 273,
-                            "end": 300,
+                            "start": 290,
+                            "end": 317,
                             "ctxt": 0
                           },
                           "expression": {
                             "type": "BinaryExpression",
                             "span": {
-                              "start": 273,
-                              "end": 299,
+                              "start": 290,
+                              "end": 316,
                               "ctxt": 0
                             },
                             "operator": "in",
                             "left": {
                               "type": "PrivateName",
                               "span": {
-                                "start": 273,
-                                "end": 293,
+                                "start": 290,
+                                "end": 310,
                                 "ctxt": 0
                               },
                               "id": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 274,
-                                  "end": 293,
+                                  "start": 291,
+                                  "end": 310,
                                   "ctxt": 0
                                 },
                                 "value": "a2_accessor_storage",
@@ -356,8 +356,8 @@
                             "right": {
                               "type": "Identifier",
                               "span": {
-                                "start": 297,
-                                "end": 299,
+                                "start": 314,
+                                "end": 316,
                                 "ctxt": 0
                               },
                               "value": "C3",
@@ -390,8 +390,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 340,
-          "end": 344,
+          "start": 363,
+          "end": 367,
           "ctxt": 0
         },
         "value": "C4_1",
@@ -399,8 +399,8 @@
       },
       "declare": false,
       "span": {
-        "start": 334,
-        "end": 376,
+        "start": 357,
+        "end": 401,
         "ctxt": 0
       },
       "decorators": [],
@@ -408,15 +408,15 @@
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 351,
-            "end": 374,
+            "start": 375,
+            "end": 398,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 367,
-              "end": 369,
+              "start": 391,
+              "end": 393,
               "ctxt": 0
             },
             "value": "a3",
@@ -425,8 +425,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 372,
-              "end": 373,
+              "start": 396,
+              "end": 397,
               "ctxt": 0
             },
             "value": 1.0,
@@ -451,8 +451,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 384,
-          "end": 388,
+          "start": 411,
+          "end": 415,
           "ctxt": 0
         },
         "value": "C4_2",
@@ -460,8 +460,8 @@
       },
       "declare": false,
       "span": {
-        "start": 378,
-        "end": 420,
+        "start": 405,
+        "end": 449,
         "ctxt": 0
       },
       "decorators": [],
@@ -469,15 +469,15 @@
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 395,
-            "end": 418,
+            "start": 423,
+            "end": 446,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 411,
-              "end": 413,
+              "start": 439,
+              "end": 441,
               "ctxt": 0
             },
             "value": "a3",
@@ -486,8 +486,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 416,
-              "end": 417,
+              "start": 444,
+              "end": 445,
               "ctxt": 0
             },
             "value": 1.0,

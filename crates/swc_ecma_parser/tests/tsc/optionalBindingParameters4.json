@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 125,
-    "end": 175,
+    "start": 133,
+    "end": 185,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 134,
-          "end": 137,
+          "start": 142,
+          "end": 145,
           "ctxt": 0
         },
         "value": "foo",
@@ -23,38 +23,38 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 138,
-            "end": 152,
+            "start": 146,
+            "end": 160,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "AssignmentPattern",
             "span": {
-              "start": 138,
-              "end": 152,
+              "start": 146,
+              "end": 160,
               "ctxt": 0
             },
             "left": {
               "type": "ObjectPattern",
               "span": {
-                "start": 138,
-                "end": 147,
+                "start": 146,
+                "end": 155,
                 "ctxt": 0
               },
               "properties": [
                 {
                   "type": "AssignmentPatternProperty",
                   "span": {
-                    "start": 140,
-                    "end": 145,
+                    "start": 148,
+                    "end": 153,
                     "ctxt": 0
                   },
                   "key": {
                     "type": "Identifier",
                     "span": {
-                      "start": 140,
-                      "end": 145,
+                      "start": 148,
+                      "end": 153,
                       "ctxt": 0
                     },
                     "value": "cause",
@@ -70,8 +70,8 @@
             "right": {
               "type": "ObjectExpression",
               "span": {
-                "start": 150,
-                "end": 152,
+                "start": 158,
+                "end": 160,
                 "ctxt": 0
               },
               "properties": []
@@ -81,30 +81,30 @@
       ],
       "decorators": [],
       "span": {
-        "start": 125,
-        "end": 175,
+        "start": 133,
+        "end": 185,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 154,
-          "end": 175,
+          "start": 162,
+          "end": 185,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 160,
-              "end": 173,
+              "start": 169,
+              "end": 182,
               "ctxt": 0
             },
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 167,
-                "end": 172,
+                "start": 176,
+                "end": 181,
                 "ctxt": 0
               },
               "value": "cause",

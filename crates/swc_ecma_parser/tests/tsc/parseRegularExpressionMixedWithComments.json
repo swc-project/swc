@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 179,
+    "end": 184,
     "ctxt": 0
   },
   "body": [
@@ -51,8 +51,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 24,
-        "end": 50,
+        "start": 25,
+        "end": 51,
         "ctxt": 0
       },
       "kind": "var",
@@ -61,15 +61,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 28,
-            "end": 49,
+            "start": 29,
+            "end": 50,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 28,
-              "end": 34,
+              "start": 29,
+              "end": 35,
               "ctxt": 0
             },
             "value": "regex2",
@@ -79,8 +79,8 @@
           "init": {
             "type": "RegExpLiteral",
             "span": {
-              "start": 41,
-              "end": 49,
+              "start": 42,
+              "end": 50,
               "ctxt": 0
             },
             "pattern": " asdf ",
@@ -93,8 +93,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 51,
-        "end": 117,
+        "start": 53,
+        "end": 120,
         "ctxt": 0
       },
       "kind": "var",
@@ -103,15 +103,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 55,
-            "end": 116,
+            "start": 57,
+            "end": 119,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 55,
-              "end": 61,
+              "start": 57,
+              "end": 63,
               "ctxt": 0
             },
             "value": "regex3",
@@ -121,8 +121,8 @@
           "init": {
             "type": "NumericLiteral",
             "span": {
-              "start": 115,
-              "end": 116,
+              "start": 118,
+              "end": 119,
               "ctxt": 0
             },
             "value": 1.0,
@@ -135,8 +135,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 118,
-        "end": 148,
+        "start": 122,
+        "end": 152,
         "ctxt": 0
       },
       "kind": "var",
@@ -145,15 +145,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 122,
-            "end": 147,
+            "start": 126,
+            "end": 151,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 122,
-              "end": 128,
+              "start": 126,
+              "end": 132,
               "ctxt": 0
             },
             "value": "regex4",
@@ -163,16 +163,16 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 135,
-              "end": 147,
+              "start": 139,
+              "end": 151,
               "ctxt": 0
             },
             "operator": "**",
             "left": {
               "type": "RegExpLiteral",
               "span": {
-                "start": 135,
-                "end": 138,
+                "start": 139,
+                "end": 142,
                 "ctxt": 0
               },
               "pattern": " ",
@@ -181,8 +181,8 @@
             "right": {
               "type": "RegExpLiteral",
               "span": {
-                "start": 140,
-                "end": 147,
+                "start": 144,
+                "end": 151,
                 "ctxt": 0
               },
               "pattern": "asdf ",
@@ -196,8 +196,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 149,
-        "end": 179,
+        "start": 154,
+        "end": 184,
         "ctxt": 0
       },
       "kind": "var",
@@ -206,15 +206,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 153,
-            "end": 178,
+            "start": 158,
+            "end": 183,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 153,
-              "end": 159,
+              "start": 158,
+              "end": 164,
               "ctxt": 0
             },
             "value": "regex5",
@@ -224,16 +224,16 @@
           "init": {
             "type": "BinaryExpression",
             "span": {
-              "start": 166,
-              "end": 178,
+              "start": 171,
+              "end": 183,
               "ctxt": 0
             },
             "operator": "**",
             "left": {
               "type": "RegExpLiteral",
               "span": {
-                "start": 166,
-                "end": 173,
+                "start": 171,
+                "end": 178,
                 "ctxt": 0
               },
               "pattern": " asdf",
@@ -242,8 +242,8 @@
             "right": {
               "type": "RegExpLiteral",
               "span": {
-                "start": 175,
-                "end": 178,
+                "start": 180,
+                "end": 183,
                 "ctxt": 0
               },
               "pattern": " ",

@@ -1,0 +1,248 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 59,
+    "end": 194,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 59,
+        "end": 119,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 65,
+            "end": 119,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 65,
+              "end": 69,
+              "ctxt": 0
+            },
+            "value": "arr1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 72,
+              "end": 119,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "TsConstAssertion",
+              "span": {
+                "start": 72,
+                "end": 90,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "ArrayExpression",
+                "span": {
+                  "start": 72,
+                  "end": 81,
+                  "ctxt": 0
+                },
+                "elements": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 73,
+                        "end": 74,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  },
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 76,
+                        "end": 77,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    }
+                  },
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 79,
+                        "end": 80,
+                        "ctxt": 0
+                      },
+                      "value": 3.0,
+                      "raw": "3"
+                    }
+                  }
+                ]
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsTypeOperator",
+              "span": {
+                "start": 101,
+                "end": 119,
+                "ctxt": 0
+              },
+              "op": "readonly",
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 110,
+                  "end": 119,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 110,
+                    "end": 117,
+                    "ctxt": 0
+                  },
+                  "kind": "unknown"
+                }
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 143,
+        "end": 194,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 149,
+            "end": 194,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 149,
+              "end": 153,
+              "ctxt": 0
+            },
+            "value": "arr2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TsSatisfiesExpression",
+            "span": {
+              "start": 156,
+              "end": 194,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "TsConstAssertion",
+              "span": {
+                "start": 156,
+                "end": 174,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "ArrayExpression",
+                "span": {
+                  "start": 156,
+                  "end": 165,
+                  "ctxt": 0
+                },
+                "elements": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 157,
+                        "end": 158,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  },
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 160,
+                        "end": 161,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    }
+                  },
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 163,
+                        "end": 164,
+                        "ctxt": 0
+                      },
+                      "value": 3.0,
+                      "raw": "3"
+                    }
+                  }
+                ]
+              }
+            },
+            "typeAnnotation": {
+              "type": "TsArrayType",
+              "span": {
+                "start": 185,
+                "end": 194,
+                "ctxt": 0
+              },
+              "elemType": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 185,
+                  "end": 192,
+                  "ctxt": 0
+                },
+                "kind": "unknown"
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

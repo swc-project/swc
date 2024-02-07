@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 42,
+    "end": 45,
     "ctxt": 0
   },
   "body": [
@@ -27,15 +27,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 10,
-        "end": 16,
+        "start": 11,
+        "end": 17,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 10,
-          "end": 15,
+          "start": 11,
+          "end": 16,
           "ctxt": 0
         },
         "value": 1.0,
@@ -45,15 +45,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 29,
+        "start": 19,
+        "end": 31,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 17,
-          "end": 28,
+          "start": 19,
+          "end": 30,
           "ctxt": 0
         },
         "value": 285212689.0,
@@ -63,15 +63,15 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 30,
-        "end": 42,
+        "start": 33,
+        "end": 45,
         "ctxt": 0
       },
       "expression": {
         "type": "NumericLiteral",
         "span": {
-          "start": 30,
-          "end": 41,
+          "start": 33,
+          "end": 44,
           "ctxt": 0
         },
         "value": 1114369.0,

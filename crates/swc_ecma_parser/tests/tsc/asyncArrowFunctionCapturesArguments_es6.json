@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 41,
-    "end": 166,
+    "end": 230,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 41,
-        "end": 166,
+        "end": 160,
         "ctxt": 0
       },
       "decorators": [],
@@ -30,7 +30,7 @@
           "type": "ClassMethod",
           "span": {
             "start": 54,
-            "end": 164,
+            "end": 158,
             "ctxt": 0
           },
           "key": {
@@ -48,14 +48,14 @@
             "decorators": [],
             "span": {
               "start": 54,
-              "end": 164,
+              "end": 158,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
                 "start": 63,
-                "end": 164,
+                "end": 158,
                 "ctxt": 0
               },
               "stmts": [
@@ -229,6 +229,103 @@
       "typeParams": null,
       "superTypeParams": null,
       "implements": []
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 171,
+          "end": 172,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 162,
+        "end": 230,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 175,
+          "end": 230,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 180,
+              "end": 228,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 187,
+                "end": 227,
+                "ctxt": 0
+              },
+              "params": [],
+              "body": {
+                "type": "ArrowFunctionExpression",
+                "span": {
+                  "start": 199,
+                  "end": 227,
+                  "ctxt": 0
+                },
+                "params": [],
+                "body": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 211,
+                    "end": 227,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 211,
+                      "end": 220,
+                      "ctxt": 0
+                    },
+                    "value": "arguments",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 221,
+                      "end": 227,
+                      "ctxt": 0
+                    },
+                    "value": "length",
+                    "optional": false
+                  }
+                },
+                "async": true,
+                "generator": false,
+                "typeParameters": null,
+                "returnType": null
+              },
+              "async": true,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
   "interpreter": null
