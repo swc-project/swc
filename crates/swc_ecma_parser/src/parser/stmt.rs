@@ -1394,15 +1394,7 @@ enum TempForHead {
 pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
-        match self.as_ref() {
-            Some(Stmt::Expr(expr)) => match *expr.expr {
-                Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
-                    matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
-                }
-                _ => false,
-            },
-            _ => false,
-        }
+        self.as_ref().map_or(false, Stmt::is_use_strict)
     }
 }
 

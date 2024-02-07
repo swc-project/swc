@@ -5,7 +5,7 @@ use swc_common::{
     Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, IsDirective};
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };

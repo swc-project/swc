@@ -12,7 +12,7 @@ use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_if_required, contains_this_expr, default_constructor, is_valid_ident,
     is_valid_prop_ident, prepend_stmt, private_ident, prop_name_to_expr, quote_expr, quote_ident,
-    quote_str, replace_ident, ExprFactory, IdentExt, IsDirective, ModuleItemLike, StmtLike,
+    quote_str, replace_ident, ExprFactory, IdentExt, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,

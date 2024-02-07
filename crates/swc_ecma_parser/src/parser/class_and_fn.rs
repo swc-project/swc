@@ -1,7 +1,7 @@
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
@@ -1615,10 +1615,17 @@ pub(super) trait FnBodyParser<Body> {
     fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<Body>;
 }
 fn has_use_strict(block: &BlockStmt) -> Option<Span> {
-    match block.stmts.iter().find(|stmt| stmt.is_use_strict()) {
-        Some(Stmt::Expr(ExprStmt { span, expr: _ })) => Some(*span),
-        _ => None,
-    }
+    block
+        .stmts
+        .iter()
+        .take_while(|s| s.can_precede_directive())
+        .find_map(|s| {
+            if s.is_use_strict() {
+                Some(s.span())
+            } else {
+                None
+            }
+        })
 }
 impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
     fn parse_fn_body_inner(
