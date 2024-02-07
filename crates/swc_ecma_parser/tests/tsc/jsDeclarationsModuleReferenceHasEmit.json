@@ -1,8 +1,8 @@
 {
   "type": "Module",
   "span": {
-    "start": 146,
-    "end": 254,
+    "start": 137,
+    "end": 236,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 152,
-          "end": 153,
+          "start": 143,
+          "end": 144,
           "ctxt": 0
         },
         "value": "A",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 146,
-        "end": 156,
+        "start": 137,
+        "end": 147,
         "ctxt": 0
       },
       "decorators": [],
@@ -35,15 +35,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 212,
-        "end": 233,
+        "start": 196,
+        "end": 217,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 219,
-          "end": 233,
+          "start": 203,
+          "end": 217,
           "ctxt": 0
         },
         "kind": "let",
@@ -52,15 +52,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 223,
-              "end": 232,
+              "start": 207,
+              "end": 216,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 223,
-                "end": 225,
+                "start": 207,
+                "end": 209,
                 "ctxt": 0
               },
               "value": "el",
@@ -70,8 +70,8 @@
             "init": {
               "type": "NullLiteral",
               "span": {
-                "start": 228,
-                "end": 232,
+                "start": 212,
+                "end": 216,
                 "ctxt": 0
               }
             },
@@ -83,15 +83,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 237,
-        "end": 254,
+        "start": 219,
+        "end": 236,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 252,
-          "end": 253,
+          "start": 234,
+          "end": 235,
           "ctxt": 0
         },
         "value": "A",

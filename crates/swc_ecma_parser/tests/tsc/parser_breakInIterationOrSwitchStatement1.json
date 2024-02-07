@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 28,
+    "end": 26,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "WhileStatement",
       "span": {
         "start": 1,
-        "end": 28,
+        "end": 26,
         "ctxt": 0
       },
       "test": {
@@ -26,15 +26,15 @@
         "type": "BlockStatement",
         "span": {
           "start": 14,
-          "end": 28,
+          "end": 26,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "BreakStatement",
             "span": {
-              "start": 19,
-              "end": 25,
+              "start": 18,
+              "end": 24,
               "ctxt": 0
             },
             "label": null

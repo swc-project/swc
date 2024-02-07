@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 34,
-    "end": 323,
+    "start": 33,
+    "end": 310,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 34,
-        "end": 58,
+        "start": 33,
+        "end": 57,
         "ctxt": 0
       },
       "declare": true,
@@ -18,8 +18,8 @@
       "id": {
         "type": "StringLiteral",
         "span": {
-          "start": 49,
-          "end": 57,
+          "start": 48,
+          "end": 56,
           "ctxt": 0
         },
         "value": "jquery",
@@ -30,23 +30,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 90,
-        "end": 115,
+        "start": 86,
+        "end": 111,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 98,
-            "end": 99,
+            "start": 94,
+            "end": 95,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 98,
-              "end": 99,
+              "start": 94,
+              "end": 95,
               "ctxt": 0
             },
             "value": "x",
@@ -59,8 +59,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 106,
-          "end": 114,
+          "start": 102,
+          "end": 110,
           "ctxt": 0
         },
         "value": "jquery",
@@ -72,15 +72,15 @@
     {
       "type": "ExportAllDeclaration",
       "span": {
-        "start": 149,
-        "end": 172,
+        "start": 142,
+        "end": 165,
         "ctxt": 0
       },
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 163,
-          "end": 171,
+          "start": 156,
+          "end": 164,
           "ctxt": 0
         },
         "value": "jquery",
@@ -92,23 +92,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 207,
-        "end": 237,
+        "start": 197,
+        "end": 227,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 215,
-            "end": 216,
+            "start": 205,
+            "end": 206,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 215,
-              "end": 216,
+              "start": 205,
+              "end": 206,
               "ctxt": 0
             },
             "value": "x",
@@ -121,8 +121,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 223,
-          "end": 236,
+          "start": 213,
+          "end": 226,
           "ctxt": 0
         },
         "value": "./reExportX",
@@ -135,23 +135,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 239,
-        "end": 274,
+        "start": 228,
+        "end": 263,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportNamespaceSpecifier",
           "span": {
-            "start": 246,
-            "end": 252,
+            "start": 235,
+            "end": 241,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 251,
-              "end": 252,
+              "start": 240,
+              "end": 241,
               "ctxt": 0
             },
             "value": "$",
@@ -162,8 +162,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 258,
-          "end": 273,
+          "start": 247,
+          "end": 262,
           "ctxt": 0
         },
         "value": "./reExportAll",
@@ -176,22 +176,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 318,
-        "end": 323,
+        "start": 305,
+        "end": 310,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 318,
-          "end": 322,
+          "start": 305,
+          "end": 309,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 318,
-            "end": 319,
+            "start": 305,
+            "end": 306,
             "ctxt": 0
           },
           "value": "x",
@@ -203,8 +203,8 @@
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 320,
-                "end": 321,
+                "start": 307,
+                "end": 308,
                 "ctxt": 0
               },
               "value": "$",

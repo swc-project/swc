@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 23,
+    "end": 22,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 23,
+        "end": 22,
         "ctxt": 0
       },
       "declare": false,
@@ -29,7 +29,7 @@
         "type": "TsNamespaceDeclaration",
         "span": {
           "start": 10,
-          "end": 23,
+          "end": 22,
           "ctxt": 0
         },
         "declare": false,
@@ -48,7 +48,7 @@
           "type": "TsNamespaceDeclaration",
           "span": {
             "start": 17,
-            "end": 23,
+            "end": 22,
             "ctxt": 0
           },
           "declare": false,
@@ -67,7 +67,7 @@
             "type": "TsModuleBlock",
             "span": {
               "start": 19,
-              "end": 23,
+              "end": 22,
               "ctxt": 0
             },
             "body": []

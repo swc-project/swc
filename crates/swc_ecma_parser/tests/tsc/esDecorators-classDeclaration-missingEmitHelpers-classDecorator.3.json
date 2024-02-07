@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 151,
-    "end": 329,
+    "start": 145,
+    "end": 313,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 151,
-        "end": 160,
+        "start": 145,
+        "end": 154,
         "ctxt": 0
       },
       "specifiers": [],
@@ -21,8 +21,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 164,
-        "end": 185,
+        "start": 156,
+        "end": 177,
         "ctxt": 0
       },
       "kind": "var",
@@ -31,15 +31,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 176,
-            "end": 184,
+            "start": 168,
+            "end": 176,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 176,
-              "end": 179,
+              "start": 168,
+              "end": 171,
               "ctxt": 0
             },
             "value": "dec",
@@ -47,15 +47,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 179,
-                "end": 184,
+                "start": 171,
+                "end": 176,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 181,
-                  "end": 184,
+                  "start": 173,
+                  "end": 176,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -72,8 +72,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 262,
-          "end": 263,
+          "start": 251,
+          "end": 252,
           "ctxt": 0
         },
         "value": "C",
@@ -81,23 +81,23 @@
       },
       "declare": false,
       "span": {
-        "start": 251,
-        "end": 290,
+        "start": 240,
+        "end": 277,
         "ctxt": 0
       },
       "decorators": [
         {
           "type": "Decorator",
           "span": {
-            "start": 251,
-            "end": 255,
+            "start": 240,
+            "end": 244,
             "ctxt": 0
           },
           "expression": {
             "type": "Identifier",
             "span": {
-              "start": 252,
-              "end": 255,
+              "start": 241,
+              "end": 244,
               "ctxt": 0
             },
             "value": "dec",
@@ -109,22 +109,22 @@
         {
           "type": "PrivateMethod",
           "span": {
-            "start": 271,
-            "end": 287,
+            "start": 259,
+            "end": 275,
             "ctxt": 0
           },
           "key": {
             "type": "PrivateName",
             "span": {
-              "start": 278,
-              "end": 282,
+              "start": 266,
+              "end": 270,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 279,
-                "end": 282,
+                "start": 267,
+                "end": 270,
                 "ctxt": 0
               },
               "value": "foo",
@@ -135,15 +135,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 271,
-              "end": 287,
+              "start": 259,
+              "end": 275,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 285,
-                "end": 287,
+                "start": 273,
+                "end": 275,
                 "ctxt": 0
               },
               "stmts": []
@@ -170,8 +170,8 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 320,
-        "end": 329,
+        "start": 304,
+        "end": 313,
         "ctxt": 0
       },
       "specifiers": [],

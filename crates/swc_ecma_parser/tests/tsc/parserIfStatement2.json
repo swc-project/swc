@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 12,
+    "end": 11,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "IfStatement",
       "span": {
         "start": 1,
-        "end": 12,
+        "end": 11,
         "ctxt": 0
       },
       "test": {
@@ -27,7 +27,7 @@
         "type": "BlockStatement",
         "span": {
           "start": 8,
-          "end": 12,
+          "end": 11,
           "ctxt": 0
         },
         "stmts": []

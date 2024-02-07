@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 36,
+    "start": 16,
+    "end": 35,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 17,
-        "end": 36,
+        "start": 16,
+        "end": 35,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,30 +19,30 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 21,
-            "end": 35,
+            "start": 20,
+            "end": 34,
             "ctxt": 0
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
-              "start": 21,
-              "end": 26,
+              "start": 20,
+              "end": 25,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 23,
-                  "end": 24,
+                  "start": 22,
+                  "end": 23,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 23,
-                    "end": 24,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -58,15 +58,15 @@
           "init": {
             "type": "TsTypeAssertion",
             "span": {
-              "start": 29,
-              "end": 35,
+              "start": 28,
+              "end": 34,
               "ctxt": 0
             },
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 34,
-                "end": 35,
+                "start": 33,
+                "end": 34,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -75,8 +75,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 30,
-                "end": 33,
+                "start": 29,
+                "end": 32,
                 "ctxt": 0
               },
               "kind": "any"

@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 18,
-    "end": 67,
+    "start": 17,
+    "end": 64,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 29,
-          "end": 32,
+          "start": 28,
+          "end": 31,
           "ctxt": 0
         },
         "value": "foo",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 18,
-        "end": 67,
+        "start": 17,
+        "end": 64,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 35,
-          "end": 67,
+          "start": 34,
+          "end": 64,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 40,
-              "end": 64,
+              "start": 38,
+              "end": 62,
               "ctxt": 0
             },
             "kind": "var",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 44,
-                  "end": 64,
+                  "start": 42,
+                  "end": 62,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 44,
-                    "end": 45,
+                    "start": 42,
+                    "end": 43,
                     "ctxt": 0
                   },
                   "value": "v",
@@ -65,8 +65,8 @@
                 "init": {
                   "type": "ObjectExpression",
                   "span": {
-                    "start": 48,
-                    "end": 64,
+                    "start": 46,
+                    "end": 62,
                     "ctxt": 0
                   },
                   "properties": [
@@ -75,15 +75,15 @@
                       "key": {
                         "type": "Computed",
                         "span": {
-                          "start": 50,
-                          "end": 57,
+                          "start": 48,
+                          "end": 55,
                           "ctxt": 0
                         },
                         "expression": {
                           "type": "YieldExpression",
                           "span": {
-                            "start": 51,
-                            "end": 56,
+                            "start": 49,
+                            "end": 54,
                             "ctxt": 0
                           },
                           "argument": null,
@@ -93,8 +93,8 @@
                       "value": {
                         "type": "Identifier",
                         "span": {
-                          "start": 59,
-                          "end": 62,
+                          "start": 57,
+                          "end": 60,
                           "ctxt": 0
                         },
                         "value": "foo",

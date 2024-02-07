@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 5,
-    "end": 75,
+    "end": 72,
     "ctxt": 0
   },
   "body": [
@@ -10,14 +10,14 @@
       "type": "ExportDeclaration",
       "span": {
         "start": 5,
-        "end": 75,
+        "end": 72,
         "ctxt": 0
       },
       "declaration": {
         "type": "TsEnumDeclaration",
         "span": {
           "start": 12,
-          "end": 75,
+          "end": 72,
           "ctxt": 0
         },
         "declare": false,
@@ -36,15 +36,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 42,
-              "end": 49,
+              "start": 41,
+              "end": 48,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 42,
-                "end": 45,
+                "start": 41,
+                "end": 44,
                 "ctxt": 0
               },
               "value": "ES3",
@@ -53,8 +53,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 48,
-                "end": 49,
+                "start": 47,
+                "end": 48,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -64,15 +64,15 @@
           {
             "type": "TsEnumMember",
             "span": {
-              "start": 60,
-              "end": 67,
+              "start": 58,
+              "end": 65,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 60,
-                "end": 63,
+                "start": 58,
+                "end": 61,
                 "ctxt": 0
               },
               "value": "ES5",
@@ -81,8 +81,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 66,
-                "end": 67,
+                "start": 64,
+                "end": 65,
                 "ctxt": 0
               },
               "value": 1.0,

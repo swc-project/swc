@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 42,
+    "end": 39,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 1,
-        "end": 42,
+        "end": 39,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 16,
-            "end": 22,
+            "start": 15,
+            "end": 21,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 16,
-              "end": 19,
+              "start": 15,
+              "end": 18,
               "ctxt": 0
             },
             "value": "foo",
@@ -47,8 +47,8 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 16,
-              "end": 22,
+              "start": 15,
+              "end": 21,
               "ctxt": 0
             },
             "body": null,
@@ -67,15 +67,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 28,
-            "end": 39,
+            "start": 26,
+            "end": 37,
             "ctxt": 0
           },
           "key": {
             "type": "StringLiteral",
             "span": {
-              "start": 28,
-              "end": 33,
+              "start": 26,
+              "end": 31,
               "ctxt": 0
             },
             "value": "foo",
@@ -85,15 +85,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 28,
-              "end": 39,
+              "start": 26,
+              "end": 37,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 36,
-                "end": 39,
+                "start": 34,
+                "end": 37,
                 "ctxt": 0
               },
               "stmts": []

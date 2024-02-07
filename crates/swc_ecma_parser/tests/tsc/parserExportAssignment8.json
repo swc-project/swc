@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 1,
-    "end": 35,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
@@ -27,8 +27,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 16,
-        "end": 35,
+        "start": 14,
+        "end": 32,
         "ctxt": 0
       },
       "declaration": {
@@ -36,8 +36,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 29,
-            "end": 30,
+            "start": 27,
+            "end": 28,
             "ctxt": 0
           },
           "value": "C",
@@ -45,8 +45,8 @@
         },
         "declare": false,
         "span": {
-          "start": 23,
-          "end": 35,
+          "start": 21,
+          "end": 32,
           "ctxt": 0
         },
         "decorators": [],

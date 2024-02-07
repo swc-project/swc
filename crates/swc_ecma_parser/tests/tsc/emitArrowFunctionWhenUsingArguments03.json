@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 20,
-    "end": 60,
+    "start": 18,
+    "end": 57,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 20,
-        "end": 34,
+        "start": 18,
+        "end": 32,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 24,
-            "end": 33,
+            "start": 22,
+            "end": 31,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 33,
+              "start": 22,
+              "end": 31,
               "ctxt": 0
             },
             "value": "arguments",
@@ -42,8 +42,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 36,
-        "end": 60,
+        "start": 33,
+        "end": 57,
         "ctxt": 0
       },
       "kind": "var",
@@ -52,15 +52,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 40,
-            "end": 59,
+            "start": 37,
+            "end": 56,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 40,
-              "end": 41,
+              "start": 37,
+              "end": 38,
               "ctxt": 0
             },
             "value": "a",
@@ -70,16 +70,16 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 44,
-              "end": 59,
+              "start": 41,
+              "end": 56,
               "ctxt": 0
             },
             "params": [],
             "body": {
               "type": "Identifier",
               "span": {
-                "start": 50,
-                "end": 59,
+                "start": 47,
+                "end": 56,
                 "ctxt": 0
               },
               "value": "arguments",

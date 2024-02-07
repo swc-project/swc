@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 123,
-    "end": 254,
+    "start": 117,
+    "end": 245,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 123,
-        "end": 144,
+        "start": 117,
+        "end": 138,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 136,
-            "end": 141,
+            "start": 130,
+            "end": 135,
             "ctxt": 0
           },
           "value": "Thing",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 130,
-          "end": 144,
+          "start": 124,
+          "end": 138,
           "ctxt": 0
         },
         "decorators": [],
@@ -43,8 +43,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 146,
-        "end": 172,
+        "start": 139,
+        "end": 165,
         "ctxt": 0
       },
       "declaration": {
@@ -52,8 +52,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 159,
-            "end": 169,
+            "start": 152,
+            "end": 162,
             "ctxt": 0
           },
           "value": "OtherThing",
@@ -61,8 +61,8 @@
         },
         "declare": false,
         "span": {
-          "start": 153,
-          "end": 172,
+          "start": 146,
+          "end": 165,
           "ctxt": 0
         },
         "decorators": [],
@@ -77,23 +77,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 198,
-        "end": 254,
+        "start": 189,
+        "end": 245,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 207,
-            "end": 212,
+            "start": 198,
+            "end": 203,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 207,
-              "end": 212,
+              "start": 198,
+              "end": 203,
               "ctxt": 0
             },
             "value": "Thing",
@@ -105,15 +105,15 @@
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 214,
-            "end": 235,
+            "start": 205,
+            "end": 226,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 214,
-              "end": 224,
+              "start": 205,
+              "end": 215,
               "ctxt": 0
             },
             "value": "OtherThing",
@@ -122,8 +122,8 @@
           "exported": {
             "type": "Identifier",
             "span": {
-              "start": 228,
-              "end": 235,
+              "start": 219,
+              "end": 226,
               "ctxt": 0
             },
             "value": "default",
@@ -135,8 +135,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 243,
-          "end": 253,
+          "start": 234,
+          "end": 244,
           "ctxt": 0
         },
         "value": "./source",

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 41,
-    "end": 139,
+    "start": 38,
+    "end": 135,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 41,
-        "end": 139,
+        "start": 38,
+        "end": 135,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 45,
-            "end": 138,
+            "start": 42,
+            "end": 134,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 45,
-              "end": 53,
+              "start": 42,
+              "end": 50,
               "ctxt": 0
             },
             "value": "promise1",
@@ -37,29 +37,29 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 56,
-              "end": 138,
+              "start": 53,
+              "end": 134,
               "ctxt": 0
             },
             "callee": {
               "type": "MemberExpression",
               "span": {
-                "start": 56,
-                "end": 123,
+                "start": 53,
+                "end": 119,
                 "ctxt": 0
               },
               "object": {
                 "type": "NewExpression",
                 "span": {
-                  "start": 56,
-                  "end": 97,
+                  "start": 53,
+                  "end": 94,
                   "ctxt": 0
                 },
                 "callee": {
                   "type": "Identifier",
                   "span": {
-                    "start": 60,
-                    "end": 67,
+                    "start": 57,
+                    "end": 64,
                     "ctxt": 0
                   },
                   "value": "Promise",
@@ -75,16 +75,16 @@
                         {
                           "type": "Parameter",
                           "span": {
-                            "start": 77,
-                            "end": 84,
+                            "start": 74,
+                            "end": 81,
                             "ctxt": 0
                           },
                           "decorators": [],
                           "pat": {
                             "type": "Identifier",
                             "span": {
-                              "start": 77,
-                              "end": 84,
+                              "start": 74,
+                              "end": 81,
                               "ctxt": 0
                             },
                             "value": "resolve",
@@ -95,16 +95,16 @@
                         {
                           "type": "Parameter",
                           "span": {
-                            "start": 86,
-                            "end": 92,
+                            "start": 83,
+                            "end": 89,
                             "ctxt": 0
                           },
                           "decorators": [],
                           "pat": {
                             "type": "Identifier",
                             "span": {
-                              "start": 86,
-                              "end": 92,
+                              "start": 83,
+                              "end": 89,
                               "ctxt": 0
                             },
                             "value": "reject",
@@ -115,15 +115,15 @@
                       ],
                       "decorators": [],
                       "span": {
-                        "start": 68,
-                        "end": 96,
+                        "start": 65,
+                        "end": 93,
                         "ctxt": 0
                       },
                       "body": {
                         "type": "BlockStatement",
                         "span": {
-                          "start": 94,
-                          "end": 96,
+                          "start": 91,
+                          "end": 93,
                           "ctxt": 0
                         },
                         "stmts": []
@@ -140,8 +140,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 116,
-                  "end": 123,
+                  "start": 112,
+                  "end": 119,
                   "ctxt": 0
                 },
                 "value": "finally",
@@ -157,15 +157,15 @@
                   "params": [],
                   "decorators": [],
                   "span": {
-                    "start": 124,
-                    "end": 137,
+                    "start": 120,
+                    "end": 133,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 135,
-                      "end": 137,
+                      "start": 131,
+                      "end": 133,
                       "ctxt": 0
                     },
                     "stmts": []

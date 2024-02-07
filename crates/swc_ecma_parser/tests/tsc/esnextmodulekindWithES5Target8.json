@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 40,
-    "end": 78,
+    "start": 37,
+    "end": 74,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 40,
-        "end": 59,
+        "start": 37,
+        "end": 56,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 47,
-          "end": 59,
+          "start": 44,
+          "end": 56,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 53,
-              "end": 58,
+              "start": 50,
+              "end": 55,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 53,
-                "end": 54,
+                "start": 50,
+                "end": 51,
                 "ctxt": 0
               },
               "value": "c",
@@ -44,8 +44,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 57,
-                "end": 58,
+                "start": 54,
+                "end": 55,
                 "ctxt": 0
               },
               "value": 0.0,
@@ -59,15 +59,15 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 61,
-        "end": 78,
+        "start": 57,
+        "end": 74,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 68,
-          "end": 78,
+          "start": 64,
+          "end": 74,
           "ctxt": 0
         },
         "kind": "let",
@@ -76,15 +76,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 72,
-              "end": 77,
+              "start": 68,
+              "end": 73,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 72,
-                "end": 73,
+                "start": 68,
+                "end": 69,
                 "ctxt": 0
               },
               "value": "l",
@@ -94,8 +94,8 @@
             "init": {
               "type": "NumericLiteral",
               "span": {
-                "start": 76,
-                "end": 77,
+                "start": 72,
+                "end": 73,
                 "ctxt": 0
               },
               "value": 1.0,

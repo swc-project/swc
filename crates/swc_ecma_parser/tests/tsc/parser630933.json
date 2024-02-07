@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 52,
+    "end": 51,
     "ctxt": 0
   },
   "body": [
@@ -51,8 +51,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 19,
-        "end": 52,
+        "start": 18,
+        "end": 51,
         "ctxt": 0
       },
       "kind": "var",
@@ -61,15 +61,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 23,
-            "end": 51,
+            "start": 22,
+            "end": 50,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 23,
-              "end": 24,
+              "start": 22,
+              "end": 23,
               "ctxt": 0
             },
             "value": "b",
@@ -79,22 +79,22 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 27,
-              "end": 51,
+              "start": 26,
+              "end": 50,
               "ctxt": 0
             },
             "callee": {
               "type": "MemberExpression",
               "span": {
-                "start": 27,
-                "end": 34,
+                "start": 26,
+                "end": 33,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 27,
-                  "end": 28,
+                  "start": 26,
+                  "end": 27,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -103,8 +103,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 29,
-                  "end": 34,
+                  "start": 28,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "value": "match",
@@ -117,8 +117,8 @@
                 "expression": {
                   "type": "RegExpLiteral",
                   "span": {
-                    "start": 35,
-                    "end": 50,
+                    "start": 34,
+                    "end": 49,
                     "ctxt": 0
                   },
                   "pattern": "\\/ver=([^/]+)",

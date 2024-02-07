@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 5,
-    "end": 122,
+    "start": 3,
+    "end": 116,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 14,
-          "end": 15,
+          "start": 12,
+          "end": 13,
           "ctxt": 0
         },
         "value": "f",
@@ -23,28 +23,28 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 16,
-            "end": 27,
+            "start": 14,
+            "end": 25,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "RestElement",
             "span": {
-              "start": 16,
-              "end": 27,
+              "start": 14,
+              "end": 25,
               "ctxt": 0
             },
             "rest": {
-              "start": 16,
-              "end": 19,
+              "start": 14,
+              "end": 17,
               "ctxt": 0
             },
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 19,
-                "end": 20,
+                "start": 17,
+                "end": 18,
                 "ctxt": 0
               },
               "value": "x",
@@ -54,22 +54,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 20,
-                "end": 27,
+                "start": 18,
+                "end": 25,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsArrayType",
                 "span": {
-                  "start": 22,
-                  "end": 27,
+                  "start": 20,
+                  "end": 25,
                   "ctxt": 0
                 },
                 "elemType": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 22,
-                    "end": 25,
+                    "start": 20,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "kind": "any"
@@ -81,15 +81,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 5,
-        "end": 35,
+        "start": 3,
+        "end": 31,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 29,
-          "end": 35,
+          "start": 27,
+          "end": 31,
           "ctxt": 0
         },
         "stmts": []
@@ -102,22 +102,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 39,
-        "end": 122,
+        "start": 33,
+        "end": 116,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 39,
-          "end": 122,
+          "start": 33,
+          "end": 116,
           "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
-            "start": 39,
-            "end": 40,
+            "start": 33,
+            "end": 34,
             "ctxt": 0
           },
           "value": "f",
@@ -127,8 +127,8 @@
         "template": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 41,
-            "end": 122,
+            "start": 35,
+            "end": 116,
             "ctxt": 0
           },
           "expressions": [],
@@ -136,8 +136,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 42,
-                "end": 121,
+                "start": 36,
+                "end": 115,
                 "ctxt": 0
               },
               "tail": true,

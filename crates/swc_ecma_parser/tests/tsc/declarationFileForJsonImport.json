@@ -1,31 +1,31 @@
 {
   "type": "Module",
   "span": {
-    "start": 95,
-    "end": 255,
+    "start": 92,
+    "end": 246,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 95,
-        "end": 126,
+        "start": 92,
+        "end": 123,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 102,
-            "end": 106,
+            "start": 99,
+            "end": 103,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 102,
-              "end": 106,
+              "start": 99,
+              "end": 103,
               "ctxt": 0
             },
             "value": "data",
@@ -36,8 +36,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 112,
-          "end": 125,
+          "start": 109,
+          "end": 122,
           "ctxt": 0
         },
         "value": "./data.json",
@@ -50,8 +50,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 128,
-        "end": 149,
+        "start": 124,
+        "end": 145,
         "ctxt": 0
       },
       "kind": "let",
@@ -60,15 +60,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 132,
-            "end": 148,
+            "start": 128,
+            "end": 144,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 132,
-              "end": 133,
+              "start": 128,
+              "end": 129,
               "ctxt": 0
             },
             "value": "x",
@@ -76,15 +76,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 133,
-                "end": 141,
+                "start": 129,
+                "end": 137,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 135,
-                  "end": 141,
+                  "start": 131,
+                  "end": 137,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -94,8 +94,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 144,
-              "end": 148,
+              "start": 140,
+              "end": 144,
               "ctxt": 0
             },
             "value": "data",
@@ -108,8 +108,8 @@
     {
       "type": "BlockStatement",
       "span": {
-        "start": 176,
-        "end": 178,
+        "start": 170,
+        "end": 172,
         "ctxt": 0
       },
       "stmts": []
@@ -117,8 +117,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 210,
-        "end": 234,
+        "start": 202,
+        "end": 226,
         "ctxt": 0
       },
       "kind": "var",
@@ -127,15 +127,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 222,
-            "end": 233,
+            "start": 214,
+            "end": 225,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 222,
-              "end": 225,
+              "start": 214,
+              "end": 217,
               "ctxt": 0
             },
             "value": "val",
@@ -143,15 +143,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 225,
-                "end": 233,
+                "start": 217,
+                "end": 225,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 227,
-                  "end": 233,
+                  "start": 219,
+                  "end": 225,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -166,15 +166,15 @@
     {
       "type": "ExportDefaultExpression",
       "span": {
-        "start": 236,
-        "end": 255,
+        "start": 227,
+        "end": 246,
         "ctxt": 0
       },
       "expression": {
         "type": "Identifier",
         "span": {
-          "start": 251,
-          "end": 254,
+          "start": 242,
+          "end": 245,
           "ctxt": 0
         },
         "value": "val",

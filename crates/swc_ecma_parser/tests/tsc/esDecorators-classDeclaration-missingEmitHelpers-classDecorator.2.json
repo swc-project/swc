@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 151,
-    "end": 318,
+    "start": 145,
+    "end": 304,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 151,
-        "end": 160,
+        "start": 145,
+        "end": 154,
         "ctxt": 0
       },
       "specifiers": [],
@@ -21,8 +21,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 164,
-        "end": 185,
+        "start": 156,
+        "end": 177,
         "ctxt": 0
       },
       "kind": "var",
@@ -31,15 +31,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 176,
-            "end": 184,
+            "start": 168,
+            "end": 176,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 176,
-              "end": 179,
+              "start": 168,
+              "end": 171,
               "ctxt": 0
             },
             "value": "dec",
@@ -47,15 +47,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 179,
-                "end": 184,
+                "start": 171,
+                "end": 176,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 181,
-                  "end": 184,
+                  "start": 173,
+                  "end": 176,
                   "ctxt": 0
                 },
                 "kind": "any"
@@ -70,31 +70,31 @@
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 251,
-        "end": 279,
+        "start": 240,
+        "end": 268,
         "ctxt": 0
       },
       "decl": {
         "type": "ClassExpression",
         "identifier": null,
         "span": {
-          "start": 271,
-          "end": 279,
+          "start": 260,
+          "end": 268,
           "ctxt": 0
         },
         "decorators": [
           {
             "type": "Decorator",
             "span": {
-              "start": 266,
-              "end": 270,
+              "start": 255,
+              "end": 259,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 267,
-                "end": 270,
+                "start": 256,
+                "end": 259,
                 "ctxt": 0
               },
               "value": "dec",
@@ -113,8 +113,8 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 309,
-        "end": 318,
+        "start": 295,
+        "end": 304,
         "ctxt": 0
       },
       "specifiers": [],

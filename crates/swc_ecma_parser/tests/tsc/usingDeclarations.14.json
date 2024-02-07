@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 89,
-    "end": 102,
+    "start": 84,
+    "end": 97,
     "ctxt": 0
   },
   "body": [
     {
       "type": "UsingDeclaration",
       "span": {
-        "start": 89,
-        "end": 101,
+        "start": 84,
+        "end": 96,
         "ctxt": 0
       },
       "isAwait": false,
@@ -18,15 +18,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 95,
-            "end": 101,
+            "start": 90,
+            "end": 96,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 95,
-              "end": 96,
+              "start": 90,
+              "end": 91,
               "ctxt": 0
             },
             "value": "x",
@@ -36,8 +36,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 99,
-              "end": 101,
+              "start": 94,
+              "end": 96,
               "ctxt": 0
             },
             "properties": []
@@ -49,8 +49,8 @@
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 101,
-        "end": 102,
+        "start": 96,
+        "end": 97,
         "ctxt": 0
       }
     }

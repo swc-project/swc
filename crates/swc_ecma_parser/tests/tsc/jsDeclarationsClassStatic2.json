@@ -1,8 +1,8 @@
 {
   "type": "Module",
   "span": {
-    "start": 135,
-    "end": 325,
+    "start": 129,
+    "end": 309,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 141,
-          "end": 145,
+          "start": 135,
+          "end": 139,
           "ctxt": 0
         },
         "value": "Base",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 135,
-        "end": 170,
+        "start": 129,
+        "end": 162,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 151,
-            "end": 167,
+            "start": 144,
+            "end": 160,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 158,
-              "end": 161,
+              "start": 151,
+              "end": 154,
               "ctxt": 0
             },
             "value": "foo",
@@ -46,8 +46,8 @@
           "value": {
             "type": "StringLiteral",
             "span": {
-              "start": 164,
-              "end": 166,
+              "start": 157,
+              "end": 159,
               "ctxt": 0
             },
             "value": "",
@@ -74,8 +74,8 @@
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 172,
-        "end": 204,
+        "start": 163,
+        "end": 195,
         "ctxt": 0
       },
       "declaration": {
@@ -83,8 +83,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 185,
-            "end": 188,
+            "start": 176,
+            "end": 179,
             "ctxt": 0
           },
           "value": "Foo",
@@ -92,8 +92,8 @@
         },
         "declare": false,
         "span": {
-          "start": 179,
-          "end": 204,
+          "start": 170,
+          "end": 195,
           "ctxt": 0
         },
         "decorators": [],
@@ -101,8 +101,8 @@
         "superClass": {
           "type": "Identifier",
           "span": {
-            "start": 197,
-            "end": 201,
+            "start": 188,
+            "end": 192,
             "ctxt": 0
           },
           "value": "Base",
@@ -117,30 +117,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 206,
-        "end": 222,
+        "start": 196,
+        "end": 212,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 206,
-          "end": 221,
+          "start": 196,
+          "end": 211,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 206,
-            "end": 213,
+            "start": 196,
+            "end": 203,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 206,
-              "end": 209,
+              "start": 196,
+              "end": 199,
               "ctxt": 0
             },
             "value": "Foo",
@@ -149,8 +149,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 210,
-              "end": 213,
+              "start": 200,
+              "end": 203,
               "ctxt": 0
             },
             "value": "foo",
@@ -160,8 +160,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 216,
-            "end": 221,
+            "start": 206,
+            "end": 211,
             "ctxt": 0
           },
           "value": "foo",
@@ -172,23 +172,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 248,
-        "end": 279,
+        "start": 235,
+        "end": 266,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 257,
-            "end": 260,
+            "start": 244,
+            "end": 247,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 257,
-              "end": 260,
+              "start": 244,
+              "end": 247,
               "ctxt": 0
             },
             "value": "Foo",
@@ -201,8 +201,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 268,
-          "end": 278,
+          "start": 255,
+          "end": 265,
           "ctxt": 0
         },
         "value": "./Foo.js",
@@ -217,8 +217,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 289,
-          "end": 292,
+          "start": 274,
+          "end": 277,
           "ctxt": 0
         },
         "value": "Bar",
@@ -226,8 +226,8 @@
       },
       "declare": false,
       "span": {
-        "start": 283,
-        "end": 307,
+        "start": 268,
+        "end": 292,
         "ctxt": 0
       },
       "decorators": [],
@@ -235,8 +235,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 301,
-          "end": 304,
+          "start": 286,
+          "end": 289,
           "ctxt": 0
         },
         "value": "Foo",
@@ -250,30 +250,30 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 309,
-        "end": 325,
+        "start": 293,
+        "end": 309,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 309,
-          "end": 324,
+          "start": 293,
+          "end": 308,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 309,
-            "end": 316,
+            "start": 293,
+            "end": 300,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 309,
-              "end": 312,
+              "start": 293,
+              "end": 296,
               "ctxt": 0
             },
             "value": "Bar",
@@ -282,8 +282,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 313,
-              "end": 316,
+              "start": 297,
+              "end": 300,
               "ctxt": 0
             },
             "value": "foo",
@@ -293,8 +293,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 319,
-            "end": 324,
+            "start": 303,
+            "end": 308,
             "ctxt": 0
           },
           "value": "foo",

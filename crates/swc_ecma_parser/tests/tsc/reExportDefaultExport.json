@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 63,
-    "end": 199,
+    "start": 59,
+    "end": 185,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDefaultDeclaration",
       "span": {
-        "start": 63,
-        "end": 95,
+        "start": 59,
+        "end": 90,
         "ctxt": 0
       },
       "decl": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 87,
-            "end": 88,
+            "start": 83,
+            "end": 84,
             "ctxt": 0
           },
           "value": "f",
@@ -28,15 +28,15 @@
         "params": [],
         "decorators": [],
         "span": {
-          "start": 78,
-          "end": 95,
+          "start": 74,
+          "end": 90,
           "ctxt": 0
         },
         "body": {
           "type": "BlockStatement",
           "span": {
-            "start": 91,
-            "end": 95,
+            "start": 87,
+            "end": 90,
             "ctxt": 0
           },
           "stmts": []
@@ -50,23 +50,23 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 97,
-        "end": 108,
+        "start": 91,
+        "end": 102,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ExportSpecifier",
           "span": {
-            "start": 105,
-            "end": 106,
+            "start": 99,
+            "end": 100,
             "ctxt": 0
           },
           "orig": {
             "type": "Identifier",
             "span": {
-              "start": 105,
-              "end": 106,
+              "start": 99,
+              "end": 100,
               "ctxt": 0
             },
             "value": "f",
@@ -83,23 +83,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 135,
-        "end": 158,
+        "start": 125,
+        "end": 148,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportDefaultSpecifier",
           "span": {
-            "start": 142,
-            "end": 145,
+            "start": 132,
+            "end": 135,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 142,
-              "end": 145,
+              "start": 132,
+              "end": 135,
               "ctxt": 0
             },
             "value": "foo",
@@ -110,8 +110,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 151,
-          "end": 157,
+          "start": 141,
+          "end": 147,
           "ctxt": 0
         },
         "value": "./m1",
@@ -124,23 +124,23 @@
     {
       "type": "ImportDeclaration",
       "span": {
-        "start": 160,
-        "end": 183,
+        "start": 149,
+        "end": 172,
         "ctxt": 0
       },
       "specifiers": [
         {
           "type": "ImportSpecifier",
           "span": {
-            "start": 168,
-            "end": 169,
+            "start": 157,
+            "end": 158,
             "ctxt": 0
           },
           "local": {
             "type": "Identifier",
             "span": {
-              "start": 168,
-              "end": 169,
+              "start": 157,
+              "end": 158,
               "ctxt": 0
             },
             "value": "f",
@@ -153,8 +153,8 @@
       "source": {
         "type": "StringLiteral",
         "span": {
-          "start": 176,
-          "end": 182,
+          "start": 165,
+          "end": 171,
           "ctxt": 0
         },
         "value": "./m1",
@@ -167,22 +167,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 187,
-        "end": 191,
+        "start": 174,
+        "end": 178,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 187,
-          "end": 190,
+          "start": 174,
+          "end": 177,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 187,
-            "end": 188,
+            "start": 174,
+            "end": 175,
             "ctxt": 0
           },
           "value": "f",
@@ -195,22 +195,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 193,
-        "end": 199,
+        "start": 179,
+        "end": 185,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 193,
-          "end": 198,
+          "start": 179,
+          "end": 184,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 193,
-            "end": 196,
+            "start": 179,
+            "end": 182,
             "ctxt": 0
           },
           "value": "foo",

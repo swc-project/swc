@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 171,
-    "end": 197,
+    "start": 158,
+    "end": 184,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 180,
-          "end": 181,
+          "start": 167,
+          "end": 168,
           "ctxt": 0
         },
         "value": "f",
@@ -23,31 +23,31 @@
         {
           "type": "Parameter",
           "span": {
-            "start": 182,
-            "end": 193,
+            "start": 169,
+            "end": 180,
             "ctxt": 0
           },
           "decorators": [],
           "pat": {
             "type": "ObjectPattern",
             "span": {
-              "start": 182,
-              "end": 193,
+              "start": 169,
+              "end": 180,
               "ctxt": 0
             },
             "properties": [
               {
                 "type": "AssignmentPatternProperty",
                 "span": {
-                  "start": 184,
-                  "end": 191,
+                  "start": 171,
+                  "end": 178,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 184,
-                    "end": 185,
+                    "start": 171,
+                    "end": 172,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -57,8 +57,8 @@
                 "value": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 188,
-                    "end": 191,
+                    "start": 175,
+                    "end": 178,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -73,15 +73,15 @@
       ],
       "decorators": [],
       "span": {
-        "start": 171,
-        "end": 197,
+        "start": 158,
+        "end": 184,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 195,
-          "end": 197,
+          "start": 182,
+          "end": 184,
           "ctxt": 0
         },
         "stmts": []

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 45,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 1,
-        "end": 45,
+        "end": 43,
         "ctxt": 0
       },
       "decorators": [],
@@ -32,8 +32,8 @@
             {
               "type": "Identifier",
               "span": {
-                "start": 23,
-                "end": 32,
+                "start": 22,
+                "end": 31,
                 "ctxt": 0
               },
               "value": "x",
@@ -41,15 +41,15 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 24,
-                  "end": 32,
+                  "start": 23,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsKeywordType",
                   "span": {
-                    "start": 26,
-                    "end": 32,
+                    "start": 25,
+                    "end": 31,
                     "ctxt": 0
                   },
                   "kind": "string"
@@ -60,15 +60,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 33,
-              "end": 41,
+              "start": 32,
+              "end": 40,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 35,
-                "end": 41,
+                "start": 34,
+                "end": 40,
                 "ctxt": 0
               },
               "kind": "string"
@@ -77,8 +77,8 @@
           "readonly": false,
           "static": true,
           "span": {
-            "start": 15,
-            "end": 42,
+            "start": 14,
+            "end": 41,
             "ctxt": 0
           }
         }

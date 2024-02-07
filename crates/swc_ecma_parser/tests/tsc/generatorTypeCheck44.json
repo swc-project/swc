@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 118,
+    "start": 16,
+    "end": 111,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 28,
+          "start": 26,
+          "end": 27,
           "ctxt": 0
         },
         "value": "g",
@@ -22,23 +22,23 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 17,
-        "end": 118,
+        "start": 16,
+        "end": 111,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 31,
-          "end": 118,
+          "start": 30,
+          "end": 111,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "VariableDeclaration",
             "span": {
-              "start": 38,
-              "end": 115,
+              "start": 36,
+              "end": 109,
               "ctxt": 0
             },
             "kind": "let",
@@ -47,15 +47,15 @@
               {
                 "type": "VariableDeclarator",
                 "span": {
-                  "start": 42,
-                  "end": 115,
+                  "start": 40,
+                  "end": 109,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 42,
-                    "end": 43,
+                    "start": 40,
+                    "end": 41,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -65,37 +65,37 @@
                 "init": {
                   "type": "ObjectExpression",
                   "span": {
-                    "start": 46,
-                    "end": 115,
+                    "start": 44,
+                    "end": 109,
                     "ctxt": 0
                   },
                   "properties": [
                     {
                       "type": "GetterProperty",
                       "span": {
-                        "start": 57,
-                        "end": 108,
+                        "start": 54,
+                        "end": 103,
                         "ctxt": 0
                       },
                       "key": {
                         "type": "Computed",
                         "span": {
-                          "start": 61,
-                          "end": 70,
+                          "start": 58,
+                          "end": 67,
                           "ctxt": 0
                         },
                         "expression": {
                           "type": "YieldExpression",
                           "span": {
-                            "start": 62,
-                            "end": 69,
+                            "start": 59,
+                            "end": 66,
                             "ctxt": 0
                           },
                           "argument": {
                             "type": "NumericLiteral",
                             "span": {
-                              "start": 68,
-                              "end": 69,
+                              "start": 65,
+                              "end": 66,
                               "ctxt": 0
                             },
                             "value": 0.0,
@@ -108,23 +108,23 @@
                       "body": {
                         "type": "BlockStatement",
                         "span": {
-                          "start": 73,
-                          "end": 108,
+                          "start": 70,
+                          "end": 103,
                           "ctxt": 0
                         },
                         "stmts": [
                           {
                             "type": "ReturnStatement",
                             "span": {
-                              "start": 88,
-                              "end": 97,
+                              "start": 84,
+                              "end": 93,
                               "ctxt": 0
                             },
                             "argument": {
                               "type": "NumericLiteral",
                               "span": {
-                                "start": 95,
-                                "end": 96,
+                                "start": 91,
+                                "end": 92,
                                 "ctxt": 0
                               },
                               "value": 0.0,

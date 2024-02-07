@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 113,
-    "end": 172,
+    "start": 110,
+    "end": 165,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 113,
-        "end": 126,
+        "start": 110,
+        "end": 123,
         "ctxt": 0
       },
       "expression": {
         "type": "StringLiteral",
         "span": {
-          "start": 113,
-          "end": 125,
+          "start": 110,
+          "end": 122,
           "ctxt": 0
         },
         "value": "use strict",
@@ -27,8 +27,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 128,
-        "end": 140,
+        "start": 124,
+        "end": 136,
         "ctxt": 0
       },
       "kind": "const",
@@ -37,15 +37,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 134,
-            "end": 139,
+            "start": 130,
+            "end": 135,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 134,
-              "end": 135,
+              "start": 130,
+              "end": 131,
               "ctxt": 0
             },
             "value": "x",
@@ -55,8 +55,8 @@
           "init": {
             "type": "NumericLiteral",
             "span": {
-              "start": 138,
-              "end": 139,
+              "start": 134,
+              "end": 135,
               "ctxt": 0
             },
             "value": 1.0,
@@ -71,8 +71,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 148,
-          "end": 149,
+          "start": 143,
+          "end": 144,
           "ctxt": 0
         },
         "value": "C",
@@ -80,8 +80,8 @@
       },
       "declare": false,
       "span": {
-        "start": 142,
-        "end": 172,
+        "start": 137,
+        "end": 165,
         "ctxt": 0
       },
       "decorators": [],
@@ -89,22 +89,22 @@
         {
           "type": "ClassProperty",
           "span": {
-            "start": 157,
-            "end": 169,
+            "start": 151,
+            "end": 163,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 157,
-              "end": 160,
+              "start": 151,
+              "end": 154,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 158,
-                "end": 159,
+                "start": 152,
+                "end": 153,
                 "ctxt": 0
               },
               "value": "x",
@@ -115,15 +115,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 160,
-              "end": 168,
+              "start": 154,
+              "end": 162,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 162,
-                "end": 168,
+                "start": 156,
+                "end": 162,
                 "ctxt": 0
               },
               "kind": "string"

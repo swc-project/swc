@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 37,
+    "end": 35,
     "ctxt": 0
   },
   "body": [
@@ -23,14 +23,14 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 37,
+        "end": 35,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 16,
-          "end": 37,
+          "end": 35,
           "ctxt": 0
         },
         "stmts": [
@@ -39,8 +39,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 29,
-                "end": 30,
+                "start": 28,
+                "end": 29,
                 "ctxt": 0
               },
               "value": "C",
@@ -48,8 +48,8 @@
             },
             "declare": false,
             "span": {
-              "start": 23,
-              "end": 34,
+              "start": 22,
+              "end": 33,
               "ctxt": 0
             },
             "decorators": [],

@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 30,
-    "end": 67,
+    "start": 29,
+    "end": 65,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 30,
-        "end": 52,
+        "start": 29,
+        "end": 51,
         "ctxt": 0
       },
       "kind": "const",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 44,
-            "end": 51,
+            "start": 43,
+            "end": 50,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 44,
-              "end": 45,
+              "start": 43,
+              "end": 44,
               "ctxt": 0
             },
             "value": "v",
@@ -35,15 +35,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 45,
-                "end": 51,
+                "start": 44,
+                "end": 50,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 47,
-                  "end": 51,
+                  "start": 46,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "kind": "void"
@@ -58,8 +58,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 54,
-        "end": 67,
+        "start": 52,
+        "end": 65,
         "ctxt": 0
       },
       "kind": "const",
@@ -68,15 +68,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 60,
-            "end": 66,
+            "start": 58,
+            "end": 64,
             "ctxt": 0
           },
           "id": {
             "type": "ObjectPattern",
             "span": {
-              "start": 60,
-              "end": 62,
+              "start": 58,
+              "end": 60,
               "ctxt": 0
             },
             "properties": [],
@@ -86,8 +86,8 @@
           "init": {
             "type": "Identifier",
             "span": {
-              "start": 65,
-              "end": 66,
+              "start": 63,
+              "end": 64,
               "ctxt": 0
             },
             "value": "v",

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 30,
+    "end": 28,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsEnumDeclaration",
       "span": {
         "start": 1,
-        "end": 30,
+        "end": 28,
         "ctxt": 0
       },
       "declare": false,
@@ -29,15 +29,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 17,
-            "end": 26,
+            "start": 16,
+            "end": 25,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 17,
-              "end": 26,
+              "start": 16,
+              "end": 25,
               "ctxt": 0
             },
             "value": "interface",

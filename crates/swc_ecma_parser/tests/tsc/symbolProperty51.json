@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 110,
+    "start": 16,
+    "end": 103,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 17,
-        "end": 110,
+        "start": 16,
+        "end": 103,
         "ctxt": 0
       },
       "declare": false,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 24,
-          "end": 25,
+          "start": 23,
+          "end": 24,
           "ctxt": 0
         },
         "value": "M",
@@ -28,16 +28,16 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 26,
-          "end": 110,
+          "start": 25,
+          "end": 103,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsModuleDeclaration",
             "span": {
-              "start": 33,
-              "end": 50,
+              "start": 31,
+              "end": 48,
               "ctxt": 0
             },
             "declare": false,
@@ -45,8 +45,8 @@
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 40,
-                "end": 46,
+                "start": 38,
+                "end": 44,
                 "ctxt": 0
               },
               "value": "Symbol",
@@ -55,8 +55,8 @@
             "body": {
               "type": "TsModuleBlock",
               "span": {
-                "start": 47,
-                "end": 50,
+                "start": 45,
+                "end": 48,
                 "ctxt": 0
               },
               "body": []
@@ -67,8 +67,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 64,
-                "end": 65,
+                "start": 60,
+                "end": 61,
                 "ctxt": 0
               },
               "value": "C",
@@ -76,8 +76,8 @@
             },
             "declare": false,
             "span": {
-              "start": 58,
-              "end": 107,
+              "start": 54,
+              "end": 101,
               "ctxt": 0
             },
             "decorators": [],
@@ -85,29 +85,29 @@
               {
                 "type": "ClassMethod",
                 "span": {
-                  "start": 77,
-                  "end": 100,
+                  "start": 72,
+                  "end": 95,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 77,
-                    "end": 94,
+                    "start": 72,
+                    "end": 89,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 78,
-                      "end": 93,
+                      "start": 73,
+                      "end": 88,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 78,
-                        "end": 84,
+                        "start": 73,
+                        "end": 79,
                         "ctxt": 0
                       },
                       "value": "Symbol",
@@ -116,8 +116,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 85,
-                        "end": 93,
+                        "start": 80,
+                        "end": 88,
                         "ctxt": 0
                       },
                       "value": "iterator",
@@ -129,15 +129,15 @@
                   "params": [],
                   "decorators": [],
                   "span": {
-                    "start": 77,
-                    "end": 100,
+                    "start": 72,
+                    "end": 95,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 97,
-                      "end": 100,
+                      "start": 92,
+                      "end": 95,
                       "ctxt": 0
                     },
                     "stmts": []

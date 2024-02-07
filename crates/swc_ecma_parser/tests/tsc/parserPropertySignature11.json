@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 27,
+    "end": 25,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 27,
+        "end": 25,
         "ctxt": 0
       },
       "id": {
@@ -30,23 +30,23 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 13,
-          "end": 27,
+          "end": 25,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 18,
-              "end": 24,
+              "start": 17,
+              "end": 23,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "NumericLiteral",
               "span": {
-                "start": 18,
-                "end": 19,
+                "start": 17,
+                "end": 18,
                 "ctxt": 0
               },
               "value": 2.0,
@@ -59,15 +59,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 19,
-                "end": 23,
+                "start": 18,
+                "end": 22,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 20,
-                  "end": 23,
+                  "start": 19,
+                  "end": 22,
                   "ctxt": 0
                 },
                 "kind": "any"

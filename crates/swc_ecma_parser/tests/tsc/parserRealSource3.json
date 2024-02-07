@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 217,
-    "end": 2236,
+    "start": 212,
+    "end": 2118,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsModuleDeclaration",
       "span": {
-        "start": 217,
-        "end": 2236,
+        "start": 212,
+        "end": 2118,
         "ctxt": 0
       },
       "declare": false,
@@ -18,8 +18,8 @@
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 224,
-          "end": 234,
+          "start": 219,
+          "end": 229,
           "ctxt": 0
         },
         "value": "TypeScript",
@@ -28,23 +28,23 @@
       "body": {
         "type": "TsModuleBlock",
         "span": {
-          "start": 235,
-          "end": 2236,
+          "start": 230,
+          "end": 2118,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
-              "start": 351,
-              "end": 2233,
+              "start": 344,
+              "end": 2116,
               "ctxt": 0
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
-                "start": 358,
-                "end": 2233,
+                "start": 351,
+                "end": 2116,
                 "ctxt": 0
               },
               "declare": false,
@@ -52,8 +52,8 @@
               "id": {
                 "type": "Identifier",
                 "span": {
-                  "start": 363,
-                  "end": 371,
+                  "start": 356,
+                  "end": 364,
                   "ctxt": 0
                 },
                 "value": "NodeType",
@@ -63,15 +63,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 383,
-                    "end": 387,
+                    "start": 375,
+                    "end": 379,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 383,
-                      "end": 387,
+                      "start": 375,
+                      "end": 379,
                       "ctxt": 0
                     },
                     "value": "None",
@@ -82,15 +82,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 398,
-                    "end": 403,
+                    "start": 389,
+                    "end": 394,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 398,
-                      "end": 403,
+                      "start": 389,
+                      "end": 394,
                       "ctxt": 0
                     },
                     "value": "Empty",
@@ -101,15 +101,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 414,
-                    "end": 423,
+                    "start": 404,
+                    "end": 413,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 414,
-                      "end": 423,
+                      "start": 404,
+                      "end": 413,
                       "ctxt": 0
                     },
                     "value": "EmptyExpr",
@@ -120,15 +120,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 434,
-                    "end": 438,
+                    "start": 423,
+                    "end": 427,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 434,
-                      "end": 438,
+                      "start": 423,
+                      "end": 427,
                       "ctxt": 0
                     },
                     "value": "True",
@@ -139,15 +139,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 449,
-                    "end": 454,
+                    "start": 437,
+                    "end": 442,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 449,
-                      "end": 454,
+                      "start": 437,
+                      "end": 442,
                       "ctxt": 0
                     },
                     "value": "False",
@@ -158,15 +158,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 465,
-                    "end": 469,
+                    "start": 452,
+                    "end": 456,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 465,
-                      "end": 469,
+                      "start": 452,
+                      "end": 456,
                       "ctxt": 0
                     },
                     "value": "This",
@@ -177,15 +177,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 480,
-                    "end": 485,
+                    "start": 466,
+                    "end": 471,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 480,
-                      "end": 485,
+                      "start": 466,
+                      "end": 471,
                       "ctxt": 0
                     },
                     "value": "Super",
@@ -196,15 +196,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 496,
-                    "end": 503,
+                    "start": 481,
+                    "end": 488,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 496,
-                      "end": 503,
+                      "start": 481,
+                      "end": 488,
                       "ctxt": 0
                     },
                     "value": "QString",
@@ -215,15 +215,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 514,
-                    "end": 519,
+                    "start": 498,
+                    "end": 503,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 514,
-                      "end": 519,
+                      "start": 498,
+                      "end": 503,
                       "ctxt": 0
                     },
                     "value": "Regex",
@@ -234,15 +234,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 530,
-                    "end": 534,
+                    "start": 513,
+                    "end": 517,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 530,
-                      "end": 534,
+                      "start": 513,
+                      "end": 517,
                       "ctxt": 0
                     },
                     "value": "Null",
@@ -253,15 +253,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 545,
-                    "end": 553,
+                    "start": 527,
+                    "end": 535,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 545,
-                      "end": 553,
+                      "start": 527,
+                      "end": 535,
                       "ctxt": 0
                     },
                     "value": "ArrayLit",
@@ -272,15 +272,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 564,
-                    "end": 573,
+                    "start": 545,
+                    "end": 554,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 564,
-                      "end": 573,
+                      "start": 545,
+                      "end": 554,
                       "ctxt": 0
                     },
                     "value": "ObjectLit",
@@ -291,15 +291,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 584,
-                    "end": 588,
+                    "start": 564,
+                    "end": 568,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 584,
-                      "end": 588,
+                      "start": 564,
+                      "end": 568,
                       "ctxt": 0
                     },
                     "value": "Void",
@@ -310,15 +310,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 599,
-                    "end": 604,
+                    "start": 578,
+                    "end": 583,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 599,
-                      "end": 604,
+                      "start": 578,
+                      "end": 583,
                       "ctxt": 0
                     },
                     "value": "Comma",
@@ -329,15 +329,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 615,
-                    "end": 618,
+                    "start": 593,
+                    "end": 596,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 615,
-                      "end": 618,
+                      "start": 593,
+                      "end": 596,
                       "ctxt": 0
                     },
                     "value": "Pos",
@@ -348,15 +348,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 629,
-                    "end": 632,
+                    "start": 606,
+                    "end": 609,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 629,
-                      "end": 632,
+                      "start": 606,
+                      "end": 609,
                       "ctxt": 0
                     },
                     "value": "Neg",
@@ -367,15 +367,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 643,
-                    "end": 649,
+                    "start": 619,
+                    "end": 625,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 643,
-                      "end": 649,
+                      "start": 619,
+                      "end": 625,
                       "ctxt": 0
                     },
                     "value": "Delete",
@@ -386,15 +386,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 660,
-                    "end": 665,
+                    "start": 635,
+                    "end": 640,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 660,
-                      "end": 665,
+                      "start": 635,
+                      "end": 640,
                       "ctxt": 0
                     },
                     "value": "Await",
@@ -405,15 +405,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 676,
-                    "end": 678,
+                    "start": 650,
+                    "end": 652,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 676,
-                      "end": 678,
+                      "start": 650,
+                      "end": 652,
                       "ctxt": 0
                     },
                     "value": "In",
@@ -424,15 +424,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 689,
-                    "end": 692,
+                    "start": 662,
+                    "end": 665,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 689,
-                      "end": 692,
+                      "start": 662,
+                      "end": 665,
                       "ctxt": 0
                     },
                     "value": "Dot",
@@ -443,15 +443,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 703,
-                    "end": 707,
+                    "start": 675,
+                    "end": 679,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 703,
-                      "end": 707,
+                      "start": 675,
+                      "end": 679,
                       "ctxt": 0
                     },
                     "value": "From",
@@ -462,15 +462,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 718,
-                    "end": 720,
+                    "start": 689,
+                    "end": 691,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 718,
-                      "end": 720,
+                      "start": 689,
+                      "end": 691,
                       "ctxt": 0
                     },
                     "value": "Is",
@@ -481,15 +481,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 731,
-                    "end": 737,
+                    "start": 701,
+                    "end": 707,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 731,
-                      "end": 737,
+                      "start": 701,
+                      "end": 707,
                       "ctxt": 0
                     },
                     "value": "InstOf",
@@ -500,15 +500,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 748,
-                    "end": 754,
+                    "start": 717,
+                    "end": 723,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 748,
-                      "end": 754,
+                      "start": 717,
+                      "end": 723,
                       "ctxt": 0
                     },
                     "value": "Typeof",
@@ -519,15 +519,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 765,
-                    "end": 774,
+                    "start": 733,
+                    "end": 742,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 765,
-                      "end": 774,
+                      "start": 733,
+                      "end": 742,
                       "ctxt": 0
                     },
                     "value": "NumberLit",
@@ -538,15 +538,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 785,
-                    "end": 789,
+                    "start": 752,
+                    "end": 756,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 785,
-                      "end": 789,
+                      "start": 752,
+                      "end": 756,
                       "ctxt": 0
                     },
                     "value": "Name",
@@ -557,15 +557,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 800,
-                    "end": 807,
+                    "start": 766,
+                    "end": 773,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 800,
-                      "end": 807,
+                      "start": 766,
+                      "end": 773,
                       "ctxt": 0
                     },
                     "value": "TypeRef",
@@ -576,15 +576,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 818,
-                    "end": 823,
+                    "start": 783,
+                    "end": 788,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 818,
-                      "end": 823,
+                      "start": 783,
+                      "end": 788,
                       "ctxt": 0
                     },
                     "value": "Index",
@@ -595,15 +595,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 834,
-                    "end": 838,
+                    "start": 798,
+                    "end": 802,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 834,
-                      "end": 838,
+                      "start": 798,
+                      "end": 802,
                       "ctxt": 0
                     },
                     "value": "Call",
@@ -614,15 +614,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 849,
-                    "end": 852,
+                    "start": 812,
+                    "end": 815,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 849,
-                      "end": 852,
+                      "start": 812,
+                      "end": 815,
                       "ctxt": 0
                     },
                     "value": "New",
@@ -633,15 +633,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 863,
-                    "end": 866,
+                    "start": 825,
+                    "end": 828,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 863,
-                      "end": 866,
+                      "start": 825,
+                      "end": 828,
                       "ctxt": 0
                     },
                     "value": "Asg",
@@ -652,15 +652,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 877,
-                    "end": 883,
+                    "start": 838,
+                    "end": 844,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 877,
-                      "end": 883,
+                      "start": 838,
+                      "end": 844,
                       "ctxt": 0
                     },
                     "value": "AsgAdd",
@@ -671,15 +671,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 894,
-                    "end": 900,
+                    "start": 854,
+                    "end": 860,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 894,
-                      "end": 900,
+                      "start": 854,
+                      "end": 860,
                       "ctxt": 0
                     },
                     "value": "AsgSub",
@@ -690,15 +690,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 911,
-                    "end": 917,
+                    "start": 870,
+                    "end": 876,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 911,
-                      "end": 917,
+                      "start": 870,
+                      "end": 876,
                       "ctxt": 0
                     },
                     "value": "AsgDiv",
@@ -709,15 +709,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 928,
-                    "end": 934,
+                    "start": 886,
+                    "end": 892,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 928,
-                      "end": 934,
+                      "start": 886,
+                      "end": 892,
                       "ctxt": 0
                     },
                     "value": "AsgMul",
@@ -728,15 +728,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 945,
-                    "end": 951,
+                    "start": 902,
+                    "end": 908,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 945,
-                      "end": 951,
+                      "start": 902,
+                      "end": 908,
                       "ctxt": 0
                     },
                     "value": "AsgMod",
@@ -747,15 +747,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 962,
-                    "end": 968,
+                    "start": 918,
+                    "end": 924,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 962,
-                      "end": 968,
+                      "start": 918,
+                      "end": 924,
                       "ctxt": 0
                     },
                     "value": "AsgAnd",
@@ -766,15 +766,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 979,
-                    "end": 985,
+                    "start": 934,
+                    "end": 940,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 979,
-                      "end": 985,
+                      "start": 934,
+                      "end": 940,
                       "ctxt": 0
                     },
                     "value": "AsgXor",
@@ -785,15 +785,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 996,
-                    "end": 1001,
+                    "start": 950,
+                    "end": 955,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 996,
-                      "end": 1001,
+                      "start": 950,
+                      "end": 955,
                       "ctxt": 0
                     },
                     "value": "AsgOr",
@@ -804,15 +804,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1012,
-                    "end": 1018,
+                    "start": 965,
+                    "end": 971,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1012,
-                      "end": 1018,
+                      "start": 965,
+                      "end": 971,
                       "ctxt": 0
                     },
                     "value": "AsgLsh",
@@ -823,15 +823,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1029,
-                    "end": 1035,
+                    "start": 981,
+                    "end": 987,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1029,
-                      "end": 1035,
+                      "start": 981,
+                      "end": 987,
                       "ctxt": 0
                     },
                     "value": "AsgRsh",
@@ -842,15 +842,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1046,
-                    "end": 1052,
+                    "start": 997,
+                    "end": 1003,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1046,
-                      "end": 1052,
+                      "start": 997,
+                      "end": 1003,
                       "ctxt": 0
                     },
                     "value": "AsgRs2",
@@ -861,15 +861,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1063,
-                    "end": 1084,
+                    "start": 1013,
+                    "end": 1034,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1063,
-                      "end": 1084,
+                      "start": 1013,
+                      "end": 1034,
                       "ctxt": 0
                     },
                     "value": "ConditionalExpression",
@@ -880,15 +880,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1095,
-                    "end": 1100,
+                    "start": 1044,
+                    "end": 1049,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1095,
-                      "end": 1100,
+                      "start": 1044,
+                      "end": 1049,
                       "ctxt": 0
                     },
                     "value": "LogOr",
@@ -899,15 +899,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1111,
-                    "end": 1117,
+                    "start": 1059,
+                    "end": 1065,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1111,
-                      "end": 1117,
+                      "start": 1059,
+                      "end": 1065,
                       "ctxt": 0
                     },
                     "value": "LogAnd",
@@ -918,15 +918,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1128,
-                    "end": 1130,
+                    "start": 1075,
+                    "end": 1077,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1128,
-                      "end": 1130,
+                      "start": 1075,
+                      "end": 1077,
                       "ctxt": 0
                     },
                     "value": "Or",
@@ -937,15 +937,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1141,
-                    "end": 1144,
+                    "start": 1087,
+                    "end": 1090,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1141,
-                      "end": 1144,
+                      "start": 1087,
+                      "end": 1090,
                       "ctxt": 0
                     },
                     "value": "Xor",
@@ -956,15 +956,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1155,
-                    "end": 1158,
+                    "start": 1100,
+                    "end": 1103,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1155,
-                      "end": 1158,
+                      "start": 1100,
+                      "end": 1103,
                       "ctxt": 0
                     },
                     "value": "And",
@@ -975,15 +975,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1169,
-                    "end": 1171,
+                    "start": 1113,
+                    "end": 1115,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1169,
-                      "end": 1171,
+                      "start": 1113,
+                      "end": 1115,
                       "ctxt": 0
                     },
                     "value": "Eq",
@@ -994,15 +994,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1182,
-                    "end": 1184,
+                    "start": 1125,
+                    "end": 1127,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1182,
-                      "end": 1184,
+                      "start": 1125,
+                      "end": 1127,
                       "ctxt": 0
                     },
                     "value": "Ne",
@@ -1013,15 +1013,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1195,
-                    "end": 1198,
+                    "start": 1137,
+                    "end": 1140,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1195,
-                      "end": 1198,
+                      "start": 1137,
+                      "end": 1140,
                       "ctxt": 0
                     },
                     "value": "Eqv",
@@ -1032,15 +1032,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1209,
-                    "end": 1213,
+                    "start": 1150,
+                    "end": 1154,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1209,
-                      "end": 1213,
+                      "start": 1150,
+                      "end": 1154,
                       "ctxt": 0
                     },
                     "value": "NEqv",
@@ -1051,15 +1051,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1224,
-                    "end": 1226,
+                    "start": 1164,
+                    "end": 1166,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1224,
-                      "end": 1226,
+                      "start": 1164,
+                      "end": 1166,
                       "ctxt": 0
                     },
                     "value": "Lt",
@@ -1070,15 +1070,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1237,
-                    "end": 1239,
+                    "start": 1176,
+                    "end": 1178,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1237,
-                      "end": 1239,
+                      "start": 1176,
+                      "end": 1178,
                       "ctxt": 0
                     },
                     "value": "Le",
@@ -1089,15 +1089,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1250,
-                    "end": 1252,
+                    "start": 1188,
+                    "end": 1190,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1250,
-                      "end": 1252,
+                      "start": 1188,
+                      "end": 1190,
                       "ctxt": 0
                     },
                     "value": "Gt",
@@ -1108,15 +1108,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1263,
-                    "end": 1265,
+                    "start": 1200,
+                    "end": 1202,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1263,
-                      "end": 1265,
+                      "start": 1200,
+                      "end": 1202,
                       "ctxt": 0
                     },
                     "value": "Ge",
@@ -1127,18 +1127,113 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1276,
-                    "end": 1279,
+                    "start": 1212,
+                    "end": 1215,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1276,
-                      "end": 1279,
+                      "start": 1212,
+                      "end": 1215,
                       "ctxt": 0
                     },
                     "value": "Add",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1225,
+                    "end": 1228,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1225,
+                      "end": 1228,
+                      "ctxt": 0
+                    },
+                    "value": "Sub",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1238,
+                    "end": 1241,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1238,
+                      "end": 1241,
+                      "ctxt": 0
+                    },
+                    "value": "Mul",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1251,
+                    "end": 1254,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1251,
+                      "end": 1254,
+                      "ctxt": 0
+                    },
+                    "value": "Div",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1264,
+                    "end": 1267,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1264,
+                      "end": 1267,
+                      "ctxt": 0
+                    },
+                    "value": "Mod",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1277,
+                    "end": 1280,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1277,
+                      "end": 1280,
+                      "ctxt": 0
+                    },
+                    "value": "Lsh",
                     "optional": false
                   },
                   "init": null
@@ -1157,101 +1252,6 @@
                       "end": 1293,
                       "ctxt": 0
                     },
-                    "value": "Sub",
-                    "optional": false
-                  },
-                  "init": null
-                },
-                {
-                  "type": "TsEnumMember",
-                  "span": {
-                    "start": 1304,
-                    "end": 1307,
-                    "ctxt": 0
-                  },
-                  "id": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1304,
-                      "end": 1307,
-                      "ctxt": 0
-                    },
-                    "value": "Mul",
-                    "optional": false
-                  },
-                  "init": null
-                },
-                {
-                  "type": "TsEnumMember",
-                  "span": {
-                    "start": 1318,
-                    "end": 1321,
-                    "ctxt": 0
-                  },
-                  "id": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1318,
-                      "end": 1321,
-                      "ctxt": 0
-                    },
-                    "value": "Div",
-                    "optional": false
-                  },
-                  "init": null
-                },
-                {
-                  "type": "TsEnumMember",
-                  "span": {
-                    "start": 1332,
-                    "end": 1335,
-                    "ctxt": 0
-                  },
-                  "id": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1332,
-                      "end": 1335,
-                      "ctxt": 0
-                    },
-                    "value": "Mod",
-                    "optional": false
-                  },
-                  "init": null
-                },
-                {
-                  "type": "TsEnumMember",
-                  "span": {
-                    "start": 1346,
-                    "end": 1349,
-                    "ctxt": 0
-                  },
-                  "id": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1346,
-                      "end": 1349,
-                      "ctxt": 0
-                    },
-                    "value": "Lsh",
-                    "optional": false
-                  },
-                  "init": null
-                },
-                {
-                  "type": "TsEnumMember",
-                  "span": {
-                    "start": 1360,
-                    "end": 1363,
-                    "ctxt": 0
-                  },
-                  "id": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 1360,
-                      "end": 1363,
-                      "ctxt": 0
-                    },
                     "value": "Rsh",
                     "optional": false
                   },
@@ -1260,15 +1260,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1374,
-                    "end": 1377,
+                    "start": 1303,
+                    "end": 1306,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1374,
-                      "end": 1377,
+                      "start": 1303,
+                      "end": 1306,
                       "ctxt": 0
                     },
                     "value": "Rs2",
@@ -1279,15 +1279,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1388,
-                    "end": 1391,
+                    "start": 1316,
+                    "end": 1319,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1388,
-                      "end": 1391,
+                      "start": 1316,
+                      "end": 1319,
                       "ctxt": 0
                     },
                     "value": "Not",
@@ -1298,15 +1298,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1402,
-                    "end": 1408,
+                    "start": 1329,
+                    "end": 1335,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1402,
-                      "end": 1408,
+                      "start": 1329,
+                      "end": 1335,
                       "ctxt": 0
                     },
                     "value": "LogNot",
@@ -1317,15 +1317,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1419,
-                    "end": 1425,
+                    "start": 1345,
+                    "end": 1351,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1419,
-                      "end": 1425,
+                      "start": 1345,
+                      "end": 1351,
                       "ctxt": 0
                     },
                     "value": "IncPre",
@@ -1336,15 +1336,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1436,
-                    "end": 1442,
+                    "start": 1361,
+                    "end": 1367,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1436,
-                      "end": 1442,
+                      "start": 1361,
+                      "end": 1367,
                       "ctxt": 0
                     },
                     "value": "DecPre",
@@ -1355,15 +1355,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1453,
-                    "end": 1460,
+                    "start": 1377,
+                    "end": 1384,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1453,
-                      "end": 1460,
+                      "start": 1377,
+                      "end": 1384,
                       "ctxt": 0
                     },
                     "value": "IncPost",
@@ -1374,15 +1374,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1471,
-                    "end": 1478,
+                    "start": 1394,
+                    "end": 1401,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1471,
-                      "end": 1478,
+                      "start": 1394,
+                      "end": 1401,
                       "ctxt": 0
                     },
                     "value": "DecPost",
@@ -1393,15 +1393,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1489,
-                    "end": 1502,
+                    "start": 1411,
+                    "end": 1424,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1489,
-                      "end": 1502,
+                      "start": 1411,
+                      "end": 1424,
                       "ctxt": 0
                     },
                     "value": "TypeAssertion",
@@ -1412,15 +1412,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1513,
-                    "end": 1521,
+                    "start": 1434,
+                    "end": 1442,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1513,
-                      "end": 1521,
+                      "start": 1434,
+                      "end": 1442,
                       "ctxt": 0
                     },
                     "value": "FuncDecl",
@@ -1431,15 +1431,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1532,
-                    "end": 1538,
+                    "start": 1452,
+                    "end": 1458,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1532,
-                      "end": 1538,
+                      "start": 1452,
+                      "end": 1458,
                       "ctxt": 0
                     },
                     "value": "Member",
@@ -1450,15 +1450,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1549,
-                    "end": 1556,
+                    "start": 1468,
+                    "end": 1475,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1549,
-                      "end": 1556,
+                      "start": 1468,
+                      "end": 1475,
                       "ctxt": 0
                     },
                     "value": "VarDecl",
@@ -1469,15 +1469,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1567,
-                    "end": 1574,
+                    "start": 1485,
+                    "end": 1492,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1567,
-                      "end": 1574,
+                      "start": 1485,
+                      "end": 1492,
                       "ctxt": 0
                     },
                     "value": "ArgDecl",
@@ -1488,15 +1488,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1585,
-                    "end": 1591,
+                    "start": 1502,
+                    "end": 1508,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1585,
-                      "end": 1591,
+                      "start": 1502,
+                      "end": 1508,
                       "ctxt": 0
                     },
                     "value": "Return",
@@ -1507,15 +1507,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1602,
-                    "end": 1607,
+                    "start": 1518,
+                    "end": 1523,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1602,
-                      "end": 1607,
+                      "start": 1518,
+                      "end": 1523,
                       "ctxt": 0
                     },
                     "value": "Break",
@@ -1526,15 +1526,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1618,
-                    "end": 1626,
+                    "start": 1533,
+                    "end": 1541,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1618,
-                      "end": 1626,
+                      "start": 1533,
+                      "end": 1541,
                       "ctxt": 0
                     },
                     "value": "Continue",
@@ -1545,15 +1545,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1637,
-                    "end": 1642,
+                    "start": 1551,
+                    "end": 1556,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1637,
-                      "end": 1642,
+                      "start": 1551,
+                      "end": 1556,
                       "ctxt": 0
                     },
                     "value": "Throw",
@@ -1564,15 +1564,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1653,
-                    "end": 1656,
+                    "start": 1566,
+                    "end": 1569,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1653,
-                      "end": 1656,
+                      "start": 1566,
+                      "end": 1569,
                       "ctxt": 0
                     },
                     "value": "For",
@@ -1583,15 +1583,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1667,
-                    "end": 1672,
+                    "start": 1579,
+                    "end": 1584,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1667,
-                      "end": 1672,
+                      "start": 1579,
+                      "end": 1584,
                       "ctxt": 0
                     },
                     "value": "ForIn",
@@ -1602,15 +1602,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1683,
-                    "end": 1685,
+                    "start": 1594,
+                    "end": 1596,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1683,
-                      "end": 1685,
+                      "start": 1594,
+                      "end": 1596,
                       "ctxt": 0
                     },
                     "value": "If",
@@ -1621,15 +1621,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1696,
-                    "end": 1701,
+                    "start": 1606,
+                    "end": 1611,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1696,
-                      "end": 1701,
+                      "start": 1606,
+                      "end": 1611,
                       "ctxt": 0
                     },
                     "value": "While",
@@ -1640,15 +1640,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1712,
-                    "end": 1719,
+                    "start": 1621,
+                    "end": 1628,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1712,
-                      "end": 1719,
+                      "start": 1621,
+                      "end": 1628,
                       "ctxt": 0
                     },
                     "value": "DoWhile",
@@ -1659,15 +1659,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1730,
-                    "end": 1735,
+                    "start": 1638,
+                    "end": 1643,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1730,
-                      "end": 1735,
+                      "start": 1638,
+                      "end": 1643,
                       "ctxt": 0
                     },
                     "value": "Block",
@@ -1678,15 +1678,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1746,
-                    "end": 1750,
+                    "start": 1653,
+                    "end": 1657,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1746,
-                      "end": 1750,
+                      "start": 1653,
+                      "end": 1657,
                       "ctxt": 0
                     },
                     "value": "Case",
@@ -1697,15 +1697,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1761,
-                    "end": 1767,
+                    "start": 1667,
+                    "end": 1673,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1761,
-                      "end": 1767,
+                      "start": 1667,
+                      "end": 1673,
                       "ctxt": 0
                     },
                     "value": "Switch",
@@ -1716,15 +1716,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1778,
-                    "end": 1781,
+                    "start": 1683,
+                    "end": 1686,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1778,
-                      "end": 1781,
+                      "start": 1683,
+                      "end": 1686,
                       "ctxt": 0
                     },
                     "value": "Try",
@@ -1735,15 +1735,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1792,
-                    "end": 1800,
+                    "start": 1696,
+                    "end": 1704,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1792,
-                      "end": 1800,
+                      "start": 1696,
+                      "end": 1704,
                       "ctxt": 0
                     },
                     "value": "TryCatch",
@@ -1754,15 +1754,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1811,
-                    "end": 1821,
+                    "start": 1714,
+                    "end": 1724,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1811,
-                      "end": 1821,
+                      "start": 1714,
+                      "end": 1724,
                       "ctxt": 0
                     },
                     "value": "TryFinally",
@@ -1773,15 +1773,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1832,
-                    "end": 1839,
+                    "start": 1734,
+                    "end": 1741,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1832,
-                      "end": 1839,
+                      "start": 1734,
+                      "end": 1741,
                       "ctxt": 0
                     },
                     "value": "Finally",
@@ -1792,15 +1792,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1850,
-                    "end": 1855,
+                    "start": 1751,
+                    "end": 1756,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1850,
-                      "end": 1855,
+                      "start": 1751,
+                      "end": 1756,
                       "ctxt": 0
                     },
                     "value": "Catch",
@@ -1811,15 +1811,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1866,
-                    "end": 1870,
+                    "start": 1766,
+                    "end": 1770,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1866,
-                      "end": 1870,
+                      "start": 1766,
+                      "end": 1770,
                       "ctxt": 0
                     },
                     "value": "List",
@@ -1830,15 +1830,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1881,
-                    "end": 1887,
+                    "start": 1780,
+                    "end": 1786,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1881,
-                      "end": 1887,
+                      "start": 1780,
+                      "end": 1786,
                       "ctxt": 0
                     },
                     "value": "Script",
@@ -1849,15 +1849,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1898,
-                    "end": 1914,
+                    "start": 1796,
+                    "end": 1812,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1898,
-                      "end": 1914,
+                      "start": 1796,
+                      "end": 1812,
                       "ctxt": 0
                     },
                     "value": "ClassDeclaration",
@@ -1868,15 +1868,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1925,
-                    "end": 1945,
+                    "start": 1822,
+                    "end": 1842,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1925,
-                      "end": 1945,
+                      "start": 1822,
+                      "end": 1842,
                       "ctxt": 0
                     },
                     "value": "InterfaceDeclaration",
@@ -1887,15 +1887,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1956,
-                    "end": 1973,
+                    "start": 1852,
+                    "end": 1869,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1956,
-                      "end": 1973,
+                      "start": 1852,
+                      "end": 1869,
                       "ctxt": 0
                     },
                     "value": "ModuleDeclaration",
@@ -1906,15 +1906,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 1984,
-                    "end": 2001,
+                    "start": 1879,
+                    "end": 1896,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 1984,
-                      "end": 2001,
+                      "start": 1879,
+                      "end": 1896,
                       "ctxt": 0
                     },
                     "value": "ImportDeclaration",
@@ -1925,15 +1925,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2012,
-                    "end": 2016,
+                    "start": 1906,
+                    "end": 1910,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2012,
-                      "end": 2016,
+                      "start": 1906,
+                      "end": 1910,
                       "ctxt": 0
                     },
                     "value": "With",
@@ -1944,15 +1944,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2027,
-                    "end": 2032,
+                    "start": 1920,
+                    "end": 1925,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2027,
-                      "end": 2032,
+                      "start": 1920,
+                      "end": 1925,
                       "ctxt": 0
                     },
                     "value": "Label",
@@ -1963,15 +1963,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2043,
-                    "end": 2059,
+                    "start": 1935,
+                    "end": 1951,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2043,
-                      "end": 2059,
+                      "start": 1935,
+                      "end": 1951,
                       "ctxt": 0
                     },
                     "value": "LabeledStatement",
@@ -1982,15 +1982,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2070,
-                    "end": 2077,
+                    "start": 1961,
+                    "end": 1968,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2070,
-                      "end": 2077,
+                      "start": 1961,
+                      "end": 1968,
                       "ctxt": 0
                     },
                     "value": "EBStart",
@@ -2001,15 +2001,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2088,
-                    "end": 2094,
+                    "start": 1978,
+                    "end": 1984,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2088,
-                      "end": 2094,
+                      "start": 1978,
+                      "end": 1984,
                       "ctxt": 0
                     },
                     "value": "GotoEB",
@@ -2020,15 +2020,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2105,
-                    "end": 2112,
+                    "start": 1994,
+                    "end": 2001,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2105,
-                      "end": 2112,
+                      "start": 1994,
+                      "end": 2001,
                       "ctxt": 0
                     },
                     "value": "EndCode",
@@ -2039,15 +2039,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2123,
-                    "end": 2128,
+                    "start": 2011,
+                    "end": 2016,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2123,
-                      "end": 2128,
+                      "start": 2011,
+                      "end": 2016,
                       "ctxt": 0
                     },
                     "value": "Error",
@@ -2058,15 +2058,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2139,
-                    "end": 2146,
+                    "start": 2026,
+                    "end": 2033,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2139,
-                      "end": 2146,
+                      "start": 2026,
+                      "end": 2033,
                       "ctxt": 0
                     },
                     "value": "Comment",
@@ -2077,15 +2077,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2157,
-                    "end": 2165,
+                    "start": 2043,
+                    "end": 2051,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2157,
-                      "end": 2165,
+                      "start": 2043,
+                      "end": 2051,
                       "ctxt": 0
                     },
                     "value": "Debugger",
@@ -2096,15 +2096,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2176,
-                    "end": 2198,
+                    "start": 2061,
+                    "end": 2083,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2176,
-                      "end": 2187,
+                      "start": 2061,
+                      "end": 2072,
                       "ctxt": 0
                     },
                     "value": "GeneralNode",
@@ -2113,8 +2113,8 @@
                   "init": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2190,
-                      "end": 2198,
+                      "start": 2075,
+                      "end": 2083,
                       "ctxt": 0
                     },
                     "value": "FuncDecl",
@@ -2124,15 +2124,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 2209,
-                    "end": 2225,
+                    "start": 2093,
+                    "end": 2109,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2209,
-                      "end": 2216,
+                      "start": 2093,
+                      "end": 2100,
                       "ctxt": 0
                     },
                     "value": "LastAsg",
@@ -2141,8 +2141,8 @@
                   "init": {
                     "type": "Identifier",
                     "span": {
-                      "start": 2219,
-                      "end": 2225,
+                      "start": 2103,
+                      "end": 2109,
                       "ctxt": 0
                     },
                     "value": "AsgRs2",

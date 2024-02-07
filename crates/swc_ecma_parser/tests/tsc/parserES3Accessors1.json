@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 32,
+    "end": 30,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 1,
-        "end": 32,
+        "end": 30,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 16,
-            "end": 29,
+            "start": 15,
+            "end": 28,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 23,
+              "start": 19,
+              "end": 22,
               "ctxt": 0
             },
             "value": "Foo",
@@ -47,15 +47,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 16,
-              "end": 29,
+              "start": 15,
+              "end": 28,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 26,
-                "end": 29,
+                "start": 25,
+                "end": 28,
                 "ctxt": 0
               },
               "stmts": []

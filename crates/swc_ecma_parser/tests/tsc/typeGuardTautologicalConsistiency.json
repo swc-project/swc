@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 271,
+    "end": 261,
     "ctxt": 0
   },
   "body": [
@@ -77,31 +77,31 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 41,
-        "end": 164,
+        "start": 39,
+        "end": 158,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 45,
-          "end": 79,
+          "start": 43,
+          "end": 77,
           "ctxt": 0
         },
         "operator": "===",
         "left": {
           "type": "UnaryExpression",
           "span": {
-            "start": 45,
-            "end": 66,
+            "start": 43,
+            "end": 64,
             "ctxt": 0
           },
           "operator": "typeof",
           "argument": {
             "type": "Identifier",
             "span": {
-              "start": 52,
-              "end": 66,
+              "start": 50,
+              "end": 64,
               "ctxt": 0
             },
             "value": "stringOrNumber",
@@ -111,8 +111,8 @@
         "right": {
           "type": "StringLiteral",
           "span": {
-            "start": 71,
-            "end": 79,
+            "start": 69,
+            "end": 77,
             "ctxt": 0
           },
           "value": "number",
@@ -122,39 +122,39 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 81,
-          "end": 164,
+          "start": 79,
+          "end": 158,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "IfStatement",
             "span": {
-              "start": 88,
-              "end": 161,
+              "start": 85,
+              "end": 156,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 92,
-                "end": 126,
+                "start": 89,
+                "end": 123,
                 "ctxt": 0
               },
               "operator": "!==",
               "left": {
                 "type": "UnaryExpression",
                 "span": {
-                  "start": 92,
-                  "end": 113,
+                  "start": 89,
+                  "end": 110,
                   "ctxt": 0
                 },
                 "operator": "typeof",
                 "argument": {
                   "type": "Identifier",
                   "span": {
-                    "start": 99,
-                    "end": 113,
+                    "start": 96,
+                    "end": 110,
                     "ctxt": 0
                   },
                   "value": "stringOrNumber",
@@ -164,8 +164,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 118,
-                  "end": 126,
+                  "start": 115,
+                  "end": 123,
                   "ctxt": 0
                 },
                 "value": "number",
@@ -175,23 +175,23 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 128,
-                "end": 161,
+                "start": 125,
+                "end": 156,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 139,
-                    "end": 154,
+                    "start": 135,
+                    "end": 150,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "Identifier",
                     "span": {
-                      "start": 139,
-                      "end": 153,
+                      "start": 135,
+                      "end": 149,
                       "ctxt": 0
                     },
                     "value": "stringOrNumber",
@@ -209,39 +209,39 @@
     {
       "type": "IfStatement",
       "span": {
-        "start": 168,
-        "end": 271,
+        "start": 160,
+        "end": 261,
         "ctxt": 0
       },
       "test": {
         "type": "BinaryExpression",
         "span": {
-          "start": 172,
-          "end": 244,
+          "start": 164,
+          "end": 236,
           "ctxt": 0
         },
         "operator": "&&",
         "left": {
           "type": "BinaryExpression",
           "span": {
-            "start": 172,
-            "end": 206,
+            "start": 164,
+            "end": 198,
             "ctxt": 0
           },
           "operator": "===",
           "left": {
             "type": "UnaryExpression",
             "span": {
-              "start": 172,
-              "end": 193,
+              "start": 164,
+              "end": 185,
               "ctxt": 0
             },
             "operator": "typeof",
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 179,
-                "end": 193,
+                "start": 171,
+                "end": 185,
                 "ctxt": 0
               },
               "value": "stringOrNumber",
@@ -251,8 +251,8 @@
           "right": {
             "type": "StringLiteral",
             "span": {
-              "start": 198,
-              "end": 206,
+              "start": 190,
+              "end": 198,
               "ctxt": 0
             },
             "value": "number",
@@ -262,24 +262,24 @@
         "right": {
           "type": "BinaryExpression",
           "span": {
-            "start": 210,
-            "end": 244,
+            "start": 202,
+            "end": 236,
             "ctxt": 0
           },
           "operator": "!==",
           "left": {
             "type": "UnaryExpression",
             "span": {
-              "start": 210,
-              "end": 231,
+              "start": 202,
+              "end": 223,
               "ctxt": 0
             },
             "operator": "typeof",
             "argument": {
               "type": "Identifier",
               "span": {
-                "start": 217,
-                "end": 231,
+                "start": 209,
+                "end": 223,
                 "ctxt": 0
               },
               "value": "stringOrNumber",
@@ -289,8 +289,8 @@
           "right": {
             "type": "StringLiteral",
             "span": {
-              "start": 236,
-              "end": 244,
+              "start": 228,
+              "end": 236,
               "ctxt": 0
             },
             "value": "number",
@@ -301,23 +301,23 @@
       "consequent": {
         "type": "BlockStatement",
         "span": {
-          "start": 246,
-          "end": 271,
+          "start": 238,
+          "end": 261,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 253,
-              "end": 268,
+              "start": 244,
+              "end": 259,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 253,
-                "end": 267,
+                "start": 244,
+                "end": 258,
                 "ctxt": 0
               },
               "value": "stringOrNumber",

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 46,
+    "end": 44,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 1,
-        "end": 46,
+        "end": 44,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 15,
-            "end": 43,
+            "start": 14,
+            "end": 42,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 15,
-              "end": 26,
+              "start": 14,
+              "end": 25,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,8 +47,8 @@
             {
               "type": "TsParameterProperty",
               "span": {
-                "start": 27,
-                "end": 38,
+                "start": 26,
+                "end": 37,
                 "ctxt": 0
               },
               "decorators": [],
@@ -58,8 +58,8 @@
               "param": {
                 "type": "Identifier",
                 "span": {
-                  "start": 37,
-                  "end": 38,
+                  "start": 36,
+                  "end": 37,
                   "ctxt": 0
                 },
                 "value": "p",
@@ -71,8 +71,8 @@
           "body": {
             "type": "BlockStatement",
             "span": {
-              "start": 40,
-              "end": 43,
+              "start": 39,
+              "end": 42,
               "ctxt": 0
             },
             "stmts": []

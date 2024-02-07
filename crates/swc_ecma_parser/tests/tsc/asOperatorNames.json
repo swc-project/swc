@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 78,
+    "end": 75,
     "ctxt": 0
   },
   "body": [
@@ -51,8 +51,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 14,
-        "end": 34,
+        "start": 13,
+        "end": 33,
         "ctxt": 0
       },
       "kind": "var",
@@ -61,15 +61,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 18,
-            "end": 33,
+            "start": 17,
+            "end": 32,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 18,
-              "end": 19,
+              "start": 17,
+              "end": 18,
               "ctxt": 0
             },
             "value": "b",
@@ -79,15 +79,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 22,
-              "end": 33,
+              "start": 21,
+              "end": 32,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 22,
-                "end": 23,
+                "start": 21,
+                "end": 22,
                 "ctxt": 0
               },
               "value": "a",
@@ -96,8 +96,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 27,
-                "end": 33,
+                "start": 26,
+                "end": 32,
                 "ctxt": 0
               },
               "kind": "string"
@@ -110,8 +110,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 36,
-        "end": 53,
+        "start": 34,
+        "end": 51,
         "ctxt": 0
       },
       "kind": "var",
@@ -120,15 +120,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 40,
-            "end": 52,
+            "start": 38,
+            "end": 50,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 40,
-              "end": 42,
+              "start": 38,
+              "end": 40,
               "ctxt": 0
             },
             "value": "as",
@@ -138,8 +138,8 @@
           "init": {
             "type": "StringLiteral",
             "span": {
-              "start": 45,
-              "end": 52,
+              "start": 43,
+              "end": 50,
               "ctxt": 0
             },
             "value": "hello",
@@ -152,8 +152,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 55,
-        "end": 78,
+        "start": 52,
+        "end": 75,
         "ctxt": 0
       },
       "kind": "var",
@@ -162,15 +162,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 59,
-            "end": 77,
+            "start": 56,
+            "end": 74,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 59,
-              "end": 62,
+              "start": 56,
+              "end": 59,
               "ctxt": 0
             },
             "value": "as1",
@@ -180,15 +180,15 @@
           "init": {
             "type": "TsAsExpression",
             "span": {
-              "start": 65,
-              "end": 77,
+              "start": 62,
+              "end": 74,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 65,
-                "end": 67,
+                "start": 62,
+                "end": 64,
                 "ctxt": 0
               },
               "value": "as",
@@ -197,8 +197,8 @@
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 71,
-                "end": 77,
+                "start": 68,
+                "end": 74,
                 "ctxt": 0
               },
               "kind": "string"

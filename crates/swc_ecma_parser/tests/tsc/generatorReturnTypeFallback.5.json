@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 220,
-    "end": 278,
+    "start": 214,
+    "end": 270,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 230,
-          "end": 231,
+          "start": 224,
+          "end": 225,
           "ctxt": 0
         },
         "value": "f",
@@ -22,37 +22,37 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 220,
-        "end": 278,
+        "start": 214,
+        "end": 270,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 260,
-          "end": 278,
+          "start": 254,
+          "end": 270,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 267,
-              "end": 275,
+              "start": 260,
+              "end": 268,
               "ctxt": 0
             },
             "expression": {
               "type": "YieldExpression",
               "span": {
-                "start": 267,
-                "end": 274,
+                "start": 260,
+                "end": 267,
                 "ctxt": 0
               },
               "argument": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 273,
-                  "end": 274,
+                  "start": 266,
+                  "end": 267,
                   "ctxt": 0
                 },
                 "value": 1.0,
@@ -69,22 +69,22 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 233,
-          "end": 259,
+          "start": 227,
+          "end": 253,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 235,
-            "end": 259,
+            "start": 229,
+            "end": 253,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 235,
-              "end": 251,
+              "start": 229,
+              "end": 245,
               "ctxt": 0
             },
             "value": "IterableIterator",
@@ -93,16 +93,16 @@
           "typeParams": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 251,
-              "end": 259,
+              "start": 245,
+              "end": 253,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 252,
-                  "end": 258,
+                  "start": 246,
+                  "end": 252,
                   "ctxt": 0
                 },
                 "kind": "number"
