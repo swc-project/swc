@@ -89,8 +89,6 @@ pub(super) fn optimizer<'a>(
         prepend_stmts: Default::default(),
         append_stmts: Default::default(),
         vars: Default::default(),
-        vars_for_prop_hoisting: Default::default(),
-        simple_props: Default::default(),
         typeofs: Default::default(),
         data,
         ctx,
@@ -209,10 +207,6 @@ struct Optimizer<'a> {
 
     vars: Vars,
 
-    /// Used for `hoist_props`.
-    vars_for_prop_hoisting: Box<FxHashMap<Id, Box<Expr>>>,
-    /// Used for `hoist_props`.
-    simple_props: Box<FxHashMap<(Id, JsWord), Box<Expr>>>,
     typeofs: Box<AHashMap<Id, JsWord>>,
     /// This information is created by analyzing identifier usages.
     ///
@@ -235,6 +229,9 @@ struct Vars {
     ///
     /// Used for inlining.
     lits: FxHashMap<Id, Box<Expr>>,
+
+    /// Used for `hoist_props`.
+    hoisted_props: Box<FxHashMap<(Id, JsWord), Ident>>,
 
     /// Literals which are cheap to clone, but not sure if we can inline without
     /// making output bigger.
@@ -279,6 +276,7 @@ impl Vars {
                 lits_for_cmp: &self.lits_for_cmp,
                 lits_for_array_access: &self.lits_for_array_access,
                 lits: &self.lits,
+                hoisted_props: &self.hoisted_props,
                 vars_to_remove: &self.removed,
                 changed: false,
             };
@@ -2920,8 +2918,6 @@ impl VisitMut for Optimizer<'_> {
             }
         };
 
-        self.store_var_for_prop_hoisting(var);
-
         self.drop_unused_properties(var);
 
         debug_assert_valid(&var.init);
@@ -2948,6 +2944,8 @@ impl VisitMut for Optimizer<'_> {
             true
         });
 
+        self.hoist_props_of_vars(vars);
+
         let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
         if !uses_eval && !self.ctx.dont_use_prepend_nor_append {
@@ -2967,6 +2965,9 @@ impl VisitMut for Optimizer<'_> {
             for v in vars.iter_mut() {
                 let mut storage = None;
                 self.drop_unused_var_declarator(v, &mut storage);
+                if let Some(expr) = &mut storage {
+                    expr.visit_mut_with(self);
+                }
                 side_effects.extend(storage);
 
                 // Dropped. Side effects of the initializer is stored in `side_effects`.

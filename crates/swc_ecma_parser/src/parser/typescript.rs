@@ -2666,7 +2666,11 @@ impl<I: Tokens> Parser<I> {
             // Temporarily remove a JSX parsing context, which makes us scan different
             // tokens.
             p.ts_in_no_context(|p| {
-                expect!(p, '<');
+                if is!(p, "<<") {
+                    p.input.cut_lshift();
+                } else {
+                    expect!(p, '<');
+                }
                 p.parse_ts_delimited_list(ParsingContext::TypeParametersOrArguments, |p| {
                     trace_cur!(p, parse_ts_type_args__arg);
 

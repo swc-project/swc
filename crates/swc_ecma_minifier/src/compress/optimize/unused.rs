@@ -3,7 +3,7 @@ use swc_atoms::JsWord;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
-use swc_ecma_utils::{contains_ident_ref, ExprExt};
+use swc_ecma_utils::{contains_ident_ref, contains_this_expr, ExprExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -26,6 +26,9 @@ impl Optimizer<'_> {
         var: &mut VarDeclarator,
         storage_for_side_effects: &mut Option<Box<Expr>>,
     ) {
+        if self.mode.preserve_vars() {
+            return;
+        }
         if var.name.is_invalid() {
             return;
         }
@@ -732,7 +735,7 @@ impl Optimizer<'_> {
 
     /// `var Parser = function Parser() {};` => `var Parser = function () {}`
     pub(super) fn remove_duplicate_name_of_function(&mut self, v: &mut VarDeclarator) {
-        if !self.options.unused {
+        if !self.options.unused || self.options.hoist_props {
             return;
         }
 
@@ -790,8 +793,58 @@ impl Optimizer<'_> {
         let properties_used_via_this = {
             let mut v = ThisPropertyVisitor::default();
             obj.visit_with(&mut v);
+            if v.should_abort {
+                return None;
+            }
             v.properties
         };
+
+        let mut unknown_used_props = self
+            .data
+            .vars
+            .get(&name.to_id())
+            .map(|v| v.accessed_props.clone())
+            .unwrap_or_default();
+
+        // If there's an access to an unknown property, we should preserve all
+        // properties.
+        for prop in &obj.props {
+            let prop = match prop {
+                PropOrSpread::Spread(_) => return None,
+                PropOrSpread::Prop(prop) => prop,
+            };
+
+            if contains_this_expr(prop) {
+                return None;
+            }
+
+            match &**prop {
+                Prop::KeyValue(p) => match &p.key {
+                    PropName::Str(s) => {
+                        if let Some(v) = unknown_used_props.get_mut(&s.value) {
+                            *v = 0;
+                        }
+                    }
+                    PropName::Ident(i) => {
+                        if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                            *v = 0;
+                        }
+                    }
+                    _ => return None,
+                },
+                Prop::Shorthand(p) => {
+                    if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                        *v = 0;
+                    }
+                }
+                _ => return None,
+            }
+        }
+
+        if !unknown_used_props.iter().all(|(_, v)| *v == 0) {
+            log_abort!("[x] unknown used props: {:?}", unknown_used_props);
+            return None;
+        }
 
         let should_preserve_property = |sym: &JsWord| {
             if let "toString" = &**sym {
@@ -843,12 +896,53 @@ struct ThisPropertyVisitor {
 impl Visit for ThisPropertyVisitor {
     noop_visit_type!();
 
+    fn visit_assign_expr(&mut self, e: &AssignExpr) {
+        if self.should_abort {
+            return;
+        }
+
+        e.visit_children_with(self);
+
+        if self.should_abort {
+            return;
+        }
+
+        if let Expr::This(..) = &*e.right {
+            if e.op == op!("=") || e.op.may_short_circuit() {
+                self.should_abort = true;
+            }
+        }
+    }
+
+    fn visit_call_expr(&mut self, n: &CallExpr) {
+        if self.should_abort {
+            return;
+        }
+
+        n.visit_children_with(self);
+
+        if self.should_abort {
+            return;
+        }
+
+        for arg in &n.args {
+            if arg.expr.is_this() {
+                self.should_abort = true;
+                return;
+            }
+        }
+    }
+
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         if self.should_abort {
             return;
         }
 
         e.visit_children_with(self);
+
+        if self.should_abort {
+            return;
+        }
 
         if let Expr::This(..) = &*e.obj {
             match &e.prop {

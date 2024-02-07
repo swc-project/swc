@@ -4953,7 +4953,7 @@
                         }
                     }
                 ]), Code39Reader;
-            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), code_39_vin_reader = function(_Code39Reader) {
+            }(barcode_reader), get = __webpack_require__(13), get_default = __webpack_require__.n(get), patterns_IOQ = /[IOQ]/g, patterns_AZ09 = /[A-Z0-9]{17}/, code_39_vin_reader = function(_Code39Reader) {
                 inherits_default()(Code39VINReader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -4988,7 +4988,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code39VINReader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            return code ? (code = code.replace(/[IOQ]/g, "")).match(/[A-Z0-9]{17}/) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
+                            return code ? (code = code.replace(patterns_IOQ, "")).match(patterns_AZ09) ? this._checkChecksum(code) ? (result.code = code, result) : null : (console.log("Failed AZ09 pattern code:", code), null) : null;
                         }
                     }
                 ]), Code39VINReader;
@@ -6249,7 +6249,7 @@
                         }
                     }
                 ]), Code93Reader;
-            }(barcode_reader), code_32_reader = function(_Code39Reader) {
+            }(barcode_reader), code_32_reader_patterns_AEIO = /[AEIO]/g, code_32_reader = function(_Code39Reader) {
                 inherits_default()(Code32Reader, _Code39Reader);
                 var hasNativeReflectConstruct, _super = (hasNativeReflectConstruct = function() {
                     if ("undefined" == typeof Reflect || !Reflect.construct || Reflect.construct.sham) return !1;
@@ -6293,7 +6293,7 @@
                             var result = get_default()(getPrototypeOf_default()(Code32Reader.prototype), "decode", this).call(this, row, start);
                             if (!result) return null;
                             var code = result.code;
-                            if (!code || (code = code.replace(/[AEIO]/g, ""), !this._checkChecksum(code))) return null;
+                            if (!code || (code = code.replace(code_32_reader_patterns_AEIO, ""), !this._checkChecksum(code))) return null;
                             var code32 = this._decodeCode32(code);
                             return code32 ? (result.code = code32, result) : null;
                         }

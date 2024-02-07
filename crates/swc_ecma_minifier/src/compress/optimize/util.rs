@@ -224,6 +224,7 @@ pub(crate) struct Finalizer<'a> {
     pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
+    pub hoisted_props: &'a FxHashMap<(Id, JsWord), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -410,6 +411,17 @@ impl VisitMut for Finalizer<'_> {
             }
         } else {
             n.visit_mut_children_with(self);
+        }
+
+        if let Expr::Member(e) = n {
+            if let Expr::Ident(obj) = &*e.obj {
+                if let MemberProp::Ident(prop) = &e.prop {
+                    if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), prop.sym.clone())) {
+                        self.changed = true;
+                        *n = ident.clone().into();
+                    }
+                }
+            }
         }
     }
 

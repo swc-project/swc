@@ -12842,33 +12842,28 @@
                 specialAreas: this._specialAreas
             };
         }, GeoJSONResource;
-    }(), storage = createHashMap(), geoSourceManager = {
-        registerMap: function(mapName, rawDef, rawSpecialAreas) {
-            if (rawDef.svg) {
-                var resource = new GeoSVGResource(mapName, rawDef.svg);
-                storage.set(mapName, resource);
-            } else {
-                var geoJSON = rawDef.geoJson || rawDef.geoJSON;
-                geoJSON && !rawDef.features ? rawSpecialAreas = rawDef.specialAreas : geoJSON = rawDef;
-                var resource = new GeoJSONResource(mapName, geoJSON, rawSpecialAreas);
-                storage.set(mapName, resource);
-            }
-        },
-        getGeoResource: function(mapName) {
-            return storage.get(mapName);
-        },
-        getMapForUser: function(mapName) {
-            var resource = storage.get(mapName);
-            return resource && 'geoJSON' === resource.type && resource.getMapForUser();
-        },
-        load: function(mapName, nameMap, nameProperty) {
-            var resource = storage.get(mapName);
-            if (!resource) {
-                console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
-                return;
-            }
-            return resource.load(nameMap, nameProperty);
+    }(), storage = createHashMap(), geoSourceManager_registerMap = function(mapName, rawDef, rawSpecialAreas) {
+        if (rawDef.svg) {
+            var resource = new GeoSVGResource(mapName, rawDef.svg);
+            storage.set(mapName, resource);
+        } else {
+            var geoJSON = rawDef.geoJson || rawDef.geoJSON;
+            geoJSON && !rawDef.features ? rawSpecialAreas = rawDef.specialAreas : geoJSON = rawDef;
+            var resource = new GeoJSONResource(mapName, geoJSON, rawSpecialAreas);
+            storage.set(mapName, resource);
         }
+    }, geoSourceManager_getGeoResource = function(mapName) {
+        return storage.get(mapName);
+    }, geoSourceManager_getMapForUser = function(mapName) {
+        var resource = storage.get(mapName);
+        return resource && 'geoJSON' === resource.type && resource.getMapForUser();
+    }, geoSourceManager_load = function(mapName, nameMap, nameProperty) {
+        var resource = storage.get(mapName);
+        if (!resource) {
+            console.error('Map ' + mapName + ' not exists. The GeoJSON of the map must be provided.');
+            return;
+        }
+        return resource.load(nameMap, nameProperty);
     }, isObject$2 = isObject, hasWindow = 'undefined' != typeof window, PRIORITY = {
         PROCESSOR: {
             FILTER: 1000,
@@ -13727,7 +13722,7 @@
         loadingEffects[name] = loadingFx;
     }
     function registerMap(mapName, geoJson, specialAreas) {
-        geoSourceManager.registerMap(mapName, geoJson, specialAreas);
+        geoSourceManager_registerMap(mapName, geoJson, specialAreas);
     }
     var registerTransform = function(externalTransform) {
         var type = (externalTransform = clone(externalTransform)).type;
@@ -21235,7 +21230,7 @@
         }, MapDraw.prototype._svgResourceChanged = function(mapName) {
             return this._svgMapName !== mapName;
         }, MapDraw.prototype._useSVG = function(mapName) {
-            var resource = geoSourceManager.getGeoResource(mapName);
+            var resource = geoSourceManager_getGeoResource(mapName);
             if (resource && 'geoSVG' === resource.type) {
                 var svgGraphic = resource.useGraphic(this.uid);
                 this._svgGroup.add(svgGraphic.root), this._svgGraphicRecord = svgGraphic, this._svgMapName = mapName;
@@ -21243,7 +21238,7 @@
         }, MapDraw.prototype._freeSVG = function() {
             var mapName = this._svgMapName;
             if (null != mapName) {
-                var resource = geoSourceManager.getGeoResource(mapName);
+                var resource = geoSourceManager_getGeoResource(mapName);
                 resource && 'geoSVG' === resource.type && resource.freeGraphic(this.uid), this._svgGraphicRecord = null, this._svgDispatcherMap = null, this._svgGroup.removeAll(), this._svgMapName = null;
             }
         }, MapDraw.prototype._updateController = function(mapOrGeoModel, ecModel, api) {
@@ -21432,7 +21427,7 @@
                 var name_2 = data.getName(i);
                 dataNameMap.set(name_2, !0);
             }
-            return each(geoSourceManager.load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
+            return each(geoSourceManager_load(this.getMapType(), this.option.nameMap, this.option.nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || toAppendNames.push(name);
             }), data.appendValues([], toAppendNames), data;
@@ -21668,7 +21663,7 @@
                 'lng',
                 'lat'
             ], _this.type = 'geo', _this._nameCoordMap = createHashMap(), _this.map = map;
-            var source = geoSourceManager.load(map, opt.nameMap, opt.nameProperty), resource = geoSourceManager.getGeoResource(map);
+            var source = geoSourceManager_load(map, opt.nameMap, opt.nameProperty), resource = geoSourceManager_getGeoResource(map);
             _this.resourceType = resource ? resource.type : null;
             var defaultParmas = GEO_DEFAULT_PARAMS[resource.type];
             _this._regionsMap = source.regionsMap, _this._invertLongitute = defaultParmas.invertLongitute, _this.regions = source.regions, _this.aspectScale = retrieve2(opt.aspectScale, defaultParmas.aspectScale);
@@ -21772,7 +21767,7 @@
             }), geoList;
         }, GeoCreator.prototype.getFilledRegions = function(originRegionArr, mapName, nameMap, nameProperty) {
             for(var regionsArr = (originRegionArr || []).slice(), dataNameMap = createHashMap(), i = 0; i < regionsArr.length; i++)dataNameMap.set(regionsArr[i].name, regionsArr[i]);
-            return each(geoSourceManager.load(mapName, nameMap, nameProperty).regions, function(region) {
+            return each(geoSourceManager_load(mapName, nameMap, nameProperty).regions, function(region) {
                 var name = region.name;
                 dataNameMap.get(name) || regionsArr.push({
                     name: name
@@ -21785,7 +21780,7 @@
             return _this.type = GeoModel.type, _this;
         }
         return __extends(GeoModel, _super), GeoModel.prototype.init = function(option, parentModel, ecModel) {
-            var source = geoSourceManager.getGeoResource(option.map);
+            var source = geoSourceManager_getGeoResource(option.map);
             if (source && 'geoJSON' === source.type) {
                 var itemStyle = option.itemStyle = option.itemStyle || {};
                 'color' in itemStyle || (itemStyle.color = '#eee');
@@ -41277,7 +41272,7 @@
     }, exports1.getInstanceByDom = getInstanceByDom, exports1.getInstanceById = function(key) {
         return instances$1[key];
     }, exports1.getMap = function(mapName) {
-        return geoSourceManager.getMapForUser(mapName);
+        return geoSourceManager_getMapForUser(mapName);
     }, exports1.graphic = graphic$1, exports1.helper = helper, exports1.init = function(dom, theme, opts) {
         if (!dom) throw Error('Initialize failed: invalid dom.');
         var existInstance = getInstanceByDom(dom);

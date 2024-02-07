@@ -11,17 +11,17 @@
                 }
             });
             var jsx_runtime = __webpack_require__(7437), react = __webpack_require__(2265);
-            const Context = (0, react.createContext)({}), ClientCompoenent = ()=>{
+            const Context = (0, react.createContext)({}), ContextDemo_Provider = (param)=>{
+                let { children } = param;
+                return (0, jsx_runtime.jsx)(Context.Provider, {
+                    value: {},
+                    children: children
+                });
+            }, ClientCompoenent = ()=>{
                 const [count, setCount] = (0, react.useState)(0);
                 return (0, jsx_runtime.jsxs)(jsx_runtime.Fragment, {
                     children: [
-                        (0, jsx_runtime.jsx)((param)=>{
-                            let { children } = param;
-                            return (0, jsx_runtime.jsx)(Context.Provider, {
-                                value: {},
-                                children: children
-                            });
-                        }, {
+                        (0, jsx_runtime.jsx)(ContextDemo_Provider, {
                             children: (0, jsx_runtime.jsx)("input", {})
                         }),
                         (0, jsx_runtime.jsx)("button", {
