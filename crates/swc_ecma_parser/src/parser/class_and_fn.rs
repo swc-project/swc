@@ -1615,10 +1615,22 @@ pub(super) trait FnBodyParser<Body> {
     fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<Body>;
 }
 fn has_use_strict(block: &BlockStmt) -> Option<Span> {
-    match block.stmts.iter().find(|stmt| stmt.is_use_strict()) {
-        Some(Stmt::Expr(ExprStmt { span, expr: _ })) => Some(*span),
-        _ => None,
+    for stmt in &block.stmts {
+        match stmt {
+            Stmt::Expr(s) => match &*s.expr {
+                Expr::Lit(Lit::Str(..)) => {
+                    if stmt.is_use_strict() {
+                        return Some(stmt.span());
+                    }
+                }
+
+                _ => return None,
+            },
+            _ => return None,
+        }
     }
+
+    None
 }
 impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
     fn parse_fn_body_inner(
