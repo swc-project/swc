@@ -2306,7 +2306,7 @@ pub trait IsDirective {
         }
     }
     fn directive_continue(&self) -> bool {
-        self.as_ref().map_or(false, Stmt::can_preced_directive)
+        self.as_ref().map_or(false, Stmt::can_precede_directive)
     }
     fn is_use_strict(&self) -> bool {
         self.as_ref().map_or(false, Stmt::is_use_strict)
