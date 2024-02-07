@@ -5,6 +5,9 @@
 
 
 
+- **(binding/types)** Update typings for `options.envs` to match implementation ([#8620](https://github.com/swc-project/swc/issues/8620)) ([2a115cf](https://github.com/swc-project/swc/commit/2a115cff716b3ac9216d03a4c88649fedff73850))
+
+
 - **(es/parser)** Set class property to `abstract` or `override` even in error states ([#8610](https://github.com/swc-project/swc/issues/8610)) ([5a77306](https://github.com/swc-project/swc/commit/5a773061dbb8674d93fab46681492a7e08f95f2c))
 
 
@@ -1464,12 +1467,6 @@
 - **(bindings/wasm)** Fix Wasm build ([#7666](https://github.com/swc-project/swc/issues/7666)) ([dc5135f](https://github.com/swc-project/swc/commit/dc5135f43f5fe01ed36c1b40a5647b2f1c3277b4))
 
 ## [1.3.69] - 2023-07-13
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Don't drop unused properties of top-level vars ([#7638](https://github.com/swc-project/swc/issues/7638)) ([19ba714](https://github.com/swc-project/swc/commit/19ba714ea11d6e733cd46ed3ce6b851ddc972e5a))
 
 ### Miscellaneous Tasks
 
