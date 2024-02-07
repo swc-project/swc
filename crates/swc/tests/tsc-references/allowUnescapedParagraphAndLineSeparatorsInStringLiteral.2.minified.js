@@ -1,0 +1,1 @@
+//// [allowUnescapedParagraphAndLineSeparatorsInStringLiteral.ts]

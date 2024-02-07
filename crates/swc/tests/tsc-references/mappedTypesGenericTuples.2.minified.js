@@ -1,0 +1,1 @@
+//// [mappedTypesGenericTuples.ts]

@@ -1,5 +1,5 @@
 //// [controlFlowAliasing.ts]
-import "@swc/helpers/_/_class_call_check";
+import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ({
     fn: function() {
         return !0;

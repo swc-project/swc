@@ -281,3 +281,56 @@ const fa3 = (guard, value)=>{
 const bot = new Client();
 bot.on("shardDisconnect", (event, shard)=>console.log(`Shard ${shard} disconnected (${event.code},${event.wasClean}): ${event.reason}`));
 bot.on("shardDisconnect", (event)=>console.log(`${event.code} ${event.wasClean} ${event.reason}`));
+// Destructuring tuple types with different arities
+function fz1([x, y]) {
+    if (y === 2) {
+        x; // 1
+    }
+    if (y === 4) {
+        x; // 3
+    }
+    if (y === undefined) {
+        x; // 5
+    }
+    if (x === 1) {
+        y; // 2
+    }
+    if (x === 3) {
+        y; // 4
+    }
+    if (x === 5) {
+        y; // undefined
+    }
+}
+// Repro from #55661
+function tooNarrow([x, y]) {
+    if (y === undefined) {
+        const shouldNotBeOk = x; // Error
+    }
+}
+// https://github.com/microsoft/TypeScript/issues/56312
+function parameterReassigned1([x, y]) {
+    if (Math.random()) {
+        x = 1;
+    }
+    if (y === 2) {
+        x; // 1 | 3
+    }
+}
+function parameterReassigned2([x, y]) {
+    if (Math.random()) {
+        y = 2;
+    }
+    if (y === 2) {
+        x; // 1 | 3
+    }
+}
+// https://github.com/microsoft/TypeScript/pull/56313#discussion_r1416482490
+const parameterReassignedContextualRest1 = (x, y)=>{
+    if (Math.random()) {
+        y = 2;
+    }
+    if (y === 2) {
+        x; // 1 | 3
+    }
+};

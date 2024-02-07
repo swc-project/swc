@@ -14,3 +14,11 @@ class C {
         }();
     }
 }
+function f() {
+    var _arguments = arguments;
+    return /*#__PURE__*/ _async_to_generator(function*() {
+        /*#__PURE__*/ return _async_to_generator(function*() {
+            return _arguments.length;
+        });
+    });
+}

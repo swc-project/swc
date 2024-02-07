@@ -24,3 +24,13 @@ function f14(a, b) {
     a = b;
     b = a; // Error
 }
+bu = bs;
+bs = bu;
+bfu = bfs;
+bfs = bfu;
+b1fu = b2fs;
+b2fs = b1fu;
+sx = sy; // Error
+sy = sx;
+s1 = s2; // Error
+s2 = s1;
