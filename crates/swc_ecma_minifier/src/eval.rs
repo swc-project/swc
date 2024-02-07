@@ -63,16 +63,21 @@ impl Mode for Eval {
         w.cache.insert(id, Box::new(value.clone()));
     }
 
-    fn force_str_for_tpl(&self) -> bool {
+    fn preserve_vars(&self) -> bool {
         true
     }
 
     fn should_be_very_correct(&self) -> bool {
         false
     }
+
+    fn force_str_for_tpl(&self) -> bool {
+        true
+    }
 }
 
 impl Evaluator {
+    #[tracing::instrument(name = "Evaluator::run", level = "debug", skip_all)]
     fn run(&mut self) {
         if !self.done {
             self.done = true;
@@ -83,7 +88,8 @@ impl Evaluator {
             self.module.visit_mut_with(&mut compressor(
                 marks,
                 &CompressOptions {
-                    hoist_props: true,
+                    // We should not drop unused variables.
+                    unused: false,
                     top_level: Some(TopLevelOptions { functions: true }),
                     ..Default::default()
                 },

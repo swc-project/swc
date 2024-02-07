@@ -1,4 +1,4 @@
 function testFunc() {
-    return 1 * ((6 + 5) / 2);
+    return 5.5;
 }
 console.log(testFunc());

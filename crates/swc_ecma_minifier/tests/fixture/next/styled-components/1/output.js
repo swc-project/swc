@@ -5322,33 +5322,31 @@
                 justifySelf: !0,
                 alignSelf: !0,
                 order: !0
-            }), dist_index_esm_defaults = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ]
-            }, grid = system({
+            }), dist_index_esm_defaults_space = [
+                0,
+                4,
+                8,
+                16,
+                32,
+                64,
+                128,
+                256,
+                512
+            ], grid = system({
                 gridGap: {
                     property: "gridGap",
                     scale: "space",
-                    defaultScale: dist_index_esm_defaults.space
+                    defaultScale: dist_index_esm_defaults_space
                 },
                 gridColumnGap: {
                     property: "gridColumnGap",
                     scale: "space",
-                    defaultScale: dist_index_esm_defaults.space
+                    defaultScale: dist_index_esm_defaults_space
                 },
                 gridRowGap: {
                     property: "gridRowGap",
                     scale: "space",
-                    defaultScale: dist_index_esm_defaults.space
+                    defaultScale: dist_index_esm_defaults_space
                 },
                 gridColumn: !0,
                 gridRow: !0,
@@ -5484,19 +5482,17 @@
                 backgroundRepeat: !0
             };
             background_dist_index_esm_config.bgImage = background_dist_index_esm_config.backgroundImage, background_dist_index_esm_config.bgSize = background_dist_index_esm_config.backgroundSize, background_dist_index_esm_config.bgPosition = background_dist_index_esm_config.backgroundPosition, background_dist_index_esm_config.bgRepeat = background_dist_index_esm_config.backgroundRepeat;
-            var background = system(background_dist_index_esm_config), position_dist_index_esm_defaults = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ]
-            }, position = system({
+            var background = system(background_dist_index_esm_config), position_dist_index_esm_defaults_space = [
+                0,
+                4,
+                8,
+                16,
+                32,
+                64,
+                128,
+                256,
+                512
+            ], position = system({
                 position: !0,
                 zIndex: {
                     property: "zIndex",
@@ -5505,36 +5501,34 @@
                 top: {
                     property: "top",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 },
                 right: {
                     property: "right",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 },
                 bottom: {
                     property: "bottom",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 },
                 left: {
                     property: "left",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 }
-            }), space_dist_index_esm_defaults = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ]
-            }, index_esm_isNumber = function(n) {
+            }), space_dist_index_esm_defaults_space = [
+                0,
+                4,
+                8,
+                16,
+                32,
+                64,
+                128,
+                256,
+                512
+            ], index_esm_isNumber = function(n) {
                 return "number" == typeof n && !isNaN(n);
             }, getMargin = function(n, scale) {
                 if (!index_esm_isNumber(n)) return get(scale, n, n);
@@ -5546,31 +5540,31 @@
                     property: "margin",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginTop: {
                     property: "marginTop",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginRight: {
                     property: "marginRight",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginBottom: {
                     property: "marginBottom",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginLeft: {
                     property: "marginLeft",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginX: {
                     properties: [
@@ -5579,7 +5573,7 @@
                     ],
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginY: {
                     properties: [
@@ -5588,33 +5582,33 @@
                     ],
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 }
             }, configs.margin.m = configs.margin.margin, configs.margin.mt = configs.margin.marginTop, configs.margin.mr = configs.margin.marginRight, configs.margin.mb = configs.margin.marginBottom, configs.margin.ml = configs.margin.marginLeft, configs.margin.mx = configs.margin.marginX, configs.margin.my = configs.margin.marginY, configs.padding = {
                 padding: {
                     property: "padding",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingTop: {
                     property: "paddingTop",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingRight: {
                     property: "paddingRight",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingBottom: {
                     property: "paddingBottom",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingLeft: {
                     property: "paddingLeft",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingX: {
                     properties: [
@@ -5622,7 +5616,7 @@
                         "paddingRight"
                     ],
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingY: {
                     properties: [
@@ -5630,7 +5624,7 @@
                         "paddingBottom"
                     ],
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 }
             }, configs.padding.p = configs.padding.padding, configs.padding.pt = configs.padding.paddingTop, configs.padding.pr = configs.padding.paddingRight, configs.padding.pb = configs.padding.paddingBottom, configs.padding.pl = configs.padding.paddingLeft, configs.padding.px = configs.padding.paddingX, configs.padding.py = configs.padding.paddingY;
             var margin = system(configs.margin), padding = system(configs.padding), space = compose(margin, padding), shadow = system({

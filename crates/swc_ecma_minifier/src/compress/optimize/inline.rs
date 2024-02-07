@@ -75,6 +75,8 @@ impl Optimizer<'_> {
 
             // No use => dropped
             if ref_count == 0 {
+                self.mode.store(ident.to_id(), &*init);
+
                 if init.may_have_side_effects(&self.expr_ctx) {
                     // TODO: Inline partially
                     return;
