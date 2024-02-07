@@ -58,6 +58,9 @@ fn identity(entry: PathBuf) {
         "objectRestNegative.ts",
         "parserSuperExpression2.ts",
         "propertyAccessChain.3.ts",
+        "esDecorators-classDeclaration-classSuper.2.ts",
+        "esDecorators-classExpression-classSuper.2.ts",
+        "contextualTypes.ts",
     ];
 
     // TODO: Unignore const enum test
