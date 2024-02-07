@@ -336,7 +336,7 @@ swc_css_compat                   = { optional = true, version = "0.27.27", path 
 swc_css_minifier                 = { optional = true, version = "0.116.27", path = "../swc_css_minifier" }
 swc_css_modules                  = { optional = true, version = "0.29.29", path = "../swc_css_modules" }
 swc_css_parser                   = { optional = true, version = "0.150.25", path = "../swc_css_parser" }
-swc_css_prefixer                 = { optional = true, version = "0.153.29", path = "../swc_css_prefixer" }
+swc_css_prefixer                 = { optional = true, version = "0.153.30", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.137.17", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "0.139.17", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "0.112.0", path = "../swc_ecma_ast" }
@@ -344,7 +344,7 @@ swc_ecma_codegen                 = { optional = true, version = "0.148.1", path 
 swc_ecma_loader                  = { optional = true, version = "0.45.18", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "0.192.2", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "0.143.1", path = "../swc_ecma_parser" }
-swc_ecma_preset_env              = { optional = true, version = "0.206.1", path = "../swc_ecma_preset_env" }
+swc_ecma_preset_env              = { optional = true, version = "0.206.2", path = "../swc_ecma_preset_env" }
 swc_ecma_quote_macros            = { optional = true, version = "0.54.4", path = "../swc_ecma_quote_macros" }
 swc_ecma_transforms_base         = { optional = true, version = "0.137.1", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat       = { optional = true, version = "0.163.1", path = "../swc_ecma_transforms_compat" }
