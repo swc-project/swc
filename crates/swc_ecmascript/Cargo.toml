@@ -38,14 +38,14 @@ react        = ["swc_ecma_transforms/react"]
 typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast        = { version = "0.112.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen    = { version = "0.148.1", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_ast        = { version = "0.112.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen    = { version = "0.148.2", path = "../swc_ecma_codegen", optional = true }
 swc_ecma_minifier   = { version = "0.192.2", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser     = { version = "0.143.1", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_parser     = { version = "0.143.2", path = "../swc_ecma_parser", optional = true, default-features = false }
 swc_ecma_preset_env = { version = "0.206.2", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote      = { version = "0.59.4", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "0.229.1", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils      = { version = "0.127.1", path = "../swc_ecma_utils", optional = true }
-swc_ecma_visit      = { version = "0.98.0", path = "../swc_ecma_visit", optional = true }
+swc_ecma_quote      = { version = "0.59.5", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "0.229.2", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_utils      = { version = "0.127.2", path = "../swc_ecma_utils", optional = true }
+swc_ecma_visit      = { version = "0.98.1", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]

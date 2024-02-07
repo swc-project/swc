@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_plugin_runner"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.106.1"
+version       = "0.106.2"
 
 [lib]
 bench   = false
@@ -65,8 +65,8 @@ swc_common = { version = "0.33.16", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_css_ast = { version = "0.140.17", path = "../swc_css_ast", optional = true }
-swc_ecma_ast = { version = "0.112.0", path = "../swc_ecma_ast", optional = true }
-swc_plugin_proxy = { version = "0.41.0", path = "../swc_plugin_proxy" }
+swc_ecma_ast = { version = "0.112.1", path = "../swc_ecma_ast", optional = true }
+swc_plugin_proxy = { version = "0.41.1", path = "../swc_plugin_proxy" }
 
 [target.'cfg(not(target_arch = "wasm32"))'.dependencies]
 wasmer-cache              = { version = "4.0.0", optional = true }
@@ -80,12 +80,12 @@ swc_css_ast = { version = "0.140.17", path = "../swc_css_ast", features = [
   "rkyv-impl",
 ] }
 swc_css_parser = { version = "0.150.25", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "0.112.0", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "0.112.1", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
 swc_ecma_loader = { version = "0.45.18", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.143.1", path = "../swc_ecma_parser" }
-swc_ecma_visit = { version = "0.98.0", path = "../swc_ecma_visit" }
+swc_ecma_parser = { version = "0.143.2", path = "../swc_ecma_parser" }
+swc_ecma_visit = { version = "0.98.1", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 testing = { version = "0.35.17", path = "../testing" }
 
