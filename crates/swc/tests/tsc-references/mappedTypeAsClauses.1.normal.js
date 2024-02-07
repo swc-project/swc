@@ -11,3 +11,4 @@ function f(x) {
     return x;
 }
 f("a"); // Error, should allow only "b"
+ // "apple:red" | "banana:yellow" | "orange:orange"

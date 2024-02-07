@@ -73,3 +73,8 @@ unionTuple = unionTuple1;
 unionTuple = unionTuple2;
 unionTuple2 = unionTuple;
 numStrTuple = unionTuple3;
+var var1 = [
+    0,
+    0
+];
+var withExtra = [];

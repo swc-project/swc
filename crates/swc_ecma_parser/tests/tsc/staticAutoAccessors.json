@@ -1,0 +1,106 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 112,
+    "end": 218,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 118,
+          "end": 119,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 112,
+        "end": 218,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 154,
+            "end": 176,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 170,
+              "end": 171,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 174,
+              "end": 175,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        },
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 201,
+            "end": 216,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 210,
+              "end": 211,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 214,
+              "end": 215,
+              "ctxt": 0
+            },
+            "value": 2.0,
+            "raw": "2"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

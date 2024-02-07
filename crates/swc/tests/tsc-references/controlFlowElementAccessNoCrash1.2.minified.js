@@ -1,0 +1,1 @@
+//// [controlFlowElementAccessNoCrash1.ts]

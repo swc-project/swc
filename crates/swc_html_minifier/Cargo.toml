@@ -27,16 +27,16 @@ swc_css_ast = { version = "0.140.17", path = "../swc_css_ast" }
 swc_css_codegen = { version = "0.151.26", path = "../swc_css_codegen" }
 swc_css_minifier = { version = "0.116.27", path = "../swc_css_minifier" }
 swc_css_parser = { version = "0.150.25", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "0.112.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.148.1", path = "../swc_ecma_codegen", features = [
+swc_ecma_ast = { version = "0.112.1", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.148.2", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
 swc_ecma_minifier = { version = "0.192.2", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "0.143.1", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.137.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "0.98.0", path = "../swc_ecma_visit" }
+swc_ecma_parser = { version = "0.143.2", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.137.2", path = "../swc_ecma_transforms_base" }
+swc_ecma_visit = { version = "0.98.1", path = "../swc_ecma_visit" }
 swc_html_ast = { version = "0.33.15", path = "../swc_html_ast" }
 swc_html_codegen = { version = "0.42.20", path = "../swc_html_codegen" }
 swc_html_parser = { version = "0.39.20", path = "../swc_html_parser" }

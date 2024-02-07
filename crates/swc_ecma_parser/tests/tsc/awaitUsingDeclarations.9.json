@@ -1,0 +1,80 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 84,
+    "end": 125,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 84,
+        "end": 113,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "UsingDeclaration",
+          "span": {
+            "start": 90,
+            "end": 110,
+            "ctxt": 0
+          },
+          "isAwait": true,
+          "decls": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 102,
+                "end": 110,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 102,
+                  "end": 103,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": {
+                "type": "NullLiteral",
+                "span": {
+                  "start": 106,
+                  "end": 110,
+                  "ctxt": 0
+                }
+              },
+              "definite": false
+            }
+          ]
+        },
+        {
+          "type": "EmptyStatement",
+          "span": {
+            "start": 110,
+            "end": 111,
+            "ctxt": 0
+          }
+        }
+      ]
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 115,
+        "end": 125,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    }
+  ],
+  "interpreter": null
+}

@@ -104,7 +104,7 @@ function f0(t, n) {
 }
 function f1(t, n) {
     var _$a = t[0]; // string
-    var b = t[1]; // [string, ...T, number][1]
+    var b = t[1]; // number | T[number]
     var c = t[2]; // [string, ...T, number][2]
     var d = t[n]; // [string, ...T, number][number]
 }
@@ -117,7 +117,7 @@ function f2(t) {
 function f3(t) {
     var _t = _to_array(t), ax = _t.slice(0); // [string, ...T, number]
     var _t1 = _to_array(t), b1 = _t1[0], bx = _t1.slice(1); // string, [...T, number]
-    var _t2 = _to_array(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, [string, ...T, number][1], (number | T[number])[]
+    var _t2 = _to_array(t), c1 = _t2[0], c2 = _t2[1], cx = _t2.slice(2); // string, number | T[number], (number | T[number])[]
 }
 var tm1 = fm1([
     [
@@ -216,6 +216,16 @@ function f15(k0, k1, k2, k3) {
     k3 = "0";
     k3 = "1";
     k3 = "2"; // Error
+}
+// Constraints of variadic tuple types
+function ft16(x, y) {
+    x = y;
+}
+function ft17(x, y) {
+    x = y;
+}
+function ft18(x, y) {
+    x = y;
 }
 // Inference to [...T, ...U] with implied arity for T
 function curry(f) {
