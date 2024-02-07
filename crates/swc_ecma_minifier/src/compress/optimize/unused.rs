@@ -735,7 +735,7 @@ impl Optimizer<'_> {
 
     /// `var Parser = function Parser() {};` => `var Parser = function () {}`
     pub(super) fn remove_duplicate_name_of_function(&mut self, v: &mut VarDeclarator) {
-        if !self.options.unused {
+        if !self.options.unused || self.options.hoist_props {
             return;
         }
 
