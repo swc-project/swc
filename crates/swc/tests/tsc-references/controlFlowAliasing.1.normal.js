@@ -114,9 +114,9 @@ function f25(arg) {
     var obj = arg;
     var isFoo = obj.kind === "foo";
     if (isFoo) {
-        obj.foo; // Not narrowed because obj is mutable
+        obj.foo;
     } else {
-        obj.bar; // Not narrowed because obj is mutable
+        obj.bar;
     }
 }
 function f26(outer) {
@@ -240,3 +240,28 @@ var obj = {
 };
 if (a) {}
 var a = obj.fn();
+// repro from https://github.com/microsoft/TypeScript/issues/53267
+var Utils = /*#__PURE__*/ function() {
+    "use strict";
+    function Utils() {
+        _class_call_check(this, Utils);
+    }
+    Utils.isDefined = function isDefined(value) {
+        return value != null;
+    };
+    return Utils;
+}();
+var A53267 = /*#__PURE__*/ function() {
+    "use strict";
+    function A53267() {
+        _class_call_check(this, A53267);
+    }
+    var _proto = A53267.prototype;
+    _proto.foo = function foo() {
+        var isNumber = Utils.isDefined(this.testNumber);
+        if (isNumber) {
+            var x = this.testNumber;
+        }
+    };
+    return A53267;
+}();

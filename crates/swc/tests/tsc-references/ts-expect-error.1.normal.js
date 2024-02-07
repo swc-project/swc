@@ -30,3 +30,7 @@ var validPlain = "nope";
 ({
     a: true
 }).a === false; // error
+// @ts-expect-error: additional commenting with no whitespace
+var invalidCommentedFancySingle = "nope";
+/*
+ @ts-expect-error: additional commenting with no whitespace */ var invalidCommentedFancyMulti = "nope";

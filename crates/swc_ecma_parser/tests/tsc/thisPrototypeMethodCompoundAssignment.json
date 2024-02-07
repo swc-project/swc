@@ -1,0 +1,191 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 36,
+    "end": 119,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 36,
+        "end": 119,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 36,
+          "end": 118,
+          "ctxt": 0
+        },
+        "operator": "??=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 36,
+            "end": 60,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 36,
+              "end": 53,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 36,
+                "end": 43,
+                "ctxt": 0
+              },
+              "value": "Element",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 44,
+                "end": 53,
+                "ctxt": 0
+              },
+              "value": "prototype",
+              "optional": false
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 54,
+              "end": 60,
+              "ctxt": 0
+            },
+            "value": "remove",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "FunctionExpression",
+          "identifier": null,
+          "params": [],
+          "decorators": [],
+          "span": {
+            "start": 65,
+            "end": 118,
+            "ctxt": 0
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 77,
+              "end": 118,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ExpressionStatement",
+                "span": {
+                  "start": 81,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "OptionalChainingExpression",
+                  "span": {
+                    "start": 81,
+                    "end": 115,
+                    "ctxt": 0
+                  },
+                  "optional": false,
+                  "base": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 81,
+                      "end": 115,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "OptionalChainingExpression",
+                      "span": {
+                        "start": 81,
+                        "end": 109,
+                        "ctxt": 0
+                      },
+                      "optional": true,
+                      "base": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 81,
+                          "end": 109,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 81,
+                            "end": 96,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "ThisExpression",
+                            "span": {
+                              "start": 81,
+                              "end": 85,
+                              "ctxt": 0
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 86,
+                              "end": 96,
+                              "ctxt": 0
+                            },
+                            "value": "parentNode",
+                            "optional": false
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 98,
+                            "end": 109,
+                            "ctxt": 0
+                          },
+                          "value": "removeChild",
+                          "optional": false
+                        }
+                      }
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "ThisExpression",
+                          "span": {
+                            "start": 110,
+                            "end": 114,
+                            "ctxt": 0
+                          }
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  }
+                }
+              }
+            ]
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

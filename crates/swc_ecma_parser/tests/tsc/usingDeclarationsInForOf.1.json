@@ -1,0 +1,167 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 109,
+    "end": 175,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 109,
+        "end": 175,
+        "ctxt": 0
+      },
+      "await": false,
+      "left": {
+        "type": "UsingDeclaration",
+        "span": {
+          "start": 114,
+          "end": 122,
+          "ctxt": 0
+        },
+        "isAwait": false,
+        "decls": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 114,
+              "end": 122,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 120,
+                "end": 122,
+                "ctxt": 0
+              },
+              "value": "d1",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": null,
+            "definite": false
+          }
+        ]
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 126,
+          "end": 170,
+          "ctxt": 0
+        },
+        "elements": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 127,
+                "end": 152,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "MethodProperty",
+                  "key": {
+                    "type": "Computed",
+                    "span": {
+                      "start": 129,
+                      "end": 145,
+                      "ctxt": 0
+                    },
+                    "expression": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 130,
+                        "end": 144,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 130,
+                          "end": 136,
+                          "ctxt": 0
+                        },
+                        "value": "Symbol",
+                        "optional": false
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 137,
+                          "end": 144,
+                          "ctxt": 0
+                        },
+                        "value": "dispose",
+                        "optional": false
+                      }
+                    }
+                  },
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 129,
+                    "end": 150,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 148,
+                      "end": 150,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              ]
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "NullLiteral",
+              "span": {
+                "start": 154,
+                "end": 158,
+                "ctxt": 0
+              }
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 160,
+                "end": 169,
+                "ctxt": 0
+              },
+              "value": "undefined",
+              "optional": false
+            }
+          }
+        ]
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 172,
+          "end": 175,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

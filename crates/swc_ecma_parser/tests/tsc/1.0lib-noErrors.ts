@@ -1141,4 +1141,4 @@ declare var Array: {
     <T>(...items: T[]): T[];
     isArray(arg: any): boolean;
     prototype: Array<any>;
-}
+}

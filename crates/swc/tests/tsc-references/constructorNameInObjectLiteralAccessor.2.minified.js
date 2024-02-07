@@ -1,0 +1,1 @@
+//// [constructorNameInObjectLiteralAccessor.ts]
