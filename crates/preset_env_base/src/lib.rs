@@ -76,14 +76,14 @@ impl<T> BrowserData<T>
 where
     T: Default,
 {
-    pub fn insert(&mut self, k: &str, v: T) -> Option<T> {
+    pub fn insert(&mut self, k: &str, v: T) -> T {
         for (key, value) in self.iter_mut() {
             if k == key {
-                return Some(std::mem::replace(value, v));
+                return std::mem::replace(value, v);
             }
         }
 
-        None
+        panic!("unknown key: {}", k)
     }
 }
 
