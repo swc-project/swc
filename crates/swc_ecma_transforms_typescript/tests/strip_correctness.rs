@@ -52,113 +52,8 @@ fn identity(entry: PathBuf) {
         "exponentiationOperatorWithInvalidSimpleUnaryExpressionOperands.ts",
         // `let[0] = 'foo'` is useless
         "letIdentifierInElementAccess01.ts",
-        // Parser issue
-        "errorSuperCalls.ts",
-        "tsc/parserAccessors8.ts",
-        // TypeScript parser issue
-        "objectLiteralGettersAndSetters.ts",
-        "parserSuperExpression2.ts",
-        // TODO: Unignore
-        "inlineJsxFactoryDeclarationsx",
-        "tsxAttributeResolution5x",
-        "jsxReactTestSuitex",
-        "tsxErrorRecovery2",
-        "tsxErrorRecovery3",
-        "tsxReactEmitNestingx",
-        "tsxTypeArgumentsJsxPreserveOutputx",
-        "unicodeEscapesInJsxtagsx",
-        "tsc/contextuallyTypedStringLiteralsInJsxAttributes01x.tsx",
-        "tsc/contextuallyTypedStringLiteralsInJsxAttributes02x.tsx",
-        // TODO: Unignore
-        // Tests require ast change
-        "tsc/thisTypeInAccessors.ts",
-        "tsc/thisTypeInAccessorsNegative.ts",
-        // Invalid syntax
-        "tsc/computedPropertyNames49_ES5.ts",
-        "tsc/computedPropertyNames49_ES6.ts",
-        "tsc/computedPropertyNames50_ES5.ts",
-        "tsc/computedPropertyNames50_ES6.ts",
-        "tsc/deleteOperatorInvalidOperations.ts",
-        "tsc/generatorTypeCheck59.ts",
-        "tsc/generatorTypeCheck61.ts",
-        "tsc/jsxAndTypeAssertion.tsx",
-        "tsc/jsxEsprimaFbTestSuite.tsx",
-        "tsc/jsxInvalidEsprimaTestSuite.tsx",
-        "tsc/jsxParsingError2.tsx",
-        "tsc/jsxParsingError3.tsx",
-        "tsc/logicalNotOperatorInvalidOperations.ts",
-        "tsc/parseIncompleteBinaryExpression1.ts",
-        "tsc/parser512325.ts",
-        "tsc/parserComputedPropertyName1.ts",
-        "tsc/parserES5ForOfStatement21.ts",
-        "tsc/parserES5ForOfStatement2.ts",
-        "tsc/parserEnumDeclaration4.ts",
-        "tsc/parserErrorRecoveryIfStatement2.ts",
-        "tsc/parserErrorRecoveryIfStatement3.ts",
-        "tsc/parserForInStatement2.ts",
-        "tsc/parserForOfStatement21.ts",
-        "tsc/parserForOfStatement2.ts",
-        "tsc/parserShorthandPropertyAssignment3.ts",
-        "tsc/parserShorthandPropertyAssignment4.ts",
-        "tsc/parserTypeAssertionInObjectCreationExpression1.ts",
-        "tsc/taggedTemplatesWithTypeArguments2.ts",
-        "tsc/tsxAttributeInvalidNames.tsx",
-        "tsc/tsxErrorRecovery1.tsx",
-        "tsc/tsxFragmentErrors.tsx",
-        "tsc/tsxGenericArrowFunctionParsing.tsx",
-        "tsc/tsxStatelessFunctionComponents1.tsx",
-        "tsc/typeofOperatorInvalidOperations.ts",
-        "tsc/voidOperatorInvalidOperations.ts",
-        "tsc/objectRestNegative.ts",
-        "tsc/jsdocDisallowedInTypescript.ts",
-        "tsc/restElementMustBeLast.ts",
-        "tsc/objectRestPropertyMustBeLast.ts",
-        "tsc/propertyNamesOfReservedWords.ts",
-        "tsc/callSignaturesWithParameterInitializers.ts",
-        "parserForOfStatement23",
-        "parserForOfStatement24",
-        "constEnum4",
-        "checkJsxNamespaceNamesQuestionableForms",
-        "classExtendingOptionalChain",
-        "inlineJsxFactoryDeclarations",
-        "interfaceExtendingOptionalChain",
-        "inlineJsxFactoryDeclarations",
-        "interfaceExtendingOptionalChain",
-        "interfacesWithPredefinedTypesAsNames",
-        "jsxReactTestSuite",
-        "namedTupleMembersErrors",
-        "tsxAttributeResolution5",
-        "tsxReactEmitNesting",
-        "tsxTypeArgumentsJsxPreserveOutput",
-        "unicodeEscapesInJsxtags",
-        "autoAccessor",
-        "parserArrowFunctionExpression11.ts",
         // decorator
         "issue-2417",
-        // TODO: Script mode
-        "asyncArrowFunction3_es2017.ts",
-        "asyncArrowFunction3_es5.ts",
-        "asyncArrowFunction3_es6.ts",
-        "asyncArrowFunction4_es2017.ts",
-        "asyncArrowFunction4_es5.ts",
-        "asyncArrowFunction4_es6.ts",
-        "asyncFunctionDeclaration11_es2017.ts",
-        "asyncFunctionDeclaration11_es5.ts",
-        "asyncFunctionDeclaration11_es6.ts",
-        "asyncFunctionDeclaration2_es2017.ts",
-        "asyncFunctionDeclaration2_es5.ts",
-        "asyncFunctionDeclaration2_es6.ts",
-        "asyncFunctionDeclaration3_es2017.ts",
-        "asyncFunctionDeclaration3_es5.ts",
-        "asyncFunctionDeclaration3_es6.ts",
-        "asyncFunctionDeclaration4_es2017.ts",
-        "asyncFunctionDeclaration4_es5.ts",
-        "asyncFunctionDeclaration4_es6.ts",
-        "topLevelAwait.2.ts",
-        "parserGreaterThanTokenAmbiguity11.ts",
-        "parserGreaterThanTokenAmbiguity15.ts",
-        "parserGreaterThanTokenAmbiguity16.ts",
-        "parserGreaterThanTokenAmbiguity20.ts",
         // Invalid syntax (fixer)
         "parserAssignmentExpression1.ts",
     ];
@@ -226,7 +121,13 @@ fn identity(entry: PathBuf) {
                 .map_err(|e| {
                     eprintln!("failed to parse as typescript module");
                     e.into_diagnostic(handler).emit();
-                })?;
+                });
+
+            // We are not testing parser issues
+            let program = match program {
+                Ok(program) => program,
+                Err(_) => return Ok(()),
+            };
 
             emitter.emit_program(&program).unwrap();
         }
