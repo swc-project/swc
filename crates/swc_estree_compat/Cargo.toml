@@ -16,7 +16,7 @@ version       = "0.198.4"
 bench = false
 
 [dependencies]
-ahash      = { version = "0.8.5", features = ["compile-time-rng"] }
+ahash      = { version = "0.8.7", features = ["compile-time-rng"] }
 anyhow     = "1"
 copyless   = "0.1.5"
 rayon      = "1.7.0"
