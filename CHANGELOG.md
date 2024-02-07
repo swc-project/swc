@@ -14,6 +14,9 @@
 - **(es/parser)** Rescan `<<` as `<` when parsing type args ([#8607](https://github.com/swc-project/swc/issues/8607)) ([9e6dad9](https://github.com/swc-project/swc/commit/9e6dad9baf900b44591c97c5467494c893f02661))
 
 
+- **(es/parser)** Fix detection of `use strict` directive ([#8617](https://github.com/swc-project/swc/issues/8617)) ([95236e9](https://github.com/swc-project/swc/commit/95236e9abe546c455222a775f9648e82543dfaed))
+
+
 - **(es/quote)** Allow variables typed `AssignTarget` ([#8602](https://github.com/swc-project/swc/issues/8602)) ([6a48be4](https://github.com/swc-project/swc/commit/6a48be4b6b91c71687c2edc1cf9db9538d9f5650))
 
 
@@ -1467,12 +1470,6 @@
 
 
 - **(es/minifier)** Don't drop unused properties of top-level vars ([#7638](https://github.com/swc-project/swc/issues/7638)) ([19ba714](https://github.com/swc-project/swc/commit/19ba714ea11d6e733cd46ed3ce6b851ddc972e5a))
-
-### Features
-
-
-
-- **(es/preset-env)** Update compat data ([#7630](https://github.com/swc-project/swc/issues/7630)) ([7e9e84e](https://github.com/swc-project/swc/commit/7e9e84e2306941de591700d3c5f15da2d43236bb))
 
 ### Miscellaneous Tasks
 
