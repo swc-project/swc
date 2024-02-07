@@ -99,6 +99,7 @@ pub enum Stmt {
     #[tag("TsTypeAliasDeclaration")]
     #[tag("TsEnumDeclaration")]
     #[tag("TsModuleDeclaration")]
+    #[tag("UsingDeclaration")]
     Decl(Decl),
 
     #[tag("ExpressionStatement")]
