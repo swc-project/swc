@@ -16,10 +16,7 @@
     "minify": false,
     "isModule": true,
     "env": {
-        "targets": {
-            "chrome": 109,
-            "ios_saf": "14"
-        },
+        "targets": "ios_saf 14",
         "coreJs": "3.21",
         "mode": "usage"
     }
