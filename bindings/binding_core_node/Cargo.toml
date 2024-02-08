@@ -65,3 +65,4 @@ swc_core = { version = "0.90.6", features = [
   "base_concurrent",
 ] }
 swc_malloc = "0.5.10"
+tokio = { version = "1.36.0", features = ["rt", "rt-multi-thread"] }
