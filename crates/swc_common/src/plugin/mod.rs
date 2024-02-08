@@ -20,7 +20,7 @@ pub mod serialized;
  * - When removing, or changing existing properties in the AST struct: TBD
  */
 #[cfg(feature = "plugin_transform_schema_v1")]
-pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = 2;
+pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = 1;
 
 // Reserved for the testing purpose.
 #[cfg(feature = "plugin_transform_schema_vtest")]
