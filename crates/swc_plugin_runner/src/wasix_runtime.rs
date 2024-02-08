@@ -68,9 +68,11 @@ pub fn build_wasi_runtime(
     let cache =
         SharedCache::default().with_fallback(wasmer_wasix::runtime::module_cache::in_memory());
 
-    let dummy_loader = BuiltinPackageLoader::new_with_client(".", Arc::new(StubHttpClient));
+    let dummy_loader = BuiltinPackageLoader::new()
+        .with_shared_http_client(Arc::new(StubHttpClient))
+        .with_cache_dir(".");
     let rt = PluggableRuntime {
-        rt: Arc::new(TokioTaskManager::shared()),
+        rt: Arc::new(TokioTaskManager::default()),
         networking: Arc::new(virtual_net::UnsupportedVirtualNetworking::default()),
         engine: Some(ENGINE.lock().clone()),
         tty: None,
