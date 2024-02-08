@@ -137,31 +137,35 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 
     let error_format = options.experimental.error_format.unwrap_or_default();
 
-    try_with(
-        c.cm.clone(),
-        !options.config.error.filename.into_bool(),
-        error_format,
-        |handler| {
-            c.run(|| {
-                if is_module {
-                    let program: Program =
-                        deserialize_json(s.as_str()).context("failed to deserialize Program")?;
-                    c.process_js(handler, program, &options)
-                } else {
-                    let fm = c.cm.new_source_file(
-                        if options.filename.is_empty() {
-                            FileName::Anon
+    tokio::runtime::Runtime::new()
+        .unwrap()
+        .block_on(async move {
+            try_with(
+                c.cm.clone(),
+                !options.config.error.filename.into_bool(),
+                error_format,
+                |handler| {
+                    c.run(|| {
+                        if is_module {
+                            let program: Program = deserialize_json(s.as_str())
+                                .context("failed to deserialize Program")?;
+                            c.process_js(handler, program, &options)
                         } else {
-                            FileName::Real(options.filename.clone().into())
-                        },
-                        s,
-                    );
-                    c.process_js_file(fm, handler, &options)
-                }
-            })
-        },
-    )
-    .convert_err()
+                            let fm = c.cm.new_source_file(
+                                if options.filename.is_empty() {
+                                    FileName::Anon
+                                } else {
+                                    FileName::Real(options.filename.clone().into())
+                                },
+                                s,
+                            );
+                            c.process_js_file(fm, handler, &options)
+                        }
+                    })
+                },
+            )
+        })
+        .convert_err()
 }
 
 #[napi]
