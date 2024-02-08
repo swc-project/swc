@@ -147,5 +147,27 @@
     "dependencies": {
         "@swc/counter": "^0.1.2",
         "@swc/types": "0.1.7"
+    "lint-staged": {
+        "*.toml": [
+            "taplo format"
+        ],
+        "*.rs": [
+            "rustfmt --"
+        ],
+        "*.json": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.js": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.ts": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.jsx": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.tsx": [
+            "prettier --write"
+        ]
     }
 }

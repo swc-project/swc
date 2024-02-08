@@ -58,29 +58,6 @@
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
         "version": "napi version -p scripts/npm"
     },
-    "lint-staged": {
-        "*.toml": [
-            "taplo format"
-        ],
-        "*.rs": [
-            "rustfmt --"
-        ],
-        "*.json": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.js": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.ts": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.jsx": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.tsx": [
-            "prettier --write"
-        ]
-    },
     "peerDependencies": {
         "@swc/helpers": "^0.5.0"
     },
