@@ -85,6 +85,7 @@ swc_ecma_parser = { version = "0.143.3", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.98.2", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 testing = { version = "0.35.18", path = "../testing" }
+tokio = { version = "1", features = ["rt"] }
 
 [[bench]]
 harness = false
