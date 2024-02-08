@@ -47,7 +47,7 @@ once_cell                = { optional = true, version = "1.18.0" }
 serde                    = { optional = true, version = "1", features = ["derive"] }
 serde-wasm-bindgen       = { optional = true, version = "0.4.5" }
 # https://github.com/wasmerio/wasmer/blob/77898a7767eb7057834fdc1a80b239e6b68cf44e/lib/wasix/Cargo.toml#L92
-wasm-bindgen = { optional = true, version = "=0.2.84", features = [
+wasm-bindgen = { optional = true, version = "0.2.91", features = [
   "enable-interning",
 ] }
-wasm-bindgen-futures = { optional = true, version = "=0.4.34" }
+wasm-bindgen-futures = { optional = true, version = "0.4.41" }
