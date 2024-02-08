@@ -35,9 +35,9 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_compiler_base = { version = "0.7.2", features = ["node"] }
+swc_compiler_base = { version = "0.7.3", features = ["node"] }
 swc_config = "0.1.11"
-swc_core = { version = "0.90.5", features = [
+swc_core = { version = "0.90.6", features = [
   "allocator_node",
   "common_concurrent",
   "common_sourcemap",
@@ -49,6 +49,6 @@ swc_core = { version = "0.90.5", features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-swc_error_reporters = "0.17.15"
+swc_error_reporters = "0.17.16"
 swc_malloc = "0.5.10"
 swc_nodejs_common = "0.0.8"
