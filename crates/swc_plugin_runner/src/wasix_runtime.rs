@@ -58,7 +58,7 @@ pub fn build_wasi_runtime(
     use wasmer_wasix::{
         runtime::{
             module_cache::{ModuleCache, SharedCache},
-            package_loader::BuiltinPackageLoader,
+            package_loader::UnsupportedPackageLoader,
             resolver::MultiSource,
             task_manager::tokio::TokioTaskManager,
         },
@@ -68,9 +68,7 @@ pub fn build_wasi_runtime(
     let cache =
         SharedCache::default().with_fallback(wasmer_wasix::runtime::module_cache::in_memory());
 
-    let dummy_loader = BuiltinPackageLoader::new()
-        .with_shared_http_client(Arc::new(StubHttpClient))
-        .with_cache_dir(".");
+    let dummy_loader = UnsupportedPackageLoader;
     let rt = PluggableRuntime {
         rt: Arc::new(TokioTaskManager::default()),
         networking: Arc::new(virtual_net::UnsupportedVirtualNetworking::default()),
