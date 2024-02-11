@@ -103,5 +103,44 @@ describe("Published plugins", () => {
                 "
             `);
         });
+
+        it("should compile without seg fault (async)", async () => {
+            const { transform } = require(path.resolve(
+                getPkgRoot(),
+                packageName
+            ));
+            console.log(`Package name: ${packageName}`);
+
+            const options = {
+                jsc: {
+                    target: "es5",
+                    parser: {
+                        syntax: "typescript",
+                    },
+                    experimental: {
+                        plugins: [
+                            ["@swc/plugin-jest", {}],
+                            // Disabled because this plugin is broken
+                            // ["swc-plugin-coverage-instrument", {}],
+                        ],
+                    },
+                },
+            };
+
+            console.log("Before transform");
+
+            const { code } = await transform(
+                'console.log("hello world")',
+                false,
+                Buffer.from(JSON.stringify(options))
+            );
+
+            console.log("After transform");
+
+            expect(code).toMatchInlineSnapshot(`
+                "console.log("hello world");
+                "
+            `);
+        });
     }
 });

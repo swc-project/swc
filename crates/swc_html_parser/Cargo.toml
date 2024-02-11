@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "src/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_parser"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.39.20"
+version = "0.39.21"
 
 [lib]
 bench = false
@@ -20,21 +20,21 @@ debug = []
 
 [dependencies]
 swc_atoms      = { version = "0.6.5", path = "../swc_atoms" }
-swc_common     = { version = "0.33.16", path = "../swc_common" }
-swc_html_ast   = { version = "0.33.15", path = "../swc_html_ast" }
-swc_html_utils = { version = "0.18.15", path = "../swc_html_utils" }
+swc_common     = { version = "0.33.17", path = "../swc_common" }
+swc_html_ast   = { version = "0.33.16", path = "../swc_html_ast" }
+swc_html_utils = { version = "0.18.16", path = "../swc_html_utils" }
 
 [dev-dependencies]
 criterion  = "0.5"
 serde      = "1.0.127"
 serde_json = "1.0.66"
 
-swc_html_ast = { version = "0.33.15", path = "../swc_html_ast", features = [
+swc_html_ast = { version = "0.33.16", path = "../swc_html_ast", features = [
   "serde-impl",
 ] }
-swc_html_visit = { version = "0.33.15", path = "../swc_html_visit" }
+swc_html_visit = { version = "0.33.16", path = "../swc_html_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
-testing = { version = "0.35.17", path = "../testing" }
+testing = { version = "0.35.18", path = "../testing" }
 
 [[bench]]
 harness = false

@@ -872,7 +872,7 @@ export interface GlobalPassOption {
      *
      * Defaults to `["NODE_ENV", "SWC_ENV"]`
      */
-    envs?: string[];
+    envs?: string[] | Record<string, string>;
 
     /**
      * Replaces typeof calls for passed variables with corresponding value
