@@ -282,16 +282,18 @@ impl Decorator202203 {
                 insert_index = i + 1;
                 // decorators occur before typescript's type strip, so skip ctor overloads
                 if constructor.body.is_some() {
-                return unsafe {
-                    // Safety: We need polonius
-                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
-                };
-            }
+                    return unsafe {
+                        // Safety: We need polonius
+                        transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                    };
+                }
             }
         }
 
-        c.body
-            .insert(insert_index, default_constructor(c.super_class.is_some()).into());
+        c.body.insert(
+            insert_index,
+            default_constructor(c.super_class.is_some()).into(),
+        );
 
         if let Some(ClassMember::Constructor(c)) = c.body.get_mut(insert_index) {
             c
