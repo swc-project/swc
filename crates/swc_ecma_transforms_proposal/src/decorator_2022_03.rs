@@ -298,17 +298,22 @@ impl Decorator202203 {
     }
 
     fn ensure_identity_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
-        for member in c.body.iter_mut() {
+        let mut insert_index = 0;
+        for (i, member) in c.body.iter_mut().enumerate() {
             if let ClassMember::Constructor(constructor) = member {
-                return unsafe {
-                    // Safety: We need polonius
-                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
-                };
+                insert_index = i + 1;
+                // decorators occur before typescript's type strip, so skip ctor overloads
+                if constructor.body.is_some() {
+                    return unsafe {
+                        // Safety: We need polonius
+                        transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                    };
+                }
             }
         }
 
         c.body.insert(
-            0,
+            insert_index,
             ClassMember::Constructor(Constructor {
                 span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("constructor")),
@@ -322,13 +327,11 @@ impl Decorator202203 {
             }),
         );
 
-        for member in c.body.iter_mut() {
-            if let ClassMember::Constructor(constructor) = member {
-                return constructor;
-            }
+        if let Some(ClassMember::Constructor(c)) = c.body.get_mut(insert_index) {
+            c
+        } else {
+            unreachable!()
         }
-
-        unreachable!()
     }
 
     fn handle_super_class(&mut self, class: &mut Class) {
