@@ -56,6 +56,6 @@ expect(cContext.name).toBe('c');
 expect(cContext.kind).toBe('field');
 expect(cContext.static).toBe(false);
 expect(cContext.private).toBe(false);
-expect(typeof cContext.addInitializer).toBe('undefined');
+expect(typeof cContext.addInitializer).toBe('function');
 expect(foo.hasOwnProperty('c')).toBe(true);
 expect(Foo.prototype.hasOwnProperty('c')).toBe(false);
