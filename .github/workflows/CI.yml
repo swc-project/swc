@@ -110,7 +110,7 @@ jobs:
         uses: baptiste0928/cargo-install@v2
         with:
           crate: cargo-deny
-          version: "0.14.3"
+          version: "0.14.11"
 
       - name: Check licenses
         run: |
