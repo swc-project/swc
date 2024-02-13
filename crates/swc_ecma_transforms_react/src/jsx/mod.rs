@@ -118,7 +118,7 @@ pub fn parse_expr_for_jsx(
     src: String,
     top_level_mark: Mark,
 ) -> Arc<Box<Expr>> {
-    let fm = cm.new_source_file(FileName::Internal(format!("<jsx-config-{}.js>", name)), src);
+    let fm = cm.new_source_file(FileName::Internal(format!("jsx-config-{}.js", name)), src);
 
     parse_file_as_expr(
         &fm,
