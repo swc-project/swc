@@ -4685,7 +4685,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.180.3"
+version = "0.180.4"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4768,7 +4768,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.183.3"
+version = "0.183.4"
 dependencies = [
  "base64",
  "dashmap",
