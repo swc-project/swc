@@ -97,6 +97,8 @@ ecma_quote = [
 # Enable swc_ecma_utils
 ecma_utils = ["__utils", "__common"]
 
+ecma_lints = ["__ecma_lints", "__common"]
+
 # Enable swc_ecma_transforms base features
 ecma_transforms = ["__ecma_transforms"]
 ecma_transforms_compat = ["__ecma_transforms", "swc_ecma_transforms_compat"]
@@ -312,6 +314,7 @@ __cached = ["swc_cached"]
 __common = ["swc_common"]
 __css = []
 __ecma = ["swc_ecma_transforms_base"]
+__ecma_lints = ["swc_ecma_lints"]
 __ecma_loader = ["__ecma", "swc_ecma_loader"]
 __ecma_transforms = ["__ecma"]
 __parser = ["__ecma", "swc_ecma_parser"]
@@ -341,6 +344,7 @@ swc_css_utils                    = { optional = true, version = "0.137.18", path
 swc_css_visit                    = { optional = true, version = "0.139.18", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "0.112.2", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { optional = true, version = "0.148.3", path = "../swc_ecma_codegen" }
+swc_ecma_lints                   = { optional = true, version = "0.92.4", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "0.45.19", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "0.192.4", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "0.143.3", path = "../swc_ecma_parser" }
