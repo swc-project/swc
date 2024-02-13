@@ -594,7 +594,7 @@ where
                                 }
                             };
 
-                            match self.parse_according_to_grammar(&locv, |parser| {
+                            let res = self.parse_according_to_grammar(&locv, |parser| {
                                 parser.input.skip_ws();
 
                                 let child = parser.parse()?;
@@ -615,7 +615,8 @@ where
                                 }
 
                                 Ok(keyframes_selectors)
-                            }) {
+                            });
+                            match res {
                                 Ok(keyframes_selectors) => {
                                     ComponentValue::KeyframeBlock(Box::new(KeyframeBlock {
                                         span: qualified_rule.span,

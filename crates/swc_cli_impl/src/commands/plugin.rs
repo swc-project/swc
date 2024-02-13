@@ -99,7 +99,6 @@ fn write_ignore_file(base_path: &Path) -> Result<()> {
     };
 
     let mut f = OpenOptions::new()
-        .write(true)
         .append(true)
         .create(true)
         .open(&ignore_file_path)?;

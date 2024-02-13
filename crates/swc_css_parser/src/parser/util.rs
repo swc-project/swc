@@ -288,7 +288,7 @@ where
     ) -> PResult<Declaration> {
         let locv = self.create_locv(declaration.value);
 
-        declaration.value = match self.parse_according_to_grammar(&locv, |parser| {
+        let value = self.parse_according_to_grammar(&locv, |parser| {
             let mut values = vec![];
 
             loop {
@@ -300,7 +300,8 @@ where
             }
 
             Ok(values)
-        }) {
+        });
+        declaration.value = match value {
             Ok(values) => values,
             Err(err) => {
                 if *err.kind() != ErrorKind::Ignore {
