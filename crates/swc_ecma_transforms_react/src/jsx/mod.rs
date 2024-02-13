@@ -158,9 +158,7 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
         Expr::Member(MemberExpr { obj, .. }) => {
             apply_mark(obj, mark);
         }
-        _ => {
-            unreachable!("{:?} is not a valid JSX directive", e)
-        }
+        _ => {}
     }
 }
 
@@ -386,7 +384,7 @@ fn is_valid_for_pragma(s: &str) -> bool {
         return false;
     }
 
-    if s.starts_with(|c: char| Ident::is_valid_start(c)) {
+    if !s.starts_with(|c: char| Ident::is_valid_start(c)) {
         return false;
     }
 
