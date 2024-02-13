@@ -3802,7 +3802,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.8.8"
+version = "0.8.9"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -3907,7 +3907,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.8"
+version = "0.90.9"
 dependencies = [
  "anyhow",
  "binding_macros",

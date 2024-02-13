@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Features
+
+
+
+- **(swc_core)** Expose ES linter ([#8635](https://github.com/swc-project/swc/issues/8635)) ([762959c](https://github.com/swc-project/swc/commit/762959c72d08994c2ad7c4f43405e591cc6af6eb))
+
 ### Testing
 
 
@@ -1447,9 +1453,6 @@
 
 ### Refactor
 
-
-
-- **(es/minifier)** Respect `toplevel` and `module` options ([#7671](https://github.com/swc-project/swc/issues/7671)) ([9893bd2](https://github.com/swc-project/swc/commit/9893bd2d43de60978dd28c44c8e4032170b11987))
 
 
 - **(es/minifier)** Respect top-level when invoking IIFE  ([#7690](https://github.com/swc-project/swc/issues/7690)) ([bf72362](https://github.com/swc-project/swc/commit/bf723625b02204c4d2e9228d53ac53c9d41221a1))
