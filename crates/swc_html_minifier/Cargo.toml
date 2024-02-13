@@ -35,7 +35,7 @@ swc_ecma_minifier = { version = "0.192.4", path = "../swc_ecma_minifier", featur
   "extra-serde",
 ] }
 swc_ecma_parser = { version = "0.143.3", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.137.3", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "0.137.4", path = "../swc_ecma_transforms_base" }
 swc_ecma_visit = { version = "0.98.2", path = "../swc_ecma_visit" }
 swc_html_ast = { version = "0.33.16", path = "../swc_html_ast" }
 swc_html_codegen = { version = "0.42.21", path = "../swc_html_codegen" }
