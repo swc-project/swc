@@ -132,10 +132,29 @@ impl Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     pub(super) fn drop_unused_params(&mut self, params: &mut Vec<Param>) {
+        if self.options.keep_fargs || !self.options.unused {
+            return;
+        }
+
         for param in params.iter_mut().rev() {
             self.take_pat_if_unused(&mut param.pat, None, false);
 
             if !param.pat.is_invalid() {
+                return;
+            }
+        }
+    }
+
+    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    pub(super) fn drop_unused_arrow_params(&mut self, params: &mut Vec<Pat>) {
+        if self.options.keep_fargs || !self.options.unused {
+            return;
+        }
+
+        for param in params.iter_mut().rev() {
+            self.take_pat_if_unused(param, None, false);
+
+            if !param.is_invalid() {
                 return;
             }
         }
