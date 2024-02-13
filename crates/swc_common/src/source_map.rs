@@ -728,7 +728,7 @@ impl SourceMap {
             return sp;
         }
 
-        match self.span_to_source(sp, |src, start_index, end_index| {
+        let v = self.span_to_source(sp, |src, start_index, end_index| {
             let snippet = &src[start_index..end_index];
             let snippet = snippet.split(c).next().unwrap_or("").trim_end();
             if !snippet.is_empty() && !snippet.contains('\n') {
@@ -736,7 +736,8 @@ impl SourceMap {
             } else {
                 sp
             }
-        }) {
+        });
+        match v {
             Ok(v) => v,
             Err(_) => sp,
         }

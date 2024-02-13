@@ -8,6 +8,9 @@
 - **(binding/types)** Update typings for `options.envs` to match implementation ([#8620](https://github.com/swc-project/swc/issues/8620)) ([2a115cf](https://github.com/swc-project/swc/commit/2a115cff716b3ac9216d03a4c88649fedff73850))
 
 
+- **(es/decorators)** Do not insert duplicate constructors ([#8631](https://github.com/swc-project/swc/issues/8631)) ([21a447f](https://github.com/swc-project/swc/commit/21a447f35a79cdad4721cdefea26da1d355d34d3))
+
+
 - **(es/parser)** Set class property to `abstract` or `override` even in error states ([#8610](https://github.com/swc-project/swc/issues/8610)) ([5a77306](https://github.com/swc-project/swc/commit/5a773061dbb8674d93fab46681492a7e08f95f2c))
 
 
@@ -63,6 +66,9 @@
 
 ### Build
 
+
+
+- **(cargo)** Update `rustc` to `nightly-2024-02-06` ([#8618](https://github.com/swc-project/swc/issues/8618)) ([6726b63](https://github.com/swc-project/swc/commit/6726b631e68cf7f14612e046c8cf057411e4a3c2))
 
 
 - **(plugin)** Update `wasmer` to `v4.2.5` ([#8624](https://github.com/swc-project/swc/issues/8624)) ([4e0d240](https://github.com/swc-project/swc/commit/4e0d24089588da8952c6986f1bfcc47bcd9f84a2))
@@ -1446,19 +1452,7 @@
 
 
 
-- **(es/minifier)** Fix a bug about `eval` of name mangler ([#7615](https://github.com/swc-project/swc/issues/7615)) ([6be1f70](https://github.com/swc-project/swc/commit/6be1f7075d8d14cc56b05079ee134153ab65c6fc))
-
-
 - **(es/minifier)** Do not reuse identifier used for import bindings ([#7639](https://github.com/swc-project/swc/issues/7639)) ([a65be14](https://github.com/swc-project/swc/commit/a65be14a00f41e9b0b4439c31b49febeefd1f845))
-
-
-- **(es/module)** Skip CJS and AMD transformations for `Script` ([#7661](https://github.com/swc-project/swc/issues/7661)) ([a2d0408](https://github.com/swc-project/swc/commit/a2d040859790d10d445ba6b06e9fe88635d84c1b))
-
-### Features
-
-
-
-- **(es/minifier)** Drop recursively used var declaration ([#7649](https://github.com/swc-project/swc/issues/7649)) ([04b0f6d](https://github.com/swc-project/swc/commit/04b0f6d8234bdcc34815a558c4c9eecf24c8e4e7))
 
 ### Buiild
 

@@ -37,7 +37,7 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "bytecheck"]
 
 [dependencies]
-ahash     = { version = "0.8.5", optional = true }
+ahash     = { version = "0.8.8", optional = true }
 anyhow    = { version = "1.0.71", optional = true }
 arbitrary = { version = "1", optional = true, features = ["derive"] }
 atty      = { version = "0.2", optional = true }
