@@ -341,30 +341,34 @@ impl JsxDirectives {
                         }
                         Some("@jsxFrag") => {
                             if let Some(src) = val {
-                                // TODO: Optimize
-                                let mut e = (*parse_expr_for_jsx(
-                                    cm,
-                                    "module-jsx-pragma-frag",
-                                    src.to_string(),
-                                    top_level_mark,
-                                ))
-                                .clone();
-                                respan(&mut e, cmt.span);
-                                res.pragma_frag = Some(e.into())
+                                if is_valid_for_pragma(src) {
+                                    // TODO: Optimize
+                                    let mut e = (*parse_expr_for_jsx(
+                                        cm,
+                                        "module-jsx-pragma-frag",
+                                        src.to_string(),
+                                        top_level_mark,
+                                    ))
+                                    .clone();
+                                    respan(&mut e, cmt.span);
+                                    res.pragma_frag = Some(e.into())
+                                }
                             }
                         }
                         Some("@jsx") => {
                             if let Some(src) = val {
-                                // TODO: Optimize
-                                let mut e = (*parse_expr_for_jsx(
-                                    cm,
-                                    "module-jsx-pragma",
-                                    src.to_string(),
-                                    top_level_mark,
-                                ))
-                                .clone();
-                                respan(&mut e, cmt.span);
-                                res.pragma = Some(e.into());
+                                if is_valid_for_pragma(src) {
+                                    // TODO: Optimize
+                                    let mut e = (*parse_expr_for_jsx(
+                                        cm,
+                                        "module-jsx-pragma",
+                                        src.to_string(),
+                                        top_level_mark,
+                                    ))
+                                    .clone();
+                                    respan(&mut e, cmt.span);
+                                    res.pragma = Some(e.into());
+                                }
                             }
                         }
                         _ => {}
@@ -375,6 +379,24 @@ impl JsxDirectives {
 
         res
     }
+}
+
+fn is_valid_for_pragma(s: &str) -> bool {
+    if s.is_empty() {
+        return false;
+    }
+
+    if s.starts_with(|c: char| Ident::is_valid_start(c)) {
+        return false;
+    }
+
+    for c in s.chars() {
+        if !Ident::is_valid_continue(c) && c != '.' {
+            return false;
+        }
+    }
+
+    true
 }
 
 impl<C> Jsx<C>
