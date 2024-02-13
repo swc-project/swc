@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Testing
+
+
+
+- **(es/parser)** Add a test for `<<` ([#8634](https://github.com/swc-project/swc/issues/8634)) ([2c63b31](https://github.com/swc-project/swc/commit/2c63b3114382940e5fa96ddd32ed823a78657ec7))
+
 ## [1.4.1] - 2024-02-13
 
 ### Bug Fixes
@@ -1418,9 +1426,6 @@
 
 ### Bug Fixes
 
-
-
-- **(css/modules)** Preserve attr selectors used with `:global` ([#7670](https://github.com/swc-project/swc/issues/7670)) ([11b4679](https://github.com/swc-project/swc/commit/11b4679231bdfa8662fdcb1dade4dc1146f8e11d))
 
 
 - **(es/minifier)** Only cast global `Infinity`/`undefined`/`NaN` ([#7684](https://github.com/swc-project/swc/issues/7684)) ([241c04a](https://github.com/swc-project/swc/commit/241c04ab4a2e7e7f34563fdc8a355f82c6ba03e8))
