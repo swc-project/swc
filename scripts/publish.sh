@@ -25,7 +25,7 @@ npm version "$version" --no-git-tag-version --allow-same-version || true
 
 # Commmit and tag
 git add -A
-git commit -am "chore: Publish $version with swc_core $swc_core_version"
+git commit -am "chore: Publish \`$version\` with \`swc_core\` \`$swc_core_version\`"
 git tag -a -m "swc_core $swc_core_version" "v$version"
 
 
