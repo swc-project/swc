@@ -143,6 +143,8 @@ impl Optimizer<'_> {
                 return;
             }
         }
+
+        params.retain(|p| !p.pat.is_invalid());
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
@@ -158,6 +160,8 @@ impl Optimizer<'_> {
                 return;
             }
         }
+
+        params.retain(|p| !p.is_invalid());
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
