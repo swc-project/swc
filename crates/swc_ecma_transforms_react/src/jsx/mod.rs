@@ -131,7 +131,7 @@ pub fn parse_expr_for_jsx(
         if HANDLER.is_set() {
             HANDLER.with(|h| {
                 e.into_diagnostic(h)
-                    .note("error detected while parsing option for classic jsx transform")
+                    .note("Failed to parse jsx pragma")
                     .emit()
             })
         }
@@ -158,7 +158,9 @@ fn apply_mark(e: &mut Expr, mark: Mark) {
         Expr::Member(MemberExpr { obj, .. }) => {
             apply_mark(obj, mark);
         }
-        _ => {}
+        _ => {
+            unreachable!("{:?} is not a valid JSX directive", e)
+        }
     }
 }
 
