@@ -136,6 +136,13 @@ pub mod ecma {
     }
 
     // visit* interfaces
+    #[cfg(feature = "ecma_lints")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_lints")))]
+    pub mod lints {
+        pub use swc_ecma_lints::*;
+    }
+
+    // visit* interfaces
     #[cfg(feature = "__visit")]
     #[cfg_attr(docsrs, doc(cfg(feature = "__visit")))]
     pub mod visit {
