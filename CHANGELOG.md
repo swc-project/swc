@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/react)** Validate pragma before parsing ([#8637](https://github.com/swc-project/swc/issues/8637)) ([5f1cf01](https://github.com/swc-project/swc/commit/5f1cf018237d12f786fc6deee48cae5d7d3d77de))
+
 ### Features
 
 
@@ -1438,9 +1444,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Only cast global `Infinity`/`undefined`/`NaN` ([#7684](https://github.com/swc-project/swc/issues/7684)) ([241c04a](https://github.com/swc-project/swc/commit/241c04ab4a2e7e7f34563fdc8a355f82c6ba03e8))
 
 
 - **(es/minifier)** Drop line comments starting with `!` ([#7689](https://github.com/swc-project/swc/issues/7689)) ([951138c](https://github.com/swc-project/swc/commit/951138cd13339ca7b5cb5305203e466fcd4a0b0e))
