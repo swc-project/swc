@@ -652,6 +652,7 @@ fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
 
     let mut tmp = OpenOptions::new()
         .create(true)
+        .truncate(true)
         .write(true)
         .open(&path)
         .expect("failed to create a temp file");

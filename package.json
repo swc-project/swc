@@ -1,6 +1,6 @@
 {
     "name": "@swc/core",
-    "version": "1.4.1-nightly-20240210.1",
+    "version": "1.4.1",
     "description": "Super-fast alternative for babel",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -57,7 +57,7 @@
         "build": "tsc -d && napi build --manifest-path bindings/Cargo.toml --platform -p binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --release -o .",
         "build:dev": "tsc -d && napi build --manifest-path bindings/Cargo.toml --platform -p binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -o .",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
-        "version": "napi version -p scripts/npm"
+        "version": "napi version --npm-dir scripts/npm"
     },
     "lint-staged": {
         "*.toml": [

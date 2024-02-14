@@ -386,7 +386,7 @@ impl VisitMut for FnEnvHoister {
             }) => {
                 let expr = match left {
                     AssignTarget::Simple(e) => e,
-                    AssignTarget::Pat(e) => {
+                    AssignTarget::Pat(..) => {
                         e.visit_mut_children_with(self);
                         return;
                     }

@@ -11,7 +11,7 @@ version       = "0.4.11"
 bench = false
 
 [dependencies]
-ahash           = "0.8.5"
+ahash           = "0.8.8"
 anyhow          = "1"
 browserslist-rs = "0.15.0"
 dashmap         = "5.4.0"

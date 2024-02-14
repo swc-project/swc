@@ -13,7 +13,7 @@ version       = "0.3.19"
 bench = false
 
 [dependencies]
-ahash     = "0.8.5"
+ahash     = "0.8.8"
 anyhow    = "1.0.71"
 dashmap   = "5.4.0"
 once_cell = "1.18.0"

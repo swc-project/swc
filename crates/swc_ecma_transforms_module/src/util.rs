@@ -230,7 +230,7 @@ pub(super) fn use_strict() -> Stmt {
 }
 
 /// Private `_exports` ident.
-pub(super) struct Exports(pub Ident);
+pub(super) struct Exports(#[allow(dead_code)] pub Ident);
 
 impl Default for Exports {
     fn default() -> Self {
