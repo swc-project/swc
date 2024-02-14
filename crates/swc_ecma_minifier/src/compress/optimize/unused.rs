@@ -140,7 +140,7 @@ impl Optimizer<'_> {
             self.take_pat_if_unused(&mut param.pat, None, false);
 
             if !param.pat.is_invalid() {
-                return;
+                break;
             }
         }
 
@@ -157,7 +157,7 @@ impl Optimizer<'_> {
             self.take_pat_if_unused(param, None, false);
 
             if !param.is_invalid() {
-                return;
+                break;
             }
         }
 
