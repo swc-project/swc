@@ -60,7 +60,7 @@ swc_ecma_ast = { version = "0.112.2", path = "../swc_ecma_ast", features = [
 ] }
 swc_ecma_codegen = { version = "0.148.3", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.143.3", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.137.4", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_base = { version = "0.137.5", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_optimization = { version = "0.198.5", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "0.23.4", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "0.127.4", path = "../swc_ecma_utils" }

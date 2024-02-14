@@ -5,6 +5,9 @@
 
 
 
+- **(es/helpers)** Add `addInitializer` to field decorators ([#8619](https://github.com/swc-project/swc/issues/8619)) ([cd38ef3](https://github.com/swc-project/swc/commit/cd38ef39d6a3b3f1e31d5144e2e8c11bd9144239))
+
+
 - **(es/react)** Validate pragma before parsing ([#8637](https://github.com/swc-project/swc/issues/8637)) ([5f1cf01](https://github.com/swc-project/swc/commit/5f1cf018237d12f786fc6deee48cae5d7d3d77de))
 
 ### Features
@@ -1444,9 +1447,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Drop line comments starting with `!` ([#7689](https://github.com/swc-project/swc/issues/7689)) ([951138c](https://github.com/swc-project/swc/commit/951138cd13339ca7b5cb5305203e466fcd4a0b0e))
 
 
 - **(es/minifier)** Abort seq inliner using visitor ([#7699](https://github.com/swc-project/swc/issues/7699)) ([a26dbce](https://github.com/swc-project/swc/commit/a26dbce9817c8f39c7d5857bb258298da274c6f3))

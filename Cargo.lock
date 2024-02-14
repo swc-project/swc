@@ -4197,7 +4197,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4225,7 +4225,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4251,7 +4251,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2016"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4268,7 +4268,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2017"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4286,7 +4286,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2018"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4305,7 +4305,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2019"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4321,7 +4321,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "serde",
  "swc_atoms",
@@ -4339,7 +4339,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2021"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4353,7 +4353,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2022"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4370,7 +4370,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es3"
-version = "0.4.4"
+version = "0.4.5"
 dependencies = [
  "swc_common",
  "swc_ecma_ast",
@@ -4397,7 +4397,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.92.4"
+version = "0.92.5"
 dependencies = [
  "auto_impl",
  "dashmap",
@@ -4598,7 +4598,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.137.4"
+version = "0.137.5"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.4.2",
@@ -4625,7 +4625,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_classes"
-version = "0.126.4"
+version = "0.126.5"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4637,7 +4637,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.163.4"
+version = "0.163.5"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4686,7 +4686,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.180.4"
+version = "0.180.5"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4745,7 +4745,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.171.4"
+version = "0.171.5"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4797,7 +4797,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.140.4"
+version = "0.140.5"
 dependencies = [
  "ansi_term",
  "anyhow",
