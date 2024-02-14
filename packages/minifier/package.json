@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.4.1-nightly-20240213.1",
+    "version": "1.4.1",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -50,7 +50,7 @@
         "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_minifier_node --output-dir . --release",
         "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_minifier_node --output-dir .",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
-        "version": "napi version -p scripts/npm"
+        "version": "napi version --npm-dir scripts/npm"
     },
     "funding": {
         "type": "opencollective",

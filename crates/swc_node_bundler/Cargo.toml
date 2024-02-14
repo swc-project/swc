@@ -42,7 +42,7 @@ swc_ecma_codegen = { version = "0.148.3", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.45.19", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.143.3", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.229.4", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "0.127.3", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.127.4", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.98.2", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 
