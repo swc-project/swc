@@ -1454,6 +1454,8 @@ impl VisitMut for Optimizer<'_> {
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_arrow_expr(&mut self, n: &mut ArrowExpr) {
+        self.drop_unused_arrow_params(&mut n.params);
+
         let prepend = self.prepend_stmts.take();
 
         let ctx = self.ctx;
@@ -1685,9 +1687,7 @@ impl VisitMut for Optimizer<'_> {
         match n {
             DefaultDecl::Class(_) => {}
             DefaultDecl::Fn(f) => {
-                if !self.options.keep_fargs && self.options.unused {
-                    self.drop_unused_params(&mut f.function.params);
-                }
+                self.drop_unused_params(&mut f.function.params);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -1708,9 +1708,7 @@ impl VisitMut for Optimizer<'_> {
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_mut_export_decl(&mut self, n: &mut ExportDecl) {
         if let Decl::Fn(f) = &mut n.decl {
-            if !self.options.keep_fargs && self.options.unused {
-                self.drop_unused_params(&mut f.function.params);
-            }
+            self.drop_unused_params(&mut f.function.params);
         }
 
         let ctx = Ctx {
@@ -2027,9 +2025,7 @@ impl VisitMut for Optimizer<'_> {
             .entry(f.ident.to_id())
             .or_insert_with(|| FnMetadata::from(&*f.function));
 
-        if !self.options.keep_fargs && self.options.unused {
-            self.drop_unused_params(&mut f.function.params);
-        }
+        self.drop_unused_params(&mut f.function.params);
 
         let ctx = Ctx {
             top_level: false,
