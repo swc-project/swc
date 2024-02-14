@@ -51,9 +51,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentCla
 
         var decoratorFinishedRef = { v: false };
 
-        if (kind !== 0 /* FIELD */) {
-            ctx.addInitializer = createAddInitializerMethod(initializers, decoratorFinishedRef);
-        }
+        ctx.addInitializer = createAddInitializerMethod(initializers, decoratorFinishedRef);
 
         var get, set;
         if (kind === 0 /* FIELD */) {
@@ -306,17 +304,13 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentCla
                 base = Class;
                 kind = kind - 5 /* STATIC */;
                 // initialize staticInitializers when we see a non-field static member
-                if (kind !== 0 /* FIELD */) {
-                    staticInitializers = staticInitializers || [];
-                    initializers = staticInitializers;
-                }
+                staticInitializers = staticInitializers || [];
+                initializers = staticInitializers;
             } else {
                 base = Class.prototype;
                 // initialize protoInitializers when we see a non-field member
-                if (kind !== 0 /* FIELD */) {
-                    protoInitializers = protoInitializers || [];
-                    initializers = protoInitializers;
-                }
+                protoInitializers = protoInitializers || [];
+                initializers = protoInitializers;
             }
 
             if (kind !== 0 /* FIELD */ && !isPrivate) {
