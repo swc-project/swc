@@ -5,6 +5,9 @@
 
 
 
+- **(es/minifier)** Remove unused parameters of arrow functions ([#8636](https://github.com/swc-project/swc/issues/8636)) ([8cd4813](https://github.com/swc-project/swc/commit/8cd481306755fb8cd2436dabceb06ea7cbccbb78))
+
+
 - **(swc_core)** Expose ES linter ([#8635](https://github.com/swc-project/swc/issues/8635)) ([762959c](https://github.com/swc-project/swc/commit/762959c72d08994c2ad7c4f43405e591cc6af6eb))
 
 ### Testing
