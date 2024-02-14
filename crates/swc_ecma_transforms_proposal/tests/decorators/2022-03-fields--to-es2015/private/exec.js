@@ -25,7 +25,7 @@ expect(aContext.name).toBe('#a');
 expect(aContext.kind).toBe('field');
 expect(aContext.static).toBe(false);
 expect(aContext.private).toBe(true);
-expect(typeof aContext.addInitializer).toBe('undefined');
+expect(typeof aContext.addInitializer).toBe('function');
 
 expect(bContext.access.get.call(foo)).toBe(124);
 bContext.access.set.call(foo, 123);
@@ -34,4 +34,4 @@ expect(bContext.name).toBe('#b');
 expect(bContext.kind).toBe('field');
 expect(bContext.static).toBe(false);
 expect(bContext.private).toBe(true);
-expect(typeof aContext.addInitializer).toBe('undefined');
+expect(typeof aContext.addInitializer).toBe('function');
