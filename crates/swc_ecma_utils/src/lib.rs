@@ -3212,6 +3212,20 @@ where
             }
         }
     }
+
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        n.visit_mut_children_with(self);
+
+        if let JSXObject::Ident(ident) = n {
+            if let Some(expr) = self.query.query_jsx(ident) {
+                *n = match expr {
+                    JSXElementName::Ident(ident) => ident.into(),
+                    JSXElementName::JSXMemberExpr(expr) => Box::new(expr).into(),
+                    JSXElementName::JSXNamespacedName(..) => unimplemented!(),
+                }
+            }
+        }
+    }
 }
 
 #[cfg(test)]
