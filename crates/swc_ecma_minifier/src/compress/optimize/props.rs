@@ -1,6 +1,6 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, prop_name_eq, ExprExt};
+use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
@@ -222,7 +222,9 @@ impl Optimizer<'_> {
 
 fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
     match value {
-        Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) | Expr::Fn(..) | Expr::Class(..) => true,
+        Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) | Expr::Class(..) => true,
+
+        Expr::Fn(f) => !contains_this_expr(&f.function.body),
 
         Expr::Unary(u) => match u.op {
             op!("void") | op!("typeof") | op!("!") => is_expr_fine_for_hoist_props(&u.arg),
