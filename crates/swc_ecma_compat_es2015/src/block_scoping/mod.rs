@@ -1,4 +1,4 @@
-use std::mem::take;
+use std::{iter::once, mem::take};
 
 use indexmap::IndexMap;
 use smallvec::SmallVec;
@@ -82,7 +82,6 @@ struct BlockScoping {
     var_decl_kind: VarDeclKind,
 }
 
-#[swc_trace]
 impl BlockScoping {
     /// This methods remove [ScopeKind::Loop] and [ScopeKind::Fn], but not
     /// [ScopeKind::ForLetLoop]
@@ -153,7 +152,23 @@ impl BlockScoping {
             let mut env_hoister =
                 FnEnvHoister::new(SyntaxContext::empty().apply_mark(self.unresolved_mark));
             body_stmt.visit_mut_with(&mut env_hoister);
-            self.vars.extend(env_hoister.to_decl());
+            let mut inits: Vec<Box<Expr>> = vec![];
+
+            for mut var in env_hoister.to_decl() {
+                if let Some(init) = var.init.take() {
+                    inits.push(
+                        AssignExpr {
+                            span: DUMMY_SP,
+                            op: op!("="),
+                            left: var.name.clone().try_into().unwrap(),
+                            right: init,
+                        }
+                        .into(),
+                    );
+                }
+
+                self.vars.push(var);
+            }
 
             let mut flow_helper = FlowHelper {
                 all: &args,
@@ -258,6 +273,13 @@ impl BlockScoping {
                     delegate: true,
                 }
                 .into();
+            }
+
+            if !inits.is_empty() {
+                call = Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: inits.into_iter().chain(once(Box::new(call))).collect(),
+                })
             }
 
             if flow_helper.has_return || flow_helper.has_break || !flow_helper.label.is_empty() {
