@@ -1,6 +1,8 @@
-console.log(
-    new (function (a) {
+var o = {
+    a: 1,
+    b: 2,
+    f: function(a) {
         this.b = a;
-    })(1).b,
-    2
-);
+    }
+};
+console.log(new o.f(o.a).b, o.b);
