@@ -31,9 +31,9 @@ swc_ecma_ast = { version = "0.112.2", path = "../swc_ecma_ast" }
 swc_ecma_loader = { version = "0.45.19", path = "../swc_ecma_loader", features = [
   "node",
 ] }
-swc_ecma_parser = { version = "0.143.3", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.137.6", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "0.127.5", path = "../swc_ecma_utils" }
+swc_ecma_parser = { version = "0.143.4", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.137.7", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "0.127.6", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.98.2", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
@@ -45,5 +45,5 @@ swc_ecma_loader = { version = "0.45.19", path = "../swc_ecma_loader", features =
   "tsc",
 ] }
 swc_ecma_transforms_compat = { version = "0.163.7", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_testing = { version = "0.140.6", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_testing = { version = "0.140.7", path = "../swc_ecma_transforms_testing" }
 testing = { version = "0.35.18", path = "../testing/" }

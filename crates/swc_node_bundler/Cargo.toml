@@ -38,11 +38,11 @@ swc_common = { version = "0.33.17", path = "../swc_common", features = [
   "concurrent",
 ] }
 swc_ecma_ast = { version = "0.112.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.148.3", path = "../swc_ecma_codegen" }
+swc_ecma_codegen = { version = "0.148.4", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.45.19", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.143.3", path = "../swc_ecma_parser" }
+swc_ecma_parser = { version = "0.143.4", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.229.7", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "0.127.5", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.127.6", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.98.2", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 
