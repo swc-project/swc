@@ -13,7 +13,10 @@ use swc_ecma_minifier::{
     option::{ExtraOptions, MangleOptions, MinifyOptions},
 };
 use swc_ecma_parser::parse_file_as_module;
-use swc_ecma_transforms_base::{fixer::fixer, resolver};
+use swc_ecma_transforms_base::{
+    fixer::{fixer, paren_remover},
+    resolver,
+};
 use swc_ecma_visit::FoldWith;
 use walkdir::WalkDir;
 
@@ -52,6 +55,7 @@ fn main() {
                                     false,
                                 ))
                             })
+                            .map(|module| module.fold_with(&mut paren_remover(None)))
                             .unwrap();
 
                             let output = optimize(
