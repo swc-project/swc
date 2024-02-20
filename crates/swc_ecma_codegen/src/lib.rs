@@ -2117,7 +2117,7 @@ where
         self.emit_list(node.span(), Some(&node.elems), format)?;
         punct!("]");
 
-        srcmap!(node, false);
+        // srcmap!(node, false);
     }
 
     #[emitter]
@@ -2563,6 +2563,10 @@ where
             self.wr.write_space()?;
         }
 
+        if format.contains(ListFormat::Indented) {
+            srcmap!(self, last_child, false);
+        }
+
         Ok(())
     }
 
@@ -2652,12 +2656,13 @@ where
             let mut should_decrease_indent_after_emit = false;
             for i in 0..count {
                 let child = &children[start + i];
+                let child_span = child.span();
 
                 self.emit_pre_child_for_list5(
                     parent_node,
                     format,
                     previous_sibling,
-                    child.span(),
+                    child_span,
                     &mut should_decrease_indent_after_emit,
                     &mut should_emit_intervening_comments,
                 )?;
@@ -2679,7 +2684,7 @@ where
                     should_decrease_indent_after_emit = false;
                 }
 
-                previous_sibling = Some(child.span());
+                previous_sibling = Some(child_span);
             }
 
             self.emit_list_finisher_of_list5(
