@@ -262,6 +262,15 @@ static IGNORED_PASS_TESTS: &[&str] = &[
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
 fn identity(entry: PathBuf) {
+    run(entry)
+}
+
+#[testing::fixture("./tests/fixture/**/input.js")]
+fn fixture(entry: PathBuf) {
+    run(entry)
+}
+
+fn run(entry: PathBuf) {
     let file_name = entry
         .file_name()
         .unwrap()
