@@ -262,15 +262,24 @@ static IGNORED_PASS_TESTS: &[&str] = &[
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
 fn identity(entry: PathBuf) {
-    run(entry)
+    let file_name = entry
+        .file_name()
+        .unwrap()
+        .to_str()
+        .expect("to_str() failed")
+        .to_string();
+
+    let is_module = file_name.contains("module");
+
+    run(entry, is_module)
 }
 
 #[testing::fixture("./tests/fixture/**/input.js")]
 fn fixture(entry: PathBuf) {
-    run(entry)
+    run(entry, true)
 }
 
-fn run(entry: PathBuf) {
+fn run(entry: PathBuf, is_module: bool) {
     let file_name = entry
         .file_name()
         .unwrap()
@@ -285,8 +294,6 @@ fn run(entry: PathBuf) {
     if ignore {
         return;
     }
-
-    let is_module = file_name.contains("module");
 
     let msg = format!(
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
