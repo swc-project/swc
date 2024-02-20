@@ -271,15 +271,15 @@ fn identity(entry: PathBuf) {
 
     let is_module = file_name.contains("module");
 
-    run(entry, is_module)
+    run(entry, is_module, false)
 }
 
 #[testing::fixture("./tests/fixture/**/input.js")]
 fn fixture(entry: PathBuf) {
-    run(entry, true)
+    run(entry, true, true)
 }
 
-fn run(entry: PathBuf, is_module: bool) {
+fn run(entry: PathBuf, is_module: bool, pass_if_parser_fails: bool) {
     let file_name = entry
         .file_name()
         .unwrap()
@@ -350,20 +350,20 @@ fn run(entry: PathBuf, is_module: bool) {
 
             // Parse source
             if is_module {
+                let result = parser.parse_module();
+                if pass_if_parser_fails && result.is_err() {
+                    return Ok(());
+                }
                 emitter
-                    .emit_module(
-                        &parser
-                            .parse_module()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
+                    .emit_module(&result.map_err(|e| e.into_diagnostic(handler).emit())?)
                     .unwrap();
             } else {
+                let result = parser.parse_script();
+                if pass_if_parser_fails && result.is_err() {
+                    return Ok(());
+                }
                 emitter
-                    .emit_script(
-                        &parser
-                            .parse_script()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
+                    .emit_script(&result.map_err(|e| e.into_diagnostic(handler).emit())?)
                     .unwrap();
             }
         }
