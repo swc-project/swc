@@ -1667,22 +1667,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
 
                     if let Some(elem_ty) = extract_generic("Vec", ty) {
-                        tokens.push_tokens(&q!(
+                        tokens.push_tokens(&parse_quote!(
                             Vars {
                                 elem_ty,
                                 expr,
                                 default_body,
                             },
                             {
-                                impl<V: ?Sized + Visit> VisitWith<V> for [elem_ty] {
-                                    fn visit_with(&self, v: &mut V) {
-                                        expr
-                                    }
-
-                                    fn visit_children_with(&self, _visitor: &mut V) {
-                                        default_body
-                                    }
-                                }
+                                
                             }
                         ));
 
