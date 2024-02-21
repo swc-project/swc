@@ -2031,31 +2031,15 @@ fn visit_expr(
                 let ast_path_expr: Expr = match mode {
                     Mode::Visit(..) => {
                         if is_vec_or_opt_vec(ty) {
-                            q!(
-                                Vars {
-                                    VariantName: type_name,
-                                    FieldType: field_type_name,
-                                    FieldName: field_name,
-                                },
-                                (AstParentNodeRef::VariantName(
-                                    n,
-                                    self::fields::FieldType::FieldName(usize::MAX)
-                                ))
-                            )
-                            .parse()
+                            parse_quote!(AstParentNodeRef::#type_name(
+                                n,
+                                self::fields::#field_type_name::#field_name(usize::MAX)
+                            ))
                         } else {
-                            q!(
-                                Vars {
-                                    VariantName: type_name,
-                                    FieldType: field_type_name,
-                                    FieldName: field_name,
-                                },
-                                (AstParentNodeRef::VariantName(
-                                    n,
-                                    self::fields::FieldType::FieldName
-                                ))
-                            )
-                            .parse()
+                            parse_quote!(AstParentNodeRef::#type_name(
+                                n,
+                                self::fields::#field_type_name::#field_name
+                            ))
                         }
                     }
                     _ => {
