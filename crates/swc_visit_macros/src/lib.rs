@@ -2108,15 +2108,7 @@ fn visit_expr(
                 )
                 .parse()
             } else {
-                q!(
-                    Vars {
-                        visitor,
-                        expr,
-                        visit_name
-                    },
-                    { visitor.visit_name(expr, __ast_path) }
-                )
-                .parse()
+                parse_quote!(#visitor.#visit_name(#expr, __ast_path))
             }
         }
     })
