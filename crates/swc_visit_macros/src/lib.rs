@@ -1667,7 +1667,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
 
                     if let Some(elem_ty) = extract_generic("Vec", ty) {
-                        tokens.push_tokens(&parse_quote!(
+                        tokens.push_tokens(&quote!(
                             impl<V: ?Sized + Visit> VisitWith<V> for [#elem_ty] {
                                 fn visit_with(&self, v: &mut V) {
                                     #expr
@@ -1679,7 +1679,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             }
                         ));
 
-                        tokens.push_tokens(quote!(
+                        tokens.push_tokens(&quote!(
                             impl<V: ?Sized + Visit> VisitWith<V> for #ty {
                                 fn visit_with(&self, v: &mut V) {
                                     (**self).visit_with(v)
@@ -1823,7 +1823,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         |expr| parse_quote!(#method_name(_visitor, #expr)),
                     );
 
-                    tokens.push_tokens(&qㅕㅐ!(
+                    tokens.push_tokens(&quote!(
                         impl<V: ?Sized + VisitAll> VisitAllWith<V> for #ty {
                             fn visit_all_with(&self, v: &mut V) {
                                 let mut all = ::swc_visit::All { visitor: v };
