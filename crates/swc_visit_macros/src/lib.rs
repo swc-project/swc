@@ -2011,21 +2011,10 @@ fn visit_expr(
                     }
                 };
 
-                q!(
-                    Vars {
-                        visitor,
-                        expr,
-                        visit_name,
-                        ast_path_expr,
-                    },
-                    {
-                        {
-                            let mut __ast_path = __ast_path.with_guard(ast_path_expr);
-                            visitor.visit_name(expr, &mut *__ast_path)
-                        }
-                    }
-                )
-                .parse()
+                parse_quote!({
+                    let mut __ast_path = __ast_path.with_guard(#ast_path_expr);
+                    #visitor.visit_name(#expr, &mut *__ast_path)
+                })
             } else {
                 parse_quote!(#visitor.#visit_name(#expr, __ast_path))
             }
