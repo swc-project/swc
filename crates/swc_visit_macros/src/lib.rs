@@ -2683,23 +2683,19 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             })
                                         })
                                     }),
-                                    VisitorVariant::WithPath => q!(
-                                        Vars { ident },
-                                        ({
-                                            n.into_iter()
-                                                .enumerate()
-                                                .map(|(idx, v)| {
-                                                    let mut __ast_path =
-                                                        __ast_path.with_index_guard(idx);
+                                    VisitorVariant::WithPath => parse_quote!({
+                                        n.into_iter()
+                                            .enumerate()
+                                            .map(|(idx, v)| {
+                                                let mut __ast_path =
+                                                    __ast_path.with_index_guard(idx);
 
-                                                    swc_visit::util::map::Map::map(v, |v| {
-                                                        _visitor.ident(v, &mut *__ast_path)
-                                                    })
+                                                swc_visit::util::map::Map::map(v, |v| {
+                                                    _visitor.#ident(v, &mut *__ast_path)
                                                 })
-                                                .collect()
-                                        })
-                                    )
-                                    .parse(),
+                                            })
+                                            .collect()
+                                    }),
                                 };
                             }
                         }
