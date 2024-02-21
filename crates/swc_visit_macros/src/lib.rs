@@ -1848,31 +1848,24 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         |expr| parse_quote!(#method_name(_visitor, #expr, __ast_path)),
                     );
 
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            default_body,
-                            Type: ty,
-                            expr,
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for Type {
-                                fn visit_mut_with_path(
-                                    &mut self,
-                                    v: &mut V,
-                                    __ast_path: &mut AstKindPath,
-                                ) {
-                                    expr
-                                }
+                    tokens.push_tokens(&quote!(
+                        #[cfg(any(feature = "path", docsrs))]
+                        #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                        impl<V: ?Sized + VisitMutAstPath> VisitMutWithPath<V> for #ty {
+                            fn visit_mut_with_path(
+                                &mut self,
+                                v: &mut V,
+                                __ast_path: &mut AstKindPath,
+                            ) {
+                                #expr
+                            }
 
-                                fn visit_mut_children_with_path(
-                                    &mut self,
-                                    _visitor: &mut V,
-                                    __ast_path: &mut AstKindPath,
-                                ) {
-                                    default_body
-                                }
+                            fn visit_mut_children_with_path(
+                                &mut self,
+                                _visitor: &mut V,
+                                __ast_path: &mut AstKindPath,
+                            ) {
+                                #default_body
                             }
                         }
                     ));
