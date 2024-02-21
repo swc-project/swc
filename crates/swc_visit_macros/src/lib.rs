@@ -1740,10 +1740,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             }
                         ));
 
-                        tokens.push_tokens(&q!(Vars { Type: ty }, {
+                        tokens.push_tokens(&quote!(
                             #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
+                            impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for #ty {
                                 fn visit_with_path<'ast, 'r>(
                                     &'ast self,
                                     v: &mut V,
@@ -1764,7 +1764,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     (**self).visit_children_with_path(_visitor, __ast_path)
                                 }
                             }
-                        }));
+                        ));
                     } else {
                         tokens.push_tokens(&quote!(
                             #[cfg(any(feature = "path", docsrs))]
