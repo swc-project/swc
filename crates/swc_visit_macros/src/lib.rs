@@ -2743,17 +2743,13 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                         Mode::Fold(v) => {
                             if extract_box(arg).is_some() {
                                 return match v {
-                                    VisitorVariant::Normal => q!(
-                                        Vars { ident },
-                                        ({
-                                            swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                                swc_visit::util::map::Map::map(v, |v| {
-                                                    _visitor.ident(v)
-                                                })
+                                    VisitorVariant::Normal => parse_quote!({
+                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                            swc_visit::util::map::Map::map(v, |v| {
+                                                _visitor.#ident(v)
                                             })
                                         })
-                                    )
-                                    .parse(),
+                                    }),
                                     VisitorVariant::WithPath => q!(
                                         Vars { ident },
                                         ({
