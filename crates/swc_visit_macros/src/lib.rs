@@ -1022,16 +1022,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             swc_visit::Either::Right(v) => v.#name(n),
                         }
                     }),
-                    Some(VisitorVariant::WithPath) => q!(
-                        Vars { visit: &name },
-                        ({
-                            match self {
-                                swc_visit::Either::Left(v) => v.visit(n, __ast_path),
-                                swc_visit::Either::Right(v) => v.visit(n, __ast_path),
-                            }
-                        })
-                    )
-                    .parse(),
+                    Some(VisitorVariant::WithPath) => parse_quote!({
+                        match self {
+                            swc_visit::Either::Left(v) => v.#name(n, __ast_path),
+                            swc_visit::Either::Right(v) => v.#name(n, __ast_path),
+                        }
+                    }),
                 },
             });
         }
