@@ -1691,21 +1691,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             }
                         ));
                     } else {
-                        tokens.push_tokens(&q!(
-                            Vars {
-                                Type: ty,
-                                expr,
-                                default_body,
-                            },
-                            {
-                                impl<V: ?Sized + Visit> VisitWith<V> for Type {
-                                    fn visit_with(&self, v: &mut V) {
-                                        expr
-                                    }
+                        tokens.push_tokens(&quote!(
+                            impl<V: ?Sized + Visit> VisitWith<V> for #ty {
+                                fn visit_with(&self, v: &mut V) {
+                                    #expr
+                                }
 
-                                    fn visit_children_with(&self, _visitor: &mut V) {
-                                        default_body
-                                    }
+                                fn visit_children_with(&self, _visitor: &mut V) {
+                                    #default_body
                                 }
                             }
                         ));
