@@ -2273,17 +2273,13 @@ fn make_method(mode: Mode, e: &Item, types: &mut Vec<Type>) -> Option<TraitItemF
                         types.push(f.ty.clone());
                     }
 
+                    let enum_path = &e.ident;
+                    let variant_path = &variant.ident;
+
                     let arm = make_arm_from_struct(
                         mode,
                         &e.ident,
-                        &q!(
-                            Vars {
-                                Enum: &e.ident,
-                                Variant: &variant.ident
-                            },
-                            { Enum::Variant }
-                        )
-                        .parse(),
+                        &parse_quote!(#enum_path::#variant_path),
                         Some(&variant.ident),
                         &variant.fields,
                         !skip_ast_path,
