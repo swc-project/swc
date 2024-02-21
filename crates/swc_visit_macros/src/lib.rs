@@ -1886,31 +1886,24 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::Fold(VisitorVariant::WithPath) => {
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            method_name,
-                            Type: ty,
-                            expr,
-                        },
-                        {
-                            #[cfg(any(feature = "path", docsrs))]
-                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            impl<V: ?Sized + FoldAstPath> FoldWithPath<V> for Type {
-                                fn fold_with_path(
-                                    self,
-                                    v: &mut V,
-                                    __ast_path: &mut AstKindPath,
-                                ) -> Self {
-                                    expr
-                                }
+                    tokens.push_tokens(&quote!(
+                        #[cfg(any(feature = "path", docsrs))]
+                        #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                        impl<V: ?Sized + FoldAstPath> FoldWithPath<V> for #ty {
+                            fn fold_with_path(
+                                self,
+                                v: &mut V,
+                                __ast_path: &mut AstKindPath,
+                            ) -> Self {
+                                #expr
+                            }
 
-                                fn fold_children_with_path(
-                                    self,
-                                    v: &mut V,
-                                    __ast_path: &mut AstKindPath,
-                                ) -> Self {
-                                    method_name(v, self, __ast_path)
-                                }
+                            fn fold_children_with_path(
+                                self,
+                                v: &mut V,
+                                __ast_path: &mut AstKindPath,
+                            ) -> Self {
+                                #method_name(v, self, __ast_path)
                             }
                         }
                     ));
