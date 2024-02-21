@@ -1872,21 +1872,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 }
 
                 Mode::Fold(VisitorVariant::Normal) => {
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            method_name,
-                            Type: ty,
-                            expr,
-                        },
-                        {
-                            impl<V: ?Sized + Fold> FoldWith<V> for Type {
-                                fn fold_with(self, v: &mut V) -> Self {
-                                    expr
-                                }
+                    tokens.push_tokens(&quote!(
+                        impl<V: ?Sized + Fold> FoldWith<V> for #ty {
+                            fn fold_with(self, v: &mut V) -> Self {
+                                #expr
+                            }
 
-                                fn fold_children_with(self, v: &mut V) -> Self {
-                                    method_name(v, self)
-                                }
+                            fn fold_children_with(self, v: &mut V) -> Self {
+                                #method_name(v, self)
                             }
                         }
                     ));
