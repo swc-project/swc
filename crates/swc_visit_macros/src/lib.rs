@@ -1153,22 +1153,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::VisitMut(VisitorVariant::Normal) => {
                 let t = Ident::new(mode.trait_name(), call_site());
-                tokens.push_tokens(&q!(
-                    Vars {
-                        fn_name,
-                        default_body,
-                        Type: arg_ty,
-                        Trait: t,
-                    },
-                    {
-                        /// Visits children of the nodes with the given visitor.
-                        ///
-                        /// This is the default implementation of a method of
-                        /// [VisitMut].
-                        #[allow(non_shorthand_field_patterns, unused_variables)]
-                        pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
-                            default_body
-                        }
+                tokens.push_tokens(&quote!(
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
+                    pub fn #fn_name<V: ?Sized + #t>(_visitor: &mut V, n: #arg_ty) {
+                        #default_body
                     }
                 ))
             }
