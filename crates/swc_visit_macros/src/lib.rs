@@ -1016,16 +1016,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 defaultness: None,
                 sig: sig.clone(),
                 block: match mode.visitor_variant() {
-                    Some(VisitorVariant::Normal) | None => q!(
-                        Vars { visit: &name },
-                        ({
-                            match self {
-                                swc_visit::Either::Left(v) => v.visit(n),
-                                swc_visit::Either::Right(v) => v.visit(n),
-                            }
-                        })
-                    )
-                    .parse(),
+                    Some(VisitorVariant::Normal) | None => parse_quote!({
+                        match self {
+                            swc_visit::Either::Left(v) => v.#name(n),
+                            swc_visit::Either::Right(v) => v.#name(n),
+                        }
+                    }),
                     Some(VisitorVariant::WithPath) => q!(
                         Vars { visit: &name },
                         ({
