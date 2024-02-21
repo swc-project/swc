@@ -2044,27 +2044,11 @@ fn visit_expr(
                     }
                     _ => {
                         if is_vec_or_opt_vec(ty) {
-                            q!(
-                                Vars {
-                                    VariantName: type_name,
-                                    FieldType: field_type_name,
-                                    FieldName: field_name,
-                                },
-                                (AstParentKind::VariantName(self::fields::FieldType::FieldName(
-                                    usize::MAX
-                                )))
-                            )
-                            .parse()
+                            parse_quote!(AstParentKind::#type_name(self::fields::#field_type_name::#field_name(
+                                usize::MAX
+                            )))
                         } else {
-                            q!(
-                                Vars {
-                                    VariantName: type_name,
-                                    FieldType: field_type_name,
-                                    FieldName: field_name,
-                                },
-                                (AstParentKind::VariantName(self::fields::FieldType::FieldName))
-                            )
-                            .parse()
+                            parse_quote!(AstParentKind::#type_name(self::fields::#field_type_name::#field_name))
                         }
                     }
                 };
