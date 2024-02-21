@@ -2563,7 +2563,7 @@ where
             self.wr.write_space()?;
         }
 
-        if format.contains(ListFormat::Indented) {
+        if format.contains(ListFormat::SourceMapBeforeClosing) {
             srcmap!(self, last_child, false);
         }
 
