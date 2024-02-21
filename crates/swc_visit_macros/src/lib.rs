@@ -1766,35 +1766,28 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             }
                         }));
                     } else {
-                        tokens.push_tokens(&q!(
-                            Vars {
-                                Type: ty,
-                                expr,
-                                default_body,
-                            },
-                            {
-                                #[cfg(any(feature = "path", docsrs))]
-                                #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                                impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for Type {
-                                    fn visit_with_path<'ast, 'r>(
-                                        &'ast self,
-                                        v: &mut V,
-                                        __ast_path: &mut AstNodePath<'r>,
-                                    ) where
-                                        'ast: 'r,
-                                    {
-                                        expr
-                                    }
+                        tokens.push_tokens(&quote!(
+                            #[cfg(any(feature = "path", docsrs))]
+                            #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                            impl<V: ?Sized + VisitAstPath> VisitWithPath<V> for #ty {
+                                fn visit_with_path<'ast, 'r>(
+                                    &'ast self,
+                                    v: &mut V,
+                                    __ast_path: &mut AstNodePath<'r>,
+                                ) where
+                                    'ast: 'r,
+                                {
+                                    #expr
+                                }
 
-                                    fn visit_children_with_path<'ast, 'r>(
-                                        &'ast self,
-                                        _visitor: &mut V,
-                                        __ast_path: &mut AstNodePath<'r>,
-                                    ) where
-                                        'ast: 'r,
-                                    {
-                                        default_body
-                                    }
+                                fn visit_children_with_path<'ast, 'r>(
+                                    &'ast self,
+                                    _visitor: &mut V,
+                                    __ast_path: &mut AstNodePath<'r>,
+                                ) where
+                                    'ast: 'r,
+                                {
+                                    #default_body
                                 }
                             }
                         ));
