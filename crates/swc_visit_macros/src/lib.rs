@@ -1679,7 +1679,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                             }
                         ));
 
-                        tokens.push_tokens(&q!(
+                        tokens.push_tokens(quote!(
                             impl<V: ?Sized + Visit> VisitWith<V> for #ty {
                                 fn visit_with(&self, v: &mut V) {
                                     (**self).visit_with(v)
@@ -1689,7 +1689,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                                     (**self).visit_children_with(_visitor)
                                 }
                             }
-                        }));
+                        ));
                     } else {
                         tokens.push_tokens(&q!(
                             Vars {
@@ -1823,25 +1823,18 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         |expr| parse_quote!(#method_name(_visitor, #expr)),
                     );
 
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            Type: ty,
-                            expr,
-                            default_body,
-                        },
-                        {
-                            impl<V: ?Sized + VisitAll> VisitAllWith<V> for Type {
-                                fn visit_all_with(&self, v: &mut V) {
-                                    let mut all = ::swc_visit::All { visitor: v };
-                                    let mut v = &mut all;
-                                    expr
-                                }
+                    tokens.push_tokens(&qㅕㅐ!(
+                        impl<V: ?Sized + VisitAll> VisitAllWith<V> for #ty {
+                            fn visit_all_with(&self, v: &mut V) {
+                                let mut all = ::swc_visit::All { visitor: v };
+                                let mut v = &mut all;
+                                #expr
+                            }
 
-                                fn visit_all_children_with(&self, _visitor: &mut V) {
-                                    let mut all = ::swc_visit::All { visitor: _visitor };
-                                    let mut _visitor = &mut all;
-                                    default_body
-                                }
+                            fn visit_all_children_with(&self, _visitor: &mut V) {
+                                let mut all = ::swc_visit::All { visitor: _visitor };
+                                let mut _visitor = &mut all;
+                                #default_body
                             }
                         }
                     ));
