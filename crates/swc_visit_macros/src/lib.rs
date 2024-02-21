@@ -1083,14 +1083,10 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
-                block: q!(
-                    Vars { visit: &name },
-                    ({
-                        self.visitor.visit(n);
-                        visit(self, n);
-                    })
-                )
-                .parse(),
+                block: parse_quote!({
+                    self.visitor.#name(n);
+                    #name(self, n);
+                }),
             });
         }
     }
