@@ -1827,21 +1827,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         |expr| parse_quote!(#method_name(_visitor, #expr)),
                     );
 
-                    tokens.push_tokens(&q!(
-                        Vars {
-                            default_body,
-                            Type: ty,
-                            expr,
-                        },
-                        {
-                            impl<V: ?Sized + VisitMut> VisitMutWith<V> for Type {
-                                fn visit_mut_with(&mut self, v: &mut V) {
-                                    expr
-                                }
+                    tokens.push_tokens(&quote!(
+                        impl<V: ?Sized + VisitMut> VisitMutWith<V> for #ty {
+                            fn visit_mut_with(&mut self, v: &mut V) {
+                                #expr
+                            }
 
-                                fn visit_mut_children_with(&mut self, _visitor: &mut V) {
-                                    default_body
-                                }
+                            fn visit_mut_children_with(&mut self, _visitor: &mut V) {
+                                #default_body
                             }
                         }
                     ));
