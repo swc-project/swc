@@ -2357,15 +2357,8 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                 if let Some(VisitorVariant::WithPath) = mode.visitor_variant() {
                     p.push_punct(Token![,](def_site()));
-                    p.push_value(
-                        q!(
-                            Vars {
-                                Type: ast_path_type(mode)
-                            },
-                            { __ast_path: Type }
-                        )
-                        .parse(),
-                    );
+                    let ty = ast_path_type(mode);
+                    p.push_value(parse_quote!(__ast_path: #ty));
                 }
 
                 p
