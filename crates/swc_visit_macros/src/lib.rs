@@ -1178,24 +1178,16 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
             Mode::Fold(VisitorVariant::WithPath) => {
                 let t = Ident::new(mode.trait_name(), call_site());
-                tokens.push_tokens(&q!(
-                    Vars {
-                        fn_name,
-                        default_body,
-                        Type: arg_ty,
-                        Trait: t,
-                    },
-                    {
-                        #[cfg(any(feature = "path", docsrs))]
-                        #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                        #[allow(non_shorthand_field_patterns, unused_variables)]
-                        fn fn_name<V: ?Sized + Trait>(
-                            _visitor: &mut V,
-                            n: Type,
-                            __ast_path: &mut AstKindPath,
-                        ) -> Type {
-                            default_body
-                        }
+                tokens.push_tokens(&quote!(
+                    #[cfg(any(feature = "path", docsrs))]
+                    #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
+                    fn #fn_name<V: ?Sized + #t>(
+                        _visitor: &mut V,
+                        n: #arg_ty,
+                        __ast_path: &mut AstKindPath,
+                    ) -> #arg_ty {
+                        #default_body
                     }
                 ))
             }
