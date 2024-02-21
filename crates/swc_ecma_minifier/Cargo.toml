@@ -55,7 +55,7 @@ swc_common = { version = "0.33.17", path = "../swc_common" }
 swc_config = { version = "0.1.11", path = "../swc_config", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "0.112.2", path = "../swc_ecma_ast", features = [
+swc_ecma_ast = { version = "0.112.3", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
 swc_ecma_codegen = { version = "0.148.4", path = "../swc_ecma_codegen" }
@@ -64,7 +64,7 @@ swc_ecma_transforms_base = { version = "0.137.7", path = "../swc_ecma_transforms
 swc_ecma_transforms_optimization = { version = "0.198.7", path = "../swc_ecma_transforms_optimization" }
 swc_ecma_usage_analyzer = { version = "0.23.6", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils = { version = "0.127.6", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.98.2", path = "../swc_ecma_visit" }
+swc_ecma_visit = { version = "0.98.3", path = "../swc_ecma_visit" }
 swc_timer = { version = "0.21.18", path = "../swc_timer" }
 
 [dev-dependencies]

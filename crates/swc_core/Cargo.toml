@@ -342,7 +342,7 @@ swc_css_parser                   = { optional = true, version = "0.150.26", path
 swc_css_prefixer                 = { optional = true, version = "0.153.31", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.137.18", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "0.139.18", path = "../swc_css_visit" }
-swc_ecma_ast                     = { optional = true, version = "0.112.2", path = "../swc_ecma_ast" }
+swc_ecma_ast                     = { optional = true, version = "0.112.3", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { optional = true, version = "0.148.4", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "0.92.7", path = "../swc_ecma_lints" }
 swc_ecma_loader                  = { optional = true, version = "0.45.19", path = "../swc_ecma_loader" }
@@ -360,13 +360,13 @@ swc_ecma_transforms_testing      = { optional = true, version = "0.140.7", path 
 swc_ecma_transforms_typescript   = { optional = true, version = "0.188.7", path = "../swc_ecma_transforms_typescript" }
 swc_ecma_usage_analyzer          = { optional = true, version = "0.23.6", path = "../swc_ecma_usage_analyzer" }
 swc_ecma_utils                   = { optional = true, version = "0.127.6", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { optional = true, version = "0.98.2", path = "../swc_ecma_visit" }
+swc_ecma_visit                   = { optional = true, version = "0.98.3", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "0.5.10", path = "../swc_malloc" }
 swc_node_bundler                 = { optional = true, version = "0.62.8", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.8", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.16", path = "../swc_plugin_macro" }
-swc_plugin_proxy                 = { optional = true, version = "0.41.2", path = "../swc_plugin_proxy" }
+swc_plugin_proxy                 = { optional = true, version = "0.41.3", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "0.1.3", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.35.18", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features

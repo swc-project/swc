@@ -4143,7 +4143,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.112.2"
+version = "0.112.3"
 dependencies = [
  "arbitrary",
  "bitflags 2.4.2",
@@ -4877,7 +4877,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_visit"
-version = "0.98.2"
+version = "0.98.3"
 dependencies = [
  "num-bigint",
  "serde",
@@ -5185,7 +5185,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_proxy"
-version = "0.41.2"
+version = "0.41.3"
 dependencies = [
  "better_scoped_tls",
  "rkyv",
