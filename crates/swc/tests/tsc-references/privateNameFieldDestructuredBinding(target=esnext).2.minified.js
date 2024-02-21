@@ -1,0 +1,1 @@
+//// [privateNameFieldDestructuredBinding.ts]
