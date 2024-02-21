@@ -1,0 +1,1 @@
+//// [privateNameStaticsAndStaticMethods.ts]

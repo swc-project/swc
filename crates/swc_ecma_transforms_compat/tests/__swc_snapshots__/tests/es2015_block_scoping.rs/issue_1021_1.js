@@ -7,12 +7,12 @@ var C = /*#__PURE__*/ function() {
         {
             key: "m",
             value: function m() {
-                var _this = this, _loop = function(x) {
+                var _this, _loop = function(x) {
                     console.log(_this, function(y) {
                         return y != x;
                     });
                 };
-                for(var x = 0; x < 10; x++)_loop(x);
+                for(var x = 0; x < 10; x++)_this = this, _loop(x);
             }
         }
     ]);

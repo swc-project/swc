@@ -1,4 +1,27 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/compat)** Split declaration and init in `block-scoping` pass ([#8648](https://github.com/swc-project/swc/issues/8648)) ([6fe6810](https://github.com/swc-project/swc/commit/6fe6810c492ca20ad73d1536e328ddb804533537))
+
+
+- **(es/parser)** Check for existence of modifiers while parsing `accessor` token ([#8649](https://github.com/swc-project/swc/issues/8649)) ([ca23a33](https://github.com/swc-project/swc/commit/ca23a3353cefb0064ab28d10ea86634be5a0c191))
+
+### Documentation
+
+
+
+- **(es/minifier)** Update examples code ([#8652](https://github.com/swc-project/swc/issues/8652)) ([3bf3a62](https://github.com/swc-project/swc/commit/3bf3a62505cc3fc6eaf182b75c319ea4bc212ee8))
+
+### Features
+
+
+
+- **(es/ast)** Add alias to `EsVersion` ([#8653](https://github.com/swc-project/swc/issues/8653)) ([7d62c76](https://github.com/swc-project/swc/commit/7d62c762e657cdddf45c1a99c66285ae9cb07b5c))
+
 ## [1.4.2] - 2024-02-19
 
 ### Bug Fixes
@@ -1426,22 +1449,7 @@
 
 
 
-- **(es/compat)** Fix handling of private members in optional chaining pass ([#7610](https://github.com/swc-project/swc/issues/7610)) ([7ba7b6e](https://github.com/swc-project/swc/commit/7ba7b6ec1fd7170ef7a321a6bd4931984e1a08d4))
-
-
 - **(es/minifier)** Do not drop used properties ([#7702](https://github.com/swc-project/swc/issues/7702)) ([f901b41](https://github.com/swc-project/swc/commit/f901b417d1a37f679ff4c5a54e81671684d9f485))
-
-
-- **(es/module)** Do not determine module name for modules without exports in UMD ([#7718](https://github.com/swc-project/swc/issues/7718)) ([40136f7](https://github.com/swc-project/swc/commit/40136f7c54bdc347d5f725549a27e1104433ff36))
-
-### Features
-
-
-
-- **(es)** Add a validation for a wrong config ([#7704](https://github.com/swc-project/swc/issues/7704)) ([900701f](https://github.com/swc-project/swc/commit/900701fbf24912dce219f97baa8c11c533966896))
-
-
-- **(swc_core)** Expose `visit/serde` as serde feature ([#7722](https://github.com/swc-project/swc/issues/7722)) ([2bc9637](https://github.com/swc-project/swc/commit/2bc96373b736ce4d81336c1c0340a1d4f7d7f4b0))
 
 ### Refactor
 
