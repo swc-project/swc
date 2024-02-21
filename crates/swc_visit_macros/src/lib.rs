@@ -100,7 +100,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let block = parse_macro_input!(tts as Block);
 
     let mut q = Quote::new_call_site();
-    q.push_tokens(&q!({
+    q.push_tokens(&quote!(
         use swc_visit::ParentKind;
 
         pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
@@ -121,7 +121,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
                 self.set_index(index)
             }
         }
-    }));
+    ));
 
     let mut field_module_body = vec![];
     {
@@ -1164,22 +1164,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             Mode::Visit(VisitorVariant::Normal) => {
                 let t = Ident::new(mode.trait_name(), call_site());
 
-                tokens.push_tokens(&q!(
-                    Vars {
-                        fn_name,
-                        default_body,
-                        Type: arg_ty,
-                        Trait: t,
-                    },
-                    {
-                        /// Visits children of the nodes with the given visitor.
-                        ///
-                        /// This is the default implementation of a method of
-                        /// [Visit].
-                        #[allow(non_shorthand_field_patterns, unused_variables)]
-                        pub fn fn_name<V: ?Sized + Trait>(_visitor: &mut V, n: Type) {
-                            default_body
-                        }
+                tokens.push_tokens(&quote!(
+                    /// Visits children of the nodes with the given visitor.
+                    ///
+                    /// This is the default implementation of a method of
+                    /// [Visit].
+                    #[allow(non_shorthand_field_patterns, unused_variables)]
+                    pub fn #fn_name<V: ?Sized + #t>(_visitor: &mut V, n: #arg_ty) {
+                        #default_body
                     }
                 ))
             }
