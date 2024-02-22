@@ -2405,36 +2405,64 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                     if let Some(item) = extract_generic("Vec", arg) {
                         match mode {
                             Mode::Fold { .. } => {
-                                return mk_exact(mode, ident, &parse_quote!(Option<Vec<#item>>));
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &parse_quote!(::std::option::Option<::std::vec::Vec<#item>>),
+                                );
                             }
                             Mode::VisitMut { .. } => {
                                 return mk_exact(
                                     mode,
                                     ident,
-                                    &parse_quote!(&mut Option<Vec<#item>>),
+                                    &parse_quote!(&mut ::std::option::Option<::std::vec::Vec<#item>>),
                                 );
                             }
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                                return mk_exact(mode, ident, &parse_quote!(Option<&[#item]>));
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &parse_quote!(::std::option::Option<&[#item]>),
+                                );
                             }
                             Mode::Visit(VisitorVariant::WithPath) => {
-                                return mk_exact(mode, ident, &parse_quote!(Option<&'ast [#item]>));
+                                return mk_exact(
+                                    mode,
+                                    ident,
+                                    &parse_quote!(::std::option::Option<&'ast [#item]>),
+                                );
                             }
                         }
                     }
 
                     match mode {
                         Mode::Fold { .. } => {
-                            return mk_exact(mode, ident, &parse_quote!(Option<#arg>));
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &parse_quote!(::std::option::Option<#arg>),
+                            );
                         }
                         Mode::VisitMut { .. } => {
-                            return mk_exact(mode, ident, &parse_quote!(&mut Option<#arg>));
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &parse_quote!(&mut ::std::option::Option<#arg>),
+                            );
                         }
                         Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                            return mk_exact(mode, ident, &parse_quote!(Option<&#arg>));
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &parse_quote!(::std::option::Option<&#arg>),
+                            );
                         }
                         Mode::Visit(VisitorVariant::WithPath) => {
-                            return mk_exact(mode, ident, &parse_quote!(Option<&'ast #arg>));
+                            return mk_exact(
+                                mode,
+                                ident,
+                                &parse_quote!(::std::option::Option<&'ast #arg>),
+                            );
                         }
                     }
                 }
@@ -2450,13 +2478,17 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
 
                                     match mode {
                                         Mode::Fold { .. } => {
-                                            return mk_exact(mode, ident, &parse_quote!(Vec<#arg>));
+                                            return mk_exact(
+                                                mode,
+                                                ident,
+                                                &parse_quote!(::std::vec::Vec<#arg>),
+                                            );
                                         }
                                         Mode::VisitMut { .. } => {
                                             return mk_ref(
                                                 mode,
                                                 ident,
-                                                &parse_quote!(Vec<#arg>),
+                                                &parse_quote!(::std::vec::Vec<#arg>),
                                                 true,
                                             );
                                         }
