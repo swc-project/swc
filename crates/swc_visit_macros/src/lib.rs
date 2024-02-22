@@ -1978,7 +1978,7 @@ fn visit_expr(
 
                 parse_quote!({
                     let mut __ast_path = __ast_path.with_guard(#ast_path_expr);
-                    #visitor.#visit_name(#expr, &mut *__ast_path)
+                    #visitor.#visit_name(#expr, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                 })
             } else {
                 parse_quote!(#visitor.#visit_name(#expr, __ast_path))
@@ -2620,7 +2620,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     __ast_path.with_index_guard(idx);
 
                                                 ::swc_visit::util::map::Map::map(v, |v| {
-                                                    _visitor.#ident(v, &mut *__ast_path)
+                                                    _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                                 })
                                             })
                                             .collect()
@@ -2645,7 +2645,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     .map(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.#ident(v, &mut *__ast_path)
+                                        _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                     })
                                     .collect()
                             }),
@@ -2658,7 +2658,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 n.iter_mut().enumerate().for_each(|(idx, v)| {
                                     let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                    _visitor.#ident(v, &mut *__ast_path)
+                                    _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                 })
                             }),
 
@@ -2670,7 +2670,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 n.iter().enumerate().for_each(|(idx, v)| {
                                     let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                    _visitor.#ident(v.as_ref(), &mut *__ast_path)
+                                    _visitor.#ident(v.as_ref(), ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                 })
                             }),
                         }
@@ -2687,7 +2687,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     .enumerate()
                                     .map(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
-                                        _visitor.#ident(v, &mut *__ast_path)
+                                        _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                     })
                                     .collect()
                             }),
@@ -2700,7 +2700,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 n.iter_mut().enumerate().for_each(|(idx, v)| {
                                     let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                    _visitor.#ident(v, &mut *__ast_path)
+                                    _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                 })
                             }),
 
@@ -2713,7 +2713,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     n.iter().enumerate().for_each(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.#ident(v, &mut *__ast_path)
+                                        _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                     })
                                 })
                             }
