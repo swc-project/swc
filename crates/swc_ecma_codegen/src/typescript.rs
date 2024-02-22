@@ -935,7 +935,13 @@ where
         keyword!("get");
         space!();
 
-        emit!(n.key);
+        if n.computed {
+            punct!("[");
+            emit!(n.key);
+            punct!("]");
+        } else {
+            emit!(n.key)
+        }
 
         punct!("(");
         punct!(")");
@@ -953,7 +959,13 @@ where
         keyword!("set");
         space!();
 
-        emit!(n.key);
+        if n.computed {
+            punct!("[");
+            emit!(n.key);
+            punct!("]");
+        } else {
+            emit!(n.key)
+        }
 
         punct!("(");
         emit!(n.param);
