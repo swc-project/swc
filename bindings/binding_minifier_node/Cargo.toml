@@ -35,7 +35,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_compiler_base = { version = "0.7.6", features = ["node"] }
+swc_compiler_base = { version = "0.7.7", features = ["node"] }
 swc_config = "0.1.11"
 swc_core = { version = "0.90.10", features = [
   "allocator_node",
