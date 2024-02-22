@@ -1115,7 +1115,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 Mode::Fold(VisitorVariant::WithPath)
                 | Mode::VisitMut(VisitorVariant::WithPath)
                 | Mode::Visit(VisitorVariant::WithPath) => {
-                    parse_quote!({ fn_name(self, n, __ast_path) })
+                    parse_quote!({ #fn_name(self, n, __ast_path) })
                 }
 
                 Mode::VisitAll => Block {
