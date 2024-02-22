@@ -1655,11 +1655,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         tokens.push_tokens(&quote!(
                             impl<V: ?::std::marker::Sized + Visit> VisitWith<V> for #ty {
                                 fn visit_with(&self, v: &mut V) {
-                                    (**self).visit_with(v)
+                                    <[#elem_ty] as VisitWith<V>>::visit_with(&**self, v)
                                 }
 
                                 fn visit_children_with(&self, _visitor: &mut V) {
-                                    (**self).visit_children_with(_visitor)
+                                    <[#elem_ty] as VisitWith<V>>::visit_children_with(&**self, _visitor)
                                 }
                             }
                         ));
