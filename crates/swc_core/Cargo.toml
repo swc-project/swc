@@ -327,50 +327,50 @@ __visit = ["__ecma", "swc_ecma_visit"]
 once_cell = { optional = true, version = "1.18.0" }
 
 # swc_* dependencies
-binding_macros                   = { optional = true, version = "0.64.8", path = "../binding_macros" }
-swc                              = { optional = true, version = "0.273.8", path = "../swc" }
+binding_macros                   = { optional = true, version = "0.64.9", path = "../binding_macros" }
+swc                              = { optional = true, version = "0.273.9", path = "../swc" }
 swc_atoms                        = { optional = true, version = "0.6.5", path = "../swc_atoms" }
 swc_bundler                      = { optional = true, version = "0.225.7", path = "../swc_bundler" }
 swc_cached                       = { optional = true, version = "0.3.19", path = "../swc_cached" }
-swc_common                       = { optional = true, version = "0.33.17", path = "../swc_common" }
-swc_css_ast                      = { optional = true, version = "0.140.18", path = "../swc_css_ast" }
-swc_css_codegen                  = { optional = true, version = "0.151.27", path = "../swc_css_codegen" }
-swc_css_compat                   = { optional = true, version = "0.27.28", path = "../swc_css_compat" }
-swc_css_minifier                 = { optional = true, version = "0.116.28", path = "../swc_css_minifier" }
-swc_css_modules                  = { optional = true, version = "0.29.30", path = "../swc_css_modules" }
-swc_css_parser                   = { optional = true, version = "0.150.26", path = "../swc_css_parser" }
-swc_css_prefixer                 = { optional = true, version = "0.153.31", path = "../swc_css_prefixer" }
-swc_css_utils                    = { optional = true, version = "0.137.18", path = "../swc_css_utils/" }
-swc_css_visit                    = { optional = true, version = "0.139.18", path = "../swc_css_visit" }
-swc_ecma_ast                     = { optional = true, version = "0.112.3", path = "../swc_ecma_ast" }
-swc_ecma_codegen                 = { optional = true, version = "0.148.4", path = "../swc_ecma_codegen" }
-swc_ecma_lints                   = { optional = true, version = "0.92.7", path = "../swc_ecma_lints" }
-swc_ecma_loader                  = { optional = true, version = "0.45.19", path = "../swc_ecma_loader" }
-swc_ecma_minifier                = { optional = true, version = "0.192.7", path = "../swc_ecma_minifier" }
-swc_ecma_parser                  = { optional = true, version = "0.143.4", path = "../swc_ecma_parser" }
-swc_ecma_preset_env              = { optional = true, version = "0.206.7", path = "../swc_ecma_preset_env" }
-swc_ecma_quote_macros            = { optional = true, version = "0.54.7", path = "../swc_ecma_quote_macros" }
-swc_ecma_transforms_base         = { optional = true, version = "0.137.7", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_compat       = { optional = true, version = "0.163.7", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_module       = { optional = true, version = "0.180.7", path = "../swc_ecma_transforms_module" }
-swc_ecma_transforms_optimization = { optional = true, version = "0.198.7", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_transforms_proposal     = { optional = true, version = "0.171.7", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react        = { optional = true, version = "0.183.7", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_testing      = { optional = true, version = "0.140.7", path = "../swc_ecma_transforms_testing" }
-swc_ecma_transforms_typescript   = { optional = true, version = "0.188.7", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_usage_analyzer          = { optional = true, version = "0.23.6", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils                   = { optional = true, version = "0.127.6", path = "../swc_ecma_utils" }
-swc_ecma_visit                   = { optional = true, version = "0.98.3", path = "../swc_ecma_visit" }
+swc_common                       = { optional = true, version = "0.33.18", path = "../swc_common" }
+swc_css_ast                      = { optional = true, version = "0.140.19", path = "../swc_css_ast" }
+swc_css_codegen                  = { optional = true, version = "0.151.28", path = "../swc_css_codegen" }
+swc_css_compat                   = { optional = true, version = "0.27.29", path = "../swc_css_compat" }
+swc_css_minifier                 = { optional = true, version = "0.116.29", path = "../swc_css_minifier" }
+swc_css_modules                  = { optional = true, version = "0.29.31", path = "../swc_css_modules" }
+swc_css_parser                   = { optional = true, version = "0.150.27", path = "../swc_css_parser" }
+swc_css_prefixer                 = { optional = true, version = "0.153.32", path = "../swc_css_prefixer" }
+swc_css_utils                    = { optional = true, version = "0.137.19", path = "../swc_css_utils/" }
+swc_css_visit                    = { optional = true, version = "0.139.19", path = "../swc_css_visit" }
+swc_ecma_ast                     = { optional = true, version = "0.112.4", path = "../swc_ecma_ast" }
+swc_ecma_codegen                 = { optional = true, version = "0.148.5", path = "../swc_ecma_codegen" }
+swc_ecma_lints                   = { optional = true, version = "0.92.8", path = "../swc_ecma_lints" }
+swc_ecma_loader                  = { optional = true, version = "0.45.20", path = "../swc_ecma_loader" }
+swc_ecma_minifier                = { optional = true, version = "0.192.8", path = "../swc_ecma_minifier" }
+swc_ecma_parser                  = { optional = true, version = "0.143.5", path = "../swc_ecma_parser" }
+swc_ecma_preset_env              = { optional = true, version = "0.206.8", path = "../swc_ecma_preset_env" }
+swc_ecma_quote_macros            = { optional = true, version = "0.54.8", path = "../swc_ecma_quote_macros" }
+swc_ecma_transforms_base         = { optional = true, version = "0.137.8", path = "../swc_ecma_transforms_base" }
+swc_ecma_transforms_compat       = { optional = true, version = "0.163.8", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_module       = { optional = true, version = "0.180.8", path = "../swc_ecma_transforms_module" }
+swc_ecma_transforms_optimization = { optional = true, version = "0.198.8", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_transforms_proposal     = { optional = true, version = "0.171.8", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react        = { optional = true, version = "0.183.8", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_testing      = { optional = true, version = "0.140.8", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_typescript   = { optional = true, version = "0.188.8", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_usage_analyzer          = { optional = true, version = "0.23.7", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_utils                   = { optional = true, version = "0.127.7", path = "../swc_ecma_utils" }
+swc_ecma_visit                   = { optional = true, version = "0.98.4", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "0.5.10", path = "../swc_malloc" }
-swc_node_bundler                 = { optional = true, version = "0.62.8", path = "../swc_node_bundler" }
+swc_node_bundler                 = { optional = true, version = "0.62.9", path = "../swc_node_bundler" }
 swc_nodejs_common                = { optional = true, version = "0.0.8", path = "../swc_nodejs_common" }
 swc_plugin                       = { optional = true, version = "0.90.0", path = "../swc_plugin" }
 swc_plugin_macro                 = { optional = true, version = "0.9.16", path = "../swc_plugin_macro" }
-swc_plugin_proxy                 = { optional = true, version = "0.41.3", path = "../swc_plugin_proxy" }
+swc_plugin_proxy                 = { optional = true, version = "0.41.4", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "0.1.3", path = "../swc_trace_macro" }
-testing                          = { optional = true, version = "0.35.18", path = "../testing" }
+testing                          = { optional = true, version = "0.35.19", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.106.5", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.106.6", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { version = "8.0.0", default-features = false, features = ["cargo"] }
