@@ -1145,7 +1145,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// This is the default implementation of a method of
                     /// [Fold].
                     #[allow(non_shorthand_field_patterns, unused_variables)]
-                    pub fn #fn_name<V: ?std::marker::Sized + #t>(_visitor: &mut V, n: #arg_ty) -> #arg_ty {
+                    pub fn #fn_name<V: ?::std::marker::Sized + #t>(_visitor: &mut V, n: #arg_ty) -> #arg_ty {
                         #default_body
                     }
                 ))
@@ -1155,7 +1155,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 let t = Ident::new(mode.trait_name(), call_site());
                 tokens.push_tokens(&quote!(
                     #[allow(non_shorthand_field_patterns, unused_variables)]
-                    pub fn #fn_name<V: ?std::marker::Sized + #t>(_visitor: &mut V, n: #arg_ty) {
+                    pub fn #fn_name<V: ?::std::marker::Sized + #t>(_visitor: &mut V, n: #arg_ty) {
                         #default_body
                     }
                 ))
@@ -1170,7 +1170,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     /// This is the default implementation of a method of
                     /// [Visit].
                     #[allow(non_shorthand_field_patterns, unused_variables)]
-                    pub fn #fn_name<V: ?std::marker::Sized + #t>(_visitor: &mut V, n: #arg_ty) {
+                    pub fn #fn_name<V: ?::std::marker::Sized + #t>(_visitor: &mut V, n: #arg_ty) {
                         #default_body
                     }
                 ))
@@ -1182,7 +1182,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     #[cfg(any(feature = "path", docsrs))]
                     #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                     #[allow(non_shorthand_field_patterns, unused_variables)]
-                    fn #fn_name<V: ?std::marker::Sized + #t>(
+                    fn #fn_name<V: ?::std::marker::Sized + #t>(
                         _visitor: &mut V,
                         n: #arg_ty,
                         __ast_path: &mut AstKindPath,
@@ -1199,7 +1199,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     #[cfg(any(feature = "path", docsrs))]
                     #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                     #[allow(non_shorthand_field_patterns, unused_variables)]
-                    fn #fn_name<V: ?std::marker::Sized + #t>(
+                    fn #fn_name<V: ?::std::marker::Sized + #t>(
                         _visitor: &mut V,
                         n: #arg_ty,
                         __ast_path: &mut AstKindPath,
@@ -1215,7 +1215,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     #[cfg(any(feature = "path", docsrs))]
                     #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                     #[allow(non_shorthand_field_patterns, unused_variables)]
-                    fn #fn_name<'ast, 'r, V: ?std::marker::Sized + #t>(
+                    fn #fn_name<'ast, 'r, V: ?::std::marker::Sized + #t>(
                         _visitor: &mut V,
                         n: #arg_ty,
                         __ast_path: &mut AstNodePath<'r>,
@@ -1257,7 +1257,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         let trait_name = Ident::new(mode.trait_name(), call_site());
 
-        let mut item: ItemImpl = parse_quote!(impl<'a, V> #trait_name for &'a mut V where V: ?std::marker::Sized + #trait_name {});
+        let mut item: ItemImpl = parse_quote!(impl<'a, V> #trait_name for &'a mut V where V: ?::std::marker::Sized + #trait_name {});
 
         item.items
             .extend(ref_methods.clone().into_iter().map(ImplItem::Fn));
@@ -1274,7 +1274,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let trait_name = Ident::new(mode.trait_name(), call_site());
 
         let mut item: ItemImpl = parse_quote!(
-            impl<V> #trait_name for Box<V> where V: ?std::marker::Sized + #trait_name {}
+            impl<V> #trait_name for Box<V> where V: ?::std::marker::Sized + #trait_name {}
         );
 
         item.items.extend(ref_methods.into_iter().map(ImplItem::Fn));
@@ -1347,7 +1347,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             Mode::Visit(VisitorVariant::Normal) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
-                pub trait VisitWith<V: ?std::marker::Sized + Visit> {
+                pub trait VisitWith<V: ?::std::marker::Sized + Visit> {
                     /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_with(&self, v: &mut V);
 
@@ -1357,7 +1357,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitWith<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + Visit,
+                    V: ?::std::marker::Sized + Visit,
                     T: 'static + VisitWith<V>,
                 {
                     fn visit_with(&self, v: &mut V) {
@@ -1376,7 +1376,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                pub trait VisitWithPath<V: ?std::marker::Sized + VisitAstPath> {
+                pub trait VisitWithPath<V: ?::std::marker::Sized + VisitAstPath> {
                     /// Calls a visitor method (v.visit_xxx) with self and the
                     /// ast path.
                     fn visit_with_path<'ast, 'r>(
@@ -1404,7 +1404,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> VisitWithPath<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + VisitAstPath,
+                    V: ?::std::marker::Sized + VisitAstPath,
                     T: 'static + VisitWithPath<V>,
                 {
                     fn visit_with_path<'ast, 'r>(
@@ -1433,7 +1433,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             Mode::VisitAll => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
-                pub trait VisitAllWith<V: ?std::marker::Sized + VisitAll> {
+                pub trait VisitAllWith<V: ?::std::marker::Sized + VisitAll> {
                     /// Calls a visitor method (v.visit_xxx) with self.
                     fn visit_all_with(&self, v: &mut V);
 
@@ -1443,7 +1443,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitAllWith<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + VisitAll,
+                    V: ?::std::marker::Sized + VisitAll,
                     T: 'static + VisitAllWith<V>,
                 {
                     fn visit_all_with(&self, v: &mut V) {
@@ -1459,7 +1459,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             Mode::Fold(VisitorVariant::Normal) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
-                pub trait FoldWith<V: ?std::marker::Sized + Fold> {
+                pub trait FoldWith<V: ?::std::marker::Sized + Fold> {
                     /// Calls a visitor method (v.fold_xxx) with self.
                     fn fold_with(self, v: &mut V) -> Self;
 
@@ -1469,7 +1469,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> FoldWith<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + Fold,
+                    V: ?::std::marker::Sized + Fold,
                     T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
@@ -1487,7 +1487,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                pub trait FoldWithPath<V: ?std::marker::Sized + FoldAstPath> {
+                pub trait FoldWithPath<V: ?::std::marker::Sized + FoldAstPath> {
                     /// Calls a visitor method (v.fold_xxx) with self and the
                     /// ast path.
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self;
@@ -1506,7 +1506,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 impl<V, T> FoldWithPath<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + FoldAstPath,
+                    V: ?::std::marker::Sized + FoldAstPath,
                     T: 'static + FoldWithPath<V>,
                 {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self {
@@ -1530,7 +1530,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
             Mode::VisitMut(VisitorVariant::Normal) => quote!(
                 /// A utility trait implemented for ast nodes, and allow to
                 /// visit them with a visitor.
-                pub trait VisitMutWith<V: ?std::marker::Sized + VisitMut> {
+                pub trait VisitMutWith<V: ?::std::marker::Sized + VisitMut> {
                     /// Calls a visitor method (v.visit_mut_xxx) with self.
                     fn visit_mut_with(&mut self, v: &mut V);
 
@@ -1539,7 +1539,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 impl<V, T> VisitMutWith<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + VisitMut,
+                    V: ?::std::marker::Sized + VisitMut,
                     T: 'static + VisitMutWith<V>,
                 {
                     fn visit_mut_with(&mut self, v: &mut V) {
@@ -1556,7 +1556,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 /// visit them with a visitor.
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                pub trait VisitMutWithPath<V: ?std::marker::Sized + VisitMutAstPath> {
+                pub trait VisitMutWithPath<V: ?::std::marker::Sized + VisitMutAstPath> {
                     /// Calls a visitor method (v.visit_mut_xxx) with self and
                     /// the ast path.
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath);
@@ -1579,7 +1579,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[doc = "Delegating implementation"]
                 impl<V, T> VisitMutWithPath<V> for Box<T>
                 where
-                    V: ?std::marker::Sized + VisitMutAstPath,
+                    V: ?::std::marker::Sized + VisitMutAstPath,
                     T: 'static + VisitMutWithPath<V>,
                 {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath) {
@@ -1633,7 +1633,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                     if let Some(elem_ty) = extract_generic("Vec", ty) {
                         tokens.push_tokens(&quote!(
-                            impl<V: ?std::marker::Sized + Visit> VisitWith<V> for [#elem_ty] {
+                            impl<V: ?::std::marker::Sized + Visit> VisitWith<V> for [#elem_ty] {
                                 fn visit_with(&self, v: &mut V) {
                                     #expr
                                 }
@@ -1645,7 +1645,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ));
 
                         tokens.push_tokens(&quote!(
-                            impl<V: ?std::marker::Sized + Visit> VisitWith<V> for #ty {
+                            impl<V: ?::std::marker::Sized + Visit> VisitWith<V> for #ty {
                                 fn visit_with(&self, v: &mut V) {
                                     (**self).visit_with(v)
                                 }
@@ -1657,7 +1657,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ));
                     } else {
                         tokens.push_tokens(&quote!(
-                            impl<V: ?std::marker::Sized + Visit> VisitWith<V> for #ty {
+                            impl<V: ?::std::marker::Sized + Visit> VisitWith<V> for #ty {
                                 fn visit_with(&self, v: &mut V) {
                                     #expr
                                 }
@@ -1682,7 +1682,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         tokens.push_tokens(&quote!(
                             #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            impl<V: ?std::marker::Sized + VisitAstPath> VisitWithPath<V> for [#elem_ty] {
+                            impl<V: ?::std::marker::Sized + VisitAstPath> VisitWithPath<V> for [#elem_ty] {
                                 fn visit_with_path<'ast, 'r>(
                                     &'ast self,
                                     v: &mut V,
@@ -1708,7 +1708,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         tokens.push_tokens(&quote!(
                             #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            impl<V: ?std::marker::Sized + VisitAstPath> VisitWithPath<V> for #ty {
+                            impl<V: ?::std::marker::Sized + VisitAstPath> VisitWithPath<V> for #ty {
                                 fn visit_with_path<'ast, 'r>(
                                     &'ast self,
                                     v: &mut V,
@@ -1734,7 +1734,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         tokens.push_tokens(&quote!(
                             #[cfg(any(feature = "path", docsrs))]
                             #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                            impl<V: ?std::marker::Sized + VisitAstPath> VisitWithPath<V> for #ty {
+                            impl<V: ?::std::marker::Sized + VisitAstPath> VisitWithPath<V> for #ty {
                                 fn visit_with_path<'ast, 'r>(
                                     &'ast self,
                                     v: &mut V,
@@ -1768,7 +1768,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
 
                     tokens.push_tokens(&quote!(
-                        impl<V: ?std::marker::Sized + VisitAll> VisitAllWith<V> for #ty {
+                        impl<V: ?::std::marker::Sized + VisitAll> VisitAllWith<V> for #ty {
                             fn visit_all_with(&self, v: &mut V) {
                                 let mut all = ::swc_visit::All { visitor: v };
                                 let mut v = &mut all;
@@ -1793,7 +1793,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     );
 
                     tokens.push_tokens(&quote!(
-                        impl<V: ?std::marker::Sized + VisitMut> VisitMutWith<V> for #ty {
+                        impl<V: ?::std::marker::Sized + VisitMut> VisitMutWith<V> for #ty {
                             fn visit_mut_with(&mut self, v: &mut V) {
                                 #expr
                             }
@@ -1816,7 +1816,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&quote!(
                         #[cfg(any(feature = "path", docsrs))]
                         #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                        impl<V: ?std::marker::Sized + VisitMutAstPath> VisitMutWithPath<V> for #ty {
+                        impl<V: ?::std::marker::Sized + VisitMutAstPath> VisitMutWithPath<V> for #ty {
                             fn visit_mut_with_path(
                                 &mut self,
                                 v: &mut V,
@@ -1838,7 +1838,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 Mode::Fold(VisitorVariant::Normal) => {
                     tokens.push_tokens(&quote!(
-                        impl<V: ?std::marker::Sized + Fold> FoldWith<V> for #ty {
+                        impl<V: ?::std::marker::Sized + Fold> FoldWith<V> for #ty {
                             fn fold_with(self, v: &mut V) -> Self {
                                 #expr
                             }
@@ -1854,7 +1854,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     tokens.push_tokens(&quote!(
                         #[cfg(any(feature = "path", docsrs))]
                         #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                        impl<V: ?std::marker::Sized + FoldAstPath> FoldWithPath<V> for #ty {
+                        impl<V: ?::std::marker::Sized + FoldAstPath> FoldWithPath<V> for #ty {
                             fn fold_with_path(
                                 self,
                                 v: &mut V,
