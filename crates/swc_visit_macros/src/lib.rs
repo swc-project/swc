@@ -2420,7 +2420,7 @@ fn create_method_sig(mode: Mode, ty: &Type) -> Signature {
                             return mk_exact(mode, ident, &parse_quote!(Option<&#arg>));
                         }
                         Mode::Visit(VisitorVariant::WithPath) => {
-                            return mk_exact(mode, ident, &parse_quote!(Option<&'ast arg>));
+                            return mk_exact(mode, ident, &parse_quote!(Option<&'ast #arg>));
                         }
                     }
                 }
