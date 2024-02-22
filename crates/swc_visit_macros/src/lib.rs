@@ -1890,14 +1890,21 @@ where
                 Mode::Fold { .. } => expr,
                 Mode::VisitMut { .. } => expr,
                 Mode::Visit { .. } | Mode::VisitAll => {
-                    parse_quote!(#expr.as_ref().map(|v| &**v))
+                    parse_quote!(match &#expr {
+                        Some(v) => Some(&**v),
+                        None => None,
+                    })
                 }
             }
         } else {
             match mode {
                 Mode::Fold { .. } => expr,
                 Mode::VisitMut { .. } => expr,
-                Mode::Visit { .. } | Mode::VisitAll => parse_quote!(#expr.as_ref()),
+                Mode::Visit { .. } | Mode::VisitAll => parse_quote!(match &#expr {
+                    Some(v) => Some(v),
+                    None => None,
+
+                }),
             }
         };
     }
