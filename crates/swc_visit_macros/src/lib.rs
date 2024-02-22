@@ -1361,12 +1361,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + VisitWith<V>,
                 {
                     fn visit_with(&self, v: &mut V) {
-                        (**self).visit_with(v)
+                        <T as VisitWith<V>>::visit_with(&**self, v)
                     }
 
                     /// Visit children nodes of self with `v`
                     fn visit_children_with(&self, v: &mut V) {
-                        (**self).visit_children_with(v)
+                        <T as VisitWith<V>>::visit_children_with(&**self, v)
                     }
                 }
             ),
@@ -1414,7 +1414,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ) where
                         'ast: 'r,
                     {
-                        (**self).visit_with_path(v, ast_path)
+                        <T as VisitWithPath<V>>::visit_with_path(&**self, v, ast_path)
                     }
 
                     /// Visit children nodes of self with `v`
@@ -1425,7 +1425,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     ) where
                         'ast: 'r,
                     {
-                        (**self).visit_children_with_path(v, ast_path)
+                        <T as VisitWithPath<V>>::visit_children_with_path(&**self, v, ast_path)
                     }
                 }
             ),
@@ -1447,12 +1447,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + VisitAllWith<V>,
                 {
                     fn visit_all_with(&self, v: &mut V) {
-                        (**self).visit_all_with(v)
+                        <T as VisitAllWith<V>>::visit_all_with(&**self, v)
                     }
 
                     /// Visit children nodes of self with `v`
                     fn visit_all_children_with(&self, v: &mut V) {
-                        (**self).visit_all_children_with(v)
+                        <T as VisitAllWith<V>>::visit_all_children_with(&**self, v)
                     }
                 }
             ),
@@ -1473,12 +1473,16 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
-                        ::swc_visit::util::map::Map::map(self, |value| value.fold_with(v))
+                        ::swc_visit::util::map::Map::map(self, |value| {
+                            <T as FoldWith<V>>::fold_with(value, v)
+                        })
                     }
 
                     /// Visit children nodes of self with `v`
                     fn fold_children_with(self, v: &mut V) -> Self {
-                        ::swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
+                        ::swc_visit::util::map::Map::map(self, |value| {
+                            <T as FoldWith<V>>::fold_children_with(value, v)
+                        })
                     }
                 }
             ),
@@ -1511,7 +1515,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self {
                         ::swc_visit::util::map::Map::map(self, |value| {
-                            value.fold_with_path(v, ast_path)
+                            <T as FoldWithPath<V>>::fold_with_path(value, v, ast_path)
                         })
                     }
 
@@ -1522,7 +1526,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         ast_path: &mut AstKindPath,
                     ) -> Self {
                         ::swc_visit::util::map::Map::map(self, |value| {
-                            value.fold_children_with_path(v, ast_path)
+                            <T as FoldWithPath<V>>::fold_children_with_path(value, v, ast_path)
                         })
                     }
                 }
@@ -1543,11 +1547,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + VisitMutWith<V>,
                 {
                     fn visit_mut_with(&mut self, v: &mut V) {
-                        (**self).visit_mut_with(v);
+                        <T as VisitMutWith<V>>::visit_mut_with(&mut **self, v);
                     }
 
                     fn visit_mut_children_with(&mut self, v: &mut V) {
-                        (**self).visit_mut_children_with(v);
+                        <T as VisitMutWith<V>>::visit_mut_children_with(&mut **self, v);
                     }
                 }
             ),
@@ -1583,7 +1587,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + VisitMutWithPath<V>,
                 {
                     fn visit_mut_with_path(&mut self, v: &mut V, ast_path: &mut AstKindPath) {
-                        (**self).visit_mut_with_path(v, ast_path);
+                        <T as VisitMutWithPath<V>>::visit_mut_with_path(&mut **self, v, ast_path);
                     }
 
                     fn visit_mut_children_with_path(
@@ -1591,7 +1595,11 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         v: &mut V,
                         ast_path: &mut AstKindPath,
                     ) {
-                        (**self).visit_mut_children_with_path(v, ast_path);
+                        <T as VisitMutWithPath<V>>::visit_mut_children_with_path(
+                            &mut **self,
+                            v,
+                            ast_path,
+                        );
                     }
                 }
             ),
