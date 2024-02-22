@@ -101,14 +101,14 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
 
     let mut q = Quote::new_call_site();
     q.push_tokens(&quote!(
-        use swc_visit::ParentKind;
+        use ::swc_visit::ParentKind;
 
-        pub type AstKindPath = swc_visit::AstKindPath<AstParentKind>;
-        pub type AstNodePath<'ast> = swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
+        pub type AstKindPath = ::swc_visit::AstKindPath<AstParentKind>;
+        pub type AstNodePath<'ast> = ::swc_visit::AstNodePath<AstParentNodeRef<'ast>>;
 
         /// Not a public API
         #[doc(hidden)]
-        impl swc_visit::NodeRef for AstParentNodeRef<'_> {
+        impl ::swc_visit::NodeRef for AstParentNodeRef<'_> {
             type ParentKind = AstParentKind;
 
             #[inline]
@@ -1018,14 +1018,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 block: match mode.visitor_variant() {
                     Some(VisitorVariant::Normal) | None => parse_quote!({
                         match self {
-                            swc_visit::Either::Left(v) => v.#name(n),
-                            swc_visit::Either::Right(v) => v.#name(n),
+                            ::swc_visit::Either::Left(v) => v.#name(n),
+                            ::swc_visit::Either::Right(v) => v.#name(n),
                         }
                     }),
                     Some(VisitorVariant::WithPath) => parse_quote!({
                         match self {
-                            swc_visit::Either::Left(v) => v.#name(n, __ast_path),
-                            swc_visit::Either::Right(v) => v.#name(n, __ast_path),
+                            ::swc_visit::Either::Left(v) => v.#name(n, __ast_path),
+                            ::swc_visit::Either::Right(v) => v.#name(n, __ast_path),
                         }
                     }),
                 },
@@ -1076,7 +1076,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         }
 
         {
-            // Visit <-> VisitAll using swc_visit::All
+            // Visit <-> VisitAll using ::swc_visit::All
 
             visit_all_methods.push(ImplItemFn {
                 attrs: vec![],
@@ -1325,7 +1325,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         tokens.push_tokens(&item);
     }
 
-    // impl Visit for swc_visit::All<V> where V: VisitAll
+    // impl Visit for ::swc_visit::All<V> where V: VisitAll
     if mode == Mode::VisitAll {
         let mut item: ItemImpl = parse_quote!(
             impl<V> Visit for ::swc_visit::All<V> where V: VisitAll {}
@@ -1336,7 +1336,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         tokens.push_tokens(&item);
         tokens.push_tokens(&quote!(
-            pub use swc_visit::All;
+            pub use ::swc_visit::All;
         ));
     }
 
@@ -1473,12 +1473,12 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + FoldWith<V>,
                 {
                     fn fold_with(self, v: &mut V) -> Self {
-                        swc_visit::util::map::Map::map(self, |value| value.fold_with(v))
+                        ::swc_visit::util::map::Map::map(self, |value| value.fold_with(v))
                     }
 
                     /// Visit children nodes of self with `v`
                     fn fold_children_with(self, v: &mut V) -> Self {
-                        swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
+                        ::swc_visit::util::map::Map::map(self, |value| value.fold_children_with(v))
                     }
                 }
             ),
@@ -1510,7 +1510,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     T: 'static + FoldWithPath<V>,
                 {
                     fn fold_with_path(self, v: &mut V, ast_path: &mut AstKindPath) -> Self {
-                        swc_visit::util::map::Map::map(self, |value| {
+                        ::swc_visit::util::map::Map::map(self, |value| {
                             value.fold_with_path(v, ast_path)
                         })
                     }
@@ -1521,7 +1521,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                         v: &mut V,
                         ast_path: &mut AstKindPath,
                     ) -> Self {
-                        swc_visit::util::map::Map::map(self, |value| {
+                        ::swc_visit::util::map::Map::map(self, |value| {
                             value.fold_children_with_path(v, ast_path)
                         })
                     }
@@ -2523,7 +2523,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 parse_quote!(_visitor.#ident(*n)),
                             );
 
-                            return parse_quote!(swc_visit::util::map::Map::map(n, |n| #inner));
+                            return parse_quote!(::swc_visit::util::map::Map::map(n, |n| #inner));
                         }
 
                         Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
@@ -2551,7 +2551,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                             return parse_quote!({
                                                 match n {
                                                     Some(n) => Some(
-                                                        swc_visit::util::map::Map::map(n, |n| {
+                                                        ::swc_visit::util::map::Map::map(n, |n| {
                                                             #inner
                                                         }),
                                                     ),
@@ -2606,8 +2606,8 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                             if extract_box(arg).is_some() {
                                 return match v {
                                     VisitorVariant::Normal => parse_quote!({
-                                        swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                            swc_visit::util::map::Map::map(v, |v| {
+                                        ::swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                            ::swc_visit::util::map::Map::map(v, |v| {
                                                 _visitor.#ident(v)
                                             })
                                         })
@@ -2619,7 +2619,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                 let mut __ast_path =
                                                     __ast_path.with_index_guard(idx);
 
-                                                swc_visit::util::map::Map::map(v, |v| {
+                                                ::swc_visit::util::map::Map::map(v, |v| {
                                                     _visitor.#ident(v, &mut *__ast_path)
                                                 })
                                             })
@@ -2634,7 +2634,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     return if is_option(arg) {
                         match mode {
                             Mode::Fold(VisitorVariant::Normal) => parse_quote!({
-                                swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                ::swc_visit::util::move_map::MoveMap::move_map(n, |v| {
                                     _visitor.#ident(v)
                                 })
                             }),
@@ -2677,7 +2677,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                     } else {
                         match mode {
                             Mode::Fold(VisitorVariant::Normal) => parse_quote!({
-                                swc_visit::util::move_map::MoveMap::move_map(n, |v| {
+                                ::swc_visit::util::move_map::MoveMap::move_map(n, |v| {
                                     _visitor.#ident(v)
                                 })
                             }),
