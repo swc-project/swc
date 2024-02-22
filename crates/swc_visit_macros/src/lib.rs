@@ -1274,7 +1274,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
         let trait_name = Ident::new(mode.trait_name(), call_site());
 
         let mut item: ItemImpl = parse_quote!(
-            impl<V> #trait_name for Box<V> where V: ?::std::marker::Sized + #trait_name {}
+            impl<V> #trait_name for ::std::boxed::Box<V> where V: ?::std::marker::Sized + #trait_name {}
         );
 
         item.items.extend(ref_methods.into_iter().map(ImplItem::Fn));
@@ -1355,7 +1355,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn visit_children_with(&self, v: &mut V);
                 }
 
-                impl<V, T> VisitWith<V> for Box<T>
+                impl<V, T> VisitWith<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + Visit,
                     T: 'static + VisitWith<V>,
@@ -1402,7 +1402,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                impl<V, T> VisitWithPath<V> for Box<T>
+                impl<V, T> VisitWithPath<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + VisitAstPath,
                     T: 'static + VisitWithPath<V>,
@@ -1441,7 +1441,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn visit_all_children_with(&self, v: &mut V);
                 }
 
-                impl<V, T> VisitAllWith<V> for Box<T>
+                impl<V, T> VisitAllWith<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + VisitAll,
                     T: 'static + VisitAllWith<V>,
@@ -1467,7 +1467,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn fold_children_with(self, v: &mut V) -> Self;
                 }
 
-                impl<V, T> FoldWith<V> for Box<T>
+                impl<V, T> FoldWith<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + Fold,
                     T: 'static + FoldWith<V>,
@@ -1504,7 +1504,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
-                impl<V, T> FoldWithPath<V> for Box<T>
+                impl<V, T> FoldWithPath<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + FoldAstPath,
                     T: 'static + FoldWithPath<V>,
@@ -1537,7 +1537,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     fn visit_mut_children_with(&mut self, v: &mut V);
                 }
 
-                impl<V, T> VisitMutWith<V> for Box<T>
+                impl<V, T> VisitMutWith<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + VisitMut,
                     T: 'static + VisitMutWith<V>,
@@ -1577,7 +1577,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 #[cfg(any(feature = "path", docsrs))]
                 #[cfg_attr(docsrs, doc(cfg(feature = "path")))]
                 #[doc = "Delegating implementation"]
-                impl<V, T> VisitMutWithPath<V> for Box<T>
+                impl<V, T> VisitMutWithPath<V> for ::std::boxed::Box<T>
                 where
                     V: ?::std::marker::Sized + VisitMutAstPath,
                     T: 'static + VisitMutWithPath<V>,
