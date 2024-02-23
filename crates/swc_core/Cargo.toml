@@ -334,12 +334,12 @@ swc_bundler                      = { optional = true, version = "0.225.8", path 
 swc_cached                       = { optional = true, version = "0.3.19", path = "../swc_cached" }
 swc_common                       = { optional = true, version = "0.33.18", path = "../swc_common" }
 swc_css_ast                      = { optional = true, version = "0.140.19", path = "../swc_css_ast" }
-swc_css_codegen                  = { optional = true, version = "0.151.28", path = "../swc_css_codegen" }
-swc_css_compat                   = { optional = true, version = "0.27.29", path = "../swc_css_compat" }
-swc_css_minifier                 = { optional = true, version = "0.116.29", path = "../swc_css_minifier" }
-swc_css_modules                  = { optional = true, version = "0.29.31", path = "../swc_css_modules" }
-swc_css_parser                   = { optional = true, version = "0.150.27", path = "../swc_css_parser" }
-swc_css_prefixer                 = { optional = true, version = "0.153.32", path = "../swc_css_prefixer" }
+swc_css_codegen                  = { optional = true, version = "0.151.29", path = "../swc_css_codegen" }
+swc_css_compat                   = { optional = true, version = "0.27.30", path = "../swc_css_compat" }
+swc_css_minifier                 = { optional = true, version = "0.116.30", path = "../swc_css_minifier" }
+swc_css_modules                  = { optional = true, version = "0.29.32", path = "../swc_css_modules" }
+swc_css_parser                   = { optional = true, version = "0.150.28", path = "../swc_css_parser" }
+swc_css_prefixer                 = { optional = true, version = "0.153.33", path = "../swc_css_prefixer" }
 swc_css_utils                    = { optional = true, version = "0.137.19", path = "../swc_css_utils/" }
 swc_css_visit                    = { optional = true, version = "0.139.19", path = "../swc_css_visit" }
 swc_ecma_ast                     = { optional = true, version = "0.112.4", path = "../swc_ecma_ast" }
@@ -370,7 +370,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.41.4", path =
 swc_trace_macro                  = { optional = true, version = "0.1.3", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.35.19", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.106.6", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.106.7", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { version = "8.0.0", default-features = false, features = ["cargo"] }

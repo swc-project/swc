@@ -24,9 +24,9 @@ swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", path = "../swc_cached" }
 swc_common = { version = "0.33.18", path = "../swc_common" }
 swc_css_ast = { version = "0.140.19", path = "../swc_css_ast" }
-swc_css_codegen = { version = "0.151.28", path = "../swc_css_codegen" }
-swc_css_minifier = { version = "0.116.29", path = "../swc_css_minifier" }
-swc_css_parser = { version = "0.150.27", path = "../swc_css_parser" }
+swc_css_codegen = { version = "0.151.29", path = "../swc_css_codegen" }
+swc_css_minifier = { version = "0.116.30", path = "../swc_css_minifier" }
+swc_css_parser = { version = "0.150.28", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "0.112.4", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.148.6", path = "../swc_ecma_codegen", features = [
   "serde-impl",
