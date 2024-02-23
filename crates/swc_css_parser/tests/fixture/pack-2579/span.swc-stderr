@@ -1,0 +1,4580 @@
+
+  x Stylesheet
+    ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+  1 | ,-> /* Make clicks pass-through */
+  2 | |   #nprogress {
+  3 | |       pointer-events: none;
+  4 | |     }
+  5 | |     
+  6 | |     #nprogress .bar {
+  7 | |       background: #29d;
+  8 | |     
+  9 | |       position: fixed;
+ 10 | |       z-index: 1031;
+ 11 | |       top: 0;
+ 12 | |       left: 0;
+ 13 | |     
+ 14 | |       width: 100%;
+ 15 | |       height: 2px;
+ 16 | |     }
+ 17 | |     
+ 18 | |     /* Fancy blur effect */
+ 19 | |     #nprogress .peg {
+ 20 | |       display: block;
+ 21 | |       position: absolute;
+ 22 | |       right: 0px;
+ 23 | |       width: 100px;
+ 24 | |       height: 100%;
+ 25 | |       box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 | |       opacity: 1.0;
+ 27 | |     
+ 28 | |       -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 | |           -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 | |               transform: rotate(3deg) translate(0px, -4px);
+ 31 | |     }
+ 32 | |     
+ 33 | |     /* Remove these to get rid of the spinner */
+ 34 | |     #nprogress .spinner {
+ 35 | |       display: block;
+ 36 | |       position: fixed;
+ 37 | |       z-index: 1031;
+ 38 | |       top: 15px;
+ 39 | |       right: 15px;
+ 40 | |     }
+ 41 | |     
+ 42 | |     #nprogress .spinner-icon {
+ 43 | |       width: 18px;
+ 44 | |       height: 18px;
+ 45 | |       box-sizing: border-box;
+ 46 | |     
+ 47 | |       border: solid 2px transparent;
+ 48 | |       border-top-color: #29d;
+ 49 | |       border-left-color: #29d;
+ 50 | |       border-radius: 50%;
+ 51 | |     
+ 52 | |       -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 | |               animation: nprogress-spinner 400ms linear infinite;
+ 54 | |     }
+ 55 | |     
+ 56 | |     .nprogress-custom-parent {
+ 57 | |       overflow: hidden;
+ 58 | |       position: relative;
+ 59 | |     }
+ 60 | |     
+ 61 | |     .nprogress-custom-parent #nprogress .spinner,
+ 62 | |     .nprogress-custom-parent #nprogress .bar {
+ 63 | |       position: absolute;
+ 64 | |     }
+ 65 | |     
+ 66 | |     @-webkit-keyframes nprogress-spinner {
+ 67 | |       0%   { -webkit-transform: rotate(0deg); }
+ 68 | |       100% { -webkit-transform: rotate(360deg); }
+ 69 | |     }
+ 70 | |     @keyframes nprogress-spinner {
+ 71 | |       0%   { transform: rotate(0deg); }
+ 72 | |       100% { transform: rotate(360deg); }
+ 73 | |     }
+ 74 | `->   
+    `----
+
+  x Rule
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 |     /* Make clicks pass-through */
+ 2 | ,-> #nprogress {
+ 3 | |       pointer-events: none;
+ 4 | `->   }
+ 5 |       
+   `----
+
+  x QualifiedRule
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 |     /* Make clicks pass-through */
+ 2 | ,-> #nprogress {
+ 3 | |       pointer-events: none;
+ 4 | `->   }
+ 5 |       
+   `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   : ^^^^^^^^^^
+ 3 |     pointer-events: none;
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   : ^^^^^^^^^^
+ 3 |     pointer-events: none;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   : ^^^^^^^^^^
+ 3 |     pointer-events: none;
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   : ^^^^^^^^^^
+ 3 |     pointer-events: none;
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   : ^^^^^^^^^^
+ 3 |     pointer-events: none;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   : ^^^^^^^^^^
+ 3 |     pointer-events: none;
+   `----
+
+  x SimpleBlock
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 |     /* Make clicks pass-through */
+ 2 | ,-> #nprogress {
+ 3 | |       pointer-events: none;
+ 4 | `->   }
+ 5 |       
+   `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
+ 1 | /* Make clicks pass-through */
+ 2 | #nprogress {
+   :            ^
+ 3 |     pointer-events: none;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/pack-2579/input.css:2:1]
+ 2 | #nprogress {
+ 3 |     pointer-events: none;
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 4 |   }
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/pack-2579/input.css:2:1]
+ 2 | #nprogress {
+ 3 |     pointer-events: none;
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 4 |   }
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/pack-2579/input.css:2:1]
+ 2 | #nprogress {
+ 3 |     pointer-events: none;
+   :     ^^^^^^^^^^^^^^
+ 4 |   }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/pack-2579/input.css:2:1]
+ 2 | #nprogress {
+ 3 |     pointer-events: none;
+   :     ^^^^^^^^^^^^^^
+ 4 |   }
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/pack-2579/input.css:2:1]
+ 2 | #nprogress {
+ 3 |     pointer-events: none;
+   :                     ^^^^
+ 4 |   }
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/pack-2579/input.css:2:1]
+ 2 | #nprogress {
+ 3 |     pointer-events: none;
+   :                     ^^^^
+ 4 |   }
+   `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+  5 |       
+  6 | ,->   #nprogress .bar {
+  7 | |       background: #29d;
+  8 | |     
+  9 | |       position: fixed;
+ 10 | |       z-index: 1031;
+ 11 | |       top: 0;
+ 12 | |       left: 0;
+ 13 | |     
+ 14 | |       width: 100%;
+ 15 | |       height: 2px;
+ 16 | `->   }
+ 17 |       
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+  5 |       
+  6 | ,->   #nprogress .bar {
+  7 | |       background: #29d;
+  8 | |     
+  9 | |       position: fixed;
+ 10 | |       z-index: 1031;
+ 11 | |       top: 0;
+ 12 | |       left: 0;
+ 13 | |     
+ 14 | |       width: 100%;
+ 15 | |       height: 2px;
+ 16 | `->   }
+ 17 |       
+    `----
+
+  x SelectorList
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :   ^^^^^^^^^^^^^^^
+ 7 |     background: #29d;
+   `----
+
+  x ComplexSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :   ^^^^^^^^^^^^^^^
+ 7 |     background: #29d;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :   ^^^^^^^^^^
+ 7 |     background: #29d;
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :   ^^^^^^^^^^
+ 7 |     background: #29d;
+   `----
+
+  x IdSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :   ^^^^^^^^^^
+ 7 |     background: #29d;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :   ^^^^^^^^^^
+ 7 |     background: #29d;
+   `----
+
+  x Combinator
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :             ^
+ 7 |     background: #29d;
+   `----
+
+  x CompoundSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :              ^^^^
+ 7 |     background: #29d;
+   `----
+
+  x SubclassSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :              ^^^^
+ 7 |     background: #29d;
+   `----
+
+  x ClassSelector
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :              ^^^^
+ 7 |     background: #29d;
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :               ^^^
+ 7 |     background: #29d;
+   `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+  5 |       
+  6 | ,->   #nprogress .bar {
+  7 | |       background: #29d;
+  8 | |     
+  9 | |       position: fixed;
+ 10 | |       z-index: 1031;
+ 11 | |       top: 0;
+ 12 | |       left: 0;
+ 13 | |     
+ 14 | |       width: 100%;
+ 15 | |       height: 2px;
+ 16 | `->   }
+ 17 |       
+    `----
+
+  x LBrace
+   ,-[$DIR/tests/fixture/pack-2579/input.css:5:1]
+ 5 |   
+ 6 |   #nprogress .bar {
+   :                   ^
+ 7 |     background: #29d;
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :     ^^^^^^^^^^^^^^^^
+ 8 |   
+   `----
+
+  x Declaration
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :     ^^^^^^^^^^^^^^^^
+ 8 |   
+   `----
+
+  x DeclarationName
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :     ^^^^^^^^^^
+ 8 |   
+   `----
+
+  x Ident
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :     ^^^^^^^^^^
+ 8 |   
+   `----
+
+  x ComponentValue
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :                 ^^^^
+ 8 |   
+   `----
+
+  x Color
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :                 ^^^^
+ 8 |   
+   `----
+
+  x HexColor
+   ,-[$DIR/tests/fixture/pack-2579/input.css:6:1]
+ 6 |   #nprogress .bar {
+ 7 |     background: #29d;
+   :                 ^^^^
+ 8 |   
+   `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:8:1]
+  8 |   
+  9 |     position: fixed;
+    :     ^^^^^^^^^^^^^^^
+ 10 |     z-index: 1031;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:8:1]
+  8 |   
+  9 |     position: fixed;
+    :     ^^^^^^^^^^^^^^^
+ 10 |     z-index: 1031;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:8:1]
+  8 |   
+  9 |     position: fixed;
+    :     ^^^^^^^^
+ 10 |     z-index: 1031;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:8:1]
+  8 |   
+  9 |     position: fixed;
+    :     ^^^^^^^^
+ 10 |     z-index: 1031;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:8:1]
+  8 |   
+  9 |     position: fixed;
+    :               ^^^^^
+ 10 |     z-index: 1031;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:8:1]
+  8 |   
+  9 |     position: fixed;
+    :               ^^^^^
+ 10 |     z-index: 1031;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:9:1]
+  9 |     position: fixed;
+ 10 |     z-index: 1031;
+    :     ^^^^^^^^^^^^^
+ 11 |     top: 0;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:9:1]
+  9 |     position: fixed;
+ 10 |     z-index: 1031;
+    :     ^^^^^^^^^^^^^
+ 11 |     top: 0;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:9:1]
+  9 |     position: fixed;
+ 10 |     z-index: 1031;
+    :     ^^^^^^^
+ 11 |     top: 0;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:9:1]
+  9 |     position: fixed;
+ 10 |     z-index: 1031;
+    :     ^^^^^^^
+ 11 |     top: 0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:9:1]
+  9 |     position: fixed;
+ 10 |     z-index: 1031;
+    :              ^^^^
+ 11 |     top: 0;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:9:1]
+  9 |     position: fixed;
+ 10 |     z-index: 1031;
+    :              ^^^^
+ 11 |     top: 0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:10:1]
+ 10 |     z-index: 1031;
+ 11 |     top: 0;
+    :     ^^^^^^
+ 12 |     left: 0;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:10:1]
+ 10 |     z-index: 1031;
+ 11 |     top: 0;
+    :     ^^^^^^
+ 12 |     left: 0;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:10:1]
+ 10 |     z-index: 1031;
+ 11 |     top: 0;
+    :     ^^^
+ 12 |     left: 0;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:10:1]
+ 10 |     z-index: 1031;
+ 11 |     top: 0;
+    :     ^^^
+ 12 |     left: 0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:10:1]
+ 10 |     z-index: 1031;
+ 11 |     top: 0;
+    :          ^
+ 12 |     left: 0;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:10:1]
+ 10 |     z-index: 1031;
+ 11 |     top: 0;
+    :          ^
+ 12 |     left: 0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:11:1]
+ 11 |     top: 0;
+ 12 |     left: 0;
+    :     ^^^^^^^
+ 13 |   
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:11:1]
+ 11 |     top: 0;
+ 12 |     left: 0;
+    :     ^^^^^^^
+ 13 |   
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:11:1]
+ 11 |     top: 0;
+ 12 |     left: 0;
+    :     ^^^^
+ 13 |   
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:11:1]
+ 11 |     top: 0;
+ 12 |     left: 0;
+    :     ^^^^
+ 13 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:11:1]
+ 11 |     top: 0;
+ 12 |     left: 0;
+    :           ^
+ 13 |   
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:11:1]
+ 11 |     top: 0;
+ 12 |     left: 0;
+    :           ^
+ 13 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :     ^^^^^^^^^^^
+ 15 |     height: 2px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :     ^^^^^^^^^^^
+ 15 |     height: 2px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :     ^^^^^
+ 15 |     height: 2px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :     ^^^^^
+ 15 |     height: 2px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :            ^^^^
+ 15 |     height: 2px;
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :            ^^^^
+ 15 |     height: 2px;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:13:1]
+ 13 |   
+ 14 |     width: 100%;
+    :            ^^^
+ 15 |     height: 2px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :     ^^^^^^^^^^^
+ 16 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :     ^^^^^^^^^^^
+ 16 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :     ^^^^^^
+ 16 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :     ^^^^^^
+ 16 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :             ^^^
+ 16 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :             ^^^
+ 16 |   }
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :             ^^^
+ 16 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :             ^
+ 16 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:14:1]
+ 14 |     width: 100%;
+ 15 |     height: 2px;
+    :              ^^
+ 16 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |       /* Fancy blur effect */
+ 19 | ,->   #nprogress .peg {
+ 20 | |       display: block;
+ 21 | |       position: absolute;
+ 22 | |       right: 0px;
+ 23 | |       width: 100px;
+ 24 | |       height: 100%;
+ 25 | |       box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 | |       opacity: 1.0;
+ 27 | |     
+ 28 | |       -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 | |           -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 | |               transform: rotate(3deg) translate(0px, -4px);
+ 31 | `->   }
+ 32 |       
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |       /* Fancy blur effect */
+ 19 | ,->   #nprogress .peg {
+ 20 | |       display: block;
+ 21 | |       position: absolute;
+ 22 | |       right: 0px;
+ 23 | |       width: 100px;
+ 24 | |       height: 100%;
+ 25 | |       box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 | |       opacity: 1.0;
+ 27 | |     
+ 28 | |       -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 | |           -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 | |               transform: rotate(3deg) translate(0px, -4px);
+ 31 | `->   }
+ 32 |       
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :   ^^^^^^^^^^^^^^^
+ 20 |     display: block;
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :   ^^^^^^^^^^^^^^^
+ 20 |     display: block;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :   ^^^^^^^^^^
+ 20 |     display: block;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :   ^^^^^^^^^^
+ 20 |     display: block;
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :   ^^^^^^^^^^
+ 20 |     display: block;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :   ^^^^^^^^^^
+ 20 |     display: block;
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :             ^
+ 20 |     display: block;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :              ^^^^
+ 20 |     display: block;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :              ^^^^
+ 20 |     display: block;
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :              ^^^^
+ 20 |     display: block;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :               ^^^
+ 20 |     display: block;
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |       /* Fancy blur effect */
+ 19 | ,->   #nprogress .peg {
+ 20 | |       display: block;
+ 21 | |       position: absolute;
+ 22 | |       right: 0px;
+ 23 | |       width: 100px;
+ 24 | |       height: 100%;
+ 25 | |       box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 | |       opacity: 1.0;
+ 27 | |     
+ 28 | |       -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 | |           -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 | |               transform: rotate(3deg) translate(0px, -4px);
+ 31 | `->   }
+ 32 |       
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:18:1]
+ 18 |   /* Fancy blur effect */
+ 19 |   #nprogress .peg {
+    :                   ^
+ 20 |     display: block;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:19:1]
+ 19 |   #nprogress .peg {
+ 20 |     display: block;
+    :     ^^^^^^^^^^^^^^
+ 21 |     position: absolute;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:19:1]
+ 19 |   #nprogress .peg {
+ 20 |     display: block;
+    :     ^^^^^^^^^^^^^^
+ 21 |     position: absolute;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:19:1]
+ 19 |   #nprogress .peg {
+ 20 |     display: block;
+    :     ^^^^^^^
+ 21 |     position: absolute;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:19:1]
+ 19 |   #nprogress .peg {
+ 20 |     display: block;
+    :     ^^^^^^^
+ 21 |     position: absolute;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:19:1]
+ 19 |   #nprogress .peg {
+ 20 |     display: block;
+    :              ^^^^^
+ 21 |     position: absolute;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:19:1]
+ 19 |   #nprogress .peg {
+ 20 |     display: block;
+    :              ^^^^^
+ 21 |     position: absolute;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:20:1]
+ 20 |     display: block;
+ 21 |     position: absolute;
+    :     ^^^^^^^^^^^^^^^^^^
+ 22 |     right: 0px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:20:1]
+ 20 |     display: block;
+ 21 |     position: absolute;
+    :     ^^^^^^^^^^^^^^^^^^
+ 22 |     right: 0px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:20:1]
+ 20 |     display: block;
+ 21 |     position: absolute;
+    :     ^^^^^^^^
+ 22 |     right: 0px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:20:1]
+ 20 |     display: block;
+ 21 |     position: absolute;
+    :     ^^^^^^^^
+ 22 |     right: 0px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:20:1]
+ 20 |     display: block;
+ 21 |     position: absolute;
+    :               ^^^^^^^^
+ 22 |     right: 0px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:20:1]
+ 20 |     display: block;
+ 21 |     position: absolute;
+    :               ^^^^^^^^
+ 22 |     right: 0px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :     ^^^^^^^^^^
+ 23 |     width: 100px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :     ^^^^^^^^^^
+ 23 |     width: 100px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :     ^^^^^
+ 23 |     width: 100px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :     ^^^^^
+ 23 |     width: 100px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :            ^^^
+ 23 |     width: 100px;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :            ^^^
+ 23 |     width: 100px;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :            ^^^
+ 23 |     width: 100px;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :            ^
+ 23 |     width: 100px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:21:1]
+ 21 |     position: absolute;
+ 22 |     right: 0px;
+    :             ^^
+ 23 |     width: 100px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :     ^^^^^^^^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :     ^^^^^^^^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :     ^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :     ^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :            ^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :            ^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :            ^^^^^
+ 24 |     height: 100%;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :            ^^^
+ 24 |     height: 100%;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:22:1]
+ 22 |     right: 0px;
+ 23 |     width: 100px;
+    :               ^^
+ 24 |     height: 100%;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :     ^^^^^^^^^^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :     ^^^^^^^^^^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :     ^^^^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :     ^^^^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :             ^^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :             ^^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:23:1]
+ 23 |     width: 100px;
+ 24 |     height: 100%;
+    :             ^^^
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :     ^^^^^^^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :     ^^^^^^^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                 ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                 ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                   ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                   ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                     ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                     ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                     ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                     ^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                       ^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                          ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Color
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                          ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x HexColor
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                          ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                              ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                              ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                  ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                  ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                    ^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                    ^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                    ^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                    ^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                     ^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                        ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x Color
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                        ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x HexColor
+    ,-[$DIR/tests/fixture/pack-2579/input.css:24:1]
+ 24 |     height: 100%;
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+    :                                        ^^^^
+ 26 |     opacity: 1.0;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:25:1]
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 |     opacity: 1.0;
+    :     ^^^^^^^^^^^^
+ 27 |   
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:25:1]
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 |     opacity: 1.0;
+    :     ^^^^^^^^^^^^
+ 27 |   
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:25:1]
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 |     opacity: 1.0;
+    :     ^^^^^^^
+ 27 |   
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:25:1]
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 |     opacity: 1.0;
+    :     ^^^^^^^
+ 27 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:25:1]
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 |     opacity: 1.0;
+    :              ^^^
+ 27 |   
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:25:1]
+ 25 |     box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+ 26 |     opacity: 1.0;
+    :              ^^^
+ 27 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :     ^^^^^^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :     ^^^^^^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                ^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^^^^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                ^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                  ^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                  ^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:27:1]
+ 27 |   
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+    :                                                      ^^
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :         ^^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :         ^^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                               ^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                ^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^^^^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                ^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                  ^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                  ^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:28:1]
+ 28 |     -webkit-transform: rotate(3deg) translate(0px, -4px);
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+    :                                                      ^^
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 31 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :             ^^^^^^^^^
+ 31 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :             ^^^^^^^^^
+ 31 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^^^^^^^
+ 31 |   }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^^^^^^^
+ 31 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                        ^^^^^^
+ 31 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 31 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 31 |   }
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                               ^^^^
+ 31 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                               ^
+ 31 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                ^^^
+ 31 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^^^^^^^^^^^^
+ 31 |   }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^^^^^^^^^^^^
+ 31 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                     ^^^^^^^^^
+ 31 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 31 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 31 |   }
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^^^
+ 31 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                               ^
+ 31 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                ^^
+ 31 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                  ^
+ 31 |   }
+    `----
+
+  x Delimiter
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                  ^
+ 31 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 31 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 31 |   }
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^^^
+ 31 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                    ^^
+ 31 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:29:1]
+ 29 |         -ms-transform: rotate(3deg) translate(0px, -4px);
+ 30 |             transform: rotate(3deg) translate(0px, -4px);
+    :                                                      ^^
+ 31 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |       /* Remove these to get rid of the spinner */
+ 34 | ,->   #nprogress .spinner {
+ 35 | |       display: block;
+ 36 | |       position: fixed;
+ 37 | |       z-index: 1031;
+ 38 | |       top: 15px;
+ 39 | |       right: 15px;
+ 40 | `->   }
+ 41 |       
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |       /* Remove these to get rid of the spinner */
+ 34 | ,->   #nprogress .spinner {
+ 35 | |       display: block;
+ 36 | |       position: fixed;
+ 37 | |       z-index: 1031;
+ 38 | |       top: 15px;
+ 39 | |       right: 15px;
+ 40 | `->   }
+ 41 |       
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :   ^^^^^^^^^^^^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :   ^^^^^^^^^^^^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :   ^^^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :   ^^^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :   ^^^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :   ^^^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :             ^
+ 35 |     display: block;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :              ^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :              ^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :              ^^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :               ^^^^^^^
+ 35 |     display: block;
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |       /* Remove these to get rid of the spinner */
+ 34 | ,->   #nprogress .spinner {
+ 35 | |       display: block;
+ 36 | |       position: fixed;
+ 37 | |       z-index: 1031;
+ 38 | |       top: 15px;
+ 39 | |       right: 15px;
+ 40 | `->   }
+ 41 |       
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:33:1]
+ 33 |   /* Remove these to get rid of the spinner */
+ 34 |   #nprogress .spinner {
+    :                       ^
+ 35 |     display: block;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:34:1]
+ 34 |   #nprogress .spinner {
+ 35 |     display: block;
+    :     ^^^^^^^^^^^^^^
+ 36 |     position: fixed;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:34:1]
+ 34 |   #nprogress .spinner {
+ 35 |     display: block;
+    :     ^^^^^^^^^^^^^^
+ 36 |     position: fixed;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:34:1]
+ 34 |   #nprogress .spinner {
+ 35 |     display: block;
+    :     ^^^^^^^
+ 36 |     position: fixed;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:34:1]
+ 34 |   #nprogress .spinner {
+ 35 |     display: block;
+    :     ^^^^^^^
+ 36 |     position: fixed;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:34:1]
+ 34 |   #nprogress .spinner {
+ 35 |     display: block;
+    :              ^^^^^
+ 36 |     position: fixed;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:34:1]
+ 34 |   #nprogress .spinner {
+ 35 |     display: block;
+    :              ^^^^^
+ 36 |     position: fixed;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:35:1]
+ 35 |     display: block;
+ 36 |     position: fixed;
+    :     ^^^^^^^^^^^^^^^
+ 37 |     z-index: 1031;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:35:1]
+ 35 |     display: block;
+ 36 |     position: fixed;
+    :     ^^^^^^^^^^^^^^^
+ 37 |     z-index: 1031;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:35:1]
+ 35 |     display: block;
+ 36 |     position: fixed;
+    :     ^^^^^^^^
+ 37 |     z-index: 1031;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:35:1]
+ 35 |     display: block;
+ 36 |     position: fixed;
+    :     ^^^^^^^^
+ 37 |     z-index: 1031;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:35:1]
+ 35 |     display: block;
+ 36 |     position: fixed;
+    :               ^^^^^
+ 37 |     z-index: 1031;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:35:1]
+ 35 |     display: block;
+ 36 |     position: fixed;
+    :               ^^^^^
+ 37 |     z-index: 1031;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:36:1]
+ 36 |     position: fixed;
+ 37 |     z-index: 1031;
+    :     ^^^^^^^^^^^^^
+ 38 |     top: 15px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:36:1]
+ 36 |     position: fixed;
+ 37 |     z-index: 1031;
+    :     ^^^^^^^^^^^^^
+ 38 |     top: 15px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:36:1]
+ 36 |     position: fixed;
+ 37 |     z-index: 1031;
+    :     ^^^^^^^
+ 38 |     top: 15px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:36:1]
+ 36 |     position: fixed;
+ 37 |     z-index: 1031;
+    :     ^^^^^^^
+ 38 |     top: 15px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:36:1]
+ 36 |     position: fixed;
+ 37 |     z-index: 1031;
+    :              ^^^^
+ 38 |     top: 15px;
+    `----
+
+  x Integer
+    ,-[$DIR/tests/fixture/pack-2579/input.css:36:1]
+ 36 |     position: fixed;
+ 37 |     z-index: 1031;
+    :              ^^^^
+ 38 |     top: 15px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :     ^^^^^^^^^
+ 39 |     right: 15px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :     ^^^^^^^^^
+ 39 |     right: 15px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :     ^^^
+ 39 |     right: 15px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :     ^^^
+ 39 |     right: 15px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :          ^^^^
+ 39 |     right: 15px;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :          ^^^^
+ 39 |     right: 15px;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :          ^^^^
+ 39 |     right: 15px;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :          ^^
+ 39 |     right: 15px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:37:1]
+ 37 |     z-index: 1031;
+ 38 |     top: 15px;
+    :            ^^
+ 39 |     right: 15px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :     ^^^^^^^^^^^
+ 40 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :     ^^^^^^^^^^^
+ 40 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :     ^^^^^
+ 40 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :     ^^^^^
+ 40 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :            ^^^^
+ 40 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :            ^^^^
+ 40 |   }
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :            ^^^^
+ 40 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :            ^^
+ 40 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:38:1]
+ 38 |     top: 15px;
+ 39 |     right: 15px;
+    :              ^^
+ 40 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |       
+ 42 | ,->   #nprogress .spinner-icon {
+ 43 | |       width: 18px;
+ 44 | |       height: 18px;
+ 45 | |       box-sizing: border-box;
+ 46 | |     
+ 47 | |       border: solid 2px transparent;
+ 48 | |       border-top-color: #29d;
+ 49 | |       border-left-color: #29d;
+ 50 | |       border-radius: 50%;
+ 51 | |     
+ 52 | |       -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 | |               animation: nprogress-spinner 400ms linear infinite;
+ 54 | `->   }
+ 55 |       
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |       
+ 42 | ,->   #nprogress .spinner-icon {
+ 43 | |       width: 18px;
+ 44 | |       height: 18px;
+ 45 | |       box-sizing: border-box;
+ 46 | |     
+ 47 | |       border: solid 2px transparent;
+ 48 | |       border-top-color: #29d;
+ 49 | |       border-left-color: #29d;
+ 50 | |       border-radius: 50%;
+ 51 | |     
+ 52 | |       -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 | |               animation: nprogress-spinner 400ms linear infinite;
+ 54 | `->   }
+ 55 |       
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :   ^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :   ^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :   ^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :   ^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :             ^
+ 43 |     width: 18px;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :              ^^^^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :              ^^^^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :              ^^^^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :               ^^^^^^^^^^^^
+ 43 |     width: 18px;
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |       
+ 42 | ,->   #nprogress .spinner-icon {
+ 43 | |       width: 18px;
+ 44 | |       height: 18px;
+ 45 | |       box-sizing: border-box;
+ 46 | |     
+ 47 | |       border: solid 2px transparent;
+ 48 | |       border-top-color: #29d;
+ 49 | |       border-left-color: #29d;
+ 50 | |       border-radius: 50%;
+ 51 | |     
+ 52 | |       -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 | |               animation: nprogress-spinner 400ms linear infinite;
+ 54 | `->   }
+ 55 |       
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:41:1]
+ 41 |   
+ 42 |   #nprogress .spinner-icon {
+    :                            ^
+ 43 |     width: 18px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :     ^^^^^^^^^^^
+ 44 |     height: 18px;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :     ^^^^^^^^^^^
+ 44 |     height: 18px;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :     ^^^^^
+ 44 |     height: 18px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :     ^^^^^
+ 44 |     height: 18px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :            ^^^^
+ 44 |     height: 18px;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :            ^^^^
+ 44 |     height: 18px;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :            ^^^^
+ 44 |     height: 18px;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :            ^^
+ 44 |     height: 18px;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:42:1]
+ 42 |   #nprogress .spinner-icon {
+ 43 |     width: 18px;
+    :              ^^
+ 44 |     height: 18px;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :     ^^^^^^^^^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :     ^^^^^^^^^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :     ^^^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :     ^^^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :             ^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :             ^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :             ^^^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :             ^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:43:1]
+ 43 |     width: 18px;
+ 44 |     height: 18px;
+    :               ^^
+ 45 |     box-sizing: border-box;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:44:1]
+ 44 |     height: 18px;
+ 45 |     box-sizing: border-box;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
+ 46 |   
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:44:1]
+ 44 |     height: 18px;
+ 45 |     box-sizing: border-box;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
+ 46 |   
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:44:1]
+ 44 |     height: 18px;
+ 45 |     box-sizing: border-box;
+    :     ^^^^^^^^^^
+ 46 |   
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:44:1]
+ 44 |     height: 18px;
+ 45 |     box-sizing: border-box;
+    :     ^^^^^^^^^^
+ 46 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:44:1]
+ 44 |     height: 18px;
+ 45 |     box-sizing: border-box;
+    :                 ^^^^^^^^^^
+ 46 |   
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:44:1]
+ 44 |     height: 18px;
+ 45 |     box-sizing: border-box;
+    :                 ^^^^^^^^^^
+ 46 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :     ^^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :     ^^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :             ^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :             ^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                   ^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                   ^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Length
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                   ^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                   ^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                    ^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                       ^^^^^^^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:46:1]
+ 46 |   
+ 47 |     border: solid 2px transparent;
+    :                       ^^^^^^^^^^^
+ 48 |     border-top-color: #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :     ^^^^^^^^^^^^^^^^^^^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :     ^^^^^^^^^^^^^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :     ^^^^^^^^^^^^^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :                       ^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x Color
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :                       ^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x HexColor
+    ,-[$DIR/tests/fixture/pack-2579/input.css:47:1]
+ 47 |     border: solid 2px transparent;
+ 48 |     border-top-color: #29d;
+    :                       ^^^^
+ 49 |     border-left-color: #29d;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :     ^^^^^^^^^^^^^^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :     ^^^^^^^^^^^^^^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :                        ^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x Color
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :                        ^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x HexColor
+    ,-[$DIR/tests/fixture/pack-2579/input.css:48:1]
+ 48 |     border-top-color: #29d;
+ 49 |     border-left-color: #29d;
+    :                        ^^^^
+ 50 |     border-radius: 50%;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :     ^^^^^^^^^^^^^^^^^^
+ 51 |   
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :     ^^^^^^^^^^^^^^^^^^
+ 51 |   
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :     ^^^^^^^^^^^^^
+ 51 |   
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :     ^^^^^^^^^^^^^
+ 51 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :                    ^^^
+ 51 |   
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :                    ^^^
+ 51 |   
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:49:1]
+ 49 |     border-left-color: #29d;
+ 50 |     border-radius: 50%;
+    :                    ^^
+ 51 |   
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :     ^^^^^^^^^^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :     ^^^^^^^^^^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                        ^^^^^^^^^^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                        ^^^^^^^^^^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Time
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                             ^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                                ^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                                ^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                                       ^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:51:1]
+ 51 |   
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+    :                                                       ^^^^^^^^
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 54 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 54 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :             ^^^^^^^^^
+ 54 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :             ^^^^^^^^^
+ 54 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                        ^^^^^^^^^^^^^^^^^
+ 54 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                        ^^^^^^^^^^^^^^^^^
+ 54 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^^^
+ 54 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^^^
+ 54 |   }
+    `----
+
+  x Time
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^^^
+ 54 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                          ^^^
+ 54 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                             ^^
+ 54 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                                ^^^^^^
+ 54 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                                ^^^^^^
+ 54 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                                       ^^^^^^^^
+ 54 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:52:1]
+ 52 |     -webkit-animation: nprogress-spinner 400ms linear infinite;
+ 53 |             animation: nprogress-spinner 400ms linear infinite;
+    :                                                       ^^^^^^^^
+ 54 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |       
+ 56 | ,->   .nprogress-custom-parent {
+ 57 | |       overflow: hidden;
+ 58 | |       position: relative;
+ 59 | `->   }
+ 60 |       
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |       
+ 56 | ,->   .nprogress-custom-parent {
+ 57 | |       overflow: hidden;
+ 58 | |       position: relative;
+ 59 | `->   }
+ 60 |       
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 57 |     overflow: hidden;
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 57 |     overflow: hidden;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 57 |     overflow: hidden;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 57 |     overflow: hidden;
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 57 |     overflow: hidden;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :    ^^^^^^^^^^^^^^^^^^^^^^^
+ 57 |     overflow: hidden;
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |       
+ 56 | ,->   .nprogress-custom-parent {
+ 57 | |       overflow: hidden;
+ 58 | |       position: relative;
+ 59 | `->   }
+ 60 |       
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:55:1]
+ 55 |   
+ 56 |   .nprogress-custom-parent {
+    :                            ^
+ 57 |     overflow: hidden;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:56:1]
+ 56 |   .nprogress-custom-parent {
+ 57 |     overflow: hidden;
+    :     ^^^^^^^^^^^^^^^^
+ 58 |     position: relative;
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:56:1]
+ 56 |   .nprogress-custom-parent {
+ 57 |     overflow: hidden;
+    :     ^^^^^^^^^^^^^^^^
+ 58 |     position: relative;
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:56:1]
+ 56 |   .nprogress-custom-parent {
+ 57 |     overflow: hidden;
+    :     ^^^^^^^^
+ 58 |     position: relative;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:56:1]
+ 56 |   .nprogress-custom-parent {
+ 57 |     overflow: hidden;
+    :     ^^^^^^^^
+ 58 |     position: relative;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:56:1]
+ 56 |   .nprogress-custom-parent {
+ 57 |     overflow: hidden;
+    :               ^^^^^^
+ 58 |     position: relative;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:56:1]
+ 56 |   .nprogress-custom-parent {
+ 57 |     overflow: hidden;
+    :               ^^^^^^
+ 58 |     position: relative;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:57:1]
+ 57 |     overflow: hidden;
+ 58 |     position: relative;
+    :     ^^^^^^^^^^^^^^^^^^
+ 59 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:57:1]
+ 57 |     overflow: hidden;
+ 58 |     position: relative;
+    :     ^^^^^^^^^^^^^^^^^^
+ 59 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:57:1]
+ 57 |     overflow: hidden;
+ 58 |     position: relative;
+    :     ^^^^^^^^
+ 59 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:57:1]
+ 57 |     overflow: hidden;
+ 58 |     position: relative;
+    :     ^^^^^^^^
+ 59 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:57:1]
+ 57 |     overflow: hidden;
+ 58 |     position: relative;
+    :               ^^^^^^^^
+ 59 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:57:1]
+ 57 |     overflow: hidden;
+ 58 |     position: relative;
+    :               ^^^^^^^^
+ 59 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |       
+ 61 | ,->   .nprogress-custom-parent #nprogress .spinner,
+ 62 | |     .nprogress-custom-parent #nprogress .bar {
+ 63 | |       position: absolute;
+ 64 | `->   }
+ 65 |       
+    `----
+
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |       
+ 61 | ,->   .nprogress-custom-parent #nprogress .spinner,
+ 62 | |     .nprogress-custom-parent #nprogress .bar {
+ 63 | |       position: absolute;
+ 64 | `->   }
+ 65 |       
+    `----
+
+  x SelectorList
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |       
+ 61 | ,->   .nprogress-custom-parent #nprogress .spinner,
+ 62 | `->   .nprogress-custom-parent #nprogress .bar {
+ 63 |         position: absolute;
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :    ^^^^^^^^^^^^^^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                           ^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                            ^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                            ^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                            ^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                            ^^^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                                      ^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                                       ^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                                       ^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                                       ^^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:60:1]
+ 60 |   
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+    :                                        ^^^^^^^
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    `----
+
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :    ^^^^^^^^^^^^^^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                           ^
+ 63 |     position: absolute;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                            ^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                            ^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x IdSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                            ^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                            ^^^^^^^^^^
+ 63 |     position: absolute;
+    `----
+
+  x Combinator
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                                      ^
+ 63 |     position: absolute;
+    `----
+
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                                       ^^^^
+ 63 |     position: absolute;
+    `----
+
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                                       ^^^^
+ 63 |     position: absolute;
+    `----
+
+  x ClassSelector
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                                       ^^^^
+ 63 |     position: absolute;
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                                        ^^^
+ 63 |     position: absolute;
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |       .nprogress-custom-parent #nprogress .spinner,
+ 62 | ,->   .nprogress-custom-parent #nprogress .bar {
+ 63 | |       position: absolute;
+ 64 | `->   }
+ 65 |       
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:61:1]
+ 61 |   .nprogress-custom-parent #nprogress .spinner,
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+    :                                            ^
+ 63 |     position: absolute;
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:62:1]
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+ 63 |     position: absolute;
+    :     ^^^^^^^^^^^^^^^^^^
+ 64 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:62:1]
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+ 63 |     position: absolute;
+    :     ^^^^^^^^^^^^^^^^^^
+ 64 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:62:1]
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+ 63 |     position: absolute;
+    :     ^^^^^^^^
+ 64 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:62:1]
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+ 63 |     position: absolute;
+    :     ^^^^^^^^
+ 64 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:62:1]
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+ 63 |     position: absolute;
+    :               ^^^^^^^^
+ 64 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:62:1]
+ 62 |   .nprogress-custom-parent #nprogress .bar {
+ 63 |     position: absolute;
+    :               ^^^^^^^^
+ 64 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |       
+ 66 | ,->   @-webkit-keyframes nprogress-spinner {
+ 67 | |       0%   { -webkit-transform: rotate(0deg); }
+ 68 | |       100% { -webkit-transform: rotate(360deg); }
+ 69 | `->   }
+ 70 |       @keyframes nprogress-spinner {
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |       
+ 66 | ,->   @-webkit-keyframes nprogress-spinner {
+ 67 | |       0%   { -webkit-transform: rotate(0deg); }
+ 68 | |       100% { -webkit-transform: rotate(360deg); }
+ 69 | `->   }
+ 70 |       @keyframes nprogress-spinner {
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |   
+ 66 |   @-webkit-keyframes nprogress-spinner {
+    :    ^^^^^^^^^^^^^^^^^
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |   
+ 66 |   @-webkit-keyframes nprogress-spinner {
+    :    ^^^^^^^^^^^^^^^^^
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |   
+ 66 |   @-webkit-keyframes nprogress-spinner {
+    :                      ^^^^^^^^^^^^^^^^^
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |       
+ 66 | ,->   @-webkit-keyframes nprogress-spinner {
+ 67 | |       0%   { -webkit-transform: rotate(0deg); }
+ 68 | |       100% { -webkit-transform: rotate(360deg); }
+ 69 | `->   }
+ 70 |       @keyframes nprogress-spinner {
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:65:1]
+ 65 |   
+ 66 |   @-webkit-keyframes nprogress-spinner {
+    :                                        ^
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :     ^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :     ^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :          ^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :            ^^^^^^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :            ^^^^^^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                               ^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                               ^^^^^^^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                               ^^^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                                      ^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                                      ^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                                      ^^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                                      ^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:66:1]
+ 66 |   @-webkit-keyframes nprogress-spinner {
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+    :                                       ^^^
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :     ^^^^
+ 69 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :     ^^^
+ 69 |   }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :          ^
+ 69 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :            ^^^^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :            ^^^^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                               ^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                               ^^^^^^^^^^^^^^
+ 69 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                               ^^^^^^
+ 69 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                                      ^^^^^^
+ 69 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                                      ^^^^^^
+ 69 |   }
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                                      ^^^^^^
+ 69 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                                      ^^^
+ 69 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:67:1]
+ 67 |     0%   { -webkit-transform: rotate(0deg); }
+ 68 |     100% { -webkit-transform: rotate(360deg); }
+    :                                         ^^^
+ 69 |   }
+    `----
+
+  x Rule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |       }
+ 70 | ,->   @keyframes nprogress-spinner {
+ 71 | |       0%   { transform: rotate(0deg); }
+ 72 | |       100% { transform: rotate(360deg); }
+ 73 | `->   }
+ 74 |       
+    `----
+
+  x AtRule
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |       }
+ 70 | ,->   @keyframes nprogress-spinner {
+ 71 | |       0%   { transform: rotate(0deg); }
+ 72 | |       100% { transform: rotate(360deg); }
+ 73 | `->   }
+ 74 |       
+    `----
+
+  x AtRuleName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |   }
+ 70 |   @keyframes nprogress-spinner {
+    :    ^^^^^^^^^
+ 71 |     0%   { transform: rotate(0deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |   }
+ 70 |   @keyframes nprogress-spinner {
+    :    ^^^^^^^^^
+ 71 |     0%   { transform: rotate(0deg); }
+    `----
+
+  x CustomIdent
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |   }
+ 70 |   @keyframes nprogress-spinner {
+    :              ^^^^^^^^^^^^^^^^^
+ 71 |     0%   { transform: rotate(0deg); }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |       }
+ 70 | ,->   @keyframes nprogress-spinner {
+ 71 | |       0%   { transform: rotate(0deg); }
+ 72 | |       100% { transform: rotate(360deg); }
+ 73 | `->   }
+ 74 |       
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:69:1]
+ 69 |   }
+ 70 |   @keyframes nprogress-spinner {
+    :                                ^
+ 71 |     0%   { transform: rotate(0deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :     ^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :     ^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :          ^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :            ^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :            ^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                       ^^^^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                       ^^^^^^^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                       ^^^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                              ^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                              ^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                              ^^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                              ^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:70:1]
+ 70 |   @keyframes nprogress-spinner {
+ 71 |     0%   { transform: rotate(0deg); }
+    :                               ^^^
+ 72 |     100% { transform: rotate(360deg); }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 73 |   }
+    `----
+
+  x Percentage
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :     ^^^^
+ 73 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :     ^^^
+ 73 |   }
+    `----
+
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 73 |   }
+    `----
+
+  x LBrace
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :          ^
+ 73 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 73 |   }
+    `----
+
+  x Declaration
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :            ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 73 |   }
+    `----
+
+  x DeclarationName
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :            ^^^^^^^^^
+ 73 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :            ^^^^^^^^^
+ 73 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                       ^^^^^^^^^^^^^^
+ 73 |   }
+    `----
+
+  x Function
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                       ^^^^^^^^^^^^^^
+ 73 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                       ^^^^^^
+ 73 |   }
+    `----
+
+  x ComponentValue
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                              ^^^^^^
+ 73 |   }
+    `----
+
+  x Dimension
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                              ^^^^^^
+ 73 |   }
+    `----
+
+  x Angle
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                              ^^^^^^
+ 73 |   }
+    `----
+
+  x Number
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                              ^^^
+ 73 |   }
+    `----
+
+  x Ident
+    ,-[$DIR/tests/fixture/pack-2579/input.css:71:1]
+ 71 |     0%   { transform: rotate(0deg); }
+ 72 |     100% { transform: rotate(360deg); }
+    :                                 ^^^
+ 73 |   }
+    `----
