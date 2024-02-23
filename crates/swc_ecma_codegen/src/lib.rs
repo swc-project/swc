@@ -646,7 +646,7 @@ where
         if self.cfg.inline_script {
             value = replace_close_inline_script(&value)
                 .replace("\x3c!--", "\\x3c!--")
-                .replace("/--\x3e/", "--\\x3e");
+                .replace("--\x3e", "--\\x3e");
         }
 
         self.wr.write_str_lit(DUMMY_SP, &value)?;
