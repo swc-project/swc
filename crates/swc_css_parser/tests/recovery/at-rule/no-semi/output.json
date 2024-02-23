@@ -111,7 +111,16 @@
         "value": "charset",
         "raw": "charset"
       },
-      "prelude": null,
+      "prelude": {
+        "type": "String",
+        "span": {
+          "start": 36,
+          "end": 43,
+          "ctxt": 0
+        },
+        "value": "UTF-8",
+        "raw": "\"UTF-8\""
+      },
       "block": null
     }
   ]
