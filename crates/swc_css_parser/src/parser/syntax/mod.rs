@@ -173,12 +173,26 @@ where
             // <EOF-token>
             // This is a parse error. Return the at-rule.
             if is!(self, EOF) {
-                self.errors.push(Error::new(
-                    span!(self, span.lo),
-                    ErrorKind::EofButExpected("';' or '{'"),
-                ));
+                if prelude.is_empty() {
+                    self.errors.push(Error::new(
+                        span!(self, span.lo),
+                        ErrorKind::EofButExpected("';' or '{'"),
+                    ));
 
+                    at_rule.span = span!(self, span.lo);
+
+                    return Ok(at_rule);
+                }
+
+                at_rule.prelude = Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                    self.create_locv(prelude),
+                )));
                 at_rule.span = span!(self, span.lo);
+
+                // Canonicalization against a grammar
+                if !is_dashed_ident && self.ctx.need_canonicalize {
+                    at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
+                }
 
                 return Ok(at_rule);
             }
@@ -225,7 +239,6 @@ where
                 // value to the at-rule’s prelude.
                 _ => {
                     let component_value = self.parse_as::<ComponentValue>()?;
-
                     prelude.push(component_value);
                 }
             }
