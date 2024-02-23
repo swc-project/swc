@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Emit computed getter and setter signatures ([#8656](https://github.com/swc-project/swc/issues/8656)) ([66bf8e9](https://github.com/swc-project/swc/commit/66bf8e907d09349d847a99036747edb724c4a20a))
+
+
 - **(es/compat)** Split declaration and init in `block-scoping` pass ([#8648](https://github.com/swc-project/swc/issues/8648)) ([6fe6810](https://github.com/swc-project/swc/commit/6fe6810c492ca20ad73d1536e328ddb804533537))
 
 
@@ -1436,9 +1439,6 @@
 
 
 - **(es/minifier)** Handle synthesized export default expression ([#7707](https://github.com/swc-project/swc/issues/7707)) ([5ea6f27](https://github.com/swc-project/swc/commit/5ea6f27eb07df768c6fab2bdff744e402480c53f))
-
-
-- **(es/utils)** Fix string evaluation of array literals ([#7731](https://github.com/swc-project/swc/issues/7731)) ([e8c58cf](https://github.com/swc-project/swc/commit/e8c58cfd779f7c9dcfae06200ec2f726fbc74758))
 
 ### Features
 
