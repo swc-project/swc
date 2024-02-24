@@ -74,8 +74,9 @@ fn assert_format(src: &str, expected: &str, opts: Config) {
 fn inline_script() {
     let src = r#"
 console.log("</sCrIpT>");
+foo("/-->/");
 "#;
-    let expected = r#"console.log("<\/sCrIpT>");"#;
+    let expected = r#"console.log("<\/sCrIpT>");foo("/--\x3e/");"#;
     assert_format(
         src,
         expected,
