@@ -296,8 +296,6 @@ where
             base = Cow::Owned(absolute_path(self.config.base_dir.as_deref(), &base)?);
             target = absolute_path(self.config.base_dir.as_deref(), &target)?;
         }
-        dbg!(&base);
-        dbg!(&target);
 
         debug!(
             "Comparing values (after normalizing absoluteness)\nbase={}\ntarget={}",
@@ -307,14 +305,10 @@ where
 
         let rel_path = diff_paths(&target, &*base);
 
-        dbg!(&rel_path);
-
         let rel_path = match rel_path {
             Some(v) => v,
             None => return Ok(self.to_specifier(target, slug)),
         };
-
-        dbg!(&rel_path);
 
         debug!("Relative path: {}", rel_path.display());
 
