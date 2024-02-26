@@ -17,6 +17,9 @@
 - **(es/compat)** Split declaration and init in `block-scoping` pass ([#8648](https://github.com/swc-project/swc/issues/8648)) ([6fe6810](https://github.com/swc-project/swc/commit/6fe6810c492ca20ad73d1536e328ddb804533537))
 
 
+- **(es/modules)** Do not call `Path::parent()` for `FileName::Anon` ([#8662](https://github.com/swc-project/swc/issues/8662)) ([1bc4cb7](https://github.com/swc-project/swc/commit/1bc4cb7c0548483980e27483022d6abf0888891d))
+
+
 - **(es/parser)** Check for existence of modifiers while parsing `accessor` token ([#8649](https://github.com/swc-project/swc/issues/8649)) ([ca23a33](https://github.com/swc-project/swc/commit/ca23a3353cefb0064ab28d10ea86634be5a0c191))
 
 ### Documentation
