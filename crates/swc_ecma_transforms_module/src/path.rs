@@ -7,7 +7,7 @@ use std::{
     sync::Arc,
 };
 
-use anyhow::{Context, Error};
+use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::JsWord;
@@ -276,7 +276,10 @@ where
             }
         };
         let mut base = match base {
-            FileName::Real(v) => Cow::Borrowed(v),
+            FileName::Real(v) => Cow::Borrowed(
+                v.parent()
+                    .ok_or_else(|| anyhow!("failed to get parent of {:?}", v))?,
+            ),
             FileName::Anon => {
                 if cfg!(target_arch = "wasm32") {
                     panic!("Please specify `filename`")
@@ -303,13 +306,7 @@ where
             target.display()
         );
 
-        let rel_path = diff_paths(
-            &target,
-            match base.parent() {
-                Some(v) => v,
-                None => &base,
-            },
-        );
+        let rel_path = diff_paths(&target, &*base);
 
         let rel_path = match rel_path {
             Some(v) => v,
