@@ -24,6 +24,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_await_in_loop;
     pub mod no_bitwise;
     pub mod no_compare_neg_zero;
+    pub mod no_cond_assign;
     pub mod no_console;
     pub mod no_debugger;
     pub mod no_empty_function;
@@ -191,6 +192,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_await_in_loop::no_await_in_loop(
             &lint_config.no_await_in_loop,
         ));
+
+        rules.extend(no_cond_assign::no_cond_assign(&lint_config.no_cond_assign));
     }
 
     rules

@@ -211,4 +211,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noAwaitInLoop")]
     pub no_await_in_loop: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noCondAssign")]
+    pub no_cond_assign: RuleConfig<()>,
 }
