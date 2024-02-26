@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_cli_impl"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.8.12"
+version     = "0.8.13"
 
 [[bin]]
 name = "swc"
@@ -40,7 +40,7 @@ tracing-futures    = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir            = "2"
 
-swc_core = { version = "0.90.12", features = [
+swc_core = { version = "0.90.13", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",
