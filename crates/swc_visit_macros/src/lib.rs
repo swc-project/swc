@@ -2578,7 +2578,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                 parse_quote!(_visitor.#method(*n)),
                             );
 
-                            return parse_quote!(::swc_visit::util::map::Map::map(n, |n| #inner));
+                            return parse_quote!(::swc_visit::util::map::Map::map(n, |n: #arg| #inner));
                         }
 
                         Mode::VisitAll | Mode::Visit { .. } | Mode::VisitMut { .. } => {
