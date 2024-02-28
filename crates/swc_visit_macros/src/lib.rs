@@ -181,7 +181,7 @@ pub fn define(tts: proc_macro::TokenStream) -> proc_macro::TokenStream {
         .into_token_stream(),
     );
 
-    proc_macro2::TokenStream::from(q).into()
+    q.into()
 }
 
 fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Variant {
@@ -1024,19 +1024,15 @@ fn make(mode: Mode, stmts: &[Stmt]) -> TokenStream {
                 vis: Visibility::Inherited,
                 defaultness: None,
                 sig: sig.clone(),
-                block: match mode.visitor_variant() {
-                    Some(VisitorVariant::Normal) | None => parse_quote!({
+                block: {
+                    let call = mode.call_method(quote!(visitor), quote!(n), &method);
+
+                    parse_quote!({
                         match self {
-                            ::swc_visit::Either::Left(v) => v.#method(n),
-                            ::swc_visit::Either::Right(v) => v.#method(n),
+                            ::swc_visit::Either::Left(visitor) => #call,
+                            ::swc_visit::Either::Right(visitor) => #call,
                         }
-                    }),
-                    Some(VisitorVariant::WithPath) => parse_quote!({
-                        match self {
-                            ::swc_visit::Either::Left(v) => v.#method(n, __ast_path),
-                            ::swc_visit::Either::Right(v) => v.#method(n, __ast_path),
-                        }
-                    }),
+                    })
                 },
             });
         }
