@@ -6,7 +6,7 @@ use std::{collections::HashSet, mem::replace};
 
 use inflector::Inflector;
 use pmutil::{q, Quote, SpanExt};
-use proc_macro2::Ident;
+use proc_macro2::{Ident, TokenStream};
 use quote::quote;
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
@@ -87,16 +87,16 @@ impl Mode {
         })
     }
 
-    fn call_method(self, visitor: Expr, arg: Expr, method: &Ident, ty: &Type) -> ExprMethodCall {
+    fn call_method(self, visitor: TokenStream, arg: TokenStream, method: &Ident) -> ExprCall {
         let trait_name = Ident::new(self.trait_name(), def_site());
 
         match self.visitor_variant() {
             Some(VisitorVariant::WithPath) => {
-                parse_quote!(<#ty as #trait_name>::#method(#visitor, #arg, __ast_path))
+                parse_quote!(#trait_name::#method(#visitor, #arg, __ast_path))
             }
 
             Some(VisitorVariant::Normal) | None => {
-                parse_quote!(<#ty as #trait_name>::#method(#visitor, #arg))
+                parse_quote!(#trait_name::#method(#visitor, #arg))
             }
         }
     }
@@ -1003,14 +1003,9 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
         {
             // &'_ mut V, Box<V>
-            let block = match mode.visitor_variant() {
-                Some(VisitorVariant::Normal) | None => {
-                    parse_quote!({ (**self).#method(n) })
-                }
-                Some(VisitorVariant::WithPath) => {
-                    parse_quote!({ (**self).#method(n, __ast_path) })
-                }
-            };
+            let call = mode.call_method(quote!((&mut **self)), quote!(n), &method);
+
+            let block = parse_quote!({ #call });
 
             ref_methods.push(ImplItemFn {
                 attrs: vec![],
