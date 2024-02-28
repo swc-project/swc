@@ -2564,10 +2564,10 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                 if let Some(arg) = extract_box(ty) {
                     match mode {
                         Mode::Fold(..) => {
-                            let ident = method_name(mode, arg);
+                            let method = method_name(mode, arg);
                             let inner = inject_ast_path_arg_if_required(
                                 mode,
-                                parse_quote!(_visitor.#ident(*n)),
+                                parse_quote!(_visitor.#method(*n)),
                             );
 
                             return parse_quote!(::swc_visit::util::map::Map::map(n, |n| #inner));
@@ -2586,13 +2586,13 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
 
                             match arg {
                                 GenericArgument::Type(arg) => {
-                                    let ident = method_name(mode, arg);
+                                    let method = method_name(mode, arg);
 
                                     if let Mode::Fold(..) = mode {
                                         if extract_box(arg).is_some() {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
-                                                parse_quote!(_visitor.#ident(n)),
+                                                parse_quote!(_visitor.#method(n)),
                                             );
 
                                             return parse_quote!({
@@ -2612,7 +2612,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Mode::Fold(..) => {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
-                                                parse_quote!(_visitor.#ident(n)),
+                                                parse_quote!(_visitor.#method(n)),
                                             );
 
                                             parse_quote!({
@@ -2626,7 +2626,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                         Mode::VisitMut(..) | Mode::Visit(..) | Mode::VisitAll => {
                                             let inner = inject_ast_path_arg_if_required(
                                                 mode,
-                                                parse_quote!(_visitor.#ident(n)),
+                                                parse_quote!(_visitor.#method(n)),
                                             );
 
                                             parse_quote!({
@@ -2646,7 +2646,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                 }
 
                 if let Some(arg) = extract_generic("Vec", ty) {
-                    let ident = method_name(mode, arg);
+                    let method = method_name(mode, arg);
 
                     match mode {
                         Mode::Fold(v) => {
@@ -2655,7 +2655,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     VisitorVariant::Normal => parse_quote!({
                                         ::swc_visit::util::move_map::MoveMap::move_map(n, |v| {
                                             ::swc_visit::util::map::Map::map(v, |v| {
-                                                _visitor.#ident(v)
+                                                _visitor.#method(v)
                                             })
                                         })
                                     }),
@@ -2667,7 +2667,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                                     __ast_path.with_index_guard(idx);
 
                                                 ::swc_visit::util::map::Map::map(v, |v| {
-                                                    _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                                    _visitor.#method(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                                 })
                                             })
                                             .collect()
@@ -2682,7 +2682,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                         match mode {
                             Mode::Fold(VisitorVariant::Normal) => parse_quote!({
                                 ::swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                    _visitor.#ident(v)
+                                    _visitor.#method(v)
                                 })
                             }),
 
@@ -2692,32 +2692,32 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     .map(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                        _visitor.#method(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                     })
                                     .collect()
                             }),
 
                             Mode::VisitMut(VisitorVariant::Normal) => {
-                                parse_quote!({ n.iter_mut().for_each(|v| _visitor.#ident(v)) })
+                                parse_quote!({ n.iter_mut().for_each(|v| _visitor.#method(v)) })
                             }
 
                             Mode::VisitMut(VisitorVariant::WithPath) => parse_quote!({
                                 n.iter_mut().enumerate().for_each(|(idx, v)| {
                                     let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                    _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                    _visitor.#method(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                 })
                             }),
 
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                                parse_quote!({ n.iter().for_each(|v| _visitor.#ident(v.as_ref())) })
+                                parse_quote!({ n.iter().for_each(|v| _visitor.#method(v.as_ref())) })
                             }
 
                             Mode::Visit(VisitorVariant::WithPath) => parse_quote!({
                                 n.iter().enumerate().for_each(|(idx, v)| {
                                     let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                    _visitor.#ident(v.as_ref(), ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                    _visitor.#method(v.as_ref(), ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                 })
                             }),
                         }
@@ -2725,7 +2725,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                         match mode {
                             Mode::Fold(VisitorVariant::Normal) => parse_quote!({
                                 ::swc_visit::util::move_map::MoveMap::move_map(n, |v| {
-                                    _visitor.#ident(v)
+                                    _visitor.#method(v)
                                 })
                             }),
 
@@ -2734,25 +2734,25 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     .enumerate()
                                     .map(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
-                                        _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                        _visitor.#method(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                     })
                                     .collect()
                             }),
 
                             Mode::VisitMut(VisitorVariant::Normal) => {
-                                parse_quote!({ n.iter_mut().for_each(|v| _visitor.#ident(v)) })
+                                parse_quote!({ n.iter_mut().for_each(|v| _visitor.#method(v)) })
                             }
 
                             Mode::VisitMut(VisitorVariant::WithPath) => parse_quote!({
                                 n.iter_mut().enumerate().for_each(|(idx, v)| {
                                     let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                    _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                    _visitor.#method(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                 })
                             }),
 
                             Mode::Visit(VisitorVariant::Normal) | Mode::VisitAll => {
-                                parse_quote!({ n.iter().for_each(|v| _visitor.#ident(v)) })
+                                parse_quote!({ n.iter().for_each(|v| _visitor.#method(v)) })
                             }
 
                             Mode::Visit(VisitorVariant::WithPath) => {
@@ -2760,7 +2760,7 @@ fn create_method_body(mode: Mode, ty: &Type) -> Block {
                                     n.iter().enumerate().for_each(|(idx, v)| {
                                         let mut __ast_path = __ast_path.with_index_guard(idx);
 
-                                        _visitor.#ident(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
+                                        _visitor.#method(v, ::std::ops::DerefMut::deref_mut(&mut __ast_path))
                                     })
                                 })
                             }
