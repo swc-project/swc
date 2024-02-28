@@ -985,16 +985,16 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
     for ty in &types {
         let sig = create_method_sig(mode, ty);
-        let name = sig.ident.clone();
+        let method = sig.ident.clone();
 
         {
             // &'_ mut V, Box<V>
             let block = match mode.visitor_variant() {
                 Some(VisitorVariant::Normal) | None => {
-                    parse_quote!({ (**self).#name(n) })
+                    parse_quote!({ (**self).#method(n) })
                 }
                 Some(VisitorVariant::WithPath) => {
-                    parse_quote!({ (**self).#name(n, __ast_path) })
+                    parse_quote!({ (**self).#method(n, __ast_path) })
                 }
             };
 
@@ -1018,14 +1018,14 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 block: match mode.visitor_variant() {
                     Some(VisitorVariant::Normal) | None => parse_quote!({
                         match self {
-                            ::swc_visit::Either::Left(v) => v.#name(n),
-                            ::swc_visit::Either::Right(v) => v.#name(n),
+                            ::swc_visit::Either::Left(v) => v.#method(n),
+                            ::swc_visit::Either::Right(v) => v.#method(n),
                         }
                     }),
                     Some(VisitorVariant::WithPath) => parse_quote!({
                         match self {
-                            ::swc_visit::Either::Left(v) => v.#name(n, __ast_path),
-                            ::swc_visit::Either::Right(v) => v.#name(n, __ast_path),
+                            ::swc_visit::Either::Left(v) => v.#method(n, __ast_path),
+                            ::swc_visit::Either::Right(v) => v.#method(n, __ast_path),
                         }
                     }),
                 },
@@ -1045,20 +1045,20 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                     | Mode::Visit(VisitorVariant::Normal)
                     | Mode::VisitMut(VisitorVariant::Normal) => parse_quote!({
                         if self.enabled {
-                            self.visitor.#name(n)
+                            self.visitor.#method(n)
                         }
                     }),
 
                     Mode::Visit(VisitorVariant::WithPath)
                     | Mode::VisitMut(VisitorVariant::WithPath) => parse_quote!({
                         if self.enabled {
-                            self.visitor.#name(n, __ast_path)
+                            self.visitor.#method(n, __ast_path)
                         }
                     }),
 
                     Mode::Fold(VisitorVariant::Normal) => parse_quote!({
                         if self.enabled {
-                            self.visitor.#name(n)
+                            self.visitor.#method(n)
                         } else {
                             n
                         }
@@ -1066,7 +1066,7 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
 
                     Mode::Fold(VisitorVariant::WithPath) => parse_quote!({
                         if self.enabled {
-                            self.visitor.#name(n, __ast_path)
+                            self.visitor.#method(n, __ast_path)
                         } else {
                             n
                         }
@@ -1084,8 +1084,8 @@ fn make(mode: Mode, stmts: &[Stmt]) -> Quote {
                 defaultness: None,
                 sig: sig.clone(),
                 block: parse_quote!({
-                    self.visitor.#name(n);
-                    #name(self, n);
+                    self.visitor.#method(n);
+                    #method(self, n);
                 }),
             });
         }
