@@ -350,6 +350,7 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_enum_decl, TsEnumDecl);
         noop_fold_type!(fold_ts_enum_member, TsEnumMember);
         noop_fold_type!(fold_ts_enum_member_id, TsEnumMemberId);
+        noop_fold_type!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
         noop_fold_type!(fold_ts_external_module_ref, TsExternalModuleRef);
         noop_fold_type!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_fold_type!(fold_ts_fn_param, TsFnParam);
@@ -421,6 +422,7 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
         noop_visit_type!(visit_ts_constructor_type, TsConstructorType);
         noop_visit_type!(visit_ts_entity_name, TsEntityName);
+        noop_visit_type!(visit_ts_expr_with_type_args, TsExprWithTypeArgs);
         noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_type!(visit_ts_fn_param, TsFnParam);
@@ -485,6 +487,7 @@ macro_rules! noop_visit_mut_type {
         );
         noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType);
         noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName);
+        noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
         noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_mut_type!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam);
