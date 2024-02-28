@@ -86,6 +86,20 @@ impl Mode {
             Mode::VisitMut(VisitorVariant::WithPath) => "visit_mut_children_with_path",
         })
     }
+
+    fn call_method(self, visitor: Expr, arg: Expr, method: &Ident, ty: &Type) -> ExprMethodCall {
+        let trait_name = Ident::new(self.trait_name(), def_site());
+
+        match self.visitor_variant() {
+            Some(VisitorVariant::WithPath) => {
+                parse_quote!(<#ty as #trait_name>::#method(#visitor, #arg, __ast_path))
+            }
+
+            Some(VisitorVariant::Normal) | None => {
+                parse_quote!(<#ty as #trait_name>::#method(#visitor, #arg))
+            }
+        }
+    }
 }
 
 /// This creates `Visit`. This is extensible visitor generator, and it
