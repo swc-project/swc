@@ -1,4 +1,4 @@
-module Top__2 {
+namespace Top__2 {
     interface A__3<T__4> {
         x__0: T__4;
     }
