@@ -1315,6 +1315,27 @@ fn test_fold_literals_as_numbers() {
 }
 
 #[test]
+fn test_fold_arithmetic_with_strings() {
+    // Left side of expression is a string
+    fold("'10' - 5", "5");
+    fold("'4' / 2", "2");
+    fold("'11' % 2", "1");
+    fold("'10' ** 2", "100");
+
+    // Right side of expression is a string
+    fold("10 - '5'", "5");
+    fold("4 / '2'", "2");
+    fold("11 % '2'", "1");
+    fold("10 ** '2'", "100");
+
+    // Both sides are strings
+    fold("'10' - '5'", "5");
+    fold("'4' / '2'", "2");
+    fold("'11' % '2'", "1");
+    fold("'10' ** '2'", "100");
+}
+
+#[test]
 fn test_not_fold_back_to_true_false() {
     fold("!0", "!0");
     fold("!1", "!1");
