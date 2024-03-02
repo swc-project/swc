@@ -14,6 +14,9 @@
 - **(es/codegen)** Fix replacement when `inline_script` is on ([#8659](https://github.com/swc-project/swc/issues/8659)) ([e179134](https://github.com/swc-project/swc/commit/e1791340cd35e5465ff3f6b71ac596a138173d04))
 
 
+- **(es/codegen)** Emit `namespace` keyword of `TsModuleDecl` if possible ([#8676](https://github.com/swc-project/swc/issues/8676)) ([64c9b8f](https://github.com/swc-project/swc/commit/64c9b8f4f1115dc7fbda673b855eaa1605792b25))
+
+
 - **(es/compat)** Split declaration and init in `block-scoping` pass ([#8648](https://github.com/swc-project/swc/issues/8648)) ([6fe6810](https://github.com/swc-project/swc/commit/6fe6810c492ca20ad73d1536e328ddb804533537))
 
 
@@ -1414,9 +1417,6 @@
 
 
 - **(es/utils)** Ignore `typeof Id` while preserving side effects ([#7763](https://github.com/swc-project/swc/issues/7763)) ([d57ac0d](https://github.com/swc-project/swc/commit/d57ac0dd28cdefef63a18d53565154e65ee8b838))
-
-
-- **(plugin/runner)** Use fs cache properly ([#7748](https://github.com/swc-project/swc/issues/7748)) ([1122de7](https://github.com/swc-project/swc/commit/1122de7d8b3c178b4e315bb50a6e214669c37a4f))
 
 ### Refactor
 
